@@ -3,4 +3,7 @@
 
 int main()
 {
+    List *list = list_create();
+    
+    list_delete(list);
 }
