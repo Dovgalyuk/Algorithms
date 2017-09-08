@@ -15,7 +15,11 @@ int main()
     queue_remove(queue);
     std::cout << "Get: " << queue_get(queue) << "\n";
     queue_insert(queue, 4);
-    std::cout << "Get: " << queue_get(queue) << "\n";
+    while (!queue_empty(queue))
+    {
+        std::cout << "Get: " << queue_get(queue) << "\n";
+        queue_remove(queue);
+    }
 
     queue_delete(queue);
 }
