@@ -16,6 +16,9 @@ void vector_delete(Vector *vector);
 // получить заданный элемент вектора
 int vector_get(Vector *vector, size_t index);
 
+// установить заданный элемент вектора
+void vector_set(Vector *vector, size_t index, int value);
+
 // получить текущий размер вектора
 size_t vector_size(Vector *vector);
 
