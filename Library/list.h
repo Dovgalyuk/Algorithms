@@ -35,4 +35,7 @@ ListItem *list_insert_after(List *list, ListItem *item, int data);
 // удалить заданный элемент списка
 ListItem *list_erase(List *list, ListItem *item);
 
+// удалить элемент списка, следующий за заданным
+ListItem *list_erase_next(List *list, ListItem *item);
+
 #endif

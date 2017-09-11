@@ -61,3 +61,9 @@ ListItem *list_erase(List *list, ListItem *item)
 {
     return NULL;
 }
+
+// удалить элемент списка, следующий за заданным
+ListItem *list_erase_next(List *list, ListItem *item)
+{
+    return NULL;
+}
