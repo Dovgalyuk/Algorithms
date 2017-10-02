@@ -45,11 +45,25 @@ size_t vector_size(Vector *vector)
 void vector_resize(Vector *vector, size_t size)
 {
 	int *buffer = new int[size];
+	for (int i = 0; i < size; i++) 
+	{
+		buffer[i] = 0;
+	}
+	
+
+	if (size < vector->size) {
+		for (int i = 0; i < size; i++)
+			buffer[i] = vector->Element[i];
+	} else {
+		for (int i = 0; i < vector->size; i++)
+			buffer[i] = vector->Element[i];
+	}
 	vector->size = size;
-	for (int i = 0; i < size; i++)
-		buffer[i] = vector->Element[i];
-	delete[] vector->Element;
+
+    delete[] vector->Element;
+	
 	vector->Element = buffer;
+
 
 
 }
