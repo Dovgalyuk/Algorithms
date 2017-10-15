@@ -38,44 +38,44 @@ int main() {
 	int i = 0;
 	while (i < insertString.size()) 
 	{
-		if (is_znak(insertString, i)) 
+		/*if (is_znak(insertString, i)) 
 		{
 		buffer2 =	get_znak(insertString, i);
 		i++;
-		}
+		}*/
 
-		switch (buffer2) 
+		switch (insertString[i])
 		{
-			case 1: 
+			case '+': 
 					buffer = get_number(insertString, i);
-					stack_push(mainStack, buffer);
+					stack_push(mainStack, buffer);i++;
 				break;
-			case 2:	
+			case '-':	
 					buffer = get_number(insertString, i);
 					buffer = buffer * -1;
-					stack_push(mainStack, buffer);
+					stack_push(mainStack, buffer);i++;
 				break;
-			case 3: 
+			case '*': 
 					buffer1 = stack_get(mainStack);
 					stack_pop(mainStack);
 					buffer = get_number(insertString, i);
 					buffer = buffer * buffer1;
-					stack_push(mainStack, buffer);
+					stack_push(mainStack, buffer);i++;
 				break;	
-			case 4:
+			case '/':
 					buffer1 = stack_get(mainStack);
 					stack_pop(mainStack);
 					buffer = get_number(insertString, i);
 					buffer = buffer / buffer1;
-					stack_push(mainStack, buffer);
+					stack_push(mainStack, buffer);i++;
 				break;
-			default: buffer = get_number(insertString, i);	stack_push(mainStack, buffer); break;
+			default: buffer = get_number(insertString, i);	stack_push(mainStack, buffer);i++; break;
 		
 		}
 		
 	
 	
-	//i++;
+	
 	}
 
 
@@ -111,7 +111,7 @@ int main() {
 		
 		while (isdigit(insertString[key]))
 		{
-			buffer = ((buffer) * 10 + insertString[key]) - 48;
+			buffer = ((buffer) * 10 + insertString[key]) - '0';
 			key++;
 		}
 		return buffer;

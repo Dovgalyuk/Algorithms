@@ -38,4 +38,7 @@ ListItem *list_erase(List *list, ListItem *item);
 // удалить элемент списка, следующий за заданным
 ListItem *list_erase_next(List *list, ListItem *item);
 
+// получить последний элемент списка
+ListItem *list_last(List *list);
+
 #endif
