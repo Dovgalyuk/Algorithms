@@ -50,6 +50,8 @@ void list_delete(List *list)
 // получить первый элемент списка
 ListItem *list_first(List *list)
 {
+	if (list->item == 0)
+		return 0;
 	while (list->item->prev != 0)
 		list->item = list->item->prev;
     return list->item;
@@ -130,8 +132,14 @@ ListItem *list_erase(List *list, ListItem *item)
 	}
 	else 
 	{
+		if (list->item->next != 0)
 		list->item = list->item->next;
+		else {
+			list->count = -1;
+			list->item->data = 0;
+		}
 		list->item->prev = 0;
+		
 	}
 		
 	list->count--;
