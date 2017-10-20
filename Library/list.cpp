@@ -18,16 +18,10 @@ struct ListItem
 
 struct List
 {
-	ListItem* item = new ListItem;
-	int count = -1;
-	~List() 
-	{
-		while (item->prev != 0)
-			item = item->prev;
-		while (item = item->next)
-			delete item->prev;
-		delete item;
-	}
+	ListItem * item;
+	int count = 0;
+	ListItem * last;
+	
 };
 
 
@@ -50,11 +44,10 @@ void list_delete(List *list)
 // получить первый элемент списка
 ListItem *list_first(List *list)
 {
-	if (list->item == 0)
+	if (list->count == 0)
 		return 0;
-	while (list->item->prev != 0)
-		list->item = list->item->prev;
-    return list->item;
+	else
+		return list->item;
 }
 
 // извлечь данные из элемента списка
@@ -80,15 +73,18 @@ ListItem *list_insert(List *list, int data)
 {
 	ListItem *buffer = new ListItem;
 	buffer->data = data;
-	if (list->count == -1) {
+	if (list->count == 0) {
 		buffer->next = 0;
-		list->count += 2;
+		list->last = buffer;
+		buffer->prev = 0;
+	
 	} else {
 	buffer->next = list->item;
-	list->count++;
+	list->item->prev = buffer;	
 	}
-	buffer->prev = 0;
-	list->item->prev = buffer;
+	
+	
+	list->count++;
 	list->item = buffer;
 	return list->item;
 
@@ -97,28 +93,40 @@ ListItem *list_insert(List *list, int data)
 // вставить данные после заданного элемента
 ListItem *list_insert_after(List *list, ListItem *item, int data)
 {
-	while (list->item->prev != 0)
-		list->item = list->item->prev;
-	while (list->item != item )
-		list->item = list->item->next;
+	if (item == list->last) 
+	{
+		ListItem * buffer = new ListItem;
+		buffer->data = data;
+		buffer->prev = list->item;
+		buffer->next = 0;
+		list->item->next = buffer;
+		list->last = buffer;
+		list->count++;
+		return list->item;
+	}
+	else {
+		while (list->item != item)
+			list->item = list->item->next;
 
-	ListItem * buffer = new ListItem;
-	buffer->data = data;
-	buffer->prev = list->item;
-	buffer->next = list->item->next;
-	list->item->next = buffer;
-	list->item = buffer->next;
-	list->item->prev = buffer;
 
-	list->count++;
-	return list->item;
+
+		ListItem * buffer = new ListItem;
+		buffer->data = data;
+		buffer->prev = item;
+		buffer->next = item->next;
+		item->next = buffer;
+		item = buffer->next;
+		item->prev = buffer;
+
+		list->count++;
+		return list->item;
+	}
 }
 
 // удалить заданный элемент списка
 ListItem *list_erase(List *list, ListItem *item)
 {
-	while (list->item->prev != 0)
-		list->item = list->item->prev;
+	
 	while (list->item != item)
 		list->item = list->item->next;
 	ListItem * buf = new ListItem;
@@ -150,8 +158,7 @@ ListItem *list_erase(List *list, ListItem *item)
 // удалить элемент списка, следующий за заданным
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-	while (list->item->prev != 0)
-		list->item = list->item->prev;
+	
 	while (list->item != item)
 	{
 		list->item = list->item->next;
@@ -167,9 +174,14 @@ ListItem *list_erase_next(List *list, ListItem *item)
 // получить последний элемент списка
 ListItem *list_last(List *list) 
 {
-	while (list->item->next != 0)
-		list->item = list->item->next;
-	return list->item;
+	
+	return list->last;
 
 }
 
+/*
+
+while (list->item->prev != 0)
+list->item = list->item->prev;
+
+*/
