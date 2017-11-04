@@ -18,6 +18,7 @@ Queue *queue_create()
 // удаление очереди
 void queue_delete(Queue *queue)
 {
+	list_delete(queue->list);
 	delete queue;
 }
 

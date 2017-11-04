@@ -65,39 +65,52 @@ bool function(vector<string> & mainMap) {
 	size_t sizeQueBuf = myQueBuf.size();
 	
 	do {
-		for (int i = 0; i <sizeQueMain; i++) {
+		for (int i = 0; i < sizeQueMain; i++) {
+			//отдельная ячейка лабиринта
 			element * buf = new element;
+			//следующая ячейка лабиринта
 			element * bufNext = new element;
 			*buf = myQueMain.front();
 			myQueMain.pop();
 
-			// ищем отростки от bufa
-			if (bufferMap[buf->posX+1][buf->posY] == '.' || bufferMap[buf->posX + 1][buf->posY] == 'Y')
+			// ищем отростки от bufa  
+
+			// на самом деле это POS Y + 1 POS X
+	
+			if (bufferMap[buf->posX + 1][buf->posY] == '.' || bufferMap[buf->posX + 1][buf->posY] == 'Y')
 			{
 				if (bufferMap[buf->posX + 1][buf->posY] != 'Y')
-				bufferMap[buf->posX + 1][buf->posY] = 'h';
+					bufferMap[buf->posX + 1][buf->posY] = 'h';
 				bufNext->posX = buf->posX + 1;
 				bufNext->posY = buf->posY;
 				bufNext->prev = buf;
 				bufNext->state = bufferMap[buf->posX + 1][buf->posY];
-				myQueBuf.push(*bufNext);
+				myQueMain.push(*bufNext);
+				if (myQueMain.front().state == 'Y') {
+					//mainMap = bufferMap;
+					return 1;
+				}
 			}
 
+			// на самом деле это POS Y - 1 POS X
 
-			if (bufferMap[buf->posX-1][buf->posY] == '.' || bufferMap[buf->posX - 1][buf->posY] == 'Y')
+			if (bufferMap[buf->posX - 1][buf->posY] == '.' || bufferMap[buf->posX - 1][buf->posY] == 'Y')
 			{
 
-				if(bufferMap[buf->posX - 1][buf->posY] != 'Y')
-				bufferMap[buf->posX - 1][buf->posY] = 'h';
+				if (bufferMap[buf->posX - 1][buf->posY] != 'Y')
+					bufferMap[buf->posX - 1][buf->posY] = 'h';
 				bufNext->posX = buf->posX - 1;
 				bufNext->posY = buf->posY;
 				bufNext->prev = buf;
 				bufNext->state = bufferMap[buf->posX - 1][buf->posY];
-				myQueBuf.push(*bufNext);
+				myQueMain.push(*bufNext);
+				if (myQueMain.front().state == 'Y') {
+					//mainMap = bufferMap;
+					return 1;
+				}
 			}
-
-
-			if (bufferMap[buf->posX][buf->posY+1] == '.' || bufferMap[buf->posX][buf->posY + 1] == 'Y')
+			// на самом деле это POS Y POS X + 1
+			if (bufferMap[buf->posX][buf->posY + 1] == '.' || bufferMap[buf->posX][buf->posY + 1] == 'Y')
 			{
 				if (bufferMap[buf->posX][buf->posY + 1] != 'Y')
 					bufferMap[buf->posX][buf->posY + 1] = 'h';
@@ -105,60 +118,56 @@ bool function(vector<string> & mainMap) {
 				bufNext->posY = buf->posY + 1;
 				bufNext->prev = buf;
 				bufNext->state = bufferMap[buf->posX][buf->posY + 1];
-				myQueBuf.push(*bufNext);
-			}
-
-
-			if (bufferMap[buf->posX][buf->posY-1] == '.' || bufferMap[buf->posX][buf->posY - 1] == 'Y')
+				myQueMain.push(*bufNext);
+				if (myQueMain.front().state == 'Y') {
+					//mainMap = bufferMap;
+					return 1;
+				}
+			// на самом деле это POS Y POS X -1	}
+		
+			if (bufferMap[buf->posX][buf->posY - 1] == '.' || bufferMap[buf->posX][buf->posY - 1] == 'Y')
 			{
-				if  (bufferMap[buf->posX][buf->posY - 1] != 'Y')
-				bufferMap[buf->posX][buf->posY - 1] = 'h';
+				if (bufferMap[buf->posX][buf->posY - 1] != 'Y')
+					bufferMap[buf->posX][buf->posY - 1] = 'h';
 				bufNext->posX = buf->posX;
 				bufNext->posY = buf->posY - 1;
 				bufNext->prev = buf;
 				bufNext->state = bufferMap[buf->posX][buf->posY - 1];
-				myQueBuf.push(*bufNext);
+				myQueMain.push(*bufNext);
+				if (myQueMain.front().state == 'Y') {
+					//mainMap = bufferMap;
+					return 1;
+				}
 			}
 
+						}
+						sizeQueMain = myQueMain.size();
+
+						if (myQueMain.size() == 0) {
+							return 0;
+						}
+
+
+				
+						
+						// вывод на каждый шаг
+						for (int i = 0; i < bufferMap.size(); i++) {
+							for (int j = 0; j < bufferMap[0].size(); j++) {
+								cout << bufferMap[i][j];
+							}
+							cout << endl;
+						}
+
+					_getch();
+					system("cls");
+					
+					
+			
+		
+				//sizeQueMain = myQueMain.size();
+			} while (true);
 
 		}
-		
-		sizeQueBuf = myQueBuf.size();
-		if (myQueBuf.size() == 0){
-			return 0;
-		}
-
-		//проверяем, нет ли в очереди myQueBuf конечного элемента и если нет то записываем в очередь myQueMain
-		for (int i = 0; i < sizeQueBuf; i++) {
-			if (myQueBuf.front().state == 'Y') {
-				//mainMap = bufferMap;
-				return 1;
-				// восстановить путь до начала
-			}
-			else {
-				myQueMain.push(myQueBuf.front());
-				myQueBuf.pop();
-			}
-		}
-		
-		
-		
-		/*/ вывод на каждый шаг
-		for (int i = 0; i < bufferMap.size(); i++) {
-			for (int j = 0; j < bufferMap[0].size(); j++) {
-				cout << bufferMap[i][j];
-			}
-			cout << endl;
-		}
-
-	_getch();
-	system("cls");*/
-
-
-		sizeQueMain = myQueMain.size();
-	} while (true);
-	
-}
 
 
 
