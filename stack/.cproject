@@ -47,15 +47,21 @@
                             							
                             <targetPlatform id="cdt.managedbuild.target.gnu.platform.lib.debug.1537410037" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.lib.debug"/>
                             							
-                            <builder buildPath="${workspace_loc:/stack}/Debug" id="cdt.managedbuild.target.gnu.builder.lib.debug.1390019083" managedBuildOn="true" name="Gnu Make Builder.Debug" superClass="cdt.managedbuild.target.gnu.builder.lib.debug"/>
+                            <builder buildPath="${workspace_loc:/stack}/Debug" id="cdt.managedbuild.target.gnu.builder.lib.debug.1390019083" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.lib.debug"/>
                             							
                             <tool id="cdt.managedbuild.tool.gnu.archiver.lib.debug.818582711" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.lib.debug"/>
                             							
                             <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.lib.debug.946976510" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.lib.debug">
                                 								
-                                <option id="gnu.cpp.compiler.lib.debug.option.optimization.level.1869135248" superClass="gnu.cpp.compiler.lib.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+                                <option id="gnu.cpp.compiler.lib.debug.option.optimization.level.1869135248" name="Optimization Level" superClass="gnu.cpp.compiler.lib.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
                                 								
-                                <option id="gnu.cpp.compiler.lib.debug.option.debugging.level.1160399604" superClass="gnu.cpp.compiler.lib.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+                                <option id="gnu.cpp.compiler.lib.debug.option.debugging.level.1160399604" name="Debug Level" superClass="gnu.cpp.compiler.lib.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+                                								
+                                <option id="gnu.cpp.compiler.option.include.paths.1293682933" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/list/src}&quot;"/>
+                                    								
+                                </option>
                                 								
                                 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.346340078" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
                                 							
@@ -63,9 +69,9 @@
                             							
                             <tool id="cdt.managedbuild.tool.gnu.c.compiler.lib.debug.568643940" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.lib.debug">
                                 								
-                                <option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.lib.debug.option.optimization.level.1013649510" superClass="gnu.c.compiler.lib.debug.option.optimization.level" valueType="enumerated"/>
+                                <option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.lib.debug.option.optimization.level.1013649510" name="Optimization Level" superClass="gnu.c.compiler.lib.debug.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
                                 								
-                                <option id="gnu.c.compiler.lib.debug.option.debugging.level.1799210298" superClass="gnu.c.compiler.lib.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+                                <option id="gnu.c.compiler.lib.debug.option.debugging.level.1799210298" name="Debug Level" superClass="gnu.c.compiler.lib.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
                                 								
                                 <inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1771919409" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
                                 							
@@ -178,6 +184,8 @@
                 </configuration>
                 			
             </storageModule>
+            			
+            <storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
             		
         </cconfiguration>
         	
@@ -220,5 +228,7 @@
     </storageModule>
     	
     <storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+    	
+    <storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
     
 </cproject>

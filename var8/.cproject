@@ -47,6 +47,12 @@
                                 								
                                 <option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1078591997" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
                                 								
+                                <option id="gnu.cpp.compiler.option.include.paths.1573429851" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/stack/src}&quot;"/>
+                                    								
+                                </option>
+                                								
                                 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1735089703" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
                                 							
                             </tool>
@@ -65,25 +71,15 @@
                             							
                             <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1484838628" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
                                 								
-                                <option id="gnu.cpp.link.option.paths.427390064" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
-                                    									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib}&quot;"/>
-                                    								
-                                </option>
+                                <option id="gnu.cpp.link.option.paths.427390064" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths"/>
                                 								
-                                <option id="gnu.cpp.link.option.libs.361123062" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
-                                    									
-                                    <listOptionValue builtIn="false" value="stack"/>
-                                    									
-                                    <listOptionValue builtIn="false" value="list"/>
-                                    								
-                                </option>
+                                <option id="gnu.cpp.link.option.libs.361123062" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs"/>
                                 								
                                 <option id="gnu.cpp.link.option.userobjs.956700206" name="Other objects" superClass="gnu.cpp.link.option.userobjs" useByScannerDiscovery="false" valueType="userObjs">
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/liblist.a}&quot;"/>
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/stack/Debug/libstack.a}&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/libstack.a}&quot;"/>
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/list/Debug/liblist.a}&quot;"/>
                                     								
                                 </option>
                                 								

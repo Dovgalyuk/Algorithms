@@ -1,5 +1,4 @@
 #include <iostream>
-//How to compile without header "stack.h"?
 #include "stack.h"
 #include <fstream>
 
@@ -17,11 +16,12 @@ int main() {
 			if (zvezdochka) {
 				if (!stack_empty(begin)) {
 					if (stack_get(begin) != ch) {
-						stack_pop(begin);
 						cout << "NO";
 						stack_delete(begin);
 						return 0;
-					}//else next iteration
+					} else {
+						stack_pop(begin);
+					}
 				} else {
 					cout << "NO";
 					stack_delete(begin);
