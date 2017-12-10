@@ -37,7 +37,7 @@ int queue_get(Queue *queue)
 // удаление первого элемента из очереди
 void queue_remove(Queue *queue)
 {
-	list_erase(queue->list,list_first(queue->list));
+	list_erase(queue->list,list_last(queue->list));
 }
 
 // проверка очереди на наличие элементов

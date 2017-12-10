@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestList", "TestList\TestList.vcxproj", "{83BFE062-E278-40F1-8D68-E927C853DD79}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -28,6 +28,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zadanie2", "Zadanie2\Zadanie2.vcxproj", "{55E69FEB-FB19-4651-A0CD-7CB17E9E7E8C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zadanie2_2", "Zadanie2_2\Zadanie2_2.vcxproj", "{139CF31E-F533-4D0C-94F7-A35DDDF46F77}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProjectGraph", "ProjectGraph\ProjectGraph.vcxproj", "{BAC4DA38-BE1F-498D-8FA7-5105F4F0A3D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,8 +85,19 @@ Global
 		{139CF31E-F533-4D0C-94F7-A35DDDF46F77}.Release|Win32.Build.0 = Release|Win32
 		{139CF31E-F533-4D0C-94F7-A35DDDF46F77}.Release|x64.ActiveCfg = Release|x64
 		{139CF31E-F533-4D0C-94F7-A35DDDF46F77}.Release|x64.Build.0 = Release|x64
+		{BAC4DA38-BE1F-498D-8FA7-5105F4F0A3D7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BAC4DA38-BE1F-498D-8FA7-5105F4F0A3D7}.Debug|Win32.Build.0 = Debug|Win32
+		{BAC4DA38-BE1F-498D-8FA7-5105F4F0A3D7}.Debug|x64.ActiveCfg = Debug|x64
+		{BAC4DA38-BE1F-498D-8FA7-5105F4F0A3D7}.Debug|x64.Build.0 = Debug|x64
+		{BAC4DA38-BE1F-498D-8FA7-5105F4F0A3D7}.Release|Win32.ActiveCfg = Release|Win32
+		{BAC4DA38-BE1F-498D-8FA7-5105F4F0A3D7}.Release|Win32.Build.0 = Release|Win32
+		{BAC4DA38-BE1F-498D-8FA7-5105F4F0A3D7}.Release|x64.ActiveCfg = Release|x64
+		{BAC4DA38-BE1F-498D-8FA7-5105F4F0A3D7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CDB9BB03-69C2-4313-99A3-226AA1E816B9}
 	EndGlobalSection
 EndGlobal
