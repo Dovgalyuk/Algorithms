@@ -3,7 +3,12 @@
 
 int main()
 {
-    Stack *stack = stack_create();
+
+
+	
+	Stack *stack = stack_create();
+	
+
 
     stack_push(stack, 1);
     stack_push(stack, 2);
@@ -23,4 +28,6 @@ int main()
     }
 
     stack_delete(stack);
-}
+	
+	}
+
