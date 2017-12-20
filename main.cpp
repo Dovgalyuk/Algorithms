@@ -1,75 +1,45 @@
 #include <iostream>
-#include <string>
 #include <fstream>
-#include "stack.h"
+#include "queue.h"
 
 using namespace std;
 
 int main()
 {
-    Stack *stack = stack_create();
-    int A = 0, B = 0, C = 0, D = 0;
-    char reg;
-    string cmd, value;
+    Queue *queue = queue_create();
+    
+    string cmd;
+    int value = 0, size = 0, maxim = 0;
     ifstream input;
     
-    input.open("input.txt");
-        
-        //inserting commands
-        do{
-            input >> cmd;
-            if (input.eof()) break;
-           
-            if (cmd == "push"){
-            
-                input >> value;
+    input.open("input.txt", ios::in);
 
-                if (value == "a"){
-                    stack_push(stack, A);
-                } else if (value == "b"){
-                    stack_push(stack, B);
-                } else if (value == "c"){
-                    stack_push(stack, C);
-                } else if (value == "d"){
-                    stack_push(stack, D);
-                } else {
-                    stack_push(stack,atoi(value.c_str()));
-                }
-            }
-            
-            if (cmd == "pop") {
-                input >> reg;
-            
-         
-                if (reg == 'a'){
-                    A = stack_get(stack);
-                    stack_pop(stack);
-                }
-                if (reg == 'b'){
-                    B = stack_get(stack);
-                    stack_pop(stack);
-                }
-                if (reg == 'c'){
-                    C = stack_get(stack);
-                    stack_pop(stack);
-                }
-               
-                if (reg == 'd'){
-                    D = stack_get(stack);
-                    stack_pop(stack);
-                }
-        
-            }
-            
-        }while (!input.eof());
-  
-        cout << "A = " << A << "\n";
-        cout << "B = " << B << "\n";
-        cout << "C = " << C << "\n";
-        cout << "D = " << D << "\n";
+    //inserting commands
+    do{
+        input >> cmd;
+        if (input.eof()) break;
     
+        if(cmd == "add"){
+            input >> value;
+            queue_insert(queue, value);
+            size++;
+            
+            if (size > maxim)
+                maxim = size;
+            
+        }else
+            if (cmd == "get") {
+                if (!queue_empty(queue)) //checks for emptiness
+                {
+                    cout << "Value: " << queue_get(queue) << endl;
+                    queue_remove(queue);
+                    size--;
+                }
+            }
+    }while(!input.eof());
+
+    cout << "Size: " << maxim << endl;
     input.close();
-    stack_delete(stack);
-    
+    queue_delete(queue);
     return 0;
 }

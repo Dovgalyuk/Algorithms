@@ -1,6 +1,4 @@
-push 1
-push 2
-pop b
-pop c
-push c
-pop d
+add 1
+add 2
+add 3
+get
