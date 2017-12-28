@@ -294,26 +294,52 @@ int graph::getEdgeWeightFromAdjList(vertex *vertAux)
         edgeAux = edgeAux->next;
         break;
     }
+    vertAux = vertAux->next;
     if (edgeAux == NULL)
         edgeAux = vertAux->adj;
     return peso;
 }
 
-bool graph::checkEdgeAlgPrim(vertex *orig, vertex *dest)
+bool graph::checkBeginVertexEdge(vertex *vertAux)
 {
-    edge *actual;
-    actual = orig->adj;
+    edge *edgeAux;
     
-    while (actual != NULL)
+    edgeAux = vertAux->adj; // posicionando o auxiliar das arestas na primeira aresta do vértice determinado
+    
+    while (edgeAux != NULL) // percorrendo as arestas desse vértice
     {
-        if (actual->adj == dest)
-        {
-            return true;
-            break;
-        }
-        actual = actual->next;
+        if (edgeAux == NULL) // se a aresta não existir
+            edgeAux = edgeAux->next; //avança para a aresta a seguir no mesmo vértice
+        else
+            return true; //diz que existe
+        break; //sai do ciclo
     }
+    
     return false;
+}
+
+int graph::checkDestVertexEdge(vertex *vertAux)
+{
+    vertex *destVertex;
+    edge *edgeAux;
+    
+    int vertex = 0;
+    
+    destVertex = first; // posicionado no primeiro vértice
+    while (destVertex != NULL)
+    {
+        edgeAux = vertAux->adj; // posicionando o auxiliar das arestas no primeiro vértice
+        while (edgeAux != NULL) // percorrendo as outras arestas desse vértice
+        {
+            if (edgeAux == NULL) // se a aresta não existir
+                edgeAux = edgeAux->next; //avança para a aresta a seguir no mesmo vértice
+            else
+                vertex = edgeAux->adj->label; //retorna o vértice destination
+            break; //sai do ciclo
+        }
+        destVertex = destVertex->next;
+    }
+    return vertex;
 }
 
 /*edge * graph::getEdge(vertex *orig, vertex *dest)
@@ -324,13 +350,13 @@ bool graph::checkEdgeAlgPrim(vertex *orig, vertex *dest)
  
  while (actual != NULL)
  {
- if (actual->adj == dest)
- {
- return actual;
+     if (actual->adj == dest)
+     {
+         return actual;
+     }
+     actual = actual->next;
  }
- actual = actual->next;
- }
- return NULL;
+     return NULL;
  }
  
  int graph::getEdgeWeight(edge *Edge)
