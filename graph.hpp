@@ -47,7 +47,8 @@ public:
     bool insertWeight (vertex *orig, vertex *dest, int weight);
     //int getEdgeWeight (edge *Edge);
     int getEdgeWeightFromAdjList(vertex *vertAux);
-    bool checkEdgeAlgPrim(vertex *orig, vertex *dest);
+    bool checkBeginVertexEdge(vertex *vertAux);
+    int checkDestVertexEdge(vertex *vertAux);
 };
 
 void algPrim (graph *Graph);
