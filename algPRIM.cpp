@@ -46,16 +46,13 @@ void algPrim(graph *Graph)
         {
             if (selected[i])
             {
-                for (int j = 0; j < V; j++)
+                if (Graph->checkBeginVertexEdge(Graph->getVertex(i+1))) //verifica se existe uma aresta entre dois determinados vértices
                 {
-                    if (Graph->checkEdgeAlgPrim(Graph->getVertex(i+1), Graph->getVertex(j+1))) //verifica se existe uma aresta entre dois determinados vértices
+                    if (Graph->getEdgeWeightFromAdjList(Graph->getVertex(i+1)) < min) //constroe a MST
                     {
-                        if (Graph->getEdgeWeightFromAdjList(Graph->getVertex(i+1)) < min) //constroe a MST
-                        {
-                            min = Graph->getEdgeWeightFromAdjList(Graph->getVertex(i+1));
-                            x = i+1;
-                            y = j+1;
-                        }
+                        min = Graph->getEdgeWeightFromAdjList(Graph->getVertex(i+1));
+                        x = i+1;
+                        y = Graph->checkDestVertexEdge(Graph->getVertex(i+1));
                     }
                 }
             }
