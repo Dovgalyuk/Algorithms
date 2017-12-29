@@ -1,6 +1,8 @@
 #include <stdlib.h>
+#include <cxxabi.h>
 #include "queue.h"
 #include "vector.h"
+#include "iostream"
 
 using namespace std;
 
@@ -28,21 +30,20 @@ void queue_delete(Queue *queue)
 }
 
 
-void queue_insert(Queue *queue, int data)
-{
+void queue_insert(Queue *queue, int data) {
     size_t size = vector_size(queue->vector);
-    
-    if(size == 0){
+ 
+    if (size == 0) {
         vector_resize(queue->vector, ++size); // resizes it to 1
         vector_set(queue->vector, queue->front, data); // adds data to front
-        queue->rear = queue->front; // makes rear point to front
-    }
-    else  // para todas as posições depois do zero
+        queue->front = queue->rear; // makes front point to rear
+    } else
     {
-        vector_resize(queue->vector, (size)*2); // duplica o tamanho do queue
-        queue->rear = (queue->rear) % size+1;// certifica-se de adicionar espaços um após o outro sem deixar entre-espaços vazios
+        vector_resize(queue->vector, ++size); // resizes it to 1
+        queue->rear = size - 1; // faz o ponteiro rear andar sempre para a casa seguinte, sem pular casas. OBS: fazer breakdown na função caso não perceber
         vector_set(queue->vector, queue->rear, data);
     }
+    
 }
 
 int queue_get(Queue *queue)
@@ -55,24 +56,21 @@ void queue_remove(Queue *queue)
     size_t size = vector_size(queue->vector);
     
     if(size == 1){
-        // removes only element and adds 0 to it
-        vector_set((*queue).vector, 0, vector_get((*queue).vector, 0));
+        queue->rear = queue->front;
+        
     }
-    else if (size > 1)
-    {
+    else if (size > 1) {
         // shifts every element on position down [0,1,2,3] -> [1,2,3](size-1)
-        for(int i = 0; i < size-1; i++ ){
-            vector_set((*queue).vector, i, vector_get((*queue).vector, i+1)); // apaga dessa forma a primeira posição do queue
+        for (int i = 0; i < size - 1; i++) {
+            vector_set(queue->vector, i, vector_get(queue->vector, i + 1));// apaga dessa forma a primeira posição do queue
         }
     }
-    
     vector_resize(queue->vector, size-1); //refaz o tamanho do vector
-    //queue->quantity--; // here
 }
 
 bool queue_empty(Queue *queue)
 {
-    if ( queue->front == queue->rear ) {
+    if ( vector_size(queue->vector) == 0 ) {
         return true; //vazio
     }else {
         return false; // não vazio
