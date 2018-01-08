@@ -28,21 +28,18 @@ void queue_delete(Queue *queue)
     delete queue;
 }
 
-
 void queue_insert(Queue *queue, int data) {
     size_t size = vector_size(queue->vector);
  
     if (size == 0) {
         vector_resize(queue->vector, ++size); // resizes it to 1
-        vector_set(queue->vector, queue->front, data); // adds data to front
         queue->front = queue->rear; // makes front point to rear
     } else
     {
         vector_resize(queue->vector, ++size); // resizes it to 1
         queue->rear = size - 1; // faz o ponteiro rear andar sempre para a casa seguinte, sem pular casas. OBS: fazer breakdown na função caso não perceber
-        vector_set(queue->vector, queue->rear, data);
     }
-    
+    vector_set(queue->vector, queue->rear, data);  // adds data to rear
 }
 
 int queue_get(Queue *queue)
