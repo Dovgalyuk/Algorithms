@@ -38,10 +38,13 @@ void graph_pometka_ver(Graph *graph, int ver, int data);
 // пометка для вершины
 void graph_pometka_reb(Graph *graph, int rebx, int reby, int data);
 
+int graph_get_ver(Graph *graph, int vernum);
 
 
+int graph_get_reb(Graph *graph, int rebx, int reby);
 
 
+void show_graph(Graph *graph);
 
 
 #endif

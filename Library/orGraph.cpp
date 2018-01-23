@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <iostream>
 #include "orGraph.h"
 #include <vector>
 
@@ -16,7 +17,7 @@ struct Graph {
 		   {
 			   
 			   keyofelements = a;
-			   *map = new int[a];
+			   map = new int*[a];
 			   for (int i = 0; i < a; ++i) 
 				{
 				   map[i] = new int[a];
@@ -229,6 +230,28 @@ void graph_pometka_reb(Graph *graph, int rebx, int reby, int data)
 {
 	graph->map[rebx][reby] = data;
 }
+// получить пометку вершины
+int graph_get_ver(Graph *graph,int vernum) 
+{
+	return graph->element[vernum];
+}
+//получить пометку ребра
+int graph_get_reb(Graph *graph, int rebx,int reby) 
+{
+	return graph->map[rebx][reby];
+}
+// вывести матрицу графа
+void show_graph(Graph *graph) 
+{
 
-// получить карту в виде вектора
+	int n = graph_size(graph);
 
+	for (int i = 0; i < n; ++i)
+	{
+		for (int j = 0; j < n; ++j)
+		{
+			std::cout << graph_get_reb(graph,i,j);
+		}
+		std::cout << std::endl;
+	}
+}
