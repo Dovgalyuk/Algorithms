@@ -1,41 +1,41 @@
 #ifndef LIST_H
 #define LIST_H
 
-// В списке хранятся данные типа int,
-// поэтому функции принимают и возвращают 
-// данные этого типа
+// List of integers
 
 struct List;
 struct ListItem;
 
-// создание списка
+// Creates new list
 List *list_create();
 
-// удаление списка
+// Destroys the list and frees the memory
 void list_delete(List *list);
 
-// получить первый элемент списка
+// Retrieves the first item from the list
 ListItem *list_first(List *list);
 
-// извлечь данные из элемента списка
+// Extracts data from the list item
 int list_item_data(ListItem *item);
 
-// получить следующий элемент списка
+// Returns list item following after the specified one
 ListItem *list_item_next(ListItem *item);
 
-// получить предыдущий элемент списка
+// Returns previous element for the specified item.
+// Not applicable for the singly linked lists.
 ListItem *list_item_prev(ListItem *item);
 
-// вставить данные в начало списка
+// Inserts new list item into the beginning
 ListItem *list_insert(List *list, int data);
 
-// вставить данные после заданного элемента
+// Inserts new list item after the specified item
 ListItem *list_insert_after(List *list, ListItem *item, int data);
 
-// удалить заданный элемент списка
+// Deletes the specified list item.
+// Not applicable for the singly linked lists.
 ListItem *list_erase(List *list, ListItem *item);
 
-// удалить элемент списка, следующий за заданным
+// Deletes the list item following the specified one
 ListItem *list_erase_next(List *list, ListItem *item);
 
 #endif

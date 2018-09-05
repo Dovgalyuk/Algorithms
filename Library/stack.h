@@ -1,27 +1,26 @@
 #ifndef STACK_H
 #define STACK_H
 
-// В данном случае в стеке хранятся данные типа int,
-// поэтому функции работы со стеком принимают и возвращают 
-// данные этого типа
+// Stack of the integers.
+
 struct Stack;
 
-// создание пустого стека
+// Creates empty stack
 Stack *stack_create();
 
-// удаление стека
+// Deletes the stack
 void stack_delete(Stack *stack);
 
-// включение элемента в стек
+// Pushes data on top of the stack
 void stack_push(Stack *stack, int Data);
 
-// получение последнего элемента стека
+// Retrives the last element from the stack
 int stack_get(Stack *stack);
 
-// выталкивание элемента из стека
+// Removes the last element from the stack
 void stack_pop(Stack *stack);
 
-// проверка стека на наличие элементов
+// Returns true if the stack is empty
 bool stack_empty(Stack *stack);
 
 #endif

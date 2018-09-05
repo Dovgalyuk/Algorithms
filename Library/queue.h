@@ -1,27 +1,26 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-// В данном случае в очереди хранятся данные типа int,
-// поэтому функции работы с очередью принимают и возвращают 
-// данные этого типа
+// Queue of integers
+
 struct Queue;
 
-// создание пустой очереди
+// Create empty queue
 Queue *queue_create();
 
-// удаление очереди
+// Deletes queue
 void queue_delete(Queue *queue);
 
-// включение элемента в очередь
+// Includes new element into the queue
 void queue_insert(Queue *queue, int data);
 
-// получение первого элемента очереди
+// Retrieves first element from the queue
 int queue_get(Queue *queue);
 
-// удаление первого элемента из очереди
+// Removes first element from the queue
 void queue_remove(Queue *queue);
 
-// проверка очереди на наличие элементов
+// Returns true if the queue is empty
 bool queue_empty(Queue *queue);
 
 #endif
