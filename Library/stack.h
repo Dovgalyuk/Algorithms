@@ -12,12 +12,14 @@ Stack *stack_create();
 void stack_delete(Stack *stack);
 
 // Pushes data on top of the stack
+// Should be O(1) on average
 void stack_push(Stack *stack, int Data);
 
 // Retrives the last element from the stack
 int stack_get(Stack *stack);
 
 // Removes the last element from the stack
+// Should be O(1)
 void stack_pop(Stack *stack);
 
 // Returns true if the stack is empty
