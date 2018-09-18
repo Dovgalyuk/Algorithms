@@ -14,20 +14,20 @@ void stack_delete(Stack *stack)
 {
 }
 
-void stack_push(Stack *stack, int Data)
+void stack_push(Stack *stack, Data data)
 {
 }
 
-int stack_get(Stack *stack)
+Data stack_get(const Stack *stack)
 {
-    return 0;
+    return Data();
 }
 
 void stack_pop(Stack *stack)
 {
 }
 
-bool stack_empty(Stack *stack)
+bool stack_empty(const Stack *stack)
 {
     return true;
 }

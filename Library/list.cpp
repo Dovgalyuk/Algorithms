@@ -23,9 +23,9 @@ ListItem *list_first(List *list)
     return NULL;
 }
 
-int list_item_data(ListItem *item)
+Data list_item_data(const ListItem *item)
 {
-    return 0;
+    return Data();
 }
 
 ListItem *list_item_next(ListItem *item)
@@ -38,12 +38,12 @@ ListItem *list_item_prev(ListItem *item)
     return NULL;
 }
 
-ListItem *list_insert(List *list, int data)
+ListItem *list_insert(List *list, Data data)
 {
     return NULL;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, int data)
+ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
     return NULL;
 }

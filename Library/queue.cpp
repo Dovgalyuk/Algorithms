@@ -14,20 +14,20 @@ void queue_delete(Queue *queue)
 {
 }
 
-void queue_insert(Queue *queue, int data)
+void queue_insert(Queue *queue, Data data)
 {
 }
 
-int queue_get(Queue *queue)
+Data queue_get(const Queue *queue)
 {
-    return 0;
+    return Data();
 }
 
 void queue_remove(Queue *queue)
 {
 }
 
-bool queue_empty(Queue *queue)
+bool queue_empty(const Queue *queue)
 {
     return true;
 }

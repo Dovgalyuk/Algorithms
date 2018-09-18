@@ -1,7 +1,9 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-// Vector (dynamic array) of integers
+// Vector (dynamic array)
+// Stores integer values inside
+typedef int Data;
 
 struct Vector;
 
@@ -12,13 +14,13 @@ Vector *vector_create();
 void vector_delete(Vector *vector);
 
 // Retrieves vector element with the specified index
-int vector_get(Vector *vector, size_t index);
+Data vector_get(const Vector *vector, size_t index);
 
 // Sets vector element with the specified index
-void vector_set(Vector *vector, size_t index, int value);
+void vector_set(Vector *vector, size_t index, Data value);
 
 // Retrieves current vector size
-size_t vector_size(Vector *vector);
+size_t vector_size(const Vector *vector);
 
 // Changes the vector size (may increase or decrease)
 void vector_resize(Vector *vector, size_t size);

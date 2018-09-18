@@ -14,16 +14,16 @@ void vector_delete(Vector *vector)
 {
 }
 
-int vector_get(Vector *vector, size_t index)
+Data vector_get(const Vector *vector, size_t index)
 {
-    return 0;
+    return Data();
 }
 
-void vector_set(Vector *vector, size_t index, int value)
+void vector_set(Vector *vector, size_t index, Data value)
 {
 }
 
-size_t vector_size(Vector *vector)
+size_t vector_size(const Vector *vector)
 {
     return 0;
 }

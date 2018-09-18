@@ -3,6 +3,7 @@
 
 // Non-resizeable array
 // Stores integer values inside
+typedef int Data;
 
 struct Array;
 
@@ -13,12 +14,12 @@ Array *array_create(size_t size);
 void array_delete(Array *arr);
 
 // returns specified array element
-int array_get(Array *arr, size_t index);
+Data array_get(const Array *arr, size_t index);
 
 // sets the specified array element to the value
-void array_set(Array *arr, size_t index, int value);
+void array_set(Array *arr, size_t index, Data value);
 
 // returns array size
-size_t array_size(Array *arr);
+size_t array_size(const Array *arr);
 
 #endif

@@ -1,7 +1,9 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-// Queue of integers
+// Queue
+// Stores integer values inside
+typedef int Data;
 
 struct Queue;
 
@@ -13,16 +15,16 @@ void queue_delete(Queue *queue);
 
 // Includes new element into the queue
 // Should be O(1)
-void queue_insert(Queue *queue, int data);
+void queue_insert(Queue *queue, Data data);
 
 // Retrieves first element from the queue
-int queue_get(Queue *queue);
+Data queue_get(const Queue *queue);
 
 // Removes first element from the queue
 // Should be O(1)
 void queue_remove(Queue *queue);
 
 // Returns true if the queue is empty
-bool queue_empty(Queue *queue);
+bool queue_empty(const Queue *queue);
 
 #endif
