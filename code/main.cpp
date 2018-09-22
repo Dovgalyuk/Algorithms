@@ -123,15 +123,10 @@ int main()
 			stack_push(stack,ch2 / ch1);
 	}
 
-	while(!stack_empty(stack))
-	{
-		cout<< stack_get(stack) << endl;
-		stack_pop(stack);
-	}
-	while(!stack_empty(znak))
-	{
-		cout<< stack_get(znak) << endl;
-		stack_pop(znak);
-	}
-
+	cout<< stack_get(stack) << endl;
+	stack_pop(stack);
+	stack_delete(stack);
+	stack_delete(znak);
+	return 0;
 }
+
