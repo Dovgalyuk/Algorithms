@@ -23,6 +23,7 @@ void vector_set(Vector *vector, size_t index, Data value);
 size_t vector_size(const Vector *vector);
 
 // Changes the vector size (may increase or decrease)
+// Should be O(1) on average
 void vector_resize(Vector *vector, size_t size);
 
 #endif
