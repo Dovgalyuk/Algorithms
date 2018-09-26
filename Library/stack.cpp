@@ -18,20 +18,19 @@ Stack *stack_create()
 
 void stack_delete(Stack *stack)
 {
+	vector_delete(stack->top);
 	delete stack;
 }
 
 void stack_push(Stack *stack, int Data)
 {
-	vector_resize(VECTOR, vector_size(VECTOR) + 1);
-	vector_set(VECTOR, vector_size(VECTOR)-1, Data);
+	vector_set(VECTOR, vector_size(VECTOR), Data);
 }
 
 int stack_get(Stack *stack)
 {
 	if (!stack_empty(stack)) {
-		int tmp = vector_get(VECTOR, vector_size(VECTOR) - 1);
-		return tmp;
+		return vector_get(VECTOR, vector_size(VECTOR) - 1);
 	}
 	else {
 		std::cout << "Stack is empty" << std::endl;

@@ -4,7 +4,7 @@
 struct Vector
 {
 	size_t size = 0;
-	int *number;
+	int *number = new int[0];
 };
 
 Vector *vector_create()
@@ -15,12 +15,13 @@ Vector *vector_create()
 
 void vector_delete(Vector *vector)
 {
+	delete[](vector->number);
 	delete vector;
 }
 
 int vector_get(Vector *vector, size_t index)
 {
-    if(vector->size<index)
+    if(vector->size<=index)
     {
     	std::cout<<"Invalid size"<<std::endl;
     	return 0;
@@ -34,28 +35,11 @@ int vector_get(Vector *vector, size_t index)
 
 void vector_set(Vector *vector, size_t index, int value)
 {
-	if(index>vector->size)
+	if(index>=vector->size)
 	{
-		int *mas = new int[index];
-		for(size_t i=0;i<vector->size;i++)
-		{
-			mas[i] = vector->number[i];
-		}
-		for(size_t i=vector->size;i<index;i++)
-		{
-			mas[i]=0;
-		}
-		mas[index]=value;
-		delete [] vector->number;
-		vector->number = mas;
-		vector->size=index;
+		vector_resize(vector, index + 1);
 	}
-	else
-	{
-		vector->number[index]=value;
-
-	}
-
+	vector->number[index] = value;
 }
 
 size_t vector_size(Vector *vector)
@@ -72,7 +56,7 @@ void vector_resize(Vector *vector, size_t size)
 		{
 			mas[i]=vector->number[i];
 		}
-		delete [] vector->number;
+		delete [] (vector->number);
 		vector->number = mas;
 		vector->size=size;
 
@@ -80,15 +64,15 @@ void vector_resize(Vector *vector, size_t size)
 	if (vector->size<size)
 	{
 		int *mas = new int[size];
-			for(size_t i=0;i<vector->size;i++)
-			{
-				mas[i] = vector->number[i];
-			}
-			for(size_t i=vector->size;i<size;i++)
-			{
-				mas[i]=0;
-			}
-		delete [] vector->number;
+		for(size_t i=0;i<vector->size;i++)
+		{
+			mas[i] = vector->number[i];
+		}
+		for(size_t i=vector->size;i<size;i++)
+		{
+			mas[i]=0;
+		}
+		delete [] (vector->number);
 		vector->number = mas;
 		vector->size=size;
 	}
@@ -96,6 +80,4 @@ void vector_resize(Vector *vector, size_t size)
 	{
 		return;
 	}
-
-
 }
