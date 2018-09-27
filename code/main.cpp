@@ -1,42 +1,126 @@
 #include <iostream>
-#include <victor.cpp>
+#include "stack.h"
+
+using namespace std;
+
+void CalcFun(int &ch1, int &ch2, Stack *znak, Stack *stack, int t)
+{
+	stack_pop(znak);
+	ch1 = stack_get(stack);
+	stack_pop(stack);
+	ch2 = stack_get(stack);
+	stack_pop(stack);
+	if	(t == '+')
+		stack_push(stack, ch1 + ch2);
+	else if (t == '-') //-
+		stack_push(stack, ch2 - ch1);
+	else if (t == '*') //*
+		stack_push(stack, ch1 * ch2);
+	else if (t == '/') // /
+		stack_push(stack, ch2 / ch1);
+}
+
+int GetPriority(int i)
+{
+	if(i == '+' || i == '-')
+		return 1;
+	else if(i == '*' || i == '/')
+		return 2;
+	else
+		exit(0);
+
+}
+
+void CheckStack(char c, Stack *znak, Stack *stack)
+{
+	int i = static_cast<int>(c);
+	int p1, p2, ch1, ch2, t;
+
+	if(stack_empty(znak))
+	{
+		stack_push(znak, i);
+		return;
+	}
+
+	p1 = GetPriority(i);
+	t = stack_get(znak);
+	p2 = GetPriority(t);
+
+	if(p2<p1)
+	{
+		stack_push(znak, i);
+		return;
+	}
+	else
+	{
+		while(p2>=p1)
+		{
+			
+			CalcFun(ch1, ch2, znak, stack, t);
+
+			if(!stack_empty(znak))
+			{
+				t = stack_get(znak);
+				p2 = GetPriority(t);
+			}
+			else
+			{
+				stack_push(znak, i);
+				return;
+			}
+		}
+		stack_push(znak, i);
+	}
+}
+
+void CountNumber(int *t_last, int tmp[], Stack *stack)
+{
+	int var=0;
+	for(int i=(*t_last); i>1; i--)
+	{	
+		var += tmp[(*t_last) - i];
+		var *= 10;
+	}
+	var += tmp[(*t_last)-1];
+	(*t_last) = 0;
+	stack_push(stack, var);
+}
+
 
 int main()
 {
-    Vector *vector = vector_create();
+	Stack *stack = stack_create();
+	Stack *znak = stack_create();
+	char c;
+	int tmp[10];
+	int t_last=0;
+	c = cin.get();
+	while(c != '\n')
+	{
+		if(c == '+' || c == '-' || c == '*' || c == '/')
+		{
+			CountNumber(&t_last,tmp,stack);
+			CheckStack(c, znak, stack);
+		}
+		else
+		{
+			tmp[t_last] = c - '0';
+			t_last++;
+		}
+		c = cin.get();
+	}
+	CountNumber(&t_last,tmp,stack);
 
-    vector_resize(vector, 5);
-    if (vector_size(vector) != 5)
-        std::cout << "Invalid resize\n";
+	int t=0, ch1, ch2;
+	while(!stack_empty(znak))
+	{
+		t = stack_get(znak);
+		CalcFun(ch1, ch2, znak, stack, t);
+	}
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
-
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        if (vector_get(vector, i) != i)
-            std::cout << "Invalid vector element " << i << "\n";
-
-    vector_resize(vector, 10);
-    if (vector_size(vector) != 10)
-        std::cout << "Invalid resize\n";
-
-    std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        std::cout << vector_get(vector, i) << " ";
-    std::cout << "\n";
-
-    vector_resize(vector, 3);
-    if (vector_size(vector) != 3)
-        std::cout << "Invalid resize\n";
-
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        if (vector_get(vector, i) != i)
-            std::cout << "Invalid vector element " << i << "\n";
-
-    std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        std::cout << vector_get(vector, i) << " ";
-    std::cout << "\n";
-
-    vector_delete(vector);
+	cout<< stack_get(stack) << endl;
+	stack_pop(stack);
+	stack_delete(stack);
+	stack_delete(znak);
+	return 0;
 }
