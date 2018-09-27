@@ -4,6 +4,7 @@
 struct Vector
 {
 	size_t size = 0;
+	size_t real_size = 0;
 	int *number = new int[0];
 };
 
@@ -39,12 +40,16 @@ void vector_set(Vector *vector, size_t index, int value)
 	{
 		vector_resize(vector, index + 1);
 	}
+	else
+	{
+		vector->real_size = index + 1;
+	}
 	vector->number[index] = value;
 }
 
 size_t vector_size(Vector *vector)
 {
-    return vector->size;
+    return vector->real_size;
 }
 
 void vector_resize(Vector *vector, size_t size)
@@ -59,10 +64,13 @@ void vector_resize(Vector *vector, size_t size)
 		delete [] (vector->number);
 		vector->number = mas;
 		vector->size=size;
-
+		vector->real_size = size;
 	}
 	if (vector->size<size)
 	{
+		vector->real_size = size;
+		if (vector->size * 2 > size || vector->size == 0)
+			size *= 2;
 		int *mas = new int[size];
 		for(size_t i=0;i<vector->size;i++)
 		{
