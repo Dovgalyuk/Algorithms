@@ -56,21 +56,13 @@ void vector_resize(Vector *vector, size_t size)
 {
 	if(vector->size>size)
 	{
-		int *mas = new int[size];
-		for(size_t i=0;i<size;i++)
-		{
-			mas[i]=vector->number[i];
-		}
-		delete [] (vector->number);
-		vector->number = mas;
-		vector->size=size;
 		vector->real_size = size;
 	}
 	if (vector->size<size)
 	{
 		vector->real_size = size;
 		if (vector->size * 2 > size || vector->size == 0)
-			size *= 2;
+			size = vector->size * 2;
 		int *mas = new int[size];
 		for(size_t i=0;i<vector->size;i++)
 		{
