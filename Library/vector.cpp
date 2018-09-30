@@ -54,21 +54,24 @@ size_t vector_size(Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
+	size_t OldRS = vector->real_size;
 	if(vector->size>size)
 	{
 		vector->real_size = size;
+		for (int i = OldRS; i < vector->real_size; i++)
+			vector->number[i] = 0;
 	}
-	if (vector->size<size)
+	else if (vector->size<size)
 	{
 		vector->real_size = size;
 		if (vector->size * 2 > size || vector->size == 0)
-			size = vector->size * 2;
+			size = (vector->size>0)?(vector->size*2):1;
 		int *mas = new int[size];
-		for(size_t i=0;i<vector->size;i++)
+		for(size_t i=0;i<OldRS;i++)
 		{
 			mas[i] = vector->number[i];
 		}
-		for(size_t i=vector->size;i<size;i++)
+		for(size_t i=OldRS;i<vector->real_size;i++)
 		{
 			mas[i]=0;
 		}
