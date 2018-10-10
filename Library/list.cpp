@@ -30,7 +30,7 @@ void list_delete(List *list)
 		free(tmp);
 		tmp = next;
 	}
-	free(list);
+	delete list;
 }
 
 ListItem *list_first(List *list)
@@ -56,18 +56,10 @@ ListItem *list_item_prev(ListItem *item)
 ListItem *list_insert(List *list, Data data)
 {
 	ListItem *tmp = new ListItem;
-	if (list->head == NULL) {
-		tmp->item = data;
-		tmp->next = NULL;
-		tmp->prev = NULL;
-		list->head = tmp;
-	}
-	else {
-		tmp->item = data;
-		tmp->next = list->head;
-		tmp->prev = NULL;
-		list->head = tmp;
-	}
+	tmp->item = data;
+	tmp->next = list->head;
+	tmp->prev = NULL;
+	list->head = tmp;
 	return tmp;
 }
 
@@ -94,25 +86,14 @@ ListItem *list_erase(List *list, ListItem *item)
 	if (item->next) {
 		item->next->prev = item->prev;
 	}
-
 	if (!item->prev) {
 		list->head = item->next;
-
 	}
-
 	free(item);
 	return item;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-	if (item->next == NULL) {
-		return NULL;
-	}
-	ListItem *tmp = item->next;
-	ListItem *tmpNext = item->next->next;
-	tmpNext->prev = item;
-	item->next = tmpNext;
-	delete tmp;
-	return tmpNext;
+	return list_erase(list, item->next);
 }

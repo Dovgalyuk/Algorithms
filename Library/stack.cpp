@@ -17,6 +17,7 @@ Stack *stack_create()
 void stack_delete(Stack *stack)
 {
 	list_delete(stack->list);
+	delete stack;
 }
 
 void stack_push(Stack *stack, Data data)
@@ -38,10 +39,5 @@ void stack_pop(Stack *stack)
 
 bool stack_empty(const Stack *stack)
 {
-	if (list_first(stack->list) == NULL)
-	{
-		return true;
-	}
-	else
-		return false;
+	return list_first(stack->list) == NULL;
 }
