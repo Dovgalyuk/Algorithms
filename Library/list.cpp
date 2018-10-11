@@ -3,7 +3,7 @@
 
 struct ListItem
 {
-	Data item;
+	data item;
 	ListItem *next;
 	ListItem *prev;
 };
@@ -27,7 +27,7 @@ void list_delete(List *list)
 
 	while (tmp) {
 		next = tmp->next;
-		free(tmp);
+		delete tmp;
 		tmp = next;
 	}
 	delete list;
@@ -38,7 +38,7 @@ ListItem *list_first(List *list)
     return list->head;
 }
 
-Data list_item_data(const ListItem *item)
+data list_item_data(const ListItem *item)
 {
 	return item->item;
 }
@@ -53,7 +53,7 @@ ListItem *list_item_prev(ListItem *item)
     return item->prev;
 }
 
-ListItem *list_insert(List *list, Data data)
+ListItem *list_insert(List *list, data data)
 {
 	ListItem *tmp = new ListItem;
 	tmp->item = data;
@@ -63,7 +63,7 @@ ListItem *list_insert(List *list, Data data)
 	return tmp;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
+ListItem *list_insert_after(List *list, ListItem *item, data data)
 {
 	ListItem *tmp = new ListItem;
 	if (item == NULL)
@@ -89,7 +89,11 @@ ListItem *list_erase(List *list, ListItem *item)
 	if (!item->prev) {
 		list->head = item->next;
 	}
-	free(item);
+	else {
+		item->next->prev = item->prev;
+		item->prev->next = item->next;
+	}
+	delete item;
 	return item;
 }
 
