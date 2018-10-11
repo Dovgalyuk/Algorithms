@@ -1,8 +1,0 @@
-<html>
-<body>
-<a>
-<b>
-</b>
-</a>
-</body>
-</html>
