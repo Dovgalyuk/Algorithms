@@ -20,13 +20,13 @@ void stack_delete(Stack *stack)
 	delete stack;
 }
 
-void stack_push(Stack *stack, Data data)
+void stack_push(Stack *stack, data data)
 {
 	List *tmp = stack->list;
 	list_insert(tmp, data);
 }
 
-Data stack_get(const Stack *stack)
+data stack_get(const Stack *stack)
 {
 	return list_item_data(list_first(stack->list));
 }
