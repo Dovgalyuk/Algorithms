@@ -83,14 +83,15 @@ ListItem *list_insert_after(List *list, ListItem *item, data data)
 
 ListItem *list_erase(List *list, ListItem *item)
 {
-	if (item->next) {
+	if (item->next && item->prev) {
+		item->prev->next = item->next;
 		item->next->prev = item->prev;
 	}
-	if (!item->prev) {
+	if (item->next && !item->prev) {
 		list->head = item->next;
-	}
-	else {
 		item->next->prev = item->prev;
+	}
+	if (!item->next && item->prev) {
 		item->prev->next = item->next;
 	}
 	delete item;
