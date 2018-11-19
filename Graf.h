@@ -1,12 +1,9 @@
 #ifndef GRAF_H
 #define GRAF_H
 #include "array.h"
-
 //Stores integer values inside
 typedef int Data;
-
 struct Graf;
-
 struct Iter;
 
 //Creates a new iterator.
@@ -48,8 +45,11 @@ void ves_set(Graf* graf, Data StartVertex, Data EndVertex, int Ves);
 
 //Returns ves of the rib.
 int ves_get(const Graf* graf, Data StartVertex, Data EndVertex);
+int get_ves(const Iter* it);
 
 //Deletes the graf.
 void delete_graf(Graf* graf);
 
+//Returns true if there are no neighbors, else - false
+bool is_neighbors(Iter* it);
 #endif
