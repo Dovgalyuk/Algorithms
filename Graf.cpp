@@ -14,7 +14,7 @@ struct Graf
 
 struct Iter
 {
-	Array* GrafInTheMatrix;
+	unsigned ves;
 	Data MainVertex;
 	Data SecondVertex;
 };
@@ -22,7 +22,6 @@ struct Iter
 Iter* iter_create(Graf* graf, Data Vertex)
 {
 	Iter* NewIter;
-
 	try
 	{
 		NewIter = new Iter;
@@ -32,10 +31,8 @@ Iter* iter_create(Graf* graf, Data Vertex)
 		cout << "Iterator is not created" << endl;
 		return NULL;
 	}
-
-	NewIter->GrafInTheMatrix = graf->graf;
+	
 	find_vertex(NewIter, graf, Vertex);
-
 	return NewIter;
 }
 
@@ -49,19 +46,19 @@ void find_vertex(Iter* iter, Graf* graf, Data Vertex)
 void next_iterator(Iter* iter, Graf* graf)
 {
 	size_t IndexOfArray;
-
 	do
 	{
-		if (iter->SecondVertex == graf->CountOfVertexs- 1)
+		if (iter->SecondVertex == graf->CountOfVertexs - 1)
 		{
 			iter->SecondVertex = -1;
 			break;
 		}
-
+		
 		iter->SecondVertex++;
 		IndexOfArray = graf->CountOfVertexs * iter->MainVertex + iter->SecondVertex;
+		iter->ves = array_get(graf->Ves, IndexOfArray);
 
-	} while (array_get(iter->GrafInTheMatrix, IndexOfArray) != 1);
+	} while (array_get(graf->graf , IndexOfArray) != 1);
 }
 
 Data get_vertex(const Iter* iter)
@@ -77,7 +74,6 @@ void delete_iterator(Iter* iter)
 Graf* graf_create(size_t CountOfVertex)
 {
 	Graf* NewGraf;
-
 	try
 	{
 		NewGraf = new Graf;
@@ -87,21 +83,17 @@ Graf* graf_create(size_t CountOfVertex)
 		cout << "Невозможно создать граф" << endl;
 		return NULL;
 	}
-
 	NewGraf->graf = array_create(CountOfVertex * CountOfVertex);
 	NewGraf->Ves = array_create(CountOfVertex * CountOfVertex);
 	NewGraf->CountOfVertexs = CountOfVertex;
 	return NewGraf;
-
 }
 
 void add_vertex(Graf* graf)
 {
 	Array* NewMatrix = array_create((graf->CountOfVertexs + 1) * (graf->CountOfVertexs + 1));
 	Array* NewMatrixOfVes = array_create((graf->CountOfVertexs + 1) * (graf->CountOfVertexs + 1));
-
 	size_t line = 0;
-
 	for (size_t i = 0, j = 0; i < (graf->CountOfVertexs + 1) * graf->CountOfVertexs + graf->CountOfVertexs; i++)
 	{
 		if (line == (graf->CountOfVertexs + 1))
@@ -117,15 +109,12 @@ void add_vertex(Graf* graf)
 			++line;
 			continue;
 		}
-
 		array_set(NewMatrix, i, array_get(graf->graf, j));
 		array_set(NewMatrixOfVes, i, array_get(graf->Ves, j));
 		++j;
 	}
-
 	array_delete(graf->graf);
 	array_delete(graf->Ves);
-
 	graf->graf = NewMatrix;
 	graf->Ves = NewMatrixOfVes;
 	graf->CountOfVertexs++;
@@ -134,7 +123,6 @@ void add_vertex(Graf* graf)
 void add_rib(Graf* graf, Data StartVertex, Data EndVertex)
 {
 	size_t IndexOfArray = graf->CountOfVertexs * StartVertex + EndVertex;
-
 	array_set(graf->graf, IndexOfArray, 1);
 }
 
@@ -142,9 +130,7 @@ void delete_vertex(Graf* graf, Data vertex)
 {
 	Array* NewMatrix = array_create((graf->CountOfVertexs - 1) * (graf->CountOfVertexs - 1));
 	Array* NewMatrixOfVes = array_create((graf->CountOfVertexs - 1) * (graf->CountOfVertexs - 1));
-
 	size_t line = 0;
-
 	for (size_t i = 0, j = 0; j < (graf->CountOfVertexs - 1) * (graf->CountOfVertexs - 1) - 1; i++)
 	{
 		if (line == vertex)
@@ -155,7 +141,6 @@ void delete_vertex(Graf* graf, Data vertex)
 				--i;
 				continue;
 			}
-
 			continue;
 		}
 		else if (i == graf->CountOfVertexs * line + vertex)
@@ -163,15 +148,12 @@ void delete_vertex(Graf* graf, Data vertex)
 			++line;
 			continue;
 		}
-
 		array_set(NewMatrix, j, array_get(graf->graf, i));
 		array_set(NewMatrixOfVes, j, array_get(graf->Ves, i));
 		++j;
 	}
-
 	array_delete(graf->graf);
 	array_delete(graf->Ves);
-
 	graf->graf = NewMatrix;
 	graf->Ves = NewMatrixOfVes;
 	graf->CountOfVertexs++;
@@ -180,7 +162,6 @@ void delete_vertex(Graf* graf, Data vertex)
 void delete_rib(Graf* graf, Data StartVertex, Data EndVertex)
 {
 	size_t IndexOfArray = graf->CountOfVertexs * StartVertex + EndVertex;
-
 	array_set(graf->graf, IndexOfArray, 0);
 	array_set(graf->Ves, IndexOfArray, 0);
 }
@@ -188,7 +169,6 @@ void delete_rib(Graf* graf, Data StartVertex, Data EndVertex)
 bool rib_is(const Graf* graf, Data StartVertex, Data EndVertex)
 {
 	size_t IndexOfArray = graf->CountOfVertexs * StartVertex + EndVertex;
-
 	if (array_get(graf->graf, IndexOfArray))
 	{
 		return true;
@@ -208,14 +188,28 @@ void ves_set(Graf* graf, Data StartVertex, Data EndVertex, int Ves)
 int ves_get(const Graf* graf, Data StartVertex, Data EndVertex)
 {
 	size_t IndexOfArray = graf->CountOfVertexs * StartVertex + EndVertex;
-
 	return array_get(graf->Ves, IndexOfArray);
+}
+
+int get_ves(const Iter* it)
+{
+	return it->ves;
 }
 
 void delete_graf(Graf* graf)
 {
 	array_delete(graf->graf);
 	array_delete(graf->Ves);
-
 	delete graf;
+}
+bool is_neighbors(Iter* it)
+{
+	if (get_vertex(it) == -1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
