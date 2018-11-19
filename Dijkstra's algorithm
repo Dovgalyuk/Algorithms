@@ -3,7 +3,7 @@
 #include <vector>
 #include <fstream>
 #include "Graf.h"
-
+	
 using namespace std;
 
 const int INF = 1000000000;
@@ -11,37 +11,37 @@ const int INF = 1000000000;
 int main()
 {
 	ifstream fin("input.txt");
-
+	
 	int n;			//Count of vertexs.
 	int s;			//A start vertex.
-
+	
 	fin >> n >> s;
-
+	
 	--s;
-
+	
 	Graf* graf = graf_create(n);
-
+	
 	while (!fin.eof())
 	{
 		int x, y, ves;
-
+		
 		fin >> x >> y >> ves;
-
+		
 		--x, --y;
-
+		
 		add_rib(graf, x, y);
 		ves_set(graf, x, y, ves);
 	}
-
+	
 	vector<int> dist(n, INF);
 	vector <bool> visited(n);
-
+	
 	dist[s] = 0;
 
 	for (int i = 0; i < n; ++i)
 	{
 		int vertex = -1;
-		
+
 		for (int j = 0; j < n; ++j)
 		{
 			if (!visited[j] && (vertex == -1 || dist[j] < dist[vertex]))
@@ -49,28 +49,32 @@ int main()
 				vertex = j;
 			}
 		}
-
+		
 		if (dist[vertex] == INF)
 		{
 			break;
 		}
 
 		visited[vertex] = true;
-
+		
 		Iter* to = iter_create(graf, vertex);
 
-		while(get_vertex(to) != -1)
+		while (!is_neighbors(to))
 		{
-			int len = ves_get(graf, vertex, get_vertex(to));
-
+			int len = get_ves(to);
+				
 			if (dist[vertex] + len < dist[get_vertex(to)])
 			{
 				dist[get_vertex(to)] = dist[vertex] + len;
 			}
-
+			
 			next_iterator(to, graf);
 		}
+
+		delete_iterator(to);
 	}
+
+	delete_graf(graf);
 
 	for (size_t i = 0; i < n; i++)
 	{
