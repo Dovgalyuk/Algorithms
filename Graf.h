@@ -10,10 +10,10 @@ struct Iter;
 Iter* iter_create(Graf* graf, Data Vertex);
 
 //Finds neighbors of Vertex.
-void find_vertex(Iter* iter, Graf* graf, Data Vertex);
+void find_vertex(Iter* iter, Data Vertex);
 
 //Finds next iterator.
-void next_iterator(Iter* iter, Graf* graf);
+void next_iterator(Iter* iter);
 
 //Returns vertex.
 Data get_vertex(const Iter* iter);
