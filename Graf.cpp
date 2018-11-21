@@ -14,7 +14,7 @@ struct Graf
 
 struct Iter
 {
-	unsigned ves;
+	Graf* graf;
 	Data MainVertex;
 	Data SecondVertex;
 };
@@ -32,33 +32,34 @@ Iter* iter_create(Graf* graf, Data Vertex)
 		return NULL;
 	}
 	
-	find_vertex(NewIter, graf, Vertex);
+	NewIter->graf = graf;
+	find_vertex(NewIter, Vertex);
+
 	return NewIter;
 }
 
-void find_vertex(Iter* iter, Graf* graf, Data Vertex)
+void find_vertex(Iter* iter, Data Vertex)
 {
 	iter->MainVertex = Vertex;
 	iter->SecondVertex = 0;
-	next_iterator(iter, graf);
+	next_iterator(iter);
 }
 
-void next_iterator(Iter* iter, Graf* graf)
+void next_iterator(Iter* iter)
 {
 	size_t IndexOfArray;
 	do
 	{
-		if (iter->SecondVertex == graf->CountOfVertexs - 1)
+		if (iter->SecondVertex == iter->graf->CountOfVertexs - 1)
 		{
 			iter->SecondVertex = -1;
 			break;
 		}
 		
 		iter->SecondVertex++;
-		IndexOfArray = graf->CountOfVertexs * iter->MainVertex + iter->SecondVertex;
-		iter->ves = array_get(graf->Ves, IndexOfArray);
+		IndexOfArray = iter->graf->CountOfVertexs * iter->MainVertex + iter->SecondVertex;
 
-	} while (array_get(graf->graf , IndexOfArray) != 1);
+	} while (array_get(iter->graf->graf , IndexOfArray) != 1);
 }
 
 Data get_vertex(const Iter* iter)
@@ -156,7 +157,7 @@ void delete_vertex(Graf* graf, Data vertex)
 	array_delete(graf->Ves);
 	graf->graf = NewMatrix;
 	graf->Ves = NewMatrixOfVes;
-	graf->CountOfVertexs++;
+	graf->CountOfVertexs--;
 }
 
 void delete_rib(Graf* graf, Data StartVertex, Data EndVertex)
@@ -193,7 +194,7 @@ int ves_get(const Graf* graf, Data StartVertex, Data EndVertex)
 
 int get_ves(const Iter* it)
 {
-	return it->ves;
+	return array_get(it->graf->Ves,it->graf->CountOfVertexs * it->MainVertex + it->SecondVertex);
 }
 
 void delete_graf(Graf* graf)
