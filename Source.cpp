@@ -70,6 +70,7 @@ int main()
 		v_tree += DerCur(min);
 		ChangeMark(graf, min, n);
 		ch--;
+		delete_iterator(min);
 	}
 	cout << endl;
 	Cout_Res(graf,n);
