@@ -1,24 +1,27 @@
+#include <stdlib.h>
+#include <iostream>
+using namespace std;
+
 #ifndef ARRAY_H
 #define ARRAY_H
 
-// Non-resizeable array
-// Stores integer values inside
+//define size mas
+#define ArrSize 3000
 
 struct Array;
 
 // create array
-Array *array_create(size_t size);
+Array* array_create(size_t size);
 
 // delete array, free memory
 void array_delete(Array *arr);
 
-// returns specified array element
-int array_get(Array *arr, size_t index);
-
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, int value);
-
 // returns array size
 size_t array_size(Array *arr);
 
+//set array size
+void set_array_size(Array *arr, int size);
+
+//get pointer
+int* get_pointer(Array *arr, int index);
 #endif

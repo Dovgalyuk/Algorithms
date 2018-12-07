@@ -1,34 +1,40 @@
-#include <stdlib.h>
 #include "array.h"
 
 struct Array
 {
+	int size;
+	int* m;
 };
 
-// create array
-Array *array_create(size_t size)
+Array* array_create(size_t size)
 {
-    return NULL;
+	Array *tmp = new Array;
+	tmp->size = size;
+	tmp->m = new int[ArrSize];
+	memset(tmp->m, 0, sizeof(int)*ArrSize);
+	return tmp;
 }
 
 // delete array, free memory
 void array_delete(Array *arr)
 {
+	delete[] arr->m;
+	delete arr;
 }
 
-// returns specified array element
-int array_get(Array *arr, size_t index)
-{
-    return 0;
-}
-
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, int value)
-{
-}
-
-// returns array size
 size_t array_size(Array *arr)
 {
-    return 0;
+    return arr->size;
+}
+
+// Set array size
+void set_array_size(Array *arr, int size)
+{
+	arr->size = size;
+}
+
+//get pointer
+int* get_pointer(Array *arr, int index)
+{
+	return &arr->m[index];
 }
