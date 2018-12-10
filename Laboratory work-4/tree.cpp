@@ -441,6 +441,18 @@ void delete_leaf(Tree* tree, Data key)
 	{
 		Leaf* NewBalance = tmp->parent;
 		
+		if (NewBalance != NULL)
+		{
+			if (NewBalance->right == tmp)
+			{
+				NewBalance->right = NULL;
+			}
+			else if (NewBalance->left == tmp)
+			{
+				NewBalance->left = NULL;
+			}
+		}
+
 		delete tmp;
 
 		while (NewBalance != NULL)
@@ -466,6 +478,11 @@ void delete_leaf(Tree* tree, Data key)
 			{
 				tmp->parent->right = tmp->right;
 			}
+		}
+
+		if (tree->root == tmp)
+		{
+			tree->root = NewBalance;
 		}
 
 		delete tmp;
@@ -494,6 +511,11 @@ void delete_leaf(Tree* tree, Data key)
 			{
 				tmp->parent->left = tmp->left;
 			}
+		}
+
+		if (tree->root == tmp)
+		{
+			tree->root = NewBalance;
 		}
 
 		delete tmp;
@@ -598,27 +620,28 @@ void delete_leaf(Tree* tree, Data key)
 	}
 }
 
-bool balance_tree(Leaf* leaf)
+int balance_tree(Leaf* leaf)
 {
 	if (leaf == NULL)
 	{
-		return true;
+		return -1;
+	}
+	else if (leaf->parent != NULL)
+	{
+		return leaf->height;
 	}
 	else
 	{
-		balance_tree(leaf->left);
+		float RightHeight = balance_tree(leaf->right);
+		float LeftHeight = balance_tree(leaf->left);
 
-		float balance = balance_leaf(leaf);
-
-		if (fabs(balance) > 1)
+		if (fabs(RightHeight - LeftHeight) > 1)
 		{
 			return false;
 		}
-		if (!balance_tree(leaf->right))
+		else
 		{
-			return false;
+			return true;
 		}
-
-		return true;
 	}
 }
