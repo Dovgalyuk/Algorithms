@@ -70,10 +70,6 @@ int& DerColorj(Iterator* it)
 }
 void delete_iterator(Iterator * it)
 {
-	delete it->colori;
-	delete it->colorj;
-	delete it->cur;
-	delete it->visited;
 	delete it;
 }
 

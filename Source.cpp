@@ -16,6 +16,8 @@ Iterator* FindMinVertex(Graf* graf, int n)
 			if (DerCur(it) != 0 && ((DerCur(min) == 0) || (DerCur(it)<DerCur(min))) && DerColorj(it) != DerColori(it))
 				assign_it(min, it);
 		}
+		delete_iterator(it);
+		delete_iterator(end);
 	}
 	DerVis(min) = 1;
 	return min;
@@ -43,6 +45,8 @@ void Cout_Res(Graf* graf, int n)
 			else
 				cout << "0 ";
 		}
+		delete_iterator(it);
+		delete_iterator(end);
 		cout << endl;
 	}
 }
