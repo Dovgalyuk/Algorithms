@@ -20,11 +20,14 @@ Data get_value_of_leaf(const Tree* tree, Data key);
 void delete_leaf(Tree* tree, Data key);
 
 //Возвращает true, если дерево сбалансировано.
-int balance_tree(Leaf* leaf);
+bool balance_tree(Leaf* leaf, int& height);
 
 //Возвращает корень дерева.
 Leaf* get_root(Tree* tree);
 
-//Возвращает ключ корня дерева
+//Возвращает ключ корня дерева.
 Data get_root_key(Tree* tree);
+
+//Возвращает высоту корня.
+int& get_height(Tree* tree);
 #endif
