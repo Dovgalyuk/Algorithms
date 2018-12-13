@@ -620,31 +620,38 @@ void delete_leaf(Tree* tree, Data key)
 	}
 }
 
-bool balance_tree(Leaf* leaf)
-{
-	if (leaf == NULL)
+bool balance_tree(Leaf* leaf, int& height)
+{	
+	if ((leaf->left == NULL) && (leaf->right == NULL))
 	{
+		height = 0;
 		return true;
 	}
 	else
 	{
-		bool Right = balance_tree(leaf->right);
-		bool Left = balance_tree(leaf->left);
-
-		if (abs(balance_leaf(leaf)) > 1)
+		if (leaf->right != NULL)
 		{
-			return false;
+			balance_tree(leaf->right, leaf->right->height);
+		}
+		if (leaf->left != NULL)
+		{
+			balance_tree(leaf->left, leaf->left->height);
+		}
+
+		leaf->height = Max_Height(leaf) + 1;
+
+		if (abs(balance_leaf(leaf)) <= 1)
+		{
+			return true;
 		}
 		else
 		{
-			if (Right & Left)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return false;
 		}
 	}
+}
+
+int& get_height(Tree* tree)
+{
+	return tree->root->height;
 }
