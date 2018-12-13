@@ -34,7 +34,7 @@ void test_tree(Tree* p)
 
 		cout << "====================================" << endl;
 
-		if (balance_tree(get_root(p)))
+		if (balance_tree(get_root(p), get_height(p)))
 		{
 			cout << "Balance" << endl;
 		}
@@ -82,7 +82,7 @@ void test_tree(Tree* p)
 
 		cout << "====================================" << endl;
 
-		if (balance_tree(get_root(p)))
+		if (balance_tree(get_root(p), get_height(p)))
 		{
 			cout << "Balance" << endl;
 		}
@@ -109,14 +109,13 @@ Data randomStrGen(size_t length)
 	return result;
 }
 
-int main()
+void AVL_vs_map(Tree* OwnTree)
 {
-	Tree* OwnTree = tree_create();
 	map <Data, Data> example;
 
 	cout << "------------------------------------------------------------" << endl;
 	cout << "AVL - tree" << endl;
-	
+
 	int startAVL = clock();
 	cout << (float(startAVL)) / CLOCKS_PER_SEC << endl;
 
@@ -126,7 +125,7 @@ int main()
 	{
 		insert_leaf(OwnTree, randomStrGen(rand() % 5), randomStrGen(rand() % 5));
 	}
-	
+
 	int endAVL = clock();
 	cout << (float(endAVL)) / CLOCKS_PER_SEC << endl;
 
@@ -136,7 +135,7 @@ int main()
 
 	int startMAP = clock();
 	cout << (float(startMAP)) / CLOCKS_PER_SEC << endl;
-	
+
 	for (size_t i = 0; i < MAX; i++)
 	{
 		example.insert(make_pair(randomStrGen(rand() % 5), randomStrGen(rand() % 5)));
@@ -148,6 +147,14 @@ int main()
 	cout << "Result:" << endl;
 	cout << "AVL - tree: " << (float(endAVL - startAVL)) / CLOCKS_PER_SEC << endl;
 	cout << "MAP: " << (float(endMAP - startMAP)) / CLOCKS_PER_SEC << endl;
+}
+
+int main()
+{
+	Tree* OwnTree = tree_create();
+	
+	AVL_vs_map(OwnTree);
+
 	system("Pause");
 	return 0;
 }
