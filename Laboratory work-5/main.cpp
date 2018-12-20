@@ -14,10 +14,11 @@
 #include <vector>
 
 using namespace std;
-
+/*
 vector<int> output;
 vector<int> tmp;								//Вектор возможной последовательности.
 
+//Перебирает все возможные последовательсноти.
 void processing(vector<int>& input, int i)
 {
 	tmp.push_back(input[i]);
@@ -27,11 +28,7 @@ void processing(vector<int>& input, int i)
 		if (tmp[tmp.size() - 1] < input[j])
 		{
 			processing(input, j);
-			
-			if (tmp.size() != 0)
-			{
-				tmp.resize(tmp.size() - 1);
-			}
+			tmp.resize(tmp.size() - 1);
 		}
 	}
 
@@ -44,6 +41,35 @@ void processing(vector<int>& input, int i)
 			output[i] = tmp[i];
 		}
 	}
+}*/
+
+//Считает максимальную длину возрастающей последовательности для каждого элемента в массиве.
+int processing2(vector<int>& input, int i)
+{
+	int max = 1;
+	int Length = 1;
+
+	if (i + 1 >= input.size())
+	{
+		return 1;
+	}
+
+	for (int j = i + 1; j < input.size(); j++)
+	{
+		if (input[i] < input[j])
+		{
+			Length += processing2(input, j);
+
+			if (max < Length)
+			{
+				max = Length;
+			}
+
+			Length = 1;
+		}
+	}
+
+	return max;
 }
 
 int main()
@@ -61,17 +87,19 @@ int main()
 
 	for (size_t i = 0; i < N; i++)
 	{
-		processing(input, i);
-		tmp.clear();
-	}
+		cout << processing2(input, i) << " ";
 
+		/*processing(input, i);
+		tmp.clear();*/
+	}
+	/*
 	cout << output.size() << endl;
 
 	for (size_t i = 0; i < output.size(); i++)
 	{
 		cout << output[i] << " ";
 	}
-
+	*/
 	cout << endl;
 	system("Pause");
 	return 0;
