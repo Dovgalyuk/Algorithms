@@ -55,7 +55,7 @@ int processing2(vector<int>& input, int i)
 	{
 		if (input[i] < input[j])
 		{
-			if (Lengths[j] != 1)
+			if (Lengths[j] != 0)
 			{
 				Length += Lengths[j];
 			}
@@ -98,7 +98,7 @@ int main()
 
 	for (size_t i = 0; i < N; i++)
 	{
-		Lengths.resize(N, 1);
+		Lengths.resize(N);
 		startProcessing2 = chrono::high_resolution_clock::now();
 
 		processing2(input, i);
