@@ -51,6 +51,8 @@ int processing2(vector<int>& input, int i)
 	int max = 1;
 	int Length = 1;
 
+	Lengths[i] = 1;
+
 	for (int j = i + 1; j < input.size(); j++)
 	{
 		if (input[i] < input[j])
@@ -64,7 +66,7 @@ int processing2(vector<int>& input, int i)
 				Length += processing2(input, j);
 			}
 
-			if (max < Length)
+			if (max <= Length)
 			{
 				max = Length;
 				Lengths[i] = Length;
