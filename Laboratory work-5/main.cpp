@@ -13,6 +13,7 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
+#include <fstream>
 
 using namespace std;
 
@@ -44,6 +45,8 @@ void processing(vector<int>& input, int i)
 		}
 	}
 }
+
+ofstream fout("output.txt");
 
 //Считает максимальную длину возрастающей последовательности для каждого элемента в массиве.
 int processing2(vector<int>& input, int i)
@@ -91,25 +94,29 @@ int main()
 
 	for (size_t i = 0; i < N; i++)
 	{
-		cin >> input[i];
+		input[i] = rand();
 	}
 
 	cout << endl;
 
 	chrono::time_point<chrono::high_resolution_clock> startProcessing2, endProcessing2;
 
-	for (size_t i = 0; i < N; i++)
+	for (size_t i = 0; i < N; i += 1000)
 	{
 		Lengths.resize(N);
+		
 		startProcessing2 = chrono::high_resolution_clock::now();
-
 		processing2(input, i);
-
 		endProcessing2 = chrono::high_resolution_clock::now();
+	
+		double delta = chrono::duration_cast<chrono::microseconds> (endProcessing2 - startProcessing2).count();
+		
+		cout << "----------------------------------------------------" << endl;
+		cout << "Length for " << i + 1 << ": " << Lengths[i] << endl;
+		cout << i + 1 << ": " << "Processing2(): " << delta << " microseconds" << endl;
+		cout << "----------------------------------------------------" << endl;
 
-		double delta = chrono::duration_cast<chrono::nanoseconds> (endProcessing2 - startProcessing2).count();
 
-		cout << i + 1 << ": " << "Processing2(): " << delta << " nanoseconds" << endl;
 		Lengths.clear();
 	}
 
@@ -118,7 +125,7 @@ int main()
 
 	chrono::time_point<chrono::high_resolution_clock> startProcessing, endProcessing;
 
-	for (size_t i = 0; i < N; i++)
+	for (size_t i = 0; i < N; i += 1000)
 	{
 		startProcessing = chrono::high_resolution_clock::now();
 
@@ -126,9 +133,9 @@ int main()
 
 		endProcessing = chrono::high_resolution_clock::now();
 
-		double delta = chrono::duration_cast<chrono::nanoseconds> (endProcessing - startProcessing).count();
+		double delta = chrono::duration_cast<chrono::microseconds> (endProcessing - startProcessing).count();
 
-		cout << i + 1 << ": " <<"Processing():" << delta << " nanoseconds" << endl;
+		cout << i + 1 << ": " <<"Processing():" << delta << " microseconds" << endl;
 	}
 
 	/*
