@@ -1,79 +1,57 @@
 #include <iostream>
-#include "Graf.h"
 using namespace std;
 
-const int MinEl = 9999999;
+/*recursion method*/
 
-Iterator* FindMinVertex(Graf* graf, int n)
+int mas[2][20][20];
+
+int next(int step, int n, char c)
 {
-	Iterator* min = create_iterator_begin(graf, 0);
-	for (int i = 0; i < n; i++)
+	if (n == step)
 	{
-		Iterator* it = create_iterator_begin(graf, i);
-		Iterator* end = create_iterator_end(graf, i);
-		for (; comp(it, end); up(it))
-		{
-			if (DerCur(it) != 0 && ((DerCur(min) == 0) || (DerCur(it)<DerCur(min))) && DerColorj(it) != DerColori(it))
-				assign_it(min, it);
-		}
+		if (c != 'a')
+			return 3;
+		else
+			return 2;
 	}
-	DerVis(min) = 1;
-	return min;
-}
-
-void ChangeMark(Graf* graf, Iterator* it, int size)
-{
-	int find_color = DerColori(it);
-	int need_color = DerColorj(it);
-	for (int i = 0; i < size; i++)
-		if (get_mark_vertex(graf, i) == find_color)
-			add_mark_vertex(graf, i, need_color);
-}
-
-void Cout_Res(Graf* graf, int n)
-{
-	for (int i = 0; i < n; i++)
-	{
-		Iterator* it = create_iterator_begin(graf, i);
-		Iterator* end = create_iterator_end(graf, i);
-		for (; comp(it, end); up(it))
-		{
-			if (DerVis(it))
-				cout << DerCur(it) << " ";
-			else
-				cout << "0 ";
-		}
-		cout << endl;
-	}
+	if (mas[c-'a'][step][n] >= 0)
+		return mas[c - 'a'][step][n];
+	int res = 0;
+	step++;
+	if(c != 'a')
+		res = next(step,n,'a') + 2 * next(step, n, 'b');
+	else
+		res =  2 * next(step, n, 'b');
+	mas[c - 'a'][step-1][n] = res;
+	return res;
 }
 
 int main()
 {
-	int n, v_tree=0;
+	int n; 
 	cin >> n;
-	Graf* graf = graf_create(n);
-	int x,y,v;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < 2; i++)
+		for (int j = 0; j < n; j++)
+			memset(mas[i][j], -1, sizeof(int)*n);
+	if (n < 1)
+		cout << "0";
+	else
+		cout<< next(0, n-1, 'b');
+}
+/*formula method*/
+int main()
+{
+	int n;
+	cin >> n;
+	int last1 = 1;
+	int last2 = 3;
+	for (int i = 1; i < n; i++)
 	{
-		add_mark_vertex(graf, i, i);
+		last1 = last2 - last1;
+		last2 = last1 + 2 * last2;
 	}
-	while (cin >> x)
-	{
-		cin >> y >> v;
-		add_mark_edge(graf, x, y, v);
-		add_mark_edge(graf, y, x, v);
-	}
-	int ch = n - 1;
-	while(ch!=0)
-	{
-		Iterator* min = FindMinVertex(graf, n);
-		v_tree += DerCur(min);
-		ChangeMark(graf, min, n);
-		ch--;
-		delete_iterator(min);
-	}
-	cout << endl;
-	Cout_Res(graf,n);
-	cout << v_tree;
-	delete_graf(graf);
+	if (n < 1)
+		cout << "0";
+	else
+		cout << last2;
 }
