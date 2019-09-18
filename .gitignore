@@ -8,6 +8,7 @@
 ipch/*
 */Debug/*
 */Release/*
+*/out/*
 Debug/*
 Release/*
 .vs/*
