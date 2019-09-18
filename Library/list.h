@@ -1,9 +1,13 @@
+#include <string>
+
 #ifndef LIST_H
 #define LIST_H
 
 // List
 // Stores integer values inside
 typedef int Data;
+// Stores string values inside
+typedef std::string sData;
 
 struct List;
 struct ListItem;
@@ -18,7 +22,7 @@ void list_delete(List *list);
 ListItem *list_first(List *list);
 
 // Extracts data from the list item
-Data list_item_data(const ListItem *item);
+sData list_item_data(const ListItem *item);
 
 // Returns list item following after the specified one
 ListItem *list_item_next(ListItem *item);
@@ -28,10 +32,10 @@ ListItem *list_item_next(ListItem *item);
 ListItem *list_item_prev(ListItem *item);
 
 // Inserts new list item into the beginning
-ListItem *list_insert(List *list, Data data);
+ListItem *list_insert(List *list, sData data);
 
 // Inserts new list item after the specified item
-ListItem *list_insert_after(List *list, ListItem *item, Data data);
+ListItem *list_insert_after(List *list, ListItem *item, sData data);
 
 // Deletes the specified list item.
 // Not applicable for the singly linked lists.
