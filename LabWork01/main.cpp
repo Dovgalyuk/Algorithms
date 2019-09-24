@@ -39,7 +39,7 @@ int main()
 				}
 				else if (current == "'")
 				{
-					if (stack_get(stack) == "'" && current == "'")
+					if (stack_get(stack) == "'")
 					{
 						stack_pop(stack);
 					}
@@ -50,7 +50,7 @@ int main()
 				}
 				else if (current == "\"")
 				{
-					if (stack_get(stack) == "\"" && current == "\"")
+					if (stack_get(stack) == "\"")
 					{
 						stack_pop(stack);
 					}
