@@ -34,11 +34,12 @@ void stack_push(Stack *stack, Data data)
 		for (size_t i = 0; i < arrSize; i++) {
 			array_set(newArr, i, array_get(stack->array, i));
 		}
+		array_delete(stack->array);
 		stack->array = newArr;
 	}
 
+	array_set(stack->array, stack->top, data);
 	stack->top++;
-	array_set(stack->array, stack->top - 1, data);
 }
 
 Data stack_get(const Stack *stack)
