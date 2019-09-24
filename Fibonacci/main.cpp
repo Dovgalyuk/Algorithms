@@ -4,21 +4,15 @@
 int main() {
 	int n;
 	std::cin >> n;
-	
-	int buffSize = n / 2 + n % 2;
 
-	int* depth = new int[buffSize];
-	int* buff = new int[buffSize];
-	for (int i = 0; i < buffSize; i++) {
-		buff[i] = 0;
-		depth[i] = 0;
-	}
 
 	Stack* stack = stack_create();
+	Stack* otherStack = stack_create();
 
 	int d = 0;
+	int result = 0;
 	stack_push(stack, n);
-	depth[0] = 1;
+	stack_push(otherStack, 1);
 	bool l = true;
 
 	do {
@@ -28,15 +22,18 @@ int main() {
 			if (l) {
 				l = false;
 			}
-			buff[d]++;
-			depth[d]--;
+			result++;
+			int tmp = stack_get(otherStack);
+			stack_pop(otherStack);
+			stack_push(otherStack, tmp - 1);
 		} else if (l) {
 			d++;
-			depth[d] = 0;
-			buff[d] = 0;
+			stack_push(otherStack, 0);
 			for (int i = curr; i > 0; i--) {
 				stack_push(stack, i);
-				depth[d]++;
+				int tmp = stack_get(otherStack);
+				stack_pop(otherStack);
+				stack_push(otherStack, tmp + 1);
 			}
 			l = false;
 		}
@@ -45,13 +42,13 @@ int main() {
 			l = true;
 		}
 
-		if (depth[d] == 1) {
-			buff[d - 1] += buff[d];
+		if (stack_get(otherStack) == 1) {
+			stack_pop(otherStack);
 			d--;
 		}
 
 	} while (d > 0);
 
-	std::cout << buff[0];
+	std::cout << result;
 	stack_delete(stack);
 }
