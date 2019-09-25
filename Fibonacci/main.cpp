@@ -5,50 +5,48 @@ int main() {
 	int n;
 	std::cin >> n;
 
-
 	Stack* stack = stack_create();
-	Stack* otherStack = stack_create();
+	Stack* depthStack = stack_create();
+	Stack* resultStack = stack_create();
 
-	int d = 0;
-	int result = 0;
 	stack_push(stack, n);
-	stack_push(otherStack, 1);
-	bool l = true;
+	stack_push(depthStack, 1);
 
 	do {
 		int curr = stack_get(stack);
+		int currDepth = stack_get(depthStack);
 		stack_pop(stack);
+		stack_pop(depthStack);
+
 		if (curr <= 1) {
-			if (l) {
-				l = false;
-			}
-			result++;
-			int tmp = stack_get(otherStack);
-			stack_pop(otherStack);
-			stack_push(otherStack, tmp - 1);
-		} else if (l) {
-			d++;
-			stack_push(otherStack, 0);
-			for (int i = curr; i > 0; i--) {
-				stack_push(stack, i);
-				int tmp = stack_get(otherStack);
-				stack_pop(otherStack);
-				stack_push(otherStack, tmp + 1);
-			}
-			l = false;
+			stack_push(resultStack, 1);
 		}
 		else {
-			stack_push(stack, curr - 2);
-			l = true;
+			if (currDepth == 1) {
+				stack_push(stack, curr);
+				stack_push(depthStack, 2);
+				for (int i = curr - 1; i > 0; i--) {
+					stack_push(stack, i);
+					stack_push(depthStack, 1);
+				}
+			}
+			else if (currDepth == 2) {
+				stack_push(stack, curr);
+				stack_push(depthStack, 3);
+				stack_push(stack, curr - 2);
+				stack_push(depthStack, 1);
+			}
 		}
 
-		if (stack_get(otherStack) == 1) {
-			stack_pop(otherStack);
-			d--;
+		if (currDepth == 3) {
+			int tmp = stack_get(resultStack);
+			stack_pop(resultStack);
+			tmp += stack_get(resultStack);
+			stack_pop(resultStack);
+			stack_push(resultStack, tmp);
 		}
+	} while (!stack_empty(depthStack));
 
-	} while (d > 0);
-
-	std::cout << result;
+	std::cout << stack_get(resultStack);
 	stack_delete(stack);
 }
