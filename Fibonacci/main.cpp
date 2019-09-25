@@ -27,7 +27,7 @@ int main() {
 				stack_push(depthStack, 2);
 				for (int i = curr - 1; i > 0; i--) {
 					stack_push(stack, i);
-					stack_push(depthStack, 1);
+					stack_push(depthStack, 2);
 				}
 			}
 			else if (currDepth == 2) {
