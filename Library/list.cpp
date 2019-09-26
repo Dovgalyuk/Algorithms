@@ -61,7 +61,6 @@ ListItem *list_insert(List *list, Data data)
 	temp->item = data;
 	temp->next = list->head;
 	list->head = temp;
-	temp->previous = list->head->previous;
 	return temp;
 }
 
