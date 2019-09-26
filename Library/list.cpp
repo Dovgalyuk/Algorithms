@@ -56,10 +56,15 @@ ListItem *list_item_prev(ListItem *item)
 
 ListItem *list_insert(List *list, Data data)
 {
+
 	ListItem* temp = new ListItem;
 
 	temp->item = data;
 	temp->next = list->head;
+	if (list->head) 
+	{
+		list->head->previous = temp;
+	}
 	list->head = temp;
 	return temp;
 }
