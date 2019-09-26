@@ -28,7 +28,7 @@ void stack_push(Stack *stack, Data data)
 
 Data stack_get(const Stack *stack)
 {
-	if (list_first(stack->list) == NULL) return "";
+	if (list_first(stack->list) == NULL) return NULL;
 	else return list_item_data(list_first(stack->list));
 }
 

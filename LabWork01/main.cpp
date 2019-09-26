@@ -30,16 +30,16 @@ int main()
 
 			for (int i = 0; i < int(iData.size()); i++)
 			{
-				string current;
+				char current;
 				current = iData[i];
 
-				if (current == "(")
+				if (current == '(')
 				{
 					stack_push(stack, current);
 				}
-				else if (current == "'")
+				else if (current == '\'')
 				{
-					if (stack_get(stack) == "'")
+					if (stack_get(stack) == '\'')
 					{
 						stack_pop(stack);
 					}
@@ -48,9 +48,9 @@ int main()
 						stack_push(stack, current);
 					}
 				}
-				else if (current == "\"")
+				else if (current == '"')
 				{
-					if (stack_get(stack) == "\"")
+					if (stack_get(stack) == '"')
 					{
 						stack_pop(stack);
 					}
@@ -59,7 +59,7 @@ int main()
 						stack_push(stack, current);
 					}
 				}
-				else if (current == ")")
+				else if (current == ')')
 				{
 					if (stack_empty(stack))
 					{
@@ -67,8 +67,8 @@ int main()
 						cout << "NO";
 						return 0;
 					}
-					string last = stack_get(stack);
-					if (current == ")" && last == "(")
+					char last = stack_get(stack);
+					if (current == ')'&& last == '(')
 					{
 						stack_pop(stack);
 					}

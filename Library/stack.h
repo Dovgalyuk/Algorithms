@@ -5,7 +5,7 @@
 
 // Stack
 // Stores string values inside
-typedef std::string Data;
+typedef char Data;
 
 struct Stack;
 
