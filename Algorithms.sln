@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestArray", "TestArray\Test
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fibonacci", "Fibonacci\Fibonacci.vcxproj", "{B1913727-67FB-41D7-8BC3-EBCAAD8A575F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestDeque", "TestDeque\TestDeque.vcxproj", "{C09FDB35-2CA5-4210-ABBA-066BC2F44BF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -81,6 +83,14 @@ Global
 		{B1913727-67FB-41D7-8BC3-EBCAAD8A575F}.Release|Win32.Build.0 = Release|Win32
 		{B1913727-67FB-41D7-8BC3-EBCAAD8A575F}.Release|x64.ActiveCfg = Release|x64
 		{B1913727-67FB-41D7-8BC3-EBCAAD8A575F}.Release|x64.Build.0 = Release|x64
+		{C09FDB35-2CA5-4210-ABBA-066BC2F44BF7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C09FDB35-2CA5-4210-ABBA-066BC2F44BF7}.Debug|Win32.Build.0 = Debug|Win32
+		{C09FDB35-2CA5-4210-ABBA-066BC2F44BF7}.Debug|x64.ActiveCfg = Debug|x64
+		{C09FDB35-2CA5-4210-ABBA-066BC2F44BF7}.Debug|x64.Build.0 = Debug|x64
+		{C09FDB35-2CA5-4210-ABBA-066BC2F44BF7}.Release|Win32.ActiveCfg = Release|Win32
+		{C09FDB35-2CA5-4210-ABBA-066BC2F44BF7}.Release|Win32.Build.0 = Release|Win32
+		{C09FDB35-2CA5-4210-ABBA-066BC2F44BF7}.Release|x64.ActiveCfg = Release|x64
+		{C09FDB35-2CA5-4210-ABBA-066BC2F44BF7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
