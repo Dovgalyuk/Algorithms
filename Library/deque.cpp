@@ -32,8 +32,8 @@ void deuqe_remove_chunk(Deque* deque, bool atStart) {
 		for (size_t i = 0; i < chunksAmont - 1; i++) {
 			newChunks[i] = deque->chunks[i + 1];
 		}
-		deque->first_index += CHUNK_SIZE;
-		deque->last_index += CHUNK_SIZE;
+		deque->first_index -= CHUNK_SIZE;
+		deque->last_index -= CHUNK_SIZE;
 	}
 	else {
 		for (size_t i = 0; i < chunksAmont - 1; i++) {
