@@ -51,11 +51,55 @@ int main()
 		}
 	}
 
-	for (size_t i = 0; i < deque_size(deque); i++) {
+	while (deque_size(deque) > 0) {
 		deque_pop_back(deque);
 	}
 
 	if (deque_size(deque) != 0) {
 		std::cout << "Not zero size after clearing with pop back\n";
 	}
+
+	for (int i = 0; i < 10; i++) {
+		deque_set(deque, i, i + 190);
+	}
+
+	for (int i = 0; i < 190; i++) {
+		deque_push_front(deque, 189 - i);
+	}
+
+	if ((tmp = deque_size(deque)) != 200) {
+		std::cout << "Wrong size afeter push front " << tmp << "\n";
+	}
+
+	for (size_t i = 0; i < deque_size(deque); i++) {
+		if ((tmp = deque_get(deque, i)) != i)
+		{
+			std::cout << "Invalid deque element " << i << " " << tmp << " after psuh front\n";
+		}
+	}
+
+	for (int i = 200; i < 300; i++) {
+		deque_push_back(deque, i);
+	}
+
+	if ((tmp = deque_size(deque)) != 300) {
+		std::cout << "Wrong size afeter mixed push " << tmp << "\n";
+	}
+
+	for (size_t i = 0; i < deque_size(deque); i++) {
+		if ((tmp = deque_get(deque, i)) != i)
+		{
+			std::cout << "Invalid deque element " << i << " " << tmp << " after mixed psuh\n";
+		}
+	}
+
+	while (deque_size(deque) > 0) {
+		deque_pop_front(deque);
+	}
+
+	if (deque_size(deque) != 0) {
+		std::cout << "Not zero size after clearing with pop front\n";
+	}
+
+	deque_delete(deque);
 }

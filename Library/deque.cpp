@@ -12,7 +12,7 @@ void deuqe_add_chunk(Deque* deque, bool atStart) {
 			newChunks[i + 1] = deque->chunks[i];
 		}
 		newChunks[0] = *newChunk;
-		deque->first_index += CHUNK_SIZE;
+		deque->first_index += CHUNK_SIZE - 1;
 		deque->last_index += CHUNK_SIZE;
 	}
 	else {
@@ -114,6 +114,13 @@ void deque_pop_back(Deque* deque)
 
 void deque_push_front(Deque* deque, Data data)
 {
+	deque->chunks[0].elements[deque->first_index] = data;
+	if (deque->first_index == 0) {
+		deuqe_add_chunk(deque, true);
+	}
+	else {
+		deque->first_index--;
+	}
 }
 
 
@@ -122,10 +129,15 @@ Data deque_first(const Deque* deque)
 	return deque_get(deque, 0);
 }
 
-void deque_resize(Deque* deque, size_t size)
+void deque_pop_front(Deque* deque)
 {
-
+	if (deque->first_index == CHUNK_SIZE - 1)
+	{
+		deuqe_remove_chunk(deque, true);
+	}
+	deque->first_index++;
 }
+
 
 bool deque_empty(const Deque* deque)
 {

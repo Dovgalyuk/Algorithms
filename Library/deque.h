@@ -32,10 +32,6 @@ void deque_set(Deque* deque, size_t index, Data value);
 // Retrieves current deque size
 size_t deque_size(const Deque* deque);
 
-// Changes the deque size (may increase or decrease)
-// Should be O(1) on average
-void deque_resize(Deque* deque, size_t size);
-
 // Pushes data on top of the deque
 // Should be O(1) on average
 void deque_push_back(Deque* deque, Data data);
@@ -56,7 +52,7 @@ Data deque_first(const Deque* deque);
 
 // Removes first element from the deque
 // Should be O(1) on average
-void deque_pop_back(Deque* deque);
+void deque_pop_front(Deque* deque);
 
 // Returns true if the deque is empty
 bool deque_empty(const Deque* deque);
