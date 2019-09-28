@@ -2,6 +2,48 @@
 
 const size_t CHUNK_SIZE = 100;
 
+void deuqe_add_chunk(Deque* deque, bool atStart) {
+	size_t chunksAmont = deque->last_index / CHUNK_SIZE + 1;
+	Chunk* newChunks = new Chunk[chunksAmont + 1];
+	Chunk* newChunk = new Chunk();
+	newChunk->elements = new Data[CHUNK_SIZE];
+	if (atStart) {
+		for (size_t i = 0; i < chunksAmont; i++) {
+			newChunks[i + 1] = deque->chunks[i];
+		}
+		newChunks[0] = *newChunk;
+		deque->first_index += CHUNK_SIZE;
+		deque->last_index += CHUNK_SIZE;
+	}
+	else {
+		for (size_t i = 0; i < chunksAmont; i++) {
+			newChunks[i] = deque->chunks[i];
+		}
+		newChunks[chunksAmont] = *newChunk;
+	}
+	delete[] deque->chunks;
+	deque->chunks = newChunks;
+}
+
+void deuqe_remove_chunk(Deque* deque, bool atStart) {
+	size_t chunksAmont = deque->last_index / CHUNK_SIZE + 1;
+	Chunk* newChunks = new Chunk[chunksAmont - 1];
+	if (atStart) {
+		for (size_t i = 0; i < chunksAmont - 1; i++) {
+			newChunks[i] = deque->chunks[i + 1];
+		}
+		deque->first_index += CHUNK_SIZE;
+		deque->last_index += CHUNK_SIZE;
+	}
+	else {
+		for (size_t i = 0; i < chunksAmont - 1; i++) {
+			newChunks[i] = deque->chunks[i];
+		}
+	}
+	delete[] deque->chunks;
+	deque->chunks = newChunks;
+}
+
 Deque* deque_create()
 {
 	Deque* newDeque = new Deque();
@@ -47,6 +89,12 @@ size_t deque_size(const Deque* deque)
 
 void deque_push_back(Deque* deque, Data data)
 {
+	size_t chunksAmont = deque->last_index / CHUNK_SIZE + 1;
+	if (deque_size(deque) + deque->first_index + 1 == chunksAmont * CHUNK_SIZE)
+	{
+		deuqe_add_chunk(deque, false);
+	}
+	deque_set(deque, deque->last_index - deque->first_index, data);
 }
 
 Data deque_last(const Deque* deque)
@@ -56,6 +104,12 @@ Data deque_last(const Deque* deque)
 
 void deque_pop_back(Deque* deque)
 {
+	size_t chunksAmont = deque->last_index / CHUNK_SIZE + 1;
+	if (deque_size(deque) + deque->first_index == chunksAmont * CHUNK_SIZE)
+	{
+		deuqe_remove_chunk(deque, false);
+	}
+	deque->last_index--;
 }
 
 void deque_push_front(Deque* deque, Data data)
@@ -78,25 +132,3 @@ bool deque_empty(const Deque* deque)
 	return deque_size(deque) == 0;
 }
 
-void deuqe_add_chunk(Deque* deque, bool atStart) {
-	size_t chunksAmont = deque->last_index / CHUNK_SIZE + 1;
-	Chunk* newChunks = new Chunk[chunksAmont + 1];
-	Chunk newChunk = Chunk();
-	newChunk.elements = new Data[CHUNK_SIZE];
-	if (atStart) {
-		for (size_t i = 0; i < chunksAmont; i++) {
-			newChunks[i + 1] = deque->chunks[i];
-		}
-		newChunks[0] = newChunk;
-		deque->first_index += CHUNK_SIZE;
-		deque->last_index += CHUNK_SIZE;
-	}
-	else {
-		for (size_t i = 1; i <= chunksAmont; i++) {
-			newChunks[i] = deque->chunks[i - 1];
-		}
-		newChunks[chunksAmont] = newChunk;
-		deque->first_index -= CHUNK_SIZE;
-		deque->last_index -= CHUNK_SIZE;
-	}
-}
