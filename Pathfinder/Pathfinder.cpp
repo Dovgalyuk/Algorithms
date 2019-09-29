@@ -24,6 +24,12 @@ int main()
 			roadsAmount++;
 		}
 		else {
+			if (origin == ending) {
+				output << origin;
+				queue_delete(roads);
+				queue_delete(paths);
+				return 0;
+			}
 			queue_insert(paths, origin);
 			queue_insert(paths, "");
 			destination = ending;

@@ -3,7 +3,7 @@
 
 // Vector (dynamic array)
 // Stores integer values inside
-typedef int Data;
+#include "defines.h"
 
 struct Vector;
 

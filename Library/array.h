@@ -3,7 +3,7 @@
 
 // Non-resizeable array
 // Stores integer values inside
-typedef int Data;
+#include "defines.h"
 
 struct Array;
 

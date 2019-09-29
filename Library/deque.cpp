@@ -1,6 +1,6 @@
 #include "deque.h"
 
-const size_t CHUNK_SIZE = 100;
+const size_t CHUNK_SIZE = 128;
 
 void deuqe_add_chunk(Deque* deque, bool atStart) {
 	size_t chunksAmont = (deque->last_index - 1) / CHUNK_SIZE + 1;
@@ -12,7 +12,7 @@ void deuqe_add_chunk(Deque* deque, bool atStart) {
 			newChunks[i + 1] = deque->chunks[i];
 		}
 		newChunks[0] = *newChunk;
-		deque->first_index += CHUNK_SIZE - 1;
+		deque->first_index += CHUNK_SIZE;
 		deque->last_index += CHUNK_SIZE;
 	}
 	else {
@@ -32,7 +32,7 @@ void deuqe_remove_chunk(Deque* deque, bool atStart) {
 		for (size_t i = 0; i < chunksAmont - 1; i++) {
 			newChunks[i] = deque->chunks[i + 1];
 		}
-		deque->first_index = 0;
+		deque->first_index -= CHUNK_SIZE;
 		deque->last_index -= CHUNK_SIZE;
 	}
 	else {
@@ -81,7 +81,7 @@ void deque_set(Deque* deque, size_t index, Data value)
 	deque->chunks[chunkIndex].elements[realIndex - CHUNK_SIZE * chunkIndex] = value;
 }
 
-size_t deque_size(const Deque* deque)
+inline size_t deque_size(const Deque* deque)
 {
 	return deque->last_index - deque->first_index;
 }
@@ -90,22 +90,22 @@ size_t deque_size(const Deque* deque)
 void deque_push_back(Deque* deque, Data data)
 {
 	size_t chunksAmont = (deque->last_index - 1) / CHUNK_SIZE + 1;
-	if (deque_size(deque) + deque->first_index == chunksAmont * CHUNK_SIZE)
+	if (deque->last_index == chunksAmont * CHUNK_SIZE)
 	{
 		deuqe_add_chunk(deque, false);
 	}
-	deque_set(deque, deque->last_index - deque->first_index, data);
+	deque_set(deque, deque_size(deque), data);
 }
 
 Data deque_last(const Deque* deque)
 {
-	return deque_get(deque, deque->last_index - deque->first_index - 1);
+	return deque_get(deque, deque_size(deque) - 1);
 }
 
 void deque_pop_back(Deque* deque)
 {
 	size_t chunksAmont = (deque->last_index - 1) / CHUNK_SIZE + 1;
-	if (deque_size(deque) + deque->first_index - 1 == (chunksAmont - 1) * CHUNK_SIZE)
+	if (deque->last_index - 1 == (chunksAmont - 1) * CHUNK_SIZE)
 	{
 		deuqe_remove_chunk(deque, false);
 	}
@@ -117,9 +117,8 @@ void deque_push_front(Deque* deque, Data data)
 	if (deque->first_index == 0) {
 		deuqe_add_chunk(deque, true);
 	}
-	else {
-		deque->first_index--;
-	}
+	deque->first_index--;
+	
 	deque->chunks[0].elements[deque->first_index] = data;
 }
 
@@ -135,9 +134,8 @@ void deque_pop_front(Deque* deque)
 	{
 		deuqe_remove_chunk(deque, true);
 	}
-	else {
-		deque->first_index++;
-	}
+
+	deque->first_index++;
 }
 
 

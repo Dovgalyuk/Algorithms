@@ -1,12 +1,9 @@
-#include <string>
-
 #ifndef DEQUE_H
 #define DEQUE_H
 
 // Deque
 // Stores integer values inside
-typedef std::string Data;
-//typedef int Data;
+#include "defines.h"
 
 struct Chunk
 {

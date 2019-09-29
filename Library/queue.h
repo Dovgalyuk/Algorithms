@@ -5,8 +5,7 @@
 
 // Queue
 // Stores integer values inside
-typedef std::string Data;
-//typedef int Data;
+#include "defines.h"
 
 struct Queue;
 
