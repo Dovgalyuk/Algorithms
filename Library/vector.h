@@ -2,8 +2,8 @@
 #define VECTOR_H
 
 // Vector (dynamic array)
-// Stores integer values inside
-typedef int Data;
+// Stores char values inside
+typedef char Data;
 
 struct Vector;
 

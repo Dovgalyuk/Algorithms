@@ -2,8 +2,8 @@
 #define QUEUE_H
 
 // Queue
-// Stores integer values inside
-typedef int Data;
+// Stores char values inside
+typedef char Data;
 
 struct Queue;
 

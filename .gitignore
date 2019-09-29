@@ -13,3 +13,7 @@ Debug/*
 Release/*
 .vs/*
 build/*
+*.txt
+*.vcxproj
+*.sln
+Algorithms.sln
