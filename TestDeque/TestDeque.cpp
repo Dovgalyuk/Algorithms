@@ -33,6 +33,10 @@ int main()
 		deque_push_back(deque, i + 10);
 	}
 
+	if ((tmp = deque_size(deque)) != 200) {
+		std::cout << "Invalid deque size after push back " << tmp << "\n";
+	}
+
 	for (size_t i = 0; i < deque_size(deque); i++) {
 		if ((tmp = deque_get(deque, i)) != i)
 		{
@@ -41,7 +45,15 @@ int main()
 	}
 
 	for (int i = 0; i < 100; i++) {
+		if ((tmp = deque_last(deque)) != 199 - i)
+		{
+			std::cout << "Invalid deque element " << i << " " << tmp << " in process of pop back\n";
+		}
 		deque_pop_back(deque);
+	}
+
+	if ((tmp = deque_size(deque)) != 100) {
+		std::cout << "Invalid deque size after pop back " << tmp << "\n";
 	}
 
 	for (size_t i = 0; i < deque_size(deque); i++) {
@@ -51,7 +63,9 @@ int main()
 		}
 	}
 
-	while (deque_size(deque) > 0) {
+	size_t size = deque_size(deque);
+
+	for (size_t i = 0; i < size;i++) {
 		deque_pop_back(deque);
 	}
 
@@ -93,7 +107,13 @@ int main()
 		}
 	}
 
-	while (deque_size(deque) > 0) {
+	size = deque_size(deque);
+
+	for (size_t i = 0; i < size; i++) {
+		if ((tmp = deque_first(deque)) != i)
+		{
+			std::cout << "Invalid deque element " << i << " " << tmp << " in prcess of pop front\n";
+		}
 		deque_pop_front(deque);
 	}
 
