@@ -2,7 +2,19 @@
 
 const size_t CHUNK_SIZE = 128;
 
-void deuqe_add_chunk(Deque* deque, bool atStart) {
+struct Chunk
+{
+	Data* elements;
+};
+
+struct Deque {
+	Chunk* chunks;
+	size_t first_index;
+	size_t last_index;
+};
+
+
+static void deuqe_add_chunk(Deque* deque, bool atStart) {
 	size_t chunksAmont = (deque->last_index - 1) / CHUNK_SIZE + 1;
 	Chunk* newChunks = new Chunk[chunksAmont + 1];
 	Chunk* newChunk = new Chunk();
@@ -25,7 +37,7 @@ void deuqe_add_chunk(Deque* deque, bool atStart) {
 	deque->chunks = newChunks;
 }
 
-void deuqe_remove_chunk(Deque* deque, bool atStart) {
+static void deuqe_remove_chunk(Deque* deque, bool atStart) {
 	size_t chunksAmont = (deque->last_index - 1) / CHUNK_SIZE + 1;
 	Chunk* newChunks = new Chunk[chunksAmont - 1];
 	if (atStart) {

@@ -5,17 +5,7 @@
 // Stores integer values inside
 #include "defines.h"
 
-struct Chunk
-{
-	Data* elements;
-};
-
-struct Deque {
-	Chunk* chunks;
-	size_t first_index;
-	size_t last_index;
-};
-
+struct Deque;
 
 // Creates empty deque
 Deque* deque_create();
