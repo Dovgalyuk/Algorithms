@@ -17,13 +17,11 @@ struct Deque {
 static void deuqe_add_chunk(Deque* deque, bool atStart) {
 	size_t chunksAmont = (deque->last_index - 1) / CHUNK_SIZE + 1;
 	Chunk* newChunks = new Chunk[chunksAmont + 1];
-	Chunk* newChunk = new Chunk();
-	newChunk->elements = new Data[CHUNK_SIZE];
 	if (atStart) {
 		for (size_t i = 0; i < chunksAmont; i++) {
 			newChunks[i + 1] = deque->chunks[i];
 		}
-		newChunks[0] = *newChunk;
+		newChunks[0].elements = new Data[CHUNK_SIZE];
 		deque->first_index += CHUNK_SIZE;
 		deque->last_index += CHUNK_SIZE;
 	}
@@ -31,7 +29,7 @@ static void deuqe_add_chunk(Deque* deque, bool atStart) {
 		for (size_t i = 0; i < chunksAmont; i++) {
 			newChunks[i] = deque->chunks[i];
 		}
-		newChunks[chunksAmont] = *newChunk;
+		newChunks[chunksAmont].elements = new Data[CHUNK_SIZE];
 	}
 	delete[] deque->chunks;
 	deque->chunks = newChunks;

@@ -1,5 +1,7 @@
 #include <string>
 #include <fstream>
+#include <map>
+#include <vector>
 #include "queue.h"
 
 int main()
@@ -12,21 +14,23 @@ int main()
 
 	std::string destination;
 	size_t roadsAmount = 0;
-	Queue* roads = queue_create();
+	std::map<std::string, std::vector<std::string>> roads;
 	Queue* paths = queue_create();
 	while (!input.eof()) {
 		std::string origin;
 		std::string ending;
 		input >> origin >> ending;
 		if (!input.eof()) {
-			queue_insert(roads, origin);
-			queue_insert(roads, ending);
+			if (roads.count(origin) == 0) {
+				roads.insert(std::pair<std::string, std::vector<std::string>>(origin, std::vector<std::string>()));
+			}
+			roads[origin].push_back(ending);
 			roadsAmount++;
 		}
 		else {
 			if (origin == ending) {
 				output << origin;
-				queue_delete(roads);
+				roads.clear();
 				queue_delete(paths);
 				return 0;
 			}
@@ -45,46 +49,36 @@ int main()
 				last = queue_get(paths);
 				queue_remove(paths);
 			}
-			Queue* possibilities = queue_create();
-			for (size_t j = 0; j < roadsAmount; j++) {
-				std::string origin = queue_get(roads);
-				queue_insert(roads, origin);
-				queue_remove(roads);
-				std::string ending = queue_get(roads);
-				queue_insert(roads, ending);
-				queue_remove(roads);
-				if (origin == last) {
-					if (ending == destination) {
+
+			if (roads.count(last) > 0) {
+				for (size_t j = 0; j < roads[last].size(); j++) {
+					if (roads[last][j] == destination) {
 						while (!queue_empty(buffer)) {
 							output << queue_get(buffer) << " ";
 							queue_remove(buffer);
 						}
 						output << destination;
+						roads.clear();
 						queue_delete(buffer);
-						queue_delete(possibilities);
-						queue_delete(roads);
 						queue_delete(paths);
 						return 0;
 					}
-					queue_insert(possibilities, ending);
+
+					for (size_t h = 0; h <= i; h++) {
+						queue_insert(paths, queue_get(buffer));
+						queue_insert(buffer, queue_get(buffer));
+						queue_remove(buffer);
+					}
+					queue_insert(paths, roads[last][j]);
 				}
 			}
-			while (!queue_empty(possibilities)) {
-				for (size_t j = 0; j <= i; j++) {
-					queue_insert(paths, queue_get(buffer));
-					queue_insert(buffer, queue_get(buffer));
-					queue_remove(buffer);
-				}
-				queue_insert(paths, queue_get(possibilities));
-				queue_remove(possibilities);
-			}
+			
 			queue_delete(buffer);
-			queue_delete(possibilities);
 		}
 		queue_remove(paths);
 		queue_insert(paths, "");
 	}
-	queue_delete(roads);
+	roads.clear();
 	queue_delete(paths);
 	output << "No way!";
 }
