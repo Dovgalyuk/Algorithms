@@ -57,9 +57,8 @@ static void deuqe_remove_chunk(Deque* deque, bool atStart) {
 Deque* deque_create()
 {
 	Deque* newDeque = new Deque();
-	Chunk* newChunk = new Chunk();
-	newChunk->elements = new Data[CHUNK_SIZE];
-	newDeque->chunks = { newChunk };
+	newDeque->chunks = new Chunk[1];
+	newDeque->chunks[0].elements = new Data[CHUNK_SIZE];
 	newDeque->first_index = newDeque->last_index = CHUNK_SIZE / 2;
 	return newDeque;
 }
