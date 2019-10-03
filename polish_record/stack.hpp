@@ -27,7 +27,7 @@ template<typename Data>
 Stack< Data > ::Stack()
 {
 	cont = new List<Data>;
-	cont->insert(0);
+	cont->insert(Data());
 }
 
 template<typename Data>
