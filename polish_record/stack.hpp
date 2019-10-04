@@ -27,7 +27,6 @@ template<typename Data>
 Stack< Data > ::Stack()
 {
 	cont = new List<Data>;
-	cont->insert(Data());
 }
 
 template<typename Data>
@@ -39,24 +38,24 @@ Stack< Data > ::~Stack()
 template<typename Data>
 void Stack < Data > ::push(Data data)
 {
-	cont->insert_after(cont->first(), data);
+	cont->insert(data);
 }
 
 template<typename Data>
 Data Stack < Data > ::get()
 {
-	return cont->item_data(cont->item_next(cont->first()));
+	return cont->item_data(cont->first());
 }
 
 template<typename Data>
 void Stack < Data > ::pop()
 {
-	cont->erase_next(cont->first());
+	cont->erase_first();
 }
 
 template<typename Data>
 bool Stack < Data > ::empty()
 {
-	return !(cont->item_next(cont->first()));
+	return !(cont->first());
 }
 #endif
