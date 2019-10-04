@@ -39,6 +39,7 @@ public:
 	// Deletes the list item following the specified one
 	// Should be O(1)
 	ListItem<Data>* erase_next(ListItem<Data>* item);
+	ListItem<Data>* erase_first();
 };
 
 template<typename Data>
@@ -116,6 +117,15 @@ ListItem<Data>* List< Data > ::erase_next(ListItem<Data>* item)
 	delete item_next(item);
 	item->Next = next;
 	return item->Next;
+}
+
+template<typename Data>
+ListItem<Data>* List< Data > ::erase_first()
+{
+	ListItem<Data>* temp = item_next(first());
+	delete first();
+	first_e = temp;
+	return temp;
 }
 
 #endif
