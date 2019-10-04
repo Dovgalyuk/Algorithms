@@ -28,6 +28,7 @@ void list_delete(List *list)
 		delete list->start;
 		list->start = temp;
 	}
+	delete list;
 }
 
 ListItem *list_first(List *list)
@@ -102,16 +103,5 @@ ListItem *list_erase(List *list, ListItem *item)
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-	ListItem* temp_next = item->next->next;
-	ListItem* temp_prev = item->next->prev;
-	delete item->next;
-	if (temp_next != NULL)
-	{
-		temp_next->prev = temp_prev;
-	}
-	if (temp_prev != NULL)
-	{
-		temp_prev->next = temp_next;
-	}
-    return temp_next;
+	return list_erase(list, item->next);
 }
