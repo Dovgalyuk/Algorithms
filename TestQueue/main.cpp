@@ -29,34 +29,29 @@ int main()
 	char exp[100];
 	std::cin >> exp;
 	int len = strlen(exp);
-	int s = 0, a, b;
+	int s = 0;
 	int dec = 1;
 	stack_push(f1, '\0');
+	char g, e;
+
 	while (s <= len) {
-		if (stack_get(f1) == '\0') { b = 1; }
-		else if (charToInt(stack_get(f1)) != 10) { b = 3; }
-		else if (stack_get(f1) == '+') { b = 2; }
-		else if (stack_get(f1) == '*') { b = 4; }
-		else if (stack_get(f1) == '/') { b = 5; }
-		else if (exp[s] == '-') { b = 2; }
 
-		if (s==len) { a = 1; }
-		else if (charToInt(exp[s]) != 10) { a = 3; }
-		else if (exp[s] == '+') { a = 2; }
-		else if (exp[s] == '*') { a = 4; }
-		else if (exp[s] == '/') { a = 5; }
-		else if (exp[s] == '-') { a = 2; }
+		g = stack_get(f1);
+		e = exp[s];
 
-		if ((a == 1) && (b == 1)) break;
-		else if (((a == 1) && (b >= 2)) || ((a == 2) && (b >= 2)) || ((a == 4) && (b >= 4)) || ((a == 5) && (b >= 4)))
+		if ((s==len) && (g == '\0')) break;
+
+		else if ((((s == len) || ((e == '+') || (e == '-'))) && (g != '\0')) || (((e == '*')||(e=='/')) && ((g == '*')||(g=='/'))))
 		{
 			stack_push(st, stack_get(f1)); stack_pop(f1);
 		}
-		else if (((a == 2) && (b == 1)) || ((a == 4) && (b <= 3)) || ((a == 5) && (b <= 3)))
+		else if ((((e == '+') || (e == '-')) && (g == '\0')) || (((e == '*')||(e=='/')) && ((g!='*')&&(g!='/'))))
 		{
 			stack_push(f1, exp[s]); s++;
 		}
-		else { stack_push(st, exp[s]); s++; }
+		else {
+			stack_push(st, exp[s]); s++;
+		}
 	}
 	char c;
 	while (!stack_empty(st))
