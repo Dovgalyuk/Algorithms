@@ -1,0 +1,8 @@
+D:/Documents/GitHub/Algorithms/out/build/x64-Debug/CMakeFiles/TestList.dir
+D:/Documents/GitHub/Algorithms/out/build/x64-Debug/CMakeFiles/containers.dir
+D:/Documents/GitHub/Algorithms/out/build/x64-Debug/CMakeFiles/TestArray.dir
+D:/Documents/GitHub/Algorithms/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+D:/Documents/GitHub/Algorithms/out/build/x64-Debug/CMakeFiles/TestQueue.dir
+D:/Documents/GitHub/Algorithms/out/build/x64-Debug/CMakeFiles/TestStack.dir
+D:/Documents/GitHub/Algorithms/out/build/x64-Debug/CMakeFiles/TestVector.dir
+D:/Documents/GitHub/Algorithms/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir

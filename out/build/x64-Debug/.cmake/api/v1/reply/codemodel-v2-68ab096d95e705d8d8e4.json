@@ -1,0 +1,104 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Algorithms",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "TestArray::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TestArray-Debug-ac63f49acb76b28421a4.json",
+					"name" : "TestArray",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TestList::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TestList-Debug-6816eadc3b0522f37cbf.json",
+					"name" : "TestList",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TestQueue::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TestQueue-Debug-f9acfb7ee808b49eeeeb.json",
+					"name" : "TestQueue",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TestStack::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TestStack-Debug-4f3fc21e7fed38101380.json",
+					"name" : "TestStack",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TestVector::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TestVector-Debug-f1c668e70ffec30657bd.json",
+					"name" : "TestVector",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "containers::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-containers-Debug-cdca34263a0aacdf4fbb.json",
+					"name" : "containers",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Documents/GitHub/Algorithms/out/build/x64-Debug",
+		"source" : "D:/Documents/GitHub/Algorithms"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}
