@@ -12,3 +12,5 @@ Debug/*
 Release/*
 .vs/*
 build/*
+Algorithms.sln
+Library/Library.vcxproj
