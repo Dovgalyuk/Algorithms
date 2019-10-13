@@ -50,9 +50,9 @@ int main()
 				queue_remove(paths);
 			}
 
-			if (roads.count(last) == 1) {
-				for (size_t h = 0; h < roads[last].size(); h++) {
-					if (roads[last][h] == destination) {
+			if (roads.count(last) > 0) {
+				for (size_t j = 0; j < roads[last].size(); j++) {
+					if (roads[last][j] == destination) {
 						while (!queue_empty(buffer)) {
 							output << queue_get(buffer) << " ";
 							queue_remove(buffer);
@@ -64,21 +64,20 @@ int main()
 						return 0;
 					}
 
-					for (size_t j = 0; j <= i; j++) {
+					for (size_t h = 0; h <= i; h++) {
 						queue_insert(paths, queue_get(buffer));
 						queue_insert(buffer, queue_get(buffer));
 						queue_remove(buffer);
 					}
-					queue_insert(paths, roads[last][h]);
+					queue_insert(paths, roads[last][j]);
 				}
 			}
-
+			
 			queue_delete(buffer);
 		}
 		queue_remove(paths);
 		queue_insert(paths, "");
 	}
-
 	roads.clear();
 	queue_delete(paths);
 	output << "No way!";
