@@ -11,74 +11,53 @@ int main()
 	std::ofstream output;
 	output.open("output.txt");
 
+	std::string s, e;
 
-	std::string destination;
-	size_t roadsAmount = 0;
-	std::map<std::string, std::vector<std::string>> roads;
-	Queue* paths = queue_create();
+	std::map<std::string, std::vector<std::string>> g;
+	std::map<std::string, bool> used;
+	std::map<std::string, std::string> p;
+	std::map<std::string, int> d;
+	Queue* q = queue_create();
+
 	while (!input.eof()) {
 		std::string origin;
 		std::string ending;
 		input >> origin >> ending;
 		if (!input.eof()) {
-			if (roads.count(origin) == 0) {
-				roads.insert(std::pair<std::string, std::vector<std::string>>(origin, std::vector<std::string>()));
-			}
-			roads[origin].push_back(ending);
-			roadsAmount++;
+			g[origin].push_back(ending);
 		}
 		else {
-			if (origin == ending) {
-				output << origin;
-				roads.clear();
-				queue_delete(paths);
-				return 0;
-			}
-			queue_insert(paths, origin);
-			queue_insert(paths, "");
-			destination = ending;
+			queue_insert(q, origin);
+			used[origin] = true;
+			p[origin] = "\0";
+			e = ending;
 		}
 	}
 
-	for (size_t i = 0; i < roadsAmount; i++) {
-		while (queue_get(paths) != "") {
-			Queue* buffer = queue_create();
-			std::string last;
-			for (size_t j = 0; j <= i; j++) {
-				queue_insert(buffer, queue_get(paths));
-				last = queue_get(paths);
-				queue_remove(paths);
+	while (!queue_empty(q)) {
+		std::string v = queue_get(q);
+		queue_remove(q);
+		for (size_t i = 0; i < g[v].size(); ++i) {
+			std::string to = g[v][i];
+			if (!used[to]) {
+				used[to] = true;
+				queue_insert(q, to);
+				d[to] = d[v] + 1;
+				p[to] = v;
 			}
-
-			if (roads.count(last) > 0) {
-				for (size_t j = 0; j < roads[last].size(); j++) {
-					if (roads[last][j] == destination) {
-						while (!queue_empty(buffer)) {
-							output << queue_get(buffer) << " ";
-							queue_remove(buffer);
-						}
-						output << destination;
-						roads.clear();
-						queue_delete(buffer);
-						queue_delete(paths);
-						return 0;
-					}
-
-					for (size_t h = 0; h <= i; h++) {
-						queue_insert(paths, queue_get(buffer));
-						queue_insert(buffer, queue_get(buffer));
-						queue_remove(buffer);
-					}
-					queue_insert(paths, roads[last][j]);
-				}
-			}
-			
-			queue_delete(buffer);
 		}
-		queue_remove(paths);
-		queue_insert(paths, "");
 	}
-	roads.clear();
-	queue_delete(paths);
-	output << "No way!";
+
+	if (!used[e]) {
+		output << "No path!";
+	}
+	else {
+		std::vector<std::string> path;
+		for (std::string v = e; v[0] != '\0'; v = p[v])
+			path.push_back(v);
+		reverse(path.begin(), path.end());
+		for (size_t i = 0; i < path.size(); ++i)
+			output << path[i] << " ";
+	}
+
 }
