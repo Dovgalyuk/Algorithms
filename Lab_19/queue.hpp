@@ -7,7 +7,6 @@ class Queue
 {
 	Stack<Data> *in;
 	Stack<Data> *out;
-	void shift_i();
 	void shift_o();
 public:
 	// Create empty queue
@@ -41,18 +40,6 @@ Queue<Data>::~Queue()
 }
 
 template<typename Data>
-void Queue<Data>::shift_i()
-{
-	if (!in->empty())
-		return;
-	while (!out->empty())
-	{
-		in->push(out->get());
-		out->pop();
-	}
-}
-
-template<typename Data>
 void Queue<Data>::shift_o()
 {
 	if (!out->empty())
@@ -67,7 +54,6 @@ void Queue<Data>::shift_o()
 template<typename Data>
 void Queue<Data>::insert(Data data)
 {
-	shift_i();
 	in->push(data);
 }
 
