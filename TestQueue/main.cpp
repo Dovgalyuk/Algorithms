@@ -33,25 +33,19 @@ int main()
 	int dec = 1;
 	stack_push(f1, '\0');
 	char g, e;
-
 	while (s <= len) {
-
 		g = stack_get(f1);
 		e = exp[s];
-
 		if ((s==len) && (g == '\0')) break;
 
-		else if (((s == len
-			|| (e == '+' || e == '-'))
-			&& g != '\0')
-			|| ((e == '*' || e=='/')
+		else if (((s == len || e == '+' || e == '-') && g != '\0')
+			|| ((e == '*' || e=='/') 
 				&& (g == '*' || g=='/')))
 		{
 			stack_push(st, stack_get(f1)); stack_pop(f1);
 		}
-		else if (((e == '+' || e == '-')
-			&& g == '\0')
-			|| ((e == '*' || e=='/')
+		else if (((e == '+' || e == '-') && g == '\0')
+			|| ((e == '*' || e=='/') 
 				&& (g!='*' && g!='/')))
 		{
 			stack_push(f1, exp[s]); s++;
@@ -116,8 +110,11 @@ int main()
 			c = stack_get(f1);
 		}
 	}
-
+	
 	std::cout << stack_get(st);
 	stack_delete(st);
 	stack_delete(f1);
 }
+
+
+
