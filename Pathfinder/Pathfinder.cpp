@@ -11,44 +11,34 @@ int main()
 	std::ofstream output;
 	output.open("output.txt");
 
-	std::map<std::string, int> dict;
+	std::string s, e;
 
-	std::vector < std::vector<int> > g;
-	int n = 0;
-	int s, e;
+	std::map<std::string, std::vector<std::string>> g;
+	std::map<std::string, bool> used;
+	std::map<std::string, std::string> p;
+	std::map<std::string, int> d;
 	Queue* q = queue_create();
 
 	while (!input.eof()) {
 		std::string origin;
 		std::string ending;
 		input >> origin >> ending;
-		if (!dict[origin]) {
-			dict[origin] = n;
-			n++;
-		}
-		if (!dict[ending]) {
-			dict[ending] = n;
-			n++;
-		}
 		if (!input.eof()) {
-			g[dict[origin]].push_back(dict[ending]);
+			g[origin].push_back(ending);
 		}
 		else {
-			s = dict[origin];
-			e = dict[ending];
+			queue_insert(q, origin);
+			used[origin] = true;
+			p[origin] = "\0";
+			e = ending;
 		}
 	}
 
-	std::vector<bool> used(n);
-	std::vector<int> d(n), p(n);
-	queue_insert(q, s);
-	used[s] = true;
-	p[s] = -1;
-	while (queue_empty(q)) {
-		int v = queue_get(q);
+	while (!queue_empty(q)) {
+		std::string v = queue_get(q);
 		queue_remove(q);
 		for (size_t i = 0; i < g[v].size(); ++i) {
-			int to = g[v][i];
+			std::string to = g[v][i];
 			if (!used[to]) {
 				used[to] = true;
 				queue_insert(q, to);
@@ -62,12 +52,12 @@ int main()
 		output << "No path!";
 	}
 	else {
-		std::vector<int> path;
-		for (int v = e; v != -1; v = p[v])
+		std::vector<std::string> path;
+		for (std::string v = e; v[0] != '\0'; v = p[v])
 			path.push_back(v);
 		reverse(path.begin(), path.end());
 		for (size_t i = 0; i < path.size(); ++i)
-			output << path[i] + 1 << " ";
+			output << path[i] << " ";
 	}
 
 }

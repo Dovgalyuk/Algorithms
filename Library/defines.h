@@ -1,4 +1,4 @@
 #pragma once
 #include "string"
-typedef int Data;
+typedef std::string Data;
 //typedef int Data;
