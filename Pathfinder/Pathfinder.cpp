@@ -12,9 +12,10 @@ int main()
 	output.open("output.txt");
 
 	std::map<std::string, int> dict;
+	std::vector<std::string> dictReverse;
 
 	std::vector < std::vector<int> > g;
-	int n = 0;
+	int n = 1;
 	int s, e;
 	Queue* q = queue_create();
 
@@ -22,29 +23,37 @@ int main()
 		std::string origin;
 		std::string ending;
 		input >> origin >> ending;
+
 		if (!dict[origin]) {
 			dict[origin] = n;
+			dictReverse.push_back(origin);
 			n++;
 		}
 		if (!dict[ending]) {
 			dict[ending] = n;
+			dictReverse.push_back(ending);
 			n++;
 		}
+
 		if (!input.eof()) {
-			g[dict[origin]].push_back(dict[ending]);
+			if (dict[origin] > g.size()) {
+				g.resize(dict[origin]);
+			}
+			g[dict[origin] - 1].push_back(dict[ending] - 1);
 		}
 		else {
-			s = dict[origin];
-			e = dict[ending];
+			s = dict[origin] - 1;
+			e = dict[ending] - 1;
 		}
 	}
 
+	g.resize(n - 1);
 	std::vector<bool> used(n);
 	std::vector<int> d(n), p(n);
 	queue_insert(q, s);
 	used[s] = true;
 	p[s] = -1;
-	while (queue_empty(q)) {
+	while (!queue_empty(q)) {
 		int v = queue_get(q);
 		queue_remove(q);
 		for (size_t i = 0; i < g[v].size(); ++i) {
@@ -67,7 +76,7 @@ int main()
 			path.push_back(v);
 		reverse(path.begin(), path.end());
 		for (size_t i = 0; i < path.size(); ++i)
-			output << path[i] + 1 << " ";
+			output << dictReverse[path[i]] << " ";
 	}
 
 }
