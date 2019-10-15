@@ -1,10 +1,8 @@
-#include "queue_test.h"
 #include <iostream>
 #include "queue.hpp"
 
 int main()
 {
-	queue_test();
 	int a, b;
 	std::cin >> a >> b;
 	int temp;

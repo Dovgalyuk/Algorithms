@@ -1,8 +1,7 @@
 #include <iostream>
 #include "list_s.hpp"
-#include "list_test.h"
 
-void List_test()
+int main()
 {
 	List<int>* my_list = new List<int>;
 	my_list->insert(1);

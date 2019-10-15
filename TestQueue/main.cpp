@@ -1,8 +1,7 @@
 #include <iostream>
 #include "queue.hpp"
-#include "queue_test.h"
 
-void queue_test()
+int main()
 {
 	Queue<int>* test = new Queue<int>;
 

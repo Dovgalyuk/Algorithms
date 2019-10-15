@@ -1,17 +1,10 @@
 #include <iostream>
-#include "list_test.h"
-#include "stack_test.h"
 #include "stack.hpp"
 
 int choice(char a, char b);
 
 int main()
 {
-	std::cout << "List test\n";
-	List_test();
-	std::cout << "Stack test\n";
-	Stack_test();
-	std::cout << "\n";
 	Stack<char> cont;
 	std::string in, out;
 	std::cout << "Enter expression to translate:\n";

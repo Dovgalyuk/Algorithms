@@ -1,8 +1,7 @@
 #include <iostream>
 #include "stack.hpp"
-#include "stack_test.h"
 
-void Stack_test()
+int main()
 {
 	Stack<int>* test = new Stack<int>;
 	test->push(1);
