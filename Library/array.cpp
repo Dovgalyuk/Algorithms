@@ -3,32 +3,38 @@
 
 struct Array
 {
+	Data* mArray;
+	size_t size;
 };
 
-// create array
-Array *array_create(size_t size)
+Array* array_create(size_t size)
 {
-    return NULL;
+	Array* arr = new Array;
+	arr->size = size;
+	arr->mArray = new Data[arr->size];
+	return arr;
 }
 
-// delete array, free memory
-void array_delete(Array *arr)
+void array_delete(Array* arr)
 {
+	delete[] arr->mArray;
+	delete arr;
 }
 
-// returns specified array element
-Data array_get(const Array *arr, size_t index)
+Data array_get(const Array* arr, size_t index)
 {
-    return Data();
+	return arr->mArray[index];
 }
 
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value)
+void array_set(Array* arr, size_t index, Data value)
 {
+	if (index >= 0 && index < arr->size)
+	{
+		arr->mArray[index] = value;
+	}
 }
 
-// returns array size
-size_t array_size(const Array *arr)
+size_t array_size(const Array* arr)
 {
-    return 0;
+	return arr->size;
 }

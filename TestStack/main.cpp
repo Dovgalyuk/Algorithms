@@ -38,4 +38,5 @@ int main()
     }
 
     stack_delete(stack);
+	system("Pause");
 }
