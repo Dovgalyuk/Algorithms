@@ -1,10 +1,13 @@
 #include <stdlib.h>
 #include "vector.h"
 
+const int MULTIPLIER = 2;
+
 struct Vector
 {
 	size_t size = 0;
-	int* element = new int[0];
+	size_t rSize = 0;
+	Data* element = new Data[0];
 };
 
 Vector *vector_create()
@@ -45,24 +48,9 @@ void vector_set(Vector *vector, size_t index, Data value)
 	}
 	else if (index > vector->size)
 	{
-		int* temp = new int[index];
-		for (size_t i = 0; i < vector->size; i++)
-		{
-			temp[i] = vector->element[i];
-		}
-		for (size_t i = vector->size; i < index; i++)
-		{
-			temp[i] = 0;
-		}
-		delete[] vector->element;
-		temp[index - 1] = value;
-		vector->element = temp;
-		vector->size = index;
+		vector_resize(vector, index);
 	}
-	else
-	{
-		vector->element[index] = value;
-	}
+	vector->element[index] = value;
 }
 
 size_t vector_size(const Vector *vector)
@@ -72,30 +60,25 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-	int* temp = new int[size];
-	if (vector->size > size)
+	if (vector->rSize >= size)
 	{
-		for (size_t i = 0; i < size; i++)
-		{
-			temp[i] = vector->element[i];
-		}
-		delete[] vector->element;
-		vector->element = temp;
 		vector->size = size;
 	}
-	else if (vector->size < size)
+	else if (vector->rSize < size)
 	{
+		Data* temp = new Data[size * MULTIPLIER];
 		for (size_t i = 0; i < vector->size; i++)
 		{
 			temp[i] = vector->element[i];
 		}
-		for (size_t i = vector->size; i < size; i++)
+		for (size_t i = vector->size; i < size * MULTIPLIER; i++)
 		{
 			temp[i] = 0;
 		}
 		delete[] vector->element;
 		vector->element = temp;
 		vector->size = size;
+		vector->rSize = size * MULTIPLIER;
 	}
 	else
 	{

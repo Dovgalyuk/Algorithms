@@ -1,12 +1,12 @@
-#include <stdlib.h>
+#include <iostream>
 #include "queue.h"
 #include "vector.h"
 
 struct Queue
 {
 	Vector* vector;
-	Data head;
-	Data tail;
+	size_t head;
+	size_t tail;
 };
 
 Queue *queue_create()
@@ -27,15 +27,24 @@ void queue_delete(Queue *queue)
 void queue_insert(Queue *queue, Data data)
 {
 	size_t size = vector_size(queue->vector);
+	size_t rSize = queue->tail;
 
-	vector_resize(queue->vector, ++size);
-	if (size == 1)
+	if (size == 0)
 	{
 		queue->head = queue->tail;
+		vector_resize(queue->vector, ++size);
 	}
 	else
 	{
-		queue->tail = --size;
+		if (size < rSize)
+		{
+			queue->tail++;
+		}
+		else if (size >= rSize)
+		{
+			vector_resize(queue->vector, ++size);
+			queue->tail++;
+		}
 	}
 	vector_set(queue->vector, queue->tail, data);
 }
@@ -51,11 +60,13 @@ void queue_remove(Queue *queue)
 
 	if (size == 1)
 	{
-		queue->tail = queue->head;
+		queue->tail = 0;
+		queue->head = 0;
 	}
 	else if (size > 1)
 	{
-		for (size_t i = 0; i < size - 1; i++)
+		queue->tail--;
+		for (size_t i = 0; i < size; i++)
 		{
 			vector_set(queue->vector, i, vector_get(queue->vector, i + 1));
 		}

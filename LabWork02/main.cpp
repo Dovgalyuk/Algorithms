@@ -5,7 +5,6 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include "vector.h"
 #include "queue.h"
 
 using namespace std;
@@ -14,13 +13,21 @@ int main()
 {
 	ifstream fileIn("input.txt");
 	ofstream fileOut("output.txt");
-
+	
 	Queue* queue = queue_create();
 	string iData = "";
-	char sourceElement = 0;
-	char firstElement = 0;
-	char secondElement = 0;
-	char temp = 0;
+	int start = 0;
+	bool graph[26][26];
+	bool used[26];
+	int dst[26];
+
+	for (int i = 0; i < 26; i++)
+	{
+		for (int j = 0; j < 26; j++)
+		{
+			graph[i][j] = false;
+		}
+	}
 
 	if (fileIn)
 	{
@@ -28,21 +35,13 @@ int main()
 		{
 			getline(fileIn, iData);
 			transform(iData.begin(), iData.end(), iData.begin(), ::toupper);
-
 			if (iData.size() == 1)
 			{
-				sourceElement = iData[0];
+				start = iData[0] - 'A';
 			}
 			else
 			{
-				firstElement = iData[0];
-				secondElement = iData[3];
-
-				if (sourceElement == firstElement || temp == firstElement)
-				{
-					queue_insert(queue, secondElement);
-					temp = secondElement;
-				}				
+				graph[iData[0] - 'A'][iData[3] - 'A'] = true;
 			}
 		}
 	}
@@ -52,11 +51,37 @@ int main()
 		system("pause");
 		return 0;
 	}
+
+	for (int i = 0; i < 26; i++)
+	{
+		used[i] = false;
+		dst[i] = -1;
+	}
+	queue_insert(queue, start);
+	used[start] = true;
+	dst[start] = 0;
 	while (!queue_empty(queue))
 	{
-		cout << queue_get(queue) << endl;
-		fileOut << queue_get(queue) << endl;
+		int current = queue_get(queue);
 		queue_remove(queue);
+		for (int i = 0; i < 26; i++)
+		{
+			if (!used[i] && graph[current][i])
+			{
+				queue_insert(queue, i);
+				used[i] = true;
+				dst[i] = dst[current] + 1;
+				(char)(dst[i] + 'A');
+			}
+		}
+	}
+	for (int i = 0; i < 25; i++)
+	{
+		if (dst[i] != -1 && i != start)
+		{
+			cout << (char)(i + 'A') << endl;
+			fileOut << (char)(i + 'A') << endl;
+		}
 	}
 	fileIn.close();
 	fileOut.close();
