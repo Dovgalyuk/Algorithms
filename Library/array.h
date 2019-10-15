@@ -1,9 +1,10 @@
 #ifndef ARRAY_H
 #define ARRAY_H
+#include <string>
 
 // Non-resizeable array
 // Stores integer values inside
-typedef int Data;
+typedef std::string Data;
 
 struct Array;
 
