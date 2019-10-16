@@ -27,9 +27,7 @@ void vector_delete(Vector* vector)
 }
 
 Data vector_get(const Vector* vector, size_t index)
-{
-	if (index >= vector->size)
-		return 0;
+{	
 	return vector->elements[index];
 }
 
@@ -47,21 +45,23 @@ size_t vector_size(const Vector* vector)
 
 void vector_resize(Vector* vector, size_t size)
 {
-	size_t newSize = vector->real_size;
-	while (newSize < size) {
-		newSize *= MULTIPLYER;
-	}
-	if (newSize > vector->real_size) {
-		Data* newElements = new Data[newSize];
-		for (size_t i = 0; i < vector->size; i++) {
-			newElements[i] = vector->elements[i];
+	if (size > vector->real_size) {
+		size_t newSize = vector->real_size;
+		while (newSize < size) {
+			newSize *= MULTIPLYER;
 		}
-		delete[] vector->elements;
-		vector->elements = newElements;
-		vector->real_size = newSize;
-	}
-	for (size_t i = vector->size; i < size; i++) {
-		vector->elements[i] = Data();
+		if (newSize > vector->real_size) {
+			Data* newElements = new Data[newSize];
+			for (size_t i = 0; i < vector->size; i++) {
+				newElements[i] = vector->elements[i];
+			}
+			delete[] vector->elements;
+			vector->elements = newElements;
+			vector->real_size = newSize;
+		}
+		for (size_t i = vector->size; i < size; i++) {
+			vector->elements[i] = Data();
+		}
 	}
 	vector->size = size;
 }

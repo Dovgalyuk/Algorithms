@@ -1,0 +1,12 @@
+﻿main.obj : error LNK2019: ссылка на неразрешенный внешний символ "struct Stack * __cdecl stack_create(void)" (?stack_create@@YAPEAUStack@@XZ) в функции main
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ "void __cdecl stack_delete(struct Stack *)" (?stack_delete@@YAXPEAUStack@@@Z) в функции main
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ "void __cdecl stack_push(struct Stack *,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?stack_push@@YAXPEAUStack@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) в функции main
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl stack_get(struct Stack const *)" (?stack_get@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEBUStack@@@Z) в функции main
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ "void __cdecl stack_pop(struct Stack *)" (?stack_pop@@YAXPEAUStack@@@Z) в функции main
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ "struct Vector * __cdecl vector_create(void)" (?vector_create@@YAPEAUVector@@XZ) в функции main
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ "void __cdecl vector_delete(struct Vector *)" (?vector_delete@@YAXPEAUVector@@@Z) в функции main
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl vector_get(struct Vector const *,unsigned __int64)" (?vector_get@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEBUVector@@_K@Z) в функции main
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ "void __cdecl vector_set(struct Vector *,unsigned __int64,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?vector_set@@YAXPEAUVector@@_KV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) в функции main
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ "unsigned __int64 __cdecl vector_size(struct Vector const *)" (?vector_size@@YA_KPEBUVector@@@Z) в функции main
+C:\Users\den\Documents\GitHub\Algorithms\Debug\Library.lib : warning LNK4272: тип компьютера библиотеки "x86" конфликтует с типом целевого компьютера "x64"
+C:\Users\den\Documents\GitHub\Algorithms\x64\Debug\Lab01.exe : fatal error LNK1120: неразрешенных внешних элементов: 10

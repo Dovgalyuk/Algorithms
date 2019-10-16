@@ -40,8 +40,5 @@ void stack_pop(Stack* stack)
 
 bool stack_empty(const Stack* stack)
 {
-	if (vector_size(stack->top) < 1)
-		return true;
-	else
-		return false;
+	return !vector_size(stack->top);
 }
