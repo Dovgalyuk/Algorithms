@@ -2,6 +2,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <stack>
 #include "queue.h"
 
 int main()
@@ -71,11 +72,14 @@ int main()
 		output << "No path!";
 	}
 	else {
-		std::vector<int> path;
+		std::stack<int> path;
 		for (int v = e; v != -1; v = p[v])
-			path.push_back(v);
-		for (size_t i = path.size() - 1; i < path.size(); --i)
-			output << dictReverse[path[i]] << " ";
+			path.push(v);
+		while (!path.empty()) {
+			output << dictReverse[path.top()] << " ";
+			path.pop();
+
+		}
 	}
 
 }
