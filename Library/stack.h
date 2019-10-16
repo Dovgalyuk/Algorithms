@@ -1,9 +1,10 @@
 #ifndef STACK_H
 #define STACK_H
+#include <string>
 
 // Stack
 // Stores integer values inside
-typedef int Data;
+typedef std::string Data;
 
 struct Stack;
 
