@@ -58,8 +58,6 @@ int main()
 		dst[i] = -1;
 	}
 	queue_insert(queue, start);
-	used[start] = true;
-	dst[start] = 0;
 	while (!queue_empty(queue))
 	{
 		int current = queue_get(queue);
@@ -71,7 +69,6 @@ int main()
 				queue_insert(queue, i);
 				used[i] = true;
 				dst[i] = dst[current] + 1;
-				(char)(dst[i] + 'A');
 			}
 		}
 	}
