@@ -5,7 +5,7 @@
 struct Stack
 {
 	Array* arr;
-	size_t top, max_size;
+	size_t top;
 };
 
 Stack* stack_create()
@@ -13,8 +13,7 @@ Stack* stack_create()
 	Stack* stack;
 	stack = new Stack;
 	stack->top = 0;
-	stack->max_size = 20;
-	stack->arr = array_create(stack->max_size);
+	stack->arr = array_create(max_size);
 	return stack;
 }
 
@@ -25,7 +24,7 @@ void stack_delete(Stack* stack)
 
 void stack_push(Stack* stack, Data data)
 {
-	if (stack->top < stack->max_size)
+	if (stack->top < max_size)
 	{
 		array_set(stack->arr, stack->top, data);
 		stack->top++;
