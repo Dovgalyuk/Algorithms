@@ -74,8 +74,7 @@ int main()
 		std::vector<int> path;
 		for (int v = e; v != -1; v = p[v])
 			path.push_back(v);
-		reverse(path.begin(), path.end());
-		for (size_t i = 0; i < path.size(); ++i)
+		for (size_t i = path.size() - 1; i < path.size(); --i)
 			output << dictReverse[path[i]] << " ";
 	}
 
