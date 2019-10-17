@@ -12,7 +12,7 @@ int main()
 	my_list->insert_after(my_list->first(), 4);
 	if (my_list->item_data(my_list->item_next(my_list->first())) != 4)
 		std::cout << "my_list_insert_after error\n";
-	//my_list односвязный, erase не доступен
+	my_list->erase_first();
 	std::cout << "my_list: ";
 	for (ListItem<int>* item = (my_list->first()); item; item = my_list->item_next(item))
 		std::cout << my_list->item_data(item) << " ";
