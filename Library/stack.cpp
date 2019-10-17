@@ -27,15 +27,12 @@ void stack_push(Stack* stack, Data data)
 
 Data stack_get(const Stack* stack)
 {
-	if (!stack_empty(stack)) {
-		return vector_get(stack->top, vector_size(stack->top) - 1);
-	}
+	return vector_get(stack->top, vector_size(stack->top) - 1);
 }
 
 void stack_pop(Stack* stack)
 {
-	if (!stack_empty(stack))
-		vector_resize(stack->top, vector_size(stack->top) - 1);
+	vector_resize(stack->top, vector_size(stack->top) - 1);
 }
 
 bool stack_empty(const Stack* stack)
