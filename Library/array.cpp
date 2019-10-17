@@ -9,12 +9,10 @@ struct Array
 
 Array* array_create(size_t size)
 {
-	if (size <= max_size) {
-		Array* arr = new Array;
-		arr->size = size;
-		arr->mArray = new Data[arr->size];
-		return arr;
-	}
+	Array* arr = new Array;
+	arr->size = size;
+	arr->mArray = new Data[arr->size];
+	return arr;
 }
 
 void array_delete(Array* arr)

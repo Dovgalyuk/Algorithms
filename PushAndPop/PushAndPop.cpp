@@ -23,43 +23,36 @@ int main()
 		string str;
 		getline(fin, str);
 		if (str[1] == 'U') {
+
 			if (str[5] == 'A')
 			{
 				stack_push(stack, A);
 			}
+			else if (str[5] == 'B')
+			{
+				stack_push(stack, B);
+			}
+			else if (str[5] == 'C')
+			{
+				stack_push(stack, C);
+			}
+			else if (str[5] == 'D')
+			{
+				stack_push(stack, D);
+			}
 			else
 			{
-				if (str[5] == 'B')
+				int number = 0, i = 0;
+				while (str[5 + i] != '\0')
 				{
-					stack_push(stack, B);
+					int digit = (int)str[5 + i] - (int)'0';
+					number = number * 10 + digit;
+						i++;
 				}
-				else 
-				{
-					if (str[5] == 'C')
-					{
-						stack_push(stack, C);
-					}
-					else 
-					{
-						if (str[5] == 'D')
-						{
-							stack_push(stack, D);
-						}
-						else
-						{
-							int number = 0, i = 0;
-							while (str[5 + i] != '\0')
-							{
-								int digit = (int)str[5 + i] - (int)'0';
-								number = number * 10 + digit;
-								i++;
-							}
-							stack_push(stack, number);
-						}
-					}
-				}
+					stack_push(stack, number);
 			}
 		}
+
 		else
 		{
 			if (str[4] == 'A')
@@ -67,26 +60,20 @@ int main()
 				A = stack_get(stack);
 				stack_pop(stack);
 			}
+			else if (str[4] == 'B')
+			{
+				B = stack_get(stack);
+				stack_pop(stack);
+			}
+			else if (str[4] == 'C')
+			{
+				C = stack_get(stack);
+				stack_pop(stack);
+			}
 			else
 			{
-				if (str[4] == 'B')
-				{
-					B = stack_get(stack);
-					stack_pop(stack);
-				}
-				else
-				{
-					if (str[4] == 'C')
-					{
-						C = stack_get(stack);
-						stack_pop(stack);
-					}
-					else
-					{
-						D = stack_get(stack);
-						stack_pop(stack);
-					}
-				}
+				D = stack_get(stack);
+				stack_pop(stack);
 			}
 		}
 	}

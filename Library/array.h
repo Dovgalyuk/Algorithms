@@ -1,7 +1,6 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-const size_t max_size = 100;
 // Non-resizeable array
 // Stores integer values inside
 typedef int Data;
