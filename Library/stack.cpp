@@ -3,7 +3,6 @@
 #include "array.h"
 
 const size_t MAX_SIZE = 20;
-size_t stack_size = MAX_SIZE;
 
 struct Stack
 {
@@ -27,14 +26,13 @@ void stack_delete(Stack* stack)
 
 void stack_push(Stack* stack, Data data)
 {
-	if (stack->top >= stack_size)
+	if (stack->top >= array_size(stack->arr))
 	{
-		Array* n_array = array_create(2 * stack_size);
-		for (int i = 0; i < stack_size; ++i)
+		Array* n_array = array_create(2 * array_size(stack->arr));
+		for (int i = 0; i < array_size(stack->arr); ++i)
 		{
 			array_set(n_array, i, array_get(stack->arr, i));
 		}
-		stack_size *= 2;
 		stack->arr = n_array;
 	}
 	array_set(stack->arr, stack->top, data);
