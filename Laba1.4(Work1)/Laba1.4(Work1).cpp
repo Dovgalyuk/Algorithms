@@ -7,9 +7,9 @@ int main()
 {
 	int count;
 	cin >> count;
-	Stack* pol, * otr;
-	pol = stack_create();
-	otr = stack_create();
+	Stack* atoms;
+	atoms = stack_create();
+	int otr = 0;
 	while (!cin.eof())
 	{
 		int temp;
@@ -20,21 +20,15 @@ int main()
 		if (cin.eof())
 			break;
 		if (temp1 == '+')
-			stack_push(pol, temp);
+			stack_push(atoms, temp);
 		else
-			stack_push(otr, temp);
-	}
-	while (!(stack_empty(pol) || stack_empty(otr)))
-	{
-		if (stack_get(otr) >= stack_get(pol))
+			otr=temp;
+		if (!stack_empty(atoms) && otr >= stack_get(atoms))
 		{
-			cout << stack_get(pol) << ' ' << stack_get(otr) << endl;
-			stack_pop(pol);
-			stack_pop(otr);
+			cout << stack_get(atoms) << ' ' << otr << endl;
+			otr = 0;
+			stack_pop(atoms);
 		}
-		else
-			stack_pop(pol);
 	}
-	stack_delete(pol);
-	stack_delete(otr);
+	stack_delete(atoms);
 }

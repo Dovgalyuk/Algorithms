@@ -5,40 +5,37 @@
 struct Stack
 {
 	Vector* cont;
-	size_t size;
 };
 
-Stack* stack_create()
+Stack *stack_create()
 {
 	Stack* temp = new Stack;
 	temp->cont = vector_create();
-	temp->size = 0;
 	return temp;
 }
 
-void stack_delete(Stack* stack)
+void stack_delete(Stack *stack)
 {
 	vector_delete(stack->cont);
 	delete stack;
 }
 
-void stack_push(Stack* stack, Data data)
+void stack_push(Stack *stack, Data data)
 {
-	vector_set(stack->cont, stack->size, data);
-	stack->size++;
+	vector_set(stack->cont, vector_size(stack->cont), data);
 }
 
-Data stack_get(const Stack* stack)
+Data stack_get(const Stack *stack)
 {
-	return vector_get(stack->cont, stack->size - 1);
+	return vector_get(stack->cont, vector_size(stack->cont)-1);
 }
 
-void stack_pop(Stack* stack)
+void stack_pop(Stack *stack)
 {
-	stack->size--;
+	vector_resize(stack->cont, vector_size(stack->cont)-1);
 }
 
-bool stack_empty(const Stack* stack)
+bool stack_empty(const Stack *stack)
 {
-	return !stack->size;
+	return !vector_size(stack->cont);
 }
