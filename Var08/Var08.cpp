@@ -6,9 +6,7 @@ using namespace std;
 int main()
 {
 	Stack *stack = stack_create();
-	Stack *sort = stack_create();
 	ifstream file("file.txt");
-	int i = 0;
 	char s;
 
 	if (!file)
@@ -17,32 +15,23 @@ int main()
 		return 0;
 	}
 
-	while (!file.eof()) {
+	while (!file.eof() ) {
 		file.get(s);
+		if (s == '*') break;
 		stack_push(stack, s);
-		i++;
 	}
-	stack_pop(stack);
-
-	while (stack_get(stack) != '*') {
-		stack_push(sort, stack_get(stack));
-		stack_pop(stack);
-	}
-	stack_pop(stack);
 
 	while (!stack_empty(stack)) {
-		if (stack_get(stack) == stack_get(sort)) {
+		if (stack_get(stack) == file.get())
 			stack_pop(stack);
-			stack_pop(sort);
-		}
 		else break;
 	}
+	file.get();
 
-	if (stack_empty(stack) && stack_empty(sort))
+	if (stack_empty(stack) && file.eof())
 		cout << "YES";
 	else cout << "NO";
-
+	
 	stack_delete(stack);
-	stack_delete(sort);
 	return 0;
 }
