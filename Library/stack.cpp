@@ -33,6 +33,7 @@ void stack_push(Stack* stack, Data data)
 		{
 			array_set(n_array, i, array_get(stack->arr, i));
 		}
+		array_delete(stack->arr);
 		stack->arr = n_array;
 	}
 	array_set(stack->arr, stack->top, data);
