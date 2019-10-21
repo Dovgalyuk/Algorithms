@@ -1,0 +1,17 @@
+# ninja log v5
+23	1162	593385396	CMakeFiles/containers.dir/Library/array.cpp.obj	958a2ee60bfb70c4
+12	1173	593385396	CMakeFiles/containers.dir/Library/vector.cpp.obj	4d3ab077e572045c
+28	1182	593385396	CMakeFiles/containers.dir/Library/list.cpp.obj	83874074407895b2
+18	1201	593385396	CMakeFiles/containers.dir/Library/queue.cpp.obj	e24c630317444c09
+8	1320	593385396	CMakeFiles/containers.dir/Library/stack.cpp.obj	56d6281f9c504bc0
+1320	1663	593385397	containers.lib	c6a3e0ae73c274b9
+1	2154	593385397	CMakeFiles/TestList.dir/TestList/main.cpp.obj	14811f0e2c916ee
+1202	3329	593385398	CMakeFiles/TestVector.dir/TestVector/main.cpp.obj	acbbeec335a23a66
+1182	3352	593385398	CMakeFiles/TestQueue.dir/TestQueue/main.cpp.obj	601b569d53f736d4
+1162	3549	593385399	CMakeFiles/TestArray.dir/TestArray/main.cpp.obj	a8772699f9c26d5
+1173	4092	593385399	CMakeFiles/TestStack.dir/TestStack/main.cpp.obj	8395e8c3f306cf9b
+2176	4221	593385399	TestList.exe	21250e5232e6196d
+3353	5024	593385400	TestQueue.exe	81491b83f4c2e5f2
+3558	5066	593385400	TestArray.exe	f344fbb341ad8a30
+3331	5146	593385400	TestVector.exe	25a4e4433431d35b
+4100	5348	593385400	TestStack.exe	57703bebe7eba07f

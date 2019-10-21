@@ -8,9 +8,9 @@ struct Vector
 	size_t size_t;
 };
 
-Vector *vector_create()
+Vector* vector_create()
 {
-	Vector *a = new Vector;
+	Vector* a = new Vector;
 	a->mass = new Data[1];
 	a->size = 1;
 	a->mass[0] = 0;
@@ -18,40 +18,40 @@ Vector *vector_create()
 	return a;
 }
 
-void vector_delete(Vector *vector)
+void vector_delete(Vector* vector)
 {
 	delete vector->mass;
 	delete vector;
 }
 
-Data vector_get(const Vector *vector, size_t index)
+Data vector_get(const Vector* vector, size_t index)
 {
-    return vector->mass[index];
+	return vector->mass[index];
 }
 
-void vector_set(Vector *vector, size_t index, Data value)
+void vector_set(Vector* vector, size_t index, Data value)
 {
-	//if (index < vector->size) {
+	if (index < vector->size) {
 		(vector->mass)[index] = value;
 		if (index > vector->size_t)
 			vector->size_t = index;
-	//}
-	//else {
-	//	while (index >= vector->size) {
-	//		vector_resize(vector, (vector->size) * 2);
-	//	}
-	//	vector->mass[index] = value;
-	//	if(index>vector->size_t)
-	//		vector->size_t = index;
-	//}
+	}
+	else {
+		while (index >= vector->size) {
+			vector_resize(vector, (vector->size) * 2);
+		}
+		vector->mass[index] = value;
+		if (index > vector->size_t)
+			vector->size_t = index;
+	}
 }
 
-size_t vector_size(const Vector *vector)
+size_t vector_size(const Vector* vector)
 {
-    return vector->size;
+	return vector->size;
 }
 
-void vector_resize(Vector *vector, size_t size)
+void vector_resize(Vector* vector, size_t size)
 {
 	size_t min;
 	if (size < vector->size)

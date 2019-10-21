@@ -7,19 +7,13 @@ int main()
 {
 	char a[100];
 	std::cin >> a;
-	Stack* f;
-	f = stack_create();
 	int dl_str = strlen(a);
-	for (dl_str--; dl_str >= 0; dl_str--) {
-		stack_push(f, a[dl_str]);
-		std::cout << (char)stack_get(f);
-	}
 	Stack* g;
 	g = stack_create();
 	int i;
 	int j;
-	while (!stack_empty(f)) {
-		i = fun(stack_get(f));
+	for (int y = 0; y < dl_str; y++) {
+		i = fun(a[y]);
 		if (i != -1) {
 			stack_push(g, i);
 		}
@@ -42,7 +36,7 @@ int main()
 				return 0;
 			}
 
-			switch (stack_get(f))
+			switch (a[y])
 			{
 			case '+': {stack_push(g, i + j); break; }
 			case '-': {stack_push(g, j - i); break; }
@@ -56,7 +50,6 @@ int main()
 				break;
 			}
 		}
-		stack_pop(f);
 	}
 	int y = 0;
 	while (!stack_empty(g)) {
@@ -73,7 +66,7 @@ int main()
 int fun(char a) {
 	switch (a)
 	{
-	case '0': {return 0; break;}
+	case '0': {return 0; break; }
 	case '1': {return 1; break; }
 	case '2': {return 2; break; }
 	case '3': {return 3; break; }
