@@ -74,7 +74,6 @@ void queue_remove(Queue *queue)
 	if (queue->tail == queue->head - 1)
 	{
 		queue->head = 0;
-		queue->head = 1;
 	}
 	else
 	{
