@@ -5,7 +5,6 @@ struct Vector
 {
 	Data* mass;
 	size_t size;
-	size_t size_t;
 };
 
 Vector* vector_create()
@@ -14,7 +13,6 @@ Vector* vector_create()
 	a->mass = new Data[1];
 	a->size = 1;
 	a->mass[0] = 0;
-	a->size_t = 0;
 	return a;
 }
 
@@ -33,16 +31,10 @@ void vector_set(Vector* vector, size_t index, Data value)
 {
 	if (index < vector->size) {
 		(vector->mass)[index] = value;
-		if (index > vector->size_t)
-			vector->size_t = index;
 	}
 	else {
-		while (index >= vector->size) {
-			vector_resize(vector, (vector->size) * 2);
-		}
+		vector_resize(vector, index * 2);
 		vector->mass[index] = value;
-		if (index > vector->size_t)
-			vector->size_t = index;
 	}
 }
 
