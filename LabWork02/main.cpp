@@ -35,6 +35,7 @@ int main()
 		{
 			getline(fileIn, iData);
 			transform(iData.begin(), iData.end(), iData.begin(), ::toupper);
+
 			if (iData.size() == 1)
 			{
 				start = iData[0] - 'A';
@@ -72,7 +73,7 @@ int main()
 			}
 		}
 	}
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < 26; i++)
 	{
 		if (dst[i] != -1 && i != start)
 		{

@@ -3,7 +3,7 @@
 
 // Vector (dynamic array)
 // Stores char values inside
-typedef char Data;
+typedef int Data;
 
 struct Vector;
 

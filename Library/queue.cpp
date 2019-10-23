@@ -26,7 +26,7 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue *queue, Data data)
 {
-	size_t size = queue->tail > queue->head ? queue->tail - queue->head + 1 : vector_size(queue->vector) - queue->head + queue->tail;
+	size_t size = queue->tail > queue->head ? queue->tail - queue->head : vector_size(queue->vector) - queue->head + queue->tail;
 	size_t next = size > 0 ? (queue->tail + 1) % size : 0;
 	size_t vSize = vector_size(queue->vector);
 
@@ -54,14 +54,14 @@ void queue_insert(Queue *queue, Data data)
 		vector_set(temp, ord, data);
 		vector_delete(queue->vector);
 		queue->vector = temp; 
-		queue->tail = size;
+		vector_set(queue->vector, queue->tail, data);
+		queue->tail = size + 1;
 	}
 	else
 	{
-		queue->tail++;
 		vector_set(queue->vector, queue->tail, data);
+		queue->tail++;
 	}
-	vector_set(queue->vector, queue->tail, data);
 }
 
 Data queue_get(const Queue *queue)
@@ -71,9 +71,10 @@ Data queue_get(const Queue *queue)
 
 void queue_remove(Queue *queue)
 {
-	if (queue->tail == queue->head - 1)
+	if (queue->tail == queue->head + 1)
 	{
 		queue->head = 0;
+		queue->tail = 0;
 	}
 	else
 	{
@@ -83,5 +84,5 @@ void queue_remove(Queue *queue)
 
 bool queue_empty(const Queue *queue)
 {
-	return queue->head - 1 == queue->tail;
+	return queue->head == queue->tail;
 }
