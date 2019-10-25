@@ -26,7 +26,7 @@ int main()
     queue_remove(queue);
 
 	if (queue_get(queue) != 3)
-		std::cout << "Invalid second element of the queue\n";
+		std::cout << "Invalid third element of the queue\n";
 
 	std::cout << "Get: " << queue_get(queue) << "\n";
    
@@ -36,8 +36,15 @@ int main()
         std::cout << "Get: " << queue_get(queue) << "\n";
         queue_remove(queue);
     }
+	queue_insert(queue, 228);
+	for (int i = 0; i < 1000000; ++i)
+	{
+		queue_insert(queue, 228);
+		queue_remove(queue);
+	}
 
-	/*std::cout << "\n";
+	/*std::cout << "Get: " << queue_get(queue) << "\n";
+	std::cout << "\n";
 	queue_insert(queue, 1);
 	queue_insert(queue, 2);
 	queue_insert(queue, 3);
