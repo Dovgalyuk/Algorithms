@@ -59,11 +59,6 @@ void queue_insert(Queue *queue, Data data)
 	}
 	else
 	{
-		if (size == 1 && vSize > queue->tail)
-		{
-			queue->head = 0;
-			queue->tail = 0;
-		}
 		vector_set(queue->vector, queue->tail, data);
 		queue->tail++;
 	}
