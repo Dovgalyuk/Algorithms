@@ -13,8 +13,8 @@ struct Vector
 Vector *vector_create()
 {
 	Vector* vector = new Vector;
-	vector->size = 0;
-	vector->rSize = 2;
+	vector->size = 1;
+	vector->rSize = 1;
 	vector->element = new Data[vector->rSize];
 	return vector;
 }
