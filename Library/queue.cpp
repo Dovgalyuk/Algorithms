@@ -34,10 +34,10 @@ void queue_insert(Queue* queue, Data data)
 	}
 	else
 	{
-		queue->tail = queue->tail % vector_size(queue->vector);
 		if (queue->tail < queue->head)
 		{
 			Vector* tmp = vector_create();
+			vector_resize(queue->vector, vector_size(queue->vector) * 2);
 			int m = 0;
 			for (int i = queue->head; i < vector_size(queue->vector); i++)
 			{
@@ -53,7 +53,6 @@ void queue_insert(Queue* queue, Data data)
 			mp = queue->vector;
 			queue->vector = tmp;
 			tmp = mp;
-			vector_resize(queue->vector, vector_size(queue->vector) * 2);
 			queue->head = 0;
 			queue->tail = m;
 			vector_delete(tmp);

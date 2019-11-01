@@ -56,19 +56,16 @@ size_t vector_size(const Vector* vector)
 void vector_resize(Vector* vector, size_t size)
 {
 	if (size == 0) {
-		size = 1;
+		vector->size_t = 0;
 		vector->a[0] = 0;
 	}
-	Data* a = new Data[size];
-	if (size < vector->size)
+	else if (size < vector->size)
 	{
-		for (int i = 0; i < size; i++)
-		{
-			a[i] = vector->a[i];
-		}
+		vector->size_t = size;
 	}
 	else
 	{
+		Data* a = new Data[size];
 		for (int i = 0; i < vector->size; i++)
 		{
 			a[i] = vector->a[i];
@@ -77,10 +74,11 @@ void vector_resize(Vector* vector, size_t size)
 		{
 			a[i] = 0;
 		}
+		Data* b = vector->a;
+		vector->a = a;
+		delete[] b;
+		vector->size = size;
+		vector->size_t = size;
 	}
-	Data* b = vector->a;
-	vector->a = a;
-	delete[] b;
-	vector->size = size;
-	vector->size_t = size;
+
 }
