@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestList", "TestList\TestList.vcxproj", "{83BFE062-E278-40F1-8D68-E927C853DD79}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -28,6 +28,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestArray", "TestArray\TestArray.vcxproj", "{CA3F7E1F-EF1D-4DDF-8354-D1B54405D195}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PushAndPop", "PushAndPop\PushAndPop.vcxproj", "{0E1B7ABC-E66D-4F08-954F-F88A2135BC48}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab_2", "Lab_2\Lab_2.vcxproj", "{0AF475D7-6613-4157-B5FE-9AE3A31256A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,14 @@ Global
 		{0E1B7ABC-E66D-4F08-954F-F88A2135BC48}.Release|Win32.Build.0 = Release|Win32
 		{0E1B7ABC-E66D-4F08-954F-F88A2135BC48}.Release|x64.ActiveCfg = Release|x64
 		{0E1B7ABC-E66D-4F08-954F-F88A2135BC48}.Release|x64.Build.0 = Release|x64
+		{0AF475D7-6613-4157-B5FE-9AE3A31256A1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0AF475D7-6613-4157-B5FE-9AE3A31256A1}.Debug|Win32.Build.0 = Debug|Win32
+		{0AF475D7-6613-4157-B5FE-9AE3A31256A1}.Debug|x64.ActiveCfg = Debug|x64
+		{0AF475D7-6613-4157-B5FE-9AE3A31256A1}.Debug|x64.Build.0 = Debug|x64
+		{0AF475D7-6613-4157-B5FE-9AE3A31256A1}.Release|Win32.ActiveCfg = Release|Win32
+		{0AF475D7-6613-4157-B5FE-9AE3A31256A1}.Release|Win32.Build.0 = Release|Win32
+		{0AF475D7-6613-4157-B5FE-9AE3A31256A1}.Release|x64.ActiveCfg = Release|x64
+		{0AF475D7-6613-4157-B5FE-9AE3A31256A1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
