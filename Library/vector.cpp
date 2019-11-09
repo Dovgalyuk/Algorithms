@@ -43,7 +43,7 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-	if (size <= vector->size_really) 
+	if (size <= vector->size) 
 	{
 		vector->size_really = size;
 		return;
