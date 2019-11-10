@@ -26,19 +26,19 @@ public:
 template<typename Data>
 Vector<Data>::Vector()
 {
-	cont = new Data[2];
 	curr = 0;
 	real = 2;
+	cont = new Data[real];
 };
 
 template<typename Data>
 Vector<Data>::Vector(const Vector& source)
 {
-	curr = source->curr;
-	real = source->real;
+	curr = source.curr;
+	real = source.real;
 	cont = new Data[real];
 	for (size_t i = 0; i < curr; i++)
-		cont[i] = source->cont[i];
+		cont[i] = source.cont[i];
 };
 
 template<typename Data>
@@ -64,62 +64,17 @@ Data Vector<Data>::get(size_t index)
 };
 
 template<typename Data>
+void Vector<Data>::set(size_t index, Data value)
+{
+	if (index + 1 > curr)
+		resize(index + 1);
+	cont[index] = value;
+};
+
+template<typename Data>
 size_t Vector<Data>::size()
 {
 	return curr;
-};
-
-template<typename Data>
-bool Vector<Data>::empty()
-{
-	return !curr;
-};
-
-template<typename Data>
-void Vector<Data>::clear()
-{
-	delete cont;
-	curr = 0;
-	real = 2;
-	cont = new Data[real];
-};
-
-template<typename Data>
-Data& Vector<Data>::operator[](const size_t index)
-{
-	return cont[index];
-};
-
-template<typename Data>
-Vector<Data>& Vector<Data>::operator= (const Vector& source)
-{
-	if (source == this)
-		return this;
-	delete[] cont;
-	curr = source->curr;
-	real = source->real;
-	for (size_t i = 0; i < curr; i++)
-		cont[i] = source->cont[i];
-	return this;
-};
-
-template<typename Data>
-bool Vector<Data>::operator== (const Vector& source)
-{
-	if (&source == this)
-		return true;
-	if (curr != source->curr)
-		return false;
-	for (size_t i = 0; i < curr; i++)
-		if (cont[i] != source->cont[i])
-			return false;
-	return true;
-};
-
-template<typename Data>
-bool Vector<Data>::operator!= (const Vector& source)
-{
-	return !(*this == source);
 };
 
 template<typename Data>
@@ -153,10 +108,57 @@ void Vector<Data>::push_back(Data value)
 };
 
 template<typename Data>
-void Vector<Data>::set(size_t index, Data value)
+Data& Vector<Data>::operator[](const size_t index)
 {
-	if (index + 1 > curr) 
-		resize(index + 1); 
-	cont[index] = value;
+	return cont[index];
+};
+
+template<typename Data>
+Vector<Data>& Vector<Data>::operator= (const Vector& source)
+{
+	if (&source == this)
+		return *this;
+	delete[] cont;
+	curr = source.curr;
+	real = source.real;
+	cont = new Data[real];
+	for (size_t i = 0; i < curr; i++)
+		cont[i] = source.cont[i];
+	return *this;
+};
+
+template<typename Data>
+bool Vector<Data>::operator== (const Vector& source)
+{
+	if (&source == this)
+		return true;
+	if (curr != source.curr)
+		return false;
+	for (size_t i = 0; i < curr; i++)
+		if (cont[i] != source.cont[i])
+			return false;
+	return true;
+};
+
+template<typename Data>
+bool Vector<Data>::operator!= (const Vector& source)
+{
+	return !(*this == source);
+};
+
+
+template<typename Data>
+bool Vector<Data>::empty()
+{
+	return !curr;
+};
+
+template<typename Data>
+void Vector<Data>::clear()
+{
+	delete[] cont;
+	curr = 0;
+	real = 2;
+	cont = new Data[real];
 };
 #endif
