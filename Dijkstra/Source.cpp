@@ -23,7 +23,8 @@ int main()
 				data.add_edge(i, j);
 		}
 	int i = 0;
-	while (i != -1)
+	cout << *(data.vertex_n(i));
+	/*while (i != -1)
 	{
 		auto start = data.vertex_n(i);
 		auto it = start;
@@ -43,5 +44,5 @@ int main()
 				min = i;
 		i = min;
 	}
-
+	*/
 }

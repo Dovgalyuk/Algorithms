@@ -7,6 +7,7 @@ class VertexIterator;
 template <typename tags_type = int>
 class Graph
 {
+	friend class VertexIterator<tags_type>;
 	Vector<Vector<bool>> mat;
 	size_t size;
 	Vector<tags_type> vertex_tags;
@@ -35,7 +36,7 @@ class VertexIterator
 public:
 	VertexIterator(Graph<tags_type>& base, size_t vertex);
 	size_t operator++();
-	size_t operator*();
+	size_t& operator*();
 	bool operator==(VertexIterator<tags_type>& n);
 	bool operator!=(VertexIterator<tags_type>& n);
 };
@@ -86,7 +87,7 @@ size_t VertexIterator<tags_type>::operator++()
 };
 
 template<typename tags_type>
-size_t VertexIterator<tags_type>::operator*()
+size_t& VertexIterator<tags_type>::operator*()
 {
 	return curr_n;
 };
