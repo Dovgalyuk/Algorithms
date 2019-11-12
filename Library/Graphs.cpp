@@ -73,7 +73,7 @@ void add_vertex(Graph* graph)
 
 void add_edge(Graph* graph, int f_v, int s_v)
 {
-	array_set(graph->matrix, f_v * graph->num + s_v, 1);
+	array_set(graph->matrix, (f_v-1) * graph->num + (s_v-1), 1);
 }
 
 void delete_vertex(Graph* graph, int num)
@@ -106,12 +106,12 @@ void delete_vertex(Graph* graph, int num)
 
 void delete_edge(Graph* graph, int f_v, int s_v)
 {
-	array_set(graph->matrix, f_v * graph->num + s_v, 0);
+	array_set(graph->matrix, (f_v-1) * graph->num + (s_v-1), 0);
 }
 
 bool check_edge(Graph* graph, int f_v, int s_v)
 {
-	if (array_get(graph->matrix, f_v * graph->num + s_v) == 1)
+	if (array_get(graph->matrix, (f_v-1) * graph->num + (s_v-1)) == 1)
 		return true;
 	else
 		return false;
@@ -129,10 +129,10 @@ int read_mark_vertex(Graph* graph, int num)
 
 void add_mark_edge(Graph* graph, int f_v, int s_v, int mark)
 {
-	array_set(graph->mark_edge, f_v * graph->num + s_v, mark);
+	array_set(graph->mark_edge, (f_v - 1) * graph->num + (s_v - 1), mark);
 }
 
 int read_mark_edge(Graph* graph, int f_v, int s_v)
 {
-	return array_get(graph->mark_edge, f_v * graph->num + s_v);
+	return array_get(graph->mark_edge, (f_v-1) * graph->num + (s_v-1));
 }
