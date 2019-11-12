@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestArray", "TestArray\Test
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "html", "html\html.vcxproj", "{F597F5E7-5C07-4B14-B6FB-BD16254B716D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "long_sum", "long_sum\long_sum.vcxproj", "{FBDEE33D-4A18-45DC-8731-C50E97799D33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -81,6 +83,14 @@ Global
 		{F597F5E7-5C07-4B14-B6FB-BD16254B716D}.Release|Win32.Build.0 = Release|Win32
 		{F597F5E7-5C07-4B14-B6FB-BD16254B716D}.Release|x64.ActiveCfg = Release|x64
 		{F597F5E7-5C07-4B14-B6FB-BD16254B716D}.Release|x64.Build.0 = Release|x64
+		{FBDEE33D-4A18-45DC-8731-C50E97799D33}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FBDEE33D-4A18-45DC-8731-C50E97799D33}.Debug|Win32.Build.0 = Debug|Win32
+		{FBDEE33D-4A18-45DC-8731-C50E97799D33}.Debug|x64.ActiveCfg = Debug|x64
+		{FBDEE33D-4A18-45DC-8731-C50E97799D33}.Debug|x64.Build.0 = Debug|x64
+		{FBDEE33D-4A18-45DC-8731-C50E97799D33}.Release|Win32.ActiveCfg = Release|Win32
+		{FBDEE33D-4A18-45DC-8731-C50E97799D33}.Release|Win32.Build.0 = Release|Win32
+		{FBDEE33D-4A18-45DC-8731-C50E97799D33}.Release|x64.ActiveCfg = Release|x64
+		{FBDEE33D-4A18-45DC-8731-C50E97799D33}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
