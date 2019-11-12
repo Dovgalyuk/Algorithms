@@ -72,6 +72,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="array.cpp" />
+    <ClCompile Include="Graphs.cpp" />
     <ClCompile Include="list.cpp" />
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="stack.cpp" />
@@ -79,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="array.h" />
+    <ClInclude Include="Graphs.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="stack.h" />
