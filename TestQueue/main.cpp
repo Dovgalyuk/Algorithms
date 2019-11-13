@@ -30,7 +30,11 @@ int main()
 	for (int i=1; i<=num; i++)
 		for (int j = 1; j <= num; j++)
 		{
-			if (read_mark_edge(a, i, j)==0)
+			if (i == j)
+			{
+				add_mark_edge(a, i, j, 0);
+			}
+			else if (read_mark_edge(a, i, j)==0)
 			{
 				add_mark_edge(a, i, j, 9999);
 			}
