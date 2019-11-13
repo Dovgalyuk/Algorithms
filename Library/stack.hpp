@@ -13,7 +13,7 @@ public:
 	~Stack();
 	// Pushes data on top of the stack
 	// Should be O(1) on average
-	void push(Data data);
+	void push(const Data &data);
 	// Retrives the last element from the stack
 	Data get();
 	// Removes the last element from the stack
@@ -36,7 +36,7 @@ Stack< Data > ::~Stack()
 }
 
 template<typename Data>
-void Stack < Data > ::push(Data data)
+void Stack < Data > ::push(const Data &data)
 {
 	cont->insert(data);
 }

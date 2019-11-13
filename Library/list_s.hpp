@@ -29,9 +29,9 @@ public:
 	// Not applicable for the singly linked lists.
 	//ListItem* item_prev(ListItem* item);
 	// Inserts new list item into the beginning
-	ListItem<Data>* insert(Data data);
+	ListItem<Data>* insert(const Data &data);
 	// Inserts new list item after the specified item
-	ListItem<Data>* insert_after(ListItem<Data>* item, Data data);
+	ListItem<Data>* insert_after(ListItem<Data>* item, const Data &data);
 	// Deletes the specified list item.
 	// Not applicable for the singly linked lists.
 	// Should be O(1)
@@ -85,7 +85,7 @@ ListItem<Data>* List< Data > ::item_prev(ListItem<Data>* item)
 }*/
 
 template<typename Data>
-ListItem<Data>* List< Data > ::insert(Data data)
+ListItem<Data>* List< Data > ::insert(const Data& data)
 {
 	ListItem<Data>* next = first_e;
 	first_e = new ListItem<Data>;
@@ -95,7 +95,7 @@ ListItem<Data>* List< Data > ::insert(Data data)
 }
 
 template<typename Data>
-ListItem<Data>* List< Data > ::insert_after(ListItem<Data>* item, Data data)
+ListItem<Data>* List< Data > ::insert_after(ListItem<Data>* item, const Data& data)
 {
 	ListItem<Data>* next = item_next(item);
 	item->Next = new ListItem<Data>;

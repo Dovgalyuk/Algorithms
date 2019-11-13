@@ -8,19 +8,19 @@ class Vector
 public:
 	Vector();
 	Vector(const Vector<Data>& source);
-	Vector(const size_t size, Data& init);
+	Vector(const size_t size, const Data& init);
 	Vector(const size_t size);
 	~Vector();
 	Data get(const size_t index);
-	void set(const size_t index, Data value);
+	void set(const size_t index, const Data& value);
 	size_t size();
-	void resize(const size_t size, Data& init);
+	void resize(const size_t size, const Data& init);
 	void resize(const size_t size);
-	void push_back(const Data value);
+	void push_back(const Data& value);
 	Data& operator[](const size_t index);
-	Vector<Data>& operator= (Vector<Data>& source);
-	bool operator== (Vector<Data>& source);
-	bool operator!= (Vector<Data>& source);
+	Vector<Data>& operator= (const Vector<Data>& source);
+	bool operator== (const Vector<Data>& source);
+	bool operator!= (const Vector<Data>& source);
 	bool empty();
 	void clear();
 };
@@ -44,7 +44,7 @@ Vector<Data>::Vector(const Vector<Data>& source)
 };
 
 template<typename Data>
-Vector<Data>::Vector(const size_t size, Data& init)
+Vector<Data>::Vector(const size_t size, const Data& init)
 {
 	curr = size;
 	real = size;
@@ -76,7 +76,7 @@ Data Vector<Data>::get(const size_t index)
 };
 
 template<typename Data>
-void Vector<Data>::set(const size_t index, Data value)
+void Vector<Data>::set(const size_t index, const Data& value)
 {
 	if (index + 1 > curr)
 		resize(index + 1);
@@ -90,7 +90,7 @@ size_t Vector<Data>::size()
 };
 
 template<typename Data>
-void Vector<Data>::resize(const size_t size, Data& init)
+void Vector<Data>::resize(const size_t size, const  Data& init)
 {
 	if (size > real)
 	{
@@ -118,7 +118,7 @@ void Vector<Data>::resize(const size_t size)
 };
 
 template<typename Data>
-void Vector<Data>::push_back(const Data value)
+void Vector<Data>::push_back(const Data &value)
 {
 	resize(curr + 1);
 	cont[curr] = value;
@@ -132,7 +132,7 @@ Data& Vector<Data>::operator[](const size_t index)
 };
 
 template<typename Data>
-Vector<Data>& Vector<Data>::operator= (Vector<Data>& source)
+Vector<Data>& Vector<Data>::operator= (const Vector<Data>& source)
 {
 	if (&source == this)
 		return *this;
@@ -146,7 +146,7 @@ Vector<Data>& Vector<Data>::operator= (Vector<Data>& source)
 };
 
 template<typename Data>
-bool Vector<Data>::operator== (Vector<Data>& source)
+bool Vector<Data>::operator== (const Vector<Data>& source)
 {
 	if (&source == this)
 		return true;
@@ -159,7 +159,7 @@ bool Vector<Data>::operator== (Vector<Data>& source)
 };
 
 template<typename Data>
-bool Vector<Data>::operator!= (Vector<Data>& source)
+bool Vector<Data>::operator!= (const Vector<Data>& source)
 {
 	return !(*this == source);
 };

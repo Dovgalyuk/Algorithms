@@ -15,7 +15,7 @@ public:
 	~Queue();
 	// Includes new element into the queue
 	// Should be O(1)
-	void insert(Data data);
+	void insert(const Data &data);
 	// Retrieves first element from the queue
 	Data get();
 	// Removes first element from the queue
@@ -52,7 +52,7 @@ void Queue<Data>::shift_o()
 }
 
 template<typename Data>
-void Queue<Data>::insert(Data data)
+void Queue<Data>::insert(const Data &data)
 {
 	in->push(data);
 }

@@ -51,7 +51,7 @@ void Graph<vertex_tag, edge_tag>::add_vertex()
 	vertex_tags.resize(size);
 	for (size_t i = 0; i < edge_tags.size(); i++)
 		edge_tags[i].resize(size);
-	edge_tags.resize(size, Vector<vertex_tag>(size));
+	edge_tags.resize(size, Vector<edge_tag>(size));
 };
 
 template <typename vertex_tag, typename edge_tag>
@@ -140,15 +140,15 @@ class VertexIterator
 	size_t curr_n;
 	Graph<vertex_tag, edge_tag>* base;
 public:
-	VertexIterator(const Graph<vertex_tag, edge_tag>* base, const size_t vertex);
+	VertexIterator(Graph<vertex_tag, edge_tag>* base, const size_t vertex);
 	size_t operator++();
 	size_t operator*();
-	bool operator==(VertexIterator<vertex_tag, edge_tag>& n);
-	bool operator!=(VertexIterator<vertex_tag, edge_tag>& n);
+	bool operator==(const VertexIterator<vertex_tag, edge_tag>& n);
+	bool operator!=(const VertexIterator<vertex_tag, edge_tag>& n);
 };
 
 template <typename vertex_tag, typename edge_tag>
-VertexIterator<vertex_tag, edge_tag>::VertexIterator(const Graph<vertex_tag, edge_tag>* base, const size_t vertex)
+VertexIterator<vertex_tag, edge_tag>::VertexIterator(Graph<vertex_tag, edge_tag>* base, const size_t vertex)
 {
 	this->vertex = vertex;
 	curr_n = -1;
@@ -188,14 +188,14 @@ size_t VertexIterator<vertex_tag, edge_tag>::operator*()
 };
 
 template <typename vertex_tag, typename edge_tag>
-bool VertexIterator<vertex_tag, edge_tag>::operator==(VertexIterator<vertex_tag, edge_tag>& n)
+bool VertexIterator<vertex_tag, edge_tag>::operator==(const VertexIterator<vertex_tag, edge_tag>& n)
 {
-	return (*base == *n.base && n.curr_n == curr_n && n.vertex == vertex);
+	return (base == n.base && n.curr_n == curr_n && n.vertex == vertex);
 };
 
 template <typename vertex_tag, typename edge_tag>
-bool VertexIterator<vertex_tag, edge_tag>::operator!=(VertexIterator<vertex_tag, edge_tag>& n)
+bool VertexIterator<vertex_tag, edge_tag>::operator!=(const VertexIterator<vertex_tag, edge_tag>& n)
 {
-	return !(n == *this);
+	return !(*this == n);
 };
 #endif
