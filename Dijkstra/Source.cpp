@@ -12,7 +12,7 @@ int main()
 	cin >> n;
 	cout << "Enter start vertex:";
 	cin >> i;
-	Graph<pair<int, size_t>, size_t> data(n);
+	Graph<pair<int, size_t>, int> data(n);
 	cout << "Enter matrix:" << endl;
 	for (size_t i=0; i< n; i++)
 		for (size_t j = 0; j < n; j++)
