@@ -47,15 +47,19 @@ void add_vertex(Graph* graph)
 	Array* mp1 = graph->matrix;
 	Array* mp2 = graph->mark_edge;
 	Array* mp3 = graph->mark_vertix;
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < graph->num+1; i++)
+		for (int j = 0; j<graph->num+1; j++)
 	{
-		array_set(tmp1, i, array_get(graph->matrix, i));
-		array_set(tmp2, i, array_get(graph->mark_edge, i));
-	}
-	for (int i = size; i < new_size; i++)
-	{
-		array_set(tmp1, i, 0);
-		array_set(tmp2, i, 0);
+			if (i < graph->num && j < graph->num)
+			{
+				array_set(tmp1, i*(graph->num+1) + j, array_get(graph->matrix, i * (graph->num) + j));
+				array_set(tmp2, i * (graph->num + 1) + j, array_get(graph->mark_edge, i * (graph->num) + j));
+			}
+			else
+			{
+				array_set(tmp1, i * (graph->num + 1) + j, 0);
+				array_set(tmp2, i * (graph->num + 1) + j, 0);
+			}
 	}
 	for (int i = 0; i < graph->num; i++)
 	{	
@@ -76,7 +80,7 @@ void add_edge(Graph* graph, int f_v, int s_v)
 	array_set(graph->matrix, (f_v-1) * graph->num + (s_v-1), 1);
 }
 
-void delete_vertex(Graph* graph, int num)
+void delete_vertex(Graph* graph)
 {
 	int size = array_size(graph->matrix);
 	int new_size = (graph->num - 1) * (graph->num - 1);
@@ -86,11 +90,15 @@ void delete_vertex(Graph* graph, int num)
 	Array* mp1 = graph->matrix;
 	Array* mp2 = graph->mark_edge;
 	Array* mp3 = graph->mark_vertix;
-	for (int i = 0; i < new_size; i++)
-	{
-		array_set(tmp1, i, array_get(graph->matrix, i));
-		array_set(tmp2, i, array_get(graph->mark_edge, i));
-	}
+	for (int i = 0; i < graph->num - 1; i++)
+		for (int j = 0; j < graph->num - 1; j++)
+		{
+			if (i < (graph->num-1) && j < (graph->num-1))
+			{
+				array_set(tmp1, i * (graph->num -1) + j, array_get(graph->matrix, i * (graph->num) + j));
+				array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, i * (graph->num) + j));
+			}
+		}
 	for (int i = 0; i < graph->num-1; i++)
 	{
 		array_set(tmp3, i, array_get(graph->mark_vertix, i));
