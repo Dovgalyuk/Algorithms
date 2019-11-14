@@ -18,6 +18,7 @@ int main()
 		std::cin >> v1 >> v2 >> mark;
 	}
 	/*
+
 	for (int i = 1; i <= num; i++)
 	{
 		std::cout << '\n';
@@ -26,6 +27,17 @@ int main()
 			std::cout << read_mark_edge(a, i, j) << ' ';
 		}
 	}
+	delete_vertex(a, 2);
+	num--;
+	for (int i = 1; i <= num; i++)
+	{
+		std::cout << '\n';
+		for (int j = 1; j <= num; j++)
+		{
+			std::cout << read_mark_edge(a, i, j) << ' ';
+		}
+	}
+	
 	*/
 	for (int i=1; i<=num; i++)
 		for (int j = 1; j <= num; j++)

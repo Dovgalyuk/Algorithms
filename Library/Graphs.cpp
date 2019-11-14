@@ -80,7 +80,7 @@ void add_edge(Graph* graph, int f_v, int s_v)
 	array_set(graph->matrix, (f_v-1) * graph->num + (s_v-1), 1);
 }
 
-void delete_vertex(Graph* graph)
+void delete_vertex(Graph* graph, int num)
 {
 	int size = array_size(graph->matrix);
 	int new_size = (graph->num - 1) * (graph->num - 1);
@@ -90,13 +90,39 @@ void delete_vertex(Graph* graph)
 	Array* mp1 = graph->matrix;
 	Array* mp2 = graph->mark_edge;
 	Array* mp3 = graph->mark_vertix;
+	for (int i = 0; i < num - 1; i++)
+		for (int j = 0; j < num - 1; j++)
+		{
+			if (i < (graph->num - 1) && j < (graph->num - 1))
+			{
+				array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, i * (graph->num) + j));
+				array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, i * (graph->num) + j));
+				if (i == j) {
+					array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, (i + 1) * (graph->num) + (j + 1)));
+					array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, (i + 1) * (graph->num) + (j + 1)));
+				}
+			}
+		}
 	for (int i = 0; i < graph->num - 1; i++)
+		for (int j = num - 1; j < graph->num - 1; j++)
+		{
+			if (i < (graph->num - 1) && j < (graph->num - 1))
+			{
+					array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, (i) * (graph->num) + (j+1 )));
+					array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, (i ) * (graph->num) + (j+1)));
+			}
+		}
+	for (int i = num-1; i < graph->num - 1; i++)
 		for (int j = 0; j < graph->num - 1; j++)
 		{
-			if (i < (graph->num-1) && j < (graph->num-1))
+			if (i < (graph->num - 1) && j < (graph->num - 1))
 			{
-				array_set(tmp1, i * (graph->num -1) + j, array_get(graph->matrix, i * (graph->num) + j));
-				array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, i * (graph->num) + j));
+				array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, (i+1 ) * (graph->num) + (j)));
+				array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, (i + 1) * (graph->num) + (j)));
+				if (i == j) {
+					array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, (i + 1) * (graph->num) + (j+1)));
+					array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, (i + 1) * (graph->num) + (j+1)));
+				}
 			}
 		}
 	for (int i = 0; i < graph->num-1; i++)
@@ -127,12 +153,12 @@ bool check_edge(Graph* graph, int f_v, int s_v)
 
 void add_mark_vertex(Graph* graph, int num, int mark)
 {
-	array_set(graph->mark_vertix, num, mark);
+	array_set(graph->mark_vertix, num-1, mark);
 }
 
 int read_mark_vertex(Graph* graph, int num)
 {
-	return array_get(graph->mark_vertix, num);
+	return array_get(graph->mark_vertix, num-1);
 }
 
 void add_mark_edge(Graph* graph, int f_v, int s_v, int mark)

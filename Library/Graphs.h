@@ -10,7 +10,7 @@ void add_vertex(Graph* graph);
 
 void add_edge(Graph* graph, int f_v, int s_v);
 
-void delete_vertex(Graph* graph);
+void delete_vertex(Graph* graph, int num);
 
 void delete_edge(Graph* graph, int f_v, int s_v);
 
