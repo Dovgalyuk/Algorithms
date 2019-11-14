@@ -26,38 +26,30 @@ public:
 };
 
 template<typename Data>
-Vector<Data>::Vector()
+Vector<Data>::Vector() : curr(0), real(2)
 {
-	curr = 0;
-	real = 2;
 	cont = new Data[real];
 }
 
 template<typename Data>
-Vector<Data>::Vector(const Vector<Data>& source)
+Vector<Data>::Vector(const Vector<Data>& source): curr(source.curr), real(source.real)
 {
-	curr = source.curr;
-	real = source.real;
 	cont = new Data[real];
 	for (size_t i = 0; i < curr; i++)
 		cont[i] = source.cont[i];
 }
 
 template<typename Data>
-Vector<Data>::Vector(const size_t size, const Data& init)
+Vector<Data>::Vector(const size_t size, const Data& init): curr(size), real(size)
 {
-	curr = size;
-	real = size;
 	cont = new Data[real];
 	for (size_t i = 0; i < curr; i++)
 		cont[i] = init;
 }
 
 template<typename Data>
-Vector<Data>::Vector(const size_t size)
+Vector<Data>::Vector(const size_t size) : curr(size), real(size)
 {
-	curr = size;
-	real = size;
 	cont = new Data[real];
 	for (size_t i = 0; i < curr; i++)
 		cont[i] = Data();

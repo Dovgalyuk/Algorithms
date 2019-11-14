@@ -27,10 +27,9 @@ public:
 template <typename vertex_tag, typename edge_tag>
 Graph<vertex_tag, edge_tag>::Graph(const size_t start_size)
 {
-	size_t size = start_size;
-	mat.resize(size, Vector<bool>(size, false));
-	vertex_tags.resize(size);
-	edge_tags.resize(size, Vector<edge_tag>(size));
+	mat.resize(start_size, Vector<bool>(start_size, false));
+	vertex_tags.resize(start_size);
+	edge_tags.resize(start_size, Vector<edge_tag>(start_size));
 }
 
 template <typename vertex_tag, typename edge_tag>
@@ -135,7 +134,7 @@ class VertexIterator
 	friend class Graph<vertex_tag, edge_tag>;
 	size_t vertex;
 	size_t curr_n;
-	Graph<vertex_tag, edge_tag>* base;
+	Graph<vertex_tag, edge_tag> &base;
 public:
 	VertexIterator(Graph<vertex_tag, edge_tag>* base, const size_t vertex);
 	size_t operator++();
@@ -145,11 +144,9 @@ public:
 };
 
 template <typename vertex_tag, typename edge_tag>
-VertexIterator<vertex_tag, edge_tag>::VertexIterator(Graph<vertex_tag, edge_tag>* base, const size_t vertex)
+VertexIterator<vertex_tag, edge_tag>::VertexIterator(Graph<vertex_tag, edge_tag>* base, const size_t vertex): base(*base), vertex(vertex)
 {
-	this->vertex = vertex;
 	curr_n = -1;
-	this->base = base;
 	for (size_t i = 0; i < base->mat.size(); i++)
 		if (base->mat[vertex][i])
 		{
@@ -163,14 +160,14 @@ size_t VertexIterator<vertex_tag, edge_tag>::operator++()
 {
 	if (curr_n == -1)
 		return curr_n;
-	for (size_t i = curr_n + 1; i < base->mat.size(); i++)
-		if (base->mat[vertex][i])
+	for (size_t i = curr_n + 1; i < base.mat.size(); i++)
+		if (base.mat[vertex][i])
 		{
 			curr_n = i;
 			return curr_n;
 		}
 	for (size_t i = 0; i <= curr_n; i++)
-		if (base->mat[vertex][i])
+		if (base.mat[vertex][i])
 		{
 			curr_n = i;
 			return curr_n;
@@ -187,7 +184,7 @@ size_t VertexIterator<vertex_tag, edge_tag>::operator*()
 template <typename vertex_tag, typename edge_tag>
 bool VertexIterator<vertex_tag, edge_tag>::operator==(const VertexIterator<vertex_tag, edge_tag>& n)
 {
-	return (base == n.base && n.curr_n == curr_n && n.vertex == vertex);
+	return (&base == &(n.base) && n.curr_n == curr_n && n.vertex == vertex);
 }
 
 template <typename vertex_tag, typename edge_tag>
