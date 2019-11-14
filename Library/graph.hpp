@@ -9,11 +9,9 @@ class Graph
 {
 	friend class VertexIterator<vertex_tag, edge_tag>;
 	Vector<Vector<bool>> mat;
-	size_t size;
 	Vector<vertex_tag> vertex_tags;
 	Vector<Vector<edge_tag>> edge_tags;
 public:
-	Graph();
 	Graph(const size_t start_size);
 	void add_vertex();
 	bool add_edge(const size_t a, const size_t b);
@@ -27,15 +25,9 @@ public:
 };
 
 template <typename vertex_tag, typename edge_tag>
-Graph<vertex_tag, edge_tag>::Graph()
-{
-	size = 0;
-}
-
-template <typename vertex_tag, typename edge_tag>
 Graph<vertex_tag, edge_tag>::Graph(const size_t start_size)
 {
-	size = start_size;
+	size_t size = start_size;
 	mat.resize(size, Vector<bool>(size, false));
 	vertex_tags.resize(size);
 	edge_tags.resize(size, Vector<edge_tag>(size));
@@ -44,6 +36,7 @@ Graph<vertex_tag, edge_tag>::Graph(const size_t start_size)
 template <typename vertex_tag, typename edge_tag>
 void Graph<vertex_tag, edge_tag>::add_vertex()
 {
+	size_t size = mat.size();
 	size++;
 	for (size_t i = 0; i < mat.size(); i++)
 		mat[i].resize(size, false);
@@ -57,6 +50,7 @@ void Graph<vertex_tag, edge_tag>::add_vertex()
 template <typename vertex_tag, typename edge_tag>
 bool Graph<vertex_tag, edge_tag>::add_edge(const size_t a, const size_t b)
 {
+	size_t size = mat.size();
 	if (a >= size || b >= size)
 		return false;
 	mat[a][b] = true;
@@ -66,6 +60,7 @@ bool Graph<vertex_tag, edge_tag>::add_edge(const size_t a, const size_t b)
 template <typename vertex_tag, typename edge_tag>
 bool Graph<vertex_tag, edge_tag>::remove_vertex(const size_t i)
 {
+	size_t size = mat.size();
 	if (i >= size)
 		return false;
 	size--;
@@ -100,6 +95,7 @@ bool Graph<vertex_tag, edge_tag>::remove_vertex(const size_t i)
 template <typename vertex_tag, typename edge_tag>
 bool Graph<vertex_tag, edge_tag>::remove_edge(const size_t a, const size_t b)
 {
+	size_t size = mat.size();
 	if (a >= size || b >= size)
 		return false;
 	mat[a][b] = false;
@@ -109,6 +105,7 @@ bool Graph<vertex_tag, edge_tag>::remove_edge(const size_t a, const size_t b)
 template <typename vertex_tag, typename edge_tag>
 bool Graph<vertex_tag, edge_tag>::is_edge(const size_t a, const size_t b)
 {
+	size_t size = mat.size();
 	if (a >= size || b >= size)
 		return false;
 	return mat[a][b];
