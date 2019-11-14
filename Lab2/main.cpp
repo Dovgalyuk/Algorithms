@@ -1,25 +1,21 @@
-#include<iostream>
 #include<fstream>
 #include<vector>
 #include "../Library/queue.h"
 
-using namespace std;
-
-
 int main()
 {
-	vector<string> labirinth;
+	std::vector<std::string> labirinth;
 	Queue* queue = queue_create();
 
 	int Ax = 0, Ay, Bx = 0, By;
 	
-	ifstream input;
+	std::ifstream input;
 	input.open("input.txt");
-	ofstream output;
+	std::ofstream output;
 	output.open("output.txt");
 
 	while (!input.eof()) {
-		string t;
+		std::string t;
 		input >> t;
 		labirinth.push_back(t);
 	}
@@ -109,8 +105,8 @@ int main()
 				}
 				output << labirinth[i][j];
 			}
-			output << endl;
+			output << std::endl;
 		}
 	}
-
+	queue_delete(queue);
 }
