@@ -26,17 +26,14 @@ int main()
 		data.vertex(i) = make_pair(1, (size_t)1e9);
 	while (i != -1)
 	{
-		auto start = data.vertex_n(i);
-		auto it = start;
-		if (*it != -1)
-			do {
-				if (data.vertex(*it).second > data.vertex(i).second + data.edge(i, *it))
-				{
-					data.vertex(*it).second = data.vertex(i).second + data.edge(i, *it);
-					data.vertex(*it).first = 0;
-				}
-				++it;
-			} while (it != start);
+		for (auto it = data.vertex_n(i); it != data.end();++it)
+		{
+			if (data.vertex(*it).second > data.vertex(i).second + data.edge(i, *it))
+			{
+				data.vertex(*it).second = data.vertex(i).second + data.edge(i, *it);
+				data.vertex(*it).first = 0;
+			}
+		}
 		data.vertex(i).first = -1;
 		int min = -1;
 		for (size_t j=0; j<n; j++)

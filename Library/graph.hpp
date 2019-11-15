@@ -22,6 +22,7 @@ public:
 	edge_tag& edge(const size_t a, const size_t b);
 
 	VertexIterator<vertex_tag, edge_tag> vertex_n(const size_t pos);
+	VertexIterator<vertex_tag, edge_tag> end();
 };
 
 template <typename vertex_tag, typename edge_tag>
@@ -129,6 +130,12 @@ VertexIterator<vertex_tag, edge_tag> Graph<vertex_tag, edge_tag>::vertex_n(const
 }
 
 template <typename vertex_tag, typename edge_tag>
+VertexIterator<vertex_tag, edge_tag> Graph<vertex_tag, edge_tag>::end()
+{
+	return VertexIterator<vertex_tag, edge_tag>(this, -1);
+}
+
+template <typename vertex_tag, typename edge_tag>
 class VertexIterator
 {
 	friend class Graph<vertex_tag, edge_tag>;
@@ -147,12 +154,16 @@ template <typename vertex_tag, typename edge_tag>
 VertexIterator<vertex_tag, edge_tag>::VertexIterator(Graph<vertex_tag, edge_tag>* base, const size_t vertex): base(*base), vertex(vertex)
 {
 	curr_n = -1;
+	if (vertex == (size_t)-1)
+		return;
 	for (size_t i = 0; i < base->mat.size(); i++)
 		if (base->mat[vertex][i])
 		{
 			curr_n = i;
 			return;
 		}
+	if (curr_n == -1)
+		this->vertex = -1;
 }
 
 template <typename vertex_tag, typename edge_tag>
@@ -160,18 +171,16 @@ size_t VertexIterator<vertex_tag, edge_tag>::operator++()
 {
 	if (curr_n == -1)
 		return curr_n;
-	for (size_t i = curr_n + 1; i < base.mat.size(); i++)
+	size_t start = curr_n + 1;
+	curr_n = -1;
+	for (size_t i = start; i < base.mat.size(); i++)
 		if (base.mat[vertex][i])
 		{
 			curr_n = i;
 			return curr_n;
 		}
-	for (size_t i = 0; i <= curr_n; i++)
-		if (base.mat[vertex][i])
-		{
-			curr_n = i;
-			return curr_n;
-		}
+	if (curr_n == -1)
+		vertex = -1;
 	return curr_n;
 }
 
