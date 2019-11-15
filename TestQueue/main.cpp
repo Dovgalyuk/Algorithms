@@ -17,7 +17,7 @@ int main()
 		add_mark_edge(a, v1, v2, mark); 
 		std::cin >> v1 >> v2 >> mark;
 	}
-	/*
+	
 
 	for (int i = 1; i <= num; i++)
 	{
@@ -38,7 +38,7 @@ int main()
 		}
 	}
 	
-	*/
+	
 	for (int i=1; i<=num; i++)
 		for (int j = 1; j <= num; j++)
 		{

@@ -97,10 +97,7 @@ void delete_vertex(Graph* graph, int num)
 			{
 				array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, i * (graph->num) + j));
 				array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, i * (graph->num) + j));
-				if (i == j) {
-					array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, (i + 1) * (graph->num) + (j + 1)));
-					array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, (i + 1) * (graph->num) + (j + 1)));
-				}
+				
 			}
 		}
 	for (int i = 0; i < graph->num - 1; i++)
@@ -108,8 +105,14 @@ void delete_vertex(Graph* graph, int num)
 		{
 			if (i < (graph->num - 1) && j < (graph->num - 1))
 			{
-					array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, (i) * (graph->num) + (j+1 )));
-					array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, (i ) * (graph->num) + (j+1)));
+				if (i == 0) {
+					array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, (i) * (graph->num) + (j + 1)));
+					array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, (i) * (graph->num) + (j + 1)));
+				}
+				else {
+						array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, (i + 1) * (graph->num) + (j + 1)));
+						array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, (i + 1) * (graph->num) + (j + 1)));
+					}
 			}
 		}
 	for (int i = num-1; i < graph->num - 1; i++)
@@ -117,9 +120,11 @@ void delete_vertex(Graph* graph, int num)
 		{
 			if (i < (graph->num - 1) && j < (graph->num - 1))
 			{
-				array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, (i+1 ) * (graph->num) + (j)));
-				array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, (i + 1) * (graph->num) + (j)));
-				if (i == j) {
+				if (j == 0) {
+					array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, (i + 1) * (graph->num) + (j)));
+					array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, (i + 1) * (graph->num) + (j)));
+				}
+				else {
 					array_set(tmp1, i * (graph->num - 1) + j, array_get(graph->matrix, (i + 1) * (graph->num) + (j+1)));
 					array_set(tmp2, i * (graph->num - 1) + j, array_get(graph->mark_edge, (i + 1) * (graph->num) + (j+1)));
 				}
