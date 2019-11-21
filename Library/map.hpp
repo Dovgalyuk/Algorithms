@@ -12,55 +12,55 @@ template <typename KeyType>
 class Hash_t
 {
 	uint32_t hash_data;
-	uint32_t hash(const KeyType& init);
-	uint32_t hash(const char* init);
-	uint32_t hash(const unsigned int x);
 public:
 	Hash_t(const KeyType& init);
 	uint32_t get();
+	Hash_t(const char*& init);
 };
-
-template <typename KeyType>
-uint32_t Hash_t<KeyType>::hash(const KeyType& init)
-{
-	hash_data = 0;
-	return 0;
-}
-
-template<>
-uint32_t Hash_t<char*>::hash(const char* init)
-{
-	uint32_t hash_t = 0;
-	for (size_t i = 0; init[i] != 0; i++)
-	{
-		hash_t += init[i];
-		hash_t += (hash_t << 10);
-		hash_t ^= (hash_t >> 6);
-	}
-	hash_t += (hash_t << 3);
-	hash_t ^= (hash_t >> 11);
-	hash_t += (hash_t << 15);
-	return hash_t;
-}
-
-template<>
-uint32_t Hash_t<unsigned int>::hash(unsigned int x) {
-	x = ((x >> 16) ^ x) * 0x45d9f3b;
-	x = ((x >> 16) ^ x) * 0x45d9f3b;
-	x = (x >> 16) ^ x;
-	return x;
-}
-
-template<>
-uint32_t Hash_t<std::string>::hash(const std::string& init)
-{
-	return hash(init.c_str());
-}
 
 template <typename KeyType>
 Hash_t<KeyType>::Hash_t(const KeyType& init)
 {
-	hash_data = hash(init);
+	hash_data = 0;
+}
+
+template <>
+Hash_t<std::string>::Hash_t(const std::string& init)
+{
+	hash_data = 0;
+	for (size_t i = 0; i < init.size(); i++)
+	{
+		hash_data += init[i];
+		hash_data += (hash_data << 10);
+		hash_data ^= (hash_data >> 6);
+	}
+	hash_data += (hash_data << 3);
+	hash_data ^= (hash_data >> 11);
+	hash_data += (hash_data << 15);
+}
+
+template <>
+Hash_t<int>::Hash_t(const int& init)
+{
+	hash_data = init;
+	hash_data = ((hash_data >> 16) ^ hash_data) * 0x45d9f3b;
+	hash_data = ((hash_data >> 16) ^ hash_data) * 0x45d9f3b;
+	hash_data = (hash_data >> 16) ^ hash_data;
+}
+
+template <>
+Hash_t<char*>::Hash_t(const char*& init)
+{
+	hash_data = 0;
+	for (size_t i = 0; init[i] != 0; i++)
+	{
+		hash_data += init[i];
+		hash_data += (hash_data << 10);
+		hash_data ^= (hash_data >> 6);
+	}
+	hash_data += (hash_data << 3);
+	hash_data ^= (hash_data >> 11);
+	hash_data += (hash_data << 15);
 }
 
 template <typename KeyType>
@@ -126,7 +126,7 @@ void Map<KeyType, DataType, q>::resize_cont(const size_t size)
 		if ((*data)[i] == NULL)
 			continue;
 		uint32_t j = (*data)[i]->Hash() > temp->size() ? (*data)[i]->Hash() % temp->size() : (*data)[i]->Hash();
-		while (temp[j] != NULL)
+		while ((*temp)[j] != NULL)
 		{
 			j = (j + q) % data->size();
 		}
