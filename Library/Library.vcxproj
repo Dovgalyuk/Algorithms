@@ -72,6 +72,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="array.cpp" />
+    <ClCompile Include="AVLtree.cpp" />
     <ClCompile Include="Graphs.cpp" />
     <ClCompile Include="list.cpp" />
     <ClCompile Include="queue.cpp" />
@@ -80,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="array.h" />
+    <ClInclude Include="AVLtree.h" />
     <ClInclude Include="Graphs.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="queue.h" />
