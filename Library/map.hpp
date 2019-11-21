@@ -14,7 +14,7 @@ class Hash_t
 	uint32_t hash_data;
 	uint32_t hash(const KeyType& init);
 	uint32_t hash(const char* init);
-	uint32_t hash(unsigned int x);
+	uint32_t hash(const unsigned int x);
 public:
 	Hash_t(const KeyType& init);
 	uint32_t get();
