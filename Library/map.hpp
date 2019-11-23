@@ -116,9 +116,10 @@ DataType& MapPair<KeyType, DataType>::second()
 template <typename KeyType, typename DataType, unsigned int q = 1>
 class Map
 {
-	Vector<MapPair<KeyType, DataType>*>* data;
+	
 	void resize_cont(const size_t size);
 public:
+	Vector<MapPair<KeyType, DataType>*>* data;
 	Map();
 	~Map();
 	void add(const KeyType& first, const DataType& second);
