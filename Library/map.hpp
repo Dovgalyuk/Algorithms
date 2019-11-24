@@ -116,10 +116,9 @@ DataType& MapPair<KeyType, DataType>::second()
 template <typename KeyType, typename DataType, unsigned int q = 1>
 class Map
 {
-	
+	Vector<MapPair<KeyType, DataType>*>* data;
 	void resize_cont(const size_t size);
 public:
-	Vector<MapPair<KeyType, DataType>*>* data;
 	Map();
 	~Map();
 	void add(const KeyType& first, const DataType& second);
@@ -215,7 +214,8 @@ bool Map<KeyType, DataType, q>::RemovePair(const KeyType& first)
 	uint32_t j = (i + q) % data->size();
 	delete (*data)[i];
 	(*data)[i] = NULL;
-	while ((*data)[j] != NULL)
+	resize_cont(data->size());
+	/*while ((*data)[j] != NULL && i != start)
 	{
 		if ((*data)[j]->Hash() == temp.get())
 		{
@@ -224,7 +224,7 @@ bool Map<KeyType, DataType, q>::RemovePair(const KeyType& first)
 			i = j;
 		}
 		j = (j + q) % data->size();
-	}
+	}*/
 	return true;
 }
 #endif
