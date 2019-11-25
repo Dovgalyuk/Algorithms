@@ -93,7 +93,7 @@ ListItem* list_erase(List* list, ListItem* item)
 		item->next->prev = item->prev;
 	}
 	ListItem* next = item->next;
-	if (item = list->first) {
+	if (item == list->first) {
 		list->first = next;
 	}
 	delete item;
