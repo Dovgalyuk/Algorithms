@@ -132,7 +132,7 @@ void Map<KeyType, DataType, q>::resize_cont(const size_t size)
 	Vector<MapPair<KeyType, DataType>*>* temp = new Vector<MapPair<KeyType, DataType>*>(size, NULL);
 	for (size_t i = 0; i < data->size(); i++)
 	{
-		if ((*data)[i] == NULL)
+		if ((*data)[i] == NULL || (*data)[i] == (MapPair<KeyType, DataType>*)0x000001)
 			continue;
 		uint32_t j = (*data)[i]->Hash() % temp->size();
 		while ((*temp)[j] != NULL)
@@ -155,7 +155,13 @@ template <typename KeyType, typename DataType, unsigned int q>
 Map<KeyType, DataType, q>::~Map()
 {
 	for (size_t i = 0; i < data->size(); i++)
+	{
+		if ((*data)[i] == (MapPair<KeyType, DataType>*)0x000001)
+		{
+			continue;
+		}
 		delete (*data)[i];
+	}
 	delete data;
 }
 
@@ -165,7 +171,7 @@ void Map<KeyType, DataType, q>::add(const KeyType& first, const DataType& second
 	MapPair<KeyType, DataType>* temp = new MapPair<KeyType, DataType>(first, second);
 	uint32_t i = temp->Hash() % data->size();
 	uint32_t start = i;
-	while ((*data)[i] != NULL)
+	while ((*data)[i] != NULL && (*data)[i] != (MapPair<KeyType, DataType> *)0x000001)
 	{
 		i = (i + q) % data->size();
 		if (i == start)
@@ -186,6 +192,11 @@ MapPair<KeyType, DataType>* Map<KeyType, DataType, q>::find(const KeyType& first
 	uint32_t start = i;
 	while ((*data)[i] != NULL)
 	{
+		if ((*data)[i] == (MapPair<KeyType, DataType>*)0x000001)
+		{
+			i = (i + q) % data->size();
+			continue;
+		}
 		if ((*data)[i]->Hash() == temp.get() && (*data)[i]->first() == first)
 			return (*data)[i];
 		i = (i + q) % data->size();
@@ -203,6 +214,11 @@ bool Map<KeyType, DataType, q>::RemovePair(const KeyType& first)
 	uint32_t start = i;
 	while ((*data)[i] != NULL)
 	{
+		if ((*data)[i] == (MapPair<KeyType, DataType>*)0x000001)
+		{
+			i = (i + q) % data->size();
+			continue;
+		}
 		if ((*data)[i]->Hash() == temp.get() && (*data)[i]->first() == first)
 			break;
 		i = (i + q) % data->size();
@@ -213,18 +229,23 @@ bool Map<KeyType, DataType, q>::RemovePair(const KeyType& first)
 		return false;
 	uint32_t j = (i + q) % data->size();
 	delete (*data)[i];
-	(*data)[i] = NULL;
-	resize_cont(data->size());
-	/*while ((*data)[j] != NULL && i != start)
+	(*data)[i] = (MapPair<KeyType, DataType>*)0x000001;
+	//resize_cont(data->size());
+	while ((*data)[j] != NULL && j != start)
 	{
+		if ((*data)[j] == (MapPair<KeyType, DataType>*)0x000001)
+		{
+			j = (j + q) % data->size();
+			continue;
+		}
 		if ((*data)[j]->Hash() == temp.get())
 		{
 			(*data)[i] = (*data)[j];
-			(*data)[j] = NULL;
+			(*data)[j] = (MapPair<KeyType, DataType>*)0x000001;
 			i = j;
 		}
 		j = (j + q) % data->size();
-	}*/
+	}
 	return true;
 }
 #endif
