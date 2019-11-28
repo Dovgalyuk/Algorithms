@@ -1,6 +1,7 @@
 
 #pragma once
 #include "graph.h"
+#include "list.h"
 
 struct Graph {
 	Vertex* vertices;
@@ -13,8 +14,6 @@ struct Vertex {
 };
 
 struct  Graph_iterator {
-	ListItem* curr;
-
 	Data operator*() const {
 		return list_item_data(this->curr);
 	}
@@ -36,12 +35,17 @@ struct  Graph_iterator {
 	bool operator!=(const Graph_iterator& rhs) const {
 		return !(*this == rhs);
 	}
+
+	friend Graph_iterator graph_iterator_begin(Graph* graph, size_t vertex);
+	friend Graph_iterator graph_iterator_end(Graph* graph, size_t vertex);
+private:
+	ListItem* curr;
 };
 
 Graph_iterator graph_iterator_begin(Graph* graph, size_t vertex)
 {
 	Graph_iterator iter;
-	iter.curr = list_first(graph->vertices->edges);
+	iter.curr = list_first(graph->vertices[vertex].edges);
 	return iter;
 }
 

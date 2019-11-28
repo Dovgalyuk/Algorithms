@@ -1,5 +1,5 @@
 #include "graph.h"
-
+#include "list.h"
 
 struct Graph {
 	Vertex* vertices;

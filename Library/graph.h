@@ -4,7 +4,6 @@
 // Graph(Directed)
 // Stores integer values inside
 #include "defines.h"
-#include "list.h"
 
 struct Graph;
 struct Vertex;
