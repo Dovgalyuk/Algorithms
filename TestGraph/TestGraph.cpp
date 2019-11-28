@@ -1,5 +1,6 @@
 #include <iostream>
 #include "graph.h"
+#include "graph_iterator.hpp"
 
 using namespace std;
 
@@ -64,6 +65,18 @@ int main()
 	}
 	graph_delete(graph);
 	graph = graph_create(1);
+
+	graph_delete(graph);
+	graph = graph_create(5);
+	for (int i = 1; i <= 5; i++)
+	{
+		graph_add_edge(graph, 0, i);
+	}
+	for (Graph_iterator it = graph_iterator_begin(graph, 0); it != graph_iterator_end(graph, 0); ++it)
+	{
+		Data edge = *it;
+		cout << edge->head << "->" << edge->tail << endl;
+	}
 
 	cout << "Memory leak test started" << endl;
 	for (int i = 0; i < 10000; i++)

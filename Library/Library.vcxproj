@@ -74,6 +74,7 @@
     <ClCompile Include="array.cpp" />
     <ClCompile Include="deque.cpp" />
     <ClCompile Include="graph.cpp" />
+    <ClCompile Include="graph_iterator.hpp" />
     <ClCompile Include="list.cpp" />
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="stack.cpp" />
