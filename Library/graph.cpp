@@ -8,7 +8,6 @@ struct Graph {
 
 struct Vertex {
 	List* edges;
-	size_t index;
 	Mark mark;
 };
 
@@ -35,7 +34,6 @@ static void addVertices(Graph* graph, const size_t amount)
 	}
 	for (size_t i = 0; i < amount; i++)
 	{
-		newVertices[graph->vertices_count].index = graph->vertices_count;
 		newVertices[graph->vertices_count].mark = Mark();
 		newVertices[graph->vertices_count].edges = list_create();
 		graph->vertices_count++;
@@ -79,18 +77,13 @@ size_t graph_add_vertex(Graph* graph)
 	return graph->vertices_count;
 }
 
-void graph_add_edge(Graph* graph, const size_t head, const size_t tail, Mark mark)
+static void graph_add_edge(Graph* graph, const size_t head, const size_t tail)
 {
 	Edge* newEdge = new Edge();
-	newEdge->mark = mark;
+	newEdge->mark = Mark();
 	newEdge->head = head;
 	newEdge->tail = tail;
 	list_insert(graph->vertices[head].edges, newEdge);
-}
-
-void graph_add_edge(Graph* graph, const size_t head, const size_t tail)
-{
-	graph_add_edge(graph, head, tail, Mark());
 }
 
 inline static size_t decIfGrtr(size_t a, size_t b)
@@ -111,10 +104,13 @@ static void fixIndexes(Graph* graph, size_t vertex, size_t target)
 		{
 			if (tail != target && head != target)
 			{
-				graph_add_edge(graph, decIfGrtr(head, target), decIfGrtr(tail, target), edge->mark);
+				edge->head = decIfGrtr(head, target);
+				edge->tail = decIfGrtr(tail, target);
 			}
-			delete list_item_data(edgeItem);
-			list_erase(edges, edgeItem);
+			else {
+				delete list_item_data(edgeItem);
+				list_erase(edges, edgeItem);
+			}
 		}
 		edgeItem = next;
 	}
@@ -133,7 +129,6 @@ void graph_remove_vertex(Graph* graph, const size_t vertex)
 	for (size_t i = vertex; i < graph->vertices_count - 1; i++)
 	{
 		newVertices[i] = graph->vertices[i + 1];
-		newVertices[i].index--;
 	}
 	delete[] graph->vertices;
 	graph->vertices_count--;

@@ -66,7 +66,7 @@ int main()
 	graph = graph_create(1);
 
 	cout << "Memory leak test started" << endl;
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 10000; i++)
 	{
 		graph_add_vertex(graph);
 		graph_set_vertex_mark(graph, i + 1, i);
@@ -74,7 +74,7 @@ int main()
 		graph_set_edge_mark(graph, i, i + 1, i);
 	}
 	cout << "Memory leak test finished filling" << endl;
-	for (int i = 0; i < 1001; i++)
+	for (int i = 0; i < 10001; i++)
 	{
 		graph_remove_vertex(graph, 0);
 	}
