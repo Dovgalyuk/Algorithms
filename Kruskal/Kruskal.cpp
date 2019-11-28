@@ -1,15 +1,17 @@
 #include <iostream>
+#include <list.h>
 #include <graph.h>
+#include <vector>
+#include <algorithm>
 
 
 int main()
 {
+	//ѕрограмма считывает сначала колличество верши, затем количество св€зей, а затем дл€ каждой св€зи откуда она идЄт, куда и какой у неЄ вес(индексаци€ начинаетс€ с 0)
 	size_t v;
 	std::cin >> v;
 	Graph* graph = graph_create(v);
-	size_t* marksC = new size_t[v];
 	for (size_t i = 0; i < v; i++) {
-		marksC[i] = 1;
 		graph_set_vertex_mark(graph, i, i);
 	}
 	size_t e;
@@ -21,7 +23,8 @@ int main()
 		graph_add_edge(graph, a, b);
 		graph_set_edge_mark(graph, a, b, length);
 	}
-	List* sortedEdges = list_create();
+
+	std::vector<Edge> edges;
 	for (size_t i = 0; i < v; i++)
 	{
 		for (size_t j = 0; j < v; j++)
@@ -29,55 +32,51 @@ int main()
 			if (graph_check_edge(graph, i, j))
 			{
 				size_t len = graph_get_edge_mark(graph, i, j);
-				Edge* edge = new Edge();
-				edge->head = i;
-				edge->tail = j;
-				edge->mark = len;
-
-				ListItem* currEdgeItem = list_first(sortedEdges);
-				Edge* currEdge = list_item_data(currEdgeItem);
-				if (currEdge == NULL || len < currEdge->mark)
-				{
-					list_insert(sortedEdges, edge);
-				}
-				else {
-					while (currEdgeItem != NULL)
-					{
-						if (currEdge->mark > len)
-						{
-							list_insert_after(sortedEdges, list_item_prev(currEdgeItem), edge);
-						}
-						currEdgeItem = list_item_next(currEdgeItem);
-					}
-				}
+				Edge edge;
+				edge.head = i;
+				edge.tail = j;
+				edge.mark = len;
+				edges.push_back(edge);
 			}
 		}
 	}
-	size_t currA;
-	do {
-		size_t minA = -1, minB = -1, min = -1;
-		currA = -1;
-
-		if (minA != -1)
+	std::sort(edges.begin(), edges.end(), [](Edge a, Edge b) {return a.mark < b.mark; });
+	size_t i = 0;
+	std::vector<Edge> res;
+	while (i < edges.size())
+	{
+		Edge currEdge = edges[i];
+		size_t a = currEdge.head;
+		size_t b = currEdge.tail;
+		if (a != b)
 		{
-			if (graph_get_vertex_mark(graph, minA) == minA && graph_get_vertex_mark(graph, minB) != minB)
-			{
-				std::swap(minA, minB);
-			}
-			int aMark = graph_get_vertex_mark(graph, minA);
-			int bMark = graph_get_vertex_mark(graph, minB);
+			Edge edge;
+			edge.head = a;
+			edge.tail = b;
+			res.push_back(edge);
+			int aMark = graph_get_vertex_mark(graph, a);
+			int bMark = graph_get_vertex_mark(graph, b);
 			for (size_t i = 0; i < v; i++)
 			{
 				if (graph_get_vertex_mark(graph, i) == bMark)
 				{
 					graph_set_vertex_mark(graph, i, aMark);
-					marksC[aMark]++;
 				}
 			}
-			currA = aMark;
 		}
+		i++;
+	}
 
-
-	} while (currA != -1 && marksC[currA] != v);
-	std::cout << currA;
+	std::cout << std::endl;
+	if (res.size() != v - 1)
+	{
+		std::cout << "Can't build tree";
+	}
+	else {
+		for (size_t i = 0; i < res.size(); i++)
+		{
+			std::cout << res[i].head << " " << res[i].tail << std::endl;
+		}
+	}
+	graph_delete(graph);
 }

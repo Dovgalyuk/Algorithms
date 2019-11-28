@@ -77,7 +77,7 @@ size_t graph_add_vertex(Graph* graph)
 	return graph->vertices_count;
 }
 
-static void graph_add_edge(Graph* graph, const size_t head, const size_t tail)
+void graph_add_edge(Graph* graph, const size_t head, const size_t tail)
 {
 	Edge* newEdge = new Edge();
 	newEdge->mark = Mark();
