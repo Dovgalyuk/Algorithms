@@ -116,23 +116,24 @@ DataType& MapPair<KeyType, DataType>::second()
 template <typename KeyType, typename DataType, unsigned int q = 1>
 class Map
 {
-	Vector<MapPair<KeyType, DataType>*>* data;
+	typedef MapPair<KeyType, DataType>* Pair;
+	Vector<Pair>* data;
 	void resize_cont(const size_t size);
 public:
 	Map();
 	~Map();
 	void add(const KeyType& first, const DataType& second);
-	MapPair<KeyType, DataType>* find(const KeyType& first);
+	Pair find(const KeyType& first);
 	bool RemovePair(const KeyType& first);
 };
 
 template <typename KeyType, typename DataType, unsigned int q>
 void Map<KeyType, DataType, q>::resize_cont(const size_t size)
 {
-	Vector<MapPair<KeyType, DataType>*>* temp = new Vector<MapPair<KeyType, DataType>*>(size, NULL);
+	Vector<Pair>* temp = new Vector<Pair>(size, NULL);
 	for (size_t i = 0; i < data->size(); i++)
 	{
-		if ((*data)[i] == NULL || (*data)[i] == (MapPair<KeyType, DataType>*)0x000001)
+		if ((*data)[i] == NULL || (*data)[i] == (Pair)0x000001)
 			continue;
 		uint32_t j = (*data)[i]->Hash() % temp->size();
 		while ((*temp)[j] != NULL)
@@ -148,7 +149,7 @@ void Map<KeyType, DataType, q>::resize_cont(const size_t size)
 template <typename KeyType, typename DataType, unsigned int q>
 Map<KeyType, DataType, q>::Map()
 {
-	data = new Vector<MapPair<KeyType, DataType>*>(100, NULL);
+	data = new Vector<Pair>(100, NULL);
 }
 
 template <typename KeyType, typename DataType, unsigned int q>
@@ -156,7 +157,7 @@ Map<KeyType, DataType, q>::~Map()
 {
 	for (size_t i = 0; i < data->size(); i++)
 	{
-		if ((*data)[i] == (MapPair<KeyType, DataType>*)0x000001)
+		if ((*data)[i] == (Pair)0x000001)
 		{
 			continue;
 		}
@@ -168,10 +169,10 @@ Map<KeyType, DataType, q>::~Map()
 template <typename KeyType, typename DataType, unsigned int q>
 void Map<KeyType, DataType, q>::add(const KeyType& first, const DataType& second)
 {
-	MapPair<KeyType, DataType>* temp = new MapPair<KeyType, DataType>(first, second);
+	Pair temp = new MapPair<KeyType, DataType>(first, second);
 	uint32_t i = temp->Hash() % data->size();
 	uint32_t start = i;
-	while ((*data)[i] != NULL && (*data)[i] != (MapPair<KeyType, DataType> *)0x000001)
+	while ((*data)[i] != NULL && (*data)[i] != (Pair)0x000001)
 	{
 		i = (i + q) % data->size();
 		if (i == start)
@@ -185,14 +186,14 @@ void Map<KeyType, DataType, q>::add(const KeyType& first, const DataType& second
 }
 
 template <typename KeyType, typename DataType, unsigned int q>
-MapPair<KeyType, DataType>* Map<KeyType, DataType, q>::find(const KeyType& first)
+Map<KeyType, DataType, q>::Pair Map<KeyType, DataType, q>::find(const KeyType& first)
 {
 	Hash_t<KeyType> temp(first);
 	uint32_t i = temp.get() % data->size();
 	uint32_t start = i;
 	while ((*data)[i] != NULL)
 	{
-		if ((*data)[i] == (MapPair<KeyType, DataType>*)0x000001)
+		if ((*data)[i] == (Pair)0x000001)
 		{
 			i = (i + q) % data->size();
 			continue;
@@ -214,7 +215,7 @@ bool Map<KeyType, DataType, q>::RemovePair(const KeyType& first)
 	uint32_t start = i;
 	while ((*data)[i] != NULL)
 	{
-		if ((*data)[i] == (MapPair<KeyType, DataType>*)0x000001)
+		if ((*data)[i] == (Pair)0x000001)
 		{
 			i = (i + q) % data->size();
 			continue;
@@ -229,11 +230,11 @@ bool Map<KeyType, DataType, q>::RemovePair(const KeyType& first)
 		return false;
 	uint32_t j = (i + q) % data->size();
 	delete (*data)[i];
-	(*data)[i] = (MapPair<KeyType, DataType>*)0x000001;
+	(*data)[i] = (Pair)0x000001;
 	//resize_cont(data->size());
 	while ((*data)[j] != NULL && j != start)
 	{
-		if ((*data)[j] == (MapPair<KeyType, DataType>*)0x000001)
+		if ((*data)[j] == (Pair)0x000001)
 		{
 			j = (j + q) % data->size();
 			continue;
@@ -241,7 +242,7 @@ bool Map<KeyType, DataType, q>::RemovePair(const KeyType& first)
 		if ((*data)[j]->Hash() == temp.get())
 		{
 			(*data)[i] = (*data)[j];
-			(*data)[j] = (MapPair<KeyType, DataType>*)0x000001;
+			(*data)[j] = (Pair)0x000001;
 			i = j;
 		}
 		j = (j + q) % data->size();
