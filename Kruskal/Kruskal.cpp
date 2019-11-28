@@ -19,30 +19,45 @@ int main()
 		size_t a, b, length;
 		std::cin >> a >> b >> length;
 		graph_add_edge(graph, a, b);
-		graph_add_edge(graph, b, a);
 		graph_set_edge_mark(graph, a, b, length);
-		graph_set_edge_mark(graph, b, a, length);
 	}
-
-	size_t currA;
-	do {
-		size_t minA = -1, minB = -1, min = -1;
-		currA = -1;
-		for (size_t i = 0; i < v; i++)
+	List* sortedEdges = list_create();
+	for (size_t i = 0; i < v; i++)
+	{
+		for (size_t j = 0; j < v; j++)
 		{
-			for (size_t j = 0; j < v; j++)
+			if (graph_check_edge(graph, i, j))
 			{
-				if (graph_check_edge(graph, i, j) && graph_get_vertex_mark(graph, i) != graph_get_vertex_mark(graph, j))
+				size_t len = graph_get_edge_mark(graph, i, j);
+				Edge* edge = new Edge();
+				edge->head = i;
+				edge->tail = j;
+				edge->mark = len;
+
+				ListItem* currEdgeItem = list_first(sortedEdges);
+				Edge* currEdge = list_item_data(currEdgeItem);
+				if (currEdge == NULL || len < currEdge->mark)
 				{
-					if (graph_get_edge_mark(graph, i, j) < min)
+					list_insert(sortedEdges, edge);
+				}
+				else {
+					while (currEdgeItem != NULL)
 					{
-						minA = i;
-						minB = j;
-						min = graph_get_edge_mark(graph, i, j);
+						if (currEdge->mark > len)
+						{
+							list_insert_after(sortedEdges, list_item_prev(currEdgeItem), edge);
+						}
+						currEdgeItem = list_item_next(currEdgeItem);
 					}
 				}
 			}
 		}
+	}
+	size_t currA;
+	do {
+		size_t minA = -1, minB = -1, min = -1;
+		currA = -1;
+
 		if (minA != -1)
 		{
 			if (graph_get_vertex_mark(graph, minA) == minA && graph_get_vertex_mark(graph, minB) != minB)
