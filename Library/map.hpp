@@ -123,7 +123,7 @@ public:
 	Map();
 	~Map();
 	void add(const KeyType& first, const DataType& second);
-	Pair find(const KeyType& first);
+	MapPair<KeyType, DataType>* find(const KeyType& first);
 	bool RemovePair(const KeyType& first);
 };
 
@@ -186,7 +186,7 @@ void Map<KeyType, DataType, q>::add(const KeyType& first, const DataType& second
 }
 
 template <typename KeyType, typename DataType, unsigned int q>
-Map<KeyType, DataType, q>::Pair Map<KeyType, DataType, q>::find(const KeyType& first)
+MapPair<KeyType, DataType>* Map<KeyType, DataType, q>::find(const KeyType& first)
 {
 	Hash_t<KeyType> temp(first);
 	uint32_t i = temp.get() % data->size();
