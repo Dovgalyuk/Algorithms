@@ -116,14 +116,17 @@ DataType& MapPair<KeyType, DataType>::second()
 template <typename KeyType, typename DataType, unsigned int q = 1>
 class Map
 {
+public:
 	typedef MapPair<KeyType, DataType>* Pair;
+private:
 	Vector<Pair>* data;
 	void resize_cont(const size_t size);
+	size_t used;
 public:
 	Map();
 	~Map();
 	void add(const KeyType& first, const DataType& second);
-	MapPair<KeyType, DataType>* find(const KeyType& first);
+	Pair find(const KeyType& first);
 	bool RemovePair(const KeyType& first);
 };
 
@@ -150,6 +153,7 @@ template <typename KeyType, typename DataType, unsigned int q>
 Map<KeyType, DataType, q>::Map()
 {
 	data = new Vector<Pair>(100, NULL);
+	used = 0;
 }
 
 template <typename KeyType, typename DataType, unsigned int q>
@@ -172,6 +176,8 @@ void Map<KeyType, DataType, q>::add(const KeyType& first, const DataType& second
 	Pair temp = new MapPair<KeyType, DataType>(first, second);
 	uint32_t i = temp->Hash() % data->size();
 	uint32_t start = i;
+	if (data->size() / 2 == used)
+		resize_cont(data->size() * 2);
 	while ((*data)[i] != NULL && (*data)[i] != (Pair)0x000001)
 	{
 		i = (i + q) % data->size();
@@ -183,10 +189,11 @@ void Map<KeyType, DataType, q>::add(const KeyType& first, const DataType& second
 		}
 	}
 	(*data)[i] = temp;
+	used++;
 }
 
 template <typename KeyType, typename DataType, unsigned int q>
-MapPair<KeyType, DataType>* Map<KeyType, DataType, q>::find(const KeyType& first)
+typename Map<KeyType, DataType, q>::Pair Map<KeyType, DataType, q>::find(const KeyType& first)
 {
 	Hash_t<KeyType> temp(first);
 	uint32_t i = temp.get() % data->size();
@@ -247,6 +254,7 @@ bool Map<KeyType, DataType, q>::RemovePair(const KeyType& first)
 		}
 		j = (j + q) % data->size();
 	}
+	used--;
 	return true;
 }
 #endif

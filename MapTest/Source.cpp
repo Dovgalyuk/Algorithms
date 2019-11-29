@@ -9,8 +9,8 @@ using namespace std;
 int main()
 {
 	auto start_time = std::chrono::steady_clock::now();
-	const int len = 1000;
-	Map<int, int> test;
+	const int len = 100000;
+	Map<int, int, 179> test;
 	for (int i = 0; i < len; i++)
 		test.add(i, i);
 	for (int i = 0; i < len; i += 2)
