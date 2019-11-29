@@ -4,7 +4,6 @@
 typedef int Mark;
 
 struct Edge {
-	size_t head;
 	size_t tail;
 	Mark mark;
 };

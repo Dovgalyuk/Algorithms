@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "graph_iterator.hpp"
 #include "list.h"
 
 struct Graph {
@@ -81,7 +82,6 @@ void graph_add_edge(Graph* graph, const size_t head, const size_t tail)
 {
 	Edge* newEdge = new Edge();
 	newEdge->mark = Mark();
-	newEdge->head = head;
 	newEdge->tail = tail;
 	list_insert(graph->vertices[head].edges, newEdge);
 }
@@ -99,12 +99,11 @@ static void fixIndexes(Graph* graph, size_t vertex, size_t target)
 	{
 		ListItem* next = list_item_next(edgeItem);
 		Edge* edge = list_item_data(edgeItem);
-		const size_t tail = edge->tail, head = edge->head;
-		if (tail >= target || head >= target)
+		const size_t tail = edge->tail;
+		if (tail >= target)
 		{
-			if (tail != target && head != target)
+			if (tail != target)
 			{
-				edge->head = decIfGrtr(head, target);
 				edge->tail = decIfGrtr(tail, target);
 			}
 			else {
@@ -169,4 +168,18 @@ void graph_set_edge_mark(Graph* graph, const size_t head, const size_t tail, con
 Mark graph_get_edge_mark(const Graph* graph, const size_t head, const size_t tail)
 {
 	return list_item_data(findEdge(graph, head, tail))->mark;
+}
+
+Graph_iterator graph_iterator_begin(Graph* graph, size_t vertex)
+{
+	Graph_iterator iter;
+	iter.curr = list_first(graph->vertices[vertex].edges);
+	return iter;
+}
+
+Graph_iterator graph_iterator_end(Graph* graph, size_t vertex)
+{
+	Graph_iterator iter;
+	iter.curr = NULL;
+	return iter;
 }

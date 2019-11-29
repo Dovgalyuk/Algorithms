@@ -8,6 +8,7 @@
 struct Graph;
 struct Vertex;
 struct Edge;
+struct Graph_iterator;
 
 // Creates new graph
 Graph* graph_create(const size_t vertex_count);
@@ -41,5 +42,10 @@ void graph_set_edge_mark(Graph* graph, const size_t head, const size_t tail, con
 
 // Returns specified edge mark
 Mark graph_get_edge_mark(const Graph* graph, const size_t head, const size_t tail);
+
+
+Graph_iterator graph_iterator_begin(Graph* graph, size_t vertex);
+
+Graph_iterator graph_iterator_end(Graph* graph, size_t vertex);
 
 #endif
