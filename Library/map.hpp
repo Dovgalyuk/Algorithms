@@ -116,9 +116,7 @@ DataType& MapPair<KeyType, DataType>::second()
 template <typename KeyType, typename DataType, unsigned int q = 1>
 class Map
 {
-public:
 	typedef MapPair<KeyType, DataType>* Pair;
-private:
 	Vector<Pair>* data;
 	void resize_cont(const size_t size);
 	size_t used;
