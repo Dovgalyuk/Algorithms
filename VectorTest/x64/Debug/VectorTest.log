@@ -1,7 +1,0 @@
-﻿  main.cpp
-C:\Users\abubaca4\source\repos\abubaca4\Algorithms\VectorTest\main.cpp(16,16): warning C4267: аргумент: преобразование из "size_t" в "const Data"; возможна потеря данных
-          with
-          [
-              Data=int
-          ]
-  VectorTest.vcxproj -> C:\Users\abubaca4\source\repos\abubaca4\Algorithms\x64\Debug\VectorTest.exe
