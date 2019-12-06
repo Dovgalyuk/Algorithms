@@ -1,50 +1,49 @@
-#include "String.h"
+#include "vstring.h"
 
-
-String::String()
+vstring::vstring()
 {
 	data_size = 0;
 	data = new char[data_size + 1];
-	data[data_size] = '/0';
+	data[data_size] = '\0';
 }
 
-String::String(const char* source)
+vstring::vstring(const char* source)
 {
 	data_size = 0;
 	while (source[data_size])
 		data_size++;
 	data = new char[data_size + 1];
-	data[data_size] = '/0';
+	data[data_size] = '\0';
 	for (size_t i = 0; i < data_size; i++)
 		data[i] = source[i];
 }
 
-String::String(const std::string& source)
+vstring::vstring(const std::string& source)
 {
 	data_size = source.length();
 	data = new char[data_size + 1];
-	data[data_size] = '/0';
+	data[data_size] = '\0';
 	for (size_t i = 0; i < data_size; i++)
 		data[i] = source[i];
 }
 
-String::String(const String& source)
+vstring::vstring(const vstring& source)
 {
 	data_size = source.data_size;
 	data = new char[data_size + 1];
-	data[data_size] = '/0';
+	data[data_size] = '\0';
 	for (size_t i = 0; i < data_size; i++)
 		data[i] = source.data[i];
 }
 
-String::~String()
+vstring::~vstring()
 {
 	delete[] data;
 }
 
-String String::operator+(const String& taget)
+vstring vstring::operator+(const vstring& taget)
 {
-	String temp;
+	vstring temp;
 	temp.resize(this->data_size + taget.data_size, ' ');
 	for (size_t i = 0; i < this->data_size; i++)
 		temp[i] = this->data[i];
@@ -53,7 +52,7 @@ String String::operator+(const String& taget)
 	return temp;
 }
 
-String& String::operator+=(const String& taget)
+vstring& vstring::operator+=(const vstring& taget)
 {
 	char* temp;
 	temp = new char[this->data_size + taget.data_size + 1];
@@ -62,13 +61,13 @@ String& String::operator+=(const String& taget)
 	for (size_t i = 0; i < taget.data_size; i++)
 		temp[i + this->data_size] = taget.data[i];
 	data_size = this->data_size + taget.data_size;
-	temp[data_size] = '/0';
+	temp[data_size] = '\0';
 	delete[] data;
 	data = temp;
 	return (*this);
 }
 
-bool String::operator==(const String& taget)
+bool vstring::operator==(const vstring& taget)
 {
 	if (this == &taget)
 		return true;
@@ -80,44 +79,44 @@ bool String::operator==(const String& taget)
 	return true;
 }
 
-bool String::operator!=(const String& taget)
+bool vstring::operator!=(const vstring& taget)
 {
 	return !(*this == taget);
 }
 
-char& String::operator[](size_t index)
+char& vstring::operator[](size_t index)
 {
 	return data[index];
 }
 
-size_t String::length()
+size_t vstring::length()
 {
 	return data_size;
 }
 
-bool String::resize(size_t new_size, const char data)
+bool vstring::resize(size_t new_size, const char data)
 {
 	char* temp;
 	temp = new char[new_size + 1];
 	if (!temp[0])
 		return false;
-	for (size_t i = 0; i < new_size < data_size ? new_size : data_size; i++)
+	for (size_t i = 0; i < (new_size < data_size ? new_size : data_size); i++)
 		temp[i] = this->data[i];
 	for (size_t i = new_size < data_size ? new_size : data_size; i < new_size; i++)
 		temp[i] = data;
-	temp[new_size] = '/0';
+	temp[new_size] = '\0';
 	delete[] this->data;
 	data_size = new_size;
 	this->data = temp;
 	return true;
 }
 
-const char* String::c_type()
+const char* vstring::c_type()
 {
 	return data;
 }
 
-std::string String::std_type()
+std::string vstring::std_type()
 {
 	return std::string(this->data);
 }

@@ -1,8 +1,6 @@
 #include <iostream>
 #include "vector.hpp"
 
-using namespace std;
-
 int main()
 {
 	Vector<int> test;

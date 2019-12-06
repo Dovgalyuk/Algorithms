@@ -1,7 +1,8 @@
 #include <iostream>
-#include "String.h"
+#include "vstring.h"
 
 int main()
 {
-	String test;
+	vstring test;
+
 }
