@@ -12,3 +12,5 @@ Debug/*
 Release/*
 .vs/*
 build/*
+x64/*
+*/x64/*
