@@ -1,5 +1,6 @@
 #include "graph.h"
 #include "array.h"
+#include "map"
 
 struct Graph
 {
@@ -8,23 +9,23 @@ struct Graph
 	Array* weight;
 };
 
-struct Iterator
+Iterator iterator_begin(Graph* graph, Data vertex)
 {
-	Graph* graph;
-	Data firstVertex;
-	Data secondVertex;
-};
-
-Iterator* iterator_create(Graph* graph, Data vertex)
-{
-	Iterator* iterator = new Iterator;
-	iterator->graph = graph;
+	Iterator iterator;
+	iterator.graph = graph;
+	iterator.firstVertex = vertex;
+	iterator.secondVertex = 0;
+	++iterator;
 	return iterator;
 }
 
-void iterator_delete(Iterator* iterator)
+Iterator iterator_end(Graph* graph, Data vertex)
 {
-	delete iterator;
+	Iterator iterator;
+	iterator.graph = graph;
+	iterator.firstVertex = vertex;
+	iterator.secondVertex = graph->size;
+	return iterator;
 }
 
 Graph* graph_create(Data size)
@@ -127,12 +128,12 @@ bool graph_checkEdge(Graph* graph, Data firstVertex, Data secondVertex)
 
 void graph_setVertexWeight(Graph* graph, Data vertex, Data weight)
 {
-	array_set(graph->weight, vertex, weight);
+	graph_setEdgeWeight(graph, vertex, vertex, weight);
 }
 
 Data graph_getVertexWeight(Graph* graph, Data vertex)
 {
-	return array_get(graph->weight, vertex);
+	return	graph_getEdgeWeight(graph, vertex, vertex);
 }
 
 void graph_setEdgeWeight(Graph* graph, Data firstVertex, Data secondVertex, Data weight)
@@ -152,4 +153,28 @@ void graph_delete(Graph* graph)
 	array_delete(graph->graph);
 	array_delete(graph->weight);
 	delete graph;
+}
+
+Iterator Iterator::operator++()
+{
+	while (!graph_checkEdge(this->graph, this->firstVertex, this->secondVertex) && this->secondVertex < this->graph->size)
+	{
+		this->secondVertex++;
+	}
+	return *this;
+}
+
+std::pair<int, int> Iterator::operator*()
+{
+	return std::pair<int, int>(this->secondVertex, graph_getEdgeWeight(graph, this->firstVertex, this->secondVertex));
+}
+
+bool Iterator::operator==(const Iterator& n)
+{
+	return (this->firstVertex == n.firstVertex && this->secondVertex == n.secondVertex && this->graph == n.graph);
+}
+
+bool Iterator::operator!=(const Iterator& n)
+{
+	return !this->operator==(n);
 }

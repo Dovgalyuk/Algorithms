@@ -1,3 +1,5 @@
+#include "map"
+
 #ifndef GRAPH_H
 #define GRAPH_H
 
@@ -5,13 +7,19 @@
 typedef size_t Data;
 
 struct Graph;
-struct Iterator;
+struct Iterator {
+	Iterator operator++();
+	std::pair<int, int> operator*();
+	bool operator==(const Iterator& n);
+	bool operator!=(const Iterator& n);
+	friend Iterator iterator_begin(Graph* graph, Data vertex);
+	friend Iterator iterator_end(Graph* graph, Data vertex);
 
-// Creates a new Iterator
-Iterator* iterator_create(Graph* graph, Data vertex);
-
-// Deletes Iterator
-void iterator_delete(Iterator* iterator);
+private:
+	Graph* graph;
+	Data firstVertex;
+	Data secondVertex;
+};
 
 // Creates a ected graph with N vertices
 Graph* graph_create(Data size);
