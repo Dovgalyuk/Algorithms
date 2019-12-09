@@ -44,5 +44,9 @@ int main()
 	String testfind("qwerty");
 	if (testfind.find("ert") != 2)
 		cout << "find error" << ' ' << testfind.find("ert") << endl;
+	if (!(String("124") > String("123")))
+		cout << "compare error" << ' ' << endl;
+	if (String("124") < String("123"))
+		cout << "compare error" << ' ' << endl;
 	cout << test.c_type();
 }

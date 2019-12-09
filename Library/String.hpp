@@ -16,6 +16,8 @@ public:
 	String& operator=(const String& taget);
 	bool operator==(const String& taget)  const;
 	bool operator!=(const String& taget) const;
+	bool operator>(const String& taget) const;
+	bool operator<(const String& taget) const;
 	char& operator[](size_t index);
 	const char& operator[](size_t index) const;
 	size_t length() const;

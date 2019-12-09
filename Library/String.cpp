@@ -96,6 +96,22 @@ bool String::operator!=(const String& taget) const
 	return !(*this == taget);
 }
 
+bool String::operator>(const String& taget) const
+{
+	size_t i = 0;
+	while (data[i] && data[i] == taget.data[i])
+		i++;
+	return data[i] > taget.data[i];
+}
+
+bool String::operator<(const String& taget) const
+{
+	size_t i = 0;
+	while (data[i] && data[i] == taget.data[i])
+		i++;
+	return data[i] < taget.data[i];
+}
+
 char& String::operator[](size_t index)
 {
 	return data[index];
