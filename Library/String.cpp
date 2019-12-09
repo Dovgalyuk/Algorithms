@@ -2,8 +2,8 @@
 
 String::String()
 {
-	data_size = 0;
-	data = new char[data_size + 1];
+	real = data_size = 0;
+	data = new char[real + 1];
 	data[data_size] = '\0';
 }
 
@@ -12,7 +12,8 @@ String::String(const char* source)
 	data_size = 0;
 	while (source[data_size])
 		data_size++;
-	data = new char[data_size + 1];
+	real = data_size;
+	data = new char[real + 1];
 	data[data_size] = '\0';
 	for (size_t i = 0; i < data_size; i++)
 		data[i] = source[i];
@@ -20,8 +21,8 @@ String::String(const char* source)
 
 String::String(const std::string& source)
 {
-	data_size = source.length();
-	data = new char[data_size + 1];
+	real = data_size = source.length();
+	data = new char[real + 1];
 	data[data_size] = '\0';
 	for (size_t i = 0; i < data_size; i++)
 		data[i] = source[i];
@@ -29,8 +30,8 @@ String::String(const std::string& source)
 
 String::String(const String& source)
 {
-	data_size = source.data_size;
-	data = new char[data_size + 1];
+	real = data_size = source.data_size;
+	data = new char[real + 1];
 	data[data_size] = '\0';
 	for (size_t i = 0; i < data_size; i++)
 		data[i] = source.data[i];
@@ -60,7 +61,7 @@ String& String::operator+=(const String& taget)
 		temp[i] = this->data[i];
 	for (size_t i = 0; i < taget.data_size; i++)
 		temp[i + this->data_size] = taget.data[i];
-	data_size = this->data_size + taget.data_size;
+	real = data_size = this->data_size + taget.data_size;
 	temp[data_size] = '\0';
 	delete[] data;
 	data = temp;
@@ -70,8 +71,8 @@ String& String::operator+=(const String& taget)
 String& String::operator=(const String& taget)
 {
 	delete[] data;
-	data_size = taget.data_size;
-	data = new char[data_size + 1];
+	real = data_size = taget.data_size;
+	data = new char[real + 1];
 	data[data_size] = '\0';
 	for (size_t i = 0; i < data_size; i++)
 		data[i] = taget.data[i];
@@ -100,6 +101,11 @@ char& String::operator[](size_t index)
 	return data[index];
 }
 
+const char& String::operator[](size_t index) const
+{
+	return data[index];
+}
+
 size_t String::length() const
 {
 	return data_size;
@@ -107,17 +113,25 @@ size_t String::length() const
 
 bool String::resize(size_t new_size, const char data)
 {
+	if (new_size < real)
+	{
+		this->data[new_size] = '\0';
+		for (size_t i = data_size; i < new_size; i++)
+			this->data[i] = data;
+		data_size = new_size;
+		return true;
+	}
 	char* temp;
 	temp = new char[new_size + 1];
 	if (!temp[0])
 		return false;
-	for (size_t i = 0; i < (new_size < data_size ? new_size : data_size); i++)
+	for (size_t i = 0; i < data_size; i++)
 		temp[i] = this->data[i];
-	for (size_t i = new_size < data_size ? new_size : data_size; i < new_size; i++)
+	for (size_t i = data_size; i < new_size; i++)
 		temp[i] = data;
 	temp[new_size] = '\0';
 	delete[] this->data;
-	data_size = new_size;
+	real = data_size = new_size;
 	this->data = temp;
 	return true;
 }

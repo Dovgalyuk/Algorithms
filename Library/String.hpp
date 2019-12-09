@@ -17,6 +17,7 @@ public:
 	bool operator==(const String& taget)  const;
 	bool operator!=(const String& taget) const;
 	char& operator[](size_t index);
+	const char& operator[](size_t index) const;
 	size_t length() const;
 	bool resize(size_t new_size, const char data);
 	const char* c_type() const;
@@ -24,6 +25,6 @@ public:
 	size_t find(const String& P) const;
 private:
 	char* data;
-	size_t data_size;
+	size_t data_size, real;
 };
 #endif
