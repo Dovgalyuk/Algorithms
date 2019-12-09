@@ -78,5 +78,24 @@ int main()
 		cout << "Covering tree weight = " << sumWeight << endl;
 	}
 
+	// ¬ывод матрицы смежности через итераторы
+
+	for (size_t i = 0; i < graphSize; i++)
+	{
+		Iterator it = iterator_begin(graph, i);
+		for (size_t j = 0; j < graphSize; j++)
+		{
+			if (j == (*it).first)
+			{
+				cout << "1 ";
+				++it;
+			}
+			else
+			{
+				cout << "0 ";
+			}
+		}
+		cout << endl;
+	}
 	return 0;
 }

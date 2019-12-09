@@ -14,7 +14,6 @@ struct Iterator {
 	bool operator!=(const Iterator& n);
 	friend Iterator iterator_begin(Graph* graph, Data vertex);
 	friend Iterator iterator_end(Graph* graph, Data vertex);
-
 private:
 	Graph* graph;
 	Data firstVertex;
@@ -53,5 +52,9 @@ Data graph_getEdgeWeight(Graph* graph, Data firstVertex, Data secondVertex);
 
 // Deletes a ected graph
 void graph_delete(Graph* graph);
+
+Iterator iterator_begin(Graph* graph, Data vertex);
+
+Iterator iterator_end(Graph* graph, Data vertex);
 
 #endif

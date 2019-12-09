@@ -14,7 +14,7 @@ Iterator iterator_begin(Graph* graph, Data vertex)
 	Iterator iterator;
 	iterator.graph = graph;
 	iterator.firstVertex = vertex;
-	iterator.secondVertex = 0;
+	iterator.secondVertex = -1;
 	++iterator;
 	return iterator;
 }
@@ -157,10 +157,10 @@ void graph_delete(Graph* graph)
 
 Iterator Iterator::operator++()
 {
-	while (!graph_checkEdge(this->graph, this->firstVertex, this->secondVertex) && this->secondVertex < this->graph->size)
+	do
 	{
 		this->secondVertex++;
-	}
+	} while (!graph_checkEdge(this->graph, this->firstVertex, this->secondVertex) && this->secondVertex < this->graph->size);
 	return *this;
 }
 
