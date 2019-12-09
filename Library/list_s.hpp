@@ -20,11 +20,11 @@ public:
 	// Destroys the list and frees the memory
 	~List();
 	// Retrieves the first item from the list
-	ListItem<Data>* first();
+	ListItem<Data>* first() const;
 	// Extracts data from the list item
-	Data item_data(const ListItem<Data>* item);
+	Data item_data(const ListItem<Data>* item) const;
 	// Returns list item following after the specified one
-	ListItem<Data>* item_next(ListItem<Data>* item);
+	ListItem<Data>* item_next(ListItem<Data>* item) const;
 	// Returns previous element for the specified item.
 	// Not applicable for the singly linked lists.
 	//ListItem* item_prev(ListItem* item);
@@ -61,19 +61,19 @@ List < Data > ::~List()
 }
 
 template<typename Data>
-ListItem< Data >* List < Data > ::first()
+ListItem< Data >* List < Data > ::first() const
 {
 	return first_e;
 }
 
 template<typename Data>
-Data List< Data > ::item_data(const ListItem<Data>* item)
+Data List< Data > ::item_data(const ListItem<Data>* item) const
 {
 	return item->item;
 }
 
 template<typename Data>
-ListItem<Data>* List< Data > ::item_next(ListItem<Data>* item)
+ListItem<Data>* List< Data > ::item_next(ListItem<Data>* item) const
 {
 	return item->Next;
 }
@@ -127,5 +127,4 @@ ListItem<Data>* List< Data > ::erase_first()
 	first_e = temp;
 	return temp;
 }
-
 #endif

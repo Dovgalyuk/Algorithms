@@ -14,8 +14,8 @@ class Hash_t
 	uint32_t hash_data;
 public:
 	Hash_t(const KeyType& init);
-	uint32_t get();
 	Hash_t(const char*& init);
+	uint32_t get() const;
 };
 
 template <typename KeyType>
@@ -73,7 +73,7 @@ Hash_t<char*>::Hash_t(const char*& init)
 }
 
 template <typename KeyType>
-uint32_t Hash_t<KeyType>::get()
+uint32_t Hash_t<KeyType>::get() const
 {
 	return hash_data;
 }
@@ -86,9 +86,10 @@ class MapPair
 	DataType Data;
 public:
 	MapPair(const KeyType& first, const DataType& second);
-	uint32_t Hash();
-	const KeyType& first();
+	uint32_t Hash() const;
+	const KeyType& first() const;
 	DataType& second();
+	const DataType& second() const;
 };
 
 template <typename KeyType, typename DataType>
@@ -96,19 +97,25 @@ MapPair<KeyType, DataType>::MapPair(const KeyType& first, const DataType& second
 {}
 
 template <typename KeyType, typename DataType>
-uint32_t MapPair<KeyType, DataType>::Hash()
+uint32_t MapPair<KeyType, DataType>::Hash() const
 {
 	return hash.get();
 }
 
 template <typename KeyType, typename DataType>
-const KeyType& MapPair<KeyType, DataType>::first()
+const KeyType& MapPair<KeyType, DataType>::first() const
 {
 	return Key;
 }
 
 template <typename KeyType, typename DataType>
 DataType& MapPair<KeyType, DataType>::second()
+{
+	return Data;
+}
+
+template <typename KeyType, typename DataType>
+const DataType& MapPair<KeyType, DataType>::second() const
 {
 	return Data;
 }
@@ -124,7 +131,7 @@ public:
 	Map();
 	~Map();
 	void add(const KeyType& first, const DataType& second);
-	Pair find(const KeyType& first);
+	Pair find(const KeyType& first) const;
 	bool RemovePair(const KeyType& first);
 };
 
@@ -191,7 +198,7 @@ void Map<KeyType, DataType, q>::add(const KeyType& first, const DataType& second
 }
 
 template <typename KeyType, typename DataType, unsigned int q>
-typename Map<KeyType, DataType, q>::Pair Map<KeyType, DataType, q>::find(const KeyType& first)
+typename Map<KeyType, DataType, q>::Pair Map<KeyType, DataType, q>::find(const KeyType& first) const
 {
 	Hash_t<KeyType> temp(first);
 	uint32_t i = temp.get() % data->size();

@@ -15,12 +15,12 @@ public:
 	// Should be O(1) on average
 	void push(const Data &data);
 	// Retrives the last element from the stack
-	Data get();
+	Data get() const;
 	// Removes the last element from the stack
 	// Should be O(1)
 	void pop();
 	// Returns true if the stack is empty
-	bool empty();
+	bool empty() const;
 };
 
 template<typename Data>
@@ -42,7 +42,7 @@ void Stack < Data > ::push(const Data &data)
 }
 
 template<typename Data>
-Data Stack < Data > ::get()
+Data Stack < Data > ::get() const
 {
 	return cont->item_data(cont->first());
 }
@@ -54,7 +54,7 @@ void Stack < Data > ::pop()
 }
 
 template<typename Data>
-bool Stack < Data > ::empty()
+bool Stack < Data > ::empty() const
 {
 	return !(cont->first());
 }

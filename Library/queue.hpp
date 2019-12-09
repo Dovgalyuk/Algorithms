@@ -7,7 +7,7 @@ class Queue
 {
 	Stack<Data> *in;
 	Stack<Data> *out;
-	void shift_o();
+	void shift_o() const;
 public:
 	// Create empty queue
 	Queue();
@@ -17,12 +17,12 @@ public:
 	// Should be O(1)
 	void insert(const Data &data);
 	// Retrieves first element from the queue
-	Data get();
+	Data get() const;
 	// Removes first element from the queue
 	// Should be O(1)
 	void remove();
 	// Returns true if the queue is empty
-	bool empty();
+	bool empty() const;
 };
 
 template<typename Data>
@@ -40,7 +40,7 @@ Queue<Data>::~Queue()
 }
 
 template<typename Data>
-void Queue<Data>::shift_o()
+void Queue<Data>::shift_o() const
 {
 	if (!out->empty())
 		return;
@@ -58,7 +58,7 @@ void Queue<Data>::insert(const Data &data)
 }
 
 template<typename Data>
-Data Queue<Data>::get()
+Data Queue<Data>::get() const
 {
 	shift_o();
 	return out->get();
@@ -72,7 +72,7 @@ void Queue<Data>::remove()
 }
 
 template<typename Data>
-bool Queue<Data>::empty()
+bool Queue<Data>::empty() const
 {
 	return (out->empty()&&in->empty());
 }

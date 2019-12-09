@@ -17,12 +17,14 @@ public:
 	bool add_edge(const size_t a, const size_t b);
 	bool remove_vertex(const size_t i);
 	bool remove_edge(const size_t a, const size_t b);
-	bool is_edge(const size_t a, const size_t b);
+	bool is_edge(const size_t a, const size_t b) const;
 	vertex_tag& vertex(const size_t i);
+	const vertex_tag& vertex(const size_t i) const;
 	edge_tag& edge(const size_t a, const size_t b);
+	const edge_tag& edge(const size_t a, const size_t b) const;
 
-	VertexIterator<vertex_tag, edge_tag> vertex_n(const size_t pos);
-	VertexIterator<vertex_tag, edge_tag> end();
+	VertexIterator<vertex_tag, edge_tag> vertex_n(const size_t pos) const;
+	VertexIterator<vertex_tag, edge_tag> end() const;
 };
 
 template <typename vertex_tag, typename edge_tag>
@@ -103,7 +105,7 @@ bool Graph<vertex_tag, edge_tag>::remove_edge(const size_t a, const size_t b)
 }
 
 template <typename vertex_tag, typename edge_tag>
-bool Graph<vertex_tag, edge_tag>::is_edge(const size_t a, const size_t b)
+bool Graph<vertex_tag, edge_tag>::is_edge(const size_t a, const size_t b) const
 {
 	size_t size = mat.size();
 	if (a >= size || b >= size)
@@ -118,19 +120,31 @@ vertex_tag& Graph<vertex_tag, edge_tag>::vertex(const size_t i)
 }
 
 template <typename vertex_tag, typename edge_tag>
+const vertex_tag& Graph<vertex_tag, edge_tag>::vertex(const size_t i) const
+{
+	return vertex_tags[i];
+}
+
+template <typename vertex_tag, typename edge_tag>
 edge_tag& Graph<vertex_tag, edge_tag>::edge(const size_t a, const size_t b)
 {
 	return edge_tags[a][b];
 }
 
 template <typename vertex_tag, typename edge_tag>
-VertexIterator<vertex_tag, edge_tag> Graph<vertex_tag, edge_tag>::vertex_n(const size_t pos)
+const edge_tag& Graph<vertex_tag, edge_tag>::edge(const size_t a, const size_t b) const
+{
+	return edge_tags[a][b];
+}
+
+template <typename vertex_tag, typename edge_tag>
+VertexIterator<vertex_tag, edge_tag> Graph<vertex_tag, edge_tag>::vertex_n(const size_t pos) const
 {
 	return VertexIterator<vertex_tag, edge_tag>(this, pos);
 }
 
 template <typename vertex_tag, typename edge_tag>
-VertexIterator<vertex_tag, edge_tag> Graph<vertex_tag, edge_tag>::end()
+VertexIterator<vertex_tag, edge_tag> Graph<vertex_tag, edge_tag>::end() const
 {
 	return VertexIterator<vertex_tag, edge_tag>(this, -1);
 }
@@ -141,17 +155,17 @@ class VertexIterator
 	friend class Graph<vertex_tag, edge_tag>;
 	size_t vertex;
 	size_t curr_n;
-	Graph<vertex_tag, edge_tag> &base;
+	const Graph<vertex_tag, edge_tag> &base;
 public:
-	VertexIterator(Graph<vertex_tag, edge_tag>* base, const size_t vertex);
+	VertexIterator(const Graph<vertex_tag, edge_tag>* base, const size_t vertex);
 	size_t operator++();
-	size_t operator*();
-	bool operator==(const VertexIterator<vertex_tag, edge_tag>& n);
-	bool operator!=(const VertexIterator<vertex_tag, edge_tag>& n);
+	size_t operator*() const;
+	bool operator==(const VertexIterator<vertex_tag, edge_tag>& n) const;
+	bool operator!=(const VertexIterator<vertex_tag, edge_tag>& n) const;
 };
 
 template <typename vertex_tag, typename edge_tag>
-VertexIterator<vertex_tag, edge_tag>::VertexIterator(Graph<vertex_tag, edge_tag>* base, const size_t vertex): base(*base), vertex(vertex)
+VertexIterator<vertex_tag, edge_tag>::VertexIterator(const Graph<vertex_tag, edge_tag>* base, const size_t vertex): base(*base), vertex(vertex)
 {
 	curr_n = -1;
 	if (vertex == (size_t)-1)
@@ -185,19 +199,19 @@ size_t VertexIterator<vertex_tag, edge_tag>::operator++()
 }
 
 template <typename vertex_tag, typename edge_tag>
-size_t VertexIterator<vertex_tag, edge_tag>::operator*()
+size_t VertexIterator<vertex_tag, edge_tag>::operator*() const
 {
 	return curr_n;
 }
 
 template <typename vertex_tag, typename edge_tag>
-bool VertexIterator<vertex_tag, edge_tag>::operator==(const VertexIterator<vertex_tag, edge_tag>& n)
+bool VertexIterator<vertex_tag, edge_tag>::operator==(const VertexIterator<vertex_tag, edge_tag>& n) const
 {
 	return (&base == &(n.base) && n.curr_n == curr_n && n.vertex == vertex);
 }
 
 template <typename vertex_tag, typename edge_tag>
-bool VertexIterator<vertex_tag, edge_tag>::operator!=(const VertexIterator<vertex_tag, edge_tag>& n)
+bool VertexIterator<vertex_tag, edge_tag>::operator!=(const VertexIterator<vertex_tag, edge_tag>& n) const
 {
 	return !(*this == n);
 }

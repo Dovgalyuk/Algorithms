@@ -11,17 +11,18 @@ public:
 	Vector(const size_t size, const Data& init);
 	Vector(const size_t size);
 	~Vector();
-	Data get(const size_t index);
+	Data get(const size_t index) const;
 	void set(const size_t index, const Data& value);
-	size_t size();
+	size_t size() const;
 	void resize(const size_t size, const Data& init);
 	void resize(const size_t size);
 	void push_back(const Data& value);
 	Data& operator[](const size_t index);
+	const Data& operator[](const size_t index) const;
 	Vector<Data>& operator= (const Vector<Data>& source);
-	bool operator== (const Vector<Data>& source);
-	bool operator!= (const Vector<Data>& source);
-	bool empty();
+	bool operator== (const Vector<Data>& source) const;
+	bool operator!= (const Vector<Data>& source) const;
+	bool empty() const;
 	void clear();
 };
 
@@ -62,7 +63,7 @@ Vector<Data>::~Vector()
 }
 
 template<typename Data>
-Data Vector<Data>::get(const size_t index)
+Data Vector<Data>::get(const size_t index) const
 {
 	return cont[index];
 }
@@ -76,7 +77,7 @@ void Vector<Data>::set(const size_t index, const Data& value)
 }
 
 template<typename Data>
-size_t Vector<Data>::size()
+size_t Vector<Data>::size() const
 {
 	return curr;
 }
@@ -124,6 +125,12 @@ Data& Vector<Data>::operator[](const size_t index)
 }
 
 template<typename Data>
+const Data& Vector<Data>::operator[](const size_t index) const
+{
+	return cont[index];
+}
+
+template<typename Data>
 Vector<Data>& Vector<Data>::operator= (const Vector<Data>& source)
 {
 	if (&source == this)
@@ -138,7 +145,7 @@ Vector<Data>& Vector<Data>::operator= (const Vector<Data>& source)
 }
 
 template<typename Data>
-bool Vector<Data>::operator== (const Vector<Data>& source)
+bool Vector<Data>::operator== (const Vector<Data>& source) const
 {
 	if (&source == this)
 		return true;
@@ -151,13 +158,13 @@ bool Vector<Data>::operator== (const Vector<Data>& source)
 }
 
 template<typename Data>
-bool Vector<Data>::operator!= (const Vector<Data>& source)
+bool Vector<Data>::operator!= (const Vector<Data>& source) const
 {
 	return !(*this == source);
 }
 
 template<typename Data>
-bool Vector<Data>::empty()
+bool Vector<Data>::empty() const
 {
 	return !curr;
 }

@@ -41,7 +41,7 @@ String::~String()
 	delete[] data;
 }
 
-String String::operator+(const String& taget)
+String String::operator+(const String& taget) const
 {
 	String temp;
 	temp.resize(this->data_size + taget.data_size, ' ');
@@ -78,7 +78,7 @@ String& String::operator=(const String& taget)
 	return (*this);
 }
 
-bool String::operator==(const String& taget)
+bool String::operator==(const String& taget) const
 {
 	if (this == &taget)
 		return true;
@@ -90,7 +90,7 @@ bool String::operator==(const String& taget)
 	return true;
 }
 
-bool String::operator!=(const String& taget)
+bool String::operator!=(const String& taget) const
 {
 	return !(*this == taget);
 }
@@ -100,7 +100,7 @@ char& String::operator[](size_t index)
 	return data[index];
 }
 
-size_t String::length()
+size_t String::length() const
 {
 	return data_size;
 }
@@ -122,19 +122,19 @@ bool String::resize(size_t new_size, const char data)
 	return true;
 }
 
-const char* String::c_type()
+const char* String::c_type() const
 {
 	return data;
 }
 
-std::string String::std_type()
+std::string String::std_type() const
 {
 	return std::string(this->data);
 }
 
-size_t String::find(const String& P)
+size_t String::find(const String& P) const
 {
-	String temp(String(P) + String("#") + *this);
+	String temp(P + String("#") + *this);
 	Vector<size_t> prefix(temp.length(), 0);
 	for (size_t i = 1; i < temp.length(); i++)
 	{
