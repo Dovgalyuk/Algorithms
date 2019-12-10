@@ -37,6 +37,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGraph", "TestGraph\Test
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Kruskal", "Kruskal\Kruskal.vcxproj", "{D889EA3E-CBFC-447D-B08B-863598697C06}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapTest", "MapTest\MapTest.vcxproj", "{CC236818-EE43-4BFD-8690-DFCB0C0A8154}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -121,6 +123,14 @@ Global
 		{D889EA3E-CBFC-447D-B08B-863598697C06}.Release|Win32.Build.0 = Release|Win32
 		{D889EA3E-CBFC-447D-B08B-863598697C06}.Release|x64.ActiveCfg = Release|x64
 		{D889EA3E-CBFC-447D-B08B-863598697C06}.Release|x64.Build.0 = Release|x64
+		{CC236818-EE43-4BFD-8690-DFCB0C0A8154}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CC236818-EE43-4BFD-8690-DFCB0C0A8154}.Debug|Win32.Build.0 = Debug|Win32
+		{CC236818-EE43-4BFD-8690-DFCB0C0A8154}.Debug|x64.ActiveCfg = Debug|x64
+		{CC236818-EE43-4BFD-8690-DFCB0C0A8154}.Debug|x64.Build.0 = Debug|x64
+		{CC236818-EE43-4BFD-8690-DFCB0C0A8154}.Release|Win32.ActiveCfg = Release|Win32
+		{CC236818-EE43-4BFD-8690-DFCB0C0A8154}.Release|Win32.Build.0 = Release|Win32
+		{CC236818-EE43-4BFD-8690-DFCB0C0A8154}.Release|x64.ActiveCfg = Release|x64
+		{CC236818-EE43-4BFD-8690-DFCB0C0A8154}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
