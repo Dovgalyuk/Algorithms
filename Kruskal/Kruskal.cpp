@@ -25,34 +25,32 @@ int main()
 		graph_set_edge_mark(graph, a, b, length);
 	}
 
-	std::vector<Edge> edges;
+	std::vector<std::pair<int, Edge>> edges;
 	for (size_t i = 0; i < v; i++)
 	{
 		for (Graph_iterator it = graph_iterator_begin(graph, i); it != graph_iterator_end(graph, 0); ++it)
 		{
 			Edge edge;
-			edge.head = (*it)->head;
 			edge.tail = (*it)->tail;
-			edge.mark = (*it)->tail;
-			edges.push_back(edge);
+			edge.mark = (*it)->mark;
+			edges.push_back(std::make_pair(i, edge));
 		}
 	}
-	std::sort(edges.begin(), edges.end(), [](Edge a, Edge b) {return a.mark < b.mark; });
+	std::sort(edges.begin(), edges.end(), [](std::pair<int, Edge> a, std::pair<int, Edge> b) {return a.second.mark < b.second.mark; });
 	size_t i = 0;
-	std::vector<Edge> res;
+	std::vector<std::pair<int, Edge>> res;
 	while (i < edges.size())
 	{
-		Edge currEdge = edges[i];
-		size_t a = currEdge.head;
+		Edge currEdge = edges[i].second;
+		size_t a = edges[i].first;
 		size_t b = currEdge.tail;
 		int aMark = graph_get_vertex_mark(graph, a);
 		int bMark = graph_get_vertex_mark(graph, b);
 		if (aMark != bMark)
 		{
 			Edge edge;
-			edge.head = a;
 			edge.tail = b;
-			res.push_back(edge);
+			res.push_back(std::make_pair(a, edge));
 
 			for (size_t i = 0; i < v; i++)
 			{
@@ -73,7 +71,7 @@ int main()
 	else {
 		for (size_t i = 0; i < res.size(); i++)
 		{
-			std::cout << res[i].head << " " << res[i].tail << std::endl;
+			std::cout << res[i].first << " " << res[i].second.tail << std::endl;
 		}
 	}
 	graph_delete(graph);
