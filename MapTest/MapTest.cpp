@@ -8,7 +8,7 @@ using namespace std;
 
 int main()
 {
-	const int len = 1000;
+	const int len = 10000;
 	int numbers[len];
 	for (size_t i = 0; i < len; i++) {
 		numbers[i] = rand();
