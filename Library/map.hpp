@@ -87,7 +87,7 @@ std::shared_ptr<Node<Key, Value>> AVLTree<Key, Value>::rotateLeft(std::shared_pt
 	node->right = q->left;
 	q->left = node;
 	node->fixHeight();
-	node->fixHeight();
+	q->fixHeight();
 	return q;
 }
 
@@ -122,13 +122,13 @@ std::shared_ptr<Node<Key, Value>> AVLTree<Key, Value>::balance(std::shared_ptr<N
 }
 
 template<typename Key, typename Value>
-inline std::shared_ptr<Node<Key, Value>> AVLTree<Key, Value>::findMin(std::shared_ptr<Node<Key, Value>> node)
+std::shared_ptr<Node<Key, Value>> AVLTree<Key, Value>::findMin(std::shared_ptr<Node<Key, Value>> node)
 {
 	return node->left ? findMin(node->left) : node;
 }
 
 template<typename Key, typename Value>
-inline std::shared_ptr<Node<Key, Value>> AVLTree<Key, Value>::removeMin(std::shared_ptr<Node<Key, Value>> node)
+std::shared_ptr<Node<Key, Value>> AVLTree<Key, Value>::removeMin(std::shared_ptr<Node<Key, Value>> node)
 {
 	if (!node->left) {
 		return node->right;
@@ -138,7 +138,7 @@ inline std::shared_ptr<Node<Key, Value>> AVLTree<Key, Value>::removeMin(std::sha
 }
 
 template<typename Key, typename Value>
-inline std::shared_ptr<Node<Key, Value>> AVLTree<Key, Value>::remove(std::shared_ptr<Node<Key, Value>> node, Key key)
+std::shared_ptr<Node<Key, Value>> AVLTree<Key, Value>::remove(std::shared_ptr<Node<Key, Value>> node, Key key)
 {
 	if (!node) {
 		return 0;
@@ -164,7 +164,7 @@ inline std::shared_ptr<Node<Key, Value>> AVLTree<Key, Value>::remove(std::shared
 }
 
 template<typename Key, typename Value>
-inline Value AVLTree<Key, Value>::find(std::shared_ptr<Node<Key, Value>> node, Key key)
+Value AVLTree<Key, Value>::find(std::shared_ptr<Node<Key, Value>> node, Key key)
 {
 	if (!node) {
 		return Value();
@@ -181,7 +181,7 @@ inline Value AVLTree<Key, Value>::find(std::shared_ptr<Node<Key, Value>> node, K
 }
 
 template<typename Key, typename Value>
-inline void AVLTree<Key, Value>::insert(Key key, Value value)
+void AVLTree<Key, Value>::insert(Key key, Value value)
 {
 	{
 		if (!root) {
@@ -194,13 +194,13 @@ inline void AVLTree<Key, Value>::insert(Key key, Value value)
 }
 
 template<typename Key, typename Value>
-inline void AVLTree<Key, Value>::remove(Key key)
+void AVLTree<Key, Value>::remove(Key key)
 {
 	remove(root, key);
 }
 
 template<typename Key, typename Value>
-inline Value AVLTree<Key, Value>::find(Key key)
+Value AVLTree<Key, Value>::find(Key key)
 {
 	return find(root, key);
 }
@@ -219,25 +219,25 @@ public:
 
 
 template<typename Key, typename Value>
-inline void Map<Key, Value>::insert(Key key, Value value)
+void Map<Key, Value>::insert(Key key, Value value)
 {
 	tree->insert(key, value);
 }
 
 template<typename Key, typename Value>
-inline void Map<Key, Value>::erase(Key key)
+void Map<Key, Value>::erase(Key key)
 {
 	tree->remove(key);
 }
 
 template<typename Key, typename Value>
-inline Value Map<Key, Value>::find(Key key)
+Value Map<Key, Value>::find(Key key)
 {
 	return tree->find(key);
 }
 
 template<typename Key, typename Value>
-inline Map<Key, Value>::Map()
+Map<Key, Value>::Map()
 {
 	this->tree = std::make_shared<AVLTree<Key, Value>>();
 }
