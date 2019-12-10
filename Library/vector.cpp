@@ -3,31 +3,60 @@
 
 struct Vector
 {
+	Data* cont;
+	size_t size,
+		curr;
 };
 
-Vector *vector_create()
+Vector* vector_create()
 {
-    return NULL;
+	Vector* temp = new Vector;
+	temp->curr = 0;
+	temp->size = 1;
+	temp->cont = new Data[temp->size];
+	return temp;
 }
 
-void vector_delete(Vector *vector)
+void vector_delete(Vector* vector)
 {
+	delete[] vector->cont;
+	delete vector;
 }
 
-Data vector_get(const Vector *vector, size_t index)
+Data vector_get(const Vector* vector, size_t index)
 {
-    return Data();
+	return vector->cont[index];
 }
 
-void vector_set(Vector *vector, size_t index, Data value)
+void vector_set(Vector* vector, size_t index, Data value)
 {
+	if (index + 1 > vector->curr)
+		vector_resize(vector, index + 1);
+	vector->cont[index] = value;
 }
 
-size_t vector_size(const Vector *vector)
+size_t vector_size(const Vector* vector)
 {
-    return 0;
+	return vector->curr;
 }
 
-void vector_resize(Vector *vector, size_t size)
+void vector_resize(Vector* vector, size_t size)
 {
+	if (size <= vector->size)
+	{
+		vector->curr = size;
+		return;
+	}
+	size_t new_size = vector->size;
+	while (new_size < size)
+	{
+		new_size *= 2;
+	}
+	Data* temp = new Data[new_size];
+	for (size_t i = 0; i < vector->curr; i++)
+		temp[i] = vector->cont[i];
+	delete[] vector->cont;
+	vector->cont = temp;
+	vector->curr = size;
+	vector->size = new_size;
 }
