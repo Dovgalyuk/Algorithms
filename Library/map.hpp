@@ -46,14 +46,14 @@ template <typename Key, typename Value>
 class AVLTree {
 private:
 	std::shared_ptr<Node<Key, Value>> root;
-	std::shared_ptr<Node<Key, Value>> appendTo(std::shared_ptr<Node<Key, Value>> node, Key key, Value value);
-	std::shared_ptr<Node<Key, Value>> rotateLeft(std::shared_ptr<Node<Key, Value>> node);
-	std::shared_ptr<Node<Key, Value>> rotateRight(std::shared_ptr<Node<Key, Value>> node);
-	std::shared_ptr<Node<Key, Value>> balance(std::shared_ptr<Node<Key, Value>> node);
-	std::shared_ptr<Node<Key, Value>> findMin(std::shared_ptr<Node<Key, Value>> node);
-	std::shared_ptr<Node<Key, Value>> removeMin(std::shared_ptr<Node<Key, Value>> node);
-	std::shared_ptr<Node<Key, Value>> remove(std::shared_ptr<Node<Key, Value>> node, Key key);
-	Value find(std::shared_ptr<Node<Key, Value>> node, Key key);
+	static std::shared_ptr<Node<Key, Value>> appendTo(std::shared_ptr<Node<Key, Value>> node, Key key, Value value);
+	static std::shared_ptr<Node<Key, Value>> rotateLeft(std::shared_ptr<Node<Key, Value>> node);
+	static std::shared_ptr<Node<Key, Value>> rotateRight(std::shared_ptr<Node<Key, Value>> node);
+	static std::shared_ptr<Node<Key, Value>> balance(std::shared_ptr<Node<Key, Value>> node);
+	static std::shared_ptr<Node<Key, Value>> findMin(std::shared_ptr<Node<Key, Value>> node);
+	static std::shared_ptr<Node<Key, Value>> removeMin(std::shared_ptr<Node<Key, Value>> node);
+	static std::shared_ptr<Node<Key, Value>> remove(std::shared_ptr<Node<Key, Value>> node, Key key);
+	static Value find(std::shared_ptr<Node<Key, Value>> node, Key key);
 public:
 	void insert(Key key, Value value);
 	void remove(Key key);
