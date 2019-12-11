@@ -1,8 +1,6 @@
 #include <memory>
 #include <cmath>
 
-
-
 template <typename Key, typename Value>
 class Node {
 public:
@@ -12,12 +10,12 @@ public:
 	std::shared_ptr<Node<Key, Value>> left;
 	std::shared_ptr<Node<Key, Value>> right;
 	Node(Key key, Value value);
-	int16_t const& getBFactor();
+	const int8_t getBFactor();
 	void fixHeight();
 };
 
 template <typename Key, typename Value>
-inline size_t getNodeHeight(std::shared_ptr<Node<Key, Value>> node) {
+static size_t getNodeHeight(std::shared_ptr<Node<Key, Value>> node) {
 	return node ? node->height : 0;
 }
 
@@ -36,9 +34,9 @@ void Node<Key, Value>::fixHeight()
 
 
 template<typename Key, typename Value>
-int16_t const& Node<Key, Value>::getBFactor()
+const int8_t Node<Key, Value>::getBFactor()
 {
-	return getNodeHeight<Key, Value>(right) - getNodeHeight<Key, Value>(left);
+	return (getNodeHeight<Key, Value>(right) - getNodeHeight<Key, Value>(left));
 }
 
 

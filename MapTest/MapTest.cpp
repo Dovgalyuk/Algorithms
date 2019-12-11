@@ -8,9 +8,9 @@ using namespace std;
 
 int main()
 {
-	const int len = 100000;
+	const int len = 10000;
 	int numbers[len];
-	for (size_t i = 0; i < len; i++) {
+	for (int i = 0; i < len; i++) {
 		numbers[i] = i;
 	}
 
@@ -20,10 +20,18 @@ int main()
 		test.insert(numbers[i], numbers[i]);
 	for (int i = 0; i < len; i += 2)
 		test.erase(numbers[i]);
-	for (int i = 1; i < len; i += 2)
+	for (int i = 1; i < len; i += 2) {
 		test.find(numbers[i]);
+	}
 	auto end_time = std::chrono::steady_clock::now();
 	auto elapsed_ns_Map = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time);
+	/*
+	for (int i = 1; i < len; i += 2) {
+		if (test.find(numbers[i]) != i) {
+			cout << "Wrong value for " << i << endl;
+		}
+	}
+	*/
 	start_time = std::chrono::steady_clock::now();
 	map<int, int> test1;
 	for (int i = 0; i < len; i++)
