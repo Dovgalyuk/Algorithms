@@ -8,10 +8,10 @@ using namespace std;
 
 int main()
 {
-	const int len = 10000;
+	const int len = 100000;
 	int numbers[len];
 	for (size_t i = 0; i < len; i++) {
-		numbers[i] = rand();
+		numbers[i] = i;
 	}
 
 	auto start_time = std::chrono::steady_clock::now();

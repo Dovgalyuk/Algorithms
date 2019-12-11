@@ -12,7 +12,7 @@ public:
 	std::shared_ptr<Node<Key, Value>> left;
 	std::shared_ptr<Node<Key, Value>> right;
 	Node(Key key, Value value);
-	uint16_t const& getBFactor() const;
+	int16_t const& getBFactor();
 	void fixHeight();
 };
 
@@ -36,9 +36,9 @@ void Node<Key, Value>::fixHeight()
 
 
 template<typename Key, typename Value>
-inline uint16_t const& Node<Key, Value>::getBFactor() const
+int16_t const& Node<Key, Value>::getBFactor()
 {
-	return getNodeHeight<Key, Value>(left) - getNodeHeight<Key, Value>(right);
+	return getNodeHeight<Key, Value>(right) - getNodeHeight<Key, Value>(left);
 }
 
 
@@ -106,13 +106,14 @@ template<typename Key, typename Value>
 std::shared_ptr<Node<Key, Value>> AVLTree<Key, Value>::balance(std::shared_ptr<Node<Key, Value>> node)
 {
 	node->fixHeight();
-	if (node->getBFactor() == 2)
+	int16_t BFactor = node->getBFactor();
+	if (BFactor == 2)
 	{
 		if (node->right->getBFactor() < 0)
 			node->right = rotateRight(node->right);
 		return rotateLeft(node);
 	}
-	if (node->getBFactor() == -2)
+	else if (BFactor == -2)
 	{
 		if (node->left->getBFactor() > 0)
 			node->left = rotateLeft(node->left);
@@ -188,7 +189,7 @@ void AVLTree<Key, Value>::insert(Key key, Value value)
 			root = std::make_shared<Node<Key, Value>>(key, value);
 		}
 		else {
-			appendTo(root, key, value);
+			root = appendTo(root, key, value);
 		}
 	}
 }
@@ -196,7 +197,7 @@ void AVLTree<Key, Value>::insert(Key key, Value value)
 template<typename Key, typename Value>
 void AVLTree<Key, Value>::remove(Key key)
 {
-	remove(root, key);
+	root = remove(root, key);
 }
 
 template<typename Key, typename Value>
