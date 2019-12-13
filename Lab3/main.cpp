@@ -45,7 +45,7 @@ int main()
 	
 	while (start != -1)
 	{
-		for (Graph_iterator it = graph_iterator_begin(data, start); it != graph_iterator_end(data, 0); ++it)
+		for (Iterator it = graph_iterator_begin(data, start); it != graph_iterator_end(data, 0); ++it)
 		{
 			auto k = *it;
 			

@@ -10,16 +10,16 @@
 
 struct Graph;
 struct Vertex;
-struct Edge;
 
-struct  Graph_iterator {
+
+struct  Iterator {
 	Data operator*() const;
-	Graph_iterator& operator++();
-	Graph_iterator& operator--();
-	bool operator==(const Graph_iterator& rhs) const;
-	bool operator!=(const Graph_iterator& rhs) const;
-	friend Graph_iterator graph_iterator_begin(Graph* graph, size_t vertex);
-	friend Graph_iterator graph_iterator_end(Graph* graph, size_t vertex);
+	Iterator& operator++();
+	Iterator& operator--();
+	bool operator==(const Iterator& rhs) const;
+	bool operator!=(const Iterator& rhs) const;
+	friend Iterator graph_iterator_begin(Graph* graph, size_t vertex);
+	friend Iterator graph_iterator_end(Graph* graph, size_t vertex);
 	
 private:
 	ListItem* curr;
@@ -58,7 +58,7 @@ void graph_set_edge_mark(Graph* graph, const size_t head, const size_t tail, con
 // Returns specified edge mark
 Mark graph_get_edge_mark(const Graph* graph, const size_t head, const size_t tail);
 
-Graph_iterator graph_iterator_begin(Graph* graph, size_t vertex);
+Iterator graph_iterator_begin(Graph* graph, size_t vertex);
 
-Graph_iterator graph_iterator_end(Graph* graph, size_t vertex);
+Iterator graph_iterator_end(Graph* graph, size_t vertex);
 #endif

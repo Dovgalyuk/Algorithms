@@ -173,38 +173,38 @@ Mark graph_get_edge_mark(const Graph* graph, const size_t head, const size_t tai
 	return list_item_data(findEdge(graph, head, tail))->mark;
 }
 
-Data Graph_iterator::operator*() const {
+Data Iterator::operator*() const {
 	return list_item_data(this->curr);
 }
 
-Graph_iterator& Graph_iterator::operator++() {
+Iterator& Iterator::operator++() {
 	curr = list_item_next(this->curr);
 	return *this;
 }
 
-Graph_iterator& Graph_iterator::operator--() {
+Iterator& Iterator::operator--() {
 	curr = list_item_prev(this->curr);
 	return *this;
 }
 
-bool Graph_iterator::operator==(const Graph_iterator& rhs) const {
+bool Iterator::operator==(const Iterator& rhs) const {
 	return this->curr == rhs.curr;
 }
 
-bool Graph_iterator::operator!=(const Graph_iterator& rhs) const {
+bool Iterator::operator!=(const Iterator& rhs) const {
 	return !(*this == rhs);
 }
 
-Graph_iterator graph_iterator_begin(Graph* graph, size_t vertex)
+Iterator graph_iterator_begin(Graph* graph, size_t vertex)
 {
-	Graph_iterator iter;
+	Iterator iter;
 	iter.curr = list_first(graph->vertices[vertex].edges);
 	return iter;
 }
 
-Graph_iterator graph_iterator_end(Graph* graph, size_t vertex)
+Iterator graph_iterator_end(Graph* graph, size_t vertex)
 {
-	Graph_iterator iter;
+	Iterator iter;
 	iter.curr = NULL;
 	return iter;
 }
