@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-#include "set.cpp"
+#include <algorithm>
+#include "set.hpp"
 
 using namespace std;
 
@@ -61,4 +62,10 @@ int main()
 	set1.set_remove("de");
 	cout << set1.set_size() << endl;
 	cout << set1.set_search("dear") << endl;
+
+	for (size_t i = 0; i < set.set_size(); i++)
+	{
+		cout << set.set_iter(i) << " ";
+	}
+	cout << endl;
 }

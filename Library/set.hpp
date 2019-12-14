@@ -1,4 +1,21 @@
-#include "set.h"
+template <class T>
+class Set
+{
+public:
+	Set();
+	Set(size_t size);
+	~Set();
+	void set_add(T element);
+	void set_remove(T element);
+	bool set_search(T element);
+	size_t set_size();
+	size_t set_iter(size_t index);
+
+private:
+	size_t capacity;
+	size_t realSize;
+	T* array;
+};
 
 template <class T>
 Set<T>::Set()
@@ -46,7 +63,6 @@ void Set<T>::set_add(T element)
 template <class T>
 void Set<T>::set_remove(T element)
 {
-	bool check = false;
 	if (realSize != 0)
 	{
 		for (size_t i = 0; i < realSize; i++)
@@ -58,7 +74,6 @@ void Set<T>::set_remove(T element)
 					array[j] = array[j + 1];
 				}
 				realSize--;
-				check = true;
 			}
 		}
 	}
@@ -95,7 +110,7 @@ bool Set<T>::set_search(T element)
 	if (flag)
 	{
 		return true;
-	}
+	}	
 	else
 	{
 		return false;
@@ -106,4 +121,10 @@ template <class T>
 size_t Set<T>::set_size()
 {
 	return realSize;
+}
+
+template <class T>
+size_t Set<T>::set_iter(size_t index)
+{
+	return array[index];
 }

@@ -73,20 +73,19 @@
   <ItemGroup>
     <ClCompile Include="array.cpp" />
     <ClCompile Include="graph.cpp" />
-    <ClCompile Include="hashset.cpp" />
     <ClCompile Include="list.cpp" />
     <ClCompile Include="queue.cpp" />
-    <ClCompile Include="set.cpp" />
     <ClCompile Include="stack.cpp" />
     <ClCompile Include="vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="array.h" />
     <ClInclude Include="graph.h" />
-    <ClInclude Include="hashset.h" />
+    <ClInclude Include="hashset.hpp" />
+    <ClInclude Include="pair.hpp" />
     <ClInclude Include="list.h" />
     <ClInclude Include="queue.h" />
-    <ClInclude Include="set.h" />
+    <ClInclude Include="set.hpp" />
     <ClInclude Include="stack.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
