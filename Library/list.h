@@ -1,9 +1,7 @@
 #ifndef LIST_H
 #define LIST_H
 
-// List
-// Stores integer values inside
-typedef int Data;
+#include "graph.h"
 
 struct List;
 struct ListItem;
