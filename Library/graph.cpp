@@ -17,10 +17,7 @@ Graph* graph_create(const size_t number)
 {
 	Graph* graph = new Graph;
 	graph->numVertex = 0;
-	for (size_t i = 0; i < number; i++)
-	{
-		add_vertex(graph, number);
-	}
+	add_vertex(graph, number);
 	return graph;
 }
 
