@@ -13,18 +13,13 @@ struct Vertex {
 	List* listOfVertex;
 };
 
-struct Edge {
-	Label mark;
-	size_t to;
-};
-
 Graph* graph_create(const size_t number)
 {
 	Graph* graph = new Graph;
 	graph->numVertex = 0;
 	for (size_t i = 0; i < number; i++)
 	{
-		add_vertex(graph);
+		add_vertex(graph, number);
 	}
 	return graph;
 }
@@ -46,35 +41,32 @@ void graph_delete(Graph* graph)
 	delete graph;
 }
 
-void add_vertex(Graph* graph)
+void add_vertex(Graph* graph, size_t amount)
 {
-	Vertex* new_adjList = new Vertex[graph->numVertex + 1];
+	Vertex* new_adjList = new Vertex[graph->numVertex + amount];
 	for (size_t i = 0; i < graph->numVertex; i++)
 	{
 		new_adjList[i] = graph->adjList[i];
 	}
-	new_adjList[graph->numVertex].listOfVertex = list_create();
-	graph->numVertex++;
-	delete[] graph->adjList;
+	for (size_t i = 0; i < amount; i++)
+	{
+		new_adjList[graph->numVertex].mark = Label();
+		new_adjList[graph->numVertex].listOfVertex = list_create();
+		graph->numVertex++;
+	}
 	graph->adjList = new_adjList;
 }
 
 void add_edge(Graph* graph, const size_t from, const size_t to)
 {
 	Edge* new_edge = new Edge;
+	new_edge->mark = Label();
 	new_edge->to = to;
 	list_insert(graph->adjList[from].listOfVertex, new_edge);
 }
 
 void delete_vertex(Graph* graph, const size_t number)
 {
-	ListItem* vertexs = list_first(graph->adjList[number].listOfVertex);
-	while (vertexs != NULL)
-	{
-		list_erase(graph->adjList[number].listOfVertex, vertexs);
-		vertexs = list_item_next(vertexs);
-	}
-	list_delete(graph->adjList[number].listOfVertex);
 	Vertex* new_adjList = new Vertex[graph->numVertex - 1];
 	for (size_t i = 0; i < number; i++)
 	{
@@ -101,10 +93,14 @@ void delete_edge(Graph* graph, const size_t from, const size_t to)
 		if (list_item_data(vertexs)->to == to)
 		{
 			ListItem* vertex_next = list_item_next(vertexs);
+			delete list_item_data(vertexs);
 			list_erase(graph->adjList[from].listOfVertex, vertexs);
 			vertexs = vertex_next;
 		}
-		vertexs = list_item_next(vertexs);
+		else
+		{
+			vertexs = list_item_next(vertexs);
+		}
 	}
 }
 
@@ -155,6 +151,28 @@ void add_mark_vertex(Graph* graph, const size_t number, const Label label)
 Label read_mark_vertex(const Graph* graph, const size_t number)
 {
 	return graph->adjList[number].mark;
+}
+
+Data Iterator::operator*() const {
+	return list_item_data(this->vertexs);
+}
+
+Iterator& Iterator::operator++() {
+	vertexs = list_item_next(this->vertexs);
+	return *this;
+}
+
+Iterator& Iterator::operator--() {
+	vertexs = list_item_prev(this->vertexs);
+	return *this;
+}
+
+bool Iterator::operator==(const Iterator& n) const {
+	return this->vertexs == n.vertexs;
+}
+
+bool Iterator::operator!=(const Iterator& n) const {
+	return !(*this == n);
 }
 
 Iterator iterator_begin(Graph* graph, size_t number)

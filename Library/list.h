@@ -1,7 +1,7 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include "graph.h"
+#include "defines.h"
 
 struct List;
 struct ListItem;
