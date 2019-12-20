@@ -1,7 +1,6 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <queue.h>
-#include "stack.h"
 using namespace std;
 
 void in(Queue *q, ifstream &file) {
