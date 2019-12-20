@@ -11,7 +11,7 @@ public:
 	bool hash_remove(T key);
 	bool hash_search(T key);
 private:	
-	const size_t q = 180;
+	const size_t q = 179;
 	size_t realSize;
 	size_t capacity;
 	pair* ht;
@@ -94,24 +94,8 @@ inline bool hashSet<T>::hash_remove(T key)
 	{
 		return false;
 	}
-	size_t j = (i + q) % capacity;
 	delete ht[i];
 	ht[i] = (pair)0x000001;
-	while (ht[j] != NULL && j != start)
-	{
-		if (ht[j] == (pair)0x000001)
-		{
-			j = (j + q) % capacity;
-			continue;
-		}
-		if (ht[j]->get_hash() == Pair<T>(key).get_hash())
-		{
-			ht[i] = ht[j];
-			ht[j] = (pair)0x000001;
-			i = j;
-		}
-		j = (j + q) % capacity;
-	}
 	realSize--;
 	return true;
 }

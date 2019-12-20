@@ -10,14 +10,13 @@ public:
 private:
 	T key;
 	size_t hashCode;
-	std::hash<T> hash_fn;
 };
 
 template<typename T>
 inline Pair<T>::Pair(T key)
 {
 	this->key = key;
-	this->hashCode = hash_fn(key);
+	this->hashCode = std::hash<T>{}(key);
 }
 
 template<typename T>

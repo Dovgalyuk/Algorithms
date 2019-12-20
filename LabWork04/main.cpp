@@ -1,6 +1,5 @@
 #include <iostream>
 #include "hashset.hpp"
-#include <string>
 #include <chrono>
 #include <unordered_set>
 
@@ -34,5 +33,5 @@ int main()
 		test1.find(i);
 	end_time = std::chrono::steady_clock::now();
 	auto elapsed_ns_map = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time);
-	cout << elapsed_ns_Map.count() << endl << elapsed_ns_map.count() << endl;
+	cout << "hashset: " << elapsed_ns_Map.count() << endl << "unordered_set: " << elapsed_ns_map.count() << endl;
 }
