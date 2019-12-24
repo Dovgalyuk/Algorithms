@@ -34,7 +34,7 @@ int main()
 	{
 		if (avl_FindKey(s, num))
 		{
-			std::cout << std::endl << "checkHeight" << avl_checkheight(s, num) << std::endl;
+			std::cout << std::endl << "checkHeight" << avl_checkheight(s) << std::endl;
 			s = avl_remove(s, num);
 			in >> num;
 			std::cout << avl_check(s);

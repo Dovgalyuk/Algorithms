@@ -144,9 +144,8 @@ bool avl_check(avl_node* p)          //проверка на баланс
 }
 
 
-bool avl_checkheight(avl_node* p, int num) {
+bool avl_checkheight(avl_node* p) {
 	
-	p = avl_FindKey(p, num);
 	if (avl_checkhelp(p)+1 == p->height)
 		return 1;
 	else return 0;

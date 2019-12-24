@@ -14,7 +14,7 @@ avl_node* avl_remove(avl_node* p, int k);
 avl_node* avl_FindKey(avl_node* avl_node, int k);
 int avl_get_key(avl_node* avl_node);
 bool avl_check(avl_node* p);
-bool avl_checkheight(avl_node* p, int num);
+bool avl_checkheight(avl_node* p);
 int avl_checkhelp(avl_node* p);
 
 #endif
