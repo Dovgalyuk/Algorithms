@@ -1,21 +1,23 @@
 #include <stdlib.h>
 #include "list.h"
 
-struct ListItem
+typedef struct ListItem
 {
-};
+} ListItem;
 
-struct List
+typedef struct List
 {
-};
+} List;
 
 List *list_create()
 {
-    return NULL;
+    return malloc(sizeof(List));
 }
 
 void list_delete(List *list)
 {
+    // TODO: free items
+    free(list);
 }
 
 ListItem *list_first(List *list)
@@ -25,7 +27,7 @@ ListItem *list_first(List *list)
 
 Data list_item_data(const ListItem *item)
 {
-    return Data();
+    return (Data)0;
 }
 
 ListItem *list_item_next(ListItem *item)

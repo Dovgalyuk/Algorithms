@@ -1,25 +1,26 @@
 #include <stdlib.h>
 #include "array.h"
 
-struct Array
+typedef struct Array
 {
-};
+} Array;
 
 // create array
 Array *array_create(size_t size)
 {
-    return NULL;
+    return malloc(sizeof(Array));
 }
 
 // delete array, free memory
 void array_delete(Array *arr)
 {
+    free(arr);
 }
 
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    return Data();
+    return (Data)0;
 }
 
 // sets the specified array element to the value

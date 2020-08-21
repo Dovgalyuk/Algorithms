@@ -7,16 +7,18 @@ struct Vector
 
 Vector *vector_create()
 {
-    return NULL;
+    return new Vector;
 }
 
 void vector_delete(Vector *vector)
 {
+    // TODO: free vector internals
+    delete vector; 
 }
 
 Data vector_get(const Vector *vector, size_t index)
 {
-    return Data();
+    return (Data)0;
 }
 
 void vector_set(Vector *vector, size_t index, Data value)
