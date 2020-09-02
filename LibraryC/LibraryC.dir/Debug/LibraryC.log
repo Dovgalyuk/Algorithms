@@ -1,0 +1,13 @@
+﻿  Building Custom Rule F:/github/Algorithms/LibraryC/CMakeLists.txt
+  array.c
+  list.c
+F:\github\Algorithms\LibraryC\array.c(6,1): error C2016: В языке C необходимо, чтобы в struct или union был по крайней мере один элемент
+F:\github\Algorithms\LibraryC\list.c(6,1): error C2016: В языке C необходимо, чтобы в struct или union был по крайней мере один элемент
+  queue.c
+F:\github\Algorithms\LibraryC\list.c(10,1): error C2016: В языке C необходимо, чтобы в struct или union был по крайней мере один элемент
+  stack.c
+F:\github\Algorithms\LibraryC\queue.c(6,1): error C2016: В языке C необходимо, чтобы в struct или union был по крайней мере один элемент
+  vector.c
+F:\github\Algorithms\LibraryC\stack.c(6,1): error C2016: В языке C необходимо, чтобы в struct или union был по крайней мере один элемент
+  Создание кода...
+F:\github\Algorithms\LibraryC\vector.c(6,1): error C2016: В языке C необходимо, чтобы в struct или union был по крайней мере один элемент

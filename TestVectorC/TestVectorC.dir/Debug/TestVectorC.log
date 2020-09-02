@@ -1,0 +1,4 @@
+﻿  Building Custom Rule F:/github/Algorithms/TestVectorC/CMakeLists.txt
+  main.cpp
+F:\github\Algorithms\TestVectorC\main.cpp(13,32): warning C4267: аргумент: преобразование из "size_t" в "Data"; возможна потеря данных
+LINK : fatal error LNK1104: не удается открыть файл "..\LibraryC\Debug\LibraryC.lib"

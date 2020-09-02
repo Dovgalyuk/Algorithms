@@ -1,0 +1,3 @@
+﻿  Building Custom Rule F:/github/Algorithms/TestQueueC/CMakeLists.txt
+  main.cpp
+LINK : fatal error LNK1104: не удается открыть файл "..\LibraryC\Debug\LibraryC.lib"
