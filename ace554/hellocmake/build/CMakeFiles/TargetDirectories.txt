@@ -1,0 +1,3 @@
+C:/Users/user/Documents/GitHub/Algorithms/ace554/hellocmake/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/user/Documents/GitHub/Algorithms/ace554/hellocmake/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/user/Documents/GitHub/Algorithms/ace554/hellocmake/build/src/CMakeFiles/hellocmake.dir

@@ -1,0 +1,10 @@
+^C:\USERS\USER\DOCUMENTS\GITHUB\ALGORITHMS\ACE554\HELLOCMAKE\SRC\CMAKELISTS.TXT
+setlocal
+C:\Users\user\Downloads\cmake\cmake-3.18.2-win64-x64\bin\cmake.exe -SC:/Users/user/Documents/GitHub/Algorithms/ace554/hellocmake -BC:/Users/user/Documents/GitHub/Algorithms/ace554/hellocmake/build --check-stamp-file C:/Users/user/Documents/GitHub/Algorithms/ace554/hellocmake/build/src/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
