@@ -1,0 +1,12 @@
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/CMakeFiles/ALL_BUILD.dir
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/CMakeFiles/ZERO_CHECK.dir
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/LibraryC/CMakeFiles/LibraryC.dir
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/LibraryCPP/CMakeFiles/LibraryCPP.dir
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/TestArrayC/CMakeFiles/TestArrayC.dir
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/TestListC/CMakeFiles/TestListC.dir
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/TestQueueC/CMakeFiles/TestQueueC.dir
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/TestStackC/CMakeFiles/TestStackC.dir
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/TestVectorC/CMakeFiles/TestVectorC.dir
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/TestArrayCPP/CMakeFiles/TestArrayCPP.dir
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/TestArrayCPPTemplate/CMakeFiles/TestArrayCPPTemplate.dir
+E:/Users/Dan/Downloads/Git/Algorithms/BuildCmake/NewMainFolder/CMakeFiles/NewMainFolder.dir
