@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{371F0530-3490-3DA2-BF8F-959C125C11D7}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\user\Documents\GitHub\Algorithms\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/user/Documents/GitHub/Algorithms/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\user\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SC:/Users/user/Documents/GitHub/Algorithms -BC:/Users/user/Documents/GitHub/Algorithms --check-stamp-file C:/Users/user/Documents/GitHub/Algorithms/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeCCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/user/Documents/GitHub/Algorithms/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\user\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SC:/Users/user/Documents/GitHub/Algorithms -BC:/Users/user/Documents/GitHub/Algorithms --check-stamp-file C:/Users/user/Documents/GitHub/Algorithms/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeCCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/user/Documents/GitHub/Algorithms/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\user\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SC:/Users/user/Documents/GitHub/Algorithms -BC:/Users/user/Documents/GitHub/Algorithms --check-stamp-file C:/Users/user/Documents/GitHub/Algorithms/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeCCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/user/Documents/GitHub/Algorithms/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\user\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SC:/Users/user/Documents/GitHub/Algorithms -BC:/Users/user/Documents/GitHub/Algorithms --check-stamp-file C:/Users/user/Documents/GitHub/Algorithms/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\user\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeCCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\3.18.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\user\Documents\GitHub\Algorithms\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\user\Documents\GitHub\Algorithms\ZERO_CHECK.vcxproj">
+      <Project>{6D6E12F0-E98A-3A71-8E4B-9E83A7DAC443}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\user\Documents\GitHub\Algorithms\LibraryC\LibraryC.vcxproj">
+      <Project>{122C7BA2-0E21-39E0-A751-E42DFBF1C81D}</Project>
+      <Name>LibraryC</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\user\Documents\GitHub\Algorithms\LibraryCPP\LibraryCPP.vcxproj">
+      <Project>{B7379B21-97F7-32EF-A83C-61999A6F644F}</Project>
+      <Name>LibraryCPP</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\user\Documents\GitHub\Algorithms\TestArrayC\TestArrayC.vcxproj">
+      <Project>{41ACC9D2-15C7-39AC-98B0-DCE1C3DE9DF2}</Project>
+      <Name>TestArrayC</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\user\Documents\GitHub\Algorithms\TestArrayCPP\TestArrayCPP.vcxproj">
+      <Project>{C4AB5496-268C-3B76-AB28-8C58A5A3B077}</Project>
+      <Name>TestArrayCPP</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\user\Documents\GitHub\Algorithms\TestArrayCPPTemplate\TestArrayCPPTemplate.vcxproj">
+      <Project>{129EF86E-E3A6-3610-995D-C7191591164E}</Project>
+      <Name>TestArrayCPPTemplate</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\user\Documents\GitHub\Algorithms\TestListC\TestListC.vcxproj">
+      <Project>{DD899D27-9069-3C0F-94CE-09308D951D98}</Project>
+      <Name>TestListC</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\user\Documents\GitHub\Algorithms\TestQueueC\TestQueueC.vcxproj">
+      <Project>{55D27436-EEE1-3699-BFB1-39C304A931D8}</Project>
+      <Name>TestQueueC</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\user\Documents\GitHub\Algorithms\TestStackC\TestStackC.vcxproj">
+      <Project>{49C333AF-C553-3CA0-8543-B01527C86DBD}</Project>
+      <Name>TestStackC</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\user\Documents\GitHub\Algorithms\TestVectorC\TestVectorC.vcxproj">
+      <Project>{95992691-DDD9-3351-8D2A-8AA98F1F9E81}</Project>
+      <Name>TestVectorC</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\user\Documents\GitHub\Algorithms\Toad\Toad.vcxproj">
+      <Project>{2F5D2B6B-42FD-3721-B94D-1DA7DF8B0394}</Project>
+      <Name>Toad</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
