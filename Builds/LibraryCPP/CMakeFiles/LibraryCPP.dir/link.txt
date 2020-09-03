@@ -1,0 +1,2 @@
+C:/TDM-GCC-64/bin/ar.exe qc libLibraryCPP.a CMakeFiles/LibraryCPP.dir/array.cpp.obj CMakeFiles/LibraryCPP.dir/list.cpp.obj CMakeFiles/LibraryCPP.dir/queue.cpp.obj CMakeFiles/LibraryCPP.dir/stack.cpp.obj CMakeFiles/LibraryCPP.dir/vector.cpp.obj
+C:/TDM-GCC-64/bin/ranlib.exe libLibraryCPP.a
