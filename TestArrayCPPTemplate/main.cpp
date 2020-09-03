@@ -1,21 +1,19 @@
 #include <iostream>
 #include "array.h"
 
-typedef Array<int> MyArray;
-
 int main()
 {
-    MyArray *arr = new MyArray(10);
+    Array *arr = array_create(10);
 
-    if (arr->size() != 10)
+    if (array_size(arr) != 10)
         std::cout << "Invalid array size\n";
 
     for (int i = 0 ; i < 10 ; ++i)
-        arr->set(i, i * 2);
+        array_set(arr, i, i * 2);
 
     for (int i = 0 ; i < 10 ; ++i)
-        if (arr->get(i) != i * 2)
+        if (array_get(arr, i) != i * 2)
             std::cout << "Invalid array element " << i << "\n";
     
-    delete arr;
+    array_delete(arr);
 }
