@@ -6,9 +6,7 @@
 void print(Array* arr, size_t size)
 {	
 	for(int i = 0; i < size; i++)
-	{
-		std::cout << array_get(arr, i) << " "; 
-	}
+		std::cout << array_get(arr, i) << " ";
 	std::cout << std::endl;
 }
 
