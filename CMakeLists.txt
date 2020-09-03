@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(Algorithms)
 
+add_subdirectory(LibraryMyFiles)
+
 add_subdirectory(LibraryC)
 add_subdirectory(LibraryCPP)
 
@@ -13,3 +15,4 @@ add_subdirectory(TestVectorC)
 add_subdirectory(TestArrayCPP)
 
 add_subdirectory(TestArrayCPPTemplate)
+
