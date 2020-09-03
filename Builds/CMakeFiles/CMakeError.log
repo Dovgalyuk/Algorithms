@@ -1,0 +1,103 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: C:/TDM-GCC-64/bin/gcc.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+C:/TDM-GCC-64/bin/../lib/gcc/x86_64-w64-mingw32/5.1.0/libgcc.a: file not recognized: File format not recognized
+collect2.exe: error: ld returned 1 exit status
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: C:/TDM-GCC-64/bin/g++.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+C:/TDM-GCC-64/bin/../lib/gcc/x86_64-w64-mingw32/5.1.0/libgcc.a: file not recognized: File format not recognized
+collect2.exe: error: ld returned 1 exit status
+
+
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/TDM-GCC-64/bin/make.exe cmTC_0656f/fast && C:/TDM-GCC-64/bin/make.exe  -f CMakeFiles/cmTC_0656f.dir/build.make CMakeFiles/cmTC_0656f.dir/build
+make.exe[1]: Entering directory 'D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp'
+‘ЁбвҐ¬Ґ ­Ґ г¤ Ґвбп ­ ©вЁ гЄ § ­­л© Їгвм.
+CMakeFiles/cmTC_0656f.dir/build.make:84: recipe for target 'CMakeFiles/cmTC_0656f.dir/CMakeCCompilerABI.c.obj' failed
+make.exe[1]: *** [CMakeFiles/cmTC_0656f.dir/CMakeCCompilerABI.c.obj] Error 1
+make.exe[1]: Leaving directory 'D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp'
+Makefile:140: recipe for target 'cmTC_0656f/fast' failed
+make.exe: *** [cmTC_0656f/fast] Error 2
+
+
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/TDM-GCC-64/bin/make.exe cmTC_ab65b/fast && C:/TDM-GCC-64/bin/make.exe  -f CMakeFiles/cmTC_ab65b.dir/build.make CMakeFiles/cmTC_ab65b.dir/build
+make.exe[1]: Entering directory 'D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp'
+‘ЁбвҐ¬Ґ ­Ґ г¤ Ґвбп ­ ©вЁ гЄ § ­­л© Їгвм.
+CMakeFiles/cmTC_ab65b.dir/build.make:84: recipe for target 'CMakeFiles/cmTC_ab65b.dir/testCCompiler.c.obj' failed
+make.exe[1]: *** [CMakeFiles/cmTC_ab65b.dir/testCCompiler.c.obj] Error 1
+make.exe[1]: Leaving directory 'D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp'
+Makefile:140: recipe for target 'cmTC_ab65b/fast' failed
+make.exe: *** [cmTC_ab65b/fast] Error 2
+
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: C:/TDM-GCC-64/bin/gcc.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+C:/TDM-GCC-64/bin/../lib/gcc/x86_64-w64-mingw32/5.1.0/libgcc.a: file not recognized: File format not recognized
+collect2.exe: error: ld returned 1 exit status
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: C:/TDM-GCC-64/bin/g++.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+C:/TDM-GCC-64/bin/../lib/gcc/x86_64-w64-mingw32/5.1.0/libgcc.a: file not recognized: File format not recognized
+collect2.exe: error: ld returned 1 exit status
+
+
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/msys64/msys2.exe cmTC_94a1e/fast && 
+
+Cannot copy output executable
+  ''
+to destination specified by COPY_FILE:
+  'D:/git/Algorithms/Builds/CMakeFiles/3.18.2/CMakeDetermineCompilerABI_C.bin'
+Unable to find the executable at any of:
+  D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp/cmTC_94a1e.exe
+  D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp/Debug/cmTC_94a1e.exe
+  D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp/Development/cmTC_94a1e.exe
+
+
+Detecting CXX compiler ABI info failed to compile with the following output:
+Change Dir: D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/msys64/msys2.exe cmTC_7e5f7/fast && 
+
+Cannot copy output executable
+  ''
+to destination specified by COPY_FILE:
+  'D:/git/Algorithms/Builds/CMakeFiles/3.18.2/CMakeDetermineCompilerABI_CXX.bin'
+Unable to find the executable at any of:
+  D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp/cmTC_7e5f7.exe
+  D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp/Debug/cmTC_7e5f7.exe
+  D:/git/Algorithms/Builds/CMakeFiles/CMakeTmp/Development/cmTC_7e5f7.exe
+
+
