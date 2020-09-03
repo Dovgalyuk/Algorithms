@@ -1,2 +1,0 @@
-C:/TDM-GCC-64/bin/ar.exe qc libLibraryC.a CMakeFiles/LibraryC.dir/array.c.obj CMakeFiles/LibraryC.dir/list.c.obj CMakeFiles/LibraryC.dir/queue.c.obj CMakeFiles/LibraryC.dir/stack.c.obj CMakeFiles/LibraryC.dir/vector.c.obj
-C:/TDM-GCC-64/bin/ranlib.exe libLibraryC.a
