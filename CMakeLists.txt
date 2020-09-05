@@ -15,4 +15,4 @@ add_subdirectory(TestArrayCPP)
 
 add_subdirectory(TestArrayCPPTemplate)
 
-add_subdirectory(NewMainFolder)
+add_subdirectory(IndividualTask)
