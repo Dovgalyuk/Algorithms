@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(Algorithms)
 
-add_subdirectory(LibraryMyFiles)
+add_subdirectory(LibraryIndividual)
 
 add_subdirectory(LibraryC)
 add_subdirectory(LibraryCPP)
