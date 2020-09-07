@@ -40,5 +40,6 @@ int main()
 	ArrPrint(arr);
 	count = ArrCheck(arr);
 	cout << "Amount of numbers: " << count;
+	array_delete(arr);
 	return 0;
 }
