@@ -16,4 +16,5 @@ int main()
             std::cout << "Invalid array element " << i << "\n";
     
     array_delete(arr);
+	system("pause");
 }
