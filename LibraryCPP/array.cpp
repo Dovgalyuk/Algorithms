@@ -20,7 +20,7 @@ Array *array_create(size_t size)
 void array_delete(Array *arr)
 {
     delete[] arr->data;
-	delete[] arr;
+	delete arr;
 }
 
 // returns specified array element
