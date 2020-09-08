@@ -35,6 +35,8 @@ int main()
 		std::cout << array_get(arr, i) << " ";
 	}
 
+	array_delete(arr);
+
 	system("pause");
 	return 0;
 }
