@@ -48,7 +48,7 @@ ListItem *list_item_next(ListItem *item)
 
 ListItem *list_item_prev(ListItem *item)
 {
-	// For non single linked list
+	// Not for single list
 	return NULL;
 }
 
