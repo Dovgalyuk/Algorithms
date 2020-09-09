@@ -9,7 +9,9 @@ add_subdirectory(TestListC)
 add_subdirectory(TestQueueC)
 add_subdirectory(TestStackC)
 add_subdirectory(TestVectorC)
-add_subdirectory(IndividualTask)
 add_subdirectory(TestArrayCPP)
 
 add_subdirectory(TestArrayCPPTemplate)
+
+add_subdirectory(IndividualTask)
+add_subdirectory(IndividualTask2)

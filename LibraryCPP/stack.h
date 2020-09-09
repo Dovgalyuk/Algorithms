@@ -1,11 +1,15 @@
+#include "list.h"
+
 #ifndef STACK_H
 #define STACK_H
 
 // Stack
 // Stores integer values inside
-typedef int Data;
 
-struct Stack;
+struct Stack
+{
+	struct List* list;
+};
 
 // Creates empty stack
 Stack *stack_create();
