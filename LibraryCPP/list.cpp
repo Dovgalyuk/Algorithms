@@ -3,59 +3,90 @@
 
 struct ListItem
 {
+	ListItem* pNext;
+	Data data;
 };
 
 struct List
 {
+	ListItem* pHead;
 };
 
 List *list_create()
 {
-    return new List;
+	List* list = new List;
+	list->pHead = NULL;
+	return list;
 }
 
 void list_delete(List *list)
 {
-    // TODO: free items
-    delete list;
+	ListItem* currect = list->pHead;
+	while (currect != NULL)
+	{
+		ListItem* temp = currect->pNext;
+		delete currect;
+		currect = temp;
+	}
+	delete list;
 }
 
 ListItem *list_first(List *list)
 {
-    return NULL;
+	return list->pHead;
 }
 
 Data list_item_data(const ListItem *item)
 {
-    return (Data)0;
+	return item->data;
 }
 
 ListItem *list_item_next(ListItem *item)
 {
-    return NULL;
+	return item->pNext;
 }
 
 ListItem *list_item_prev(ListItem *item)
 {
-    return NULL;
+	// For non single linked list
+	return NULL;
 }
 
 ListItem *list_insert(List *list, Data data)
 {
-    return NULL;
+	ListItem* item = new ListItem;
+	item->data = data;
+	item->pNext = list->pHead;
+	list->pHead = item;
+	return item;
 }
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
-    return NULL;
+	ListItem* newItem = new ListItem;
+	newItem->data = data;
+	newItem->pNext = item->pNext;
+	item->pNext = newItem;
+	return newItem;
 }
 
 ListItem *list_erase(List *list, ListItem *item)
 {
-    return NULL;
+	ListItem* currect = list->pHead;
+	ListItem* last;
+	while (currect != item)
+	{
+		last = currect;
+		currect = currect->pNext;
+	}
+	last->pNext = currect->pNext;
+	return NULL;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    return NULL;
+	ListItem* newItem = item->pNext;
+	item->pNext = newItem->pNext;
+	delete newItem;
+	return item;
 }
