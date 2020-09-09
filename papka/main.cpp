@@ -5,7 +5,7 @@
 int main()
 {
 	int size;
-	int max = 0;
+	int max;
 	int arr_e;
 	srand(time(0));
 	std::cout << "Enter the size:";
@@ -13,6 +13,7 @@ int main()
 	Array* arr = array_create(size);
 	for (int i = 0; i < size; i++)
 		array_set(arr, i, rand() % 100 - 50);
+	max = array_get(arr, 0);
 	for (int i = 0; i < size; i += 2) {
 		arr_e = array_get(arr, i);
 		if (arr_e > max)
