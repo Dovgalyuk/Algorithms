@@ -18,7 +18,7 @@ int main()
 	cout << "массив" << endl;
 	for (int i = 0, n; i < arr_size; i++)
 	{
-		n = rand() % 2001 - 1000;
+		n = rand() % 201 - 100;
 		cout << n << ' ';
 		array_set(arr, i, n);
 	}
@@ -48,9 +48,9 @@ int main()
 		}
 	}
 	printf("\n");
-	for (int i = 0; i < positive; i++) printf("-", array_get(mas1, i));
+	for (int i = 0; i < positive; i++) printf("%3d", array_get(mas1, i));
 	printf("\n");
-	for (int i = 0; i < negative; i++) printf("-", array_get(mas2, i));
+	for (int i = 0; i < negative; i++) printf("%3d", array_get(mas2, i));
 
 	printf("\n");
 
