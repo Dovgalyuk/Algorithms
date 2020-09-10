@@ -33,21 +33,25 @@ int main()
 
 	Array* mas1 = array_create(positive);
 	Array* mas2 = array_create(negative);
-		for (int i = 0; i < 0; i++)
+	positive = 0;
+    negative = 0;
+		for (int i = 0; i < arr_size; i++)
 		{
 			if (array_get(arr, i) >= 0)
 			{
-				array_set(mas1, i, array_get(arr, i)) ;
+				array_set(mas1, positive, array_get(arr, i)) ;
+				positive++;
 			}
 			else
 			{
-				array_set(mas2, i, array_get(arr, i));
+				array_set(mas2, negative, array_get(arr, i));
+				negative++;
 			}
 
 			printf("\n");
-			for (i = 0; i < positive; i++) printf("%3d", array_get(arr, i));
+			for (i = 0; i < positive; i++) printf("%3d", array_get(mas1, i));
 			printf("\n");
-			for (i = 0; i < negative; i++) printf("%3d", array_get(arr, i));
+			for (i = 0; i < negative; i++) printf("%3d", array_get(mas2, i));
 			printf("\n");
 		}
 		array_delete(arr);
