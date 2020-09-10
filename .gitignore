@@ -5,6 +5,7 @@
 *.filters
 *.obj
 *.exe
+*~
 ipch/*
 */Debug/*
 */Release/*
