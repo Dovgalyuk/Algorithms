@@ -17,8 +17,7 @@ Stack *stack_create()
 
 void stack_delete(Stack *stack)
 {
-	if (list_first(stack->list) != NULL)
-		list_delete(stack->list);
+	list_delete(stack->list);
 	delete stack;
 }
 

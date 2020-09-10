@@ -80,6 +80,7 @@ ListItem *list_erase(List *list, ListItem *item)
 		currect = currect->pNext;
 	}
 	last->pNext = currect->pNext;
+	delete currect;
 	return NULL;
 }
 
