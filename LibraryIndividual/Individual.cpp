@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <climits>
 #include "array.h"
 
 typedef Array<int> MyArray;
@@ -17,14 +18,16 @@ int main()
     MyArray arr(n);
     for (int i = 0; i < n; i++)
         arr[i] = rand();
-    int smallest = arr[0], secondSmall = arr[0];
+    int smallest = INT_MAX, secondSmall = arr[0]; // не совсем понимаю почему они могут иметь значение одного и того же элемента
     for (int i = 0; i < n; i++)
     {
-        if (smallest > arr[i]) smallest = arr[i];
-    }
-    for (int i = 0; i < n; i++)
-    {
-        if (arr[i] >= smallest && secondSmall > arr[i]) secondSmall = arr[i];
+        if (arr[i] < smallest)
+        {
+            secondSmall = smallest;
+            smallest = arr[i];
+        }
+        else if (arr[i] < secondSmall)
+            secondSmall = arr[i];
     }
     std::cout << "Smallest element: " << smallest << ' ' << "Second smallest element: " << secondSmall << std::endl;
 }
