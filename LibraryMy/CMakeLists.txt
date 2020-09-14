@@ -1,0 +1,1 @@
+add_executable(LibraryMy main.cpp)
