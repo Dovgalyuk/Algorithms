@@ -11,5 +11,9 @@ add_subdirectory(TestStackC)
 add_subdirectory(TestVectorC)
 
 add_subdirectory(TestArrayCPP)
+add_subdirectory(TestQueueCPP)
+add_subdirectory(TestVectorCPP)
 
 add_subdirectory(TestArrayCPPTemplate)
+
+add_subdirectory(Task)
