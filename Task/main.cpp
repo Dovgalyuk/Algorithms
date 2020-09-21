@@ -112,6 +112,8 @@ int main()
 		std::cout << cityName[path[i]] << " ";
 		fout << cityName[path[i]] << " ";
 	}
+	
+	queue_delete(queue);
 
 	fin.close();
 	fout.close();
