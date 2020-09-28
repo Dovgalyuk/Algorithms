@@ -35,17 +35,8 @@ void vector_set(Vector *vector, size_t index, Data value)
 		vector->data[index] = value;
 	else
 	{
-		if (index < vector->reservedSize)
-		{
-			vector->size = vector->reservedSize;
-			vector->data[index] = value;
-		}
-		else
-		{
-			vector->size = index;
-			vector_resize(vector, index + vector->reservedSize);
-			vector->data[index] = value;
-		}
+		vector_resize(vector, index);
+		vector->data[index] = value;
 	}
 }
 
@@ -56,25 +47,32 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-	if (size == 0)
+	size_t newSize = 0;
+	if (size < vector->size)	
 	{
-		std::free(vector->data);
-		vector->data = NULL;
+		vector->size = size;
+		return;
+	}
+	else if (size < vector->reservedSize)
+	{
+		vector->size = vector->reservedSize;
+		return;
 	}
 	else
-	{
-		if (size >= vector->reservedSize)
-		{
-			if ((vector->data = (Data*)std::realloc(vector->data, size * sizeof(Data) * 2)) == NULL)
-				exit(-1);
-		}
-		else
-		{
-			vector->size = size;
-			return;
-		}
-	}
+		newSize = size * 2;
 	
+	Data* newData = new Data[newSize];
+	if (size > vector->reservedSize)
+		for (size_t i = 0; i < vector->size; i++)
+			newData[i] = vector->data[i];
+	else
+		for (size_t i = 0; i < size; i++)
+			newData[i] = vector->data[i];
+	
+	delete[] vector->data;
+
+	vector->data = newData;
 	vector->size = size;
-	vector->reservedSize = vector->size * 2;
+	vector->reservedSize = newSize;
+
 }

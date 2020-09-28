@@ -27,7 +27,7 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue *queue, Data data)
 {
-	if (queue->tail != vector_size(queue->vector) - 1)
+	if (queue->tail < vector_size(queue->vector) - 1)
 	{
 		vector_set(queue->vector, queue->tail, data);
 		queue->tail++;
@@ -42,7 +42,7 @@ void queue_insert(Queue *queue, Data data)
 			queue->head = 0;
 		}
 		else
-			vector_resize(queue->vector, vector_size(queue->vector) + queue->tail - queue->head);
+			vector_resize(queue->vector, vector_size(queue->vector) + queue->tail);
 		
 		vector_set(queue->vector, queue->tail, data);
 		queue->tail++;	
@@ -56,14 +56,13 @@ Data queue_get(const Queue *queue)
 
 void queue_remove(Queue *queue)
 {
-	vector_set(queue->vector, queue->head, 0);
-	queue->head++;
+	if (queue->head == vector_size(queue->vector) - 1)
+		queue->head = 0;
+	else
+		queue->head++;
 }
 
 bool queue_empty(const Queue *queue)
 {
-	if (queue->head == queue->tail)
-		return true;
-	else
-		return false;
+	return queue->head == queue->tail;
 }
