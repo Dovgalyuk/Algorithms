@@ -15,3 +15,5 @@ add_subdirectory(TestArrayCPP)
 add_subdirectory(TestArrayCPPTemplate)
 
 add_subdirectory(MainCPP)
+
+add_subdirectory(TestHTML)

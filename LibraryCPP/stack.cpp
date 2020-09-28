@@ -3,33 +3,38 @@
 
 struct Stack
 {
+	List* list;
 };
 
 Stack *stack_create()
 {
-    return new Stack;
+	Stack *new_stack =new Stack;
+	new_stack->list =list_create();
+	return new_stack;
 }
 
 void stack_delete(Stack *stack)
 {
-    // TODO: free stack elements
+	list_delete(stack->list);
     delete stack;
 }
 
 void stack_push(Stack *stack, Data data)
 {
+	list_insert(stack->list, data);
 }
 
 Data stack_get(const Stack *stack)
 {
-    return (Data)0;
+   return list_item_data(list_first(stack->list));
 }
 
 void stack_pop(Stack *stack)
 {
+	list_erase(stack->list, list_first(stack->list));
 }
 
 bool stack_empty(const Stack *stack)
 {
-    return true;
+    return list_first(stack->list) ==nullptr;
 }
