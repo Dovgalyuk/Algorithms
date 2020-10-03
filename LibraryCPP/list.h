@@ -5,49 +5,53 @@
 // Stores integer values inside
 typedef int Data;
 
+typedef char Operation;
+
 struct ListItem
 {
 	Data data;
-	struct ListItem* next;
+	Operation operation;
+	ListItem* next;
 };
 
 struct List
 {
-	struct ListItem* first;
+	ListItem* first;
 };
 
 // Creates new list
 List *list_create();
 
 // Retrieves the first item from the list
-ListItem *list_first(List *list);
+ListItem* list_first(List* list);
 
 // Extracts data from the list item
-Data list_item_data(const ListItem *item);
+Data list_item_dt(const ListItem* item);
+
+Operation list_item_op(const ListItem* item);
 
 // Returns list item following after the specified one
-ListItem *list_item_next(ListItem *item);
-
-// Returns previous element for the specified item.
-// Not applicable for the singly linked lists.
-ListItem *list_item_prev(ListItem *item, List *list);
+ListItem* list_item_next(ListItem* item);
 
 // Inserts new list item into the beginning
-ListItem *list_insert(List *list, Data data);
+void list_insert(List* list, const char* str);
 
 // Inserts new list item after the specified item
-ListItem *list_insert_after(List *list, ListItem *item, Data data);
+void list_insert_after(List* list, ListItem *item, const char* str);
 
 // Deletes the list item following the specified one
 // Should be O(1)
-void list_erase_next(List *list, ListItem *item);
-
-// Deletes the specified list item.
-// Not applicable for the singly linked lists.
-// Should be O(1)
-void list_erase(List* list, ListItem* item);
+void list_erase_next(List* list, ListItem* item);
 
 // Destroys the list and frees the memory
 void list_delete(List* list);
+
+bool is_dt(const char* str);
+
+bool is_op(const char* str);
+
+Data cast_dt(const char* str);
+
+Operation cast_op(const char* str);
 
 #endif

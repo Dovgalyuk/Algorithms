@@ -3,68 +3,99 @@
 
 using namespace std;
 
-void calc_op(Stack *stack) //given that each expression is correct and numbers matching symbols '+', '-', '/', '*' mean only those symbols in case Data is int
+void calc_op(Stack* stack)
 {
-	ListItem* temp_calc = list_first(stack->list);
-	if (stack_get(stack) == '+' || stack_get(stack) == '-' || stack_get(stack) == '/' || stack_get(stack) == '*')
+	List* temp_l_c = list_create();
+
+	for (int i = 0; i < 3; i++)
 	{
-		Data temp = 0;
-		if (stack_get(stack) == '+')
+		if (i == 0)
+			temp_l_c->first->operation = stack_get_op(stack);
+		else
 		{
-			temp = list_item_data(list_item_next(temp_calc)) + list_item_data(list_item_next(list_item_next(temp_calc)));
+			char temp[256]= "";
+			itoa(stack_get_dt(stack), temp, 10);
+			list_insert_after(temp_l_c, temp_l_c->first, temp);
 		}
-		if (stack_get(stack) == '-')
-		{
-			temp = list_item_data(list_item_next(list_item_next(temp_calc))) - list_item_data(list_item_next(temp_calc));
-		}
-		if (stack_get(stack) == '/')
-		{
-			temp = list_item_data(list_item_next(list_item_next(temp_calc))) / list_item_data(list_item_next(temp_calc));
-		}
-		if (stack_get(stack) == '*')
-		{
-			temp = list_item_data(list_item_next(temp_calc)) * list_item_data(list_item_next(list_item_next(temp_calc)));
-		}
-		temp_calc->next->next->data = temp;
-		stack_pop(stack);
 		stack_pop(stack);
 	}
-}
-
-void print_op_list()
-{
-	cout << "The list of operations: " << endl;
-	cout << endl;
-	cout << "The number 42 is symbol '*';" << endl;
-	cout << "The number 43 is symbol '+';" << endl;
-	cout << "The number 45 is symbol '-';" << endl;
-	cout << "The number 47 is symbol '/'." << endl;
-	cout << endl;
-}
-
-void calc_proc(Stack *stack)
-{
-	print_op_list();
-	Data temp_data;
-	for (int i = 0; i < 5; i++)
+	
+	ListItem* temp_l_i = temp_l_c->first;
+	Data temp_dt = 0;
+	char temp_str[256] = "";
+	
+	if (temp_l_i->operation == '+')
 	{
-		cout << "Enter the number: ";
-		cin >> temp_data;
+		temp_dt = temp_l_i->next->data + temp_l_i->next->next->data;
+	}
+	if (temp_l_i->operation == '-')
+	{
+		temp_dt = temp_l_i->next->data - temp_l_i->next->next->data;
+	}
+	if (temp_l_i->operation == '/')
+	{
+		temp_dt = temp_l_i->next->data / temp_l_i->next->next->data;
+	}
+	if (temp_l_i->operation == '*')
+	{
+		temp_dt = temp_l_i->next->data * temp_l_i->next->next->data;
+	}
+
+	itoa(temp_dt, temp_str, 10);
+	list_delete(temp_l_c);
+	stack_push(stack, temp_str);
+}
+
+void calc_proc(Stack* stack)
+{
+	int i, counter; //counter for data position check
+	counter = i = 0;
+	while (i < 5)
+	{
+		char str[256] = "";
+		cout << "Enter number or operation: ";
+		cin >> str;
 		cout << endl;
-		stack_push(stack, temp_data);
-		calc_op(stack);
-		if (stack_get(stack) != temp_data)
+		if (is_dt(str) == true)
 		{
-			cout << "The result of operation: " << stack_get(stack) << endl;
+			stack_push(stack, str);
+			counter += 1;
+			i++;
+		}
+		else if (is_op(str) == true)
+		{
+			if (counter < 2)
+			{
+				cout << "Error, incorrect operation" << endl;
+				cout << endl;
+			}
+			else
+			{
+				stack_push(stack, str);
+				calc_op(stack);
+				if (i == 4)
+				{
+					cout << "The result of operation: " << stack_get_dt(stack) << endl;
+					cout << endl;
+				}
+				counter -= 1;
+				i++;
+			}
+		}
+		else
+		{
+			cout << "Error, please enter correct data" << endl;
 			cout << endl;
 		}
+		cin.clear();
 	}
 }
 
 int main()
 {
-	Stack* stack_1 = stack_create();
-	calc_proc(stack_1);
-	stack_delete(stack_1);
+	Stack* stack = stack_create();
+	calc_proc(stack);
+	stack_delete(stack);
+
 	return 0;
 }

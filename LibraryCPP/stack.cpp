@@ -1,53 +1,65 @@
-#include <stdlib.h>
 #include "stack.h"
 
 Stack* stack_create()
 {
-	Stack* stack_temp = new Stack;
-	stack_temp->list = nullptr;
-	return stack_temp;
+	Stack* new_stack = new Stack;
+	new_stack->list = nullptr;
+	return new_stack;
 };
 
-Data stack_get(const Stack *stack)
+void stack_delete(Stack* stack)
 {
-    return list_item_data(stack->list->first);
+	if (stack_empty(stack) == false)
+	{
+		list_delete(stack->list);
+		delete stack;
+	}
 }
 
-bool stack_empty(const Stack *stack)
+void stack_push(Stack* stack, const char* str)
 {
-	if (stack->list == nullptr)
-		return true;
-	else return false;
+	if (stack_empty(stack) == true)
+	{
+		stack->list = list_create();
+		list_insert(stack->list, str);
+		list_erase_next(stack->list, stack->list->first);
+	}
+	else list_insert(stack->list, str);
+}
+
+Data stack_get_dt(const Stack* stack)
+{
+	return list_item_dt(stack->list->first);
+}
+
+Operation stack_get_op(const Stack* stack)
+{
+	return list_item_op(stack->list->first);
 }
 
 void stack_pop(Stack* stack)
 {
-	if (stack_empty(stack) == 1)
+	if (stack_empty(stack) == true)
 		return;
 	else
-		list_erase(stack->list, list_first(stack->list));
-}
-
-void stack_push(Stack *stack, Data data)
-{
-	if (stack_empty(stack) == 1)
 	{
-		List* temp_list = list_create();
-		stack->list = temp_list;
-		ListItem* temp = new ListItem;
-		stack->list->first = temp;
-		temp->data = data;
-		temp->next = nullptr;
-	}
-	else
-	{
-		list_insert(stack->list, data);
+		ListItem* temp = stack->list->first->next;
+		if (temp != nullptr)
+		{
+			delete stack->list->first;
+			stack->list->first = temp;
+		}
+		else
+		{
+			delete stack->list;
+			stack->list = nullptr;
+		}
 	}
 }
 
-void stack_delete(Stack* stack)
+bool stack_empty(const Stack* stack)
 {
-	if (stack_empty == 0)
-		list_delete(stack->list);
-	delete stack;
+	if (stack->list == nullptr)
+		return true;
+	else return false;
 }
