@@ -27,59 +27,46 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue *queue, Data data)
 {
-	if (queue->tail >= queue->head)
+	if (queue->tail == vector_size(queue->vector) - 1 && queue->head == 0)
 	{
-		if (queue->tail == vector_size(queue->vector) - 1 && queue->head != 0)
+		vector_resize(queue->vector, vector_size(queue->vector) * 2);
+		vector_set(queue->vector, queue->tail, data);
+		queue->tail++;
+	}
+	else if (queue->tail + 1 == queue->head)
+	{
+		size_t temp = 0;
+		Vector* vector = vector_create();
+		vector_resize(queue->vector, vector_size(queue->vector) * 2);
+		
+		for (int i = queue->head; i < vector_size(queue->vector); i++)
 		{
-			vector_set(queue->vector, queue->tail, data);
-			queue->tail = 0;
+			vector_set(vector, i, vector_get(queue->vector, i));
+			temp++;
 		}
-		else if (queue->tail == vector_size(queue->vector) - 1 && queue->head == 0)
+
+		for (int i = 0; i < queue->tail; i++)
 		{
-			vector_resize(queue->vector, queue->tail * 2);
-			vector_set(queue->vector, queue->tail, data);
-			queue->tail++;
+			vector_set(vector, temp, vector_get(queue->vector, i));
+			temp++;
 		}
-		else
-		{
-			vector_set(queue->vector, queue->tail, data);
-			queue->tail++;
-		}
+
+		vector_delete(queue->vector);
+		queue->vector = vector;
+
+		queue->head = 0;
+		queue->tail = temp;
+
+		vector_set(queue->vector, queue->tail, data);
+		queue->tail++;
 	}
 	else
 	{
-		if (queue->tail == queue->head)
-		{
-			size_t temp = 0;
-			Vector* vector = vector_create();
-			vector_resize(queue->vector, vector_size(queue->vector) * 2);
-			
-			for (int i = queue->head; i < vector_size(queue->vector); i++)
-			{
-				vector_set(vector, i, vector_get(queue->vector, i));
-				temp++;
-			}
-
-			for (int i = 0; i < queue->tail; i++)
-			{
-				vector_set(vector, temp, vector_get(queue->vector, i));
-				temp++;
-			}
-
-			vector_delete(queue->vector);
-			queue->vector = vector;
-
-			queue->head = 0;
-			queue->tail = temp;
-
-			vector_set(queue->vector, queue->tail, data);
-			queue->tail++;
-		}
+		vector_set(queue->vector, queue->tail, data);
+		if (queue->tail == vector_size(queue->vector) - 1)
+			queue->tail = 0;
 		else
-		{
-			vector_set(queue->vector, queue->tail, data);
 			queue->tail++;
-		}
 	}
 }	
 
