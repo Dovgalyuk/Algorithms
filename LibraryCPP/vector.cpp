@@ -35,7 +35,7 @@ void vector_set(Vector *vector, size_t index, Data value)
 		vector->data[index] = value;
 	else
 	{
-		vector_resize(vector, index);
+		vector_resize(vector, index + 1);
 		vector->data[index] = value;
 	}
 }
@@ -47,14 +47,11 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-	size_t newSize = 0;
-	if (size < vector->size)	
+	if (size < vector->reservedSize)
 		vector->size = size;
-	else if (size < vector->reservedSize)
-		vector->size = vector->reservedSize;
 	else
 	{
-		newSize = size * 2;
+		size_t newSize = size * 2;
 		Data* newData = new Data[newSize];
 		
 		for (size_t i = 0; i < vector->size; i++)
@@ -66,5 +63,4 @@ void vector_resize(Vector *vector, size_t size)
 		vector->size = size;
 		vector->reservedSize = newSize;
 	}
-
 }
