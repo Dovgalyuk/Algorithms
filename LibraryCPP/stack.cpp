@@ -9,57 +9,41 @@ Stack* stack_create()
 
 void stack_delete(Stack* stack)
 {
-	if (stack_empty(stack) == false)
-	{
+	if (stack_empty(stack) != true)
 		list_delete(stack->list);
-		delete stack;
-	}
+	delete stack;
+	stack = nullptr;
 }
 
-void stack_push(Stack* stack, const char* str)
+void stack_push(Stack* stack, Data data)
 {
-	if (stack_empty(stack) == true)
+	if (stack_empty(stack))
 	{
 		stack->list = list_create();
-		list_insert(stack->list, str);
-		list_erase_next(stack->list, stack->list->first);
 	}
-	else list_insert(stack->list, str);
+	list_insert(stack->list, data);
 }
 
-Data stack_get_dt(const Stack* stack)
+Data stack_get(const Stack* stack)
 {
-	return list_item_dt(stack->list->first);
-}
-
-Operation stack_get_op(const Stack* stack)
-{
-	return list_item_op(stack->list->first);
+	return list_get(stack->list->first);
 }
 
 void stack_pop(Stack* stack)
 {
-	if (stack_empty(stack) == true)
+	if (stack_empty(stack))
 		return;
 	else
 	{
-		ListItem* temp = stack->list->first->next;
-		if (temp != nullptr)
-		{
-			delete stack->list->first;
-			stack->list->first = temp;
-		}
-		else
-		{
-			delete stack->list;
-			stack->list = nullptr;
-		}
+		list_erase_first(stack->list);
+		if (stack_empty(stack))
+			stack_delete(stack);
 	}
 }
 
 bool stack_empty(const Stack* stack)
 {
-	if (stack->list == nullptr)
+	if (stack->list == nullptr || stack == nullptr)
 		return true;
 	else return false;
 }

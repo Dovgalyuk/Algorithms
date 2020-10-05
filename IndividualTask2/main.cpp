@@ -1,94 +1,94 @@
 #include <iostream>
+#include <stdio.h>
 #include "stack.h"
 
 using namespace std;
 
-void calc_op(Stack* stack)
+void calc_op(Stack* stack, char operation, int &i)
 {
-	List* temp_l_c = list_create();
+	Data a = stack_get(stack);
+	stack_pop(stack);
+	if (stack_empty(stack))
+	{
+		stack_push(stack, a);
+		i--;
+		cout << "Error, incorrect input, please try again" << endl;
+		cout << endl;
+		return;
+	}
+	Data b = stack_get(stack);
+	stack_pop(stack);
+	if (operation == '+')
+	{
+		stack_push(stack, b + a);
+	}
+	if (operation == '-')
+	{
+		stack_push(stack, b - a);
+	}
+	if (operation == '/')
+	{
+		stack_push(stack, b / a);
+	}
+	if (operation == '*')
+	{
+		stack_push(stack, b * a);
+	}
+}
 
-	for (int i = 0; i < 3; i++)
-	{
-		if (i == 0)
-			temp_l_c->first->operation = stack_get_op(stack);
-		else
-		{
-			char temp[256]= "";
-			itoa(stack_get_dt(stack), temp, 10);
-			list_insert_after(temp_l_c, temp_l_c->first, temp);
-		}
-		stack_pop(stack);
-	}
-	
-	ListItem* temp_l_i = temp_l_c->first;
-	Data temp_dt = 0;
-	char temp_str[256] = "";
-	
-	if (temp_l_i->operation == '+')
-	{
-		temp_dt = temp_l_i->next->data + temp_l_i->next->next->data;
-	}
-	if (temp_l_i->operation == '-')
-	{
-		temp_dt = temp_l_i->next->data - temp_l_i->next->next->data;
-	}
-	if (temp_l_i->operation == '/')
-	{
-		temp_dt = temp_l_i->next->data / temp_l_i->next->next->data;
-	}
-	if (temp_l_i->operation == '*')
-	{
-		temp_dt = temp_l_i->next->data * temp_l_i->next->next->data;
-	}
+Data cast_dt(const char* str)
+{
+	return atoi(str);
+}
 
-	itoa(temp_dt, temp_str, 10);
-	list_delete(temp_l_c);
-	stack_push(stack, temp_str);
+char cast_op(const char* str)
+{
+	return str[0];
+}
+
+bool is_dt(const char* str)
+{
+	const char* temp_num = "0123456789";
+	for (int i = 0; i < strlen(str); i++)
+	{
+		if (!strchr(temp_num, str[i]))
+			return false;
+	}
+	return true;
+}
+
+bool is_op(const char* str)
+{
+	const char* temp_op = "+-/*";
+	if (!strchr(temp_op, str[0]) || str[1] != NULL)
+		return false;
+	else return true;
 }
 
 void calc_proc(Stack* stack)
 {
-	int i, counter; //counter for data position check
-	counter = i = 0;
-	while (i < 5)
+	for (int i = 0; i < 5; i++)
 	{
 		char str[256] = "";
 		cout << "Enter number or operation: ";
 		cin >> str;
 		cout << endl;
-		if (is_dt(str) == true)
+		if (is_dt(str))
 		{
-			stack_push(stack, str);
-			counter += 1;
-			i++;
+			stack_push(stack, cast_dt(str));
 		}
-		else if (is_op(str) == true)
+		else if (is_op(str) && stack_empty(stack) != true)
 		{
-			if (counter < 2)
-			{
-				cout << "Error, incorrect operation" << endl;
-				cout << endl;
-			}
-			else
-			{
-				stack_push(stack, str);
-				calc_op(stack);
-				if (i == 4)
-				{
-					cout << "The result of operation: " << stack_get_dt(stack) << endl;
-					cout << endl;
-				}
-				counter -= 1;
-				i++;
-			}
+			calc_op(stack, cast_op(str), i);
 		}
 		else
 		{
-			cout << "Error, please enter correct data" << endl;
+			cout << "Error, incorrect input, please try again" << endl;
 			cout << endl;
 		}
 		cin.clear();
 	}
+	cout << "The result of operation: " << stack_get(stack) << endl;
 }
 
 int main()

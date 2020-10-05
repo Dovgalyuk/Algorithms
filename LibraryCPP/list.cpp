@@ -1,6 +1,4 @@
 #include <stdlib.h>
-#include <cstring>
-#include <stdio.h>
 #include "list.h"
 
 List* list_create()
@@ -16,14 +14,9 @@ ListItem* list_first(List* list)
 	return list->first;
 }
 
-Data list_item_dt(const ListItem* item)
+Data list_get(const ListItem* item)
 {
 	return item->data;
-}
-
-Operation list_item_op(const ListItem* item)
-{
-	return item->operation;
 }
 
 ListItem* list_item_next(ListItem* item)
@@ -31,24 +24,18 @@ ListItem* list_item_next(ListItem* item)
 	return item->next;
 }
 
-void list_insert(List* list, const char* str)
+void list_insert(List* list, Data data)
 {
 	ListItem* new_item = new ListItem;
-	if (is_dt(str) == true)
-			new_item->data = cast_dt(str);
-	if (is_op(str) == true)
-			new_item->operation = cast_op(str);
+	new_item->data = data;
 	new_item->next = list_first(list);
 	list->first = new_item;
 }
 
-void list_insert_after(List* list, ListItem* item, const char* str)
+void list_insert_after(List* list, ListItem* item, Data data)
 {
 	ListItem* new_item = new ListItem;
-	if (is_dt(str) == true)
-		new_item->data = cast_dt(str);
-	if (is_op(str) == true)
-		new_item->operation = cast_op(str);
+	new_item->data = data;
 	new_item->next = list_item_next(item);
 	item->next = new_item;
 }
@@ -65,39 +52,31 @@ void list_erase_next(List* list, ListItem* item)
 	}
 }
 
+void list_erase_first(List* list)
+{
+	if (list->first == nullptr)
+		return;
+	else
+	{
+		ListItem* temp = list->first->next;
+		delete list->first;
+		list->first = temp;
+		if (list->first == nullptr)
+			list_delete(list);
+	}
+}
+
 void list_delete(List* list)
 {
-	while (list->first->next != nullptr) //given that last element->next is nullptr
-		list_erase_next(list, list->first);
-	delete list->first;
-	delete list;
-}
-
-bool is_dt(const char* str)
-{
-	const char* temp_num = "0123456789";
-	for (int i = 0; i < strlen(str); i++)
+	if (list->first != nullptr)
 	{
-		if (!strchr(temp_num, str[i]))
-			return false;
+		while (list->first->next != nullptr) //given that last element->next is nullptr
+			list_erase_next(list, list->first);
+		list_erase_first(list);
 	}
-	return true;
-}
-
-bool is_op(const char* str)
-{
-	const char* temp_op = "+-/*";
-	if (!strchr(temp_op, str[0]) || str[1] != NULL)
-		return false;
-	else return true;
-}
-
-Data cast_dt(const char* str)
-{
-	return atoi(str);
-}
-
-Operation cast_op(const char* str)
-{
-	return str[0];
+	else
+	{
+		delete list;
+		list = nullptr;
+	}
 }
