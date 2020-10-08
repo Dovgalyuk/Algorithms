@@ -5,10 +5,7 @@
 
 // Stack
 // Stores integer values inside
-struct Stack
-{
-	List* list;
-};
+struct Stack;
 
 // Creates empty stack
 Stack* stack_create();

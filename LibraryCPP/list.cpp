@@ -1,6 +1,17 @@
 #include <stdlib.h>
 #include "list.h"
 
+struct ListItem
+{
+	Data data;
+	ListItem* next;
+};
+
+struct List
+{
+	ListItem* first;
+};
+
 List* list_create()
 {
 	List* new_list = new List;
