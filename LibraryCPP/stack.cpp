@@ -31,7 +31,7 @@ void stack_push(Stack* stack, Data data)
 
 Data stack_get(const Stack* stack)
 {
-	return list_get(stack->list->first);
+	return list_get(list_first(stack->list));
 }
 
 void stack_pop(Stack* stack)
