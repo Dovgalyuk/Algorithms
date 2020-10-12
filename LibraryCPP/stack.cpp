@@ -1,35 +1,42 @@
 #include <stdlib.h>
+#include "vector.h"
 #include "stack.h"
 
 struct Stack
 {
+    Vector* vec;
 };
 
 Stack *stack_create()
 {
-    return new Stack;
+    Stack* stack = new Stack;
+    stack->vec = vector_create();
+    return stack;
 }
 
 void stack_delete(Stack *stack)
 {
-    // TODO: free stack elements
+    vector_delete(stack->vec);
     delete stack;
 }
 
 void stack_push(Stack *stack, Data data)
 {
+    vector_resize(stack->vec, vector_size(stack->vec) + 1);
+    vector_set(stack->vec, vector_size(stack->vec) - 1, data);
 }
 
 Data stack_get(const Stack *stack)
 {
-    return (Data)0;
+    return vector_get(stack->vec, vector_size(stack->vec) - 1);
 }
 
 void stack_pop(Stack *stack)
 {
+    vector_resize(stack->vec, vector_size(stack->vec) - 1);
 }
 
 bool stack_empty(const Stack *stack)
 {
-    return true;
+    return vector_size(stack->vec) == 0 ? true : false;
 }
