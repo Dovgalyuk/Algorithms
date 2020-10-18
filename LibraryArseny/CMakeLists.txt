@@ -1,0 +1,1 @@
+add_executable(LibraryArseny main.cpp)
