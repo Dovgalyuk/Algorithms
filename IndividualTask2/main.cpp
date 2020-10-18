@@ -1,21 +1,14 @@
 #include <iostream>
 #include <stdio.h>
+#include <string>
 #include "stack.h"
 
 using namespace std;
 
-void calc_op(Stack* stack, char operation, int &i)
+void calc_op(Stack* stack, char operation)
 {
 	Data a = stack_get(stack);
 	stack_pop(stack);
-	if (stack_empty(stack))
-	{
-		stack_push(stack, a);
-		i--;
-		cout << "Error, incorrect input, please try again" << endl;
-		cout << endl;
-		return;
-	}
 	Data b = stack_get(stack);
 	stack_pop(stack);
 	if (operation == '+')
@@ -36,59 +29,31 @@ void calc_op(Stack* stack, char operation, int &i)
 	}
 }
 
-Data cast_dt(const char* str)
-{
-	return atoi(str);
-}
-
-char cast_op(const char* str)
-{
-	return str[0];
-}
-
-bool is_dt(const char* str)
-{
-	const char* temp_num = "0123456789";
-	for (int i = 0; i < strlen(str); i++)
-	{
-		if (!strchr(temp_num, str[i]))
-			return false;
-	}
-	return true;
-}
-
-bool is_op(const char* str)
-{
-	const char* temp_op = "+-/*";
-	if (!strchr(temp_op, str[0]) || str[1] != NULL)
-		return false;
-	else return true;
-}
-
 void calc_proc(Stack* stack)
 {
-	for (int i = 0; i < 5; i++)
+	string str;
+	cout << "Please, enter correct string (characters and numbers must be separated by spaces): ";
+	getline(cin, str);
+	cout << endl;
+	for (size_t i = 0; ; i++)
 	{
-		char str[256] = "";
-		cout << "Enter number or operation: ";
-		cin >> str;
-		cout << endl;
-		if (is_dt(str))
+		if (str[i] == ' ' || str[i] == '\0')
 		{
-			stack_push(stack, cast_dt(str));
+			string temp;
+			temp.insert(0, str, 0, i);
+			if (temp.length() == 1 && !isdigit(temp[0])) //giving string is correct and doesn't contain other characters
+				calc_op(stack, temp[0]);
+			else
+				stack_push(stack, atoi(temp.c_str()));
+			if (str[i] == ' ')
+			{
+				str.erase(0, i+1);
+				i = 0;
+			}
+			else break;
 		}
-		else if (is_op(str) && stack_empty(stack) != true)
-		{
-			calc_op(stack, cast_op(str), i);
-		}
-		else
-		{
-			cout << "Error, incorrect input, please try again" << endl;
-			cout << endl;
-		}
-		cin.clear();
 	}
-	cout << "The result of operation: " << stack_get(stack) << endl;
+	cout << "The result of operation: " << stack_get(stack) << endl;;
 }
 
 int main()
@@ -99,3 +64,5 @@ int main()
 
 	return 0;
 }
+
+

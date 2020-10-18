@@ -39,11 +39,7 @@ void stack_pop(Stack* stack)
 	if (stack_empty(stack))
 		return;
 	else
-	{
 		list_erase_first(stack->list);
-		if (stack_empty(stack))
-			stack_delete(stack);
-	}
 }
 
 bool stack_empty(const Stack* stack)

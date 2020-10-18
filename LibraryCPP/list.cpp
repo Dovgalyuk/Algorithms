@@ -72,8 +72,6 @@ void list_erase_first(List* list)
 		ListItem* temp = list->first->next;
 		delete list->first;
 		list->first = temp;
-		if (list->first == nullptr)
-			list_delete(list);
 	}
 }
 
@@ -81,7 +79,7 @@ void list_delete(List* list)
 {
 	if (list->first != nullptr)
 	{
-		while (list->first->next != nullptr) //given that last element->next is nullptr
+		while (list->first->next != nullptr)
 			list_erase_next(list, list->first);
 		list_erase_first(list);
 	}
