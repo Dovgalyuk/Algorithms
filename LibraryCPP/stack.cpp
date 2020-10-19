@@ -14,7 +14,7 @@ Stack* stack_create()
 
 void stack_delete(Stack* stack)
 {
-	if (stack_empty(stack) != true)
+	if (!stack_empty(stack))
 		list_delete(stack->list);
 	delete stack;
 	stack = nullptr;

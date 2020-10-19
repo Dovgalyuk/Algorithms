@@ -35,25 +35,18 @@ void calc_proc(Stack* stack)
 	cout << "Please, enter correct string (characters and numbers must be separated by spaces): ";
 	getline(cin, str);
 	cout << endl;
-	for (size_t i = 0; ; i++)
+	for (size_t i = 0; str[i] != '\0'; i++)
 	{
-		if (str[i] == ' ' || str[i] == '\0')
+		if (isdigit(str[i]))
 		{
-			string temp;
-			temp.insert(0, str, 0, i);
-			if (temp.length() == 1 && !isdigit(temp[0])) //giving string is correct and doesn't contain other characters
-				calc_op(stack, temp[0]);
-			else
-				stack_push(stack, atoi(temp.c_str()));
-			if (str[i] == ' ')
-			{
-				str.erase(0, i+1);
-				i = 0;
-			}
-			else break;
+			stack_push(stack, atoi(str.c_str() + i));
+			if (isdigit(str[i + 1]))
+				i++;
 		}
+		else if (str[i] != ' ')
+				calc_op(stack, str[i]);
 	}
-	cout << "The result of operation: " << stack_get(stack) << endl;;
+	cout << "The result of operation: " << stack_get(stack) << endl;
 }
 
 int main()
@@ -64,5 +57,3 @@ int main()
 
 	return 0;
 }
-
-
