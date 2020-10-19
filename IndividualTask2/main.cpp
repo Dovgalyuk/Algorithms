@@ -41,7 +41,10 @@ void calc_proc(Stack* stack)
 		{
 			stack_push(stack, atoi(str.c_str() + i));
 			if (isdigit(str[i + 1]))
-				i++;
+			{
+				while (str[i + 1] != ' ')
+					i++;
+			}
 		}
 		else if (str[i] != ' ')
 				calc_op(stack, str[i]);
