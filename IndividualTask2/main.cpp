@@ -2,6 +2,43 @@
 #include <string>
 #include "stack.h"
 
+
+void multiplication(Stack* number) {
+	int num;
+	num = stack_get(number);
+	stack_pop(number);
+	num *= stack_get(number);
+	stack_pop(number);
+	stack_push(number, num);
+}
+
+void division(Stack* number) {
+	int num, num2;
+	num2 = stack_get(number);
+	stack_pop(number);
+	num = stack_get(number) / num2;
+	stack_pop(number);
+	stack_push(number, num);
+}
+
+void addition(Stack* number) {
+	int num;
+	num = stack_get(number);
+	stack_pop(number);
+	num += stack_get(number);
+	stack_pop(number);
+	stack_push(number, num);
+}
+
+void difference(Stack* number) {
+	int num, num2;
+	num2 = stack_get(number);
+	stack_pop(number);
+	num = stack_get(number) - num2;
+	stack_pop(number);
+	stack_push(number, num);
+}
+
 int main()
 {
 	Stack* number = stack_create();
@@ -15,13 +52,13 @@ int main()
 	{
 		if (isdigit(name[i]))
 		{
-			stack_push(number, name[i]-48);
+			stack_push(number, name[i]-48);        
 		}
 		else
 		{
 			if (stack_empty(mark))
 			{
-				stack_push(mark, name[i]);
+				stack_push(mark, name[i]);				
 			}
 			else
 			{
@@ -29,38 +66,24 @@ int main()
 				{
 					if (stack_get(mark) == '*')
 					{
-						num = stack_get(number);
-						stack_pop(number);
-						num *= stack_get(number);
-						stack_pop(number);
-						stack_push(number, num);
+						multiplication(number);
 					}
 					else
 					{
-						num2 = stack_get(number);
-						stack_pop(number);
-						num = stack_get(number) / num2;
-						stack_pop(number);
-						stack_push(number, num);
+						division(number);
 					}
+
 					stack_pop(mark);
+
 					if (!stack_empty(mark)&&(name[i]=='+' || name[i] == '-'))
 					{
 						if (stack_get(mark) == '+')
 						{
-							num = stack_get(number);
-							stack_pop(number);
-							num += stack_get(number);
-							stack_pop(number);
-							stack_push(number, num);
+							addition(number);
 						}
 						else
 						{
-							num2 = stack_get(number);
-							stack_pop(number);
-							num = stack_get(number) - num2;
-							stack_pop(number);
-							stack_push(number, num);
+							difference(number);
 						}
 						stack_pop(mark);
 						stack_push(mark, name[i]);
@@ -69,7 +92,6 @@ int main()
 					{
 						stack_push(mark, name[i]);
 					}
-					//std::cout << num << std::endl;
 				}
 				else 
 				{
@@ -80,22 +102,13 @@ int main()
 					else {
 						if (stack_get(mark) == '+')
 						{
-							num = stack_get(number);
-							stack_pop(number);
-							num += stack_get(number);
-							stack_pop(number);
-							stack_push(number, num);
+							addition(number);
 						}
 						else
 						{
-							num2 = stack_get(number);
-							stack_pop(number);
-							num = stack_get(number) - num2;
-							stack_pop(number);
-							stack_push(number, num);
+							difference(number);
 						}
 						stack_pop(mark);
-						//std::cout << num << std::endl;
 					}
 				}
 			}
@@ -106,40 +119,27 @@ int main()
 
 		if (stack_get(mark) == '*')
 		{
-			num = stack_get(number);
-			stack_pop(number);
-			num *= stack_get(number);
-			stack_pop(number);
-			stack_push(number, num);
+			multiplication(number);
 		}
 		else if (stack_get(mark)=='/')
 		{
-			num2 = stack_get(number);
-			stack_pop(number);
-			num = stack_get(number) / num2;
-			stack_pop(number);
-			stack_push(number, num);
+			division(number);
 		}
 		else if (stack_get(mark) == '+')
 		{
-			num = stack_get(number);
-			stack_pop(number);
-			num += stack_get(number);
-			stack_pop(number);
-			stack_push(number, num);
+			addition(number);
 		}
 		else
 		{
-			num2 = stack_get(number);
-			stack_pop(number);
-			num = stack_get(number) - num2;
-			stack_pop(number);
-			stack_push(number, num);
+			difference(number);
 		}
 		stack_pop(mark);
 	}
 
-	std::cout << stack_get(number);
+	std::cout << stack_get(number) << std::endl;
 
+
+	stack_delete(mark);
+	stack_delete(number);
 	system("pause");
 }
