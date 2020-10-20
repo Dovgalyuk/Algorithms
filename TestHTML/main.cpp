@@ -6,8 +6,8 @@ using namespace std;
 
 int main()
 {
-	const string input_path ="../../TestHTML/input.txt";
-	const string output_path ="../../TestHTML/output.txt";
+	const string input_path ="input.txt";
+	const string output_path ="output.txt";
 
 	ifstream fin;
 	ofstream fout;
@@ -22,7 +22,7 @@ int main()
 	}
 
 	string tag;
-	string flag ="YES";
+	bool flag =true;
 
 	Stack *stack =stack_create();
 
@@ -39,14 +39,13 @@ int main()
 			tag.erase(0, 1);
 			if( ! stack_empty(stack))
 			{
-				if(stack_get(stack) != tag)
-					flag ="NO";
+				flag &= stack_get(stack) == tag;
 				stack_pop(stack);
 			}
 			else
-				flag ="NO";
+				flag =false;
 
-			if(flag =="NO")
+			if( ! flag)
 			{
 				while(fin.peek() != '\n' && ! fin.eof())
 					fin.get();
@@ -59,12 +58,17 @@ int main()
 		{
 			if( ! stack_empty(stack))
 			{
-				flag ="NO";
+				flag =false;
 				while( ! stack_empty(stack))
 					stack_pop(stack);
 			}
-			fout << flag << endl;
-			flag ="YES";
+			if(flag)
+				fout << "YES" << endl;
+			else
+			{
+				fout << "NO" << endl;
+				flag =true;
+			}
 		}
 	}
 	fin.close();

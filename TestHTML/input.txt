@@ -1,7 +1,0 @@
-<HTML> <head> </Head> <BODy> </body> </htmL>
-<HTML> <head> <BODy> </Head> </body> </htmL>
-<P> <h1> <h2> </h2> </H1> </p>
-<HTml> <h1> </h1>
-<P> <h1> <h2> </h2> </H1> </p> </HTML>
-<p> </p>
-</body>

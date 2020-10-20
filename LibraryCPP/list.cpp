@@ -49,7 +49,7 @@ ListItem *list_item_prev(ListItem *item)
 ListItem *list_insert(List *list, Data data)
 {
 	ListItem *new_item =new ListItem;
-	new_item->pNext =list_first(list);
+	new_item->pNext =list->head;
 	new_item->pPrev =nullptr;
 	new_item->data =data;
 
@@ -80,20 +80,20 @@ ListItem *list_erase(List *list, ListItem *item)
 
 	ListItem *next_item =nullptr;
 
-	if(list_item_prev(item) != nullptr)
+	if(item->pPrev != nullptr)
 	{
-		list_item_prev(item)->pNext =list_item_next(item);
-		next_item =list_item_prev(item);
+		item->pPrev->pNext =item->pNext;
+		next_item =item->pPrev;
 	}
 	else
 	{
-		list->head =list_item_next(item);
+		list->head =item->pNext;
 	}
 
-	if(list_item_next(item) != nullptr)
+	if(item->pNext != nullptr)
 	{
-		list_item_next(item)->pPrev =list_item_prev(item);
-		next_item =list_item_next(item);
+		item->pNext->pPrev =item->pPrev;
+		next_item =item->pNext;
 	}
 
 	delete item;

@@ -1,6 +1,7 @@
 #ifndef STACK_H
 #define STACK_H
-#include "list.h"
+#include "Typedef.h"
+
 // Stack
 // Stores integer values inside
 

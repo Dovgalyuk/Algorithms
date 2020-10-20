@@ -1,10 +1,9 @@
 #ifndef LIST_H
 #define LIST_H
-#include <string>
+#include "Typedef.h"
 
 // List
 // Stores integer values inside
-typedef std::string Data;
 
 struct List;
 struct ListItem;
