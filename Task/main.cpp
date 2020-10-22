@@ -1,60 +1,88 @@
 #include <iostream>
 #include "array.h"
-#include <cstdlib>
-#include <ctime>
+#include <stack.h>
+#include <fstream>
+#include <string>
+
 using namespace std;
 
 int main()
 {
-	int arr_size;
-	int positive = 0;
-	int negative = 0;
-
-	setlocale(LC_ALL, "Russian");
-
-	cout << "Введите размер массива =";
-	cin >> arr_size;
-	Array* arr = array_create(arr_size);
-	cout << "массив" << endl;
-	for (int i = 0, n; i < arr_size; i++)
+	int  regist_a;
+	int  regist_b;
+	int  regist_c;
+	int  regist_d;
+	Stack* stack = stack_create();
+	ifstream fileln;
+	fileln.open("input.txt");
+	ofstream out;
+	out.open("output.txt");
+	if (!out.is_open() || !fileln.is_open())//проверка открытия файла
 	{
-		n = rand() % 201 - 100;
-		cout << n << ' ';
-		array_set(arr, i, n);
+		cout << "error!" << endl;
+		fileln.close();
+		out.close();
+		return -1;
 	}
-	for (int i = 0; i < arr_size; i++)
+	else
 	{
-		if (array_get(arr, i) >= 0)
-			positive++;
-		else
-			negative++;
+		cout << "file open!" << endl;
 	}
+	return 0;
+	
+	string str;
+	const string str_push = "PUSH";
+	const string str_pop = "POP";
+	string str_num;
+	str_num = "";
 
-	Array* mas1 = array_create(positive);
-	Array* mas2 = array_create(negative);
-	positive = 0;
-	negative = 0;
-	for (int i = 0; i < arr_size; i++)
+	while (fileln.eof())
 	{
-		if (array_get(arr, i) >= 0)
+		getline(fileln, str);//извлечение строк
+		for (int i = 0; i < str.length() - str_push.length(); i++)
 		{
-			array_set(mas1, positive, array_get(arr, i));
-			positive++;
-		}
-		else
-		{
-			array_set(mas2, negative, array_get(arr, i));
-			negative++;
+			if (str.substr(i, str_push.length()) == str_push)
+			{
+				for (i += str_push.length() + 1; str[i] != ' '; i++)
+				{
+					str_num.push_back(str[i]);
+
+				}
+				stack_push(stack, atoi(str_num.c_str()));
+			}
+			if (str.substr(i, str_pop.length()) == str_pop)
+			{
+				i += str_pop.length() + 1;
+				switch (str[i])
+				{
+				case 'A':
+					regist_a = stack_get(stack);
+					break;
+				case 'B':
+					regist_b = stack_get(stack);
+					break;
+				case 'C':
+					regist_c = stack_get(stack);
+					break;
+				case 'D':
+					regist_d = stack_get(stack);
+					break;
+				}
+				stack_pop(stack);
+			}
+
+			if (out.is_open())
+			{
+				getline(std::cin, str);
+			}
+			if (out.is_open()) {
+				cout << "A=" << regist_a;
+				cout << "B=" << regist_b;
+				cout << "C=" << regist_c;
+				cout << "D=" << regist_d;
+			}
 		}
 	}
-	printf("\n");
-	for (int i = 0; i < positive; i++) printf("%3d", array_get(mas1, i));
-	printf("\n");
-	for (int i = 0; i < negative; i++) printf("%3d", array_get(mas2, i));
-
-	printf("\n");
-
-	array_delete(arr);
-	array_delete(mas1);
-	array_delete(mas2);
+	fileln.close();//освобождение ресурсов
+	return 0;
 }
