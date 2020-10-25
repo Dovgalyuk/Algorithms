@@ -6,14 +6,14 @@ using namespace std;
 
 int main()
 {
-	const string input_path ="input.txt";
-	const string output_path ="output.txt";
+	const string input_path ="input";
+	const string output_path ="output";
 
 	ifstream fin;
 	ofstream fout;
 
-	fin.open(input_path);
-	fout.open(output_path);
+	fin.open(input_path +".txt");
+	fout.open(output_path +".txt");
 	if(! fin.is_open() || ! fout.is_open())
 	{
 		fin.close();
@@ -30,13 +30,11 @@ int main()
 	{
 		fin >> tag;
 
-		tag.pop_back();
-		tag.erase(0, 1);
 		transform(tag.begin(), tag.end(), tag.begin(), tolower);
 
-		if(tag.front() == '/')
+		if(tag[1] == '/')
 		{
-			tag.erase(0, 1);
+			tag.erase(1, 1);
 			if( ! stack_empty(stack))
 			{
 				flag &= stack_get(stack) == tag;
