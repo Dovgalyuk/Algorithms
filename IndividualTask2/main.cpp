@@ -2,144 +2,103 @@
 #include <string>
 #include "stack.h"
 
+//Reverse Polish notation
 
-void multiplication(Stack* number) {
-	int num;
-	num = stack_get(number);
-	stack_pop(number);
-	num *= stack_get(number);
-	stack_pop(number);
-	stack_push(number, num);
-}
+int main() {
+	Stack* marks = stack_create();
+	std::string polish, expression;
+	std::string newmarks;
+	int num1, num2;
+	std::cin >> expression;
 
-void division(Stack* number) {
-	int num, num2;
-	num2 = stack_get(number);
-	stack_pop(number);
-	num = stack_get(number) / num2;
-	stack_pop(number);
-	stack_push(number, num);
-}
-
-void addition(Stack* number) {
-	int num;
-	num = stack_get(number);
-	stack_pop(number);
-	num += stack_get(number);
-	stack_pop(number);
-	stack_push(number, num);
-}
-
-void difference(Stack* number) {
-	int num, num2;
-	num2 = stack_get(number);
-	stack_pop(number);
-	num = stack_get(number) - num2;
-	stack_pop(number);
-	stack_push(number, num);
-}
-
-int main()
-{
-	Stack* number = stack_create();
-	Stack* mark = stack_create();
-
-	std::string name;
-	std::cin >> name;
-	int num, num2;
-
-	for (int i = 0; i < name.size(); i++)
-	{
-		if (isdigit(name[i]))
-		{
-			stack_push(number, name[i]-48);        
+	for (int i = 0; i < expression.size(); i++) {
+		if (isdigit(expression[i])) {
+			polish += expression[i];
 		}
-		else
-		{
-			if (stack_empty(mark))
-			{
-				stack_push(mark, name[i]);				
+		else {
+			if ((expression[i] == '*' || expression[i] == '/') && (stack_get(marks) == '+' || stack_get(marks) == '-')) {
+				stack_push(marks, expression[i]);
 			}
-			else
-			{
-				if (stack_get(mark) == '*' || stack_get(mark) == '/')
-				{
-					if (stack_get(mark) == '*')
-					{
-						multiplication(number);
+			else if ((expression[i] == '+' || expression[i] == '-') && (stack_get(marks) == '*' || stack_get(marks) == '/')) {
+				while (true) {
+					if ((expression[i] == '+' || expression[i] == '-') && (stack_get(marks) == '*' || stack_get(marks) == '/')) {
+						newmarks = stack_get(marks);
+						stack_pop(marks);
+						polish += newmarks;
 					}
-					else
-					{
-						division(number);
-					}
-
-					stack_pop(mark);
-
-					if (!stack_empty(mark)&&(name[i]=='+' || name[i] == '-'))
-					{
-						if (stack_get(mark) == '+')
-						{
-							addition(number);
-						}
-						else
-						{
-							difference(number);
-						}
-						stack_pop(mark);
-						stack_push(mark, name[i]);
-					}
-					else
-					{
-						stack_push(mark, name[i]);
-					}
-				}
-				else 
-				{
-					if (name[i] == '*' || name[i] == '/')
-					{
-						stack_push(mark, name[i]);
+					else if ((expression[i] == '+' || expression[i] == '-') && (stack_get(marks) == '+' || stack_get(marks) == '-')) {
+						newmarks = stack_get(marks);
+						stack_pop(marks);
+						polish += newmarks;
+						stack_push(marks, expression[i]);
+						break;
 					}
 					else {
-						if (stack_get(mark) == '+')
-						{
-							addition(number);
-						}
-						else
-						{
-							difference(number);
-						}
-						stack_pop(mark);
+						stack_push(marks, expression[i]);
+						break;
 					}
-				}
+				}	
+			}
+			else if ((expression[i] == '*' || expression[i] == '/') && (stack_get(marks) == '*' || stack_get(marks) == '/')) {
+				newmarks = stack_get(marks);
+				stack_pop(marks);
+				polish += newmarks;
+				stack_push(marks, expression[i]);
+			}
+			else if ((expression[i] == '+' || expression[i] == '-') && (stack_get(marks) == '+' || stack_get(marks) == '-')) {
+				newmarks = stack_get(marks);
+				stack_pop(marks);
+				polish += newmarks;
+				stack_push(marks, expression[i]);
+			}
+			else {
+				stack_push(marks, expression[i]);
 			}
 		}
 	}
-
-	while (!stack_empty(mark)) {
-
-		if (stack_get(mark) == '*')
-		{
-			multiplication(number);
-		}
-		else if (stack_get(mark)=='/')
-		{
-			division(number);
-		}
-		else if (stack_get(mark) == '+')
-		{
-			addition(number);
-		}
-		else
-		{
-			difference(number);
-		}
-		stack_pop(mark);
+	while (!stack_empty(marks)) {
+		newmarks = stack_get(marks);
+		stack_pop(marks);
+		polish += newmarks;
 	}
 
-	std::cout << stack_get(number) << std::endl;
 
+	//Calculator PRN
 
-	stack_delete(mark);
-	stack_delete(number);
+	for (int i = 0; i < polish.size(); i++) {
+		if (isdigit(polish[i])) {
+			stack_push(marks, polish[i] - 48);
+		}
+		else {
+			num2 = stack_get(marks);
+			stack_pop(marks);
+			num1 = stack_get(marks);
+			stack_pop(marks);
+
+			switch (polish[i]) {
+				case '*': {
+					num1 *= num2;
+					stack_push(marks, num1);
+				}break;
+				case '/': {
+					num1 /= num2;
+					stack_push(marks, num1);
+				}break;
+				case '+': {
+					num1 += num2;
+					stack_push(marks, num1);
+				}break;
+				case '-': {
+					num1 -= num2;
+					stack_push(marks, num1);
+				}break;
+			}
+		}
+	}
+	std::cout <<"Reverse Polish notation: "<< polish << std::endl;
+	std::cout <<"Result: "<< stack_get(marks) << std::endl;
+
 	system("pause");
+	stack_delete(marks);
 }
+
