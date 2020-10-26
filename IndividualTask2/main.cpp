@@ -2,12 +2,15 @@
 #include <string>
 #include "stack.h"
 
-
+void function(Stack* num1, Stack* num2) {
+	stack_push(num1, stack_get(num2));
+	stack_pop(num2);
+}
 
 int main() {
 	Stack* marks = stack_create();
-	std::string polish, expression;
-	std::string newmarks;
+	Stack* polish = stack_create();
+	std::string expression;
 	int num1, num2;
 	std::cin >> expression;
 
@@ -15,21 +18,22 @@ int main() {
 
 	for (int i = 0; i < expression.size(); i++) {
 		if (isdigit(expression[i])) {
-			polish += expression[i];
+			stack_push(polish, expression[i]);
 		}
 		else {
 			while (true) {
 				// Ya ne znau kak ymenshit` eto yslovie
-				// Popitalsya sdelat` virajenie 'expression[i] != stack_get(marks)' , no ono ne rabotaet
 				if ((expression[i] == '+' || expression[i] == '-') && (stack_get(marks) == '*' || stack_get(marks) == '/')) {
-					newmarks = stack_get(marks);
-					stack_pop(marks);
-					polish += newmarks;
+					function(polish, marks);
 				}
 				else if (expression[i] == stack_get(marks)) {
-					newmarks = stack_get(marks);
-					stack_pop(marks);
-					polish += newmarks;
+					function(polish, marks);
+					stack_push(marks, expression[i]);
+					break;
+				}
+				// Ya ne znau kak ymenshit` eto yslovie
+				else if ((expression[i] == '-' && stack_get(marks) == '+') || (expression[i] == '+' && stack_get(marks) == '-')) {
+					function(polish, marks);
 					stack_push(marks, expression[i]);
 					break;
 				}
@@ -41,48 +45,53 @@ int main() {
 		}
 	}
 	while (!stack_empty(marks)) {
-		newmarks = stack_get(marks);
-		stack_pop(marks);
-		polish += newmarks;
+		function(polish, marks);
+	}
+	while (!stack_empty(polish)) {
+		function(marks, polish);
 	}
 
 	//Calculator PRN
 
-	for (int i = 0; i < polish.size(); i++) {
-		if (isdigit(polish[i])) {
-			stack_push(marks, polish[i] - 48);
+	for (int i = 0; i < expression.size(); i++) {
+		if (isdigit(stack_get(marks))) {
+			stack_push(polish, stack_get(marks));
+			stack_pop(marks);
 		}
 		else {
-			num2 = stack_get(marks);
-			stack_pop(marks);
-			num1 = stack_get(marks);
-			stack_pop(marks);
+			num2 = stack_get(polish)-48;
+			stack_pop(polish);
+			num1 = stack_get(polish)-48;
+			stack_pop(polish);
 
-			switch (polish[i]) {
+			switch (stack_get(marks)) {
 			case '*': {
 				num1 *= num2;
-				stack_push(marks, num1);
+				stack_push(polish, num1+48);
+				stack_pop(marks);
 			}break;
 			case '/': {
 				num1 /= num2;
-				stack_push(marks, num1);
+				stack_push(polish, num1+48);
+				stack_pop(marks);
 			}break;
 			case '+': {
 				num1 += num2;
-				stack_push(marks, num1);
+				stack_push(polish, num1+48);
+				stack_pop(marks);
 			}break;
 			case '-': {
 				num1 -= num2;
-				stack_push(marks, num1);
+				stack_push(polish, num1+48);
+				stack_pop(marks);
 			}break;
 			}
 		}
 	}
-	std::cout << "Reverse Polish notation: " << polish << std::endl;
-	std::cout << "Result: " << stack_get(marks) << std::endl;
+
+	std::cout << "Result: " << stack_get(polish)-48 << std::endl;
 
 	system("pause");
 	stack_delete(marks);
+	stack_delete(polish);
 }
-
-//((expression[i] == '+' || expression[i] == '-') && (stack_get(marks) == '+' || stack_get(marks) == '-')) || ((expression[i] == '*' || expression[i] == '/') && (stack_get(marks) == '*' || stack_get(marks) == '/'))
