@@ -14,22 +14,31 @@ int main()
     MyArray arr(n);
     for (int i = 0; i < n; i++)
         arr[i] = rand();
-    int min = INT_MAX, max = INT_MIN, minIndex = 0, maxIndex = 0;
+    int min = INT_MAX, max = INT_MIN, minNumIndex = 0, maxNumIndex = 0;
     for (int i = 0; i < n; i++)
     {
         if (arr[i] < min)
         {
             min = arr[i];
-            minIndex = i;
+            minNumIndex = i;
         }
         if (arr[i] > max)
         {
             max = arr[i];
-            maxIndex = i;
+            maxNumIndex = i;
         }
     }
-    int sum = 0;
-    for (int i = minIndex + 1; i < maxIndex; i++)
+    int sum = 0, start, end;
+    if (minNumIndex <= maxNumIndex)
+    {
+        start = minNumIndex + 1;
+        end = maxNumIndex;
+    } else
+    {
+        start = maxNumIndex + 1;
+        end = minNumIndex;
+    }
+    for (int i = start; i < end; i++)
     {
         sum += arr[i];
     }
