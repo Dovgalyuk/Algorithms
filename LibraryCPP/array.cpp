@@ -3,6 +3,7 @@
 
 struct Array
 {
+Data* elem;
 };
 
 // create array
