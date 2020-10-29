@@ -7,9 +7,11 @@ typedef int Data;
 
 struct ListItem
 {
-public:
+private:
     ListItem* _next;
     Data _value;
+    friend class List;
+public:
     ListItem(Data, ListItem*);
     Data list_item_data() const;
     ListItem* list_item_next() const;
@@ -19,10 +21,10 @@ struct List
 {
 private:
     ListItem* head;
-public:    
+public:
     List();
     ~List();
-    
+
     ListItem* list_first() const;
     void list_insert(Data);
     void list_insert_after(ListItem*, Data);
@@ -30,6 +32,10 @@ public:
     void Pop();
     void list_erase_next(ListItem*);
 };
+
+
+
+
 
 
 

@@ -19,7 +19,7 @@ void Stack::Push(Data data)
 
 Data Stack::Get()
 {
-    return _list->list_first()->_value;
+    return _list->list_first()->list_item_data();
 }
 
 void Stack::Pop()
