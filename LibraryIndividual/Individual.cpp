@@ -18,7 +18,7 @@ int main()
     MyArray arr(n);
     for (int i = 0; i < n; i++)
         arr[i] = rand();
-    int smallest = INT_MAX, secondSmall = arr[0]; // не совсем понимаю почему они могут иметь значение одного и того же элемента
+    int smallest = INT_MAX, secondSmall = arr[0]; // didn't understand why this variables can't have value of the same element
     for (int i = 0; i < n; i++)
     {
         if (arr[i] < smallest)
