@@ -13,18 +13,18 @@ int main()
     cin >> n;
     MyArray arr(n);
     for (int i = 0; i < n; i++)
-        arr[i] = rand();
+        arr.set(i, rand());
     int min = INT_MAX, max = INT_MIN, minNumIndex = 0, maxNumIndex = 0;
     for (int i = 0; i < n; i++)
     {
-        if (arr[i] < min)
+        if (arr.get(i) < min)
         {
-            min = arr[i];
+            min = arr.get(i);
             minNumIndex = i;
         }
-        if (arr[i] > max)
+        if (arr.get(i) > max)
         {
-            max = arr[i];
+            max = arr.get(i);
             maxNumIndex = i;
         }
     }
@@ -40,7 +40,7 @@ int main()
     }
     for (int i = start; i < end; i++)
     {
-        sum += arr[i];
+        sum += arr.get(i);
     }
     cout << "The summ is: " << sum;
 }
