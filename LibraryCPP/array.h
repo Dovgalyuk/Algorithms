@@ -1,44 +1,25 @@
-#ifndef ARRAY_TEMPLATE_H
-#define ARRAY_TEMPLATE_H
+#ifndef ARRAY_H
+#define ARRAY_H
 
-template <typename Data> class Array
-{
-public:
-    // create array
-    Array(size_t size)
-    {
-        _elem = new Data[size];
-        _size = size;
-        for (int i = 0; i < size; i++)
-            _elem[i] = 0;
-    }
+// Non-resizeable array
+// Stores integer values inside
+typedef int Data;
 
-    // delete array, free memory
-    ~Array()
-    {
-        delete[] _elem;
-    }
+struct Array;
 
-    // returns specified array element
-    Data get(size_t index) const
-    {
-        return _elem[index];
-    }
+// create array
+Array *array_create(size_t size);
 
-    // sets the specified array element to the value
-    void set(size_t index, Data value)
-    {
-        _elem[index] = value;
-    }
+// delete array, free memory
+void array_delete(Array *arr);
 
-    // returns array size
-    size_t size() const
-    {
-        return _size;
-    }
-private:
-    Data* _elem;
-    size_t _size;
-};
+// returns specified array element
+Data array_get(const Array *arr, size_t index);
+
+// sets the specified array element to the value
+void array_set(Array *arr, size_t index, Data value);
+
+// returns array size
+size_t array_size(const Array *arr);
 
 #endif
