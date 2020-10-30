@@ -8,7 +8,7 @@ public:
     Array(size_t size)
     {
         elem = new Data[size];
-        this.size = size;
+        sized = size;
     
     }
 
@@ -34,12 +34,12 @@ public:
     size_t size() const
     {
 
-        return size;
+        return sized;
     }
 
 private:
     Data* elem;
-    size_t size;
+    size_t sized;
     // private data should be here
 };
 
