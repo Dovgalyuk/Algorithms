@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "..\..\..\..\..\..\Projects\Algorithms\LibraryCPP\stack.h"
+#include "stack.h"
 
 using namespace std;
 
@@ -52,24 +52,41 @@ int main()
 	file.open("input.txt");
 	size_t n;
 	file >> n;
-	Stack* stack = new Stack();
+	Stack* positive = new Stack();
+	Stack* negative = new Stack();
+	Stack* popped = new Stack();
 	int coord;
 	Quantum* q = new Quantum[n];
 	for (int i = 0; i < n; i++)
 	{
 		file >> q[i];
 	}
-	for (int i = 0; i < n - 1; i++)
+	for (int i = 0; i < n; i++)
 	{
-		Quantum first = q[i];
-		Quantum second = q[i + 1];
-		if (first.coord < second.coord && (first.mark == '+' && second.mark == '-'
-			|| first.coord > second.coord && (first.mark == '-' && second.mark == '+')))
+		Quantum current = q[i];
+
+		if (current.mark == '+')
 		{
-			stack->Push(first.coord);
-			stack->Push(second.coord);
-			i++;
+			positive->Push(current.coord);
+			if (!negative->Empty() && negative->Get() > current.coord)
+			{
+				popped->Push(positive->Get());
+				popped->Push(negative->Get());
+				positive->Pop();
+				negative->Pop();
+			}
+		}
+		else
+		{
+			negative->Push(current.coord);
+			if (!positive->Empty() && positive->Get() < current.coord)
+			{
+				popped->Push(positive->Get());
+				popped->Push(negative->Get());
+				positive->Pop();
+				negative->Pop();
+			}
 		}
 	}
-	PrintReverse(*stack);
+	PrintReverse(*popped);
 }
