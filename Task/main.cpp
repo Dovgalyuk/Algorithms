@@ -17,7 +17,7 @@ int main()
 	fileln.open("input.txt");
 	ofstream out;
 	out.open("output.txt");
-	if (!out.is_open() || !fileln.is_open())//проверка открытия файла
+	if (!out.is_open() || !fileln.is_open())//ГЇГ°Г®ГўГҐГ°ГЄГ  Г®ГІГЄГ°Г»ГІГЁГї ГґГ Г©Г«Г 
 	{
 		cout << "error!" << endl;
 		fileln.close();
@@ -33,24 +33,40 @@ int main()
 	string str;
 	const string str_push = "PUSH";
 	const string str_pop = "POP";
-	string str_num;
-	str_num = "";
+	string value;
+	value = "";
 
 	while (fileln.eof())
 	{
-		getline(fileln, str);//извлечение строк
+		getline(fileln, str);//ГЁГ§ГўГ«ГҐГ·ГҐГ­ГЁГҐ Г±ГІГ°Г®ГЄ
 		for (int i = 0; i < str.length() - str_push.length(); i++)
 		{
 			if (str.substr(i, str_push.length()) == str_push)
 			{
 				for (i += str_push.length() + 1; str[i] != ' '; i++)
 				{
-					str_num.push_back(str[i]);
+					value.push_back(str[i]);
 
 				}
-				stack_push(stack, atoi(str_num.c_str()));
+				switch (value.front())
+				{
+					case 'A':
+						stack_push(stack, regist_a);
+						break;
+					case 'B':
+						stack_push(stack, regist_b);
+						break;
+					case 'C':
+						stack_push(stack, regist_c);
+						break;
+					case 'D':
+						stack_push(stack, regist_d);
+						break;
+					default:
+						stack_push(stack, atoi(value.c_str()));
+				}
 			}
-			if (str.substr(i, str_pop.length()) == str_pop)
+			else if (str.substr(i, str_pop.length()) == str_pop)
 			{
 				i += str_pop.length() + 1;
 				switch (str[i])
@@ -68,7 +84,6 @@ int main()
 					regist_d = stack_get(stack);
 					break;
 				}
-				stack_pop(stack);
 			}
 
 			if (out.is_open())
@@ -83,6 +98,6 @@ int main()
 			}
 		}
 	}
-	fileln.close();//освобождение ресурсов
+	fileln.close();//Г®Г±ГўГ®ГЎГ®Г¦Г¤ГҐГ­ГЁГҐ Г°ГҐГ±ГіГ°Г±Г®Гў
 	return 0;
 }
