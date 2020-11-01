@@ -7,17 +7,24 @@ void symbolsSequenceCheck(std::string& symbols)
 
 	for (int i = 0; i < symbols.size(); i++)
 	{
-		if (symbols[i] == '(' || symbols[i] == '{' || symbols[i] == '[' || symbols[i] == '\"' || symbols[i] == '\'')
+		if (symbols[i] == '(' || symbols[i] == '{' || symbols[i] == '[')
 		{
-			if (!stack_empty(stack) && (symbols[i] == '\"' || symbols[i] == '\''))
+			stack_push(stack, symbols[i]);
+			continue;
+		}
+		else if (symbols[i] == '\"' || symbols[i] == '\'')
+		{
+			if (!stack_empty(stack))
 			{
 				if (stack_get(stack) == symbols[i])
 				{
 					stack_pop(stack);
-					continue;
 				}
 			}
-			stack_push(stack, symbols[i]);
+			else
+			{
+				stack_push(stack, symbols[i]);
+			}
 			continue;
 		}
 
