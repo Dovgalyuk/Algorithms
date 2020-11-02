@@ -18,6 +18,10 @@ int main()
 		x = rand() % 201 - 100;     // диапазон[-100;100]
 		cout << x << ' ';
 		array_set(arr, i, x);
+	}
+	for (int i = 0, x; i < array_size(arr); i++)
+	{
+		x = array_get(arr, i);
 		if (x > 0)
 			positive++;
 		if (x < 0)
