@@ -14,12 +14,9 @@ void symbolsSequenceCheck(std::string& symbols)
 		}
 		else if (symbols[i] == '\"' || symbols[i] == '\'')
 		{
-			if (!stack_empty(stack))
+			if (!stack_empty(stack) && stack_get(stack) == symbols[i])
 			{
-				if (stack_get(stack) == symbols[i])
-				{
-					stack_pop(stack);
-				}
+				stack_pop(stack);
 			}
 			else
 			{
@@ -28,18 +25,20 @@ void symbolsSequenceCheck(std::string& symbols)
 			continue;
 		}
 
-		if (!stack_empty(stack))
+		if (!stack_empty(stack) && (stack_get(stack) == symbols[i] - 1 || stack_get(stack) == symbols[i] - 2))
 		{
-			if (stack_get(stack) == symbols[i] || stack_get(stack) == symbols[i] - 1 || stack_get(stack) == symbols[i] - 2)
-			{
-				stack_pop(stack);
-			}
+			stack_pop(stack);
 		}
 		else
 		{
 			if (symbols[i] == ')' || symbols[i] == ']' || symbols[i] == '}')
 			{
 				std::cout << "NO" << std::endl;
+				return;
+			}
+			else
+			{
+				std::cout << "Incorrect input. Allowed characters: [ ] , { } , ( ) , \" or \' " << std::endl;
 				return;
 			}
 		}
