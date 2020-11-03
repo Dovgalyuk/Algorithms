@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include "array.h"
 #include <stack.h>
 #include <fstream>
@@ -17,7 +17,7 @@ int main()
 	fileln.open("input.txt");
 	ofstream out;
 	out.open("output.txt");
-	if (!out.is_open() || !fileln.is_open())//ïðîâåðêà îòêðûòèÿ ôàéëà
+	if (!out.is_open() || !fileln.is_open())
 	{
 		cout << "error!" << endl;
 		fileln.close();
@@ -38,7 +38,7 @@ int main()
 
 	while (fileln.eof())
 	{
-		getline(fileln, str);//èçâëå÷åíèå ñòðîê
+		getline(fileln, str);
 		for (int i = 0; i < str.length() - str_push.length(); i++)
 		{
 			if (str.substr(i, str_push.length()) == str_push)
@@ -98,6 +98,6 @@ int main()
 			}
 		}
 	}
-	fileln.close();//îñâîáîæäåíèå ðåñóðñîâ
+	fileln.close();
 	return 0;
 }
