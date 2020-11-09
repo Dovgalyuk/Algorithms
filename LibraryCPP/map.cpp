@@ -16,7 +16,7 @@ void map_insert(Map* mp, const Data& data, const Key& key)
    mp->root = node_insert(mp->root, data, key);
 }
 
-Data map_getData(Map* mp, const Key& key)
+const Data& map_getData(Map* mp, const Key& key)
 {
    return node_getData(node_search(mp->root, key));
 }

@@ -15,10 +15,6 @@ int main()
    if (map_getData(mp, "Test3") != "Test70")
       std::cout << "map getData error: Test3" << std::endl;
 
-   map_remove(mp, "Test3");
-   if (map_getData(mp, "Test3") == "Test70")
-      std::cout << "map remove error: Test3" << std::endl;
-
    map_delete(mp);
    return 0;
 }
