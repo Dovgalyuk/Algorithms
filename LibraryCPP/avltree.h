@@ -17,15 +17,8 @@ Node* node_create(const Data& data, const Key& key);
 // Uses recursion
 Node* node_insert(Node* node, const Data& data, const Key& key);
 
-// Balances each node using small and big rotations
-Node* node_balance(Node* node);
-
 // Returns true if the tree is balanced
 bool node_isBalanced(Node* node);
-
-// Corrects the height of the node
-// Required for balancing the tree
-void node_fixHeight(Node* node);
 
 // Returns the difference between the left subtree and the right subtree
 // Required for balancing the tree 
@@ -39,18 +32,6 @@ int8_t node_getHeight(Node* node);
 // Required for balancing the tree
 int8_t node_getMaxHeight(const int8_t leftHeight, const int8_t rightHeight);
 
-// Returns a pointer to a subtree balanced by a left small rotation
-Node* node_smallLeftRotate(Node* aNode);
-
-// Returns a pointer to a subtree balanced by a right small rotation
-Node* node_smallRightRotate(Node* aNode);
-
-// Returns a pointer to a subtree balanced by a left big rotation
-Node* node_bigLeftRotate(Node* aNode);
-
-// Returns a pointer to a subtree balanced by a right big rotation
-Node* node_bigRightRotate(Node* aNode);
-
 // Returns a pointer to the left node of the parent node
 Node* node_getLeftChild(Node* node);
 
@@ -58,7 +39,7 @@ Node* node_getLeftChild(Node* node);
 Node* node_getRightChild(Node* node);
 
 // Returns the data of currect node
-Data node_getData(Node* node);
+const Data& node_getData(Node* node);
 
 // Returns a pointer to the node by key
 // Uses recursion

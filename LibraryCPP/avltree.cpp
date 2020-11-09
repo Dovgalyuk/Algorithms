@@ -2,6 +2,25 @@
 
 //#define DEBUG
 
+// Balances each node using small and big rotations
+Node* node_balance(Node* node);
+
+// Corrects the height of the node
+// Required for balancing the tree
+void node_fixHeight(Node* node);
+
+// Returns a pointer to a subtree balanced by a left small rotation
+Node* node_smallLeftRotate(Node* aNode);
+
+// Returns a pointer to a subtree balanced by a right small rotation
+Node* node_smallRightRotate(Node* aNode);
+
+// Returns a pointer to a subtree balanced by a left big rotation
+Node* node_bigLeftRotate(Node* aNode);
+
+// Returns a pointer to a subtree balanced by a right big rotation
+Node* node_bigRightRotate(Node* aNode);
+
 struct Node
 {
    Data data;
@@ -68,7 +87,9 @@ bool node_isBalanced(Node* node)
       return true;
    else
    {
-      if (std::abs(node_getBalance(node)) < 2)
+      if (std::abs(node_getBalance(node)) < 2
+         && node_isBalanced(node->leftNode)
+         && node_isBalanced(node->rightNode))
          return true;
       else
          return false;
@@ -153,9 +174,9 @@ Node* node_getRightChild(Node* node)
    return node->rightNode ? node->rightNode : NULL;
 }
 
-Data node_getData(Node* node)
+const Data& node_getData(Node* node)
 {
-   return node ? node->data : "";
+   return node->data;
 }
 
 Node* node_search(Node* node, const Key& key)
