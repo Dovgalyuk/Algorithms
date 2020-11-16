@@ -6,7 +6,7 @@ using namespace std;
 
 struct Quantum
 {
-	int coord;
+	Data coord;
 	char mark;
 
 	friend fstream& operator>>(fstream& in, Quantum& quantum)
@@ -29,27 +29,23 @@ int main()
 	file >> n;
 	Stack* stack = new Stack();
 	int coord;
-	bool wasPositive = false;
 	Data* popped = new Data[n];
-	for (int i = 0, j = 0; i < n; i++)
+	int j = 0;
+	for (int i = 0; i < n; i++)
 	{
 		Quantum current;
 		file >> current;
-		if (current.mark == '-' && !stack->Empty() && wasPositive)
+		if (current.mark == '-' && !stack->Empty())
 		{
 			Data prevCoord = stack->Get();
-			if (prevCoord < current.coord)
-			{
-				popped[j++] = prevCoord;
-				popped[j++] = current.coord;
-			}
-		}
-		else stack->Push(current.coord);
 
-		wasPositive = current.mark == '+';
+			popped[j++] = prevCoord;
+			popped[j++] = current.coord;
+		}
+		else if (current.mark == '+') stack->Push(current.coord);
 	}
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < j; i++)
 	{
-		if (popped[i] > 0) cout << popped[i] << ' ';
+		cout << popped[i] << ' ';
 	}
 }
