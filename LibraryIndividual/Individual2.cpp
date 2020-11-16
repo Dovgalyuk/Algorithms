@@ -21,72 +21,35 @@ struct Quantum
 	}
 };
 
-void PrintStack(Stack toPrint)
-{
-	while (!toPrint.Empty())
-	{
-		Data d = toPrint.Get();
-		cout << d << ' ';
-		toPrint.Pop();
-	}
-}
-
-void PrintReverse(Stack toPrint)
-{
-	Stack* stack = new Stack();
-	while (!toPrint.Empty())
-	{
-		stack->Push(toPrint.Get());
-		toPrint.Pop();
-	}
-	while (!stack->Empty())
-	{
-		cout << stack->Get() << ' ';
-		stack->Pop();
-	}
-}
-
 int main()
 {
 	fstream file;
 	file.open("input.txt");
 	size_t n;
 	file >> n;
-	Stack* positive = new Stack();
-	Stack* negative = new Stack();
-	Stack* popped = new Stack();
+	Stack* stack = new Stack();
 	int coord;
-	Quantum* q = new Quantum[n];
-	for (int i = 0; i < n; i++)
+	bool wasPositive = false;
+	Data* popped = new Data[n];
+	for (int i = 0, j = 0; i < n; i++)
 	{
-		file >> q[i];
-	}
-	for (int i = 0; i < n; i++)
-	{
-		Quantum current = q[i];
+		Quantum current;
+		file >> current;
+		if (current.mark == '-' && !stack->Empty() && wasPositive)
+		{
+			Data prevCoord = stack->Get();
+			if (prevCoord < current.coord)
+			{
+				popped[j++] = prevCoord;
+				popped[j++] = current.coord;
+			}
+		}
+		else stack->Push(current.coord);
 
-		if (current.mark == '+')
-		{
-			positive->Push(current.coord);
-			if (!negative->Empty() && negative->Get() > current.coord)
-			{
-				popped->Push(positive->Get());
-				popped->Push(negative->Get());
-				positive->Pop();
-				negative->Pop();
-			}
-		}
-		else
-		{
-			negative->Push(current.coord);
-			if (!positive->Empty() && positive->Get() < current.coord)
-			{
-				popped->Push(positive->Get());
-				popped->Push(negative->Get());
-				positive->Pop();
-				negative->Pop();
-			}
-		}
+		wasPositive = current.mark == '+';
 	}
-	PrintReverse(*popped);
+	for (int i = 0; i < n; i++)
+	{
+		if (popped[i] > 0) cout << popped[i] << ' ';
+	}
 }
