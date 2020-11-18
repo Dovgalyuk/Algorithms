@@ -42,10 +42,7 @@ size_t vector_size(const Vector* vector)
 
 void vector_resize(Vector* vector, size_t size)
 {
-	if (size >= vector->size)
-		if (size >= vector->reserved_size)
-			vector->reserved_size = size * 2;
-	else
+	if ((size >= vector->reserved_size) || (size < vector->size))
 		vector->reserved_size = size * 2;
 	
 	Data* new_data = new Data[size];
