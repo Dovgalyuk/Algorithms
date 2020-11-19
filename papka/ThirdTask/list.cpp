@@ -58,20 +58,8 @@ void List::Insert(Data value)
 {
 	ListItem* item = new ListItem(value);
 
-	if (head == nullptr)
-		head = item;
-	else
-	{
-		/*ListItem* current = head;
-
-		while (current->_next != nullptr)
-			current = current->_next;
-
-		current->_next = item;
-		head = item;*/
-		item->_next = head;
-		head = item;
-	}
+	item->_next = head;
+	head = item;
 }
 
 void List::list_erase_next(ListItem* item)
