@@ -1,2 +1,1 @@
-add_executable(LibraryIndividual Individual.cpp)
-add_executable(LibraryIndividual Individual2.cpp)
+add_executable(LibraryIndividual Individual.cpp Individual2.cpp)
