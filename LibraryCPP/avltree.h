@@ -18,7 +18,7 @@ Node* node_create(const Data& data, const Key& key);
 Node* node_insert(Node* node, const Data& data, const Key& key);
 
 // Returns true if the tree is balanced
-bool node_isBalanced(Node* node);
+bool node_isBalanced(Node* node, int8_t& height);
 
 // Returns the difference between the left subtree and the right subtree
 // Required for balancing the tree 

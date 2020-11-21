@@ -75,24 +75,31 @@ Node* node_balance(Node* node)
       else
          return node_smallLeftRotate(node);
    }
-#ifdef DEBUG 
-      std::cout << (node_isBalanced(node) ? "BALANCED" : "NOT_BALANCED") << std::endl;
+#ifdef DEBUG
+   int8_t testHeight = 0;
+   std::cout << (node_isBalanced(node, testHeight) ? "BALANCED" : "NOT_BALANCED") << std::endl;
 #endif
    return node;
 }
 
-bool node_isBalanced(Node* node)
+bool node_isBalanced(Node* node, int8_t& height)
 {
+   int8_t leftNodeHeight = 0;
+   int8_t rightNodeHeight = 0;
+
    if (!node)
+   {
+      height = 0;
       return true;
+   }
    else
    {
-      if (std::abs(node_getBalance(node)) < 2
-         && node_isBalanced(node->leftNode)
-         && node_isBalanced(node->rightNode))
-         return true;
-      else
-         return false;
+      bool isLeftTreeBalanced = node_isBalanced(node->leftNode, leftNodeHeight);
+      bool isRightTreeBalanced = node_isBalanced(node->rightNode, rightNodeHeight);
+
+      height = node_getMaxHeight(leftNodeHeight, rightNodeHeight) + 1;
+
+      return !(std::abs(leftNodeHeight - rightNodeHeight) == 2) && isLeftTreeBalanced && isRightTreeBalanced;
    }
 }
 
