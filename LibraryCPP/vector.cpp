@@ -19,7 +19,7 @@ Vector *vector_create()
 void vector_delete(Vector *vector)
 {
 	delete[] vector->data;
-    delete[] vector; 
+    delete vector; 
 }
 
 Data vector_get(const Vector *vector, size_t index)

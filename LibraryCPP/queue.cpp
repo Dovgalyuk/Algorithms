@@ -20,7 +20,7 @@ Queue* queue_create()
 void queue_delete(Queue *queue)
 {
 	vector_delete(queue->vector);
-    delete[] queue;
+    delete queue;
 }
 
 void queue_insert(Queue* queue, Data data)
