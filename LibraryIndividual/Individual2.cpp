@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "stack.h"
+#include "../LibraryCPPTemplate/stack.h"
 
 using namespace std;
 
