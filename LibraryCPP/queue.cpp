@@ -24,59 +24,28 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue* queue, Data data)
 {
-	size_t index = 0;
-	if (queue->tail <= vector_size(queue->vector))
-		index = queue->tail;
-	else if (queue->tail - queue->head >= vector_size(queue->vector))
-		index = queue->tail - queue->head;
-	else if ((queue->tail > vector_size(queue->vector)) && (queue->head != 0))
-	{
-		if (queue->head < vector_size(queue->vector))
-			index = queue->head;
-		else if (queue->head > vector_size(queue->vector))
-			if (queue->head % vector_size(queue->vector) != 0)
-				index = queue->tail - queue->head;
-	}
-	
-	vector_set(queue->vector, index, data);
-	queue->tail++;
+	if ((queue->tail >= vector_size(queue->vector)) && (queue->head != 0))
+		queue->tail = 1;
+	else queue->tail++;
+	vector_set(queue->vector, queue->tail - 1, data);
 }
 
 Data queue_get(const Queue* queue)
 {
-	size_t index = 0;
-	if (queue->head != 0)
-	{
-		if (queue->head < vector_size(queue->vector))
-			index = queue->head;
-		else if (queue->head > vector_size(queue->vector))
-			if (queue->head % vector_size(queue->vector) != 0)
-				index = queue->head - vector_size(queue->vector);
-	}
-	return vector_get(queue->vector, index);
+	return vector_get(queue->vector, queue->head);
 }
 
 void queue_remove(Queue* queue)
 {
 	if (!queue_empty(queue))
 	{
-		if (queue->head + 1 == queue->tail)
-		{
+		vector_set(queue->vector, queue->head, NULL);
+		if ((queue->head + 1 == queue->tail))
 			queue->head = queue->tail = 0;
-			vector_resize(queue->vector, 0);
-			vector_resize(queue->vector, 30);
-		}
 		else
-		{
-			queue->head++;
-			size_t index = 0;
-			if (queue->head < vector_size(queue->vector))
-				index = queue->head - 1;
-			else if (queue->head > vector_size(queue->vector))
-				if (queue->head % vector_size(queue->vector) != 0)
-					index = queue->head - vector_size(queue->vector);
-			vector_set(queue->vector, index, NULL);
-		}
+			if (queue->head + 1 == vector_size(queue->vector))
+				queue->head = 0;
+			else queue->head++;
 	}
 }
 
