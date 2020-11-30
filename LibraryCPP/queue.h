@@ -1,30 +1,65 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-// Queue
-// Stores integer values inside
-typedef int Data;
+#include <stack>
+using namespace std;
 
-struct Queue;
+//Реализация очереди с помощью двух модулей stack
+class queue {
+private:
+	stack<char> s1;	//Стек s1
+	stack<char> s2;	//Стек s2
 
-// Create empty queue
-Queue *queue_create();
+public:
+	//Метод добавления элемента в очередь
+	void push(int n)
+	{
+		while (!s2.empty())	//Пока стек s2 не будет пустым...
+		{
+			s1.push(s2.top());	//...вставляем элемент из s2 в s1...
+			s2.pop();			//...и удаляем данный элемент в s2
+		}
+		s1.push(n);	//Вставляем новый элемент в s2
+	}
 
-// Deletes queue
-void queue_delete(Queue *queue);
+	//Метод удаления первого элемента из очереди
+	void pop()
+	{
+		while (!s1.empty())	//Пока стек s1 не будет пустым...
+		{
+			s2.push(s1.top());	//...вставляем элемент из s1 в s2...
+			s1.pop();			//...и удаляем данный элемент в s2
+		}
+		s2.pop();	//Удаляем первый элемент
+	}
 
-// Includes new element into the queue
-// Should be O(1) on average
-void queue_insert(Queue *queue, Data data);
+	//Получение значения первого элемента
+	int front() {
+		while (!s1.empty())	//Пока стек s1 не будет пустым...
+		{
+			s2.push(s1.top());	//...вставляем элемент из s1 в s2...
+			s1.pop();			//...и удаляем данный элемент в s2
+		}
+		return s2.top();	//Получаем значение первого элемента
+	}
 
-// Retrieves first element from the queue
-Data queue_get(const Queue *queue);
+	//Обращение к последнему элементу
+	int back() {
+		while (!s2.empty())	//Пока стек s2 не будет пустым...
+		{
+			s1.push(s2.top());	//...вставляем элемент из s2 в s1...
+			s2.pop();			//...и удаляем данный элемент в s2
+		}
+		return s1.top();	//Получаем значение последнего элемента
+	}
 
-// Removes first element from the queue
-// Should be O(1) on average
-void queue_remove(Queue *queue);
-
-// Returns true if the queue is empty
-bool queue_empty(const Queue *queue);
+	//Проверка очереди на пустоту
+	bool empty() {
+		if (s1.empty() && s2.empty())	//Если оба стека пусты, то и очередь пустая
+			return true;
+		else
+			return false;
+	}
+};
 
 #endif
