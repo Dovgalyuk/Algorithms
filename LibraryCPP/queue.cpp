@@ -64,6 +64,7 @@ void queue_remove(Queue* queue)
 		{
 			queue->head = queue->tail = 0;
 			vector_resize(queue->vector, 0);
+			vector_resize(queue->vector, 30);
 		}
 		else
 		{
