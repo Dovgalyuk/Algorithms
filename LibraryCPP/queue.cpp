@@ -30,13 +30,19 @@ void queue_insert(Queue* queue, Data data)
 	{
 		Vector* temp = vector_create();
 		vector_resize(temp, 30);
-		size_t i = 0;
-		for (; i < queue->tail; i++)
-			vector_set(temp, i, vector_get(queue->vector, i));
-		queue->head++;
-		i = queue->head;
-		for (; i <= vector_size(queue->vector); i++)
-			vector_set(temp, i, vector_get(queue->vector, i - 1));
+		size_t index = 0;
+		for (size_t i = queue->head; i < vector_size(queue->vector); i++)
+		{
+			vector_set(temp, index, vector_get(queue->vector, i));
+			index++;
+		}
+		for (size_t i = 0; i < queue->tail; i++)
+		{
+			vector_set(temp, index, vector_get(queue->vector, i));
+			index++;
+		}
+		queue->head = 0;
+		queue->tail = vector_size(queue->vector);
 		vector_delete(queue->vector);
 		queue->vector = temp;
 	}
