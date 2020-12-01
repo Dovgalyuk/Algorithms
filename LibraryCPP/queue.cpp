@@ -42,7 +42,7 @@ void queue_insert(Queue* queue, Data data)
 			index++;
 		}
 		queue->head = 0;
-		queue->tail = vector_size(queue->vector);
+		queue->tail = vector_size(queue->vector) + 1;
 		vector_delete(queue->vector);
 		queue->vector = temp;
 	}
