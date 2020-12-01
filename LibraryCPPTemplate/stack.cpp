@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "stack.h"
+#include "../LibraryCPPTemplate/stack.h"
 
 Stack::Stack()
 {

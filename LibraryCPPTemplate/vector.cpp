@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <iostream>
-#include "vector.h"
+#include "../LibraryCPPTemplate/vector.h"
 
 Vector::Vector()
 	:_size(0), _space(0) 
