@@ -1,9 +1,9 @@
 #ifndef QUEUE_H
 #define QUEUE_H
+#include "Typedef.h"
 
 // Queue
 // Stores integer values inside
-typedef int Data;
 
 struct Queue;
 

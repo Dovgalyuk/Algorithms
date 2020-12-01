@@ -1,9 +1,16 @@
 #ifndef VECTOR_H
 #define VECTOR_H
+#include "Typedef.h"
 
 // Vector (dynamic array)
 // Stores integer values inside
-typedef int Data;
+
+struct Vector
+{
+    Data* point;
+    size_t size;
+};
+
 
 struct Vector;
 

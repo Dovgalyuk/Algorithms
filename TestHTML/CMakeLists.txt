@@ -1,6 +1,6 @@
 project(TestHTML)
 
-add_executable(TestHTML main.cpp input.txt output.txt)
+add_executable(TestHTML main.cpp)
 
 target_include_directories(TestHTML PUBLIC ../LibraryCPP)
 
