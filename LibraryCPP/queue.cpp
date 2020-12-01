@@ -35,8 +35,7 @@ void queue_insert(Queue* queue, Data data)
 			vector_set(temp, i, vector_get(queue->vector, i));
 		queue->head++;
 		i = queue->head;
-		size_t lock_size = vector_size(queue->vector);
-		for (; i <= lock_size; i++)
+		for (; i <= vector_size(queue->vector); i++)
 			vector_set(temp, i, vector_get(queue->vector, i - 1));
 		vector_delete(queue->vector);
 		queue->vector = temp;
