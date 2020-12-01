@@ -65,21 +65,9 @@ void List::Insert(Data value)
 void List::list_erase_next(ListItem* item)
 {
 	ListItem* toDelete = item->_next;
-	if (toDelete) // function named list_erase_NEXT so i decided if there's no next element don't delete anyhing
-	{
-		if (toDelete->_next) item->_next = toDelete->_next;
-		else item->_next = nullptr;
-		delete toDelete;
-	}
-	else // if no next element deleting current
-	{
-		ListItem* prev = this->head;
-		while (prev->_next != item) //finding prev
-			prev = prev->_next;
-		if (item->_next) prev->_next = item->_next;
-		else prev->_next = nullptr;
-		delete item;
-	}
+	item->_next = toDelete->_next;
+	delete toDelete;
+	toDelete = nullptr;
 }
 
 void List::Pop()
