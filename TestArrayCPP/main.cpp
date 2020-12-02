@@ -80,7 +80,7 @@ void findPath(bool &mark, int numCol, int numRow, char **labir, int **visited, i
 				q.push(x + 1);
 				q.push(y);
 			}
-			if ((x - 1) < numRow && (x - 1) >= 0 && !visited[x - 1][y] &&
+			if ((x - 1) >= 0 && !visited[x - 1][y] &&
 				(labir[x - 1][y] == '.' || labir[x - 1][y] == 'Y')) {
 				path[x - 1][y] = path[x][y] + 1;
 				q.push(x - 1);
