@@ -1,7 +1,11 @@
 #include <stdlib.h>
 #include "vector.h"
 
-
+struct Vector
+{
+	Data* point;
+	size_t size;
+};
 
 Vector *vector_create()
 {

@@ -4,14 +4,6 @@
 
 // Vector (dynamic array)
 // Stores integer values inside
-
-struct Vector
-{
-    Data* point;
-    size_t size;
-};
-
-
 struct Vector;
 
 // Creates vector
