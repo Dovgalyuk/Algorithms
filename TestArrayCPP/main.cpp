@@ -4,6 +4,8 @@
 #include "queue.h"
 using namespace std;
 
+int xEndY, yEndY;	//Координаты финиша
+
 //Ôóíêöèÿ ÷òåíèÿ äàííûõ èç ôàéëà
 char** readFile(int &numCol, int &numRow) {
 	numCol = 0, numRow = 0;
@@ -42,9 +44,7 @@ char** readFile(int &numCol, int &numRow) {
 }
 
 //Ôóíêöèÿ íàõîæäåíèÿ êðàò÷àéøåãî ïóòè ñ ïîìîùüþ âîëíîâîãî àëãîðèòìà
-void findPath(bool &mark, int numCol, int numRow, char **labir, int **visited, int **path, queue &q) {
-	int xStartX, yStartX, xEndY, yEndY;	//Êîîðäèíàòû ñòàðòà è ôèíèøà
-	int x, y;	//Êîîðäèíàòû âûáðàííîé êëåòêè
+void init(int numCol, int numRow, char **labir, int **visited, int **path, queue &q) {
 	for (int i = 0; i < numRow; i++) {
 		visited[i] = new int[numCol];	//Âûäåëÿåì ïàìÿòü äëÿ ìàññèâà
 		path[i] = new int[numCol];		//Âûäåëÿåì ïàìÿòü äëÿ ìàññèâà
@@ -52,8 +52,6 @@ void findPath(bool &mark, int numCol, int numRow, char **labir, int **visited, i
 			visited[i][j] = 0;
 			path[i][j] = -1;
 			if (labir[i][j] == 'X') { /* íàõîäèì íà÷àëî ïóòè*/
-				xStartX = i;
-				yStartX = j;
 				q.push(i);  /* çàíîñèì íà÷àëüíóþ êëåòêó */
 				q.push(j);  /* â ïëàí ïîñåùåíèÿ */
 				path[i][j] = 0;
@@ -64,7 +62,10 @@ void findPath(bool &mark, int numCol, int numRow, char **labir, int **visited, i
 			}
 		}
 	}
+}
 
+void findPath(int numCol, int numRow, char** labir, int** visited, int** path, queue& q) {////
+	int x, y;	//Координаты клетки///
 	//Ïîêà î÷åðåäü ïîñåùåíèÿ êëåòîê
 	while (q.empty() == false) {	//Ïîêà î÷åðåäü íå ïóñòàÿ, äåëàåì
 		x = q.front();	//Áåð¸ì êîîðäèíàòó x ïåðâîãî ýëåìåíòà î÷åðåäè
@@ -101,11 +102,16 @@ void findPath(bool &mark, int numCol, int numRow, char **labir, int **visited, i
 			visited[x][y] = 1;	//Îòìå÷àåì ÷òî ïîáûâàëè â äàííîé êëåòêå
 		}
      }
+}
+
+//Функция построения пути
+void makePath(bool& mark, int numCol, int numRow, char** labir, int** visited, int** path) {
+	int x, y;	//Координаты клетки
 		if (visited[xEndY][yEndY]) {	//Åñëè ïîñåòèëè ôèíèøíóþ êëåòêó
 			mark = true;
 			x = xEndY;	//x áóäåò êîðäèíàòîé õ ôèøèøà Y
 			y = yEndY;	//y áóäåò êîðäèíàòîé y ôèøèøà Y
-			//Âîññòàíîâëåíèå êðàò÷àéøåãî ïóòè
+			//Строим путь из финиша к старту
 			while (path[x][y] > 1) {
 				if ((x - 1) >= 0 && (x - 1) < numRow && (path[x - 1][y] == path[x][y] - 1)) {
 					x = x - 1;
@@ -167,11 +173,18 @@ int main() {
 	//Ôóíêöèÿ ÷òåíèÿ äàííûõ èç ôàéëà. Îòòóäà ïîëó÷àåì íàø ëàáèðèíò â ìàññèâ labir
 	labir = readFile(numCol, numRow);
 	
+	//Выделяем память для массивов. Делаем их одномерными.
 	visited = new int* [numRow];	//Âûäåëÿåì ïàìÿòü äëÿ ìàññèâîâ. Äåëàåì èõ îäíîìåðíûìè
-	path = new int* [numRow];		//
+	path = new int* [numRow];
 
+	//Функция инициализации массивов и очереди для дальнейшего поиска и построения пути
+	init(numCol, numRow, labir, visited, path, q);
+	
 	//Ôóíêöèÿ ïîèñêà êðàò÷àéøåãî ïóòè
 	findPath(mark, numCol, numRow, labir, visited, path, q);
+	
+	//Функция построения пути///+++
+	makePath(mark, numRow, numCol, labir, visited, path);
 
 	//Ôóíêöèÿ çàïèñè äàííûõ (ïðåîáðàçîâàííîãî ëàáèðèíòà) â ôàéë. 
 	writeFile(mark,numCol, numRow, labir);
