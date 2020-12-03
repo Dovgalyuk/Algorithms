@@ -26,7 +26,7 @@ char** readFile(int &numCol, int &numRow) {
 		//Ñ÷èòûâàåì äàííûå èç ôàéëà è çàïèñûâàåì â ìàññèâ labir
 		while (getline(in, line)) {
 			labir[i] = new char[numCol];
-			for (int j = 0; j < line.size(); j++) {
+			for ( unsigned int j = 0; j < line.size(); j++) {
 				labir[i][j] = line[j];
 				cout << labir[i][j];
 			}
