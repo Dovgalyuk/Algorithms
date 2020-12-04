@@ -1,0 +1,1 @@
+add_executable(LibraryCPPTemplate array.h array.cpp)

@@ -5,37 +5,20 @@ template <typename Data> class Array
 {
 public:
     // create array
-    Array(size_t size)
-    {
-        _elem = new Data[size];
-        _size = size;
-        for (int i = 0; i < size; i++)
-            _elem[i] = 0;
-    }
+    Array(size_t size);
 
     // delete array, free memory
-    ~Array()
-    {
-        delete[] _elem;
-    }
+    ~Array();
 
     // returns specified array element
-    Data get(size_t index) const
-    {
-        return _elem[index];
-    }
+    Data get(size_t index) const;
 
     // sets the specified array element to the value
-    void set(size_t index, Data value)
-    {
-        _elem[index] = value;
-    }
+    void set(size_t index, Data value);
 
     // returns array size
-    size_t size() const
-    {
-        return _size;
-    }
+    size_t size() const;
+
 private:
     Data* _elem;
     size_t _size;
