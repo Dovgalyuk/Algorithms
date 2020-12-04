@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../LibraryCPP/stack.h"
+#include "../LibraryCPPTemplate/stack.h"
 
 int main()
 {
