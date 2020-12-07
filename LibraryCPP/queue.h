@@ -50,7 +50,7 @@ public:
 
 	//Проверка очереди на пустоту
 	bool empty() {
-		if (s1.empty())
+		if (s1.empty()&& s2.empty())
 			return true;
 		else
 			return false;
