@@ -14,11 +14,11 @@ private:
 public:
 	Vector();
 	~Vector();
-	Data GetValue(size_t index);
+	Data GetValue(size_t index) const;
 	void Set(size_t index, Data value);
-	size_t GetSize();
+	size_t GetSize() const;
 	void Resize(size_t size);
-	size_t GetCapacity();
+	size_t GetCapacity() const;
 };
 
 //// Creates vector

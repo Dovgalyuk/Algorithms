@@ -1,6 +1,6 @@
 #ifndef STACK_H
 #define STACK_H
-#include "../LibraryCPPTemplate/vector.h"
+#include "vector.h"
 
 // Stack
 // Stores integer values inside
@@ -13,10 +13,10 @@ private:
 public:
     Stack();
     ~Stack();
-    void Push(Data);
-    Data Get();
-    void Pop();
-    bool Empty();
+    void Push(Data) const;
+    Data Get() const;
+    void Pop() const;
+    bool Empty() const;
 };
 
 //// Creates empty stack
@@ -38,5 +38,6 @@ public:
 //
 //// Returns true if the stack is empty
 //bool stack_empty(const Stack *stack);
+
 
 #endif

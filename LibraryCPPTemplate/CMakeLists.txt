@@ -1,0 +1,1 @@
+add_library(LibraryCPPTemplate STATIC stack.h vector.h vector.cpp stack.cpp)

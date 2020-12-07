@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <iostream>
-#include "../LibraryCPPTemplate/vector.h"
+#include "vector.h"
 
 Vector::Vector()
 	:_size(0), _space(0) 
@@ -25,7 +25,7 @@ Vector::~Vector()
 //	_elem = p;
 //}
 
-Data Vector::GetValue(size_t index)
+Data Vector::GetValue(size_t index) const
 {
 	return _elem[index];
 }
@@ -36,7 +36,7 @@ void Vector::Set(size_t index, Data value)
 	_elem[index] = value;
 }
 
-size_t Vector::GetSize()
+size_t Vector::GetSize() const
 {
 	return _size;
 }
@@ -68,9 +68,7 @@ void Vector::Resize(size_t size)
     }
 }
 
-
-
-size_t Vector::GetCapacity()
+size_t Vector::GetCapacity() const
 {
 	return _space;
 }
