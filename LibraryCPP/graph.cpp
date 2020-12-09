@@ -187,16 +187,3 @@ void graph_delete(Graph* graph)
    array_delete(graph->adjacencyMatrix);
    delete graph;
 }
-
-void graph_print(Graph* graph)
-{
-   std::cout << std::endl;
-   for (int i = 0; i < graph->size; i++)
-   {
-      for (int j = 0; j < graph->size; j++)
-         std::cout << array_get(graph->adjacencyMatrix, graph->size * i + j) << " ";
-      std::cout << std::endl;
-   }
-
-   std::cout << std::endl;
-}

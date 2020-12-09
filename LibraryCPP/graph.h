@@ -83,8 +83,4 @@ Data graph_getVertexValue(Graph* graph, size_t vertex);
 // Delete graph, free memory
 void graph_delete(Graph* graph);
 
-#include <iostream>
-
-void graph_print(Graph* graph);
-
 #endif
