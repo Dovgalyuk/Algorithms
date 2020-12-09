@@ -113,12 +113,14 @@ void graph_addVertex(Graph* graph)
    size_t newSize = graph->size + 1;
    Array* newAdjacencyMatrix = array_create(newSize * newSize);
 
-   for (int i = 0, j = 0; i < graph->size * graph->size; i++)
+   for (int i = 0, j = 0, k = 0; i < newSize * newSize; i++)
    {
-      if (i == newSize * (j + 1))
-         j++;
+      if (i == newSize * (k + 1))
+         array_set(newAdjacencyMatrix, i, 0), k++;
+      else if (i >= newSize * newSize - newSize)
+         array_set(newAdjacencyMatrix, i, 0);
       else
-         array_set(newAdjacencyMatrix, i + j, array_get(graph->adjacencyMatrix, i));
+         array_set(newAdjacencyMatrix, i, array_get(graph->adjacencyMatrix, j)), j++;
    }
 
    array_delete(graph->adjacencyMatrix);
