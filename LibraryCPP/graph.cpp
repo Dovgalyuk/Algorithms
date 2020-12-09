@@ -56,6 +56,7 @@ void iterator_nextEdge(Iterator* graphIterator)
 void iterator_nextVertex(Iterator* graphIterator)
 {
    graphIterator->fromVertex = graphIterator->toVertex;
+   graphIterator->toVertex = 0;
    iterator_nextEdge(graphIterator);
 }
 
