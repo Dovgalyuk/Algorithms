@@ -1,5 +1,5 @@
 #include <iostream>
-#include "..\..\..\..\..\..\Projects\Algorithms\LibraryCPP\vector.h"
+#include "vector.h"
 
 int main()
 {

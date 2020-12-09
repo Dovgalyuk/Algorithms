@@ -1,3 +1,3 @@
 add_executable(TestVectorC main.cpp)
-target_include_directories(TestVectorC PUBLIC ../LibraryC)
-target_link_libraries(TestVectorC LibraryC)
+target_include_directories(TestVectorC PUBLIC ../LibraryCPPTemplate)
+target_link_libraries(TestVectorC LibraryCPPTemplate)
