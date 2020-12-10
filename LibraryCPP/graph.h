@@ -36,6 +36,9 @@ void iterator_selectFirstEdge(Iterator* graphIterator);
 // Selects the specified edge by its index
 void iterator_selectEdge(Iterator* graphIterator, size_t vertex);
 
+// Selects the specified vertex by its index
+void iterator_selectVertex(Iterator* graphIterator, size_t vertex);
+
 // Returns the number of existing edges at the current vertex
 size_t iterator_edgeCount(Iterator* graphIterator);
 

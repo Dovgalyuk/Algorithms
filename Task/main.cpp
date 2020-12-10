@@ -2,11 +2,11 @@
 #include <iostream>
 #include "graph.h"
 
-void printResult(int* distance, bool* isVisited, const size_t graphSize)
+void printResult(Graph* graph, bool* isVisited, const size_t graphSize)
 {
    std::cout << "Distance: " << std::endl;
    for (int i = 0; i < graphSize; i++)
-      std::cout << distance[i] << " ";
+      std::cout << graph_getVertexValue(graph, i) << " ";
 
    std::cout << std::endl;
 
@@ -19,22 +19,30 @@ void printResult(int* distance, bool* isVisited, const size_t graphSize)
 
 void dijkstraAlgorithm(Graph* graph, const size_t graphSize, const size_t startVertex)
 {
-   int distance[graphSize];
    bool isVisited[graphSize];
 
    for (int i = 0; i < graphSize; i++)
-      distance[i] = INT_MAX, isVisited[i] = false;
+   {
+      graph_setVertexValue(graph, i, INT_MAX);
+      isVisited[i] = false;
+   }
 
-   distance[startVertex] = 0;
+   graph_setVertexValue(graph, startVertex, 0);
    int currentVertex = startVertex;
-   
+
+   Iterator* iter = iterator_create(graph, startVertex);
    while (currentVertex != -1)
    {
-      for (int i = 0; i < graphSize; i++)
+      unsigned edgeCount = iterator_edgeCount(iter);
+      for (int i = 0; i < edgeCount; i++)
       {
-         int currentWeight = graph_getEdgeValue(graph, currentVertex, i);
-         if (currentWeight && currentWeight + distance[currentVertex] < distance[i])
-            distance[i] = currentWeight + distance[currentVertex];
+         int currentWeight = iterator_getWeight(iter);
+         int currentEdge = iterator_getEdgeIndex(iter);
+
+         if (currentWeight + graph_getVertexValue(graph, currentVertex) < graph_getVertexValue(graph, currentEdge))
+            graph_setVertexValue(graph, currentEdge, currentWeight + graph_getVertexValue(graph, currentVertex));
+         
+         iterator_nextEdge(iter);
       }
 
       isVisited[currentVertex] = true;
@@ -42,11 +50,18 @@ void dijkstraAlgorithm(Graph* graph, const size_t graphSize, const size_t startV
       int minDist = INT_MAX;
 
       for (int i = 0; i < graphSize; i++)
-         if (!isVisited[i] && (distance[i] < minDist))
-            currentVertex = i, minDist = distance[i];
+      {
+         if (!isVisited[i] && (graph_getVertexValue(graph, i) < minDist))
+         {
+            currentVertex = i;
+            minDist = graph_getVertexValue(graph, i);
+         }
+      }
+      iterator_selectVertex(iter, currentVertex);
    }
-
-   printResult(distance, isVisited, graphSize);
+   iterator_delete(iter);
+   
+   printResult(graph, isVisited, graphSize);
 }
 
 int main()

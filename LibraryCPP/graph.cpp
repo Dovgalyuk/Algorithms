@@ -79,6 +79,15 @@ void iterator_selectEdge(Iterator* graphIterator, size_t vertex)
    }
 }
 
+void iterator_selectVertex(Iterator* graphIterator, size_t vertex)
+{
+   if (vertex >= 0 && vertex < graphIterator->graph->size)
+   {
+      graphIterator->fromVertex = vertex;
+      iterator_selectFirstEdge(graphIterator);
+   }
+}
+
 bool iterator_edgeIsExist(Iterator* graphIterator)
 {
    return graph_edgeIsExist(graphIterator->graph, graphIterator->fromVertex, graphIterator->toVertex);
@@ -113,14 +122,15 @@ void graph_addVertex(Graph* graph)
    size_t newSize = graph->size + 1;
    Array* newAdjacencyMatrix = array_create(newSize * newSize);
 
-   for (int i = 0, j = 0, k = 0; i < newSize * newSize; i++)
+   for (int i = 0, j = 0; i < newSize * newSize; i++)
    {
-      if (i == newSize * (k + 1))
-         array_set(newAdjacencyMatrix, i, 0), k++;
-      else if (i >= newSize * newSize - newSize)
+      if (i % newSize == newSize - 1 || i >= newSize * newSize - newSize)
          array_set(newAdjacencyMatrix, i, 0);
       else
-         array_set(newAdjacencyMatrix, i, array_get(graph->adjacencyMatrix, j)), j++;
+      {
+         array_set(newAdjacencyMatrix, i, array_get(graph->adjacencyMatrix, j));
+         j++;
+      }
    }
 
    array_delete(graph->adjacencyMatrix);
