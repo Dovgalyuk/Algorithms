@@ -33,8 +33,7 @@ void dijkstraAlgorithm(Graph* graph, const size_t graphSize, const size_t startV
    Iterator* iter = iterator_create(graph, startVertex);
    while (currentVertex != -1)
    {
-      unsigned edgeCount = iterator_edgeCount(iter);
-      for (int i = 0; i < edgeCount; i++)
+      while (iterator_edgeIsExist(iter))
       {
          int currentWeight = iterator_getWeight(iter);
          int currentEdge = iterator_getEdgeIndex(iter);
