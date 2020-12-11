@@ -5,6 +5,7 @@ add_subdirectory(Librarymyfiles)
 
 add_subdirectory(LibraryC)
 add_subdirectory(LibraryCPP)
+add_subdirectory(LibraryCPPTemplate)
 
 add_subdirectory(Librarymyfiles)
 
