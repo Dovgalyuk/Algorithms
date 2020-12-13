@@ -50,11 +50,10 @@ void List::list_insert_after(ListItem* item, Data value)
 {
 	ListItem* toInsert = new ListItem(value);
 	if (item->_next) toInsert->_next = item->_next;
-	else head = toInsert;
 	item->_next = toInsert;
 }
 
-void List::Insert(Data value)
+void List::push_front(Data value)
 {
 	ListItem* item = new ListItem(value);
 
@@ -70,9 +69,10 @@ void List::list_erase_next(ListItem* item)
 	toDelete = nullptr;
 }
 
-void List::Pop()
+void List::pop()
 {
 	ListItem* toDelete = head;
-	if (head->_next) head = head->_next;
+	head = head->_next; // head can be null so why not
 	delete toDelete;
+	toDelete = nullptr;
 }

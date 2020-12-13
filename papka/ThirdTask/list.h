@@ -20,6 +20,7 @@ public:
 struct List
 {
 private:
+    friend class Stack;
     ListItem* head;
 public:
     List();
