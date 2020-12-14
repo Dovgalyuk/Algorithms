@@ -40,6 +40,8 @@ int main()
 			Data prevCoord = stack->Get();
 
 			popped[j++] = prevCoord;
+			stack->Pop(); // forgot to pop
+			
 			popped[j++] = current.coord;
 		}
 		else if (current.mark == '+') stack->Push(current.coord);
