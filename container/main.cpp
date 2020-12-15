@@ -12,51 +12,51 @@
 
 using namespace std;
 
-//Функция выполнения
+//Г”ГіГ­ГЄГ¶ГЁГї ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї
 void demoInterface(Interface &container) {
-	cout << "ДЕМОНСТРАЦИЯ РАБОТЫ ИНТЕРФЕЙСА:" << endl;
+	cout << "Г„Г…ГЊГЋГЌГ‘Г’ГђГЂГ–Г€Гџ ГђГЂГЃГЋГ’Г› Г€ГЌГ’Г…ГђГ”Г…Г‰Г‘ГЂ:" << endl;
 	string s1 = "abcd";
 	string s2 = "ef";
 	string s3 = "xyz";
 	string s4 = "hi";
 
-	//Добавление строк
+	//Г„Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г±ГІГ°Г®ГЄ
 	container.addValue(&s1);
-	cout << s1 << " добавлена." << endl;
+	cout << s1 << " Г¤Г®ГЎГ ГўГ«ГҐГ­Г ." << endl;
 	container.addValue(&s2);
-	cout << s2 << " добавлена." << endl;
+	cout << s2 << " Г¤Г®ГЎГ ГўГ«ГҐГ­Г ." << endl;
 	container.addValue(&s3);
-	cout << s3 << " добавлена." << endl;
+	cout << s3 << " Г¤Г®ГЎГ ГўГ«ГҐГ­Г ." << endl;
 
-	//Поиск строки
+	//ГЏГ®ГЁГ±ГЄ Г±ГІГ°Г®ГЄГЁ
 	if (container.findValue(&s4) == true)
-		cout << s4 << " найдена." << endl;
+		cout << s4 << " Г­Г Г©Г¤ГҐГ­Г ." << endl;
 	else
-		cout << s4 << " не найдена в контейнере." << endl;
+		cout << s4 << " Г­ГҐ Г­Г Г©Г¤ГҐГ­Г  Гў ГЄГ®Г­ГІГҐГ©Г­ГҐГ°ГҐ." << endl;
 
 	if (container.findValue(&s1) == true)
-		cout << s1 << " найдена." << endl;
+		cout << s1 << " Г­Г Г©Г¤ГҐГ­Г ." << endl;
 	else
-		cout << s1 << " не найдена в контейнере." << endl;
+		cout << s1 << " Г­ГҐ Г­Г Г©Г¤ГҐГ­Г  Гў ГЄГ®Г­ГІГҐГ©Г­ГҐГ°ГҐ." << endl;
 
 
-	//Удаление строк
+	//Г“Г¤Г Г«ГҐГ­ГЁГҐ Г±ГІГ°Г®ГЄ
 	if (container.deleteValue(&s4) == true)
-		cout << s4 << " удалена." << endl;
+		cout << s4 << " ГіГ¤Г Г«ГҐГ­Г ." << endl;
 	else
-		cout << s4 << " не удалена, так как нет в контейнере." << endl;
+		cout << s4 << " Г­ГҐ ГіГ¤Г Г«ГҐГ­Г , ГІГ ГЄ ГЄГ ГЄ Г­ГҐГІ Гў ГЄГ®Г­ГІГҐГ©Г­ГҐГ°ГҐ." << endl;
 
 	if (container.deleteValue(&s2) == true)
-		cout << s2 << " удалена." << endl;
+		cout << s2 << " ГіГ¤Г Г«ГҐГ­Г ." << endl;
 	else
-		cout << s2 << " не удалена, так как нет в контейнере." << endl;
+		cout << s2 << " Г­ГҐ ГіГ¤Г Г«ГҐГ­Г , ГІГ ГЄ ГЄГ ГЄ Г­ГҐГІ Гў ГЄГ®Г­ГІГҐГ©Г­ГҐГ°ГҐ." << endl;
 }
 
-//Генератор входных данных различного объема для нашего AVL контейнера и запись в файл
+//ГѓГҐГ­ГҐГ°Г ГІГ®Г° ГўГµГ®Г¤Г­Г»Гµ Г¤Г Г­Г­Г»Гµ Г°Г Г§Г«ГЁГ·Г­Г®ГЈГ® Г®ГЎГєГҐГ¬Г  Г¤Г«Гї Г­Г ГёГҐГЈГ® AVL ГЄГ®Г­ГІГҐГ©Г­ГҐГ°Г  ГЁ Г§Г ГЇГЁГ±Гј Гў ГґГ Г©Г«
 void generatorData() {
-	srand((unsigned int)time(NULL));	//Начальная генерация
-	int numString = rand() + 1;				//Количество строк. Случайное от 1 до 32768.
-	int lenString;						//Длина текущей строки			
+	srand((unsigned int)time(NULL));	//ГЌГ Г·Г Г«ГјГ­Г Гї ГЈГҐГ­ГҐГ°Г Г¶ГЁГї
+	int numString = rand()*100 + 1;				//ГЉГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г±ГІГ°Г®ГЄ. Г‘Г«ГіГ·Г Г©Г­Г®ГҐ Г®ГІ 1 Г¤Г® 32768.
+	int lenString;						//Г„Г«ГЁГ­Г  ГІГҐГЄГіГ№ГҐГ© Г±ГІГ°Г®ГЄГЁ			
 	ofstream out("InputData.txt");
 	if (out.is_open()) {
 		for (int i = 0;i < numString;i++) {
@@ -70,7 +70,7 @@ void generatorData() {
 	out.close();
 }
 
-//Чтение данных в контейнер
+//Г—ГІГҐГ­ГЁГҐ Г¤Г Г­Г­Г»Гµ Гў ГЄГ®Г­ГІГҐГ©Г­ГҐГ°
 void readDataInContainer(Interface &container) {
 	string str;
 	ifstream in("InputData.txt");
@@ -79,59 +79,77 @@ void readDataInContainer(Interface &container) {
 		clock_t start = clock();
 		while (getline(in, str, '\n')) {
 			container.addValue(&str);
+			str = new string;
 		}
 		clock_t finish = clock();
-		cout << "Время добавление в созданный контейнер содержимого файла: " << (double)(finish - start) / CLOCKS_PER_SEC << endl;
+		cout << "Г‚Г°ГҐГ¬Гї Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Гў Г±Г®Г§Г¤Г Г­Г­Г»Г© ГЄГ®Г­ГІГҐГ©Г­ГҐГ° Г±Г®Г¤ГҐГ°Г¦ГЁГ¬Г®ГЈГ® ГґГ Г©Г«Г : " << (double)(finish - start) / CLOCKS_PER_SEC << endl;
 	}
 	else {
-		cout << "Файл InputData.txt не найден или не удалось открыть." << endl;
+		cout << "Г”Г Г©Г« InputData.txt Г­ГҐ Г­Г Г©Г¤ГҐГ­ ГЁГ«ГЁ Г­ГҐ ГіГ¤Г Г«Г®Г±Гј Г®ГІГЄГ°Г»ГІГј." << endl;
 	}
 	in.close();
 }
 
-//Чтение данных в set
+//Г—ГІГҐГ­ГЁГҐ Г¤Г Г­Г­Г»Гµ Гў set
 void readDataInSet(set <string> &containerSet) {
-	//char *str = (char*)malloc(sizeof(char));
 	string str;
 	ifstream in("InputData.txt");
 	if (in.is_open())
 	{
 		clock_t start = clock();
-		//while (in.getline(str, MAX_LEN_STRING)) {
 		while (getline(in, str)) {
 			containerSet.insert(str);
-			//char *str = (char*)malloc(sizeof(char));
+			str = new string;
 		}
 		clock_t finish = clock();
-		cout << "Время добавление в контейнер set содержимого файла (сек): " << (double)(finish - start) / CLOCKS_PER_SEC << endl;
+		cout << "Г‚Г°ГҐГ¬Гї Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Гў ГЄГ®Г­ГІГҐГ©Г­ГҐГ° set Г±Г®Г¤ГҐГ°Г¦ГЁГ¬Г®ГЈГ® ГґГ Г©Г«Г  (Г±ГҐГЄ): " << (double)(finish - start) / CLOCKS_PER_SEC << endl;
 	}
 	else {
-		cout << "Файл InputData.txt не найден или не удалось открыть." << endl;
+		cout << "Г”Г Г©Г« InputData.txt Г­ГҐ Г­Г Г©Г¤ГҐГ­ ГЁГ«ГЁ Г­ГҐ ГіГ¤Г Г«Г®Г±Гј Г®ГІГЄГ°Г»ГІГј." << endl;
 	}
 	in.close();
 }
-
-//ГЛАВНАЯ ФУНКЦИЯ
+void deleteDataFromContainer(Interface &container) {
+	string *str = new string;
+	ifstream in("InputData.txt");
+	int numDelString = 10000;
+	cout << "РЈРґР°Р»СЏРµРј " << numDelString << " СЃС‚СЂРѕРє РёР· РєРѕРЅС‚РµР№РЅРµСЂР°." << endl;
+	if (in.is_open())
+	{
+		for (int i = 0; i < numDelString; i++) {		//РЈРґР°Р»СЏРµРј numDelString РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє
+			getline(in, *str, '\n');
+			container.deleteValue(str);
+			str = new string;
+		}
+	}
+	else {
+		cout << "Р¤Р°Р№Р» InputData.txt РЅРµ РЅР°Р№РґРµРЅ РёР»Рё РЅРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ." << endl;
+	}
+	cout << "РЎС‚СЂРѕРєРё СѓРґР°Р»РµРЅС‹ РёР· РєРѕРЅС‚РµР№РЅРµСЂР°." << endl;
+	in.close();
+}
+//ГѓГ‹ГЂГ‚ГЌГЂГџ Г”Г“ГЌГЉГ–Г€Гџ
 int main() {
 	setlocale(LC_ALL, "Russian");
 
-	//1. Демонстрация работы интерфейса
+	//1. Г„ГҐГ¬Г®Г­Г±ГІГ°Г Г¶ГЁГї Г°Г ГЎГ®ГІГ» ГЁГ­ГІГҐГ°ГґГҐГ©Г±Г 
 	AVLTree container;
 	demoInterface(container);
 
-	//4. ГЕНЕРАТОР ВХОДНЫХ ДАННЫХ РАЗЛИЧНОГО ОБЪЕМА ДЛЯ НАШЕГО AVL КОНТЕЙНЕРА.
-	cout << "СРАВНЕНИЕ СКОРОСТЕЙ ОПЕРАЦИИ ДОБАВЛЕНИЯ В КОНТЕЙНЕРЫ:" << endl;
-	//4.1. Генерируем строки и записываем в файл
+	//4. ГѓГ…ГЌГ…ГђГЂГ’ГЋГђ Г‚Г•ГЋГ„ГЌГ›Г• Г„ГЂГЌГЌГ›Г• ГђГЂГ‡Г‹Г€Г—ГЌГЋГѓГЋ ГЋГЃГљГ…ГЊГЂ Г„Г‹Гџ ГЌГЂГГ…ГѓГЋ AVL ГЉГЋГЌГ’Г…Г‰ГЌГ…ГђГЂ.
+	cout << "Г‘ГђГЂГ‚ГЌГ…ГЌГ€Г… Г‘ГЉГЋГђГЋГ‘Г’Г…Г‰ ГЋГЏГ…ГђГЂГ–Г€Г€ Г„ГЋГЃГЂГ‚Г‹Г…ГЌГ€Гџ Г‚ ГЉГЋГЌГ’Г…Г‰ГЌГ…ГђГ›:" << endl;
+	//4.1. ГѓГҐГ­ГҐГ°ГЁГ°ГіГҐГ¬ Г±ГІГ°Г®ГЄГЁ ГЁ Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Гў ГґГ Г©Г«
 	generatorData();
 
-	//4.2. Cкорость выполнения операции добавления в контейнер содержимого файла
+	//4.2. CГЄГ®Г°Г®Г±ГІГј ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї Г®ГЇГҐГ°Г Г¶ГЁГЁ Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГї Гў ГЄГ®Г­ГІГҐГ©Г­ГҐГ° Г±Г®Г¤ГҐГ°Г¦ГЁГ¬Г®ГЈГ® ГґГ Г©Г«Г 
 	AVLTree container2;
 	readDataInContainer(container2);
 
-	//4.3. Cкорость выполнения операции добавления в контейнер std:set
+	//4.3. CГЄГ®Г°Г®Г±ГІГј ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї Г®ГЇГҐГ°Г Г¶ГЁГЁ Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГї Гў ГЄГ®Г­ГІГҐГ©Г­ГҐГ° std:set
 	set <string> containerSet;
 	readDataInSet(containerSet);
-
+        //4.4. Р‘РµСЂС‘Рј С‡Р°СЃС‚СЊ СЃС‚СЂРѕРє РёР· InputData.txt Рё СѓРґР°Р»СЏРµРј РёР· container2 (СѓР¶Рµ С…СЂР°РЅРёС‚ РІСЃРµ СЃС‚СЂРѕРєРё РёР· InputData.txt)
+	deleteDataFromContainer(container2);
 	system("pause");
 	return 0;
 }
