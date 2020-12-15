@@ -1,61 +1,78 @@
-#include <stdlib.h>
 #include "list.h"
 
-struct ListItem
+ListItem::ListItem(Data value, ListItem* next = nullptr)
 {
-};
-
-struct List
-{
-};
-
-List *list_create()
-{
-    return new List;
+	_value = value;
+	_next = next;
 }
 
-void list_delete(List *list)
+Data ListItem::list_item_data() const
 {
-    // TODO: free items
-    delete list;
+	return _value;
 }
 
-ListItem *list_first(List *list)
+ListItem* ListItem::list_item_next() const
 {
-    return NULL;
+	return _next;
 }
 
-Data list_item_data(const ListItem *item)
+List::List()
 {
-    return (Data)0;
+	head = nullptr;
 }
 
-ListItem *list_item_next(ListItem *item)
+List::~List()
 {
-    return NULL;
+	ListItem* prev = head;
+	ListItem* current = head->_next;
+	do
+	{
+		delete prev;
+		prev = current;
+		current = current->_next;
+	} while (current != nullptr);
+
+	head = nullptr;
 }
 
-ListItem *list_item_prev(ListItem *item)
+ListItem* List::list_first() const
 {
-    return NULL;
+	return head;
 }
 
-ListItem *list_insert(List *list, Data data)
+void List::list_insert(Data value)
 {
-    return NULL;
+	ListItem* item = new ListItem(value);
+	head = item;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
+void List::list_insert_after(ListItem* item, Data value)
 {
-    return NULL;
+	ListItem* toInsert = new ListItem(value);
+	if (item->_next) toInsert->_next = item->_next;
+	item->_next = toInsert;
 }
 
-ListItem *list_erase(List *list, ListItem *item)
+void List::push_front(Data value)
 {
-    return NULL;
+	ListItem* item = new ListItem(value);
+
+	item->_next = head;
+	head = item;
 }
 
-ListItem *list_erase_next(List *list, ListItem *item)
+void List::list_erase_next(ListItem* item)
 {
-    return NULL;
+	ListItem* toDelete = item->_next;
+	item->_next = toDelete->_next;
+	delete toDelete;
+	toDelete = nullptr;
+}
+
+void List::pop()
+{
+	ListItem* toDelete = head;
+	head = head->_next; // head can be null so why not
+	delete toDelete;
+	toDelete = nullptr;
 }
