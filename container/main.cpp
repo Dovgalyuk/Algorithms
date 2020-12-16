@@ -55,7 +55,7 @@ void demoInterface(Interface &container) {
 //Ãåíåðàòîð âõîäíûõ äàííûõ ðàçëè÷íîãî îáúåìà äëÿ íàøåãî AVL êîíòåéíåðà è çàïèñü â ôàéë
 void generatorData() {
 	srand((unsigned int)time(NULL));	//Íà÷àëüíàÿ ãåíåðàöèÿ
-	int numString = rand()*100 + 1;				//Êîëè÷åñòâî ñòðîê. Ñëó÷àéíîå îò 1 äî 32768.
+	int numString = rand()*5 + 1;				//Êîëè÷åñòâî ñòðîê. Ñëó÷àéíîå îò 1 äî 32768.
 	int lenString;						//Äëèíà òåêóùåé ñòðîêè			
 	ofstream out("InputData.txt");
 	if (out.is_open()) {
@@ -72,7 +72,7 @@ void generatorData() {
 
 //×òåíèå äàííûõ â êîíòåéíåð
 void readDataInContainer(Interface &container) {
-	string str;
+	string*str=new string;
 	ifstream in("InputData.txt");
 	if (in.is_open())
 	{
@@ -92,13 +92,13 @@ void readDataInContainer(Interface &container) {
 
 //×òåíèå äàííûõ â set
 void readDataInSet(set <string> &containerSet) {
-	string str;
+	string *str = new string;
 	ifstream in("InputData.txt");
 	if (in.is_open())
 	{
 		clock_t start = clock();
-		while (getline(in, str)) {
-			containerSet.insert(str);
+		while (getline(in, str, '\n')) {
+			containerSet.insert(*str);
 			str = new string;
 		}
 		clock_t finish = clock();
@@ -110,16 +110,15 @@ void readDataInSet(set <string> &containerSet) {
 	in.close();
 }
 void deleteDataFromContainer(Interface &container) {
-	string *str = new string;
+	string str;
 	ifstream in("InputData.txt");
 	int numDelString = 10000;
 	cout << "Удаляем " << numDelString << " строк из контейнера." << endl;
 	if (in.is_open())
 	{
 		for (int i = 0; i < numDelString; i++) {		//Удаляем numDelString количество строк
-			getline(in, *str, '\n');
-			container.deleteValue(str);
-			str = new string;
+			getline(in, str, '\n');
+			container.deleteValue(&str);
 		}
 	}
 	else {
