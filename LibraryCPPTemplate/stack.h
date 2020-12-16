@@ -9,7 +9,7 @@ typedef int Data;
 struct Stack
 {
 private:
-	Vector* _vec;
+	Vector<Data>* _vec;
 public:
     Stack();
     ~Stack();

@@ -1,76 +1,35 @@
 #include <stdlib.h>
-#include <iostream>
 #include "vector.h"
 
-Vector::Vector()
-	:_size(0), _space(0) 
+struct Vector
 {
-	_elem = new Data[_size];
+};
+
+Vector *vector_create()
+{
+    return new Vector;
 }
 
-Vector::~Vector()
+void vector_delete(Vector *vector)
 {
-	delete[] _elem;
+    // TODO: free vector internals
+    delete vector; 
 }
 
-//void Vector::Reserve(size_t size)
-//{
-//	//if (size < _space) return;
-//	Data* p = new Data[size];
-//	for (int i = 0; i < size; i++) 
-//		p[i] = _elem[i];
-//
-//	_space *= 2;
-//	delete _elem;
-//	_elem = p;
-//}
-
-Data Vector::GetValue(size_t index)
+Data vector_get(const Vector *vector, size_t index)
 {
-	return _elem[index];
+    return (Data)0;
 }
 
-void Vector::Set(size_t index, Data value)
+void vector_set(Vector *vector, size_t index, Data value)
 {
-	if (index > _size) Resize(index);
-	_elem[index] = value;
 }
 
-size_t Vector::GetSize()
+size_t vector_size(const Vector *vector)
 {
-	return _size;
+    return 0;
 }
 
-void Vector::Resize(size_t size)
+void vector_resize(Vector *vector, size_t size)
 {
-//	if (size > _size)
-//	{
-//		Reserve(size);
-//		for (int i = _size; i < size; i++)
-//			_elem[i] = Data();
-//	}
-//	_size = size;
-    if (size < _size)
-    {
-        _size = size;
-    }
-    else {
-        size_t newSize = size * 2;
-        Data* newVector = new Data[newSize];
-        for (int i = 0; i < _size; i++)
-        {
-            newVector[i] = _elem[i];
-        }
-        delete[] _elem;
-        _elem = newVector;
-        _size = size;
-        _space = newSize;
-    }
-}
-
-
-
-size_t Vector::GetCapacity()
-{
-	return _space;
 }

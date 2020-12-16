@@ -1,3 +1,3 @@
-add_executable(LibraryIndividual Individual2.cpp)
+add_executable(LibraryIndividual Individual3.cpp)
 target_include_directories(LibraryIndividual PUBLIC ../LibraryCPPTemplate)
 target_link_libraries(LibraryIndividual LibraryCPPTemplate)

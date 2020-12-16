@@ -3,7 +3,7 @@
 
 Stack::Stack()
 {
-    _vec = new Vector();
+    _vec = new Vector<Data>();
 }
 
 Stack::~Stack()
@@ -16,7 +16,7 @@ void Stack::Push(Data data) const
 {
     size_t newSize = _vec->GetSize() + 1;
     _vec->Resize(newSize);
-    _vec->Set(newSize - 1, data);
+    _vec->Set(newSize ,data);
 }
 
 Data Stack::Get() const

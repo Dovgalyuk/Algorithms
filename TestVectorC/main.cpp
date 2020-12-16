@@ -3,7 +3,7 @@
 
 int main()
 {
-    Vector *vector = new Vector();
+    Vector<int> *vector = new Vector<int>();
 
     vector->Resize(5);
     if (vector->GetSize() != 5)

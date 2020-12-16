@@ -5,20 +5,73 @@
 // Stores integer values inside
 typedef int Data;
 
+template <typename T>
 struct Vector
 {
 private:
 	size_t _size;
-	Data* _elem;
+	T* _elem;
 	size_t _space;
 public:
-	Vector();
-	~Vector();
-	Data GetValue(size_t index) const;
-	void Set(size_t index, Data value);
-	size_t GetSize() const;
-	void Resize(size_t size);
-	size_t GetCapacity() const;
+	Vector()
+		:_size(0), _space(0)
+	{
+		_elem = new T[_size];
+	}
+	Vector(size_t size)
+		:_size(0), _space(0)
+	{
+		_elem = new T[_size];
+		Resize(size);
+	}
+	~Vector()
+	{
+		delete[] _elem;
+	}
+	T GetValue(size_t index) const
+	{
+		return _elem[index];
+	}
+	void Set(size_t index, T value)
+	{
+		if (index > _size) Resize(index);
+		_elem[index] = value;
+	}
+	size_t GetSize() const
+	{
+		return _size;
+	}
+	void Resize(size_t size)
+	{
+		//	if (size > _size)
+		//	{
+		//		Reserve(size);
+		//		for (int i = _size; i < size; i++)
+		//			_elem[i] = Data();
+		//	}
+		//	_size = size;
+		if (size < _size)
+		{
+			_size = size;
+		}
+		else 
+		{
+			size_t newSize = size * 2;
+			T* newVector = new T[newSize];
+			for (int i = 0; i < _size; i++)
+			{
+				newVector[i] = _elem[i];
+			}
+			if (_elem != nullptr) delete[] _elem;
+			_elem = newVector;
+			_size = size;
+			_space = newSize;
+		}
+	}
+	size_t GetCapacity() const
+	{
+		return _space;
+	}
 };
 
 //// Creates vector
