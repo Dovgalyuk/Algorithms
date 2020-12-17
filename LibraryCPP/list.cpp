@@ -4,6 +4,7 @@ ListItem::ListItem(Data value, ListItem* next = nullptr)
 {
 	_value = value;
 	_next = next;
+<<<<<<< HEAD
 }
 
 Data ListItem::list_item_data() const
@@ -38,6 +39,48 @@ List::~List()
 ListItem* List::list_first() const
 {
 	return head;
+=======
+}
+
+Data ListItem::list_item_data() const
+{
+	return _value;
+}
+
+ListItem* ListItem::list_item_next() const
+{
+	return _next;
+}
+
+List::List()
+{
+	head = nullptr;
+}
+
+List::~List()
+{
+	ListItem* prev = head;
+	ListItem* current = head->_next;
+	do
+	{
+		delete prev;
+		prev = current;
+		current = current->_next;
+	} while (current != nullptr);
+
+	head = nullptr;
+}
+
+ListItem* List::list_first() const
+{
+	return head;
+}
+
+void List::list_insert(Data value)
+{
+	ListItem* item = new ListItem(value);
+	head = item;
+>>>>>>> 547f7fc0a8ca7bf2c2e410c9a04bb5f559cc353c
 }
 
 void List::list_insert_after(ListItem* item, Data value)
