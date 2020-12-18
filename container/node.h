@@ -5,7 +5,7 @@
 
 using namespace std;
 
-//Структура узла АВЛ-дерева
+//Г‘ГІГ°ГіГЄГІГіГ°Г  ГіГ§Г«Г  ГЂГ‚Г‹-Г¤ГҐГ°ГҐГўГ 
 struct Node {
 	string* key;
 	struct Node* left;
@@ -13,21 +13,22 @@ struct Node {
 	unsigned char height;
 };
 
-//Функции
-Node* addNode(Node *tree, string *str);		//Добавление узла в дерево
-bool findNode(Node *tree, string *str);		//Поиск узла
-Node* deleteNode(Node *tree, string *str);	//Удаление узла
+//Г”ГіГ­ГЄГ¶ГЁГЁ
+Node* addNode(Node *tree, string *str);		//Г„Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ ГіГ§Г«Г  Гў Г¤ГҐГ°ГҐГўГ®
+bool findNode(Node *tree, string *str);		//ГЏГ®ГЁГ±ГЄ ГіГ§Г«Г 
+Node* deleteNode(Node *tree, string *str);	//Г“Г¤Г Г«ГҐГ­ГЁГҐ ГіГ§Г«Г 
 
-Node* findMinNode(Node *tree);				//Поиск узла с минимальным ключом
-Node* deleteMinNode(Node *tree);				//Удаление узла с минимальным ключом
+Node* findMinNode(Node *tree);				//ГЏГ®ГЁГ±ГЄ ГіГ§Г«Г  Г± Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г»Г¬ ГЄГ«ГѕГ·Г®Г¬
+Node* deleteMinNode(Node *tree);				//Г“Г¤Г Г«ГҐГ­ГЁГҐ ГіГ§Г«Г  Г± Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г»Г¬ ГЄГ«ГѕГ·Г®Г¬
 
 
-//3. БАЛАНСИРОВКА АВЛ-ДЕРЕВА
-Node* balanceAVLTree(Node* node);					//Балансировка узла
-unsigned char height(Node* node);					//Подсчет высоты узлов дерева
-void countHeight(Node* node);						//Подсчет высоты узла
-int balanceTree(Node* node);						//Баланс дерева
-Node* turnLeft(Node* leftNode);						//Левый поворот
-Node* turnRight(Node* rightNode);					//Правый поворот
+//3. ГЃГЂГ‹ГЂГЌГ‘Г€ГђГЋГ‚ГЉГЂ ГЂГ‚Г‹-Г„Г…ГђГ…Г‚ГЂ
+Node* balanceAVLTree(Node* node);					//ГЃГ Г«Г Г­Г±ГЁГ°Г®ГўГЄГ  ГіГ§Г«Г 
+unsigned char height(Node* node);					//ГЏГ®Г¤Г±Г·ГҐГІ ГўГ»Г±Г®ГІГ» ГіГ§Г«Г®Гў Г¤ГҐГ°ГҐГўГ 
+void countHeight(Node* node);						//ГЏГ®Г¤Г±Г·ГҐГІ ГўГ»Г±Г®ГІГ» ГіГ§Г«Г 
+int balanceTree(Node* node);						//ГЃГ Г«Г Г­Г± Г¤ГҐГ°ГҐГўГ 
+Node* turnLeft(Node* leftNode);						//Г‹ГҐГўГ»Г© ГЇГ®ГўГ®Г°Г®ГІ
+Node* turnRight(Node* rightNode);					//ГЏГ°Г ГўГ»Г© ГЇГ®ГўГ®Г°Г®ГІ
+unsigned char correctBalanceTree(Node* node);	//РћР±С…РѕРґ РґРµСЂРµРІР° Рё РїРµСЂРµСЃС‡РµС‚ РІС‹СЃРѕС‚.
 
 #endif
