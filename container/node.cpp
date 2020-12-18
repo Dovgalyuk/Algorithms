@@ -4,9 +4,9 @@
 
 using namespace std;
 
-//Добавление узла в дерево
+//Г„Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ ГіГ§Г«Г  Гў Г¤ГҐГ°ГҐГўГ®
 struct Node *addNode(Node *tree, string *str) {
-	if (tree == NULL) {								//Если узла нет, то создаем новый узел со строкой str
+	if (tree == NULL) {								//Г…Г±Г«ГЁ ГіГ§Г«Г  Г­ГҐГІ, ГІГ® Г±Г®Г§Г¤Г ГҐГ¬ Г­Г®ГўГ»Г© ГіГ§ГҐГ« Г±Г® Г±ГІГ°Г®ГЄГ®Г© str
 		tree = (Node*)malloc(sizeof(Node));
 		tree->key = str;
 		tree->left = NULL;
@@ -14,17 +14,17 @@ struct Node *addNode(Node *tree, string *str) {
 		tree->height = 1;
 	}
 	else {
-		if (str < tree->key) {						//Если строка меньше текущего узла, то идём влево
+		if (str < tree->key) {						//Г…Г±Г«ГЁ Г±ГІГ°Г®ГЄГ  Г¬ГҐГ­ГјГёГҐ ГІГҐГЄГіГ№ГҐГЈГ® ГіГ§Г«Г , ГІГ® ГЁГ¤ВёГ¬ ГўГ«ГҐГўГ®
 			tree->left = addNode(tree->left, str);
 		}
-		else if (str > tree->key) {					//Если строка больше текущего узла, то идём вправо
+		else if (str > tree->key) {					//Г…Г±Г«ГЁ Г±ГІГ°Г®ГЄГ  ГЎГ®Г«ГјГёГҐ ГІГҐГЄГіГ№ГҐГЈГ® ГіГ§Г«Г , ГІГ® ГЁГ¤ВёГ¬ ГўГЇГ°Г ГўГ®
 			tree->right = addNode(tree->right, str);
 		}
 	}
-	return balanceAVLTree(tree);					//Делаем балансировку
+	return balanceAVLTree(tree);					//Г„ГҐГ«Г ГҐГ¬ ГЎГ Г«Г Г­Г±ГЁГ°Г®ГўГЄГі
 }
 
-//Поиск узла
+//ГЏГ®ГЁГ±ГЄ ГіГ§Г«Г 
 bool findNode(Node *tree, string *str) {
 	if (tree != NULL)
 	{
@@ -41,20 +41,20 @@ bool findNode(Node *tree, string *str) {
 	return false;
 }
 
-//Удаление узла
+//Г“Г¤Г Г«ГҐГ­ГЁГҐ ГіГ§Г«Г 
 struct Node *deleteNode(Node *tree, string *str) {
 	if (tree != NULL)
 	{
 		if (tree == NULL) {
 			return false;
 		}
-		if (str < tree->key) {								//Если строка меньше текущего узла, то идём влево
+		if (str < tree->key) {								//Г…Г±Г«ГЁ Г±ГІГ°Г®ГЄГ  Г¬ГҐГ­ГјГёГҐ ГІГҐГЄГіГ№ГҐГЈГ® ГіГ§Г«Г , ГІГ® ГЁГ¤ВёГ¬ ГўГ«ГҐГўГ®
 			tree->left = deleteNode(tree->left, str);
 		}
-		else if (str > tree->key) {							//Если строка больше текущего узла, то идём вправо
+		else if (str > tree->key) {							//Г…Г±Г«ГЁ Г±ГІГ°Г®ГЄГ  ГЎГ®Г«ГјГёГҐ ГІГҐГЄГіГ№ГҐГЈГ® ГіГ§Г«Г , ГІГ® ГЁГ¤ВёГ¬ ГўГЇГ°Г ГўГ®
 			tree->right = deleteNode(tree->right, str);
 		}
-		else {												//Если строка равно текущему узлу(найдена), то удаляем
+		else {												//Г…Г±Г«ГЁ Г±ГІГ°Г®ГЄГ  Г°Г ГўГ­Г® ГІГҐГЄГіГ№ГҐГ¬Гі ГіГ§Г«Гі(Г­Г Г©Г¤ГҐГ­Г ), ГІГ® ГіГ¤Г Г«ГїГҐГ¬
 			Node *leftNode = tree->left;
 			Node *rightNode = tree->right;
 			if (rightNode == NULL) {
@@ -70,7 +70,7 @@ struct Node *deleteNode(Node *tree, string *str) {
 	return false;
 }
 
-//Поиск узла с минимальным ключом
+//ГЏГ®ГЁГ±ГЄ ГіГ§Г«Г  Г± Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г»Г¬ ГЄГ«ГѕГ·Г®Г¬
 Node* findMinNode(Node * tree)
 {
 	if (tree->left) {
@@ -81,7 +81,7 @@ Node* findMinNode(Node * tree)
 	}
 }
 
-//Удаление узла с минимальным ключом
+//Г“Г¤Г Г«ГҐГ­ГЁГҐ ГіГ§Г«Г  Г± Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г»Г¬ ГЄГ«ГѕГ·Г®Г¬
 Node* deleteMinNode(Node * tree)
 {
 	if (tree->left == NULL)
@@ -90,17 +90,17 @@ Node* deleteMinNode(Node * tree)
 	return balanceAVLTree(tree);
 }
 
-//Балансировка дерева
+//ГЃГ Г«Г Г­Г±ГЁГ°Г®ГўГЄГ  Г¤ГҐГ°ГҐГўГ 
 Node* balanceAVLTree(Node* node)
 {
 	countHeight(node);
-	if (balanceTree(node) == 2)						//Если баланс равен 2, то делаем балансировку
+	if (balanceTree(node) == 2)						//Г…Г±Г«ГЁ ГЎГ Г«Г Г­Г± Г°Г ГўГҐГ­ 2, ГІГ® Г¤ГҐГ«Г ГҐГ¬ ГЎГ Г«Г Г­Г±ГЁГ°Г®ГўГЄГі
 	{
 		if (balanceTree(node->right) < 0)
 			node->right = turnRight(node->right);
 		return turnLeft(node);
 	}
-	if (balanceTree(node) == -2)					//Если баланс равен -2, то делаем балансировку
+	if (balanceTree(node) == -2)					//Г…Г±Г«ГЁ ГЎГ Г«Г Г­Г± Г°Г ГўГҐГ­ -2, ГІГ® Г¤ГҐГ«Г ГҐГ¬ ГЎГ Г«Г Г­Г±ГЁГ°Г®ГўГЄГі
 	{
 		if (balanceTree(node->left) > 0)
 			node->left = turnLeft(node->left);
@@ -110,7 +110,7 @@ Node* balanceAVLTree(Node* node)
 	return node;
 }
 
-//Высота узла
+//Г‚Г»Г±Г®ГІГ  ГіГ§Г«Г 
 unsigned char height(Node* node)
 {
 	if (node != NULL) {
@@ -121,7 +121,7 @@ unsigned char height(Node* node)
 	}
 }
 
-//Подсчет высоты узлов дерева
+//ГЏГ®Г¤Г±Г·ГҐГІ ГўГ»Г±Г®ГІГ» ГіГ§Г«Г®Гў Г¤ГҐГ°ГҐГўГ 
 void countHeight(Node* node)
 {
 	unsigned char heightLeft = height(node->left);
@@ -134,13 +134,13 @@ void countHeight(Node* node)
 	}
 }
 
-//Баланс дерева
+//ГЃГ Г«Г Г­Г± Г¤ГҐГ°ГҐГўГ 
 int balanceTree(Node* node)
 {
 	return height(node->right) - height(node->left);
 }
 
-//Левый поворот
+//Г‹ГҐГўГ»Г© ГЇГ®ГўГ®Г°Г®ГІ
 Node* turnLeft(Node* leftNode)
 {
 	Node* rightNode = leftNode->right;
@@ -151,7 +151,7 @@ Node* turnLeft(Node* leftNode)
 	return rightNode;
 }
 
-//Правый поворот
+//ГЏГ°Г ГўГ»Г© ГЇГ®ГўГ®Г°Г®ГІ
 Node* turnRight(Node* rightNode)
 {
 	Node* leftNode = rightNode->left;
@@ -160,4 +160,31 @@ Node* turnRight(Node* rightNode)
 	countHeight(rightNode);
 	countHeight(leftNode);
 	return leftNode;
+}
+
+//РџРµСЂРµСЃС‡С‘С‚ РІС‹СЃРѕС‚ СѓР·Р»РѕРІ. 
+unsigned char correctBalanceTree(Node* tree) {
+	unsigned char left, right;
+	if (tree != NULL) {
+		if (tree->left != NULL) {
+			left = correctBalanceTree(tree->left);
+		}
+		else {
+			left = 0;
+		}
+		if (tree->right != NULL) {
+			right = correctBalanceTree(tree->right);
+		}
+		else {
+			right = 0;
+		}
+		if (left > right) {
+			tree->height = left + 1;
+		}
+		else {
+			tree->height = right + 1;
+		}
+		return tree->height;
+	}
+	return 0;
 }
