@@ -27,9 +27,22 @@ public:
     ~List();
 
     ListItem* list_first() const;
+<<<<<<< HEAD
     void list_insert_after(ListItem*, Data);
     void push_front(Data);
     void pop();
+=======
+<<<<<<< HEAD
+    void list_insert_after(ListItem*, Data);
+    void push_front(Data);
+    void pop();
+=======
+    void list_insert(Data);
+    void list_insert_after(ListItem*, Data);
+    void Insert(Data);
+    void Pop();
+>>>>>>> 547f7fc0a8ca7bf2c2e410c9a04bb5f559cc353c
+>>>>>>> 551dd8ce8a693e6283c76868950ec1dea528b5b1
     void list_erase_next(ListItem*);
 };
 
