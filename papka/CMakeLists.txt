@@ -1,0 +1,3 @@
+add_executable(LibraryIndividual StrTask.cpp)
+target_include_directories(LibraryIndividual PUBLIC ../LibraryCPP)
+target_link_libraries(LibraryIndividual LibraryCPP)
