@@ -14,6 +14,7 @@ Stack::~Stack()
 
 void Stack::Push(Data data)
 {
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     _list->push_front(data);
 =======
@@ -23,6 +24,9 @@ void Stack::Push(Data data)
     _list->Insert(data);
 >>>>>>> 547f7fc0a8ca7bf2c2e410c9a04bb5f559cc353c
 >>>>>>> 551dd8ce8a693e6283c76868950ec1dea528b5b1
+=======
+    _list->push_front(data);
+>>>>>>> Stashed changes
 }
 
 Data Stack::Get()
@@ -32,6 +36,7 @@ Data Stack::Get()
 
 void Stack::Pop()
 {
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     _list->pop();
 =======
@@ -52,6 +57,9 @@ void Stack::Pop()
     _list->Pop();
 >>>>>>> 547f7fc0a8ca7bf2c2e410c9a04bb5f559cc353c
 >>>>>>> 551dd8ce8a693e6283c76868950ec1dea528b5b1
+=======
+    _list->pop();
+>>>>>>> Stashed changes
 }
 
 bool Stack::Empty()
