@@ -16,7 +16,6 @@ private:
     ListItem* _next;
     Coord _value;
     friend class MyList;
-    friend class Queue;
 public:
     ListItem(Coord, ListItem*);
     Coord list_item_data() const;
@@ -36,7 +35,6 @@ public:
 
     size_t get_length() const;
     ListItem* list_first() const;
-    void list_insert(Coord);
     void list_insert_after(ListItem*, Coord);
     void push_front(Coord);
     void pop();

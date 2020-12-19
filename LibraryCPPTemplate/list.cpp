@@ -47,7 +47,7 @@ ListItem* MyList::list_first() const
 void MyList::list_insert_after(ListItem* item, Coord value)
 {
 	ListItem* toInsert = new ListItem(value);
-	if (item->_next) toInsert->_next = item->_next;
+	toInsert->_next = item->_next;
 	item->_next = toInsert;
 
 	_length++;
@@ -68,7 +68,7 @@ void MyList::list_erase_next(ListItem* item)
 	ListItem* toDelete = item->_next;
 	item->_next = toDelete->_next;
 	delete toDelete;
-	toDelete = nullptr;
+	//toDelete = nullptr;
 
 	_length--;
 }
@@ -78,7 +78,7 @@ void MyList::pop()
 	ListItem* toDelete = head;
 	head = head->_next;
 	delete toDelete;
-	toDelete = nullptr;
+	//toDelete = nullptr;
 
 	_length--;
 }
