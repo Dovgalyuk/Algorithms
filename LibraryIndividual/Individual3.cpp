@@ -67,8 +67,7 @@ public:
 		int curr_row = x_row, curr_col = x_col;
 		queue.insert(Coord{ curr_row, curr_col, 0 });
 		
-		while (grid.GetValue(curr_row)->GetValue(curr_col) != num_end
-			&& !queue.is_empty())
+		while (grid.GetValue(curr_row)->GetValue(curr_col) != num_end && !queue.is_empty())
 		{
 			Coord coord = queue.get();
 			curr_row = coord.row;
@@ -83,33 +82,28 @@ public:
 					{
 						int row = curr_row + i;
 						int col = curr_col + j;
-						if (row < 0)
+						if (row < 0 || col < 0)
 						{
-							i = 0;
-						}
-						else if (col < 0)
-						{
-							j = 0;
+							continue;
 						}
 						
 						Data cell = grid.GetValue(row)->GetValue(col);
 
-						if (cell == num_end)
+						if (row < row_count && col < col_count)
 						{
-							grid.GetValue(curr_row)->Set(curr_col, coord.dist + 1);
-							curr_row = row;
-							curr_col = col;
-							found = true;
-							path_length++;
-						}
-						
-						if (row < row_count && col <= col_count &&
-							grid.GetValue(row)->GetValue(col) == num_dot)
-						{
-							queue.insert(Coord{ row, col, coord.dist + 1 });
-							grid.GetValue(curr_row)->Set(curr_col, coord.dist + 1);
-							
+							if (cell == num_end)
+							{
+								grid.GetValue(curr_row)->Set(curr_col, coord.dist + 1);
+								curr_row = row;
+								curr_col = col;
+								found = true;
+							}
 
+							else if (cell == num_dot)
+							{
+								queue.insert(Coord{ row, col, coord.dist + 1 });
+								grid.GetValue(curr_row)->Set(curr_col, coord.dist + 1);
+							}
 							path_length++;
 						}
 					}
@@ -124,12 +118,9 @@ public:
 		else
 		{
 			int prev_number = path_length + 1;
-			bool found = false;
-			while (!found)
-			{
-				//curr_row = x_row;
-				//curr_col = x_col;
-				
+			Data cell = 0;
+			while (cell != 1)
+			{	
 				for (int i = -1; i <= 1; i++)
 				{
 					for (int j = -1; j <= 1; j++)
@@ -139,18 +130,19 @@ public:
 							int row = curr_row + i;
 							int col = curr_col + j;
 
-							if (row < 0)
+							if (row < 0 || col < 0)
 							{
-								i = 0;
-							}
-							else if (col < 0)
-							{
-								j = 0;
+								continue;
 							}
 							
-							int cell = grid.GetValue(row)->GetValue(col);
-							if (row == x_row && col == x_col) found = true;
-							if (cell > 0 && cell < prev_number)
+							cell = grid.GetValue(row)->GetValue(col);
+							if (cell == 1)
+							{
+								curr_row = row;
+								curr_col = col;
+								i = 1, j = 1;
+							}
+							else if (cell > 0 && cell < prev_number)
 							{
 								grid.GetValue(row)->Set(col, num_path);
 								prev_number = cell;

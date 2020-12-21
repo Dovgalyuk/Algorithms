@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include "queue.h"
 
-void Queue::try_update_front()
+void Queue::try_update_front(ListItem* li)
 {
     if (_list->get_length() == 1)
     {
-        _front = _rear;
+        _front = li;
     }
 }
 
@@ -21,9 +21,10 @@ Queue::~Queue()
 void Queue::insert(Coord value)
 {
     _list->push_front(value);
-    _rear = _list->list_first();
+    ListItem* head = _list->list_first();
+    _rear = head;
 
-    try_update_front();
+    try_update_front(head);
 }
 
 Coord Queue::get() const
@@ -33,17 +34,10 @@ Coord Queue::get() const
 
 void Queue::remove()
 {
-    auto* next_item = _rear;
-	while (_list->get_length() != 1 && next_item->list_item_next() != _front) // how is it possible to do without cycle if we
-        //use single-linked list? we can't contain prev head element because when we'll try to delete head we will lost prev prev element
-	{
-        next_item = next_item->list_item_next();
-	}
-
+    ListItem* next = _front->list_item_next();
     delete _front;
-    _front = nullptr;
-
-    _front = new ListItem(next_item->list_item_data(), nullptr);
+    _front = next;
+	
     _list->_length--;
 }
 
