@@ -1,35 +1,35 @@
 #include <stdlib.h>
 #include "stack.h"
+#include "list.h"
 
-struct Stack
+Stack::Stack()
 {
-};
-
-Stack *stack_create()
-{
-    return new Stack;
+    _list = new List();
 }
 
-void stack_delete(Stack *stack)
+Stack::~Stack()
 {
-    // TODO: free stack elements
-    delete stack;
+    delete _list;
 }
 
-void stack_push(Stack *stack, Data data)
+void Stack::Push(Data data)
 {
+    _list->push_front(data);
 }
 
-Data stack_get(const Stack *stack)
+Data Stack::Get()
 {
-    return (Data)0;
+    return _list->list_first()->list_item_data();
 }
 
-void stack_pop(Stack *stack)
+void Stack::Pop()
 {
+    _list->pop();
 }
 
-bool stack_empty(const Stack *stack)
+bool Stack::Empty()
 {
-    return true;
+    if (_list->list_first() == nullptr)
+        return true;
+    return false;
 }
