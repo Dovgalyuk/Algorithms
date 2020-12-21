@@ -179,10 +179,14 @@ unsigned char correctBalanceTree(Node* tree) {
 			right = 0;
 		}
 		if (left > right) {
-			tree->height = left + 1;
+			if (tree->height != left + 1) {
+				cout << "ОШИБКА. Во время перепроверки дерева подсчитанная высота не совпадает с исходным." << endl;
+			
 		}
 		else {
-			tree->height = right + 1;
+				if (tree->height! = right + 1) {
+			cout << "ОШИБКА. Во время перепроверки дерева подсчитанная высота не совпадает с исходным." << endl;
+				}
 		}
 		return tree->height;
 	}
