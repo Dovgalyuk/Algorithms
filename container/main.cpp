@@ -84,6 +84,7 @@ void readDataInContainer(Interface &container) {
 		clock_t start = clock();
 		while (getline(in, str, '\n')) {
 			container.addValue(&str);
+			container.checkHeight();
 			str = new string;
 		}
 		clock_t finish = clock();
@@ -124,6 +125,7 @@ void deleteDataFromContainer(Interface &container) {
 		for (int i = 0; i < numDelString; i++) {		//Удаляем numDelString количество строк
 			getline(in, str, '\n');
 			container.deleteValue(&str);
+			container.checkHeight();
 		}
 	}
 	else {
