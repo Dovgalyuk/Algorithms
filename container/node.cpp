@@ -67,7 +67,7 @@ struct Node *deleteNode(Node *tree, string *str) {
 			return balanceAVLTree(minNode);
 		}
 	}
-	return false;
+	return balanceAVLTree(tree);
 }
 
 //Ïîèñê óçëà ñ ìèíèìàëüíûì êëþ÷îì
