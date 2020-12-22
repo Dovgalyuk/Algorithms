@@ -29,11 +29,16 @@ public:
 	virtual bool deleteValue(string *str) {
 		if (deleteNode(root, str) == 0)
 			return false;
-		return true;
 		}
 		else {
-			balanceAVLTree(root);	//Балансировка дерева
 			return true;
+		}
+	};
+	//ТЕСТОВАЯ ФУНКЦИЯ
+	//Проверка высот в дереве
+	virtual void checkHeight() {
+		if (!correctBalanceTree(root)) {
+			exit(1);
 		}
 	};
 };
