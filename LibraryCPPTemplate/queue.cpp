@@ -34,11 +34,15 @@ Coord Queue::get() const
 
 void Queue::remove()
 {
-    ListItem* next = _front->list_item_next();
-    delete _front;
-    _front = next;
-	
-    _list->_length--;
+    if (_list->get_length() > 1)
+    {
+        ListItem* next = _front->list_item_next();
+        _list->list_erase_next(next);
+    }
+    else
+    {
+        _list->pop();
+    }
 }
 
 bool Queue::is_empty() const

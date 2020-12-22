@@ -25,10 +25,10 @@ MyList::MyList()
 MyList::~MyList()
 {
 	ListItem* prev = head;
+	if (prev == nullptr) return;
+
 	ListItem* current = head->_next;
 
-	if (head == nullptr) return;
-	
 	do
 	{
 		delete prev;

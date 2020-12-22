@@ -87,10 +87,9 @@ public:
 							continue;
 						}
 						
-						Data cell = grid.GetValue(row)->GetValue(col);
-
 						if (row < row_count && col < col_count)
 						{
+							Data cell = grid.GetValue(row)->GetValue(col);
 							if (cell == num_end)
 							{
 								grid.GetValue(curr_row)->Set(curr_col, coord.dist + 1);
@@ -169,7 +168,7 @@ public:
 				}
 				cout << endl;
 			}
-			cout << endl << "Length of path is " << path_length;
+			//cout << endl << "Length of path is " << path_length;
 		}
 	}
 
