@@ -4,6 +4,7 @@ project(Algorithms)
 add_subdirectory(LibraryC)
 add_subdirectory(LibraryCPP)
 
+add_subdirectory(MyFiles)
 add_subdirectory(TestArrayC)
 add_subdirectory(TestListC)
 add_subdirectory(TestQueueC)
