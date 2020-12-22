@@ -1,1 +1,1 @@
-add_executable(LibraryCPPTemplate array.h array.cpp)
+add_executable(LibraryCPPTemplate STATIC array.h array.cpp)

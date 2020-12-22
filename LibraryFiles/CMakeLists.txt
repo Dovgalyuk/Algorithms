@@ -1,1 +1,3 @@
 add_executable(LibraryFiles Individual.cpp)
+target_include_directories(LibraryFiles PUBLIC ../LibraryCPPTemplate)
+target_link_libraries(LibraryFiles LibraryCPPTemplate)
