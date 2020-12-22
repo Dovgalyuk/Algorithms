@@ -10,7 +10,7 @@ struct Queue
 {
 private:
     MyList* _list;
-	ListItem* _front, *_rear;
+	ListItem* _front;
 	void try_update_front(ListItem*);
 public:
     Queue();

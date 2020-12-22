@@ -10,7 +10,7 @@ void Queue::try_update_front(ListItem* li)
 }
 
 Queue::Queue()
-    :_list(new MyList()), _front(nullptr), _rear(nullptr)
+    :_list(new MyList()), _front(nullptr)
 { }
 
 Queue::~Queue()
@@ -22,7 +22,6 @@ void Queue::insert(Coord value)
 {
     _list->push_front(value);
     ListItem* head = _list->list_first();
-    _rear = head;
 
     try_update_front(head);
 }
