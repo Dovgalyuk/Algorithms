@@ -178,6 +178,11 @@ unsigned char correctBalanceTree(Node* tree) {
 		else {
 			right = 0;
 		}
+		if (left - right > 1 || left - right < -1) {
+			//Ошибка
+			cout << "ОШИБКА. Баланс узла больше 1 или меньше -1. " << endl;
+			return 0;
+		}
 		if (left > right) {
 			if (tree->height != left + 1) {
 				cout << "ОШИБКА. Во время перепроверки дерева подсчитанная высота не совпадает с исходным." << endl;
