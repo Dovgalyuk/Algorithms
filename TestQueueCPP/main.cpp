@@ -26,11 +26,16 @@ int main()
 
     std::cout << "Get: " << queue_get(queue) << "\n";
     queue_insert(queue, 4);
+
     while (!queue_empty(queue))
     {
         std::cout << "Get: " << queue_get(queue) << "\n";
+        system("pause");
         queue_remove(queue);
     }
 
+    system("pause");
     queue_delete(queue);
+
+    system("pause");
 }

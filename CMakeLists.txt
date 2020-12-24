@@ -3,13 +3,14 @@ project(Algorithms)
 
 add_subdirectory(123)
 add_subdirectory(IndividualTask2)
+add_subdirectory(IndividualTask3)
 
 add_subdirectory(LibraryC)
 add_subdirectory(LibraryCPP)
 
 add_subdirectory(TestArrayC)
 add_subdirectory(TestListC)
-add_subdirectory(TestQueueC)
+add_subdirectory(TestQueueCPP)
 add_subdirectory(TestStackC)
 add_subdirectory(TestVectorC)
 
