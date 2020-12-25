@@ -12,4 +12,3 @@ add_subdirectory(TestVectorC)
 
 add_subdirectory(TestArrayCPP)
 add_subdirectory(papka)
-add_subdirectory(TestArrayCPPTemplate)
