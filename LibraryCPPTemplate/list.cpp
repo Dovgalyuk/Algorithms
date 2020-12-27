@@ -44,16 +44,17 @@ ListItem* MyList::list_first() const
 	return head;
 }
 
-void MyList::list_insert_after(ListItem* item, Coord value)
+ListItem* MyList::list_insert_after(ListItem* item, Coord value)
 {
 	ListItem* toInsert = new ListItem(value);
 	toInsert->_next = item->_next;
 	item->_next = toInsert;
 
 	_length++;
+	return toInsert;
 }
 
-void MyList::push_front(Coord value)
+ListItem* MyList::push_front(Coord value)
 {
 	ListItem* item = new ListItem(value);
 
@@ -61,6 +62,7 @@ void MyList::push_front(Coord value)
 	head = item;
 
 	_length++;
+	return item;
 }
 
 void MyList::list_erase_next(ListItem* item)

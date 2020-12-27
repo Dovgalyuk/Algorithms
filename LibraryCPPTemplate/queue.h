@@ -10,14 +10,13 @@ struct Queue
 {
 private:
     MyList* _list;
-	ListItem* _front;
-	void try_update_front(ListItem*);
+	ListItem* _front, *_rear;
 public:
     Queue();
 	~Queue();
 	void insert(Coord);
 	Coord get() const;
-	void remove();
+	void remove() const;
 	bool is_empty() const;
 };
 

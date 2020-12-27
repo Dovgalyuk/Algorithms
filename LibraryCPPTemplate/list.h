@@ -35,8 +35,8 @@ public:
 
     size_t get_length() const;
     ListItem* list_first() const;
-    void list_insert_after(ListItem*, Coord);
-    void push_front(Coord);
+    ListItem* list_insert_after(ListItem*, Coord);
+    ListItem* push_front(Coord);
     void pop();
     void list_erase_next(ListItem*);
 };

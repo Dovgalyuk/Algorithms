@@ -16,15 +16,18 @@ private:
 	// int picked because number in path can be more then 9 and we can't visualize "10" in char
 
 public:
-	friend istream &operator>>(istream &is, Labirynth& lab)
+	friend istream& operator>>(istream& is, Labirynth& lab)
 	{
 		string row;
+
 		for (int i = 0; is; i++)
 		{
 			is >> row;
+
 			lab.col_count = row.length();
-			Vector<int>* sub =  new Vector<int>(lab.col_count);
+			Vector<int>* sub = new Vector<int>(lab.col_count);
 			lab.grid.Set(i, sub);
+
 			for (int j = 0; j < row.length(); j++)
 			{
 				char symbol = row[j];
@@ -44,7 +47,7 @@ public:
 					symbolNum = lab.num_start;
 					break;
 
-					default: break;	
+				default: break;
 				}
 				lab.grid.GetValue(i)->Set(j, symbolNum);
 
@@ -53,8 +56,10 @@ public:
 					lab.x_row = i, lab.x_col = j;
 				}
 			}
+
 			lab.row_count++;
 		}
+
 		lab.row_count--;
 		return is;
 	}
@@ -63,17 +68,18 @@ public:
 	{
 		bool found = false;
 		Queue queue = Queue();
-		
+
 		int curr_row = x_row, curr_col = x_col;
 		queue.insert(Coord{ curr_row, curr_col, 0 });
-		
-		while (grid.GetValue(curr_row)->GetValue(curr_col) != num_end && !queue.is_empty())
+
+		Data cell = 0;
+		while (cell != num_end && !queue.is_empty())
 		{
 			Coord coord = queue.get();
 			curr_row = coord.row;
 			curr_col = coord.col;
 			queue.remove();
-	
+
 			for (int i = -1; i <= 1; i++)
 			{
 				for (int j = -1; j <= 1; j++)
@@ -82,29 +88,27 @@ public:
 					{
 						int row = curr_row + i;
 						int col = curr_col + j;
-						if (row < 0 || col < 0)
+						if (row < 0 || col < 0 || row > row_count || col > col_count)
 						{
 							continue;
 						}
-						
-						if (row < row_count && col < col_count)
-						{
-							Data cell = grid.GetValue(row)->GetValue(col);
-							if (cell == num_end)
-							{
-								grid.GetValue(curr_row)->Set(curr_col, coord.dist + 1);
-								curr_row = row;
-								curr_col = col;
-								found = true;
-							}
 
-							else if (cell == num_dot)
-							{
-								queue.insert(Coord{ row, col, coord.dist + 1 });
-								grid.GetValue(curr_row)->Set(curr_col, coord.dist + 1);
-							}
-							path_length++;
+						cell = grid.GetValue(row)->GetValue(col);
+						if (cell == num_end)
+						{
+							grid.GetValue(curr_row)->Set(curr_col, coord.dist + 1);
+							curr_row = row;
+							curr_col = col;
+							found = true;
 						}
+
+						else if (cell == num_dot)
+						{
+							queue.insert(Coord{ row, col, coord.dist + 1 });
+							grid.GetValue(curr_row)->Set(curr_col, coord.dist + 1);
+						}
+						path_length++;
+
 					}
 				}
 			}
@@ -119,7 +123,7 @@ public:
 			int prev_number = path_length + 1;
 			Data cell = 0;
 			while (cell != 1)
-			{	
+			{
 				for (int i = -1; i <= 1; i++)
 				{
 					for (int j = -1; j <= 1; j++)
@@ -129,11 +133,11 @@ public:
 							int row = curr_row + i;
 							int col = curr_col + j;
 
-							if (row < 0 || col < 0)
+							if (row < 0 || col < 0 || row > row_count || col > col_count)
 							{
 								continue;
 							}
-							
+
 							cell = grid.GetValue(row)->GetValue(col);
 							if (cell == 1)
 							{
@@ -148,6 +152,7 @@ public:
 								curr_row = row;
 								curr_col = col;
 							}
+
 						}
 					}
 				}
