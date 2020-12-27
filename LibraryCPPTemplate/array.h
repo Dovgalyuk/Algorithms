@@ -5,7 +5,7 @@ template <typename Data> class Array
 {
 public:
     // create array
-    Array(size_t size)
+    Array<Data>(size_t size)
     {
         _elem = new Data[size];
         _size = size;
@@ -14,7 +14,7 @@ public:
     }
 
     // delete array, free memory
-    ~Array()
+    ~Array<Data>()
     {
         delete[] _elem;
     }
