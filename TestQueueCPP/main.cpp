@@ -13,6 +13,7 @@ int main()
         std::cout << "Invalid first element of the queue\n";
 
     std::cout << "Get: " << queue_get(queue) << "\n";
+    
     queue_remove(queue);
 
     if (queue_get(queue) != 2)
@@ -30,11 +31,9 @@ int main()
     while (!queue_empty(queue))
     {
         std::cout << "Get: " << queue_get(queue) << "\n";
-        system("pause");
         queue_remove(queue);
     }
 
-    system("pause");
     queue_delete(queue);
 
     system("pause");

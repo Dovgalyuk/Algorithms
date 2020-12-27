@@ -8,48 +8,41 @@ struct Queue
     List* lst;
 };
 
-Queue *queue_create()
+Queue* queue_create()
 {
     Queue* queue = new Queue;
     queue->lst = list_create();
     return queue;
 }
 
-void queue_delete(Queue *queue)
+void queue_delete(Queue* queue)
 {
     list_delete(queue->lst);
     delete queue;
 }
 
-void queue_insert(Queue *queue, Data data)
+void queue_insert(Queue* queue, Data data)
 {
-    list_insert(queue->lst, data);
+    ListItem* current = list_first(queue->lst);
+    while (list_item_next(current))
+        current = list_item_next(current);
+    if (current)
+        list_insert_after(queue->lst, current, data);
+    else
+        list_insert(queue->lst, data);
 }
 
-Data queue_get(const Queue *queue)
+Data queue_get(const Queue* queue)
 {
-    ListItem* currect = list_first(queue->lst);
-    while (list_item_next(currect))
-    {
-        currect = list_item_next(currect);
-    }
-    return list_item_data(currect);
+    return list_item_data(list_first(queue->lst));
 }
 
-void queue_remove(Queue *queue)
+void queue_remove(Queue* queue)
 {
-    ListItem* currect = list_first(queue->lst);
-    ListItem* last = currect;
-    while (list_item_next(currect))
-    {
-        last = currect;
-        currect = list_item_next(currect);
-    }
-
-    list_erase_next(queue->lst, last);
+    list_erase(queue->lst, list_first(queue->lst));
 }
 
 bool queue_empty(const Queue* queue)
 {
-    return (list_first(queue->lst)!= NULL) ? false : true;
+    return (list_first(queue->lst) != NULL) ? false : true;
 }

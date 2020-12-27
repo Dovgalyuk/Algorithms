@@ -33,7 +33,7 @@ void list_delete(List* list)
 
 ListItem* list_first(List* list)
 {
-	return list->pHead ? list->pHead : NULL;
+	return list ? list->pHead : NULL;
 }
 
 Data list_item_data(const ListItem* item)
@@ -43,7 +43,7 @@ Data list_item_data(const ListItem* item)
 
 ListItem* list_item_next(ListItem* item)
 {
-	return item->pNext;
+	return item ? item->pNext : NULL;
 }
 
 ListItem* list_item_prev(ListItem* item)
@@ -72,13 +72,18 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
 ListItem* list_erase(List* list, ListItem* item)
 {
 	ListItem* currect = list->pHead;
-	ListItem* last;
+	ListItem* last = currect;
 	while (currect != item)
 	{
 		last = currect;
 		currect = currect->pNext;
 	}
-	last->pNext = currect->pNext;
+	if (last == currect) {
+		list->pHead = currect->pNext;
+	}
+	else {
+		last->pNext = currect->pNext;
+	}
 	delete currect;
 	return NULL;
 }
