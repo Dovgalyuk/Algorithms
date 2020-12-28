@@ -6,25 +6,39 @@ using namespace std;
 bool CheckRightStr(string str, const string openDelim = "([{", const string closeDelim = ")]}")
 {
 	Stack* stack = new Stack();
-	for (int i = 0; i < str.length(); i++)
+	bool right = true;
+	for (int i = 0; i < str.size(); i++)
 	{
-		char ch = str[i];
-		if (openDelim.find(ch) != string::npos)
+		auto index = openDelim.find(str[i]);
+		if (index != string::npos)
 		{
-			stack->Push(ch);
-			//str.erase(str.begin() + i);
+			stack->Push(str[i]);
+		}
+		else
+		{
+			if (!stack->Empty())
+			{
+				auto index = closeDelim.find(str[i]);
+				if (stack->Get() != openDelim[index])
+				{
+					right = false;
+					break;
+				}
+				else
+				{
+					stack->Pop();
+				}
+			}
+			else
+			{
+				right = false;
+				break;
+			}
 		}
 	}
-	while (!stack->Empty())
-	{
-		char ch = stack->Get();
-		if (ch < 0) break;
-		char toFind = closeDelim[openDelim.find(ch)]; // at the same index like ( and ) is on 0
-		if (str.find(toFind) != string::npos) stack->Pop();
-		else return false;
-	}
+	
 	delete stack;
-	return true;
+	return right;
 }
 
 void Say(bool value)

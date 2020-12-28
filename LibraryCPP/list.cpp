@@ -24,13 +24,16 @@ List::List()
 List::~List()
 {
 	ListItem* prev = head;
+	if (prev == nullptr) return;
 	ListItem* current = head->_next;
-	do
+	delete prev;
+	
+	while (current != nullptr)
 	{
-		delete prev;
 		prev = current;
 		current = current->_next;
-	} while (current != nullptr);
+		delete prev;
+	} 
 
 	head = nullptr;
 }
@@ -43,7 +46,7 @@ ListItem* List::list_first() const
 void List::list_insert_after(ListItem* item, Data value)
 {
 	ListItem* toInsert = new ListItem(value);
-	if (item->_next) toInsert->_next = item->_next;
+	toInsert->_next = item->_next;
 	item->_next = toInsert;
 }
 
