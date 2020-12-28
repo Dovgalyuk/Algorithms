@@ -68,6 +68,7 @@ int main()
 		std::cout << std::endl;
 	}
 	
+	queue_delete(queue);
 
 	system("pause");
 }
