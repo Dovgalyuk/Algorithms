@@ -17,7 +17,7 @@ void huffman_makeAlphabet(std::ifstream& fileIn, Array* symbolsCount)
    fileSymbols = fileSymbolsStream.str();
 
    huffman_fileCursorPositionStart(fileIn);
-   for (unsigned long long int i = 0; i < fileSymbols.size() - 1; i++)
+   for (unsigned long long int i = 0; i < fileSymbols.size(); i++)
       array_set(symbolsCount, fileSymbols[i], array_get(symbolsCount, fileSymbols[i]) + 1);
 }
 
@@ -30,7 +30,7 @@ size_t huffman_alphabetGetSymbolsCount(Array* symbolsCount)
    return count;
 }
 
-void huffman_makeNodesQeueu(PriorityQueue* queue, Array* symbolsCount)
+void huffman_makeNodesQueue(PriorityQueue* queue, Array* symbolsCount)
 {
    for (uint16_t i = 0; i < 256; i++)
       if (array_get(symbolsCount, i))
@@ -128,7 +128,7 @@ void huffman_compress(std::ifstream& fileIn, const std::string& compressedFileNa
    huffman_makeAlphabet(fileIn, symbolsCount);
 
    PriorityQueue* nodesQueue = priorityQueue_create(huffman_alphabetGetSymbolsCount(symbolsCount));
-   huffman_makeNodesQeueu(nodesQueue, symbolsCount);
+   huffman_makeNodesQueue(nodesQueue, symbolsCount);
 
    while (priorityQueue_getSize(nodesQueue) > 1)
    {

@@ -5,7 +5,7 @@
 
 // Non-resizeable array
 // Stores integer values inside
-typedef int Data;
+typedef unsigned long long int Data;
 
 struct Array;
 

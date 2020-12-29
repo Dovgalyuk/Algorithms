@@ -3,8 +3,6 @@
 
 #include "binaryHeap.h"
 
-typedef int Data;
-
 struct PriorityQueue;
 
 PriorityQueue* priorityQueue_create(const size_t size);
