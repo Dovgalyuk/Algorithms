@@ -88,7 +88,7 @@ public:
 					{
 						int row = curr_row + i;
 						int col = curr_col + j;
-						if (row < 0 || col < 0 || row > row_count || col > col_count)
+						if (row < 0 || col < 0 || row >= row_count || col >= col_count)
 						{
 							continue;
 						}
@@ -133,7 +133,7 @@ public:
 							int row = curr_row + i;
 							int col = curr_col + j;
 
-							if (row < 0 || col < 0 || row > row_count || col > col_count)
+							if (row < 0 || col < 0 || row >= row_count || col >= col_count)
 							{
 								continue;
 							}
