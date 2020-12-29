@@ -6,20 +6,24 @@ int main()
     Queue *queue = queue_create();
 
     queue_insert(queue, 1);
+    system("pause");
     queue_insert(queue, 2);
+    system("pause");
     queue_insert(queue, 3);
+    system("pause");
 
     if (queue_get(queue) != 1)
         std::cout << "Invalid first element of the queue\n";
 
     std::cout << "Get: " << queue_get(queue) << "\n";
-    
+    system("pause");
     queue_remove(queue);
 
     if (queue_get(queue) != 2)
         std::cout << "Invalid second element of the queue\n";
 
     std::cout << "Get: " << queue_get(queue) << "\n";
+    system("pause");
     queue_remove(queue);
 
     if (queue_get(queue) != 3)
@@ -31,6 +35,7 @@ int main()
     while (!queue_empty(queue))
     {
         std::cout << "Get: " << queue_get(queue) << "\n";
+        system("pause");
         queue_remove(queue);
     }
 
