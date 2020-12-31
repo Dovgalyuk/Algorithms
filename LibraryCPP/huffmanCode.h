@@ -1,12 +1,14 @@
 #ifndef HUFFMANCODE_H
 #define HUFFMANCODE_H
 
-#include <iostream>
 #include <fstream>
-#include <sstream>
+#include <vector>
+#include <map>
 
 #include "array.h"
 #include "priorityQueue.h"
+
+typedef std::map<unsigned char, std::vector<bool>> symbolsTableMap;
 
 void huffman_compress(std::ifstream& fileIn, const std::string& compressedFileName);
 
