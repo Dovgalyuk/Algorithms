@@ -108,17 +108,6 @@ int main()
 	ofstream output;
 	try_open_file(output, output_filename, "Bad output filepath! Try new one: ");
 	
-	while (!input.is_open())
-	{
-		cout << "Enter filename to fill maps: ";
-		cin >> input_filename;
-		input.open(input_filename);
-		if (!input.is_open())
-		{
-			cerr << "Invalid filename" << endl;
-		}
-	}
-	
 	output << "Hash: " << endl;
 	start = clock();
 	for (int i = 0; i < text.size(); i++)
