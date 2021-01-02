@@ -53,6 +53,7 @@ ListItem *list_insert(List *list, Data data)
 
     ListItem* current_head = list->head;
     if (current_head != nullptr) current_head->prev = item;
+    item->prev = nullptr;
     item->next = current_head;
     list->head = item;
 
@@ -76,11 +77,14 @@ ListItem *list_erase(List *list, ListItem *item)
 {
     ListItem* item_prev = item->prev;
     ListItem* item_next = item->next;
-    if (item_prev != nullptr && item_next != nullptr)
-    {
-        item_prev->next = item->next;
-        item->next->prev = item->prev;
-    }
+	if (item_next != nullptr)
+	{
+        item_next->prev = item_prev;
+	}
+	if (item_prev != nullptr)
+	{
+        item->prev->next = item->next;
+	}
     else if (item == list->head)
     {
         list_erase_first(list);
