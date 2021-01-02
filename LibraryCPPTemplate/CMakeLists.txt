@@ -1,1 +1,1 @@
-add_library(LibraryCPPTemplate STATIC array.h vector.h stack.h list.h queue.h array.cpp vector.cpp stack.cpp list.cpp queue.cpp)
+add_library(LibraryCPPTemplate STATIC array.h vector.h stack.h list.h queue.h IContainer.h HashMap.h array.cpp vector.cpp stack.cpp list.cpp queue.cpp)
