@@ -1,6 +1,8 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
+using std::size_t;
+
 template <typename Data> class Array
 {
 public:
