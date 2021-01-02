@@ -12,3 +12,7 @@ Debug/*
 Release/*
 .vs/*
 build/*
+CMakeCache.txt
+*/CMakeFiles/*
+*.cmake
+builds/*
