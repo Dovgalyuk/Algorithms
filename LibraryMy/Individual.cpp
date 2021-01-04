@@ -16,12 +16,12 @@ int main()
     {
         array_set(arr, i, rand() % random_limit);
     }
-    for (int i = 0; i < N; i++) 
+    for (int i = 0; i < N; i++)
     {
         int rep = 1;
-        for (int j = 0; j < N; j++)
+        for (int j = 0; j < N && i != j; j++)
         {
-            if (array_get(arr, i) == array_get(arr, j) && i != j) 
+            if (array_get(arr, i) == array_get(arr, j))
             {
                 rep = 0;
                 break;
