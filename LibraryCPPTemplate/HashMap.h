@@ -6,13 +6,6 @@
 
 using std::string;
 
-struct Pair
-{
-	string key;
-	string value;
-};
-
-
 class HashMap : IContainer<string>
 {
 public:
@@ -23,8 +16,11 @@ public:
 
 	HashMap(): HashMap(10){ }
 
+	~HashMap() override = default;
+	
 	string Add(string key, string value) override
 	{
+		bool passed = false;
 		size_t index = get_index(key);
 
 		for (index; index < _nodes.size(); index++)
@@ -32,8 +28,8 @@ public:
 			Node* node = &_nodes[index];
 			if (node->status != NodeStatus::Full)
 			{
-				node->pair.key = key;
-				node->pair.value = value;
+				node->key = key;
+				node->value = value;
 
 				node->status = NodeStatus::Full;
 				return key;
@@ -41,7 +37,12 @@ public:
 
 			if (index == _nodes.size() - 1)
 			{
-				rehash();
+				if (!passed)
+				{
+					passed = true;
+					index = 0;
+				}
+				else rehash();
 			}
 		}
 
@@ -54,10 +55,10 @@ public:
 		for (index; index < _nodes.size(); index++)
 		{
 			Node* node = &_nodes[index];
-			if (node->pair.key == key && node->status == NodeStatus::Empty)
+			if (node->key == key && node->status == NodeStatus::Full)
 			{
-				node->pair.key = "";
-				node->pair.value = "";
+				node->key = "";
+				node->value = "";
 
 				node->status = NodeStatus::Erased;
 				return "";
@@ -74,9 +75,9 @@ public:
 		for (index; index < _nodes.size(); index++)
 		{
 			Node node = _nodes[index];
-			if (node.pair.key == key && node.status == NodeStatus::Full)
+			if (node.key == key && node.status == NodeStatus::Full)
 			{
-				return node.pair.value;
+				return node.value;
 			}
 		}
 
@@ -91,11 +92,12 @@ private:
 	
 	struct Node
 	{
-		Pair pair;
+		string key;
+		string value;
 		NodeStatus status = NodeStatus::Empty;
 	};
 	
-	size_t get_index(string key) const
+	size_t get_index(const string key) const
 	{
 		return (str_hash(key) *22543) % _capacity;
 	}
@@ -112,7 +114,7 @@ private:
 		{
 			if (old_nodes[i].status == NodeStatus::Full)
 			{
-				Add(old_nodes[i].pair.key, old_nodes[i].pair.value);
+				Add(old_nodes[i].key, old_nodes[i].value);
 			}
 		}
 	}
