@@ -85,12 +85,12 @@ ListItem *list_erase(List *list, ListItem *item)
 	{
         item->prev->next = item->next;
 	}
-    else if (item == list->head)
+    if (item == list->head)
     {
         list_erase_first(list);
+        return nullptr;
     }
-
-	delete item;
+    delete item;
     return nullptr;
 }
 
