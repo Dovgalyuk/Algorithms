@@ -1,13 +1,11 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-using std::size_t;
-
 template <typename Data> class Array
 {
 public:
     // create array
-    Array<Data>(size_t size)
+    Array<Data>(unsigned size)
     {
         _elem = new Data[size];
         _size = size;
@@ -22,26 +20,26 @@ public:
     }
 
     // returns specified array element
-    Data get(size_t index) const
+    Data get(unsigned index) const
     {
         return _elem[index];
     }
 
     // sets the specified array element to the value
-    void set(size_t index, Data value)
+    void set(unsigned index, Data value)
     {
         _elem[index] = value;
     }
 
     // returns array size
-    size_t size() const
+    unsigned size() const
     {
         return _size;
     }
 
 private:
     Data* _elem;
-    size_t _size;
+    unsigned _size;
 };
 
 #endif
