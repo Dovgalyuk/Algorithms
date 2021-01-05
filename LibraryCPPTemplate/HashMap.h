@@ -22,8 +22,10 @@ public:
 	{
 		bool passed = false;
 		size_t index = get_index(key);
+		size_t indexR = index;
+		size_t end = _nodes.size();
 
-		for (index; index < _nodes.size(); index++)
+		for (index; index < end; index++)
 		{
 			Node* node = &_nodes[index];
 			if (node->status != NodeStatus::Full)
@@ -35,11 +37,12 @@ public:
 				return key;
 			}
 
-			if (index == _nodes.size() - 1)
+			if (index == end - 1)
 			{
 				if (!passed)
 				{
 					passed = true;
+					end = indexR;
 					index = 0;
 				}
 				else rehash();
