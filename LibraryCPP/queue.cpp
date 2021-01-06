@@ -1,35 +1,61 @@
 #include <stdlib.h>
+#include "vector.h"
 #include "queue.h"
 
 struct Queue
 {
+    Vector* vector;
+    size_t head;
+    size_t tail;
 };
 
 Queue *queue_create()
 {
-    return new Queue;
+    Queue* queue = new Queue;
+    queue->vector = vector_create();
+    vector_resize(queue->vector, 50);
+    queue->head = 0;
+    queue->tail = -1;
+    return queue;
 }
 
 void queue_delete(Queue *queue)
 {
-    // TODO: free queue items
+    vector_delete(queue->vector);
     delete queue;
 }
 
 void queue_insert(Queue *queue, Data data)
 {
+    queue->tail++;
+	
+    Vector* q_vector = queue->vector;
+	if (queue->tail == vector_size(q_vector) - 1 && queue->head == 0)
+	{
+        vector_resize(q_vector, vector_size(q_vector) * 2);
+	}
+
+    vector_set(q_vector, queue->tail, data);
 }
 
 Data queue_get(const Queue *queue)
 {
-    return (Data)0;
+    if (!queue_empty(queue))
+    {
+        return vector_get(queue->vector, queue->head);
+    }
+    else return NULL;
 }
 
 void queue_remove(Queue *queue)
 {
+    if (!queue_empty(queue))
+    {
+        queue->head++;
+    }
 }
 
 bool queue_empty(const Queue *queue)
 {
-    return true;
+    return queue->tail + 1 == queue->head;
 }
