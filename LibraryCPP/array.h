@@ -1,11 +1,18 @@
-#ifndef ARRAY_TEMPLATE_H
-#define ARRAY_TEMPLATE_H
+//
+// Created by Alex on 25.12.2020.
+//
+
+#ifndef YURILAB_ARRAY_H
+#define YURILAB_ARRAY_H
+
+
+#include <cstdio>
 
 template <typename Data> class Array
 {
 public:
     // create array
-    Array(size_t size)
+    explicit Array(size_t size)
     {
         _elem = new Data[size];
         _size = size;
@@ -50,4 +57,5 @@ private:
     size_t _size;
 };
 
-#endif
+
+#endif //YURILAB_ARRAY_H
