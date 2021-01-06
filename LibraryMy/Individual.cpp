@@ -1,9 +1,9 @@
 #include <iostream>
 #include "array.h"
-
+ 
 typedef Array* MyArray;
 using namespace std;
-
+ 
 int main()
 {
     srand(4541);
@@ -16,20 +16,26 @@ int main()
     {
         array_set(arr, i, rand() % random_limit);
     }
+    bool* rep = new bool[N];
     for (int i = 0; i < N; i++)
     {
-        int rep = 1;
-        for (int j = 0; j < N && i != j; j++)
+        rep[i] = false;
+    }
+    for (int i = 0; i < N; i++) 
+    {
+        for (int j = i + 1; j < N; j++)
         {
-            if (array_get(arr, i) == array_get(arr, j))
+            if (array_get(arr, i) == array_get(arr, j)) 
             {
-                rep = 0;
+                rep[i] = true;
+                rep[j] = true;
                 break;
             }
         }
-        if (rep == 1)
-        {
-            cout << array_get(arr, i) << " ";
-        }
+    }
+ 
+    for (int i = 0; i < N; i++)
+    {
+        if (rep[i] == false) cout << array_get(arr, i) << " ";
     }
 }
