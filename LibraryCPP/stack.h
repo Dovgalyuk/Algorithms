@@ -1,30 +1,56 @@
-#ifndef STACK_H
-#define STACK_H
+//
+// Created by Alex on 25.12.2020.
+//
 
-// Stack
-// Stores integer values inside
-typedef int Data;
+#ifndef YURILAB_STACK_H
+#define YURILAB_STACK_H
 
-struct Stack;
+#include "array.h"
 
-// Creates empty stack
-Stack *stack_create();
+template <typename TElement>
+class Stack {
+private:
+    unsigned int _size_of_stack;
+    Array<TElement> *_array;
 
-// Deletes the stack
-void stack_delete(Stack *stack);
+public:
+    explicit Stack(const unsigned int maxSize) {
+        _size_of_stack = 0;
+        _array = new Array<TElement>(maxSize);
+    }
 
-// Pushes data on top of the stack
-// Should be O(1) on average
-void stack_push(Stack *stack, Data data);
+    explicit Stack() {
+        _size_of_stack = 0;
+        _array = new Array<TElement>(5);
+    }
 
-// Retrives the last element from the stack
-Data stack_get(const Stack *stack);
+    ~Stack() {
+        delete _array;
+    }
 
-// Removes the last element from the stack
-// Should be O(1)
-void stack_pop(Stack *stack);
+    void push(const TElement newElement) {
+        if (_array->size() <= _size_of_stack + 1){
+            Array<TElement>* _new_array = new Array<TElement>(2 * _size_of_stack);
+            for (size_t i = 0; i < _array->size(); ++i){
+                _new_array->set(i,_array->get(i));
+            }
+            std::swap(_new_array, _array);
+            delete _new_array;
+        }
+        _array->set(_size_of_stack, newElement);
+        _size_of_stack++;
+    }
 
-// Returns true if the stack is empty
-bool stack_empty(const Stack *stack);
+    void pop() {
+        _size_of_stack--;
+    }
 
-#endif
+    TElement top() {
+        return _array->get(_size_of_stack - 1);
+    }
+
+    unsigned int size() {
+        return _size_of_stack;
+    }
+};
+#endif //YURILAB_STACK_H
