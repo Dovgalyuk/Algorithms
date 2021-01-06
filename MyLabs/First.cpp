@@ -28,6 +28,7 @@ bool* find_entry(Array* arr, size_t n)
     {
          entry_2[i] = entry[i] == 2;
     }
+    delete[] entry;
     return entry_2;
 }
 
@@ -38,15 +39,10 @@ int main()
 	cin >> size;
 	srand(2000);
 	Array* arr = array_create(size);
-	/*for (int i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 	{
 		array_set(arr, i, rand() % 10);
-	}*/
-    array_set(arr, 0, 5);
-    array_set(arr, 1, 5);
-    array_set(arr, 2, 5);
-    array_set(arr, 3, 3);
-    array_set(arr, 4, 3);
+	}
     bool* entry_2 = find_entry(arr, size);
 	for (int i = 0; i < size; i++)
 	{
@@ -57,4 +53,5 @@ int main()
 	}
 
     array_delete(arr);
+    delete[] entry_2;
 }
