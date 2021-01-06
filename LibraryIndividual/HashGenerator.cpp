@@ -14,25 +14,23 @@ string output_filename = "output.txt";
 void generate_file(ofstream& file, const size_t size)
 {
 	srand(time(NULL));
+	vector<string> text;
 
-	std::string text;
 
 	for (int i = 0, j = 0; i < size; i++)
 	{
 		j = rand() % 10 + 1;
 
-		if (j > size - i) j = size - i;
-		i += j;
-
+		string str;
 		for (int k = 0; k < j; k++)
 		{
-			text += static_cast<char>(rand() % 26 + 97);
+			str += static_cast<char>(rand() % 26 + 97);
 		}
-		text += ' ';
-	}
-	text[text.size() - 1] = '.';
 
-	file << text;
+		file << str;
+		if (i != size - 1) file << ' ';
+	}
+
 	file.close();
 }
 
@@ -63,7 +61,7 @@ void try_open_file(ofstream& file, const string open_path, const string error_me
 
 int main()
 {
-	char answ = 'N';
+	/*char answ = 'N';
 	cout << "Do you need to generate file? Y/N: ";
 	cin >> answ;
 	cout << endl;
@@ -83,18 +81,22 @@ int main()
 
 		cout << endl;
 		generate_filename = "";
-	}
+	}*/
 
 	unordered_map<string, string> unordered_map;
 	HashMap hash_map;
 
 	while (cin) // enter different files with different length how much you want. You can use filegenerator (upper) to generate files
 	{
-		cout << "Enter filepath to fill map: ";
-		cin >> input_filename;
-		fstream input;
-		try_open_file(input, input_filename, "Bad input filepath! Try new one: ");
+		cout << "How much words do you want? ";
+		size_t symbols;
+		cin >> symbols;
 
+		ofstream file;
+		file.open(generate_filename, ofstream::out | ofstream::trunc);
+		generate_file(file, symbols);
+		ifstream input(generate_filename);
+		
 		vector<string> text;
 		while (!input.eof())
 		{
@@ -103,6 +105,8 @@ int main()
 			text.push_back(str);
 		}
 
+		cout << "Tests of " << text.size() << " words (elements): " << endl;
+
 		clock_t end;
 		clock_t start = clock();
 		for (int i = 0; i < text.size(); i++)
@@ -110,6 +114,7 @@ int main()
 			hash_map.Add(std::to_string(i), text[i]);
 		}
 		end = clock();
+		
 		cout << "HashMap insert time: " << static_cast<double>(end - start) / CLOCKS_PER_SEC << endl;
 
 		ofstream output;
