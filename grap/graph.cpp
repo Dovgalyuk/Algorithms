@@ -1,7 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include "graph.h"
-
+-finput-charset=cp866 -fexec-charset=utf-8
 using namespace std;
 
 int Graph::posVertex(unsigned int vertex) {
