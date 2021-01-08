@@ -6,30 +6,32 @@
 
 using namespace std;
 
-//1. ИНТЕРФЕЙС
+//1. Г€ГЌГ’Г…ГђГ”Г…Г‰Г‘
 class Interface {
+private:
+	vector <unsigned int> vertexList;				//Г‘ГЇГЁГ±Г®ГЄ ГўГҐГ°ГёГЁГ­ ГЈГ°Г ГґГ 
+	vector <List*> adjacencyList;					//Г‘ГЇГЁГ±Г®ГЄ Г±Г¬ГҐГ¦Г­Г®Г±ГІГЁ
+	vector <unsigned int> labelVertex;				//ГЊГҐГІГЄГ  ГўГҐГ°ГёГЁГ­
+
 public:
-	vector <unsigned int> vertexList;				//Список вершин графа
-	vector <List*> adjacencyList;					//Список смежности
-	vector <unsigned int> labelVertex;				//Метка вершин
-	vector <vector<unsigned int>> labelEdge;		//Метки рёбер
+	Interface() {}									//ГЉГ®Г­Г±ГІГ°ГіГЄГІГ®Г°
+	virtual ~Interface() {}							//Г„ГҐГ±ГІГ°ГіГЄГІГ®Г° 
 
-
-	Interface() {}									//Конструктор
-	virtual ~Interface() {}							//Деструктор 
-
-	//Функции
-	virtual unsigned int sizeGraph() = 0;								//Размер графа
-	virtual void printGraph() {};										//Вывод графа
-	virtual void addVertex() {};										//Добавить вершину
-	virtual void removeVertex() {};										//Удалить вершину
-	virtual void addEdge() {};											//Добавить ребро
-	virtual void removeEdge() {};										//Удалить ребро
-	virtual void existEdge() {};										//Проверка на существование ребра
-	virtual void addLabelVertex() {};									//Задать метку вершине
-	virtual unsigned int readLabelVertex(unsigned int) = 0;				//Считать метку вершины
-	virtual void addLabelEdge() {};										//Задать метку ребру
-	virtual unsigned int readLabelEdge(unsigned int, unsigned int) = 0;	//Считать метку ребра
+	//Г”ГіГ­ГЄГ¶ГЁГЁ
+	virtual unsigned int sizeGraph() = 0;
+	virtual int posVertex(unsigned int vertex) = 0;	
+	virtual unsigned int vertexGraph(unsigned int) = 0;	
+	virtual void printGraph() {};										//Г‚Г»ГўГ®Г¤ ГЈГ°Г ГґГ 
+	virtual void addVertex() {};										//Г„Г®ГЎГ ГўГЁГІГј ГўГҐГ°ГёГЁГ­Гі
+	virtual void removeVertex() {};										//Г“Г¤Г Г«ГЁГІГј ГўГҐГ°ГёГЁГ­Гі
+	virtual void addEdge() {};											//Г„Г®ГЎГ ГўГЁГІГј Г°ГҐГЎГ°Г®
+	virtual void removeEdge() {};										//Г“Г¤Г Г«ГЁГІГј Г°ГҐГЎГ°Г®
+	virtual void existEdge() {};										//ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  Г±ГіГ№ГҐГ±ГІГўГ®ГўГ Г­ГЁГҐ Г°ГҐГЎГ°Г 
+	virtual void addLabelVertex() {};									//Г‡Г Г¤Г ГІГј Г¬ГҐГІГЄГі ГўГҐГ°ГёГЁГ­ГҐ
+	virtual unsigned int readLabelVertex(unsigned int) = 0;				//Г‘Г·ГЁГІГ ГІГј Г¬ГҐГІГЄГі ГўГҐГ°ГёГЁГ­Г»
+	virtual void addLabelEdge() {};										//Г‡Г Г¤Г ГІГј Г¬ГҐГІГЄГі Г°ГҐГЎГ°Гі
+	virtual unsigned int readLabelEdge(unsigned int, unsigned int) = 0;	//Г‘Г·ГЁГІГ ГІГј Г¬ГҐГІГЄГі Г°ГҐГЎГ°Г 
+	virtual ListItem* neighborsVertex(unsigned int, ListItem*) = 0;
 };
 
 #endif
