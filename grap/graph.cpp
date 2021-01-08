@@ -4,170 +4,161 @@
 
 using namespace std;
 
-//ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ГРАФ
-//Получить позицию вершины в списке
-unsigned int Graph::posVertex(unsigned int vertex) {
-	return find(vertexList.begin(), vertexList.end(), vertex) - vertexList.begin();
+int Graph::posVertex(unsigned int vertex) {
+	if (find(vertexList.begin(), vertexList.end(), vertex) != vertexList.end()) {
+		return find(vertexList.begin(), vertexList.end(), vertex) - vertexList.begin();
+	}
+	return -1;
 }
 
-//ФУНКЦИИ ГРАФА
-//Получить размер графа
+//Г”Г“ГЌГЉГ–Г€Г€ ГѓГђГЂГ”ГЂ
+//ГЏГ®Г«ГіГ·ГЁГІГј Г°Г Г§Г¬ГҐГ° ГЈГ°Г ГґГ 
 unsigned int Graph::sizeGraph() {
 	return vertexList.size();
 }
 
-//Вывод графа
+unsigned int Graph::vertexGraph(unsigned int numVertexInList) {
+	if (vertexList[numVertexInList] != NULL) {
+		return vertexList[numVertexInList];
+	}
+	else {
+		return 0;
+	}
+}
+
+//Г‚Г»ГўГ®Г¤ ГЈГ°Г ГґГ 
 void Graph::printGraph() {
 	unsigned int sizeVertexList = vertexList.size();
-	cout << "Список смежности:" << endl;
+	cout << "Г‘ГЇГЁГ±Г®ГЄ Г±Г¬ГҐГ¦Г­Г®Г±ГІГЁ:" << endl;
 	for (unsigned int i = 0; i < sizeVertexList; i++) {
 		cout << vertexList[i] << "|";
 		ListItem *item = list_first(adjacencyList[i]);
 		while (item != NULL) {
-			cout << " " << list_item_data(item);
+			cout << " " << list_item_data(item)[0] << "|" << list_item_data(item)[1];
 			item = list_item_next(item);
 		}
 		cout << endl;
 	}
 
-	cout << "Метки вершин:" << endl;
+	cout << "ГЊГҐГІГЄГЁ ГўГҐГ°ГёГЁГ­:" << endl;
 	for (unsigned int i = 0; i < sizeVertexList;i++) {
 		cout << vertexList[i] << "| " << labelVertex[i] << endl;
 	}
-
-	cout << "Метки рёбер:" << endl;
-	for (unsigned int i = 0; i < sizeVertexList;i++) {
-		cout << vertexList[i] << "|";
-		for (unsigned int j = 0; j < sizeVertexList; j++) {
-			cout << " " << labelEdge[i][j];
-		}
-		cout << endl;
-	}
 }
 
-//Добавить вершину
-void Graph::addVertex(unsigned int vertex) {
-	if (posVertex(vertex) == vertexList.size()) {
+//Г„Г®ГЎГ ГўГЁГІГј ГўГҐГ°ГёГЁГ­Гі
+bool Graph ::addVertex(unsigned int vertex) {
+	if (posVertex(vertex) != sizeGraph()) {
 		vertexList.push_back(vertex);
 		labelVertex.push_back(0);
 		adjacencyList.push_back(list_create());
-
-		unsigned int numVertex = labelEdge.size() + 1;
-		labelEdge.resize(numVertex);
-		for (unsigned int i = 0; i < numVertex; i++) {
-			labelEdge[i].resize(numVertex, 0);
-		}
-
-		cout << "Вершина добавлена." << endl;
+		return 1;
 	}
-	else {
-		cout << "Введённая вершина уже существует." << endl;
+        else
+		return 0;
 	}
 }
 
-//Удалить вершину
-void Graph::removeVertex(unsigned int vertex) {
-	unsigned int posVert = posVertex(vertex);
-	if (posVert != vertexList.size()) {
+//Г“Г¤Г Г«ГЁГІГј ГўГҐГ°ГёГЁГ­Гі
+bool Graph::removeVertex(unsigned int vertex) {
+ int posVert = posVertex(vertex);
+	if (posVert != sizeGraph()) {
 		vertexList.erase(vertexList.begin() + posVert);
 		adjacencyList.erase(adjacencyList.begin() + posVert);
 		labelVertex.erase(labelVertex.begin() + posVert);
-		unsigned int newSizeMatrix = vertexList.size();
-		for (unsigned int i = 0; i < newSizeMatrix; i++) {
-			labelEdge[i].erase(labelEdge[i].begin() + posVert);
 		}
-		cout << "Вершина удалена." << endl;
+		return 1;
 	}
 	else {
-		cout << "Введённая вершина не существует." << endl;
+		return 0;
 	}
 }
 
-//Добавить ребро
-void Graph::addEdge(unsigned int firstVertex, unsigned int secondVertex, unsigned int valueEdge) {
-	unsigned int posFirstVertex = posVertex(firstVertex);
-	unsigned int posSecondVertex = posVertex(secondVertex);
-	if (posFirstVertex != vertexList.size() && posSecondVertex != vertexList.size()) {
-		if (labelEdge[posFirstVertex][posSecondVertex] != 0) {
-			cout << "Ребро между данными вершинами уже существует." << endl;
-		}
-		else {
-			list_insert(adjacencyList[posFirstVertex], secondVertex);
-			addLabelEdge(firstVertex, secondVertex, valueEdge);
-
-			cout << "Ребро между данными вершинами добавлено." << endl;
-		}
+//Г„Г®ГЎГ ГўГЁГІГј Г°ГҐГЎГ°Г®
+bool Graph::addEdge(unsigned int firstVertex, unsigned int secondVertex, unsigned int valueEdge) {
+	if (posVertex(FirstVertex) != -1  && posVertex(SecondVertex) != -1) {
+		if (existEdge(FirstVertex,secondVertex)== 0) {
+		addLabelEdge(firstVertex, secondVertex, valueEdge);
+			return 1;
 	}
-	else {
-		cout << "Одна из введённых вершин (или обе) не существует(ют)." << endl;
-	}
+		return 0;
 }
 
-//Удалить ребро
-void Graph::removeEdge(unsigned int firstVertex, unsigned int secondVertex) {
-	unsigned int posFirstVertex = posVertex(firstVertex);
-	unsigned int posSecondVertex = posVertex(secondVertex);
-	if (posFirstVertex != vertexList.size() && posSecondVertex != vertexList.size()) {
-		if (labelEdge[posFirstVertex][posSecondVertex] != 0) {
-			ListItem *item = list_first(adjacencyList[posFirstVertex]);
-			while (item != NULL) {
-				if (list_item_data(item) == secondVertex) {
-					list_erase(adjacencyList[posFirstVertex], item);
-					break;
+//Г“Г¤Г Г«ГЁГІГј Г°ГҐГЎГ°Г®
+bool Graph::removeEdge(unsigned int firstVertex, unsigned int secondVertex) {
+	if (existEdge(firstVertex, secondVertex)) {
+		ListItem *item = NULL;
+			while (item =neighborsVertex(firstVertex, item)) {
+				if (list_item_data(item)[0] == secondVertex) {
+					list_erase(adjacencyList[posVertex], item);
+					return 1;
 				}
-				else {
-					item = list_item_next(item);
-				}
+			
 			}
-			labelEdge[posFirstVertex][posSecondVertex] = 0;
-			cout << "Ребро между данными вершинами удалено." << endl;
-		}
-		else {
-			cout << "Ребро между данными вершинами не существует." << endl;
-		}
-	}
-	else {
-		cout << "Одна из введённых вершин (или обе) не существует(ют)." << endl;
-	}
 }
+	return 0;
 
-//Проверка на существование ребра
-void Graph::existEdge(unsigned int firstVertex, unsigned int secondVertex)
+//ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  Г±ГіГ№ГҐГ±ГІГўГ®ГўГ Г­ГЁГҐ Г°ГҐГЎГ°Г 
+bool Graph::existEdge(unsigned int firstVertex, unsigned int secondVertex)
 {
-	if (posVertex(firstVertex) != vertexList.size() && posVertex(secondVertex) != vertexList.size()) {
-		if (readLabelEdge(firstVertex, secondVertex) != 0) {
-			cout << "Ребро между данными вершинами существует." << endl;
-		}
-		else {
-			cout << "Ребро между данными вершинами не существует." << endl;
+	unsigned int posFirstVertex = posVertex(firstVertex);
+	unsigned int posSecondVertex = posVertex(secondVertex);
+	if (posFirstVertex!= vertexList.size() && posSecondVertex!= vertexList.size()) {
+	ListItem *item = NULL;
+		while ((item = neighborsVertex(firstVertex, item))) {
+			if (list_item_data(item)[0] == secondVertex) {
+				return 1;
+			}
 		}
 	}
-	else {
-		cout << "Одна из введённых вершин (или обе) не существует(ют)." << endl;
-	}
+	return 0;
 }
-
-//Добавить метку вершине
+		
+//Г„Г®ГЎГ ГўГЁГІГј Г¬ГҐГІГЄГі ГўГҐГ°ГёГЁГ­ГҐ
 void Graph::addLabelVertex(unsigned int vertex, unsigned int valueVertex)
 {
 	labelVertex[posVertex(vertex)] = valueVertex;
 }
 
-//Считать метку вершины
+//Г‘Г·ГЁГІГ ГІГј Г¬ГҐГІГЄГі ГўГҐГ°ГёГЁГ­Г»
 unsigned int Graph::readLabelVertex(unsigned int vertex)
 {
 	return labelVertex[posVertex(vertex)];
 }
 
-//Добавить метку ребру
+//Г„Г®ГЎГ ГўГЁГІГј Г¬ГҐГІГЄГі Г°ГҐГЎГ°Гі
 void Graph::addLabelEdge(unsigned int firstVertex, unsigned int secondVertex, unsigned int valueEdge)
 {
-	labelEdge[posVertex(firstVertex)][posVertex(secondVertex)] = valueEdge;
+	Data *secondVertexWithValueEdge = (Data*)malloc(2 * sizeof(Data));
+	secondVertexWithValueEdge[0] = secondVertex;
+	secondVertexWithValueEdge[1] = valueEdge;
+	list_insert(adjacencyList[posVertex(firstVertex)], secondVertexWithValueEdge);
 }
 
-//Читать метку ребра
+//Г—ГЁГІГ ГІГј Г¬ГҐГІГЄГі Г°ГҐГЎГ°Г 
 unsigned int Graph::readLabelEdge(unsigned int firstVertex, unsigned int secondVertex)
 {
-	return labelEdge[posVertex(firstVertex)][posVertex(secondVertex)];
+	if (existEdge(firstVertex, secondVertex)) {
+		ListItem *item = NULL;
+		while (item = neighborsVertex(posVertex(firstVertex), item)) {
+			if (list_item_data(item)[0] == secondVertex) {
+				return list_item_data(item)[1];
+			}
+		}
+	}
+	return 0;
 }
-
+ListItem* Graph::neighborsVertex(unsigned int vertex, ListItem *currentNeighbor) {
+	if (currentNeighbor == NULL) {
+		currentNeighbor = list_first(adjacencyList[posVertex(vertex)]);
+	}
+	else {
+		currentNeighbor = list_item_next(currentNeighbor);
+	}
+	if (currentNeighbor != NULL) {
+		return currentNeighbor;
+	}
+	else {
+		return 0;
+	}
+}
