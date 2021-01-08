@@ -19,3 +19,5 @@ add_subdirectory(MainCPP)
 add_subdirectory(TestHTML)
 
 add_subdirectory(GraphTask)
+
+add_subdirectory(MapTask)
