@@ -1,6 +1,6 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
-
+-finput-charset=cp866 -fexec-charset=utf-8
 #include <vector>
 #include "list.h"
 
