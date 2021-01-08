@@ -22,11 +22,11 @@ public:
 	virtual int posVertex(unsigned int vertex) = 0;	
 	virtual unsigned int vertexGraph(unsigned int) = 0;	
 	virtual void printGraph() {};										//Âûâîä ãðàôà
-	virtual void addVertex() {};										//Äîáàâèòü âåðøèíó
-	virtual void removeVertex() {};										//Óäàëèòü âåðøèíó
-	virtual void addEdge() {};											//Äîáàâèòü ðåáðî
-	virtual void removeEdge() {};										//Óäàëèòü ðåáðî
-	virtual void existEdge() {};										//Ïðîâåðêà íà ñóùåñòâîâàíèå ðåáðà
+	virtual void addVertex(unsigned int) = 0;;										//Äîáàâèòü âåðøèíó
+	virtual void removeVertex(unsigned int) = 0;;										//Óäàëèòü âåðøèíó
+	virtual void addEdge(unsigned int, unsigned int, unsigned int) = 0;											//Äîáàâèòü ðåáðî
+	virtual void removeEdge(unsigned int, unsigned int) = 0;										//Óäàëèòü ðåáðî
+	virtual void existEdge(unsigned int, unsigned int) = 0;										//Ïðîâåðêà íà ñóùåñòâîâàíèå ðåáðà
 	virtual void addLabelVertex() {};									//Çàäàòü ìåòêó âåðøèíå
 	virtual unsigned int readLabelVertex(unsigned int) = 0;				//Ñ÷èòàòü ìåòêó âåðøèíû
 	virtual void addLabelEdge() {};										//Çàäàòü ìåòêó ðåáðó
