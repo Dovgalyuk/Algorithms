@@ -7,93 +7,85 @@
 
 using namespace std;
 
-//Алгоритм Дейкстры(кратчайшего пути)
+//ГЂГ«ГЈГ®Г°ГЁГІГ¬ Г„ГҐГ©ГЄГ±ГІГ°Г»(ГЄГ°Г ГІГ·Г Г©ГёГҐГЈГ® ГЇГіГІГЁ)
 void minimWay(Graph graph, unsigned int vertex) {
-	//Начальная инициализация
-	unsigned int sizeGraph = graph.sizeGraph();			//Размер графа
-	vector<bool> visitVertex(sizeGraph, 0);				//Посещенные вершины
-	vector<vector<unsigned int>> minWay(sizeGraph);		//Кратчайшие пути
-	//Присвоение всем элементам, кроме исходной, максимально большое значение
-	for (unsigned int i = 0; i < sizeGraph; i++) {
-		if (graph.vertexList[i] != vertex) {
-			graph.addLabelVertex(graph.vertexList[i], UINT_MAX);
-		}
-		else {
-			graph.addLabelVertex(graph.vertexList[i], 0);
+	//ГЌГ Г·Г Г«ГјГ­Г Гї ГЁГ­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї
+	if (graph.posVertex(vertex) == -1) {
+		cout << "Р”Р°РЅРЅР°СЏ РІРµСЂС€РёРЅР° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РІ РіСЂР°С„Рµ." << endl;
+		return;
+	}
+	unsigned int sizeGraph = graph.sizeGraph();			//ГђГ Г§Г¬ГҐГ° ГЈГ°Г ГґГ 
+	vector<bool> visitVertex(sizeGraph, 0);				//ГЏГ®Г±ГҐГ№ГҐГ­Г­Г»ГҐ ГўГҐГ°ГёГЁГ­Г»
+	vector<vector<unsigned int>> minWay(sizeGraph);		//ГЉГ°Г ГІГ·Г Г©ГёГЁГҐ ГЇГіГІГЁ
+	
+	//ГЏГ°ГЁГ±ГўГ®ГҐГ­ГЁГҐ ГўГ±ГҐГ¬ ГЅГ«ГҐГ¬ГҐГ­ГІГ Г¬, ГЄГ°Г®Г¬ГҐ ГЁГ±ГµГ®Г¤Г­Г®Г©, Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г® ГЎГ®Г«ГјГёГ®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ
+		graph.addLabelVertex(vertex, 0);
+	for (unsigned int numVertex = 0; numVertex < sizeGraph;numVertex++) {
+		if (graph.vertexGraph(numVertex) != vertex) {
+		graph.addLabelVertex(graph.vertexGraph(numVertex), UINT_MAX);
 		}
 	}
-
-	//Основной цикл
+	//ГЋГ±Г­Г®ГўГ­Г®Г© Г¶ГЁГЄГ«
 	unsigned int vertexMinLabel;
 	unsigned int valueVertexMinLabel;
-	for (unsigned int i = 0; i < sizeGraph; i++) {
-		//Выбор не посещенной вершины с наименьшим значением метки
+	for (unsigned int numVertex = 0; numVertex < sizeGraph; numVertex++) {
+		//Г‚Г»ГЎГ®Г° Г­ГҐ ГЇГ®Г±ГҐГ№ГҐГ­Г­Г®Г© ГўГҐГ°ГёГЁГ­Г» Г± Г­Г ГЁГ¬ГҐГ­ГјГёГЁГ¬ Г§Г­Г Г·ГҐГ­ГЁГҐГ¬ Г¬ГҐГІГЄГЁ
 		valueVertexMinLabel = UINT_MAX;
 		for (unsigned int j = 0; j < sizeGraph;j++) {
-			if (visitVertex[graph.posVertex(graph.vertexList[j])] == 0 && graph.readLabelVertex(graph.vertexList[j]) < valueVertexMinLabel) {
-				vertexMinLabel = graph.vertexList[j];
-				valueVertexMinLabel = graph.readLabelVertex(graph.vertexList[j]);
+			if (visitVertex[j] == 0 && graph.readLabelVertex(graph.vertexGraph(j)) < valueVertexMinLabel) {
+				vertexMinLabel = graph.vertexGraph(j);
+				valueVertexMinLabel = graph.readLabelVertex(graph.verteGraph(j));
 			}
 		}
 		visitVertex[graph.posVertex(vertexMinLabel)] = 1;
 
-		//Перебор всех соседних вершин и подсчёт
-		for (ListItem* item = list_first(graph.adjacencyList[graph.posVertex(vertexMinLabel)]); item != NULL; item = list_item_next(item)) {
-			if (graph.labelVertex[graph.posVertex(list_item_data(item))] > graph.labelVertex[graph.posVertex(vertexMinLabel)] + graph.labelEdge[graph.posVertex(vertexMinLabel)][graph.posVertex(list_item_data(item))]) {
+		//ГЏГҐГ°ГҐГЎГ®Г° ГўГ±ГҐГµ Г±Г®Г±ГҐГ¤Г­ГЁГµ ГўГҐГ°ГёГЁГ­ ГЁ ГЇГ®Г¤Г±Г·ВёГІ
+		ListItem *item = NULL;
+		for (item = graph.neighborsVertex(vertexMinLabel, item); item != NULL; item = graph.neighborsVertex(vertexMinLabel, item)) {
+			if (graph.readlabelVertex(list_item_data(item)[0]) > graph.readlabelVertex(vertexMinLabel) + list_item_data(item)[1]) {
 				bool markNewMinWay = false;
-				if (graph.labelVertex[graph.posVertex(list_item_data(item))] != UINT_MAX) {
+				if (graph.readlabelVertex(list_item_data(item)[0])!= UINT_MAX) {
 					markNewMinWay = true;
 				}
-				graph.labelVertex[graph.posVertex(list_item_data(item))] = graph.labelVertex[graph.posVertex(vertexMinLabel)] + graph.labelEdge[graph.posVertex(vertexMinLabel)][graph.posVertex(list_item_data(item))];
+				graph.addlabelVertex(list_item_data(item)[0] , graph.readlabelVertex(vertexMinLabel) +(list_item_data(item)[1])];
 				if (markNewMinWay == true) {
-					minWay[graph.posVertex(list_item_data(item))].clear();
+					minWay[graph.posVertex(list_item_data(item)[0])].clear();
 				}
 				for (unsigned int j = 0; j < minWay[graph.posVertex(vertexMinLabel)].size(); j++) {
-					minWay[graph.posVertex(list_item_data(item))].push_back(minWay[graph.posVertex(vertexMinLabel)][j]);
+					minWay[graph.posVertex(list_item_data(item)[0])].push_back(minWay[graph.posVertex(vertexMinLabel)][j]);
 				}
-				minWay[graph.posVertex(list_item_data(item))].push_back(vertexMinLabel);
+				minWay[graph.posVertex(list_item_data(item)[0])].push_back(vertexMinLabel);
 			}
 		}
 	}
 
-	//Вывод результатов
+	//Г‚Г»ГўГ®Г¤ Г°ГҐГ§ГіГ«ГјГІГ ГІГ®Гў
 	for (unsigned int i = 0; i < sizeGraph; i++) {
 		if (graph.vertexList[i] != vertex) {
-			if (graph.labelVertex[i] != UINT_MAX) {
-				cout << "Длина пути от " << vertex << " до " << graph.vertexList[i] << " = " << graph.labelVertex[i] << ". Путь: ";
+			if (graph.readlabelVertex(graph.vertexGraph(i))!= UINT_MAX) {
+				cout << "Г„Г«ГЁГ­Г  ГЇГіГІГЁ Г®ГІ " << vertex << " Г¤Г® " << graph.vertexGraph[i] << " = " << graph.readlabelVertex(graph.vertexGraph(i)) << ". ГЏГіГІГј: ";
 				for (unsigned int j = 0; j < minWay[i].size(); j++) {
 					cout << minWay[i][j] << "->";
 				}
-				cout << graph.vertexList[i] << endl;
+				cout << graph.vertexGraph[i] << endl;
 			}
 			else {
-				cout << "Пути от " << vertex << " до " << graph.vertexList[i] << " не существует." << endl;
+				cout << "ГЏГіГІГЁ Г®ГІ " << vertex << " Г¤Г® " << graph.vertexGraph[i] << " Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ." << endl;
 			}
 		}
 	}
 }
 
-//ГЛАВНАЯ ФУНКЦИЯ
+//ГѓГ‹ГЂГ‚ГЌГЂГџ Г”Г“ГЌГЉГ–Г€Гџ
 void main() {
 	setlocale(LC_ALL, "Russian");
 
-	//Инициализация графа
-	cout << "НАЧАЛЬНАЯ ИНИЦИАЛИЗАЦИЯ ГРАФА" << endl;
-	cout << "Введите количество вершин графа: ";
-	Graph graph;						//Создаём граф
-	unsigned int vertex;				//Номер вершины
-
-	//УБРАТЬ КОММЕНТАРИИ ДЛЯ ПОЛЬЗОВАТЕЛЬСКОГО ВВОДА
-	unsigned int numVertex;				//Кол-во вершин в графе
-	cin >> numVertex;
-	for (unsigned int i = 0; i < numVertex; i++) {
-		cout << "Введите номер для новой вершины: ";
-		cin >> vertex;
-		graph.addVertex(vertex);
-	}
-
-	//Пример графа
-	/*graph.addVertex(1);
+	//Г€Г­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї ГЈГ°Г ГґГ 
+	cout << "ГЌГЂГ—ГЂГ‹ГњГЌГЂГџ Г€ГЌГ€Г–Г€ГЂГ‹Г€Г‡ГЂГ–Г€Гџ ГѓГђГЂГ”ГЂ" << endl;
+	cout << "Г‚ГўГҐГ¤ГЁГІГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГўГҐГ°ГёГЁГ­ ГЈГ°Г ГґГ : ";
+	Graph graph;						//Г‘Г®Г§Г¤Г ВёГ¬ ГЈГ°Г Гґ
+	unsigned int vertex;				//ГЌГ®Г¬ГҐГ° ГўГҐГ°ГёГЁГ­Г»
+        graph.addVertex(1);
 	graph.addVertex(2);
 	graph.addVertex(3);
 	graph.addVertex(4);
@@ -107,68 +99,68 @@ void main() {
 	graph.addEdge(5, 3, 11);
 	graph.addEdge(5, 4, 4);*/
 
-	//Меню
-	unsigned int numItemMenu;	//Пункт в меню
-	unsigned int firstVertex;	//Исходная вершина ребра
-	unsigned int secondVertex;	//Конечная вершина ребра
-	unsigned int valueEdge;		//Значение метки ребра
+	//ГЊГҐГ­Гѕ
+	unsigned int numItemMenu;	//ГЏГіГ­ГЄГІ Гў Г¬ГҐГ­Гѕ
+	unsigned int firstVertex;	//Г€Г±ГµГ®Г¤Г­Г Гї ГўГҐГ°ГёГЁГ­Г  Г°ГҐГЎГ°Г 
+	unsigned int secondVertex;	//ГЉГ®Г­ГҐГ·Г­Г Гї ГўГҐГ°ГёГЁГ­Г  Г°ГҐГЎГ°Г 
+	unsigned int valueEdge;		//Г‡Г­Г Г·ГҐГ­ГЁГҐ Г¬ГҐГІГЄГЁ Г°ГҐГЎГ°Г 
 	for (;;) {
 		system("cls");
-		cout << "ПРЕДСТАВЛЕНИЕ ГРАФА В ВИДЕ МАТРИЦЫ СМЕЖНОСТИ:" << endl;
+		cout << "ГЏГђГ…Г„Г‘Г’ГЂГ‚Г‹Г…ГЌГ€Г… ГѓГђГЂГ”ГЂ Г‚ Г‚Г€Г„Г… ГЊГЂГ’ГђГ€Г–Г› Г‘ГЊГ…Г†ГЌГЋГ‘Г’Г€:" << endl;
 		graph.printGraph();
 		cout << endl;
-		cout << "МЕНЮ" << endl;
-		cout << "1. Добавить вершину." << endl;
-		cout << "2. Удалить вершину." << endl;
-		cout << "3. Добавить ребро." << endl;
-		cout << "4. Удалить ребро" << endl;
-		cout << "5. Проверить ребро на существование в графе." << endl;
-		cout << "6. Найти кратчайший путь от одной вершины до всех других." << endl;
-		cout << "7. Выход." << endl;
+		cout << "ГЊГ…ГЌГћ" << endl;
+		cout << "1. Г„Г®ГЎГ ГўГЁГІГј ГўГҐГ°ГёГЁГ­Гі." << endl;
+		cout << "2. Г“Г¤Г Г«ГЁГІГј ГўГҐГ°ГёГЁГ­Гі." << endl;
+		cout << "3. Г„Г®ГЎГ ГўГЁГІГј Г°ГҐГЎГ°Г®." << endl;
+		cout << "4. Г“Г¤Г Г«ГЁГІГј Г°ГҐГЎГ°Г®" << endl;
+		cout << "5. ГЏГ°Г®ГўГҐГ°ГЁГІГј Г°ГҐГЎГ°Г® Г­Г  Г±ГіГ№ГҐГ±ГІГўГ®ГўГ Г­ГЁГҐ Гў ГЈГ°Г ГґГҐ." << endl;
+		cout << "6. ГЌГ Г©ГІГЁ ГЄГ°Г ГІГ·Г Г©ГёГЁГ© ГЇГіГІГј Г®ГІ Г®Г¤Г­Г®Г© ГўГҐГ°ГёГЁГ­Г» Г¤Г® ГўГ±ГҐГµ Г¤Г°ГіГЈГЁГµ." << endl;
+		cout << "7. Г‚Г»ГµГ®Г¤." << endl;
 		cout << ">";
 		cin >> numItemMenu;
 		switch (numItemMenu)
 		{
 		case 1:
-			cout << "Введите номер для новой вершины: ";
+			cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г­Г®Г¬ГҐГ° Г¤Г«Гї Г­Г®ГўГ®Г© ГўГҐГ°ГёГЁГ­Г»: ";
 			cin >> vertex;
 			graph.addVertex(vertex);
 			system("pause");
 			break;
 		case 2:
-			cout << "Введите номер вершины для удаления: ";
+			cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г­Г®Г¬ГҐГ° ГўГҐГ°ГёГЁГ­Г» Г¤Г«Гї ГіГ¤Г Г«ГҐГ­ГЁГї: ";
 			cin >> vertex;
 			graph.removeVertex(vertex);
 			system("pause");
 			break;
 		case 3:
-			cout << "Исходная вершина: ";
+			cout << "Г€Г±ГµГ®Г¤Г­Г Гї ГўГҐГ°ГёГЁГ­Г : ";
 			cin >> firstVertex;
-			cout << "Конечная вершина: ";
+			cout << "ГЉГ®Г­ГҐГ·Г­Г Гї ГўГҐГ°ГёГЁГ­Г : ";
 			cin >> secondVertex;
-			cout << "Метка для данного ребра: ";
+			cout << "ГЊГҐГІГЄГ  Г¤Г«Гї Г¤Г Г­Г­Г®ГЈГ® Г°ГҐГЎГ°Г : ";
 			cin >> valueEdge;
 			graph.addEdge(firstVertex, secondVertex, valueEdge);
 			system("pause");
 			break;
 		case 4:
-			cout << "Исходная вершина: ";
+			cout << "Г€Г±ГµГ®Г¤Г­Г Гї ГўГҐГ°ГёГЁГ­Г : ";
 			cin >> firstVertex;
-			cout << "Конечная вершина: ";
+			cout << "ГЉГ®Г­ГҐГ·Г­Г Гї ГўГҐГ°ГёГЁГ­Г : ";
 			cin >> secondVertex;
 			graph.removeEdge(firstVertex, secondVertex);
 			system("pause");
 			break;
 		case 5:
-			cout << "Исходная вершина: ";
+			cout << "Г€Г±ГµГ®Г¤Г­Г Гї ГўГҐГ°ГёГЁГ­Г : ";
 			cin >> firstVertex;
-			cout << "Конечная вершина: ";
+			cout << "ГЉГ®Г­ГҐГ·Г­Г Гї ГўГҐГ°ГёГЁГ­Г : ";
 			cin >> secondVertex;
 			graph.existEdge(firstVertex, secondVertex);
 			system("pause");
 			break;
 		case 6:
-			cout << "Исходная вершина: ";
+			cout << "Г€Г±ГµГ®Г¤Г­Г Гї ГўГҐГ°ГёГЁГ­Г : ";
 			cin >> vertex;
 			minimWay(graph, vertex);
 			system("pause");
