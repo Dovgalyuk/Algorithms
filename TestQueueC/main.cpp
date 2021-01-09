@@ -33,4 +33,6 @@ int main()
     }
 
     queue_delete(queue);
+
+	system("pause");
 }

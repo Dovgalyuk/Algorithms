@@ -3,6 +3,7 @@ project(Algorithms)
 
 add_subdirectory(task1)
 add_subdirectory(IndividualTask2)
+add_subdirectory(IndividualTask3)
 
 add_subdirectory(LibraryC)
 add_subdirectory(LibraryCPP)
