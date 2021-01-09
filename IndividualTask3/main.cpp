@@ -88,6 +88,8 @@ int main()
 		searchAlgorithm(row, col, x, y, maze, visitedCell, path, map);
 	}
 
+	queue_delete(map);
+
 	cout << endl;
 
 	if (!visitedCell[endX][endY])
