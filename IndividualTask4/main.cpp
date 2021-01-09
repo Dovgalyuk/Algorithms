@@ -3,7 +3,7 @@
 #include <set>
 #include "set.h"
 
-#define size 25000
+#define size 12500
 #define stringSize 10
 
 std::string randomString()
@@ -33,25 +33,66 @@ int main()
         key[i] = randomString();
     }
 
-    Set* set = set_create(key[0]);
+    Set* myset = set_create(key[0]);
 
     start = clock();          // start test my set
 
     for (int i = 1; i < size; i++)
     {
-        set_insert(set, key[i]);
+        set_insert(myset, key[i]);
     }
 
     for (int i = 0; i < size; i++)
     {
-        set_find(set, key[i]);
+        set_find(myset, key[i]);
     }
 
     end = clock();
     
-    set_delete(set);
+    set_delete(myset);
 
-    std::cout << "My crooked set did it for " << (double)(end - start) / CLOCKS_PER_SEC << " sec" << std::endl;
+    std::cout << "Test #1 mySet: " << (double)(end - start) / CLOCKS_PER_SEC << " sec" << std::endl;
+
+
+    std::set <std::string> normalSet;
+
+    start = clock();
+
+    for (int i = 1; i < size; i++)
+    {
+        normalSet.insert(key[i]);
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        normalSet.find(key[i]);
+    }
+
+    end = clock();
+
+    std::cout << "Test #1 std::set :" << (double)(end - start) / CLOCKS_PER_SEC << " sec" << std::endl;;
+
+    std::cout << "Checking for throttling: " << std::endl;
+
+    myset = set_create(key[0]);
+
+    start = clock();          // start test my set
+
+    for (int i = 1; i < size; i++)
+    {
+        set_insert(myset, key[i]);
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        set_find(myset, key[i]);
+    }
+
+    end = clock();
+
+    set_delete(myset);
+
+    std::cout << "Test #2 mySet: " << (double)(end - start) / CLOCKS_PER_SEC << " sec" << std::endl;
 
 
     std::set <std::string> Set;
@@ -70,7 +111,7 @@ int main()
 
     end = clock();
 
-    std::cout << "Normal set did it for " << (double)(end - start) / CLOCKS_PER_SEC << " sec" << std::endl;;
+    std::cout << "Test #2 std::set :" << (double)(end - start) / CLOCKS_PER_SEC << " sec" << std::endl;;
 
     system("pause");
 }

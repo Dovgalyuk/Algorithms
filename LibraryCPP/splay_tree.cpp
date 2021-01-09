@@ -3,12 +3,12 @@
 
 struct Node
 {
-    Node* left, *right;
+    Node* left, * right;
     Node* parent;
     Key key;
 };
 
-Node* splay_create(const Key data) 
+Node* splay_create(const Key data)
 {
     Node* tree = new Node;
     tree->left = NULL;
@@ -21,7 +21,7 @@ Node* splay_create(const Key data)
 void left_rotate(Node* root, Node* node)
 {
     Node* y = node->right;
-    if (y) 
+    if (y)
     {
         node->right = y->left;
         if (y->left)
@@ -41,7 +41,7 @@ void left_rotate(Node* root, Node* node)
 void right_rotate(Node* root, Node* node)
 {
     Node* y = node->left;
-    if (y) 
+    if (y)
     {
         node->left = y->right;
         if (y->right) y->right->parent = node;
@@ -60,7 +60,7 @@ void right_rotate(Node* root, Node* node)
     {
         node->parent->right = y;
     }
-    if (y)  
+    if (y)
     {
         y->right;
     }
@@ -68,29 +68,29 @@ void right_rotate(Node* root, Node* node)
 
 void splay(Node* root, Node* node)
 {
-    while (node->parent) 
+    while (node->parent)
     {
-        if (!node->parent->parent) 
+        if (!node->parent->parent)
         {
             if (node->parent->left == node) right_rotate(root, node->parent);
             else left_rotate(root, node->parent);
         }
-        else if (node->parent->left == node && node->parent->parent->left == node->parent) 
+        else if (node->parent->left == node && node->parent->parent->left == node->parent)
         {
             right_rotate(root, node->parent->parent);
             right_rotate(root, node->parent);
         }
-        else if (node->parent->right == node && node->parent->parent->right == node->parent) 
+        else if (node->parent->right == node && node->parent->parent->right == node->parent)
         {
             left_rotate(root, node->parent->parent);
             left_rotate(root, node->parent);
         }
-        else if (node->parent->left == node && node->parent->parent->right == node->parent) 
+        else if (node->parent->left == node && node->parent->parent->right == node->parent)
         {
             right_rotate(root, node->parent);
             left_rotate(root, node->parent);
         }
-        else 
+        else
         {
             left_rotate(root, node->parent);
             right_rotate(root, node->parent);
@@ -141,7 +141,7 @@ void insert(Node* root, const Key key)
     Node* z = root;
     Node* p = nullptr;
 
-    while(z) 
+    while (z)
     {
         p = z;
         if (z->key < key)
@@ -155,14 +155,24 @@ void insert(Node* root, const Key key)
     }
 }
 
-Node* find(Node* root,  const Key key)
+Node* find(Node* root, const Key key)
 {
     Node* z = root;
-    while(z) 
+    while (z)
     {
-        if (z->key < key) z = z->right;
-        else if (key < z->key) z = z->left;
-        else return z;
+        if (z->key < key)
+        {
+            z = z->right;
+        }
+        else if (key < z->key)
+        {
+            z = z->left;
+        }
+        else
+        {
+            splay(root, z);
+            return z;
+        }
     }
     return nullptr;
 }
@@ -182,7 +192,7 @@ void erase(Node* root, const Key key)
     {
         replace(root, z, z->left);
     }
-    else 
+    else
     {
         Node* y = subtree_minimum(z->right);
         if (y->parent != z) {
@@ -198,7 +208,7 @@ void erase(Node* root, const Key key)
     delete z;
 }
 
-Node* splay_delete(Node* root) 
+Node* splay_delete(Node* root)
 {
     if (root)
     {

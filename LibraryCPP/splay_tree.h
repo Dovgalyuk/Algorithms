@@ -9,10 +9,6 @@ struct Node;
 
 Node* splay_create(const Key data);
 
-void left_rotate(Node* root, Node* node);
-
-void right_rotate(Node* root, Node* node);
-
 void splay(Node* root, Node* node);
 
 void replace(Node* root, Node* u, Node* v);
