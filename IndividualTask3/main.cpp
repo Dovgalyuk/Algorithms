@@ -103,7 +103,7 @@ int main()
 
 		while (path[x][y] != 2)
 		{
-			if ((x - 1) >= 0 && (x - 1) < row && (path[x - 1][y] == path[x][y] - 1))
+			if ((x - 1) >= 0  && (path[x - 1][y] == path[x][y] - 1))
 			{
 				x = x - 1;
 				maze[x][y] = 'x';
@@ -113,7 +113,7 @@ int main()
 				x = x + 1;
 				maze[x][y] = 'x';
 			}
-			else if ((y - 1) >= 0 && (y - 1) < col && (path[x][y - 1] == path[x][y] - 1))
+			else if ((y - 1) >= 0  && (path[x][y - 1] == path[x][y] - 1))
 			{
 				y = y - 1;
 				maze[x][y] = 'x';
