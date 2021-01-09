@@ -30,7 +30,7 @@ void queue_insert(Queue *queue, Data data)
     queue->tail++;
 	
     Vector* q_vector = queue->vector;
-	if (queue->tail == vector_size(q_vector) - 1 && queue->head == 0)
+	if (queue->tail >= vector_size(q_vector) - 1)
 	{
         vector_resize(q_vector, vector_size(q_vector) * 2);
 	}
