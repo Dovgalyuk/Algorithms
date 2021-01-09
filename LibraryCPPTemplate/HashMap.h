@@ -26,11 +26,11 @@ public:
 
     string Add(string key, string value) override
     {
-        size_t index = find_index(key, FindType::Add);
+        size_t index = find_index(key, _conditions[0]);
         if (index == -1)
         {
             rehash();
-            index = find_index(key, FindType::Add);
+            index = find_index(key, _conditions[0]);
         }
 
         Node* node = &_nodes[index];
@@ -43,7 +43,7 @@ public:
 
     string Remove(string key) override
     {
-        size_t index = find_index(key, FindType::Remove);
+        size_t index = find_index(key, _conditions[1]);
         if (index == -1) throw std::logic_error("No proposed key in Delete() of hash_map");
 
         Node* node = &_nodes[index];
@@ -56,7 +56,7 @@ public:
 
     string Find(string key) override
     {
-        size_t index = find_index(key, FindType::Find);
+        size_t index = find_index(key, _conditions[2]);
         if (index == -1) throw std::logic_error("No proposed key in Find() of hash_map");
 
         return _nodes[index].value;
@@ -68,11 +68,6 @@ private:
         Full, Empty, Erased
     };
 
-    enum class FindType
-    {
-        Add, Remove, Find
-    };
-
     struct Node
     {
         string key;
@@ -82,28 +77,14 @@ private:
 
     typedef std::function<bool(Node&, string&)> MyFunc;
 
-    size_t find_index(string& key, const FindType find_type)
+    size_t find_index(string& key, MyFunc& condition)
     {
         size_t index = get_index(key);
 
-        MyFunc* condition;
-        if (find_type == FindType::Add)
-        {
-            condition = &_conditions[0];
-        }
-        else if (find_type == FindType::Remove)
-        {
-            condition = &_conditions[1];
-        }
-        else
-        {
-            condition = &_conditions[2];
-        }
-
-        size_t indexZ = do_circle((*condition), key, index, _nodes.size());
+        size_t indexZ = do_circle(condition, key, index, _nodes.size());
         if (indexZ == -1)
         {
-            indexZ = do_circle((*condition), key, 0, index);
+            indexZ = do_circle(condition, key, 0, index);
         }
 
         return indexZ;
