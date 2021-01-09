@@ -1,46 +1,116 @@
 #include <iostream>
-#include <algorithm>
-#include <climits>
 #include "array.h"
+#include "stack.h"
+#include <vector>
+#include <algorithm>
 
-typedef Array<int> MyArray;
-using namespace std;
 
-int main()
+size_t split(const std::string &txt, std::vector<std::string> &strs, char ch)
 {
-    srand(4541);
-    size_t n;
-    cin >> n;
-    MyArray arr(n);
-    for (int i = 0; i < n; i++)
-        arr.set(i, rand());
-    int min = INT_MAX, max = INT_MIN, minNumIndex = 0, maxNumIndex = 0;
-    for (int i = 0; i < n; i++)
-    {
-        if (arr.get(i) < min)
-        {
-            min = arr.get(i);
-            minNumIndex = i;
+    size_t pos = txt.find( ch );
+    size_t initialPos = 0;
+    strs.clear();
+
+    while( pos != std::string::npos ) {
+        strs.push_back( txt.substr( initialPos, pos - initialPos ) );
+        initialPos = pos + 1;
+
+        pos = txt.find( ch, initialPos );
+    }
+
+    strs.push_back( txt.substr( initialPos, std::min( pos, txt.size() ) - initialPos + 1 ) );
+
+    return strs.size();
+}
+
+void do_operation(StackByList<char>& operations, StackByList<double>& numbers){
+    if (numbers.size() < 2){
+        std::cerr << "UNDERFLOW" << std::endl;
+        exit(1);
+    }
+    switch (operations.top()) {
+        case '+': {
+            double first = numbers.top();
+            numbers.pop();
+            double second = numbers.top();
+            numbers.pop();
+            numbers.push(first + second);
+            break;
         }
-        if (arr.get(i) > max)
-        {
-            max = arr.get(i);
-            maxNumIndex = i;
+        case '-': {
+            double first = numbers.top();
+            numbers.pop();
+            double second = numbers.top();
+            numbers.pop();
+            numbers.push(first - second);
+            break;
+        }
+        case '*': {
+            double first = numbers.top();
+            numbers.pop();
+            double second = numbers.top();
+            numbers.pop();
+            numbers.push(first * second);
+            break;
+        }
+        case '/': {
+            double first = numbers.top();
+            numbers.pop();
+            double second = numbers.top();
+            numbers.pop();
+            if (second == 0){
+                std::cerr << "ZERO" << std::endl;
+                exit(1);
+            }
+            numbers.push(first / second);
+            break;
+        }
+        default: {
+            std::cout << "unknown operation" << std::endl;
+            exit(1);
         }
     }
-    int sum = 0, start, end;
-    if (minNumIndex <= maxNumIndex)
-    {
-        start = minNumIndex + 1;
-        end = maxNumIndex;
-    } else
-    {
-        start = maxNumIndex + 1;
-        end = minNumIndex;
+    operations.pop();
+}
+
+void lab2(){
+    StackByList<char> operations;
+    StackByList<double> numbers;
+
+    std::string input;
+    getline(std::cin, input);
+
+    std::vector<std::string> buffer;
+
+    split(input, buffer, ' ');
+    for(const auto& str : buffer){
+        if (str.length() == 1 && (str[0] == '-' || str[0] == '+' || str[0] == '*' || str[0] == '/')){
+            operations.push(str[0]);
+        } else {
+            try{
+                double value = std::stod(str);
+                numbers.push(value);
+            }
+            catch(std::exception& e){
+                std::cerr << e.what() << std::endl;
+            }
+        }
     }
-    for (int i = start; i < end; i++)
-    {
-        sum += arr.get(i);
+
+    while (operations.size() > 0) {
+        do_operation(operations, numbers);
     }
-    cout << "The summ is: " << sum;
+
+    if (numbers.size() > 1) {
+        std::cerr << "OVERFLOW" << std::endl;
+        exit(1);
+    }
+    std::cout << "result = " << numbers.top() << std::endl;
+    numbers.pop();
+
+}
+
+
+int main() {
+    lab2();
 }

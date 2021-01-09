@@ -1,45 +1,42 @@
-#ifndef ARRAY_H
-#define ARRAY_H
 
-template <typename Data> class Array
-{
-public:
-    // create array
-    Array<Data>(unsigned size)
-    {
-        _elem = new Data[size];
-        _size = size;
-        for (int i = 0; i < size; i++)
-            _elem[i] = 0;
-    }
+#ifndef
+#define 
 
-    // delete array, free memory
-    ~Array<Data>()
-    {
-        delete[] _elem;
-    }
+#include "stack.h"
 
-    // returns specified array element
-    Data get(unsigned index) const
-    {
-        return _elem[index];
-    }
-
-    // sets the specified array element to the value
-    void set(unsigned index, Data value)
-    {
-        _elem[index] = value;
-    }
-
-    // returns array size
-    unsigned size() const
-    {
-        return _size;
-    }
-
+template <typename TElement>
+class StackByList {
 private:
-    Data* _elem;
-    unsigned _size;
-};
+    unsigned int _size_of_stack;
+    SinglyLinkedList<TElement> *_list;
 
-#endif
+public:
+
+    explicit StackByList() {
+        _size_of_stack = 0;
+        _list = new SinglyLinkedList<TElement>();
+    }
+
+    ~StackByList() {
+        delete _list;
+    }
+
+    void push(const TElement& newElement) {
+        _list->add(newElement);
+        _size_of_stack++;
+    }
+
+    void pop() {
+        _list->drop_first();
+        _size_of_stack--;
+    }
+
+    const TElement& top() {
+        return _list->first();
+    }
+
+    unsigned int size() {
+        return _size_of_stack;
+    }
+};
+#endif 

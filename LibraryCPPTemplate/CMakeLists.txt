@@ -1,1 +1,1 @@
-add_library(LibraryCPPTemplate STATIC array.h array.cpp)
+add_library(LibraryCPPTemplate STATIC array.h array.cpp stack.h)
