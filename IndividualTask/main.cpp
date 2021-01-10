@@ -10,18 +10,18 @@ bool has_only_digits(const string& s){
 }
 
 void push_into_stack(Stack<int>& stack, map<char, int>& map, const string& second_part, const size_t& str_num){
-    if (second_part.length() == 1 && map.find(second_part[0]) != map.end()){
+    if (map.find(second_part[0]) != map.end()){
         stack.push(map[second_part[0]]);
     } else if(has_only_digits(second_part)) {
         char* end;
-        stack.push(strtol(second_part.data(), &end, 10));
+        stack.push(strtol(second_part.c_str(), &end, 10));
     } else {
         cout << "Unknown symbol at " << str_num <<" PUSH \"" + second_part + " \"" << endl;
     }
 }
 
 void pop_from_stack(Stack<int>& stack, map<char, int>& map, const string& second_part, const size_t& str_num){
-    if (second_part.length() == 1 && map.find(second_part[0]) != map.end()){
+    if (map.find(second_part[0]) != map.end()){
         map[second_part[0]] = stack.top();
         stack.pop();
     } else {
@@ -49,8 +49,8 @@ int main() {
         getline(input_file_stream, buffer);
         int space_index = buffer.find(' ');
         string words[] = {
-            buffer.substr(0, space_index),
-            buffer.substr(space_index + 1, buffer.length() - 1)
+                buffer.substr(0, space_index),
+                buffer.substr(space_index + 1, buffer.length() - 1)
         };
 
         if (words[0] == "PUSH"){
@@ -69,3 +69,4 @@ int main() {
     system("pause");
     return 0;
 }
+
