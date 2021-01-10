@@ -1,30 +1,55 @@
 #ifndef QUEUE_H
 #define QUEUE_H
+#include "vector.h"
 
 // Queue
 // Stores integer values inside
 typedef int Data;
 
-struct Queue;
+struct Queue
+{
+private:
+	Vector* vector;
+	int Head;
+	int Tail;
+public:
+	Queue()
+	{
+		vector = new Vector();
+		vector->Resize(1);
+		Head = 0;
+		Tail = 0;
+	}
+	~Queue()
+	{
+		delete vector;
+	}
+	void Insert(Data data)
+	{
+		int vec_size = vector->GetSize();
+		if (Tail >= (vec_size - 1))
+		{
+			vector->Resize(vector->GetSize() * 2);
+		}
 
-// Create empty queue
-Queue *queue_create();
+		vector->Set(Tail, data);
 
-// Deletes queue
-void queue_delete(Queue *queue);
+		Tail++;
+	}
+	Data Get()
+	{
+		return vector->GetValue(Head);
+	}
 
-// Includes new element into the queue
-// Should be O(1) on average
-void queue_insert(Queue *queue, Data data);
+	void Remove()
+	{
+		Head++;
+	}
 
-// Retrieves first element from the queue
-Data queue_get(const Queue *queue);
-
-// Removes first element from the queue
-// Should be O(1) on average
-void queue_remove(Queue *queue);
-
-// Returns true if the queue is empty
-bool queue_empty(const Queue *queue);
+	bool IsEmpty()
+	{
+		return Tail == Head;
+	}
+};
 
 #endif

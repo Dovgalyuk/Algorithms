@@ -1,29 +1,78 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-// Vector (dynamic array)
-// Stores integer values inside
 typedef int Data;
 
-struct Vector;
+struct Vector
+{
+private:
+	size_t Size;
+	Data* Elem;
+public:
+	Vector()
+		:Size(0)
+	{
+		Elem = new Data[0];
+		Resize(1);
+	}
+	Vector(size_t size)
+		:Size(0)
+	{
+		Elem = new Data[Size];
+		Resize(size);
+	}
+	~Vector()
+	{
+		delete[] Elem;
+	}
+	Data GetValue(size_t index) const
+	{
+		return Elem[index];
+	}
+	void Set(size_t index, Data value)
+	{
+		if (index >= Size) Resize(index * 2);
+		Elem[index] = value;
+	}
+	size_t GetSize() const
+	{
+		return Size;
+	}
+	void Resize(size_t size)
+	{
+		size_t new_size = 0;
+		Data* elem;
+		if (size <= Size)
+		{
+			new_size = size;
+			elem = new Data[new_size];
 
-// Creates vector
-Vector *vector_create();
+			for (int i = 0; i < size; i++)
+			{
+				elem[i] = Elem[i];
+			}
+		}
+		else
+		{
+			new_size = size > Size * 2 ? size : Size * 2;
+			elem = new Data[new_size];
 
-// Deletes vector structure and internal data
-void vector_delete(Vector *vector);
+			for (int i = 0; i < Size; i++)
+			{
+				elem[i] = Elem[i];
+			}
+			int i = Size;
+			if (i < 0) i = 0;
+			for (i; i < new_size; i++)
+			{
+				elem[i] = 0;
+			}
+		}
 
-// Retrieves vector element with the specified index
-Data vector_get(const Vector *vector, size_t index);
-
-// Sets vector element with the specified index
-void vector_set(Vector *vector, size_t index, Data value);
-
-// Retrieves current vector size
-size_t vector_size(const Vector *vector);
-
-// Changes the vector size (may increase or decrease)
-// Should be O(1) on average
-void vector_resize(Vector *vector, size_t size);
+		delete[] Elem;
+		Elem = elem;
+		Size = new_size;
+	}
+};
 
 #endif

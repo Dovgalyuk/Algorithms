@@ -3,34 +3,34 @@
 
 int main()
 {
-    Queue *queue = queue_create();
+    Queue *queue = new Queue();
 
-    queue_insert(queue, 1);
-    queue_insert(queue, 2);
-    queue_insert(queue, 3);
+    queue->Insert(1);
+    queue->Insert(2);
+    queue->Insert(3);
 
-    if (queue_get(queue) != 1)
+    if (queue->Get() != 1)
         std::cout << "Invalid first element of the queue\n";
 
-    std::cout << "Get: " << queue_get(queue) << "\n";
-    queue_remove(queue);
+    std::cout << "Get: " << queue->Get() << "\n";
+    queue->Remove();
 
-    if (queue_get(queue) != 2)
+    if (queue->Get() != 2)
         std::cout << "Invalid second element of the queue\n";
 
-    std::cout << "Get: " << queue_get(queue) << "\n";
-    queue_remove(queue);
+    std::cout << "Get: " << queue->Get() << "\n";
+    queue->Remove();
 
-    if (queue_get(queue) != 3)
+    if (queue->Get() != 3)
         std::cout << "Invalid third element of the queue\n";
 
-    std::cout << "Get: " << queue_get(queue) << "\n";
-    queue_insert(queue, 4);
-    while (!queue_empty(queue))
+    std::cout << "Get: " << queue->Get() << "\n";
+    queue->Insert(4);
+    while (!queue->IsEmpty())
     {
-        std::cout << "Get: " << queue_get(queue) << "\n";
-        queue_remove(queue);
+        std::cout << "Get: " << queue->Get() << "\n";
+        queue->Remove();
     }
 
-    queue_delete(queue);
+    delete queue;
 }
