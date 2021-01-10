@@ -34,23 +34,23 @@ void minimWay(Graph graph, unsigned int vertex) {
 		}
 		visitVertex[graph.posVertex(vertexMinLabel)] = 1;
 
-		ListItem *item = NULL;
-		for (item = graph.neighborsVertex(vertexMinLabel, item); item != NULL; item = graph.neighborsVertex(vertexMinLabel, item)) {
-			if (graph.readlabelVertex(list_item_data(item)[0]) > graph.readlabelVertex(vertexMinLabel) + list_item_data(item)[1]) {
+		for (List<ListItem>::Iterator iter = graph.firstNeighborVertex(vertexMinLabel); iter != NULL; iter++) {
+			if (graph.readlabelVertex((*iter)[0]) > graph.readlabelVertex(vertexMinLabel) + (*iter)[1]) {
 				bool markNewMinWay = false;
-				if (graph.readlabelVertex(list_item_data(item)[0])!= UINT_MAX) {
+				if (graph.readlabelVertex((*iter)[0])!= UINT_MAX) {
 					markNewMinWay = true;
 				}
-				graph.addlabelVertex(list_item_data(item)[0] , graph.readlabelVertex(vertexMinLabel) +(list_item_data(item)[1])];
+				graph.addlabelVertex((*iter)[0] , graph.readlabelVertex(vertexMinLabel) +((*iter)[1])];
 				if (markNewMinWay == true) {
-					minWay[graph.posVertex(list_item_data(item)[0])].clear();
+					minWay[graph.posVertex((*iter)[0])].clear();
 				}
 				for (unsigned int j = 0; j < minWay[graph.posVertex(vertexMinLabel)].size(); j++) {
-					minWay[graph.posVertex(list_item_data(item)[0])].push_back(minWay[graph.posVertex(vertexMinLabel)][j]);
+					minWay[graph.posVertex((*iter)[0])].push_back(minWay[graph.posVertex(vertexMinLabel)][j]);
 				}
 				minWay[graph.posVertex(list_item_data(item)[0])].push_back(vertexMinLabel);
 			}
 		}
+	    }
 	}
 
 	for (unsigned int i = 0; i < sizeGraph; i++) {
