@@ -4,22 +4,45 @@
 struct ListItem
 {
 	ListItem* pNext;
-	Data data;
+	Data *data;
 };
 
-struct List
+List<ListItem>::Iterator::Iterator(ListItem *pHead)
 {
-	ListItem* pHead;
-};
+	this->pHead = pHead;
+}
 
-List *list_create()
+
+List<ListItem>::Iterator List<ListItem>::Iterator::operator++(int)
 {
-	List* list = new List;
+	Iterator iter = *this;
+	pHead = pHead->pNext;
+	return iter;
+}
+
+ListItem* List<ListItem>::Iterator::operator&() {
+	return pHead;
+}
+
+Data* List<ListItem>::Iterator::operator*() {
+	return pHead->data;
+}
+
+bool List<ListItem>::Iterator::operator==(const Iterator iter) {
+	return pHead == iter.pHead;
+}
+
+bool List<ListItem>::Iterator::operator!=(const Iterator iter) {
+	return !(*this == iter.pHead);
+}
+List<ListItem> *list_create()
+{
+	List<ListItem>*list = new List<ListItem>;
 	list->pHead = NULL;
 	return list;
 }
 
-void list_delete(List *list)
+void list_delete(List<ListItem> *list)
 {
 	ListItem* currect = list->pHead;
 	while (currect != NULL)
@@ -31,12 +54,12 @@ void list_delete(List *list)
 	delete list;
 }
 
-ListItem *list_first(List *list)
+ListItem *list_first(List<ListItem> *list)
 {
 	return list->pHead;
 }
 
-Data list_item_data(const ListItem *item)
+Data *list_item_data(const ListItem *item)
 {
 	return item->data;
 }
@@ -52,7 +75,7 @@ ListItem *list_item_prev(ListItem *item)
 	return NULL;
 }
 
-ListItem *list_insert(List *list, Data data)
+ListItem *list_insert(List<ListItem> *list, Data *data)
 {
 	ListItem* item = new ListItem;
 	item->data = data;
@@ -61,7 +84,7 @@ ListItem *list_insert(List *list, Data data)
 	return item;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
+ListItem *list_insert_after(List<ListItem> *list, ListItem *item, Data *data)
 {
 	ListItem* newItem = new ListItem;
 	newItem->data = data;
@@ -70,7 +93,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 	return newItem;
 }
 
-ListItem *list_erase(List *list, ListItem *item)
+ListItem *list_erase(List<ListItem> *list, ListItem *item)
 {
 	ListItem* currect = list->pHead;
 	ListItem* last = (ListItem*)malloc(sizeof(ListItem));
@@ -89,7 +112,7 @@ ListItem *list_erase(List *list, ListItem *item)
 	return NULL;
 }
 
-ListItem *list_erase_next(List *list, ListItem *item)
+ListItem *list_erase_next(List<ListItem> *list, ListItem *item)
 {
 	ListItem* newItem = item->pNext;
 	item->pNext = newItem->pNext;
