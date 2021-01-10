@@ -41,8 +41,8 @@ inline void Stack<T>::push(T data)
 	if (_index >= _array.get_size())
 	{
 		StaticArray<T> new_array = StaticArray<T>(_array.get_size() * 2);
-		new_array = _array;
 		new_array.copy(_array);
+		_array = new_array;
 	}
 	_array[_index] = data;
 }
