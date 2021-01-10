@@ -87,26 +87,24 @@ bool Graph::addEdge(unsigned int firstVertex, unsigned int secondVertex, unsigne
 //Óäàëèòü ðåáðî
 bool Graph::removeEdge(unsigned int firstVertex, unsigned int secondVertex) {
 	if (existEdge(firstVertex, secondVertex)) {
-		ListItem *item = NULL;
-			while (item =neighborsVertex(firstVertex, item)) {
-				if (list_item_data(item)[0] == secondVertex) {
-					list_erase(adjacencyList[posVertex], item);
-					return 1;
-				}
+		for (List<ListItem>::Iterator iter = firstNeighborVertex(firstVertex); iter != NULL; iter++) {
+	if ((*iter)[0] == secondVertex) {
+		list_erase(adjacencyList[posVertex(firstVertex)], &iter);
+	return 1;
+	}
 			
-			}
+  }
 }
 	return 0;
-
+}
 //Ïðîâåðêà íà ñóùåñòâîâàíèå ðåáðà
 bool Graph::existEdge(unsigned int firstVertex, unsigned int secondVertex)
 {
 	unsigned int posFirstVertex = posVertex(firstVertex);
 	unsigned int posSecondVertex = posVertex(secondVertex);
 	if (posFirstVertex!= vertexList.size() && posSecondVertex!= vertexList.size()) {
-	ListItem *item = NULL;
-		while ((item = neighborsVertex(firstVertex, item))) {
-			if (list_item_data(item)[0] == secondVertex) {
+	for (List<ListItem>::Iterator iter = firstNeighborVertex(firstVertex); iter != NULL; iter++) {
+			if ((*iter)[0] == secondVertex) {
 				return 1;
 			}
 		}
@@ -139,24 +137,18 @@ void Graph::addLabelEdge(unsigned int firstVertex, unsigned int secondVertex, un
 unsigned int Graph::readLabelEdge(unsigned int firstVertex, unsigned int secondVertex)
 {
 	if (existEdge(firstVertex, secondVertex)) {
-		ListItem *item = NULL;
-		while (item = neighborsVertex(posVertex(firstVertex), item)) {
-			if (list_item_data(item)[0] == secondVertex) {
-				return list_item_data(item)[1];
+		for (List<ListItem>::Iterator iter = firstNeighborVertex(firstVertex); iter != NULL; iter++) {
+			if ((*iter)[0] == secondVertex) {
+				return (*iter)[1];
 			}
 		}
 	}
 	return 0;
 }
-ListItem* Graph::neighborsVertex(unsigned int vertex, ListItem *currentNeighbor) {
-	if (currentNeighbor == NULL) {
-		currentNeighbor = list_first(adjacencyList[posVertex(vertex)]);
-	}
-	else {
-		currentNeighbor = list_item_next(currentNeighbor);
-	}
-	if (currentNeighbor != NULL) {
-		return currentNeighbor;
+List<ListItem>::Iterator Graph::firstNeighborVertex(unsigned int vertex) {
+	List<ListItem>::Iterator iter = list_first(adjacencyList[posVertex(vertex)]);
+	if (iter != 0) {
+		return iter;
 	}
 	else {
 		return 0;
