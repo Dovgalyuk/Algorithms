@@ -3,19 +3,33 @@
 
 // List
 // Stores integer values inside
-typedef int Data;
+typedef unsigned int Data;
 
-struct List;
 struct ListItem;
-
+template<class ListItem>
+struct List {
+	ListItem *pHead;
+	//Iterator
+	struct Iterator {
+	private:
+		ListItem *pHead;
+	public:
+		Iterator(ListItem *pHead);
+		Iterator operator++(int);
+		ListItem* operator&();
+		Data* operator*();
+		bool operator==(const Iterator iter);
+		bool operator!=(const Iterator iter);
+	};
+};
 // Creates new list
 List *list_create();
 
 // Destroys the list and frees the memory
-void list_delete(List *list);
+void list_delete(List<ListItem> *list);
 
 // Retrieves the first item from the list
-ListItem *list_first(List *list);
+ListItem *list_first(List<ListItem> *list);
 
 // Extracts data from the list item
 Data list_item_data(const ListItem *item);
@@ -28,18 +42,18 @@ ListItem *list_item_next(ListItem *item);
 ListItem *list_item_prev(ListItem *item);
 
 // Inserts new list item into the beginning
-ListItem *list_insert(List *list, Data data);
+ListItem *list_insert(List<ListItem> *list, Data *data);
 
 // Inserts new list item after the specified item
-ListItem *list_insert_after(List *list, ListItem *item, Data data);
+ListItem *list_insert_after(List<ListItem> *list, ListItem *item, Data *data);
 
 // Deletes the specified list item.
 // Not applicable for the singly linked lists.
 // Should be O(1)
-ListItem *list_erase(List *list, ListItem *item);
+ListItem *list_erase(List<ListItem> *list, ListItem *item);
 
 // Deletes the list item following the specified one
 // Should be O(1)
-ListItem *list_erase_next(List *list, ListItem *item);
+ListItem *list_erase_next(List<ListItem> *list, ListItem *item);
 
 #endif
