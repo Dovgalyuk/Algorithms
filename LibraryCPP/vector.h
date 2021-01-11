@@ -6,20 +6,21 @@ typedef int Data;
 struct Vector
 {
 private:
+	size_t Capacity;
 	size_t Size;
 	Data* Elem;
 public:
 	Vector()
-		:Size(0)
+		:Capacity(0), Size(0)
 	{
 		Elem = new Data[0];
 		Resize(1);
 	}
-	Vector(size_t size)
-		:Size(0)
+	Vector(size_t capacity)
+		:Capacity(0), Size(0)
 	{
-		Elem = new Data[Size];
-		Resize(size);
+		Elem = new Data[Capacity];
+		Resize(capacity);
 	}
 	~Vector()
 	{
@@ -31,39 +32,44 @@ public:
 	}
 	void Set(size_t index, Data value)
 	{
-		if (index >= Size) Resize(index * 2);
+		if (index >= Capacity) Resize(index * 2);
 		Elem[index] = value;
+		Size++;
 	}
 	size_t GetSize() const
 	{
 		return Size;
 	}
-	void Resize(size_t size)
+	size_t GetCapacity() const
 	{
-		size_t new_size = 0;
+		return Capacity;
+	}
+	void Resize(size_t capacity)
+	{
+		size_t new_cap = 0;
 		Data* elem;
-		if (size <= Size)
+		if (capacity <= Capacity)
 		{
-			new_size = size;
-			elem = new Data[new_size];
+			new_cap = capacity;
+			elem = new Data[new_cap];
 
-			for (int i = 0; i < size; i++)
+			for (int i = 0; i < capacity; i++)
 			{
 				elem[i] = Elem[i];
 			}
 		}
 		else
 		{
-			new_size = size > Size * 2 ? size : Size * 2;
-			elem = new Data[new_size];
+			new_cap = capacity > Capacity * 2 ? capacity : Capacity * 2;
+			elem = new Data[new_cap];
 
-			for (int i = 0; i < Size; i++)
+			for (int i = 0; i < Capacity; i++)
 			{
 				elem[i] = Elem[i];
 			}
-			int i = Size;
+			int i = Capacity;
 			if (i < 0) i = 0;
-			for (i; i < new_size; i++)
+			for (i; i < new_cap; i++)
 			{
 				elem[i] = 0;
 			}
@@ -71,7 +77,16 @@ public:
 
 		delete[] Elem;
 		Elem = elem;
-		Size = new_size;
+		Capacity = new_cap;
+	}
+
+	void ShiftLeft(size_t value)
+	{
+		for (int i = 0; i < Size; i++)
+		{
+			if (i <= Size - value - 1) Set(i, GetValue(value + i));
+			else Set(i, 0);
+		}
 	}
 };
 

@@ -3,63 +3,46 @@
 
 using namespace std;
 
-char matrix[26][26];
-const unsigned diff = 65;
-
-bool find_elem(Vector* vec, char to_check, size_t& index, size_t& element_count)
-{
-	for (int i = 0; i < element_count; i++)
-	{
-		if (vec->GetValue(i) == to_check)
-		{
-			index = i;
-			return true;
-		}
-	}
-	index = element_count++;
-	return false;
-}
+const unsigned max_letter_cnt = 26;
+const unsigned asciiDiff = 65;
+char matrix[max_letter_cnt][max_letter_cnt];
 
 int main()
 {
+	cout << "Enter elements or '.' to end: " << endl;
 	char start;
 	cin >> start;
-	size_t elem_count = 0;
-	Vector* elements = new Vector();
-	while (cin)
+	start -= asciiDiff;
+
+	while (true)
 	{
 		char trash;
 		char chain1, chain2;
-		cin >> chain1 >> trash >> trash >> chain2;
-		size_t index1, index2;
-		if (!find_elem(elements, chain1, index1, elem_count))
-		{
-			elements->Set(index1, chain1);
-		}
-		if (!find_elem(elements, chain2, index2, elem_count))
-		{
-			elements->Set(index2, chain2);
-		}
-		matrix[index1][index2] = 1;
+		cin >> chain1;
+
+		if (chain1 == '.') break;
+
+		cin >> trash >> trash >> chain2;
+
+		chain1 -= asciiDiff;
+		chain2 -= asciiDiff;
+		matrix[chain1][chain2] = 1;
 	}
-
-	size_t startIndex;
-	find_elem(elements, start, startIndex, elem_count);
-
-	bool* vertexes = new bool[elem_count];
-	for (int i = 0; i < elem_count; i++)
+	
+	bool* vertexes = new bool[26];
+	for (int i = 0; i < 26; i++)
 	{
 		vertexes[i] = false;
 	}
 
 	vertexes[start] = 0;
 	Queue* queue = new Queue();
-	queue->Insert(startIndex);
+	queue->Insert(start);
 	while (!queue->IsEmpty())
 	{
 		Data vertex = queue->Get();
 		queue->Remove();
-		for (int i = 0; i < elem_count; i++)
+		for (int i = 0; i < max_letter_cnt; i++)
 		{
 			if (vertexes[i] == false && matrix[vertex][i] == 1)
 			{
@@ -69,12 +52,14 @@ int main()
 		}
 	}
 
-	for (int i = 0; i < elem_count; i++)
+	for (int i = 0; i < max_letter_cnt; i++)
 	{
 		if (vertexes[i] == true)
-			cout << (char)elements->GetValue(i) << " ";
+		{
+			char symbol = i + asciiDiff;
+			cout << symbol << " ";
+		}
 	}
 
-	delete elements;
 	delete queue;
 }

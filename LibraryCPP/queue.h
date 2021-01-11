@@ -12,6 +12,7 @@ private:
 	Vector* vector;
 	int Head;
 	int Tail;
+	const size_t shift = 10;
 public:
 	Queue()
 	{
@@ -26,10 +27,10 @@ public:
 	}
 	void Insert(Data data)
 	{
-		int vec_size = vector->GetSize();
+		int vec_size = vector->GetCapacity();
 		if (Tail >= (vec_size - 1))
 		{
-			vector->Resize(vector->GetSize() * 2);
+			vector->Resize(vector->GetCapacity() * 2);
 		}
 
 		vector->Set(Tail, data);
@@ -44,6 +45,12 @@ public:
 	void Remove()
 	{
 		Head++;
+		if (Head == shift)
+		{
+			vector->ShiftLeft(shift);
+			Head -= shift;
+			Tail -= shift;
+		}
 	}
 
 	bool IsEmpty()
