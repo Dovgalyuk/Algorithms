@@ -2,6 +2,8 @@
 #include "vector.h"
 #include "queue.h"
 
+const size_t shift = 5; // this is just for optimization (shifting every time is longer)
+
 struct Queue
 {
     Vector* vector;
@@ -52,6 +54,12 @@ void queue_remove(Queue *queue)
     if (!queue_empty(queue))
     {
         queue->head++;
+        if (queue->head % shift == 0)
+        {
+            vector_shift(queue->vector, shift);
+            queue->head -= shift;
+            queue->tail -= shift;
+        }
     }
 }
 

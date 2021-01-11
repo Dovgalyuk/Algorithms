@@ -71,3 +71,13 @@ void vector_resize(Vector *vector, size_t size)
     vector->elem = elem;
     vector->size = new_size;
 }
+
+void vector_shift(Vector* vector, size_t shifting)
+{
+    size_t size = vector_size(vector);
+    for (int i = 0; i < size; i++)
+    {
+        if (i <= size - shifting - 1) vector_set(vector, i, vector_get(vector, shifting + i));
+        else vector_set(vector, i, 0);
+    }
+}

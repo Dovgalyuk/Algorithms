@@ -25,6 +25,11 @@ void additional_tests(Queue* queue)
     }
 }
 
+void additional_tests2(Queue* queue)
+{
+
+}
+
 int main()
 {
     Queue *queue = queue_create();
