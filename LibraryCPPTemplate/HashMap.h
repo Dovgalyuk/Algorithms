@@ -14,10 +14,6 @@ public:
     HashMap(size_t capacity) : _capacity(capacity)
     {
         _nodes.resize(capacity);
-
-        _conditions[0] = [](Node& node, string& key) {return node.status != NodeStatus::Full; }; // could do this in find_index() but doing it here gives us 0.001 boost :)
-        _conditions[1] = [](Node& node, string& key) {return node.key == key && node.status == NodeStatus::Full; };
-        _conditions[2] = [](Node& node, string& key) {return node.key == key && node.status == NodeStatus::Full; };
     }
 
     HashMap() : HashMap(10) { }
@@ -26,11 +22,13 @@ public:
 
     string Add(string key, string value) override
     {
-        size_t index = find_index(key, _conditions[0]);
+        MyFunc condition = [](Node& node, string& key) {return node.status != NodeStatus::Full; };
+        
+        size_t index = find_index(key, condition);
         if (index == -1)
         {
             rehash();
-            index = find_index(key, _conditions[0]);
+            index = find_index(key, condition);
         }
 
         Node* node = &_nodes[index];
@@ -43,7 +41,9 @@ public:
 
     string Remove(string key) override
     {
-        size_t index = find_index(key, _conditions[1]);
+        MyFunc condition = [](Node& node, string& key) {return node.key == key && node.status == NodeStatus::Full; };
+        
+        size_t index = find_index(key, condition);
         if (index == -1) throw std::logic_error("No proposed key in Delete() of hash_map");
 
         Node* node = &_nodes[index];
@@ -56,7 +56,9 @@ public:
 
     string Find(string key) override
     {
-        size_t index = find_index(key, _conditions[2]);
+        MyFunc condition = [](Node& node, string& key) {return node.key == key && node.status == NodeStatus::Full; };
+
+        size_t index = find_index(key, condition);
         if (index == -1) throw std::logic_error("No proposed key in Find() of hash_map");
 
         return _nodes[index].value;
@@ -101,6 +103,7 @@ private:
         {
             Node& node = _nodes[index];
             if (condition(node, key)) return index;
+            if (node.status == NodeStatus::Empty) return -1;
         }
         return -1;
     }
@@ -124,6 +127,5 @@ private:
 
     size_t _capacity;
     std::vector<Node> _nodes;
-    MyFunc _conditions[3];
     std::hash<string> str_hash = std::hash<string>{};
 };
