@@ -2,29 +2,29 @@
 #include "queue.h"
 using namespace std;
 
-void searchAlgorithm(int rowSize, int colSize, int row, int col, char** maze, int** visitedCell, int** path, Queue*& map)
+void searchAlgorithm(int row, int col, char** maze, int** visitedCell, int** path, Queue*& map)
 {
 	if (!visitedCell[row][col])
 	{
-		if ((row + 1) < rowSize && (row + 1) >= 0 && !visitedCell[row + 1][col] && (maze[row + 1][col] == '.' || maze[row + 1][col] == 'X'))
+		if (!visitedCell[row + 1][col] && (maze[row + 1][col] == '.' || maze[row + 1][col] == 'X'))
 		{
 			path[row + 1][col] = path[row][col] + 1;
 			queue_insert(map, row + 1);
 			queue_insert(map, col);
 		}
-		if ((row - 1) < rowSize && (row - 1) >= 0 && !visitedCell[row - 1][col] && (maze[row - 1][col] == '.' || maze[row - 1][col] == 'X'))
+		if (!visitedCell[row - 1][col] && (maze[row - 1][col] == '.' || maze[row - 1][col] == 'X'))
 		{
 			path[row - 1][col] = path[row][col] + 1;
 			queue_insert(map, row - 1);
 			queue_insert(map, col);
 		}
-		if ((col + 1) < colSize && (col + 1) >= 0 && !visitedCell[row][col + 1] && (maze[row][col + 1] == '.' || maze[row][col + 1] == 'X'))
+		if (!visitedCell[row][col + 1] && (maze[row][col + 1] == '.' || maze[row][col + 1] == 'X'))
 		{
 			path[row][col + 1] = path[row][col] + 1;
 			queue_insert(map, row);
 			queue_insert(map, col + 1);
 		}
-		if ((col - 1) < colSize && (col - 1) >= 0 && !visitedCell[row][col - 1] && (maze[row][col - 1] == '.' || maze[row][col - 1] == 'X'))
+		if (!visitedCell[row][col - 1] && (maze[row][col - 1] == '.' || maze[row][col - 1] == 'X'))
 		{
 			path[row][col - 1] = path[row][col] + 1;
 			queue_insert(map, row);
@@ -85,7 +85,7 @@ int main()
 		y = queue_get(map);
 		queue_remove(map);
 
-		searchAlgorithm(row, col, x, y, maze, visitedCell, path, map);
+		searchAlgorithm(x, y, maze, visitedCell, path, map);
 	}
 
 	queue_delete(map);
@@ -103,22 +103,22 @@ int main()
 
 		while (path[x][y] != 2)
 		{
-			if ((x - 1) >= 0  && (path[x - 1][y] == path[x][y] - 1))
+			if (path[x - 1][y] == path[x][y] - 1)
 			{
 				x = x - 1;
 				maze[x][y] = 'x';
 			}
-			else if ((x + 1) >= 0 && (x + 1) < row && (path[x + 1][y] == path[x][y] - 1))
+			else if (path[x + 1][y] == path[x][y] - 1)
 			{
 				x = x + 1;
 				maze[x][y] = 'x';
 			}
-			else if ((y - 1) >= 0  && (path[x][y - 1] == path[x][y] - 1))
+			else if (path[x][y - 1] == path[x][y] - 1)
 			{
 				y = y - 1;
 				maze[x][y] = 'x';
 			}
-			else if ((y + 1) >= 0 && (y + 1) < col && (path[x][y + 1] == path[x][y] - 1))
+			else if (path[x][y + 1] == path[x][y] - 1)
 			{
 				y = y + 1;
 				maze[x][y] = 'x';
