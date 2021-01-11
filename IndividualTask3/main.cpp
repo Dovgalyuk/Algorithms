@@ -75,7 +75,7 @@ void lab_matrix_delete(char** lab_matrix, const xy_coords boarders)
 {
 	for (size_t y = 0; y < boarders.y; y++)
 		delete[] lab_matrix[y];
-	delete lab_matrix;
+	delete[] lab_matrix;
 }
 
 void bfs_check(char** lab_matrix, Queue* x_q, Queue* y_q, const xy_coords boarders, size_t& vertex_amount)
