@@ -43,6 +43,8 @@ int main()
 		}
 	}
 
-	if (good) cout << "YES";
+	if (good && stack->empty()) cout << "YES";
 	else cout << "NO";
+
+	delete stack;
 }
