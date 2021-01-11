@@ -4,7 +4,7 @@
 #include <vector>
 #include "interface.h"
 
-class Graph :public Interface {
+class Graph  {
 private:
 	vector <unsigned int> vertexList;			
 	vector <List*> adjacencyList;				
