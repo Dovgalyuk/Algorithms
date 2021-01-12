@@ -108,7 +108,7 @@ int main()
 				x = x - 1;
 				maze[x][y] = 'x';
 			}
-			else if (path[x + 1][y] == path[x][y] - 1)
+			else if ((x + 1) < row && (path[x + 1][y] == path[x][y] - 1))
 			{
 				x = x + 1;
 				maze[x][y] = 'x';
@@ -118,7 +118,7 @@ int main()
 				y = y - 1;
 				maze[x][y] = 'x';
 			}
-			else if (path[x][y + 1] == path[x][y] - 1)
+			else if ((y + 1) < col && (path[x][y + 1] == path[x][y] - 1))
 			{
 				y = y + 1;
 				maze[x][y] = 'x';
