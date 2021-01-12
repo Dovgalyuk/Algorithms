@@ -9,15 +9,16 @@ struct Queue
     Vector* vector;
     size_t head;
     size_t tail;
+    long refreshindex = -1;
 };
 
 Queue *queue_create()
 {
     Queue* queue = new Queue;
     queue->vector = vector_create();
-    vector_resize(queue->vector, 50);
+    vector_resize(queue->vector, 100);
     queue->head = 0;
-    queue->tail = -1;
+    queue->tail = 0;
     return queue;
 }
 
@@ -28,16 +29,22 @@ void queue_delete(Queue *queue)
 }
 
 void queue_insert(Queue *queue, Data data)
-{
-    queue->tail++;
-	
+{	
     Vector* q_vector = queue->vector;
-	if (queue->tail >= vector_size(q_vector) - 1)
-	{
-        vector_resize(q_vector, vector_size(q_vector) * 2);
-	}
+    
+    if (queue->tail >= vector_size(queue->vector) && queue->head == 0)
+    {
+        vector_resize(q_vector, vector_size(queue->vector) * 2);
+    }
 
     vector_set(q_vector, queue->tail, data);
+    if (queue->tail == vector_size(queue->vector) - 1)
+    {
+        if (queue->refreshindex == -1) queue->refreshindex = queue->tail;
+        queue->tail = 0;
+    }
+    else
+        queue->tail++;
 }
 
 Data queue_get(const Queue *queue)
@@ -53,17 +60,16 @@ void queue_remove(Queue *queue)
 {
     if (!queue_empty(queue))
     {
-        queue->head++;
-        if (queue->head % shift == 0)
+        if (queue->head == queue->refreshindex)
         {
-            vector_shift(queue->vector, shift);
-            queue->head -= shift;
-            queue->tail -= shift;
+            queue->refreshindex = -1;
+            queue->head = 0;
         }
+        else queue->head++;
     }
 }
 
 bool queue_empty(const Queue *queue)
 {
-    return queue->tail + 1 == queue->head;
+    return queue->tail == queue->head && queue->refreshindex == -1;
 }
