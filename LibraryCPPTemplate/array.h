@@ -7,7 +7,7 @@ template <typename Data> class Array
 {
 public:
     // create array
-    Array(size_t size);
+    Array(size_t);
 
     // delete array, free memory
     ~Array();
@@ -27,11 +27,11 @@ private:
 };
 
 template<typename Data>
-Array<Data>::Array(size_t size)
+Array<Data>::Array(size_t val)
 {
-    _elem = new Data[size];
-    _size = size;
-    for (int i = 0; i < size; i++)
+    _elem = new Data[val];
+    _size = val;
+    for (int i = 0; i < val; i++)
         _elem[i] = Data();
 }
 
