@@ -21,17 +21,13 @@ List *list_create()
 
 void list_delete(List *list)
 {
-    ListItem* list_head = list->head;
-    if (list_head == NULL) return;
-    
-    ListItem* current = list_item_next(list_head);
-    delete list_head;
+    ListItem* current = list->head;
 
     while (current != NULL)
     {
-        list_head = current;
-        current = list_item_next(current);
-        delete list_head;
+        ListItem* prev = current;
+        current = list_item_next(prev);
+        delete prev;
     }
 
     delete list;
