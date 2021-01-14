@@ -1,45 +1,213 @@
-#ifndef LIST_H
-#define LIST_H
+//
+// Created by Alex on 14.01.2021.
+//
 
-// List
-// Stores integer values inside
-typedef int Data;
+#ifndef DOLBOYBLAB_LIST_H
+#define DOLBOYBLAB_LIST_H
+#include <cstdio>
+#include <iostream>
 
-struct List;
-struct ListItem;
+template<typename T>
+struct node
+{
+    T data;
+    struct node *next;
+};
 
-// Creates new list
-List *list_create();
+template<typename T>
+class List {
+private:
+    node<T> *head,*tail;
+public:
+    List()
+    {
+        head = nullptr;
+        tail = nullptr;
+    }
 
-// Destroys the list and frees the memory
-void list_delete(List *list);
+    void push_back(const T& n)
+    {
+        auto *tmp = new node<T>();
+        tmp->data = n;
+        tmp->next = nullptr;
 
-// Retrieves the first item from the list
-ListItem *list_first(List *list);
+        if(head == nullptr)
+        {
+            head = tmp;
+            tail = tmp;
+        }
+        else
+        {
+            tail->next = tmp;
+            tail = tail->next;
+        }
+    }
 
-// Extracts data from the list item
-Data list_item_data(const ListItem *item);
+    void insert(const T& n){
+        auto *tmp = new node<T>();
+        tmp->data = n;
+        tmp->next = nullptr;
 
-// Returns list item following after the specified one
-ListItem *list_item_next(ListItem *item);
+        if(head == nullptr)
+        {
+            head = tmp;
+            tail = tmp;
+        } else {
+            tmp->next = head;
+            head = tmp;
+        }
+    }
 
-// Returns previous element for the specified item.
-// Not applicable for the singly linked lists.
-ListItem *list_item_prev(ListItem *item);
+    void insert_after(const T& element, const T& value){
+        node<T>* current = head;
+        while(current->data != element){
+            if (current->next == nullptr){
+                throw std::invalid_argument("There is no element in list");
+            }
+            current = current->next;
+        }
+        auto* new_node = new node<T>();
+        new_node->data = value;
+        new_node->next = current->next;
+        current->next = new_node;
+        if (current == tail){
+            tail = new_node;
+        }
+        new_node = nullptr;
+    }
 
-// Inserts new list item into the beginning
-ListItem *list_insert(List *list, Data data);
+    const T& last(){
+        return tail->data;
+    }
 
-// Inserts new list item after the specified item
-ListItem *list_insert_after(List *list, ListItem *item, Data data);
+    const T& first(){
+        return head->data;
+    }
 
-// Deletes the specified list item.
-// Not applicable for the singly linked lists.
-// Should be O(1)
-ListItem *list_erase(List *list, ListItem *item);
+    void set(const size_t& index, const T& value) {
+        node<T>* current = head;
+        for (size_t i = 0; i != index; ++i) {
+            if (current->next != nullptr){
+                current = current->next;
+            } else {
+                throw std::invalid_argument("Index out of bounds");
+            }
+        }
+        current->data = value;
+    }
 
-// Deletes the list item following the specified one
-// Should be O(1)
-ListItem *list_erase_next(List *list, ListItem *item);
+    T& next(const T& element){
+        node<T>* current = head;
+        while(current->data != element){
+            if (current->next == nullptr){
+                throw std::invalid_argument("There is no element in list");
+            }
+            current = current->next;
+        }
+        return current->next->data;
+    }
 
-#endif
+    void drop_last(){
+        if (tail != nullptr && head !=nullptr) {
+            if (tail == head) {
+                delete tail;
+                delete head;
+            } else {
+                auto* current = head;
+                while (current->next != tail) {
+                    current = current->next;
+                }
+                current->next = nullptr;
+                delete tail;
+                tail = current;
+            }
+        }
+    }
+
+    void drop_first(){
+        if (tail != nullptr && head !=nullptr) {
+            if (tail == head) {
+                delete tail;
+                delete head;
+                tail = nullptr;
+                head = nullptr;
+            } else {
+                auto* current = head;
+                head = head->next;
+                delete current;
+            }
+        }
+    }
+
+    void erase_at(const size_t& index){
+        if (index == 0) {
+            drop_first();
+        } else {
+            node<T>* current = head;
+            for (size_t i = 1; i < index; ++i) {
+                if (current->next != nullptr){
+                    current = current->next;
+                } else {
+                    throw std::invalid_argument("Index out of bounds");
+                }
+            }
+            auto* next = current->next;
+            if (next == tail){
+                current->next = nullptr;
+                tail = current;
+                delete next;
+            } else {
+                current->next = next->next;
+                delete next;
+            }
+
+        }
+    }
+
+    void erase(const T& value) {
+        if (head->data == value){
+            drop_first();
+        } else {
+            node<T>* current = head;
+            while(current->next->data != value){
+                if (current->next->next == nullptr){
+                    throw std::invalid_argument("There is no element in list");
+                }
+                current = current->next;
+            }
+            auto* next = current->next;
+            if (next == tail){
+                current->next = nullptr;
+                tail = current;
+                delete next;
+            } else {
+                current->next = next->next;
+                delete next;
+            }
+        }
+    }
+
+    void print(){
+        std::cout << "[";
+        node<T>* current = head;
+        while (current != nullptr){
+            std::cout << " " << current->data;
+            if (current->next != nullptr) {
+                std::cout << ",";
+            }
+            current = current->next;
+        }
+        std::cout << "]" << std::endl;
+    }
+
+    ~List(){
+        auto* current = head;
+        tail = nullptr;
+        while (current != nullptr) {
+            head = head->next;
+            delete current;
+            current = head;
+        }
+    }
+};
+#endif //DOLBOYBLAB_LIST_H

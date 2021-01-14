@@ -1,30 +1,44 @@
-#ifndef STACK_H
-#define STACK_H
+//
+// Created by Alex on 14.01.2021.
+//
 
-// Stack
-// Stores integer values inside
-typedef int Data;
+#ifndef DOLBOYBLAB_STACK_H
+#define DOLBOYBLAB_STACK_H
+#include "List.h"
 
-struct Stack;
+template <typename T>
+class Stack {
+private:
+    unsigned int _size_of_stack;
+    List<T> *_list;
 
-// Creates empty stack
-Stack *stack_create();
+public:
 
-// Deletes the stack
-void stack_delete(Stack *stack);
+    explicit Stack() {
+        _size_of_stack = 0;
+        _list = new List<T>();
+    }
 
-// Pushes data on top of the stack
-// Should be O(1) on average
-void stack_push(Stack *stack, Data data);
+    ~Stack() {
+        delete _list;
+    }
 
-// Retrives the last element from the stack
-Data stack_get(const Stack *stack);
+    void push(const T& newElement) {
+        _list->insert(newElement);
+        _size_of_stack++;
+    }
 
-// Removes the last element from the stack
-// Should be O(1)
-void stack_pop(Stack *stack);
+    void pop() {
+        _list->drop_first();
+        _size_of_stack--;
+    }
 
-// Returns true if the stack is empty
-bool stack_empty(const Stack *stack);
+    const T& top() {
+        return _list->first();
+    }
 
-#endif
+    unsigned int size() {
+        return _size_of_stack;
+    }
+};
+#endif //DOLBOYBLAB_STACK_H
