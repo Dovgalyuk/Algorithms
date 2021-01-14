@@ -1,30 +1,46 @@
-#ifndef QUEUE_H
-#define QUEUE_H
 
-// Queue
-// Stores integer values inside
-typedef int Data;
+#ifndef VECTORQUEUE_QUEUE_H
+#define VECTORQUEUE_QUEUE_H
 
-struct Queue;
+#include "Vector.h"
 
-// Create empty queue
-Queue *queue_create();
+template<typename T>
+class Queue{
 
-// Deletes queue
-void queue_delete(Queue *queue);
+    private:
+    //[_inner_vector] - вектор, на основе которого сделана очередь.
+    Vector<T>* _inner_vector;
 
-// Includes new element into the queue
-// Should be O(1) on average
-void queue_insert(Queue *queue, Data data);
+    public:
+    //Стандартный конструктор.
+    Queue() : _inner_vector(new Vector<T>()){}
+    //Деструктор с удалением вектора.
+    ~Queue(){
+        delete _inner_vector;
+    };
+    //Операция вставки в конец очереди.
+    void insert(const T& value){
+        _inner_vector->push_back(value);
+    }
+    //Удаление первого элемента очереди.
+    void remove(){
+        _inner_vector->erase(0);
+    }
+    //Доступ к первому элементу очереди.
+    T& get(){
+        return _inner_vector->get(0);
+    }
+    //Проверка, пуста ли очередь.
+    bool empty(){
+        return _inner_vector->size() == 0;
+    }
+    //Очистка очереди.
+    void clear(){
+        _inner_vector->clear();
+    }
+    //Геттер текущего размера очереди.
+    size_t size(){return _inner_vector->size();}
 
-// Retrieves first element from the queue
-Data queue_get(const Queue *queue);
+};
 
-// Removes first element from the queue
-// Should be O(1) on average
-void queue_remove(Queue *queue);
-
-// Returns true if the queue is empty
-bool queue_empty(const Queue *queue);
-
-#endif
+#endif //VECTORQUEUE_QUEUE_H
