@@ -28,6 +28,8 @@ void vector_resize(Vector *vector, size_t size);
 
 void vector_recapacity(Vector* vector, size_t cap);
 
+void vector_pushback(Vector* vector, Data value);
+
 size_t vector_capacity(const Vector* vector);
 
 #endif

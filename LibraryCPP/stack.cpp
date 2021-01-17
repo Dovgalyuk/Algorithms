@@ -12,6 +12,7 @@ Stack *stack_create()
 {
     Stack *stack = new Stack;
     stack->vec = vector_create();
+    vector_resize(stack->vec, 1);
     return stack;
 }
 
@@ -23,7 +24,13 @@ void stack_delete(Stack *stack)
 
 void stack_push(Stack *stack, Data data)
 {
-    vector_set(stack->vec, stack->index++, data);
+    //vector_set(stack->vec, stack->index++, data);
+    if (vector_size(stack->vec) <= stack->index)
+    {
+        vector_resize(stack->vec, stack->index * 2);
+    }
+    vector_set(stack->vec, stack->index, data);
+    stack->index++;
 }
 
 Data stack_get(const Stack *stack)

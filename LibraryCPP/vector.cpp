@@ -28,7 +28,19 @@ Data vector_get(const Vector *vector, size_t index)
 
 void vector_set(Vector *vector, size_t index, Data value)
 {
-    vector->data[index] = value;
+    if (index < vector->size)
+    {
+        vector->data[index] = value;
+    }
+}
+
+void vector_pushback(Vector* vector, Data value)
+{
+    if (vector->size >= vector->capacity)
+    {
+        vector_recapacity(vector, vector->size * 2);
+    }
+    vector->data[vector->size] = value;
     vector->size++;
 }
 
@@ -39,18 +51,16 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-    if (size < vector->size)
+    if (size > vector->capacity)
     {
-        vector->size = size;
+        vector_recapacity(vector, size * 2);
     }
-    else
-    {
-        vector_recapacity(vector, size);
-    }
+    vector->size = size;
 }
 
 void vector_recapacity(Vector* vector, size_t cap)
 {
+    if (cap == 0) cap = 1;
     if (cap <= vector->capacity)
     {
         vector->capacity = cap;
@@ -72,7 +82,9 @@ void vector_recapacity(Vector* vector, size_t cap)
         {
             elem[i] = vector->data[i];
         }
-        for (int i = vector->capacity - 1; i < new_cap; i++)
+        int i = vector->capacity;
+        if (i < 0) i = 0;
+        for (i; i < new_cap; i++)
         {
             elem[i] = 0;
         }
