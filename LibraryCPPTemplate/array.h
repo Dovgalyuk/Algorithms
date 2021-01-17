@@ -1,5 +1,6 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
+#include <stdlib.h>
 
 typedef int Data;
 
