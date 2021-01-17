@@ -37,8 +37,24 @@ void queue_insert(Queue *queue, Data data)
     }
     else if (queue->tail + 1 == queue->head)
     {
+        Vector* new_vector = vector_create();
+        vector_resize(new_vector, vector_size(q_vector) * 2);
+        size_t j = 0;
+        for (int i = queue->head; i < vector_size(q_vector); i++) // from head to end
+        {
+            vector_set(new_vector, j, vector_get(q_vector, i));
+            j++;
+        }
+        for (int i = 0; i <= queue->tail; i++) // from begin to tail
+        {
+            vector_set(new_vector, j, vector_get(q_vector, i));
+            j++;
+        }
+        queue->vector = new_vector;
+        vector_delete(q_vector);
+
         queue->head = 0;
-        queue->tail = 0;
+        queue->tail = j + 1;
     }
 
     vector_set(q_vector, queue->tail, data);
