@@ -9,6 +9,7 @@ add_subdirectory(TestListC)
 add_subdirectory(TestQueueC)
 add_subdirectory(TestStackC)
 add_subdirectory(TestVectorC)
+add_subdirectory(Labs)
 
 add_subdirectory(TestArrayCPP)
 
