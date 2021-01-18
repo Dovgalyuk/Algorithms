@@ -12,6 +12,8 @@ struct node
 {
     T data;
     struct node *next;
+    explicit node(T data, node<T> *next = nullptr) : data(data), next(next){}
+    node() = default;
 };
 
 template<typename T>
@@ -58,9 +60,9 @@ public:
         }
     }
 
-    void insert_after(const T& element, const T& value){
+    void insert_after(const node<T>* element, const T& value){
         node<T>* current = head;
-        while(current->data != element){
+        while(current != element){
             if (current->next == nullptr){
                 throw std::invalid_argument("There is no element in list");
             }
@@ -82,6 +84,10 @@ public:
 
     const T& first(){
         return head->data;
+    }
+
+    const node<T>* first_node(){
+        return head;
     }
 
     void set(const size_t& index, const T& value) {
