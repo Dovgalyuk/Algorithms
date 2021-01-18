@@ -20,7 +20,7 @@ int main()
     if (list_item_data(list_item_next(list_first(list))) != 4)
         std::cout << "list_insert_after error\n";
 
-    list_erase(list, list_first(list));
+    list_erase_head(list);
 
     if (list_item_data(list_first(list)) != 4)
         std::cout << "list_erase error\n";
