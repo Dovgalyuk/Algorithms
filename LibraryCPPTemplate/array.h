@@ -8,27 +8,27 @@ template <typename Data> class Array
 {
 public:
     // create array
-    Array(size_t);
+    Array(unsigned long long);
 
     // delete array, free memory
     ~Array();
 
     // returns specified array element
-    Data get(size_t index) const;
+    Data get(unsigned long long index) const;
 
     // sets the specified array element to the value
-    void set(size_t index, Data value);
+    void set(unsigned long long index, Data value);
 
     // returns array size
-    size_t size() const;
+    unsigned long long size() const;
 	
 private:
     Data* _elem;
-    size_t _size;
+    unsigned long long _size;
 };
 
 template<typename Data>
-Array<Data>::Array(size_t val)
+Array<Data>::Array(unsigned long long val)
 {
     _elem = new Data[val];
     _size = val;
@@ -43,19 +43,19 @@ Array<Data>::~Array()
 }
 
 template<typename Data>
-Data Array<Data>::get(size_t index) const
+Data Array<Data>::get(unsigned long long index) const
 {
     return _elem[index];
 }
 
 template<typename Data>
-void Array<Data>::set(size_t index, Data value)
+void Array<Data>::set(unsigned long long index, Data value)
 {
     _elem[index] = value;
 }
 
 template<typename Data>
-size_t Array<Data>::size() const
+unsigned long long Array<Data>::size() const
 {
     return _size;
 }
