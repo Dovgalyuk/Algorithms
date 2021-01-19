@@ -44,7 +44,15 @@ public:
 	{
 		return Capacity;
 	}
-	void Resize(size_t capacity)
+	void Resize(size_t size)
+	{
+		if (size > Capacity)
+		{
+			Recap(size * 2);
+		}
+		Size = size;
+	}
+	void Recap(size_t capacity)
 	{
 		size_t new_cap = 0;
 		Data* elem;
@@ -80,14 +88,6 @@ public:
 		Capacity = new_cap;
 	}
 
-	void ShiftLeft(size_t value)
-	{
-		for (int i = 0; i < Size; i++)
-		{
-			if (i <= Size - value - 1) Set(i, GetValue(value + i));
-			else Set(i, 0);
-		}
-	}
 };
 
 #endif

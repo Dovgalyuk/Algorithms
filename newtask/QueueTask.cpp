@@ -4,7 +4,7 @@
 using namespace std;
 
 const unsigned max_letter_cnt = 26;
-const unsigned asciiDiff = 65;
+const unsigned asciiDiff = 'A';
 char matrix[max_letter_cnt][max_letter_cnt];
 
 int main()
