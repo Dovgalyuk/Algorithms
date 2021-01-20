@@ -1,6 +1,8 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
-#include <stdlib.h>
+#include <cstddef>
+
+using std::size_t;
 
 typedef int Data;
 
