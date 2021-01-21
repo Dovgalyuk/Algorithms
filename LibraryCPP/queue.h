@@ -67,7 +67,7 @@ Data Get()
 
 void Remove()
 {
-	if (!IsEmpty)
+	if (!IsEmpty())
 	{
 		if (Head >= vector->GetSize() - 1)
 		{
