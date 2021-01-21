@@ -1,3 +1,3 @@
-add_executable(Librarymyfiles Task1.cpp StackTask.cpp)
+add_executable(Librarymyfiles StackTask.cpp)
 target_include_directories(Librarymyfiles PUBLIC ../LibraryCPPTemplate)
 target_link_libraries(Librarymyfiles LibraryCPPTemplate)

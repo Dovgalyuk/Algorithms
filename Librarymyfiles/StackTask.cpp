@@ -4,6 +4,25 @@
 #include "stack.h"
 using namespace std;
 
+bool is_open_tag(string tag)
+{
+	return tag[1] != '/';
+}
+
+bool tag_same(string open, string close)
+{
+	for (int i = 0; i < open.size(); i++)
+	{
+		open[i] = tolower(open[i]);
+	}
+	string newclose;
+	for (int i = 0; i < close.size(); i++)
+	{
+		if (i == 1) continue; // '/' symbol
+		newclose += tolower(close[i]);
+	}
+	return open == newclose;
+}
 
 int main()
 {
@@ -11,32 +30,26 @@ int main()
 	file.open("input.txt");
 	string tag;
 	MyStack<string>* stack = new MyStack<string>();
+	bool right = true;
 	while (file >> tag)
 	{
-		std::transform(tag.begin(), tag.end(), tag.begin(), tolower);
-		if (stack->Empty())
+		if (is_open_tag(tag))
 		{
 			stack->Push(tag);
 		}
 		else
 		{
-			string without;
-			if (tag[1] == '/')
+			string opentag = stack->Get();
+			if (!tag_same(opentag, tag))
 			{
-				tag.erase(tag.begin() + 1);
+				right = false;
+				break;
 			}
-			string lastElement = stack->Get();
-			if (tag == lastElement)
-			{
-				stack->Pop();
-			}
-			else
-			{
-				stack->Push(tag);
-			}
+
+			stack->Pop();
 		}
 	}
-	if (stack->Empty())
+	if (right && stack->Empty())
 	{
 		cout << "Yes";
 	}

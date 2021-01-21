@@ -1,5 +1,4 @@
-#ifndef STACK_H
-#define STACK_H
+#pragma once
 #include "array.h"
 
 // Stack
@@ -7,18 +6,37 @@
 typedef int Data;
 
 template <typename T>
-struct Stack
+struct MyStack
 {
 public:
-	Stack();
-	~Stack();
-	void Push(T);
-	T Get();
-	void Pop();
-	bool Empty();
+	MyStack()
+	{
+		_array = new Array<T>(10);
+	}
+	~MyStack()
+	{
+		delete _array;
+	}
+	void Push(T value)
+	{
+		_array->set(_topIndex, value);
+		_topIndex++;
+	}
+	T Get()
+	{
+		return _array->get(_topIndex - 1);
+	}
+	void Pop()
+	{
+		_topIndex--;
+	}
+	bool Empty()
+	{
+		return (_topIndex == 0);
+	}
 private:
 	Array<T>* _array;
-	int _topIndex = -1;
+	int _topIndex = 0;
 };
 
 // Creates empty stack
@@ -41,4 +59,3 @@ private:
 //// Returns true if the stack is empty
 //bool stack_empty(const Stack *stack);
 
-#endif
