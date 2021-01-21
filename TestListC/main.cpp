@@ -25,12 +25,18 @@ int main()
     if (list_item_data(list_first(list)) != 4)
         std::cout << "list_erase error\n";
 
+    int i = 0;
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
+    for (ListItem *item = list_first(list); item && i < 9 ; item = list_item_next(item), i++) // Список действительно колцевой, поэтому ограничиваем с помощью i
     {
         std::cout << list_item_data(item) << " ";
     }
     std::cout << "\n";
-    
+    i = 0;
+    for (ListItem* item = list_first(list); item && i < 9; item = list_item_prev(item), i++)
+    {
+        std::cout << list_item_data(item) << " ";
+    }
+
     list_delete(list);
 }
