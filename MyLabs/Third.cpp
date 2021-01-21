@@ -169,4 +169,8 @@ int main()
 			cout << endl;
 		}
 	}
+
+	queue_delete(queue_col);
+	queue_delete(queue_row);
+	queue_delete(queue_dist);
 }
