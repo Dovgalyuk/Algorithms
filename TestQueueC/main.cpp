@@ -32,5 +32,26 @@ int main()
         queue_remove(queue);
     }
 
+    std::cout << "=======================================" << std::endl;
+
+    for (int i = 0; i < 20; i++)
+    {
+        queue_insert(queue, i);
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        std::cout << i << " | " << "Get: " << queue_get(queue) << std::endl;
+        queue_remove(queue);
+    }
+    for (int i = 0; i < 40; i++)
+    {
+        queue_insert(queue, i);
+    }
+    while (!queue_empty(queue))
+    {
+        std::cout << "Get: " << queue_get(queue) << "\n";
+        queue_remove(queue);
+    }
+
     queue_delete(queue);
 }
