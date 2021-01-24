@@ -44,4 +44,6 @@ ListItem *list_erase_next(List *list, ListItem *item);
 
 ListItem* list_erase_first(List* list);
 
+size_t list_get_length(const List* list);
+
 #endif

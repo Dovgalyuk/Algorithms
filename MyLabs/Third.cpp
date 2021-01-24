@@ -55,24 +55,22 @@ int main()
 
 	Queue* queue_row = queue_create();
 	Queue* queue_col = queue_create();
-	Queue* queue_dist = queue_create();
 
 	int curr_row = x_row, curr_col = x_col, curr_dist = 0;
 	queue_insert(queue_row, curr_row);
 	queue_insert(queue_col, curr_col);
-	queue_insert(queue_dist, 0);
 
+	bool found = false;
 	Data cell = 0;
 	while (cell != num_end && !queue_empty(queue_row))
 	{
 		curr_row = queue_get(queue_row);
 		curr_col = queue_get(queue_col);
-		curr_dist = queue_get(queue_dist);
+		
 		queue_remove(queue_row);
 		queue_remove(queue_col);
-		queue_remove(queue_dist);
 
-		[&] {for (int i = -1; i <= 1; i++)
+		for (int i = -1; i <= 1; i++)
 		{
 			for (int j = -1; j <= 1; j++)
 			{
@@ -88,27 +86,28 @@ int main()
 					cell = grid[row][col];
 					if (cell == num_end)
 					{
-						grid[curr_row][curr_col] = curr_dist + 1;
+						curr_dist++;
+						grid[curr_row][curr_col] = curr_dist;
 						curr_row = row;
 						curr_col = col;
-						return;
+						found = true;
 					}
 
 					else if (cell == num_dot)
 					{
 						queue_insert(queue_row, row);
 						queue_insert(queue_col, col);
-						queue_insert(queue_dist, curr_dist + 1);
-						grid[curr_row][curr_col] = curr_dist + 1;
+						curr_dist++;
+						grid[curr_row][curr_col] = curr_dist;
 					}
 
 				}
 			}
-		}}();
+		}
 		
 	}
 
-	if (grid[curr_row][curr_col] != num_end)
+	if (!found)
 	{
 		cout << "Impossible";
 	}
@@ -118,7 +117,7 @@ int main()
 		Data cell = 0;
 		while (cell != 1)
 		{
-			[&] {for (int i = -1; i <= 1; i++)
+			for (int i = -1; i <= 1; i++)
 			{
 				for (int j = -1; j <= 1; j++)
 				{
@@ -138,7 +137,6 @@ int main()
 							curr_row = row;
 							curr_col = col;
 							i = 1, j = 1;
-							return;
 						}
 						else if (cell > 0 && cell < prev_number)
 						{
@@ -150,7 +148,7 @@ int main()
 
 					}
 				}
-			}}();
+			}
 		}
 
 		cout << endl;
@@ -172,5 +170,4 @@ int main()
 
 	queue_delete(queue_col);
 	queue_delete(queue_row);
-	queue_delete(queue_dist);
 }

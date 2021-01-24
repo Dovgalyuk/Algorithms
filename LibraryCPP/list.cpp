@@ -11,14 +11,14 @@ struct ListItem
 struct List
 {
     ListItem* head;
-    ListItem* last;
+    size_t length;
 };
 
 List* list_create()
 {
     List* list = new List;
     list->head = nullptr;
-    list->last = nullptr;
+    list->length = 0;
     return list;
 }
 
@@ -26,18 +26,11 @@ void list_delete(List* list)
 {
     ListItem* current = list->head;
 
-    while (current != nullptr)
+    while (list->length != 0)
     {
         ListItem* prev = current;
         current = list_item_next(prev);
-        delete prev;
-        prev = nullptr;
-
-        if (current == list->last)
-        {
-            delete current;
-            break;
-        }
+        list_erase(list, prev);
     }
 
     delete list;
@@ -68,19 +61,21 @@ ListItem* list_insert(List* list, Data data)
     ListItem* item = new ListItem;
     item->data = data;
 
-    ListItem* current_head = list->head;
-    if (current_head != nullptr)
+    if (list->head == nullptr || list->length == 0)
     {
-        current_head->prev = item;
-        list->last->next = item;
+        list->head = item;
+        list->head->next = item;
+        list->head->prev = item;
     }
     else
     {
-        list->last = item;
+        item->prev = list->head->prev;
+        item->next = list->head;
+        list->head->prev->next = item;
+        list->head->prev = item;
     }
-    item->prev = list->last;
-    item->next = current_head;
     list->head = item;
+    list->length++;
 
     return item;
 }
@@ -97,7 +92,8 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
         item->next->prev = new_item;
     }
     item->next = new_item;
-    
+    list->length++;
+
     return new_item;
 }
 
@@ -105,14 +101,14 @@ ListItem* list_erase_first(List* list)
 {
     ListItem* delete_item = list->head;
     ListItem* new_head = list->head->next;
+
+    delete_item->prev->next = new_head;
+    new_head->prev = delete_item->prev;
     list->head = new_head;
 
-    if (list->last != delete_item)
-    {
-        list->last->next = new_head;
-    }
-
     delete delete_item;
+    list->length--;
+
     return nullptr;
 }
 
@@ -128,18 +124,23 @@ ListItem* list_erase(List* list, ListItem* item)
     {
         item_prev->next = item->next;
     }
+
     if (item == list->head)
     {
-        list_erase_first(list);
-        return nullptr;
+        return list_erase_first(list);
     }
     delete item;
+    list->length--;
+
     return item_next;
 }
 
 ListItem* list_erase_next(List* list, ListItem* item)
 {
-    list_erase(list, item->next);
-    return nullptr;
+    return list_erase(list, item->next);
 }
 
+size_t list_get_length(const List* list)
+{
+    return list->length;
+}
