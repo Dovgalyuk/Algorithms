@@ -4,7 +4,9 @@
 #include <vector>
 
 
-void test_list();
+[[maybe_unused]] void test_list();
+
+void test_stack();
 
 size_t split(const std::string &txt, std::vector<std::string> &strs, char ch)
 {
@@ -114,11 +116,38 @@ void lab2(){
 
 
 int main() {
-    lab2();
-    //test_list();
+    //lab2();
+    test_list();
+    //test_stack();
 }
 
-void test_list() {
+void test_stack() {
+    Stack<int> stack;
+
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+    if (stack.top() != 3) {
+        std::cout << "Wrong stack top value: " << stack.top() << " must be 3" << std::endl;
+    } else std::cout << stack.top() << std::endl;
+    stack.pop();
+
+    if (stack.top() != 2) {
+        std::cout << "Wrong stack top value: " << stack.top() << " must be 2" << std::endl;
+    } else std::cout << stack.top() << std::endl;
+    stack.pop();
+
+    if (stack.top() != 1) {
+        std::cout << "Wrong stack top value: " << stack.top() << " must be 1" << std::endl;
+    } else std::cout << stack.top() << std::endl;
+    stack.pop();
+
+    if (stack.size() != 0){
+        std::cout << "Stack must be empty" << std::endl;
+    }
+}
+
+[[maybe_unused]] void test_list() {
     List<int> list;
 
     list.insert(1);
@@ -128,12 +157,13 @@ void test_list() {
     if (list.first() != 3)
         std::cout << "list_insert error\n";
 
-    list.insert_after(list.first(), 4);
+    list.insert_after(list.first_node(), 4);
 
     if (list.next(list.first()) != 4)
         std::cout << "list_insert_after error\n";
 
-    list.drop_first();// == list.erase(list.first());
+    //list.drop_first();// ==
+    list.erase(list.first());
 
     if (list.first() != 4)
         std::cout << "list_erase error\n";
