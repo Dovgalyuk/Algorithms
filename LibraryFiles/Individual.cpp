@@ -1,6 +1,6 @@
 #include <iostream>
-#include "List.h"
-#include "Stack.h"
+#include "list.h"
+#include "stack.h"
 #include <vector>
 
 
