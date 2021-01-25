@@ -35,6 +35,14 @@ public:
         return _size;
     }
 
+    void copy_values(Array<T>* from)
+    {
+        for (int i = 0; i < from->size(); i++)
+        {
+            _elem[i] = from->get(i);
+        }
+    }
+
 private:
     T* _elem;
     size_t _size;

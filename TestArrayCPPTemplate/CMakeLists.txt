@@ -1,3 +1,4 @@
-add_executable(TestArrayCPPTemplate main.cpp)
+add_executable(TestArrayCPPTemplate Source.cpp)
 target_include_directories(TestArrayCPPTemplate PUBLIC ../LibraryCPPTemplate)
+target_link_libraries(TestArrayCPPTemplate LibraryCPPTemplate)
 

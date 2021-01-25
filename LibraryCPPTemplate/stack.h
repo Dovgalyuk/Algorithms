@@ -19,7 +19,14 @@ public:
 	}
 	void Push(T value)
 	{
-		_array->set(_topIndex, value);
+		if (_topIndex + 1 == _array->size())
+		{
+			_array->set(_topIndex, value);
+			Array<T>* new_array = new Array<T>(_array->size() * 2);
+			new_array->copy_values(_array);
+			delete _array;
+			_array = new_array;
+		}
 		_topIndex++;
 	}
 	T Get()
