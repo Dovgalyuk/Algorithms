@@ -3,13 +3,14 @@
 #include "static_array.h"
 
 typedef int Data;
+typedef unsigned long long mysize_t;
 
 template <typename T>
 struct Stack
 {
 private:
 	StaticArray<T> _array = StaticArray<T>(10);
-	size_t _index;
+	mysize_t _index;
 public:
 	Stack();
 	~Stack();
@@ -18,8 +19,6 @@ public:
 	void pop();
 	bool empty();
 };
-
-
 #endif
 
 template<typename T>

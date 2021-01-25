@@ -16,20 +16,20 @@ void vector_delete(Vector *vector)
     delete vector; 
 }
 
-Data vector_get(const Vector *vector, size_t index)
+Data vector_get(const Vector *vector, mysize_t index)
 {
     return (Data)0;
 }
 
-void vector_set(Vector *vector, size_t index, Data value)
+void vector_set(Vector *vector, mysize_t index, Data value)
 {
 }
 
-size_t vector_size(const Vector *vector)
+mysize_t vector_size(const Vector *vector)
 {
     return 0;
 }
 
-void vector_resize(Vector *vector, size_t size)
+void vector_resize(Vector *vector, mysize_t size)
 {
 }

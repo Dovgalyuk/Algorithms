@@ -1,8 +1,8 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
 
-typedef unsigned long long mysize_t;
 typedef int Data;
+typedef unsigned long long mysize_t;
 
 template <typename Data> class Array
 {
@@ -26,6 +26,7 @@ private:
     Data* _elem;
     mysize_t _size;
 };
+
 
 template<typename Data>
 Array<Data>::Array(mysize_t val)
@@ -59,6 +60,5 @@ mysize_t Array<Data>::size() const
 {
     return _size;
 }
-
 #endif
 
