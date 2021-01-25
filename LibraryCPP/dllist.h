@@ -30,6 +30,4 @@ DLListItem* list_erase_next(DLList* list, DLListItem* item);
 
 DLListItem* list_erase_first(DLList* list);
 
-size_t list_get_length(const DLList* list);
-
 #endif
