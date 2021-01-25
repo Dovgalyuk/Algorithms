@@ -1,36 +1,34 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
-#include <cstddef>
 
-using std::size_t;
-
+typedef unsigned long long mysize_t;
 typedef int Data;
 
 template <typename Data> class Array
 {
 public:
     // create array
-    Array(unsigned long long);
+    Array(mysize_t val);
 
     // delete array, free memory
     ~Array();
 
     // returns specified array element
-    Data get(unsigned long long index) const;
+    Data get(mysize_t index) const;
 
     // sets the specified array element to the value
-    void set(unsigned long long index, Data value);
+    void set(mysize_t index, Data value);
 
     // returns array size
-    unsigned long long size() const;
+    mysize_t size() const;
 	
 private:
     Data* _elem;
-    unsigned long long _size;
+    mysize_t _size;
 };
 
 template<typename Data>
-Array<Data>::Array(unsigned long long val)
+Array<Data>::Array(mysize_t val)
 {
     _elem = new Data[val];
     _size = val;
@@ -45,19 +43,19 @@ Array<Data>::~Array()
 }
 
 template<typename Data>
-Data Array<Data>::get(unsigned long long index) const
+Data Array<Data>::get(mysize_t index) const
 {
     return _elem[index];
 }
 
 template<typename Data>
-void Array<Data>::set(unsigned long long index, Data value)
+void Array<Data>::set(mysize_t index, Data value)
 {
     _elem[index] = value;
 }
 
 template<typename Data>
-unsigned long long Array<Data>::size() const
+mysize_t Array<Data>::size() const
 {
     return _size;
 }
