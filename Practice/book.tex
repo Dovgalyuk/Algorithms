@@ -1,0 +1,171 @@
+\documentclass[10pt,twoside,openany]{book}
+
+\include{preamble}
+
+\begin{document}
+
+\include{title}
+\include{titleback}
+
+\tableofcontents
+
+\clearpage
+
+\chapter{std::vector}
+
+\section{new[]/delete[] vs std::vector}
+
+Перепишите следующую программу, используя {\tt std::vector}.
+
+Последовательно избавьтесь от следующих конструкций:
+\begin{itemize}
+    \item Операторы {\tt new[]/delete[]} (переменные {\tt a} и {\tt b}
+          превратите в объекты {\tt std::vector}.
+    \item Переменная {\tt m} и цикл для вычисления её значения.
+\end{itemize}
+
+\lstinputlisting{sources/vector1.cpp}
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Что делает исходная программа?
+    \item Какие ограничения неявно наложены на значение переменной {\tt n}?
+    \item На сколько строк удалось сократить исходный код, используя {\tt std::vector}?
+    \item Когда освобождается память, используемая {\tt std::vector}?
+\end{itemize}
+
+\chapter{std::array}
+
+\chapter{std::list}
+
+\chapter{Строки}
+
+\section{Изограммы}
+
+An isogram (also known as a "nonpattern word") is a word or phrase without a repeating letter, however spaces and hyphens are allowed to appear multiple times.
+
+\section{Боб}
+
+Bob is a lackadaisical teenager. In conversation, his responses are very limited.
+
+Bob answers 'Sure.' if you ask him a question, such as "How are you?".
+
+He answers 'Whoa, chill out!' if you YELL AT HIM (in all capitals).
+
+He answers 'Calm down, I know what I'm doing!' if you yell a question at him.
+
+He says 'Fine. Be that way!' if you address him without actually saying anything.
+
+He answers 'Whatever.' to anything else.
+
+Bob's conversational partner is a purist when it comes to written communication and always follows normal rules regarding sentence punctuation in English.
+
+\section{Crypto square}
+
+Implement the classic method for composing secret messages called a square code.
+
+Given an English text, output the encoded version of that text.
+
+First, the input is normalized: the spaces and punctuation are removed from the English text and the message is downcased.
+
+Then, the normalized characters are broken into rows. These rows can be regarded as forming a rectangle when printed with intervening newlines.
+
+For example, the sentence
+
+"If man was meant to stay on the ground, god would have given us roots."
+is normalized to:
+
+"ifmanwasmeanttostayonthegroundgodwouldhavegivenusroots"
+The plaintext should be organized in to a rectangle. The size of the rectangle (r x c) should be decided by the length of the message, such that c >= r and c - r <= 1, where c is the number of columns and r is the number of rows.
+
+Our normalized text is 54 characters long, dictating a rectangle with c = 8 and r = 7:
+
+"ifmanwas"
+"meanttos"
+"tayonthe"
+"groundgo"
+"dwouldha"
+"vegivenu"
+"sroots  "
+
+The coded message is obtained by reading down the columns going left to right.
+
+The message above is coded as:
+
+"imtgdvsfearwermayoogoanouuiontnnlvtwttddesaohghnsseoau"
+Output the encoded text in chunks that fill perfect rectangles (r X c), with c chunks of r length, separated by spaces. For phrases that are n characters short of the perfect rectangle, pad each of the last n chunks with a single trailing space.
+
+"imtgdvs fearwer mayoogo anouuio ntnnlvt wttddes aohghn  sseoau "
+Notice that were we to stack these, we could visually decode the ciphertext back in to the original message:
+
+"imtgdvs"
+"fearwer"
+"mayoogo"
+"anouuio"
+"ntnnlvt"
+"wttddes"
+"aohghn "
+"sseoau "
+
+\section{Подстроки}
+
+Given a string of digits, output all the contiguous substrings of length n in that string in the order that they appear.
+
+For example, the string "49142" has the following 3-digit series:
+
+"491"
+"914"
+"142"
+And the following 4-digit series:
+
+"4914"
+"9142"
+And if you ask for a 6-digit series from a 5-digit string, you deserve whatever you get.
+
+Note that these series are only required to occupy adjacent positions in the input; the digits need not be numerically consecutive.
+
+
+
+\chapter{Алгоритмы}
+
+\section{Двоичный поиск}
+
+\chapter{Структуры данных}
+
+\section{Кольцевой буфер}
+
+\chapter{Хеширование}
+
+\section{Анаграммы}
+
+An anagram is a rearrangement of letters to form a new word.
+Given a word and a list of candidates, select the sublist of anagrams of the given word.
+
+Given "listen" and a list of candidates like "enlists" "google" "inlets" "banana"
+the program should return a list containing "inlets".
+
+\section{Анаграммы 2}
+
+Найти все анаграммы из слов-кандидатов для всех подмножеств букв из исходного слова.
+
+\chapter{std::map}
+
+\section{Подсчёт слов}
+
+Given a phrase, count the occurrences of each word in that phrase.
+
+For the purposes of this exercise you can expect that a word will always be one of:
+
+A number composed of one or more ASCII digits (ie "0" or "1234") OR
+A simple word composed of one or more ASCII letters (ie "a" or "they") OR
+A contraction of two simple words joined by a single apostrophe (ie "it's" or "they're")
+When counting words you can assume the following rules:
+
+The count is case insensitive (ie "You", "you", and "YOU" are 3 uses of the same word)
+The count is unordered; the tests will ignore how words and counts are ordered
+Other than the apostrophe in a contraction all forms of punctuation are ignored
+The words can be separated by any form of whitespace (ie "\textbackslash t", "\textbackslash n", " ")
+
+
+\end{document}
