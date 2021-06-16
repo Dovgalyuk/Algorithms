@@ -37,29 +37,77 @@
 
 \chapter{std::array}
 
+\section{Массивы-значения}
+\label{array-value}
+
+Сравните две программы ниже. Предположите, какие значения выводятся в каждой из них,
+а затем попробуйте запустить их и проверить результат.
+
+\lstinputlisting{sources/array1.cpp}
+
+\lstinputlisting{sources/array2.cpp}
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Что выведут первая и вторая программы?
+    \item Как можно было бы доработать вторую, чтобы получался такой же результат, как и в первой?
+    \item Какое преимущество даёт использование {\tt std::array}?
+    \item Что нужно изменить, чтобы не переделывать функцию {\tt sum} при изменении размера массива?
+\end{itemize}
+
 \chapter{std::list}
 
 \chapter{Строки}
 
 \section{Изограммы}
 
-An isogram (also known as a "nonpattern word") is a word or phrase without a repeating letter, however spaces and hyphens are allowed to appear multiple times.
+Изограмма --- это слово (или фраза), в котором не повторяются буквы.
+
+Напишите программу, которая проверяет, является ли введённая строка изограммой.
+Строка состоит из множества латинских букв в разном регистре, пробелов и знаков препинания.
+Причём в изограмме пробелы или знаки препинания могут повторяться.
+
+При реализации используйте следующие конструкции:
+\begin{itemize}
+    \item Функцию {\tt std::isalpha}
+    \item Функцию {\tt std::tolower} или {\tt std::toupper}
+\end{itemize}
+
+\subsection*{Контрольные вопросы}
+
+В вопросах подразумевается, что для входных данных используется кодировка ASCII.
+
+\begin{itemize}
+    \item Какой фрагмент кода мог бы заменить функцию {\tt std::isalpha}?
+    \item Как можно реализовать функцию {\tt std::tolower}?
+\end{itemize}
 
 \section{Боб}
 
-Bob is a lackadaisical teenager. In conversation, his responses are very limited.
+Боб не очень любит разговаривать, поэтому использует небольшой набор реплик.
 
-Bob answers 'Sure.' if you ask him a question, such as "How are you?".
+Он отвечает <<Sure.>> на любой вопрос, например <<How are you?>>.
 
-He answers 'Whoa, chill out!' if you YELL AT HIM (in all capitals).
+Он говорит <<Whoa, chill out!>>, если вы КРИЧИТЕ НА НЕГО (то есть используете одни заглавные буквы).
 
-He answers 'Calm down, I know what I'm doing!' if you yell a question at him.
+Он отвечает <<Calm down, I know what I'm doing!>> на вопрос, в котором вы кричите.
 
-He says 'Fine. Be that way!' if you address him without actually saying anything.
+Он говорит <<Fine. Be that way!>> если вы обращаетесь к нему, но ничего
+не говорите (это значит, что входная строка программы состоит из пробельных символов).
 
-He answers 'Whatever.' to anything else.
+Он говорит <<Whatever.>> во всех остальных случаях.
 
-Bob's conversational partner is a purist when it comes to written communication and always follows normal rules regarding sentence punctuation in English.
+Напишите диалоговую программу, которая имитирует разговор с Бобом. На каждую входную строку она
+должна выводить такой ответ, какой давал бы Боб в такой же ситуации. Входные реплики для программы
+должны подчиняться правилам пунктуации английского языка.
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Каким способом проверяется, что все буквы во введённой строке заглавные?
+    \item Какую функцию стандартной библиотеки можно использовать для проверки пробельных символов?
+\end{itemize}
 
 \section{Crypto square}
 
@@ -108,6 +156,12 @@ Notice that were we to stack these, we could visually decode the ciphertext back
 "aohghn "
 "sseoau "
 
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item
+\end{itemize}
+
 \section{Подстроки}
 
 Given a string of digits, output all the contiguous substrings of length n in that string in the order that they appear.
@@ -125,15 +179,63 @@ And if you ask for a 6-digit series from a 5-digit string, you deserve whatever 
 
 Note that these series are only required to occupy adjacent positions in the input; the digits need not be numerically consecutive.
 
+\subsection*{Контрольные вопросы}
 
+\begin{itemize}
+    \item
+\end{itemize}
 
 \chapter{Алгоритмы}
 
+\section{Сортировка}
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item
+\end{itemize}
+
 \section{Двоичный поиск}
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item
+\end{itemize}
+
+\section{std::accumulate}
+
+Переделайте функции {\tt sum} в программах из задания~\ref{array-value},
+используя алгоритм {\tt std::accumulate}.
+Для этого потребуется подключить заголовочный файл {\tt numeric}.
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Как переделать вызов {\tt std::accumulate}, чтобы вычислялась сумма элементов
+          из первой половины массива?
+\end{itemize}
+
+\section{Снова std::accumulate}
+
+Переделайте программы из предыдущего задания, чтобы вместо суммы функция {\tt std::accumulate} считала
+произведение элементов.
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Какое значение должно получиться, если в массиве не будет ни одного элемента?
+\end{itemize}
 
 \chapter{Структуры данных}
 
 \section{Кольцевой буфер}
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item
+\end{itemize}
 
 \chapter{Хеширование}
 
@@ -145,27 +247,64 @@ Given a word and a list of candidates, select the sublist of anagrams of the giv
 Given "listen" and a list of candidates like "enlists" "google" "inlets" "banana"
 the program should return a list containing "inlets".
 
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item
+\end{itemize}
+
 \section{Анаграммы 2}
 
 Найти все анаграммы из слов-кандидатов для всех подмножеств букв из исходного слова.
 
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item
+\end{itemize}
+
 \chapter{std::map}
+
+\section{Поиск}
+
+Перепишите следующую программу, используя {\tt std::map}.
+
+Выполните следующие действия:
+\begin{itemize}
+    \item Замените массивы {\tt word} и {\tt def} на переменную-контейнер {\tt std::map}.
+    \item Замените алгоритм поиска на функцию {\tt find} контейнера {\tt std::map}.
+\end{itemize}
+
+\lstinputlisting{sources/map1.cpp}
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Что делает исходная программа?
+    \item Какой тип ключа применяется в использованном контейнере {\tt std::map}?
+    \item Что возвращает функция {\tt find}, если нужный элемент не найден?
+\end{itemize}
 
 \section{Подсчёт слов}
 
-Given a phrase, count the occurrences of each word in that phrase.
+Напишите программу, которая выводит сколько раз каждое слово из входной строки повторяется в ней.
 
-For the purposes of this exercise you can expect that a word will always be one of:
+Слова могут состоять из цифр и латинских букв. Слова с разным регистром букв считаются одинаковыми.
+Знаки препинания, пробелы, переносы строк и символы табуляции нужно игнорировать.
 
-A number composed of one or more ASCII digits (ie "0" or "1234") OR
-A simple word composed of one or more ASCII letters (ie "a" or "they") OR
-A contraction of two simple words joined by a single apostrophe (ie "it's" or "they're")
-When counting words you can assume the following rules:
+\subsection*{Подзадачи}
 
-The count is case insensitive (ie "You", "you", and "YOU" are 3 uses of the same word)
-The count is unordered; the tests will ignore how words and counts are ordered
-Other than the apostrophe in a contraction all forms of punctuation are ignored
-The words can be separated by any form of whitespace (ie "\textbackslash t", "\textbackslash n", " ")
+\begin{itemize}
+    \item Используйте {\tt std::map<std::string, int>} для хранения информации о количестве повторов.
+    \item Попробуйте не считывать весь текст целиком, а читать по одному символу из входного потока.
+    \item Напишите два варианта программы: с преобразованием хранимых в {\tt std::map} слов и без него.
+          Для второго варианта замените функцию сравнения (третий параметр шаблона) на собственную.
+\end{itemize}
 
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Определён ли порядок элементов в {\tt std::map}? Можно ли его изменить?
+\end{itemize}
 
 \end{document}
