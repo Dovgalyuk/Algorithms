@@ -116,6 +116,9 @@ https://www.youtube.com/watch?v=aNswE4MlVgM
 
 https://www.youtube.com/watch?v=BtBxtoXBI54
 https://www.youtube.com/watch?v=rVr1y32fDI0
+
+https://code-explained.com/
+
 ## Двоичные кучи. Очередь с приоритетами
 
 https://www.youtube.com/watch?v=noQ4SUoqrQA
@@ -156,6 +159,8 @@ https://www.youtube.com/watch?v=JFUpuzrHB6s
 https://www.youtube.com/watch?v=kIsPv5XRJgU
 
 # Дополнительные темы
+
+https://habr.com/ru/post/455632/
 
 ## Суффиксные деревья
 
