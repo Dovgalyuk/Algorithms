@@ -1,7 +1,7 @@
 #include <iostream>
 #include "vector.h"
 
-int main()
+int main()1
 {
     Vector *vector = vector_create();
 
