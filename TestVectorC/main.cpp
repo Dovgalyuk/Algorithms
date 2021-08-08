@@ -7,18 +7,29 @@ int main()
 
     vector_resize(vector, 5);
     if (vector_size(vector) != 5)
+    {
         std::cout << "Invalid resize\n";
+        return 1;
+    }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
         vector_set(vector, i, i);
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    {
         if (vector_get(vector, i) != i)
+        {
             std::cout << "Invalid vector element " << i << "\n";
+            return 1;
+        }
+    }
 
     vector_resize(vector, 10);
     if (vector_size(vector) != 10)
+    {
         std::cout << "Invalid resize\n";
+        return 1;
+    }
 
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
@@ -27,11 +38,19 @@ int main()
 
     vector_resize(vector, 3);
     if (vector_size(vector) != 3)
+    {
         std::cout << "Invalid resize\n";
+        return 1;
+    }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    {
         if (vector_get(vector, i) != i)
+        {
             std::cout << "Invalid vector element " << i << "\n";
+            return 1;
+        }
+    }
 
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
