@@ -4,8 +4,10 @@
 #include <stdbool.h>
 
 // Queue
-// Stores integer values inside
-typedef int Data;
+// Stores pointer to custom user data
+typedef void* Data;
+// Custom function to free user pointers on delete
+typedef void (FFree)(void*);
 
 typedef struct Queue Queue;
 
@@ -14,7 +16,7 @@ extern "C" {
 #endif
 
 // Create empty queue
-Queue *queue_create();
+Queue *queue_create(FFree f);
 
 // Deletes queue
 void queue_delete(Queue *queue);

@@ -4,8 +4,10 @@
 #include <stddef.h>
 
 // Non-resizeable array
-// Stores integer values inside
-typedef int Data;
+// Stores pointer to custom user data
+typedef void* Data;
+// Custom function to free user pointers on delete
+typedef void (FFree)(void*);
 
 typedef struct Array Array;
 
@@ -14,7 +16,7 @@ extern "C" {
 #endif
 
 // create array
-Array *array_create(size_t size);
+Array *array_create(size_t size, FFree f);
 
 // delete array, free memory
 void array_delete(Array *arr);

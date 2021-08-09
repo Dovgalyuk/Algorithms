@@ -4,8 +4,10 @@
 #include <stdbool.h>
 
 // Stack
-// Stores integer values inside
-typedef int Data;
+// Stores pointer to custom user data
+typedef void* Data;
+// Custom function to free user pointers on delete
+typedef void (FFree)(void*);
 
 typedef struct Stack Stack;
 
@@ -14,7 +16,7 @@ extern "C" {
 #endif
 
 // Creates empty stack
-Stack *stack_create();
+Stack *stack_create(FFree f);
 
 // Deletes the stack
 void stack_delete(Stack *stack);

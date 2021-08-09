@@ -1,9 +1,19 @@
 #include <iostream>
 #include "vector.h"
 
+void myfree(void *p)
+{
+    delete (int*)p;
+}
+
+int vector_get_int(Vector *v, size_t i)
+{
+    return *(int*)vector_get(v, i);
+}
+
 int main()
 {
-    Vector *vector = vector_create();
+    Vector *vector = vector_create(myfree);
 
     vector_resize(vector, 5);
     if (vector_size(vector) != 5)
@@ -13,11 +23,11 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
+        vector_set(vector, i, new int(i));
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != i)
+        if (vector_get_int(vector, i) != i)
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -33,7 +43,7 @@ int main()
 
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        std::cout << vector_get(vector, i) << " ";
+        std::cout << vector_get_int(vector, i) << " ";
     std::cout << "\n";
 
     vector_resize(vector, 3);
@@ -45,7 +55,7 @@ int main()
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != i)
+        if (vector_get_int(vector, i) != i)
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -54,7 +64,7 @@ int main()
 
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        std::cout << vector_get(vector, i) << " ";
+        std::cout << vector_get_int(vector, i) << " ";
     std::cout << "\n";
 
     // Performance test

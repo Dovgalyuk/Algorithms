@@ -4,8 +4,10 @@
 #include <stddef.h>
 
 // Vector (dynamic array)
-// Stores integer values inside
-typedef int Data;
+// Stores pointer to custom user data
+typedef void* Data;
+// Custom function to free user pointers on delete
+typedef void (FFree)(void*);
 
 typedef struct Vector Vector;
 
@@ -14,7 +16,7 @@ extern "C" {
 #endif
 
 // Creates vector
-Vector *vector_create();
+Vector *vector_create(FFree f);
 
 // Deletes vector structure and internal data
 void vector_delete(Vector *vector);

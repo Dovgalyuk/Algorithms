@@ -5,7 +5,7 @@ typedef struct Queue
 {
 } Queue;
 
-Queue *queue_create()
+Queue *queue_create(FFree f)
 {
     return malloc(sizeof(Queue));
 }

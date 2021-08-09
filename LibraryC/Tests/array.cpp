@@ -3,7 +3,7 @@
 
 int main()
 {
-    Array *arr = array_create(10);
+    Array *arr = array_create(10, [](void *p) { delete (int*)p; });
 
     if (array_size(arr) != 10)
     {
@@ -12,11 +12,15 @@ int main()
     }
 
     for (int i = 0 ; i < 10 ; ++i)
-        array_set(arr, i, i * 2);
+    {
+        int *d = new int;
+        *d = i * 2;
+        array_set(arr, i, d);
+    }
 
     for (int i = 0 ; i < 10 ; ++i)
     {
-        if (array_get(arr, i) != i * 2)
+        if (*(int*)array_get(arr, i) != i * 2)
         {
             std::cout << "Invalid array element " << i << "\n";
             return 1;

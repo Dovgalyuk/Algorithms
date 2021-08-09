@@ -2,8 +2,10 @@
 #define LIST_H
 
 // List
-// Stores integer values inside
-typedef int Data;
+// Stores pointer to custom user data
+typedef void* Data;
+// Custom function to free user pointers on delete
+typedef void (FFree)(void*);
 
 typedef struct List List;
 typedef struct ListItem ListItem;
@@ -13,7 +15,7 @@ extern "C" {
 #endif
 
 // Creates new list
-List *list_create();
+List *list_create(FFree f);
 
 // Destroys the list and frees the memory
 void list_delete(List *list);

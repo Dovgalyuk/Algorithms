@@ -11,69 +11,9 @@
 
 \clearpage
 
-\chapter{std::vector}
-
-\section{new[]/delete[] vs std::vector}
-
-Перепишите следующую программу, используя {\tt std::vector}.
-
-Последовательно избавьтесь от следующих конструкций:
-\begin{itemize}
-    \item Операторы {\tt new[]/delete[]} (переменные {\tt a} и {\tt b}
-          превратите в объекты {\tt std::vector}.
-    \item Переменная {\tt m} и цикл для вычисления её значения.
-\end{itemize}
-
-\lstinputlisting{sources/vector1.cpp}
-
-\subsection*{Контрольные вопросы}
-
-\begin{itemize}
-    \item Что делает исходная программа?
-    \item Какие ограничения неявно наложены на значение переменной {\tt n}?
-    \item На сколько строк удалось сократить исходный код, используя {\tt std::vector}?
-    \item Когда освобождается память, используемая {\tt std::vector}?
-\end{itemize}
-
-\chapter{std::array}
-
-\section{Массивы-значения}
-\label{array-value}
-
-Сравните две программы ниже. Предположите, какие значения выводятся в каждой из них,
-а затем попробуйте запустить их и проверить результат.
-
-\lstinputlisting{sources/array1.cpp}
-
-\lstinputlisting{sources/array2.cpp}
-
-\subsection*{Контрольные вопросы}
-
-\begin{itemize}
-    \item Что выведут первая и вторая программы?
-    \item Как можно было бы доработать вторую, чтобы получался такой же результат, как и в первой?
-    \item Какое преимущество даёт использование {\tt std::array}?
-    \item Что нужно изменить, чтобы не переделывать функцию {\tt sum} при изменении размера массива?
-\end{itemize}
-
-\chapter{std::list}
-
-\section{Список вместо массива}
-
-Проанализируйте следующую программу. Попробуйте выяснить, как время её работы растёт
-с увеличением входного параметра $n$.
-
-\lstinputlisting{sources/list1.cpp}
-
-Перепишите программу с использованием контейнера {\tt std::list} вместо массива.
-Для вставки значений в список используйте функцию {\tt std::list::insert}.
-
-\subsection*{Контрольные вопросы}
-
-\begin{itemize}
-    \item В чём заключается ошибка программиста, который написал исходную программу?
-    \item Какими способами можно просмотреть все элементы списка, чтобы вывести их на экран?
-\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Строки
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Строки}
 
@@ -126,26 +66,31 @@
     \item Какую функцию стандартной библиотеки можно использовать для проверки пробельных символов?
 \end{itemize}
 
-\section{Crypto square}
+\section{Шифровальный квадрат}
 
-Implement the classic method for composing secret messages called a square code.
+Реализуйте описанный ниже алгоритм шифрования текста. На вход ваша программа
+будет получать текст на английском языке, а на выходе должна быть зашифрованная
+версия этого текста.
 
-Given an English text, output the encoded version of that text.
+При шифровании удаляются все знаки препинания и пробелы, а буквы приводятся к нижнему регистру.
 
-First, the input is normalized: the spaces and punctuation are removed from the English text and the message is downcased.
+Затем нормализованный таким образом текст разбивается на строки.
+Эти строки можно выстроить в виде прямоугольника.
 
-Then, the normalized characters are broken into rows. These rows can be regarded as forming a rectangle when printed with intervening newlines.
+Например, предложение <<If man was meant to stay on the ground, god would have given us roots.>>
+нормализуется в виде:
 
-For example, the sentence
+\begin{verbatim}
+ifmanwasmeanttostayonthegroundgodwouldhavegivenusroots
+\end{verbatim}
 
-"If man was meant to stay on the ground, god would have given us roots."
-is normalized to:
+Полученный текст перестраивается в виде прямоугольника размером в $r$~строк и $c$~столбцов,
+причём $c \geq r$ и $c - r \leq 1$.
 
-"ifmanwasmeanttostayonthegroundgodwouldhavegivenusroots"
-The plaintext should be organized in to a rectangle. The size of the rectangle (r x c) should be decided by the length of the message, such that c >= r and c - r <= 1, where c is the number of columns and r is the number of rows.
+Таким образом, текст из примера выше должен быть преобразован в следующий прямоугольник
+из $8$ столбцов и $7$ строк:
 
-Our normalized text is 54 characters long, dictating a rectangle with c = 8 and r = 7:
-
+\begin{verbatim}
 "ifmanwas"
 "meanttos"
 "tayonthe"
@@ -153,17 +98,27 @@ Our normalized text is 54 characters long, dictating a rectangle with c = 8 and 
 "dwouldha"
 "vegivenu"
 "sroots  "
+\end{verbatim}
 
-The coded message is obtained by reading down the columns going left to right.
+Закодированное сообщения получается чтением сверху вниз всех столбцов от левого до правого.
+Для нашего примера получится следующий шифр:
 
-The message above is coded as:
+\begin{verbatim}
+imtgdvsfearwermayoogoanouuiontnnlvtwttddesaohghnsseoau
+\end{verbatim}
 
-"imtgdvsfearwermayoogoanouuiontnnlvtwttddesaohghnsseoau"
-Output the encoded text in chunks that fill perfect rectangles (r X c), with c chunks of r length, separated by spaces. For phrases that are n characters short of the perfect rectangle, pad each of the last n chunks with a single trailing space.
+Выведите полученный текст фрагментами, разделяя их пробелами.
+Всего должно быть $c$~фрагментов длиной $r$.
+Если для заполнения прямоугольника $r\times c$ не хватает $n$ символов,
+дополните каждый из $n$ последних фрагментов одним пробелом в конце, вот так:
 
+\begin{verbatim}
 "imtgdvs fearwer mayoogo anouuio ntnnlvt wttddes aohghn  sseoau "
-Notice that were we to stack these, we could visually decode the ciphertext back in to the original message:
+\end{verbatim}
 
+Если снова расположить эти фрагменты в прямоугольнике, их можно аналогичным образом расшифровать:
+
+\begin{verbatim}
 "imtgdvs"
 "fearwer"
 "mayoogo"
@@ -172,11 +127,19 @@ Notice that were we to stack these, we could visually decode the ciphertext back
 "wttddes"
 "aohghn "
 "sseoau "
+\end{verbatim}
+
+\subsection*{Рекомендации к заданию}
+
+При написании программы попробуйте обойтись без дополнительной структуры данных, в которой
+хранился бы прямоугольник.
 
 \subsection*{Контрольные вопросы}
 
 \begin{itemize}
-    \item
+    \item Какой максимальный объём текста может зашифровать ваша программа за один раз?
+    \item Как хранится в памяти прямоугольник, который выводится на экран?
+    \item В каком порядке обрабатываются символы нормализованной строки для вывода прямоугольника?
 \end{itemize}
 
 \section{Подстроки}
@@ -194,23 +157,87 @@ Notice that were we to stack these, we could visually decode the ciphertext back
     \item Какую стандартную функцию можно использовать для получения подстрок?
 \end{itemize}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% array
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{std::array}
+
+\section{Массивы-значения}
+\label{array-value}
+
+Сравните две программы ниже. Предположите, какие значения выводятся в каждой из них,
+а затем попробуйте запустить их и проверить результат.
+
+\lstinputlisting{sources/array1.cpp}
+
+\lstinputlisting{sources/array2.cpp}
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Что выведут первая и вторая программы?
+    \item Как можно было бы доработать вторую, чтобы получался такой же результат, как и в первой?
+    \item Какое преимущество даёт использование {\tt std::array}?
+    \item Что нужно изменить, чтобы не переделывать функцию {\tt sum} при изменении размера массива?
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% vector
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{std::vector}
+
+\section{new[]/delete[] vs std::vector}
+
+Перепишите следующую программу, используя {\tt std::vector}.
+
+Последовательно избавьтесь от следующих конструкций:
+\begin{itemize}
+    \item Операторы {\tt new[]/delete[]} (переменные {\tt a} и {\tt b}
+          превратите в объекты {\tt std::vector}.
+    \item Переменная {\tt m} и цикл для вычисления её значения.
+\end{itemize}
+
+\lstinputlisting{sources/vector1.cpp}
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Что делает исходная программа?
+    \item Какие ограничения неявно наложены на значение переменной {\tt n}?
+    \item На сколько строк удалось сократить исходный код, используя {\tt std::vector}?
+    \item Когда освобождается память, используемая {\tt std::vector}?
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% list
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{std::list}
+
+\section{Список вместо массива}
+
+Проанализируйте следующую программу. Попробуйте выяснить, как время её работы растёт
+с увеличением входного параметра $n$.
+
+\lstinputlisting{sources/list1.cpp}
+
+Перепишите программу с использованием контейнера {\tt std::list} вместо массива.
+Для вставки значений в список используйте функцию {\tt std::list::insert}.
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item В чём заключается ошибка программиста, который написал исходную программу?
+    \item Какими способами можно просмотреть все элементы списка, чтобы вывести их на экран?
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Алгоритмы
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \chapter{Алгоритмы}
-
-\section{Сортировка}
-
-\subsection*{Контрольные вопросы}
-
-\begin{itemize}
-    \item
-\end{itemize}
-
-\section{Двоичный поиск}
-
-\subsection*{Контрольные вопросы}
-
-\begin{itemize}
-    \item
-\end{itemize}
 
 \section{std::accumulate}
 
@@ -236,7 +263,117 @@ Notice that were we to stack these, we could visually decode the ciphertext back
     \item Какое значение должно получиться, если в массиве не будет ни одного элемента?
 \end{itemize}
 
+\section{Сортировка}
+
+Напишите программу, которая вводит с клавиатуры последовательность чисел. Длина последовательности
+тоже задаётся пользователем. Затем реализуйте свой любимый алгоритм сортировки для
+того, чтобы упорядочить эту последовательность по возрастанию.
+
+Ваша программа не должна ограничивать длину последовательности размером используемой
+структуры данных для её хранения.
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Какой алгоритм сортировки вы применили?
+    \item Можно ли этим алгоритмом отсоритировать за разумное время последовательность
+          из $1000000$ элементов?
+    \item Как изменить порядок сортировки в вашей программе?
+\end{itemize}
+
+\section{std::sort}
+
+Замените сортировку из программы для предыдущего задания на функцию {\tt std::sort}
+из стандартной библиотеки. Для этого понадобится заголовочный файл {\tt algorithm}.
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Какое хранилище использовалось для исходной последовательности в вашей программе?
+    \item Как можно задать желаемый порядок элементов в результате сортировки?
+\end{itemize}
+
+\section{Двоичный поиск в массиве}
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Структуры данных
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \chapter{Структуры данных}
+
+\section{Двоичное дерево}
+
+Напишите программу, которая выводит на экран графическое представление двоичного дерева.
+Дерево состоит из $N$ вершин, пронумерованных от $1$ до $N$.
+
+На вход программы кроме числа $N$ поступает также информация о структуре дерева
+в виде последовательности пар чисел, кодирующих связи.
+В каждой паре первое число обозначает номер предка, а второе --- номер связанного с ним потомка.
+
+Дерево нужно вывести, обозначая вершины соответствующими числами, а связи с помощью символов
+<<прямой слэш>> и <<обратный слэш>>.
+
+Пример вывода дерева:
+\begin{verbatim}
+      4
+    /   \
+   /     \
+  2       6
+ / \     / \
+1   3   5   7
+\end{verbatim}
+
+Это дерево может быть закодировано с помощью следующих входных данных:
+\begin{verbatim}
+7
+4 2
+4 6
+2 1
+6 5
+2 3
+6 7
+\end{verbatim}
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Что такое двоичное дерево?
+    \item Как хранится в вашей программе двоичное дерево?
+\end{itemize}
+
+\section{Двоичное дерево поиска}
+
+Доработайте предыдущую программу, чтобы она проверяла, является ли дерево из входных
+данных двоичным деревом поиска.
+
+В двоичном дереве поиска узлы упорядочены таким образом, что значение любого левого потомка
+меньше, чем значение корня, а значение любого правого потомка больше, чем корень.
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Какая может быть максимальная высота двоичного дерева поиска из $N$ вершин?
+\end{itemize}
+
+\section{Двоичный поиск в дереве}
+
+Ещё раз доработайте программу из предыдущего задания.
+Теперь на вход поступают двоичное дерево поиск и последовательность чисел, которую надо в нём
+найти.
+
+Для каждого числа во входной последовательности выведите путь до него в двоичном дереве.
+
+\subsection*{Контрольные вопросы}
+
+\begin{itemize}
+    \item Сохраняет ли программа в памяти путь, который будет выводиться?
+\end{itemize}
 
 \section{Кольцевой буфер}
 

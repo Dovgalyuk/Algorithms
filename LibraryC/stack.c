@@ -5,7 +5,7 @@ typedef struct Stack
 {
 } Stack;
 
-Stack *stack_create()
+Stack *stack_create(FFree f)
 {
     return malloc(sizeof(Stack));
 }

@@ -9,7 +9,7 @@ typedef struct List
 {
 } List;
 
-List *list_create()
+List *list_create(FFree f)
 {
     return malloc(sizeof(List));
 }

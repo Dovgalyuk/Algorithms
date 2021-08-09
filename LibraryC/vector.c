@@ -4,7 +4,7 @@ typedef struct Vector
 {
 } Vector;
 
-Vector *vector_create()
+Vector *vector_create(FFree f)
 {
     return malloc(sizeof(Vector));
 }
