@@ -1,6 +1,6 @@
 # Algorithms
 
-Сборка проекта с помощью cmake:
+Сборка проекта с помощью 
 
     git clone https://github.com/Dovgalyuk/Algorithms
     cd Algorithms
