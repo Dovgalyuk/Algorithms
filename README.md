@@ -1,4 +1,4 @@
-# Algorithms
+# Algorithms (KirilliriK fork)
 
 Сборка проекта с помощью cmake:
 
