@@ -1,5 +1,5 @@
 # Algorithms
-
+#vibz
 Сборка проекта с помощью cmake:
 
     git clone https://github.com/Dovgalyuk/Algorithms
