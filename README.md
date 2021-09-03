@@ -1,4 +1,4 @@
-# Algorithms
+# Algorithms (forked by EkoRiri)
 
 Сборка проекта с помощью cmake:
 
