@@ -1,0 +1,106 @@
+#include <iostream>
+#include <iomanip>
+#include <ctime>
+
+int n;
+float k;
+
+using namespace std;
+
+int main()
+{
+    cout << "Vvedite Kolichestvo dney: ";
+    cin >> n;
+    srand(time(0));
+    float* ptrarray = new float[n+1];
+    for (int count = 1; count < n+1; count++)
+    {
+        ptrarray[count] = (rand() % 40 + 1) / float((rand() % 40 + 1));
+    }
+    k = 0;
+    for (int count = 1; count <= 31; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "Jenuary:= " << k << endl;
+    k = 0;
+
+    for (int count = 32; count <= 59; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "February:= " << k << endl;
+    k = 0;
+
+    for (int count = 60; count <= 90; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "March:= " << k << endl;
+    k = 0;
+
+    for (int count = 91; count <= 120; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "April:= " << k << endl;
+    k = 0;
+
+    for (int count = 121; count <= 151; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "May:= " << k << endl;
+    k = 0;
+
+    for (int count = 152; count <= 181; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "June:= " << k << endl;
+    k = 0;
+
+    for (int count = 182; count <= 212; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "July:= " << k << endl;
+    k = 0;
+
+    for (int count = 213; count <= 243; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "August:= " << k << endl;
+    k = 0;
+
+    for (int count = 244; count <= 273; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "September:= " << k << endl;
+    k = 0;
+
+    for (int count = 274; count <= 304; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "October:= " << k << endl;
+    k = 0;
+
+    for (int count = 305; count <= 334; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "November:= " << k << endl;
+    k = 0;
+
+    for (int count = 335; count <= 365; count++)
+    {
+        k = k + ptrarray[count];
+    }
+    cout << "December:= " << k << endl;
+    k = 0;
+
+    return 0;
+}
