@@ -173,3 +173,5 @@ https://habr.com/ru/company/mailru/blog/479822/
 ## Алгоритм A*
 
 https://neerc.ifmo.ru/wiki/index.php?title=%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_A*
+
+Савельев Даниил 0091
