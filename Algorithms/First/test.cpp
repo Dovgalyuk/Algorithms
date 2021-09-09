@@ -1,10 +1,10 @@
 #include <iostream>
 #include <ctime>
-#include "array.h"
+#include "array.cpp"
 
 int writeSize() {
     int size;
-    std::cout << "Дней в месяце -  ";
+    std::cout << "Days in a month:";
     std::cin >> size;
     return size;
 }
@@ -44,15 +44,16 @@ int getDecadeWithMaxRainfall(Array* array) {
             if (lastMaxRainfall > maxRainfall) {
                 maxRainfall = lastMaxRainfall;
                 decade = lastDecade;
-                lastDecade = i / 10;
             }
+            lastDecade = i / 10;
+            lastMaxRainfall = 0;
         }
         lastMaxRainfall += array_get(array, i);
     }
     if (lastMaxRainfall > maxRainfall) {
         decade = lastDecade;
     }
-    return decade;
+    return decade + 1;
 }
 
 void printToConsole(Array* array) {
@@ -67,7 +68,7 @@ int main() {
     Array* array = array_create(size);
     fillContainer(array);
 //    printToConsole(array);
-    std::cout << "Больше всего осадков выпало в " << getHalfWithMaxRainfall(array) << " половину месяца." << std::endl;
-    std::cout << "Больше всего осадков выпало в " << getDecadeWithMaxRainfall(array) << " декаду месяца." << std::endl;
+    std::cout << "Most precipitation fell in: " << getHalfWithMaxRainfall(array) << " half a month." << std::endl;
+    std::cout << "Most precipitation fell in: " << getDecadeWithMaxRainfall(array) << " ten days of the month." << std::endl;
     return 0;
 }
