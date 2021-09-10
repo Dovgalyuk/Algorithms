@@ -1,6 +1,6 @@
 #include <iostream>
 #include <ctime>
-#include "array.cpp"
+#include "array.h"
 
 int writeSize() {
     int size;
@@ -70,5 +70,6 @@ int main() {
 //    printToConsole(array);
     std::cout << "Most precipitation fell in: " << getHalfWithMaxRainfall(array) << " half a month." << std::endl;
     std::cout << "Most precipitation fell in: " << getDecadeWithMaxRainfall(array) << " ten days of the month." << std::endl;
+    array_delete(array);
     return 0;
 }
