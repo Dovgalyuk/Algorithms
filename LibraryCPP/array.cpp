@@ -1,33 +1,34 @@
-#include <iostream>
+#include "array.h"
 
-//Задание номер 1
-int main()
+struct Array
 {
-	setlocale(LC_ALL, "Russian");
-	int size, x;
-	std::cout << "Введите размерность массива:" << std::endl;
-	std::cin >> size;
-	int* ptrarr = new int[size];
-	for (int i = 0; i < size; i++)
-		ptrarr[i] = rand();
+};
 
-	std::cout << std::endl << "Массив до перестановки его элементов в обратном порядке:" << std::endl;
-	for (int i = 0; i < size; i++)
-		std::cout << ptrarr[i] << " | ";
-	std::cout << std::endl;
-	std::cout << "==" << std::endl << "====" << std::endl << "========"
-		<< std::endl << "====" << std::endl << "==" << std::endl;
+// create array
+Array *array_create(size_t size)
+{
+    return new Array;
+}
 
-	for (int i = 0, size2 = size-1; i < size / 2; i++, size2--)
-		{
-			x = ptrarr[size2];
-			ptrarr[size2] = ptrarr[i];
-			ptrarr[i] = x;
-		}
+// delete array, free memory
+void array_delete(Array *arr)
+{
+    delete arr;
+}
 
-	std::cout << "Массив сэлементами в обратном порядке:" << std::endl;
-	for (int i = 0; i < size; i++)
-		std::cout << ptrarr[i] << " | ";
-	std::cout << std::endl;
-	delete[] ptrarr;
+// returns specified array element
+Data array_get(const Array *arr, size_t index)
+{
+    return (Data)0;
+}
+
+// sets the specified array element to the value
+void array_set(Array *arr, size_t index, Data value)
+{
+}
+
+// returns array size
+size_t array_size(const Array *arr)
+{
+    return 0;
 }
