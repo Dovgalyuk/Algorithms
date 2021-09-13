@@ -46,5 +46,5 @@ void stack_pop(Stack *stack)
 
 bool stack_empty(const Stack *stack)
 {
-    return list_first(stack->list);
+    return !list_first(stack->list);
 }
