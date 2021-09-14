@@ -3,14 +3,11 @@
 
 struct Stack
 {
-    List* list = list_create();
+    List* list = nullptr;
+    ListItem* last = nullptr;
 
-    ListItem* last() const {
-        ListItem* item = list_first(list);
-        while (list_item_next(item)) {
-            item = list_item_next(item);
-        }
-        return item;
+    Stack() {
+        list = list_create();
     }
 };
 
@@ -28,20 +25,21 @@ void stack_delete(Stack *stack)
 void stack_push(Stack *stack, Data data)
 {
     if (!list_first(stack->list)) {
-        list_insert(stack->list, data);
+        stack->last = list_insert(stack->list, data);
     } else {
-        list_insert_after(stack->list, stack->last(), data);
+        stack->last = list_insert_after(stack->list, stack->last, data);
     }
 }
 
 Data stack_get(const Stack *stack)
 {
-    return list_item_data(stack->last());
+    return list_item_data(stack->last);
 }
 
 void stack_pop(Stack *stack)
 {
-    list_erase(stack->list, stack->last());
+    list_erase(stack->list, stack->last);
+    stack->last = stack->last->prev;
 }
 
 bool stack_empty(const Stack *stack)

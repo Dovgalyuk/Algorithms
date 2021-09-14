@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <cctype>
-#include "stack.cpp"
+#include "stack.h"
 
 std::string to_lower(std::string str) {
     std::string new_str;
@@ -13,7 +13,7 @@ std::string to_lower(std::string str) {
 }
 
 int main() {
-    Stack* stack = stack_create();
+    auto* stack = new Stack<std::string>();
     std::ifstream is("../../../Algorithms/Second/input.txt");
     std::ofstream os("../../../Algorithms/Second/output.txt");
     if (is.is_open() && os.is_open()) {
@@ -21,14 +21,16 @@ int main() {
         while (is >> line) {
             int index = line.find('/');
             if (index < line.length()) {
-                if (!stack_empty(stack) && stack_get(stack) == to_lower(line.replace(index, 1, ""))) {
-                    stack_pop(stack);
+                if (!stack->empty() && stack->get() == to_lower(line.replace(index, 1, ""))) {
+                    stack->pop();
+                } else {
+                    break;
                 }
             } else {
-                stack_push(stack, to_lower(line));
+                stack->push(to_lower(line));
             }
         }
-        os << (stack_empty(stack) ? "YES" : "NO");
+        os << (stack->empty() ? "YES" : "NO");
         os.flush();
         os.close();
     } else {

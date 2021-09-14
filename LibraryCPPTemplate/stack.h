@@ -1,7 +1,9 @@
 #ifndef STACK_H
 #define STACK_H
 
-template <typename Data> class Stack
+#include "list.h"
+
+template <typename Data> class Stack: private List<Data>
 {
 public:
     // Creates empty stack
@@ -18,28 +20,35 @@ public:
     // Should be O(1) on average
     void push(Data data)
     {
+        if (!this->first()) {
+            lastItem = this->insert(data);
+        } else {
+            lastItem = this->insert_after(lastItem, data);
+        }
     }
 
     // Retrives the last element from the stack
     Data get() const
     {
-        return Data();
+        return lastItem->data();
     }
 
     // Removes the last element from the stack
     // Should be O(1)
     void pop()
     {
+        this->erase(lastItem);
+        lastItem = lastItem->prev();
     }
 
     // Returns true if the stack is empty
     bool empty() const
     {
-        return true;
+        return !(this->firstItem);
     }
 
-private:
-    // private data should be here
+protected:
+    typename List<Data>::Item* lastItem = nullptr;
 };
 
 #endif

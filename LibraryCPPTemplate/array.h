@@ -5,34 +5,35 @@ template <typename Data> class Array
 {
 public:
     // create array
-    Array(size_t size)
-    {
-    }
+    Array(size_t size): s(size), array(new Data[size]) {}
 
     // delete array, free memory
     ~Array()
     {
+        delete[] array;
     }
 
     // returns specified array element
     Data get(size_t index) const
     {
-        return Data(0);
+        return array[index];
     }
 
     // sets the specified array element to the value
     void set(size_t index, Data value)
     {
+        array[index] = value;
     }
 
     // returns array size
     size_t size() const
     {
-        return 0;
+        return s;
     }
 
 private:
-    // private data should be here
+    Data* array;
+    size_t s;
 };
 
 #endif
