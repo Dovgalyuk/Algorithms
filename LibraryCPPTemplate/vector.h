@@ -36,7 +36,7 @@ public:
     // Reserve memory
     void reserve(size_t size) {
         if (capacity == size) return;
-        if (capacity > size && size > length) return;
+        if (capacity > size && length < size) return;
 
         if (capacity < size) {
             if (capacity == 0) capacity = 1;
@@ -45,7 +45,7 @@ public:
                 capacity *= capacityMultiplier;
 
         } else if (length > size) {
-            capacity = size;
+            length = size;
         }
 
         Data *copy = new Data[capacity];
@@ -63,7 +63,8 @@ public:
     // Changes the vector size (may increase or decrease)
     // Should be O(1) on average
     void resize(size_t size) {
-        reserve(size);
+        if (capacity < size)
+            reserve(size);
         length = size;
     }
 

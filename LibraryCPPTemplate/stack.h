@@ -3,7 +3,7 @@
 #include "vector.h"
 
 template <typename Data>
-class Stack : public Vector<Data> {
+class Stack : Vector<Data> {
 public:
 
     // Creates empty stack
@@ -15,8 +15,7 @@ public:
     // Pushes data on top of the stack
     // Should be O(1) on average
     void push(Data data) {
-        this->reserve(this->length + 1);
-        this->length++;
+        this->resize(this->length + 1);
         this->data[this->length - 1] = data;
     }
 
@@ -28,7 +27,7 @@ public:
     // Removes the last element from the stack
     // Should be O(1)
     void pop() {
-        this->reserve(--this->length);
+        this->resize(this->length - 1);
     }
 
     // Returns true if the stack is empty

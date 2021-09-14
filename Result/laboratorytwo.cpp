@@ -53,7 +53,7 @@ void calculate(const std::string& input) {
 }
 
 std::vector<std::string> *calculateOrder(const std::string& input) {
-    Stack<std::string> operationStack;
+    Stack<char> operationStack;
 
     std::string number;
     auto *result = new std::vector<std::string>;
@@ -71,16 +71,16 @@ std::vector<std::string> *calculateOrder(const std::string& input) {
         int priority = getOperationPriority(ch);
         int lastPriority = 0;
         if (!operationStack.empty())
-            lastPriority = getOperationPriority(operationStack.get().at(0));
+            lastPriority = getOperationPriority(operationStack.get());
 
         if (lastPriority < priority) {
-            operationStack.push(std::string(1, ch));
+            operationStack.push(ch);
         } else {
             while (lastPriority >= priority && !operationStack.empty()) {
-                result->push_back(operationStack.get());
+                result->push_back(std::string(1, operationStack.get()));
                 operationStack.pop();
             }
-            operationStack.push(std::string(1, ch));
+            operationStack.push(ch);
         }
     }
 
@@ -88,7 +88,7 @@ std::vector<std::string> *calculateOrder(const std::string& input) {
         result->push_back(number);
 
     while (!operationStack.empty()) {
-        result->push_back(operationStack.get());
+        result->push_back(std::string(1, operationStack.get()));
         operationStack.pop();
     }
     return result;
