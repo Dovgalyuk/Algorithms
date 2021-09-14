@@ -4,23 +4,15 @@ struct Array
 {
     size_t array_size;
     Data* pointer;
-
-    Array(size_t size)
-    {
-        array_size = size;
-        pointer = new Data[array_size];
-    }
-
-    ~Array()
-    {
-        delete[] pointer;
-    }
 };
 
 // create array
 Array* array_create(size_t size)
 {
-    return new Array(size);
+    Array* ptr = new Array;
+    ptr->array_size = size;
+    ptr->pointer = new Data[size];
+    return ptr;
 }
 
 // delete array, free memory
