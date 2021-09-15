@@ -81,19 +81,16 @@ public:
         if (item->prev()) {
             item->prev()->nextItem = item->nextItem;
         }
-        return item;
+        auto* next = item->next();
+        delete item;
+        return next;
     }
 
     // Deletes the list item following the specified one
     // Should be O(1)
     Item *erase_next(Item *item)
     {
-        Item* next = item->next();
-        if (next->next()) {
-            next->next()->prevItem = item;
-            item->nextItem = next->nextItem;
-        }
-        return item;
+        return erase(item->next());
     }
 
 protected:

@@ -85,15 +85,12 @@ ListItem *list_erase(List *list, ListItem *item)
     if (item->prev) {
         item->prev->next = item->next;
     }
-    return item;
+    auto* next = item->next;
+    delete item;
+    return next;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    ListItem* next = item->next;
-    if (next->next) {
-        next->next->prev = item;
-        item->next = next->next;
-    }
-    return item;
+    return list_erase(list, item->next);
 }

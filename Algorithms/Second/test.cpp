@@ -12,11 +12,19 @@ std::string to_lower(std::string str) {
     return new_str;
 }
 
+void write(bool answer) {
+    std::ofstream os("../../../Algorithms/Second/output.txt");
+    if (os.is_open()) {
+        os << (answer ? "YES" : "NO");
+        os.flush();
+        os.close();
+    }
+}
+
 int main() {
     auto* stack = new Stack<std::string>();
     std::ifstream is("../../../Algorithms/Second/input.txt");
-    std::ofstream os("../../../Algorithms/Second/output.txt");
-    if (is.is_open() && os.is_open()) {
+    if (is.is_open()) {
         std::string line;
         while (is >> line) {
             int index = line.find('/');
@@ -24,15 +32,14 @@ int main() {
                 if (!stack->empty() && stack->get() == to_lower(line.replace(index, 1, ""))) {
                     stack->pop();
                 } else {
-                    break;
+                    write(false);
+                    return 0;
                 }
             } else {
                 stack->push(to_lower(line));
             }
         }
-        os << (stack->empty() ? "YES" : "NO");
-        os.flush();
-        os.close();
+        write(stack->empty());
     } else {
         std::cout << "error";
     }
