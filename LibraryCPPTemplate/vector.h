@@ -35,26 +35,18 @@ public:
 
     // Reserve memory
     void reserve(size_t size) {
-        if (capacity == size) return;
-        if (capacity > size && length < size) return;
+        if (capacity >= size) return;
 
-        if (capacity < size) {
-            if (capacity == 0) capacity = 1;
+        if (capacity == 0) capacity = 1;
 
-            while (capacity < size)
-                capacity *= capacityMultiplier;
-
-        } else if (length > size) {
-            length = size;
-        }
+        while (capacity < size)
+            capacity *= capacityMultiplier;
 
         Data *copy = new Data[capacity];
-        size_t copySize = size > length ? length : size;
 
-        if (length != 0)
-            for (int i = 0; i < copySize; i++) {
-                copy[i] = data[i];
-            }
+        for (int i = 0; i < length; i++) {
+            copy[i] = data[i];
+        }
 
         delete[] data;
         data = copy;
