@@ -17,7 +17,7 @@ int main()
 	std::cout << "==" << std::endl << "====" << std::endl << "========"
 		<< std::endl << "====" << std::endl << "==" << std::endl;
 
-	for (int i = 0, size2 = size - 1; i < size / 2; i++, size2--)
+	for (int i = 0, size2 = size - 1; i < size2; i++, size2--)
 	{
 		x = array_get(ptrarr, size2);
 		array_set(ptrarr, size2, array_get(ptrarr, i));
