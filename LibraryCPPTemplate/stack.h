@@ -37,8 +37,9 @@ public:
     // Should be O(1)
     void pop()
     {
+        auto* prev = lastItem->prev();
         this->erase(lastItem);
-        lastItem = lastItem->prev();
+        lastItem = prev;
     }
 
     // Returns true if the stack is empty
