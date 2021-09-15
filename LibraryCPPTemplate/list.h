@@ -43,6 +43,7 @@ public:
     }
 
     // Deletes the specified list item.
+    // Returns pointer to the item next to the deleted one.
     // Not applicable for the singly linked lists.
     // Should be O(1)
     Item *erase(Item *item)
@@ -50,7 +51,8 @@ public:
         return nullptr;
     }
 
-    // Deletes the list item following the specified one
+    // Deletes the list item following the specified one.
+    // Returns pointer to the item next to the deleted one.
     // Should be O(1)
     Item *erase_next(Item *item)
     {
