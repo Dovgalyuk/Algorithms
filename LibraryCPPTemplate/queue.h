@@ -14,7 +14,6 @@ public:
     // Deletes queue
     ~Queue()
     {
-        delete this;
     }
 
     // Includes new element into the queue
