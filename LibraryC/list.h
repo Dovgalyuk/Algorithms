@@ -50,6 +50,11 @@ ListItem *list_erase(List *list, ListItem *item);
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);
 
+// Deletes the list item following the specified one.
+// Returns pointer to the item next to the deleted one.
+// Should be O(1)
+ListItem *0091_B(List *list, ListItem *item);
+
 #ifdef __cplusplus
 }
 #endif
