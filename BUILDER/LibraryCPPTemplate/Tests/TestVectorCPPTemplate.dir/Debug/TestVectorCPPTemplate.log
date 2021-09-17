@@ -1,0 +1,8 @@
+﻿  Building Custom Rule D:/Ccode/Algorithms-master/LibraryCPPTemplate/Tests/CMakeLists.txt
+  vector.cpp
+D:\Ccode\Algorithms-master\LibraryCPPTemplate\Tests\vector.cpp(18,24): warning C4267: аргумент: преобразование из "size_t" в "Data"; возможна потеря данных
+          with
+          [
+              Data=int
+          ]
+  TestVectorCPPTemplate.vcxproj -> D:\Ccode\Algorithms-master\BUILDER\LibraryCPPTemplate\Tests\Debug\TestVectorCPPTemplate.exe

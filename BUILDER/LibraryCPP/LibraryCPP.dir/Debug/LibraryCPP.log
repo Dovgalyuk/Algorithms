@@ -1,0 +1,8 @@
+﻿  Building Custom Rule D:/Ccode/Algorithms-master/LibraryCPP/CMakeLists.txt
+  array.cpp
+  list.cpp
+  queue.cpp
+  stack.cpp
+  vector.cpp
+  Создание кода...
+  LibraryCPP.vcxproj -> D:\Ccode\Algorithms-master\BUILDER\LibraryCPP\Debug\LibraryCPP.lib
