@@ -1,3 +1,0 @@
-﻿  NyPognali.cpp
-D:\Ccode\Algorithms-master\HelpMeGod\laba1\NyPognali.cpp(29,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-LINK : fatal error LNK1104: не удается открыть файл "libraryCPP.lib"

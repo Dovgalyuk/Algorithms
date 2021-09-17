@@ -1,4 +1,0 @@
-﻿  Building Custom Rule D:/Ccode/Algorithms-master/LibraryCPP/Tests/CMakeLists.txt
-  vector.cpp
-D:\Ccode\Algorithms-master\LibraryCPP\Tests\vector.cpp(16,32): warning C4267: аргумент: преобразование из "size_t" в "Data"; возможна потеря данных
-  TestVectorCPP.vcxproj -> D:\Ccode\Algorithms-master\BUILDER\LibraryCPP\Tests\Debug\TestVectorCPP.exe
