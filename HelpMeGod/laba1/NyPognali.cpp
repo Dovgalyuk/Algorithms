@@ -30,7 +30,7 @@ void FillingArray(Array* array, int* arrayCopy) {
 	cout << "We got this:\n";
 	for (int i = 0; i < array_size(array); i++) {
 		arrayCopy[i] = rand() % 41 - 20;
-		//arrayCopy для того, чтобы в конце вывести 2 красивых столбика, потому что я так просто могу
+		//arrayCopy is here to make the result more beautiful, because i can
 		array_set(array, i, arrayCopy[i]);
 		cout << i + 1 << " element: " << array_get(array, i) << "\n";
 	}
