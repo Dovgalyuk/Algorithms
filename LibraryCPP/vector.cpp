@@ -8,26 +8,27 @@ struct Vector
     Data* data;
 
     Vector(): length(0), capacity(0), data(nullptr) {}
-
-    void data_copy(Data* new_data, size_t size, size_t offset_old_data = 0, size_t offset_new_data = 0) const {
-        for (int i = 0; i < size; ++i) {
-            new_data[offset_new_data + i] = data[offset_old_data + i];
-        }
-    }
 };
 
-void vector_reserve(Vector *vector, size_t size) {
+void vector_data_copy(Vector* vector, Data* new_data, size_t size, size_t offset_old_data, size_t offset_new_data) {
+    for (int i = 0; i < size; ++i) {
+        new_data[offset_new_data + i] = vector->data[offset_old_data + i];
+    }
+}
+
+void vector_set_data(Vector* vector, Data* new_data, size_t size) {
+    delete[] vector->data;
+    vector->data = new_data;
+    vector->length = size;
+}
+
+void vector_expand_data(Vector* vector, size_t size) {
     if (vector->capacity >= size)
         return;
     if (vector->capacity == 0)
         vector->capacity = 1;
     while (vector->capacity < size)
         vector->capacity *= vector->capacity_multiply;
-
-    Data* new_data = new Data[vector->capacity];
-    vector->data_copy(new_data, vector->length);
-    delete[] vector->data;
-    vector->data = new_data;
 }
 
 Vector *vector_create()
@@ -59,6 +60,12 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-    vector_reserve(vector, size);
-    vector->length = size;
+    if (vector->capacity < size) {
+        vector_expand_data(vector, size);
+        Data* new_data = new Data[vector->capacity];
+        vector_data_copy(vector, new_data, vector_size(vector));
+        vector_set_data(vector, new_data, size);
+    } else {
+        vector->length = size;
+    }
 }
