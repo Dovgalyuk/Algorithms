@@ -4,7 +4,7 @@
 #include "list.h"
 
 template <typename Data>
-class Queue : public List<Data>{
+class Queue : private List<Data>{
 public:
     // Create empty queue
     Queue() : List<Data>() {}

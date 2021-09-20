@@ -1,11 +1,11 @@
 #include <iostream>
 #include "queue.h"
 
-typedef Queue<int> MyQueue;
+typedef Queue<int> PositionsQueue;
 
 int main()
 {
-    MyQueue *queue = new MyQueue();
+    PositionsQueue *queue = new PositionsQueue();
 
     queue->insert(1);
     queue->insert(2);

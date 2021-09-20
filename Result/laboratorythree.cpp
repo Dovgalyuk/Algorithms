@@ -12,49 +12,48 @@ struct Position{
     int x, y;
 };
 
+typedef Queue<Position> PositionsQueue;
+typedef std::vector<std::string> TileMap;
+
 void fillMap();
 
 int main() {
     fillMap();
 }
 
-void checkTiles(std::vector<std::string>& map, Queue<Position> &positions, int &freeTilesCount) {
-    Position position = positions.get();
-    for (int x = -1; x <= 1; x++) {
-        for (int y = -1; y <= 1; y++) {
-            if (x == 0 && y == 0) continue; // Мне кажется что в учебных целях такой код читабельнее чем 4 if'а
-            if (x == 1 && y == 1) continue;
-            if (x == -1 && y == -1) continue;
-            if (x == 1 && y == -1) continue;
-            if (x == -1 && y == 1) continue;
+void checkTiles(TileMap& map, PositionsQueue &positions, int &freeTilesCount) {
+    Position checkPosition = positions.get();
+    const int dx[] = {-1, 1, 0, 0};
+    const int dy[] = {0, 0, -1, 1};
+    for (size_t i = 0; i < 4; i++) {
+        int x = dx[i];
+        int y = dy[i];
+        Position newPosition = checkPosition;
+        newPosition.x += x;
+        newPosition.y += y;
+        if (newPosition.x < 0 || newPosition.y < 0 || newPosition.y >= map.size() || newPosition.x >= map.at(newPosition.y).size()) continue;
 
-            Position newPosition = position;
-            newPosition.x += x;
-            newPosition.y += y;
-            if (newPosition.x < 0 || newPosition.y < 0 || newPosition.y >= map.size() || newPosition.x >= map.at(newPosition.y).size()) continue;
+        char ch = map.at(newPosition.y).at(newPosition.x);
 
-            char ch = map.at(newPosition.y).at(newPosition.x);
-
-            switch (ch) {
-                case '#':
-                case 'X':
-                    continue;
-                case '.':
-                    positions.insert(newPosition);
-                    map.at(newPosition.y).replace(newPosition.x, 1, "X");
-                    freeTilesCount++;
-                    continue;
-                default:
-                    std::cout << "Unknown tile type" << std::endl;
-                    exit(-2);
-            }
+        switch (ch) {
+            case '#':
+            case 'X':
+                continue;
+            case '.':
+                positions.insert(newPosition);
+                map[newPosition.y][newPosition.x] = 'X';
+                freeTilesCount++;
+                continue;
+            default:
+                std::cout << "Unknown tile type" << std::endl;
+                exit(-2);
         }
     }
     positions.remove();
 }
 
-void findFreeTiles(std::vector<std::string>& map) {
-    Queue<Position> positions;
+void findFreeTiles(TileMap& map) {
+    PositionsQueue positions;
     int freeTilesCount = 1;
 
     Position startPosition{0, 0};
@@ -74,7 +73,7 @@ void findFreeTiles(std::vector<std::string>& map) {
 }
 
 void fillMap() {
-    std::vector<std::string> map;
+    TileMap map;
     std::ifstream is("../../../Algorithms/Result/input/input.txt");
     std::string inputString;
     if (is.is_open()) {

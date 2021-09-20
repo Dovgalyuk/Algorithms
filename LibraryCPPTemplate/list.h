@@ -24,7 +24,6 @@ public:
     // Creates new list
     List() {
         firstItem = nullptr;
-        lastItem = nullptr;
         size = 0;
     }
 
@@ -44,7 +43,11 @@ public:
 
     // Retrieves the last item from the list
     Item *last() {
-        return lastItem;
+        auto *result = firstItem;
+        while (result->next() != nullptr){
+            result = result->next();
+        }
+        return result;
     }
 
     // Return list items count
@@ -56,9 +59,10 @@ public:
     Item *insert(Data data) {
         auto *newItem = new Item(data);
         newItem->nextItem = firstItem;
-        if (firstItem != nullptr) {
+
+        if (firstItem != nullptr)
             firstItem->previousItem = newItem;
-        } else lastItem = newItem;
+
         firstItem = newItem;
         size++;
         return newItem;
@@ -74,11 +78,12 @@ public:
     Item *insert_after(Item *item, Data data) {
         auto *newItem = new Item(data);
         newItem->nextItem = item->next();
-        item->nextItem = newItem;
-        newItem->previousItem = item;
-        if (item->next() != nullptr) {
+
+        if (item->next() != nullptr)
             item->next()->previousItem = newItem;
-        }
+
+        newItem->previousItem = item;
+        item->nextItem = newItem;
         size++;
         return newItem;
     }
@@ -88,18 +93,16 @@ public:
     // Should be O(1)
     Item *erase(Item *item) {
         auto *nextItem = item->next();
+        auto *prevItem = item->prev();
 
         if (firstItem == item)
             firstItem = nextItem;
 
-        if (lastItem == item)
-            lastItem = item->prev();
+        if (nextItem != nullptr)
+            nextItem->previousItem = prevItem;
 
-        if (item->next() != nullptr)
-            item->next()->previousItem = item->prev();
-
-        if (item->prev() != nullptr)
-            item->prev()->nextItem = item->next();
+        if (prevItem != nullptr)
+            prevItem->nextItem = nextItem;
 
         delete item;
         size--;
@@ -113,7 +116,6 @@ public:
     }
 private:
     Item *firstItem;
-    Item *lastItem;
 
     size_t size;
 };
