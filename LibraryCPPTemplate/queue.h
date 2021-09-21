@@ -16,53 +16,60 @@ public:
     {
     }
 
+    void sort() {
+        size_t size = this->size();
+        Data* new_data = new Data[size];
+        for (int i = 0; i < size; ++i) {
+            new_data[i] = this->data[(i + first) % size];
+        }
+        for (int i = 0; i < size; ++i) {
+            this->data[i] = new_data[i];
+        }
+        first = 0;
+        last = size - 1;
+    }
+
     // Includes new element into the queue
     // Should be O(1) on average
     void insert(Data data)
     {
-        if (last == offset) {
-            size_t new_size = this->size() + 1;
-            last = this->size();
-            if (offset > 0) {
-                Data* new_data = new Data[new_size];
-                this->data_copy(new_data, this->size() - offset, offset);
-                this->data_copy(new_data, offset, 0, this->size() - offset);
-                delete[] this->data;
-                this->data = new_data;
-                this->length = new_size;
-                offset = 0;
-            } else {
-                this->resize(new_size);
+        if (length == this->size()) {
+            if (first > 0) {
+                sort();
             }
+            this->resize(this->size() + 1);
         }
-        this->set(last, data);
-        last++;
-        last %= this->size();
-        offset %= this->size();
+        last = ++last % this->size();
+        this->data[last] = data;
+        length++;
     }
 
     // Retrieves first element from the queue
     Data get() const
     {
-        return this->data[offset];
+        return this->data[first];
     }
 
     // Removes first element from the queue
     // Should be O(1) on average
     void remove()
     {
-        offset++;
+        first = ++first % this->size();
+        if (length > 0) {
+            length--;
+        }
     }
 
     // Returns true if the queue is empty
     bool empty() const
     {
-        return (this->size() - offset) <= 0;
+        return !length;
     }
 
 private:
-    size_t offset = 0;
+    size_t first = 0;
     size_t last = 0;
+    size_t length = 0;
 };
 
 #endif

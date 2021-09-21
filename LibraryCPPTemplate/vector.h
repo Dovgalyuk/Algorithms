@@ -42,25 +42,26 @@ public:
         }
     }
 
-    void reserve(size_t size) {
+    void expand_data(size_t size) {
         if (capacity >= size)
             return;
         if (capacity == 0)
             capacity = 1;
         while (capacity < size)
             capacity *= capacity_multiply;
-
-        Data* new_data = new Data[capacity];
-        data_copy(new_data, length);
-        delete[] data;
-        data = new_data;
     }
 
     // Changes the vector size (may increase or decrease)
     // Should be O(1) on average
     void resize(size_t size)
     {
-        reserve(size);
+        if (capacity < size) {
+            expand_data(size);
+            Data* new_data = new Data[capacity];
+            data_copy(new_data, this->size());
+            delete[] data;
+            data = new_data;
+        }
         length = size;
     }
 

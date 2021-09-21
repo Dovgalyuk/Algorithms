@@ -4,11 +4,11 @@
 struct Queue
 {
     Vector* vector;
-    size_t offset;
+    size_t first;
     size_t last;
-    const size_t max_offset = 10;
+    size_t size = 0;
 
-    Queue(): vector(vector_create()), offset(0), last(0) {}
+    Queue(): vector(vector_create()), first(0), last(-1), size(0) {}
 };
 
 Queue *queue_create()
@@ -22,38 +22,46 @@ void queue_delete(Queue *queue)
     delete queue;
 }
 
+void queue_sort(Queue* queue) {
+    size_t size = vector_size(queue->vector);
+    Data* new_data = new Data[size];
+    for (int i = 0; i < size; ++i) {
+        new_data[i] = vector_get(queue->vector, (i + queue->first) % size);
+    }
+    for (int i = 0; i < size; ++i) {
+        vector_set(queue->vector, i, new_data[i]);
+    }
+    queue->first = 0;
+    queue->last = size - 1;
+}
+
 void queue_insert(Queue *queue, Data data)
 {
-    if (queue->last == queue->offset) {
-        size_t new_size = vector_size(queue->vector) + 1;
-        queue->last = vector_size(queue->vector);
-        if (queue->offset > 0) {
-            Data* new_data = new Data[new_size];
-            vector_data_copy(queue->vector, new_data, vector_size(queue->vector) - queue->offset, queue->offset);
-            vector_data_copy(queue->vector, new_data, queue->offset, 0, vector_size(queue->vector) - queue->offset);
-            vector_set_data(queue->vector, new_data, new_size);
-            queue->offset = 0;
-        } else {
-            vector_resize(queue->vector, new_size);
+    if (queue->size == vector_size(queue->vector)) {
+        if (queue->first > 0) {
+            queue_sort(queue);
         }
+        vector_resize(queue->vector, vector_size(queue->vector) + 1);
     }
+    queue->last = ++queue->last % vector_size(queue->vector);
     vector_set(queue->vector, queue->last, data);
-    queue->last++;
-    queue->last %= vector_size(queue->vector);
-    queue->offset %= vector_size(queue->vector);
+    queue->size++;
 }
 
 Data queue_get(const Queue *queue)
 {
-    return vector_get(queue->vector, queue->offset);
+    return vector_get(queue->vector, queue->first);
 }
 
 void queue_remove(Queue *queue)
 {
-    queue->offset++;
+    queue->first = ++queue->first % vector_size(queue->vector);
+    if (queue->size > 0) {
+        queue->size--;
+    }
 }
 
 bool queue_empty(const Queue *queue)
 {
-    return (vector_size(queue->vector) - queue->offset) <= 0;
+    return !queue->size;
 }

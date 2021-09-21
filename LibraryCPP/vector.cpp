@@ -10,7 +10,7 @@ struct Vector
     Vector(): length(0), capacity(0), data(nullptr) {}
 };
 
-void vector_data_copy(Vector* vector, Data* new_data, size_t size, size_t offset_old_data, size_t offset_new_data) {
+void vector_data_copy(Vector* vector, Data* new_data, size_t size, size_t offset_old_data = 0, size_t offset_new_data = 0) {
     for (int i = 0; i < size; ++i) {
         new_data[offset_new_data + i] = vector->data[offset_old_data + i];
     }

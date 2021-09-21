@@ -9,12 +9,6 @@ typedef int Data;
 
 struct Vector;
 
-void vector_data_copy(Vector* vector, Data* new_data, size_t size, size_t offset_old_data = 0, size_t offset_new_data = 0);
-
-void vector_set_data(Vector* vector, Data* new_data, size_t size);
-
-void vector_expand_data(Vector* vector, size_t size);
-
 // Creates vector
 Vector *vector_create();
 

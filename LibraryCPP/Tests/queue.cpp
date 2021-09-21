@@ -1,5 +1,5 @@
 #include <iostream>
-#include "queue.h"
+#include "../queue.cpp"
 
 int main()
 {
@@ -35,10 +35,20 @@ int main()
 
     std::cout << "Get: " << queue_get(queue) << "\n";
     queue_insert(queue, 4);
+    int  number = 3;
     while (!queue_empty(queue))
     {
         std::cout << "Get: " << queue_get(queue) << "\n";
+        if (queue_get(queue) != number++) {
+            std::cout << "Invalid element\n";
+            return 1;
+        }
         queue_remove(queue);
+    }
+
+    if (number != 5) {
+        std::cout << "Queue is not empty!\n";
+        return 1;
     }
 
     queue_delete(queue);
