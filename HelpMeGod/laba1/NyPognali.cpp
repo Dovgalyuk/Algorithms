@@ -6,32 +6,31 @@
 using namespace std;
 
 int GiveMeSize() {
-	int size, check;
+	int size;
+	bool check;
 	do {
 		cout << "Give me size of the massive: ";
 		cin >> size;
 		if (cin.fail())
 		{
-			check = 0;
+			check = false;
 			cin.clear();
 			cin.ignore(32767, '\n');
 			cout << "\nOh-oh, looks like you made a mistake. Here is your next chanse\n";
 		}
 		else {
-			check = 1;
+			check = true;
 		}
-	} while (check == 0);
+	} while (check == false);
 	cout << "\n";
 	return size;
 }
 
-void FillingArray(Array* array, int* arrayCopy) {
+void FillingArray(Array* array) {
 	srand(time(nullptr));
 	cout << "We got this:\n";
 	for (int i = 0; i < array_size(array); i++) {
-		arrayCopy[i] = rand() % 41 - 20;
-		//arrayCopy is here to make the result more beautiful, because i can
-		array_set(array, i, arrayCopy[i]);
+		array_set(array, i, rand() % 41 - 20);
 		cout << i + 1 << " element: " << array_get(array, i) << "\n";
 	}
 	cout << "\n";
@@ -39,25 +38,54 @@ void FillingArray(Array* array, int* arrayCopy) {
 
 void subtractionk1k2(Array* array) {
 	int k1, k2;
-	cout << "enter k1: ";
-	cin >> k1;
-	cout << "\nenter k2: ";
-	cin >> k2;
+	bool check;
+	do {
+		cout << "enter k1: ";
+		cin >> k1;
+		if (k1 < 0 || k1 > array_size(array))
+		{
+			check = false;
+			cin.clear();
+			cin.ignore(32767, '\n');
+			cout << "\nOh-oh, looks like you made a mistake. Here is your next chanse\n";
+		}
+		else {
+			check = true;
+		}
+	} while (check == false);
+	do {
+		cout << "\nenter k2: ";
+		cin >> k2;
+		if (k2 < 0 || k2 > array_size(array))
+		{
+			check = false;
+			cin.clear();
+			cin.ignore(32767, '\n');
+			cout << "\nOh-oh, looks like you made a mistake. Here is your next chanse\n";
+		}
+		else {
+			check = true;
+		}
+	} while (check == false);
+	k1 = array_get(array, k1 - 1);
+	k2 = array_get(array, k2 - 1);
 	for (int i = 0; i < array_size(array); i++) {
 		if (array_get(array, i) > 0) {
 			array_set(array, i, array_get(array, i) - k1);
+			cout << "+\n";
 		}
-		if (array_get(array, i) <= 0) {
+		else if (array_get(array, i) <= 0) {
 			array_set(array, i, array_get(array, i) - k2);
+			cout << "-\n";
 		}
 	}
 	cout << "\n\n";
 }
 
-void Result(Array* array, int* arrayCopy) {
-	cout << "It was:\r\t\t\tIt became:\n";
+void Result(Array* array) {
+	cout << "It became:\n";
 	for (int i = 0; i < array_size(array); i++) {
-		cout << i + 1 << " element: " << arrayCopy[i] << "\r\t\t\t" << i + 1 << " element: " << array_get(array, i) << "\n";
+		cout << i + 1 << " element: " << array_get(array, i) << "\n";
 	}
 }
 
@@ -65,12 +93,9 @@ int main()
 {
 	int size = GiveMeSize();
 	Array* array = array_create(size);
-	int *arrayCopy = new int[size];
-	FillingArray(array, arrayCopy);
+	FillingArray(array);
 	subtractionk1k2(array);
-	Result(array, arrayCopy);
+	Result(array);
 	array_delete(array);
-	delete[] arrayCopy;
-	arrayCopy = 0;
 	return 0;
 }
