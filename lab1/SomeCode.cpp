@@ -12,7 +12,7 @@ void forecast(Array* arr) {
         if (j == 0) {
             continue;
         }
-        if ((j % 10) == 0) {
+        if ((j + 1) % 10) == 0) {
             std::cout << "decade " << c << ": " << sum / decade << std::endl;
             sum = 0;
             c++;
