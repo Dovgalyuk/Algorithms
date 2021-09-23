@@ -40,5 +40,6 @@ int main() {
     outputToConsole(array);
     arrayProcessing(array);
     outputToConsole(array);
+    array_delete(array);
     return 0;
 }
