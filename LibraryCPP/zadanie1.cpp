@@ -1,7 +1,7 @@
 #include <iostream>
 #include <random>
 #include <ctime>
-#include "array.cpp"
+#include "array.h"
 
 using std::cout;
 using std::cin;
