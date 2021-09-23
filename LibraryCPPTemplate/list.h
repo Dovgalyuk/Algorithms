@@ -29,7 +29,7 @@ public:
 
     // Destroys the list and frees the memory
     ~List() {
-        while(firstItem != nullptr) {
+        while (firstItem != nullptr) {
             auto *item = firstItem;
             firstItem = item->next();
             delete item;
@@ -39,15 +39,6 @@ public:
     // Retrieves the first item from the list
     Item *first() {
         return firstItem;
-    }
-
-    // Retrieves the last item from the list
-    Item *last() {
-        auto *result = firstItem;
-        while (result->next() != nullptr){
-            result = result->next();
-        }
-        return result;
     }
 
     // Return list items count
@@ -66,12 +57,6 @@ public:
         firstItem = newItem;
         size++;
         return newItem;
-    }
-
-    // Костыль, т.к. из-за использований шаблонов сделать виртуальный метод insert нельзя
-    // и я к сожалению не знаю как это правильно обойти
-    void ins(Data data) {
-        insert(data);
     }
 
     // Inserts new list item after the specified item
