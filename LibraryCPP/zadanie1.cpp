@@ -79,7 +79,7 @@ int main() {
     Array* array = array_create(size_array);
     random_number_generation(array);
 
-    // Ввывод Array
+    // Вывод Array
     print(array);
 
     // Условие A
