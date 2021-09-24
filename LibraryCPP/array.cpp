@@ -7,7 +7,7 @@ struct Array {
 
 // create array
 Array *array_create(size_t size) {
-    Array *arr_ptr = new Array; // указатель для работы с новым Array
+    Array *arr_ptr = new Array;
     arr_ptr->arr_size = size;
     arr_ptr->data = new Data[size];
     return arr_ptr;
