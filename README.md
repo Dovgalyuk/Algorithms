@@ -54,7 +54,7 @@ https://www.youtube.com/watch?v=sC566vzV9B0
 ## Динамическое программирование
 
 https://www.youtube.com/watch?v=f1w6Ac6OEsY
-https://www.youtube.com/watch?v=VmocLw9wwM0
+https://www.youtube.com/watch?v=VmocLw9wwM0       
 
 ## Графы
 
