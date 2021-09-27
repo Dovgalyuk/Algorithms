@@ -1,0 +1,4 @@
+add_executable(lab1 lab1.cpp)
+target_include_directories(lab1 PUBLIC ..)
+target_link_libraries(lab1 LibraryCPP)
+add_test(lab1 lab1)
