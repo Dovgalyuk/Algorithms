@@ -10,11 +10,11 @@ int main()
         std::cout << "Invalid array size\n";
         return 1;
     }
-
+    
     for (int i = 0 ; i < 10 ; ++i)
         array_set(arr, i, i * 2);
-
-    for (int i = 0 ; i < 10 ; ++i)
+    
+    for (int i = 0; i < 10; ++i)
     {
         if (array_get(arr, i) != i * 2)
         {
@@ -22,6 +22,6 @@ int main()
             return 1;
         }
     }
-
+    
     array_delete(arr);
 }
