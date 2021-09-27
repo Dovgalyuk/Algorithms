@@ -1,0 +1,6 @@
+# ninja log v5
+8	1017	6544819606383778	LibraryC/Tests/CMakeFiles/TestArrayC.dir/array.cpp.obj	5634681764b2660c
+19	1020	6544819606383778	LibraryC/Tests/CMakeFiles/TestListC.dir/list.cpp.obj	9ec2b8ca03519408
+26	1021	6544819606403768	LibraryC/Tests/CMakeFiles/TestQueueC.dir/queue.cpp.obj	dc13b92e947690d1
+22	1039	6544819606603657	LibraryC/Tests/CMakeFiles/TestStackC.dir/stack.cpp.obj	3597145ab271c28b
+29	1050	6544819606723570	LibraryC/Tests/CMakeFiles/TestVectorC.dir/vector.cpp.obj	1a494a85f17afe90
