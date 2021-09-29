@@ -36,30 +36,13 @@ void print(Array* array)
     cout << endl;
 }
 
-void select(int* max, int* min, int mark)
-{
-    if (mark == 2)
-    {
-        cout << "search Search for two-digit numbers\n";
-        *min = 10;
-        *max = 100;
-    }
-
-    else if (mark == 3)
-    {
-        cout << "search Search for three-digit numbers\n";
-        *min = 100;
-        *max = 1000;
-    }
-}
-
-void search(Array* array, int* max, int* min)
+void search(Array* array, int max, int min)
 {
     int check = 0;
 
     for (int i = 0; i < array_size(array); i++)
     {
-        if ((array_get(array, i) >= *min) && (array_get(array, i) < *max))
+        if ((array_get(array, i) >= min) && (array_get(array, i) < max))
         {
             cout << "(" << i << ")" << "=" << array_get(array, i) << endl;
             check++;
@@ -68,24 +51,25 @@ void search(Array* array, int* max, int* min)
 
     if (check == 0)
     {
-        cout << "There are no two-digit numbers" << endl;
+        if (min==10)
+        {
+            cout << "There are no two-digit numbers" << endl;
+        }
+        else
+        {
+            cout << "There are no three-digit numbers" << endl;
+        }
     }
 }
 
-
 int main()
 {
-    int maxS;
-    int minS;
     int a = size_for_array();
     Array* array = array_create(a);
     full(array);
     print(array);
-    select(&maxS, &minS, 2);
-    search(array, &maxS, &minS);
-
-    select(&maxS, &minS, 3);
-    search(array, &maxS, &minS);
+    search(array,100,10);
+    search(array,1000,100);
 
     array_delete(array);
     return 0;
