@@ -31,9 +31,6 @@ void condition_a(Array *array) {
         if (array_get(array, index) > 20) {
             sum_1 += array_get(array, index);
         }
-        else {
-            continue; // Можно и без этого???
-        }
     }
 
     cout << sum_1 << std::endl; // Сумма для условия A
@@ -53,9 +50,6 @@ void condition_b(Array *array) {
     for (int index = 0; index < array_size(array); index++) {
         if (array_get(array, index) < 50) {
             sum_2 += array_get(array, index);
-        }
-        else {
-            continue;
         }
     }
 
