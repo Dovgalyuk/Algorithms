@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../LibraryCPP/array.cpp"
+#include "array.h"
 
 int writeNumber() {
     int number;
