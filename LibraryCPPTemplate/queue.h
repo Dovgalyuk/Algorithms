@@ -16,19 +16,6 @@ public:
     {
     }
 
-    void sort() {
-        size_t size = this->size();
-        Data* new_data = new Data[size];
-        for (int i = 0; i < size; ++i) {
-            new_data[i] = this->data[(i + first) % size];
-        }
-        for (int i = 0; i < size; ++i) {
-            this->data[i] = new_data[i];
-        }
-        first = 0;
-        last = size - 1;
-    }
-
     // Includes new element into the queue
     // Should be O(1) on average
     void insert(Data data)
@@ -39,7 +26,8 @@ public:
             }
             this->resize(this->size() + 1);
         }
-        last = ++last % this->size();
+        last++;
+        last %= this->size();
         this->data[last] = data;
         length++;
     }
@@ -54,7 +42,8 @@ public:
     // Should be O(1) on average
     void remove()
     {
-        first = ++first % this->size();
+        first++;
+        first %= this->size();
         if (length > 0) {
             length--;
         }
@@ -70,6 +59,21 @@ private:
     size_t first = 0;
     size_t last = 0;
     size_t length = 0;
+
+    void sort() {
+        size_t size = this->size();
+        Data* new_data = new Data[size];
+        for (int i = 0; i < size; ++i) {
+            new_data[i] = this->data[(i + first) % size];
+        }
+        for (int i = 0; i < size; ++i) {
+            this->data[i] = new_data[i];
+        }
+        last -= first;
+        last += size;
+        last %= size;
+        first = 0;
+    }
 };
 
 #endif
