@@ -1,4 +1,5 @@
 add_executable(Circuit circuit.cpp)
+target_include_directories(Circuit PUBLIC ../LibraryCPP)
 target_link_libraries(Circuit PUBLIC LibraryCPP)
 
 add_executable(LaboratoryTwo laboratorytwo.cpp)
