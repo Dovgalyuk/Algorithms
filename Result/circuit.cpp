@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <random>
-#include <array.h>
+#include "array.h"
 
 void generateCircuit(Array *array);
 
