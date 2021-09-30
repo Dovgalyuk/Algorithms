@@ -4,6 +4,7 @@
 struct Array {
     int* data;
     size_t size;
+
     Array(size_t size) {
         this->size=size;
         data = new int[size];

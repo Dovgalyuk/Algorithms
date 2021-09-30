@@ -7,6 +7,7 @@ int main() {
     std::cout << "Input array size ";
     std::cin >> sizeArray;
     Array* arr = array_create(sizeArray);
+
     for (int i = 0; i < sizeArray; i++) {
 
         array_set(arr, i, 1 + rand() % 999);
