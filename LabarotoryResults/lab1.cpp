@@ -1,7 +1,7 @@
-#include "../LibraryCPP/array.h"
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include "array.h"
 
 
 int main() {
