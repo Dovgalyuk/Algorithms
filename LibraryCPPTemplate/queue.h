@@ -20,7 +20,7 @@ public:
     // Should be O(1) on average
     void insert(Data data)
     {
-        if (length == this->size()) {
+        if (amount == this->size()) {
             if (first > 0) {
                 sort();
             }
@@ -29,7 +29,7 @@ public:
         last++;
         last %= this->size();
         this->data[last] = data;
-        length++;
+        amount++;
     }
 
     // Retrieves first element from the queue
@@ -44,21 +44,21 @@ public:
     {
         first++;
         first %= this->size();
-        if (length > 0) {
-            length--;
+        if (amount > 0) {
+            amount--;
         }
     }
 
     // Returns true if the queue is empty
     bool empty() const
     {
-        return !length;
+        return !amount;
     }
 
 private:
     size_t first = 0;
     size_t last = 0;
-    size_t length = 0;
+    size_t amount = 0;
 
     void sort() {
         size_t size = this->size();

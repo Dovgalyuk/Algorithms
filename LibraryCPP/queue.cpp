@@ -6,9 +6,9 @@ struct Queue
     Vector* vector;
     size_t first;
     size_t last;
-    size_t length = 0;
+    size_t amount = 0;
 
-    Queue(): vector(vector_create()), first(0), last(-1), length(0) {}
+    Queue(): vector(vector_create()), first(0), last(-1), amount(0) {}
 };
 
 Queue *queue_create()
@@ -37,7 +37,7 @@ void queue_sort(Queue* queue) {
 
 void queue_insert(Queue *queue, Data data)
 {
-    if (queue->length == vector_size(queue->vector)) {
+    if (queue->amount == vector_size(queue->vector)) {
         if (queue->first > 0) {
             queue_sort(queue);
         }
@@ -46,7 +46,7 @@ void queue_insert(Queue *queue, Data data)
     queue->last++;
     queue->last %= vector_size(queue->vector);
     vector_set(queue->vector, queue->last, data);
-    queue->length++;
+    queue->amount++;
 }
 
 Data queue_get(const Queue *queue)
@@ -58,12 +58,12 @@ void queue_remove(Queue *queue)
 {
     queue->first++;
     queue->first %= vector_size(queue->vector);
-    if (queue->length > 0) {
-        queue->length--;
+    if (queue->amount > 0) {
+        queue->amount--;
     }
 }
 
 bool queue_empty(const Queue *queue)
 {
-    return !queue->length;
+    return !queue->amount;
 }
