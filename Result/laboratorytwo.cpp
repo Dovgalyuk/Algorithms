@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cctype>
 #include <vector>
-#include "../LibraryCPPTemplate/stack.h"
+#include "stack.h"
 
 void calculate(const std::string& input);
 std::vector<std::string> *calculateOrder(const std::string& input);

@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include "../LibraryCPPTemplate/queue.h"
+#include "queue.h"
 
 struct Position{
     int x, y;
