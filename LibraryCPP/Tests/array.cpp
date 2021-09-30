@@ -1,10 +1,12 @@
 #include <iostream>
-#include "../array.h"
+#include "array.h"
 
-int main() {
+int main()
+{
     Array *arr = array_create(10);
 
-    if (array_size(arr) != 10) {
+    if (array_size(arr) != 10)
+    {
         std::cout << "Invalid array size\n";
         return 1;
     }

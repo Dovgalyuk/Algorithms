@@ -1,5 +1,6 @@
-#include "array.h"
 #include <iostream>
+#include "array.h"
+
 struct Array {
     int* data;
     size_t size;

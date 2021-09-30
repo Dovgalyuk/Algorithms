@@ -1,6 +1,5 @@
-// Найти сумму всех цифр всех чисел массива.
-#include "../LibraryCPP/array.h"
 #include <iostream>
+#include "array.h"
 
 int main() {
     srand(time(NULL));
@@ -15,8 +14,14 @@ int main() {
         std::cout << std::endl;
     }
     int sum = 0;
+    int digit;
     for (int i = 0; i < sizeArray; i++) {
-        sum += array_get(arr, i);
+        digit = array_get(arr, i);
+        while (digit >= 10) {
+            sum += digit % 10;
+            digit /= 10;
+        }
+        sum+= digit;
     }
     std::cout << "The amount: " << sum;
     std::cout << std::endl;
