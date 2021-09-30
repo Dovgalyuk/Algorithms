@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 
 void fill_arr(Array *arr) {   //fill array with students heighst
     std::srand(532);
