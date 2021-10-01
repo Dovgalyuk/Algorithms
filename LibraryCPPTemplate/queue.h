@@ -66,10 +66,8 @@ private:
         for (int i = 0; i < size; ++i) {
             new_data[i] = this->data[(i + first) % size];
         }
-        for (int i = 0; i < size; ++i) {
-            this->data[i] = new_data[i];
-        }
-        delete[] new_data;
+        delete[] this->data;
+        this->data = new_data;
         last -= first;
         last += size;
         last %= size;

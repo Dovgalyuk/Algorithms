@@ -8,7 +8,7 @@ struct Queue
     size_t last;
     size_t amount = 0;
 
-    Queue(): vector(vector_create()), first(0), last(-1), amount(0) {}
+    Queue(): vector(vector_create()), first(0), last(0), amount(0) {}
 };
 
 Queue *queue_create()
@@ -31,8 +31,11 @@ void queue_sort(Queue* queue) {
     for (int i = 0; i < size; ++i) {
         vector_set(queue->vector, i, new_data[i]);
     }
+    delete[] new_data;
+    queue->last -= queue->first;
+    queue->last += size;
+    queue->last %= size;
     queue->first = 0;
-    queue->last = size - 1;
 }
 
 void queue_insert(Queue *queue, Data data)
