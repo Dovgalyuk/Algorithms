@@ -7,3 +7,6 @@ target_include_directories(LaboratoryTwo PUBLIC ../LibraryCPPTemplate)
 
 add_executable(LaboratoryThree laboratorythree.cpp)
 target_include_directories(LaboratoryThree PUBLIC ../LibraryCPPTemplate)
+
+add_executable(LaboratoryFour laboratoryfour.cpp)
+target_include_directories(LaboratoryFour PUBLIC ../LibraryCPPTemplate)

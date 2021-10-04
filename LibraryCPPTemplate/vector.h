@@ -18,12 +18,12 @@ public:
         delete[] data;
     }
 
-    // Retrieves vector element with the specified index
+    // Retrieves vector element with the specified getIndex
     Data get(size_t index) const {
         return data[index];
     }
 
-    // Sets vector element with the specified index
+    // Sets vector element with the specified getIndex
     void set(size_t index, Data value) {
         data[index] = value;
     }
