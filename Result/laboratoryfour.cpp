@@ -23,9 +23,8 @@ int main() {
 
     DirectedGraph<bool> graph(maxVertices);
     for (int i = 0; i < maxVertices; i++) {
+        graph.addVertex(i, true);
         for (int j = 0; j < maxVertices; j++) {
-            graph.setVertex(i + j * maxVertices, true);
-
             int cost = in[i][j];
             if (cost == 0) continue;
             graph.setEdge(i, j, cost);
@@ -34,7 +33,6 @@ int main() {
     for (int i = 0; i < maxVertices; i++) {
         findPathCosts(graph, i);
     }
-    system("pause");
     return 0;
 }
 
@@ -65,7 +63,7 @@ void findPathCosts(DirectedGraph<bool> &graph, int vertexIndex) {
 
 void fillCosts(DirectedGraph<bool> &graph, std::vector<int> &costPath, std::vector<int> &nextVertices, int ownerVertexIndex) {
     int ownerVertexCost = costPath[ownerVertexIndex];
-    for (int i: graph.getLinkedVertices(ownerVertexIndex)) {
+    for (int i : *graph.getLinkedVertices(ownerVertexIndex)) {
         int newCost = graph.getEdgeCost(ownerVertexIndex, i) + ownerVertexCost;
         if (newCost == 0 || (costPath[i] != 0 && costPath[i] <= newCost)) continue;
         costPath[i] = newCost;

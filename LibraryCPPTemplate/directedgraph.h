@@ -14,17 +14,9 @@ template <typename Data>
 class DirectedGraph {
 public:
     struct Vertex {
-        bool isNull;
-        size_t index;
         Data data;
-        Vertex() {
-            index = 0;
-            isNull = true;
-        }
-        Vertex(int index, Data data) {
-            this->index = index;
+        Vertex(Data data) {
             this->data = data;
-            isNull = false;
         }
     };
 
@@ -38,23 +30,80 @@ public:
         }
     };
 
+    class Iterator {
+    public:
+        Iterator &next() {
+            for (int i = current + 1; i < graph.vertexCount; i++) {
+                current = -1;
+                if (!graph.containsVertex(i)) continue;
+                current = i;
+                break;
+            }
+            return *this;
+        }
+
+        bool hasNext() {
+            for (int i = current + 1; i < graph.vertexCount; i++) {
+                if (!graph.containsVertex(i)) continue;
+                return true;
+            }
+            return false;
+        }
+
+        Iterator(DirectedGraph<Data> &_graph) : graph(_graph) { }
+
+        Iterator(DirectedGraph<Data> &_graph, int current) : graph(_graph) {
+            this->current = current;
+        }
+
+        Vertex* operator *() {
+            return graph.vertices->get(current);
+        }
+
+        Iterator& operator ++() {
+            return next();
+        }
+
+        Iterator operator ++(int) {
+            next();
+            Iterator it(graph, current);
+            return it;
+        }
+    private:
+        DirectedGraph<Data> &graph;
+        int current = -1;
+    };
+
+    Iterator getIterator() {
+        return Iterator(*this);
+    }
+
     typedef Array<Edge> MatrixArray;
-    typedef Array<Vertex> VertexArray;
+    typedef Array<Vertex*> VertexArray;
 
     DirectedGraph(size_t vertexCount) {
         this->vertexCount = vertexCount;
         size_t size = vertexCount * vertexCount;
         matrix = new MatrixArray(size);
         vertices = new VertexArray(vertexCount);
+        for (int i = 0; i < vertices->size(); i++) {
+            vertices->set(i, nullptr);
+        }
     }
 
     ~DirectedGraph() {
         delete matrix;
+        for (int i = 0; i < vertices->size(); i++) {
+            delete vertices->get(i);
+        }
         delete vertices;
     }
 
-    void setVertex(size_t index, Data data) {
-        vertices->set(index, Vertex(index, data));
+    void addVertex(size_t index, Data data) {
+        if (containsVertex(index)) {
+            removeVertex(index);
+        }
+        vertices->set(index, new Vertex(data));
     }
 
     void setEdge(size_t firstIndex, size_t secondIndex, size_t cost) {
@@ -71,7 +120,8 @@ public:
             matrix->set(getIndex(i, index), Edge(0));
             matrix->set(getIndex(index, i), Edge(0));
         }
-        vertices->set(index, Vertex());
+        delete vertices->get(index);
+        vertices->set(index, nullptr);
     }
 
     void removeEdge(size_t firstIndex, size_t secondIndex) {
@@ -79,12 +129,11 @@ public:
     }
 
     bool isLinked(size_t firstIndex, size_t secondIndex) {
-        return matrix->get(getIndex(firstIndex, secondIndex)).cost != 0 ||
-               matrix->get(getIndex(secondIndex, firstIndex)).cost != 0;
+        return matrix->get(getIndex(firstIndex, secondIndex)).cost != 0;
     }
 
     bool containsVertex(size_t index) {
-        return vertices->get(index).isNull;
+        return vertices->get(index) != nullptr;
     }
 
     size_t getEdgeCost(size_t firstIndex, size_t secondIndex) {
@@ -92,11 +141,11 @@ public:
     }
 
     // Return index vector with next Vertex
-    std::vector<int> getLinkedVertices(size_t index) {
-        std::vector<int> edges;
+    std::vector<int> *getLinkedVertices(size_t index) {
+        auto edges = new std::vector<int>;
         for (int i = 0; i < vertexCount; i++) {
             if (matrix->get(getIndex(index, i)).cost == 0) continue;
-            edges.push_back(i);
+            edges->push_back(i);
         }
         return edges;
     }

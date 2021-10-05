@@ -25,10 +25,6 @@ public:
         data[index] = value;
     }
 
-    void set(size_t index, Data *value) {
-        data[index] = value;
-    }
-
     // returns array size
     size_t size() const {
         return arraySize;

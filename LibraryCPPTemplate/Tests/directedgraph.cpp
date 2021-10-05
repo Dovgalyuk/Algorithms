@@ -5,9 +5,27 @@
 #include "directedgraph.h"
 
 int main() {
+    const int vertexSize = 4;
     auto graph = new DirectedGraph<bool>(4);
 
-    graph->setVertex(0, true);
+    for (int i = 0; i < vertexSize; i++) {
+        graph->addVertex(i, true);
+        if (!graph->containsVertex(i)) {
+            std::cout << "Invalid graph add vertex" << std::endl;
+            graph->displayMatrix();
+            return 1;
+        }
+    }
+
+    auto it = graph->getIterator();
+    while (it.hasNext()) {
+        if ((*it) == nullptr) {
+            std::cout << "Invalid graph iterator work" << std::endl;
+            graph->displayMatrix();
+            return 1;
+        }
+        it++;
+    }
 
     graph->setEdge(1, 2, 1);
     graph->setEdge(3, 2, 1);
