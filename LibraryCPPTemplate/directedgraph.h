@@ -104,7 +104,7 @@ public:
 
     void removeVertex(size_t index) {
         if (index < vertices->size()) {
-            copyArray(index + 1);
+            copyArray(index);
         }
 
         for (size_t i = 0; i < vertexCount; i++) {
