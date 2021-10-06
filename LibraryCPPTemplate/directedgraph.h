@@ -15,6 +15,9 @@ class DirectedGraph {
 public:
     struct Vertex {
         Data data;
+        Vertex() {
+            this->data = 0;
+        }
         Vertex(Data data) {
             this->data = data;
         }
@@ -79,49 +82,39 @@ public:
     }
 
     typedef Array<Edge> MatrixArray;
-    typedef Array<Vertex*> VertexArray;
+    typedef Array<Vertex> VertexArray;
 
     DirectedGraph(size_t vertexCount) {
         this->vertexCount = vertexCount;
-        size_t size = vertexCount * vertexCount;
-        matrix = new MatrixArray(size);
+        matrix = new MatrixArray(vertexCount * vertexCount);
         vertices = new VertexArray(vertexCount);
-        for (int i = 0; i < vertices->size(); i++) {
-            vertices->set(i, nullptr);
-        }
     }
 
     ~DirectedGraph() {
         delete matrix;
-        for (int i = 0; i < vertices->size(); i++) {
-            delete vertices->get(i);
-        }
         delete vertices;
     }
 
     void addVertex(size_t index, Data data) {
-        if (containsVertex(index)) {
-            removeVertex(index);
+        if (index >= vertices->size()) {
+            copyArray(index + 1);
         }
-        vertices->set(index, new Vertex(data));
-    }
-
-    void setEdge(size_t firstIndex, size_t secondIndex, size_t cost) {
-        matrix->set(firstIndex + secondIndex * vertexCount, Edge(cost));
+        vertices->set(index, Vertex(data));
     }
 
     void removeVertex(size_t index) {
-        if (!containsVertex(index)) {
-            std::cout << "Trying remove null vertex" << std::endl;
-            exit(-1);
+        if (index < vertices->size()) {
+            copyArray(index + 1);
         }
 
         for (size_t i = 0; i < vertexCount; i++) {
             matrix->set(getIndex(i, index), Edge(0));
             matrix->set(getIndex(index, i), Edge(0));
         }
-        delete vertices->get(index);
-        vertices->set(index, nullptr);
+    }
+
+    void setEdge(size_t firstIndex, size_t secondIndex, size_t cost) {
+        matrix->set(firstIndex + secondIndex * vertexCount, Edge(cost));
     }
 
     void removeEdge(size_t firstIndex, size_t secondIndex) {
@@ -167,6 +160,24 @@ public:
         }
     }
 private:
+
+    void copyArray(size_t newSize) {
+        vertexCount = newSize;
+        auto newArray = new VertexArray(vertexCount);
+        for (int i = 0; i < vertices->size(); i++) {
+            newArray->set(i, vertices->get(i));
+        }
+        delete vertices;
+        vertices = newArray;
+
+        auto newMatrix = new MatrixArray (vertexCount * vertexCount);
+        for (int i = 0; i < matrix->size(); i++) {
+            newMatrix->set(i, matrix->get(i));
+        }
+        delete matrix;
+        matrix = newMatrix;
+    }
+
     inline int getIndex(const int first, const int second) {
         return first + second * vertexCount;
     }
