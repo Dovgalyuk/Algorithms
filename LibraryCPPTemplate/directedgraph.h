@@ -103,14 +103,17 @@ public:
     }
 
     void removeVertex(size_t index) {
-        if (index < vertices->size()) {
-            copyArray(index);
+        int newSize = vertices->size() - 1;
+        for (size_t i = index; i < newSize; i++) {
+            size_t secondIndex = i + 1;
+            vertices->set(i, vertices->get(secondIndex));
+            for (size_t j = 0; j < newSize; j++) {
+                if (i == j) continue;
+                matrix->set(getIndex(j, i), matrix->get(getIndex(secondIndex, j)));
+                matrix->set(getIndex(i, j), matrix->get(getIndex(j, i + secondIndex)));
+            }
         }
-
-        for (size_t i = 0; i < vertexCount; i++) {
-            matrix->set(getIndex(i, index), Edge(0));
-            matrix->set(getIndex(index, i), Edge(0));
-        }
+        copyArray(newSize);
     }
 
     void setEdge(size_t firstIndex, size_t secondIndex, size_t cost) {
