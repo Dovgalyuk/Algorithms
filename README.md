@@ -179,3 +179,48 @@ https://neerc.ifmo.ru/wiki/index.php?title=%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%
 
 
 Миша Нечаев 0091
+
+#include "array.h"
+
+struct Array
+{
+    Data* array; // указат на массив
+    size_t size; // размер массива
+    Array(size_t size) {
+        this->size = size;
+        array = new Data[size]; // объявил массив
+    }
+    ~Array() {
+        delete[] array;
+    }
+};
+
+// create array
+Array *array_create(size_t size)
+{
+    return new Array(size);
+}
+
+// delete array, free memory
+void array_delete(Array *array)
+{
+    delete array;
+}
+
+// returns specified array element
+Data array_get(const Array *array, size_t index)
+{
+    return array->array[index];;
+}
+
+// sets the specified array element to the value
+void array_set(Array *array, size_t index, Data value)
+{
+    array->array[index] = value;
+}
+
+// returns array size
+size_t array_size(const Array *array)
+{
+    return array->size;
+}
