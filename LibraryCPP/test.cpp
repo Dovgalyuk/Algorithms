@@ -2,6 +2,7 @@
 // Created by Nechaev on 05.10.2021.
 //
 #include <iostream>
+#include <climits>
 #include <ctime>
 #include "array.cpp"
 
