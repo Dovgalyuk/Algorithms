@@ -59,7 +59,7 @@ public:
             this->current = current;
         }
 
-        Vertex operator *() {
+        Vertex *operator *() {
             return graph.vertices->get(current);
         }
 
@@ -82,16 +82,20 @@ public:
     }
 
     typedef Array<Edge> MatrixArray;
-    typedef Array<Vertex> VertexArray;
+    typedef Array<Vertex*> VertexArray;
 
     DirectedGraph(size_t vertexCount) {
         this->vertexCount = vertexCount;
         matrix = new MatrixArray(vertexCount * vertexCount);
         vertices = new VertexArray(vertexCount);
+        for (int i = 0; i < vertexCount; i++)
+            vertices->set(i, nullptr);
     }
 
     ~DirectedGraph() {
         delete matrix;
+        for (int i = 0; i < vertexCount; i++)
+            delete vertices->get(i);
         delete vertices;
     }
 
@@ -99,11 +103,12 @@ public:
         if (index >= vertices->size()) {
             copyArray(index + 1);
         }
-        vertices->set(index, Vertex(data));
+        vertices->set(index, new Vertex(data));
     }
 
     void removeVertex(size_t index) {
         int newSize = vertices->size() - 1;
+        delete vertices->get(index);
         for (size_t i = index; i < newSize; i++) {
             size_t secondIndex = i + 1;
             vertices->set(i, vertices->get(secondIndex));
@@ -163,7 +168,6 @@ public:
         }
     }
 private:
-
     void copyArray(size_t newSize) {
         vertexCount = newSize;
         auto newArray = new VertexArray(vertexCount);
