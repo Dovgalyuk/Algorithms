@@ -11,7 +11,7 @@ int main()
 	int negative_numder_count = 0;
 	int positive_numder_count = 0;
 	
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < array_size(array); i++)
 	{
 		int random_number = rand()%100-50;
 		array_set(array, i, random_number);
@@ -26,7 +26,7 @@ int main()
 	Array* positive_numders = array_create(positive_numder_count);
 	int last_id_negative_numder_array = 0;
 	int last_id_positive_numder_array = 0;
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < array_size(array); i++)
 	{
 		int number = array_get(array, i);
 		if (number >= 0) {
@@ -38,14 +38,16 @@ int main()
 	}
 	
 	cout << "Array positive elements: "<<endl;
-	for (int i = 0; i < positive_numder_count; i++)
+	for (int i = 0; i < array_size(positive_numders); i++)
 	{
 		cout << array_get(positive_numders, i)<<endl;
 	}
 	cout << "Array negative elements: "<<endl;
-	for (int i = 0; i < negative_numder_count; i++)
+	for (int i = 0; i < array_size(negative_numders); i++)
 	{
 		cout << array_get(negative_numders, i)<<endl;
 	}
-	
+	delete negative_numders;
+	delete positive_numders;
+	delete array;
 }
