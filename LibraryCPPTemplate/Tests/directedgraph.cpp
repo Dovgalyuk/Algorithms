@@ -19,7 +19,7 @@ int main() {
 
     auto it = graph->getIterator();
     while (it.hasNext()) {
-        if ((*it) == nullptr) {
+        if (!(*it).data) {
             std::cout << "Invalid graph iterator work" << std::endl;
             graph->displayMatrix();
             return 1;

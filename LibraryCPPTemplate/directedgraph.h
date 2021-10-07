@@ -59,7 +59,7 @@ public:
             this->current = current;
         }
 
-        Vertex* operator *() {
+        Vertex operator *() {
             return graph.vertices->get(current);
         }
 
