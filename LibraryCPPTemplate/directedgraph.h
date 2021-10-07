@@ -129,7 +129,7 @@ public:
     }
 
     bool containsVertex(size_t index) {
-        return vertices->get(index) != nullptr;
+        return index < vertexCount;
     }
 
     size_t getEdgeCost(size_t firstIndex, size_t secondIndex) {
