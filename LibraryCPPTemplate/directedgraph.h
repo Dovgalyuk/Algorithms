@@ -36,21 +36,12 @@ public:
     class Iterator {
     public:
         Iterator &next() {
-            for (int i = current + 1; i < graph.vertexCount; i++) {
-                current = -1;
-                if (!graph.containsVertex(i)) continue;
-                current = i;
-                break;
-            }
+            current++;
             return *this;
         }
 
         bool hasNext() {
-            for (int i = current + 1; i < graph.vertexCount; i++) {
-                if (!graph.containsVertex(i)) continue;
-                return true;
-            }
-            return false;
+            return graph.containsVertex(current + 1);
         }
 
         Iterator(DirectedGraph<Data> &_graph) : graph(_graph) { }
@@ -134,7 +125,7 @@ public:
     }
 
     bool containsVertex(size_t index) {
-        return index < vertexCount;
+        return index < vertices->size() && vertices->get(index) != nullptr;
     }
 
     size_t getEdgeCost(size_t firstIndex, size_t secondIndex) {
