@@ -4,7 +4,7 @@
 #include <iostream>
 #include <climits>
 #include <ctime>
-#include "array.cpp"
+#include "array.h"
 
 void fillingTheArray(Array* arr){
     for (int i = 0; i <  array_size(arr); i++)
@@ -60,7 +60,7 @@ int main() {
 
     fillingTheArray(arr);
 
-
+    searchForTwoMaxima(min1, min2, arr);
 
     array_delete(arr);
 }
