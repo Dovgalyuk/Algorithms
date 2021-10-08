@@ -162,14 +162,18 @@ private:
     void copyArray(size_t newSize) {
         vertexCount = newSize;
         auto newArray = new VertexArray(vertexCount);
-        for (int i = 0; i < vertices->size(); i++) {
+        int vertexSize = vertices->size();
+        if (vertexSize > newSize) vertexSize = newArray->size();
+        for (int i = 0; i < vertexSize; i++) {
             newArray->set(i, vertices->get(i));
         }
         delete vertices;
         vertices = newArray;
 
         auto newMatrix = new MatrixArray (vertexCount * vertexCount);
-        for (int i = 0; i < matrix->size(); i++) {
+        int matrixSize = matrix->size();
+        if (matrixSize > newSize) matrixSize = newMatrix->size();
+        for (int i = 0; i < matrixSize; i++) {
             newMatrix->set(i, matrix->get(i));
         }
         delete matrix;

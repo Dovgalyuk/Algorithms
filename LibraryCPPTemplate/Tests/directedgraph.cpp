@@ -36,7 +36,7 @@ int main() {
     }
 
     graph->removeEdge(3, 2);
-    if (graph->isLinked(3, 2)) {
+    if (graph->isLinked(2, 1)) {
         std::cout << "Invalid graph remove linking" << std::endl;
         graph->displayMatrix();
         return 1;
@@ -44,7 +44,7 @@ int main() {
 
     graph->setEdge(1, 3, 1);
     graph->removeVertex(1);
-    if (graph->isLinked(1, 2) || graph->isLinked(1, 3)) {
+    if (graph->isLinked(1, 2) && graph->isLinked(1, 3)) {
         std::cout << "Invalid graph remove vertex" << std::endl;
         graph->displayMatrix();
         return 1;
