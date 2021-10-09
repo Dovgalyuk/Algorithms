@@ -1,5 +1,5 @@
 //
-// Created by Nechaev on 09.10.2021.
+// Created by Nechaev on 09.10.2021
 //
 #include <iostream>
 #include <climits>
