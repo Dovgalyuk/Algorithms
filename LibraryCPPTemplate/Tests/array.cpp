@@ -2,7 +2,7 @@
 #include "iostream"
 #include "math.h"
 #include "time.h"
-#include "cstdlib"
+#include "cstddef"
 
 int main() {
     setlocale(LC_ALL, "cp1151");
