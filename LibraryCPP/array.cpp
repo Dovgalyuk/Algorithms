@@ -8,7 +8,7 @@ struct Array
 Array *array_create(size_t size)
 {
     int*arr=new int[size];
-    array_set(arr, );
+   // array_set(arr, );
     return new Array;
 }
 
@@ -27,9 +27,7 @@ Data array_get(const Array *arr, size_t index)
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
-    for (int i = 0; i < ; ++i) {
 
-    }
 }
 
 // returns array size
