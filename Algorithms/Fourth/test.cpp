@@ -9,10 +9,6 @@ const int FIRST_VERTEX = 0;
 const int SECOND_VERTEX = 4;
 
 void fillGraph(DirectedGraph<Data>* graph) {
-    int vertex_amount = graph->vertex_amount;
-    for (int i = 0; i < vertex_amount; ++i) {
-        graph->add_vertex(0);
-    }
     graph->add_edge(FIRST_VERTEX, 1, 10);
     graph->add_edge(FIRST_VERTEX, 3, 30);
     graph->add_edge(FIRST_VERTEX, 4, 100);
@@ -44,16 +40,16 @@ int main() {
 
     int vertex = FIRST_VERTEX;
     int cost = 0;
-    int costs[graph->vertex_amount];
-    fill(costs, graph->vertex_amount, INT_MAX);
+    int costs[graph->get_vertex_amount()];
+    fill(costs, graph->get_vertex_amount(), INT_MAX);
 
-    bool was[graph->vertex_amount];
-    fill(was, graph->vertex_amount, false);
-    while (!is_all(was, graph->vertex_amount, true)) {
+    bool was[graph->get_vertex_amount()];
+    fill(was, graph->get_vertex_amount(), false);
+    while (!is_all(was, graph->get_vertex_amount(), true)) {
         int min_cost = INT_MAX;
         int min_cost_vertex = -1;
         was[vertex] = true;
-        for (int i = 0; i < graph->vertex_amount; ++i) {
+        for (int i = 0; i < graph->get_vertex_amount(); ++i) {
             if (!was[i]) {
                 int new_cost = costs[i];
                 if (graph->contains_edge_between_vertices(vertex, i)) {
