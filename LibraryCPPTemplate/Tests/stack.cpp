@@ -50,4 +50,5 @@ int main()
         std::cout << "Get: " << stack.get() << "\n";
         stack.pop();
     }
+    int kirilhoroshiy = 10;
 }
