@@ -26,14 +26,6 @@ void fill(Data array[], size_t size, Data value) {
     }
 }
 
-template<typename Data>
-bool is_all(Data array[], size_t size, Data value) {
-    for (int i = 0; i < size; ++i) {
-        if (array[i] != value) return false;
-    }
-    return true;
-}
-
 int main() {
     DirectedGraph<Data>* graph = new DirectedGraph<Data>(VERTICES_COUNT);
     fillGraph(graph);
@@ -45,7 +37,9 @@ int main() {
 
     bool was[graph->get_vertex_amount()];
     fill(was, graph->get_vertex_amount(), false);
-    while (!is_all(was, graph->get_vertex_amount(), true)) {
+    bool is_empty = false;
+    while (!is_empty) {
+        is_empty = true;
         int min_cost = INT_MAX;
         int min_cost_vertex = -1;
         was[vertex] = true;
@@ -60,6 +54,7 @@ int main() {
                     min_cost = new_cost;
                     min_cost_vertex = i;
                 }
+                is_empty = false;
             }
         }
         vertex = min_cost_vertex;

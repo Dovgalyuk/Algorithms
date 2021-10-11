@@ -68,7 +68,7 @@ public:
         for (int i = 0; i < vertex_amount; ++i) {
             vertices->set(i, new Vertex(i));
         }
-        matrix->resize(pow(vertex_amount, 2));
+        matrix->resize(vertex_amount * vertex_amount);
         fill_matrix_with_null();
     }
 
@@ -185,7 +185,7 @@ protected:
     void remove_vertex_from_matrix(size_t removed_vertex_index) {
         int vertex_amount = get_vertex_amount();
         Vector<Edge*>* new_matrix = new Vector<Edge*>;
-        new_matrix->resize(pow(vertex_amount, 2));
+        new_matrix->resize(vertex_amount * vertex_amount);
         int amount_vertex_in_old_matrix = sqrt(matrix->size());
         for (int i = 0; i < vertex_amount; ++i) {
             for (int j = 0; j < vertex_amount; ++j) {
@@ -200,7 +200,7 @@ protected:
     void add_vertex_to_matrix() {
         int vertex_amount = get_vertex_amount();
         Vector<Edge*>* new_matrix = new Vector<Edge*>;
-        new_matrix->resize(pow(vertex_amount, 2));
+        new_matrix->resize(vertex_amount * vertex_amount);
         int amount_vertex_in_old_matrix = sqrt(matrix->size());
         for (int i = 0; i < amount_vertex_in_old_matrix; ++i) {
             for (int j = 0; j < amount_vertex_in_old_matrix; ++j) {
