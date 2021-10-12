@@ -3,12 +3,21 @@
 #include <vector>
 #include <climits>
 
-typedef int Data;
 const int VERTICES_COUNT = 5;
 const int FIRST_VERTEX = 0;
 const int SECOND_VERTEX = 4;
 
+struct Data {
+    int index = -1;
+    int cost = INT_MAX;
+    bool was = false;
+    Data(int index): index(index) {}
+};
+
 void fillGraph(DirectedGraph<Data>* graph) {
+    for (int i = 0; i < VERTICES_COUNT; ++i) {
+        graph->add_vertex(Data(i));
+    }
     graph->add_edge(FIRST_VERTEX, 1, 10);
     graph->add_edge(FIRST_VERTEX, 3, 30);
     graph->add_edge(FIRST_VERTEX, 4, 100);
@@ -19,47 +28,34 @@ void fillGraph(DirectedGraph<Data>* graph) {
 
 }
 
-template<typename Data>
-void fill(Data array[], size_t size, Data value) {
-    for (int i = 0; i < size; ++i) {
-        array[i] = value;
-    }
-}
-
 int main() {
-    DirectedGraph<Data>* graph = new DirectedGraph<Data>(VERTICES_COUNT);
+    DirectedGraph<Data>* graph = new DirectedGraph<Data>(0, Data(-1));
     fillGraph(graph);
 
-    int vertex = FIRST_VERTEX;
-    int cost = 0;
-    int costs[graph->get_vertex_amount()];
-    fill(costs, graph->get_vertex_amount(), INT_MAX);
-
-    bool was[graph->get_vertex_amount()];
-    fill(was, graph->get_vertex_amount(), false);
+    auto* vertex = graph->get_vertex(FIRST_VERTEX);
+    vertex->data.cost = 0;
     bool is_empty = false;
     while (!is_empty) {
         is_empty = true;
-        int min_cost = INT_MAX;
-        int min_cost_vertex = -1;
-        was[vertex] = true;
+        DirectedGraph<Data>::Vertex* min_cost_vertex = nullptr;
+        vertex->data.was = true;
         for (int i = 0; i < graph->get_vertex_amount(); ++i) {
-            if (!was[i]) {
-                int new_cost = costs[i];
-                if (graph->contains_edge_between_vertices(vertex, i)) {
-                    new_cost = std::min(costs[i], cost + graph->get_edge_weight(vertex, i));
-                    costs[i] = new_cost;
+            auto* new_vertex = graph->get_vertex(i);
+            if (!new_vertex->data.was) {
+                int new_cost = new_vertex->data.cost;
+                if (graph->contains_edge_between_vertices(vertex->data.index, i)) {
+                    new_cost = std::min(new_cost, vertex->data.cost + graph->get_edge_weight(vertex->data.index, i));
+                    new_vertex->data.cost = new_cost;
                 }
-                if (new_cost < min_cost) {
-                    min_cost = new_cost;
-                    min_cost_vertex = i;
+                if (min_cost_vertex == nullptr || new_cost < min_cost_vertex->data.cost) {
+                    min_cost_vertex = new_vertex;
                 }
                 is_empty = false;
             }
         }
         vertex = min_cost_vertex;
-        cost = min_cost;
     }
-    std::cout << costs[SECOND_VERTEX];
+    std::cout << graph->get_vertex(SECOND_VERTEX)->data.cost;
     delete graph;
+
 }

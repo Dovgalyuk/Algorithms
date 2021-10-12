@@ -62,11 +62,11 @@ public:
     Vector<Vertex*>* vertices;
 
     ///\param vertex_amount - Количество вершин
-    DirectedGraph(size_t vertex_amount): matrix(new Vector<Edge*>) {
+    DirectedGraph(size_t vertex_amount, Data default_value): matrix(new Vector<Edge*>) {
         vertices = new Vector<Vertex*>;
         vertices->resize(vertex_amount);
         for (int i = 0; i < vertex_amount; ++i) {
-            vertices->set(i, new Vertex(i));
+            vertices->set(i, new Vertex(default_value));
         }
         matrix->resize(vertex_amount * vertex_amount);
         fill_matrix_with_null();
