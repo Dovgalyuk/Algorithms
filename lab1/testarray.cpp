@@ -1,4 +1,4 @@
-#include "../../lab1/array.h"
+#include "array.h"
 #include "iostream"
 #include "math.h"
 #include "time.h"
