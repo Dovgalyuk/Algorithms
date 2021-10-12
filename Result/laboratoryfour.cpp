@@ -8,8 +8,9 @@
 const int maxVertices = 4;
 
 int randomInt(int min, int max);
-void findPathCosts(DirectedGraph<bool> &graph, int vertexIndex);
-void fillCosts(DirectedGraph<bool> &graph, std::vector<int> &costPath, std::vector<int> &nextVertices, int ownerVertexIndex);
+
+void startDijkstra(DirectedGraph<bool> &graph, int vertexIndex);
+void findCosts(DirectedGraph<bool> &graph, size_t vertexIndex, std::vector<bool> &visited, std::vector<int> &costs);
 
 int main() {
 
@@ -30,45 +31,72 @@ int main() {
             graph.setEdge(i, j, cost);
         }
     }
+
+    graph.displayMatrix();
+
+    std::cout << std::endl;
+
     for (int i = 0; i < maxVertices; i++) {
-        findPathCosts(graph, i);
+        startDijkstra(graph, i);
     }
+
     return 0;
 }
 
-void findPathCosts(DirectedGraph<bool> &graph, int vertexIndex) {
-    std::vector<int> costPath;
-    costPath.reserve(maxVertices);
-    for (int i = 0; i < maxVertices; i++) {
-        costPath.push_back(0);
-    }
-    std::vector<int> currentVertices;
-    std::vector<int> nextVertices;
-    nextVertices.push_back(vertexIndex);
-    while(!nextVertices.empty()) {
-        currentVertices = nextVertices;
-        nextVertices.clear();
-        for (int i: currentVertices) {
-            fillCosts(graph, costPath, nextVertices, i);
+void startDijkstra(DirectedGraph<bool> &graph, int vertexIndex) {
+    size_t vertexCount = graph.getVertexCount();
+    std::vector<bool> visited;
+    visited.resize(vertexCount);
+    std::vector<int> costs;
+    costs.resize(vertexCount);
+    for (size_t i = 0; i < vertexCount; i++) {
+        visited[i] = false;
+        if (i == vertexIndex) {
+            costs[i] = 0;
+            continue;
         }
+        costs[i] = -1;
     }
 
+    findCosts(graph, vertexIndex, visited, costs);
+
     std::cout << "Cost path from " << vertexIndex << ": " << std::endl;
-    for (int i = 0; i < maxVertices; i++) {
+    for (size_t i = 0; i < maxVertices; i++) {
         if (i == vertexIndex) continue;
-        std::cout << "to " << i << " cost is " << costPath[i] << std::endl;
+        std::cout << "to " << i << " cost is " << costs[i] << std::endl;
     }
     std::cout << std::endl;
 }
 
-void fillCosts(DirectedGraph<bool> &graph, std::vector<int> &costPath, std::vector<int> &nextVertices, int ownerVertexIndex) {
-    int ownerVertexCost = costPath[ownerVertexIndex];
-    for (int i : *graph.getLinkedVertices(ownerVertexIndex)) {
-        int newCost = graph.getEdgeCost(ownerVertexIndex, i) + ownerVertexCost;
-        if (newCost == 0 || (costPath[i] != 0 && costPath[i] <= newCost)) continue;
-        costPath[i] = newCost;
-        nextVertices.push_back(i);
+void findCosts(DirectedGraph<bool> &graph, size_t vertexIndex, std::vector<bool> &visited, std::vector<int> &costs) {
+    // Set costs
+    auto it = graph.getNeighbourIterator(vertexIndex);
+    while (it.hasNext()) {
+        it.next();
+        size_t viewIndex = it.getCurrentIndex();
+        int newCost = graph.getEdgeCost(vertexIndex, viewIndex) + costs[vertexIndex];
+        if (visited[viewIndex]) continue;
+        if (costs[viewIndex] != -1 && costs[viewIndex] <= newCost) continue;
+        costs[viewIndex] = newCost;
     }
+    visited[vertexIndex] = true;
+
+    // Find next
+    auto nextIt = graph.getNeighbourIterator(vertexIndex);
+    int minCost = -1;
+    int lastIndex = -1;
+    while (nextIt.hasNext()) {
+        nextIt.next();
+        size_t viewIndex = nextIt.getCurrentIndex();
+        if (visited[viewIndex]) continue;
+        if (minCost != -1 && minCost <= costs[viewIndex]) continue;
+        minCost = costs[viewIndex];
+        lastIndex = viewIndex;
+    }
+
+    if (lastIndex == -1) return;
+
+    findCosts(graph, lastIndex, visited, costs);
 }
 
 int randomInt(int min, int max) {

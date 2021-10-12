@@ -33,6 +33,60 @@ public:
         }
     };
 
+    class NeighbourIterator {
+    public:
+        NeighbourIterator &next() {
+            for (int i = current + 1; i < graph.vertexCount; i++) {
+                if (!graph.isLinked(ownerIndex, i)) continue;
+                current = i;
+                break;
+            }
+            return *this;
+        }
+
+        bool hasNext() {
+            for (int i = current + 1; i < graph.vertexCount; i++) {
+                if (!graph.isLinked(ownerIndex, i)) continue;
+                return true;
+            }
+            return false;
+        }
+
+        NeighbourIterator(DirectedGraph<Data> &_graph, int index) : graph(_graph) {
+            this->ownerIndex = index;
+            this->current = -1;
+        }
+
+        NeighbourIterator(DirectedGraph<Data> &_graph, int index, int current) : graph(_graph) {
+            this->ownerIndex = index;
+            this->current = current;
+        }
+
+        Vertex *operator *() {
+            return graph.vertices->get(current);
+        }
+
+        NeighbourIterator& operator ++() {
+            return next();
+        }
+
+        NeighbourIterator operator ++(int) {
+            next();
+            Iterator it(graph, ownerIndex, current);
+            return it;
+        }
+
+        int getCurrentIndex() {
+            return current;
+        }
+    private:
+        DirectedGraph<Data> &graph;
+        int ownerIndex = -1;
+        int current = -1;
+    };
+
+    ///
+
     class Iterator {
     public:
         Iterator &next() {
@@ -72,6 +126,10 @@ public:
         return Iterator(*this);
     }
 
+    NeighbourIterator getNeighbourIterator(size_t index) {
+        return NeighbourIterator(*this, index);
+    }
+
     typedef Array<Edge*> MatrixArray;
     typedef Array<Vertex*> VertexArray;
 
@@ -97,7 +155,6 @@ public:
     void addVertex(Data data) {
         copyArray(vertices->size() + 1);
         vertices->set(vertices->size(), new Vertex(data));
-        displayMatrix();
     }
 
     void setVertex(size_t index, Data data) {
@@ -134,8 +191,7 @@ public:
     }
 
     bool isLinked(size_t firstIndex, size_t secondIndex) {
-        return matrix->get(getIndex(firstIndex, secondIndex)) != nullptr &&
-        matrix->get(getIndex(firstIndex, secondIndex))->cost != 0;
+         return getEdgeCost(firstIndex, secondIndex) != 0;
     }
 
     bool containsVertex(size_t index) {
@@ -143,24 +199,15 @@ public:
     }
 
     size_t getEdgeCost(size_t firstIndex, size_t secondIndex) {
-        return matrix->get(getIndex(firstIndex, secondIndex)).cost;
-    }
-
-    // Return index vector with next Vertex
-    std::vector<int> *getLinkedVertices(size_t index) {
-        auto edges = new std::vector<int>;
-        for (int i = 0; i < vertexCount; i++) {
-            if (matrix->get(getIndex(index, i)).cost == 0) continue;
-            edges->push_back(i);
-        }
-        return edges;
+        if (matrix->get(getIndex(firstIndex, secondIndex)) == nullptr) return 0;
+        return matrix->get(getIndex(firstIndex, secondIndex))->cost;
     }
 
     int getVertexCount() {
         return vertexCount;
     }
 
-    // @Debug method
+    /// Debug method
     void displayMatrix() {
         std::cout << std::endl;
         std::cout << " /";
