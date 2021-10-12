@@ -10,4 +10,4 @@ add_subdirectory(LibraryCPP)
 
 add_subdirectory(LibraryCPPTemplate)
 
-add_subdirectory(result
+add_subdirectory(results)
