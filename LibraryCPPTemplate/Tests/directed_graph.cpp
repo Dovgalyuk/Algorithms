@@ -1,7 +1,11 @@
 #include "directed_graph.h"
 
 int main() {
-    auto* graph = new DirectedGraph<int>(10);
+    int amount = 10;
+    auto* graph = new DirectedGraph<int>(amount, 1);
+    for (int i = 0; i < amount; ++i) {
+        graph->set_vertex_data(i, i);
+    }
 
     for (int i = 0; i < graph->get_vertex_amount(); ++i) {
         if (graph->get_vertex_data(i) != i) {
