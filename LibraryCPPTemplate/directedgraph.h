@@ -72,56 +72,70 @@ public:
         return Iterator(*this);
     }
 
-    typedef Array<Edge> MatrixArray;
+    typedef Array<Edge*> MatrixArray;
     typedef Array<Vertex*> VertexArray;
 
     DirectedGraph(size_t vertexCount) {
         this->vertexCount = vertexCount;
         matrix = new MatrixArray(vertexCount * vertexCount);
+        for (int i = 0; i < vertexCount * vertexCount; i++)
+            matrix->set(i, nullptr);
         vertices = new VertexArray(vertexCount);
         for (int i = 0; i < vertexCount; i++)
             vertices->set(i, nullptr);
     }
 
     ~DirectedGraph() {
+        for (int i = 0; i < vertexCount * vertexCount; i++)
+            delete matrix->get(i);
         delete matrix;
         for (int i = 0; i < vertexCount; i++)
             delete vertices->get(i);
         delete vertices;
     }
 
-    void addVertex(size_t index, Data data) {
-        if (index >= vertices->size()) {
-            copyArray(index + 1);
-        }
+    void addVertex(Data data) {
+        copyArray(vertices->size() + 1);
+        vertices->set(vertices->size(), new Vertex(data));
+        displayMatrix();
+    }
+
+    void setVertex(size_t index, Data data) {
+        if (index >= vertices->size()) return;
         vertices->set(index, new Vertex(data));
     }
 
     void removeVertex(size_t index) {
-        int newSize = vertices->size() - 1;
+        int newSize = vertexCount - 1;
         delete vertices->get(index);
         for (size_t i = index; i < newSize; i++) {
-            size_t secondIndex = i + 1;
-            vertices->set(i, vertices->get(secondIndex));
-            for (size_t j = 0; j < newSize; j++) {
+            vertices->set(i, vertices->get(i + 1));
+        }
+
+        for (size_t i = 0; i < newSize; i++) {
+            for (size_t j = index; j < newSize; j++) {
                 if (i == j) continue;
-                matrix->set(getIndex(j, i), matrix->get(getIndex(secondIndex, j)));
-                matrix->set(getIndex(i, j), matrix->get(getIndex(j, i + secondIndex)));
+                matrix->set(getIndex(i, j), matrix->get(getIndex(i + 1, j + 1)));
             }
         }
         copyArray(newSize);
     }
 
     void setEdge(size_t firstIndex, size_t secondIndex, size_t cost) {
-        matrix->set(firstIndex + secondIndex * vertexCount, Edge(cost));
+        if (matrix->get(getIndex(firstIndex, secondIndex)) != nullptr) {
+            removeEdge(firstIndex, secondIndex);
+        }
+        matrix->set(getIndex(firstIndex, secondIndex), new Edge(cost));
     }
 
     void removeEdge(size_t firstIndex, size_t secondIndex) {
-        matrix->set(getIndex(firstIndex, secondIndex), Edge(0));
+        delete matrix->get(getIndex(firstIndex, secondIndex));
+        matrix->set(getIndex(firstIndex, secondIndex), nullptr);
     }
 
     bool isLinked(size_t firstIndex, size_t secondIndex) {
-        return matrix->get(getIndex(firstIndex, secondIndex)).cost != 0;
+        return matrix->get(getIndex(firstIndex, secondIndex)) != nullptr &&
+        matrix->get(getIndex(firstIndex, secondIndex))->cost != 0;
     }
 
     bool containsVertex(size_t index) {
@@ -142,6 +156,10 @@ public:
         return edges;
     }
 
+    int getVertexCount() {
+        return vertexCount;
+    }
+
     // @Debug method
     void displayMatrix() {
         std::cout << std::endl;
@@ -149,35 +167,44 @@ public:
         for (int i = 0; i < vertexCount; i++)
             std::cout << i;
         std::cout << std::endl;
+
         for (int i = 0; i < vertexCount; i++) {
             std::cout << i << "|";
             for (int j = 0; j < vertexCount; j++) {
-                if (matrix->get(getIndex(i, j)).cost != 0) std::cout << 1;
-                else std::cout << 0;
+                if (matrix->get(getIndex(i, j)) != nullptr &&
+                    matrix->get(getIndex(i, j))->cost != 0)
+                    std::cout << matrix->get(getIndex(i, j))->cost;
+                else
+                    std::cout << 0;
             }
             std::cout << std::endl;
         }
     }
 private:
     void copyArray(size_t newSize) {
-        vertexCount = newSize;
-        auto newArray = new VertexArray(vertexCount);
-        int vertexSize = vertices->size();
-        if (vertexSize > newSize) vertexSize = newArray->size();
+        bool increase = newSize > vertexCount;
+
+        auto newArray = new VertexArray(newSize);
+        size_t vertexSize = vertices->size();
+        if (increase) vertexSize = newSize;
         for (int i = 0; i < vertexSize; i++) {
             newArray->set(i, vertices->get(i));
         }
-        delete vertices;
         vertices = newArray;
 
-        auto newMatrix = new MatrixArray (vertexCount * vertexCount);
-        int matrixSize = matrix->size();
-        if (matrixSize > newSize) matrixSize = newMatrix->size();
-        for (int i = 0; i < matrixSize; i++) {
-            newMatrix->set(i, matrix->get(i));
+        size_t matrixSize = newSize * newSize;
+        auto newMatrix = new MatrixArray (matrixSize);
+        for (int y = 0; y < newSize; y++) {
+            for (int x = 0; x < newSize; x++) {
+                if (increase && (x >= vertexCount || y >= vertexCount )){
+                    newMatrix->set(x + y * newSize, nullptr);
+                    continue;
+                }
+                newMatrix->set(x + y * newSize, matrix->get(x + y * vertexCount));
+            }
         }
-        delete matrix;
         matrix = newMatrix;
+        vertexCount = newSize;
     }
 
     inline int getIndex(const int first, const int second) {

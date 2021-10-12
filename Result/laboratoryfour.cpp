@@ -23,7 +23,7 @@ int main() {
 
     DirectedGraph<bool> graph(maxVertices);
     for (int i = 0; i < maxVertices; i++) {
-        graph.addVertex(i, true);
+        graph.setVertex(i, true);
         for (int j = 0; j < maxVertices; j++) {
             int cost = in[i][j];
             if (cost == 0) continue;
