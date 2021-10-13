@@ -1,2 +1,3 @@
-add_library(SOLUTION STATIC labone.cpp)
+add_executable(labone labone.cpp)
+target_include_directories(labone PUBLIC ../LibraryCPP)
 
