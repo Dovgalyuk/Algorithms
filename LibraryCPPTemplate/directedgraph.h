@@ -216,6 +216,10 @@ public:
         return index < vertices->size() && vertices->get(index) != nullptr;
     }
 
+    Vertex *getVertex(size_t index) {
+        return vertices->get(index);
+    }
+
     size_t getEdgeCost(size_t firstIndex, size_t secondIndex) {
         if (matrix->get(getIndex(firstIndex, secondIndex)) == nullptr) return 0;
         return matrix->get(getIndex(firstIndex, secondIndex))->cost;
