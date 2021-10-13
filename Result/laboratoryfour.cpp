@@ -9,8 +9,8 @@ const int maxVertices = 4;
 
 int randomInt(int min, int max);
 
-void startDijkstra(DirectedGraph<bool> &graph, int vertexIndex);
-void findCosts(DirectedGraph<bool> &graph, size_t vertexIndex, std::vector<bool> &visited, std::vector<int> &costs);
+void startDijkstra(DirectedGraph<int> &graph, int vertexIndex);
+void findCosts(DirectedGraph<int> &graph, size_t vertexIndex, std::vector<bool> &visited, std::vector<int> &costs);
 
 int main() {
 
@@ -22,9 +22,9 @@ int main() {
             {0,0,3,0},
     };
 
-    DirectedGraph<bool> graph(maxVertices);
+    DirectedGraph<int> graph(maxVertices);
     for (int i = 0; i < maxVertices; i++) {
-        graph.setVertex(i, true);
+        graph.setVertex(i, i);
         for (int j = 0; j < maxVertices; j++) {
             int cost = in[i][j];
             if (cost == 0) continue;
@@ -43,7 +43,7 @@ int main() {
     return 0;
 }
 
-void startDijkstra(DirectedGraph<bool> &graph, int vertexIndex) {
+void startDijkstra(DirectedGraph<int> &graph, int vertexIndex) {
     size_t vertexCount = graph.getVertexCount();
     std::vector<bool> visited;
     visited.resize(vertexCount);
@@ -68,7 +68,7 @@ void startDijkstra(DirectedGraph<bool> &graph, int vertexIndex) {
     std::cout << std::endl;
 }
 
-void findCosts(DirectedGraph<bool> &graph, size_t vertexIndex, std::vector<bool> &visited, std::vector<int> &costs) {
+void findCosts(DirectedGraph<int> &graph, size_t vertexIndex, std::vector<bool> &visited, std::vector<int> &costs) {
     // Set costs
     auto it = graph.getNeighbourIterator(vertexIndex);
     while (it.hasNext()) {
@@ -82,13 +82,14 @@ void findCosts(DirectedGraph<bool> &graph, size_t vertexIndex, std::vector<bool>
     visited[vertexIndex] = true;
 
     // Find next
-    auto nextIt = graph.getNeighbourIterator(vertexIndex);
+    auto nextIt = graph.getIterator();
     int minCost = -1;
     int lastIndex = -1;
     while (nextIt.hasNext()) {
         nextIt.next();
         size_t viewIndex = nextIt.getCurrentIndex();
         if (visited[viewIndex]) continue;
+        if (costs[viewIndex] == -1) continue;
         if (minCost != -1 && minCost <= costs[viewIndex]) continue;
         minCost = costs[viewIndex];
         lastIndex = viewIndex;

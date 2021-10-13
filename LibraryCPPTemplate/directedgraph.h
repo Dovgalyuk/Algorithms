@@ -90,15 +90,25 @@ public:
     class Iterator {
     public:
         Iterator &next() {
-            current++;
+            for (int i = current + 1; i < graph.vertexCount; i++) {
+                if (graph.vertices->get(i) == nullptr) continue;
+                current = i;
+                break;
+            }
             return *this;
         }
 
         bool hasNext() {
-            return graph.containsVertex(current + 1);
+            for (int i = current + 1; i < graph.vertexCount; i++) {
+                if (graph.vertices->get(i) == nullptr) continue;
+                return true;
+            }
+            return false;
         }
 
-        Iterator(DirectedGraph<Data> &_graph) : graph(_graph) { }
+        Iterator(DirectedGraph<Data> &_graph) : graph(_graph) {
+            current = -1;
+        }
 
         Iterator(DirectedGraph<Data> &_graph, int current) : graph(_graph) {
             this->current = current;
@@ -117,9 +127,13 @@ public:
             Iterator it(graph, current);
             return it;
         }
+
+        int getCurrentIndex() {
+            return current;
+        }
     private:
         DirectedGraph<Data> &graph;
-        int current = -1;
+        int current;
     };
 
     Iterator getIterator() {
