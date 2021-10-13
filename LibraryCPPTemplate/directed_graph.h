@@ -87,7 +87,7 @@ public:
         size_t index = vertices->size();
         vertices->resize(index + 1);
         vertices->set(index, vertex);
-        add_vertex_to_matrix();
+        add_vertex_to_matrix(index);
         return index;
     }
     /// \param first_vertex_index - Индекс вершины, из которой выходит добавляемого ребро
@@ -99,16 +99,17 @@ public:
     /// \param index - Индекс удаляемой вершины
     void remove_vertex(size_t index) {
         if (index >= vertices->size()) return;
-        for (int i = 0; i < vertices->size() - 1; ++i) {
+        int size = vertices->size();
+        for (int i = 0; i < size - 1; ++i) {
             vertices->set(i, vertices->get(i + (i >= index)));
         }
-        vertices->resize(vertices->size() - 1);
-        remove_vertex_from_matrix(index);
+        vertices->resize(size - 1);
+        remove_vertex_from_matrix(index, size);
     }
     /// \param first_vertex_index - Индекс вершины, из которой выходит удаляемого ребро
     /// \param second_vertex_index - Индекс вершины, в которую входит удаляемого ребро
     void remove_edge(size_t first_vertex_index, size_t second_vertex_index) {
-        remove_edge_to_matrix(first_vertex_index, second_vertex_index);
+        remove_edge_from_matrix(first_vertex_index, second_vertex_index);
     }
     /// \param index - Индекс вершины, которую хотите взять
     /// \return Возвращает найденную вершину
@@ -128,7 +129,7 @@ public:
     /// \param second_vertex_index - Индекс вершины, в которую входит ребро
     /// \return Возвращает найденное ребро
     Edge* get_edge(size_t first_vertex_index, size_t second_vertex_index) {
-        return get_edge_to_matrix(first_vertex_index, second_vertex_index);
+        return get_edge_from_matrix(first_vertex_index, second_vertex_index);
     }
     /// \param first_vertex_index - Индекс вершины, из которой выходит ребро
     /// \param second_vertex_index - Индекс вершины, в которую входит ребро
@@ -162,7 +163,7 @@ public:
     /// \param second_vertex_index - Индекс вершины, в которую входит ребро
     /// \return Возвращает true, если ребро, с такими верщинами, существует
     bool contains_edge_between_vertices(size_t first_vertex_index, size_t second_vertex_index) {
-        Edge* edge = get_edge_to_matrix(first_vertex_index, second_vertex_index);
+        Edge* edge = get_edge_from_matrix(first_vertex_index, second_vertex_index);
         return edge != nullptr;
     }
     /// \return Возвращает итератор-структуру вершин
@@ -182,14 +183,13 @@ protected:
         }
     }
 
-    void remove_vertex_from_matrix(size_t removed_vertex_index) {
+    void remove_vertex_from_matrix(size_t removed_vertex_index, int amount_vertex_in_matrix) {
         int vertex_amount = get_vertex_amount();
         Vector<Edge*>* new_matrix = new Vector<Edge*>;
         new_matrix->resize(vertex_amount * vertex_amount);
-        int amount_vertex_in_old_matrix = sqrt(matrix->size());
         for (int i = 0; i < vertex_amount; ++i) {
             for (int j = 0; j < vertex_amount; ++j) {
-                Edge* edge = matrix->get(((i + (i >= removed_vertex_index)) * amount_vertex_in_old_matrix) + (j + (j >= removed_vertex_index)));
+                Edge* edge = matrix->get(((i + (i >= removed_vertex_index)) * amount_vertex_in_matrix) + (j + (j >= removed_vertex_index)));
                 new_matrix->set((i * vertex_amount) + j, edge);
             }
         }
@@ -197,14 +197,13 @@ protected:
         matrix = new_matrix;
     }
 
-    void add_vertex_to_matrix() {
+    void add_vertex_to_matrix(int amount_vertex_in_matrix) {
         int vertex_amount = get_vertex_amount();
         Vector<Edge*>* new_matrix = new Vector<Edge*>;
         new_matrix->resize(vertex_amount * vertex_amount);
-        int amount_vertex_in_old_matrix = sqrt(matrix->size());
-        for (int i = 0; i < amount_vertex_in_old_matrix; ++i) {
-            for (int j = 0; j < amount_vertex_in_old_matrix; ++j) {
-                new_matrix->set((i * vertex_amount) + j, matrix->get(i * amount_vertex_in_old_matrix+ j));
+        for (int i = 0; i < amount_vertex_in_matrix; ++i) {
+            for (int j = 0; j < amount_vertex_in_matrix; ++j) {
+                new_matrix->set((i * vertex_amount) + j, matrix->get(i * amount_vertex_in_matrix + j));
             }
         }
         delete matrix;
@@ -219,11 +218,11 @@ protected:
         matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), edge);
     }
 
-    void remove_edge_to_matrix(size_t first_vertex_index, size_t second_vertex_index) {
+    void remove_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index) {
         matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), nullptr);
     }
 
-    Edge* get_edge_to_matrix(size_t first_vertex_index, size_t second_vertex_index) {
+    Edge* get_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index) {
         return matrix->get(get_edge_index_in_matrix(first_vertex_index, second_vertex_index)) ;
     }
 };
