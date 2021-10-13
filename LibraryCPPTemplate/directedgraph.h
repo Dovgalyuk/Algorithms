@@ -240,8 +240,9 @@ private:
             if (increase && i >=vertices->size()) {
                 newArray->set(i, nullptr);
                 continue;
-            } else vertices->set(i, nullptr);
+            }
             newArray->set(i, vertices->get(i));
+            if (i < vertices->size()) vertices->set(i, nullptr);
         }
         delete vertices;
         vertices = newArray;
@@ -255,6 +256,7 @@ private:
                     continue;
                 }
                 newMatrix->set(x + y * newSize, matrix->get(x + y * vertexCount));
+                if (!(x >= vertexCount || y >= vertexCount)) matrix->set(x + y * vertexCount, nullptr);
             }
         }
         delete matrix;
