@@ -153,18 +153,22 @@ public:
     }
 
     void addVertex(Data data) {
-        copyArray(vertices->size() + 1);
-        vertices->set(vertices->size(), new Vertex(data));
+        copyArray(vertexCount + 1);
+        setVertex(vertexCount - 1, data);
     }
 
     void setVertex(size_t index, Data data) {
-        if (index >= vertices->size()) return;
+        if (index >= vertexCount) return;
+        if (vertices->get(index) != nullptr) {
+            delete vertices->get(index);
+        }
         vertices->set(index, new Vertex(data));
     }
 
     void removeVertex(size_t index) {
         int newSize = vertexCount - 1;
         delete vertices->get(index);
+        vertices->set(index, nullptr);
         for (size_t i = index; i < newSize; i++) {
             vertices->set(i, vertices->get(i + 1));
         }
@@ -232,24 +236,28 @@ private:
         bool increase = newSize > vertexCount;
 
         auto newArray = new VertexArray(newSize);
-        size_t vertexSize = vertices->size();
-        if (increase) vertexSize = newSize;
-        for (int i = 0; i < vertexSize; i++) {
+        for (int i = 0; i < newSize; i++) {
+            if (increase && i >=vertices->size()) {
+                newArray->set(i, nullptr);
+                continue;
+            } else vertices->set(i, nullptr);
             newArray->set(i, vertices->get(i));
         }
+        delete vertices;
         vertices = newArray;
 
         size_t matrixSize = newSize * newSize;
-        auto newMatrix = new MatrixArray (matrixSize);
+        auto newMatrix = new MatrixArray(matrixSize);
         for (int y = 0; y < newSize; y++) {
             for (int x = 0; x < newSize; x++) {
-                if (increase && (x >= vertexCount || y >= vertexCount )){
+                if (increase && (x >= vertexCount || y >= vertexCount)){
                     newMatrix->set(x + y * newSize, nullptr);
                     continue;
                 }
                 newMatrix->set(x + y * newSize, matrix->get(x + y * vertexCount));
             }
         }
+        delete matrix;
         matrix = newMatrix;
         vertexCount = newSize;
     }
