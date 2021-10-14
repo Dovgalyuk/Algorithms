@@ -1,3 +1,3 @@
 add_subdirectory(Tests)
-add_executable(first testarr.cpp)
+add_executable(first ../testArray/testarr.cpp)
 
