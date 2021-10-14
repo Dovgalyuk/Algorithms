@@ -2,7 +2,7 @@
 // Created by vasya on 06.10.2021.
 //
 
-#include "array.h"
+#include "../LibraryCPPTemplate/array.h"
 #include "iostream"
 #include "time.h"
 #include "cstddef"
