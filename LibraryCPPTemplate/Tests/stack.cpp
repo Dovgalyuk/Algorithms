@@ -8,11 +8,8 @@ int main()
     MyStack stack;
 
     stack.push(1);
-    std::cout << stack.get() ;
     stack.push(2);
-    std::cout << stack.get() ;
     stack.push(3);
-    std::cout << stack.get() ;
 
     if (stack.get() != 3)
     {
