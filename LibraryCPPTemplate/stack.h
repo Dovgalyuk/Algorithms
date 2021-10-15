@@ -10,7 +10,6 @@ public:
     Stack()
     {
         vector =  new Vector<Data>();
-        lastIndex = -1;
     }
 
     // Deletes the stack
@@ -23,35 +22,31 @@ public:
     // Should be O(1) on average
     void push(Data data)
     {
-        lastIndex += 1;       
-        vector->resize(lastIndex + 1);
-        vector->set(lastIndex, data);
-         
+        vector->resize(vector->size() + 1);       
+        vector->set(vector->size() - 1, data);
     }
 
     // Retrives the last element from the stack
     Data get() const
     {
-        return vector->get(lastIndex);
+        return vector->get(vector->size() - 1);
     }
 
     // Removes the last element from the stack
     // Should be O(1)
     void pop()
     {
-        lastIndex -=1;
+        vector->resize(vector->size() - 1);
     }
 
     // Returns true if the stack is empty
     bool empty() const
     {
-        return lastIndex < 0;
+        return vector->size() <= 0;
     }
 
 private:
     Vector<Data> *vector;
-    int lastIndex;
-    // private data should be here
 };
 
 #endif

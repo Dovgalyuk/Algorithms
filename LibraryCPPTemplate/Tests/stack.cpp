@@ -8,8 +8,11 @@ int main()
     MyStack stack;
 
     stack.push(1);
+    std::cout << stack.get() ;
     stack.push(2);
+    std::cout << stack.get() ;
     stack.push(3);
+    std::cout << stack.get() ;
 
     if (stack.get() != 3)
     {
@@ -22,6 +25,7 @@ int main()
 
     if (stack.get() != 2)
     {
+        std::cout << stack.get() ;
         std::cout << "Invalid stack top after pop\n";
         return 1;
     }
@@ -50,5 +54,4 @@ int main()
         std::cout << "Get: " << stack.get() << "\n";
         stack.pop();
     }
-    int kirilhoroshiy = 10;
 }

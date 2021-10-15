@@ -43,13 +43,6 @@ public:
         if (capacity < newsize)
         {
             expand_vector(newsize);
-            Data *newVector = new Data[capacity];
-            for (size_t i = 0; i < this->length; i++)
-            {
-                newVector[i] = vector[i];
-            }
-            delete[] vector;
-            vector = newVector;
         }
         length = newsize;
     }
@@ -62,8 +55,16 @@ private:
             return;
         if (capacity == 0)
             capacity = 1;
-        while (capacity < newsize)
+        while (capacity < newsize) {
             capacity *= capacityMultiply;
+        }
+        Data *newVector = new Data[capacity];
+        for (size_t i = 0; i < this->length; i++)
+        {
+            newVector[i] = vector[i];
+        }
+        delete[] vector;
+        vector = newVector;
     }
 
     int length, capacity;
