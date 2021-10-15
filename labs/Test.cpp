@@ -47,7 +47,7 @@ int main()
 	{
 		cout << array_get(negative_numders, i)<<endl;
 	}
-	delete negative_numders;
-	delete positive_numders;
-	delete array;
+	array_delete(negative_numders);
+	array_delete (positive_numders);
+	array_delete(array);
 }
