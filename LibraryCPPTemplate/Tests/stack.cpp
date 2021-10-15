@@ -22,7 +22,6 @@ int main()
 
     if (stack.get() != 2)
     {
-        std::cout << stack.get() ;
         std::cout << "Invalid stack top after pop\n";
         return 1;
     }
