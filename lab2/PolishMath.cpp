@@ -1,7 +1,6 @@
 ﻿#include <iostream>
 #include <conio.h>
 #include "stack.h"
-#include <stdlib.h>
 
 
 int main()
