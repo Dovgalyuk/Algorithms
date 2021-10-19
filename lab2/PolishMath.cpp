@@ -19,7 +19,7 @@ int main()
     while (true) {
         
         std::cin >> polishMath;
-        if (PolishMath == "!") {
+        if (polishMath == "!") {
             break;
         }
         if ((polishMath != "+") and (polishMath != "-") and (polishMath != "/") and (polishMath != "*")) {
