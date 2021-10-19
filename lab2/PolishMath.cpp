@@ -1,5 +1,4 @@
 ﻿#include <iostream>
-#include <conio.h>
 #include "stack.h"
 
 
@@ -12,18 +11,17 @@ int main()
     
 
     Stack* stack1 = stack_create();
-    int temptop = 0;
-
-    
-    char ch = 0;
+    int temptop = 0; 
 
     std::cout << "Write down your math expression using after each operator " << "Enter. If something wasn't printed push your key again. " << std::endl;
-    std::cout << "After you've finished push " << "Esc and you'll get the answer" << std::endl;
+    std::cout << "After you've finished write down " << "! and push Enter and you will get the answer" << std::endl;
 
     while (true) {
         
         std::cin >> polishMath;
-        
+        if (PolishMath == "!") {
+            break;
+        }
         if ((polishMath != "+") and (polishMath != "-") and (polishMath != "/") and (polishMath != "*")) {
             stack_push(stack1, std::atoi(polishMath.c_str()));
         }
@@ -61,12 +59,9 @@ int main()
             stack_push(stack1, temptop);
             temptop = 0;
         }
-        number = "";
-        ch = _getch();
-        if (ch == esc) {
-            break;
-        }
+        number = "";      
     }
+
     temptop = stack_get(stack1);
     stack_pop(stack1);
     if (stack_empty(stack1)) {
@@ -80,5 +75,3 @@ int main()
 
     stack_delete(stack1);
 }
-
-//Sword & Sworcery's
