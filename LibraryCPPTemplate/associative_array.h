@@ -23,15 +23,46 @@ public:
             return more == nullptr || more->isAVLTree();
         }
 
+        void remove() {
+            write();
+            int weight = getWeight();
+            Node* newPeak = nullptr;
+            Node* inserted = nullptr;
+            if (weight > 0) {
+                newPeak = more;
+                inserted = less;
+            } else {
+                newPeak = less;
+                inserted = more;
+            }
+            if (parent == nullptr) {
+                array->main = more;
+            } else {
+                if (parent->less != nullptr && parent->less->equalKey(key)) {
+                    parent->less = newPeak;
+                } else if (parent->more != nullptr && parent->more->equalKey(key)) {
+                    parent->more = newPeak;
+                }
+            }
+            if (newPeak != nullptr) {
+                newPeak->parent = parent;
+                if (inserted != nullptr) {
+                    newPeak->insert(inserted);
+                }
+                std::cout << "\n\n\n";
+                newPeak->write();
+            }
+        }
+
         void turnLeft() {
             Node* par = nullptr;
             if (parent == nullptr) {
                 array->main = more;
             } else {
                 par = parent;
-                if (par->less->equalKey(key)) {
+                if (par->less != nullptr && par->less->equalKey(key)) {
                     par->less = more;
-                } else if (par->more->equalKey(key)) {
+                } else if (par->more != nullptr && par->more->equalKey(key)) {
                     par->more = more;
                 }
             }
@@ -76,7 +107,7 @@ public:
                     } else {
                         turnRight();
                     }
-                } else if (abs(weight) == 1) {
+                } else if (abs(weight) == 1 || abs(weight) == 2) {
                     if (weight > 0) {
                         more->turnRight();
                         turnLeft();
@@ -125,6 +156,42 @@ public:
             return getMoreLevelsCount() - getLessLevelsCount();
         }
 
+        void write() {
+            if (less != nullptr || more != nullptr) {
+                std::cout << std::endl;
+                if (less != nullptr) {
+                    printf("%d <<< ", less->key);
+                }
+                printf("%d", key);
+                if (more != nullptr) {
+                    printf(" >>> %d", more->key);
+                }
+                std::cout << std::endl;
+            }
+            if (less != nullptr) {
+                less->write();
+            }
+            if (more != nullptr) {
+                more->write();
+            }
+        }
+
+        Node* findNode(Key key) {
+        Node* node = this;
+        while (node != nullptr) {
+            if (node->equalKey(key)) {
+                return node;
+            } else {
+                if (node->isMoreThan(key)) {
+                    node = node->less;
+                } else {
+                    node = node->more;
+                }
+            }
+        }
+        return nullptr;
+    }
+
     private:
         Node* parent = nullptr;
         Node* less = nullptr;
@@ -147,6 +214,16 @@ public:
 
     ~AssociativeArray() {}
 
+    void write() {
+        main->write();
+    }
+
+    bool isCorrectAVLTree() {
+        return main->isAVLTree();
+    }
+
+    ///\param key - Ключ, который нужно добавить
+    ///\param value - Значение, которое надо добавить под указанным ключом
     void insert(Key key, Value value) {
         Node* node = new Node(key, value, this);
         if (main == nullptr) {
@@ -156,31 +233,26 @@ public:
         }
     }
 
+    ///\param key - Ключ, под которым лежит искомое значение
+    ///\return Возвращает значение, лежащее под указанным ключом. Если ключ не найден, то вернётся NULL.
     Value find(Key key) {
+        Node* node = main->findNode(key);
+        return node == nullptr ? NULL : node->value;
     }
 
+    ///\param key - Ключ, который нужно удалить
     void remove(Key key) {
-
+        Node* node = main->findNode(key);
+        if (node != nullptr) {
+            node->remove();
+        }
+        if (!isCorrectAVLTree()) {
+            main->sort();
+        }
     }
 
 protected:
     Node* main = nullptr;
-
-    Node* findNode(Key key) {
-        Node* node = main;
-        while (node != nullptr) {
-            if (node->equalKey(key)) {
-                return node;
-            } else {
-                if (node->isMoreThan(key)) {
-                    node = node->less;
-                } else {
-                    node = node->more;
-                }
-            }
-        }
-        return nullptr;
-    }
 
 };
 #endif

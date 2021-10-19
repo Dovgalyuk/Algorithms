@@ -1,13 +1,51 @@
 #include <iostream>
+#include <ctime>
 #include "associative_array.h"
 
 int main() {
     auto* array = new AssociativeArray<int, int>();
-    array->insert(5, 1);
-    array->insert(4, 1);
-    array->insert(3, 1);
-    array->insert(1, 1);
-    array->insert(2, 1);
+    int count = 20;
+    for (size_t i = 0; i < count; i++)
+    {
+        array->insert(i, i);
+        if (!array->isCorrectAVLTree()) {
+            std::cout << 1 << std::endl;
+            return 1;
+        }
+    }
+    for (size_t i = 0; i < count * 2; i++)
+    {
+        if (i < count) {
+            if (array->find(i) != i) {
+                std::cout << 2 << std::endl;
+                return 1;
+            }
+        } else {
+            if (array->find(i) != NULL) {
+                std::cout << 3 << std::endl;
+                return 1;
+            }
+        }
+    }
+    array->remove(3);
+    if (!array->isCorrectAVLTree()) {
+        std::cout << 4 << std::endl;
+        return 1;
+    }
+    std::cout << "\n\n";
     array->write();
+    // srand(time(0));
+    // for (size_t i = 0; i < 5; i++)
+    // {
+    //     std::cout << "\n\n";
+    //     int r = rand() % count;
+    //     std::cout << r << std::endl;
+    //     array->remove(r);
+    //     if (!array->isCorrectAVLTree()) {
+    //         std::cout << 4 << std::endl;
+    //         return 1;
+    //     }
+    //     std::cout << "\n\n";
+    // }
     return 0;
 }
