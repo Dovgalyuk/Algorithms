@@ -1,5 +1,5 @@
 #include "stack.h"
-#include "vector.h"
+
 struct Stack
 {
     Vector *vector;
@@ -8,7 +8,7 @@ struct Stack
         vector = vector_create();
     }
     ~Stack() {
-        delete vector;
+        vector_delete(vector);
     }
 
 };
