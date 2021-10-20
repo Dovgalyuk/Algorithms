@@ -10,7 +10,7 @@ struct Vector
         data = nullptr;
     }
     ~Vector() {
-        delete data;
+        delete[] data;
     }
 };
 

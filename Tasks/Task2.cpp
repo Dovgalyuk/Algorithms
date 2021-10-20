@@ -36,5 +36,6 @@ int main() {
         stack_pop(stack);
     }
 
+    stack_delete(stack);
     return 0;
 }
