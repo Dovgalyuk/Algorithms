@@ -1,4 +1,4 @@
-# Algorithms
+# Algorithms 
 
 Сборка проекта с помощью cmake:
 
