@@ -72,9 +72,12 @@ ListItem* list_erase(List* list, ListItem* item)
 
 ListItem* list_erase_next(List* list, ListItem* item)
 {
-    ListItem* item_next = new ListItem;
-    item_next = item->next;
-    item->next = item->next->next;
-    delete item_next;
-    return NULL;
+    if (item->next != nullptr)
+    {
+        ListItem* item_next = new ListItem;
+        item_next = item->next;
+        item->next = item->next->next;
+        delete item_next;
+        return NULL;
+    }
 }
