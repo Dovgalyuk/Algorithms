@@ -34,64 +34,28 @@ ListItem *list_item_next(ListItem *item)
 {
     return NULL;
 }
-#include <cstddef>
-#include "list.h"
 
-struct ListItem
+ListItem *list_item_prev(ListItem *item)
 {
-};
-
-struct List
-{
-};
-
-List* list_create()
-{
-	return new List;
+    return NULL;
 }
 
-void list_delete(List* list)
+ListItem *list_insert(List *list, Data data)
 {
-	// TODO: free items
-	delete list;
+    return NULL;
 }
 
-ListItem* list_first(List* list)
+ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
-	return NULL;
+    return NULL;
 }
 
-Data list_item_data(const ListItem* item)
+ListItem *list_erase(List *list, ListItem *item)
 {
-	return (Data)0;
+    return NULL;
 }
 
-ListItem* list_item_next(ListItem* item)
+ListItem *list_erase_next(List *list, ListItem *item)
 {
-	return NULL;
-}
-
-ListItem* list_item_prev(ListItem* item)
-{
-	return NULL;
-}
-
-ListItem* list_insert(List* list, Data data)
-{
-	return NULL;
-}
-
-ListItem* list_insert_after(List* list, ListItem* item, Data data)
-{
-	return NULL;
-}
-
-ListItem* list_erase(List* list, ListItem* item)
-{
-	return NULL;
-}
-
-ListItem* list_erase_next(List* list, ListItem* item)
-{
-	return NULL;
+    return NULL;
 }
