@@ -37,7 +37,6 @@ void stack_pop(Stack* stack)
         ListItem* second_element = list_item_next(list_first(stack->stack));
         delete list_first(stack->stack);
         stack->stack->head = second_element;
-
     }
 }
 
