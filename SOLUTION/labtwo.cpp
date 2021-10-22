@@ -27,7 +27,7 @@ int main()
 	std::string str;
 	std::getline(std::cin, str);
 	std::cout << "reverse polish notation: \n";
-	for (int i = 0; i < str.size(); i++) //E.W. Dijkstra Algorithm
+	for (int i = 0; i < str.size(); i++)  //E.W. Dijkstra Algorithm
 	{
 		if (isalpha(str[i]))
 			std::cout << str[i];
