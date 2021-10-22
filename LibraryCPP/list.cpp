@@ -4,17 +4,10 @@
 struct ListItem
 {
     Data data;
-    ListItem *next;
+    ListItem* next;
 };
 
-struct List
-{
-    ListItem *head;
-    List()
-    {
-        head = nullptr;
-    }
-};
+// struct List defined in list.h
 
 List* list_create()
 {
@@ -74,8 +67,7 @@ ListItem* list_erase_next(List* list, ListItem* item)
 {
     if (item->next != nullptr)
     {
-        ListItem* item_next = new ListItem;
-        item_next = item->next;
+        ListItem* item_next = item->next;
         item->next = item->next->next;
         delete item_next;
         return NULL;
