@@ -7,149 +7,75 @@ public:
     struct Node {
         Key key;
         Value value;
-        AssociativeArray<Key, Value>* array;
 
-        Node(Key key, Value value, AssociativeArray<int, int> *array): key(key), value(value), array(array) {}
+        Node(Key key, Value value): key(key), value(value) {}
 
         bool isAVLTree() {
-            return abs(getWeight()) <= 1 && lessNodeIsAVLTree() && moreNodeIsAVLTree();
+            return abs(getWeight()) <= 1 && (less || less->isAVLTree()) && (more || more->isAVLTree());
         }
 
-        bool lessNodeIsAVLTree() {
-            return less == nullptr || less->isAVLTree();
-        }
-
-        bool moreNodeIsAVLTree() {
-            return more == nullptr || more->isAVLTree();
-        }
-
-        void remove() {
-            write();
+        Node* remove() {
+            Node* peak = nullptr;
             int weight = getWeight();
-            Node* newPeak = nullptr;
-            Node* inserted = nullptr;
-            if (weight > 0) {
-                newPeak = more;
-                inserted = less;
+            if (weight < 0) {
+                peak = less;
+                if (more) {
+                    peak = peak->insert(more);
+                }
             } else {
-                newPeak = less;
-                inserted = more;
-            }
-            if (parent == nullptr) {
-                array->main = more;
-            } else {
-                if (parent->less != nullptr && parent->less->equalKey(key)) {
-                    parent->less = newPeak;
-                } else if (parent->more != nullptr && parent->more->equalKey(key)) {
-                    parent->more = newPeak;
+                peak = more;
+                if (less) {
+                    peak = peak->insert(less);
                 }
             }
-            if (newPeak != nullptr) {
-                newPeak->parent = parent;
-                if (inserted != nullptr) {
-                    newPeak->insert(inserted);
-                }
-                std::cout << "\n\n\n";
-                newPeak->write();
-            }
+            return peak;
         }
 
-        void turnLeft() {
-            Node* par = nullptr;
-            if (parent == nullptr) {
-                array->main = more;
-            } else {
-                par = parent;
-                if (par->less != nullptr && par->less->equalKey(key)) {
-                    par->less = more;
-                } else if (par->more != nullptr && par->more->equalKey(key)) {
-                    par->more = more;
-                }
-            }
-            parent = more;
-            more->parent = par;
-            Node* moresLess = more->less;
-            more->less = this;
-            more = moresLess;
+        Node* turnLeft() {
+            Node* peak = more;
+            more = peak->less;
+            peak->less = this;
+            return peak;
         }
 
-        void turnRight() {
-            Node* par = nullptr;
-            if (parent == nullptr) {
-                array->main = less;
-            } else {
-                par = parent;
-                if (par->less != nullptr && par->less->equalKey(key)) {
-                    par->less = less;
-                } else if (par->more != nullptr && par->more->equalKey(key)) {
-                    par->more = less;
-                }
-            }
-            parent = less;
-            less->parent = par;
-            Node* lessMore = less->more;
-            less->more = this;
-            less = lessMore;
+        Node* turnRight() {
+            Node* peak = less;
+            less = peak->more;
+            peak->more = this;
+            return peak;
         }
 
-        void sort() {
-            if (!lessNodeIsAVLTree()) {
-                less->sort();
-            }
-            if (!moreNodeIsAVLTree()) {
-                more->sort();
-            }
-            if (!isAVLTree()) {
-                int weight = getWeight() + (less == nullptr ? 0 : less->getWeight()) + (more == nullptr ? 0 : more->getWeight());
-                if (abs(weight) == 3) {
-                    if (weight > 0) {
-                        turnLeft();
-                    } else {
-                        turnRight();
-                    }
-                } else if (abs(weight) == 1 || abs(weight) == 2) {
-                    if (weight > 0) {
-                        more->turnRight();
-                        turnLeft();
-                    } else {
-                        less->turnLeft();
-                        turnRight();
-                    }
+        Node* balance() {
+            int weight = getWeight();
+            if (weight == -2) {
+                if (less->getWeight() > 0) {
+                    less = less->turnLeft();
                 }
+                return turnRight();
+            } else if(weight == 2) {
+                if (more->getWeight() < 0) {
+                    more = more->turnRight();
+                }
+                return turnLeft();
             }
+            return this;
         }
 
-        void insert(Node* node) {
-            if (equalKey(node->key)) {
-                value = node->value;
-                return;
-            }
-            if (this->isMoreThan(node->key)) {
-                if (less == nullptr) {
-                    node->parent = this;
+        Node* insert(Node* node) {
+            if (node->key < key) {
+                if (less) {
+                    less = less->insert(node);
+                } else {
                     less = node;
-                } else {
-                    less->insert(node);
                 }
-            } else {
-                if (more == nullptr) {
-                    node->parent = this;
+            } else if (node->key > key) {
+                if (more) {
+                    more = more->insert(node);
+                } else {
                     more = node;
-                } else {
-                    more->insert(node);
                 }
             }
-            if (!isAVLTree()) {
-                sort();
-            }
-        }
-
-        bool equalKey(Key key) {
-            return this->key == key;
-        }
-
-        int isMoreThan(const Key key) {
-            return this->key > key;
+            return balance();
         }
 
         int getWeight() {
@@ -157,52 +83,51 @@ public:
         }
 
         void write() {
-            if (less != nullptr || more != nullptr) {
+            if (less || more) {
                 std::cout << std::endl;
-                if (less != nullptr) {
+                if (less) {
                     printf("%d <<< ", less->key);
                 }
                 printf("%d", key);
-                if (more != nullptr) {
+                if (more) {
                     printf(" >>> %d", more->key);
                 }
                 std::cout << std::endl;
             }
-            if (less != nullptr) {
+            if (less) {
                 less->write();
             }
-            if (more != nullptr) {
+            if (more) {
                 more->write();
             }
         }
 
         Node* findNode(Key key) {
-        Node* node = this;
-        while (node != nullptr) {
-            if (node->equalKey(key)) {
-                return node;
-            } else {
-                if (node->isMoreThan(key)) {
-                    node = node->less;
+            Node* node = this;
+            while (!node) {
+                if (node->equalKey(key)) {
+                    return node;
                 } else {
-                    node = node->more;
+                    if (node->isMoreThan(key)) {
+                        node = node->less;
+                    } else {
+                        node = node->more;
+                    }
                 }
             }
+            return nullptr;
         }
-        return nullptr;
-    }
 
     private:
-        Node* parent = nullptr;
         Node* less = nullptr;
         Node* more = nullptr;
 
         int getMoreLevelsCount() {
-            return more == nullptr ? 0 : more->getLevelsCount() + 1;
+            return !more ? 0 : more->getLevelsCount() + 1;
         }
 
         int getLessLevelsCount() {
-            return less == nullptr ? 0 : less->getLevelsCount() + 1;
+            return !less ? 0 : less->getLevelsCount() + 1;
         }
 
         int getLevelsCount() {
@@ -225,11 +150,11 @@ public:
     ///\param key - Ключ, который нужно добавить
     ///\param value - Значение, которое надо добавить под указанным ключом
     void insert(Key key, Value value) {
-        Node* node = new Node(key, value, this);
-        if (main == nullptr) {
+        Node* node = new Node(key, value);
+        if (!main) {
             main = node;
         } else {
-            main->insert(node);
+            main = main->insert(node);
         }
     }
 
@@ -237,18 +162,21 @@ public:
     ///\return Возвращает значение, лежащее под указанным ключом. Если ключ не найден, то вернётся NULL.
     Value find(Key key) {
         Node* node = main->findNode(key);
-        return node == nullptr ? NULL : node->value;
+        return node ? NULL : node->value;
     }
 
     ///\param key - Ключ, который нужно удалить
     void remove(Key key) {
-        Node* node = main->findNode(key);
-        if (node != nullptr) {
-            node->remove();
+        if (key == main->key) {
+            main = main->remove();
+            return;
         }
-        if (!isCorrectAVLTree()) {
-            main->sort();
+        Node* parent = main;
+        while (main->less )
+        {
+            
         }
+        
     }
 
 protected:
