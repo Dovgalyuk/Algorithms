@@ -8,6 +8,7 @@ public:
     // create array
     Array(size_t size) : _size(size), arr(new Data[size])
     {
+
     }
 
     // delete array, free memory
