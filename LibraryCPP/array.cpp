@@ -1,5 +1,4 @@
 #include "array.h"
-#include "cstddef"
 
 struct Array
 {
@@ -8,8 +7,6 @@ struct Array
 // create array
 Array *array_create(size_t size)
 {
-    int*arr=new int[size];
-   // array_set(arr, );
     return new Array;
 }
 
