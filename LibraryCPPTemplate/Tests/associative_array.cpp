@@ -31,5 +31,6 @@ int main() {
             return 1;
         }
     }
+    delete array;
     return 0;
 }
