@@ -8,4 +8,3 @@ add_subdirectory(LibraryCPP)
 add_subdirectory(LibraryCPPTemplate)
 add_subdirectory(lab1)
 add_subdirectory(lab2)
- 
