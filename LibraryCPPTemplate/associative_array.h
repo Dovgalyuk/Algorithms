@@ -1,3 +1,6 @@
+#include <vector>
+#include <fstream>
+
 #ifndef DIRECTED_GRAPH_TEMPLATE_H
 #define DIRECTED_GRAPH_TEMPLATE_H
 
@@ -7,180 +10,149 @@ public:
     struct Node {
         Key key;
         Value value;
-
-        Node(Key key, Value value): key(key), value(value) {}
-
-        bool isAVLTree() {
-            return abs(getWeight()) <= 1 && (less || less->isAVLTree()) && (more || more->isAVLTree());
-        }
-
-        Node* remove() {
-            Node* peak = nullptr;
-            int weight = getWeight();
-            if (weight < 0) {
-                peak = less;
-                if (more) {
-                    peak = peak->insert(more);
-                }
-            } else {
-                peak = more;
-                if (less) {
-                    peak = peak->insert(less);
-                }
-            }
-            return peak;
-        }
-
-        Node* turnLeft() {
-            Node* peak = more;
-            more = peak->less;
-            peak->less = this;
-            return peak;
-        }
-
-        Node* turnRight() {
-            Node* peak = less;
-            less = peak->more;
-            peak->more = this;
-            return peak;
-        }
-
-        Node* balance() {
-            int weight = getWeight();
-            if (weight == -2) {
-                if (less->getWeight() > 0) {
-                    less = less->turnLeft();
-                }
-                return turnRight();
-            } else if(weight == 2) {
-                if (more->getWeight() < 0) {
-                    more = more->turnRight();
-                }
-                return turnLeft();
-            }
-            return this;
-        }
-
-        Node* insert(Node* node) {
-            if (node->key < key) {
-                if (less) {
-                    less = less->insert(node);
-                } else {
-                    less = node;
-                }
-            } else if (node->key > key) {
-                if (more) {
-                    more = more->insert(node);
-                } else {
-                    more = node;
-                }
-            }
-            return balance();
-        }
-
-        int getWeight() {
-            return getMoreLevelsCount() - getLessLevelsCount();
-        }
-
-        void write() {
-            if (less || more) {
-                std::cout << std::endl;
-                if (less) {
-                    printf("%d <<< ", less->key);
-                }
-                printf("%d", key);
-                if (more) {
-                    printf(" >>> %d", more->key);
-                }
-                std::cout << std::endl;
-            }
-            if (less) {
-                less->write();
-            }
-            if (more) {
-                more->write();
-            }
-        }
-
-        Node* findNode(Key key) {
-            Node* node = this;
-            while (!node) {
-                if (node->equalKey(key)) {
-                    return node;
-                } else {
-                    if (node->isMoreThan(key)) {
-                        node = node->less;
-                    } else {
-                        node = node->more;
-                    }
-                }
-            }
-            return nullptr;
-        }
-
-    private:
         Node* less = nullptr;
         Node* more = nullptr;
 
-        int getMoreLevelsCount() {
-            return !more ? 0 : more->getLevelsCount() + 1;
+        Node(Key key, Value value): key(key), value(value) {}
+
+        int lessHeight() {
+            return less ? less->height : 0;
         }
 
-        int getLessLevelsCount() {
-            return !less ? 0 : less->getLevelsCount() + 1;
+        int moreHeight() {
+            return more ? more->height : 0;
         }
 
-        int getLevelsCount() {
-            return std::max(getLessLevelsCount(), getMoreLevelsCount());
+        void updateHeight() {
+            height = std::max(lessHeight(), moreHeight()) + 1;
         }
+
+        int balanceValue() {
+            return moreHeight() - lessHeight();
+        }
+
+    private:
+        int height = 0;
     };
+
+    Node* main = nullptr;
 
     AssociativeArray() {}
 
     ~AssociativeArray() {}
 
-    void write() {
-        main->write();
-    }
-
     bool isCorrectAVLTree() {
-        return main->isAVLTree();
+        return isAVLTree(main);
     }
 
     ///\param key - Ключ, который нужно добавить
     ///\param value - Значение, которое надо добавить под указанным ключом
     void insert(Key key, Value value) {
         Node* node = new Node(key, value);
-        if (!main) {
-            main = node;
-        } else {
-            main = main->insert(node);
-        }
+        main = insert(main, node);
     }
 
     ///\param key - Ключ, под которым лежит искомое значение
     ///\return Возвращает значение, лежащее под указанным ключом. Если ключ не найден, то вернётся NULL.
     Value find(Key key) {
-        Node* node = main->findNode(key);
-        return node ? NULL : node->value;
+        Node* node = find(main, key);
+        return node ? node->value : NULL;
     }
 
     ///\param key - Ключ, который нужно удалить
     void remove(Key key) {
-        if (key == main->key) {
-            main = main->remove();
-            return;
-        }
-        Node* parent = main;
-        while (main->less )
-        {
-            
-        }
-        
+        if (!main) return;
+        main = remove(main, key);
     }
 
 protected:
-    Node* main = nullptr;
+
+    bool isAVLTree(Node* src) {
+        return !src || abs(src->balanceValue()) <= 1;
+    }
+
+    Node* turnLeft(Node* src) {
+        if (!src) return src;
+        Node* peak = src->more;
+        src->more = peak->less;
+        peak->less = src;
+        src->updateHeight();
+        if (peak) peak->updateHeight();
+        return peak;
+    }
+
+    Node* turnRight(Node* src) {
+        if (!src) return src;
+        Node* peak = src->less;
+        src->less = peak->more;
+        peak->more = src;
+        src->updateHeight();
+        if (peak) peak->updateHeight();
+        return peak;
+    }
+
+    Node* balance(Node* src) {
+        if (!src) return src;
+        src->updateHeight();
+        if (src->balanceValue() == -2) {
+            if (src->less && src->less->balanceValue() > 0) {
+                src->less = turnLeft(src->less);
+            }
+            return turnRight(src);
+        } else if (src->balanceValue() == 2) {
+            if (src->more && src->more->balanceValue() < 0) {
+                src->more = turnRight(src->more);
+            }
+            return turnLeft(src);
+        }
+        return src;
+    }
+
+    Node* insert(Node* src, Node* newNode) {
+        if (!src) return newNode;
+        if (src->key < newNode->key) {
+            src->more = insert(src->more, newNode);
+            return balance(src);
+        } else if (src->key > newNode->key) {
+            src->less = insert(src->less, newNode);
+            return balance(src);
+        }
+        src->value == newNode->value;
+        return src;
+    }
+
+    Node* find(Node* src, Key key) {
+        if (!src) return nullptr;
+        if (src->key == key) return src;
+        else if (src->key < key) return find(src->more, key);
+        else return find(src->less, key);
+    }
+
+    Node* findLesserNode(Node* src) {
+        return !src || !src->less ? src : findLesserNode(src->less) ;
+    }
+
+    Node* remove(Node* src, int key) {
+        if (!src) return src;
+        if (src->key < key) {
+            src->more = remove(src->more, key);
+        } else if (src->key > key) {
+            src->less = remove(src->less, key);
+        } else {
+            Node* less = src->less;
+            Node* more = src->more;
+            delete src;
+            if (!less) return more;
+            else if (!more) return less;
+            else {
+                Node* lesser = findLesserNode(more);
+                lesser->more = remove(more, lesser->key);
+                lesser->less = less;
+                return balance(lesser);
+            }
+        }
+        return balance(src);
+    }
 
 };
 #endif
