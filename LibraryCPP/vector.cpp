@@ -38,13 +38,11 @@ size_t vector_size(const Vector* vector)
 void vector_resize(Vector* vector, size_t size)
 {
     if (vector->vmestimost < size) {
-        if (vector->vmestimost < size) {
-            if (vector->vmestimost == 0) {
-                vector->vmestimost = 1;
-            }
-            while (vector->vmestimost < size) {
-                vector->vmestimost = vector->vmestimost * 2;
-            }
+        if (vector->vmestimost == 0) {
+            vector->vmestimost = 1;
+        }
+        while (vector->vmestimost < size) {
+            vector->vmestimost = vector->vmestimost * 2;
         }
         Data* newData = new Data[vector->vmestimost];
         for (int i = 0; i < vector_size(vector); i++) {
