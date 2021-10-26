@@ -72,6 +72,7 @@ protected:
 
     bool isAVLTree(Node* src) {
         if (!src) return true;
+        src->updateHeight();
         return abs(src->balanceValue()) <= 1 && isAVLTree(src->less) && isAVLTree(src->more);
     }
 
