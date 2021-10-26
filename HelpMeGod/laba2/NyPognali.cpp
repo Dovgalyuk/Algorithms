@@ -6,6 +6,15 @@
 
 using namespace std;
 
+int step(int s) {
+    int num = 1;
+    while (s > 0) {
+        num = num * 10;
+        s--;
+    };
+    return(num);
+}
+
 int main() {
     string primer;
     int size = 0;
@@ -22,10 +31,10 @@ int main() {
                 j++;
             }
             int time = primer[i] - '0';
-            masdig[sizedig] = time * pow(10, kol - 1);
+            masdig[sizedig] = time * step(kol - 1);
             kol--;
             for (int r = 1; r < j - i; r++) {
-                masdig[sizedig] = masdig[sizedig] + (primer[i + r] - '0') * pow(10, kol - 1);
+                masdig[sizedig] = masdig[sizedig] + (primer[i + r] - '0') * step(kol - 1);
                 kol--;
             }
             i = j - 1;
