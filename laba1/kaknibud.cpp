@@ -1,17 +1,19 @@
 #include <iostream>
-#include "../LibraryCPPTemplate/array.h"
+#include "array.h"
 #include "time.h"
 int main()
 {
     Array<int>arr(31);
     srand(time(NULL));
-    int rain = 0;
     int sum = 0;
-    for(int i=0; i<31;i++)
+    int rain = 0;
+    int i=0;
+    for(i;i<arr.size();i++)
     {
         arr.set(i, rand()%60);
     }
-    for(int i=0;i<arr.size();i++)
+
+    for(i=0;i<arr.size();i++)
     {
         if(arr.get(i)>0)
         {
