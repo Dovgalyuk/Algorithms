@@ -1,9 +1,6 @@
-#include <vector>
-#include <fstream>
-
 #ifndef DIRECTED_GRAPH_TEMPLATE_H
 #define DIRECTED_GRAPH_TEMPLATE_H
-
+#include <iostream>
 template<typename Key, typename Value> class AssociativeArray {
 public:
 
@@ -39,7 +36,13 @@ public:
 
     AssociativeArray() {}
 
-    ~AssociativeArray() {}
+    ~AssociativeArray() {
+        delete[] main;
+    }
+
+    bool isEmpty() {
+        return !main;
+    }
 
     bool isCorrectAVLTree() {
         return isAVLTree(main);
@@ -68,7 +71,8 @@ public:
 protected:
 
     bool isAVLTree(Node* src) {
-        return !src || abs(src->balanceValue()) <= 1;
+        if (!src) return true;
+        return abs(src->balanceValue()) <= 1 && isAVLTree(src->less) && isAVLTree(src->more);
     }
 
     Node* turnLeft(Node* src) {
@@ -110,6 +114,7 @@ protected:
 
     Node* insert(Node* src, Node* newNode) {
         if (!src) return newNode;
+        newNode->updateHeight();
         if (src->key < newNode->key) {
             src->more = insert(src->more, newNode);
             return balance(src);
@@ -132,21 +137,21 @@ protected:
         return !src || !src->less ? src : findLesserNode(src->less) ;
     }
 
-    Node* remove(Node* src, int key) {
+    Node* remove(Node* src, int key, bool deleteSrc = true) {
         if (!src) return src;
         if (src->key < key) {
-            src->more = remove(src->more, key);
+            src->more = remove(src->more, key, deleteSrc);
         } else if (src->key > key) {
-            src->less = remove(src->less, key);
+            src->less = remove(src->less, key, deleteSrc);
         } else {
             Node* less = src->less;
             Node* more = src->more;
-            delete src;
+            if (deleteSrc) delete src;
             if (!less) return more;
             else if (!more) return less;
             else {
                 Node* lesser = findLesserNode(more);
-                lesser->more = remove(more, lesser->key);
+                lesser->more = remove(more, lesser->key, false);
                 lesser->less = less;
                 return balance(lesser);
             }

@@ -1,7 +1,7 @@
-
 #include "associative_array.h"
 #include <iostream>
 #include <string>
+#include <fstream>
 #include <map>
 #include <chrono>
 
@@ -64,7 +64,7 @@ void readFileToMap(std::string name, std::map<Key, Value>& map) {
 }
 
 int main() {
-    srand(0);
+    srand(time(0));
 
     int length = generateCapacity();
     std::cout << "Capacity is " << length << std::endl;
