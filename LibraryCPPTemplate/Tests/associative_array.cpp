@@ -6,7 +6,7 @@ typedef AssociativeArray<int, int> Array;
 
 int main() {
     Array array;
-    int count = 10;
+    int count = 5000;
     for (size_t i = 0; i < count; i++)
     {
         array.insert(i, i);
