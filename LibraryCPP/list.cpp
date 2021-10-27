@@ -5,9 +5,30 @@ struct ListItem
 {
     Data data;
     ListItem* next;
+    void clear()
+    {
+        if (next != nullptr)
+        {
+            next->clear();
+            delete next;
+        }
+    }
 };
 
-// struct List defined in list.h
+struct List
+{
+    ListItem* head;
+    List()
+    {
+        head = nullptr;
+    }
+    ~List()
+    {
+        if (head != nullptr)
+            head->clear();
+        delete head;
+    }
+};
 
 List* list_create()
 {
@@ -26,7 +47,6 @@ ListItem* list_first(List* list)
 
 Data list_item_data(const ListItem* item)
 {
-    if(item)
         return item->data; 
 }
 
@@ -65,11 +85,27 @@ ListItem* list_erase(List* list, ListItem* item)
 
 ListItem* list_erase_next(List* list, ListItem* item)
 {
-    if (item->next != nullptr)
+    if ( item != nullptr && item->next != nullptr )
     {
         ListItem* item_next = item->next;
         item->next = item->next->next;
         delete item_next;
-        return NULL;
+        return item->next;
     }
+    else return nullptr;
+}
+
+//Пользуясь только list_erase_next не возможно удалить первый элемент,
+//т.к. чтобы удалить с помощью него элемент, нужно чтобы перед ним стоял
+//ещё хотя бы 1 элемент. (для этого создал list_erase_first)
+
+void list_erase_first(List* list)
+{
+    if (list->head != nullptr)
+    {
+        ListItem* item_first = list->head;
+        list->head = list->head->next;
+        delete item_first;
+    }
+    else return;
 }
