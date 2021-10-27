@@ -30,7 +30,7 @@ int main(){
 
     if (count != 0)
         std::cout << "Average positive " << (float)sum_p / count << '\n';
-    if (size != count)
+    if (size != count + zero)
         std::cout << "Average negative " << (float)sum_n / ((int)size - count - zero);
 
     array_delete(array);
