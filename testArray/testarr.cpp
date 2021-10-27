@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include <ctime>
-#include <array.h>
+#include "array.h"
 
 typedef Array<int> MyArray; //a(9);
 int main() {
