@@ -7,14 +7,7 @@ typedef int Data;
 
 struct ListItem;
 
-struct List
-{
-    ListItem* head;
-    List()
-    {
-        head = nullptr;
-    }
-};
+struct List;
 
 // Creates new list
 List *list_create();
@@ -50,4 +43,5 @@ ListItem *list_erase(List *list, ListItem *item);
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);
 
+void list_erase_first(List* list);
 #endif
