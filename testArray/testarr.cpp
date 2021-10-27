@@ -1,11 +1,12 @@
 //
 // Created by vasya on 06.10.2021.
 //
-
-#include <array.h>
 #include <iostream>
 #include <ctime>
 #include <cstddef>
+#include <array.h>
+
+
 int main() {
     srand(time(NULL));
     int CurrentCounter = 0, BiggestCounter = 0, FrequentEl = 0;
