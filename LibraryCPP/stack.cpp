@@ -1,6 +1,8 @@
 #include "stack.h"
 #include "list.h"
 
+//пришлось добавить сюда прототипы, иначе деструкторы не
+//вызываються и список не удаляется
 struct ListItem
 {
     ListItem* next;
