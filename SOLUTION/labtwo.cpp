@@ -32,7 +32,7 @@ int main()
 		if (isalpha(str[i]))
 			std::cout << str[i];
 
-		if (stack_empty(stack))
+		else if (stack_empty(stack))
 			stack_write(i, stack, str);
 		else
 		{
