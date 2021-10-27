@@ -1,5 +1,4 @@
 #include <iostream>
-#include "cstddef"
 #include "array.h"
 
 typedef Array<int> MyArray;

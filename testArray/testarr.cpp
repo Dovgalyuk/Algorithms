@@ -3,9 +3,9 @@
 //
 
 #include <array.h>
-#include "iostream"
-#include "time.h"
-#include "cstddef"
+#include <iostream>
+#include <ctime>
+#include <cstddef>
 int main() {
     srand(time(NULL));
     int CurrentCounter = 0, BiggestCounter = 0, FrequentEl = 0;
