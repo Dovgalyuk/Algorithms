@@ -14,8 +14,8 @@ struct ListItem
     }
 };
 
-struct List   //пришлось добавить сюда прототипы, иначе деструкторы не
-{             //вызываються и список не удаляется 
+struct List   
+{             
     ListItem* head;
     ~List()
     {
