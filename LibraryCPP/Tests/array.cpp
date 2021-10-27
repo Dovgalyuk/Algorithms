@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <array.h>
 int main()
 {
     Array *arr = array_create(10);

@@ -1,6 +1,6 @@
 #ifndef ARRAY_H
 #define ARRAY_H
-
+#include "cstddef"
 
 // Non-resizeable array
 // Stores integer values inside
