@@ -6,7 +6,7 @@
 #include <cstddef>
 #include <array.h>
 
-
+Array<int> a(9);
 int main() {
     srand(time(NULL));
     int CurrentCounter = 0, BiggestCounter = 0, FrequentEl = 0;
@@ -14,7 +14,7 @@ int main() {
     //BiggestCounter - наибольшее число повторений
     //FrequentEl - наиболее часто встречающийся элемент
 
-    Array<int> a(9);
+
     for (int i = 0; i < a.size(); ++i)
     {
         a.set(i, rand()%10);
