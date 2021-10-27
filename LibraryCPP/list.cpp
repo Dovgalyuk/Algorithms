@@ -95,10 +95,6 @@ ListItem* list_erase_next(List* list, ListItem* item)
     else return nullptr;
 }
 
-//Пользуясь только list_erase_next не возможно удалить первый элемент,
-//т.к. чтобы удалить с помощью него элемент, нужно чтобы перед ним стоял
-//ещё хотя бы 1 элемент. (для этого создал list_erase_first)
-
 void list_erase_first(List* list)
 {
     if (list->head != nullptr)
