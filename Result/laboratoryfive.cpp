@@ -4,14 +4,13 @@
 
 #include <iostream>
 #include <vector>
-#include <map>
+#include <set>
 #include <random>
 #include <chrono>
 
 #include "AVLTree.h"
 
 typedef std::vector<std::string> Strings;
-typedef std::pair<std::string, std::string> Pair;
 
 const int MAX_STRING_SIZE = 10;
 
@@ -25,7 +24,7 @@ void generateInputData(Strings &strings, size_t size);
 int main() {
     Strings strings;
     AVLTree tree;
-    std::map<std::string, std::string> testMap;
+    std::set<std::string> testSet;
 
     generateInputData(strings, FIRST_DATA_SIZE);
 
@@ -39,7 +38,7 @@ int main() {
 
     startTime = std::chrono::system_clock::now();
     for (auto &str : strings) {
-        testMap.insert(Pair(str, str));
+        testSet.insert(str);
     }
     endTime = std::chrono::system_clock::now();
     finalTime = endTime - startTime;
@@ -49,7 +48,7 @@ int main() {
 
     strings.clear();
     tree.clear();
-    testMap.clear();
+    testSet.clear();
     generateInputData(strings, SECOND_DATA_SIZE);
 
     startTime = std::chrono::system_clock::now();
@@ -62,7 +61,7 @@ int main() {
 
     startTime = std::chrono::system_clock::now();
     for (auto &str : strings) {
-        testMap.insert(Pair(str, str));
+        testSet.insert(str);
     }
     endTime = std::chrono::system_clock::now();
     finalTime = endTime - startTime;
