@@ -57,7 +57,7 @@ int main() {
     }
     endTime = std::chrono::system_clock::now();
     finalTime = endTime - startTime;
-    std::cout << "Fill AVL tree with a " << SECOND_DATA_SIZE << " strings " << " take " << finalTime.count() << " milliseconds." << std::endl;
+    std::cout << "Fill AVL tree with a " << SECOND_DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
 
     startTime = std::chrono::system_clock::now();
     for (auto &str : strings) {
@@ -65,7 +65,7 @@ int main() {
     }
     endTime = std::chrono::system_clock::now();
     finalTime = endTime - startTime;
-    std::cout << "Fill map with a " << SECOND_DATA_SIZE << " strings " << " take " << finalTime.count() << " milliseconds." << std::endl;
+    std::cout << "Fill map with a " << SECOND_DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
     return 0;
 }
 
