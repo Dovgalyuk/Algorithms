@@ -21,8 +21,9 @@ int main() {
     cout << "Input primer: ";
     getline(cin, primer);
     Stack* sta = stack_create();
+    Stack* Stanly = stack_create();
     int masdig[200]; int sizedig = 0;
-    char maszna[199]; int sizezna = 0;
+    int sizezna = 0;
     for (int i = 0; i < primer.size(); i++) {
         if (isdigit(primer[i])) {
             int kol = 0; int j = i;
@@ -40,49 +41,54 @@ int main() {
             i = j - 1;
             sizedig++;
         }
-        else {
-            maszna[sizezna] = primer[i];
+    }
+    for (int i = primer.size() - 1; i > 0; i--) {
+        if (!isdigit(primer[i])) {
+            stack_push(sta, primer[i]);
+            stack_push(Stanly, primer[i]);
             sizezna++;
         }
     }
     for (int i = 0; i < sizezna; i++) {
-        if (maszna[i] == '*') {
+        if (stack_get(sta) == '*') {
             masdig[i + 1] = masdig[i] * masdig[i + 1];
             masdig[i] = -1;
-            maszna[i] = '1';
-            stack_push(sta, masdig[i + 1]);
+            stack_pop(sta);
         }
-        if (maszna[i] == '/') {
+        else if (stack_get(sta) == '/') {
             masdig[i + 1] = masdig[i] / masdig[i + 1];
             masdig[i] = -1;
-            maszna[i] = '1';
-            stack_push(sta, masdig[i + 1]);
+            stack_pop(sta);
+        }
+        else {
+            stack_pop(sta);
         }
     }
     for (int i = 0; i < sizezna; i++) {
-        if (maszna[i] == '+') {
+        if (stack_get(Stanly) == '+') {
             int o = i + 1;
             while (masdig[o] == -1) {
                 o++;
             }
             masdig[o] = masdig[i] + masdig[o];
             masdig[i] = -1;
-            maszna[i] = '1';
-            stack_push(sta, masdig[i + 1]);
+            stack_pop(Stanly);
         }
-        if (maszna[i] == '-') {
+        else if (stack_get(Stanly) == '-') {
             int o = i + 1;
             while (masdig[o] == -1) {
                 o++;
             }
             masdig[o] = masdig[i] - masdig[o];
             masdig[i] = -1;
-            maszna[i] = '1';
-            stack_push(sta, masdig[i + 1]);
+            stack_pop(Stanly);
+        }
+        else {
+            stack_pop(Stanly);
         }
     }
-    stack_push(sta, masdig[sizedig - 1]);
-    cout << "\nOtvet:" << stack_get(sta);
+    cout << "\nOtvet:" << masdig[sizedig - 1];
     stack_delete(sta);
+    stack_delete(Stanly);
     return 0;
 }
