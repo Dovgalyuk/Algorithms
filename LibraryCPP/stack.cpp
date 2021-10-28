@@ -1,30 +1,6 @@
 #include "stack.h"
 #include "list.h"
 
-struct ListItem
-{
-    ListItem* next;
-    void clear()
-    {
-        if (next != nullptr)
-        {
-            next->clear();
-            delete next;
-        }
-    }
-};
-
-struct List   
-{             
-    ListItem* head;
-    ~List()
-    {
-        if (head != nullptr)
-            head->clear();
-        delete head;
-    }
-};
-
 struct Stack
 {
     List* stack;
@@ -34,7 +10,7 @@ struct Stack
     }
     ~Stack()
     {
-        delete stack;
+        list_delete(stack);
     }
 };
 
