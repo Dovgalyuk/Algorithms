@@ -38,23 +38,6 @@ void AVLTree::clear() {
     middle = nullptr;
 }
 
-void AVLTree::print() {
-    int leftWidth = middle->getLeftWidth();
-    int rightWidth = middle->getRightWidth();
-    int maxWidth = std::max(leftWidth, rightWidth);
-    for (auto &string : middle->printNode(*middle, maxWidth)) {
-        std::cout << string << std::endl;
-    }
-    std::cout << "[@@@]" << std::endl;
-}
-
-std::vector<std::string> AVLTree::getPrintLog() {
-    int leftWidth = middle->getLeftWidth();
-    int rightWidth = middle->getRightWidth();
-    int maxWidth = std::max(leftWidth, rightWidth);
-    return middle->printNode(*middle, maxWidth);
-}
-
 int AVLTree::nodeHeight(AVLTree::Node *node) {
     return node != nullptr ? node->height : 0;
 }
