@@ -1,6 +1,7 @@
 #include <iostream>
 #include "associative_array.h"
 #include <vector>
+#include <algorithm>
 
 typedef AssociativeArray<int, int> Array;
 
@@ -27,7 +28,7 @@ int main() {
     for (size_t i = 0; i < count; i++)
     {
         array.remove(i);
-        if (!array.isCorrectAVLTree()) {
+        if (!array.isCorrectAVLTree() || (array.isEmpty() && count - i > 1)) {
             std::cout << "Incorrect deletion from an associative array. ";
             return 1;
         }
@@ -41,7 +42,10 @@ int main() {
     std::vector<int> keys;
 
     for (int i = 0; i < count; ++i) {
-        int num = rand();
+        int num;
+        do {
+            num = rand();
+        } while (std::find(keys.begin(), keys.end(), num) != keys.end());
         keys.push_back(num);
         array.insert(num, num);
         if (!array.isCorrectAVLTree()) {
@@ -59,7 +63,7 @@ int main() {
         keys.erase(keys.begin() + id);
         array.remove(key);
         removedKeys.push_back(key);
-        if (!array.isCorrectAVLTree()) {
+        if (!array.isCorrectAVLTree() || (array.isEmpty() && count - i > 1)) {
             std::cout << "Incorrect deletion from an associative array. ";
             return 1;
         }

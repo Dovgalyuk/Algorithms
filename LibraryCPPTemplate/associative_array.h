@@ -72,8 +72,9 @@ protected:
 
     bool isAVLTree(Node* src) {
         if (!src) return true;
+        bool children = isAVLTree(src->less) && isAVLTree(src->more);
         src->updateHeight();
-        return abs(src->balanceValue()) <= 1 && isAVLTree(src->less) && isAVLTree(src->more);
+        return abs(src->balanceValue()) <= 1 && children;
     }
 
     Node* turnLeft(Node* src) {
@@ -123,7 +124,7 @@ protected:
             src->less = insert(src->less, newNode);
             return balance(src);
         }
-        src->value == newNode->value;
+        src->value = newNode->value;
         return src;
     }
 
