@@ -1,4 +1,3 @@
-#include "cstddef"
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
 
