@@ -8,11 +8,11 @@
 
 int main() {
     srand(time(0));
-    int a = 0, b = 0;
-    std::cin >> a >> b;
-    Array *arr = array_create(10);
+    int a = 0, b = 0, n;
+    std::cin >> n >> a >> b;
+    Array *arr = array_create(n);
     for (int i = 0; i < array_size(arr); i++) {
-        array_set(arr, i, rand() % 1000 - 100);
+        array_set(arr, i, rand() % 500 - 100);
     }
 
     for (int i = 0; i < array_size(arr); i++) {
