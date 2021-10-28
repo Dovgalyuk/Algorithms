@@ -103,5 +103,4 @@ void list_erase_first(List* list)
         list->head = list->head->next;
         delete item_first;
     }
-    else return;
 }
