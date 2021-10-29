@@ -39,55 +39,84 @@ int main() {
                 kol--;
             }
             i = j - 1;
+            stack_push(sta, masdig[sizedig]);
             sizedig++;
         }
-    }
-    for (int i = primer.size() - 1; i > 0; i--) {
         if (!isdigit(primer[i])) {
-            stack_push(sta, primer[i]);
             stack_push(Stanly, primer[i]);
             sizezna++;
-        }
-    }
-    for (int i = 0; i < sizezna; i++) {
-        if (stack_get(sta) == '*') {
-            masdig[i + 1] = masdig[i] * masdig[i + 1];
-            masdig[i] = -1;
-            stack_pop(sta);
-        }
-        else if (stack_get(sta) == '/') {
-            masdig[i + 1] = masdig[i] / masdig[i + 1];
-            masdig[i] = -1;
-            stack_pop(sta);
-        }
-        else {
-            stack_pop(sta);
+            if (stack_get(Stanly) == '*' || stack_get(Stanly) == '/') {
+                i++;
+                int kol = 0; int j = i;
+                while (isdigit(primer[j])) {
+                    kol++;
+                    j++;
+                }
+                int time = primer[i] - '0';
+                masdig[sizedig] = time * step(kol - 1);
+                kol--;
+                for (int r = 1; r < j - i; r++) {
+                    masdig[sizedig] = masdig[sizedig] + (primer[i + r] - '0') * step(kol - 1);
+                    kol--;
+                }
+                i = j - 1;
+                stack_push(sta, masdig[sizedig]);
+                sizedig++;
+                if (stack_get(Stanly) == '*') {
+                    int a = stack_get(sta);
+                    stack_pop(sta);
+                    int b = stack_get(sta);
+                    stack_pop(sta);
+                    sizedig--;
+                    stack_push(sta, a * b);
+                    sizezna--;
+                    stack_pop(Stanly);
+                }
+                if (stack_get(Stanly) == '/') {
+                    int a = stack_get(sta);
+                    stack_pop(sta);
+                    int b = stack_get(sta);
+                    stack_pop(sta);
+                    sizedig--;
+                    stack_push(sta, b / a);
+                    sizezna--;
+                    stack_pop(Stanly);
+                }
+            }
+            if (stack_get(Stanly) == '-') {
+                stack_pop(Stanly);
+                stack_push(Stanly, '+');
+                i++;
+                int kol = 0; int j = i;
+                while (isdigit(primer[j])) {
+                    kol++;
+                    j++;
+                }
+                int time = primer[i] - '0';
+                masdig[sizedig] = time * step(kol - 1);
+                kol--;
+                for (int r = 1; r < j - i; r++) {
+                    masdig[sizedig] = masdig[sizedig] + (primer[i + r] - '0') * step(kol - 1);
+                    kol--;
+                }
+                i = j - 1;
+                stack_push(sta, masdig[sizedig] * -1);
+                sizedig++;
+            }
         }
     }
     for (int i = 0; i < sizezna; i++) {
         if (stack_get(Stanly) == '+') {
-            int o = i + 1;
-            while (masdig[o] == -1) {
-                o++;
-            }
-            masdig[o] = masdig[i] + masdig[o];
-            masdig[i] = -1;
-            stack_pop(Stanly);
-        }
-        else if (stack_get(Stanly) == '-') {
-            int o = i + 1;
-            while (masdig[o] == -1) {
-                o++;
-            }
-            masdig[o] = masdig[i] - masdig[o];
-            masdig[i] = -1;
-            stack_pop(Stanly);
-        }
-        else {
+            int a = stack_get(sta);
+            stack_pop(sta);
+            int b = stack_get(sta);
+            stack_pop(sta);
+            sizedig--;
+            stack_push(sta, a + b);
             stack_pop(Stanly);
         }
     }
-    cout << "\nOtvet:" << masdig[sizedig - 1];
+    cout << "\nOtvet:" << stack_get(sta);
     stack_delete(sta);
     stack_delete(Stanly);
     return 0;
