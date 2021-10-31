@@ -1,2 +1,2 @@
-add_executable(first testArray.cpp)
+add_executable(first testarr.cpp)
 target_include_directories(first PUBLIC ../libraryCPPTemplate)
