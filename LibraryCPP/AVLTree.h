@@ -15,14 +15,12 @@
 class AVLTree {
 public:
     struct Node {
-        size_t key;
         std::string str;
         size_t height;
         Node *left;
         Node *right;
-        Node(size_t key, std::string str) {
+        Node(std::string str) {
             this->str = std::move(str);
-            this->key = key;
             height = 1;
             left = nullptr;
             right = nullptr;
@@ -32,21 +30,21 @@ public:
             delete left;
             delete right;
         }
+
+        void preDelete() {
+            left = nullptr;
+            right = nullptr;
+        }
     };
 
     AVLTree();
-    void addNode(std::string &str);
-    Node *findNode(std::string &str);
-    void removeNode(std::string &str);
+    void addNode(const std::string &str);
+    Node *findNode(const std::string &str);
+    void removeNode(const std::string &str);
 
-    /// Test
-    void addNode(size_t key);
-    Node *findNode(size_t key);
-    void removeNode(size_t key);
+    bool isCorrectTree();
 
     void clear();
-
-    static size_t hash(std::string &str);
 private:
     Node *middle;
 
@@ -56,12 +54,14 @@ private:
     Node *rotateLeft(Node *node);
     Node *rotateRight(Node *node);
     Node *balance(Node *node);
-    Node *insert(Node *node, size_t key, std::string &str);
+    Node *insert(Node *node, const std::string &str);
     Node *findMinimal(Node *node);
     Node *setMinimal(Node *node);
-    Node *remove(Node *node, size_t key);
+    Node *remove(Node *node, const std::string &str);
 
-    Node *find(Node *node, size_t key);
+    Node *find(Node *node, const std::string &str);
+
+    bool isCorrectNode(Node *node);
 };
 
 

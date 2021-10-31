@@ -8,29 +8,24 @@ AVLTree::AVLTree() {
     middle = nullptr;
 }
 
-void AVLTree::addNode(std::string &str) {
-    middle = insert(middle, hash(str), str);
+void AVLTree::addNode(const std::string &str) {
+    middle = insert(middle, str);
 }
 
-void AVLTree::addNode(size_t key) {
-    std::string str;
-    middle = insert(middle, key, str);
+AVLTree::Node *AVLTree::findNode(const std::string &str) {
+    if (middle == nullptr) return nullptr;
+
+    return find(middle, str);
 }
 
-AVLTree::Node *AVLTree::findNode(std::string &str) {
-    return find(middle, hash(str));
+void AVLTree::removeNode(const std::string &str) {
+    if (middle == nullptr) return;
+
+    middle = remove(middle, str);
 }
 
-AVLTree::Node *AVLTree::findNode(size_t key) {
-    return find(middle, key);
-}
-
-void AVLTree::removeNode(std::string &str) {
-    middle = remove(middle, hash(str));
-}
-
-void AVLTree::removeNode(size_t key) {
-    middle = remove(middle, key);
+bool AVLTree::isCorrectTree() {
+    return isCorrectNode(middle);
 }
 
 void AVLTree::clear() {
@@ -55,6 +50,8 @@ void AVLTree::updateHeight(AVLTree::Node *node) {
 }
 
 AVLTree::Node *AVLTree::rotateLeft(AVLTree::Node *node) {
+    if (node == nullptr) return nullptr;
+
     Node *tmp = node->right;
     node->right = tmp->left;
     tmp->left = node;
@@ -64,6 +61,8 @@ AVLTree::Node *AVLTree::rotateLeft(AVLTree::Node *node) {
 }
 
 AVLTree::Node *AVLTree::rotateRight(AVLTree::Node *node) {
+    if (node == nullptr) return nullptr;
+
     Node *tmp = node->left;
     node->left = tmp->right;
     tmp->right = node;
@@ -87,13 +86,13 @@ AVLTree::Node *AVLTree::balance(AVLTree::Node *node) {
     return node; // Balance don't need
 }
 
-AVLTree::Node *AVLTree::insert(Node *node, size_t key, std::string &str) {
-    if (node == nullptr) return new Node(key, str);
+AVLTree::Node *AVLTree::insert(Node *node, const std::string &str) {
+    if (node == nullptr) return new Node(str);
 
-    if (key < node->key) {
-        node->left = insert(node->left, key, str);
+    if (str.compare(node->str) < 0) {
+        node->left = insert(node->left, str);
     } else {
-        node->right = insert(node->right, key, str);
+        node->right = insert(node->right, str);
     }
     return balance(node);
 }
@@ -110,16 +109,17 @@ AVLTree::Node *AVLTree::setMinimal(AVLTree::Node *node) {
     return balance(node);
 }
 
-AVLTree::Node *AVLTree::remove(AVLTree::Node *node, size_t key) {
+AVLTree::Node *AVLTree::remove(AVLTree::Node *node, const std::string &str) {
     if (node == nullptr) return nullptr;
 
-    if (key < node->key) {
-        node->left = remove(node->left, key);
-    } else if (key > node->key) {
-        node->right = remove(node->right, key);
+    if (str.compare(node->str) < 0) {
+        node->left = remove(node->left, str);
+    } else if (str.compare(node->str) > 0) {
+        node->right = remove(node->right, str);
     } else {
         Node *left = node->left;
         Node *right = node->right;
+        node->preDelete();
         delete node;
         if (right == nullptr) return left;
 
@@ -132,17 +132,19 @@ AVLTree::Node *AVLTree::remove(AVLTree::Node *node, size_t key) {
     return balance(node);
 }
 
-AVLTree::Node *AVLTree::find(AVLTree::Node *node, size_t key) {
+AVLTree::Node *AVLTree::find(AVLTree::Node *node, const std::string &str) {
     if (node == nullptr) return nullptr;
 
-    if (key < node->key) {
-        return find(node->left, key);
-    } else if (key > node->key) {
-        return find(node->right, key);
+    if (str.compare(node->str) < 0) {
+        return find(node->left, str);
+    } else if (str.compare(node->str) > 0) {
+        return find(node->right, str);
     } else return node;
 }
 
-size_t AVLTree::hash(std::string &str) {
-    static std::hash<std::string> hasher;
-    return hasher(str);
+bool AVLTree::isCorrectNode(Node *node) {
+    if (node == nullptr) return true;
+    bool childrenCorrect = isCorrectNode(node->left) && isCorrectNode(node->right);
+    bool correct = balanceFactor(node) != 2 && balanceFactor(node) != -2;
+    return correct && childrenCorrect;
 }

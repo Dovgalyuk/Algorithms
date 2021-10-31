@@ -16,7 +16,7 @@ const int MAX_STRING_SIZE = 10;
 
 const int FIRST_DATA_SIZE = 1000;
 
-const int SECOND_DATA_SIZE = 10000;
+const int SECOND_DATA_SIZE = 4000;
 
 int randomInt(int min, int max);
 void generateInputData(Strings &strings, size_t size);
@@ -42,7 +42,7 @@ int main() {
     }
     endTime = std::chrono::system_clock::now();
     finalTime = endTime - startTime;
-    std::cout << "Fill map with a " << FIRST_DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
+    std::cout << "Fill set with a " << FIRST_DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
 
     std::cout << "[@@@]" << std::endl;
 
@@ -65,7 +65,7 @@ int main() {
     }
     endTime = std::chrono::system_clock::now();
     finalTime = endTime - startTime;
-    std::cout << "Fill map with a " << SECOND_DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
+    std::cout << "Fill set with a " << SECOND_DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
     return 0;
 }
 
