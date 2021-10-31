@@ -1,6 +1,3 @@
-//
-// Created by vasya on 06.10.2021.
-//
 #include <iostream>
 #include <ctime>
 #include "array.h"
