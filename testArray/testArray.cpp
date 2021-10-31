@@ -1,6 +1,6 @@
-#include <iostream>
-#include <ctime>
 #include "array.h"
+#include "iostream"
+#include "time.h"
 
 typedef Array<int> MyArray; //a(9);
 int main() {
