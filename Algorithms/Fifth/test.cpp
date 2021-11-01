@@ -44,23 +44,28 @@ void generateInputFile(std::string name, int length) {
     os.close();
 }
 
-void readFileToArray(std::string name, Array* array) {
+int readFile(std::string name, int* buffer) {
     std::ifstream is(name);
-    if (!is.is_open()) return;
+    if (!is.is_open()) return 1;
     std::string line;
+    int i = 0;
     while (std::getline(is, line)) {
         std::pair<Key, Value> keyAndValue = keyAndValueFromString(line);
-        array->insert(keyAndValue.first, keyAndValue.second);
+        buffer[i++] = keyAndValue.first;
+        buffer[i++] = keyAndValue.second;
+    }
+    return 0;
+}
+
+void fillArray(int* buffer, int amountNode, Array* array) {
+    for (int i = 0; i < amountNode; ++i) {
+        array->insert(buffer[i * 2], buffer[i * 2 + 1]);
     }
 }
 
-void readFileToMap(std::string name, std::map<Key, Value>& map) {
-    std::ifstream is(name);
-    if (!is.is_open()) return;
-    std::string line;
-    while (std::getline(is, line)) {
-        std::pair<Key, Value> keyAndValue = keyAndValueFromString(line);
-        map[keyAndValue.first] = keyAndValue.second;
+void fillMap(int* buffer, int amountNode, std::map<Key, Value>& map) {
+    for (int i = 0; i < amountNode; ++i) {
+        map[buffer[i * 2]] = buffer[i * 2 + 1];
     }
 }
 
@@ -68,10 +73,14 @@ std::pair<double, double> testAssociativeArrayVSMap(int length) {
     srand(time(0));
     std::cout << "Capacity is " << length << std::endl;
     generateInputFile(INPUT_FILE_NAME, length);
+    int* buffer = new int[length * 2];
+    if (readFile(INPUT_FILE_NAME, buffer)) {
+        return std::make_pair(0, 0);
+    }
 
     auto *array = new Array();
     auto start = std::chrono::system_clock::now();
-    readFileToArray(INPUT_FILE_NAME, array);
+    fillArray(buffer, length, array);
     auto end = std::chrono::system_clock::now();
 
     std::chrono::duration<double, Ratio> readToArray = end - start;
@@ -79,7 +88,7 @@ std::pair<double, double> testAssociativeArrayVSMap(int length) {
 
     std::map<Key, Value> map;
     start = std::chrono::system_clock::now();
-    readFileToMap(INPUT_FILE_NAME, map);
+    fillMap(buffer, length, map);
     end = std::chrono::system_clock::now();
 
     std::chrono::duration<double, Ratio> readToMap = end - start;
