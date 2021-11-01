@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <array.h>
 
 using namespace std;
 int main()
@@ -8,24 +9,24 @@ int main()
 	int n;
 	int k = 0;
 	cin >> n;
-	int* array = new int[n];
+	Array* array = new Array(n);
 	for (int i = 0; i < n; i++) //вводим динамический массив
 	{
-		cin >> array[i];
+		Data x;
+		cin >> x;
+		array_set(array, i, x);
 	}
 	cout << "=========================" << endl;
 	cout << "Введенный массив:" << endl;
 	for (int i = 0; i < n; i++)//выводим введенный массив 
 	{
-		cout << array[i] << endl;
+		cout << array_get(array,i) << endl;
 	}
 	for (int i = 0; i < n - 1; i++) //делаем условие проверки
 	{
-		if (array[i] * (-1) > 0 && array[i + 1] > 0)
-			k++;
-		if (array[i] * (-1) < 0 && array[i + 1] < 0)
+		if (array_get(array,i)*array_get(array,i+1) < 0)
 			k++;
 	}
 	cout << "Массив меняет знак: " << k << " раза" << endl;
-	delete[]array; //очищаем память
+	array_delete(array); //очищаем память
 }
