@@ -1,4 +1,4 @@
-#include "arrayÑ.h"
+#include "arrayC.h"
 
 typedef struct Array
 {
