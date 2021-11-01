@@ -14,9 +14,7 @@ typedef std::vector<std::string> Strings;
 
 const int MAX_STRING_SIZE = 10;
 
-const int FIRST_DATA_SIZE = 1000;
-
-const int SECOND_DATA_SIZE = 4000;
+const int DATA_SIZE = 10000;
 
 int randomInt(int min, int max);
 void generateInputData(Strings &strings, size_t size);
@@ -26,7 +24,7 @@ int main() {
     AVLTree tree;
     std::set<std::string> testSet;
 
-    generateInputData(strings, FIRST_DATA_SIZE);
+    generateInputData(strings, DATA_SIZE);
 
     auto startTime = std::chrono::system_clock::now();
     for (auto &str : strings) {
@@ -34,7 +32,15 @@ int main() {
     }
     auto endTime = std::chrono::system_clock::now();
     std::chrono::duration<double, std::milli> finalTime = endTime - startTime;
-    std::cout << "Fill AVL tree with a " << FIRST_DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
+    std::cout << "Fill AVL tree with a " << DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
+
+    startTime = std::chrono::system_clock::now();
+    for (auto &str : strings) {
+        tree.removeNode(str);
+    }
+    endTime = std::chrono::system_clock::now();
+    finalTime = endTime - startTime;
+    std::cout << "Clear AVL tree with a " << DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
 
     startTime = std::chrono::system_clock::now();
     for (auto &str : strings) {
@@ -42,30 +48,15 @@ int main() {
     }
     endTime = std::chrono::system_clock::now();
     finalTime = endTime - startTime;
-    std::cout << "Fill set with a " << FIRST_DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
-
-    std::cout << "[@@@]" << std::endl;
-
-    strings.clear();
-    tree.clear();
-    testSet.clear();
-    generateInputData(strings, SECOND_DATA_SIZE);
+    std::cout << "Fill set with a " << DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
 
     startTime = std::chrono::system_clock::now();
     for (auto &str : strings) {
-        tree.addNode(str);
+        testSet.erase(str);
     }
     endTime = std::chrono::system_clock::now();
     finalTime = endTime - startTime;
-    std::cout << "Fill AVL tree with a " << SECOND_DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
-
-    startTime = std::chrono::system_clock::now();
-    for (auto &str : strings) {
-        testSet.insert(str);
-    }
-    endTime = std::chrono::system_clock::now();
-    finalTime = endTime - startTime;
-    std::cout << "Fill set with a " << SECOND_DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
+    std::cout << "Clear set with a " << DATA_SIZE << " strings take " << finalTime.count() << " milliseconds." << std::endl;
     return 0;
 }
 
@@ -80,6 +71,7 @@ void generateInputData(Strings &strings, size_t size) {
         for (size_t j = 0; j < MAX_STRING_SIZE; j++)
             tmp += alphabet[randomInt(0, alphabetSize)];
         strings.push_back(tmp);
+        tmp = "";
     }
 }
 

@@ -36,6 +36,14 @@ int main() {
         }
     }
 
+    for (size_t i = 0 ; i < 1000; i++) {
+        tree.removeNode(std::to_string(i));
+        if (!tree.isCorrectTree()) {
+            std::cout << "Error with tree balancing" << std::endl;
+            return -1;
+        }
+    }
+
     tree.clear();
 
     static const int checkSize = 1000000;

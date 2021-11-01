@@ -145,6 +145,7 @@ AVLTree::Node *AVLTree::find(AVLTree::Node *node, const std::string &str) {
 bool AVLTree::isCorrectNode(Node *node) {
     if (node == nullptr) return true;
     bool childrenCorrect = isCorrectNode(node->left) && isCorrectNode(node->right);
+    updateHeight(node);
     bool correct = balanceFactor(node) != 2 && balanceFactor(node) != -2;
     return correct && childrenCorrect;
 }
