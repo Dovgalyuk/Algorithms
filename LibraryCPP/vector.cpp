@@ -7,14 +7,17 @@ struct Vector
     Data* data;
     size_t size;
     size_t rSzie;
+    Vector()
+    {
+        size = 0;
+        rSzie = 0;
+        data = NULL;
+    }
 };
 
 Vector* vector_create()
 {
-    Vector* vec = new Vector;
-    vec->size = 0;
-    vec->data = new Data[0];
-    return vec;
+    return new Vector;
 }
 
 void vector_delete(Vector* vector)
@@ -30,10 +33,7 @@ Data vector_get(const Vector* vector, size_t index)
 
 void vector_set(Vector* vector, size_t index, Data value)
 {
-    if (index >= 0 && index <= vector->size)
-    {
-        vector->data[index] = value;
-    }
+    vector->data[index] = value;
 }
 
 size_t vector_size(const Vector* vector)
@@ -43,7 +43,7 @@ size_t vector_size(const Vector* vector)
 
 void vector_resize(Vector* vector, size_t size)
 {
-    if (size < vector->size)
+    if (size < vector->rSzie)
         vector->size = size;
     else {
         size_t newSize = size * 2;
