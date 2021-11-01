@@ -6,6 +6,7 @@ struct Vector
 {
     Data* data;
     size_t size;
+    size_t rSzie;
 };
 
 Vector* vector_create()
@@ -54,6 +55,6 @@ void vector_resize(Vector* vector, size_t size)
         delete[] vector->data;
         vector->data = newVector;
         vector->size = size;
-        //vector->rSize = newSize;
+        vector->rSzie = newSize;
     }
 }
