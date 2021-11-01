@@ -1,5 +1,5 @@
 #include <iostream>
-#include "arrayÑ.h"
+#include "arrayC.h"
 
 int main()
 {
