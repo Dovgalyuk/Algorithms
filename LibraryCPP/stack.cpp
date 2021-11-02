@@ -15,7 +15,7 @@ Stack* stack_create()
 
 void stack_delete(Stack* stack)
 {
-    //vector_delete(stack->vec);
+    vector_delete(stack->vec);
     delete stack;
 }
 
@@ -37,5 +37,5 @@ void stack_pop(Stack* stack)
 
 bool stack_empty(const Stack* stack)
 {
-    return vector_size(stack->vec) == 0 ? true : false;
+    return vector_size(stack->vec) == 0;
 }

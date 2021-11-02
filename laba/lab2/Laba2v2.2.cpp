@@ -14,21 +14,27 @@ int main()
 	string cha;
 	cout << "Give me string. Only ()[]{}''\"\"" << endl;
 	cin >> cha;
-	//stack_push(str, cha[0]);
-	cheak(str, cha);
-	if (stack_empty(str))
-		cout << "YES";
+	if (cha.size() < 2)
+	{
+		cout << "Invalid input" << endl;
+	}
 	else
-		cout << "NO";
-	stack_delete(str);
-
+	{
+		stack_push(str, cha[0]);
+		cheak(str, cha);
+		if (stack_empty(str))
+			cout << "YES";
+		else
+			cout << "NO";
+		stack_delete(str);
+	}
 }
 
 void cheak(Stack* str, string st)
 {
 	bool c = 0;
 	bool b = 0;
-	for (int i = 0; i < st.size(); i++)
+	for (int i = 1; i < st.size(); i++)
 	{
 		if (st[i] == '(' || st[i] == '[' || st[i] == '{')
 		{
@@ -61,34 +67,26 @@ void cheak(Stack* str, string st)
 
 		else if (st[i] == '\'')
 		{
-			if (c!=true)
-			{
-				stack_push(str, st[i]);
-				c=true;
-			}
-			else if (stack_get(str) == '\'')
+			if (stack_get(str) == '\'')
 			{
 				stack_pop(str);
-				c = false;
 			}
 			else
-				break;
+			{
+				stack_push(str, st[i]);
+			}
 		}
 
 		else if (st[i] == '\"')
 		{
-			if (b !=true)
-			{
-				stack_push(str, st[i]);
-				b=true;
-			}
-			else if (stack_get(str) == '\"')
+			if (stack_get(str) == '\"')
 			{
 				stack_pop(str);
-				b = false;
 			}
 			else
-				break;
+			{
+				stack_push(str, st[i]);
+			}
 		}
 	}
 }
