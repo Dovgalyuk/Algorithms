@@ -6,4 +6,6 @@ enable_testing()
 add_subdirectory(LibraryC)
 add_subdirectory(LibraryCPP)
 add_subdirectory(LibraryCPPTemplate)
-add_subdirectory(Labs)
+add_subdirectory(lab1)
+add_subdirectory(lab2)
+
