@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include "stack.h"
+#include "vector.h"
 #include <stdlib.h>
 
 int main()
