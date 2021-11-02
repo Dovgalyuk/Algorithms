@@ -22,7 +22,7 @@ int main()
         if (polishMath == "!") {
             break;
         }
-        if ((polishMath != "+") and (polishMath != "-") and (polishMath != "/") and (polishMath != "*")) {
+        if ((polishMath != "+") && (polishMath != "-") && (polishMath != "/") && (polishMath != "*")) {
             stack_push(stack1, std::atoi(polishMath.c_str()));
         }
         else {
