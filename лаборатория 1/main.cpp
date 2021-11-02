@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "array.h"
 #include <iostream>
 #include <cstdlib>
@@ -11,7 +10,7 @@ int main()
 	
 
 	int size;
-	std::cout << "Ââåäèòå êîëè÷åñòâî ýëåìåíòîâ: ";
+	std::cout << "Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ ÃªÃ®Ã«Ã¨Ã·Ã¥Ã±Ã²Ã¢Ã® Ã½Ã«Ã¥Ã¬Ã¥Ã­Ã²Ã®Ã¢: ";
 	std::cin >> size;
 	if (size > 0)
 	{
@@ -22,7 +21,7 @@ int main()
 		for (int i = 0; i < size; i++)
 		{
 			array_set(arr, i, rand());
-			std::cout << "Ýëåìåíò íîìåð " << (i + 1) << ": " << array_get(arr, i) << std::endl;
+			std::cout << "ÃÃ«Ã¥Ã¬Ã¥Ã­Ã² Ã­Ã®Ã¬Ã¥Ã° " << (i + 1) << ": " << array_get(arr, i) << std::endl;
 			if (array_get(arr, i) % 2 == 0)
 			{
 				j++;
@@ -34,12 +33,12 @@ int main()
 		{
 			for (int i = 0; i <= j; i++)
 			{
-				std::cout << "Ýëåìåíò ìàññèâà 2 íîìåð " << (i + 1) << ": " << array_get(arr2, i) << std::endl;
+				std::cout << "ÃÃ«Ã¥Ã¬Ã¥Ã­Ã² Ã¬Ã Ã±Ã±Ã¨Ã¢Ã  2 Ã­Ã®Ã¬Ã¥Ã° " << (i + 1) << ": " << array_get(arr2, i) << std::endl;
 			}
 		}
 		else
 		{
-			std::cout << "×¸òíûõ ýëèìåíòîâ â ìàññèâå íåò " << std::endl;
+			std::cout << "Ã—Â¸Ã²Ã­Ã»Ãµ Ã½Ã«Ã¨Ã¬Ã¥Ã­Ã²Ã®Ã¢ Ã¢ Ã¬Ã Ã±Ã±Ã¨Ã¢Ã¥ Ã­Ã¥Ã² " << std::endl;
 		}
 
 
@@ -48,7 +47,7 @@ int main()
 	}
 	else
 	{
-		std::cout << "Íå êîðåêòíàÿ äëèííà ìàññèâà " << std::endl;
+		std::cout << "ÃÃ¥ ÃªÃ®Ã°Ã¥ÃªÃ²Ã­Ã Ã¿ Ã¤Ã«Ã¨Ã­Ã­Ã  Ã¬Ã Ã±Ã±Ã¨Ã¢Ã  " << std::endl;
 	}
 	return 0;
 }
