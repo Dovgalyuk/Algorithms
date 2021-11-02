@@ -3,7 +3,7 @@
 
 int main()
 {
-    Array *arr = array_create(10, [](void *p) { delete (int*)p; });
+    ArrayC *arr = array_create(10, [](void *p) { delete (int*)p; });
 
     if (array_size(arr) != 10)
     {

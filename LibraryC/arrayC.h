@@ -9,26 +9,26 @@ typedef void* Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
 
-typedef struct Array Array;
+typedef struct ArrayC ArrayC;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 // create array
-Array *array_create(size_t size, FFree f);
+ArrayC *array_create(size_t size, FFree f);
 
 // delete array, free memory
-void array_delete(Array *arr);
+void array_delete(ArrayC *arr);
 
 // returns specified array element
-Data array_get(const Array *arr, size_t index);
+Data array_get(const ArrayC *arr, size_t index);
 
 // sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value);
+void array_set(ArrayC *arr, size_t index, Data value);
 
 // returns array size
-size_t array_size(const Array *arr);
+size_t array_size(const ArrayC *arr);
 
 #ifdef __cplusplus
 }

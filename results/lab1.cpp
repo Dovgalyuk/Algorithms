@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include <array.h>
+#include "../LibraryCPP/array.cpp"
 
 using namespace std;
 int main()

@@ -1,5 +1,5 @@
 #include "array.h"
-
+#include <iostream>
 struct Array
 {
     Data* _arr;
