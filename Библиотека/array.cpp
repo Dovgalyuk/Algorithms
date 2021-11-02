@@ -1,5 +1,4 @@
-#include "pch.h"
-#include "Array.h"
+#include "array.h"
 #include <iostream>
 struct Array
 {
