@@ -10,13 +10,13 @@ void cheak(Stack* str,string st);
 
 int main()
 {
-	Stack *str = stack_create();
+	Stack* str = stack_create();
 	string cha;
 	cout << "Give me string. Only ()[]{}''\"\"" << endl;
 	cin >> cha;
-	if (cha.size() < 2)
+	if (cha.size() % 2 != 0)
 	{
-		cout << "Invalid input" << endl;
+		cout << "NO" << endl;
 	}
 	else
 	{
