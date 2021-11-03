@@ -2,6 +2,7 @@
 
 typedef struct Array
 {
+    int x;
 } Array;
 
 // create array

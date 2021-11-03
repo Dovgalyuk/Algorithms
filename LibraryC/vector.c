@@ -2,6 +2,7 @@
 
 typedef struct Vector
 {
+    int x;
 } Vector;
 
 Vector *vector_create(FFree f)
