@@ -62,4 +62,5 @@ int main()
     // Performance test
     for (int i = 0 ; i < 10000000 ; ++i)
         vector.resize(i);
+
 }
