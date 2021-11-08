@@ -13,7 +13,7 @@ struct Vector
     }
     ~Vector()
     {
-        delete pointer;
+        delete[] pointer;
         pointer = nullptr;
     }
 };
@@ -56,7 +56,7 @@ void vector_resize(Vector* vector, size_t size)
             for (int i = 0; i < vector->size; i++)
                 ptr[i] = vector->pointer[i];
             vector->size = size;
-            delete vector->pointer;
+            delete[] vector->pointer;
             vector->pointer = ptr;
         }
         else vector->size = size;
