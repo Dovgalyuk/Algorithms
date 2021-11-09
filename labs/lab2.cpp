@@ -37,8 +37,13 @@ int main() {
 		if (tag[1] == '/') {
 			tag.erase(1, 1);
 			if (!stack_empty(stack)) {
-				stack_get(stack) == tag ? result = true : result = false;
-				stack_pop(stack);
+				if(stack_get(stack) == tag){ 
+                    result = true;
+                    stack_pop(stack);
+                } else {
+                    result = false;
+                    break;
+                }
 			}
 			else {
 				result = false;
