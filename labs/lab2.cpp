@@ -40,7 +40,8 @@ int main() {
 				if(stack_get(stack) == tag){ 
                     result = true;
                     stack_pop(stack);
-                } else {
+                } 
+                else {
                     result = false;
                     break;
                 }
