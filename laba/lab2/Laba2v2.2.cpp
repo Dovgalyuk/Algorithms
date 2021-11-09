@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void cheak(Stack* str,string st);
+int cheak(Stack* str,string st);
 
 
 int main()
@@ -14,27 +14,23 @@ int main()
 	string cha;
 	cout << "Give me string. Only ()[]{}''\"\"" << endl;
 	cin >> cha;
-	if (cha.size() % 2 != 0)
-	{
-		cout << "NO" << endl;
-	}
+	int i;
+	stack_push(str, cha[0]);
+	i = cheak(str, cha);
+	if (stack_empty(str) && i == cha.size())
+		cout << "YES";
 	else
-	{
-		stack_push(str, cha[0]);
-		cheak(str, cha);
-		if (stack_empty(str))
-			cout << "YES";
-		else
-			cout << "NO";
-		stack_delete(str);
-	}
+		cout << "NO";
+	stack_delete(str);
+
 }
 
-void cheak(Stack* str, string st)
+int cheak(Stack* str, string st)
 {
 	bool c = 0;
 	bool b = 0;
-	for (int i = 1; i < st.size(); i++)
+	int i = 1;
+	for (i; i < st.size(); i++)
 	{
 		if (st[i] == '(' || st[i] == '[' || st[i] == '{')
 		{
@@ -46,7 +42,7 @@ void cheak(Stack* str, string st)
 			if (stack_get(str) == '(')
 				stack_pop(str);
 			else
-				break;
+				return i;
 		}
 
 		else if (st[i] == ']')
@@ -54,7 +50,7 @@ void cheak(Stack* str, string st)
 			if (stack_get(str) == '[')
 				stack_pop(str);
 			else
-				break;
+				return i;
 		}
 
 		else if (st[i] == '}')
@@ -62,7 +58,7 @@ void cheak(Stack* str, string st)
 			if (stack_get(str) == '{')
 				stack_pop(str);
 			else
-				break;
+				return i;
 		}
 
 		else if (st[i] == '\'')
@@ -89,4 +85,5 @@ void cheak(Stack* str, string st)
 			}
 		}
 	}
+	return i;
 }
