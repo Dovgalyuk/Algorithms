@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 // Queue
-// Stores pointer to custom user data
+// Stores pointer to custom user vec
 typedef void* Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);

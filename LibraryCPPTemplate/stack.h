@@ -13,12 +13,9 @@ public:
     // Deletes the stack
     ~Stack()
     {
-        for (int i = 0; i < vec->size(); ++i) {
-            pop();
-        }
     }
 
-    // Pushes data on top of the stack
+    // Pushes vec on top of the stack
     // Should be O(1) on average
     void push(Data data)
     {
@@ -46,7 +43,7 @@ public:
     }
 
 private:
-    // private data should be here
+    // private vec should be here
     Vector<Data> *vec;
 };
 

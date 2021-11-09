@@ -11,7 +11,7 @@ public:
         Item *prev() { return nullptr; }
         Data data() const { return Data(); }
     private:
-        // internal data here
+        // internal vec here
     };
 
     // Creates new list
@@ -57,7 +57,7 @@ public:
         return nullptr;
     }
 private:
-    // private data should be here
+    // private vec should be here
 };
 
 #endif

@@ -36,7 +36,7 @@ public:
     }
 
 private:
-    // private data should be here
+    // private vec should be here
     Data* arr;
     size_t _size;
 };

@@ -12,7 +12,7 @@ struct Vector;
 // Creates vector
 Vector *vector_create();
 
-// Deletes vector structure and internal data
+// Deletes vector structure and internal vec
 void vector_delete(Vector *vector);
 
 // Retrieves vector element with the specified index

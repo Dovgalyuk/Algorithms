@@ -16,7 +16,7 @@ int main(){
         while (!file.eof()) {
             getline(file, _string);
             if (!_string.find("PUSH ")) {
-                _string.erase(0, 5);
+                _string = _string[5];
                 if (!_string.find('A')) {
                     test.push(A[0]);
                 } else if (!_string.find('B')) {
@@ -28,8 +28,12 @@ int main(){
                 } else
                     test.push(atoi(_string.c_str()));
             }
-            if (!_string.find("POP ")) {
-                _string.erase(0, 4);
+            if(test.empty()) {
+                cout << "Stack is empty" << endl;
+                break;
+            }
+            else if (!_string.find("POP ")) {
+                _string = _string[4];
                 if (!_string.find('A')) {
                     A[0] = test.get();
                     test.pop();
@@ -52,7 +56,7 @@ int main(){
     else
         cout << "File is not open" << endl << endl;
 
-    cout << "A = " << *A << endl << "B = " << *B << endl << "C = " << *C << endl << "D = " << *D << endl;
+        cout << "A = " << *A << endl << "B = " << *B << endl << "C = " << *C << endl << "D = " << *D << endl;
 
 
     return 0;

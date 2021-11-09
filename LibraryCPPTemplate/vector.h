@@ -1,20 +1,21 @@
 #ifndef VECTOR_H
 #define VECTOR_H
+
 #include <cstddef>
-#include "iostream"
+#include <iostream>
 
 template <typename Data> class Vector
 {
 public:
     // Creates vector
-    Vector(): lenght(0), vec(new Data[lenght])
+    Vector(): length(0), capacity(0), vec(nullptr)
     {
     }
 
-    // Deletes vector structure and internal data
+    // Deletes vector structure and internal vec
     ~Vector()
     {
-        delete []vec;
+        delete[] vec;
     }
 
     // Retrieves vector element with the specified index
@@ -26,41 +27,54 @@ public:
     // Sets vector element with the specified index
     void set(size_t index, Data value)
     {
-        vec[index] = value;
+        if(index <= length)
+            vec[index] = value;
+        else
+            return;
     }
 
     // Retrieves current vector size
     size_t size() const
     {
-        return lenght;
-    }
-
-    void copyArray(Data* newVec, size_t size){
-        for (int i = 0; i < size; ++i) {
-            newVec[i] = vec[i];
-        }
+        return length;
     }
 
 
     // Changes the vector size (may increase or decrease)
     // Should be O(1) on average
-    void resize(size_t newSize)
+    void resize(size_t size)
     {
-        if(lenght > newSize) {
-            Data *newVec = new Data[newSize];
-            copyArray(newVec, newSize);
-            delete []vec;
-            vec = newVec;
+        if (capacity < size) {
+            increaseData(size);
+            Data* new_data = new Data[capacity];
+            copyArray(new_data, this->size());
+            delete[] vec;
+            vec = new_data;
         }
-        lenght = newSize;
+        length = size;
+    }
+
+private:
+    void copyArray(Data* new_data, size_t size) {
+        for (int i = 0; i < size; ++i) {
+            new_data[i] = vec[i];
+        }
+    }
+
+    void increaseData(size_t size) {
+        if (capacity >= size)
+            return;
+        if (capacity == 0)
+            capacity = 1;
+        while (capacity < size)
+            capacity *= capacity_multiply;
     }
 
 
-private:
-    // private data should be here
-    size_t lenght;
+    size_t length;
+    size_t capacity;
+    const int capacity_multiply = 2;
     Data* vec;
 };
 
 #endif
-

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 // Stack
-// Stores pointer to custom user data
+// Stores pointer to custom user vec
 typedef void* Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
@@ -21,7 +21,7 @@ Stack *stack_create(FFree f);
 // Deletes the stack
 void stack_delete(Stack *stack);
 
-// Pushes data on top of the stack
+// Pushes vec on top of the stack
 // Should be O(1) on average
 void stack_push(Stack *stack, Data data);
 
