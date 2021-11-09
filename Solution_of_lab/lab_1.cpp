@@ -10,7 +10,7 @@ int input_size() {
 }
 
 
-void fill_ñontainer(Array* array) {
+void fill_container(Array* array) {
 
     std::srand(std::time(nullptr));
     for (int i = 0; i < array_size(array); i++) {
@@ -41,7 +41,7 @@ void print_array(Array* array) {
 int main() {
     int size = input_size();
     Array* array = array_create(size);
-    fill_ñontainer(array);
+    fill_container(array);
   //  print_array(array);
     std:: cout <<"\nNumber of multiples from 2 to 9: " << aliquot(array);
     array_delete(array);
