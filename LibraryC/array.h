@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 // Non-resizeable array
-// Stores pointer to custom user vec
+// Stores pointer to custom user data
 typedef void* Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);

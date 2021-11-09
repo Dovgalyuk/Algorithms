@@ -13,7 +13,7 @@ Stack *stack_create();
 // Deletes the stack
 void stack_delete(Stack *stack);
 
-// Pushes vec on top of the stack
+// Pushes data on top of the stack
 // Should be O(1) on average
 void stack_push(Stack *stack, Data data);
 

@@ -2,7 +2,7 @@
 #define LIST_H
 
 // List
-// Stores pointer to custom user vec
+// Stores pointer to custom user data
 typedef void* Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
@@ -23,7 +23,7 @@ void list_delete(List *list);
 // Retrieves the first item from the list
 ListItem *list_first(List *list);
 
-// Extracts vec from the list item
+// Extracts data from the list item
 Data list_item_data(const ListItem *item);
 
 // Returns list item following after the specified one

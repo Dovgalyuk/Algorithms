@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 // Vector (dynamic array)
-// Stores pointer to custom user vec
+// Stores pointer to custom user data
 typedef void* Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
@@ -18,7 +18,7 @@ extern "C" {
 // Creates vector
 Vector *vector_create(FFree f);
 
-// Deletes vector structure and internal vec
+// Deletes vector structure and internal data
 void vector_delete(Vector *vector);
 
 // Retrieves vector element with the specified index

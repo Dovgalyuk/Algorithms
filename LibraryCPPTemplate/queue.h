@@ -39,7 +39,7 @@ public:
     }
 
 private:
-    // private vec should be here
+    // private data should be here
 };
 
 #endif

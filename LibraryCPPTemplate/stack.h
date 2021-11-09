@@ -15,7 +15,7 @@ public:
     {
     }
 
-    // Pushes vec on top of the stack
+    // Pushes data on top of the stack
     // Should be O(1) on average
     void push(Data data)
     {
@@ -43,7 +43,7 @@ public:
     }
 
 private:
-    // private vec should be here
+    // private data should be here
     Vector<Data> *vec;
 };
 

@@ -12,7 +12,7 @@ public:
     {
     }
 
-    // Deletes vector structure and internal vec
+    // Deletes vector structure and internal data
     ~Vector()
     {
         delete[] vec;
@@ -55,6 +55,7 @@ public:
     }
 
 private:
+    // private data should be here
     void copyArray(Data* new_data, size_t size) {
         for (int i = 0; i < size; ++i) {
             new_data[i] = vec[i];
