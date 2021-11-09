@@ -55,7 +55,6 @@ int main(){
     }
     else
         cout << "File is not open" << endl << endl;
-
         cout << "A = " << *A << endl << "B = " << *B << endl << "C = " << *C << endl << "D = " << *D << endl;
 
 
