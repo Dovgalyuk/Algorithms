@@ -3,8 +3,7 @@
 
 // List
 // Stores integer values inside
-#include <string>
-typedef std::string Data;
+typedef int Data;
 
 struct List;
 struct ListItem;
