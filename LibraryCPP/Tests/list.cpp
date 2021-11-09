@@ -29,14 +29,15 @@ int main()
         return 1;
     }
 
-    list_erase(list, list_first(list));
+    /*
+    list_erase(list, list_first(list));  Not applicable for the singly linked lists.
 
     if (list_item_data(list_first(list)) != 4)
     {
         std::cout << "list_erase error\n";
         return 1;
     }
-
+    */
     std::cout << "List: ";
     for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
     {
