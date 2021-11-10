@@ -32,7 +32,7 @@ int main() {
 	bool result = true;
 
 	while (input >> tag){
-		transform(tag.begin(), tag.end(), tag.begin(), tolower);
+		transform(tag.begin(), tag.end(), tag.begin(), ::tolower);
 
 		if (tag[1] == '/') {
 			tag.erase(1, 1);
