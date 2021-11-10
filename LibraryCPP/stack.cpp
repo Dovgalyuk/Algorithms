@@ -18,7 +18,7 @@ Stack* stack_create()
 
 void stack_delete(Stack* stack)
 {
-    delete[] stack->vector;
+    delete stack->vector;
     delete stack;
 }
 
