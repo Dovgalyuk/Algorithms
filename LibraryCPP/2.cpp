@@ -7,23 +7,20 @@ int main(){
     //std::string NO = (")";
     //std::string YES = ([]"");
     std::string b;
+    int k2=0;//для скобок
     getline(std::cin,b);
     for (int i=0; i <= b.length();++i){
         stack_push(stack,b[b.length()-i]);
+        if ((stack_get(stack)==')') && ( i==1)) k2=1;
+        if ((stack_get(stack)=='(') && ( i==b.length()) && (k2==1)) {
+            std::cout << "YES\n";
+            k2=2;
+            break;
+        }
     }
-    std::string f;
-    for (int i=0;i<b.length();++i){
-        f.push_back(stack_get(stack));
-        stack_pop(stack);
-        
-    }
-    if ((f.find("([]"")")&&(f.length()==6))){
-        std::cout << "YES" << std::endl;
-    }
-    else if ((f.find("(")"")&&(f.length()==4)){
-        std::cout << "NO" <<std::endl;
-    }
-    stack_delete(stack);
+    std::cout << k2;
+    if (k2!=2) std::cout << "NO\n";
     system("pause");
+    stack_delete(stack);
     return 0;
 }
