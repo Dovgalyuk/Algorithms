@@ -1,4 +1,5 @@
 #include "array.h"
+#include <stdlib.h>
 
 typedef struct Array
 {
