@@ -13,7 +13,7 @@ int main()
 
     if (queue->get() != 1)
     {
-        std::cout << "Invalid first element of the queue\n";
+        std::cout << "Invalid first element of the queue\n"<< queue->get();
         return 1;
     }
 
