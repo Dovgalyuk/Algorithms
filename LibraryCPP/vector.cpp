@@ -46,6 +46,9 @@ void vector_resize(Vector* vector, size_t size)
         vector->vecSize = size;
     }
     else {
+        if (vector->vecCap >= size) {
+            exit(0);
+        }
         while (vector->vecCap < size) {
             if (vector->vecCap == 0) {
                 vector->vecCap = 1;
