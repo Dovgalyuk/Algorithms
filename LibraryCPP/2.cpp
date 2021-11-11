@@ -8,26 +8,22 @@ int main(){
     //std::string YES = ([]"")
     std::string b;
         getline(std::cin,b);
-    for (int i= 1; i <= b.length();++i){
-        //std::cout << 1;
-        if ((b[b.length()-i] == '[') && (stack_get(stack)==']')){
+    for (int i= 0; i <= b.length();++i){
+        if (stack_empty(stack)) stack_push(stack,b[i]);
+        if ((b[i+1] == ']') && ( stack_get(stack)=='[')){
             stack_pop(stack);
-            i++;
+            if (stack_empty(stack)) break;
         }
-        //std::cout << 1;
-        if ((b[b.length()-i] == '"') && (stack_get(stack)=='"')){
-            std::cout << 2;
+        else if ((b[i+1]=='"') && (stack_get(stack)=='"')){
             stack_pop(stack);
-            i++;
+            if (stack_empty(stack)) break;
         }
-        //std::cout << 1;
-        if ((b[b.length()-i] == '(') && (stack_get(stack)==')'))
-        {
+        else if ((b[i+1]==')') && (stack_get(stack)=='(')){
             stack_pop(stack);
+            if (stack_empty(stack)) break;
         }
-        else stack_push(stack,b[b.length()-i]);
-    
-    }    
+        else  stack_push(stack,b[i+1]);
+    }         
     if (stack_empty(stack)) std::cout << "YES\n";
     else std::cout << "NO\n";
     system("pause");
