@@ -13,7 +13,7 @@ public:
     // Deletes the stack
     ~Stack()
     {
-        delete []vec;
+        delete vec;
     }
 
     // Pushes data on top of the stack
