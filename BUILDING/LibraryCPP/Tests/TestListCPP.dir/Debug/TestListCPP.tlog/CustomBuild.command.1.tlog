@@ -1,0 +1,10 @@
+^D:\CCODE\ALGORITHMS-MASTER 3\ALGORITHMS-MASTER3\LIBRARYCPP\TESTS\CMAKELISTS.TXT
+setlocal
+D:\CMake\bin\cmake.exe "-SD:/Ccode/Algorithms-master 3/Algorithms-master3" "-BD:/Ccode/Algorithms-master 3/Algorithms-master3/BUILDING" --check-stamp-file "D:/Ccode/Algorithms-master 3/Algorithms-master3/BUILDING/LibraryCPP/Tests/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,10 @@
+^D:\CCODE\ALGORITHMS-MASTER 3\ALGORITHMS-MASTER3\BUILDING\CMAKEFILES\EA52430231E4BB8ED60684244E9DAD89\GENERATE.STAMP.RULE
+setlocal
+D:\CMake\bin\cmake.exe "-SD:/Ccode/Algorithms-master 3/Algorithms-master3" "-BD:/Ccode/Algorithms-master 3/Algorithms-master3/BUILDING" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "D:/Ccode/Algorithms-master 3/Algorithms-master3/BUILDING/Algorithms.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
