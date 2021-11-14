@@ -45,6 +45,8 @@ https://www.youtube.com/watch?v=4c-jNoIz-uU
 * Абстрактный тип данных "Стек"
 * Абстрактный тип данных "Очередь"
 
+https://habr.com/ru/company/infopulse/blog/238131/
+
 https://www.youtube.com/watch?v=XlvdZCkXKL8
 
 ## Стековая арифметика. Обратная польская запись
