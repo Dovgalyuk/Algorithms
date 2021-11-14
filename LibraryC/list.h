@@ -40,11 +40,13 @@ ListItem *list_insert(List *list, Data data);
 ListItem *list_insert_after(List *list, ListItem *item, Data data);
 
 // Deletes the specified list item.
+// Returns pointer to the item next to the deleted one.
 // Not applicable for the singly linked lists.
 // Should be O(1)
 ListItem *list_erase(List *list, ListItem *item);
 
-// Deletes the list item following the specified one
+// Deletes the list item following the specified one.
+// Returns pointer to the item next to the deleted one.
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);
 
