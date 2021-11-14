@@ -87,8 +87,10 @@ public:
         if (item->prev()) {
             item->prev()->nextItem = item->nextItem;
         }
-
+        Item* newItem = item->next();
         delete item;
+        return newItem;
+
     }
 
     // Deletes the list item following the specified one.
