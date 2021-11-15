@@ -40,11 +40,11 @@ int main()
     }
 
     std::cout << "List: ";
-    for (auto item = list->first() ; item ; item = item->next())
-    {
-        std::cout << item->data() << " ";
-    }
+    list->foreach([&](int data) {
+        std::cout << data << " ";
+    });
     std::cout << "\n";
+    std::cout << "Comariki" << std::endl;
 
     delete list;
 }
