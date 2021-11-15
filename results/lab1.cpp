@@ -1,14 +1,19 @@
 ﻿#include <iostream>
-#include <array.cpp>
+#include "../LibraryCPP/array.h"
 
 using namespace std;
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	cout << "Введите количество элементов массива:" << endl;
+	cout << "Введите количество 123 элементов массива:" << endl;
 	int n;
 	int k = 0;
 	cin >> n;
+	while (n <= 0)
+	{
+		cout << "Количество элементов в массиве должно быть положительным"<<endl;
+		cin >> n;
+	}
 	Array* array = new Array(n);
 	for (int i = 0; i < n; i++) //вводим динамический массив
 	{
