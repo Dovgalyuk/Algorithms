@@ -47,7 +47,7 @@ void vector_resize(Vector* vector, size_t size)
     }
     else {
         if (vector->vecCap >= size) {
-            exit(0);
+            return;
         }
         while (vector->vecCap < size) {
             if (vector->vecCap == 0) {
