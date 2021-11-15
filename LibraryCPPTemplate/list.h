@@ -7,16 +7,23 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item *next() { return _next; }
+        Item *prev() { return _prev; }
+        Data data() const { return _data; }
+        explicit Item(Data data, Item* next = nullptr, Item* prev = nullptr): _data(data), _next(next), _prev(prev) {}
+        void setPrev(Item* item) {_prev = item;}
+        void setNext(Item* item) {_next = item;}
     private:
         // internal data here
+        Item* _next;
+        Item* _prev;
+        Data _data;
     };
 
     // Creates new list
     List()
     {
+
     }
 
     // Destroys the list and frees the memory
@@ -58,6 +65,9 @@ public:
     }
 private:
     // private data should be here
+    //List *data_list; Нинада так больше
+    Item* _tail;
+    Item* _head;
 };
 
 #endif
