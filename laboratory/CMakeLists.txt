@@ -1,1 +1,1 @@
-add_subdirectory(Second_work)
+add_subdirectory(Second)
