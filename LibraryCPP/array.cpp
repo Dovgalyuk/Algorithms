@@ -5,8 +5,11 @@ struct Array
     Data* array;
     size_t size;
 
-    Array(size_t size) : size(size), array(new Data[size]) {}
+    explicit Array(size_t size) : size(size), array(new Data[size]) {};
 
+    ~Array(){
+        delete[] array;
+    };
 };
 
 // create array
@@ -15,14 +18,13 @@ Array* array_create(size_t size)
     return new Array(size);
 }
 
-// delete array, free memory
+//delete array, free memory
 void array_delete(Array* arr)
 {
     delete arr;
 }
 
 // returns specified array element
-
 Data array_get(const Array* arr, size_t index)
 {
     return arr->array[index];
