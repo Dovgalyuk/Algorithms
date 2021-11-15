@@ -46,21 +46,22 @@ void vector_resize(Vector* vector, size_t size)
         vector->vecSize = size;
     }
     else {
-        if (vector->vecCap < size) {
-            while (vector->vecCap < size) {
-                if (vector->vecCap == 0) {
-                    vector->vecCap = 1;
-                }
-                vector->vecCap *= 2;
-            }
-            Data* temp = new Data[vector->vecCap];
-            for (int i = 0; i < vector->vecSize; i++) {
-                temp[i] = vector->vecData[i];
-            }
-            delete[] vector->vecData;
-            vector->vecData = temp;
-            vector->vecSize = size;
+        if (vector->vecCap >= size) {
+            exit(0);
         }
-
+        while (vector->vecCap < size) {
+            if (vector->vecCap == 0) {
+                vector->vecCap = 1;
+            }
+            vector->vecCap *= 2;
+        }
+        Data* temp = new Data[vector->vecCap];
+        for (int i = 0; i < vector->vecSize; i++) {
+            temp[i] = vector->vecData[i];
+        }
+        delete[] vector->vecData;
+        vector->vecData = temp;
+        vector->vecSize = size;
+        
     }
 }
