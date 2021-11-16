@@ -3,6 +3,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <list>
+#include <algorithm>
 
 using namespace std;
 
