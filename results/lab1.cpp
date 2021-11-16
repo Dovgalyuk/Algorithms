@@ -14,7 +14,7 @@ int main()
 		cout << "Количество элементов в массиве должно быть положительным"<<endl;
 		cin >> n;
 	}
-	Array* array = new Array(n);
+	Array* array = array_create(n);
 	for (int i = 0; i < n; i++) //вводим динамический массив
 	{
 		Data x;
@@ -29,7 +29,7 @@ int main()
 	}
 	for (int i = 0; i < n - 1; i++) //делаем условие проверки
 	{
-		if (array_get(array,i)*array_get(array,i+1) < 0)
+		if ((array_get(array,i) >= 0 && array_get(array,i+1) < 0) || (array_get(array, i) < 0 && array_get(array, i + 1) >= 0))
 			k++;
 	}
 	cout << "Массив меняет знак: " << k << " раза" << endl;
