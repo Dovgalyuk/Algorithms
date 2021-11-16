@@ -39,29 +39,40 @@ size_t vector_size(const Vector* vector)
 {
     return vector->vecSize;
 }
+void vector_expand(Vector* vector, size_t size) {
+    if (vector->vecCap >= size) {
+        return;
+    }
+    if (vector->vecCap == 0) {
+        vector->vecCap = 1;
+    }
+    while (vector->vecCap < size) {
+        vector->vecCap *= 2;
+    }
+}
+
+void vector_copy(Vector* vector, size_t size, Data* temp) {
+
+    for (int i = 0; i < size; i++) {
+        temp[i] = vector->vecData[i];
+    }
+}
+
+void vector_newData(Vector* vector, Data* temp, size_t size) {
+    delete[] vector->vecData;
+    vector->vecData = temp;
+    vector->vecSize = size;
+}
 
 void vector_resize(Vector* vector, size_t size)
 {
-    if (size < vector->vecSize) {
-        vector->vecSize = size;
+    if (size > vector->vecCap) {
+        vector_expand(vector, size);
+        Data* temp = new Data[vector->vecCap];
+        vector_copy(vector, vector->vecSize, temp);
+        vector_newData(vector, temp, size);
     }
     else {
-        if (vector->vecCap >= size) {
-            exit(0);
-        }
-        while (vector->vecCap < size) {
-            if (vector->vecCap == 0) {
-                vector->vecCap = 1;
-            }
-            vector->vecCap *= 2;
-        }
-        Data* temp = new Data[vector->vecCap];
-        for (int i = 0; i < vector->vecSize; i++) {
-            temp[i] = vector->vecData[i];
-        }
-        delete[] vector->vecData;
-        vector->vecData = temp;
         vector->vecSize = size;
-        
     }
 }
