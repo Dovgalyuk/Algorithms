@@ -19,7 +19,7 @@ int main() {
         while (!in.eof()) {
             std::getline(in, _string);
             if (!_string.find("PUSH ")) {
-                _string = _string[5];
+                _string.erase(0,5);
                 if (!_string.find('A'))
                     registr.push(A[0]);
                 else if (!_string.find('B'))
@@ -35,25 +35,25 @@ int main() {
                 std::cout << "Stack is empty";
                 break;
             }
-                if (!_string.find("POP")) {
-                    _string = _string[4];
-                    if (!_string.find('A')) {
-                        A[0] = registr.get();
-                        registr.pop();
-                    } else if (!_string.find('B')) {
-                        B[0] = registr.get();
-                        registr.pop();
-                    } else if (!_string.find('C')) {
-                        C[0] = registr.get();
-                        registr.pop();
-                    } else if (!_string.find('D')) {
-                        D[0] = registr.get();
-                        registr.pop();
-                    } else {
-                        std::cout << "Error";
-                        in.eof();
-                    }
+            if (!_string.find("POP")) {
+                _string.erase(0,4);
+                if (!_string.find('A')) {
+                    A[0] = registr.get();
+                    registr.pop();
+                } else if (!_string.find('B')) {
+                    B[0] = registr.get();
+                    registr.pop();
+                } else if (!_string.find('C')) {
+                    C[0] = registr.get();
+                    registr.pop();
+                } else if (!_string.find('D')) {
+                    D[0] = registr.get();
+                    registr.pop();
+                } else {
+                    std::cout << "Error";
+                    in.eof();
                 }
+            }
         }
     }
     std::cout << "A = " << *A << std::endl;
