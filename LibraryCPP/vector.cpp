@@ -22,7 +22,7 @@ void vector_delete(Vector* vector)
 {
     // TODO: free vector internals
     delete[] vector->vecData;
-    delete[] vector;
+    delete vector;
 }
 
 Data vector_get(const Vector* vector, size_t index)
