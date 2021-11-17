@@ -1,5 +1,5 @@
 #include <iostream>
-#include "stack.cpp"
+#include "stack.h"
 #include <string>
 int main(){
 
@@ -10,7 +10,7 @@ int main(){
     getline(std::cin,b);
     int a = b.length();
     for (int i= 0; i <= a;++i){
-        if ((stack_empty(stack)) && (b[i] != 0)) stack_push(stack,b[i]);
+        if (stack_empty(stack)) stack_push(stack,b[i]);
         else if (b[i] == ']'){
             if (stack_get(stack) == '[') stack_pop(stack);
             else  stack_push(stack,b[i]);
