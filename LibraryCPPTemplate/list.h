@@ -65,19 +65,15 @@ public:
     // Inserts new list item after the specified item
     Item *insert_after(Item *item, Data data)
     {
-        // Создаём новый Item
         Item* newItem = new Item(data);
-        // Указывем, какой Item будет после него
         newItem->setNext(item->next());
-        // Если следуйщий элемент узла не nullptr, то этому элементу,в качестве предыдущего, мы указываем созданный узел
         if (item->next() != nullptr) {
             item->next()->setPrev(newItem);
+        } else {
+            _tail = newItem;
         }
-        // Указываем для нового Item предыдущий для него
         newItem->setPrev(item);
-        // И для того узла, после которого мы вставляем новый элемент, указываем в качестве следующего этот элемент
         item->setNext(newItem);
-        // Возвращаем новый элемент.
         return newItem;
     }
 

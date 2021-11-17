@@ -1,11 +1,16 @@
 #include<iostream>
 #include<stack.h>
-using namespace std;
+#include<string>
+
 int main()
 {
     Stack<char> *stack = new Stack<char>();
-    std::string str = R"(n‘z’n)";
-    for (char i: str) {
+    std::cout <<"Enter the line:";
+    std::string str;
+    getline(std::cin,str);
+    std::cout << std::endl;
+    for (char i: str)
+    {
         if (!stack->empty() && stack->get() == '(' && i == ')') {
             stack->pop();
         }
@@ -27,9 +32,14 @@ int main()
     }
     if (stack->empty()) {
         std::cout << "YES";
+        while (!stack->empty())
+        {
+            stack->pop();
+        }
     } else {
         std::cout << "NO";
     }
+
     return 0;
 }
 
