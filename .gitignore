@@ -12,3 +12,5 @@ Debug/*
 Release/*
 .vs/*
 build/*
+.idea/*
+cmake-build-debug/*
