@@ -1,1 +1,1 @@
-add_subdirectory(laba2)
+add_subdirectory(laba3)
