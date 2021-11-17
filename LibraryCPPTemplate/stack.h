@@ -41,10 +41,7 @@ public:
     // Returns true if the stack is empty
     bool empty() const
     {
-        if(_list->first() == nullptr)
-            return true;
-        else
-            return false;
+        return _list->first() == nullptr;
     }
 
 private:

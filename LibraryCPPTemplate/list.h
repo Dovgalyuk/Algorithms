@@ -65,19 +65,15 @@ public:
     // Inserts new list item after the specified item
     Item *insert_after(Item *item, Data data)
     {
-        // Создаём новый Item
         Item* newItem = new Item(data);
-        // Указывем, какой Item будет после него
         newItem->setNext(item->next());
-        // Если следуйщий элемент узла не nullptr, то этому элементу,в качестве предыдущего, мы указываем созданный узел
         if (item->next() != nullptr) {
             item->next()->setPrev(newItem);
+        } else {
+            _tail = newItem;
         }
-        // Указываем для нового Item предыдущий для него
         newItem->setPrev(item);
-        // И для того узла, после которого мы вставляем новый элемент, указываем в качестве следующего этот элемент
         item->setNext(newItem);
-        // Возвращаем новый элемент.
         return newItem;
     }
 
@@ -106,7 +102,21 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item)
     {
-        return nullptr;
+        if(item->next() == nullptr) {
+            return nullptr;
+        }
+        if (item->next() == _tail) {
+            item->setNext(nullptr);
+            delete item->next();
+            _tail = item;
+            return item;
+        }
+        auto *nextItem = item->next()->next();
+        auto *deletedItem = item->next();
+        item->setNext(nextItem);
+        nextItem->setPrev(item);
+        delete deletedItem;
+        return nextItem;
     }
 
     void foreach(std::function<void(Data const& item)> fun) {
