@@ -127,7 +127,6 @@ public:
     }
 private:
     // private data should be here
-    //List *data_list; Нинада так больше
     Item* _tail;
     Item* _head;
 };
