@@ -1,6 +1,8 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include "vector.h"
+
 template <typename Data> class Stack
 {
 public:
@@ -18,28 +20,33 @@ public:
     // Should be O(1) on average
     void push(Data data)
     {
+        vector.resize(vector.size() + 1);
+        vector.set(vector.size() - 1, data);
     }
 
     // Retrives the last element from the stack
     Data get() const
     {
-        return Data();
+        return vector.get(vector.size() - 1);
     }
 
     // Removes the last element from the stack
     // Should be O(1)
     void pop()
     {
+        if (!empty()) {
+            vector.resize(vector.size() - 1);
+        }
     }
 
     // Returns true if the stack is empty
     bool empty() const
     {
-        return true;
+        return vector.size() == 0;
     }
 
 private:
-    // private data should be here
+    Vector<Data> vector;
 };
 
 #endif
