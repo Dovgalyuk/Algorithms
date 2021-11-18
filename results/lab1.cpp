@@ -5,7 +5,7 @@ using namespace std;
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	cout << "Введите количество 123 элементов массива:" << endl;
+	cout << "Введите количество элементов массива:" << endl;
 	int n;
 	int k = 0;
 	cin >> n;
@@ -29,7 +29,7 @@ int main()
 	}
 	for (int i = 0; i < n - 1; i++) //делаем условие проверки
 	{
-		if ((array_get(array,i) >= 0 && array_get(array,i+1) < 0) || (array_get(array, i) < 0 && array_get(array, i + 1) >= 0))
+		if ((array_get(array,i) >= 0 && array_get(array,i+1) < 0) || (array_get(array, i) < 0 && array_get(array, i + 1) >= 0)) //изменения
 			k++;
 	}
 	cout << "Массив меняет знак: " << k << " раза" << endl;
