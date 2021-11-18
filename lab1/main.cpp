@@ -1,4 +1,4 @@
-#include "array.h"
+#include "Array.h"
 #include <iostream>
 #include <cstdlib>
 #include<ctime>
@@ -15,23 +15,31 @@ int main()
 	if (size > 0)
 	{
 		Array* arr = array_create(size);
-		Array* arr2 = array_create(size);
 
-		int j = -1;
+		int size2 = 0;
 		for (int i = 0; i < size; i++)
 		{
 			array_set(arr, i, rand());
 			std::cout << "Ёлемент номер " << (i + 1) << ": " << array_get(arr, i) << std::endl;
 			if (array_get(arr, i) % 2 == 0)
 			{
-				j++;
-				array_set(arr2, j, array_get(arr, i));
-
+				size2++;
 			}
 		}
-		if (j > -1)
+		Array* arr2 = array_create(size2);
+		if (size2 > 0)
 		{
-			for (int i = 0; i <= j; i++)
+			int j = -1;
+			for (int i = 0; i < size; i++)
+			{
+				if (array_get(arr, i) % 2 == 0)
+				{
+					j++;
+					array_set(arr2, j, array_get(arr, i));
+
+				}
+			}
+			for (int i = 0; i < size2; i++)
 			{
 				std::cout << "Ёлемент массива 2 номер " << (i + 1) << ": " << array_get(arr2, i) << std::endl;
 			}
@@ -40,7 +48,6 @@ int main()
 		{
 			std::cout << "„Єтных элиментов в массиве нет " << std::endl;
 		}
-
 
 		array_delete(arr);
 		array_delete(arr2);
