@@ -42,6 +42,9 @@ public:
     void remove()
     {
         list->erase(list->first());
+        if (size == 1) {
+            lastItem == nullptr;
+        }
         size--;
     }
 

@@ -3,30 +3,31 @@
 #include "queue.h"
 using namespace std;
 
-bool contains(Queue<char> *queue, string secondStr) {
-    int i = 0;
-    while (!queue->empty()){
-        if (queue->get() == secondStr[i])
-            {
-                queue->remove();
+// bool contains(Queue<char> *queue, Queue<char> *queue2) {
+//     auto* re_queue = new Queue<char>;
+//     int i = 0;
+//     while (!queue->empty()){
+//         if (queue->get() == queue2)
+//             {
+//                 queue->remove();
                 
-                if (i == secondStr.length() -1) {
-                    return true;
-                }
-                i++;
-            }
-            else {
-                queue->remove();
-                i = 0;
-            }
-    }
-    return false;
-}
+//                 if (i == secondStr.length() -1) {
+//                     return true;
+//                 }
+//                 i++;
+//             }
+//             else {
+//                 queue->remove();
+//                 i = 0;
+//             }
+//     }
+//     return false;
+// }
 
 int main()
 {   auto* queue = new Queue<char>;
     char sim;
-    string secondStr;
+    bool contains = false;
     ifstream myfile("V:/COD/VS/Algorithms/Third/file.txt");
     if (myfile.is_open())
     {
@@ -38,11 +39,23 @@ int main()
             queue->insert(sim); 
         }
         while (myfile.get(sim)) {
-            secondStr += sim;
+            if (queue->empty()) {
+                contains = false;
+            }
+            while (!queue->empty()) {
+                if (queue->get() == sim) {
+                    contains = true;
+                    queue->remove();
+                    break;
+                }
+                else {
+                    contains = false;
+                    queue->remove();
+                    }
+            }
         }
         myfile.close();
-        cout << secondStr + "\n";
-        if (contains(queue, secondStr)) {
+        if (contains) {
             cout << "\nYES" << endl;
         }
         else {
