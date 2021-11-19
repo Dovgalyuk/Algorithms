@@ -3,27 +3,6 @@
 #include "queue.h"
 using namespace std;
 
-// bool contains(Queue<char> *queue, Queue<char> *queue2) {
-//     auto* re_queue = new Queue<char>;
-//     int i = 0;
-//     while (!queue->empty()){
-//         if (queue->get() == queue2)
-//             {
-//                 queue->remove();
-                
-//                 if (i == secondStr.length() -1) {
-//                     return true;
-//                 }
-//                 i++;
-//             }
-//             else {
-//                 queue->remove();
-//                 i = 0;
-//             }
-//     }
-//     return false;
-// }
-
 int main()
 {   auto* queue = new Queue<char>;
     char sim;
