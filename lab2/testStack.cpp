@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 
+
 typedef Stack<int> steck;
 
 int main() {
@@ -19,38 +20,38 @@ int main() {
         while (!in.eof()) {
             std::getline(in, _string);
             if (!_string.find("PUSH ")) {
-                _string.erase(0,5);
-                if (!_string.find('A'))
+                if (_string[5] == 'A')
                     registr.push(A[0]);
-                else if (!_string.find('B'))
+                else if (_string[5] == 'B')
                     registr.push(B[0]);
-                else if (!_string.find('C'))
+                else if (_string[5] == 'C')
                     registr.push(C[0]);
-                else if (!_string.find('D'))
+                else if (_string[5] == 'D')
                     registr.push(D[0]);
                 else
-                    registr.push(atoi(_string.c_str()));
+                {
+                    registr.push(atoi(&_string[5]));
+                }
             }
             if(registr.empty()) {
                 std::cout << "Stack is empty";
                 break;
             }
             if (!_string.find("POP")) {
-                _string.erase(0,4);
-                if (!_string.find('A')) {
+                if (_string[4] == 'A') {
                     A[0] = registr.get();
                     registr.pop();
-                } else if (!_string.find('B')) {
+                } else if (_string[4] == 'B') {
                     B[0] = registr.get();
                     registr.pop();
-                } else if (!_string.find('C')) {
+                } else if (_string[4] == 'C') {
                     C[0] = registr.get();
                     registr.pop();
-                } else if (!_string.find('D')) {
+                } else if (_string[4] == 'D') {
                     D[0] = registr.get();
                     registr.pop();
                 } else {
-                    std::cout << "Error";
+                    std::cout << "Error" << std::endl << std::endl;
                     in.eof();
                 }
             }
