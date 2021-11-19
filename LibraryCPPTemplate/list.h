@@ -102,8 +102,11 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item)
     {
+        //if(item->next() == nullptr) {
+            //return nullptr;
+        //}
         if(item->next() == nullptr) {
-            return nullptr;
+            return item;
         }
         if (item->next() == _tail) {
             item->setNext(nullptr);
