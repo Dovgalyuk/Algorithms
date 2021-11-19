@@ -7,11 +7,15 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item* nextItem = nullptr;
+        Item* prevItem = nullptr;
+
+        Item(Data d): d(d) {}
+        Item *next() { return nextItem; }
+        Item *prev() { return prevItem; }
+        Data data() const { return d; }
     private:
-        // internal data here
+        Data d;
     };
 
     // Creates new list
@@ -22,24 +26,41 @@ public:
     // Destroys the list and frees the memory
     ~List()
     {
+        while (Item* item = firstItem) {
+            erase(item);
+            delete item;
+        }
     }
 
     // Retrieves the first item from the list
     Item *first()
     {
-        return nullptr;
+        return firstItem;
     }
 
     // Inserts new list item into the beginning
     Item *insert(Data data)
     {
-        return nullptr;
+        Item* newItem = new Item(data);
+        if (!firstItem) {
+            firstItem = newItem;
+        }
+        newItem->nextItem = firstItem;
+        newItem->prevItem = firstItem->prevItem;
+        firstItem->prevItem = newItem;
+        firstItem = newItem;
+        return newItem;
     }
 
     // Inserts new list item after the specified item
     Item *insert_after(Item *item, Data data)
     {
-        return nullptr;
+        Item* newItem = new Item(data);
+        newItem->nextItem = item->nextItem;
+        newItem->nextItem->prevItem = newItem;
+        item->nextItem = newItem;
+        newItem->prevItem = item;
+        return newItem;
     }
 
     // Deletes the specified list item.
@@ -48,7 +69,22 @@ public:
     // Should be O(1)
     Item *erase(Item *item)
     {
-        return nullptr;
+        Item* returned = nullptr;
+        if (firstItem == item) {
+            if (firstItem->nextItem == firstItem) {
+                firstItem = nullptr;
+            } else {
+                firstItem->nextItem->prevItem = firstItem->prevItem;
+                firstItem->prevItem->nextItem = firstItem->nextItem;
+                firstItem = firstItem->nextItem;
+                returned = firstItem->nextItem;
+            }
+        } else {
+            item->nextItem->prevItem = item->prevItem;
+            item->prevItem->nextItem = item->nextItem;
+            returned = item->nextItem;
+        }
+        return returned;
     }
 
     // Deletes the list item following the specified one.
@@ -56,10 +92,10 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item)
     {
-        return nullptr;
+        return erase(item->nextItem);
     }
 private:
-    // private data should be here
+    Item* firstItem = nullptr;
 };
 
 #endif

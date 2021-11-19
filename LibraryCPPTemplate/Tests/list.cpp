@@ -40,9 +40,12 @@ int main()
     }
 
     std::cout << "List: ";
-    for (auto item = list->first() ; item ; item = item->next())
+    //Я изменил цикл, так как при кольцевом списке цикл бы не закончился
+    auto item = list->first();
+    while (item)
     {
         std::cout << item->data() << " ";
+        item = list->erase(item);
     }
     std::cout << "\n";
 
