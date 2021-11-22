@@ -8,10 +8,10 @@ typedef Stack<int> steck;
 
 int main() {
     steck registr;
-    int A[1] = {0},
-        B[1] = {0},
-        C[1] = {0},
-        D[1] = {0};
+    int A = 0,
+        B = 0,
+        C = 0,
+        D = 0;
 
     std::string _string;
     std::ifstream in("E:\\text.txt");
@@ -21,13 +21,13 @@ int main() {
             std::getline(in, _string);
             if (!_string.find("PUSH ")) {
                 if (_string[5] == 'A')
-                    registr.push(A[0]);
+                    registr.push(A);
                 else if (_string[5] == 'B')
-                    registr.push(B[0]);
+                    registr.push(B);
                 else if (_string[5] == 'C')
-                    registr.push(C[0]);
+                    registr.push(C);
                 else if (_string[5] == 'D')
-                    registr.push(D[0]);
+                    registr.push(D);
                 else
                 {
                     registr.push(atoi(&_string[5]));
@@ -39,16 +39,16 @@ int main() {
             }
             if (!_string.find("POP")) {
                 if (_string[4] == 'A') {
-                    A[0] = registr.get();
+                    A = registr.get();
                     registr.pop();
                 } else if (_string[4] == 'B') {
-                    B[0] = registr.get();
+                    B = registr.get();
                     registr.pop();
                 } else if (_string[4] == 'C') {
-                    C[0] = registr.get();
+                    C = registr.get();
                     registr.pop();
                 } else if (_string[4] == 'D') {
-                    D[0] = registr.get();
+                    D = registr.get();
                     registr.pop();
                 } else {
                     std::cout << "Error" << std::endl << std::endl;
@@ -57,10 +57,10 @@ int main() {
             }
         }
     }
-    std::cout << "A = " << *A << std::endl;
-    std::cout << "B = " << *B << std::endl;
-    std::cout << "C = " << *C << std::endl;
-    std::cout << "D = " << *D << std::endl;
+    std::cout << "A = " << A << std::endl;
+    std::cout << "B = " << B << std::endl;
+    std::cout << "C = " << C << std::endl;
+    std::cout << "D = " << D << std::endl;
 
     return 0;
 }
