@@ -15,10 +15,7 @@ bool bfs(int** graph, int kolVer, int to, int* visited, Queue* ochered, int* par
     int from = queue_get(ochered);
     queue_remove(ochered);
     int sizeOchered = 0;
-    vector<int> tempMas(kolVer);
-    for (int i = 0; i < kolVer; i++) {
-        tempMas[i] = -1;
-    }
+    bool check = false;
     visited[from] = true;
     while (from != to) {
         for (int i = 0; i < kolVer; i++) {
@@ -28,7 +25,16 @@ bool bfs(int** graph, int kolVer, int to, int* visited, Queue* ochered, int* par
             if (visited[i] == true) {
                 continue;
             }
-            if (find(tempMas.begin(), tempMas.end(), i) != tempMas.end()) {
+            for (int j = 0; j < sizeOchered; j++) {
+                if (queue_get(ochered) == i) {
+                    check = true;
+                }
+                int t = queue_get(ochered);
+                queue_remove(ochered);
+                queue_insert(ochered, t);
+            }
+            if (check) {
+                check = false;
                 continue;
             }
             parents[i] = from;
@@ -41,15 +47,6 @@ bool bfs(int** graph, int kolVer, int to, int* visited, Queue* ochered, int* par
         from = queue_get(ochered);
         queue_remove(ochered);
         sizeOchered--;
-        if (sizeOchered > 0) {
-            for (int i = 0; i < sizeOchered; i++) {
-                tempMas[i] = queue_get(ochered);
-                queue_remove(ochered);
-            }
-            for (int i = 0; i < sizeOchered; i++) {
-                queue_insert(ochered, tempMas[i]);
-            }
-        }
         visited[from] = true;
     }
     return true;
@@ -77,6 +74,7 @@ int main()
     // City2 End Start City1 City1 City3 City1 City2 City3 City4 City4 End Start End
     // City2 City3 Start City1 City1 City3 City1 City2 City3 City4 City4 End Start End
     // City2 City3 City4 City5 Start City1 City1 End City5 End Start City2 Start City4 City3 End City2 City1 City1 City3 City1 City5 City4 City1 Start End
+    // Start City1 City1 City2 City1 City3 City1 City4 City1 City5 City1 City7 City1 City6 City6 End City7 End Start End
     string str;
     cout << "Input cities(separete them with one space and only after last pair press enter):\n";
     getline(cin, str);
@@ -165,7 +163,7 @@ int main()
     else {
         print_path(from, to, parents, mas, Jesus, kolDyg);
     }
-    // deleting
+    // Deleting
     for (int i = 0; i < kolVer; i++) {
         delete[] graph[i];
     }
