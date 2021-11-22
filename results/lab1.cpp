@@ -27,10 +27,18 @@ int main()
 	{
 		cout << array_get(array,i) << endl;
 	}
-	for (int i = 0; i < n - 1; i++) //делаем условие проверки
+	int zn = 0;
+	for (int i = 0; i < n; i++) //делаем условие проверки
 	{
-		if ((array_get(array,i) >= 0 && array_get(array,i+1) < 0) || (array_get(array, i) < 0 && array_get(array, i + 1) >= 0)) //изменения
+		if (array_get(array, i) == 0)
+		{
+			continue;
+		}
+		if ((array_get(array, i) > 0 && zn < 0) || (array_get(array, i) < 0 && zn > 0)) 
+		{
 			k++;
+		}
+		zn = array_get(array, i);
 	}
 	cout << "Массив меняет знак: " << k << " раза" << endl;
 	array_delete(array); //очищаем память
