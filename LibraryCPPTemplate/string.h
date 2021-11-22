@@ -6,12 +6,8 @@ class String {
 public:
     const int NULL_POS = -1;
 
-    String(char* chars, int length): string(chars), capacity(length), length(length) {}
-    String(String& src): string(src.string), capacity(src.length), length(src.length) {}
-
-    size_t size() {
-        return length;
-    }
+    String(char* chars, int length): string(copyChars(chars, length)), capacity(length), length(length) {}
+    String(String& src): string(copyChars(src.string, src.length)), capacity(src.length), length(src.length) {}
 
     void append(char ch) {
         int id = length;
@@ -19,7 +15,7 @@ public:
         string[id] = ch;
     }
 
-    void append(String secondString) {
+    void append(String const &secondString) {
         size_t startId = length;
         size_t secondLength = secondString.length;
         resize(length + secondLength);
@@ -42,8 +38,8 @@ public:
         string[length] = '\0';
     }
 
-    int findString(String str, size_t pos = 0) {
-        for (int i = pos; i < length; ++i) {
+    int findString(String const &str, size_t pos = 0) {
+        for (size_t i = pos; i < length; ++i) {
             for (int j = 0; ; ++j) {
                 if (j == str.length) return i;
                 if (str.string[j] != string[i + j]) break;
@@ -52,7 +48,7 @@ public:
         return NULL_POS;
     }
 
-    int compare(String secondString) {
+    int compare(String const &secondString) {
         char* str1 = string;
         char* str2 = secondString.string;
         while (*str1 != 0)
@@ -65,12 +61,12 @@ public:
         return 0;
     }
 
-    bool equal(String secondString) {
+    bool equal(String const &secondString) {
         return length == secondString.length && findString(secondString) == 0;
     }
 
     char* getCharArray() {
-        return string;
+        return copyChars(string, length);
     }
 
 private:
@@ -78,6 +74,15 @@ private:
     void expand(size_t newSize) {
         while (capacity < newSize)
             capacity *= multiplyCapacity;
+    }
+
+    char* copyChars(char* chars, size_t length) {
+        length++;
+        char* result = new char[length];
+        for (int i = 0; i < length; ++i) {
+            result[i] = chars[i];
+        }
+        return result;
     }
 
 protected:
