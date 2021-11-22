@@ -102,15 +102,12 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item)
     {
-        //if(item->next() == nullptr) {
-            //return nullptr;
-        //}
         if(item->next() == nullptr) {
-            return item;
+            return nullptr;
         }
         if (item->next() == _tail) {
-            item->setNext(nullptr);
             delete item->next();
+            item->setNext(nullptr);
             _tail = item;
             return item;
         }
