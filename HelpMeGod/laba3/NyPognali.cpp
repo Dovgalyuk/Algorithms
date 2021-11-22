@@ -4,29 +4,55 @@
 #include <stdlib.h>
 #include <list>
 #include <algorithm>
+#include "queue.cpp"
 
 using namespace std;
 
-bool bfs(int** graph, int n, int to, int* visited, list<int>& buffer, int* parents) {
-    if (buffer.empty())
+bool bfs(int** graph, int kolVer, int to, int* visited, Queue* ochered, int* parents) {
+    if (queue_empty(ochered)) {
         return false;
-    int from = buffer.front();
-    buffer.pop_front();
+    }
+    int from = queue_get(ochered);
+    queue_remove(ochered);
+    int sizeOchered = 0;
+    vector<int> tempMas(kolVer);
+    for (int i = 0; i < kolVer; i++) {
+        tempMas[i] = -1;
+    }
     visited[from] = true;
-    if (from == to) {
-        return true;
+    while (from != to) {
+        for (int i = 0; i < kolVer; i++) {
+            if (graph[from][i] == 0) {
+                continue;
+            }
+            if (visited[i] == true) {
+                continue;
+            }
+            if (find(tempMas.begin(), tempMas.end(), i) != tempMas.end()) {
+                continue;
+            }
+            parents[i] = from;
+            queue_insert(ochered, i);
+            sizeOchered++;
+        }
+        if (queue_empty(ochered)) {
+            return false;
+        }
+        from = queue_get(ochered);
+        queue_remove(ochered);
+        sizeOchered--;
+        if (sizeOchered > 0) {
+            for (int i = 0; i < sizeOchered; i++) {
+                tempMas[i] = queue_get(ochered);
+                queue_remove(ochered);
+            }
+            for (int i = 0; i < sizeOchered; i++) {
+                queue_insert(ochered, tempMas[i]);
+            }
+        }
+        visited[from] = true;
     }
-    for (int i = 0; i < n; ++i) {
-        if (graph[from][i] == 0)
-            continue;
-        if (visited[i] == true)
-            continue;
-        if (find(buffer.begin(), buffer.end(), i) != buffer.end())
-            continue;
-        parents[i] = from;
-        buffer.push_back(i);
-    }
-    return bfs(graph, n, to, visited, buffer, parents);
+    return true;
 }
 
 void print_path(int from, int to, int* parents, vector <int> mas, vector <string> Jesus, int kolDyg) {
@@ -50,6 +76,7 @@ int main()
     // City1 City2 City2 End Start City1 Start End
     // City2 End Start City1 City1 City3 City1 City2 City3 City4 City4 End Start End
     // City2 City3 Start City1 City1 City3 City1 City2 City3 City4 City4 End Start End
+    // City2 City3 City4 City5 Start City1 City1 End City5 End Start City2 Start City4 City3 End City2 City1 City1 City3 City1 City5 City4 City1 Start End
     string str;
     cout << "Input cities(separete them with one space and only after last pair press enter):\n";
     getline(cin, str);
@@ -72,17 +99,17 @@ int main()
     int kolDyg = (p - 1) / 2;
     int kolVer = 0;
     for (int i = 0; i < p - 1; i++) {
-        int temp = 0;
+        bool temp = true;
         for (int j = 0; j < i; j++) {
-            if (Jesus.at(i) != Jesus.at(j)) {
-                temp++;
+            if (Jesus.at(i) == Jesus.at(j)) {
+                temp = false;
             }
         }
-        if (temp == i) {
+        if (temp) {
             kolVer++;
         }
     }
-    // массив номеров
+    // mas of numbers
     vector <int> mas(kolDyg * 2);
     int temp = 1; bool hahaha = true;
     for (int i = 0; i < kolDyg * 2; i++) {
@@ -97,7 +124,7 @@ int main()
         temp++;
         hahaha = true;
     }
-    //  первый и последний элемент
+    //  First and last elements
     int from;
     int to;
     for (int i = 0; i < kolDyg * 2; i++) {
@@ -108,7 +135,7 @@ int main()
             to = mas[i] - 1;
         }
     }
-    // Подготовка
+    // Get ready
     int** graph = new int* [kolVer];
     int* visited = new int[kolVer];
     int* parents = new int[kolVer];
@@ -126,19 +153,19 @@ int main()
         b = mas[i + 1];
         graph[a - 1][b - 1] = graph[b - 1][a - 1] = 1;
     }
-    // Ну погнали
+    // Well, let's go
     for (int i = 0; i < kolVer; i++) {
         visited[i] = 0;
     }
-    list<int> buffer;
-    buffer.push_back(from);
-    if (false == bfs(graph, kolVer, to, visited, buffer, parents)) {
+    Queue* ochered = queue_create();
+    queue_insert(ochered, from);
+    if (false == bfs(graph, kolVer, to, visited, ochered, parents)) {
         cout << "path does not exist" << endl;
     }
     else {
         print_path(from, to, parents, mas, Jesus, kolDyg);
     }
-    // Удаление
+    // deleting
     for (int i = 0; i < kolVer; i++) {
         delete[] graph[i];
     }

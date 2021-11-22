@@ -13,7 +13,6 @@ struct ListItem
 struct List
 {
     ListItem* first = NULL;
-    ListItem* last = NULL;
 };
 
 List* list_create()
@@ -25,9 +24,11 @@ void list_delete(List* list)
 {
     // TODO: free items
     ListItem* item = list->first;
-    while (item != list->last) {
+    while (item != list->first->prev) {
         ListItem* delet = item;
-        item = item->next;
+        list->first = list->first->next;
+        list->first->prev = list->first->prev->prev;
+        item = list->first;
         delete delet;
     }
     delete item;
@@ -37,6 +38,11 @@ void list_delete(List* list)
 ListItem* list_first(List* list)
 {
     return list->first;
+}
+
+ListItem* list_last(List* list)
+{
+    return list->first->prev;
 }
 
 Data list_item_data(const ListItem* item)
@@ -59,15 +65,15 @@ ListItem* list_insert(List* list, Data data)
     ListItem* item = new ListItem(data);
     item->next = list->first;
     if (list->first) {
+        item->prev = list->first->prev;
         list->first->prev = item;
     }
-    else {
-        list->last = item;
-    }
     list->first = item;
-    item->prev = list->last;
-    if (list->last) {
-        list->last->next = item;
+    if (item->prev) {
+        item->prev->next = item;
+    }
+    else {
+        item->prev = list->first;
     }
     return item;
 }
@@ -81,25 +87,24 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
     }
     item->next = new_item;
     new_item->prev = item;
-    if (item == list->last) {
-        list->last = new_item;
+    if (item == list->first->prev) {
+        list->first->prev = new_item;
     }
     return new_item;
 }
 
 ListItem* list_erase(List* list, ListItem* item)
 {
-    if (list->first == item && list->last == item) {
+    if (list->first == item && list->first->next == list->first) {
         delete item;
         list->first = NULL;
-        list->last = NULL;
         return NULL;
     }
     if (list->first == item) {
         list->first = item->next;
     }
-    if (list->last == item) {
-        list->last = item->prev;
+    if (list->first->prev == item) {
+        list->first->prev = item->prev;
     }
     item->next->prev = item->prev;
     item->prev->next = item->next;

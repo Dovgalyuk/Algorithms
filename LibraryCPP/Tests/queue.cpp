@@ -41,5 +41,4 @@ int main()
         queue_remove(queue);
     }
 
-    queue_delete(queue);
 }

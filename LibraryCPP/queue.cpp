@@ -39,6 +39,16 @@ Data queue_get(const Queue* queue)
     return list_item_data(list_first(queue->lst));
 }
 
+bool queue_empty(const Queue* queue)
+{
+    if (list_first(queue->lst) == NULL) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 void queue_remove(Queue* queue)
 {
     list_erase(queue->lst, list_first(queue->lst));
@@ -46,7 +56,4 @@ void queue_remove(Queue* queue)
         queue->last = NULL;
 }
 
-bool queue_empty(const Queue* queue)
-{
-    return (list_first(queue->lst) != NULL) ? false : true;
-}
+
