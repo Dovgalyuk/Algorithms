@@ -19,7 +19,7 @@ public:
     };
 
     // Creates new list
-    List()
+    List(): dummyElement(new Item(0))
     {
     }
 
@@ -35,20 +35,19 @@ public:
     // Retrieves the first item from the list
     Item *first()
     {
-        return firstItem;
+        return dummyElement->nextItem;
     }
 
     // Inserts new list item into the beginning
     Item *insert(Data data)
     {
         Item* newItem = new Item(data);
-        if (!firstItem) {
-            firstItem = newItem;
-        }
+        Item* firstItem = first();
         newItem->nextItem = firstItem;
         newItem->prevItem = firstItem->prevItem;
-        firstItem->prevItem = newItem;
-        firstItem = newItem;
+        newItem->prevItem->nextItem = newItem;
+        newItem->nextItem->prevItem = newItem;
+        dummyElement->nextItem = newItem;
         return newItem;
     }
 
@@ -70,13 +69,14 @@ public:
     Item *erase(Item *item)
     {
         Item* returned = nullptr;
+        Item* firstItem = first();
         if (firstItem == item) {
             if (firstItem->nextItem == firstItem) {
-                firstItem = nullptr;
+                dummyElement->nextItem  = nullptr;
             } else {
                 firstItem->nextItem->prevItem = firstItem->prevItem;
                 firstItem->prevItem->nextItem = firstItem->nextItem;
-                firstItem = firstItem->nextItem;
+                dummyElement->nextItem  = firstItem->nextItem;
                 returned = firstItem->nextItem;
             }
         } else {
@@ -95,7 +95,7 @@ public:
         return erase(item->nextItem);
     }
 private:
-    Item* firstItem = nullptr;
+    Item* dummyElement = nullptr;
 };
 
 #endif
