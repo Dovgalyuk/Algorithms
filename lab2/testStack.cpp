@@ -30,7 +30,8 @@ int main() {
                     registr.push(D);
                 else
                 {
-                    registr.push(atoi(&_string[5]));
+                    std::string str = _string.substr(5);
+                    registr.push(atoi(str.c_str()));
                 }
             }
             if(registr.empty()) {
