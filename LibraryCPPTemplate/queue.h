@@ -1,12 +1,16 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-template <typename Data> class Queue
+#include "list.h"
+
+template <typename Data> 
+class Queue : private List<Data>
 {
 public:
     // Create empty queue
     Queue()
     {
+        last = nullptr;
     }
 
     // Deletes queue
@@ -18,28 +22,38 @@ public:
     // Should be O(1) on average
     void insert(Data data)
     {
+        if (last == nullptr) {
+            last = List<Data>::insert(data);
+        } else {
+            last = List<Data>::insert_after(last, data);
+        }
     }
 
     // Retrieves first element from the queue
-    Data get() const
+    Data get()
     {
-        return Data();
+        return first()->data();
     }
 
     // Removes first element from the queue
     // Should be O(1) on average
     void remove()
     {
+        if (List<Data>::first() == last) {
+            last = nullptr;
+        }
+        this->erase(List<Data>::first());
+        
     }
 
     // Returns true if the queue is empty
-    bool empty() const
+    bool empty()
     {
-        return true;
+        return (List<Data>::first() == nullptr);
     }
 
 private:
-    // private data should be here
+    typename List<Data>::Item *last;
 };
 
 #endif
