@@ -9,15 +9,14 @@
 using namespace std;
 
 bool bfs(int** graph, int kolVer, int to, int* visited, Queue* ochered, int* parents) {
-    if (queue_empty(ochered)) {
-        return false;
-    }
-    int from = queue_get(ochered);
-    queue_remove(ochered);
-    int sizeOchered = 0;
-    bool check = false;
-    visited[from] = true;
-    while (from != to) {
+    int from;
+    do {
+        if (queue_empty(ochered)) {
+            return false;
+        }
+        from = queue_get(ochered);
+        queue_remove(ochered);
+        visited[from] = true;
         for (int i = 0; i < kolVer; i++) {
             if (graph[from][i] == 0) {
                 continue;
@@ -25,30 +24,12 @@ bool bfs(int** graph, int kolVer, int to, int* visited, Queue* ochered, int* par
             if (visited[i] == true) {
                 continue;
             }
-            for (int j = 0; j < sizeOchered; j++) {
-                if (queue_get(ochered) == i) {
-                    check = true;
-                }
-                int t = queue_get(ochered);
-                queue_remove(ochered);
-                queue_insert(ochered, t);
-            }
-            if (check) {
-                check = false;
-                continue;
-            }
             parents[i] = from;
             queue_insert(ochered, i);
-            sizeOchered++;
+            visited[i] = true;
         }
-        if (queue_empty(ochered)) {
-            return false;
-        }
-        from = queue_get(ochered);
-        queue_remove(ochered);
-        sizeOchered--;
-        visited[from] = true;
-    }
+
+    } while (from != to);
     return true;
 }
 
