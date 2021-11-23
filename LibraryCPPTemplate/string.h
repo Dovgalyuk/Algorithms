@@ -9,6 +9,7 @@ public:
     String(char* chars, int length): string(copyChars(chars, length)), capacity(length), length(length) {}
     String(String& src): string(copyChars(src.string, src.length)), capacity(src.length), length(src.length) {}
 
+
     void append(char ch) {
         int id = length;
         resize(id + 1);
@@ -39,12 +40,28 @@ public:
     }
 
     int findString(String const &str, size_t pos = 0) {
-        for (size_t i = pos; i < length; ++i) {
-            for (int j = 0; ; ++j) {
-                if (j == str.length) return i;
-                if (str.string[j] != string[i + j]) break;
+        int* prefix = new int[str.length];
+        prefix[0] = 0;
+        for (int k = 0, i = 1; i < str.length; ++i) {
+            while ((k > 0) && (str.string[i] != str.string[k])) {
+                k = prefix[k - 1];
+            }
+            if (str.string[i] == str.string[k]) {
+                k++;
+            }
+            prefix[i] = k;
+        }
+
+        for (int k = 0, i = pos; i < length; ++i) {
+            while ((k > 0) && (string[i] != str.string[k])) {
+                k = prefix[k - 1];
+            }
+            if (++k == str.length) {
+                delete[] prefix;
+                return (i - str.length + 1);
             }
         }
+        delete[] prefix;
         return NULL_POS;
     }
 

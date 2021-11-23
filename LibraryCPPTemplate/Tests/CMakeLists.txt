@@ -32,3 +32,7 @@ add_executable(TestAssociativeArrayPerformanceCPPTemplate associative_array_perf
 target_include_directories(TestAssociativeArrayPerformanceCPPTemplate PUBLIC ..)
 add_test(TestAssociativeArrayPerformanceCPPTemplate TestAssociativeArrayPerformanceCPPTemplate)
 set_tests_properties(TestAssociativeArrayPerformanceCPPTemplate PROPERTIES TIMEOUT 10)
+
+add_executable(TestString string_performance.cpp)
+target_include_directories(TestString PUBLIC ..)
+add_test(TestString TestString)
