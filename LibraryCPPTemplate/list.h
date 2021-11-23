@@ -26,7 +26,7 @@ public:
     // Destroys the list and frees the memory
     ~List()
     {
-        while (Item* item = firstItem) {
+        while (Item* item = first()) {
             erase(item);
             delete item;
         }
@@ -43,10 +43,12 @@ public:
     {
         Item* newItem = new Item(data);
         Item* firstItem = first();
+        if (!firstItem) {
+            firstItem = newItem;
+        }
         newItem->nextItem = firstItem;
         newItem->prevItem = firstItem->prevItem;
-        newItem->prevItem->nextItem = newItem;
-        newItem->nextItem->prevItem = newItem;
+        firstItem->prevItem = newItem;
         dummyElement->nextItem = newItem;
         return newItem;
     }
