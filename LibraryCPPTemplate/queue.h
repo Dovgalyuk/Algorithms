@@ -32,7 +32,7 @@ public:
     // Retrieves first element from the queue
     Data get()
     {
-        return first()->data();
+        return List<Data>::first()->data();
     }
 
     // Removes first element from the queue
