@@ -29,7 +29,7 @@ struct Pos
 
     int M,N;
     std::vector<std::vector<char>> maze;
-    std::vector<std::vector<bool>> used;
+    
     Pos startPos;
     Queue<Pos> queue; 
     int steps;
@@ -60,20 +60,7 @@ struct Pos
         }
         file.close();    
 
-        //used filling
-        used.resize(M);
-        for (int i = 0; i < maze.size(); i++) {
-            used[i].resize(N);
-            for (int j = 0; j < maze[i].size(); j++) {
-                used[i][j] = false;
-                if (maze[i][j] == 'X') {
-                    used[i][j] = true;
-                }
-                if (maze[i][j] == '#') {
-                    used[i][j] = true;
-                }
-            }
-        } 
+        
 
     }
 
@@ -105,13 +92,10 @@ struct Pos
     private:
     void addToQueue(Pos pos) {
         if ((pos.X < M) && (pos.X >= 0) && (pos.Y < N) && (pos.Y >= 0)) {
-            if (!used[pos.X][pos.Y]) {
-                if (maze[pos.X][pos.Y] == '.') {
-                    used[pos.X][pos.Y] = true;
-                    queue.insert(pos);
-                    maze[pos.X][pos.Y] = 'x';
-                    steps++;
-                }
+            if (maze[pos.X][pos.Y] == '.') {
+                queue.insert(pos);
+                maze[pos.X][pos.Y] = 'x';
+                steps++;
             }
         }
     }

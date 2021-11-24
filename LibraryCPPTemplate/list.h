@@ -77,9 +77,7 @@ public:
             while (cur->next() != item) {
                 cur = cur->next();
             }
-            if (cur->next()) {
-                cur->next(cur->next()->next());
-            }
+            cur->next(cur->next()->next());
             delete item;
             return cur->next();
         }
@@ -92,7 +90,9 @@ public:
     Item *erase_next(Item *item)
     {
         if (item->next()) {
+            Item *mustBeDeleted = item->next();
             item->next(item->next()->next());
+            delete mustBeDeleted
         }
         return item->next();
     }
