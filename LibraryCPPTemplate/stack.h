@@ -7,7 +7,7 @@ template <typename Data> class Stack
 {
 public:
 // Creates empty stack
-    Stack() : _size(0), _vector(new Vector<Data>)
+    Stack() : _vector(new Vector<Data>(0))
     {
     }
 
@@ -21,32 +21,30 @@ public:
 // Should be O(1) on average
     void push(Data data)
     {
-        _vector->set(_size, data);
-        ++_size;
+        _vector->set(_vector->size(), data);
     }
 
 // Retrives the last element from the stack
     Data get() const
     {
-        return _vector->get(_size - 1);
+        return _vector->get(_vector->size() - 1);
     }
 
 // Removes the last element from the stack
 // Should be O(1)
     void pop()
     {
-        --_size;
+    _vector->resize(_vector->size()-1);
     }
 
 // Returns true if the stack is empty
     bool empty() const
     {
-        return _size == 0;
+        return _vector->size() == 0;
     }
 
 private:
     Vector<Data>* _vector;
-    size_t _size;
 // private data should be here
 };
 

@@ -11,7 +11,6 @@ int main()
         size_t size;
         input >> size;
         Stack<int> plus;
-        Stack<int> minus;
         for (int i = 0; i < size; ++i) {
             int index;
             char sign;
@@ -19,10 +18,7 @@ int main()
             if (sign == '-') {
                 if (!plus.empty()) {
                     std::cout << plus.get() << " " << index << std::endl;
-                    minus.pop();
                     plus.pop();
-                } else {
-                    minus.push(index);
                 }
             } else {
                 plus.push(index);
@@ -33,5 +29,4 @@ int main()
         cout<<"file is not open"<<endl;
     }
     return 0;
-
 }
