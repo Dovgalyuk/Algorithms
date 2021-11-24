@@ -58,38 +58,34 @@ void generateVariants(const std::string &input) {
     if (!number.empty())
         numbers.push_back(number);
 
-    bool first = false;
-    float max = 0;
+    float max = calculate(generateVariant(numbers, operations, operationsPriority)); // For first variant
     while(std::next_permutation(operationsPriority.begin(), operationsPriority.end())) {
         float result = calculate(generateVariant(numbers, operations, operationsPriority));
-        if (first) {
-            max = std::max(max, result);
-        } else {
-            first = true;
-            max = result;
-        }
+        max = std::max(max, result);
     }
     std::cout << "Max number is: " << max << std::endl;
 }
 
 std::string generateVariant(SVector numbers, CVector operations, std::vector<int> operationsPriority) {
+    int i = 0;
     for (int priority : operationsPriority) {
         auto operation = operations.at(priority);
         std::string left = numbers.at(priority - operation.first);
         std::string right = numbers.at(priority + 1 - operation.first);
         std::string finalString;
-        if (priority != operations.size() - 1)
+        if (i != operations.size() - 1)
             finalString = '(';
         finalString.append(left);
         finalString.append(std::string(1, operation.second));
         finalString.append(right);
-        if (priority != operations.size() - 1)
+        if (i != operations.size() - 1)
             finalString.append(")");
         numbers[priority - operation.first] = finalString;
         numbers.erase(numbers.begin() + priority + 1 - operation.first);
         std::for_each(operations.begin() + priority, operations.end(), [](std::pair<int, char> &ch) {
             ch.first++;
         });
+        i++;
     }
     return numbers.front();
 }
