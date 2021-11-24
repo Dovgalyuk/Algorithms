@@ -79,7 +79,7 @@ public:
     }
 
     bool equal(String const &secondString) {
-        return length == secondString.length && findString(secondString) == 0;
+        return length == secondString.length && compare(secondString) == 0;
     }
 
     char* getCharArray() {
