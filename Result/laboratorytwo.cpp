@@ -79,6 +79,8 @@ std::vector<std::string> *calculateOrder(const std::string& input) {
             while (lastPriority >= priority && !operationStack.empty()) {
                 result->push_back(std::string(1, operationStack.get()));
                 operationStack.pop();
+                priority = getOperationPriority(ch);
+                lastPriority = getOperationPriority(operationStack.get());
             }
             operationStack.push(ch);
         }
