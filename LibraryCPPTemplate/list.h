@@ -92,7 +92,7 @@ public:
         if (item->next()) {
             Item *mustBeDeleted = item->next();
             item->next(item->next()->next());
-            delete mustBeDeleted
+            delete mustBeDeleted;
         }
         return item->next();
     }
