@@ -28,15 +28,15 @@ std::string generateVariant(SVector numbers, CVector operations, std::vector<int
 
 int main() {
     std::string input = "1+2-3*4";
-    //std::cout << "Input calculation string:" << std::endl;
-    //std::cin >> input;
-    //calculate(input);
+    if (input.empty()) {
+        std::cout << "Input calculation string:" << std::endl;
+        std::cin >> input;
+    }
     generateVariants(input);
     return 0;
 }
 
 void generateVariants(const std::string &input) {
-
     SVector numbers;
     CVector operations;
     std::vector<int> operationsPriority;
@@ -55,8 +55,7 @@ void generateVariants(const std::string &input) {
         operationsPriority.push_back(i);
         i++;
     }
-    if (!number.empty())
-        numbers.push_back(number);
+    if (!number.empty()) numbers.push_back(number);
 
     float max = calculate(generateVariant(numbers, operations, operationsPriority)); // For first variant
     while(std::next_permutation(operationsPriority.begin(), operationsPriority.end())) {
