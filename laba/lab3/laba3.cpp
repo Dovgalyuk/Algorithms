@@ -1,6 +1,7 @@
-﻿#include <iostream>
+#include <iostream>
 #include "queue.h"
 #include "list.h"
+#include <math.h>
 #include <iomanip>
 
 using namespace std;
