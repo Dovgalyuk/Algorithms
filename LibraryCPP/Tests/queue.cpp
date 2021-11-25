@@ -40,6 +40,4 @@ int main()
         std::cout << "Get: " << queue_get(queue) << "\n";
         queue_remove(queue);
     }
-
-    queue_delete(queue);
 }
