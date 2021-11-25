@@ -11,15 +11,13 @@ struct ListItem
 
 struct List
 {
+    ListItem* dummy = nullptr;
     ListItem* first = nullptr;
 };
-
-List* dummy= new List;
 
 //Создает новый список
 List *list_create()
 {
-    dummy->first = nullptr;
     return new List;
 }
 
