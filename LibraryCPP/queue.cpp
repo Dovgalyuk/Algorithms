@@ -42,10 +42,5 @@ void queue_remove(Queue *queue)
 
 bool queue_empty(const Queue *queue)
 {
-    if (list_first(queue->list) == 0) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return (list_first(queue->list) == 0); 
 }

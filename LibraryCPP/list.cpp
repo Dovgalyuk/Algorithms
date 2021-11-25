@@ -5,8 +5,7 @@ struct ListItem
 {
     Data data;
     ListItem* next = nullptr;
-    ListItem* prev = nullptr;
-
+    ListItem* prev = nullptr;    
     ListItem(Data data): data(data) {};
 };
 
@@ -15,9 +14,12 @@ struct List
     ListItem* first = nullptr;
 };
 
+List* dummy= new List;
+
 //Создает новый список
 List *list_create()
 {
+    dummy->first = nullptr;
     return new List;
 }
 
