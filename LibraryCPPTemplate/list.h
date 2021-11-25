@@ -19,8 +19,9 @@ public:
     };
 
     // Creates new list
-    List(): dummyElement(new Item(0))
-    {
+    List() {
+        dummyElement = new Item(0);
+        dummyElement->nextItem = dummyElement;
     }
 
     // Destroys the list and frees the memory
@@ -35,7 +36,7 @@ public:
     // Retrieves the first item from the list
     Item *first()
     {
-        return dummyElement->nextItem;
+        return (empty()) ? nullptr : dummyElement->nextItem;
     }
 
     // Inserts new list item into the beginning
@@ -43,7 +44,7 @@ public:
     {
         Item* newItem = new Item(data);
         Item* firstItem = first();
-        if (!firstItem) {
+        if (empty()) {
             firstItem = newItem;
         }
         newItem->nextItem = firstItem;
@@ -64,6 +65,10 @@ public:
         return newItem;
     }
 
+    bool empty() {
+        return dummyElement->nextItem == dummyElement;
+    }
+
     // Deletes the specified list item.
     // Returns pointer to the item next to the deleted one.
     // Not applicable for the singly linked lists.
@@ -74,11 +79,11 @@ public:
         Item* firstItem = first();
         if (firstItem == item) {
             if (firstItem->nextItem == firstItem) {
-                dummyElement->nextItem  = nullptr;
+                dummyElement->nextItem = dummyElement;
             } else {
                 firstItem->nextItem->prevItem = firstItem->prevItem;
                 firstItem->prevItem->nextItem = firstItem->nextItem;
-                dummyElement->nextItem  = firstItem->nextItem;
+                dummyElement->nextItem = firstItem->nextItem;
                 returned = firstItem->nextItem;
             }
         } else {
