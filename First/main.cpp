@@ -16,11 +16,11 @@ void fill(Array* array) {
 
 void arrayProcessing(Array* array, int n, int m) {
     for (int i = 0; i < array_size(array); i++) {
-        if (array_get(array, i) % 2 == 0) {
-            array_set(array, i, array_get(array, i) + n);
-        }
-        else {
+        if (array_get(array, i) % 2 != 0) {
             array_set(array, i, array_get(array, i) - m);
+        }
+        if ((i + 1) % 2 != 0) {
+            array_set(array, i, array_get(array, i) + n);
         }
     }
 }
