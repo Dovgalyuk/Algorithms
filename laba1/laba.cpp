@@ -15,27 +15,24 @@ int main() {
         array_set(arr, i, rand() % 500 - 100);
     }
 
-
-    for (int i = 0; i < array_size(arr) - 1; ++i) {
-
-        if (array_get(arr, i) >= a && array_get(arr, i) <= b){
-
-            int firstNonZero = i + 1;
-            for (int j = firstNonZero; j < array_size(arr); ++j) {
-                if (array_get(arr, j) != (array_get(arr, i) >= a && array_get(arr, i) <= b)) {
-                    firstNonZero = j;
-                    break;
+    for (int i = 0; i < array_size(arr); ++i)
+    {
+        if (array_get(arr, i) >= a && array_get(arr, i) <= b)
+        {
+            int num = array_get(arr, i);
+            for (int j = i + 1; j < array_size(arr); ++j) {
+                array_set(arr, j-1, array_get(arr,j));
+                if (j == array_size(arr) - 1)
+                {
+                    array_set(arr, j, num);
                 }
             }
-            int num = array_get(arr, firstNonZero);
-            int num2 = array_get(arr, i);
-            array_set(arr, i, num);
-            array_set(arr, firstNonZero, num2);
         }
     }
 
-    for (int i = 0; i < array_size(arr); i++) {
-        if (array_get(arr, i) >= a && array_get(arr, i) <= b) {
+    for (int i = 0; i < array_size(arr); ++i) {
+        if (array_get(arr, i) >= a && array_get(arr, i) <= b)
+        {
             array_set(arr, i, 0);
         }
     }
