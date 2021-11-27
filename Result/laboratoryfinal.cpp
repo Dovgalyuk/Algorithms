@@ -4,6 +4,7 @@
 #include <deque>
 #include <stack>
 #include <map>
+#include <unordered_map>
 #include <chrono>
 
 typedef std::pair<std::string, float> StringPair;
@@ -16,9 +17,9 @@ float calculateSubExpression(float first, float second, char ch, bool dynamic = 
 
 void generateVariants(const std::string &input, bool dynamic = false);
 
-bool mapContains(std::map<std::string, float>& map, const std::string& key);
+bool mapContains(std::unordered_map<std::string, float>& map, const std::string& key);
 
-StringPair findMax(const std::vector<float> &numbers, const std::vector<char> &operations, bool dynamic, bool findMin = false);
+StringPair findMax(const std::vector<float> &numbers, const std::string &operations, bool dynamic, bool findMin = false);
 
 int main() {
     /*
@@ -32,7 +33,7 @@ int main() {
     "1+2-3*4-5*6+7*8-9"
     "1+2-3*4-5*6+7*8-9*10"
      */
-    std::string input = "1+2-3*4-5*6+7*8-9*10-11+12*13-14+15*16";
+    std::string input = "1+2-3*4-5*6+7*8-9*10-11+12*13-14";
     if (input.empty()) {
         std::cout << "Input calculation string:" << std::endl;
         std::cin >> input;
@@ -57,7 +58,7 @@ int main() {
 
 void generateVariants(const std::string &input, bool dynamic) {
     std::vector<float> numbers;
-    std::vector<char> operations;
+    std::string operations;
     std::vector<int> operationsPriority;
     std::string number;
     int i = 0;
@@ -76,23 +77,24 @@ void generateVariants(const std::string &input, bool dynamic) {
     }
     if (!number.empty()) numbers.push_back(std::stof(number));
 
-    auto result = findMax(numbers, operations, dynamic);
+    const auto result = findMax(numbers, operations, dynamic);
     std::cout << "String is: " << result.first << std::endl;
     std::cout << "Max number is: " << result.second << std::endl;
 }
 
-StringPair findMax(const std::vector<float> &numbers, const std::vector<char> &operations, bool dynamic, bool findMin) {
-    static std::map<std::string, float> subExpressionMap;
+StringPair findMax(const std::vector<float> &numbers, const std::string &operations, bool dynamic, bool findMin) {
+    static std::unordered_map<std::string, float> subExpressionMap;
 
-    StringPair left;
-    StringPair right;
 
     StringPair result = StringPair("", 0);
     for (int i = 0; i < operations.size(); i++) {
         const char operation = operations.at(i);
 
+        StringPair left;
+        StringPair right;
+
         std::vector<float> leftNum;
-        std::vector<char> leftOper;
+        std::string leftOper;
 
         if (i == 0) {
             left = StringPair(std::to_string((int) numbers.at(0)), numbers.at(0));
@@ -106,7 +108,7 @@ StringPair findMax(const std::vector<float> &numbers, const std::vector<char> &o
         }
 
         std::vector<float> rightNum;
-        std::vector<char> rightOper;
+        std::string rightOper;
 
         if (i + 1 == operations.size()) {
             right = StringPair(std::to_string((int) numbers.at(numbers.size() - 1)), numbers.at(numbers.size() - 1));
@@ -123,24 +125,31 @@ StringPair findMax(const std::vector<float> &numbers, const std::vector<char> &o
         const std::string str = '(' + left.first + operation + right.first + ')';
 
         float tmpNum = 0;
-        if (dynamic && mapContains(subExpressionMap, str)) {
-            tmpNum = subExpressionMap.at(str);
+        StringPair tmpSP;
+        if (dynamic) {
+            auto pair = subExpressionMap.find(str);
+            if (pair != subExpressionMap.end()) {
+                tmpNum = pair->second;
+                tmpSP = StringPair(str, tmpNum);
+            } else {
+                tmpNum = calculateSubExpression(left.second, right.second, operation);
+                tmpSP = StringPair(str, tmpNum);
+                subExpressionMap[str] = tmpNum;
+            }
         } else {
             tmpNum = calculateSubExpression(left.second, right.second, operation);
-            subExpressionMap.insert(StringPair(str, tmpNum));
+            tmpSP = StringPair(str, tmpNum);
         }
 
-        StringPair tmpSP = StringPair(str, tmpNum);
         if (result.first.empty()) {
             result = tmpSP;
             continue;
-        } else {
-            if (findMin) {
-                if (result.second > tmpSP.second) result = tmpSP;
-                continue;
-            }
-            if (result.second < tmpSP.second) result = tmpSP;
         }
+        if (findMin) {
+            if (result.second > tmpSP.second) result = tmpSP;
+            continue;
+        }
+        if (result.second < tmpSP.second) result = tmpSP;
     }
 
     return result;
@@ -285,6 +294,6 @@ int getOperationPriority(const char ch, int code) {
     return priority;
 }
 
-bool mapContains(std::map<std::string, float>& map, const std::string& key) {
+bool mapContains(std::unordered_map<std::string, float>& map, const std::string& key) {
     return map.find(key) != map.end();
 }
