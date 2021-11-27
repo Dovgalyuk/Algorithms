@@ -8,7 +8,7 @@ int main() {
 
     Stack *stack = stack_create();
 
-    int A[1] = {0}, B[1] = {0}, C[1] = {0}, D[1] = {0};
+    int A = 0, B = 0, C = 0, D = 0;
 
     std::string str;
 
@@ -23,16 +23,16 @@ int main() {
                 str = str[5];
 
                 if (!str.find('A')) {
-                    stack_push(stack, A[0]);
+                    stack_push(stack, A);
                 }
                 else if (!str.find('B')) {
-                    stack_push(stack, B[0]);
+                    stack_push(stack, B);
                 }
                 else if (!str.find('C')) {
-                    stack_push(stack, C[0]);
+                    stack_push(stack, C);
                 }
                 else if (!str.find('D')) {
-                    stack_push(stack, D[0]);
+                    stack_push(stack, D);
                 }
                 else {
                     stack_push(stack, std::atoi(str.c_str()));
@@ -47,19 +47,19 @@ int main() {
                 str = str[4];
 
                 if (!str.find('A')) {
-                    A[0] = stack_get(stack);
+                    A = stack_get(stack);
                     stack_pop(stack);
                 }
                 else if (!str.find('B')) {
-                    B[0] = stack_get(stack);
+                    B = stack_get(stack);
                     stack_pop(stack);
                 }
                 else if (!str.find('C')) {
-                    C[0] = stack_get(stack);
+                    C = stack_get(stack);
                     stack_pop(stack);
                 }
                 else if (!str.find('D')) {
-                    D[0] = stack_get(stack);
+                    D = stack_get(stack);
                     stack_pop(stack);
                 }
                 else {
@@ -73,7 +73,7 @@ int main() {
         std::cout << "Error opening file" << std::endl;
     }
 
-    std::cout << "A = " << *A << std::endl << "B = " << *B << std::endl << "C = " << *C << std::endl << "D = " << *D << std::endl;
+    std::cout << "A = " << A << std::endl << "B = " << B << std::endl << "C = " << C << std::endl << "D = " << D << std::endl;
 
     stack_delete(stack);
 
