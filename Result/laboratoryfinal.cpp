@@ -8,16 +8,10 @@
 #include <chrono>
 
 typedef std::pair<std::string, float> StringPair;
-typedef std::deque<std::string> SVector;
 
-float calculate(const std::string& input);
-SVector *calculateOrder(const std::string& input);
-int getOperationPriority(char ch, int code);
 float calculateSubExpression(float first, float second, char ch);
 
 void generateVariants(const std::string &input, bool dynamic = false);
-
-bool mapContains(std::unordered_map<std::string, float>& map, const std::string& key);
 
 StringPair findMax(const std::vector<float> &numbers, const std::string &operations, bool dynamic, bool findMin = false);
 
@@ -166,125 +160,4 @@ float calculateSubExpression(float first, float second, char ch) {
             std::cout << "String have unknown operation " << ch << std::endl;
             exit(-1);
     }
-}
-
-float calculate(const std::string& input) {
-    SVector *inputVector = calculateOrder(input);
-    std::stack<float> numbers;
-
-    //std::cout << "Calculating string: " << input << std::endl;
-    //std::cout << "Calculating order: ";
-    for (auto str : *inputVector) {
-        //std::cout << str;
-        if (str.find_first_not_of("0123456789") == std::string::npos) {
-            numbers.push(std::stof(str));
-            continue;
-        }
-        const char ch = str.at(0);
-        float first, second, result;
-        second = numbers.top();
-        numbers.pop();
-        first = numbers.top();
-        numbers.pop();
-        result = calculateSubExpression(first, second, ch);
-        numbers.push(result);
-    }
-    //std::cout << std::endl;
-    //std::cout << "Calculation result: "<< numbers.top() << std::endl;
-    return numbers.top();
-}
-
-SVector *calculateOrder(const std::string& input) {
-    std::vector<char> operationStack;
-
-    std::string number;
-    auto *result = new SVector;
-
-    for (char ch : input) {
-        if (std::isdigit(ch) || ch == '.') {
-            number.push_back(ch);
-            continue;
-        }
-        if (!number.empty()) {
-            result->push_back(number);
-            number = "";
-        }
-
-        int priority = getOperationPriority(ch, 1);
-        int lastPriority = 0;
-        if (!operationStack.empty()) {
-            lastPriority = getOperationPriority(operationStack.back(), 2);
-            if (operationStack.back() == '(')
-                lastPriority = 0;
-        }
-
-        if (ch == ')') {
-            while (true) {
-                if (operationStack.back() == '(') {
-                    operationStack.pop_back();
-                    break;
-                }
-                result->push_back(std::string(1, operationStack.back()));
-                operationStack.pop_back();
-            }
-        } else {
-            while (lastPriority >= priority && !operationStack.empty()) {
-
-                result->push_back(std::string(1, operationStack.back()));
-                operationStack.pop_back();
-
-                if (operationStack.empty()) break;
-
-                priority = getOperationPriority(ch, 3);
-                lastPriority = getOperationPriority(operationStack.back(), 4);
-            }
-            operationStack.push_back(ch);
-        }
-
-        // Debug code
-        /*for (const auto& c : *result) {
-            std::cout << c;
-        }
-        std::cout << std::endl;
-
-        for (auto c : operationStack) {
-            std::cout << c;
-        }
-        std::cout << std::endl;*/
-    }
-
-    if (!number.empty())
-        result->push_back(number);
-
-    while (!operationStack.empty()) {
-        result->push_back(std::string(1, operationStack.back()));
-        operationStack.pop_back();
-    }
-    return result;
-}
-
-int getOperationPriority(const char ch, int code) {
-    int priority;
-    switch (ch) {
-        case '-':
-        case '+':
-            priority = 1;
-            break;
-        case '/':
-        case '*':
-            priority = 2;
-            break;
-        case ')':
-        case '(':
-            priority = 3;
-            break;
-        default:
-            std::cout << "String have unknown operation " << ch << " " << code << std::endl;
-            exit(-1);
-    }
-    return priority;
-}
-
-bool mapContains(std::unordered_map<std::string, float>& map, const std::string& key) {
-    return map.find(key) != map.end();
 }
