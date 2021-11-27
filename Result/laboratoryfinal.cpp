@@ -13,7 +13,7 @@ typedef std::deque<std::string> SVector;
 float calculate(const std::string& input);
 SVector *calculateOrder(const std::string& input);
 int getOperationPriority(char ch, int code);
-float calculateSubExpression(float first, float second, char ch, bool dynamic = false);
+float calculateSubExpression(float first, float second, char ch);
 
 void generateVariants(const std::string &input, bool dynamic = false);
 
@@ -85,8 +85,7 @@ void generateVariants(const std::string &input, bool dynamic) {
 StringPair findMax(const std::vector<float> &numbers, const std::string &operations, bool dynamic, bool findMin) {
     static std::unordered_map<std::string, float> subExpressionMap;
 
-
-    StringPair result = StringPair("", 0);
+    auto result = StringPair("", 0);
     for (int i = 0; i < operations.size(); i++) {
         const char operation = operations.at(i);
 
@@ -122,7 +121,7 @@ StringPair findMax(const std::vector<float> &numbers, const std::string &operati
             right = findMax(rightNum, rightOper, dynamic, needMin);
         }
 
-        const std::string str = '(' + left.first + operation + right.first + ')';
+        const auto str = '(' + left.first + operation + right.first + ')';
 
         float tmpNum = 0;
         StringPair tmpSP;
@@ -155,26 +154,18 @@ StringPair findMax(const std::vector<float> &numbers, const std::string &operati
     return result;
 }
 
-float calculateSubExpression(float first, float second, char ch, bool dynamic) {
-    float result;
+float calculateSubExpression(float first, float second, char ch) {
     switch (ch) {
         case '-':
-            result = first - second;
-            break;
+            return first - second;
         case '+':
-            result = first + second;
-            break;
-        case '/':
-            result = first / second;
-            break;
+            return first + second;
         case '*':
-            result = first * second;
-            break;
+            return first * second;
         default:
             std::cout << "String have unknown operation " << ch << std::endl;
             exit(-1);
     }
-    return result;
 }
 
 float calculate(const std::string& input) {
