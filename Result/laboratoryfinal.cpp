@@ -6,32 +6,19 @@
 #include <map>
 #include <chrono>
 
-/*
-     Алгоритм перебора скобок для выражения
-     Можно разделить операнды и операци
-     получится два массива [1, 2, 3, 4] & [+, -, *]
-     а изначальное выражение выделить в отдельный массив
-     где каждое число или операция это отдельный элемент(к примеру в виде строки)
-     после этого можно поменять местами операции (поменять приоритет)
-     допустим получился такой вариант [2, 0, 1] значит будет такой порядок [*, +, -] (т.к. операции могут повторяться)
-     по индексам мы находим смежные элементы и формируем из них выражение, удалем лишний элемент и вставлем выражение
-     таким образом получаем финальное выражение
-*/
-
 typedef std::pair<std::string, float> StringPair;
-typedef std::deque<StringPair> PairSVector; //first for print, second for calculating
 typedef std::deque<std::string> SVector;
-typedef std::deque<std::pair<int,char>> CVector;
 
 float calculate(const std::string& input);
 SVector *calculateOrder(const std::string& input);
 int getOperationPriority(char ch, int code);
 float calculateSubExpression(float first, float second, char ch, bool dynamic = false);
 
-void generateVariants(const std::string &input, bool dynamic);
-StringPair dynamicGenerateVariant(PairSVector numbers, CVector operations, const std::vector<int>& operationsPriority, bool dynamic);
+void generateVariants(const std::string &input, bool dynamic = false);
 
 bool mapContains(std::map<std::string, float>& map, const std::string& key);
+
+StringPair findMax(const std::vector<float> &numbers, const std::vector<char> &operations, bool dynamic, bool findMin = false);
 
 int main() {
     /*
@@ -45,11 +32,12 @@ int main() {
     "1+2-3*4-5*6+7*8-9"
     "1+2-3*4-5*6+7*8-9*10"
      */
-    std::string input = "1+2-3*4-5*6+7*8-9*10";
+    std::string input = "1+2-3*4-5*6+7*8-9*10-11+12*13-14+15*16";
     if (input.empty()) {
         std::cout << "Input calculation string:" << std::endl;
         std::cin >> input;
     }
+
     //Non dynamic
     auto startTime = std::chrono::system_clock::now();
     generateVariants(input, false);
@@ -68,8 +56,8 @@ int main() {
 }
 
 void generateVariants(const std::string &input, bool dynamic) {
-    PairSVector numbers;
-    CVector operations;
+    std::vector<float> numbers;
+    std::vector<char> operations;
     std::vector<int> operationsPriority;
     std::string number;
     int i = 0;
@@ -79,72 +67,86 @@ void generateVariants(const std::string &input, bool dynamic) {
             continue;
         }
         if (!number.empty()) {
-            numbers.push_back(StringPair(number, std::stof(number)));
+            numbers.push_back(std::stof(number));
             number = "";
         }
-        operations.push_back(std::pair<int, char>(0, ch));
+        operations.push_back(ch);
         operationsPriority.push_back(i);
         i++;
     }
-    if (!number.empty()) numbers.push_back(StringPair(number, std::stof(number)));
+    if (!number.empty()) numbers.push_back(std::stof(number));
 
-    auto result = dynamicGenerateVariant(numbers, operations, operationsPriority, dynamic);
-    while(std::next_permutation(operationsPriority.begin(), operationsPriority.end())) {
-        auto candidateResult = dynamicGenerateVariant(numbers, operations, operationsPriority, dynamic);
-        if (result.first <= candidateResult.first) continue;
-        result = candidateResult;
-    }
+    auto result = findMax(numbers, operations, dynamic);
     std::cout << "String is: " << result.first << std::endl;
     std::cout << "Max number is: " << result.second << std::endl;
 }
 
-StringPair dynamicGenerateVariant(PairSVector numbers, CVector operations, const std::vector<int>& operationsPriority, bool dynamic) {
-    int i = 0;
-    for (int priority : operationsPriority) {
+StringPair findMax(const std::vector<float> &numbers, const std::vector<char> &operations, bool dynamic, bool findMin) {
+    static std::map<std::string, float> subExpressionMap;
 
-        // String building
-        auto operation = operations.at(priority);
-        std::string left = numbers.at(priority - operation.first).first;
-        std::string right = numbers.at(priority + 1 - operation.first).first;;
-        std::string str;
-        if (i != operations.size() - 1)
-            str = '(';
-        str.append(left);
-        str.append(std::string(1, operation.second));
-        str.append(right);
-        if (i != operations.size() - 1)
-            str.append(")");
-        numbers[priority - operation.first].first = str;
-        //
+    StringPair left;
+    StringPair right;
 
-        // Calculation
-        if (dynamic) {
-            float firstNum = numbers.at(priority - operation.first).second;
-            float secondNum = numbers.at(priority + 1 - operation.first).second;
-            const float calculationSubResult = calculateSubExpression(firstNum, secondNum, operation.second);
-            numbers[priority - operation.first].second = calculationSubResult;
+    StringPair result = StringPair("", 0);
+    for (int i = 0; i < operations.size(); i++) {
+        const char operation = operations.at(i);
+
+        std::vector<float> leftNum;
+        std::vector<char> leftOper;
+
+        if (i == 0) {
+            left = StringPair(std::to_string((int) numbers.at(0)), numbers.at(0));
+        } else {
+            for (int j = 0; j <= i; j++) {
+                leftNum.push_back(numbers.at(j));
+                if (j >= i) continue;
+                leftOper.push_back(operations.at(j));
+            }
+            left = findMax(leftNum, leftOper, dynamic);
         }
-        //
 
-        numbers.erase(numbers.begin() + priority + 1 - operation.first);
-        std::for_each(operations.begin() + priority, operations.end(), [](std::pair<int, char> &ch) {
-            ch.first++;
-        });
-        i++;
+        std::vector<float> rightNum;
+        std::vector<char> rightOper;
+
+        if (i + 1 == operations.size()) {
+            right = StringPair(std::to_string((int) numbers.at(numbers.size() - 1)), numbers.at(numbers.size() - 1));
+        } else {
+            for (int j = i + 1; j < numbers.size(); j++) {
+                rightNum.push_back(numbers.at(j));
+                if (j >= operations.size()) continue;
+                rightOper.push_back(operations.at(j));
+            }
+            bool needMin = operation == '-';
+            right = findMax(rightNum, rightOper, dynamic, needMin);
+        }
+
+        const std::string str = '(' + left.first + operation + right.first + ')';
+
+        float tmpNum = 0;
+        if (dynamic && mapContains(subExpressionMap, str)) {
+            tmpNum = subExpressionMap.at(str);
+        } else {
+            tmpNum = calculateSubExpression(left.second, right.second, operation);
+            subExpressionMap.insert(StringPair(str, tmpNum));
+        }
+
+        StringPair tmpSP = StringPair(str, tmpNum);
+        if (result.first.empty()) {
+            result = tmpSP;
+            continue;
+        } else {
+            if (findMin) {
+                if (result.second > tmpSP.second) result = tmpSP;
+                continue;
+            }
+            if (result.second < tmpSP.second) result = tmpSP;
+        }
     }
 
-    if (!dynamic) numbers.front().second = calculate(numbers.front().first);
-    return numbers.front();
+    return result;
 }
 
 float calculateSubExpression(float first, float second, char ch, bool dynamic) {
-    static std::map<std::string, float> subExpressionMap;
-    std::string key;
-    key.append(std::to_string(first));
-    key.append(std::to_string(ch));
-    key.append(std::to_string(second));
-    if (dynamic && mapContains(subExpressionMap, key)) return subExpressionMap.at(key);
-
     float result;
     switch (ch) {
         case '-':
@@ -163,7 +165,6 @@ float calculateSubExpression(float first, float second, char ch, bool dynamic) {
             std::cout << "String have unknown operation " << ch << std::endl;
             exit(-1);
     }
-    if (dynamic) subExpressionMap.insert(StringPair(key, result));
     return result;
 }
 
