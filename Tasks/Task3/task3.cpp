@@ -41,29 +41,26 @@ int main() {
         was[i] = false;
     }
     was[startId] = true;
-
-    int length = 1;
-    int numberOfAddedInQueue = 1;
+    int lengths[count];
+    for (int i = 0; i < count; ++i) {
+        lengths[i] = 0;
+    }
     while (!queue.empty()) {
-        int size = numberOfAddedInQueue;
-        numberOfAddedInQueue = 0;
-        for (int i = 0; i < size; ++i) {
-            int id = queue.get();
-            queue.remove();
-            for (int j = 0; j < count; ++j) {
-                if (matrix[id][j] && !was[j]) {
-                    if (j == finishId) {
-                        writeAnswer(true, length);
-                        return 0;
-                    } else {
-                        was[j] = true;
-                        queue.insert(j);
-                        numberOfAddedInQueue++;
-                    }
+        int id = queue.get();
+        int length = ++lengths[id];
+        queue.remove();
+        for (int j = 0; j < count; ++j) {
+            if (matrix[id][j] && !was[j]) {
+                if (j == finishId) {
+                    writeAnswer(true, length);
+                    return 0;
+                } else {
+                    was[j] = true;
+                    queue.insert(j);
+                    lengths[j] = length;
                 }
             }
         }
-        length++;
     }
     writeAnswer(false, 0);
     return 0;

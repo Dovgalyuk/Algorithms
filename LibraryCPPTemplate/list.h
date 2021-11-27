@@ -22,6 +22,7 @@ public:
     List() {
         dummyElement = new Item(0);
         dummyElement->nextItem = dummyElement;
+        dummyElement->prevItem = dummyElement;
     }
 
     // Destroys the list and frees the memory
@@ -31,27 +32,19 @@ public:
             erase(item);
             delete item;
         }
+        delete dummyElement;
     }
 
     // Retrieves the first item from the list
     Item *first()
     {
-        return (empty()) ? nullptr : dummyElement->nextItem;
+        return empty() ? nullptr : dummyElement->nextItem;
     }
 
     // Inserts new list item into the beginning
     Item *insert(Data data)
     {
-        Item* newItem = new Item(data);
-        Item* firstItem = first();
-        if (empty()) {
-            firstItem = newItem;
-        }
-        newItem->nextItem = firstItem;
-        newItem->prevItem = firstItem->prevItem;
-        firstItem->prevItem = newItem;
-        dummyElement->nextItem = newItem;
-        return newItem;
+        return insert_after(dummyElement, data);
     }
 
     // Inserts new list item after the specified item
@@ -75,23 +68,9 @@ public:
     // Should be O(1)
     Item *erase(Item *item)
     {
-        Item* returned = nullptr;
-        Item* firstItem = first();
-        if (firstItem == item) {
-            if (firstItem->nextItem == firstItem) {
-                dummyElement->nextItem = dummyElement;
-            } else {
-                firstItem->nextItem->prevItem = firstItem->prevItem;
-                firstItem->prevItem->nextItem = firstItem->nextItem;
-                dummyElement->nextItem = firstItem->nextItem;
-                returned = firstItem->nextItem;
-            }
-        } else {
-            item->nextItem->prevItem = item->prevItem;
-            item->prevItem->nextItem = item->nextItem;
-            returned = item->nextItem;
-        }
-        return returned;
+        item->nextItem->prevItem = item->prevItem;
+        item->prevItem->nextItem = item->nextItem;
+        return empty() ? nullptr : item->nextItem;
     }
 
     // Deletes the list item following the specified one.

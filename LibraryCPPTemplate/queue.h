@@ -23,7 +23,7 @@ public:
         if (empty()) {
             list->insert(data);
         } else {
-            list->insert_after(list->first()->prevItem, data);
+            list->insert_after(list->first()->prevItem->prevItem, data);
         }
     }
 
@@ -43,7 +43,7 @@ public:
     // Returns true if the queue is empty
     bool empty() const
     {
-        return !list->first();
+        return list->empty();
     }
 
 private:
