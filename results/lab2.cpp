@@ -31,7 +31,11 @@ int main()
 		{
 			continue;
 		}
-		transform(str.begin(), str.end(), str.begin(), tolower);
+		//transform(str.begin(), str.end(), str.begin(), tolower);
+		for (int i = 0; i < str.length(); i++)
+		{
+			str[i] = tolower(str[i]);
+		}
 		if (str[0] != '<' || str[str.length() - 1] != '>')
 		{
 			fout << "¬ходные данные имели неверный формат";
