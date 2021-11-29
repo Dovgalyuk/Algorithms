@@ -47,7 +47,7 @@ int main() {
     }
     while (!queue.empty()) {
         int id = queue.get();
-        int length = ++lengths[id];
+        int length = lengths[id] + 1;
         queue.remove();
         for (int j = 0; j < count; ++j) {
             if (matrix[id][j] && !was[j]) {

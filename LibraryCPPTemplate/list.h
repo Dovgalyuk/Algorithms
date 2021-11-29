@@ -70,7 +70,9 @@ public:
     {
         item->nextItem->prevItem = item->prevItem;
         item->prevItem->nextItem = item->nextItem;
-        return empty() ? nullptr : item->nextItem;
+        Item* returned = item->nextItem;
+        delete item;
+        return empty() ? nullptr : returned;
     }
 
     // Deletes the list item following the specified one.
