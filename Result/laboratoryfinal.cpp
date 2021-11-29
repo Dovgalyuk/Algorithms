@@ -69,42 +69,40 @@ struct Finder {
 };
 
 int main() {
-    /*
-    "1+2"
-    "1+2-3"
-    "1+2-3*4"
-    "1+2-3*4-5"
-    "1+2-3*4-5*6"
-    "1+2-3*4-5*6+7"
-    "1+2-3*4-5*6+7*8"
-    "1+2-3*4-5*6+7*8-9"
-    "1+2-3*4-5*6+7*8-9*10"
-    "1+2-3*4-5*6+7*8-9*10-11"
-    "1+2-3*4-5*6+7*8-9*10-11*12"
-    "1+2-3*4-5*6+7*8-9*10-11*12+13"
-    "1+2-3*4-5*6+7*8-9*10-11*12+13*14"
-     "1+2-3*4-5*6+7*8-9*10-11*12+13*14-15"
-     */
-    std::string input = "1+2-3*4-5*6+7*8-9*10-11";
-    if (input.empty()) {
-        std::cout << "Input calculation string:" << std::endl;
-        std::cin >> input;
+    std::vector<std::string> input = {
+            "1+2",
+            "1+2-3",
+            "1+2-3*4",
+            "1+2-3*4-5",
+            "1+2-3*4-5*6",
+            "1+2-3*4-5*6+7",
+            "1+2-3*4-5*6+7*8",
+            "1+2-3*4-5*6+7*8-9",
+            "1+2-3*4-5*6+7*8-9*10",
+            "1+2-3*4-5*6+7*8-9*10-11",
+            "1+2-3*4-5*6+7*8-9*10-11*12",
+            "1+2-3*4-5*6+7*8-9*10-11*12+13",
+            "1+2-3*4-5*6+7*8-9*10-11*12+13*14",
+            "1+2-3*4-5*6+7*8-9*10-11*12+13*14-15"
+    };
+
+    for (const auto &str : input) {
+        //Non dynamic
+        auto startTime = std::chrono::system_clock::now();
+        generateVariants(str, false);
+        auto endTime = std::chrono::system_clock::now();
+        std::chrono::duration<double, std::milli> finalTime = endTime - startTime;
+        std::cout << "Find maximum without dynamic on " << str.size() << " chars take " << finalTime.count()
+                  << " microseconds." << std::endl;
+
+        //Dynamic
+        startTime = std::chrono::system_clock::now();
+        generateVariants(str, true);
+        endTime = std::chrono::system_clock::now();
+        finalTime = endTime - startTime;
+        std::cout << "Find maximum with dynamic on " << str.size() << " chars take " << finalTime.count()
+                  << " microseconds." << std::endl;
     }
-
-    //Non dynamic
-    auto startTime = std::chrono::system_clock::now();
-    generateVariants(input, false);
-    auto endTime = std::chrono::system_clock::now();
-    std::chrono::duration<double, std::micro> finalTime = endTime - startTime;
-    std::cout << "Find maximum without dynamic on " << input.size() << " chars take " << finalTime.count() << " milliseconds." << std::endl;
-
-    //Dynamic
-    startTime = std::chrono::system_clock::now();
-    generateVariants(input, true);
-    endTime = std::chrono::system_clock::now();
-    finalTime = endTime - startTime;
-    std::cout << "Find maximum with dynamic on " << input.size() << " chars take " << finalTime.count() << " milliseconds." << std::endl;
-
     return 0;
 }
 
@@ -134,8 +132,8 @@ void generateVariants(const std::string &input, bool dynamic) {
     finder.operations = operations;
     finder.inputString = input;
     const auto result = finder.findMax(0, operations.size() - 1, dynamic);
-    std::cout << "String is: " << result.first << std::endl;
-    std::cout << "Max number is: " << result.second << std::endl;
+    //std::cout << "String is: " << result.first << std::endl;
+    //std::cout << "Max number is: " << result.second << std::endl;
 }
 
 float calculateSubExpression(float first, float second, char ch) {
