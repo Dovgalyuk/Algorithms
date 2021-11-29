@@ -13,7 +13,62 @@ float calculateSubExpression(float first, float second, char ch);
 
 void generateVariants(const std::string &input, bool dynamic = false);
 
-StringPair findMax(const std::vector<float> &numbers, const std::string &operations, bool dynamic, bool findMin = false);
+struct Finder {
+    std::string inputString;
+    std::vector<float> numbers;
+    std::string operations;
+    std::unordered_map<std::string, float> subExpressionMap;
+
+    StringPair findMax(int leftIndex, int rightIndex, bool dynamic, bool findMin = false) {
+
+        std::string key;
+        if (dynamic) {
+            key = inputString.substr(leftIndex * 2, (rightIndex + 1) * 2 + 1);
+            auto pair = subExpressionMap.find(key);
+            if (pair != subExpressionMap.end()) {
+                return StringPair(pair->first, pair->second);
+            }
+        }
+        StringPair result = StringPair("", 0); //"1+2-3*4"
+        for (int i = leftIndex; i <= rightIndex; i++) {
+            const char operation = operations.at(i);
+
+            StringPair left;
+            StringPair right;
+
+            if (i == leftIndex) {
+                left = StringPair(std::to_string((int) numbers.at(leftIndex)), numbers.at(leftIndex));
+            } else {
+                left = findMax(leftIndex, i - 1, dynamic);
+            }
+
+            if (i == rightIndex) {
+                right = StringPair(std::to_string((int) numbers.at(rightIndex + 1)), numbers.at(rightIndex + 1));
+            } else {
+                right = findMax(i + 1, rightIndex, dynamic, (operation == '-'));
+            }
+
+            const auto str = '(' + left.first + operation + right.first + ')';
+
+            float tmpNum = calculateSubExpression(left.second, right.second, operation);
+            StringPair tmpSP;
+            tmpSP = StringPair(str, tmpNum);
+
+            if (result.first.empty()) {
+                result = tmpSP;
+                continue;
+            }
+            if (findMin) {
+                if (result.second > tmpSP.second) result = tmpSP;
+                continue;
+            }
+            if (result.second < tmpSP.second) result = tmpSP;
+        }
+
+        if (dynamic) subExpressionMap.insert(result);
+        return result;
+    }
+};
 
 int main() {
     /*
@@ -27,7 +82,7 @@ int main() {
     "1+2-3*4-5*6+7*8-9"
     "1+2-3*4-5*6+7*8-9*10"
      */
-    std::string input = "1+2-3*4-5*6+7*8-9*10-11+12*13-14";
+    std::string input = "1+2-3*4-5*6+7*8-9*10+1+2-3*4-5*6+7*8-9*10";
     if (input.empty()) {
         std::cout << "Input calculation string:" << std::endl;
         std::cin >> input;
@@ -71,81 +126,13 @@ void generateVariants(const std::string &input, bool dynamic) {
     }
     if (!number.empty()) numbers.push_back(std::stof(number));
 
-    const auto result = findMax(numbers, operations, dynamic);
+    Finder finder;
+    finder.numbers = numbers;
+    finder.operations = operations;
+    finder.inputString = input;
+    const auto result = finder.findMax(0, operations.size() - 1, dynamic);
     std::cout << "String is: " << result.first << std::endl;
     std::cout << "Max number is: " << result.second << std::endl;
-}
-
-StringPair findMax(const std::vector<float> &numbers, const std::string &operations, bool dynamic, bool findMin) {
-    static std::unordered_map<std::string, float> subExpressionMap;
-
-    auto result = StringPair("", 0);
-    for (int i = 0; i < operations.size(); i++) {
-        const char operation = operations.at(i);
-
-        StringPair left;
-        StringPair right;
-
-        std::vector<float> leftNum;
-        std::string leftOper;
-
-        if (i == 0) {
-            left = StringPair(std::to_string((int) numbers.at(0)), numbers.at(0));
-        } else {
-            for (int j = 0; j <= i; j++) {
-                leftNum.push_back(numbers.at(j));
-                if (j >= i) continue;
-                leftOper.push_back(operations.at(j));
-            }
-            left = findMax(leftNum, leftOper, dynamic);
-        }
-
-        std::vector<float> rightNum;
-        std::string rightOper;
-
-        if (i + 1 == operations.size()) {
-            right = StringPair(std::to_string((int) numbers.at(numbers.size() - 1)), numbers.at(numbers.size() - 1));
-        } else {
-            for (int j = i + 1; j < numbers.size(); j++) {
-                rightNum.push_back(numbers.at(j));
-                if (j >= operations.size()) continue;
-                rightOper.push_back(operations.at(j));
-            }
-            bool needMin = operation == '-';
-            right = findMax(rightNum, rightOper, dynamic, needMin);
-        }
-
-        const auto str = '(' + left.first + operation + right.first + ')';
-
-        float tmpNum = 0;
-        StringPair tmpSP;
-        if (dynamic) {
-            auto pair = subExpressionMap.find(str);
-            if (pair != subExpressionMap.end()) {
-                tmpNum = pair->second;
-                tmpSP = StringPair(str, tmpNum);
-            } else {
-                tmpNum = calculateSubExpression(left.second, right.second, operation);
-                tmpSP = StringPair(str, tmpNum);
-                subExpressionMap[str] = tmpNum;
-            }
-        } else {
-            tmpNum = calculateSubExpression(left.second, right.second, operation);
-            tmpSP = StringPair(str, tmpNum);
-        }
-
-        if (result.first.empty()) {
-            result = tmpSP;
-            continue;
-        }
-        if (findMin) {
-            if (result.second > tmpSP.second) result = tmpSP;
-            continue;
-        }
-        if (result.second < tmpSP.second) result = tmpSP;
-    }
-
-    return result;
 }
 
 float calculateSubExpression(float first, float second, char ch) {
