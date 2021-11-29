@@ -20,16 +20,14 @@ struct Finder {
     std::unordered_map<std::string, float> subExpressionMap;
 
     StringPair findMax(int leftIndex, int rightIndex, bool dynamic, bool findMin = false) {
-
-        std::string key;
         if (dynamic) {
-            key = inputString.substr(leftIndex * 2, (rightIndex + 1) * 2 + 1);
-            auto pair = subExpressionMap.find(key);
+            const std::string key = inputString.substr(leftIndex * 2, (rightIndex + 1) * 2 + 1);
+            const auto pair = subExpressionMap.find(key);
             if (pair != subExpressionMap.end()) {
                 return StringPair(pair->first, pair->second);
             }
         }
-        StringPair result = StringPair("", 0); //"1+2-3*4"
+        StringPair result = StringPair("", 0);
         for (int i = leftIndex; i <= rightIndex; i++) {
             const char operation = operations.at(i);
 
@@ -50,9 +48,8 @@ struct Finder {
 
             const auto str = '(' + left.first + operation + right.first + ')';
 
-            float tmpNum = calculateSubExpression(left.second, right.second, operation);
-            StringPair tmpSP;
-            tmpSP = StringPair(str, tmpNum);
+            const float tmpNum = calculateSubExpression(left.second, right.second, operation);
+            const StringPair tmpSP = StringPair(str, tmpNum);
 
             if (result.first.empty()) {
                 result = tmpSP;
@@ -60,9 +57,9 @@ struct Finder {
             }
             if (findMin) {
                 if (result.second > tmpSP.second) result = tmpSP;
-                continue;
+            } else {
+                if (result.second < tmpSP.second) result = tmpSP;
             }
-            if (result.second < tmpSP.second) result = tmpSP;
         }
 
         if (dynamic) subExpressionMap.insert(result);
