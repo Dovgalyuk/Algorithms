@@ -22,7 +22,13 @@ struct Finder {
     StringPair findMax(int leftIndex, int rightIndex, bool dynamic, bool findMin = false) {
         std::string key;
         if (dynamic) {
-            key = inputString.substr(leftIndex * 2, (rightIndex + 1) * 2 + 1);
+            //0 1 2 3
+            //1+2-3*4
+            //0123456
+            // 0 1 2
+
+            // 2 5
+            key = inputString.substr(leftIndex * 2, (rightIndex + 1) * 2 + 1 - leftIndex * 2);
             const auto pair = subExpressionMap.find(key);
             if (pair != subExpressionMap.end()) {
                 return pair->second;
@@ -31,7 +37,7 @@ struct Finder {
         std::string testString;
         for (int i = leftIndex; i <= rightIndex + 1; i++) {
             testString.append(std::to_string((int) numbers.at(i)));
-            if (i < operations.size()) testString.append(std::string(1, operations.at(i)));
+            if (i <= rightIndex) testString.append(std::string(1, operations.at(i)));
         }
         StringPair result = StringPair("", 0);
         for (int i = leftIndex; i <= rightIndex; i++) {
@@ -52,11 +58,14 @@ struct Finder {
                 right = findMax(i + 1, rightIndex, dynamic, (operation == '-'));
             }
 
-            const auto str = '(' + left.first + operation + right.first + ')';
+            const auto str = left.first + operation + right.first;
 
-            std::cout << "@ " << str << std::endl;
-            std::cout << "! " << testString << std::endl;
-            std::cout << "# " << key << std::endl;
+            if (str != key) {
+                std::cout << "@ " << str << std::endl;
+                if (testString != key)
+                    std::cout << "!!!!!!!!!!!!!!!!" << testString << std::endl;
+                std::cout << "# " << key << std::endl;
+            }
 
             const float tmpNum = calculateSubExpression(left.second, right.second, operation);
             const StringPair tmpSP = StringPair(str, tmpNum);
@@ -91,7 +100,7 @@ int main() {
     "1+2-3*4-5*6+7*8-9"
     "1+2-3*4-5*6+7*8-9*10"
      */
-    std::string input = "1+2-3*4";
+    std::string input = "1+2-3*4-5*6";
     if (input.empty()) {
         std::cout << "Input calculation string:" << std::endl;
         std::cin >> input;
