@@ -63,9 +63,7 @@ struct Finder {
             }
         }
 
-        if (dynamic) {
-            subExpressionMap[key] = result;
-        }
+        if (dynamic) subExpressionMap[key] = result;
         return result;
     }
 };
@@ -81,8 +79,13 @@ int main() {
     "1+2-3*4-5*6+7*8"
     "1+2-3*4-5*6+7*8-9"
     "1+2-3*4-5*6+7*8-9*10"
+    "1+2-3*4-5*6+7*8-9*10-11"
+    "1+2-3*4-5*6+7*8-9*10-11*12"
+    "1+2-3*4-5*6+7*8-9*10-11*12+13"
+    "1+2-3*4-5*6+7*8-9*10-11*12+13*14"
+     "1+2-3*4-5*6+7*8-9*10-11*12+13*14-15"
      */
-    std::string input = "1+2-3*4-5*6+7*8-9*10";
+    std::string input = "1+2-3*4-5*6+7*8-9*10-11";
     if (input.empty()) {
         std::cout << "Input calculation string:" << std::endl;
         std::cin >> input;
@@ -92,7 +95,7 @@ int main() {
     auto startTime = std::chrono::system_clock::now();
     generateVariants(input, false);
     auto endTime = std::chrono::system_clock::now();
-    std::chrono::duration<double, std::milli> finalTime = endTime - startTime;
+    std::chrono::duration<double, std::micro> finalTime = endTime - startTime;
     std::cout << "Find maximum without dynamic on " << input.size() << " chars take " << finalTime.count() << " milliseconds." << std::endl;
 
     //Dynamic
