@@ -4,14 +4,14 @@
 struct ListItem
 {
     Data data;
-    ListItem* next = nullptr;
-    ListItem* prev = nullptr;    
+    ListItem* dummy = nullptr;
+    ListItem* next = dummy;
+    ListItem* prev = dummy;
     ListItem(Data data): data(data) {};
 };
 
 struct List
 {
-    ListItem* dummy = nullptr;
     ListItem* first = nullptr;
 };
 
@@ -62,11 +62,13 @@ ListItem *list_item_prev(ListItem *item)
 ListItem *list_insert(List *list, Data data)
 {
     ListItem* item = new ListItem(data);
-    item->next = list->first;
     if (list->first){
-        list->first->prev = item;
+        item->next = list->first;
+        list->first=item;
     }
-    list->first=item;
+    else {
+        list->first = item;
+    }
     return item;
 }
 
