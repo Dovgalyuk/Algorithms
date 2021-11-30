@@ -11,7 +11,7 @@ int main(){
     char arr[row][col];
     int num = 1, num2, num3, num4;
     char *str = new char[1];
-    str = itoa(num, str, 10);
+    str[1] = '1';
     bool full = true;
     bool imposible = true;
     ifstream file("C:\\Users\\vasya\\OneDrive\\Desktop\\file2.txt");
