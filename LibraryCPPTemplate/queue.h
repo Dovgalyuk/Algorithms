@@ -1,11 +1,12 @@
 #ifndef QUEUE_H
 #define QUEUE_H
+#include "list.h"
 
 template <typename Data> class Queue
 {
 public:
     // Create empty queue
-    Queue()
+    Queue() : _queue(new List<Data>())
     {
     }
 
@@ -18,18 +19,21 @@ public:
     // Should be O(1) on average
     void insert(Data data)
     {
+        _queue->insert_end(data);
     }
+
 
     // Retrieves first element from the queue
     Data get() const
     {
-        return Data();
+        return _queue->first()->data();
     }
 
     // Removes first element from the queue
     // Should be O(1) on average
     void remove()
     {
+        _queue->erase(_queue->first());
     }
 
     // Returns true if the queue is empty
@@ -40,6 +44,7 @@ public:
 
 private:
     // private data should be here
+    List<Data> *_queue;
 };
 
 #endif

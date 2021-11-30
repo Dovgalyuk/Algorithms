@@ -40,10 +40,13 @@ int main()
     }
 
     std::cout << "List: ";
-    for (auto item = list->first() ; item ; item = item->next())
+
+    /*for (auto item = list->first() ; item ; item = item->next()) // Вот этот вывод на двусвязном кольцевом списке не работает!!!
     {
         std::cout << item->data() << " ";
-    }
+    }*/
+
+    list->getList(); // Поэтому заменил на это
     std::cout << "\n";
 
     delete list;
