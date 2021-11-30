@@ -7,14 +7,14 @@
 #include <chrono>
 
 typedef std::pair<std::string, float> StringPair;
-typedef std::pair<bool, std::string> KeyPair;
+typedef std::pair<int, int> IntPair;
+typedef std::pair<bool, IntPair> KeyPair;
 
 float calculateSubExpression(float first, float second, char ch);
 
 void generateVariants(const std::string &input, bool dynamic = false);
 
 struct Finder {
-    std::string inputString;
     std::vector<float> numbers;
     std::string operations;
     std::map<KeyPair, StringPair> subExpressionMap;
@@ -23,7 +23,7 @@ struct Finder {
         KeyPair key;
         if (dynamic) {
             key.first = findMin;
-            key.second = inputString.substr(leftIndex * 2, (rightIndex + 1) * 2 + 1 - leftIndex * 2);
+            key.second = IntPair(leftIndex, rightIndex);
             const auto pair = subExpressionMap.find(key);
             if (pair != subExpressionMap.end()) {
                 return pair->second;
@@ -39,13 +39,13 @@ struct Finder {
             if (i == leftIndex) {
                 left = StringPair(std::to_string((int) numbers.at(leftIndex)), numbers.at(leftIndex));
             } else {
-                left = findMax(leftIndex, i - 1, dynamic);
+                left = findMax(leftIndex, i - 1, dynamic, findMin);
             }
 
             if (i == rightIndex) {
                 right = StringPair(std::to_string((int) numbers.at(rightIndex + 1)), numbers.at(rightIndex + 1));
             } else {
-                right = findMax(i + 1, rightIndex, dynamic, (operation == '-'));
+                right = findMax(i + 1, rightIndex, dynamic, findMin != (operation == '-'));
             }
 
             const auto str = '(' + left.first + operation + right.first + ')';
@@ -130,10 +130,9 @@ void generateVariants(const std::string &input, bool dynamic) {
     Finder finder;
     finder.numbers = numbers;
     finder.operations = operations;
-    finder.inputString = input;
     const auto result = finder.findMax(0, operations.size() - 1, dynamic);
-    //std::cout << "String is: " << result.first << std::endl;
-    //std::cout << "Max number is: " << result.second << std::endl;
+    std::cout << "String is: " << result.first << std::endl;
+    std::cout << "Max number is: " << result.second << std::endl;
 }
 
 float calculateSubExpression(float first, float second, char ch) {
