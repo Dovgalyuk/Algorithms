@@ -26,10 +26,9 @@ void list_delete(List* list)
     ListItem* item = list->first;
     while (item != list->first->prev) {
         ListItem* delet = item;
-        item = list->first;
+        item = list->first->next;
         delete delet;
     }
-    delete item;
     delete list;
 }
 
