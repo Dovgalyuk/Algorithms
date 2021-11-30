@@ -58,16 +58,12 @@ ListItem *list_insert(List *list, Data data)
 {
     ListItem* elem = new ListItem;
     elem->value = data;
-    if (list->head == NULL)
-    {
-        list->head = elem;   
-    }
-    else
+    if (list->head != NULL)
     {
         list->head->prev = elem;
-        elem->next = list->head;
-        list->head = elem;
+        elem->next = list->head;  
     }
+    list->head = elem;
     return elem;
 }
 
@@ -88,28 +84,21 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
 ListItem *list_erase(List *list, ListItem *item)
 {
-    ListItem* elem = list->head;
-    while (elem != NULL && elem != item )
+    ListItem* elem = item;
+    if (elem == list->head)
     {
-        elem = elem->next;
-    }
-    if (elem != NULL)
-    {
-        if (elem == list->head)
+        list->head = list->head->next;
+        if (list->head != NULL)
         {
-            list->head = list->head->next;
-            if (list->head != NULL)
-            {
-                list->head->prev = NULL;
-            }
+            list->head->prev = NULL;
         }
-        else
+    }
+    else
+    {
+        elem->prev->next = elem->next;
+        if (elem->next != NULL)
         {
-            elem->prev->next = elem->next;
-            if (elem->next != NULL)
-            {
-                elem->next->prev = elem->prev;
-            }
+            elem->next->prev = elem->prev;
         }
     }
     ListItem* next_elem = elem->next;

@@ -63,6 +63,7 @@ int main()
 			else 
 			{
 				fout << "NO";
+				stack_delete(stack);
 				return 0;
 			}
 		}
@@ -77,6 +78,7 @@ int main()
 	else
 	{
 		fout << "NO";
+		stack_delete(stack);
 	}
 }
 
