@@ -35,46 +35,52 @@ void showMatrix(int** mat)
 	}
 }
 
-int setMatrix(int** mat,Queue* qu, int index)
+int setMatrix(int** mat, Queue* qu)
 {
-	int res = 1;
-	for (unsigned int x = 0; x < xMax; x++)
-		for (unsigned int y = 0; y < yMax; y++)
-			if (mat[x][y] == index)
-			{
-				if (((x + 1) < xMax) && (mat[x + 1][y] == 0))
-				{
-					mat[x + 1][y] = index + 1;
-					queue_insert(qu, index + 1);
-				}
-				if (((y + 1) < yMax) && (mat[x][y + 1] == 0))
-				{
-					mat[x][y + 1] = index + 1;
-					queue_insert(qu, index + 1);
-				}
-				if (((x - 1) < xMax) && (mat[x - 1][y] == 0))
-				{
-					mat[x - 1][y] = index + 1;
-					queue_insert(qu, index + 1);
-				}
-				if (((y - 1) < yMax) && (mat[x][y - 1] == 0))
-				{
-					mat[x][y - 1] = index + 1;
-					queue_insert(qu, index + 1);
-				}
-				index = queue_get(qu);
-			}
+	int index = queue_get(qu);
+	queue_remove(qu);
+	int xpos = queue_get(qu);
+	queue_remove(qu);
+	int ypos = queue_get(qu);
+	queue_remove(qu);
+
+
+	if (((xpos + 1) < xMax) && (mat[xpos + 1][ypos] == 0))
+	{
+		mat[xpos + 1][ypos] = index + 1;
+		queue_insert(qu, index + 1);
+		queue_insert(qu,xpos + 1);
+		queue_insert(qu, ypos);
+	}
+	if (((ypos + 1) < yMax) && (mat[xpos][ypos + 1] == 0))
+	{
+		mat[xpos][ypos + 1] = index + 1;
+		queue_insert(qu, index + 1);
+		queue_insert(qu, xpos);
+		queue_insert(qu, ypos + 1);
+	}
+	if (((xpos - 1) < xMax) && (mat[xpos - 1][ypos] == 0))
+	{
+		mat[xpos - 1][ypos] = index + 1;
+		queue_insert(qu, index + 1);
+		queue_insert(qu, xpos - 1);
+		queue_insert(qu, ypos);
+	}
+	if (((ypos - 1) < yMax) && (mat[xpos][ypos - 1] == 0))
+	{
+		mat[xpos][ypos - 1] = index + 1;
+		queue_insert(qu, index + 1);
+		queue_insert(qu, xpos);
+		queue_insert(qu, ypos - 1);
+	}
 
 	for (unsigned int x = 0; x < xMax; x++)
 		for (unsigned int y = 0; y < yMax; y++)
 			if (mat[x][y] == 0)
 			{
-				int a = queue_get(qu);
-				queue_remove(qu);
-				res += setMatrix(mat,qu,a);
+				index = setMatrix(mat, qu);
 			}
-
-	return res;
+	return index;
 }
 
 int main()
@@ -134,12 +140,12 @@ int main()
 
 		matrix[xPos][yPos] = 1;
 		queue_insert(que, matrix[xPos][yPos]);
+		queue_insert(que, xPos);
+		queue_insert(que, yPos);
 	}
 
-	int a = queue_get(que);
-	int res = setMatrix(matrix, que,a);
+	int res = setMatrix(matrix, que);
 	showMatrix(matrix);
 
-	cout << "Колличество ходов: " << res;
+	cout << "Колличество ходов: " << res+1;
 }
-
