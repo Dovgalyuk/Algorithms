@@ -20,7 +20,8 @@ int main() {
             std::getline(file, str);
 
             if (!str.find("PUSH ")) {
-                str = str[5];
+                // str = str[5];
+                str = str.substr(5);
 
                 if (!str.find('A')) {
                     stack_push(stack, A);
@@ -35,7 +36,7 @@ int main() {
                     stack_push(stack, D);
                 }
                 else {
-                    stack_push(stack, std::atoi(str.c_str()));
+                    stack_push(stack, std::stoi(str));
                 }
             }
 
