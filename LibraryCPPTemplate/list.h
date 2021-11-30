@@ -30,7 +30,6 @@ public:
     {
         while (Item* item = first()) {
             erase(item);
-            delete item;
         }
         delete dummyElement;
     }

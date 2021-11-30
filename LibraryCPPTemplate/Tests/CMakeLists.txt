@@ -18,3 +18,8 @@ add_executable(TestVectorCPPTemplate vector.cpp)
 target_include_directories(TestVectorCPPTemplate PUBLIC ..)
 add_test(TestVectorCPPTemplate TestVectorCPPTemplate)
 set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
+
+
+add_executable(TestDirectedGraph directed_graph.cpp)
+target_include_directories(TestDirectedGraph PUBLIC ..)
+add_test(TestDirectedGraph TestDirectedGraph)
