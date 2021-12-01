@@ -37,39 +37,35 @@ void showMatrix(int** mat)
 
 int setMatrix(int** mat, Queue* qu)
 {
-	int index = queue_get(qu);
-	queue_remove(qu);
 	int xpos = queue_get(qu);
 	queue_remove(qu);
 	int ypos = queue_get(qu);
 	queue_remove(qu);
 
+	int index = mat[xpos][ypos];
+
 
 	if (((xpos + 1) < xMax) && (mat[xpos + 1][ypos] == 0))
 	{
 		mat[xpos + 1][ypos] = index + 1;
-		queue_insert(qu, index + 1);
 		queue_insert(qu,xpos + 1);
 		queue_insert(qu, ypos);
 	}
 	if (((ypos + 1) < yMax) && (mat[xpos][ypos + 1] == 0))
 	{
 		mat[xpos][ypos + 1] = index + 1;
-		queue_insert(qu, index + 1);
 		queue_insert(qu, xpos);
 		queue_insert(qu, ypos + 1);
 	}
 	if (((xpos - 1) < xMax) && (mat[xpos - 1][ypos] == 0))
 	{
 		mat[xpos - 1][ypos] = index + 1;
-		queue_insert(qu, index + 1);
 		queue_insert(qu, xpos - 1);
 		queue_insert(qu, ypos);
 	}
 	if (((ypos - 1) < yMax) && (mat[xpos][ypos - 1] == 0))
 	{
 		mat[xpos][ypos - 1] = index + 1;
-		queue_insert(qu, index + 1);
 		queue_insert(qu, xpos);
 		queue_insert(qu, ypos - 1);
 	}
@@ -139,7 +135,6 @@ int main()
 		}
 
 		matrix[xPos][yPos] = 1;
-		queue_insert(que, matrix[xPos][yPos]);
 		queue_insert(que, xPos);
 		queue_insert(que, yPos);
 	}

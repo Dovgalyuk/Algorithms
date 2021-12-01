@@ -1,6 +1,7 @@
 #include <cstddef>
 #include "list.h"
 
+
 struct ListItem
 {
     Data data;
@@ -26,9 +27,12 @@ void list_delete(List* list)
     ListItem* item = list->first;
     while (item != list->first->prev) {
         ListItem* delet = item;
-        item = list->first->next;
+        list->first = list->first->next;
+        list->first->prev = list->first->prev->prev;
+        item = list->first;
         delete delet;
     }
+    delete item;
     delete list;
 }
 
