@@ -7,14 +7,17 @@ public:
     class Item
     {
     public:
-        Item* nextItem = nullptr;
-        Item* prevItem = nullptr;
 
         Item(Data data): d(data) {};
 
         Item *next() { return nextItem; }
         Item *prev() { return prevItem; }
         Data data() const { return d; }
+
+    private:
+        // internal data here
+        Item* nextItem = nullptr;
+        Item* prevItem = nullptr;
 
     protected:
         Data d;
