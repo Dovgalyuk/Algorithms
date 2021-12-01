@@ -8,16 +8,35 @@ public:
     struct Vertex;
 
     struct Edge {
-        Vertex* from;
         Vertex* to;
         EdgeData data;
-        Edge(Vertex* from, Vertex* to, EdgeData data): from(from), to(to), data(data) {}
+        Edge(Vertex* to, EdgeData data): to(to), data(data) {}
     };
 
     struct Vertex {
         VertexData data;
         List<Edge*> neighbors;
         Vertex(VertexData data): data(data), neighbors(List<Edge*>()) {}
+        ~Vertex() {
+            while (!neighbors.empty()) {
+                auto* item = neighbors.first();
+                delete item->data();
+                neighbors.erase(item);
+            }
+        }
+
+        void removeEdge(Vertex* to) {
+            EdgeItem* first = neighbors.first();
+            EdgeItem* item = first;
+            while (item && (item->next() != first)) {
+                if (item->data() && item->data()->to == to) {
+                    delete item->data();
+                    neighbors.erase(item);
+                    return;
+                }
+                item = item->next();
+            }
+        }
     };
 
     typedef typename List<Vertex*>::Item VertexItem;
@@ -35,12 +54,13 @@ public:
             return neighbor ? neighbor->data() : nullptr;
         }
 
-        void operator ++(int i) {
+        NearVertexIterator operator ++(int i) {
             if (neighbor->next() != firstNeighbor) {
                 neighbor = neighbor->next();
             } else {
                 neighbor = nullptr;
             }
+            return *this;
         }
     };
 
@@ -67,7 +87,7 @@ public:
             edge = item->data();
             edge->data = data;
         } else {
-            edge = new Edge(fromVertex, toVertex, data);
+            edge = new Edge(toVertex, data);
             fromVertex->neighbors.insert(edge);
         }
         return edge;
@@ -90,18 +110,22 @@ public:
     void removeVertex(Vertex* vertex) {
         VertexItem* item = findVertexItem(vertex);
         if (item) {
-            vertices.erase(item);
+            VertexItem* ver = vertices.first();
+            int i = 0;
+            while (ver && i++ < vertexAmount) {
+                if (ver->data() != vertex) {
+                    removeEdge(ver->data(), vertex);
+                }
+                ver = ver->next();
+            }
             delete vertex;
+            vertices.erase(item);
             vertexAmount--;
         }
     }
 
-    void removeEdge(Edge* edge) {
-        EdgeItem* item = findEdgeItem(edge->from, edge->to);
-        if (item) {
-            edge->from->neighbors.erase(item);
-            delete edge;
-        }
+    void removeEdge(Vertex* fromVertex, Vertex* toVertex) {
+        fromVertex->removeEdge(toVertex);
     }
 
     bool containsEdgeBetweenVertices(Vertex* fromVertex, Vertex* toVertex) {
@@ -116,31 +140,27 @@ protected:
     size_t vertexAmount = 0;
 
     VertexItem* findVertexItem(Vertex* vertex) {
-        VertexItem* founded = nullptr;
         VertexItem* item = vertices.first();
         int i = 0;
         while (item && i++ < vertexAmount) {
             if (item->data() && item->data() == vertex) {
-                founded = item;
-                break;
+                return item;
             }
             item = item->next();
         }
-        return founded;
+        return nullptr;
     }
 
     EdgeItem* findEdgeItem(Vertex* fromVertex, Vertex* toVertex) {
-        EdgeItem* founded = nullptr;
         EdgeItem* first = fromVertex->neighbors.first();
         EdgeItem* item = first;
         while (item && (item->next() != first)) {
             if (item->data() && item->data()->to == toVertex) {
-                founded = item;
-                break;
+                return item;
             }
             item = item->next();
         }
-        return founded;
+        return nullptr;
     }
 
 };

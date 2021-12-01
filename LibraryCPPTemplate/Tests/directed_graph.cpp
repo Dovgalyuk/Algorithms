@@ -50,7 +50,7 @@ int main() {
         return 1;
     }
 
-    graph.removeEdge(graph.getEdge(graph.getVertex(0), graph.getVertex(2)));
+    graph.removeEdge(graph.getVertex(0), graph.getVertex(2));
     if (!graph.containsEdgeBetweenVertices(graph.getVertex(0), graph.getVertex(3)) ||
         graph.containsEdgeBetweenVertices(graph.getVertex(0), graph.getVertex(2))) {
         std::cout << "Adding a edge to the graph does not work correctly.";
@@ -73,6 +73,38 @@ int main() {
 
     if (count != 5) {
         std::cout << "The near vertex iterator does not work correctly.";
+        return 1;
+    }
+
+    auto* first = graph.getVertex(0);
+    graph.removeVertex(first);
+
+    if (graph.getVertex(0)->data != 1) {
+        std::cout << "Removing vertices does not work correctly.";
+        return 1;
+    }
+
+    iterator = graph.getNearVertexIterator(graph.getVertex(0));
+    count = 0;
+    while (*iterator) {
+        count++;
+        iterator++;
+    }
+
+    if (count > 0) {
+        std::cout << "Removing vertices does not work correctly.";
+        return 1;
+    }
+
+    iterator = graph.getNearVertexIterator(graph.getVertex(2));
+    count = 0;
+    while (*iterator) {
+        count++;
+        iterator++;
+    }
+
+    if (count > 0) {
+        std::cout << "Removing vertices does not work correctly.";
         return 1;
     }
 
