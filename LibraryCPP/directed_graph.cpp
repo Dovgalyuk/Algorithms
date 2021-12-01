@@ -1,4 +1,4 @@
-#include <C:\Users\vasill\source\repos\mendeleev8\mendeleev8\directed_graph.h>
+#include "directed_graph.h"
 
 directed_graph* create_directed_graph(int vertexes_amount)
 {
