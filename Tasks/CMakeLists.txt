@@ -9,3 +9,6 @@ target_link_libraries(Task2 LibraryCPP)
 add_executable(Task3 Task3.cpp)
 target_include_directories(Task3 PUBLIC ../LibraryCPPTemplate)
 
+add_executable(Task4 Task4.cpp)
+target_include_directories(Task4 PUBLIC ../LibraryCPPTemplate)
+
