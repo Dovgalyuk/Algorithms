@@ -51,14 +51,14 @@ int main()
 	add_vertex(&graph);
 	set_vertex_label(graph, 3, 8);
 
-	if (get_edge_label(graph, 0, 1) != 10 or get_vertex_label(graph, 0) != 9)
+	if (get_edge_label(graph, 0, 1) != 10 || get_vertex_label(graph, 0) != 9)
 	{
 		std::cout << "incorrect addition of a vertex" << "\n";
 		return 1;
 	}
 
 	remove_vertex(&graph, 0);
-	if (get_vertex_label(graph, 0) == 9 or get_vertex_label(graph, 2) != 8)
+	if (get_vertex_label(graph, 0) == 9 || get_vertex_label(graph, 2) != 8)
 	{
 		std::cout << "incorrect removal of the vertex" << "\n";
 		return 1;
@@ -83,7 +83,7 @@ int main()
 	while (!iter->NeighborListEmpty(1))
 	{
 		neigbor_arr[i] = iter->NextNeighborIndex(1);
-		if (i < 2 and neigbor_arr[i] == arr[i])
+		if (i < 2 && neigbor_arr[i] == arr[i])
 			i++;
 		else
 		{
@@ -93,3 +93,4 @@ int main()
 	}
 
 	delete_directed_graph(graph);
+}
