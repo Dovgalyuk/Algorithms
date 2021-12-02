@@ -8,6 +8,7 @@ int main() {
     for (size_t i = 0; i < maxVerticesNumber; i++ ) {
         if (graph.getVertex(i)->getData() != 10) {
             std::cout << "initialization error\n";
+            return 1;
         }
         std::cout << graph.getVertex(i)->getData() << " ";
     }
@@ -16,6 +17,7 @@ int main() {
     graph.getVertex(0)->setData(9);
     if (graph.getVertex(0)->getData() != 9) {
             std::cout << "set data error\n";
+            return 1;
         }
 
 
@@ -26,10 +28,12 @@ int main() {
     }
     else {
         std::cout << "edge error";
+        return 1;
     }
 
     if (graph.edgeExist(graph.getVertex(1), graph.getVertex(4))) {
         std::cout << "edge error";
+        return 1;
     }
 
     graph.getVertex(1)->addEdgeTo(graph.getVertex(4));
@@ -39,11 +43,13 @@ int main() {
     graph.getVertex(1)->removeEdgeTo(graph.getVertex(2));
     if (graph.edgeExist(graph.getVertex(1), graph.getVertex(2))) {
         std::cout << "deletion error";
+        return 1;
     }
     
     graph.getVertex(1)->setLabel(1);
     if (graph.getVertex(1)->getLabel() != 1) {
         std::cout << "label error\n";
+        return 1;
     }
     
     D_Graph<int>::EdgesIterator iterator(graph.getVertex(1));
