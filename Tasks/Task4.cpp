@@ -9,20 +9,20 @@
 // };
 class PathFinder {
     public:
-    PathFinder(D_Graph<int> graph, int from) {
+    PathFinder(D_Graph<int>* graph, int from) {
         start = from;
-        for (size_t i = 0; i < graph.size(); i++) {
+        for (size_t i = 0; i < graph->size(); i++) {
             if (i == start)
-                graph.getVertex(i)->setLabel(0);
+                graph->getVertex(i)->setLabel(0);
             else
-                graph.getVertex(i)->setLabel(INT_MAX);
+                graph->getVertex(i)->setLabel(INT_MAX);
         }
         used = {0,0,0,0,0};
         p = {start, start, start, start, start};
 
         while (thereIsNotUsedVertices()) {
             size_t minVertexIndex = vertexWithMinLabel(graph);
-            auto minVertex = graph.getVertex(minVertexIndex);
+            auto minVertex = graph->getVertex(minVertexIndex);
             
             D_Graph<int>::EdgesIterator iterator(minVertex);
     
@@ -30,7 +30,7 @@ class PathFinder {
                 int summ = minVertex->getLabel() + (*iterator)->getWeight();
                 if (summ < (*iterator)->getDest()->getLabel()) {
                     (*iterator)->getDest()->setLabel(summ);
-                    p[graph.getIndexOf((*iterator)->getDest())] = minVertexIndex;
+                    p[graph->getIndexOf((*iterator)->getDest())] = minVertexIndex;
                 }
 
                 ++iterator;        
@@ -58,12 +58,12 @@ class PathFinder {
         }
         return false;
     }
-    int vertexWithMinLabel(D_Graph<int> graph) {
+    int vertexWithMinLabel(D_Graph<int>* graph) {
         int minIndex = INT_MAX;
         int minLabel = INT_MAX;
-        for (int i = 0; i < graph.size(); i++) {
-            if ((graph.getVertex(i)->getLabel() < minLabel) && (!used[i])) {
-                minLabel = graph.getVertex(i)->getLabel();
+        for (int i = 0; i < graph->size(); i++) {
+            if ((graph->getVertex(i)->getLabel() < minLabel) && (!used[i])) {
+                minLabel = graph->getVertex(i)->getLabel();
                 minIndex = i;
             }
         }
@@ -77,19 +77,19 @@ class PathFinder {
 
 int main() {
     const int vertexCount = 5;
-    D_Graph<int> graph(vertexCount, 0);
+     D_Graph<int>* graph = new D_Graph<int>(vertexCount, 0);
 
     
     int edges[10][3] {{0, 1, 10},{0,2,30},{0,3,50},{0,4,10},{4,0,10},{4,3,30},{3,2,20},{3,1,40}, {2,4,10}, {4,2,10}};
     for (int i = 0; i < 10; i++) {
-        graph.getVertex(edges[i][0])->addEdgeTo(graph.getVertex(edges[i][1]));
-        graph.getVertex(edges[i][0])->getEdgeTo(graph.getVertex(edges[i][1]))->setWeight(edges[i][2]);
+        graph->getVertex(edges[i][0])->addEdgeTo(graph->getVertex(edges[i][1]));
+        graph->getVertex(edges[i][0])->getEdgeTo(graph->getVertex(edges[i][1]))->setWeight(edges[i][2]);
     }
 
     PathFinder pathFinder(graph, 0);
     std::cout << "shortest path to \n";
-    for (int i = 0; i < graph.size(); i++) {
-        std::cout << i << ":"<<graph.getVertex(i)->getLabel() << " ";
+    for (int i = 0; i < graph->size(); i++) {
+        std::cout << i << ":"<<graph->getVertex(i)->getLabel() << " ";
     }
     std::vector<int> path = pathFinder.pathTo(3);
     std::cout << "\npath to 3: ";
@@ -97,7 +97,7 @@ int main() {
         std::cout<<"<-"<< v;
     }
     
-    
+    delete graph;
 
     
 

@@ -27,7 +27,9 @@ template<typename Data> class D_Graph
         vertices = second.vertices;
     }
     ~D_Graph() {
-        
+        for (int i = 0; i < vertices.size(); i++) {
+            delete vertices[i];
+        }
     }
 
     struct Vertex
@@ -38,6 +40,11 @@ template<typename Data> class D_Graph
             label = 0;
         }
         ~Vertex() {
+            auto mustBeDeleted = edges->first();
+            while(mustBeDeleted != nullptr) {
+                delete mustBeDeleted->data();
+                mustBeDeleted = mustBeDeleted->next();
+            }
             delete edges;
         }
         Data getData(){
@@ -66,6 +73,7 @@ template<typename Data> class D_Graph
                     return item->data();
                 }
             }
+            return nullptr;
         }
         int getLabel() {
             return label;
