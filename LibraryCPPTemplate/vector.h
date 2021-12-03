@@ -7,7 +7,7 @@ template <typename Data> class Vector
 {
 public:
     // Creates vector
-    Vector()
+    Vector(): _size(0), _capacity(0), vector(nullptr)
     {
         vector = new Data[_size];
     }

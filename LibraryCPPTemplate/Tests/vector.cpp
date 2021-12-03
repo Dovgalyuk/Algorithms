@@ -7,6 +7,8 @@ int main()
 {
     MyVector vector;
 
+    std::cout << "size():" << vector.size() << "\n";
+
     vector.resize(5);
     if (vector.size() != 5)
     {
@@ -25,6 +27,12 @@ int main()
             return 1;
         }
     }
+    std::cout << "Vector: ";
+    for (size_t i = 0 ; i < vector.size() ; ++i)
+        std::cout << vector.get(i) << " ";
+    std::cout << "\n";
+
+    //std::cout << "vector.capacity():" << vector.capacity() << "\n";
 
     vector.resize(10);
     if (vector.size() != 10)
@@ -37,6 +45,8 @@ int main()
     for (size_t i = 0 ; i < vector.size() ; ++i)
         std::cout << vector.get(i) << " ";
     std::cout << "\n";
+
+    //std::cout << "vector.capacity():" << vector.capacity() << "\n";
 
     vector.resize(3);
     if (vector.size() != 3)
@@ -59,7 +69,8 @@ int main()
         std::cout << vector.get(i) << " ";
     std::cout << "\n";
 
-    // Performance test
+
+    //Performance test
     for (int i = 0 ; i < 10000000 ; ++i)
         vector.resize(i);
 }
