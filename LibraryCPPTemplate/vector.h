@@ -51,6 +51,7 @@ public:
             delete[] vector;
             vector = new_vector;
         }
+
         _size = size;
     }
 
