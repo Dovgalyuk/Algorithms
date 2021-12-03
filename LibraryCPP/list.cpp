@@ -88,19 +88,15 @@ ListItem *list_erase(List *list, ListItem *item)
     if (elem == list->head)
     {
         list->head = list->head->next;
-        if (list->head != NULL)
-        {
-            list->head->prev = NULL;
-        }
     }
     else
     {
         elem->prev->next = elem->next;
-        if (elem->next != NULL)
-        {
-            elem->next->prev = elem->prev;
-        }
     }
+	if (elem->next != NULL)
+	{
+		elem->next->prev = elem->prev;
+	}
     ListItem* next_elem = elem->next;
     delete elem;
     return next_elem;
