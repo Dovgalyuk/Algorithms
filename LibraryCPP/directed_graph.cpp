@@ -10,24 +10,26 @@ void delete_directed_graph(directed_graph* graph)
 	delete graph;
 }
 
-void add_vertex(struct directed_graph** graph)
+void add_vertex(struct directed_graph* graph)
 {
-	directed_graph* new_graph = new directed_graph((*graph)->vertexes_amount + 1);
-	for (int i = 0; i < (*graph)->vertexes_amount; i++)
+	directed_graph::edge* matrix = new directed_graph::edge[(graph->vertexes_amount + 1) * (graph->vertexes_amount + 1)];
+	directed_graph::vertex* vertex_labels = new directed_graph::vertex[graph->vertexes_amount + 1];
+	for (int i = 0; i < graph->vertexes_amount; i++)
 	{
-		new_graph->vertex_labels[i].label = (*graph)->vertex_labels[i].label;
+		vertex_labels[i].label = graph->vertex_labels[i].label;
 	}
-	for (int i = 0, j = 0; i < (*graph)->vertexes_amount * (*graph)->vertexes_amount; j++)
+	for (int i = 0, j = 0; i < graph->vertexes_amount * graph->vertexes_amount; j++)
 	{
-		for (int k = 0; k < (*graph)->vertexes_amount; k++)
+		for (int k = 0; k < graph->vertexes_amount; k++)
 		{
-			new_graph->matrix[i + j].label = (*graph)->matrix[i].label;
-			new_graph->matrix[i + j].exists = (*graph)->matrix[i].exists;
+			matrix[i + j].label = graph->matrix[i].label;
+			matrix[i + j].exists = graph->matrix[i].exists;
 			i++;
 		}
 	}
-	delete* graph;
-	*graph = new_graph;
+	graph->matrix = matrix;
+	graph->vertex_labels = vertex_labels;
+	graph->vertexes_amount++;
 }
 
 void add_edge(directed_graph* graph, int vertex1, int vertex2)
@@ -36,30 +38,32 @@ void add_edge(directed_graph* graph, int vertex1, int vertex2)
 		graph->matrix[(vertex1 * graph->vertexes_amount) + vertex2].exists = 1;
 }
 
-void remove_vertex(struct directed_graph** graph, int vertex)
+void remove_vertex(struct directed_graph* graph, int vertex)
 {
-	if (vertex < (*graph)->vertexes_amount && (*graph)->vertexes_amount > 1)
+	if (vertex < graph->vertexes_amount && graph->vertexes_amount > 1)
 	{
-		directed_graph* new_graph = new directed_graph((*graph)->vertexes_amount - 1);
-		for (int i = 0, j = 0; i < (*graph)->vertexes_amount; i++)
+		directed_graph::edge* matrix = new directed_graph::edge[(graph->vertexes_amount - 1) * (graph->vertexes_amount - 1)];
+		directed_graph::vertex* vertex_labels = new directed_graph::vertex[graph->vertexes_amount - 1];
+		for (int i = 0, j = 0; i < graph->vertexes_amount; i++)
 		{
 			if (i != vertex)
 			{
-				new_graph->vertex_labels[j].label = (*graph)->vertex_labels[i].label;
+				vertex_labels[j].label = graph->vertex_labels[i].label;
 				j++;
 			}
 		}
-		for (int i = 0, j = 0; i < (*graph)->vertexes_amount * (*graph)->vertexes_amount; i++)
+		for (int i = 0, j = 0; i < graph->vertexes_amount * graph->vertexes_amount; i++)
 		{
-			if (i / (*graph)->vertexes_amount != vertex && i - (i / (*graph)->vertexes_amount) * (*graph)->vertexes_amount != vertex)
+			if (i / graph->vertexes_amount != vertex && i - (i / graph->vertexes_amount) * graph->vertexes_amount != vertex)
 			{
-				new_graph->matrix[j].label = (*graph)->matrix[i].label;
-				new_graph->matrix[j].exists = (*graph)->matrix[i].exists;
+				matrix[j].label = graph->matrix[i].label;
+				matrix[j].exists = graph->matrix[i].exists;
 				j++;
 			}
 		}
-		delete* graph;
-		*graph = new_graph;
+		graph->matrix = matrix;
+		graph->vertex_labels = vertex_labels;
+		graph->vertexes_amount--;
 	}
 }
 
