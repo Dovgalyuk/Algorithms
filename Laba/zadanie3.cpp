@@ -3,9 +3,16 @@
 #include <string>
 #include "queue.h"
 
-int main() {
+void add_in_file(std::ofstream &file, Queue *queue) {
 
-    Queue *queue_temp = queue_create();
+    while (!queue_empty(queue)) {
+        file << queue_get(queue) << ' ';
+        queue_remove(queue);
+    }
+
+}
+
+int main() {
 
     Queue *queue_one = queue_create();
     Queue *queue_two = queue_create();
@@ -22,9 +29,27 @@ int main() {
 
         while (!inFile.eof()) {
 
-            inFile >> str;
+            // предпологаю что отрезок не может быть от нуля до нуля
+            if (a == 0 && b == 0) {
+                std::getline(inFile, str);
 
-            queue_insert(queue_temp, std::stoi(str));
+                a = std::stoi(str.substr());
+
+                b = std::stoi(str.substr(str.find(" ")));
+            }
+            else {
+                inFile >> str;
+
+                if (std::stoi(str) < a) {
+                    queue_insert(queue_one, std::stoi(str));
+                }
+                else if (a <= std::stoi(str) && std::stoi(str) <= b) {
+                    queue_insert(queue_two, std::stoi(str));
+                }
+                else {
+                    queue_insert(queue_three, std::stoi(str));
+                }
+            }
 
         }
     }
@@ -32,49 +57,9 @@ int main() {
         std::cout << "Error opening file" << std::endl;
     }
 
-    a = queue_get(queue_temp);
-    queue_remove(queue_temp);
-
-    b = queue_get(queue_temp);
-    queue_remove(queue_temp);
-
-    while (!queue_empty(queue_temp)) {
-
-        if (queue_get(queue_temp) < a) {
-            queue_insert(queue_one, queue_get(queue_temp));
-            queue_remove(queue_temp);
-        }
-        
-        else if (a <= queue_get(queue_temp) && queue_get(queue_temp) <= b) {
-            queue_insert(queue_two, queue_get(queue_temp));
-            queue_remove(queue_temp);
-        }
-        // else if (queue_get(queue_temp) > b) {
-        //     queue_insert(queue_three, queue_get(queue_temp));
-        //     queue_remove(queue_temp);
-        // }
-        else {
-            queue_insert(queue_three, queue_get(queue_temp));
-            queue_remove(queue_temp);
-        }
-    }
-
-    while (!queue_empty(queue_one)) {
-        outFile << queue_get(queue_one) << ' ';
-        queue_remove(queue_one);
-    }
-
-    while (!queue_empty(queue_two)) {
-        outFile << queue_get(queue_two) << ' ';
-        queue_remove(queue_two);
-    }
-
-    while (!queue_empty(queue_three)) {
-        outFile << queue_get(queue_three) << ' ';
-        queue_remove(queue_three);
-    }
-
-    queue_delete(queue_temp);
+    add_in_file(outFile, queue_one);
+    add_in_file(outFile, queue_two);
+    add_in_file(outFile, queue_three);
 
     queue_delete(queue_one);
     queue_delete(queue_two);

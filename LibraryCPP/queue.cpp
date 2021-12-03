@@ -33,8 +33,8 @@ void queue_insert(Queue *queue, Data data)
     stack_push(queue->oneStack, data);
 }
 
-Data queue_get(Queue *queue)
-{
+void add_data_twoStack(Queue *queue) {
+
     if (stack_empty(queue->twoStack)) {
 
         while(!stack_empty(queue->oneStack)) {
@@ -42,6 +42,11 @@ Data queue_get(Queue *queue)
             stack_pop(queue->oneStack);
         }
     }
+}
+
+Data queue_get(Queue *queue)
+{
+    add_data_twoStack(queue);
     
     return stack_get(queue->twoStack);
 }
@@ -53,14 +58,7 @@ void queue_remove(Queue *queue)
         return;
     }
 
-    if (stack_empty(queue->twoStack)) {
-
-        while(!stack_empty(queue->oneStack)) {
-            stack_push(queue->twoStack, stack_get(queue->oneStack));
-            stack_pop(queue->oneStack);
-        }
-
-    }
+    add_data_twoStack(queue);
 
     stack_pop(queue->twoStack);
 }
