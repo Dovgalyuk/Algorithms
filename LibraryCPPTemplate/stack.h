@@ -8,26 +8,26 @@ public:
     // Creates empty stack
     Stack()
     {
-
+        list = new List<Data>;
     }
 
     // Deletes the stack
     ~Stack()
     {
-
+        delete list;
     }
 
     // Pushes data on top of the stack
     // Should be O(1) on average
     void push(Data data)
     {
-        list.insert(data);
+        list->insert(data);
     }
 
     // Retrives the last element from the stack
-    Data get() const
+    Data get()
     {
-       return list.first()->data();
+       return list->first()->data();
     }
 
     // Removes the last element from the stack
@@ -35,19 +35,19 @@ public:
     void pop()
     {
         if (!empty()){
-            list.erase(list.first());
+            list->erase(list->first());
         }
     }
 
     // Returns true if the stack is empty
-    bool empty() const
+    bool empty()
     {
-        return list.first() == nullptr;
+        return !list->first();
     }
 
 private:
     // private data should be here
-    List<Data> list;
+    List<Data> *list;
 };
 
 #endif
