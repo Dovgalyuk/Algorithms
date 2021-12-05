@@ -48,7 +48,7 @@ int main()
 		return 1;
 	}
 
-	add_vertex(&graph);
+	add_vertex(graph);
 	set_vertex_label(graph, 3, 8);
 
 	if (get_edge_label(graph, 0, 1) != 10 || get_vertex_label(graph, 0) != 9)
@@ -57,7 +57,7 @@ int main()
 		return 1;
 	}
 
-	remove_vertex(&graph, 0);
+	remove_vertex(graph, 0);
 	if (get_vertex_label(graph, 0) == 9 || get_vertex_label(graph, 2) != 8)
 	{
 		std::cout << "incorrect removal of the vertex" << "\n";
