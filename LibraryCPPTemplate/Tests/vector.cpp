@@ -60,6 +60,15 @@ int main()
     std::cout << "\n";
 
     // Performance test
-    for (int i = 0 ; i < 10000000 ; ++i)
+    for (int i = 1 ; i <= 10000000 ; ++i)
+    {
         vector.resize(i);
+        vector.set(i - 1, i);
+    }
+
+    long long sum = 0;
+    for (int i = 0 ; i < 10000000 ; ++i)
+        sum += vector.get(i);
+
+    std::cout << sum << "\n";
 }
