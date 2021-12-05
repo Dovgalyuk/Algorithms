@@ -1,6 +1,8 @@
 #ifndef DIRECTED_GRAPH_H
 #define DIRECTED_GRAPH_H
 
+#include "../LibraryCPPTemplate/array.h" //else it uses the wrong array.h
+
 struct directed_graph
 {
 	struct vertex
@@ -25,7 +27,7 @@ struct directed_graph
 			GivenVertex = vertex;
 			for (int i = CurrentNeighbor; i < DirectedGraphPtr->vertexes_amount; i++)
 			{
-				if (DirectedGraphPtr->matrix[(vertex * DirectedGraphPtr->vertexes_amount) + i].exists == 1)
+				if (DirectedGraphPtr->matrix->get((vertex * DirectedGraphPtr->vertexes_amount) + i).exists == 1)
 					return false;
 			}
 			CurrentNeighbor = 0;
@@ -35,51 +37,46 @@ struct directed_graph
 		int NextNeighborIndex(int vertex)
 		{
 			GivenVertex = vertex;
-			while (DirectedGraphPtr->matrix[(vertex * DirectedGraphPtr->vertexes_amount) + CurrentNeighbor].exists == 0)
+			while (DirectedGraphPtr->matrix->get((vertex * DirectedGraphPtr->vertexes_amount) + CurrentNeighbor).exists == 0)
 			{
 				CurrentNeighbor++;
 			}
 			CurrentNeighbor++;
 			return CurrentNeighbor - 1;
 		}
-		~iterator()
-		{
-			DirectedGraphPtr->iter = nullptr;
-		}
 	};
 
-	vertex* vertex_labels;
-	edge* matrix;
-	iterator* iter;
+	typedef Array<vertex> vertex_arr;
+	vertex_arr* vertex_labels;
+	typedef Array<edge> matrix_arr;
+	matrix_arr* matrix;
 	int vertexes_amount;
 
 	iterator* createIterator()
 	{
-		iter = new iterator;
+		iterator* iter = new iterator;
 		iter->DirectedGraphPtr = this;
 		return iter;
 	}
 
 	directed_graph(int vertexes_amount)
 	{
+		vertex_labels = new vertex_arr(vertexes_amount);
+		matrix = new matrix_arr(vertexes_amount * vertexes_amount);
 		this->vertexes_amount = vertexes_amount;
-		vertex_labels = new vertex[vertexes_amount];
-		matrix = new edge[vertexes_amount * vertexes_amount];
 	}
 	~directed_graph()
 	{
-		delete[] vertex_labels;
-		delete[] matrix;
-		delete iter;
+		delete vertex_labels;
+		delete matrix;
 	}
-
 };
 
 directed_graph* create_directed_graph(int vertexes_amount);
 
 void delete_directed_graph(directed_graph* graph);
 
-void add_vertex(struct directed_graph* graph); //add an vertex by copying the old array to the new array (where is 1 element more)
+void add_vertex(directed_graph* graph); //add an vertex by copying the old array to the new array (where is 1 element more)
 
 void add_edge(directed_graph* graph, int vertex1, int vertex2);
 
