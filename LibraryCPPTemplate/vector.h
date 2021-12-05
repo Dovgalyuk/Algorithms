@@ -6,7 +6,7 @@ template <typename Data> class Vector
 {
 public:
     // Creates vector
-    Vector(): length(0), capacity(0), vector(nullptr)
+    Vector(): length(0), vector(new Data[length])
     {
     }
 
@@ -25,10 +25,7 @@ public:
     // Sets vector element with the specified index
     void set(size_t index, Data value)
     {
-        if(index <= length)
-            vector[index] = value;
-        else
-            return;
+        vector[index] = value;
     }
 
     // Retrieves current vector size
@@ -37,14 +34,20 @@ public:
         return length;
     }
 
+    void copyArray(Data* newVector, size_t size){
+        for (int i = 0; i < size; ++i) {
+            newVector[i] = vector[i];
+        }
+    }
+
+
     // Changes the vector size (may increase or decrease)
     // Should be O(1) on average
     void resize(size_t newSize)
     {
-        if(capacity < newSize) {
-            increaseCapacity(newSize);
-            Data* newVector = new Data[capacity];
-            copyArray(newVector, this->size());
+        if(length < newSize) {
+            Data* newVector = new Data[newSize];
+            copyArray(newVector, length);
             delete []vector;
             vector = newVector;
         }
@@ -54,27 +57,8 @@ public:
 
 private:
     // private data should be here
-
-
-    void copyArray(Data* newVector, size_t size){
-        for (int i = 0; i < size; ++i)
-            newVector[i] = vector[i];
-    }
-
-    void increaseCapacity(size_t size) {
-        if (capacity >= size)
-            return;
-        if (capacity == 0)
-            capacity = 1;
-        while (capacity < size)
-            capacity *= capacity_increase;
-    }
-
     size_t length;
-    size_t capacity;
-    const int capacity_increase = 2;
     Data* vector;
 };
 
 #endif
-

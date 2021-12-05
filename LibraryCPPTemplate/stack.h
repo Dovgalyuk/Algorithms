@@ -16,7 +16,6 @@ public:
     // Deletes the stack
     ~Stack()
     {
-        delete vector;
     }
 
     // Pushes data on top of the stack
