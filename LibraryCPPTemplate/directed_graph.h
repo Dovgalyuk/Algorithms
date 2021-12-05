@@ -19,7 +19,7 @@ public:
         Vertex(VertexData data): data(data), neighbors(List<Edge*>()) {}
         ~Vertex() {
             while (!neighbors.empty()) {
-                auto* item = neighbors.first();
+                EdgeItem* item = neighbors.first();
                 delete item->data();
                 neighbors.erase(item);
             }
@@ -41,10 +41,10 @@ public:
 
     typedef typename List<Vertex*>::Item VertexItem;
     typedef typename List<Edge*>::Item EdgeItem;
-    struct NearVertexIterator {
+    class NearVertexIterator {
         EdgeItem* firstNeighbor = nullptr;
         EdgeItem* neighbor = nullptr;
-
+    public:
         NearVertexIterator(Vertex* vertex) {
             firstNeighbor = vertex->neighbors.first();
             neighbor = firstNeighbor;
@@ -54,13 +54,38 @@ public:
             return neighbor ? neighbor->data() : nullptr;
         }
 
-        NearVertexIterator operator ++(int i) {
+        NearVertexIterator* operator ++(int i) {
             if (neighbor->next() != firstNeighbor) {
                 neighbor = neighbor->next();
             } else {
                 neighbor = nullptr;
             }
-            return *this;
+            return this;
+        }
+    };
+    class VertexIterator {
+        VertexItem* currentVertex = nullptr;
+        int pos = 0;
+    public:
+        int amount = 0;
+
+        VertexIterator(DirectedGraph<VertexData, EdgeData>* graph) {
+            amount = graph->vertexAmount;
+            currentVertex = graph->vertices.first();
+        }
+
+        Vertex* operator *() {
+            return currentVertex ? currentVertex->data() : nullptr;
+        }
+
+        VertexIterator* operator ++(int i) {
+            if (pos < amount) {
+                currentVertex = currentVertex->next();
+                pos++;
+            } else {
+                currentVertex == nullptr;
+            }
+            return this;
         }
     };
 
@@ -71,6 +96,15 @@ public:
     }
 
     ~DirectedGraph() {
+        while (!vertices.empty()) {
+            VertexItem* item = vertices.first();
+            delete item->data();
+            vertices.erase(item);
+        }
+    }
+
+    size_t getVertexAmount() {
+        return vertexAmount;
     }
 
     Vertex* addVertex(VertexData data) {
@@ -110,14 +144,7 @@ public:
     void removeVertex(Vertex* vertex) {
         VertexItem* item = findVertexItem(vertex);
         if (item) {
-            VertexItem* ver = vertices.first();
-            int i = 0;
-            while (ver && i++ < vertexAmount) {
-                if (ver->data() != vertex) {
-                    removeEdge(ver->data(), vertex);
-                }
-                ver = ver->next();
-            }
+            removeEdgesWithVertex(vertex);
             delete vertex;
             vertices.erase(item);
             vertexAmount--;
@@ -134,6 +161,10 @@ public:
 
     NearVertexIterator getNearVertexIterator(Vertex* vertex) {
         return NearVertexIterator(vertex);
+    }
+
+    VertexIterator getVertexIterator() {
+        return VertexIterator(this);
     }
 protected:
     List<Vertex*> vertices;
@@ -161,6 +192,17 @@ protected:
             item = item->next();
         }
         return nullptr;
+    }
+
+    void removeEdgesWithVertex(Vertex* toVertex) {
+        VertexItem* vertex = vertices.first();
+        int i = 0;
+        while (vertex && i++ < vertexAmount) {
+            if (vertex->data() != toVertex) {
+                removeEdge(vertex->data(), toVertex);
+            }
+            vertex = vertex->next();
+        }
     }
 
 };
