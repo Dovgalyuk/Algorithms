@@ -1,4 +1,5 @@
 #include "directed_graph.h"
+#include "../LibraryCPPTemplate/array.h" //else it uses the wrong array.h
 
 directed_graph* create_directed_graph(int vertexes_amount)
 {
@@ -12,18 +13,19 @@ void delete_directed_graph(directed_graph* graph)
 
 void add_vertex(struct directed_graph* graph)
 {
-	directed_graph::edge* matrix = new directed_graph::edge[(graph->vertexes_amount + 1) * (graph->vertexes_amount + 1)];
-	directed_graph::vertex* vertex_labels = new directed_graph::vertex[graph->vertexes_amount + 1];
+	typedef Array<directed_graph::vertex> vertex_arr;
+	vertex_arr* vertex_labels = new vertex_arr(graph->vertexes_amount + 1);
+	typedef Array<directed_graph::edge> matrix_arr;
+	matrix_arr* matrix = new matrix_arr((graph->vertexes_amount + 1) * (graph->vertexes_amount + 1));
 	for (int i = 0; i < graph->vertexes_amount; i++)
 	{
-		vertex_labels[i].label = graph->vertex_labels[i].label;
+		vertex_labels->set(i, graph->vertex_labels->get(i));
 	}
 	for (int i = 0, j = 0; i < graph->vertexes_amount * graph->vertexes_amount; j++)
 	{
 		for (int k = 0; k < graph->vertexes_amount; k++)
 		{
-			matrix[i + j].label = graph->matrix[i].label;
-			matrix[i + j].exists = graph->matrix[i].exists;
+			matrix->set(i + j, graph->matrix->get(i));
 			i++;
 		}
 	}
@@ -35,20 +37,27 @@ void add_vertex(struct directed_graph* graph)
 void add_edge(directed_graph* graph, int vertex1, int vertex2)
 {
 	if ((vertex1 * graph->vertexes_amount) + vertex2 < graph->vertexes_amount * graph->vertexes_amount)
-		graph->matrix[(vertex1 * graph->vertexes_amount) + vertex2].exists = 1;
+	{
+		directed_graph::edge* edge = new directed_graph::edge;
+		edge->label = graph->matrix->get((vertex1 * graph->vertexes_amount) + vertex2).label;
+		edge->exists = 1;
+		graph->matrix->set(((vertex1 * graph->vertexes_amount) + vertex2), *edge);
+	}
 }
 
 void remove_vertex(struct directed_graph* graph, int vertex)
 {
 	if (vertex < graph->vertexes_amount && graph->vertexes_amount > 1)
 	{
-		directed_graph::edge* matrix = new directed_graph::edge[(graph->vertexes_amount - 1) * (graph->vertexes_amount - 1)];
-		directed_graph::vertex* vertex_labels = new directed_graph::vertex[graph->vertexes_amount - 1];
+		typedef Array<directed_graph::vertex> vertex_arr;
+		vertex_arr* vertex_labels = new vertex_arr(graph->vertexes_amount - 1);
+		typedef Array<directed_graph::edge> matrix_arr;
+		matrix_arr* matrix = new matrix_arr((graph->vertexes_amount - 1) * (graph->vertexes_amount - 1));
 		for (int i = 0, j = 0; i < graph->vertexes_amount; i++)
 		{
 			if (i != vertex)
 			{
-				vertex_labels[j].label = graph->vertex_labels[i].label;
+				vertex_labels->set(j, graph->vertex_labels->get(i));
 				j++;
 			}
 		}
@@ -56,8 +65,7 @@ void remove_vertex(struct directed_graph* graph, int vertex)
 		{
 			if (i / graph->vertexes_amount != vertex && i - (i / graph->vertexes_amount) * graph->vertexes_amount != vertex)
 			{
-				matrix[j].label = graph->matrix[i].label;
-				matrix[j].exists = graph->matrix[i].exists;
+				matrix->set(j, graph->matrix->get(i));
 				j++;
 			}
 		}
@@ -70,25 +78,39 @@ void remove_vertex(struct directed_graph* graph, int vertex)
 void remove_edge(directed_graph* graph, int vertex1, int vertex2)
 {
 	if (vertex1 < graph->vertexes_amount && vertex2 < graph->vertexes_amount)
-		graph->matrix[(vertex1 * graph->vertexes_amount) + vertex2].exists = 0;
+	{
+		directed_graph::edge* edge = new directed_graph::edge;
+		edge->label = graph->matrix->get((vertex1 * graph->vertexes_amount) + vertex2).label;
+		edge->exists = 0;
+		graph->matrix->set(((vertex1 * graph->vertexes_amount) + vertex2), *edge);
+	}
 }
 
 void set_vertex_label(directed_graph* graph, int vertex_index, int vertex_label)
 {
 	if (vertex_index < graph->vertexes_amount)
-		graph->vertex_labels[vertex_index].label = vertex_label;
+	{
+		directed_graph::vertex* vertex = new directed_graph::vertex;
+		vertex->label = vertex_label;
+		graph->vertex_labels->set(vertex_index, *vertex);
+	}
 }
 
 void set_edge_label(directed_graph* graph, int vertex1, int vertex2, int edge_label)
 {
 	if (vertex1 < graph->vertexes_amount && vertex2 < graph->vertexes_amount)
-		graph->matrix[(vertex1 * graph->vertexes_amount) + vertex2].label = edge_label;
+	{
+		directed_graph::edge* edge = new directed_graph::edge;
+		edge->exists = graph->matrix->get((vertex1 * graph->vertexes_amount) + vertex2).exists;
+		edge->label = edge_label;
+		graph->matrix->set(((vertex1 * graph->vertexes_amount) + vertex2), *edge);
+	}
 }
 
 int get_vertex_label(directed_graph* graph, int vertex_index)
 {
 	if (vertex_index < graph->vertexes_amount)
-		return graph->vertex_labels[vertex_index].label;
+		return graph->vertex_labels->get(vertex_index).label;
 	else
 		return -1;
 }
@@ -96,14 +118,14 @@ int get_vertex_label(directed_graph* graph, int vertex_index)
 int get_edge_label(directed_graph* graph, int vertex1, int vertex2)
 {
 	if (vertex1 < graph->vertexes_amount && vertex2 < graph->vertexes_amount)
-		return graph->matrix[(vertex1 * graph->vertexes_amount) + vertex2].label;
+		return graph->matrix->get((vertex1 * graph->vertexes_amount) + vertex2).label;
 	else
 		return -1;
 }
 
 bool edge_exists(directed_graph* graph, int vertex1, int vertex2)
 {
-	return graph->matrix[(vertex1 * graph->vertexes_amount) + vertex2].exists;
+	return graph->matrix->get((vertex1 * graph->vertexes_amount) + vertex2).exists;
 }
 
 directed_graph::iterator* new_iterator(directed_graph* graph)
