@@ -1,5 +1,6 @@
 #include <iostream>
 #include "directed_graph.h"
+#include <string>
 #include <unordered_set>
 
 DirectedGraph<int, int>* readGraph() {
@@ -51,10 +52,9 @@ bool** detourGraph(DirectedGraph<int, int>* graph) {
     return was;
 }
 
-int createInt(int* ints, int size) {
-    int result = 1;
+std::string createInt(int* ints, int size) {
+    std::string result = "";
     for (int i = 0; i < size; ++i) {
-        result *= 10;
         result += ints[i];
     }
     return result;
@@ -72,9 +72,9 @@ int main() {
         }
     }
 
-    std::unordered_set<int> set;
+    std::unordered_set<std::string> set;
     for (int i = 0; i < amount; ++i) {
-        int number = createInt(components[i], amount);
+        std::string number = createInt(components[i], amount);
         set.insert(number);
     }
     std::cout << "Found strong components of connectivity: " << set.size();
