@@ -16,15 +16,11 @@ template<typename Data> class D_Graph
     struct Edge;
 
     D_Graph(size_t number, Data defaultValue) {
-        maxVerticesNumber = number;
-        vertices.resize(maxVerticesNumber);
-        for (size_t i = 0; i < maxVerticesNumber; i++) {
+        
+        vertices.resize(number);
+        for (size_t i = 0; i < number; i++) {
             vertices[i] = new Vertex(defaultValue);
         }
-    }
-    D_Graph(const D_Graph& second) {
-        maxVerticesNumber = second.maxVerticesNumber;
-        vertices = second.vertices;
     }
     ~D_Graph() {
         for (int i = 0; i < vertices.size(); i++) {
@@ -136,22 +132,12 @@ template<typename Data> class D_Graph
     };
 
     size_t addVertex(Data data) {
-        if (vertices.size() == maxVerticesNumber) {
-            return -1;
-        } 
-        else {
-            vertices.push_back(new Vertex(data));
-            return vertices.size() - 1;
-        }
+        vertices.push_back(new Vertex(data));
+        return vertices.size() - 1;
     }
     size_t addVertex(Vertex* vertex) {
-        if (vertices.size() == maxVerticesNumber) {
-            return -1;
-        }
-        else {
-            vertices.push_back(vertex);
-            return vertices.size() - 1;
-        }
+        vertices.push_back(vertex);
+        return vertices.size() - 1;
     }
     void removeVertex(size_t index) {
         if (index < vertices.size()) {
@@ -194,7 +180,7 @@ template<typename Data> class D_Graph
     }
 
     private:
-    int maxVerticesNumber;
+    
     std::vector<Vertex*> vertices;
 
 

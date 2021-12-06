@@ -17,10 +17,13 @@ class PathFinder {
             else
                 graph->getVertex(i)->setLabel(INT_MAX);
         }
-        used = {0,0,0,0,0};
-        p = {start, start, start, start, start};
 
-        while (thereIsNotUsedVertices()) {
+        for (int i = 0; i < graph->size(); i++) {
+            used.push_back(0);
+            p.push_back(start);
+        }
+
+        while (vertexWithMinLabel(graph) != -1) {
             size_t minVertexIndex = vertexWithMinLabel(graph);
             auto minVertex = graph->getVertex(minVertexIndex);
             
@@ -51,13 +54,6 @@ class PathFinder {
     }
     private:
     
-    bool thereIsNotUsedVertices() {
-        for (int i =0; i < used.size(); i++ ) {
-            if (!used[i])
-                return true;
-        }
-        return false;
-    }
     int vertexWithMinLabel(D_Graph<int>* graph) {
         int minIndex = INT_MAX;
         int minLabel = INT_MAX;
@@ -66,6 +62,9 @@ class PathFinder {
                 minLabel = graph->getVertex(i)->getLabel();
                 minIndex = i;
             }
+        }
+        if (minIndex == INT_MAX) {
+            return -1;
         }
         return minIndex;
 
