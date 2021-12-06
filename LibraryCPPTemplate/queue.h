@@ -10,6 +10,7 @@ public:
     // Create empty queue
     Queue(): _vector(new Vector<Data>())
     {
+
     }
 
     // Deletes queue

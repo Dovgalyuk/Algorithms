@@ -5,6 +5,7 @@ unsigned board[100][100];
 typedef Queue<int> queue;
 int main()
 {
+
     cout << "Enter N M: " << endl;
     int N, M;
     cin >> N >> M;
