@@ -24,9 +24,9 @@ int find(Array<int>& array)
     avg /= array.size();
     std::cout << "average: " << avg << std::endl;
 
-    double t = 1.0;
+    double t = abs(array.get(0) - avg);
     int min = array.get(0);
-    for (int i = 0; i < array.size(); ++i)
+    for (int i = 1; i < array.size(); ++i)
     {
         if (abs(array[i] - avg) < t)
         {
