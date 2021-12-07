@@ -11,9 +11,11 @@ A
 A B
 B C
 D E
+C F
 
 B
 C
+F
 */
 
 int main(){
