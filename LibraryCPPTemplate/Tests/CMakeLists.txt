@@ -17,4 +17,8 @@ add_test(TestStackCPPTemplate TestStackCPPTemplate)
 add_executable(TestVectorCPPTemplate vector.cpp)
 target_include_directories(TestVectorCPPTemplate PUBLIC ..)
 add_test(TestVectorCPPTemplate TestVectorCPPTemplate)
+
+add_executable(TestGraph graph.cpp)
+target_include_directories(TestGraph PUBLIC ..)
+add_test(TestGraph TestGraph)
 set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
