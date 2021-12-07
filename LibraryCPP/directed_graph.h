@@ -1,7 +1,7 @@
 #ifndef DIRECTED_GRAPH_H
 #define DIRECTED_GRAPH_H
 
-#include "../LibraryCPPTemplate/array.h" //else it uses the wrong array.h
+#include "array.h" //else it uses the wrong array.h
 
 struct directed_graph
 {
@@ -21,10 +21,10 @@ struct directed_graph
 		int	CurrentNeighbor = 0;
 		int GivenVertex = -1;
 		directed_graph* DirectedGraphPtr;
+		int vertex;
 
-		bool NeighborListEmpty(int vertex)
+		bool NeighborListEmpty()
 		{
-			GivenVertex = vertex;
 			for (int i = CurrentNeighbor; i < DirectedGraphPtr->vertexes_amount; i++)
 			{
 				if (DirectedGraphPtr->matrix->get((vertex * DirectedGraphPtr->vertexes_amount) + i).exists == 1)
@@ -34,15 +34,22 @@ struct directed_graph
 			return true;
 		}
 
-		int NextNeighborIndex(int vertex)
+		int NextNeighborIndex()
 		{
-			GivenVertex = vertex;
 			while (DirectedGraphPtr->matrix->get((vertex * DirectedGraphPtr->vertexes_amount) + CurrentNeighbor).exists == 0)
 			{
 				CurrentNeighbor++;
 			}
 			CurrentNeighbor++;
 			return CurrentNeighbor - 1;
+		}
+		iterator(int vertex)
+		{
+			this->vertex = vertex;
+		}
+		~iterator()
+		{
+			DirectedGraphPtr = nullptr;
 		}
 	};
 
@@ -52,9 +59,9 @@ struct directed_graph
 	matrix_arr* matrix;
 	int vertexes_amount;
 
-	iterator* createIterator()
+	iterator* createIterator(int vertex)
 	{
-		iterator* iter = new iterator;
+		iterator* iter = new iterator(vertex);
 		iter->DirectedGraphPtr = this;
 		return iter;
 	}
@@ -94,6 +101,5 @@ int get_edge_label(directed_graph* graph, int vertex1, int vertex2);
 
 bool edge_exists(directed_graph* graph, int vertex1, int vertex2);
 
-directed_graph::iterator* new_iterator(directed_graph* graph);
-
+directed_graph::iterator* new_iterator(directed_graph* graph, int vertex);
 #endif
