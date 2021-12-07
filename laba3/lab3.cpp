@@ -7,7 +7,6 @@
 int main()
 {
     auto *elements = new Queue<std::pair<size_t, size_t>>();
-    auto *neighbors = new Queue<std::pair<size_t, size_t>>();
     size_t counter = 0;
 
     std::ifstream file;
@@ -31,34 +30,27 @@ int main()
     }
 
     do {
-        while (!elements->empty()) {
-            std::pair<size_t,size_t> current = elements->get();
-            elements->remove();
-            if (maze[current.first - 1][current.second] == '.') {
-                ++counter;
-                maze[current.first - 1][current.second] = 'X';
-                neighbors->insert(std::pair<size_t, size_t>(current.first - 1, current.second));
-            }
-            if (maze[current.first + 1][current.second] == '.') {
-                ++counter;
-                maze[current.first + 1][current.second] = 'X';
-                neighbors->insert(std::pair<size_t, size_t>(current.first + 1, current.second));
-            }
-            if (maze[current.first][current.second - 1] == '.') {
-                ++counter;
-                maze[current.first][current.second - 1] = 'X';
-                neighbors->insert(std::pair<size_t, size_t>(current.first, current.second - 1));
-            }
-            if (maze[current.first][current.second + 1] == '.') {
-                ++counter;
-                maze[current.first][current.second + 1] = 'X';
-                neighbors->insert(std::pair<size_t, size_t>(current.first, current.second + 1));
-            }
+        std::pair<size_t, size_t> current = elements->get();
+        elements->remove();
+        if (maze[current.first - 1][current.second] == '.') {
+            ++counter;
+            maze[current.first - 1][current.second] = 'X';
+            elements->insert(std::pair<size_t, size_t>(current.first - 1, current.second));
         }
-
-        while (!neighbors->empty()) {
-            elements->insert(neighbors->get());
-            neighbors->remove();
+        if (maze[current.first + 1][current.second] == '.') {
+            ++counter;
+            maze[current.first + 1][current.second] = 'X';
+            elements->insert(std::pair<size_t, size_t>(current.first + 1, current.second));
+        }
+        if (maze[current.first][current.second - 1] == '.') {
+            ++counter;
+            maze[current.first][current.second - 1] = 'X';
+            elements->insert(std::pair<size_t, size_t>(current.first, current.second - 1));
+        }
+        if (maze[current.first][current.second + 1] == '.') {
+            ++counter;
+            maze[current.first][current.second + 1] = 'X';
+            elements->insert(std::pair<size_t, size_t>(current.first, current.second + 1));
         }
     } while (!elements->empty());
 

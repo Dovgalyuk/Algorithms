@@ -1,7 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include <vector.h>
+#include "vector.h"
 #include <cstddef>
 
 template <typename Data> class Queue
@@ -29,17 +29,32 @@ public:
         }
         else
         {
-            if (start != 0)
+            if (end >= start && start != 0) {
+                end = 0;
+                _vector->set(end,data);
+                ++end;
+            }
+            else
             {
-                for (int i = 0; i < end - start; ++i) {
-                    _vector->set(i, _vector->get(start + i));
+                if (start == 0) {
+                    _vector->resize(_vector->size() + 1);
+                    _vector->set(end, data);
+                    ++end;
+                } else {
+                    auto* new_vector = new Vector<Data>();
+                    new_vector->resize(_vector->size() + 1);
+                    for (size_t i = start; i < _vector->size(); ++i) {
+                        new_vector->set(i - start, _vector->get(i));
+                    }
+                    for (size_t i = 0; i < end; ++i) {
+                        new_vector->set(i + start, _vector->get(i));
+                    }
+                    start = 0;
+                    end = new_vector->size();
+                    new_vector->set(end - 1, data);
+                    delete _vector;
+                    _vector = new_vector;
                 }
-                end -= start;
-                start = 0;
-                insert(data);
-            } else {
-                _vector->resize(end + 1);
-                insert(data);
             }
         }
     }
@@ -51,14 +66,28 @@ public:
         return _vector->get(start);
     }
 
+
+
     // Removes first element from the queue
     // Should be O(1) on average
     void remove()
     {
-        if(!empty())
-        {
+        if (start < end) {
             start++;
+            if (start == _vector->size()) {
+                start = 0;
+            }
+            if (end == _vector->size()) {
+                end = 0;
+            }
+        } else {
+            if (_vector->size() - 1> start) {
+                start++;
+            } else {
+                start = 0;
+            }
         }
+
         //return 0;
     }
 
