@@ -128,7 +128,7 @@ bool edge_exists(directed_graph* graph, int vertex1, int vertex2)
 	return graph->matrix->get((vertex1 * graph->vertexes_amount) + vertex2).exists;
 }
 
-directed_graph::iterator* new_iterator(directed_graph* graph)
+directed_graph::iterator* new_iterator(directed_graph* graph, int vertex)
 {
-	return graph->createIterator();
+	return graph->createIterator(vertex);
 }
