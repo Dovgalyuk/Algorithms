@@ -1,33 +1,33 @@
 #include<iostream>
 #include "directed_graph.h" //Kosaraju
 
-void SearchInDepth(int vertex, directed_graph* graph, int* time, bool** considered_vertex) //Search in depth with time
+void SearchInDepth(int vertex, directed_graph* graph, int* time, bool* considered_vertex) //Search in depth with time
 {
-	(*considered_vertex)[vertex] = true;
-	auto iter = new_iterator(graph);
+	considered_vertex[vertex] = true;
+	auto iter = new_iterator(graph, vertex);
 	(*time)++;
-	while (!iter->NeighborListEmpty(vertex))
+	while (!iter->NeighborListEmpty())
 	{
-		int next = iter->NextNeighborIndex(vertex);
-		if ((*considered_vertex)[next] == false)
-			SearchInDepth(next, graph, &(*time), &(*considered_vertex));
+		int next = iter->NextNeighborIndex();
+		if (considered_vertex[next] == false)
+			SearchInDepth(next, graph, time, considered_vertex);
 	}
 	(*time)++;
 	set_vertex_label(graph, vertex, *time);
-
+	delete iter;
 }
 
-void SearchInDepth2(int vertex, directed_graph* graph, bool** considered_vertex) //Search in depth without time
+void SearchInDepth2(int vertex, directed_graph* graph, bool* considered_vertex) //Search in depth without time
 {
-	(*considered_vertex)[vertex] = true;
-	auto iter = new_iterator(graph);
-	while (!iter->NeighborListEmpty(vertex))
+	considered_vertex[vertex] = true;
+	auto iter = new_iterator(graph, vertex);
+	while (!iter->NeighborListEmpty())
 	{
-		int next = iter->NextNeighborIndex(vertex);
-		if ((*considered_vertex)[next] == false)
-			SearchInDepth2(next, graph, &(*considered_vertex));
+		int next = iter->NextNeighborIndex();
+		if (considered_vertex[next] == false)
+			SearchInDepth2(next, graph, considered_vertex);
 	}
-
+	delete iter;
 }
 
 int main()
@@ -59,7 +59,7 @@ int main()
 	{
 		if (considered_vertex[i] == 0)
 		{
-			SearchInDepth(i, graph, &time, &considered_vertex);
+			SearchInDepth(i, graph, &time, considered_vertex);
 		}
 	}
 	//---------------------------------------------------------------//
@@ -106,7 +106,7 @@ int main()
 	{
 		if (considered_vertex[vertex_order[i]] == false)
 		{
-			SearchInDepth2(vertex_order[i], graph2, &considered_vertex);
+			SearchInDepth2(vertex_order[i], graph2, considered_vertex);
 			connectivity_component++;
 		}
 	}
