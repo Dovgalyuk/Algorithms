@@ -80,9 +80,9 @@ int main()
 	int i = 0;
 	int arr[2] = { 0,2 };
 	int neigbor_arr[2];
-	while (!iter->NeighborListEmpty(1))
+	while (!NeighborListEmpty(iter))
 	{
-		neigbor_arr[i] = iter->NextNeighborIndex(1);
+		neigbor_arr[i] = NextNeighborIndex(iter);
 		if (i < 2 && neigbor_arr[i] == arr[i])
 			i++;
 		else
