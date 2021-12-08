@@ -1,6 +1,83 @@
 #include "directed_graph.h"
 #include "../LibraryCPPTemplate/array.h" //else it uses the wrong array.h
 
+struct iterator
+{
+	int	CurrentNeighbor = 0;
+	int GivenVertex = -1;
+	directed_graph* DirectedGraphPtr;
+	int vertex;
+
+	iterator(int vertex)
+	{
+		this->vertex = vertex;
+	}
+	~iterator()
+	{
+		DirectedGraphPtr = nullptr;
+	}
+};
+
+struct directed_graph
+{
+	struct vertex
+	{
+		int label = -1;
+	};
+
+	struct edge
+	{
+		bool exists = 0;
+		int label = -1;
+	};
+
+	typedef Array<vertex> vertex_arr;
+	vertex_arr* vertex_labels;
+	typedef Array<edge> matrix_arr;
+	matrix_arr* matrix;
+	int vertexes_amount;
+
+	iterator* createIterator(int vertex)
+	{
+		iterator* iter = new iterator(vertex);
+		iter->DirectedGraphPtr = this;
+		return iter;
+	}
+
+	directed_graph(int vertexes_amount)
+	{
+		vertex_labels = new vertex_arr(vertexes_amount);
+		matrix = new matrix_arr(vertexes_amount * vertexes_amount);
+		this->vertexes_amount = vertexes_amount;
+	}
+	~directed_graph()
+	{
+		delete vertex_labels;
+		delete matrix;
+	}
+};
+
+bool NeighborListEmpty(iterator* iter)
+{
+	for (int i = iter->CurrentNeighbor; i < iter->DirectedGraphPtr->vertexes_amount; i++)
+	{
+		if (iter->DirectedGraphPtr->matrix->get((iter->vertex * iter->DirectedGraphPtr->vertexes_amount) + i).exists == 1)
+			return false;
+	}
+	iter->CurrentNeighbor = 0;
+	return true;
+}
+
+int NextNeighborIndex(iterator* iter)
+{
+	while (iter->DirectedGraphPtr->matrix->get((iter->vertex * iter->DirectedGraphPtr->vertexes_amount) + iter->CurrentNeighbor).exists == 0)
+	{
+		iter->CurrentNeighbor++;
+	}
+	iter->CurrentNeighbor++;
+	return iter->CurrentNeighbor - 1;
+}
+
 directed_graph* create_directed_graph(int vertexes_amount)
 {
 	return new directed_graph(vertexes_amount);
@@ -128,7 +205,7 @@ bool edge_exists(directed_graph* graph, int vertex1, int vertex2)
 	return graph->matrix->get((vertex1 * graph->vertexes_amount) + vertex2).exists;
 }
 
-directed_graph::iterator* new_iterator(directed_graph* graph, int vertex)
+iterator* new_iterator(directed_graph* graph, int vertex)
 {
 	return graph->createIterator(vertex);
 }
