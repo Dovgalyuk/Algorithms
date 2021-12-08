@@ -1,7 +1,7 @@
 #ifndef DIRECTED_GRAPH_H
 #define DIRECTED_GRAPH_H
 
-#include "array.h" //else it uses the wrong array.h
+#include "../LibraryCPPTemplate/array.h" //else it uses the wrong array.h
 
 struct iterator;
 struct directed_graph;
