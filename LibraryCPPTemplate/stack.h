@@ -47,7 +47,7 @@ public:
     }
 
 protected:
-    typename List<Data>::Item* lastItem = nullptr;
+    typename List<Data>::Item* lastItem;
 };
 
 #endif

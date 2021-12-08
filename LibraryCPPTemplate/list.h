@@ -90,7 +90,7 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item)
     {
-        return nullptr;
+        return erase(item->next());
     }
 
 protected:
