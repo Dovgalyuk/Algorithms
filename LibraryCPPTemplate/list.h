@@ -22,22 +22,24 @@ public:
     };
 
     // Creates new list
-    List() : firstItem(nullptr), lastItem(nullptr)
+    List()
     {
-
+        elem->setNext(elem);
+        elem->setPrev(elem);
+        firstItem = elem;
+        lastItem = elem;
     }
 
     // Destroys the list and frees the memory
     ~List()
     {
         Item* current = firstItem;
-        while (current != lastItem) {
+        while (current != elem) {
             firstItem = current->next();
             delete current;
             current = firstItem;
         }
-        delete firstItem;
-        size = 0;
+        delete elem;
     }
 
     // Retrieves the first item from the list
@@ -49,54 +51,45 @@ public:
     // Inserts new list item into the beginning
     Item *insert(Data data)
     {
-        if (firstItem == nullptr) {
-            firstItem = new Item(data);
-            lastItem = firstItem;
-            size = 1;
-            return lastItem;
-        } else {
-            Item* newItem = new Item(data);
-            newItem->setNext(firstItem);
-            firstItem->setPrev(newItem);
-            firstItem = newItem;
-            firstItem->setPrev(lastItem);
-            lastItem->setNext(firstItem);
-            size++;
-            return newItem;
-        }
+        return insert_after(elem, data);
     }
 
     Item *insert_end(Data data)
     {
-        if (firstItem == nullptr) {
-            firstItem = new Item(data);
-            lastItem = firstItem;
-            size = 1;
-            return lastItem;
-        }
-        else{
-            Item* newItem = new Item(data);
-            newItem->setPrev(lastItem);
-            lastItem->setNext(newItem);
+        Item* newItem = new Item(data);
+        newItem->setNext(elem);
+        newItem->setPrev(elem->prev());
+        elem->prev()->setNext(newItem);
+        elem->setPrev(newItem);
+        if(firstItem == elem && lastItem == elem)
+        {
+            firstItem = newItem;
             lastItem = newItem;
-            lastItem->setNext(firstItem);
-            firstItem->setPrev(lastItem);
-
-            size++;
-            return newItem;
         }
+        else if(newItem->next() == elem && newItem->prev() == lastItem)
+        {
+            lastItem = newItem;
+        }
+        return newItem;
     }
 
     // Inserts new list item after the specified item
     Item *insert_after(Item *item, Data data)
     {
         Item* newItem = new Item(data);
-        newItem->setPrev(item);
         newItem->setNext(item->next());
         item->next()->setPrev(newItem);
+        newItem->setPrev(item);
         item->setNext(newItem);
+        if (firstItem == elem && lastItem == elem) {
+            firstItem = newItem;
+            lastItem = newItem;
+        }
+        else if (newItem->next() == firstItem && newItem->prev() == elem)
+        {
+            firstItem = newItem;
+        }
 
-        size++;
         return newItem;
     }
 
@@ -106,15 +99,21 @@ public:
     Item *erase(Item *item)
     {
         //Item* prev = item->prev();
-        if (firstItem == item)
-            firstItem = item->next();
+        if (item == firstItem && item == lastItem) {
+            firstItem = elem;
+            lastItem = elem;
+        }
+        else
+        {
+            if (firstItem == item)
+            {
+                firstItem = item->next();
+            }
+        }
         item->next()->setPrev(item->prev());
         item->prev()->setNext(item->next());
 
-
-
         delete item;
-        size--;
         return firstItem;
     }
 
@@ -125,23 +124,27 @@ public:
         return nullptr;
     }
 
-    void getList()
-    {
-        Item *elem = firstItem;
-        for (int i = 0; i < size; i++) {
-            std::cout << elem->data() << " ";
-            elem = elem->next();
+    void showList() {
+        Item *num = firstItem;
+        while (num != elem) {
+            std::cout << num->data() << ' ';
+            num = num->next();
         }
     }
 
-    int Size(){
-        return size;
+    bool empty()
+    {
+        if (firstItem == elem && lastItem == elem) {
+            return true;
+        }
+        else
+            return false;
     }
 
 private:
     // private data should be here
     Item* firstItem;
     Item* lastItem;
-    int size;
+    Item* elem = new Item(0);
 };
 #endif

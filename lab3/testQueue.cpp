@@ -4,53 +4,55 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <queue.h>
 
 typedef Queue<char> queue;
 
 int main() {
     queue _queue;
-    std::string str[2];
-    bool empty = true;
+    char str;
+    bool end = true;
+    std::vector<char> stroka;
     std::ifstream in("E:\\text.txt");
-    if (in.is_open()) {
-        while (!in.eof()) {
-            for (int i = 0; i < 2; ++i) {
-                std::getline(in, str[i]);
-            }
-        }
-    } else
-        std::cout << "Nope";
-    for (int i = 0; i < str[0].size(); ++i) {
-        _queue.insert(str[0][i]);
+    for (int i = 0; i < 4; ++i) {
+        in >> str;
+        _queue.insert(str);
     }
-    int num = str[1].size();
-    int k = num;
-    while (empty) {
-        int n = k;
-        for (int j = 0; j < num; ++j) {
-            if (_queue.get() == str[1][j]) {
-                k--;
+
+    for (int i = 0; i < 3; ++i) {
+        in >> str;
+        stroka.push_back(str);
+    }
+
+    int k = stroka.size();
+    while (end) {
+        for (int i = 0; i < stroka.size(); ++i) {
+            if (stroka[i] == _queue.get()) {
                 _queue.remove();
+                stroka.erase(stroka.begin() + i);
+                i = stroka.size();
+            }
+            if (stroka.empty()) {
+                end = false;
             }
         }
-        if (n - k == 0) {
+        if (k == stroka.size()) {
             _queue.remove();
         }
-        if (k == 0) {
-            empty = false;
-            std::cout << "Yes";
+        if (_queue.empty()) {
+            end = false;
         }
-        if (_queue.empty() && k != 0) {
-            empty = false;
-            std::cout << "No";
-        }
+        k = stroka.size();
     }
+
+    if (stroka.empty())
+        std::cout << "Yes";
+    else
+        std::cout << "No";
 
     return 0;
 
 }
-
-
 
 

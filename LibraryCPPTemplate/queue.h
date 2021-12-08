@@ -14,6 +14,7 @@ public:
     // Deletes queue
     ~Queue()
     {
+
     }
 
     // Includes new element into the queue
@@ -39,10 +40,7 @@ public:
     // Returns true if the queue is empty
     bool empty() const
     {
-        if (_queue->Size() == 0)
-            return true;
-        else
-            return false;
+        return _queue->empty();
     }
 
 private:

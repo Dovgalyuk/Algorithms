@@ -40,11 +40,8 @@ int main()
     }
 
     std::cout << "List: ";
-    /*for (auto item = list->first() ; item ; item = item->next())
-    {
-        std::cout << item->data() << " ";
-    }*/
-    list->getList();
+
+    list->showList();
     std::cout << "\n";
 
     delete list;
