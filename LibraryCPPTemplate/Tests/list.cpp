@@ -46,7 +46,7 @@ int main()
         std::cout << item->data() << " ";
     }*/
 
-    list->getList(); // Поэтому заменил на это
+    list->get_list(); // Поэтому заменил на это
     std::cout << "\n";
 
     delete list;

@@ -1,246 +1,175 @@
-#include <iostream>
+#include "iostream"
 #include "fstream"
+#include "string"
+#include "vector"
 #include "queue.h"
-#include <cstdlib>
 using namespace std;
 
-typedef Queue<int> MyQueue;
+typedef Queue<int> queue;
 int main(){
-    MyQueue testY, testX;
-    const int row = 6, col = 14;
-    char arr[row][col];
-    int num = 1, num2, num3, num4;
-    char *str = new char[1];
-    str[1] = '1';
-    bool full = true;
-    bool imposible = true;
-    ifstream file("C:\\Users\\vasya\\OneDrive\\Desktop\\file2.txt");
-    if(file.is_open()) {
-        while (!file.eof()) {
-            for (int i = 0; i < row; ++i) {
-                file.getline(arr[i], col + 1, '\n');
-            }
+    int elementY;
+    int elementX;
+    int num = 0;
+    char value[] = "123456789";
+    vector<vector<char>> maze;
+    string buff;
+    int X, Y;
+    ifstream file(R"(C:\Users\vasya\OneDrive\Desktop\file2.txt)");
+    if (file.is_open()){
+        while (!file.eof())
+        {
+            getline(file, buff);
+            maze.emplace_back(buff.begin(), buff.end());
         }
+        file.close();
+    } // заполнение вектора
+    else
+        cout << "File is not open!!!";
 
-        cout << "Intermediate output: " << endl;
-        for (int i = 0; i < row; ++i) {
-            for (int j = 0; j < col; ++j) {
-                cout << arr[i][j];
-            }
-
-            cout << endl;
-        } // Промежуточный вывод
-
-        cout << endl << endl;
-
-        for (int i = 0; i < row; ++i) {
-            for (int j = 0; j < col; ++j) {
-                if (arr[i][j] == 'X' && arr[i - 1][j] == '.') {
-                    arr[i - 1][j] = *str;
-                }
-                if (arr[i][j] == 'X' && arr[i + 1][j] == '.') {
-                    arr[i + 1][j] = *str;
-                }
-                if (arr[i][j] == 'X' && arr[i][j - 1] == '.') {
-                    arr[i][j - 1] = *str;
-                }
-                if (arr[i][j] == 'X' && arr[i][j + 1] == '.') {
-                    arr[i][j + 1] = *str;
+        for (int i = 0; i < maze.size(); ++i) {
+            for (int j = 0; j < maze[0].size(); ++j) {
+                if (maze[i][j] == 'X')
+                {
+                    elementY = i;
+                    elementX = j;
+                    break;
                 }
             }
-        } // Отмечает первый шаг с начала пути
+        } //  поиск начала
 
-        while(full) {
-            for (int i = 0; i < row; ++i) {
-                for (int j = 0; j < col; ++j) {
-                    if (arr[i][j] == *str && arr[i - 1][j] == '.') {
-                        if(arr[i][j] != *itoa(num + 1, str, 10)) {
-                            arr[i - 1][j] = *itoa(num + 1, str, 10);
-                            itoa(num, str, 10);
-                        }
-                    }
-                    if (arr[i][j] == *str && arr[i + 1][j] == '.') {
-                        if(arr[i][j] != *itoa(num + 1, str, 10)) {
-                            arr[i + 1][j] = *itoa(num + 1, str, 10);
-                            itoa(num, str, 10);
-                        }
-                    }
-                    if (arr[i][j] == *str && arr[i][j - 1] == '.') {
-                        if(arr[i][j] != *itoa(num + 1, str, 10)) {
-                            arr[i][j - 1] = *itoa(num + 1, str, 10);
-                            itoa(num, str, 10);
-                        }
-                    }
-                    if (arr[i][j] == *str && arr[i][j + 1] == '.') {
-                        if(arr[i][j] != *itoa(num + 1, str, 10)) {
-                            arr[i][j + 1] = *itoa(num + 1, str, 10);
-                            itoa(num, str, 10);
-                        }
-                    }
+        if (maze[elementY - 1][elementX] == '.') // нахождение первых пустых клеток
+            maze[elementY - 1][elementX] = value[num];
 
-                    if (arr[i][j] == 'Y' && arr[i - 1][j] != '.' && arr[i + 1][j] != '.' && arr[i][j - 1] != '.' && arr[i][j + 1] != '.')
-                        full = false;
+        if (maze[elementY + 1][elementX] == '.')
+            maze[elementY + 1][elementX] = value[num];
+
+        if (maze[elementY][elementX - 1] == '.')
+            maze[elementY][elementX - 1] = value[num];
+
+        if (maze[elementY][elementX + 1] == '.')
+            maze[elementY][elementX + 1] = value[num];
+
+        num++;
+        bool end = false;
+        // заполнение путей
+        while (!end)
+        {
+            for (int i = 0; i < maze.size(); ++i) {
+                for (int j = 0; j < maze[0].size(); ++j) {
+                    if (maze[i][j] == value[num - 1])
+                    {
+                        if (maze[i - 1][j] == '.')
+                            maze[i - 1][j] = value[num];
+                        if (maze[i + 1][j] == '.')
+                            maze[i + 1][j] = value[num];
+                        if (maze[i][j - 1] == '.')
+                            maze[i][j - 1] = value[num];
+                        if (maze[i][j + 1] == '.')
+                            maze[i][j + 1] = value[num];
+
+                    }
+                    if (maze[i][j] == 'Y' && maze[i - 1][j] == value[num]) {
+                        X = j;
+                        Y = i;
+                        end = true;
+                    }
+                    else if (maze[i][j] == 'Y' && maze[i + 1][j] == value[num]) {
+                        X = j;
+                        Y = i;
+                        end = true;
+                    }
+                    else if (maze[i][j] == 'Y' && maze[i][j - 1] == value[num]) {
+                        X = j;
+                        Y = i;
+                        end = true;
+                    }
+                    else if (maze[i][j] == 'Y' && maze[i][j + 1] == value[num]) {
+                        X = j;
+                        Y = i;
+                        end = true;
+                    }
                 }
             }
-            num = num + 1;
-            str = itoa(num, str, 10);
-            if(num > 100)
+            num++;
+            if(num == 10)
             {
-                full = false;
-                imposible = false;
-
+                cout << "Error";
+                end = true;
             }
-        } // Отмечечает число шагов до выхода в лабиринте где несколько путей к выходу
-
-        switch (imposible) {
-            case false:
-                cout << "IMPOSIBLE!!!";
-                break;
-            case true:
-                cout << "Intermediate output: " << endl;
-                for (int i = 0; i < row; ++i) {
-                    for (int j = 0; j < col; ++j) {
-                        cout << arr[i][j];
-                    }
-
-                    cout << endl;
-                } // Промежуточный вывод
-
-                cout << endl << endl;
-
-                for (int i = 0; i < row; ++i) {
-                    for (int j = 0; j < col; ++j) {
-                        if (arr[i][j] == 'Y' && arr[i - 1][j] != '#') {
-                            *str = arr[i - 1][j];
-                            num = atoi(str);
-                        }
-                        if (arr[i][j] == 'Y' && arr[i + 1][j] != '#') {
-                            *str = arr[i + 1][j];
-                            num2 = atoi(str);
-                        }
-                        if (arr[i][j] == 'Y' && arr[i][j - 1] != '#') {
-                            *str = arr[i][j - 1];
-                            num3 = atoi(str);
-                        }
-                        if (arr[i][j] == 'Y' && arr[i][j + 1] != '#') {
-                            *str = arr[i][j + 1];
-                            num4 = atoi(str);
-                        }
-                    }
-
-                } // Выводит в переменные последние шаги до выхода
-
-                if (num2 < num)
-                    num = num2;
-                if (num3 < num)
-                    num = num3;
-                if (num4 < num)
-                    num = num4;
-
-                int y, x;
-
-                for (int i = 0; i < row; ++i) {
-                    for (int j = 0; j < col; ++j) {
-                        if (arr[i][j] == 'Y' && arr[i][j - 1] == *itoa(num, str, 10)) {
-                            x = j - 1;
-                            y = i;
-                            full = false;
-                        }
-                        if (arr[i][j] == 'Y' && arr[i - 1][j] == *itoa(num, str, 10)) {
-                            x = j;
-                            y = i - 1;
-                        }
-                        if (arr[i][j] == 'Y' && arr[i][j + 1] == *itoa(num, str, 10)) {
-                            x = j + 1;
-                            y = i;
-                        }
-                        if (arr[i][j] == 'Y' && arr[i + 1][j] == *itoa(num, str, 10)) {
-                            x = j;
-                            y = i + 1;
-                        }
-                    }
-                } // Находит координаты последней точки кратчайшего пути
-
-                full = true;
-                testY.insert(y);
-                testX.insert(x);
-
-                int size = num;
-
-                while (full) {
-                    if (arr[y - 1][x] == *itoa(num - 1, str, 10)) {
-                        y--;
-                        num--;
-                        testY.insert(y);
-                        testX.insert(x);
-                    }
-                    if (arr[y + 1][x] == *itoa(num - 1, str, 10)) {
-                        y++;
-                        num--;
-                        testY.insert(y);
-                        testX.insert(x);
-                    }
-                    if (arr[y][x - 1] == *itoa(num - 1, str, 10)) {
-                        x--;
-                        num--;
-                        testY.insert(y);
-                        testX.insert(x);
-                    }
-                    if (arr[y][x + 1] == *itoa(num - 1, str, 10)) {
-                        x++;
-                        num--;
-                        testY.insert(y);
-                        testX.insert(x);
-                    }
-                    if (arr[y][x + 1] == 'X')
-                        full = false;
-                    if (arr[y][x - 1] == 'X')
-                        full = false;
-                    if (arr[y - 1][x] == 'X')
-                        full = false;
-                    if (arr[y + 1][x] == 'X')
-                        full = false;
-                } // Запоминаем координаты в очередь
-
-                for (int i = 0; i < row; ++i) {
-                    for (int j = 0; j < col; ++j) {
-                        if (arr[i][j] != '#' && arr[i][j] != 'X' && arr[i][j] != 'Y')
-                            arr[i][j] = '.';
-                    }
-                } // выводит первоначальный лабиринт
-
-                cout << "Intermediate output: " << endl;
-                for (int i = 0; i < row; ++i) {
-                    for (int j = 0; j < col; ++j) {
-                        cout << arr[i][j];
-                    }
-
-                    cout << endl;
-                } // Промежуточный вывод
-
-                cout << endl << endl;
-
-
-                for (int i = 0; i < size; ++i) {
-                    arr[testY.get()][testX.get()] = 'x';
-                    testX.remove();
-                    testY.remove();
-                }
-
-
-                cout << "The shortest path: " << endl;
-                for (int i = 0; i < row; ++i) {
-                    for (int j = 0; j < col; ++j) {
-                        cout << arr[i][j];
-                    }
-
-                    cout << endl;
-                } // Выводит кратчайший путь до выхода
-                 break;
         }
-    }
 
+        num = 0;
+        // поиск кратчайшего пути
+        while (end)
+        {
+            if (maze[Y][X - 1] == value[num])
+                end = false;
+            else if (maze[Y][X + 1] == value[num])
+                end = false;
+            else if (maze[Y - 1][X] == value[num])
+                end = false;
+            else if (maze[Y + 1][X] == value[num])
+                end = false;
+            else
+                num++;
+        }
 
+        num = num+2;
+        int buffX = X, buffY = Y;
+        int count = num - 1;
+        int buffer = 0;
+
+        queue neighborX;
+        queue neighborY;
+
+        // заполнение очереди начиная с 1 шага
+        while (buffer != num - 1)
+        {
+            while (count != buffer) {
+                if (maze[Y - 1][X] == value[count - 1])
+                {
+                    Y--;
+                    count--;
+                }
+                else if (maze[Y + 1][X] == value[count - 1])
+                {
+                    Y++;
+                    count--;
+                }
+                else if (maze[Y][X - 1] == value[count - 1])
+                {
+                    X--;
+                    count--;
+                }
+                else if (maze[Y][X + 1] == value[count - 1])
+                {
+                    X++;
+                    count--;
+                }
+            }
+            neighborY.insert(Y);
+            neighborX.insert(X);
+            count = num - 1;
+            X = buffX;
+            Y = buffY;
+            buffer++;
+        }
+
+        // заполнение кратчайшего пути
+        while (!neighborX.empty() && !neighborY.empty())
+        {
+            maze[neighborY.get()][neighborX.get()] = 'x';
+            neighborY.remove();
+            neighborX.remove();
+        }
+
+        // вывод лабиринта
+        for (int i = 0; i < maze.size(); ++i) {
+            for (int j = 0; j < maze[0].size(); ++j) {
+                cout << maze[i][j];
+            }
+            cout << endl;
+        }
 
 
     return 0;

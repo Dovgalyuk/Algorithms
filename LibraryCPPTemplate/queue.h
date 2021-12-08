@@ -1,12 +1,13 @@
 #ifndef QUEUE_H
 #define QUEUE_H
+
 #include "list.h"
 
 template <typename Data> class Queue
 {
 public:
     // Create empty queue
-    Queue() : _queue(new List<Data>())
+    Queue(): _queue(new List<Data>())
     {
     }
 
@@ -21,7 +22,6 @@ public:
     {
         _queue->insert_end(data);
     }
-
 
     // Retrieves first element from the queue
     Data get() const
@@ -39,12 +39,12 @@ public:
     // Returns true if the queue is empty
     bool empty() const
     {
-        return true;
+        return _queue->empty();
     }
 
 private:
     // private data should be here
-    List<Data> *_queue;
+    List<Data>* _queue;
 };
 
 #endif
