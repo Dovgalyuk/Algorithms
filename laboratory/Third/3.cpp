@@ -8,39 +8,70 @@
 и выводящую список веществ, которые можно получить из исходного
 
 A
-A B
-B C
-D E
-C F
+A->B
+B->C
+D->E
+Ответ: B C
 
-B
-C
-F
+A
+A->B
+B->C
+C->E
+C->F
+Ответ: B C E F
+
+A
+G->H
+G->K
+I->J
+A->C
+B->D
+C->F
+A->B
+C->E
+Ответ: B C D E F
 */
 
+void inputSTR(int i,std::string &str){
+    std::string str_input;
+    while(i!=0){
+        std::cin >> str_input;
+        str.push_back(str_input[0]);
+        str.push_back(str_input[3]);
+        str.push_back(' ');
+        str_input.clear();
+        i--;
+    }       
+}
+
 int main(){
-    char basic,basic_after;
-    int i;
-    Queue* queue=queue_create();
+    char basic;
     std::cout << "Input basic substance ";
     std::cin >> basic;
-    basic_after=basic;
-    char first,second;
+        
+    Queue* queue=queue_create();
+    queue_insert(queue,basic);
+    
+    int i;
     std::cout << "Inpute how many transformations will there be ";
     std::cin >> i;
-    while (!i==0){
-        std::cin >> first>> second;
-        if (first == basic_after){
-            queue_insert(queue,second);
-            basic_after = second;
+    
+    std::string str;
+    inputSTR(i,str);
+
+    while (!queue_empty(queue)){
+        for(int j = 0;j < str.length(); j+=3){
+            if ((char)queue_get(queue) == str[j])
+            {
+                std::cout << str[j+1] << ' ';
+                if ((char)queue_get(queue) != str[j+1]){
+                    queue_insert(queue,str[j+1]);
+                }
+            }
         }
-        i--;
-    }
-    std::cout << std::endl;
-    while (queue_empty){
-        std::cout << (char) queue_get(queue) << std::endl;
         queue_remove(queue);
     }
+    
     queue_delete(queue);
     return 0;
 }
