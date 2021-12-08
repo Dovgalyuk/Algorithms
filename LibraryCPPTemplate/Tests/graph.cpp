@@ -65,11 +65,6 @@ int main() {
     graph.setRebro(graph.getVershina(1), graph.getVershina(7), 4);
     graph.setRebro(graph.getVershina(3), graph.getVershina(0), 29);
     graph.setRebro(graph.getVershina(3), graph.getVershina(4), 69);
-    cout << graph.getVershina(0)->data << "->" << graph.getVershina(1)->data << "\n"
-        << graph.getVershina(0)->data << "->" << graph.getVershina(3)->data << "\n"
-        << graph.getVershina(1)->data << "->" << graph.getVershina(7)->data << "\n"
-        << graph.getVershina(3)->data << "->" << graph.getVershina(0)->data << "\n"
-        << graph.getVershina(3)->data << "->" << graph.getVershina(4)->data << "\n";
 
     auto iteratorReber = graph.getRebroVershiniIterator(graph.getVershina(0));
     int check = 0;
@@ -93,6 +88,5 @@ int main() {
         return 0;
     }
 
-
-    graph.~DirectedGraph();
+    return 0;
 }

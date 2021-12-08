@@ -8,6 +8,7 @@ public:
 
     struct Vershina {
         VershinaData data;
+        VershinaData status;
         List<Rebro*> neighbors;
         Vershina(VershinaData data) : data(data), neighbors(List<Rebro*>()) {}
     };
@@ -31,9 +32,15 @@ public:
     }
 
     ~DirectedGraph() {
+        for (int j = 0; j < vershinaAmount; j++) {
+            for (int i = 0; i < vershinaAmount; i++) {
+                if (containsRebroBetweenVershina(getVershina(j), getVershina(i))) {
+                    removeRebro(getVershina(j), getVershina(i));
+                }
+            }
+        }
         while (vershini.empty()) {
             VershinaItem* item = vershini.first();
-            removeRebraToVershina(item);
             delete item->data();
             vershini.erase(item);
         }
