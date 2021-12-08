@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include "array.cpp"
+#include "array.h"
 
 using namespace std;
 
