@@ -6,9 +6,9 @@ void SearchInDepth(int vertex, directed_graph* graph, int* time, bool* considere
 	considered_vertex[vertex] = true;
 	auto iter = new_iterator(graph, vertex);
 	(*time)++;
-	while (!iter->NeighborListEmpty())
+	while (!NeighborListEmpty(iter))
 	{
-		int next = iter->NextNeighborIndex();
+		int next = NextNeighborIndex(iter);
 		if (considered_vertex[next] == false)
 			SearchInDepth(next, graph, time, considered_vertex);
 	}
@@ -21,9 +21,9 @@ void SearchInDepth2(int vertex, directed_graph* graph, bool* considered_vertex) 
 {
 	considered_vertex[vertex] = true;
 	auto iter = new_iterator(graph, vertex);
-	while (!iter->NeighborListEmpty())
+	while (!NeighborListEmpty(iter))
 	{
-		int next = iter->NextNeighborIndex();
+		int next = NextNeighborIndex(iter);
 		if (considered_vertex[next] == false)
 			SearchInDepth2(next, graph, considered_vertex);
 	}
