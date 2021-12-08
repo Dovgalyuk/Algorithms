@@ -1,5 +1,7 @@
 #pragma once
 #include "list.h"
+#include <iostream>
+#include <cstddef>
 
 template <typename VershinaData, typename RebroData> class DirectedGraph {
 public:
