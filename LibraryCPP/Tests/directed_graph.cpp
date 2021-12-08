@@ -75,7 +75,7 @@ int main()
 	add_edge(graph, 1, 0);
 	add_edge(graph, 1, 2);
 
-	auto iter = new_iterator(graph);
+	auto iter = new_iterator(graph, 1);
 
 	int i = 0;
 	int arr[2] = { 0,2 };
