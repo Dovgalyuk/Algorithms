@@ -1,8 +1,6 @@
 #ifndef DIRECTED_GRAPH_H
 #define DIRECTED_GRAPH_H
 
-#include "../LibraryCPPTemplate/array.h" //else it uses the wrong array.h
-
 struct iterator;
 struct directed_graph;
 
@@ -11,6 +9,8 @@ bool NeighborListEmpty(iterator* iter);
 int NextNeighborIndex(iterator* iter);
 
 directed_graph* create_directed_graph(int vertexes_amount);
+
+void delete_iterator(iterator* iter);
 
 void delete_directed_graph(directed_graph* graph);
 
