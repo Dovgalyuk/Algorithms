@@ -91,6 +91,6 @@ int main()
 			return 1;
 		}
 	}
-
+	delete_iterator(iter);
 	delete_directed_graph(graph);
 }
