@@ -4,7 +4,6 @@
 struct iterator
 {
 	int	CurrentNeighbor = 0;
-	int GivenVertex = -1;
 	directed_graph* DirectedGraphPtr;
 	int vertex;
 
@@ -81,6 +80,11 @@ int NextNeighborIndex(iterator* iter)
 directed_graph* create_directed_graph(int vertexes_amount)
 {
 	return new directed_graph(vertexes_amount);
+}
+
+void delete_iterator(iterator* iter)
+{
+	delete iter;
 }
 
 void delete_directed_graph(directed_graph* graph)
