@@ -24,20 +24,20 @@ public:
     // Creates new list
     List()
     {
+        elem = new Item(0);
         elem->setNext(elem);
         elem->setPrev(elem);
-        firstItem = elem;
-        lastItem = elem;
     }
 
     // Destroys the list and frees the memory
     ~List()
     {
-        Item* current = firstItem;
-        while (current != elem) {
-            firstItem = current->next();
-            delete current;
-            current = firstItem;
+        Item *item;
+        while (item) {
+            if (item == elem)
+                break;
+            item->next()->setPrev(item->prev());
+            item->prev()->setNext(item->next());
         }
         delete elem;
     }
@@ -45,7 +45,7 @@ public:
     // Retrieves the first item from the list
     Item *first()
     {
-        return firstItem;
+        return elem->next();
     }
 
     // Inserts new list item into the beginning
@@ -61,15 +61,7 @@ public:
         newItem->setPrev(elem->prev());
         elem->prev()->setNext(newItem);
         elem->setPrev(newItem);
-        if(firstItem == elem && lastItem == elem)
-        {
-            firstItem = newItem;
-            lastItem = newItem;
-        }
-        else if(newItem->next() == elem && newItem->prev() == lastItem)
-        {
-            lastItem = newItem;
-        }
+
         return newItem;
     }
 
@@ -81,14 +73,6 @@ public:
         item->next()->setPrev(newItem);
         newItem->setPrev(item);
         item->setNext(newItem);
-        if (firstItem == elem && lastItem == elem) {
-            firstItem = newItem;
-            lastItem = newItem;
-        }
-        else if (newItem->next() == firstItem && newItem->prev() == elem)
-        {
-            firstItem = newItem;
-        }
 
         return newItem;
     }
@@ -98,23 +82,12 @@ public:
     // Should be O(1)
     Item *erase(Item *item)
     {
-        //Item* prev = item->prev();
-        if (item == firstItem && item == lastItem) {
-            firstItem = elem;
-            lastItem = elem;
-        }
-        else
-        {
-            if (firstItem == item)
-            {
-                firstItem = item->next();
-            }
-        }
         item->next()->setPrev(item->prev());
         item->prev()->setNext(item->next());
+        Item *buff_item = item->next();
 
         delete item;
-        return firstItem;
+        return buff_item;
     }
 
     // Deletes the list item following the specified one
@@ -125,8 +98,10 @@ public:
     }
 
     void showList() {
-        Item *num = firstItem;
-        while (num != elem) {
+        Item *num = first();
+
+        while (num != elem)
+        {
             std::cout << num->data() << ' ';
             num = num->next();
         }
@@ -134,7 +109,7 @@ public:
 
     bool empty()
     {
-        if (firstItem == elem && lastItem == elem) {
+        if (elem->next() == elem && elem->prev() == elem) {
             return true;
         }
         else
@@ -143,8 +118,6 @@ public:
 
 private:
     // private data should be here
-    Item* firstItem;
-    Item* lastItem;
-    Item* elem = new Item(0);
+    Item* elem = nullptr;
 };
 #endif
