@@ -14,7 +14,7 @@ void SearchInDepth(int vertex, directed_graph* graph, int* time, bool* considere
 	}
 	(*time)++;
 	set_vertex_label(graph, vertex, *time);
-	delete iter;
+	delete_iterator(iter);
 }
 
 void SearchInDepth2(int vertex, directed_graph* graph, bool* considered_vertex) //Search in depth without time
@@ -27,7 +27,7 @@ void SearchInDepth2(int vertex, directed_graph* graph, bool* considered_vertex) 
 		if (considered_vertex[next] == false)
 			SearchInDepth2(next, graph, considered_vertex);
 	}
-	delete iter;
+	delete_iterator(iter);
 }
 
 int main()
