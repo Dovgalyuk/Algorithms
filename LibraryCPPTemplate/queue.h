@@ -1,79 +1,59 @@
 #ifndef QUEUE_H
 #define QUEUE_H
-
-#include <vector.h>
-#include <cstddef>
+#include <list.h>
 
 template <typename Data> class Queue
 {
 public:
     // Create empty queue
-    Queue(): _vector(new Vector<Data>())
+    Queue()
     {
+        _list = new List<Data>();
     }
 
     // Deletes queue
     ~Queue()
     {
-        delete _vector;
+        delete _list;
     }
 
     // Includes new element into the queue
     // Should be O(1) on average
     void insert(Data data)
     {
-        if(end != _vector->size())
-        {
-            _vector->set(end,data);
-            end++;
-        }
-        else
-        {
-            if (start != 0)
-            {
-                for (int i = 0; i < end - start; ++i) {
-                    _vector->set(i, _vector->get(start + i));
-                }
-                end -= start;
-                start = 0;
-                insert(data);
-            } else {
-                _vector->resize(end + 1);
-                insert(data);
-            }
+        if (empty()) {
+            _list->insert(data);
+            _last = _list->first();
+        } else {
+            _list->insert(data);
         }
     }
-
 
     // Retrieves first element from the queue
     Data get() const
     {
-        return _vector->get(start);
+        return _last->data();
     }
 
     // Removes first element from the queue
     // Should be O(1) on average
     void remove()
     {
-        if(!empty())
-        {
-            start++;
-        }
-        //return 0;
+        auto *prev = _last->prev();
+        _list->erase(_last);
+        _last = prev;
     }
 
     // Returns true if the queue is empty
     bool empty() const
     {
-        //return true;
-        return end == start;
+        return _list->first() == nullptr;
     }
 
 private:
     // private data should be here
-    Vector<Data> *_vector;
-    size_t start = 0;
-    size_t end = 0;
+    List<Data>* _list;
+    typename List<Data>::Item* _last;
 };
 
 #endif
