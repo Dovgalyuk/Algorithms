@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    auto graph = DirectedGraph<int, int>(10);
+    auto graph = DirectedGraph<int, int, int>(10);
 
     for (int i = 0; i < graph.getVershinaAmount(); i++) {
         if (graph.getVershina(i)->data != i) {

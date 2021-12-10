@@ -1,14 +1,14 @@
 #pragma once
 #include "list.h"
 
-template <typename VershinaData, typename RebroData> class DirectedGraph {
+template <typename VershinaData, typename VershinaStatus, typename RebroData> class DirectedGraph {
 public:
 
     struct Rebro;
 
     struct Vershina {
         VershinaData data;
-        VershinaData status;
+        VershinaStatus status;
         List<Rebro*> neighbors;
         Vershina(VershinaData data) : data(data), neighbors(List<Rebro*>()) {}
     };
@@ -34,9 +34,7 @@ public:
     ~DirectedGraph() {
         for (int j = 0; j < vershinaAmount; j++) {
             for (int i = 0; i < vershinaAmount; i++) {
-                if (containsRebroBetweenVershina(getVershina(j), getVershina(i))) {
-                    removeRebro(getVershina(j), getVershina(i));
-                }
+                removeRebro(getVershina(j), getVershina(i));
             }
         }
         while (vershini.empty()) {
@@ -103,6 +101,7 @@ public:
     void removeRebro(Vershina* fromVershina, Vershina* toVershina) {
         RebroItem* item = findRebroItem(fromVershina, toVershina);
         if (item) {
+            delete item->data();
             fromVershina->neighbors.erase(item);
         }
     }
@@ -141,7 +140,7 @@ public:
     public:
         int amount = 0;
 
-        VershinaIterator(DirectedGraph<VershinaData, RebroData>* graph) {
+        VershinaIterator(DirectedGraph<VershinaData, VershinaStatus, RebroData>* graph) {
             amount = graph->vershinaAmount;
             currentVershina = graph->vershini.first();
         }
