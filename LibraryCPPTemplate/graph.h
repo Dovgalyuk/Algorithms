@@ -10,7 +10,7 @@ public:
         VershinaData data;
         VershinaStatus status;
         List<Rebro*> neighbors;
-        Vershina(VershinaData data) : data(data), neighbors(List<Rebro*>()) {}
+        Vershina(VershinaData data) : data(data), status(status), neighbors(List<Rebro*>()) {}
     };
 
     struct Rebro {
@@ -28,19 +28,6 @@ public:
         for (int i = 1; i < vershinaAmount; i++) {
             vershini.insert_after(lastVershinaInList(), new Vershina(i));
             numberOfVershina++;
-        }
-    }
-
-    ~DirectedGraph() {
-        for (int j = 0; j < vershinaAmount; j++) {
-            for (int i = 0; i < vershinaAmount; i++) {
-                removeRebro(getVershina(j), getVershina(i));
-            }
-        }
-        while (vershini.empty()) {
-            VershinaItem* item = vershini.first();
-            delete item->data();
-            vershini.erase(item);
         }
     }
 
@@ -168,6 +155,21 @@ public:
 
     VershinaIterator getVershinaIterator() {
         return VershinaIterator(this);
+    }
+
+    ~DirectedGraph() {
+        auto iteratorVershini = getVershinaIterator();
+        while (*iteratorVershini) {
+            auto iteratorRebra = getRebroVershiniIterator(*iteratorVershini);
+            while (*iteratorRebra) {
+                removeRebro(*iteratorVershini, (*iteratorRebra)->to);
+                iteratorRebra = getRebroVershiniIterator(*iteratorVershini);
+            }
+            VershinaItem* item = vershini.first();
+            delete item->data();
+            vershini.erase(item);
+            iteratorVershini = getVershinaIterator();
+        }
     }
 
 protected:

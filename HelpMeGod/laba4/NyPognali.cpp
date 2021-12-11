@@ -92,6 +92,8 @@ int main() {
     }
 
     // Deleting everything
+    graph->~DirectedGraph();
+    delete graph;
     return 0;
 }
 
