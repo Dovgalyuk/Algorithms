@@ -3,7 +3,7 @@
 
 #include "list.h"
 
-template <typename Data> class Stack: private List<Data>
+template <typename Data> class Stack: List<Data>
 {
 public:
     // Creates empty stack
@@ -19,25 +19,25 @@ public:
     void push(Data data)
     {
         if (!this->first()) {
-            lastItem = this->insert(data);
+            this->firstItem = this->insert(data);
         } else {
-            lastItem = this->insert_after(lastItem, data);
+            this->firstItem = this->insert_after(this->firstItem, data);
         }
     }
 
     // Retrives the last element from the stack
     Data get() const
     {
-        return lastItem->data();
+        return this->firstItem->data();
     }
 
     // Removes the last element from the stack
     // Should be O(1)
     void pop()
     {
-        auto* prev = lastItem->prev();
-        this->erase(lastItem);
-        lastItem = prev;
+        auto* prev = this->firstItem->prev();
+        this->erase(this->firstItem);
+        this->firstItem = prev;
     }
 
     // Returns true if the stack is empty
@@ -46,8 +46,6 @@ public:
         return !(this->firstItem);
     }
 
-protected:
-    typename List<Data>::Item* lastItem;
 };
 
 #endif
