@@ -9,7 +9,7 @@ typedef Queue<int> queue;
 int main(){
 
     pair<queue, queue> element;
-    pair<int, int> neighbor[2];
+    pair<int, int> neighbor;
     vector<vector<char>> maze;
     string buff;
     ifstream file(R"(C:\Users\vasya\OneDrive\Desktop\file2.txt)");
@@ -35,64 +35,40 @@ int main(){
             }
         } //  поиск начала
 
-        bool end = false;
-        neighbor[0].first = element.first.get();
-        neighbor[0].second = element.second.get();
-
-        while (!end)
-        {
-            if (maze[neighbor[0].first - 1][neighbor[0].second] == '.' && neighbor[0].first - 1 != neighbor[1].first)
-            {
-                neighbor[1].first = neighbor[0].first;
-                neighbor[1].second = neighbor[0].second;
-                neighbor[0].first--;
-                element.first.insert(neighbor[0].first);
-                element.second.insert(neighbor[0].second);
-            }
-            else if (maze[neighbor[0].first + 1][neighbor[0].second] == '.' && neighbor[0].first + 1 != neighbor[1].first)
-            {
-                neighbor[1].first = neighbor[0].first;
-                neighbor[1].second = neighbor[0].second;
-                neighbor[0].first++;
-                element.first.insert(neighbor[0].first);
-                element.second.insert(neighbor[0].second);
-            }
-            else if (maze[neighbor[0].first][neighbor[0].second - 1] == '.' && neighbor[0].second - 1 != neighbor[1].second)
-            {
-                neighbor[1].first = neighbor[0].first;
-                neighbor[1].second = neighbor[0].second;
-                neighbor[0].second--;
-                element.first.insert(neighbor[0].first);
-                element.second.insert(neighbor[0].second);
-            }
-            else if (maze[neighbor[0].first][neighbor[0].second + 1] == '.' && neighbor[0].second + 1 != neighbor[1].second)
-            {
-                neighbor[1].first = neighbor[0].first;
-                neighbor[1].second = neighbor[0].second;
-                neighbor[0].second++;
-                element.first.insert(neighbor[0].first);
-                element.second.insert(neighbor[0].second);
-            }
-            else if (maze[neighbor[0].first][neighbor[0].second + 1] == 'Y')
-                end = true;
-            else
-            {
-                cout << "Error";
-                end = true;
-                return 0;
-            }
-        }
-
-        element.first.remove();
-        element.second.remove();
-
-        while (!element.first.empty())
-        {
-            maze[element.first.get()][element.second.get()] = 'x';
+        while (!element.first.empty() && !element.second.empty()){
+            neighbor.first = element.first.get();
+            neighbor.second = element.second.get();
             element.first.remove();
             element.second.remove();
+            if (maze[neighbor.first - 1][neighbor.second] == '.')
+            {
+                maze[neighbor.first - 1][neighbor.second] = 'x';
+                element.first.insert(neighbor.first - 1);
+                element.second.insert(neighbor.second);
+            }
+            else if (maze[neighbor.first + 1][neighbor.second] == '.')
+            {
+                maze[neighbor.first + 1][neighbor.second] = 'x';
+                element.first.insert(neighbor.first + 1);
+                element.second.insert(neighbor.second);
+            }
+            else if (maze[neighbor.first][neighbor.second - 1] == '.')
+            {
+                maze[neighbor.first][neighbor.second - 1] = 'x';
+                element.first.insert(neighbor.first);
+                element.second.insert(neighbor.second - 1);
+            }
+            else if (maze[neighbor.first][neighbor.second + 1] == '.')
+            {
+                maze[neighbor.first][neighbor.second + 1] = 'x';
+                element.first.insert(neighbor.first);
+                element.second.insert(neighbor.second + 1);
+            }
+            else
+            {
+                cout << "there is no way out" << endl << endl;
+            }
         }
-
 
         // вывод лабиринта
         for (int i = 0; i < maze.size(); ++i) {
