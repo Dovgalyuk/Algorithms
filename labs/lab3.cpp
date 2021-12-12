@@ -48,9 +48,7 @@ int main() {
             queue_remove(queue);
         }
     }
-    if (!queue_empty(queue)) {
-        output << "YES";
-    }
+    output << "YES";
     queue_delete(queue);
     input.close();
     output.close();
