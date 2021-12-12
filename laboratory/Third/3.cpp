@@ -1,5 +1,6 @@
 #include <iostream>
 #include "queue.h"
+#include <string>
 
 /*
 Задано начальное вещество и список химических реакций,
@@ -30,6 +31,11 @@ C->F
 A->B
 C->E
 Ответ: B C D E F
+
+A
+A->B
+B->A
+B->C
 */
 
 void inputSTR(int i,std::string &str){
@@ -63,15 +69,14 @@ int main(){
         for(int j = 0;j < str.length(); j+=3){
             if ((char)queue_get(queue) == str[j])
             {
-                std::cout << str[j+1] << ' ';
-                if ((char)queue_get(queue) != str[j+1]){
+                if (str.find(str[j])!=str.find(str[j+1]) + 1){
+                    std::cout << str[j+1] << ' ';
                     queue_insert(queue,str[j+1]);
                 }
             }
         }
         queue_remove(queue);
     }
-    
     queue_delete(queue);
     return 0;
 }

@@ -1,12 +1,6 @@
 #include <cstddef>
 #include "list.h"
 
-/*
-dummy->prev - последний элемент списка
-dummy->next - первый полезный элемент списка
-Если список пустой, то dummy->prev == dummy->next == dummy
-*/
-
 struct ListItem
 {
     Data data;
@@ -17,8 +11,8 @@ struct ListItem
 
 struct List
 {
-    ListItem* dummy = nullptr;
     ListItem* first = nullptr;
+    ListItem* dummy = new ListItem(0); 
     List(){
         dummy->next = dummy;
         dummy->prev = dummy;
@@ -72,23 +66,12 @@ ListItem *list_item_prev(ListItem *item)
 ListItem *list_insert(List *list, Data data)
 {
     ListItem* item = new ListItem(data);
-    item->next=list->dummy->next;
-    list->dummy->next->prev=item;
-    item->prev = list->dummy;
+    list->first = item;
+    list->dummy->prev = item;
+    list->first->prev = list->dummy;
+    list->dummy->next=list->first;
     return item;
 }
-
-/*
-    item->next=list->dummy->next;
-    list->dummy
-        item->next = list->first;
-    if (list->first){
-        list->first->prev = item;
-    }
-    list->first=item;
-    list->dummy->prev = list->first;
-    list->first->prev=list->dummy->prev;
-*/
 
 //Вставляет новый элемент списка после указанного элемента
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
@@ -100,7 +83,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     }
     item->next=new_item;
     new_item->prev=item;
-    new_item->next=list->dummy->prev;
     return new_item;
 }
 
@@ -114,11 +96,9 @@ ListItem *list_erase(List *list, ListItem *item)
     }
     if(item->next){
         item->next->prev=item->prev;
-
     }
     if(item->prev){
         item->prev->next=item->next;
-
     }
     ListItem*next=item->next;
     delete item;
