@@ -26,7 +26,8 @@ int GiveMeSize() {
 	return size;
 }
 
-void FillingArray(Array* array) {
+void FillingArray(Array* array) 
+{
 	srand(time(nullptr));
 	cout << "We got this:\n";
 	for (int i = 0; i < array_size(array); i++) {
