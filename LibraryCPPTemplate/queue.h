@@ -70,9 +70,10 @@ public:
 
     // Removes first element from the queue
     // Should be O(1) on average
-    void remove()
-    {
-        if (start < end) {
+    void remove() {
+        start++;
+        start %= _vector->size();
+        /*if (start < end) {
             start++;
             if (start == _vector->size()) {
                 start = 0;
@@ -86,7 +87,7 @@ public:
             } else {
                 start = 0;
             }
-        }
+        }*/
 
         //return 0;
     }
