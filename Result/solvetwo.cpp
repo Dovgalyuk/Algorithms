@@ -14,10 +14,10 @@ bool isNumber(const std::string &str);
 int main() {
     Stack<int> inputStack;
 
-    Stack<int> A;
-    Stack<int> B;
-    Stack<int> C;
-    Stack<int> D;
+    int A;
+    int B;
+    int C;
+    int D;
 
     std::string cmd;
     while(cmd != "EXIT") {
@@ -32,16 +32,16 @@ int main() {
             } else {
                 switch(param[0]) {
                     case 'A':
-                        inputStack.push(A.get());
+                        inputStack.push(A);
                         break;
                     case 'B':
-                        inputStack.push(B.get());
+                        inputStack.push(B);
                         break;
                     case 'C':
-                        inputStack.push(C.get());
+                        inputStack.push(C);
                         break;
                     case 'D':
-                        inputStack.push(D.get());
+                        inputStack.push(D);
                         break;
                 }
             }
@@ -50,25 +50,25 @@ int main() {
             inputStack.pop();
             switch(param[0]) {
                 case 'A':
-                    A.push(data);
+                    A = data;
                     break;
                 case 'B':
-                    B.push(data);
+                    B= data;
                     break;
                 case 'C':
-                    C.push(data);
+                    C= data;
                     break;
                 case 'D':
-                    D.push(data);
+                    D= data;
                     break;
             }
         }
     }
 
-    std::cout << "A = " << ((A.size() == 0) ? 0 : A.get()) << std::endl;
-    std::cout << "B = " << ((B.size() == 0) ? 0 : B.get()) << std::endl;
-    std::cout << "C = " << ((C.size() == 0) ? 0 : C.get()) << std::endl;
-    std::cout << "D = " << ((D.size() == 0) ? 0 : D.get()) << std::endl;
+    std::cout << "A = " << ((A == 0) ? 0 : A) << std::endl;
+    std::cout << "B = " << ((B == 0) ? 0 : B) << std::endl;
+    std::cout << "C = " << ((C == 0) ? 0 : C) << std::endl;
+    std::cout << "D = " << ((D == 0) ? 0 : D) << std::endl;
     return 0;
 }
 
