@@ -4,9 +4,10 @@
 using namespace std;
 
 int main() {
-    auto graph = DirectedGraph<int, int, int>(10);
+    auto graph = DirectedGraph<int, int>(10);
 
     for (int i = 0; i < graph.getVershinaAmount(); i++) {
+        graph.getVershina(i)->data = i;
         if (graph.getVershina(i)->data != i) {
             cout << "Adding a vershina to the graph does not work correctly.";
             return 0;
