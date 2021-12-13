@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include "queue.h"
+#include "vector.h"
 
 using namespace std;
 
