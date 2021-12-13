@@ -70,16 +70,15 @@ int main(){
             if ((char)queue_get(queue) == str[j])
             {
                 point = 0;
-                if (!str_save.empty())
+
+                for (auto i=0;i<str_save.length();i++)
                 {
-                    for (auto i=0;i<str_save.length();i++)
+                    if ((str[j+1]==str_save[i]) || (str[j+1]==basic))
                     {
-                        if ((str[j+1]==str_save[i]) || (str[j+1]==basic))
-                        {
-                            point = 1;
-                        }
+                        point = 1;
                     }
                 }
+                
                 if (point == 1){
                     continue;
                 }
