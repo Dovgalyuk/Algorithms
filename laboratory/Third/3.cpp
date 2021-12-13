@@ -1,6 +1,5 @@
 #include <iostream>
 #include "queue.h"
-#include <string>
 
 /*
 Задано начальное вещество и список химических реакций,
@@ -54,29 +53,43 @@ int main(){
     char basic;
     std::cout << "Input basic substance ";
     std::cin >> basic;
-        
+    
     Queue* queue=queue_create();
     queue_insert(queue,basic);
     
-    int i;
+    int i,point;
     std::cout << "Inpute how many transformations will there be ";
     std::cin >> i;
     
-    std::string str;
+    std::string str,str_save;
     inputSTR(i,str);
 
     while (!queue_empty(queue)){
-        for(int j = 0;j < str.length(); j+=3){
+        for(int j = 0;j < str.length(); j+=3)
+        {
             if ((char)queue_get(queue) == str[j])
             {
-                if (str.find(str[j])!=str.find(str[j+1]) + 1){
-                    std::cout << str[j+1] << ' ';
-                    queue_insert(queue,str[j+1]);
+                point = 0;
+                if (!str_save.empty())
+                {
+                    for (auto i=0;i<str_save.length();i++)
+                    {
+                        if ((str[j+1]==str_save[i]) || (str[j+1]==basic))
+                        {
+                            point = 1;
+                        }
+                    }
                 }
+                if (point == 1){
+                    continue;
+                }
+                str_save.push_back(str[j+1]);
+                queue_insert(queue,str[j+1]);
             }
         }
         queue_remove(queue);
     }
+    std::cout << str_save;
     queue_delete(queue);
     return 0;
 }
