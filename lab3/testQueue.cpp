@@ -4,18 +4,19 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
 #include <queue.h>
 
 typedef Queue<char> queue;
 
 int main() {
     queue _queue;
+    int count = 0;
     char str;
     bool end = true;
-    std::vector<char> stroka;
+    std::string stroka;
     std::ifstream in("E:\\text.txt");
-    for (int i = 0; i < 4; ++i) {
+
+    for (int i = 0; i < 3; ++i) {
         in >> str;
         _queue.insert(str);
     }
@@ -25,32 +26,21 @@ int main() {
         stroka.push_back(str);
     }
 
-    int k = stroka.size();
-    while (end) {
+    while(!_queue.empty()) {
         for (int i = 0; i < stroka.size(); ++i) {
-            if (stroka[i] == _queue.get()) {
-                _queue.remove();
-                stroka.erase(stroka.begin() + i);
+            if (_queue.get() == stroka[i]) {
+                count++;
                 i = stroka.size();
             }
-            if (stroka.empty()) {
-                end = false;
-            }
         }
-        if (k == stroka.size()) {
-            _queue.remove();
-        }
-        if (_queue.empty()) {
-            end = false;
-        }
-        k = stroka.size();
+        _queue.remove();
     }
 
-    if (stroka.empty())
+    if(count == stroka.size()) {
         std::cout << "Yes";
+    }
     else
         std::cout << "No";
-
     return 0;
 
 }
