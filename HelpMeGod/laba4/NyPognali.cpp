@@ -3,11 +3,16 @@
 
 using namespace std;
 
-DirectedGraph<int, int, int>* createGraph(int vershiniKol, int rebraKol) {
-    auto* graphTemp = new DirectedGraph<int, int, int>(vershiniKol);
+struct Z {
+    int length;
+    int status;
+};
+
+DirectedGraph<Z, int>* createGraph(int vershiniKol, int rebraKol) {
+    auto* graphTemp = new DirectedGraph<Z, int>(vershiniKol);
     for (int i = 0; i < vershiniKol; ++i) {
-        graphTemp->getVershina(i)->data = 2147483647;
-        graphTemp->getVershina(i)->status = 0;
+        graphTemp->getVershina(i)->data.length = 2147483647;
+        graphTemp->getVershina(i)->data.status = 0;
     }
     cout << "Input rebra(from rebro, to rebro, length of this rebro):";
     for (int i = 0; i < rebraKol; ++i) {
@@ -18,7 +23,7 @@ DirectedGraph<int, int, int>* createGraph(int vershiniKol, int rebraKol) {
     return graphTemp;
 }
 
-auto findVershina(DirectedGraph<int, int, int>* graph, int* startVershina) {
+auto findVershina(DirectedGraph<Z, int>* graph, int* startVershina) {
     cout << "Input start vershina: ";
     cin >> *startVershina;
     auto iteratorVershini = graph->getVershinaIterator();
@@ -28,34 +33,34 @@ auto findVershina(DirectedGraph<int, int, int>* graph, int* startVershina) {
     return iteratorVershini;
 }
 
-void outputBeautifulOtvet(int startVershina, int vershiniKol, DirectedGraph<int, int, int>* graph) {
+void outputBeautifulOtvet(int startVershina, int vershiniKol, DirectedGraph<Z, int>* graph) {
     cout << "\nPaths from vershina " << startVershina << " to others:\n";
     int numbering = 1;
     for (int i = 0; i < vershiniKol; i++) {
-        if (graph->getVershina(i)->status == 2 && i + 1 != startVershina) {
-            cout << numbering << ") " << startVershina << " -> " << i + 1 << " = " << graph->getVershina(i)->data << "\n";
+        if (graph->getVershina(i)->data.status == 2 && i + 1 != startVershina) {
+            cout << numbering << ") " << startVershina << " -> " << i + 1 << " = " << graph->getVershina(i)->data.length << "\n";
             numbering++;
         }
     }
 }
 
-int findingNeighborsOfVershina(int workingVershina, int vershiniKol, DirectedGraph<int, int, int>* graph) {
-    int length = graph->getVershina(workingVershina - 1)->data;
-    graph->getVershina(workingVershina - 1)->status = 2;
+int findingNeighborsOfVershina(int workingVershina, int vershiniKol, DirectedGraph<Z, int>* graph) {
+    int length = graph->getVershina(workingVershina - 1)->data.length;
+    graph->getVershina(workingVershina - 1)->data.status = 2;
     auto iteratorReber = graph->getRebroVershiniIterator(graph->getVershina(workingVershina - 1));
     while (*iteratorReber) {
-        if ((*iteratorReber)->to->data > length + (*iteratorReber)->data) {
-            (*iteratorReber)->to->data = length + (*iteratorReber)->data;
-            (*iteratorReber)->to->status = 1;
+        if ((*iteratorReber)->to->data.length > length + (*iteratorReber)->data) {
+            (*iteratorReber)->to->data.length = length + (*iteratorReber)->data;
+            (*iteratorReber)->to->data.status = 1;
         }
         iteratorReber++;
     }
     return 0;
 }
 
-int toTheNextVershina(int vershiniKol, int startVershina, int* workingVershina, bool* ending, DirectedGraph<int, int, int>* graph) {
+int toTheNextVershina(int vershiniKol, int startVershina, int* workingVershina, bool* ending, DirectedGraph<Z, int>* graph) {
     int counter = 0;
-    while (counter < vershiniKol && graph->getVershina(counter)->status != 1) {
+    while (counter < vershiniKol && graph->getVershina(counter)->data.status != 1) {
         counter++;
     }
     if (counter >= vershiniKol) {
@@ -81,7 +86,7 @@ int main() {
     // Getting ready to search
     int workingVershina, startVershina;
     auto iteratorVershini = findVershina(graph, &startVershina);
-    graph->getVershina(startVershina - 1)->data = 0;
+    graph->getVershina(startVershina - 1)->data.length = 0;
     workingVershina = startVershina;
 
     // Searching using Dijkstra's algorithm

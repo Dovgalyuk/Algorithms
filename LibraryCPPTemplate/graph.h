@@ -1,16 +1,15 @@
 #pragma once
 #include "list.h"
 
-template <typename VershinaData, typename VershinaStatus, typename RebroData> class DirectedGraph {
+template <typename VershinaData, typename RebroData> class DirectedGraph {
 public:
 
     struct Rebro;
 
     struct Vershina {
         VershinaData data;
-        VershinaStatus status;
         List<Rebro*> neighbors;
-        Vershina(VershinaData data) : data(data), status(status), neighbors(List<Rebro*>()) {}
+        Vershina() : neighbors(List<Rebro*>()) {}
     };
 
     struct Rebro {
@@ -23,10 +22,10 @@ public:
     typedef typename List<Rebro*>::Item RebroItem;
 
     DirectedGraph(size_t vershinaAmount) : vershini(List<Vershina*>()), vershinaAmount(vershinaAmount) {
-        vershini.insert(new Vershina(0));
+        vershini.insert(new Vershina);
         numberOfVershina++;
         for (int i = 1; i < vershinaAmount; i++) {
-            vershini.insert_after(lastVershinaInList(), new Vershina(i));
+            vershini.insert_after(lastVershinaInList(), new Vershina);
             numberOfVershina++;
         }
     }
@@ -62,6 +61,7 @@ public:
         }
         if (item) {
             removeRebraToVershina(item);
+            delete item->data();
             vershini.erase(item);
             vershinaAmount--;
         }
@@ -127,7 +127,7 @@ public:
     public:
         int amount = 0;
 
-        VershinaIterator(DirectedGraph<VershinaData, VershinaStatus, RebroData>* graph) {
+        VershinaIterator(DirectedGraph<VershinaData, RebroData>* graph) {
             amount = graph->vershinaAmount;
             currentVershina = graph->vershini.first();
         }
@@ -162,7 +162,9 @@ public:
         while (*iteratorVershini) {
             auto iteratorRebra = getRebroVershiniIterator(*iteratorVershini);
             while (*iteratorRebra) {
-                removeRebro(*iteratorVershini, (*iteratorRebra)->to);
+                RebroItem* item = (*iteratorVershini)->neighbors.first();
+                delete item->data();
+                (*iteratorVershini)->neighbors.erase(item);
                 iteratorRebra = getRebroVershiniIterator(*iteratorVershini);
             }
             VershinaItem* item = vershini.first();
