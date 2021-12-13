@@ -22,11 +22,8 @@ public:
     };
 
     // Creates new list
-    List()
+    List() : firstItem(nullptr)
     {
-        fictitious_element = new Item(0);
-        fictitious_element->setNext(fictitious_element);
-        fictitious_element->setPrev(fictitious_element);
     }
 
     // Destroys the list and frees the memory
@@ -36,38 +33,62 @@ public:
         while (item)
         {
             item = first();
-            if (item == fictitious_element)
+            if (firstItem->next() == firstItem && firstItem->prev() == firstItem)
+            {
+                firstItem = nullptr;
+                delete item;
                 break;
-            item->next()->setPrev(item->prev());
-            item->prev()->setNext(item->next());
-
+            }
+            firstItem = item->next();
+            firstItem->setPrev(item->prev());
+            item->prev()->setNext(firstItem);
             delete item;
-
         }
-
-        delete fictitious_element;
     }
 
     // Retrieves the first item from the list
     Item *first()
     {
-        return fictitious_element->next();
+        return firstItem;
     }
 
     // Inserts new list item into the beginning
     Item *insert(Data data)
     {
-        return insert_after(fictitious_element, data);
+        Item* newItem = new Item(data);
+        if (firstItem == nullptr)
+        {
+            firstItem = newItem;
+            firstItem->setNext(firstItem);
+            firstItem->setPrev(firstItem);
+        }
+        else {
+            newItem->setNext(firstItem);
+            newItem->setPrev(firstItem->prev());
+            firstItem->prev()->setNext(newItem);
+            firstItem->setPrev(newItem);
+            firstItem = newItem;
+        }
+
+        return firstItem;
     }
 
     Item *insert_end(Data data)
     {
-        Item* newItem = new Item(data);
-        newItem->setNext(fictitious_element);
-        newItem->setPrev(fictitious_element->prev());
-        fictitious_element->prev()->setNext(newItem);
-        fictitious_element->setPrev(newItem);
+        Item *newItem = new Item(data);
+        if (firstItem == nullptr)
+        {
+            firstItem = newItem;
+            firstItem->setNext(firstItem);
+            firstItem->setPrev(firstItem);
+        }
+        else {
 
+            newItem->setNext(firstItem);
+            newItem->setPrev(firstItem->prev());
+            firstItem->prev()->setNext(newItem);
+            firstItem->setPrev(newItem);
+        }
         return newItem;
     }
 
@@ -76,8 +97,8 @@ public:
     {
         Item* newItem = new Item(data);
         newItem->setNext(item->next());
-        item->next()->setPrev(newItem);
         newItem->setPrev(item);
+        item->next()->setPrev(newItem);
         item->setNext(newItem);
 
         return newItem;
@@ -88,13 +109,22 @@ public:
     // Should be O(1)
     Item *erase(Item *item)
     {
+        if (firstItem->next() == firstItem && firstItem->prev() == firstItem) {
+            firstItem = nullptr;
+            delete item;
+            return firstItem;
+        }
+        else {
+            if (item == firstItem)
+                firstItem = item->next();
+            item->next()->setPrev(item->prev());
+            item->prev()->setNext(item->next());
+            Item *buff_item = item->next();
+            delete item;
+            return buff_item;
+        }
 
-        item->next()->setPrev(item->prev());
-        item->prev()->setNext(item->next());
-        Item *buff_item = item->next();
 
-        delete item;
-        return buff_item;
     }
 
     // Deletes the list item following the specified one
@@ -105,17 +135,16 @@ public:
     }
 
     void get_list(){
-        Item *num = first();
-        while (num != fictitious_element)
-        {
-            std::cout << num->data() << ' ';
-            num = num->next();
-        }
+        Item *item = first();
+        do {
+            std::cout << item->data() << ' ';
+            item = item->next();
+        }while (item != firstItem);
     }
 
     bool empty()
     {
-        if (fictitious_element->next() == fictitious_element && fictitious_element->prev() == fictitious_element)
+        if (firstItem == nullptr)
             return true;
         else
             return false;
@@ -124,6 +153,6 @@ public:
 private:
     // private data should be here
 
-    Item* fictitious_element;
+    Item* firstItem;
 };
 #endif
