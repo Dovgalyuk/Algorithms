@@ -12,7 +12,6 @@ int main() {
     queue _queue;
     int count = 0;
     char str;
-    bool end = true;
     std::string stroka;
     std::ifstream in("E:\\text.txt");
 
@@ -21,7 +20,7 @@ int main() {
         _queue.insert(str);
     }
 
-    while (str != '\n') {
+    for (int i = 0; i < 3; ++i) {
         in >> str;
         stroka.push_back(str);
     }
