@@ -61,12 +61,19 @@ public:
         }
         if (item) {
             removeRebraToVershina(item);
-            auto iteratorRebra = getRebroVershiniIterator(item->data());
-            while (*iteratorRebra) {
-                RebroItem* rebroItem = (item->data())->neighbors.first();
-                delete rebroItem->data();
-                item->data()->neighbors.erase(rebroItem);
-                iteratorRebra = getRebroVershiniIterator(item->data());
+            RebroItem* rebroItem = (item->data())->neighbors.first();
+            while (rebroItem) {
+                if (rebroItem->next()) {
+                    RebroItem* deletingRebroItem = rebroItem;
+                    rebroItem = rebroItem->next();
+                    delete deletingRebroItem->data();
+                    (item->data())->neighbors.erase(deletingRebroItem);
+                }
+                else {
+                    delete rebroItem->data();
+                    (item->data())->neighbors.erase(rebroItem);
+                    rebroItem = NULL;
+                }
             }
             delete item->data();
             vershini.erase(item);
@@ -165,19 +172,33 @@ public:
     }
 
     ~DirectedGraph() {
-        auto iteratorVershini = getVershinaIterator();
-        while (*iteratorVershini) {
-            auto iteratorRebra = getRebroVershiniIterator(*iteratorVershini);
-            while (*iteratorRebra) {
-                RebroItem* item = (*iteratorVershini)->neighbors.first();
-                delete item->data();
-                (*iteratorVershini)->neighbors.erase(item);
-                iteratorRebra = getRebroVershiniIterator(*iteratorVershini);
+        VershinaItem* vershinaItem = vershini.first();
+        while (vershinaItem) {
+            RebroItem* rebroItem = (vershinaItem->data())->neighbors.first();
+            while (rebroItem) {
+                if (rebroItem->next()) {
+                    RebroItem* deletingRebroItem = rebroItem;
+                    rebroItem = rebroItem->next();
+                    delete deletingRebroItem->data();
+                    (vershinaItem->data())->neighbors.erase(deletingRebroItem);
+                }
+                else {
+                    delete rebroItem->data();
+                    (vershinaItem->data())->neighbors.erase(rebroItem);
+                    rebroItem = NULL;
+                }
             }
-            VershinaItem* item = vershini.first();
-            delete item->data();
-            vershini.erase(item);
-            iteratorVershini = getVershinaIterator();
+            if (vershinaItem->next()) {
+                VershinaItem* deletingVershinaItem = vershinaItem;
+                vershinaItem = vershinaItem->next();
+                delete deletingVershinaItem->data();
+                vershini.erase(deletingVershinaItem);
+            }
+            else {
+                delete vershinaItem->data();
+                vershini.erase(vershinaItem);
+                vershinaItem = NULL;
+            }
         }
     }
 
