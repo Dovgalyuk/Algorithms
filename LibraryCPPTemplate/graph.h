@@ -1,163 +1,218 @@
-#pragma once
 #include "list.h"
-#include <iostream>
-#include <cstddef>
 
-template <typename VershinaData, typename RebroData> class DirectedGraph {
+template <typename RebrData> class Graph {
 public:
+
+
+    template <typename stat, typename Da> struct info
+    {
+        stat status;
+        Da length;
+        info()
+        {
+            length = 0;
+            status = 0;
+        }
+    };
 
     struct Rebro;
 
-    struct Vershina {
-        VershinaData data;
-        int status = 0;
+    struct Vershina 
+    {
         List<Rebro*> neighbors;
-        Vershina(VershinaData data) : data(data), neighbors(List<Rebro*>()) {}
+        info<int, int> data;
+        //Vershina(VersData data) : data(data),status(0), neighbors(List<Rebro*>()) {}
+        Vershina()
+        {
+            neighbors = List<Rebro*>();
+        }
     };
 
-    struct Rebro {
+    struct Rebro 
+    {
         Vershina* to;
-        RebroData data;
-        Rebro(Vershina* to, RebroData data) : to(to), data(data) {}
+        RebrData data;
+
+        Rebro(Vershina* To, RebrData Data)
+        {
+            to = To;
+            data = Data;
+        }
     };
 
-    typedef typename List<Vershina*>::Item VershinaItem;
-    typedef typename List<Rebro*>::Item RebroItem;
+    typedef typename List<Vershina*>::Item VItem;
 
-    DirectedGraph(size_t vershinaAmount) : vershini(List<Vershina*>()), vershinaAmount(vershinaAmount) {
-        vershini.insert(new Vershina(0));
-        numberOfVershina++;
-        for (int i = 1; i < vershinaAmount; i++) {
-            vershini.insert_after(lastVershinaInList(), new Vershina(i));
-            numberOfVershina++;
+    typedef typename List<Rebro*>::Item RItem;
+
+    Graph(size_t vershinaSum) : vershini(List<Vershina*>()), vershinaSum(vershinaSum) 
+    {
+        vershini.insert(new Vershina);
+        num_Vershina++;
+        for (int i = 1; i < vershinaSum; i++) 
+        {
+            vershini.insert_after(lastVershinaInList(), new Vershina);
+            num_Vershina++;
         }
     }
 
-    ~DirectedGraph() {
-        for (int j = 0; j < vershinaAmount; j++) {
-            for (int i = 0; i < vershinaAmount; i++) {
-                if (containsRebroBetweenVershina(getVershina(j), getVershina(i))) {
-                    removeRebro(getVershina(j), getVershina(i));
-                }
-            }
-        }
-        while (vershini.empty()) {
-            VershinaItem* item = vershini.first();
-            delete item->data();
-            vershini.erase(item);
-        }
+    size_t getVershinaSum() 
+    {
+        return vershinaSum;
     }
 
-    size_t getVershinaAmount() {
-        return vershinaAmount;
-    }
-
-    Vershina* setVershina() {
-        auto* vershina = new Vershina(numberOfVershina);
-        numberOfVershina++;
+    Vershina* setVershina() 
+    {
+        auto* vershina = new Vershina(num_Vershina);
+        num_Vershina++;
         vershini.insert_after(lastVershinaInList(), vershina);
-        vershinaAmount++;
+        vershinaSum++;
         return vershina;
     }
 
-    Vershina* getVershina(size_t index) {
-        VershinaItem* item = vershini.first();
+    Vershina* getVershina(size_t index) 
+    {
+        VItem* item = vershini.first();
         int i = 0;
-        while (item && i != index) {
+        while (item && i != index) 
+        {
             item = item->next();
             i++;
         }
         return item ? item->data() : nullptr;
     }
 
-    void removeVershina(size_t index) {
-        VershinaItem* item = vershini.first();
+    void removeVershina(size_t index) 
+    {
+        VItem* item = vershini.first();
         int i = 0;
-        while (item && i != index) {
+        while (item && i != index) 
+        {
             item = item->next();
             i++;
         }
-        if (item) {
+        if (item) 
+        {
             removeRebraToVershina(item);
+            RItem* reb_Item = (item->data())->neighbors.first();
+            while (reb_Item) 
+            {
+                if (reb_Item->next())
+                {
+                    RItem* delet_reb_Item = reb_Item;
+                    reb_Item = reb_Item->next();
+                    delete delet_reb_Item->data();
+                    (item->data())->neighbors.erase(delet_reb_Item);
+                }
+                else 
+                {
+                    delete reb_Item->data();
+                    (item->data())->neighbors.erase(reb_Item);
+                    reb_Item = nullptr;
+                }
+            }
+            delete item->data();
             vershini.erase(item);
-            vershinaAmount--;
+            vershinaSum--;
         }
     }
 
-    Rebro* setRebro(Vershina* fromVershina, Vershina* toVershina, RebroData data) {
-        Rebro* reb;
-        RebroItem* item = findRebroItem(fromVershina, toVershina);
+    Rebro* setRebro(Vershina* fromVershina, Vershina* toVershina, RebrData data) 
+    {
+        Rebro* rebro;
+        RItem* item = findRebroItem(fromVershina, toVershina);
         if (item) {
             return nullptr;
         }
         else {
-            reb = new Rebro(toVershina, data);
-            fromVershina->neighbors.insert(reb);
+            rebro = new Rebro(toVershina, data);
+            fromVershina->neighbors.insert(rebro);
         }
-        return reb;
+        return rebro;
     }
 
-    Rebro* getRebro(Vershina* fromVershina, Vershina* toVershina) {
-        RebroItem* item = findRebroItem(fromVershina, toVershina);
-        return item ? item->data() : nullptr;
+    Rebro* getRebro(Vershina* fromVershina, Vershina* toVershina) 
+    {
+        RItem* item = findRebroItem(fromVershina, toVershina);
+        if (item->data())
+        {
+            return item->data();
+        }
+        else
+        {
+            return nullptr;
+        }
     }
 
-    void removeRebro(Vershina* fromVershina, Vershina* toVershina) {
-        RebroItem* item = findRebroItem(fromVershina, toVershina);
+    void removeRebro(Vershina* fromVershina, Vershina* toVershina) 
+    {
+        RItem* item = findRebroItem(fromVershina, toVershina);
         if (item) {
             fromVershina->neighbors.erase(item);
         }
     }
 
-    bool containsRebroBetweenVershina(Vershina* fromVershina, Vershina* toVershina) {
+    bool containsRebroBetweenVershina(Vershina* fromVershina, Vershina* toVershina) 
+    {
         return findRebroItem(fromVershina, toVershina);
     }
 
-    class RebroVershiniIterator {
-        RebroItem* firstNeighbor = NULL;
-        RebroItem* neighbor = NULL;
+    class RebroVershiniIterator 
+    {
+        RItem* firstNeighbor = NULL;
+        RItem* neighbor = NULL;
     public:
-        RebroVershiniIterator(Vershina* vershina) {
+        RebroVershiniIterator(Vershina* vershina) 
+        {
             firstNeighbor = vershina->neighbors.first();
             neighbor = firstNeighbor;
         }
 
-        Rebro* operator *() {
+        Rebro* operator *()
+        {
             return neighbor ? neighbor->data() : nullptr;
         }
 
-        RebroVershiniIterator* operator ++(int i) {
-            if (neighbor->next() != firstNeighbor) {
+        RebroVershiniIterator* operator ++(int i) 
+        {
+            if (neighbor->next() != firstNeighbor) 
+            {
                 neighbor = neighbor->next();
             }
-            else {
+            else
+            {
                 neighbor = nullptr;
             }
             return this;
         }
     };
 
-    class VershinaIterator {
-        VershinaItem* currentVershina = NULL;
+    class VershinaIterator
+    {
+        VItem* currentVershina = NULL;
         int pos = 0;
     public:
-        int amount = 0;
+        int sum = 0;
 
-        VershinaIterator(DirectedGraph<VershinaData, RebroData>* graph) {
-            amount = graph->vershinaAmount;
+        VershinaIterator(Graph<RebrData>* graph)
+        {
+            sum = graph->vershinaSum;
             currentVershina = graph->vershini.first();
         }
 
-        Vershina* operator *() {
+        Vershina* operator *()
+        {
             return currentVershina ? currentVershina->data() : nullptr;
         }
 
-        VershinaIterator* operator ++(int i) {
-            if (pos < amount) {
+        VershinaIterator* operator ++(int i) 
+        {
+            if (pos < sum) 
+            {
                 currentVershina = currentVershina->next();
                 pos++;
             }
-            else {
+            else 
+            {
                 currentVershina = nullptr;
             }
             return this;
@@ -165,53 +220,94 @@ public:
     };
 
 
-    RebroVershiniIterator getRebroVershiniIterator(Vershina* vershina) {
+    RebroVershiniIterator getRebroVershiniIterator(Vershina* vershina) 
+    {
         return RebroVershiniIterator(vershina);
     }
 
-    VershinaIterator getVershinaIterator() {
+    VershinaIterator getVershinaIterator() 
+    {
         return VershinaIterator(this);
     }
 
-protected:
-    List<Vershina*> vershini;
-    size_t vershinaAmount = 0;
-    size_t numberOfVershina = 0;
-
-    VershinaItem* lastVershinaInList() {
-        VershinaItem* item = vershini.first();
-        while (item && item->next()) {
-            item = item->next();
-        }
-        return item;
-    }
-
-    RebroItem* findRebroItem(Vershina* fromVershina, Vershina* toVershina) {
-        RebroItem* item = fromVershina->neighbors.first();
-        while (item) {
-            if (item->data() && item->data()->to == toVershina) {
-                return item;
+    ~Graph()
+    {
+        VItem* versh_Item = vershini.first();
+        while (versh_Item) {
+            RItem* rebro_Item = (versh_Item->data())->neighbors.first();
+            while (rebro_Item) {
+                if (rebro_Item->next()) {
+                    RItem* delet_Rebr_Item = rebro_Item;
+                    rebro_Item = rebro_Item->next();
+                    delete delet_Rebr_Item->data();
+                    (versh_Item->data())->neighbors.erase(delet_Rebr_Item);
+                }
+                else {
+                    delete rebro_Item->data();
+                    (versh_Item->data())->neighbors.erase(rebro_Item);
+                    rebro_Item = nullptr;
+                }
             }
-            if (item->next()) {
-                item = item->next();
+            if (versh_Item->next()) {
+                VItem* deletingVershinaItem = versh_Item;
+                versh_Item = versh_Item->next();
+                delete deletingVershinaItem->data();
+                vershini.erase(deletingVershinaItem);
             }
             else {
-                return nullptr;
+                delete versh_Item->data();
+                vershini.erase(versh_Item);
+                versh_Item = nullptr;
             }
         }
-        return nullptr;
     }
 
-    void removeRebraToVershina(VershinaItem* toVershina) {
-        VershinaItem* vershina = vershini.first();
-        RebroItem* rebro;
-        int i = 0;
-        while (vershina && i++ < vershinaAmount) {
-            rebro = findRebroItem(vershina->data(), toVershina->data());
-            if (rebro) {
-                removeRebro(vershina->data(), toVershina->data());
+    protected:
+        List<Vershina*> vershini;
+        size_t vershinaSum = 0;
+        size_t num_Vershina = 0;
+
+        VItem* lastVershinaInList() {
+            VItem* item = vershini.first();
+            while (item && item->next()) {
+                item = item->next();
             }
-            vershina = vershina->next();
+            return item;
         }
-    }
-};
+
+        RItem* findRebroItem(Vershina * fromVershina, Vershina * toVershina)
+        {
+            RItem* item = fromVershina->neighbors.first();
+            while (item) {
+                if (item->data() && item->data()->to == toVershina)
+                {
+                    return item;
+                }
+                if (item->next())
+                {
+                    item = item->next();
+                }
+                else
+                {
+                    return nullptr;
+                }
+            }
+            return nullptr;
+        }
+
+        void removeRebraToVershina(VItem * toVershina)
+        {
+            VItem* vershina = vershini.first();
+            RItem* rebro;
+            int i = 0;
+            while (vershina && i++ < vershinaSum)
+            {
+                rebro = findRebroItem(vershina->data(), toVershina->data());
+                if (rebro)
+                {
+                    removeRebro(vershina->data(), toVershina->data());
+                }
+                vershina = vershina->next();
+            }
+        }
+    };

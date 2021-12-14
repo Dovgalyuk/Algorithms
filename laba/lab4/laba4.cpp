@@ -5,45 +5,51 @@
 
 using namespace std;
 
-void algoritm(int end,queue<int> que, DirectedGraph<int, int> *graph)
+void algoritm(int end, queue<int> que, Graph<int>* graph)
 {
 	int a = que.front();
 
-	graph->getVershina(a)->data = 0;
-	while (a!=end||que.empty())
+	graph->getVershina(a)->data.length = 0;
+	graph->getVershina(a)->data.status = 2;
+	while (a!=end)
 	{
-		for (int i = 0; i < graph->getVershinaAmount(); i++)
+		for (int i = 0; i < graph->getVershinaSum(); i++)
 		{
 			if (graph->containsRebroBetweenVershina(graph->getVershina(a),graph->getVershina(i)))
 			{
-				que.push(i);
-				if (graph->getVershina(i)->data > graph->getRebro(graph->getVershina(a), graph->getVershina(i))->data)
+				if (graph->getVershina(i)->data.status <= 1)
 				{
-					graph->getVershina(i)->data = graph->getRebro(graph->getVershina(a), graph->getVershina(i))->data + graph->getVershina(a)->data;
+					if (graph->getRebro(graph->getVershina(a), graph->getVershina(i))->data + graph->getVershina(a)->data.length < graph->getVershina(i)->data.length)
+					{
+						graph->getVershina(i)->data.length = graph->getRebro(graph->getVershina(a), graph->getVershina(i))->data + graph->getVershina(a)->data.length;
+						graph->getVershina(i)->data.status = 1;
+						que.push(i);
+					}
 				}
+
 			}
 		}
 		que.pop();
 		a = que.front();
 	}
-	cout << "íàèìåíüøèé ïóòü äî êîíöà :=" << graph->getVershina(end)->data;
+	cout << "Ð½Ð°Ð¸Ð¼ÐµÐ½ÑŒÑˆÐ¸Ð¹ Ð¿ÑƒÑ‚ÑŒ Ð´Ð¾ ÐºÐ¾Ð½Ñ†Ð° :=" << graph->getVershina(end)->data.length;
 }
 
 int main()
 {
 	setlocale(0,"");
-	cout << "Ñêîëüêî âåðøèí áóäåò â ïðîãðàììå?" << endl;
+	cout << "Ð¡ÐºÐ¾Ð»ÑŒÐºÐ¾ Ð²ÐµÑ€ÑˆÐ¸Ð½ Ð±ÑƒÐ´ÐµÑ‚ Ð² Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ðµ?" << endl;
 	int num;
 	cin >> num;
 
-	auto* graph = new DirectedGraph<int, int>(num);
+	auto* graph = new Graph<int>(num);
 
-	for (int i = 0; i < graph->getVershinaAmount(); i++)
+	for (int i = 0; i < graph->getVershinaSum(); i++)
 	{
-		graph->getVershina(i)->data = 1000;
+		graph->getVershina(i)->data.length = 1000;
 	}
 
-	cout << "Ñêîëüêî áóäåò ð¸áåð?" << endl;
+	cout << "Ð¡ÐºÐ¾Ð»ÑŒÐºÐ¾ Ð±ÑƒÐ´ÐµÑ‚ Ñ€Ñ‘Ð±ÐµÑ€?" << endl;
 
 	cin >> num;
 
@@ -51,25 +57,22 @@ int main()
 
 	for (int i = 0; i < num; i++)
 	{
-		cout << "Ïåðåäàé äëèíó ðåáðà,èç êàêîé âåðøèíû âûéäåò ðåáðî, è â êàêóþ âåðøèíó îíî âîéäåò" << endl;
-		cout << "äëèíà:=";
+		cout << "ÐŸÐµÑ€ÐµÐ´Ð°Ð¹ Ð´Ð»Ð¸Ð½Ñƒ Ñ€ÐµÐ±Ñ€Ð°,Ð¸Ð· ÐºÐ°ÐºÐ¾Ð¹ Ð²ÐµÑ€ÑˆÐ¸Ð½Ñ‹ Ð²Ñ‹Ð¹Ð´ÐµÑ‚ Ñ€ÐµÐ±Ñ€Ð¾, Ð¸ Ð² ÐºÐ°ÐºÑƒÑŽ Ð²ÐµÑ€ÑˆÐ¸Ð½Ñƒ Ð¾Ð½Ð¾ Ð²Ð¾Ð¹Ð´ÐµÑ‚" << endl;
+		cout << "Ð´Ð»Ð¸Ð½Ð°:=";
 		cin >> size;
-		cout << "îò ";
+		cout << "Ð¾Ñ‚ ";
 		cin >> start;
-		cout << " äî ";
+		cout << " Ð´Ð¾ ";
 		cin >> end;
 		graph->setRebro(graph->getVershina(start), graph->getVershina(end), size);
 	}
 
-	cout << "äàé äâå òî÷êó, êîòîðûå áóäóò íà÷àëîì è êîíöîì(1âàÿ - íà÷àëî, 2àÿ - êîíåö)" << endl;
+	cout << "Ð´Ð°Ð¹ Ð´Ð²Ðµ Ñ‚Ð¾Ñ‡ÐºÑƒ, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð±ÑƒÐ´ÑƒÑ‚ Ð½Ð°Ñ‡Ð°Ð»Ð¾Ð¼ Ð¸ ÐºÐ¾Ð½Ñ†Ð¾Ð¼(1Ð²Ð°Ñ - Ð½Ð°Ñ‡Ð°Ð»Ð¾, 2Ð°Ñ - ÐºÐ¾Ð½ÐµÑ†)" << endl;
 	cin >> start >> end;
 
 	queue<int> next_versh;
 	next_versh.push(start);
 
 	algoritm(end, next_versh, graph);
-
-
-
 	return 0;
 }
