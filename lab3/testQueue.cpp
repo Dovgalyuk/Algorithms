@@ -16,12 +16,12 @@ int main() {
     std::string stroka;
     std::ifstream in("E:\\text.txt");
 
-    for (int i = 0; i < 3; ++i) {
-        in >> str;
+    while (str != '\n') {
+        in.get(str);
         _queue.insert(str);
     }
 
-    for (int i = 0; i < 3; ++i) {
+    while (str != '\n') {
         in >> str;
         stroka.push_back(str);
     }
