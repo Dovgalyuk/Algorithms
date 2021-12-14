@@ -4,6 +4,7 @@
 #include <fstream>
 #include "queue.h"
 
+
 void putCoordinates(Queue*& queueX, Queue*& queueY) {
     queue_insert(queueY, queue_get(queueY) - 1);
     queue_insert(queueX, queue_get(queueX));
@@ -62,36 +63,20 @@ int main()
 
     queue_insert(queueY, startY);
     queue_insert(queueX, startX);
+    putCoordinates(queueX, queueY);
 
     while (!queue_empty(queueY)) {
 
-
-        putCoordinates(queueX, queueY);
-
-        for (int i = 0; i < 4; i++) {
-            switch (labirint[queue_get(queueY)][queue_get(queueX)]) {
-            case cage:
-                queue_remove(queueY);
-                queue_remove(queueX);
-                break;
-            case dot:
-                labirint[queue_get(queueY)][queue_get(queueX)] = 'X';
-                queue_insert(queueY, queue_get(queueY));
-                queue_insert(queueX, queue_get(queueX));
-                queue_remove(queueY);
-                queue_remove(queueX);
-                break;
-            case X:
-                queue_remove(queueY);
-                queue_remove(queueX);
-                break;
-            default:
-                break;
-            }
+        switch (labirint[queue_get(queueY)][queue_get(queueX)]) {
+        case dot:
+            labirint[queue_get(queueY)][queue_get(queueX)] = 'X';
+            putCoordinates(queueX, queueY);
+            break;
+        default:
+            break;
         }
-
-
-
+        queue_remove(queueY);
+        queue_remove(queueX);
 
     }
     int count = 0;
