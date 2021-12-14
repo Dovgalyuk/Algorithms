@@ -60,15 +60,23 @@ int findingNeighborsOfVershina(int workingVershina, int vershiniKol, DirectedGra
 
 int toTheNextVershina(int vershiniKol, int startVershina, int* workingVershina, bool* ending, DirectedGraph<Z, int>* graph) {
     int counter = 0;
-    while (counter < vershiniKol && graph->getVershina(counter)->data.status != 1) {
-        counter++;
+    int minZnachenieData = 2147483647;
+    int minCounter = 0;
+    for (int i = 0; i < vershiniKol; ++i) {
+        if (graph->getVershina(i)->data.status == 1 && minZnachenieData > graph->getVershina(i)->data.length) {
+            minZnachenieData = graph->getVershina(i)->data.length;
+            minCounter = i;
+        }
+        if (graph->getVershina(i)->data.status != 1) {
+            counter++;
+        }
     }
     if (counter >= vershiniKol) {
         outputBeautifulOtvet(startVershina, vershiniKol, graph);
         *ending = false;
     }
     else {
-        *workingVershina = counter + 1;
+        *workingVershina = minCounter + 1;
     }
     return 0;
 }

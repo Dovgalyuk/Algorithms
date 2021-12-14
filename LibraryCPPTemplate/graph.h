@@ -61,6 +61,13 @@ public:
         }
         if (item) {
             removeRebraToVershina(item);
+            auto iteratorRebra = getRebroVershiniIterator(item->data());
+            while (*iteratorRebra) {
+                RebroItem* rebroItem = (item->data())->neighbors.first();
+                delete rebroItem->data();
+                item->data()->neighbors.erase(rebroItem);
+                iteratorRebra = getRebroVershiniIterator(item->data());
+            }
             delete item->data();
             vershini.erase(item);
             vershinaAmount--;
