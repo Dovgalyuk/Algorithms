@@ -12,15 +12,15 @@ int main()
     for (int i = 0; i < N; ++i) {
         board[i] = new int[M] {0};
     }
-    cout << "Start spots:(0 0 to stop)" << endl;
+    cout << "Start spots:(-1 -1 to stop)" << endl;
     while (true)
     {
         int a, b;
         cin >> a >> b;
-        if (a == 0) break;
-        coords.insert( pair<int,int>(a - 1, b - 1));
+        if (a < 0) break;
+        coords.insert( pair<int,int>(a, b));
 
-        board[a - 1][b - 1] = 1;
+        board[a][b] = 1;
     }
 
     unsigned k = 0;
@@ -29,29 +29,24 @@ int main()
         pair<int, int> curr = coords.get();
         unsigned intensity = board[curr.first][curr.second];
         coords.remove();
-
+        k++;
         if (curr.first > 0 && board[curr.first - 1][curr.second] == 0) {
-            coords.insert(pair<int,int>(curr.first - 1, curr.second));
-           board[curr.first - 1][curr.second] =intensity + 1;
-
+           board[curr.first - 1][curr.second] = intensity + 1;
+           k++;
         }
         if (curr.first < N - 1 && board[curr.first + 1][curr.second] == 0) {
-            coords.insert(pair<int,int>(curr.first + 1, curr.second));
-          board[curr.first + 1][curr.second] =intensity  + 1;
-
+          board[curr.first + 1][curr.second] = intensity  + 1;
+            k++;
         }
         if (curr.second > 0 && board[curr.first][curr.second - 1] == 0) {
-            coords.insert(pair<int,int>(curr.first, curr.second - 1));
             board[curr.first][curr.second - 1] = intensity + 1;
-
+            k++;
         }
         if (curr.second < M - 1 && board[curr.first][curr.second + 1] == 0) {
-            coords.insert(pair<int,int>(curr.first, curr.second + 1));
             board[curr.first][curr.second + 1] = intensity + 1;
-            if (k < board[curr.first][curr.second + 1]) {
-                k = board[curr.first][curr.second + 1];
-            }
+            k++;
         }
+
     }
     cout << k;
 }
