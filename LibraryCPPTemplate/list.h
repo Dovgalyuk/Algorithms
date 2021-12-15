@@ -1,6 +1,7 @@
 #ifndef LIST_H
 #define LIST_H
 
+
 template <typename Data> class List
 {
 public:

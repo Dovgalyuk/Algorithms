@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include "stack.h"
 
+
 void function(Stack<int> number, Stack<char> symbol) {
     bool ZERO = true;
     while (!symbol.empty()) {
