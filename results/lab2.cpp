@@ -8,14 +8,14 @@
 int main() {
     int size = 0;
     std::cin >> size;
-    /*
-5
+    /*5
 1 -
 4 +
 8 -
 9 +
 10 -
      */
+
     Stack<int> order; // Storage minus
     for (int i = 0; i < size; i++) {
         int tmp = 0;
