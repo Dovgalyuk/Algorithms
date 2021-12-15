@@ -1,45 +1,53 @@
 #ifndef STACK_H
 #define STACK_H
+#include "list.h"
 
 template <typename Data> class Stack
 {
 public:
-    // Creates empty stack
+    // Создает пустой стек
     Stack()
     {
+        list = new List<Data>;
     }
 
-    // Deletes the stack
+    // Удаляет стек
     ~Stack()
     {
+        delete list;
     }
 
-    // Pushes data on top of the stack
+    // Помещает данные в верхнюю часть стека
     // Should be O(1) on average
     void push(Data data)
     {
+        list->insert(data);
     }
 
-    // Retrives the last element from the stack
-    Data get() const
+    // Извлекает последний элемент из стека
+    Data get()
     {
-        return Data();
+       return list->first()->data();
     }
 
-    // Removes the last element from the stack
+    // Удаляет последний элемент из стека
     // Should be O(1)
     void pop()
     {
+        if (!empty()){
+            list->erase(list->first());
+        }
     }
 
-    // Returns true if the stack is empty
-    bool empty() const
+    // Возвращает значение true, если стек пуст
+    bool empty()
     {
-        return true;
+        return !list->first();
     }
 
 private:
     // private data should be here
+    List<Data> *list;
 };
 
 #endif
