@@ -1,45 +1,61 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-template <typename Data> class Queue
-{
+#include "stack.h"
+
+template <typename Data>
+class Queue {
 public:
     // Create empty queue
-    Queue()
-    {
+    Queue() {
+        stackData = new Stack<Data>();
+        reverted = false;
     }
 
     // Deletes queue
-    ~Queue()
-    {
-    }
+    ~Queue() = default;
 
     // Includes new element into the queue
     // Should be O(1) on average
-    void insert(Data data)
-    {
+    void insert(Data data) {
+        if (reverted) revert();
+        stackData->push(data);
     }
 
     // Retrieves first element from the queue
-    Data get() const
-    {
-        return Data();
+    Data get() {
+        if (!reverted) revert();
+        return stackData->get();
     }
 
     // Removes first element from the queue
     // Should be O(1) on average
-    void remove()
-    {
+    void remove() {
+        if (!reverted) revert();
+        stackData->pop();
     }
 
     // Returns true if the queue is empty
-    bool empty() const
-    {
-        return true;
+    bool empty() {
+        return stackData->size() == 0;
+    }
+
+    void revert() {
+        auto tmpData = new Stack<Data>();
+        const int size = stackData->size();
+        for (int i = 0; i < size; i++) {
+            tmpData->push(stackData->get());
+            stackData->pop();
+        }
+
+        reverted = !reverted;
+        delete stackData;
+        stackData = tmpData;
     }
 
 private:
-    // private data should be here
+    bool reverted;
+    Stack<Data> *stackData;
 };
 
 #endif
