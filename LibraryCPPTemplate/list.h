@@ -1,65 +1,104 @@
 #ifndef LIST_H
 #define LIST_H
 
+
 template <typename Data> class List
 {
 public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item *next() { return nextItem; }
+        void next(Item *newNextItem) {nextItem = newNextItem;}
+
+        Data data() const { return itemData; }
+
+        Item() {
+            nextItem = nullptr;
+        }
+        Item(Data newData, Item *nextItem) {
+            itemData = newData;
+            this->nextItem = nextItem;
+        }
+        Item *nextItem;
     private:
-        // internal data here
+        Data itemData;
+
     };
 
     // Creates new list
     List()
     {
+        head = nullptr;
     }
 
     // Destroys the list and frees the memory
     ~List()
     {
+        while(head) {
+            Item* temp = head->next();
+            delete head;
+            head = temp;
+        }
     }
 
     // Retrieves the first item from the list
     Item *first()
     {
-        return nullptr;
+        return head;
     }
 
     // Inserts new list item into the beginning
     Item *insert(Data data)
     {
-        return nullptr;
+        head = new Item(data, head);
+        return head;
     }
 
     // Inserts new list item after the specified item
     Item *insert_after(Item *item, Data data)
     {
-        return nullptr;
+        item->next(new Item(data, item->next()));
+        return item->next();
     }
 
     // Deletes the specified list item.
-    // Returns pointer to the item next to the deleted one.
     // Not applicable for the singly linked lists.
     // Should be O(1)
     Item *erase(Item *item)
     {
-        return nullptr;
+        if(item == head) {
+
+            head = item->next();
+
+            delete item;
+            return head;
+        } else {
+            Item *cur = head;
+            while (cur->next() != item) {
+                cur = cur->next();
+            }
+            cur->next(cur->next()->next());
+            delete item;
+            return cur->next();
+        }
+
+
     }
 
-    // Deletes the list item following the specified one.
-    // Returns pointer to the item next to the deleted one.
+    // Deletes the list item following the specified one
     // Should be O(1)
     Item *erase_next(Item *item)
     {
-        return nullptr;
+        if (item->next()) {
+            Item *mustBeDeleted = item->next();
+            item->next(item->next()->next());
+            delete mustBeDeleted;
+        }
+        return item->next();
     }
 private:
-    // private data should be here
+    Item *head;
 };
 
 #endif
