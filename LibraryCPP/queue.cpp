@@ -27,7 +27,20 @@ void queue_insert(Queue *queue, Data data)
     queue->last_index++;
     if (vector_size(queue->vector) == queue->last_index)
     {
-        vector_resize(queue->vector,queue->last_index * 2);
+        if (queue->first_index != 0)
+        {
+            int count = queue->first_index;
+            for (int i = queue->first_index; i < queue->last_index; i++)
+            {
+                vector_set(queue->vector, i - count, vector_get(queue->vector, i));
+            }
+            queue->first_index = 0;
+            queue->last_index -= count;
+        }
+        else
+        {
+            vector_resize(queue->vector, queue->last_index * 2);
+        }    
     }
     vector_set(queue->vector,queue->last_index,data);
 }

@@ -10,7 +10,7 @@ struct Vector
 Vector *vector_create()
 {
     Vector* vector = new Vector;
-    vector->capacity = 32;
+    vector->capacity = 2;
     vector->size = vector->capacity;
     vector->arr = new Data[vector->capacity];
     return vector;
