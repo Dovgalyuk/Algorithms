@@ -50,3 +50,10 @@ int main()
     }
     cout << k;
 }
+/*Enter N M:
+3 3
+Start spots:(-1 -1 to stop)
+1 1
+-1 -1
+5
+ */
