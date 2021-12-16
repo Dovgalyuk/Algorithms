@@ -3,29 +3,79 @@
 
 #include <cstddef>
 
-// Vector (dynamic array)
-// Stores integer values inside
-typedef int Data;
+template <typename Data>
+class Vector {
+public:
+    // Creates vector
+    Vector() {
+        data = nullptr;
+        length = 0;
+        capacity = 0;
+    }
 
-struct Vector;
+    // Deletes vector structure and internal data
+    ~Vector() {
+        delete[] data;
+    }
 
-// Creates vector
-Vector *vector_create();
+    // Retrieves vector element with the specified index
+    Data get(size_t index) const {
+        return data[index];
+    }
 
-// Deletes vector structure and internal data
-void vector_delete(Vector *vector);
+    // Sets vector element with the specified index
+    void set(size_t index, Data value) {
+        data[index] = value;
+    }
 
-// Retrieves vector element with the specified index
-Data vector_get(const Vector *vector, size_t index);
+    // Retrieves current vector size
+    size_t size() const {
+        return length;
+    }
 
-// Sets vector element with the specified index
-void vector_set(Vector *vector, size_t index, Data value);
+    // Reserve memory
+    void reserve(size_t size) {
+        if (capacity == size) return;
+        if (capacity > size && length < size) return;
 
-// Retrieves current vector size
-size_t vector_size(const Vector *vector);
+        if (capacity < size) {
+            if (capacity == 0) capacity = 1;
 
-// Changes the vector size (may increase or decrease)
-// Should be O(1) on average
-void vector_resize(Vector *vector, size_t size);
+            while (capacity < size)
+                capacity *= capacityMultiplier;
+
+        }
+        else if (length > size) {
+            length = size;
+        }
+
+        Data* copy = new Data[capacity];
+        size_t copySize = size > length ? length : size;
+
+        if (length != 0)
+            for (int i = 0; i < copySize; i++) {
+                copy[i] = data[i];
+            }
+
+        delete[] data;
+        data = copy;
+    }
+
+    // Changes the vector size (may increase or decrease)
+    // Should be O(1) on average
+    void resize(size_t size) {
+        if (capacity < size)
+            reserve(size);
+        length = size;
+    }
+
+protected:
+    size_t length; // Count of elements
+    size_t capacity; // Count of reserved elements
+
+    Data* data;
+
+    static const int capacityMultiplier = 2;
+};
 
 #endif
