@@ -1,6 +1,7 @@
 ﻿#include <iostream>
+#include <fstream>
+#include <cctype>
 #include "stack.h"
-
 
 void function(Stack<int> number, Stack<char> symbol) {
     bool ZERO = true;
@@ -50,32 +51,51 @@ void function(Stack<int> number, Stack<char> symbol) {
 }
 
 int main() {
+    //  10 9 - + (UNDERFLOW)
+    //  1 2 + 3 (OVERFLOW)
+    //  10 0 / (ZERO)
     Stack<int> number;
-    Stack<char> symbol;
-
-    // 1 2 + 3
-    number.push(3);
-    symbol.push('+');
-    number.push(2);
-    number.push(1);
-    function(number, symbol);
-
     Stack<int> number1;
+    Stack<char> symbol;
     Stack<char> symbol1;
 
-    //10 9 - +
-    symbol1.push('+');
-    symbol1.push('-');
-    number1.push(9);
-    number1.push(10);
-    function(number1, symbol1);
+    std::ifstream fin;
+    fin.open("first.txt");
 
-    return 0;
+    if (fin.is_open()) {
+        char ch;
+        char last_ch = '.';
+        while (fin.get(ch)) {
+            if (isdigit(ch)) {
+                if (isdigit(last_ch)) {
+                    int a = ch - '0';
+                    int b = number.get();
+                    number.pop();
+                    number.push(10 * b + a);
+                }
+                else {
+                    int i = 0;
+                    number.push(ch - '0');
+                }
+            }
+            else if (ch != '\n') {
+                symbol.push(ch);
+            }
+            last_ch = ch;
+        }
+        while (!number.empty()) {
+            number1.push(number.get());
+            number.pop();
+        }
+        while (!symbol.empty()) {
+            symbol1.push(symbol.get());
+            symbol.pop();
+        }
 
-
-    /*symbol1.push('/');
-    number1.push(0);
-    number1.push(10);
-    function(number1, symbol1);
-    return 0; */
+        function(number1, symbol1);
+    }
+    else {
+        std::cout << "Open error!\n";
+    }
+    fin.close();
 }
