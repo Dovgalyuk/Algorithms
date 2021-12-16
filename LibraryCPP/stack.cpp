@@ -1,4 +1,4 @@
-/*#include "stack.h"
+#include "stack.h"
 
 struct Stack
 {
@@ -32,4 +32,3 @@ bool stack_empty(const Stack *stack)
 {
     return true;
 }
-*/

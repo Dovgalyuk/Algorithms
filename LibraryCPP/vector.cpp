@@ -1,4 +1,4 @@
-/*#include "vector.h"
+#include "vector.h"
 
 struct Vector
 {
@@ -31,4 +31,4 @@ size_t vector_size(const Vector* vector)
 
 void vector_resize(Vector* vector, size_t size)
 {
-}*/
+}
