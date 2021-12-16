@@ -10,7 +10,6 @@ public:
     Vector() {
         data = nullptr;
         length = 0;
-        capacity = 0;
     }
 
     // Deletes vector structure and internal data
