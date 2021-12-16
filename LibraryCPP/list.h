@@ -3,7 +3,7 @@
 
 // List
 // Stores integer values inside
-#include <string>
+
 typedef char Data;
 
 struct List;
