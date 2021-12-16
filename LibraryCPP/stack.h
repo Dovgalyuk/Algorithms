@@ -3,7 +3,6 @@
 
 // Stack
 // Stores integer values inside
-#include <string>
 typedef char Data;
 
 struct Stack;
