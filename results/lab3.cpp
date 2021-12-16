@@ -56,8 +56,8 @@ int main() {
 }
 
 void findPath(int size, int finishID, std::vector<bool> &links, VertexQueue vertexQueue, std::vector<Vertex> &vertexes) {
-    VertexQueue newQueue;
-    for (int i = 0; i < vertexQueue.size(); i++) {
+    while (vertexQueue.size() > 0) {
+        int test_size = vertexQueue.size();
         Vertex ownerVertex = vertexQueue.get();
         vertexQueue.remove();
         for (int j = 0; j < size; j++) {
@@ -90,8 +90,7 @@ void findPath(int size, int finishID, std::vector<bool> &links, VertexQueue vert
             if (vertexes[j].weight != 0 && vertexes[j].weight <= ownerVertex.weight) continue;
 
             vertexes[j].weight = ownerVertex.weight + 1;
-            newQueue.insert(vertexes[j]);
+            vertexQueue.insert(vertexes[j]);
         }
     }
-    findPath(size, finishID, links, newQueue, vertexes);
 }

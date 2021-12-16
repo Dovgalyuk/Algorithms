@@ -17,9 +17,12 @@ public:
     // Includes new element into the queue
     // Should be O(1) on average
     void insert(Data data) {
-        auto *item = List<Data>::insert(data);
-        if (last == nullptr)
-            last = item;
+        if (this->getSize() != 0) {
+            List<Data>::insert(data);
+            return;
+        }
+
+        last = List<Data>::insert(data);
     }
 
     // Retrieves first element from the queue
@@ -30,9 +33,11 @@ public:
     // Removes first element from the queue
     // Should be O(1) on average
     void remove() {
-        auto *item = last;
-        last = item->prev();
-        this->erase(item);
+        if (last == nullptr) return;
+
+        auto *prevItem = last->prev();
+        this->erase(last);
+        last = prevItem;
     }
 
     // Returns true if the queue is empty

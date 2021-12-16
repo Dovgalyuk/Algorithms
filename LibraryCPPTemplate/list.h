@@ -24,7 +24,6 @@ public:
     // Creates new list
     List() {
         firstItem = nullptr;
-        size = 0;
     }
 
     // Destroys the list and frees the memory
@@ -37,6 +36,12 @@ public:
 
     // Return list items count
     size_t getSize() const {
+        int size = 0;
+        Item *nextItem = firstItem;
+        while(nextItem != nullptr) {
+            size++;
+            nextItem = nextItem->next();
+        }
         return size;
     }
 
@@ -49,7 +54,6 @@ public:
             firstItem->previousItem = newItem;
 
         firstItem = newItem;
-        size++;
         return newItem;
     }
 
@@ -63,7 +67,6 @@ public:
 
         newItem->previousItem = item;
         item->nextItem = newItem;
-        size++;
         return newItem;
     }
 
@@ -84,7 +87,6 @@ public:
             prevItem->nextItem = nextItem;
 
         delete item;
-        size--;
         return nextItem;
     }
 
@@ -93,10 +95,8 @@ public:
     Item *erase_next(Item *item) {
         return erase(item->next());
     }
-private:
+protected:
     Item *firstItem;
-
-    size_t size;
 };
 
 #endif
