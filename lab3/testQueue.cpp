@@ -20,9 +20,12 @@ int main() {
         _queue.insert(str);
     }
 
-    for (int i = 0; i < 3; ++i) {
+    while(in) {
         in >> str;
+        if(stroka[stroka.size() - 1] == str && in.eof())
+            break;
         stroka.push_back(str);
+
     }
 
     while(!_queue.empty()) {
