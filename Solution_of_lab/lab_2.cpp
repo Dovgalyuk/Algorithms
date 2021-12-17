@@ -96,6 +96,6 @@ void check_symbol(Stack<string>& numbers, const  string& input) {
 
 bool is_number(const string& s)
 {
-    return !s.empty() && std::find_if(s.begin(),
-        s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
+    return !s.empty() && find(s.begin(),
+        s.end(), [](char c) { return !isdigit(c); }) == s.end();
 }
