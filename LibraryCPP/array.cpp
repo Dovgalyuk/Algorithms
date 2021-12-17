@@ -13,7 +13,7 @@ struct Array {
 // create array
 Array* array_create(size_t size)
 {
-    return new Array(size);
+    return Array(size);
 }
 
 // delete array, free memory
