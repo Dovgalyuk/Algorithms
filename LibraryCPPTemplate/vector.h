@@ -10,6 +10,7 @@ public:
     Vector() {
         data = nullptr;
         length = 0;
+        capacity = 0;
     }
 
     // Deletes vector structure and internal data
@@ -32,34 +33,39 @@ public:
         return length;
     }
 
-    // Reserve memory
-    void reserve(size_t size) {
-        if (size > 0)
-        resize(length+size);
-    }
 
     // Changes the vector size (may increase or decrease)
     // Should be O(1) on average
-
     void resize(size_t size) {
 
-        size_t resized = size + length;
-        Data* copy = new Data[resized];
-
-        if (resized > length) {
-           for(int i = 0; i < length;i++)
-               data[i] = copy[i];
+        if (size <= capacity) {
+            length = size;
         }
         else {
-            for (int i = 0; i < resized; i++)
-                data[i] = copy[i];
+            if (capacity == 0) {
+                capacity = 1;
+            }
+
+            while (capacity < size) {
+                capacity *= 2;
+            }
+
+            Data* new_data = new Data[capacity];
+            for (size_t i = 0; i < length; i++) {
+                new_data[i] = data[i];
+            }
+
+            delete[] data;
+            data = new_data;
+            length = size;
         }
-        delete[] data;
-        data = copy;
-        
+
     }
+
 protected:
-    size_t length;
+    size_t length; // Count of elements
+    size_t capacity; // Count of reserved elements
+
     Data* data;
 };
 

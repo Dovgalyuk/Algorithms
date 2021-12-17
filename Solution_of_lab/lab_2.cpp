@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cctype>
-#include <vector>
 #include "../LibraryCPPTemplate/stack.h"
+#include "../LibraryCPPTemplate/vector.h"
 #include <string>
 using namespace std;
 
@@ -15,11 +15,16 @@ int main() {
     string input;
     cin >> input;
     while (input != "=") {
+
         check_symbol(polish_writeback, input);
         cin >> input;
     }
-    if (polish_writeback.size() == 1) {
-        cout << "Output: " << polish_writeback.get();
+
+    int result = stoi(polish_writeback.get());
+    polish_writeback.pop();
+
+    if (polish_writeback.empty()) {
+        cout << result;
     }
     else {
         cout << "OVERFLOW" << endl;
@@ -31,7 +36,7 @@ int main() {
 
 void check_symbol(Stack<string>& numbers, const  string& input) {
 
-        if (numbers.empty()) {
+    if (numbers.empty()) {
         if (is_number(input)) {
             numbers.push(input);
             return;
@@ -39,15 +44,14 @@ void check_symbol(Stack<string>& numbers, const  string& input) {
         else {
             cout << "FIRST_ELEMENT_NOT_DIGIT" << endl;
             exit(-1);
-        } 
         }
-    
+    }
+
 
     if (is_number(input)) {
         numbers.push(input);
     }
     else {
-
 
         int second = stoi(numbers.get());
         numbers.pop();
@@ -95,4 +99,3 @@ bool is_number(const string& s)
     return !s.empty() && std::find_if(s.begin(),
         s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
 }
-

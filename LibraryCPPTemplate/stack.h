@@ -32,7 +32,7 @@ public:
 
     // Returns true if the stack is empty
     bool empty() const {
-        return this->length == 0;
+        return this-> length == 0;
     }
 };
 
