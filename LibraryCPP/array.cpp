@@ -6,7 +6,7 @@ struct Array {
     Array(size_t size)
     {
         this->size = size;
-        data = new int[size];
+        array = new Data[size];
     }
 };
 
