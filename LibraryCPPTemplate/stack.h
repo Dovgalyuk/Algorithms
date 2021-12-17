@@ -18,32 +18,26 @@ public:
     // Should be O(1) on average
     void push(Data data)
     {
-        if (!this->first()) {
-            this->firstItem = this->insert(data);
-        } else {
-            this->firstItem = this->insert_after(this->firstItem, data);
-        }
+        this->insert(data);
     }
 
     // Retrives the last element from the stack
-    Data get() const
+    Data get()
     {
-        return this->firstItem->data();
+        return this->first()->data();
     }
 
     // Removes the last element from the stack
     // Should be O(1)
     void pop()
     {
-        auto* prev = this->firstItem->prev();
-        this->erase(this->firstItem);
-        this->firstItem = prev;
+        this->erase(this->first());
     }
 
     // Returns true if the stack is empty
-    bool empty() const
+    bool empty()
     {
-        return !(this->firstItem);
+        return !(this->first());
     }
 
 };
