@@ -96,6 +96,8 @@ void check_symbol(Stack<string>& numbers, const  string& input) {
 
 bool is_number(const string& s)
 {
-    return !s.empty() && find(s.begin(),
-        s.end(), [](char c) { return !isdigit(c); }) == s.end();
+    if (s.find_first_not_of("0123456789") == string::npos) {
+        return true;
+    }
+    else false;
 }
