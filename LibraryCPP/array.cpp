@@ -3,7 +3,11 @@
 struct Array {
     Data* array; 
     size_t size; 
-    Array(size_t size) : size(size), array(new Data[size]) {};
+    Array(size_t size)
+    {
+        this->size = size;
+        data = new int[size];
+    }
 };
 
 // create array
