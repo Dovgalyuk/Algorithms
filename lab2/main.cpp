@@ -1,7 +1,8 @@
 ﻿#include <iostream>
+#include<string>
 #include <fstream>
 #include "stack.h"
-#include<string>
+
 
 using namespace std;
 
