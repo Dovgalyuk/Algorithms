@@ -3,7 +3,7 @@
 #include <fstream>
 #include "queue.h"
 
-struct Position{
+struct Position {
     int x, y;
     int weight;
 };
@@ -38,51 +38,58 @@ void findReturnPath(TileMap& map, Position position) {
     for(;;) {
         const int dx[] = {-1, 1, 0, 0};
         const int dy[] = {0, 0, -1, 1};
+
         for (size_t i = 0; i < 4; i++) {
-            int x = position.x + dx[i];
-            int y = position.y + dy[i];
+            const int x = position.x + dx[i];
+            const int y = position.y + dy[i];
             if (x < 0 || y < 0 || y>= map.size() || x >= map[y].size()) continue;
 
-            auto tile = map[y][x];
+            const Tile tile = map[y][x];
             if (tile.ch == 'X') {
                 find = true;
                 break;
             }
+
             if (position.weight - tile.weight != 1) continue;
+
             position.x = x;
             position.y = y;
             position.weight = tile.weight;
             map[position.y][position.x].ch = 'x';
             break;
         }
+
         if (find) break;
     }
 }
 
 bool checkTiles(TileMap& map, PositionsQueue &positions) {
-    Position checkPosition = positions.get();
+    const Position checkPosition = positions.get();
+
     const int dx[] = {-1, 1, 0, 0};
     const int dy[] = {0, 0, -1, 1};
-    for (size_t i = 0; i < 4; i++) {
-        int x = dx[i];
-        int y = dy[i];
-        Position newPosition = checkPosition;
-        newPosition.x += x;
-        newPosition.y += y;
-        newPosition.weight = checkPosition.weight + 1;
-        if (newPosition.x < 0 || newPosition.y < 0 || newPosition.y >= map.size() || newPosition.x >= map[newPosition.y].size()) continue;
 
-        char ch = map.at(newPosition.y).at(newPosition.x).ch;
+    for (size_t i = 0; i < 4; i++) {
+        const int x = dx[i] + checkPosition.x;
+        const int y = dy[i] + checkPosition.y;
+
+        Position newPosition = checkPosition;
+        newPosition.x = x;
+        newPosition.y = y;
+        newPosition.weight = checkPosition.weight + 1;
+        if (x < 0 || y < 0 || y >= map.size() || x >= map[y].size()) continue;
+
+        char ch = map.at(y).at(x).ch;
 
         switch (ch) {
-            case '@':
             case '#':
             case 'X':
                 continue;
             case '.':
+                if (map[y][x].weight != 0 && map[y][x].weight <= checkPosition.weight) continue;
+
                 positions.insert(newPosition);
-                map[newPosition.y][newPosition.x].ch = '@';
-                map[newPosition.y][newPosition.x].weight = newPosition.weight;
+                map[y][x].weight = newPosition.weight;
                 continue;
             case 'Y':
                 findReturnPath(map, newPosition);
@@ -100,6 +107,7 @@ void findPath(TileMap& map) {
     PositionsQueue positions;
 
     Position startPosition{0, 0, 1};
+
     bool find = false;
     for (auto &vector : map) {
         startPosition.x = 0;
@@ -111,8 +119,10 @@ void findPath(TileMap& map) {
             startPosition.x++;
         }
         if (find) break;
+
         startPosition.y++;
     }
+
     positions.insert(startPosition);
     find = false;
     while (!positions.empty()) {
@@ -136,17 +146,16 @@ void findPath(TileMap& map) {
 
 void fillMap() {
     TileMap map;
-    std::ifstream is("../../../Algorithms/Result/input.txt");
+    std::ifstream is("../../../Algorithms/Result/input/input.txt");
     std::string inputString;
     if (is.is_open()) {
-        int i = 0;
         while(std::getline(is, inputString)) {
             std::vector<Tile> vector;
+
             for (char ch : inputString) {
                 vector.emplace_back(ch, 0);
             }
             map.push_back(vector);
-            i++;
         }
     } else {
         std::cout << "Input file not found" << std::endl;
