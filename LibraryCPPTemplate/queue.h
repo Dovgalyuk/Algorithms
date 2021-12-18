@@ -33,7 +33,7 @@ public:
 
     // Returns true if the queue is empty
     bool empty() {
-        return upData.size() == 0;
+        return upData.size() == 0 && downData.size() == 0;
     }
 
     void checkDownData() {
