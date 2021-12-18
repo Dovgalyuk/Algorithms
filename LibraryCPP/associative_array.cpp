@@ -38,10 +38,12 @@ void associative_array_delete(associative_array* associative_arr)
 int hash(std::string str, int capacity)
 {
 	int sum = 0;
-	for (int p = 0, i = 0; i < str.size(); i++, p++)
+	long long p = 1;
+	for (int j = 0, i = 0; i < str.size(); i++, j++)
 	{
-		if (p > 12) p = 0;
-		sum += (str[i] * (long long)pow(31, p)) % capacity;
+		if (j > 12) p = 1;
+		sum += (str[i] * p) % capacity;
+		p *= 31;
 	}
 	return sum % capacity;
 }
