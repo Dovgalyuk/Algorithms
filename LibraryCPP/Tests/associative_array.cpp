@@ -6,7 +6,7 @@
 int main()
 {
 	associative_array* associative_arr = associative_array_create();
-	int load_test_count = 100000; 
+	int load_test_count = 1000000; 
 
 	for (int i = 0; i < load_test_count; i++)
 	{
