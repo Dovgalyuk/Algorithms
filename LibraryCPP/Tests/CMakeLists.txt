@@ -29,4 +29,9 @@ target_include_directories(TestDirectedGraphCPP PUBLIC ..)
 target_link_libraries(TestDirectedGraphCPP LibraryCPP)
 add_test(TestDirectedGraphCPP TestDirectedGraphCPP)
 
+add_executable(TestAssociativeArrayCPP associative_array.cpp)
+target_include_directories(TestAssociativeArrayCPP PUBLIC ..)
+target_link_libraries(TestAssociativeArrayCPP LibraryCPP)
+add_test(TestAssociativeArrayCPP PROPERTIES TIMEOUT 60)
+
 
