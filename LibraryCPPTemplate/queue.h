@@ -7,10 +7,7 @@ template <typename Data>
 class Queue {
 public:
     // Create empty queue
-    Queue() {
-        stackData = new Stack<Data>();
-        reverted = false;
-    }
+    Queue() = default;
 
     // Deletes queue
     ~Queue() = default;
@@ -18,44 +15,39 @@ public:
     // Includes new element into the queue
     // Should be O(1) on average
     void insert(Data data) {
-        if (reverted) revert();
-        stackData->push(data);
+        upData.push(data);
     }
 
     // Retrieves first element from the queue
     Data get() {
-        if (!reverted) revert();
-        return stackData->get();
+        checkDownData();
+        return downData.get();
     }
 
     // Removes first element from the queue
     // Should be O(1) on average
     void remove() {
-        if (!reverted) revert();
-        stackData->pop();
+        checkDownData();
+        downData.pop();
     }
 
     // Returns true if the queue is empty
     bool empty() {
-        return stackData->size() == 0;
+        return upData.size() == 0;
     }
 
-    void revert() {
-        auto tmpData = new Stack<Data>();
-        const int size = stackData->size();
+    void checkDownData() {
+        if (!downData.empty()) return;
+        const int size = upData.size();
         for (int i = 0; i < size; i++) {
-            tmpData->push(stackData->get());
-            stackData->pop();
+            downData.push(upData.get());
+            upData.pop();
         }
-
-        reverted = !reverted;
-        delete stackData;
-        stackData = tmpData;
     }
 
 private:
-    bool reverted;
-    Stack<Data> *stackData;
+    Stack<Data> upData;
+    Stack<Data> downData;
 };
 
 #endif
