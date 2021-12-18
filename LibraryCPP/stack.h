@@ -1,40 +1,30 @@
 #ifndef STACK_H
-# defineSTACK_H
-
-#include <stdbool.h>
+#define STACK_H
 
 // Stack
 // Stores integer values inside
-typedefint Data;
+typedef int Data;
 
-typedefstruct Stack Stack;
+struct Stack;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+// Creates empty stack
+Stack *stack_create();
 
-	// Creates empty stack
-	Stack *stack_create();
+// Deletes the stack
+void stack_delete(Stack *stack);
 
-	// Deletes the stack
-	void stack_delete(Stack *stack);
+// Pushes data on top of the stack
+// Should be O(1) on average
+void stack_push(Stack *stack, Data data);
 
-	// Pushes data on top of the stack
-	// Should be O(1) on average
-	void stack_push(Stack *stack, Data data);
+// Retrives the last element from the stack
+Data stack_get(const Stack *stack);
 
-	// Retrives the last element from the stack
-	Data stack_get(const Stack *stack);
+// Removes the last element from the stack
+// Should be O(1)
+void stack_pop(Stack *stack);
 
-	// Removes the last element from the stack
-	// Should be O(1)
-	void stack_pop(Stack *stack);
-
-	// Returns true if the stack is empty
-	bool stack_empty(const Stack *stack);
-
-#ifdef __cplusplus
-}
-#endif
+// Returns true if the stack is empty
+bool stack_empty(const Stack *stack);
 
 #endif
