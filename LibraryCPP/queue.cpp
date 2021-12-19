@@ -1,4 +1,5 @@
 #include "queue.h"
+#include "vector.h"
 
 struct Queue
 {
