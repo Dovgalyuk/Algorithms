@@ -46,7 +46,7 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-    if (size >= vector->capacity)
+    if (size * 2 > vector->capacity)
     {
         vector->capacity = size * 2;
         Data* new_arr = new Data[vector->capacity];
@@ -57,6 +57,5 @@ void vector_resize(Vector *vector, size_t size)
         delete[] vector->arr;
         vector->arr = new_arr;
     }
-
-    vector->size = size;
+     vector->size = size;  
 }
