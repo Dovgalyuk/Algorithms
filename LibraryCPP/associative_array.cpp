@@ -111,7 +111,15 @@ void insert_pair(std::string key, std::string value, associative_array* associat
 				ArrayElement* arr_el = new ArrayElement;
 				arr_el->key = associative_arr->arr->get(i).key;
 				arr_el->value = associative_arr->arr->get(i).value;
-				arr->set(hash(associative_arr->arr->get(i).key, associative_arr->capacity * 2), *arr_el);
+				int Index = hash(arr_el->key, associative_arr->capacity * 2);
+				while (arr->get(Index).key.size() != 0)
+				{
+					if (Index + 1 < associative_arr->capacity * 2)
+						Index++;
+					else
+						Index = 0;
+				}
+				arr->set(Index, *arr_el);
 			}
 		}
 		associative_arr->arr = arr;
