@@ -6,14 +6,11 @@ int main()
 {
 	std::ifstream fin;
 	fin.open("first.txt");
-
 	int n = 0;
 	//read n
 	fin >> n;
-
 	//pointer to start
 	int* arr = new int[n * n];
-
 	//filling the array
 	if (fin.is_open()) {
 		for (int i = 0; i < n * n; i++)
@@ -48,7 +45,6 @@ int main()
 
 	std::ofstream fout;
 	fout.open("second.txt");
-
 	//output of results
 	fout << arr[0] << "\n";
 	for (int i = 1; i < n; i++)
