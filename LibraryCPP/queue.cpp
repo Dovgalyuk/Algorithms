@@ -50,6 +50,7 @@ void queue_insert(Queue *queue, Data data)
         queue->first_index = 0;
         queue->last_index = vector_size(queue->vector);
         vector_resize(queue->vector, queue->last_index * 2);
+        delete[] buffer;
     }
     vector_set(queue->vector,queue->last_index,data);
     queue->is_empty = false;
