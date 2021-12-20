@@ -1,5 +1,5 @@
 #include <iostream> 
-#include "../LibraryCPP/stack.h"
+#include "stack.h"
 #include <cctype>
 #include <fstream>
 
