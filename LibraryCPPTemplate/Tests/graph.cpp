@@ -5,14 +5,10 @@ int main() {
     int vertexAmount = 5;
     auto* graph = new Graph<int>(vertexAmount, 1);
     for (int j = 0; j < vertexAmount; j++) {
-        std::cout<< "i:" << j;
         graph->setVertexData(j, j);
-        std::cout<< " graph [i] ="<<graph->getData(j)<<std::endl;
-
     }
     for (size_t j = 0; j < vertexAmount; j++) {
         if (graph->getData(j) != j) {
-            std::cout<< " graph [j] ="<<graph->getData(j)<< " and j =" << j<<std::endl;
             std::cout<< "Error, wrong data" << graph->getData(j)  ;
             return 1;
         } 

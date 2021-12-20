@@ -28,9 +28,7 @@ int main() {
 
     std::queue <int> queue;
     int lengths[vertexAmount] = {};
-    // auto* queue = new Queue<int>; 
     queue.push(firstVertexIndex);
-    // queue->insert(firstVertexIndex);
     graph->setUsed(first, true);
     while (!queue.empty()) {
         int index = queue.front();
@@ -43,7 +41,6 @@ int main() {
                 }
             }
             else if (graph->getUsed((*graphIt)) == false) {
-                // queue->insert();
                 queue.push((graphIt.getIndex()));
                 lengths[graphIt.getIndex()] = lengths[index] +1;
             }
