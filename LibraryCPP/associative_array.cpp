@@ -6,6 +6,7 @@ struct ArrayElement
 {
 	std::string key;
 	std::string value;
+	bool deleted = false;
 };
 
 struct associative_array
@@ -39,9 +40,9 @@ int hash(std::string str, int capacity)
 {
 	int sum = 0;
 	long long p = 1;
-	for (int j = 0, i = 0; i < str.size(); i++, j++)
+	for (int i = 0; i < str.size(); i++)
 	{
-		if (j > 12) p = 1;
+		if (i % 12 == 0) p = 1;
 		sum += (str[i] * p) % capacity;
 		p *= 31;
 	}
@@ -69,7 +70,7 @@ int find_index(std::string key, associative_array* associative_arr)
 		while (associative_arr->arr->get(Index).key.size() != 0)
 		{
 			std::string find = associative_arr->arr->get(Index).value;
-			if (str_compare(key, associative_arr->arr->get(Index).key))
+			if (associative_arr->arr->get(Index).deleted == false && str_compare(key, associative_arr->arr->get(Index).key))
 				return Index;
 			if (Index + 1 < associative_arr->capacity)
 				Index++;
@@ -83,9 +84,9 @@ int find_index(std::string key, associative_array* associative_arr)
 void insert_pair(std::string key, std::string value, associative_array* associative_arr)
 {
 	int Index = hash(key, associative_arr->capacity);
-	if (associative_arr->arr->get(Index).key.size() != 0)
+	if (associative_arr->arr->get(Index).key.size() != 0 && associative_arr->arr->get(Index).deleted == false)
 	{
-		while (associative_arr->arr->get(Index).key.size() != 0)
+		while (associative_arr->arr->get(Index).key.size() != 0 && associative_arr->arr->get(Index).deleted == false)
 		{
 			/*if (str_compare(key, associative_arr->arr->get(Index).key))
 				return;
@@ -106,7 +107,7 @@ void insert_pair(std::string key, std::string value, associative_array* associat
 		Array<ArrayElement>* arr = new Array<ArrayElement>(associative_arr->capacity * 2);
 		for (int i = 0; i < associative_arr->capacity; i++)
 		{
-			if (associative_arr->arr->get(i).key.size() != 0)
+			if (associative_arr->arr->get(i).key.size() != 0 && associative_arr->arr->get(Index).deleted == false)
 			{
 				ArrayElement* arr_el = new ArrayElement;
 				arr_el->key = associative_arr->arr->get(i).key;
@@ -141,25 +142,9 @@ void delete_pair(std::string key, associative_array* associative_arr)
 	int Del_Index = find_index(key, associative_arr);
 	if (Del_Index == -1) return;
 	associative_arr->size--;
-	int Hash = hash(associative_arr->arr->get(Del_Index).key, associative_arr->capacity);
-	ArrayElement* empty = new ArrayElement;
-	empty->key = "";
-	empty->value = "";
-	int Move_Index = Del_Index;
-	do {
-		if (Move_Index + 1 < associative_arr->capacity)
-			Move_Index++;
-		else
-			Move_Index = 0;
-	} while (associative_arr->arr->get(Move_Index).key.size() != 0 && hash(associative_arr->arr->get(Move_Index).key, associative_arr->capacity) > Hash);
-	if (associative_arr->arr->get(Move_Index).key.size() != 0)
-	{
-		ArrayElement* arr_el = new ArrayElement;
-		arr_el->key = associative_arr->arr->get(Move_Index).key;
-		arr_el->value = associative_arr->arr->get(Move_Index).value;
-		associative_arr->arr->set(Del_Index, *arr_el);
-		associative_arr->arr->set(Move_Index, *empty);
-	}
-	else
-		associative_arr->arr->set(Del_Index, *empty);
+	ArrayElement* arr_el = new ArrayElement;
+	arr_el->key = associative_arr->arr->get(Del_Index).key;
+	arr_el->value = associative_arr->arr->get(Del_Index).value;
+	arr_el->deleted = true;
+	associative_arr->arr->set(Del_Index, *arr_el);
 }
