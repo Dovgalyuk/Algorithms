@@ -42,7 +42,7 @@ public:
 
     // Returns true if the queue is empty
     bool empty() const {
-        return this->getSize() == 0;
+        return last == nullptr;
     }
 
     int size() {

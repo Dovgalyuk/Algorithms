@@ -21,9 +21,9 @@ struct Vertex {
     }
 };
 
-typedef Queue<Vertex> VertexQueue;
+typedef Queue<int> IDQueue;
 
-void findPath(int size, int finishID, std::vector<bool> &links, VertexQueue vertexQueue, std::vector<Vertex> &vertexes);
+void findPath(int size, int finishID, std::vector<bool> &links, IDQueue vertexQueue, std::vector<Vertex> &vertexes);
 
 int main() {
     Queue<bool> queue;
@@ -49,23 +49,23 @@ int main() {
         vertexes[i] = Vertex(i, 0);
     }
     vertexes[startID].weight = 1;
-    VertexQueue first;
-    first.insert(vertexes[startID]);
+    IDQueue first;
+    first.insert(vertexes[startID].id);
     findPath(size, finishID, links, first, vertexes);
     return 0;
 }
 
-void findPath(int size, int finishID, std::vector<bool> &links, VertexQueue vertexQueue, std::vector<Vertex> &vertexes) {
-    while (vertexQueue.size() > 0) {
-        int test_size = vertexQueue.size();
-        Vertex ownerVertex = vertexQueue.get();
+void findPath(int size, int finishID, std::vector<bool> &links, IDQueue vertexQueue, std::vector<Vertex> &vertexes) {
+    while (!vertexQueue.empty()) {
+        int ownerVertexID = vertexQueue.get();
+        int ownerVertexWeight = vertexes[ownerVertexID].weight;
         vertexQueue.remove();
         for (int j = 0; j < size; j++) {
-            if (!links[j + ownerVertex.id * size]) continue;
+            if (!links[j + ownerVertexID * size]) continue;
 
             if (j == finishID) {
                 std::cout << std::endl;
-                vertexes[j].weight = ownerVertex.weight + 1;
+                vertexes[j].weight = ownerVertexWeight + 1;
                 Vertex last = vertexes[j];
                 std::string str;
                 str.append(std::to_string(last.id + 1));
@@ -87,10 +87,10 @@ void findPath(int size, int finishID, std::vector<bool> &links, VertexQueue vert
                 return;
             }
 
-            if (vertexes[j].weight != 0 && vertexes[j].weight <= ownerVertex.weight) continue;
+            if (vertexes[j].weight != 0 && vertexes[j].weight <= ownerVertexWeight) continue;
 
-            vertexes[j].weight = ownerVertex.weight + 1;
-            vertexQueue.insert(vertexes[j]);
+            vertexes[j].weight = ownerVertexWeight + 1;
+            vertexQueue.insert(vertexes[j].id);
         }
     }
 }
