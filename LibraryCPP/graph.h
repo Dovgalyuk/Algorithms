@@ -4,31 +4,31 @@
 struct iterator;
 struct graph;
 
-void del_iterator(iterator* iter);
+void graph_del_iterator(iterator* iter);
 
-void del_graph(graph* graph);
+void graph_del_graph(graph* graph);
 
-void add_vertex();
+void graph_add_vertex();
 
-void add_edge();
+void graph_add_edge();
 
-void remove_vertex();
+void graph_remove_vertex();
 
-void remove_edge();
+void graph_remove_edge();
 
-void set_vertex();
+void graph_set_vertex();
 
-void set_edge();
+void graph_set_edge();
 
-int get_vertex();
+int graph_get_vertex();
 
-bool Exists_edge();
+bool graph_Exists_edge();
 
-int get_edge();
+int graph_get_edge();
 
-bool Neighboor_empty();
+bool graph_Neighboor_empty();
 
-bool Neighboor_next();
+bool graph_Neighboor_next();
 
 
 #endif
