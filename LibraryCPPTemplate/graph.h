@@ -3,10 +3,10 @@
 #include "vector.h"
 #include "iostream"
 
-template <typename Data>
+template <typename VertexData, typename EdgeData>
 class Graph {
 public:
-    Graph(size_t vertex_amount, Data default_value) {
+    Graph(size_t vertex_amount, VertexData default_value) {
         edgeMatrix = new Vector<Edge*>;
         vertices = new Vector<Vertex*>;
         vertices->resize(vertex_amount);
@@ -24,39 +24,29 @@ public:
         delete vertices;
     }
     struct Vertex {
-        Data data;
-        bool used;
-        Vertex(Data data_)
+        VertexData data;
+        Vertex(VertexData data_)
         {
             this->data = data_;
-            used = false;
         }
     };
-    void setUsed(Vertex* vertex, bool used_){
-        vertex->used = used_;
-    }
 
-    bool getUsed(Vertex* vertex) {
-        return vertex->used;
-    }
-    
     struct Edge {
         Vertex* first;
         Vertex* second;
-        bool used;
+        EdgeData data2;
         Edge(Vertex* first_, Vertex* second_){
         first = first_;
         second = second_;
-        used = false;
         }
     };
 
-    void setUsedEdge(Edge* edge, bool used_){
-        edge->used = used_;
+    void setDataEdge(Edge* edge, EdgeData data2_){
+        edge->data2 = data2_;
     }
 
-    bool getUsedEdge(Edge* edge) {
-        return edge->used;
+    EdgeData getDataEdge(Edge* edge) {
+        return edge->data2;
     }
 
     struct VertexIterator {
@@ -98,7 +88,7 @@ public:
         return VertexIterator(this, mainIndex);
     }
 
-    size_t addVertex(Data data) {
+    size_t addVertex(VertexData data) {
         Vertex* vertex = new Vertex(data);
         size_t index = vertices->size();
         vertices->resize(index + 1);
@@ -143,7 +133,7 @@ public:
         return vertices->get(index);
     }
 
-    Data getData(size_t index) {
+    VertexData getData(size_t index) {
         return vertices->get(index)->data;
     }
 
@@ -151,7 +141,7 @@ public:
         return vertices->size();
     }
 
-    void set_vertex(size_t index, Data data) {
+    void set_vertex(size_t index, VertexData data) {
         set_vertex(index, new Vertex(data));
     }
 
@@ -160,7 +150,7 @@ public:
         vertices->set(index, vertex);
     }
 
-    void setVertexData(size_t index, Data data_) {
+    void setVertexData(size_t index, VertexData data_) {
         vertices->get(index)->data = data_;
     }
 
@@ -190,8 +180,8 @@ private:
         Vector<Edge*>* newMatrix = new Vector<Edge*>;
         int vertexAmount = getVertexAmount();
         newMatrix->resize(vertexAmount * vertexAmount);
-        for (int i = 0; i < newAmount; ++i) {
-            for (int j = 0; j < newAmount; ++j) {
+        for (int i = 0; i < vertexAmount; ++i) {
+            for (int j = 0; j < vertexAmount; ++j) {
                 newMatrix->set((i * vertexAmount) + j, edgeMatrix->get(i * newAmount + j));
             }
         }

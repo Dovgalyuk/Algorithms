@@ -3,7 +3,7 @@
 
 int main() {
     int vertexAmount = 5;
-    auto* graph = new Graph<int>(vertexAmount, 1);
+    auto* graph = new Graph<int,int>(vertexAmount, 1);
     for (int j = 0; j < vertexAmount; j++) {
         graph->setVertexData(j, j);
     }
@@ -27,15 +27,9 @@ int main() {
         std::cout << "Error: containsEdge";
         return 1;
     }
-
     graph->setVertexData(0, 20);
-    graph->setUsed(graph->getVertex(0), true);
     if (graph->getData(0) != 20) {
         std::cout << "Error: setVertexData";
-        return 1;
-    }
-    if (graph->getUsed(graph->getVertex(0)) != true) {
-        std::cout << "Error: setUsed";
         return 1;
     }
     graph->removeEdge(0, 1);
