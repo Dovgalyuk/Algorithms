@@ -5,7 +5,6 @@
 
 struct Position {
     int x, y;
-    int weight;
 };
 
 struct Tile {
@@ -39,10 +38,11 @@ void findReturnPath(TileMap& map, Position position) {
         const int dx[] = {-1, 1, 0, 0};
         const int dy[] = {0, 0, -1, 1};
 
+        const Tile checkTile = map[position.y][position.x];
         for (size_t i = 0; i < 4; i++) {
             const int x = position.x + dx[i];
             const int y = position.y + dy[i];
-            if (x < 0 || y < 0 || y>= map.size() || x >= map[y].size()) continue;
+            if (x < 0 || y < 0 || y >= map.size() || x >= map[y].size()) continue;
 
             const Tile tile = map[y][x];
             if (tile.ch == 'X') {
@@ -50,21 +50,20 @@ void findReturnPath(TileMap& map, Position position) {
                 break;
             }
 
-            if (position.weight - tile.weight != 1) continue;
+            if (checkTile.weight - tile.weight != 1) continue;
 
             position.x = x;
             position.y = y;
-            position.weight = tile.weight;
             map[position.y][position.x].ch = 'x';
             break;
         }
-
         if (find) break;
     }
 }
 
 bool checkTiles(TileMap& map, PositionsQueue &positions) {
     const Position checkPosition = positions.get();
+    const Tile checkTile = map[checkPosition.y][checkPosition.x];
 
     const int dx[] = {-1, 1, 0, 0};
     const int dy[] = {0, 0, -1, 1};
@@ -76,22 +75,22 @@ bool checkTiles(TileMap& map, PositionsQueue &positions) {
         Position newPosition = checkPosition;
         newPosition.x = x;
         newPosition.y = y;
-        newPosition.weight = checkPosition.weight + 1;
         if (x < 0 || y < 0 || y >= map.size() || x >= map[y].size()) continue;
 
-        char ch = map.at(y).at(x).ch;
+        const char ch = map.at(y).at(x).ch;
 
         switch (ch) {
             case '#':
             case 'X':
                 continue;
             case '.':
-                if (map[y][x].weight != 0 && map[y][x].weight <= checkPosition.weight) continue;
+                if (map[y][x].weight != 0 && map[y][x].weight <= checkTile.weight) continue;
 
                 positions.insert(newPosition);
-                map[y][x].weight = newPosition.weight;
+                map[y][x].weight = checkTile.weight + 1;
                 continue;
             case 'Y':
+                map[y][x].weight = checkTile.weight + 1;
                 findReturnPath(map, newPosition);
                 return true;
             default:
@@ -106,7 +105,7 @@ bool checkTiles(TileMap& map, PositionsQueue &positions) {
 void findPath(TileMap& map) {
     PositionsQueue positions;
 
-    Position startPosition{0, 0, 1};
+    Position startPosition{0, 0};
 
     bool find = false;
     for (auto &vector : map) {
@@ -136,6 +135,7 @@ void findPath(TileMap& map) {
         std::cout << "IMPOSSIBLE" << std::endl;
         return;
     }
+
     for (auto &vector : map) {
         for (auto &tile: vector) {
             std::cout << tile.ch;
