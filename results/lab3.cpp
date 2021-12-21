@@ -23,7 +23,7 @@ struct Vertex {
 
 typedef Queue<int> IDQueue;
 
-void findPath(int size, int finishID, std::vector<bool> &links, IDQueue vertexQueue, std::vector<Vertex> &vertexes);
+void findPath(int size, int finishID, std::vector<bool> &links, IDQueue &vertexQueue, std::vector<Vertex> &vertexes);
 
 int main() {
     Queue<bool> queue;
@@ -55,7 +55,7 @@ int main() {
     return 0;
 }
 
-void findPath(int size, int finishID, std::vector<bool> &links, IDQueue vertexQueue, std::vector<Vertex> &vertexes) {
+void findPath(int size, int finishID, std::vector<bool> &links, IDQueue &vertexQueue, std::vector<Vertex> &vertexes) {
     while (!vertexQueue.empty()) {
         int ownerVertexID = vertexQueue.get();
         int ownerVertexWeight = vertexes[ownerVertexID].weight;

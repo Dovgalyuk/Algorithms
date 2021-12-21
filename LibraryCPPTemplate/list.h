@@ -27,7 +27,15 @@ public:
     }
 
     // Destroys the list and frees the memory
-    ~List() { }
+    ~List() {
+        Item *item = firstItem;
+        Item *next;
+        while(item != nullptr) {
+            next = item->next();
+            delete item;
+            item = next;
+        }
+    }
 
     // Retrieves the first item from the list
     Item *first() {
