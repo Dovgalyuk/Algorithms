@@ -23,3 +23,7 @@ set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
 add_executable(TestDirectedGraph directed_graph.cpp)
 target_include_directories(TestDirectedGraph PUBLIC ..)
 add_test(TestDirectedGraph TestDirectedGraph)
+
+add_executable(TestAssociativeArray associative_array.cpp)
+target_include_directories(TestAssociativeArray PUBLIC ..)
+add_test(TestAssociativeArray TestAssociativeArray)
