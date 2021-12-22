@@ -7,32 +7,38 @@ public:
     // create array
     Array(size_t size)
     {
+        array_size=size;
+        point = new Data[size];
     }
 
     // delete array, free memory
     ~Array()
     {
+        delete[] point;
     }
 
     // returns specified array element
     Data get(size_t index) const
     {
-        return Data(0);
+        return point[index];
     }
 
     // sets the specified array element to the value
     void set(size_t index, Data value)
     {
+        point[index]=value;
     }
 
     // returns array size
     size_t size() const
     {
-        return 0;
+        return array_size;
     }
 
 private:
     // private data should be here
+    size_t array_size;
+    Data* point;
 };
 
 #endif

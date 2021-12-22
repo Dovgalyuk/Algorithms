@@ -1,6 +1,6 @@
 #include "graph.h"
-#include "../LibraryCPP/array.h"
-
+#include "../LibraryCPPTemplate/array.h"
+#include <cmath>
 struct iterator
 {
     int Neighboor = 0;
@@ -29,22 +29,28 @@ struct graph
         int label = -1;
     };
 
-    Array* vertex_arr;
-    vertex_arr* vertex_labels;
-    Array* matrix_arr;
-    matrix_arr* matrix;
+    typedef Array<vertex> vertex_array;
+    vertex_array* vertex_labels;
+    
+    typedef Array<edge> matrix_array;
+    matrix_array* matrix;
     int vertex_amount;
 
     iterator* createIterator(int vertex){
-        
+        iterator* iter = new iterator(vertex);
+        iter->direct_graph = this;
+        return iter;
     }
 
-    directed_graph(int vertex_amount){
-
+    graph(int vertex_amount){
+        vertex_labels=new vertex_array(vertex_amount);
+        matrix = new matrix_array(std::pow(vertex_amount,2));
+        this->vertex_amount = vertex_amount;
     }
 
-    ~directed_graph(){
-
+    ~graph(){
+        delete vertex_labels;
+        delete matrix;
     }
 };
 
@@ -56,12 +62,35 @@ void graph_del_graph(graph* graph){
     delete graph;
 }
 
-void graph_add_vertex(){
+void graph_add_vertex(struct graph * dir_graph)
+{
+    typedef Array<graph::vertex> vertex_arr;
+    vertex_arr* vertex_labels = new vertex_arr(dir_graph->vertex_amount + 1);
 
+    typedef Array<graph::edge> matrix_array;
+    matrix_array* matrix = new matrix_array(std::pow(dir_graph->vertex_amount+1,2));
+    
+    for (auto i=0;i<dir_graph->vertex_amount;++i)
+        vertex_labels->set(i,dir_graph->vertex_labels->get(i));
+    
+    for (auto i=0,j=0;i<std::pow(dir_graph->vertex_amount,2);++j){
+        for(auto z=0;z<dir_graph->vertex_amount;++z){
+            matrix->set(i+j,dir_graph->matrix->get(i));
+            ++i;
+        }
+    }
+    dir_graph->matrix = matrix;
+    dir_graph->vertex_labels=vertex_labels;
+    ++dir_graph->vertex_amount;
 }
 
-void graph_add_edge(){
-
+void graph_add_edge(graph*dir_graph,int vertex_1,int vertex_2){
+    if ((vertex_1*dir_graph->vertex_amount)+vertex_2 < std::pow(dir_graph->vertex_amount,2)){
+        graph::edge* edge = new graph::edge;
+        edge->label = dir_graph->matrix->get((vertex_1*dir_graph->vertex_amount)+vertex_2).label;
+        edge->exists = 1;
+        dir_graph->matrix->set(((vertex_1*dir_graph->vertex_amount)+vertex_2), *edge);
+    }
 }
 
 void graph_remove_vertex(){

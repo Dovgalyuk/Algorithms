@@ -8,9 +8,9 @@ void graph_del_iterator(iterator* iter);
 
 void graph_del_graph(graph* graph);
 
-void graph_add_vertex();
+void graph_add_vertex(struct graph * dir_graph);
 
-void graph_add_edge();
+void graph_add_edge(graph*dir_graph,int vertex_1,int vertex_2);
 
 void graph_remove_vertex();
 
