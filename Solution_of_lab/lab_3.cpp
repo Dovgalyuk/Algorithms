@@ -16,7 +16,7 @@ typedef vector <string> CellMap;
 CellMap init_map();
 coordinates start_pos(CellMap& map);
 int find_free_cell(CellMap& map);
-void check_cell_waves_alg(CellMap& map, QueueOfPositions& queue, int& free_cell_ñount);
+void check_cell_waves_alg(CellMap& map, QueueOfPositions& queue, int& free_cell_count);
 void output_result(CellMap& map, const int free_cell_ñount);
 
 int main() {
@@ -24,7 +24,7 @@ int main() {
     output_result(map, find_free_cell(map));
 }
 
-void check_cell_waves_alg(CellMap& map, QueueOfPositions& queue, int& freeTilesCount) {
+void check_cell_waves_alg(CellMap& map, QueueOfPositions& queue, int& free_cell_count) {
 
     while (!queue.empty()) {
         coordinates checkPosition = queue.get();
@@ -50,7 +50,7 @@ void check_cell_waves_alg(CellMap& map, QueueOfPositions& queue, int& freeTilesC
             case '.':
                 queue.insert(newPosition);
                 map[newPosition.y][newPosition.x] = 'X';
-                freeTilesCount++;
+                free_cell_count++;
                 continue;
             default:
                 cout << "Unknown cell type" << endl;
