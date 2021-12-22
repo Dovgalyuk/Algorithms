@@ -43,7 +43,7 @@ int hash(std::string str, int capacity)
 	unsigned long long p = 1;
 	for (int i = 0; i < str.size(); i++)
 	{
-		sum += (str[i] * p) % capacity;
+		sum = (sum * p + str[i]) % capacity;
 		p *= 31;
 	}
 	return sum % capacity;
@@ -55,7 +55,7 @@ int hash2(std::string str, int capacity)  //double hash
 	unsigned long long p = 1;
 	for (int i = str.size() - 1; i >= 0; i--)
 	{
-		sum += (str[i] * p) % capacity;
+		sum = (sum * p + str[i]) % capacity;
 		p *= 23;
 	}
 	int result = sum % capacity;
