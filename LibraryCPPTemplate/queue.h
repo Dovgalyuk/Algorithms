@@ -54,7 +54,7 @@ public:
     }
 
 private:
-    Item* tail;
+    typename List<Data>::Item* tail;
 };
 
 #endif
