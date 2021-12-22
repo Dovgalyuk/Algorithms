@@ -89,19 +89,23 @@ public:
     }
 
     size_t addVertex(VertexData data) {
-        Vertex* vertex = new Vertex(data);
-        size_t index = vertices->size();
-        vertices->resize(index + 1);
-        vertices->set(index, vertex);
-        addVertex2(index);
-        return index;
+        return addVertex(new Vertex(data));
     }
 
     size_t addVertex(Vertex* vertex) {
         size_t index = vertices->size();
         vertices->resize(index + 1);
         vertices->set(index, vertex);
-        addVertex2(index);
+        Vector<Edge*>* newMatrix = new Vector<Edge*>;
+        int vertexAmount = getVertexAmount();
+        newMatrix->resize(vertexAmount * vertexAmount);
+        for (int i = 0; i < vertexAmount; ++i) {
+            for (int j = 0; j < vertexAmount; ++j) {
+                newMatrix->set((i * vertexAmount) + j, edgeMatrix->get(i * index + j));
+            }
+        }
+        delete edgeMatrix;
+        edgeMatrix = newMatrix;
         return index;
     }
 
@@ -175,19 +179,6 @@ public:
     
 
 private:
-
-    void addVertex2(int newAmount) {
-        Vector<Edge*>* newMatrix = new Vector<Edge*>;
-        int vertexAmount = getVertexAmount();
-        newMatrix->resize(vertexAmount * vertexAmount);
-        for (int i = 0; i < vertexAmount; ++i) {
-            for (int j = 0; j < vertexAmount; ++j) {
-                newMatrix->set((i * vertexAmount) + j, edgeMatrix->get(i * newAmount + j));
-            }
-        }
-        delete edgeMatrix;
-        edgeMatrix = newMatrix;
-    }
 
     Vector<Vertex*>* vertices;
     Vector<Edge*>* edgeMatrix;

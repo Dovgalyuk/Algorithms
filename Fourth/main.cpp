@@ -3,7 +3,15 @@
 #include <queue>
 #include "queue.h"
 
-void fillGraph(Graph<bool,bool>* graph, int vertexAmount) {
+struct lengthAndUsed {
+    int length = 0;
+    bool used = false;
+};
+
+void fill(Graph<lengthAndUsed,bool>* graph, const int vertexAmount) {
+    for (int i = 0; i < vertexAmount; ++i) {
+        graph->addVertex(lengthAndUsed());
+    }
     graph->addEdge(0,1);
     graph->addEdge(0,2);
     graph->addEdge(1,4);
@@ -15,42 +23,40 @@ void fillGraph(Graph<bool,bool>* graph, int vertexAmount) {
 
 int main() {
     const int vertexAmount = 6;
-    auto* graph = new Graph<bool,bool>(vertexAmount, false);
-    fillGraph(graph, vertexAmount);
+    auto* graph = new Graph<lengthAndUsed,bool>(vertexAmount, lengthAndUsed());
+    fill(graph, vertexAmount);
     // две вершины 
     int firstVertexIndex = 0;
     int secondVertexIndex = 4;
     auto* first = graph->getVertex(firstVertexIndex);
     auto* second = graph->getVertex(secondVertexIndex);
 
-    Queue<int> queue2;
     std::queue <size_t> queue;
-    int lengths[vertexAmount] = {};
     queue.push(firstVertexIndex);
-    graph->setVertexData(firstVertexIndex, true);
+    first->data.used = true;
     while (!queue.empty()) {
         int index = queue.front();
         queue.pop();
         auto graphIt = graph->getIterator(index);
         while((*graphIt) != nullptr) {
             if ((*graphIt) == second) {
-                if (lengths[secondVertexIndex] < 1) {
-                    lengths[secondVertexIndex] = lengths[index] + 1;
+                if (second->data.length < 1) {
+                    second->data.length = graph->getVertex(index)->data.length + 1;
                 }
             } 
-            else if (graph->getData(graphIt.getIndex()) == false) {
+            else if ((*graphIt)->data.used == false) {
                 queue.push((graphIt.getIndex()));
-                lengths[graphIt.getIndex()] = lengths[index] +1;
+                (*graphIt)->data.length =  graph->getVertex(index)->data.length + 1;
             }
-            graph->setVertexData(graphIt.getIndex(), true);
+            (*graphIt)->data.used = true;
             graphIt++;
         }
     }
-    if (lengths[secondVertexIndex] < 1) {
+    if (second->data.length < 1) {
 	    std::cout << "No path"<< std::endl;
         return 0;
     }
-    std::cout<<"min length = "<< lengths[secondVertexIndex]<< std::endl;
+    std::cout<<"min length = "<< second->data.length<< std::endl;
     delete graph;
     return 0;
 }
