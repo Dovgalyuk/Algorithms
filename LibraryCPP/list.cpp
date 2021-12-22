@@ -80,12 +80,12 @@ ListItem *list_erase(List *list, ListItem *item)
     if (list->head == nullptr) 
         return nullptr;
     if (item->prev != nullptr) {
-        item->prev->next = item->next; // указатель предыдущего элемента на следующий переуказываем на следующий за текущим эл-том
+        item->prev->next = item->next; 
     }
     else
-        list->head = item->next; // указатель предыдущего элемента на следующий переуказываем на следующий за текущим эл-том
+        list->head = item->next; 
     if (item->next != nullptr) {
-        item->next->prev = item->prev; //если следующий за тек элтом не нулевой то ему меняем указатель на пред пред эл
+        item->next->prev = item->prev; 
     }
     delete item;
     return 0;

@@ -3,7 +3,11 @@
 struct Array {
     Data* array; 
     size_t size; 
-    Array(size_t size) : size(size), array(new Data[size]) {};
+    Array(size_t size)
+    {
+        this->size = size;
+        array = new Data[size];
+    }
 };
 
 // create array
@@ -15,7 +19,7 @@ Array* array_create(size_t size)
 // delete array, free memory
 void array_delete(Array *arr)
 {
-    delete arr;
+    delete[] arr;
 }
 
 // returns specified array element
