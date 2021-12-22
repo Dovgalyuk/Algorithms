@@ -1,10 +1,12 @@
+#include "vektor.h"
+
 #ifndef QUEUE_H
 #define QUEUE_H
 
+const int start_size = 30;
+
 // Queue
 // Stores integer values inside
-typedef int Data;
-
 struct Queue;
 
 // Create empty queue
