@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cctype>
-#include "../LibraryCPPTemplate/stack.h"
-#include "../LibraryCPPTemplate/vector.h"
+#include "stack.h"
+#include "vector.h"
 #include <string>
 using namespace std;
 

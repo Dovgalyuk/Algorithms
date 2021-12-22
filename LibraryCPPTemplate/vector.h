@@ -51,8 +51,9 @@ public:
             }
 
             Data* new_data = new Data[capacity];
+
             for (size_t i = 0; i < length; i++) {
-                new_data[i] = data[i];
+                new_data[i] = get(i);
             }
 
             delete[] data;
