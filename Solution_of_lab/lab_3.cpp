@@ -17,7 +17,7 @@ CellMap init_map();
 coordinates start_pos(CellMap& map);
 int find_free_cell(CellMap& map);
 void check_cell_waves_alg(CellMap& map, QueueOfPositions& queue, int& free_cell_count);
-void output_result(CellMap& map, const int free_cell_ñount);
+void output_result(CellMap& map, const int free_cell_count);
 
 int main() {
     CellMap map = init_map();
@@ -104,9 +104,9 @@ coordinates start_pos(CellMap& map) {
     return startPosition;
 }
 
-void output_result(CellMap& map, const int free_cell_ñount) {
+void output_result(CellMap& map, const int free_cell_count) {
 
-    cout << "Cells available for X: " << free_cell_ñount << endl;
+    cout << "Cells available for X: " << free_cell_count << endl;
     for (const string& str : map) {
         cout << str << endl;
     }
