@@ -99,5 +99,6 @@ bool is_number(const string& s)
     if (s.find_first_not_of("0123456789") == string::npos) {
         return true;
     }
-    else false;
+    else
+        return false;
 }
