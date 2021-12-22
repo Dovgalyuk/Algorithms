@@ -33,6 +33,6 @@ add_executable(TestAssociativeArrayCPP associative_array.cpp)
 target_include_directories(TestAssociativeArrayCPP PUBLIC ..)
 target_link_libraries(TestAssociativeArrayCPP LibraryCPP)
 add_test(TestAssociativeArrayCPP TestAssociativeArrayCPP)
-set_tests_properties(TestAssociativeArrayCPP PROPERTIES TIMEOUT 60)
+set_tests_properties(TestAssociativeArrayCPP PROPERTIES TIMEOUT 10)
 
 
