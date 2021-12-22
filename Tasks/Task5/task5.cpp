@@ -77,16 +77,9 @@ private:
 
 };
 
-int generateNumber() {
-    return rand() % MAX_NUMBER;
-}
-
-int* generateBuffer(int length) {
-    int* buffer = new int[length];
-    for (int i = 0; i < length; ++i) {
-        buffer[i] = generateNumber();
-    }
-    return buffer;
+std::string createString(double i) {
+    std::string str = std::to_string(i);
+    return str.replace(str.find('.'), 1, 1, ',');
 }
 
 Table* initTable() {
@@ -98,22 +91,21 @@ Table* initTable() {
 void pushTable(Table* table, int length, double arrayInsertTime, double mapInsertTime, double arrayFindTime, double mapFindTime) {
     table->rows.push_back({
         std::to_string(length),
-        std::to_string(arrayInsertTime),
-        std::to_string(mapInsertTime),
-        std::to_string(arrayFindTime),
-        std::to_string(mapFindTime)
+        createString(arrayInsertTime),
+        createString(mapInsertTime),
+        createString(arrayFindTime),
+        createString(mapFindTime)
     });
 }
 
 void testInsertAssociativeArrayVSMap(int length, Table* table) {
     srand(time(0));
     std::cout << "Capacity is " << length << std::endl;
-    int* buffer = generateBuffer(length);
 
     auto *array = new Array();
     auto start = std::chrono::system_clock::now();
     for (int i = 0; i < length; ++i) {
-        array->insert(i, buffer[i]);
+        array->insert(std::to_string(i), i);
     }
     auto end = std::chrono::system_clock::now();
 
@@ -123,7 +115,7 @@ void testInsertAssociativeArrayVSMap(int length, Table* table) {
     std::map<Key, Value> map;
     start = std::chrono::system_clock::now();
     for (int i = 0; i < length; ++i) {
-        map[i] = buffer[i];
+        map[i] = i;
     }
     end = std::chrono::system_clock::now();
 
@@ -137,8 +129,8 @@ void testInsertAssociativeArrayVSMap(int length, Table* table) {
 
     start = std::chrono::system_clock::now();
     for (const auto &item : numbers) {
-        int result = array->find(item);
-        if (result == NULL) {
+        auto* result = array->findNode(std::to_string(item));
+        if (!result) {
             std::cout << "The associative array search ERROR." << "\n";
         }
     }

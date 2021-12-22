@@ -1,16 +1,19 @@
 #ifndef ASSOCIATIVE_ARRAY_H
 #define ASSOCIATIVE_ARRAY_H
+#include <string>
+#include <queue>
+
 template <typename Data>
 class AssociativeArray {
     class Node {
     public:
-        int key;
+        std::string key;
         Node* parent = nullptr;
         Node* right = nullptr;
         Node* left = nullptr;
         Data data;
 
-        Node(int key, Data data): key(key), data(data) {}
+        Node(std::string key, Data data): key(key), data(data) {}
 
         void setChild() {
             if (right) {
@@ -49,104 +52,120 @@ class AssociativeArray {
         }
 
         void splay() {
-            if (!parent) {
-                return;
-            }
-            if (!parent->parent) {
-                rotate();
-            } else {
-                if ((parent->parent->left == parent) == (parent->left == this)) {
-                    parent->parent->rotate();
+            while (parent) {
+                if (!parent->parent) {
                     rotate();
                 } else {
-                    rotate();
-                    rotate();
+                    if ((parent->parent->left == parent) == (parent->left == this)) {
+                        parent->parent->rotate();
+                        rotate();
+                    } else {
+                        rotate();
+                        rotate();
+                    }
                 }
             }
-        }
-
-        Node* findNearest(int requiredKey) {
-            Node* cur = this;
-            while (cur->key != requiredKey) {
-                Node* last = cur;
-                if (requiredKey < cur->key) {
-                    cur = cur->left;
-                } else {
-                    cur = cur->right;
-                }
-                if (cur) {
-                    cur->splay();
-                } else {
-                    return last;
-                }
-            }
-            return cur;
         }
 
     };
 
 public:
     ~AssociativeArray() {
-        while (root) {
-            remove(root->key);
+        std::queue<Node*> queue;
+        while (!queue.empty()) {
+            Node* node = queue.front();
+            queue.pop();
+            if(node->left) {
+                queue.push(node->left);
+            }
+            if(node->right) {
+                queue.push(node->right);
+            }
+            delete node;
         }
     }
 
-    Data find(int key) {
-        Node* founded = findNode(key);
-        return (founded && founded->key == key) ? founded->data : NULL;
-    }
-
-    void insert(int key, Data data) {
-        Node* newRoot;
-        Node* itOrChild = (root) ? root->findNearest(key) : nullptr;
-        if (itOrChild && itOrChild->key == key) {
-            newRoot = itOrChild;
-            newRoot->data = data;
-        } else {
-            newRoot = new Node(key, data);
-            if (itOrChild) {
-                itOrChild->parent = newRoot;
-                if (itOrChild->key < key) {
-                    newRoot->left = itOrChild;
-                } else {
-                    newRoot->right = itOrChild;
-                }
+    Node* findNode(std::string key) {
+        Node* node = root;
+        while (node) {
+            if (comp(node->key, key)) {
+                node = node->right;
+            } else if (comp(key, node->key)) {
+                node = node->left;
+            } else {
+                return node;
             }
         }
-        amountNodes++;
-        root = newRoot;
+        return nullptr;
     }
 
-    void remove(int key) {
-        Node* newRoot = nullptr;
+    void insert(std::string key, Data data) {
+        Node* newNode = root;
+        Node* parent = nullptr;
+        while (newNode) {
+            parent = newNode;
+            if (comp(newNode->key, key)) {
+                newNode = newNode->right;
+            } else {
+                newNode = newNode->left;
+            }
+        }
+        newNode = new Node(key, data);
+        newNode->parent = parent;
+        if (parent) {
+            if (comp(parent->key, key)) {
+                parent->right = newNode;
+            } else {
+                parent->left = newNode;
+            }
+        }
+
+        newNode->splay();
+        root = newNode;
+        amountNodes++;
+    }
+
+    void remove(std::string key) {
         Node* node = findNode(key);
         if (!node) {
             return;
         }
+        node->splay();
+
         if (!node->left) {
-            newRoot = node->right;
+            replace(node, node->right);
         } else if (!node->right) {
-            newRoot = node->left;
-        } else if (!node->right && !node->left) {
-            newRoot = node->right->findNearest(node->left->key);
-            newRoot->left = node->left;
-            newRoot->left->parent = newRoot;
-            newRoot->parent = nullptr;
+            replace(node, node->left);
+        } else if (node->left && node->right) {
+            Node* right = minimum(node->right);
+            if (right->parent != node) {
+                replace(right, right->right);
+                right->right = node->right;
+                right->right->parent = right;
+            }
+            replace(node, right);
+            right->left = node->left;
+            right->left->parent = right;
+        } else {
+            root == nullptr;
         }
+
         delete node;
         amountNodes--;
-        root = newRoot;
     }
 
 private:
-    Node* findNode(int key) {
-        if (!root) {
-            return nullptr;
-        }
-        Node* founded = root->findNearest(key);
-        root = founded;
-        return (founded && founded->key == key) ? founded : nullptr;
+    std::less<std::string> comp;
+
+    void replace(Node* oldN, Node* newN) {
+        if (!oldN->parent) root = newN;
+        else if (oldN == oldN->parent->left) oldN->parent->left = newN;
+        else oldN->parent->right = newN;
+        if (newN) newN->parent = oldN->parent;
+    }
+    Node* minimum(Node* node) {
+        while (node->left) node = node->left;
+        return node;
     }
 
 protected:
