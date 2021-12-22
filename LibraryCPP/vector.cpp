@@ -1,4 +1,4 @@
-#include"vektor.h"
+#include"vector.h"
 
 struct Vector
 {
