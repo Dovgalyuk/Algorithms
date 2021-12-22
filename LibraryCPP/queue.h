@@ -1,4 +1,4 @@
-#include "vektor.h"
+#include "vector.h"
 
 #ifndef QUEUE_H
 #define QUEUE_H
