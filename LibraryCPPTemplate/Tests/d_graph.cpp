@@ -1,112 +1,82 @@
-#include <iostream>
 #include "d_graph.h"
+#include <iostream>
 
 int main() {
-    int amount = 10;
-    auto graph = DirectedGraph<int, int>(amount, 1);
-    for (int i = 0; i < amount; ++i) {
-        graph.getVertex(i)->data = i;
-    }
-
-    for (int i = 0; i < amount; ++i) {
-        if (graph.getVertex(i)->data != i) {
-            std::cout << "Adding a vertex to the graph does not work correctly.";
+    size_t maxVerticesNumber = 10;
+    D_Graph<int> *graph = new D_Graph<int>(maxVerticesNumber, 10);
+    
+    for (size_t i = 0; i < maxVerticesNumber; i++ ) {
+        if (graph->getVertex(i)->getData() != 10) {
+            std::cout << "initialization error\n";
             return 1;
         }
+        std::cout << graph->getVertex(i)->getData() << " ";
     }
+    std::cout << std::endl;
 
-    graph.addEdge(graph.getVertex(0), graph.getVertex(3), 5);
+    graph->getVertex(0)->setData(9);
+    if (graph->getVertex(0)->getData() != 9) {
+            std::cout << "set data error\n";
+            return 1;
+        }
 
-    if (!graph.containsEdgeBetweenVertices(graph.getVertex(0), graph.getVertex(3))) {
-        std::cout << "Adding a edge to the graph does not work correctly.";
+
+
+    graph->getVertex(1)->addEdgeTo(graph->getVertex(5));
+    if (graph->edgeExist(graph->getVertex(1), graph->getVertex(5))) {
+        std::cout<< "edge added successfully\n";
+    }
+    else {
+        std::cout << "edge error";
         return 1;
     }
 
-    graph.addEdge(graph.getVertex(0), graph.getVertex(2), 10);
-
-    if (!graph.containsEdgeBetweenVertices(graph.getVertex(0), graph.getVertex(3)) ||
-        !graph.containsEdgeBetweenVertices(graph.getVertex(0), graph.getVertex(2))) {
-        std::cout << "Adding a edge to the graph does not work correctly.";
+    if (graph->edgeExist(graph->getVertex(1), graph->getVertex(4))) {
+        std::cout << "edge error";
         return 1;
     }
 
-    if (graph.getVertex(6)->data != 6) {
-        std::cout << "Modifying the vertex data does not work correctly.";
+    graph->getVertex(1)->addEdgeTo(graph->getVertex(4));
+    graph->getVertex(1)->addEdgeTo(graph->getVertex(3));
+    graph->getVertex(1)->addEdgeTo(graph->getVertex(2));
+    
+    graph->getVertex(1)->removeEdgeTo(graph->getVertex(2));
+    if (graph->edgeExist(graph->getVertex(1), graph->getVertex(2))) {
+        std::cout << "deletion error";
         return 1;
     }
-    graph.getVertex(6)->data = 15;
-    if (graph.getVertex(6)->data != 15) {
-        std::cout << "Modifying the vertex data does not work correctly.";
+    
+    graph->getVertex(1)->setLabel(1);
+    if (graph->getVertex(1)->getLabel() != 1) {
+        std::cout << "label error\n";
         return 1;
     }
-
-    if (graph.getEdge(graph.getVertex(0), graph.getVertex(2))->data != 10) {
-        std::cout << "Modifying the edge weight does not work correctly.";
-        return 1;
-    }
-    graph.getEdge(graph.getVertex(0), graph.getVertex(2))->data = 14;
-    if (graph.getEdge(graph.getVertex(0), graph.getVertex(2))->data != 14) {
-        std::cout << "Modifying the edge weight does not work correctly.";
-        return 1;
+    
+    D_Graph<int>::EdgesIterator iterator(graph->getVertex(1));
+    
+    while (*iterator != nullptr) {
+        std::cout << (*iterator)->getDest()->getData() << "\n";
+        ++iterator;        
     }
 
-    graph.removeEdge(graph.getVertex(0), graph.getVertex(2));
-    if (!graph.containsEdgeBetweenVertices(graph.getVertex(0), graph.getVertex(3)) ||
-        graph.containsEdgeBetweenVertices(graph.getVertex(0), graph.getVertex(2))) {
-        std::cout << "Adding a edge to the graph does not work correctly.";
-        return 1;
+    for (size_t i = 0; i < maxVerticesNumber; i++) {
+        graph->getVertex(i)->setData(i);
+        std::cout << graph->getVertex(i)->getData() << " ";
+    }
+    std::cout << std::endl;
+
+    graph->removeVertex(3);
+    for (size_t i = 0; i < maxVerticesNumber-1; i++) {
+        std::cout << graph->getVertex(i)->getData() << " ";
+    }
+    std::cout << std::endl;
+
+    iterator.refresh(graph->getVertex(1));
+    while (*iterator != nullptr) {
+        std::cout << (*iterator)->getDest()->getData() << "\n";
+        ++iterator;
     }
 
-    graph.addEdge(graph.getVertex(0), graph.getVertex(1), 10);
-    graph.addEdge(graph.getVertex(0), graph.getVertex(4), 10);
-    graph.addEdge(graph.getVertex(0), graph.getVertex(7), 10);
-    graph.addEdge(graph.getVertex(0), graph.getVertex(9), 10);
-    graph.addEdge(graph.getVertex(1), graph.getVertex(0), 10);
-    graph.addEdge(graph.getVertex(3), graph.getVertex(0), 10);
-
-    auto iterator = graph.getNearVertexIterator(graph.getVertex(0));
-    int count = 0;
-    while (*iterator) {
-        count++;
-        iterator++;
-    }
-
-    if (count != 5) {
-        std::cout << "The near vertex iterator does not work correctly.";
-        return 1;
-    }
-
-    auto* first = graph.getVertex(0);
-    graph.removeVertex(first);
-
-    if (graph.getVertex(0)->data != 1) {
-        std::cout << "Removing vertices does not work correctly.";
-        return 1;
-    }
-
-    iterator = graph.getNearVertexIterator(graph.getVertex(0));
-    count = 0;
-    while (*iterator) {
-        count++;
-        iterator++;
-    }
-
-    if (count > 0) {
-        std::cout << "Removing vertices does not work correctly.";
-        return 1;
-    }
-
-    iterator = graph.getNearVertexIterator(graph.getVertex(2));
-    count = 0;
-    while (*iterator) {
-        count++;
-        iterator++;
-    }
-
-    if (count > 0) {
-        std::cout << "Removing vertices does not work correctly.";
-        return 1;
-    }
-
+    delete graph;
     return 0;
 }
