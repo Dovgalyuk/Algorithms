@@ -5,7 +5,7 @@
 #include <chrono>
 #include "associative_array.h"
 
-typedef int Key;
+typedef std::string Key;
 typedef int Value;
 typedef std::milli Ratio;
 typedef AssociativeArray<Value> Array;
@@ -115,7 +115,7 @@ void testInsertAssociativeArrayVSMap(int length, Table* table) {
     std::map<Key, Value> map;
     start = std::chrono::system_clock::now();
     for (int i = 0; i < length; ++i) {
-        map[i] = i;
+        map[std::to_string(i)] = i;
     }
     end = std::chrono::system_clock::now();
 
@@ -140,7 +140,7 @@ void testInsertAssociativeArrayVSMap(int length, Table* table) {
 
     start = std::chrono::system_clock::now();
     for (const auto &item : numbers) {
-        if (map.find(item) == map.end()) {
+        if (map.find(std::to_string(item)) == map.end()) {
             std::cout << "The map search ERROR." << "\n";
         }
     }

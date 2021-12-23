@@ -6,14 +6,36 @@
 template <typename Data>
 class AssociativeArray {
     class Node {
-    public:
         std::string key;
         Node* parent = nullptr;
         Node* right = nullptr;
         Node* left = nullptr;
+
+        std::less<std::string> comp;
+    public:
         Data data;
 
-        Node(std::string key, Data data): key(key), data(data) {}
+        Node(std::string key, Data data, Node* parent): key(key), data(data), parent(parent) {}
+
+        bool isLess(std::string than) {
+            return comp(key, than);
+        }
+
+        bool isMore(std::string than) {
+            return comp(than, key);
+        }
+
+        std::string getKey() {
+            return key;
+        }
+
+        Node* getLeft() {
+            return left;
+        }
+
+        Node* getRight() {
+            return right;
+        }
 
         void setChild() {
             if (right) {
@@ -67,6 +89,41 @@ class AssociativeArray {
             }
         }
 
+        void insert(Node* node) {
+            if (isLess(node->key)) {
+                right = node;
+            } else {
+                left = node;
+            }
+        }
+
+        Node* getMinimum() {
+            Node* res = this;
+            while (res->left) res = res->left;
+            return res;
+        }
+
+        void replace(Node* newN) {
+            if (parent) {
+                if (parent->left == this) parent->left = newN;
+                else parent->right = newN;
+            }
+            if (newN) newN->parent = parent;
+        }
+
+        Node* replace() {
+            Node* newRight = right->getMinimum();
+            if (newRight->parent != this) {
+                newRight->replace(newRight->right);
+                newRight->right = right;
+                newRight->right->parent = newRight;
+            }
+            replace(newRight);
+            newRight->left = left;
+            newRight->left->parent = newRight;
+            return newRight;
+        }
+
     };
 
 public:
@@ -75,11 +132,11 @@ public:
         while (!queue.empty()) {
             Node* node = queue.front();
             queue.pop();
-            if(node->left) {
-                queue.push(node->left);
+            if(node->getLeft()) {
+                queue.push(node->getLeft());
             }
-            if(node->right) {
-                queue.push(node->right);
+            if(node->getRight()) {
+                queue.push(node->getRight());
             }
             delete node;
         }
@@ -88,10 +145,10 @@ public:
     Node* findNode(std::string key) {
         Node* node = root;
         while (node) {
-            if (comp(node->key, key)) {
-                node = node->right;
-            } else if (comp(key, node->key)) {
-                node = node->left;
+            if (node->isLess(key)) {
+                node = node->getRight();
+            } else if (node->isMore(key)) {
+                node = node->getLeft();
             } else {
                 return node;
             }
@@ -104,20 +161,15 @@ public:
         Node* parent = nullptr;
         while (newNode) {
             parent = newNode;
-            if (comp(newNode->key, key)) {
-                newNode = newNode->right;
+            if (newNode->isLess(key)) {
+                newNode = newNode->getRight();
             } else {
-                newNode = newNode->left;
+                newNode = newNode->getLeft();
             }
         }
-        newNode = new Node(key, data);
-        newNode->parent = parent;
+        newNode = new Node(key, data, parent);
         if (parent) {
-            if (comp(parent->key, key)) {
-                parent->right = newNode;
-            } else {
-                parent->left = newNode;
-            }
+            parent->insert(newNode);
         }
 
         newNode->splay();
@@ -132,40 +184,18 @@ public:
         }
         node->splay();
 
-        if (!node->left) {
-            replace(node, node->right);
-        } else if (!node->right) {
-            replace(node, node->left);
-        } else if (node->left && node->right) {
-            Node* right = minimum(node->right);
-            if (right->parent != node) {
-                replace(right, right->right);
-                right->right = node->right;
-                right->right->parent = right;
-            }
-            replace(node, right);
-            right->left = node->left;
-            right->left->parent = right;
+        if (!node->getLeft()) {
+            node->replace(node->getRight());
+        } else if (!node->getRight()) {
+            node->replace(node->getLeft());
+        } else if (node->getLeft() && node->getRight()) {
+            root = node->replace();
         } else {
             root == nullptr;
         }
 
         delete node;
         amountNodes--;
-    }
-
-private:
-    std::less<std::string> comp;
-
-    void replace(Node* oldN, Node* newN) {
-        if (!oldN->parent) root = newN;
-        else if (oldN == oldN->parent->left) oldN->parent->left = newN;
-        else oldN->parent->right = newN;
-        if (newN) newN->parent = oldN->parent;
-    }
-    Node* minimum(Node* node) {
-        while (node->left) node = node->left;
-        return node;
     }
 
 protected:
