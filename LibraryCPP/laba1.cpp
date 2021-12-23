@@ -1,7 +1,6 @@
 #include "array.cpp"
 #include <iostream>
 #include <ctime>
-#include <stdlib.h>
 int main()
 {
 	int size;
@@ -10,17 +9,17 @@ int main()
 
 	Array* arr = array_create(size);
 
-	std::srand(std::time(nullptr));
-	for (int i = 0; i < array_size(arr); i++) 
+	std::srand(std::time(0));
+	for (int i = 0; i < array_size(arr); i++)
 	{
 		array_set(arr, i, rand() % 100);
 	}
 
-	int min = 0, max = 0;
+	int min = 100, max = 0;
 	for (int i = 0; i < array_size(arr); i++)
 	{
-		if (min >= array_get(arr, i)) min = array_get(arr, i);
-		if (max <= array_get(arr, i)) max = array_get(arr, i);
+		if (min > array_get(arr, i)) min = array_get(arr, i);
+		if (max < array_get(arr, i)) max = array_get(arr, i);
 	}
 
 	int count = 0;
