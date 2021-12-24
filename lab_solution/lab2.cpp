@@ -20,7 +20,7 @@ int main() {
 
     while ((input.get(ch)) && (answ)) {  //while file is being read and the lines are matches
         ch = tolower(ch);
-        if ((tag != '*') && (star)) { //is executed before multipl(*) occurs
+        if ((ch != '*') && (star)) { //is executed before multipl(*) occurs
             stack_push(stack, ch);
         }
         else {
