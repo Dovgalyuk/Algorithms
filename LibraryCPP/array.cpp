@@ -1,3 +1,4 @@
+#include <iostream>
 #include "array.h"
 
 struct Array
