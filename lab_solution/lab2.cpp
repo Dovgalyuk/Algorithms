@@ -16,12 +16,12 @@ int main() {
     }
 
     bool answ = true, star = true;
-    char tag;
+    char ch;
 
-    while ((input.get(tag)) && (answ)) {  //while file is being read and the lines are matches
-        tag = tolower(tag);
+    while ((input.get(ch)) && (answ)) {  //while file is being read and the lines are matches
+        ch = tolower(ch);
         if ((tag != '*') && (star)) { //is executed before multipl(*) occurs
-            stack_push(stack, tag);
+            stack_push(stack, ch);
         }
         else {
             if (star) { //when multipl(*) is encoured
@@ -33,7 +33,7 @@ int main() {
         if (stack_empty(stack)) answ = false; //if 2 line is longer than 1
 
         if ((!star) && (answ)) {   //if multiplication(*) has already occured and the lines match
-            if (stack_get(stack) == tag) {
+            if (stack_get(stack) == ch) {
                 stack_pop(stack);
             }
             else {
