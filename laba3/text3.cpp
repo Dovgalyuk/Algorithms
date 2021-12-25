@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include "queue.h"
 
 const int main_peak = 0;
@@ -13,30 +14,49 @@ int main() {
         is >> count;
         int matrix[count][count];
         int num;
-        int id;
         for (int i = 0; i < count; ++i) {
             for (int j = 0; j < count; ++j) {
                 is >> num;
                 matrix[i][j] = num;
             }
         }
-        auto* queue = new Queue<int>;
-        queue->insert(main_peak);
+        auto* queue = new Queue<std::vector<int>>;
+        queue->insert({main_peak});
         bool was[count];
-        was[main_peak] = true;
-        int length = 0;
-        os << length++ << std::endl;
+        for (int i = 0; i < count; ++i) {
+            was[i] = false;
+        }
+        int lengths[count];
+        int length = 1;
+        for (int i = 0; i < count; ++i) {
+            lengths[i] = INT_MAX;
+        }
+        lengths[main_peak] = 0;
         while (!queue->empty()) {
-            id = queue->get();
+            std::vector<int> peaks = queue->get();
+            std::vector<int> next;
             queue->remove();
-            for (int i = 0; i < count; ++i) {
-                if (matrix[id][i] && !was[i]) {
-                    os << length << std::endl;
-                    was[i] = true;
-                    queue->insert(i);
+            for (const auto &id : peaks){
+                if (was[id]) {
+                    continue;
+                }
+                was[id] = true;
+                for (int i = 0; i < count; ++i) {
+                    if (matrix[id][i] && !was[i]) {
+                        if (lengths[i] > length) {
+                            lengths[i] = length;
+                        }
+                        next.push_back(i);
+                    }
                 }
             }
+            if (!next.empty()) {
+                queue->insert(next);
+            }
             length++;
+        }
+        for (int i = 0; i < count; ++i) {
+            os << lengths[i] << std::endl;
         }
         os.flush();
         os.close();
