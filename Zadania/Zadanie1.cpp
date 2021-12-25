@@ -27,5 +27,6 @@ int main() {
         std::cout<<array_get(arr, i) << " ";
     }
     
+    array_delete(arr);
 
 }
