@@ -19,37 +19,35 @@ bool compare(const Edge& a, const Edge& b) {
     return a.weight < b.weight;
 }
 
-int parent[100];
-int rank[100];
-
-void init_dsu() {
-    for (int i = 0; i < 100; i++) {
-        parent[i] = i;
-        rank[i] = 1;
-    }
-}
-
-int get_root(int v) {
-    if (parent[v] == v) {
+int get_root(int v, Graph<int>* graph) {
+    if (v == graph->getDataVertex(v)) {
         return v;
-    } else {
-        return parent[v] = get_root(parent[v]);
+    }
+    else {
+        graph->setDataVertex(v, get_root(graph->getDataVertex(v), graph));
+        return graph->getDataVertex(v);
+
+        // return get_root(graph->getDataVertex(v), graph);
+        
     }
 }
 
-bool merge(int a, int b) {
-    int ra = get_root(a), rb = get_root(b);
+bool merge(int a, int b, Graph<int>* graph) {
+    int ra = get_root(a, graph), rb = get_root(b, graph);
 
     if (ra == rb) {
         return false;
-    } else {
-        if (rank[ra] < rank[rb]) {
-            parent[ra] = rb;
-        } else if (rank[rb] < rank[ra]) {
-            parent[rb] = ra;
-        } else {
-            parent[ra] = rb;
-            rank[rb]++;
+    }
+    else {
+        if (graph->getLabelVertex(ra) < graph->getLabelVertex(rb)) {
+            graph->setDataVertex(ra, rb);
+        }
+        else if (graph->getDataVertex(rb) < graph->getDataVertex(ra)) {
+            graph->setDataVertex(rb, ra);
+        }
+        else {
+            graph->setDataVertex(ra, rb);
+            graph->setLabelVertex(rb, (graph->getLabelVertex(rb) + 1));
         }
 
         return true;
@@ -60,7 +58,7 @@ int main() {
 
     int numberVertex = 5;
 
-    int countEdge = 7; 
+    int countEdge = 7;
 
     Graph<int> *graph = new Graph<int>(numberVertex, 0);
 
@@ -68,7 +66,9 @@ int main() {
         graph->setDataVertex(i, i);
     }
 
-    int edges[countEdge][3] {{0, 4, 1}, {0, 1, 3}, {1, 2, 5}, {1, 4, 4}, {4, 3, 7}, {4, 2, 6}, {2, 3, 2}};
+    int edges[countEdge][3] {{0, 4, 1}, {0, 1, 3}, {1, 2, 5}, {1, 4, 4}, {4, 3, 7}, {4, 2, 6}, {2, 3, 2}}; // 5 7
+
+    // int edges[countEdge][3] {{0, 1, 3}, {0, 3, 5}, {1, 2, 1}, {2, 3, 8}}; // 4 4
 
 
     for (int i = 0; i < countEdge; i++) {
@@ -96,10 +96,8 @@ int main() {
 
     std::vector<Edge> result;
 
-    init_dsu();
-
     for (auto &item: allEdges) {
-        if (merge(item.fromIndex, item.toIndex)) {
+        if (merge(item.fromIndex, item.toIndex, graph)) {
             mst_weight += item.weight;
             result.push_back(item);
         }
