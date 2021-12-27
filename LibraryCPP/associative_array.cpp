@@ -11,7 +11,7 @@ struct ArrayElement
 
 struct associative_array
 {
-	int capacity = 23;
+	int capacity = 61;
 	int size = 0;
 	int deleted_el = 0;
 	Array<ArrayElement>* arr;
