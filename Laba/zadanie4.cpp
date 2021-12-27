@@ -15,39 +15,56 @@ struct Edge {
 
 };
 
+struct dataVertex {
+    int data = 0;
+    int label = 0;
+
+    dataVertex() {}
+};
+
 bool compare(const Edge& a, const Edge& b) {
     return a.weight < b.weight;
 }
 
-int get_root(int v, Graph<int>* graph) {
-    if (v == graph->getDataVertex(v)) {
+int get_root(int v, Graph<dataVertex>* graph) {
+
+    dataVertex data_v = graph->getDataVertex(v);
+
+    if (v == data_v.data) {
         return v;
     }
     else {
-        graph->setDataVertex(v, get_root(graph->getDataVertex(v), graph));
-        return graph->getDataVertex(v);
-
-        // return get_root(graph->getDataVertex(v), graph);
-        
+        data_v.data = get_root(data_v.data, graph);
+        graph->setDataVertex(v, data_v);
+        return graph->getDataVertex(v).data;
     }
 }
 
-bool merge(int a, int b, Graph<int>* graph) {
+bool merge(int a, int b, Graph<dataVertex>* graph) {
     int ra = get_root(a, graph), rb = get_root(b, graph);
 
     if (ra == rb) {
         return false;
     }
     else {
-        if (graph->getLabelVertex(ra) < graph->getLabelVertex(rb)) {
-            graph->setDataVertex(ra, rb);
+
+        dataVertex ra_data = graph->getDataVertex(ra);
+        dataVertex rb_data = graph->getDataVertex(rb);
+
+        if (ra_data.label < rb_data.label) {
+            ra_data.data = rb_data.data;
+            graph->setDataVertex(ra, ra_data);
         }
-        else if (graph->getDataVertex(rb) < graph->getDataVertex(ra)) {
-            graph->setDataVertex(rb, ra);
+        else if (rb_data.label < ra_data.label) {
+            rb_data.data = ra_data.data;
+            graph->setDataVertex(rb, rb_data);
         }
         else {
-            graph->setDataVertex(ra, rb);
-            graph->setLabelVertex(rb, (graph->getLabelVertex(rb) + 1));
+            ra_data.data = rb_data.data;
+            graph->setDataVertex(ra, ra_data);
+
+            rb_data.label = rb_data.label + 1;
+            graph->setDataVertex(rb, rb_data);
         }
 
         return true;
@@ -60,10 +77,13 @@ int main() {
 
     int countEdge = 7;
 
-    Graph<int> *graph = new Graph<int>(numberVertex, 0);
+    dataVertex data_v;
+
+    Graph<dataVertex> *graph = new Graph<dataVertex>(numberVertex, data_v);
 
     for (int i = 0; i < numberVertex; i++) {
-        graph->setDataVertex(i, i);
+        data_v.data = i;
+        graph->setDataVertex(i, data_v);
     }
 
     int edges[countEdge][3] {{0, 4, 1}, {0, 1, 3}, {1, 2, 5}, {1, 4, 4}, {4, 3, 7}, {4, 2, 6}, {2, 3, 2}}; // 5 7
@@ -81,7 +101,7 @@ int main() {
     for (int i = 0; i < graph->sizeVertexex(); i++) {
         auto* item = graph->getVertex(i);
 
-        Graph<int>::EdgeIterator iterator(item);
+        Graph<dataVertex>::EdgeIterator iterator(item);
 
         while (*iterator != nullptr) {
             int to = graph->getIndexVertex((*iterator)->toVertex);

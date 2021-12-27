@@ -12,10 +12,9 @@ template<typename Data> class Graph {
 
         struct Vertex {
             Data data;
-            int label = 0;
             List<Edge*> *edges = new List<Edge*>;
 
-            Vertex(Data data): data(data) {}
+            Vertex(Data dataVertex): data(dataVertex) {}
 
             ~Vertex() {
                 auto itemDel = edges->first();
@@ -24,14 +23,6 @@ template<typename Data> class Graph {
                     delete itemDel->data();
                     itemDel = itemDel->next();
                 }
-            }
-
-            void setLabel(int label_) {
-                label = label_;
-            }
-
-            int getLabel() {
-                return label;
             }
 
             void setData(Data data_) {
@@ -111,11 +102,11 @@ template<typename Data> class Graph {
             }
         };
 
-        Graph(size_t numberVertex, Data defaultValue) {
+        Graph(size_t numberVertex, Data data) {
 
             vertexex.resize(numberVertex);
             for (size_t i = 0; i < numberVertex; i++) {
-                vertexex[i] = new Vertex(defaultValue);
+                vertexex[i] = new Vertex(data);
             }
         }
 
@@ -138,14 +129,6 @@ template<typename Data> class Graph {
             }
 
             return false;
-        }
-
-        void setLabelVertex(size_t index, int label) {
-            vertexex[index]->setLabel(label);
-        }
-
-        int getLabelVertex(size_t index) {
-            return vertexex[index]->getLabel();
         }
 
         Vertex* addVertex(Vertex* data) {

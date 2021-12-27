@@ -81,16 +81,6 @@ int main() {
         return 1;
     }
 
-    if (graph->getLabelVertex(0) != 0) {
-        std::cout << "Error Label\n";
-    }
-
-    graph->setLabelVertex(0, 10);
-
-    if (graph->getLabelVertex(0) != 10) {
-        std::cout << "Error get label Vertex\n";
-    }
-
     for (int i = 0; i < numberVertexes - 1; i++) {
         std::cout << graph->getDataVertex(i) << " ";
     }
