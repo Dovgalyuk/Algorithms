@@ -1,6 +1,7 @@
 #include <iostream>
 #include "C:\\Users\\User\\Desktop\\Algorithms\\LibraryCPP\\array.h"
 #include <ctime>
+
 int main()
 {
 	int size;
@@ -9,7 +10,7 @@ int main()
 
 	Array* arr = array_create(size);
 
-	std::srand(std::time(0));
+	std::srand(std::time(nullptr));
 	for (int i = 0; i < array_size(arr); i++)
 	{
 		array_set(arr, i, rand() % 100);
@@ -32,5 +33,6 @@ int main()
 		}
 	}
 	std::cout << "Number of elements: " << count << std::endl;
+	system("pause");
 	return 0;
 }
