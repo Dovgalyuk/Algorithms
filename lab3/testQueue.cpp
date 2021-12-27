@@ -12,40 +12,33 @@ int main() {
     queue _queue;
     int count = 0;
     char str;
-    std::string stroka;
-    std::ifstream in("E:\\text.txt");
+    std::ifstream in("E\\text.txt");
 
     while (str != '\n') {
         in.get(str);
         _queue.insert(str);
     }
 
-    while(in) {
+    while (in)
+    {
+
         in >> str;
-        if(stroka[stroka.size() - 1] == str && in.eof())
+        if (in.eof())
             break;
-        stroka.push_back(str);
-
-    }
-
-    while(!_queue.empty()) {
-        for (int i = 0; i < stroka.size(); ++i) {
-            if (_queue.get() == stroka[i]) {
-                count++;
-                i = stroka.size();
-            }
+        count++;
+        if (_queue.get() == str)
+        {
+            _queue.remove();
+            count--;
         }
-        _queue.remove();
     }
 
-    if(count == stroka.size()) {
+    if (count == 0)
         std::cout << "Yes";
-    }
     else
         std::cout << "No";
     return 0;
 
 
 }
-
 
