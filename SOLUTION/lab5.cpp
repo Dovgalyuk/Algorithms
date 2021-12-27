@@ -9,7 +9,7 @@ const char chars[] = { "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123
 
 std::string rand_str()
 {
-	int size = rand() % 10 +1;
+	int size = rand() % 10 + 1;
 	std::string str;
 	for (int i = 0; i < size; i++)
 	{
@@ -18,105 +18,56 @@ std::string rand_str()
 	return str;
 }
 
-void info(associative_array* associative_arr, std::unordered_map<std::string, std::string> map, int after)
+void Insert(associative_array* associative_arr, std::unordered_map<std::string, std::string> map, int count)
 {
-	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
-	insert_pair(rand_str(), rand_str(), associative_arr);
-	std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
-	std::chrono::duration<double> sec = end - start;
-	std::cout << "insert after " << after << " elements \t| My own Hash table:" << sec.count() << " sec. \t| unordered_map: ";
-	start = std::chrono::system_clock::now();
-	map[rand_str()] = rand_str();
-	end = std::chrono::system_clock::now();
-	sec = end - start;
-	std::cout << sec.count() << " sec.\n";
+	std::chrono::system_clock::time_point start;
+	std::chrono::system_clock::time_point end;
+	std::chrono::duration<double> sec{};
+	std::chrono::system_clock::time_point start1;
+	std::chrono::system_clock::time_point end1;
+	std::chrono::duration<double> sec1{};
+	std::string str;
+	for (int i = 0; i < count; i++)
+	{
+		str = rand_str();
+		start = std::chrono::system_clock::now();
+		insert_pair(str, str, associative_arr);
+		end = std::chrono::system_clock::now();
+		sec += end - start;
+		start1 = std::chrono::system_clock::now();
+		map[str] = str;
+		end1 = std::chrono::system_clock::now();
+		sec1 += end1 - start1;
+
+	}
+	std::cout << "insert " << count << " elements in | My own Hash table: " << sec.count() << "  |  in unordered map: " << sec1.count() << "\n";
 }
+
 
 int main()
 {
 	associative_array* associative_arr = associative_array_create();
 	std::unordered_map<std::string, std::string> map;
 
-	std::string str;
-	for (int i = 0; i < 100; i++)
-	{
-		str = rand_str();
-		map[str] = str;
-		insert_pair(str, str, associative_arr);
-	}
-	info(associative_arr, map, 100);
+	Insert(associative_arr, map, 100);
 
-	for (int i = 0; i < 899; i++)
-	{
-		str = rand_str();
-		map[str] = str;
-		insert_pair(str, str, associative_arr);
-	}
-	info(associative_arr, map, 1000);
+	Insert(associative_arr, map, 500);
 
-	for (int i = 0; i < 3999; i++)
-	{
-		str = rand_str();
-		map[str] = str;
-		insert_pair(str, str, associative_arr);
-	}
-	info(associative_arr, map, 5000);
+	Insert(associative_arr, map, 1000);
 
-	for (int i = 0; i < 4999; i++)
-	{
-		str = rand_str();
-		map[str] = str;
-		insert_pair(str, str, associative_arr);
-	}
-	info(associative_arr, map, 10000);
+	Insert(associative_arr, map, 5000);
 
-	for (int i = 0; i < 39999; i++)
-	{
-		str = rand_str();
-		map[str] = str;
-		insert_pair(str, str, associative_arr);
-	}
-	info(associative_arr, map, 50000);
+	Insert(associative_arr, map, 10000);
 
-	for (int i = 0; i < 49999; i++)
-	{
-		str = rand_str();
-		map[str] = str;
-		insert_pair(str, str, associative_arr);
-	}
-	info(associative_arr, map, 100000);
+	Insert(associative_arr, map, 50000);
 
-	for (int i = 0; i < 99999; i++)
-	{
-		str = rand_str();
-		map[str] = str;
-		insert_pair(str, str, associative_arr);
-	}
-	info(associative_arr, map, 200000);
+	Insert(associative_arr, map, 100000);
 
-	for (int i = 0; i < 299999; i++)
-	{
-		str = rand_str();
-		map[str] = str;
-		insert_pair(str, str, associative_arr);
-	}
-	info(associative_arr, map, 500000);
+	Insert(associative_arr, map, 200000);
 
-	for (int i = 0; i < 499999; i++)
-	{
-		str = rand_str();
-		map[str] = str;
-		insert_pair(str, str, associative_arr);
-	}
-	info(associative_arr, map, 1000000);
+	Insert(associative_arr, map, 500000);
 
-	for (int i = 0; i < 199999; i++)
-	{
-		str = rand_str();
-		map[str] = str;
-		insert_pair(str, str, associative_arr);
-	}
-	info(associative_arr, map, 1200000);
+	Insert(associative_arr, map, 1000000);
 
 	associative_array_delete(associative_arr);
 }
