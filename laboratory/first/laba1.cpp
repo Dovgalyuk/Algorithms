@@ -1,5 +1,5 @@
 #include <iostream>
-#include "C:\\Users\\User\\Desktop\\Algorithms\\LibraryCPP\\array.h"
+#include "array.h"
 #include <ctime>
 
 int main()
