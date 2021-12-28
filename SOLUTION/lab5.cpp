@@ -22,25 +22,31 @@ void Insert(associative_array* associative_arr, std::unordered_map<std::string, 
 {
 	std::chrono::system_clock::time_point start;
 	std::chrono::system_clock::time_point end;
-	std::chrono::duration<double> sec{};
 	std::chrono::system_clock::time_point start1;
 	std::chrono::system_clock::time_point end1;
-	std::chrono::duration<double> sec1{};
-	std::string str;
+	std::string* str_arr = new std::string[count];
+
+	for (int i = 0; i < count; i++)
+		str_arr[i] = rand_str();
+
+	start = std::chrono::system_clock::now();
 	for (int i = 0; i < count; i++)
 	{
-		str = rand_str();
-		start = std::chrono::system_clock::now();
-		insert_pair(str, str, associative_arr);
-		end = std::chrono::system_clock::now();
-		sec += end - start;
-		start1 = std::chrono::system_clock::now();
-		map[str] = str;
-		end1 = std::chrono::system_clock::now();
-		sec1 += end1 - start1;
-
+		insert_pair(str_arr[i], str_arr[i], associative_arr);
 	}
+	end = std::chrono::system_clock::now();
+	std::chrono::duration<double> sec = end - start;
+
+	start1 = std::chrono::system_clock::now();
+	for (int i = 0; i < count; i++)
+	{
+		map[str_arr[i]] = str_arr[i];
+	}
+	end1 = std::chrono::system_clock::now();
+	std::chrono::duration<double> sec1 = end1 - start1;
+
 	std::cout << "insert " << count << " elements in | My own Hash table: " << sec.count() << "  |  in unordered map: " << sec1.count() << "\n";
+	delete[] str_arr;
 }
 
 
