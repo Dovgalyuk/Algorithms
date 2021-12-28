@@ -10,7 +10,7 @@ typedef Queue<char> queue;
 
 int main() {
     queue _queue;
-    int count = 0;
+    int count = -1;
     char str;
     std::ifstream in("E\\text.txt");
 
@@ -19,18 +19,18 @@ int main() {
         _queue.insert(str);
     }
 
-    while (in)
+    while (!_queue.empty())
     {
-
-        in >> str;
-        if (in.eof())
-            break;
-        count++;
+        if (in.eof()) {
+            in >> str;
+            count++;
+        }
         if (_queue.get() == str)
         {
             _queue.remove();
             count--;
-        }
+        } else
+            _queue.remove();
     }
 
     if (count == 0)
