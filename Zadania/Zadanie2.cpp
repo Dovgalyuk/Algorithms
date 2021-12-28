@@ -48,7 +48,7 @@ int main() {
     while (!str.empty()) {
         char nextAction = checkFirstAction(str);
         str.erase(0,1);
-        if ((nextAction == ' ') ||(nextAction == '+') || (nextAction == '-')) {
+        if ((nextAction == '+') || (nextAction == '-')) {
             int k = 1;
             if (nextAction == '-') {
                 k = -1;
