@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <climits>
 #include "queue.h"
 
 const int main_peak = 0;
@@ -20,8 +21,8 @@ int main() {
                 matrix[i][j] = num;
             }
         }
-        auto* queue = new Queue<std::vector<int>>;
-        queue->insert({main_peak});
+        auto* queue = new Queue<int>;
+        queue->insert(main_peak);
         bool was[count];
         for (int i = 0; i < count; ++i) {
             was[i] = false;
@@ -33,27 +34,21 @@ int main() {
         }
         lengths[main_peak] = 0;
         while (!queue->empty()) {
-            std::vector<int> peaks = queue->get();
-            std::vector<int> next;
+            int id = queue->get();
+            length = lengths[id] + 1;
             queue->remove();
-            for (const auto &id : peaks){
-                if (was[id]) {
-                    continue;
-                }
-                was[id] = true;
-                for (int i = 0; i < count; ++i) {
-                    if (matrix[id][i] && !was[i]) {
-                        if (lengths[i] > length) {
-                            lengths[i] = length;
-                        }
-                        next.push_back(i);
+            if (was[id]) {
+                continue;
+            }
+            was[id] = true;
+            for (int i = 0; i < count; ++i) {
+                if (matrix[id][i] && !was[i]) {
+                    if (lengths[i] > length) {
+                        lengths[i] = length;
                     }
+                    queue->insert(i);
                 }
             }
-            if (!next.empty()) {
-                queue->insert(next);
-            }
-            length++;
         }
         for (int i = 0; i < count; ++i) {
             os << lengths[i] << std::endl;
