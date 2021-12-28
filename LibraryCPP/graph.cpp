@@ -27,6 +27,15 @@ struct graph
     {
         bool exists = 0;
         int label = -1;
+        int weight;
+
+        void setWeight(int input_weight){
+            weight =input_weight;
+        }
+
+        int getWeight(){
+            return weight;
+        }
     };
 
     typedef Array<vertex> vertex_array;
@@ -92,13 +101,14 @@ void graph_add_vertex(struct graph * dir_graph)
     ++dir_graph->vertex_amount;
 }
 
-void graph_add_edge(graph*dir_graph,int vertex_1,int vertex_2){
+void graph_add_edge(graph*dir_graph,int vertex_1,int vertex_2,int input_weight){
     if ((vertex_1*dir_graph->vertex_amount)+vertex_2 < std::pow(dir_graph->vertex_amount,2)){
         graph::edge* edge = new graph::edge;
         edge->label = dir_graph->matrix->get((vertex_1*dir_graph->vertex_amount)+vertex_2).label;
         edge->exists = 1;
         dir_graph->matrix->set(((vertex_1*dir_graph->vertex_amount)+vertex_2), *edge);
-    }
+        edge->weight=input_weight;
+    }       
 }
 
 void graph_remove_vertex(struct graph* dir_graph,int vertex){
@@ -136,7 +146,7 @@ void graph_remove_edge(graph*dir_graph,int vertex_1,int vertex_2){
     }
 }
 
-void graph_set_vertex(graph* dir_graph,int vertex_index,int vertex_label){
+void graph_set_vertex_label(graph* dir_graph,int vertex_index,int vertex_label){
     if(vertex_index<dir_graph->vertex_amount){
         graph::vertex* vertex = new graph::vertex;
         vertex->label = vertex_label;
@@ -144,26 +154,51 @@ void graph_set_vertex(graph* dir_graph,int vertex_index,int vertex_label){
     }
 }
 
-void graph_set_edge(){
-
+void graph_set_edge_label(graph* dir_graph,int vertex_1,int vertex_2,int edge_label){
+    if (vertex_1 < dir_graph->vertex_amount && vertex_2 < dir_graph->vertex_amount){
+        graph::edge* edge = new graph::edge;
+        edge->exists = dir_graph->matrix->get((vertex_1 * dir_graph->vertex_amount)+vertex_2).exists;
+        edge->label = edge_label;
+        dir_graph->matrix->set(((vertex_1 * dir_graph->vertex_amount)+vertex_2),*edge);
+    }
 }
 
-int graph_get_vertex(){
-    return;
+int graph_get_vertex_label(graph* dir_graph,int vertex_index){
+    if (vertex_index < dir_graph->vertex_amount){
+        return dir_graph->vertex_labels->get(vertex_index).label;
+    }
+    else{
+        return -1;
+    }
 }
 
-int graph_get_edge(){
-    return;
+int graph_get_edge_label(graph* dir_graph,int vertex_1,int vertex_2){
+    if(vertex_1 < dir_graph->vertex_amount &&vertex_2<dir_graph->vertex_amount){
+        return dir_graph->matrix->get((vertex_1*dir_graph->vertex_amount)+vertex_2).label;
+    }
+    else{
+        return -1;
+    }
 }
 
-bool graph_Exists_edge(){
-    return;
+bool graph_Exists_edge(graph* dir_graph,int vertex_1,int vertex_2){
+    return dir_graph->matrix->get((vertex_1 * dir_graph->vertex_amount)+vertex_2).exists;
 }
 
-bool graph_Neighboor_empty(){
-    return;
+bool graph_Neighboor_empty(iterator* iter){
+    for(auto i = iter->Neighboor;i<iter->direct_graph->vertex_amount;++i){
+        if ( iter->direct_graph->matrix->get((iter->vertex*iter->direct_graph->vertex_amount)+i).exists == 1){
+            return false;
+        }
+    }
+    iter->Neighboor = 0;
+    return true;
 }
 
-bool graph_Neighboor_next(){
-    return;
+bool graph_Neighboor_next(iterator* iter){
+    while(iter->direct_graph->matrix->get((iter->vertex * iter->direct_graph->vertex_amount)+iter->Neighboor).exists == 0){
+        ++iter->Neighboor;
+    }
+    iter->Neighboor++;
+    return iter->Neighboor - 1;
 }
