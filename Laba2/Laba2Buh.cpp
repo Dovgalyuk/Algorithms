@@ -6,7 +6,6 @@
 #include "stack.cpp"
 
 using namespace std;
-typedef char Data;
 
 int main()
 {
