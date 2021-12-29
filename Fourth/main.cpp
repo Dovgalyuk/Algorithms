@@ -6,25 +6,31 @@ class PathFinder {
 public:
     PathFinder(D_Graph<int>* graph, int vertexCount) {
         int vertexCorrent = 0;
-        int min, i, j, a, u, b, v, mincost = 0;
-        visited[0] = 1;
+        int min, i, j, a, u = 0, b, v = 0, mincost = 0;
+        for (i = 0; i < graph->size(); ++i) {
+            if (i == 0)
+                graph->getVertex(i)->setLabel(1);
+            else
+                graph->getVertex(i)->setLabel(0);
+        }
+
         while (vertexCorrent < vertexCount)
         {
             for (i = 0, min = INT_MAX; i < vertexCount; i++)
                 for (j = 0; j < vertexCount; j++)
                     if (graph->getVertex(i)->getEdgeTo(graph->getVertex(j))->getWeight() < min)
-                        if (visited[i] != 0)
+                        if (graph->getVertex(i)->getLabel() != 0)
                         {
                             min = graph->getVertex(i)->getEdgeTo(graph->getVertex(j))->getWeight();
                             a = u = i;
                             b = v = j;
                         }
-            if (visited[u] == 0 || visited[v] == 0)
+            if (graph->getVertex(u)->getLabel() == 0 || graph->getVertex(v)->getLabel() == 0)
             {
                 path.push_back(b);
                 std::cout << "\n " << vertexCorrent << ": " << a << " -> " << b << " = " << min; //Можно вывести так
                 mincost += min;
-                visited[b] = 1;
+                graph->getVertex(b)->setLabel(1);
             }
             graph->getVertex(a)->getEdgeTo(graph->getVertex(b))->setWeight(INT_MAX);
             graph->getVertex(b)->getEdgeTo(graph->getVertex(a))->setWeight(INT_MAX);
