@@ -4,39 +4,38 @@
 
 std::string writeString()
 {
-    std::string strokavvoda;
-    std::cout << "Vvodtext: " << std::endl;
-    std::getline(std::cin, strokavvoda);
-    return strokavvoda;
-
+    std::string VvodString;
+    std::cout << "input text: " << std::endl;
+    std::getline(std::cin, VvodString);
+    return VvodString;
 }
 
-void fillStack(Stack<char>& oneStack, std::string strokavvoda)
+void fillStack(Stack<char>& myStack, std::string VvodString)
 {
-    for (auto symbol : strokavvoda)
+    for (auto symbol : VvodString)
     {
         if (symbol == '#')
         {
-            oneStack.pop();
+            myStack.pop();
         }
         else
         {
-            oneStack.push(symbol);
+            myStack.push(symbol);
         }
     }
 }
 
 int main()
 {
-    std::string strokavvoda = writeString();
-    std::cout << strokavvoda << std::endl;
-    Stack<char> oneStack;
-    fillStack(oneStack, strokavvoda);
+    std::string VvodString = writeString();
+    std::cout << VvodString << std::endl;
+    Stack<char> myStack;
+    fillStack(myStack, VvodString);
     std::string exitString;
-    while (!oneStack.empty())
+    while (!myStack.empty())
     {
-        exitString = oneStack.get() + exitString;
-        oneStack.pop();
+        exitString = myStack.get() + exitString;
+        myStack.pop();
     }
     std::cout << exitString << std::endl;
     return 0;
