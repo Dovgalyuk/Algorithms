@@ -7,7 +7,7 @@
 template <typename Data> class Stack
 {
 public:
-    // Creates empty stack
+    // Создаем пустой стек
     Stack() : vector(new Vector<Data>())
     {
 
@@ -19,28 +19,28 @@ public:
         delete vector;
     }
 
-    // Pushes data on top of the stack
+    // Помещает данные на вершину стека
     // Should be O(1) on average
     void push(Data data)
     {
-        vector->resize(vector->size() + 1);
-        vector->set(vector->size() - 1, data);
+        vector->resize(vector->size() + 1); // Увеличиваем размер вектора на 1
+        vector->set(vector->size() - 1, data); // Добавляем в конец
     }
 
-    // Retrives the last element from the stack
+    // Извлекает последний элемент из стека
     Data get() const
     {
-        return vector->get(vector->size() - 1);
+        return vector->get(vector->size() - 1); // Берем последний элемент
     }
 
-    // Removes the last element from the stack
+    // Удаляет последний элемент из стека
     // Should be O(1)
     void pop()
     {
-        vector->resize(vector->size() - 1);
+        vector->resize(vector->size() - 1); // Уменьшаем размер на 1
     }
 
-    // Returns true if the stack is empty
+    // Возвращает значение true, если вектор пустой
     bool empty() const
     {
         return vector->size() == 0;

@@ -17,27 +17,27 @@ public:
 
     }
 
-    // Includes new element into the queue
+    // Добавляет новый элемент в очередь
     // Should be O(1) on average
     void insert(Data data)
     {
         _queue->insert_end(data);
     }
 
-    // Retrieves first element from the queue
+    // Извлекает первый элемент из очереди
     Data get() const
     {
         return _queue->first()->data();
     }
 
-    // Removes first element from the queue
+    // Удаляет первый элемент из очереди
     // Should be O(1) on average
     void remove()
     {
         _queue->erase(_queue->first());
     }
 
-    // Returns true if the queue is empty
+    // Возвращает true, если очередь пуста
     bool empty() const
     {
         return _queue->empty();

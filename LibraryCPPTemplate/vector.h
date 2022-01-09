@@ -1,12 +1,13 @@
 #ifndef VECTOR_H
 #define VECTOR_H
+
 #include <cstddef>
 
 template <typename Data> class Vector
 {
 public:
     // Creates vector
-    Vector(): length(0), capacity(0), vector(nullptr)
+    Vector(): length(0), capacity(0), vector(nullptr) // длина = 0, объем = 0, вектор = 0
     {
     }
 
@@ -16,37 +17,35 @@ public:
         delete []vector;
     }
 
-    // Retrieves vector element with the specified index
+    // Извлекает элемент вектора с указанным индексом
     Data get(size_t index) const
     {
-        return vector[index];
+        return vector[index]; // возвращает данные, которые хранятся под индексом
     }
 
-    // Sets vector element with the specified index
+    // Присваивает элемент вектора с указанным индексом
     void set(size_t index, Data value)
     {
-        if(index <= length)
-            vector[index] = value;
-        else
-            return;
+        if(index <= length) //Если индекс меньше или равно длины..
+            vector[index] = value; // ..присваем под индексом значение
     }
 
-    // Retrieves current vector size
+    // Получаеем текущий размер вектора
     size_t size() const
     {
-        return length;
+        return length; //возвращаем длину
     }
 
-    // Changes the vector size (may increase or decrease)
+    // Изменяет размер вектора
     // Should be O(1) on average
     void resize(size_t newSize)
     {
         if(capacity < newSize) {
-            increaseCapacity(newSize);
-            Data* newVector = new Data[capacity];
-            copyArray(newVector, this->size());
-            delete []vector;
-            vector = newVector;
+            increaseCapacity(newSize); //Увеличение объема
+            Data* newVector = new Data[capacity]; //Создаем новый массив данных
+            copyArray(newVector, this->size()); //Копируем массив
+            delete []vector;//Удаляем данные
+            vector = newVector;//Вектору присваиваем новое значение
         }
         length = newSize;
     }
@@ -62,12 +61,12 @@ private:
     }
 
     void increaseCapacity(size_t size) {
-        if (capacity >= size)
-            return;
-        if (capacity == 0)
-            capacity = 1;
-        while (capacity < size)
-            capacity *= capacity_increase;
+        if (capacity >= size) //Если объем больше или равно размера
+            return;// то выходим
+        if (capacity == 0) //если объем равен 0
+            capacity = 1; //то присваиваем 1
+        while (capacity < size) //Пока объем меньше размера
+            capacity *= capacity_increase; //Объем умножаем на 2
     }
 
     size_t length;
