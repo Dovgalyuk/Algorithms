@@ -1,0 +1,17 @@
+"D:\Program files -_-\CLion 2021.3\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\user\Desktop\Прога
+-- The C compiler identification is GNU 11.2.0
+-- The CXX compiler identification is GNU 11.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: D:/Program files -_-/CLion 2021.3/bin/mingw/bin/gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: D:/Program files -_-/CLion 2021.3/bin/mingw/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/user/Desktop/РџСЂРѕРіР°/cmake-build-debug
+CMake File API: C:\Users\user\Desktop\Прога\cmake-build-debug: target-isogramma-Debug-bb33baa33470b85a79bb.json: no CMakeLists.txt file at 'C:\Users\user\Desktop\РџСЂРѕРіР°\CMakeLists.txt'
