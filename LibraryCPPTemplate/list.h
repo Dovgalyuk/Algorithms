@@ -8,7 +8,7 @@ public:
     {
     public:
         Item *next() { return nextItem; }
-        void next(Item *newNextItem) {nextItem = newNextItem;}
+        void next(Item *newNextItem) {nextItem = newNextItem;} // присвоение след элемента
 
         Data data() const { return itemData; }
 
@@ -25,13 +25,13 @@ public:
 
     };
 
-    // Creates new list
+    // Создает новый список
     List()
     {
         head = nullptr;
     }
 
-    // Destroys the list and frees the memory
+    // Уничтожает список и освобождает память
     ~List()
     {
         while(head) {
@@ -41,43 +41,43 @@ public:
         }
     }
 
-    // Retrieves the first item from the list
+    // Извлекает первый элемент из списка
     Item *first()
     {
         return head;
     }
 
-    // Inserts new list item into the beginning
+    // Вставляет новый элемент списка в начало
     Item *insert(Data data)
     {
-        head = new Item(data, head);
+        head = new Item(data, head); // каждый эл хранит ссылку на след элемент
         return head;
     }
 
-    // Inserts new list item after the specified item
+    // Вставляет новый элемент списка после указанного элемента
     Item *insert_after(Item *item, Data data)
     {
         item->next(new Item(data, item->next()));
         return item->next();
     }
 
-    // Deletes the specified list item.
-    // Not applicable for the singly linked lists.
-    // Should be O(1)
+    // Удаляет указанный элемент списка.
+    // Неприменимо для односвязных списков.
+    // Должно быть О(1)
     Item *erase(Item *item)
     {
         if(item == head) {
 
-            head = item->next();
+            head = item->next(); // обн ссылки на нач эл
 
             delete item;
             return head;
         } else {
             Item *cur = head;
-            while (cur->next() != item) {
+            while (cur->next() != item) { //поиск предка иск элемента
                 cur = cur->next();
             }
-            cur->next(cur->next()->next());
+            cur->next(cur->next()->next()); // присвоение след эл после удаленного
             delete item;
             return cur->next();
         }
@@ -85,8 +85,8 @@ public:
 
     }
 
-    // Deletes the list item following the specified one
-    // Should be O(1)
+    // Удаляет элемент списка, следующий за указанным
+    // Должно быть О(1)
     Item *erase_next(Item *item)
     {
         if (item->next()) {

@@ -6,21 +6,21 @@
 #include <ctime>
 #include "array.h"
 
-void fillingTheArray(Array* arr){
+void fillingTheArray(Array* arr){ // заполнение массива
     for (int i = 0; i <  array_size(arr); i++)
     {
         array_set(arr, i, rand() % 1000 - 100);
     }
 }
 
-void arrayOutput(Array* arr){
+void arrayOutput(Array* arr){ // вывод массива
     for (int i = 0; i < array_size(arr); i++)
     {
         std::cout << array_get(arr, i) << " ";
     }
 }
 
-void searchForTwoMaxima(int &min1, int &min2, Array* arr){
+void searchForTwoMaxima(int &min1, int &min2, Array* arr){ // поиск 2х минимумов
     if (array_size(arr) > 1)
     {
         min1 = array_get(arr, 0);
