@@ -1,31 +1,73 @@
-#ifndef VECTOR_H
-#define VECTOR_H
-
+#pragma once
 #include <cstddef>
 
-// Vector (dynamic array)
-// Stores integer values inside
-typedef int Data;
+template <typename Data>
+class Vector
+{
+public:
+    // Creates vector
+    Vector()
+    {
+        length = 0;
+        capacity = 0;
+        vector = nullptr;
+    }
 
-struct Vector;
+    // Deletes vector structure and internal data
+    ~Vector()
+    {
+        delete[] vector;
+    }
 
-// Creates vector
-Vector *vector_create();
+    // Retrieves vector element with the specified index
+    Data get(size_t index) const
+    {
+        return vector[index];
+    }
 
-// Deletes vector structure and internal data
-void vector_delete(Vector *vector);
+    // Sets vector element with the specified index
+    void set(size_t index, Data value)
+    {
+        vector[index] = value;
+    }
+    // Retrieves current vector size
+    int size() const
+    {
+        return length;
+    }
 
-// Retrieves vector element with the specified index
-Data vector_get(const Vector *vector, size_t index);
+    // Changes the vector size (may increase or decrease)
+    // Should be O(1) on average
+    void resize(int newsize)
+    {
+        if (capacity < newsize)
+        {
+            expand_vector(newsize);
+        }
+        length = newsize;
+    }
 
-// Sets vector element with the specified index
-void vector_set(Vector *vector, size_t index, Data value);
+private:
+    // private data should be here
+    void expand_vector(int newsize)
+    {
+        if (capacity >= newsize)
+            return;
+        if (capacity == 0)
+            capacity = 1;
+        while (capacity < newsize) {
+            capacity *= capacityMultiply;
+        }
+        Data* newVector = new Data[capacity];
+        for (size_t i = 0; i < this->length; i++)
+        {
+            newVector[i] = vector[i];
+        }
+        delete[] vector;
+        vector = newVector;
+    }
 
-// Retrieves current vector size
-size_t vector_size(const Vector *vector);
-
-// Changes the vector size (may increase or decrease)
-// Should be O(1) on average
-void vector_resize(Vector *vector, size_t size);
-
-#endif
+    int length, capacity;
+    const int capacityMultiply = 2;
+    Data* vector;
+};

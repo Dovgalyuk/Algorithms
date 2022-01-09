@@ -58,17 +58,8 @@ int main()
     std::cout << "\n";
 
     // Performance test
-    for (int i = 1 ; i <= 10000000 ; ++i)
-    {
-        vector_resize(vector, i);
-        vector_set(vector, i - 1, i);
-    }
-
-    long long sum = 0;
     for (int i = 0 ; i < 10000000 ; ++i)
-        sum += vector_get(vector, i);
-
-    std::cout << sum << "\n";
+        vector_resize(vector, i);
 
     vector_delete(vector);
 }

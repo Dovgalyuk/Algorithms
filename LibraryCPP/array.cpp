@@ -1,6 +1,6 @@
 #include "array.h"
 
-struct Array
+struct Array//объ€вление переменных 
 {
     Data* array;
     size_t size;

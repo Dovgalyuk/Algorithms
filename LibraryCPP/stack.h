@@ -1,30 +1,52 @@
 #ifndef STACK_H
 #define STACK_H
+#include <vector.h>
 
-// Stack
-// Stores integer values inside
-typedef int Data;
+template <typename Data>
+class Stack
+{
+public:
+    // Creates empty stack
+    Stack()
+    {
+        vector = new Vector<Data>();
+    }
 
-struct Stack;
+    // Deletes the stack
+    ~Stack()
+    {
+        delete vector;
+    }
 
-// Creates empty stack
-Stack *stack_create();
+    // Pushes data on top of the stack
+    // Should be O(1) on average
+    void push(Data data)
+    {
+        vector->resize(vector->size() + 1);
+        vector->set(vector->size() - 1, data);
+    }
 
-// Deletes the stack
-void stack_delete(Stack *stack);
+    // Retrives the last element from the stack
+    Data get() const
+    {
+        return vector->get(vector->size() - 1);
+    }
 
-// Pushes data on top of the stack
-// Should be O(1) on average
-void stack_push(Stack *stack, Data data);
+    // Removes the last element from the stack
+    // Should be O(1)
+    void pop()
+    {
+        vector->resize(vector->size() - 1);
+    }
 
-// Retrives the last element from the stack
-Data stack_get(const Stack *stack);
+    // Returns true if the stack is empty
+    bool empty() const
+    {
+        return vector->size() <= 0;
+    }
 
-// Removes the last element from the stack
-// Should be O(1)
-void stack_pop(Stack *stack);
-
-// Returns true if the stack is empty
-bool stack_empty(const Stack *stack);
+private:
+    Vector<Data>* vector;
+};
 
 #endif

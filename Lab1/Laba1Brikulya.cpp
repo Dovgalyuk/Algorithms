@@ -4,14 +4,15 @@
 #include "array.h"
 
 using namespace std;
-
-int GiveMeSize() {
+//размерность массива 
+int GiveMeSize() 
+{
     int size;
     bool check;
     do {
         cout << "Give me size of the massive: ";
         cin >> size;
-        if (cin.fail())
+        if (cin.fail())//проверка на переменные 
         {
             check = false;
             cin.clear();
@@ -25,8 +26,8 @@ int GiveMeSize() {
     cout << "\n";
     return size;
 }
-
-void FillingArray(Array* array) 
+//заполнение массива рандомными числами 
+void FillingArray(Array* array)
 {
     srand(time(nullptr));
     cout << "We got this:\n";
@@ -39,32 +40,32 @@ void FillingArray(Array* array)
 
 int main()
 {
-    int size = GiveMeSize();
-    Array* array = array_create(size);
-    FillingArray(array);
+    int size = GiveMeSize();//запускаем функцию GiveMeSize
+    Array* array = array_create(size);// создаём array
+    FillingArray(array);//запускаем FillingArray
     int min = 1000, max = -1000, mink = 0, maxk = 0;
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)//минимальное
     {
         if (array_get(array, i) < min)
         {
             min = array_get(array, i);
         }
     }
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)//максимальное
     {
         if (array_get(array, i) > max)
         {
             max = array_get(array, i);
         }
     }
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)//количество минимальных
     {
         if (array_get(array, i) == min)
         {
             mink++;
         }
     }
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)//количество максимальных 
     {
         if (array_get(array, i) == max)
         {
