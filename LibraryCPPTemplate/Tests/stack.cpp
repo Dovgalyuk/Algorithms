@@ -28,24 +28,24 @@ int main()
 
     std::cout << "Get: " << stack.get() << "\n";
     stack.pop();
-    if (stack.get() != 1)
 
+    if (stack.get() != 1)
     {
         std::cout << "Invalid stack top after pop\n";
         return 1;
     }
-    
+
     std::cout << "Get: " << stack.get() << "\n";
     stack.push(4);
     stack.push(5);
-    if (stack.get() != 5)
 
+    if (stack.get() != 5)
     {
         std::cout << "Invalid stack top after push\n";
         return 1;
     }
-    while (!stack.empty())
 
+    while (!stack.empty())
     {
         std::cout << "Get: " << stack.get() << "\n";
         stack.pop();

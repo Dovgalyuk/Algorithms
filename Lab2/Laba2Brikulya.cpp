@@ -1,18 +1,19 @@
 #include <iostream>
 #include <string>
-#include <stack.h>
+#include "stack.h"
 
 std::string writeString()
 {
-    std::string VvodString;
+    std::string inputString;
     std::cout << "input text: " << std::endl;
-    std::getline(std::cin, VvodString);
-    return VvodString;
+    std::getline(std::cin, inputString);
+    return inputString;
+    
 }
 
-void fillStack(Stack<char>& myStack, std::string VvodString)
+void fillStack(Stack<char> &myStack, std::string inputString)
 {
-    for (auto symbol : VvodString)
+    for (auto symbol : inputString)
     {
         if (symbol == '#')
         {
@@ -27,16 +28,16 @@ void fillStack(Stack<char>& myStack, std::string VvodString)
 
 int main()
 {
-    std::string VvodString = writeString();
-    std::cout << VvodString << std::endl;
+    std::string inputString = writeString();
+    std::cout << inputString << std::endl;
     Stack<char> myStack;
-    fillStack(myStack, VvodString);
-    std::string exitString;
+    fillStack(myStack, inputString);
+    std::string outputString;
     while (!myStack.empty())
     {
-        exitString = myStack.get() + exitString;
+        outputString = myStack.get() + outputString;
         myStack.pop();
     }
-    std::cout << exitString << std::endl;
+    std::cout << outputString << std::endl;
     return 0;
 }
