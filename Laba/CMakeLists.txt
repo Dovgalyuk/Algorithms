@@ -12,3 +12,6 @@ target_link_libraries(Laba3 LibraryCPP)
 
 add_executable(Laba4 zadanie4.cpp)
 target_include_directories(Laba4 PUBLIC ../LibraryCPPTemplate)
+
+add_executable(Laba5 zadanie5.cpp)
+target_include_directories(Laba5 PUBLIC ../LibraryCPPTemplate)
