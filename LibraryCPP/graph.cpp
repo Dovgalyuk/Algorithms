@@ -29,10 +29,6 @@ struct graph
         int label = -1;
         int weight;
 
-        void setWeight(int input_weight){
-            weight =input_weight;
-        }
-
         int getWeight(){
             return weight;
         }
@@ -107,7 +103,7 @@ void graph_add_edge(graph*dir_graph,int vertex_1,int vertex_2,int input_weight){
         edge->label = dir_graph->matrix->get((vertex_1*dir_graph->vertex_amount)+vertex_2).label;
         edge->exists = 1;
         dir_graph->matrix->set(((vertex_1*dir_graph->vertex_amount)+vertex_2), *edge);
-        edge->weight=input_weight;
+        edge->weight = input_weight;
     }       
 }
 

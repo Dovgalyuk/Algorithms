@@ -38,15 +38,6 @@
     */
 
 int main(){
-    int vertex_amount = 6;
-    int weight,vertex1,vertex2;
-    graph* graph = create_graph(vertex_amount);
-    for (auto i = 0; i<vertex_amount;++i){
-        std::cin >> vertex1;
-        std::cin >> vertex2;
-        std::cin >> weight;
-        graph_add_edge(graph,vertex1,vertex2,weight);
-    }
-    
+   
     return 0;
 }
