@@ -4,17 +4,17 @@
 
 int main()
 {
-    Queue<int> firstQueue, secondQueue;
+    Queue<int> queue;
     std::ifstream fin;
     fin.open("C:/Users/1/CLionProjects/Algorithms/Zadanie3/num_input.txt");
+    size_t size;
+    std::string buf;
     if (!fin.is_open())
     {
         std::cout << "Error opening INPUT file";
         return 0;
     }
     else {
-        std::string buf;
-        size_t size;
         getline (fin, buf);
         size = stoi(buf);
         if (size <= 0){
@@ -23,14 +23,9 @@ int main()
         }
         for (size_t k = 0; k < size; k++){
             getline (fin, buf);
-            firstQueue.insert(stoi(buf));
-        }
-        for (size_t k = 0; k < size; k++){
-            getline (fin, buf);
-            secondQueue.insert(stoi(buf));
+            queue.insert(stoi(buf));
         }
     }
-    fin.close();
 
     std::ofstream fout;
     fout.open("C:/Users/1/CLionProjects/Algorithms/Zadanie3/num_output.txt");
@@ -41,19 +36,25 @@ int main()
     }
     else {
         int add = 0;
-        int out;
-        while (!(firstQueue.empty())){
-            out = (firstQueue.get() + secondQueue.get()) + add;
-            add = out / 10;
-            fout << out % 10 << "\n";
-            firstQueue.remove();
-            secondQueue.remove();
+        int out, firstNum, secondNum;
+        while (!(queue.empty())){
+            for (size_t k = 0; k < size; k++){
+                getline (fin, buf);
+                secondNum = stoi(buf);
+                firstNum = queue.get();
+                out = (secondNum + firstNum) + add;
+                add = out / 10;
+                fout << out % 10 << "\n";
+                queue.remove();
+            }
         }
         if (add != 0){
             fout << add;
         }
 
     }
+
+    fin.close();
     fout.close();
     return 0;
 }
