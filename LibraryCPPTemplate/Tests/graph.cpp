@@ -20,6 +20,13 @@ int main() {
         }
     }
     std::cout << "initialization runs successfully\n";
+    
+    graph->addVertex();
+    if (graph->getVertex(graph->size()-1)->getData() != 0) {
+        std::cout << "add vertex error\n";
+        return 123;
+    }
+    std::cout << "vertex added succesfully\n";
 
     graph->getVertex(0)->setData(1);
     if (graph->getVertex(0)->getData() != 1) {
