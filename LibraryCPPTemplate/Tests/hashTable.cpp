@@ -6,7 +6,7 @@ int main() {
 
     HashTable<std::string> *table = new HashTable<std::string>();
 
-    int load_data = 1000;
+    int load_data = 1000000;
 
     for (int i = 0; i < load_data; i++) {
         table->setData(std::to_string(i));
@@ -19,8 +19,8 @@ int main() {
         }
     }
 
-    if (table->findData(std::to_string(1000))) {
-        std::cout << "Not value - 1000\n";
+    if (table->findData(std::to_string(1000000))) {
+        std::cout << "Not value - 1000000\n";
         return 1;
     }
 

@@ -18,7 +18,7 @@ template<typename Data> class HashTable {
                 data = data_;
             }
 
-            void setData(Data data_) {
+            void setDataStr(Data data_) {
                 data = data_;
             }
 
@@ -45,9 +45,9 @@ template<typename Data> class HashTable {
 
         ~HashTable() {
             for (int i = 0; i < size_table; i++) {
-                if (table[i]) {
-                    delete table[i];
-                }
+                
+                delete table[i];
+            
             }
 
             delete[] table;
@@ -73,9 +73,9 @@ template<typename Data> class HashTable {
             }
 
             for (int i = 0; i < old_size_table; i++) {
-                if (table_temp[i]) {
-                    delete table_temp[i];
-                }
+                
+                delete table_temp[i];
+            
             }
             delete[] table_temp;
 
@@ -108,7 +108,7 @@ template<typename Data> class HashTable {
                  table[hash1] = new Item(data_);
              }
              else {
-                 table[first_delete]->setData(data_);
+                 table[first_delete]->setDataStr(data_);
                  table[first_delete]->setState(true);
              }
 
@@ -163,26 +163,47 @@ template<typename Data> class HashTable {
         int size_table = 64; // default size
         int size = 0;
         Item **table;        
-        float threshold = 0.65f;
+        float threshold = 0.75f;
 
-        // int hash (std::string str, int size_table) {
+        // int hash_horner(Data str, int size_table, int key) {
+            
         //     int sum_hash = 0;
-        //     unsigned long long p = 1;
 
         //     for (int i = 0; i < str.size(); i++) {
-        //         sum_hash = (p * sum_hash + str[i]) % size_table;
-        //         p *= 31;
+        //         sum_hash = (key * sum_hash + str[i]) % size_table;
         //     }
 
-        //     return sum_hash % size_table;
+        //     sum_hash = (sum_hash * 2 + 1) % size_table;
+
+        //     return sum_hash;
         // }
 
-        int hash_horner(Data str, int size_table, int key) {
+        // int hash_1(Data str, int size_table) {
+        //     return hash_horner(str, size_table, size_table - 1);
+        // }
+
+        // int hash_2(Data str, int size_table) {
+        //     return hash_horner(str, size_table, size_table + 1);
+        // }
+
+        int hash_1(Data str, int size_table)
+        {
+            int sum = 0;
+            unsigned long long p = 1;
+            for (int i = 0; i < str.size(); i++)
+            {
+                sum = (sum * p + str[i]) % size_table;
+                p *= 31;
+            }
+            return sum % size_table;
+        }
+
+        int hash_2(Data str, int size_table) {
             
             int sum_hash = 0;
 
             for (int i = 0; i < str.size(); i++) {
-                sum_hash = (key * sum_hash + str[i]) % size_table;
+                sum_hash = ((size_table + 1) * sum_hash + str[i]) % size_table;
             }
 
             sum_hash = (sum_hash * 2 + 1) % size_table;
@@ -190,13 +211,6 @@ template<typename Data> class HashTable {
             return sum_hash;
         }
 
-        int hash_1(Data str, int size_table) {
-            return hash_horner(str, size_table, size_table - 1);
-        }
-
-        int hash_2(Data str, int size_table) {
-            return hash_horner(str, size_table, size_table + 1);
-        }
 };
 
 #endif

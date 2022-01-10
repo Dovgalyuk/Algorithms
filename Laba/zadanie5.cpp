@@ -23,13 +23,18 @@ void comparison(int count) {
 
     HashTable<std::string> *table = new HashTable<std::string>();
     std::unordered_set<std::string> unorderedSet;
+    std::string *massiv_str = new std::string[count];
+
+    for (int i = 0; i < count; i++) {
+        massiv_str[i] = string_generator();
+    }
 
     std::cout << "count = " << count << "\n";
 
     auto start = std::chrono::system_clock::now();
 	for (int i = 0; i < count; i++)
 	{
-		table->setData(string_generator());
+		table->setData(massiv_str[i]);
 	}
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> sec_table = end - start;
@@ -38,26 +43,38 @@ void comparison(int count) {
     start = std::chrono::system_clock::now();
 	for (int i = 0; i < count; i++)
 	{
-		unorderedSet.insert(string_generator());
+		unorderedSet.insert(massiv_str[i]);
 	}
 	end = std::chrono::system_clock::now();
 	std::chrono::duration<double> sec_set = end - start;
     std::cout << "\tAdding to the UnorderedSet took " << sec_set.count() << " seconds." << "\n";
 
+    std::cout << std::endl;
+
     delete table;
     unorderedSet.clear();
+    delete[] massiv_str;
 }
 
 int main() {
 
-    int min_count = 500;
-    int max_count = 18500;
-    int step = 2000;
+    comparison(500);
 
-    for (int i = min_count; i <= max_count; i = i + step) {
-        comparison(i);
-        std::cout << std::endl;
-    }
+    comparison(1000);
+
+    comparison(10000);
+
+    comparison(24000);
+    
+    comparison(50000);
+
+    comparison(100000);
+
+    comparison(200000);
+
+    comparison(500000);
+
+    comparison(1000000);
 
     return 0;
 }
