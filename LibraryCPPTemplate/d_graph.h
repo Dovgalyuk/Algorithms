@@ -84,7 +84,7 @@ public:
         }
 
         Data getData() {
-            return data;
+            return weight;
         }
 
         Data weight;
