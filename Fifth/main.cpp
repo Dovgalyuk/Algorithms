@@ -20,7 +20,7 @@ int main() {
         auto end = std::chrono::system_clock::now();
         std::chrono::duration<double, std::micro> result = end - start;
         start = std::chrono::system_clock::now();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             int rand = rand % n;
             std::string randStr = std::to_string(rand);
             test1.findNode(randStr);
@@ -46,7 +46,7 @@ int main() {
         auto end = std::chrono::system_clock::now();
         std::chrono::duration<double, std::micro> result3 = end - start;
         start = std::chrono::system_clock::now();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             int rand = rand % n;
             std::string randStr = std::to_string(rand);
             test2.find(randStr);
