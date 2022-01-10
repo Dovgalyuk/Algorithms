@@ -11,7 +11,7 @@ int main(){
     int countVertexes;
     std::cin >> countVertexes;
 
-    auto graph = new Graph<int>(countVertexes, 1);
+    auto graph = new Graph<int, int>(countVertexes, 1);
 
     for (int i = 0; i < countVertexes; ++i) {
         int tempData;

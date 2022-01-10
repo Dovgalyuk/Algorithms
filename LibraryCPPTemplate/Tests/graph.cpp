@@ -9,7 +9,7 @@ int main() {
 
     int numberVertexes = 10;
 
-    auto graph = new Graph<int>(numberVertexes, 1);
+    auto graph = new Graph<int, int>(numberVertexes, 1);
 
     for (size_t i = 0; i < numberVertexes; i++) {
             if (graph->getDataVertex(i) != 1) {
@@ -64,7 +64,7 @@ int main() {
         return 1;
     }
 
-    Graph<int>::EdgeIterator iterator(graph->getVertex(0));
+    Graph<int, int>::EdgeIterator iterator(graph->getVertex(0));
 
     int count = 0;
 

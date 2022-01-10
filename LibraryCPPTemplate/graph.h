@@ -5,7 +5,7 @@
 #include "list.h"
 #include <vector>
 
-template<typename Data>
+template<typename Data, typename Weight>
 class Graph {
 public:
     struct Edge;
@@ -62,7 +62,7 @@ public:
 
     struct Edge {
         Vertex* toVertex;
-        int weight;
+        Weight weight;
 
         Edge(Vertex* toVertex) {
             this->toVertex = toVertex;
@@ -134,7 +134,6 @@ public:
     Vertex* addVertex(Vertex* data) {
         auto vertex = new Vertex(data);
         vertexes.push_back(vertex);
-
         return vertex;
     }
 
@@ -167,13 +166,10 @@ public:
     }
 
     void addEdge(Vertex* fromVertex, Vertex* toVertex, int weightEdge) {
-
-        if (checkEdge(fromVertex, toVertex)) {
-            fromVertex->getEdge(toVertex)->setWeight(weightEdge);
-        } else {
+        if (!checkEdge(fromVertex, toVertex)) {
             fromVertex->addEdge(toVertex);
-            fromVertex->getEdge(toVertex)->setWeight(weightEdge);
         }
+        fromVertex->getEdge(toVertex)->setWeight(weightEdge);
     }
 
     Edge* getEdge (Vertex* fromVertex, Vertex* toVertex) {
