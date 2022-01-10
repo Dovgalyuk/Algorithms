@@ -6,50 +6,50 @@
 template <typename Data> class Queue: private Vector<Data>
 {
 public:
-    // Создать пустую очередь
+    // Create empty queue
     Queue()
     {
     }
 
-    // Удаляет очередь
+    // Deletes queue
     ~Queue()
     {
     }
 
-    // Включает новый элемент в очередь
-    // В среднем должно быть O(1)
+    // Includes new element into the queue
+    // Should be O(1) on average
     void insert(Data data)
     {
-        if (amount == this->size()) { // если вектор заполн то увелич на 1 размер
+        if (amount == this->size()) {
             if (first > 0) {
-                sort(); // восст послед 1 стан 1вым
+                sort();
             }
-            this->resize(this->size() + 1); // увел размер на 1
+            this->resize(this->size() + 1);
         }
         last++;
-        last %= this->size(); // чтоб не выход за пред массива
+        last %= this->size();
         this->data[last] = data;
-        amount++; // увел кол-во
+        amount++;
     }
 
-    // Извлекает первый элемент из очереди
+    // Retrieves first element from the queue
     Data get() const
     {
         return this->data[first];
     }
 
-    // Удаляет первый элемент из очереди
-    // В среднем должно быть O(1)
+    // Removes first element from the queue
+    // Should be O(1) on average
     void remove()
     {
         first++;
         first %= this->size();
         if (amount > 0) {
-            amount--; // кол-во
+            amount--;
         }
     }
 
-    // Возвращает true, если очередь пуста
+    // Returns true if the queue is empty
     bool empty() const
     {
         return !amount;
@@ -60,7 +60,7 @@ private:
     size_t last = 0;
     size_t amount = 0;
 
-    void sort() { // сортировка кольцевым буфером
+    void sort() {
         size_t size = this->size();
         Data* new_data = new Data[size];
         for (int i = 0; i < size; ++i) {

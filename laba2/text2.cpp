@@ -5,26 +5,26 @@
 int main() {
     Stack<char> stk;
 
-    std::ifstream fin; // на чтение
+    std::ifstream fin;
     fin.open("../../laba2/txtfirst.txt");
 
     if (fin.is_open()){
-       std::ofstream fout; // запись
+       std::ofstream fout;
        fout.open("../../laba2/txtsecond.txt");
        char ch;
        while (fin.get(ch)){
            if (ch == '\n') {
-               while (!stk.empty()) { // пока стек не пуст
-                   fout << stk.get(); // данные посл эл
-                   stk.pop(); // del
+               while (!stk.empty()) {
+                   fout << stk.get();
+                   stk.pop();
                }
                fout << '\n';
            }
            else {
-               stk.push(ch); // запихнуть в стек
+               stk.push(ch);
            }
        }
-       while (!stk.empty()) { // вывод стека
+       while (!stk.empty()) {
            fout << stk.get();
            stk.pop();
        }

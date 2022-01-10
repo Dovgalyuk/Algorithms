@@ -5,33 +5,33 @@
 template <typename Data> class Stack
 {
 public:
-    // Создает пустой стек
+    // Creates empty stack
     Stack()
     {
         list = new List<Data>;
     }
 
-    // Удаляет стек
+    // Deletes the stack
     ~Stack()
     {
         delete list;
     }
 
-    // Помещает данные на вершину стека
-    // В среднем должно быть O(1)
+    // Pushes data on top of the stack
+    // Should be O(1) on average
     void push(Data data)
     {
         list->insert(data);
     }
 
-    // Извлекает последний элемент из стека
+    // Retrives the last element from the stack
     Data get()
     {
        return list->first()->data();
     }
 
-    // Удаляет последний элемент из стека
-    // Должно быть О(1)
+    // Removes the last element from the stack
+    // Should be O(1)
     void pop()
     {
         if (!empty()){
@@ -39,14 +39,14 @@ public:
         }
     }
 
-    // Возвращает true, если стек пуст
+    // Returns true if the stack is empty
     bool empty()
     {
         return !list->first();
     }
 
 private:
-    // приватные данные должны быть здесь
+    // private data should be here
     List<Data> *list;
 };
 

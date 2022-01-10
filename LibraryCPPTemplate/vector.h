@@ -7,45 +7,43 @@
 template <typename Data> class Vector
 {
 public:
-    // Создает вектор
-    Vector(): length(0), capacity(0), data(nullptr) // присв 0
+    // Creates vector
+    Vector(): length(0), capacity(0), data(nullptr)
     {
     }
 
-    // Удаляет векторную структуру и внутренние данные
+    // Deletes vector structure and internal data
     ~Vector()
     {
         delete[] data;
     }
 
-    // Извлекает элемент вектора с указанным индексом
+    // Retrieves vector element with the specified index
     Data get(size_t index) const
     {
         return data[index];
     }
 
-    // Задает элемент вектора с указанным индексом
+    // Sets vector element with the specified index
     void set(size_t index, Data value)
     {
         data[index] = value;
     }
 
-    // Получает текущий размер вектора
+    // Retrieves current vector size
     size_t size() const
     {
         return length;
     }
 
-    // копирование из 1 массива в другой
     void data_copy(Data* new_data, size_t size, size_t offset_old_data = 0, size_t offset_new_data = 0) {
         for (int i = 0; i < size; ++i) {
             new_data[offset_new_data + i] = data[offset_old_data + i];
         }
     }
 
-    //увеличение вектора
     void expand_data(size_t size) {
-        if (capacity >= size) // проверка на расширение
+        if (capacity >= size)
             return;
         if (capacity == 0)
             capacity = 1;
@@ -53,14 +51,14 @@ public:
             capacity *= capacity_multiply;
     }
 
-    // Изменяет размер вектора (может увеличиваться или уменьшаться)
-    // В среднем должно быть O(1)
+    // Changes the vector size (may increase or decrease)
+    // Should be O(1) on average
     void resize(size_t size)
     {
         if (capacity < size) {
             expand_data(size);
             Data* new_data = new Data[capacity];
-            data_copy(new_data, this->size()); // копир из стар в нов массив
+            data_copy(new_data, this->size());
             delete[] data;
             data = new_data;
         }

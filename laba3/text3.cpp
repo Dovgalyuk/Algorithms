@@ -5,48 +5,48 @@
 #include <climits>
 #include "queue.h"
 
-const int main_peak = 0; // исходная вершина отсчета
+const int main_peak = 0;
 
 int main() {
     std::ifstream is("../../laba3/input.txt");
     std::ofstream os("../../laba3/output.txt");
     if (is.is_open() && os.is_open()) {
         int count;
-        is >> count; // читает кол-во вершин
+        is >> count;
         int matrix[count][count];
         int num;
         for (int i = 0; i < count; ++i) {
             for (int j = 0; j < count; ++j) {
-                is >> num; // запись
+                is >> num;
                 matrix[i][j] = num;
             }
-        } // создали матрицу
+        }
         auto* queue = new Queue<int>;
         queue->insert(main_peak);
-        bool was[count]; // чтобы не посчитать 1 вершмну 2жды
-        for (int i = 0; i < count; ++i) { // инициализируем массив
+        bool was[count];
+        for (int i = 0; i < count; ++i) {
             was[i] = false;
         }
         int lengths[count];
         int length = 1;
-        for (int i = 0; i < count; ++i) { // инициализируем массив очень большими путями
+        for (int i = 0; i < count; ++i) {
             lengths[i] = INT_MAX;
         }
-        lengths[main_peak] = 0; // размеры путей
+        lengths[main_peak] = 0;
         while (!queue->empty()) {
-            int id = queue->get(); // взять первый элемент
-            length = lengths[id] + 1; // путь до вершины пред + 1 до всех соседей  от main_peak
-            queue->remove(); // удал вершину которую взяли id
+            int id = queue->get();
+            length = lengths[id] + 1;
+            queue->remove();
             if (was[id]) {
                 continue;
             }
             was[id] = true;
-            for (int i = 0; i < count; ++i) { // есть ли соединение вершины i  с id
+            for (int i = 0; i < count; ++i) {
                 if (matrix[id][i] && !was[i]) {
-                    if (lengths[i] > length) { // если прошл найд разм больше, то прист min
+                    if (lengths[i] > length) {
                         lengths[i] = length;
                     }
-                    queue->insert(i); // добавить в очередь на проверку
+                    queue->insert(i);
                 }
             }
         }
