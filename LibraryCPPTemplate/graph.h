@@ -131,7 +131,7 @@ public:
         return false;
     }
 
-    Vertex* addVertex(Vertex* data) {
+    Vertex* addVertex(Data data) {
         auto vertex = new Vertex(data);
         vertexes.push_back(vertex);
         return vertex;
