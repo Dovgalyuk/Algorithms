@@ -6,7 +6,7 @@ class PathFinder {
 public:
     PathFinder(D_Graph<int>* graph, int vertexCount) {
         int vertexCorrent = 0;
-        int min, i, j, a, u = 0, b, v = 0, mincost = 0;
+        int min, i, j, a, b, mincost = 0;
         for (i = 0; i < graph->size(); ++i) {
             if (i == 0)
                 graph->getVertex(i)->setLabel(1);
@@ -22,10 +22,10 @@ public:
                         if (graph->getVertex(i)->getLabel() != 0)
                         {
                             min = graph->getVertex(i)->getEdgeTo(graph->getVertex(j))->getWeight();
-                            a = u = i;
-                            b = v = j;
+                            a = i;
+                            b = j;
                         }
-            if (graph->getVertex(u)->getLabel() == 0 || graph->getVertex(v)->getLabel() == 0)
+            if (graph->getVertex(a)->getLabel() == 0 || graph->getVertex(b)->getLabel() == 0)
             {
                 path.push_back(b);
                 std::cout << "\n " << vertexCorrent << ": " << a << " -> " << b << " = " << min; //Можно вывести так
