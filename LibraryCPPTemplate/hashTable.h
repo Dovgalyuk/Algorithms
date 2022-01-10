@@ -2,6 +2,7 @@
 #define HASHTABLE_H
 
 #include <string>
+#include <functional>
 
 template<typename Data> class HashTable {
 
@@ -85,24 +86,35 @@ template<typename Data> class HashTable {
             int hash1 = hash_1(data_, size_table);
             int hash2 = hash_2(data_, size_table);
 
-            int i = 0;
+            // int i = 0;
             int first_delete = -1;
 
             if (size + 1 > int(size_table * threshold)) {
                 Resize_table();
             }
 
-            while (table[hash1] != nullptr && i < size_table) {
+            // while (table[hash1] != nullptr && i < size_table) {
 
+            //     if (table[hash1]->getData() == data_ && table[hash1]->getState()) {
+            //         return false;
+            //     }
+            //     if (!table[hash1]->getState() && first_delete == -1) {
+            //         first_delete = hash1;
+            //     }
+            //     hash1 = (hash1 + hash2) % size_table;
+            //     i++;
+            //  }
+
+            int answer = func(hash1, hash2, [this, data_, hash1, &first_delete]() mutable -> int{
                 if (table[hash1]->getData() == data_ && table[hash1]->getState()) {
-                    return false;
+                    return 1;
                 }
                 if (!table[hash1]->getState() && first_delete == -1) {
                     first_delete = hash1;
                 }
-                hash1 = (hash1 + hash2) % size_table;
-                i++;
-             }
+
+                return 0;
+            });
 
              if (first_delete == -1) {
                  table[hash1] = new Item(data_);
@@ -113,7 +125,7 @@ template<typename Data> class HashTable {
              }
 
              size++;
-             return true;
+             return !answer;
         }
 
         bool deleteData(Data data_) {
@@ -121,21 +133,31 @@ template<typename Data> class HashTable {
             int hash1 = hash_1(data_, size_table);
             int hash2 = hash_2(data_, size_table);
 
-            int i = 0;
+            // int i = 0;
 
-            while (table[hash1] != nullptr && i < size_table) {
+            // while (table[hash1] != nullptr && i < size_table) {
                 
+            //     if (table[hash1]->getData() == data_ && table[hash1]->getState()) {
+            //         table[hash1]->setState(false);
+            //         size--;
+            //         return true;
+            //     }
+
+            //     hash1 = (hash1 + hash2) % size_table;
+            //     i++;
+            // }
+
+            int answer = func(hash1, hash2, [this, data_, hash1]() -> int{
                 if (table[hash1]->getData() == data_ && table[hash1]->getState()) {
                     table[hash1]->setState(false);
                     size--;
-                    return true;
+                    return 1;
                 }
 
-                hash1 = (hash1 + hash2) % size_table;
-                i++;
-            }
+                return 0;
+            });
 
-            return false;
+            return answer;
         }
 
         bool findData(Data data_) {
@@ -143,19 +165,27 @@ template<typename Data> class HashTable {
             int hash1 = hash_1(data_, size_table);
             int hash2 = hash_2(data_, size_table);
 
-            int i = 0;
+            // int i = 0;
 
-            while (table[hash1] != nullptr && i < size_table) {
+            // while (table[hash1] != nullptr && i < size_table) {
 
+            //     if (table[hash1]->getData() == data_ && table[hash1]->getState()) {
+            //         return true;
+            //     }
+
+            //     hash1 = (hash1 + hash2) % size_table;
+            //     i++;
+            // }
+
+            int answer = func(hash1, hash2, [this, data_, hash1]() -> int{
                 if (table[hash1]->getData() == data_ && table[hash1]->getState()) {
-                    return true;
+                    return 1;
                 }
 
-                hash1 = (hash1 + hash2) % size_table;
-                i++;
-            }
+                return 0;
+            });
 
-            return false;
+            return answer;
         }
 
     private:
@@ -209,6 +239,25 @@ template<typename Data> class HashTable {
             sum_hash = (sum_hash * 2 + 1) % size_table;
 
             return sum_hash;
+        }
+
+        int func(int &hash1, int hash2, std::function<int()> f) {
+
+            int i = 0;
+
+            while (table[hash1] != nullptr && i < size_table) {
+
+                int answer = f();
+
+                if (answer) {
+                    return answer;
+                }
+
+                hash1 = (hash1 + hash2) % size_table;
+                i++;
+            }
+
+            return 0;
         }
 
 };
