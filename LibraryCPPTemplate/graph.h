@@ -122,7 +122,7 @@ public:
     }
 
     bool checkEdge(Vertex* fromVertex, Vertex* toVertex) {
-        for (auto item = fromVertex->edges.first(); item; item = item->next()) {
+        for (auto item = fromVertex->edges.first(); item != nullptr; item = item->next()) {
             if (item->data()->getToVertex() == toVertex) {
                 return true;
             }
@@ -131,7 +131,7 @@ public:
         return false;
     }
 
-    Vertex* addVertex(Vertex* data) {
+    Vertex* addVertex(Data data) {
         auto vertex = new Vertex(data);
         vertexex.push_back(vertex);
 
@@ -167,13 +167,8 @@ public:
     }
 
     void addEdge(Vertex* fromVertex, Vertex* toVertex, int weightEdge) {
-
-        if (checkEdge(fromVertex, toVertex)) {
-            fromVertex->getEdge(toVertex)->setWeight(weightEdge);
-        } else {
-            fromVertex->addEdge(toVertex);
-            fromVertex->getEdge(toVertex)->setWeight(weightEdge);
-        }
+        if (!checkEdge(fromVertex, toVertex)) fromVertex->addEdge(toVertex);
+        fromVertex->getEdge(toVertex)->setWeight(weightEdge);
     }
 
     Edge* getEdge (Vertex* fromVertex, Vertex* toVertex) {
@@ -194,7 +189,6 @@ public:
                 return i;
             }
         }
-
         return -1;
     }
 
