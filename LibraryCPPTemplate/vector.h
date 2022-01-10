@@ -53,7 +53,7 @@ public:
             Data* new_data = new Data[capacity];
 
             for (size_t i = 0; i < length; i++) {
-                new_data[i] = get(i);
+                new_data[i] = data.get(i);
             }
 
             delete[] data;
