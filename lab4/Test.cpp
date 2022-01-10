@@ -3,7 +3,7 @@
 #include <vector>
 
 
-void main() {
+int main() {
 	
 	Graph graph;
 	std::vector<Vertex*> vs;
