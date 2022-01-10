@@ -12,7 +12,7 @@ const int SHAG_OBHODA = 700;
 
 int myContainerVSUnorderedSet(int size)
 {
-    auto myContainer = new container<int, string>(size);
+    auto myContainer = new container(size);
     unordered_set <string> UnorderedSet;
 
     auto start = chrono::system_clock::now();
