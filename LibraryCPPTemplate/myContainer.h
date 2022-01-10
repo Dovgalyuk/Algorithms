@@ -1,32 +1,30 @@
 #pragma once
 #include <unordered_set>
 #include <string>
+#include <vector>
 
-template <typename hashData, typename Data> class container
+using namespace std;
+
+class container
 {
 public:
     class Item
     {
     public:
-        Item* nextItem = NULL;
 
-        Item(Data data) : dat(data) {};
+        Item(string data) : dat(data) {};
 
-        Item* next() { return nextItem; }
-        void data(Data i) { dat = i; }
-        Data data() { return dat; }
-        void hash(hashData i) { hashKey = i; }
-        hashData hash() { return hashKey; }
-        void Nomer(int i) { index = i; }
-        int Nomer() { return index; }
+        void data(string i) { dat = i; }
+        string data() { return dat; }
+        void hash(int i) { hashKey = i; }
+        int hash() { return hashKey; }
 
     protected:
-        hashData hashKey; //hash
-        Data dat; //string
-        int index;
+        int hashKey;
+        string dat;
     };
 
-    int indexFunction(hashData key)
+    int indexFunction(int key)
     {
         if (key % amount < 0) {
             return (key % amount * (-1));
@@ -34,105 +32,94 @@ public:
         else {
             return (key % amount);
         }
-        
     }
 
     container(int c)
     {
         this->amount = c;
-        firstItem->Nomer(-1);
+        table.resize(amount);
+        for (int i = 0; i < amount; i++) {
+            table[i] = NULL;
+        }
     }
 
     ~container()
     {
-        Item* item = firstItem;
-        while (item->next()) {
-            Item* deleted = item;
-            item = item->next();
-            delete deleted;
-        }
-        delete item;
+        table.clear();
     }
 
-    void insert(Data data)
+    void insert(string data)
     {
         Item* item = new Item(data);
-        item->hash(std::hash<std::string>{}(data));// попробуй hash<Data>
-        item->Nomer(indexFunction(item->hash()));
-        item->nextItem = NULL;
-        if (firstItem->next()) {
-            Item* tempItem = firstItem;
-            bool checkVstavkiItema = true;
-            while (checkVstavkiItema) {
-                if (tempItem->next()) {
-                    if ((tempItem->next()->Nomer() > item->Nomer()) && ((tempItem->next()->Nomer() - tempItem->Nomer()) >= 2)) {
-                        item->nextItem = tempItem->next();
-                        tempItem->nextItem = item;
-                        checkVstavkiItema = false;
-                    }
-                    else if (tempItem->next()->Nomer() == item->Nomer()) {
-                        if ((tempItem->next()->hash() == item->hash()) && (tempItem->next()->data() == item->data())) {
-                            delete item;
-                            checkVstavkiItema = false;
-                        }
-                        else {
-                            item->Nomer(item->Nomer() + 1);
-                        }
-                    }
-                    else {
-                        tempItem = tempItem->next();
-                    }
+        item->hash(hash<string>{}(data));
+        int nomerVVectore = indexFunction(item->hash());
+        if (table[nomerVVectore] != NULL) {
+            bool provercaVstavki = true;
+            while (provercaVstavki) {
+                nomerVVectore++;
+                if (nomerVVectore >= amount) {
+                    amountAndTableResize();
+                    insert(item->data());
+                    return;
                 }
-                else {
-                    if (tempItem->Nomer() == amount - 1) {
-                        amount = amount * 2;
-                        tempItem->nextItem = item;
-                        item->Nomer(item->Nomer() + 1);
-                        checkVstavkiItema = false;
-                    }
-                    else {
-                        tempItem->nextItem = item;
-                        checkVstavkiItema = false;
-                    }
+                if (table[nomerVVectore] == NULL) {
+                    table[nomerVVectore] = item;
+                    provercaVstavki = false;
                 }
             }
         }
         else {
-            firstItem->nextItem = item;
+            table[nomerVVectore] = item;
         }
     }
 
-    Item* findElement(Data data) {
-        Item* tempItem = firstItem;
-        while (tempItem->next()) {
-            tempItem = tempItem->next();
-            if (tempItem->data() == data) {
-                return tempItem;
+    Item* findElement(string data) {
+        int index = indexFunction(hash<string>{}(data));
+        while (index < amount) {
+            if (table[index] != NULL) {
+                if (table[index]->data() == data) {
+                    return table[index];
+                }
             }
+            index++;
         }
         return NULL;
     }
 
-    void erase(Data data)
+    bool erase(string data)
     {
-        Item* tempItem = firstItem;
-        while (tempItem->next()) {
-            if (tempItem->next()->data() == data) {
-                Item* temp = tempItem->next();
-                tempItem->nextItem = tempItem->next()->nextItem;
-                delete temp;
-                return;
+        int index = indexFunction(hash<string>{}(data));
+        while (index < amount) {
+            if (table[index] != NULL) {
+                if (table[index]->data() == data) {
+                    delete table[index];
+                    table[index] = NULL;
+                    return true;
+                }
             }
-            tempItem = tempItem->next();
+            index++;
         }
-    }
-
-    Item* empty() {
-        return firstItem ? firstItem : NULL;
+        return false;
     }
 
 protected:
-    Item* firstItem = new Item("");
+    std::vector <Item*> table;
     int amount = 0;
+
+    void amountAndTableResize() {
+        amount = amount * 2;
+        table.resize(amount);
+        for (int i = amount / 2; i < amount; i++) {
+            table[i] = NULL;
+        }
+        for (int i = 0; i < amount / 2; i++) {
+            if (table[i] != NULL) {
+                string str = table[i]->data();
+                delete table[i];
+                table[i] = NULL;
+                insert(str);
+            }
+        }
+    }
 };
 
