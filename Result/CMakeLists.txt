@@ -7,3 +7,6 @@ target_include_directories(SolveTwo PUBLIC ../LibraryCPPTemplate)
 
 add_executable(SolveThree solvethree.cpp)
 target_include_directories(SolveThree PUBLIC ../LibraryCPPTemplate)
+
+add_executable(SolveFour solvefour.cpp)
+target_include_directories(SolveFour PUBLIC ../LibraryCPPTemplate)
