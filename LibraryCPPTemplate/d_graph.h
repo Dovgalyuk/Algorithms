@@ -57,8 +57,8 @@ public:
               std::cout << edges->get(i)->weight << " ";
         }
 
-        bool check_weight(size_t index) {
-            if (edges->get(index)->weight != 0) {
+        bool check_exist(size_t index) {
+            if (edges->get(index)->weight) {
                 return true;
             }
             else return false;
@@ -77,7 +77,7 @@ public:
     struct Edge {
     public:
         Edge() {
-            weight = 0;
+            weight = NULL;
         }
         Edge(Data weight) {
             this->weight = weight;
@@ -176,7 +176,7 @@ public:
 
 
     bool checkEdge(size_t from, size_t to) {
-        if (getVertex(from)->check_weight(to) != 0)
+        if (getVertex(from)->check_exist(to))
             return true;
             
         else
@@ -184,7 +184,7 @@ public:
     }
 
     bool checkEdge(Vertex* from, size_t to) {
-        if (from->check_weight(to) != 0)
+        if (from->check_exist(to) != nullptr)
             return true;
 
         else
@@ -217,7 +217,7 @@ public:
 
         bool operator ++() {
             for (size_t i = current_pos+1; i < it->edges->size(); i++) {
-                if (it->check_weight(i)){
+                if (it->check_exist(i)){
                     current = vertices->get(i);
                     current_pos = i;
                     return true;
