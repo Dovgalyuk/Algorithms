@@ -152,7 +152,7 @@ void fillMap() {
         while(std::getline(is, inputString)) {
             std::vector<Tile> vector;
 
-            for (char ch : inputString) {
+            for (const char ch : inputString) {
                 vector.emplace_back(ch, 0);
             }
             map.push_back(vector);

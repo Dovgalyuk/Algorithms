@@ -14,7 +14,6 @@ struct Edge {
 
 struct DataVertex {
     int data = 0;
-    int label = 0;
     bool check = true;
     DataVertex() {}
 };
@@ -46,7 +45,10 @@ bool merge(Edge item, Graph<DataVertex>* graph, std::vector<std::vector<Edge>>& 
         uRepData.check = false;
         vRepData.check = false;
         count++;
-        multiEdges.emplace_back().push_back(item);
+
+        std::vector<Edge> vector;
+        vector.push_back(item);
+        multiEdges.push_back(vector);
         graph->setDataVertex(fromIndex, uRepData);
         graph->setDataVertex(toIndex, vRepData);
         return true;
