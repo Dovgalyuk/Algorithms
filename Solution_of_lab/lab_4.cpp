@@ -16,7 +16,6 @@
     }
 
     int main() {
-
     int VertexCount = 7; 
     //инициализируем дерево
     d_graph<int> graph(VertexCount);
@@ -36,7 +35,6 @@
 
     //иницализируем его множеством ребер из дерева
     for (int i = 0; i < VertexCount; i++) {
-
         d_graph<int>::EdgesIterator iterator(graph, graph.getVertex(i));
         for (size_t j = 0; j < VertexCount; j++) {
             if (++iterator) {
@@ -50,7 +48,7 @@
     }
     // сортируем все полученные ребра по возрастанию
     sort(Edges_kruskal.begin(), Edges_kruskal.end(), sortByWeight);
- 
+    
 
     
     //множество векторов ребер 

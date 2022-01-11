@@ -19,7 +19,7 @@ public:
         Vertex(size_t vertexCount) {
             edges = new Edges(vertexCount);
             for (int i = 0; i < vertexCount; i++)
-                edges->set(i, new Edge(0));
+                edges->set(i, new Edge());
             data = 0;
         }
 
@@ -58,10 +58,7 @@ public:
         }
 
         bool check_exist(size_t index) {
-            if (edges->get(index)->weight) {
-                return true;
-            }
-            else return false;
+            return edges->get(index)->exist;
         }
 
 
@@ -77,10 +74,12 @@ public:
     struct Edge {
     public:
         Edge() {
-            weight = NULL;
+            weight = 0;
+            exist = false;
         }
         Edge(Data weight) {
             this->weight = weight;
+            exist = true;
         }
 
         Data getData() {
@@ -88,6 +87,7 @@ public:
         }
 
         Data weight;
+        bool exist;
     };
 
    
@@ -184,7 +184,7 @@ public:
     }
 
     bool checkEdge(Vertex* from, size_t to) {
-        if (from->check_exist(to) != nullptr)
+        if (from->check_exist(to))
             return true;
 
         else
