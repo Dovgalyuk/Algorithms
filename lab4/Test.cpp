@@ -5,7 +5,7 @@
 
 int main() {
 	
-	Graph graph = new Graph();
+	Graph* graph = new Graph();
 	std::vector<Vertex*> vs;
 
 	for (int i = 0; i < 4; i++) {
