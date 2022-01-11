@@ -66,6 +66,10 @@ public:
                     table[nomerVVectore] = item;
                     provercaVstavki = false;
                 }
+                if (table[nomerVVectore]->hash() == 0) {
+                    table[nomerVVectore] = item;
+                    provercaVstavki = false;
+                }
             }
         }
         else {
@@ -76,10 +80,11 @@ public:
     Item* findElement(string data) {
         int index = indexFunction(hash<string>{}(data));
         while (index < amount) {
-            if (table[index] != NULL) {
-                if (table[index]->data() == data) {
-                    return table[index];
-                }
+            if (table[index] == NULL) {
+                return NULL;
+            }
+            if (table[index]->data() == data) {
+                return table[index];
             }
             index++;
         }
@@ -92,8 +97,8 @@ public:
         while (index < amount) {
             if (table[index] != NULL) {
                 if (table[index]->data() == data) {
-                    delete table[index];
-                    table[index] = NULL;
+                    table[index]->data().clear();
+                    table[index]->hash(0);
                     return true;
                 }
             }
@@ -122,4 +127,3 @@ protected:
         }
     }
 };
-
