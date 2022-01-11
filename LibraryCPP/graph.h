@@ -50,20 +50,4 @@ class Graph {
 		std::unordered_map<Vertex*, std::unordered_set<Vertex*>> edges;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif
