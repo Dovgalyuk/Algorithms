@@ -23,7 +23,7 @@ int main() {
 	graph->AddEdge(*vs.at(0), *vs.at(3));
 	graph->AddEdge(*vs.at(2), *vs.at(3));
 
-	if (graph.AddEdge(*vs.at(2), *vs.at(3))) {
+	if (graph->AddEdge(*vs.at(2), *vs.at(3))) {
 		exit(1);
 	}
 
