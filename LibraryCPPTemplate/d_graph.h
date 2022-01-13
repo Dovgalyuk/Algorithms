@@ -8,7 +8,8 @@ template<typename Data> class D_Graph
 {
 public:
     struct Vertex;
-    struct Edge;
+    struct Edge;    
+    struct DataLabel;
 
     D_Graph(size_t number, Data defaultValue) {
 
@@ -27,8 +28,8 @@ public:
     {
     public:
         Vertex(Data data) {
-            this->data = data;
-            label = 0;
+            datalabel.data = data;
+            datalabel.label = 0;
         }
         ~Vertex() {
             auto mustBeDeleted = edges->first();
@@ -39,10 +40,10 @@ public:
             delete edges;
         }
         Data getData() {
-            return data;
+            return datalabel.data;
         }
         void setData(Data newData) {
-            data = newData;
+            datalabel.data = newData;
         }
 
 
@@ -67,13 +68,17 @@ public:
             return nullptr;
         }
         int getLabel() {
-            return label;
+            return datalabel.label;
         }
         void setLabel(int newLabel) {
-            label = newLabel;
+            datalabel.label = newLabel;
         }
         List<Edge*>* edges = new List<Edge*>;
     private:
+        DataLabel datalabel;
+    };
+
+    struct DataLabel {
         Data data;
         int label;
     };
