@@ -26,7 +26,7 @@ int main() {
     for(int i = 0; i < 6; ++i){
         graph2_vs.push_back(graph2->AddVertex(i));
     }
-    graph2->AddEdge(*graph2_vs);
+    //graph2->AddEdge(*graph2_vs.at(i));
 
     Prima(graph2, prima);
 
