@@ -1,0 +1,190 @@
+{
+	"inputs" : 
+	[
+		{
+			"path" : "CMakeLists.txt"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/CMakeFiles/3.21.1/CMakeSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/CMakeFiles/3.21.1/CMakeCCompiler.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/CMakeFiles/3.21.1/CMakeCXXCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/CMakeCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/CMakeFiles/3.21.1/CMakeRCCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C-ABI.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/CMakeCXXInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX-ABI.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/nerdy/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"path" : "LibraryC/CMakeLists.txt"
+		},
+		{
+			"path" : "LibraryC/Tests/CMakeLists.txt"
+		},
+		{
+			"path" : "LibraryCPP/CMakeLists.txt"
+		},
+		{
+			"path" : "LibraryCPP/Tests/CMakeLists.txt"
+		},
+		{
+			"path" : "LibraryCPPTemplate/CMakeLists.txt"
+		},
+		{
+			"path" : "LibraryCPPTemplate/Tests/CMakeLists.txt"
+		},
+		{
+			"path" : "lab1/CMakeLists.txt"
+		},
+		{
+			"path" : "lab2/CMakeLists.txt"
+		},
+		{
+			"path" : "lab3/CMakeLists.txt"
+		},
+		{
+			"path" : "lab4/CMakeLists.txt"
+		}
+	],
+	"kind" : "cmakeFiles",
+	"paths" : 
+	{
+		"build" : "C:/Users/nerdy/OneDrive/Документы/GitHub/Algorithms/cmake-build-debug",
+		"source" : "C:/Users/nerdy/OneDrive/Документы/GitHub/Algorithms"
+	},
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}

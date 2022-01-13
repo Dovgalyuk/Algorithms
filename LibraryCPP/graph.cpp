@@ -75,6 +75,17 @@ bool Graph::AddEdge(Vertex& u, Vertex& v, int weight) {
 		}
 }
 
+std::vector<Graph::Edge*> Graph::GetEdges(Graph::Vertex& u){
+    std::vector<Graph::Edge*> uedges;
+    uedges.reserve(3);
+    auto& uEdges = edges[&u];
+    for(auto& item: uEdges){
+        uedges.push_back(item);
+    }
+    return uedges;
+}
+
+
 bool Graph::RemoveVertex(Vertex& u) {
 	if (vertices.find(&u) != vertices.end()) {
 
@@ -86,7 +97,6 @@ bool Graph::RemoveVertex(Vertex& u) {
 		
 		for (auto& pair : uSuccessors) {
 			auto& successors = pair;
-            // instead delete all "edges" in edges which are connected with u
 			uSuccessors.clear();
 		}
 		return true;

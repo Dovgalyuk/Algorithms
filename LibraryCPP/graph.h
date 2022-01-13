@@ -65,6 +65,9 @@ public:
 
 	std::vector<Vertex*> GetSuccessors(Vertex& u);
 
+    std::vector<Edge*> GetEdges(Vertex& u);
+
+
 private:
 
 	size_t vertexCounter = 0;
