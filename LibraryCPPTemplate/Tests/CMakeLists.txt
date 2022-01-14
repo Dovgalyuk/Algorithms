@@ -1,4 +1,4 @@
-add_executable(TestArrayCPPTemplate array.cpp)
+add_executable(TestArrayCPPTemplate array.cpp graph.cpp)
 target_include_directories(TestArrayCPPTemplate PUBLIC ..)
 add_test(TestArrayCPPTemplate TestArrayCPPTemplate)
 
@@ -13,6 +13,10 @@ add_test(TestQueueCPPTemplate TestQueueCPPTemplate)
 add_executable(TestStackCPPTemplate stack.cpp)
 target_include_directories(TestStackCPPTemplate PUBLIC ..)
 add_test(TestStackCPPTemplate TestStackCPPTemplate)
+
+add_executable(TestGrafCPPTemplate graph.cpp)
+target_include_directories(TestGrafCPPTemplate PUBLIC ..)
+add_test(TestGrafCPPTemplate TestGrafCPPTemplate)
 
 add_executable(TestVectorCPPTemplate vector.cpp)
 target_include_directories(TestVectorCPPTemplate PUBLIC ..)
