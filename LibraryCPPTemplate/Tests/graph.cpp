@@ -1,5 +1,6 @@
 #include "graph.h"
 
+
 int main() {
     const int vertexSize = 4;
     auto graph = new Graph<bool>(4);

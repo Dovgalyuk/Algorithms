@@ -3,7 +3,7 @@
 
 template <typename Data> class Array {
 public:
-    // create array
+    //create array
     Array(size_t size) {
         arraySize = size;
         data = new Data[size];

@@ -66,7 +66,6 @@ void startDijkstra(Graph<pair<bool, int>> &graph, int vertexIndex) {
     }
     cout << endl;
 }
-
 void findCosts(Graph<std::pair<bool, int>> &graph, size_t vertexIndex) {
 
     auto it = graph.getNeighbourIterator(vertexIndex);
