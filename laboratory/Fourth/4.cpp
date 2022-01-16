@@ -149,5 +149,6 @@ int main() {
 
     std::cout<<std::endl;
     result.showGraph();
+    delete& graph,result;
     return 0;
 } 
