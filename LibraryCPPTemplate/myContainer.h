@@ -52,6 +52,9 @@ public:
     {
         Item* item = new Item(data);
         item->hash(hash<string>{}(data));
+        if (item->hash() == 0) {
+            item->hash(item->hash() + 1);
+        }
         int nomerVVectore = indexFunction(item->hash());
         if (table[nomerVVectore] != NULL) {
             bool provercaVstavki = true;
@@ -78,7 +81,13 @@ public:
     }
 
     Item* findElement(string data) {
-        int index = indexFunction(hash<string>{}(data));
+        int index;
+        if (hash<string>{}(data) == 0) {
+            index = indexFunction(hash<string>{}(data)+1);
+        }
+        else {
+            index = indexFunction(hash<string>{}(data));
+        }
         while (index < amount) {
             if (table[index] == NULL) {
                 return NULL;
@@ -93,7 +102,13 @@ public:
 
     bool erase(string data)
     {
-        int index = indexFunction(hash<string>{}(data));
+        int index;
+        if (hash<string>{}(data) == 0) {
+            index = indexFunction(hash<string>{}(data)+1);
+        }
+        else {
+            index = indexFunction(hash<string>{}(data));
+        }
         while (index < amount) {
             if (table[index] != NULL) {
                 if (table[index]->data() == data) {
@@ -118,11 +133,14 @@ protected:
             table[i] = NULL;
         }
         for (int i = 0; i < amount / 2; i++) {
-            if (table[i] != NULL) {
+            if (table[i] != NULL && table[i]->hash() != 0) {
                 string str = table[i]->data();
                 delete table[i];
                 table[i] = NULL;
                 insert(str);
+            }
+            if (table[i] != NULL && table[i]->hash() == 0) {
+                table[i] = NULL;
             }
         }
     }
