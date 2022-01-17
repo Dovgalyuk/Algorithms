@@ -5,7 +5,8 @@ using namespace std;
 
 int main() {
     const int vertexCount = 10;
-    auto graph = d_graph<int>(10);
+    const int defaultValue = 0;
+    auto graph = d_graph<int>(vertexCount, defaultValue);
 
     for (int i = 0; i < vertexCount; i++) {
         graph.getVertex(i)->data = i;
