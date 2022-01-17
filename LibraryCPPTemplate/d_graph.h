@@ -16,11 +16,12 @@ public:
     struct Vertex
     {
     public:
-        Vertex(size_t vertexCount) {
+
+        Vertex(size_t vertexCount, Data data) {
             edges = new Edges(vertexCount);
             for (int i = 0; i < vertexCount; i++)
                 edges->set(i, new Edge());
-            data = 0;
+            this->data = data;
         }
 
         ~Vertex() {
@@ -66,7 +67,6 @@ public:
                 return edges->get(index)->weight;  
         }
 
-
         Edges* edges;
         Data data;
     };
@@ -90,14 +90,12 @@ public:
         bool exist;
     };
 
-   
 
-
-    d_graph(int vertexCount) {
+    d_graph(int vertexCount, Data defaultValue) {
         this->vertexCount = vertexCount;
         vertices = new Vertices(vertexCount);
         for (int i = 0; i < vertexCount; i++)
-            vertices->set(i, new Vertex(vertexCount));
+            vertices->set(i, new Vertex(vertexCount, defaultValue));
     }
 
     ~d_graph() {
@@ -118,7 +116,6 @@ public:
 
      Vertex* getVertex(size_t index) {
              return vertices->get(index);
-  
      }
 
     void setEdgetoVertex(size_t from, size_t to, Data weight) {

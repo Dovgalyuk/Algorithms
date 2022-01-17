@@ -17,8 +17,9 @@
 
     int main() {
     int VertexCount = 7; 
+    int DefaultValue = 0;
     //инициализируем дерево
-    d_graph<int> graph(VertexCount);
+    d_graph<int> graph(VertexCount, DefaultValue);
     graph.setEdgetoVertex(0, 1, 125);
     graph.setEdgetoVertex(0, 3, 225);
     graph.setEdgetoVertex(1, 2, 15);
@@ -119,7 +120,7 @@
         }
     }
 
-    d_graph<int> graph_result(VertexCount);
+    d_graph<int> graph_result(VertexCount, DefaultValue);
 
     //вывод множества вершин для остовного дерева
     for (size_t j = 0; j < Used_Vertex.size(); j++) {
