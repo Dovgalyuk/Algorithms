@@ -1,6 +1,7 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
 
+
 template <typename Data> class Array {
 public:
     //create array
