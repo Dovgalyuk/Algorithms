@@ -9,21 +9,15 @@ template<typename Data>
 class Graph {
 public:
     struct Edge;
+
+    typedef List<Edge> Edges;
+
     struct Vertex {
         Data data;
-        List<Edge*> edges = List<Edge*>();
+        Edges edges = List<Edge>();
 
         Vertex(Data data) {
             this->data = data;
-        }
-
-        ~Vertex() {
-            auto itemDel = edges.first();
-
-            while(itemDel != nullptr) {
-                delete itemDel->data();
-                itemDel = itemDel->next();
-            }
         }
 
         void setData(Data data) {
@@ -35,23 +29,32 @@ public:
         }
 
         void addEdge(Vertex* toVertex) {
-            edges.insert(new Edge(toVertex));
+            edges.insert(Edge(toVertex));
         }
 
-        Edge* getEdge(Vertex* toVertex) {
+        bool hasEdge(Vertex *toVertex) {
             for (auto item = edges.first(); item != nullptr; item = item->next()) {
-                if (item->data()->getToVertex() == toVertex) {
-                    return item->data();
+                if (item->data().getToVertex() == toVertex) {
+                    return true;
                 }
             }
 
-            return nullptr;
+            return false;
+        }
+
+        Edge& getEdge(Vertex* toVertex) {
+            for (auto item = edges.first(); item != nullptr; item = item->next()) {
+                if (item->data().getToVertex() == toVertex) {
+                    return item->data();
+                }
+            }
+            Edge nullEdge = Edge();
+            return nullEdge;
         }
 
         void removeEdge(Vertex* toVertex) {
             for (auto item = edges.first(); item != nullptr; item = item->next()) {
-                if (item->data()->getToVertex() == toVertex) {
-                    delete item->data();
+                if (item->data().getToVertex() == toVertex) {
                     edges.erase(item);
                     break;
                 }
@@ -63,6 +66,10 @@ public:
     struct Edge {
         Vertex* toVertex;
         int weight;
+
+        Edge() {
+            toVertex = nullptr;
+        }
 
         Edge(Vertex* toVertex) {
             this->toVertex = toVertex;
@@ -83,7 +90,7 @@ public:
 
     struct EdgeIterator {
 
-        typename List<Edge*>::Item *edgeItem;
+        typename Edges::Item *edgeItem;
 
         EdgeIterator(Vertex* head) {
             edgeItem = head->edges.first();
@@ -95,12 +102,12 @@ public:
             }
         }
 
-        Edge* operator *() {
-            if (edgeItem != nullptr) {
-                return edgeItem->data();
-            } else {
-                return nullptr;
-            }
+        Edge operator *() {
+            return edgeItem->data();
+        }
+
+        bool hasNext() {
+            return edgeItem != nullptr;
         }
     };
 
@@ -123,7 +130,7 @@ public:
 
     bool checkEdge(Vertex* fromVertex, Vertex* toVertex) {
         for (auto item = fromVertex->edges.first(); item != nullptr; item = item->next()) {
-            if (item->data()->getToVertex() == toVertex) {
+            if (item->data().getToVertex() == toVertex) {
                 return true;
             }
         }
@@ -168,15 +175,22 @@ public:
 
     void addEdge(Vertex* fromVertex, Vertex* toVertex, int weightEdge) {
         if (!checkEdge(fromVertex, toVertex)) fromVertex->addEdge(toVertex);
-        fromVertex->getEdge(toVertex)->setWeight(weightEdge);
+
+        if (!fromVertex->hasEdge(toVertex)) return;
+
+        fromVertex->getEdge(toVertex).setWeight(weightEdge);
     }
 
-    Edge* getEdge (Vertex* fromVertex, Vertex* toVertex) {
-        return fromVertex->getEdge(toVertex);
+    void setWeightEdge(Vertex* fromVertex, Vertex* toVertex, int weight) {
+        if (!fromVertex->hasEdge(toVertex)) return;
+
+        fromVertex->getEdge(toVertex).weight = weight;
     }
 
     int getWeightEdge(Vertex* fromVertex, Vertex* toVertex) {
-        return getEdge(fromVertex, toVertex)->getWeight();
+        if (!fromVertex->hasEdge(toVertex)) return -1;
+
+        return fromVertex->getEdge(toVertex).weight;
     }
 
     void removeEdge(Vertex* fromVertex, Vertex* toVertex) {

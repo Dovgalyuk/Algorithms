@@ -14,9 +14,10 @@ public:
             previousItem = nullptr;
             itemData = data;
         }
+
         Item *next() { return nextItem; }
         Item *prev() { return previousItem; }
-        Data data() const { return itemData; }
+        Data& data() { return itemData; }
     private:
         Data itemData;
     };
@@ -48,7 +49,7 @@ public:
 
     // Inserts new list item into the beginning
     Item *insert(Data data) {
-        auto *newItem = new Item(data);
+        auto newItem = new Item(data);
         newItem->nextItem = firstItem;
 
         if (firstItem != nullptr)

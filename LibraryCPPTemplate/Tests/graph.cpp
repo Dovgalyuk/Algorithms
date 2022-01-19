@@ -46,7 +46,7 @@ int main() {
     graph->addEdge(graph->getVertex(0), graph->getVertex(9), 15);
     graph->addEdge(graph->getVertex(0), graph->getVertex(2), 35);
 
-    graph->getEdge(graph->getVertex(0), graph->getVertex(9))->weight = 80;
+    graph->setWeightEdge(graph->getVertex(0), graph->getVertex(9), 80);
 
     if (graph->getWeightEdge(graph->getVertex(0), graph->getVertex(9)) != 80) {
         std::cout << "Error modifying the edge weight\n";
@@ -64,7 +64,7 @@ int main() {
 
     int count = 0;
 
-    while (*iterator != nullptr) {
+    while (iterator.hasNext()) {
         count++;
         ++iterator;
     }

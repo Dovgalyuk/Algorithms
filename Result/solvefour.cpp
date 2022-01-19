@@ -106,13 +106,13 @@ int main() {
 
     // we get all the values of the edges and their vertices
     for (int i = 0; i < graph->sizeVertexex(); i++) {
-        auto* item = graph->getVertex(i);
+        auto item = graph->getVertex(i);
 
         Graph<DataVertex>::EdgeIterator iterator(item);
 
-        while (*iterator != nullptr) {
-            int to = graph->getIndexVertex((*iterator)->toVertex);
-            allEdges.emplace_back(i, to, (*iterator)->getWeight());
+        while (iterator.hasNext()) {
+            int to = graph->getIndexVertex((*iterator).toVertex);
+            allEdges.emplace_back(i, to, (*iterator).getWeight());
             ++iterator;
         }
     }
