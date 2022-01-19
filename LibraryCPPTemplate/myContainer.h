@@ -140,6 +140,7 @@ protected:
                 insert(str);
             }
             if (table[i] != NULL && table[i]->hash() == 0) {
+                delete table[i];
                 table[i] = NULL;
             }
         }
