@@ -25,7 +25,6 @@ class D_Graph{
 public:
     struct Vertex;
     struct Edge;    
-    struct DataLabel;
 
     D_Graph(size_t number, Data defaultValue) {
 

@@ -54,7 +54,7 @@ int main() {
         return 1;
     }
     
-    D_Graph<int>::EdgesIterator iterator(graph->getVertex(1));
+    D_Graph<LabelData>::EdgesIterator iterator(graph->getVertex(1));
     
     while (*iterator != nullptr) {
         std::cout << (*iterator)->getDest()->getData() << "\n";
