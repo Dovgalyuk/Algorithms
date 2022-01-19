@@ -1,6 +1,5 @@
 #include "graph.h"
 
-
 using namespace std;
 const int maxVertices = 4;
 

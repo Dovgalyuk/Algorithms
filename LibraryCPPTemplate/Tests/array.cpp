@@ -1,10 +1,9 @@
-#include <iostream>
+/*#include <iostream>
 #include "array.h"
 
 typedef Array<int> MyArray;
 
-int main()
-{
+int main() {
     MyArray *arr = new MyArray(10);
 
     if (arr->size() != 10)
@@ -27,3 +26,4 @@ int main()
 
     delete arr;
 }
+*/

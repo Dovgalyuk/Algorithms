@@ -5,7 +5,6 @@
 #include <vector>
 #include "array.h"
 
-
 template <typename Data>
 class Graph {
 public:
