@@ -28,8 +28,7 @@ public:
     struct Vertex {
     public:
         Vertex(Data data) {
-            datalabel.data = data;
-            datalabel.label = 0;
+            this->data = data;
         }
         ~Vertex() {
             auto mustBeDeleted = edges->first();
