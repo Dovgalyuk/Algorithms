@@ -9,7 +9,7 @@ public:
     PathFinder(D_Graph<LabelData>* graph, int vertexCount) {
         int vertexCorrent = 1;
         int min, i, j, a, b, mincost = 0;
-        graph->getVertex(i)->getData().label = 1;
+        graph->getVertex(0)->getData().label = 1;
 
         while (vertexCorrent < vertexCount)
         {
@@ -25,7 +25,7 @@ public:
             if (graph->getVertex(b)->getData().label == 0)
             {
                 path.push_back(b);
-                std::cout << "\n " << vertexCorrent++ << ": " << a << " -> " << b << " = " << min; //Можно вывести так
+                std::cout << "\n " << vertexCorrent++ << ": " << a << " -> " << b << " = " << min;
                 mincost += min;
                 graph->getVertex(b)->getData().label = 1;
             }
@@ -34,7 +34,7 @@ public:
         }
         std::cout << "\n ";
         std::cout << 0 << " --> ";
-        for (int i = 0; i < vertexCount - 1; i++)
+        for (i = 0; i < vertexCount - 1; i++)
         {
             std::cout << path[i];
             if (i < vertexCount - 2) std::cout << " --> ";
@@ -43,9 +43,7 @@ public:
         std::cout << "\n mincost  " << mincost;
     }
 private:
-    int visited[10] = { 0 };
     std::vector<int> path;
-    int start;
 };
 
 int main() {
