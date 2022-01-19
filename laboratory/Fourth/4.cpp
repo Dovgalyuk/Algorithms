@@ -99,23 +99,22 @@ void search(std::vector<std::vector<forKruskal>>& Vertexses,std::vector<forKrusk
 
 int main() {
     int VertexCount = 6;
-    _Graph<int> graph(VertexCount);
-    graph.setEdgetoVertex(0,1,3);
-    graph.setEdgetoVertex(0,3,2);
-    graph.setEdgetoVertex(0,5,7);
-    graph.setEdgetoVertex(2,0,8);
-    graph.setEdgetoVertex(2,3,1);
-    graph.setEdgetoVertex(2,4,4);
-    graph.setEdgetoVertex(3,5,1);
-    graph.setEdgetoVertex(4,3,2);
-    graph.setEdgetoVertex(4,5,5);
+    _Graph<int> *graph = new _Graph<int>(VertexCount);
+    graph->setEdgeToVertex(0,1,3);
+    graph->setEdgeToVertex(0,3,2);
+    graph->setEdgeToVertex(0,5,7);
+    graph->setEdgeToVertex(2,0,8);
+    graph->setEdgeToVertex(2,3,1);
+    graph->setEdgeToVertex(2,4,4);
+    graph->setEdgeToVertex(3,5,1);
+    graph->setEdgeToVertex(4,3,2);
+    graph->setEdgeToVertex(4,5,5);
 
-    graph.showGraph();
-
+    graph->showGraph();
     std::vector<forKruskal> KruskalEdges;
     
     for(auto i =0;i<VertexCount;++i){
-        _Graph<int>::EdgesIterator iter(graph,graph.getVertex(i));
+        _Graph<int>::EdgesIterator iter(graph, i);
         for (size_t j =0;j<VertexCount;++j){
             if (++iter){
                 forKruskal KrusEdgeFromStruct;
@@ -143,12 +142,11 @@ int main() {
 
     for (size_t j = 0; j < Vertexses.size(); j++) {
         for (size_t l = 0; l < Vertexses[j].size(); l++) {
-            result.setEdgetoVertex(graph.getVertexIndex(Vertexses[j][l].first), graph.getVertexIndex(Vertexses[j][l].end), Vertexses[j][l].weight); 
+            result.setEdgeToVertex(graph->getVertexIndex(Vertexses[j][l].first), graph->getVertexIndex(Vertexses[j][l].end), Vertexses[j][l].weight); 
         }
     } 
 
     std::cout<<std::endl;
     result.showGraph();
-    delete& graph,result;
     return 0;
 } 

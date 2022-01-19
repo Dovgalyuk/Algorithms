@@ -1,104 +1,71 @@
+#include <iostream>
 #include "array.h"
-
-template <typename Data> class _Graph
-{
+ 
+template <typename Data> class _Graph {
 public:
     struct Vertex;
     struct Edge;
-
+ 
     typedef Array<Vertex*> Vertices;
     typedef Array<Edge*> Edges;
-
-    struct Vertex
-    {
-        public:
-            Vertex(size_t vertexCount) {
-                edges = new Edges(vertexCount);
-                for (int i = 0; i < vertexCount; i++)
-                    edges->set(i, new Edge());
-                data = 0;
-            }
-
-            ~Vertex() {
-                for (size_t i = 0; i < edges->size(); i++)
-                    delete edges->get(i);
-                delete edges;
-            }
-
-            Data getData() {
-                return data;
-            }
-
-            void setData(Data newData) {
-                data = newData;
-            }
-
-            void setEdge(size_t index, Data cost) {
-                edges->set(index, new Edge(cost));
-            }
-
-            void addEdge() {
-                edges->push_back(new Edge());
-            }
-            void removeEdge(size_t index) {
-                edges->delete_index(index);
-            }
-
-            size_t size() {
-                return edges->size();
-            }
-
-            void show_egdes() {
-            for (int i = 0; i < edges->size(); i++)
-                std::cout << edges->get(i)->weight << " ";
-            }
-
-            bool check_exist(size_t index) {
-                return edges->get(index)->exist;
-            }
-
-            auto getWeight(size_t index) {
-                return edges->get(index)->weight;  
-            }
-
-        
-            Edges* edges;
-            Data data;
+ 
+    struct Vertex {
+    public:
+        Vertex() {
+            data = 0;
+        }
+ 
+        Data getData() {
+            return data;
+        }
+ 
+        void setData(Data newData) {
+            data = newData;
+        }
+ 
+        Data data;
     };
-
+ 
     struct Edge {
-        public:
-            Edge() {
-                weight = 0;
-                exist = false;
-            }
-            Edge(Data weight) {
-                this->weight = weight;
-                exist = true;
-            }
-
-            Data getData() {
-                return weight;
-            }
-        
-            Data weight;
-            bool exist;
+    public:
+ 
+        Edge() {
+            weight = 0;
+            exist = false;
+        }
+ 
+        Edge(Data weight) {
+            this->weight = weight;
+            exist = true;
+        }
+ 
+        Data getData() {
+            return weight;
+        }
+ 
+        Data weight;
+        bool exist;
     };
-
-    _Graph(int vertexCount) {
-        this->vertexCount = vertexCount;
+ 
+    _Graph(int _vertexCount) {
+        vertexCount = _vertexCount;
         vertices = new Vertices(vertexCount);
         for (int i = 0; i < vertexCount; i++){
-            vertices->set(i, new Vertex(vertexCount));
+            vertices->set(i, new Vertex());
+        }
+
+        edges = new Edges(vertexCount*vertexCount);
+        for (int i = 0; i < vertexCount * vertexCount; i++) {
+            edges->set(i, nullptr);
         }
     }
-
+ 
     ~_Graph() {
         for (int i = 0; i < vertexCount; i++)
             delete vertices->get(i);
         delete vertices;
     }
-
+ 
     size_t getVertexIndex(Vertex* vertex) {
         for (size_t i = 0; i < vertexCount; i++) {
             if (vertex == getVertex(i)) {
@@ -107,19 +74,15 @@ public:
         }
         return 0;
     }
-
+ 
     Vertex* getVertex(size_t index) {
         return vertices->get(index);
     }
-
-    void setEdgetoVertex(size_t from, size_t to_vert, Data weight) {
-        getVertex(from)->setEdge(to_vert, weight);
+ 
+    void setEdgeToVertex(size_t from, size_t to_vert, Data weight) {
+        edges->set(from + to_vert * vertexCount, new Edge(weight));
     }
-
-    void setEdgeVertices(Vertex* from, size_t to_vert, Data weight) {
-        from->setEdge(to_vert, weight);
-    }
-
+ 
     void removeVertex(size_t index) {
         vertices->delete_index(index);
         vertexCount--;
@@ -127,14 +90,14 @@ public:
             getVertex(i)->removeEdge(index);
         }
     }
-
+ 
     void setVertex(Vertex* vertex, size_t index) {
         if (index >= vertexCount) {
             addVertex();
         }
         vertices->set(index, vertex);
     }
-
+ 
     void addVertex() {
         vertices->push_back(new Vertex(vertexCount));
         vertexCount++;
@@ -142,33 +105,29 @@ public:
             getVertex(i)->addEdge();
         }
     }
-
+ 
     Data GetDataVertex(size_t vertex) {
-       return getVertex(vertex)->getData();
+        return getVertex(vertex)->getData();
     }
-
+ 
     void SetDataVertex(size_t vertex, Data data) {
         getVertex(vertex)->setData(data);
     }
-
+ 
     bool checkEdge(size_t from, size_t to_vert) {
-        if (getVertex(from)->check_exist(to_vert)){
-            return true;
-        }    
-        else{
-            return false;
-        }
+        auto result = edges->get(from + to_vert * vertexCount);
+        if (result == nullptr) return false;
+ 
+        return result->exist;
     }
-
-    bool checkEdge(Vertex* from, size_t to_vert) {
-        if (from->check_exist(to_vert)){
-            return true;
-        }
-        else{
-            return false;
-        }
+ 
+    int getWeight(size_t from, size_t to_vert) {
+        auto result = edges->get(from + to_vert * vertexCount);
+        if (result == nullptr) return -1;
+ 
+        return result->weight;
     }
-
+ 
     void showGraph() {
         std::cout << "   Edges: ";
         for (int i = 0; i < vertexCount; i++) {
@@ -177,62 +136,62 @@ public:
         std::cout << std::endl;
         for (int i = 0; i < vertexCount; i++) {
             std::cout << "Vertex " << i << ": ";
-                getVertex(i)->show_egdes();
-          std::cout<< std::endl;
+            for (int j = 0; j < vertexCount; j++) {
+                if (!checkEdge(i, j)) {
+                    std::cout<< 0 << " ";
+                    continue;
+                }
+                std::cout << edges->get(i + j * vertexCount)->weight << " ";
+            }
+            std::cout<< std::endl;
         }
     }
-
+ 
     struct EdgesIterator {
-
+ 
     public:
-        size_t current_pos;
-        
-        EdgesIterator(_Graph<Data>& graph, Vertex* it) {
-            this->it = it;
-            current = it;
-            vertices = graph.vertices;
-            current_pos = 0;
+        EdgesIterator(_Graph<Data>* _graph, int itIndex) {
+            this->itIndex = itIndex;
+            current = itIndex;
+            graph = _graph;
         }
-
+ 
         bool operator ++() {
-            for (size_t i = current_pos+1; i < it->edges->size(); i++) {
-                if (it->check_exist(i)){
-                    current = vertices->get(i);
-                    current_pos = i;
-                    return true;
-                }
+            for (size_t i = current + 1; i < graph->vertexCount; i++) {
+                if (!graph->checkEdge(itIndex, i)) continue;
+                current = i;
+                return true;
             }
             return false;
         }
-
+ 
         Vertex* operator*() {
-            if (it != nullptr) {
-                return it;
-            }
-            else {
-                return nullptr;
-            }
+            auto result = graph->getVertex(itIndex);
+            return result;
         }
-
+ 
         Vertex* getIt() {
-            return it;
+            return graph->getVertex(itIndex);
         }
-        
+ 
         Vertex* getCurrent() {
-            return current;
+            return graph->getVertex(current);
         }
-       
+ 
         auto getWeight() {
-            return it->getWeight(current_pos);
+            return graph->getWeight(itIndex, current);
         }
-
+ 
     private:
-        Vertex* it;
-        Vertex* current;
-        Vertices* vertices;
+        int itIndex;
+        int current;
+ 
+        _Graph<Data>* graph;
     };
-
+ 
 private:
+    Edges* edges;
+ 
     size_t vertexCount;
     Vertices* vertices;
 };
