@@ -1,9 +1,11 @@
 #include "d_graph.h"
 #include <iostream>
 
+typedef Data<int> LabelData;
+
 int main() {
     size_t maxVerticesNumber = 10;
-    D_Graph<int> *graph = new D_Graph<int>(maxVerticesNumber, 10);
+    auto *graph = new D_Graph<LabelData>(maxVerticesNumber, LabelData(10 , 0));
     
     for (size_t i = 0; i < maxVerticesNumber; i++ ) {
         if (graph->getVertex(i)->getData() != 10) {
@@ -46,8 +48,8 @@ int main() {
         return 1;
     }
     
-    graph->getVertex(1)->setLabel(1);
-    if (graph->getVertex(1)->getLabel() != 1) {
+    graph->getVertex(1)->getData().label = 1;
+    if (graph->getVertex(1)->getData().label != 1) {
         std::cout << "label error\n";
         return 1;
     }
