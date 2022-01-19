@@ -8,16 +8,16 @@ int main() {
     auto *graph = new D_Graph<LabelData>(maxVerticesNumber, LabelData(10 , 0));
     
     for (size_t i = 0; i < maxVerticesNumber; i++ ) {
-        if (graph->getVertex(i)->getData() != 10) {
+        if (graph->getVertex(i)->getData().data != 10) {
             std::cout << "initialization error\n";
             return 1;
         }
-        std::cout << graph->getVertex(i)->getData() << " ";
+        std::cout << graph->getVertex(i)->getData().data << " ";
     }
     std::cout << std::endl;
 
-    graph->getVertex(0)->setData(9);
-    if (graph->getVertex(0)->getData() != 9) {
+    graph->getVertex(0)->getData().data = 9;
+    if (graph->getVertex(0)->getData().data != 9) {
             std::cout << "set data error\n";
             return 1;
         }
