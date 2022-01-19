@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "array.h"
+#include <climits>
 
 template <typename Data>
 class Graph {
