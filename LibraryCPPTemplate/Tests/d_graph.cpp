@@ -62,7 +62,7 @@ int main() {
     }
 
     for (size_t i = 0; i < maxVerticesNumber; i++) {
-        graph->getVertex(i)->setData(i);
+        graph->getVertex(i)->getData(i);
         std::cout << graph->getVertex(i)->getData().data << " ";
     }
     std::cout << std::endl;

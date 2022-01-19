@@ -58,7 +58,7 @@ public:
             return data;
         }
         void setData(Data newData) {
-            data = newData;
+            data.data = newData;
         }
 
         void addEdgeTo(Vertex* to) {
