@@ -57,25 +57,25 @@ int main() {
     D_Graph<LabelData>::EdgesIterator iterator(graph->getVertex(1));
     
     while (*iterator != nullptr) {
-        std::cout << (*iterator)->getDest()->getData() << "\n";
+        std::cout << (*iterator)->getDest()->getData().data << "\n";
         ++iterator;        
     }
 
     for (size_t i = 0; i < maxVerticesNumber; i++) {
         graph->getVertex(i)->setData(i);
-        std::cout << graph->getVertex(i)->getData() << " ";
+        std::cout << graph->getVertex(i)->getData().data << " ";
     }
     std::cout << std::endl;
 
     graph->removeVertex(3);
     for (size_t i = 0; i < maxVerticesNumber-1; i++) {
-        std::cout << graph->getVertex(i)->getData() << " ";
+        std::cout << graph->getVertex(i)->getData().data << " ";
     }
     std::cout << std::endl;
 
     iterator.refresh(graph->getVertex(1));
     while (*iterator != nullptr) {
-        std::cout << (*iterator)->getDest()->getData() << "\n";
+        std::cout << (*iterator)->getDest()->getData().data << "\n";
         ++iterator;
     }
 
