@@ -4,6 +4,22 @@
 #include "list.h"
 #include <iostream>
 
+template<typename T>
+struct Data {
+    T data;
+    int label;
+
+    Data(T data, int label) {
+        this->data = data;
+        this->label = label;
+    }
+
+    Data() {
+        data = 0;
+        label = 0;
+    }
+};
+
 template<class Data> 
 class D_Graph{
 public:
