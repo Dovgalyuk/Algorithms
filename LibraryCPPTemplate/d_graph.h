@@ -41,10 +41,10 @@ public:
         }
 
         Data &getData() {
-            return datalabel.data;
+            return data;
         }
         void setData(Data newData) {
-            datalabel.data = newData;
+            data = newData;
         }
 
         void addEdgeTo(Vertex* to) {
