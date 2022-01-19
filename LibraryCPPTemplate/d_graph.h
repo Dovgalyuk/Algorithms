@@ -4,8 +4,8 @@
 #include "list.h"
 #include <iostream>
 
-template<typename Data> class D_Graph
-{
+template<class Data> 
+class D_Graph{
 public:
     struct Vertex;
     struct Edge;    
@@ -18,14 +18,14 @@ public:
             vertices[i] = new Vertex(defaultValue);
         }
     }
+
     ~D_Graph() {
         for (int i = 0; i < vertices.size(); i++) {
             delete vertices[i];
         }
     }
 
-    struct Vertex
-    {
+    struct Vertex {
     public:
         Vertex(Data data) {
             datalabel.data = data;
@@ -39,17 +39,18 @@ public:
             }
             delete edges;
         }
-        Data getData() {
+
+        Data &getData() {
             return datalabel.data;
         }
         void setData(Data newData) {
             datalabel.data = newData;
         }
 
-
         void addEdgeTo(Vertex* to) {
             edges->insert(new Edge(to));
         }
+
         void removeEdgeTo(Vertex* to) {
             for (auto item = edges->first(); item; item = item->next()) {
                 if (item->data()->getDest() == to) {
@@ -67,20 +68,10 @@ public:
             }
             return nullptr;
         }
-        int getLabel() {
-            return datalabel.label;
-        }
-        void setLabel(int newLabel) {
-            datalabel.label = newLabel;
-        }
+        
         List<Edge*>* edges = new List<Edge*>;
     private:
-        DataLabel datalabel;
-    };
-
-    struct DataLabel {
         Data data;
-        int label;
     };
 
     struct Edge

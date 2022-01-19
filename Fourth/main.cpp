@@ -2,35 +2,48 @@
 #include <vector>
 #include <climits>
 
+template<typename T>
+struct Data {
+    T data;
+    int label;
+
+    Data(T data, int label) {
+        this->data = data;
+        this->label = label;
+    }
+
+    Data() {
+        data = 0;
+        label = 0;
+    }
+};
+
+typedef Data<int> LabelData;
+
 class PathFinder {
 public:
-    PathFinder(D_Graph<int>* graph, int vertexCount) {
+    PathFinder(D_Graph<LabelData>* graph, int vertexCount) {
         int vertexCorrent = 1;
         int min, i, j, a, b, mincost = 0;
-        for (i = 0; i < graph->size(); ++i) {
-            if (i == 0)
-                graph->getVertex(i)->setLabel(1);
-            else
-                graph->getVertex(i)->setLabel(0);
-        }
+        graph->getVertex(i)->getData().label = 1;
 
         while (vertexCorrent < vertexCount)
         {
             for (i = 0, min = INT_MAX; i < vertexCount; i++)
                 for (j = 0; j < vertexCount; j++)
                     if (graph->getVertex(i)->getEdgeTo(graph->getVertex(j))->getWeight() < min)
-                        if (graph->getVertex(i)->getLabel() != 0)
+                        if (graph->getVertex(i)->getData().label != 0)
                         {
                             min = graph->getVertex(i)->getEdgeTo(graph->getVertex(j))->getWeight();
                             a = i;
                             b = j;
                         }
-            if (graph->getVertex(b)->getLabel() == 0)
+            if (graph->getVertex(b)->getData().label == 0)
             {
                 path.push_back(b);
                 std::cout << "\n " << vertexCorrent++ << ": " << a << " -> " << b << " = " << min; //Можно вывести так
                 mincost += min;
-                graph->getVertex(b)->setLabel(1);
+                graph->getVertex(b)->getData().label = 1;
             }
             graph->getVertex(a)->getEdgeTo(graph->getVertex(b))->setWeight(INT_MAX);
             graph->getVertex(b)->getEdgeTo(graph->getVertex(a))->setWeight(INT_MAX);
@@ -53,7 +66,7 @@ private:
 
 int main() {
     const int vertexCount = 5;
-    D_Graph<int>* graph = new D_Graph<int>(vertexCount, 0);
+    auto graph = new D_Graph<LabelData>(vertexCount, LabelData(0, 0));
 
     int edges[vertexCount][vertexCount]
     {
