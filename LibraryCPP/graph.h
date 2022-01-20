@@ -7,20 +7,24 @@
 #include <unordered_set>
 #include <memory>
 #include <cstddef>
+#include "../LibraryCPPTemplate/list.h"
 
 class Graph {
 public:
-
+class Edge;
 	class Vertex {
 	public:
 		Vertex(size_t id, int data);
 		size_t GetId();
 		int GetData();
 		void SetData(int data);
+        List<Edge*> getEdges();
+        bool addEdge(Vertex& v, int weigth);
 		
 	private:
 		size_t id = 0;
 		int data = 0;
+        List<Graph::Edge*> edges;
 	};
 
 	class Edge {
@@ -38,6 +42,7 @@ public:
         size_t GetId();
 		void SetWeight(int weight);		
 		int GetWeight();
+
 
 		~Edge() {
 			delete v;
@@ -65,7 +70,10 @@ public:
 
 	std::vector<Vertex*> GetSuccessors(Vertex& u);
 
-    std::vector<Edge*> GetEdges(Vertex& u);
+    List<Edge*> GetEdges(Vertex& u);
+
+    Vertex* getVertex(int index);
+
 
 
 private:
@@ -75,7 +83,7 @@ private:
 
 	std::unordered_map<Vertex*, std::unique_ptr<Vertex>> vertices;
 
-	std::unordered_map<Vertex*, std::unordered_set<Edge*>> edges;
+
 
 };
 
