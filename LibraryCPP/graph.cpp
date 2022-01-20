@@ -30,8 +30,7 @@ void Graph::Edge::SetWeight(int weight) {
 
 Graph::Graph() :
 	vertexCounter(0),
-	vertices(),
-	edges()
+	vertices()
 {};
 
 Graph::Vertex* Graph::AddVertex(const int data) {
@@ -65,70 +64,65 @@ bool Graph::AddEdge(Vertex& u, Vertex& v, int weight) {
         edge->SetId(v);
 		edge->SetWeight(weight);
 		
-		auto& uSuccessors = edges[&u];
-		
-		if (uSuccessors.find(edge) == uSuccessors.end()) {
-            uSuccessors.emplace(edge);
+		auto uSuccessors = u.getEdges();
+
+        if(uSuccessors.first() == nullptr){
+            u.getEdges().insert(edge);
             return true;
-		} else {
-            return false;
-		}
+        }
+
+        for(auto item = uSuccessors.first(); item != nullptr; item = item->getNext()){
+            if(item->getData() == edge){
+                return false;
+            }else{
+                u.getEdges().insert(item->getData());
+                return true;
+            }
+        }
+		return false;
 }
 
-std::vector<Graph::Edge*> Graph::GetEdges(Graph::Vertex& u){
-    std::vector<Graph::Edge*> uedges;
-    uedges.reserve(3);
-    auto& uEdges = edges[&u];
-    for(auto& item: uEdges){
-        uedges.push_back(item);
-    }
-    return uedges;
+
+List<Graph::Edge*> Graph::GetEdges(Graph::Vertex& u){
+    return u.getEdges();
 }
 
 
 bool Graph::RemoveVertex(Vertex& u) {
 	if (vertices.find(&u) != vertices.end()) {
 
-		auto& uSuccessors = edges[&u];		
-
 		vertices.erase(&u);
 
-		edges.erase(&u);
-		
-		for (auto& pair : uSuccessors) {
-			auto& successors = pair;
-			uSuccessors.clear();
-		}
+		for(auto item = u.getEdges().first(); item!=nullptr; item = item->getNext()){
+               u.getEdges().erase(item);
+        }
 		return true;
-	} else {
-		return false;
 	}
+
+    return false;
+
 }
 
 bool Graph::RemoveEdge(Vertex& u, Vertex& v) {
 	
-	if (vertices.find(&u) != vertices.end() && vertices.find(&v) != vertices.end()) {
-		auto& uSuccessors = edges[&u];
-		for (auto& pair : uSuccessors) {
-			auto& successors = pair;
-			if(successors->GetId() == v.GetId()){
-                uSuccessors.erase(successors);
-                return true;
-            }
-		}
-	} else {
-		return false;
-	}
+	for(auto item = u.getEdges().first(); item != nullptr; item = item->getNext()){
+        if(item->getData()->GetPointV() == &v){
+            u.getEdges().erase(item);
+            return true;
+        }
+    }
+
+    return false;
+
 }
 
 bool Graph::IsEdge(Vertex& u, Vertex& v) {
-	auto& uSuccessors = edges[&u];
 
-	for (auto& pair : uSuccessors) {
-		if (pair->GetId() == v.GetId()) {
-			return true;
-		}
-	}
+    for(auto item = u.getEdges().first(); item != nullptr; item = item->getNext()){
+        if(item->getData()->GetPointV() == &v){
+            return true;
+        }
+    }
     return false;
 }
 
@@ -141,14 +135,20 @@ std::vector<Graph::Vertex*> Graph::GetVertices() {
 	return copy_vertices;
 };
 
+Graph::Vertex* Graph::getVertex(int index){
+    return this->GetVertices().at(index);
+}
+
+List<Graph::Edge*> Graph::Vertex::getEdges(){
+    return edges;
+}
+
 std::vector<Graph::Vertex*> Graph::GetSuccessors(Vertex& u) {
 	std::vector<Vertex*> suc;
 
-	auto& uSuccessors = edges[&u];
-	for (auto& pair : uSuccessors) {
-		auto& successors = pair;
-		suc.push_back(successors->GetPointV());
-	}
+    for(auto item = u.getEdges().first(); item != nullptr; item = item->getNext()){
+        suc.push_back(item->getData()->GetPointV());
+    }
 
 	return suc;
 }
