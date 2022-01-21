@@ -2,8 +2,8 @@
 #define GRAPH_H
 
 #include <iostream>
-#include "list.h"
 #include <vector>
+#include "list.h"
 
 template<typename Data>
 class Graph {
@@ -48,8 +48,9 @@ public:
                     return item->data();
                 }
             }
-            Edge nullEdge = Edge();
-            return nullEdge;
+
+            static Edge NULL_EDGE = Edge();
+            return NULL_EDGE;
         }
 
         void removeEdge(Vertex* toVertex) {
