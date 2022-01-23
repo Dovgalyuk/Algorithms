@@ -6,14 +6,16 @@
 #include "array.h"
 #include <climits>
 
-template <typename Data>
+template<typename Data>
 class Graph {
 public:
     struct Vertex {
         Data data;
+
         Vertex() {
             this->data = 0;
         }
+
         Vertex(Data data) {
             this->data = data;
         }
@@ -21,9 +23,11 @@ public:
 
     struct Edge {
         size_t cost;
+
         Edge() {
             cost = 0;
         }
+
         Edge(size_t cost) {
             this->cost = cost;
         }
@@ -33,6 +37,15 @@ public:
     public:
         NeighbourIterator &next() {
             for (int i = current + 1; i < graph.vertexCount; i++) {
+                if (!graph.isLinked(ownerIndex, i)) continue;
+                current = i;
+                break;
+            }
+            return *this;
+        }
+
+        NeighbourIterator &prev() {
+            for (int i = current - 1; i < graph.vertexCount; i--) {
                 if (!graph.isLinked(ownerIndex, i)) continue;
                 current = i;
                 break;
@@ -58,16 +71,26 @@ public:
             this->current = current;
         }
 
-        Vertex *operator *() {
+        Vertex *operator*() {
             return graph.vertices->get(current);
         }
 
-        NeighbourIterator& operator ++() {
+        NeighbourIterator &operator++() {
             return next();
         }
 
-        NeighbourIterator operator ++(int) {
+        NeighbourIterator &operator--() {
+            return prev();
+        }
+
+        NeighbourIterator operator++(int) {
             next();
+            Iterator it(graph, ownerIndex, current);
+            return it;
+        }
+
+        NeighbourIterator operator--(int) {
+            prev();
             Iterator it(graph, ownerIndex, current);
             return it;
         }
@@ -75,6 +98,7 @@ public:
         int getCurrentIndex() {
             return current;
         }
+
     private:
         Graph<Data> &graph;
         int ownerIndex = -1;
@@ -87,6 +111,15 @@ public:
     public:
         Iterator &next() {
             for (int i = current + 1; i < graph.vertexCount; i++) {
+                if (graph.vertices->get(i) == nullptr) continue;
+                current = i;
+                break;
+            }
+            return *this;
+        }
+
+        Iterator &prev() {
+            for (int i = current - 1; i < graph.vertexCount; i--) {
                 if (graph.vertices->get(i) == nullptr) continue;
                 current = i;
                 break;
@@ -110,16 +143,26 @@ public:
             this->current = current;
         }
 
-        Vertex *operator *() {
+        Vertex *operator*() {
             return graph.vertices->get(current);
         }
 
-        Iterator& operator ++() {
+        Iterator &operator++() {
             return next();
         }
 
-        Iterator operator ++(int) {
+        Iterator operator++(int) {
             next();
+            Iterator it(graph, current);
+            return it;
+        }
+
+        Iterator &operator--() {
+            return prev();
+        }
+
+        Iterator operator--(int) {
+            prev();
             Iterator it(graph, current);
             return it;
         }
@@ -127,6 +170,7 @@ public:
         int getCurrentIndex() {
             return current;
         }
+
     private:
         Graph<Data> &graph;
         int current;
@@ -140,8 +184,8 @@ public:
         return NeighbourIterator(*this, index);
     }
 
-    typedef Array<Edge*> MatrixArray;
-    typedef Array<Vertex*> VertexArray;
+    typedef Array<Edge *> MatrixArray;
+    typedef Array<Vertex *> VertexArray;
 
     Graph(size_t vertexCount) {
         this->vertexCount = vertexCount;
@@ -161,6 +205,7 @@ public:
             delete vertices->get(i);
         delete vertices;
     }
+
 //
     void addVertex(Data data) {
         copyArray(vertexCount + 1);
@@ -186,7 +231,16 @@ public:
         for (size_t i = 0; i < newSize; i++) {
             for (size_t j = index; j < newSize; j++) {
                 if (i == j) continue;
-                matrix->set(getIndex(i, j), matrix->get(getIndex(i + 1, j + 1)));
+                if(i < index && j >= index) {
+                    matrix->set(getIndex(i, j), matrix->get(getIndex(i, j + 1)));
+                }
+                else if(i >= index && j < index) {
+                    matrix->set(getIndex(i, j), matrix->get(getIndex(i + 1, j)));
+                }
+                else if(i >= index && j >= index) {
+                    matrix->set(getIndex(i, j), matrix->get(getIndex(i + 1, j + 1)));
+                }
+                // matrix->set(getIndex(i, j), matrix->get(getIndex(i + 1, j + 1)));
             }
         }
         copyArray(newSize);
@@ -243,13 +297,14 @@ public:
             std::cout << std::endl;
         }
     }
+
 private:
     void copyArray(size_t newSize) {
         bool increase = newSize > vertexCount;
 
         auto newArray = new VertexArray(newSize);
         for (int i = 0; i < newSize; i++) {
-            if (increase && i >=vertices->size()) {
+            if (increase && i >= vertices->size()) {
                 newArray->set(i, nullptr);
                 continue;
             }
@@ -263,7 +318,7 @@ private:
         auto newMatrix = new MatrixArray(matrixSize);
         for (int y = 0; y < newSize; y++) {
             for (int x = 0; x < newSize; x++) {
-                if (increase && (x >= vertexCount || y >= vertexCount)){
+                if (increase && (x >= vertexCount || y >= vertexCount)) {
                     newMatrix->set(x + y * newSize, nullptr);
                     continue;
                 }
@@ -279,6 +334,7 @@ private:
     inline int getIndex(const int first, const int second) {
         return first + second * vertexCount;
     }
+
     MatrixArray *matrix;
     VertexArray *vertices;
     size_t vertexCount;
