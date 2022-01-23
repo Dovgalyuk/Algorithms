@@ -2,56 +2,32 @@
 #define LIST_H
 
 // List
-// Stores pointer to custom user data
-typedef void* Data;
-// Custom function to free user pointers on delete
-typedef void (FFree)(void*);
+// Stores integer values inside
+typedef int Data;
 
-typedef struct List List;
-typedef struct ListItem ListItem;
+struct DLList;
+struct DLListItem;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+DLList* list_create();
 
-// Creates new list
-List *list_create(FFree f);
+void list_delete(DLList* list);
 
-// Destroys the list and frees the memory
-void list_delete(List *list);
+DLListItem* list_first(DLList* list);
 
-// Retrieves the first item from the list
-ListItem *list_first(List *list);
+Data list_item_data(const DLListItem* item);
 
-// Extracts data from the list item
-Data list_item_data(const ListItem *item);
+DLListItem* list_item_next(DLListItem* item);
 
-// Returns list item following after the specified one
-ListItem *list_item_next(ListItem *item);
+DLListItem* list_item_prev(DLListItem* item);
 
-// Returns previous element for the specified item.
-// Not applicable for the singly linked lists.
-ListItem *list_item_prev(ListItem *item);
+DLListItem* list_insert(DLList* list, Data data);
 
-// Inserts new list item into the beginning
-ListItem *list_insert(List *list, Data data);
+DLListItem* list_insert_after(DLList* list, DLListItem* item, Data data);
 
-// Inserts new list item after the specified item
-ListItem *list_insert_after(List *list, ListItem *item, Data data);
+DLListItem* list_erase(DLList* list, DLListItem* item);
 
-// Deletes the specified list item.
-// Returns pointer to the item next to the deleted one.
-// Not applicable for the singly linked lists.
-// Should be O(1)
-ListItem *list_erase(List *list, ListItem *item);
+DLListItem* list_erase_next(DLList* list, DLListItem* item);
 
-// Deletes the list item following the specified one.
-// Returns pointer to the item next to the deleted one.
-// Should be O(1)
-ListItem *list_erase_next(List *list, ListItem *item);
-
-#ifdef __cplusplus
-}
-#endif
+DLListItem* list_erase_first(DLList* list);
 
 #endif

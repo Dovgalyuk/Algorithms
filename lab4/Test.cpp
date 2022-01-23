@@ -76,8 +76,6 @@ void findCosts(Graph<std::pair<bool, int>> &graph, size_t vertexIndex) {
         //int newCost = graph.getEdgeCost(vertexIndex, viewIndex) + graph.getVertex(vertexIndex)->data.second;
         if (vertex->data.first) continue;
         //if ( vertex->data.second <= newCost) continue;
-        cout << "Edge Cost: " << graph.getEdgeCost(vertexIndex, viewIndex) << "Vertex cost: " << graph.getVertex(vertexIndex)->data.second<<endl;
-        cout << "Current cost: " << vertex->data.second << endl;
         vertex->data.second= graph.getEdgeCost(vertexIndex, viewIndex) + graph.getVertex(vertexIndex)->data.second;
     }
     graph.getVertex(vertexIndex)->data.first = true;
