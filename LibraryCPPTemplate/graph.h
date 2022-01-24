@@ -44,6 +44,7 @@ public:
             return *this;
         }
 
+
         NeighbourIterator &prev() {
             for (int i = current - 1; i < graph.vertexCount; i--) {
                 if (!graph.isLinked(ownerIndex, i)) continue;
