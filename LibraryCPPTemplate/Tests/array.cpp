@@ -16,6 +16,7 @@ int main()
     for (int i = 0 ; i < 10 ; ++i)
         arr->set(i, i * 2);
 
+if (!arr)
     for (int i = 0 ; i < 10 ; ++i)
     {
         if (arr->get(i) != i * 2)
