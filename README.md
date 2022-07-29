@@ -75,6 +75,9 @@ https://www.youtube.com/watch?v=VgPAFaEYEo4
 
 https://www.youtube.com/watch?v=-_E4mOMDeGs
 
+* Способы представления графов в памяти
+
+https://habr.com/ru/company/otus/blog/675730/
 
 ## Поиск путей
 
@@ -173,6 +176,8 @@ https://www.youtube.com/watch?v=kIsPv5XRJgU
 # Дополнительные темы
 
 https://habr.com/ru/post/455632/
+https://habr.com/ru/post/664044/
+https://habr.com/ru/post/673776/
 
 ## Суффиксные деревья
 
