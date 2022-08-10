@@ -11,6 +11,18 @@ public:
     {
     }
 
+    // copy constructor
+    Vector(const Vector &a)
+    {
+        // implement or disable this function
+    }
+
+    // assignment operator
+    Vector &operator=(const Vector &a)
+    {
+        // implement or disable this function
+    }
+
     // Deletes vector structure and internal data
     ~Vector()
     {

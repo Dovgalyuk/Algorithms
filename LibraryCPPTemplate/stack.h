@@ -9,6 +9,18 @@ public:
     {
     }
 
+    // copy constructor
+    Stack(const Stack &a)
+    {
+        // implement or disable this function
+    }
+
+    // assignment operator
+    Stack &operator=(const Stack &a)
+    {
+        // implement or disable this function
+    }
+
     // Deletes the stack
     ~Stack()
     {

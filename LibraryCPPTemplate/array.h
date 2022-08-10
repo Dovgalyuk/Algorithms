@@ -9,6 +9,18 @@ public:
     {
     }
 
+    // copy constructor
+    Array(const Array &a)
+    {
+        // implement or disable this function
+    }
+
+    // assignment operator
+    Array &operator=(const Array &a)
+    {
+        // implement or disable this function
+    }
+
     // delete array, free memory
     ~Array()
     {

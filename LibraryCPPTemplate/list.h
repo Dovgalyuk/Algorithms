@@ -19,6 +19,18 @@ public:
     {
     }
 
+    // copy constructor
+    List(const List &a)
+    {
+        // implement or disable this function
+    }
+
+    // assignment operator
+    List &operator=(const List &a)
+    {
+        // implement or disable this function
+    }
+
     // Destroys the list and frees the memory
     ~List()
     {

@@ -9,6 +9,18 @@ public:
     {
     }
 
+    // copy constructor
+    Queue(const Queue &a)
+    {
+        // implement or disable this function
+    }
+
+    // assignment operator
+    Queue &operator=(const Queue &a)
+    {
+        // implement or disable this function
+    }
+
     // Deletes queue
     ~Queue()
     {
