@@ -5,7 +5,7 @@ template <typename Data> class Array
 {
 public:
     // create array
-    Array(size_t size)
+    explicit Array(size_t size)
     {
     }
 
@@ -19,6 +19,7 @@ public:
     Array &operator=(const Array &a)
     {
         // implement or disable this function
+        return *this;
     }
 
     // delete array, free memory

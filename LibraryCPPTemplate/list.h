@@ -29,6 +29,7 @@ public:
     List &operator=(const List &a)
     {
         // implement or disable this function
+        return *this;
     }
 
     // Destroys the list and frees the memory

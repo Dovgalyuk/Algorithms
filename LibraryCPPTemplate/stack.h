@@ -19,6 +19,7 @@ public:
     Stack &operator=(const Stack &a)
     {
         // implement or disable this function
+        return *this;
     }
 
     // Deletes the stack

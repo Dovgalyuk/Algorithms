@@ -21,6 +21,7 @@ public:
     Vector &operator=(const Vector &a)
     {
         // implement or disable this function
+        return *this;
     }
 
     // Deletes vector structure and internal data

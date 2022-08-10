@@ -19,6 +19,7 @@ public:
     Queue &operator=(const Queue &a)
     {
         // implement or disable this function
+        return *this;
     }
 
     // Deletes queue
