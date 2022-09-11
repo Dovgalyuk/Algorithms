@@ -1,9 +1,3 @@
-cmake_minimum_required(VERSION 3.0)
-project(Algorithms)
-
-enable_testing()
-
-add_subdirectory(LibraryC)
-add_subdirectory(LibraryCPP)
-add_subdirectory(LibraryCPPTemplate)
-add_subdirectory(Lab1)
+add_executable(Lab1 LabDovgalyuk1.cpp)
+target_include_directories(Lab1 PUBLIC ../LibraryCPP)
+target_link_libraries(Lab1 LibraryCPP)
