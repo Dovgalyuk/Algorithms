@@ -1,64 +1,47 @@
-﻿#include <iostream>
+#include <iostream>
 #include <ctime>
 #include "array.h"
 
 using namespace std;
 
-int arrayFillandSerch(arr *arr, int const size)
+int arrayFillandSerch(Array *arr, int const size)
 {
-    bool check;
     int count = 0;
 
     int min = 999; 
     int max = 0; 
     int averege;
 
-    arr *buf = array_create(size);
-
-    array_set(buf, 0, min, max, averege);
-
-    for (int i = 0; i < size;)
+    Array *buf = array_create(size);
+    for (int i = 0; i < size; i++)
     {
-        check = false;
-        int randvalue = rand() % 101;
 
-        for (int j = 0; j < i; j++)
+        int randvalue = rand() % 101+1;
+
+        if (randvalue > max)
         {
-            if (array_get(arr, j) == randvalue)
-            {
-                check = true;
-            }
+            max = randvalue;
         }
-        if (!check)
+        if (randvalue < min)
         {
-            array_set(arr, i, randvalue);
-            if (randvalue > max)
-            {
-                max = randvalue;
-            }
-            if (randvalue < min)
-            {
-                min = randvalue;
-            }
-            cout << array_get(arr, i) << " // ";
-            i++;
+            min = randvalue;
         }
+        array_set(arr, i, randvalue);
+        cout << array_get(arr, i) << " // ";
     }
-    average = max / min;
+    averege = (max+min)/2;
+    cout<<"\nPosition of numbers : ";
     for (int i = 0; i < size; i++)
     {
         if (array_get(arr, i) > averege)
         {
             count++;
-            array_set(buf, i, count);
+            array_set(buf, count, i);
+            cout << i << " ";
         }
+        
     }
-    cout << "\n\t Count value > average min and max : " << count<<"\n"<< "Position of numbers : ";
-    for (int i = 0; i <= count; i++)
-    {
-        cout << array_get(buf, i)<<" ";
-    }
-    array_delete(buf);
+    cout << "\nCount value > averege min and max : " << count<<"\n";
     return count;
 }
 
@@ -71,10 +54,10 @@ int main()
     cin >> value;
     cout << "\n";
 
-    arr *arr = array_create(value);
+    Array *arr = array_create(value);
     arrayFillandSerch(arr, value);
 
     array_delete(arr);
-    getline();
+    system("pause");
 
 }
