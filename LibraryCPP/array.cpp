@@ -33,7 +33,7 @@ void array_delete(Array *arr)
 Data array_get(const Array *arr, size_t index)
 {
    // return (Data)0;
-    if (index < 0 || index >= array_size(arr))
+    if (index >= array_size(arr))
         return 0;
     else
         return arr->_arr[index];
