@@ -1,0 +1,3 @@
+github.com/elliotchance/c2go v0.26.10 h1:xcmbNZeSELkSi69JcZHFX8ccgCEFZHIZGOBeYlslVRo=
+github.com/elliotchance/c2go v0.26.10/go.mod h1:+YFuwnXljn61f5sFHSZ66eH9KTjzzSU6QG1sZdg1l7s=
+golang.org/x/tools v0.0.0-20181109182537-4e34152f1676/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=
