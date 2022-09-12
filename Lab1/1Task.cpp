@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <ctime>
 #include "array.h"
 using std::cin; using std::cout;
@@ -7,58 +7,30 @@ using std::cin; using std::cout;
 int FillingSearching(Array *Parr,  int const SIZE)
 {
 	bool Goood;
-	int count = 0;
-
-	Array *Pbuf = array_create(SIZE);
-	int Maxlength = 0;
-
-	array_set(Pbuf, 0, Maxlength);
-
-	for ( int i = 0; i < SIZE;)                 //  Заполнение массива рандомными
-	{                                          //    НЕ повторяющимеся числами
-		Goood = false;
-		int RandNumb = rand() % 101;          // Генерация случайного числа от 0 до 100
-
-
-		for ( int j = 0; j < i; j++)             // Проверка на одинаковые числа
-		{
-			if (array_get(Parr,j) == RandNumb)
-			{
-				Goood = true;
-			}
-		}
-
-		if (!Goood)
-		{
-			array_set(Parr, i, RandNumb);
-			cout << array_get(Parr, i) << " | ";
-			i++;
-		}
-		
-	}
+	int count = 0, Maxlength = 0;
 
 	for (int i = 0; i < SIZE; i++)
-	{
-	
+	{  
+		array_set(Parr, i, rand() % 101);                        // Генерация случайного числа от 0 до 100
+		cout << array_get(Parr, i) << " | ";                    //  Вывод сгенерированного массива на экран
 
-		if ((array_get(Parr, i) % 2 == 1) || ((array_get(Parr, i) % 2 == 1)) && ((array_get(Parr, i+1) % 2 == 1)))
+		if (array_get(Parr, i) % 2 != 0)                      // Если элемент массива нечетный, то
 		{
-			++count;                                                              // Увеличиваем счетчик
-			array_set(Pbuf, i, count);                                            // Заносим значение в буфер
+			++count;                                        // Увеличиваем счетчик       
+			                                       
 		}
-		else
+		else               
 		{
-			count = 0;                                                            // Обнуляем счетчик, если не нечетное значение
+			if (Maxlength < count)
+			{
+				Maxlength = count;
+			}
+			count = 0;                                 // Обнуляем счетчик
 		}
 
-		if (array_get(Pbuf, i) > Maxlength)                                      // Ищем наибольшее значение длины нечетных чисел в буфере
-		{
-			Maxlength = array_get(Pbuf, i);
-		}
 	}
 	cout << "\n\nНаибольший отрезок нечетных чисел в массиве: " << Maxlength << "\n\n";
   
-	array_delete(Pbuf);
 	return Maxlength;
 }
 
@@ -80,5 +52,6 @@ int main()
 	array_delete(Parr);
 	system("pause");
 }
+
 
 
