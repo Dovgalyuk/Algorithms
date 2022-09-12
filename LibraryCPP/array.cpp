@@ -42,7 +42,7 @@ Data array_get(const Array *arr, size_t index)
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
-    if (index < 0 || index >= array_size(arr))
+    if (index >= array_size(arr))
         return;
     else
         arr->_arr[index] = value;
