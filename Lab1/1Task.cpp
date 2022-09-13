@@ -11,7 +11,7 @@ int FillingSearching(Array *Parr,  int const SIZE)
 
 	for (int i = 0; i < SIZE; i++)
 	{  
-		array_set(Parr, i, rand() % 101);                        // Генерация случайного числа от 0 до 100
+		array_set(Parr, i,  rand() % 101);                       // Генерация случайного числа от 0 до 100
 		cout << array_get(Parr, i) << " | ";                    //  Вывод сгенерированного массива на экран
 
 		if (array_get(Parr, i) % 2 != 0)                      // Если элемент массива нечетный, то
@@ -21,11 +21,11 @@ int FillingSearching(Array *Parr,  int const SIZE)
 		}
 		else               
 		{
-			if (Maxlength < count)
-			{
-				Maxlength = count;
-			}
 			count = 0;                                 // Обнуляем счетчик
+		}
+		if (Maxlength < count)
+		{
+			Maxlength = count;
 		}
 
 	}
@@ -52,6 +52,3 @@ int main()
 	array_delete(Parr);
 	system("pause");
 }
-
-
-
