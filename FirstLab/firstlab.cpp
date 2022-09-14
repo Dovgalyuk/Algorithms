@@ -14,7 +14,7 @@ int ArrayProcessing(Array* ARR, int const &SIZE)
 
 		if (array_get(ARR, i) > max)
 		{
-			max = array_get(ARR, i);s
+			max = array_get(ARR, i);
 			index1 = i;
 			Flag = false;
 		}
