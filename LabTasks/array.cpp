@@ -7,14 +7,9 @@ Data calculateSum(Array *arr) {
     size_t size = array_size(arr);
 
     for (size_t i = 0; i < size; i++) {
-        if(i % 2 == 0) {
-            // Если считать элементы
-            Data val = array_get(arr, i+1);
-            // Если считать индексы
-            // Data val = array_get(arr, i);
-            if (val >= 0) {
-                sum += val;
-            }
+        Data val = array_get(arr, i);
+        if(val % 2 == 0 && val >= 0) {
+            sum += val;
         }
     }
     return sum;
