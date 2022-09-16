@@ -33,7 +33,7 @@ Data array_get(const Array *arr, size_t index)
     if (index < size) {
         return arr->aData[index];
     } else {
-        return (Data)0;
+        return Data();
     }
 }
 
