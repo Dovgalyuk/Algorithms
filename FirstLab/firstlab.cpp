@@ -36,8 +36,6 @@ int ArrayProcessing(Array* ARR, int const &SIZE)
 	{
 		cout << "\n\nПервая встреченная машина с макс скоростью и ее номер: " << index1 << "\n\n";
 	}
-
-	return max;
 }
 
 int main()
