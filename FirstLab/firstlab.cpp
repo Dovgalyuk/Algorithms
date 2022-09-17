@@ -5,11 +5,12 @@ using std::cin; using std::cout;
 
 int ArrayProcessing(Array* ARR, int const &SIZE)
 {
-	int count = 0, max = array_get(ARR, 0), index1 = 0, index2 = 0;
+	int count = 0, index1 = 0, index2 = 0;
 	bool Flag = false;
 	for (int i = 0; i < SIZE; i++)
 	{
 		array_set(ARR, i, rand() % 101);
+		max = array_get(ARR, 0)
 		cout << array_get(ARR, i) << " ";
 
 		if (array_get(ARR, i) > max)
