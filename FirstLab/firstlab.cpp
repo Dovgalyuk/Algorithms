@@ -10,7 +10,7 @@ int ArrayProcessing(Array* ARR, int const &SIZE)
 	for (int i = 0; i < SIZE; i++)
 	{
 		array_set(ARR, i, rand() % 101);
-		max = array_get(ARR, 0)
+		int max = array_get(ARR, 0);
 		cout << array_get(ARR, i) << " ";
 
 		if (array_get(ARR, i) > max)
