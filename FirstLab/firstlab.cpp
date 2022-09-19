@@ -1,13 +1,16 @@
-﻿#include <iostream>
+#include <iostream>
 #include <ctime>
 #include "array.h"
 using std::cin; using std::cout;
 
-int ArrayProcessing(Array* ARR, int const &SIZE)
+int ArrayProcessing(Array* ARR)
 {
 	int count = 0, index1 = 0, index2 = 0;
 	bool Flag = false;
-	for (int i = 0; i < SIZE; i++)
+
+	int size = array_size(ARR);
+
+	for (int i = 0; i < size; i++)
 	{
 		array_set(ARR, i, rand() % 101);
 		int max = array_get(ARR, 0);
@@ -19,7 +22,7 @@ int ArrayProcessing(Array* ARR, int const &SIZE)
 			index1 = i;
 			Flag = false;
 		}
-		else if (array_get(ARR, i) >= max)
+		else if (array_get(ARR, i) == max)
 		{
 			max = array_get(ARR, i);
 			index2 = i;
@@ -48,7 +51,7 @@ int main()
 	cout << "\n\n";
 
 	Array* ARR = array_create(length);
-	ArrayProcessing(ARR, length);
+	ArrayProcessing(ARR);
 
 	array_delete(ARR);
 	system("pause");
