@@ -6,7 +6,10 @@
     cd Algorithms
     mkdir build
     cd build
-    cmake ..
+
+
+    
+    cmake .. 
     make
 
 # Git
