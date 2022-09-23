@@ -2,12 +2,24 @@
 
 struct Array
 {
+      Data* array;
+    size_t sizeArr;
+
+    Array(size_t size)
+    {
+        sizeArr = size;
+        array = new Data[sizeArr];
+    }
+    ~Array()
+    {
+        delete[] array;
+    }
 };
 
 // create array
 Array *array_create(size_t size)
 {
-    return new Array;
+    return new Array(size);
 }
 
 // delete array, free memory
@@ -19,16 +31,23 @@ void array_delete(Array *arr)
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    return (Data)0;
+    if (index >= array_size(arr))
+        return 0;
+    else
+        return arr->array[index];
 }
 
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
+    if (index >= array_size(arr))
+        return;
+    else
+        arr->array[index] = value;
 }
 
 // returns array size
 size_t array_size(const Array *arr)
 {
-    return 0;
+    return arr->sizeArr;
 }
