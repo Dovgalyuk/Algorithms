@@ -6,12 +6,13 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-void task1(Array* Numbers, const int size)
+void task1(Array* Numbers)
 {
 	int kpol=0;
 	int kotr=0;
 	int sumpol=0;
 	int sumotr=0;
+	int size = array_size(Numbers);
 	cout << "Полученный массив:" << endl;
 	for (int i = 0; i < size; i++)
 	{
@@ -47,7 +48,7 @@ int main()
 
 	Array *Numbers = array_create(k);
 
-	task1(Numbers, k);
+	task1(Numbers);
 	
 	array_delete(Numbers);
 	system("pause");
