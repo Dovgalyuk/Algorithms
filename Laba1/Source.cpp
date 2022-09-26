@@ -1,69 +1,51 @@
-﻿#include <iostream>
+#include <iostream>
 #include <ctime>
 #include "array.h"
 using namespace std;
-
-
-int FillingSearching(Array* Parr, int const SIZE)
+void FillingSearching(Array* Parr, int const SIZE)
 {
-	bool Goood;
-	int count = 0,n,m;
+	int *arr=new int[SIZE];
+	int count, m, n;
 	cout << "m:=";
 	cin >> m;
 	cout << "n:=";
 	cin>> n;
-	Array* Pbuf = array_create(SIZE);
-	int Maxlength = 0;
-	array_set(Pbuf, 0, Maxlength);
-
-	for (int i = 0; i < SIZE;)                 //  Заполнение массива рандомными
-	{                                          //    НЕ повторяющимеся числами
-		Goood = false;
-		int RandNumb = rand() % 20;          // Генерация случайного числа от 0 до 100
-
-
-		for (int j = 0; j < i; j++)             // Проверка на одинаковые числа
-		{
-			if (array_get(Parr, j) == RandNumb)
-			{
-				Goood = true;
-			}
-		}
-		if (!Goood)
-		{
-			if (RandNumb % 2 == 1 && i % 2 == 1) {
-				array_set(Parr, i, RandNumb + n - m);
-			}
-			else if (i % 2 == 1) {
-				array_set(Parr, i, RandNumb + n);
-			}
-			else if(RandNumb % 2 == 1)
-				array_set(Parr, i, RandNumb -m);
-			else
-				array_set(Parr, i, RandNumb);
-			cout << array_get(Parr, i) << " | ";
-			i++;
-		}
-
+	for (int i = 0; i < SIZE; i++)
+	{
+		array_set(Parr, i, count = rand() % 100);                     
+		cout << array_get(Parr, i) << " | ";                   
+		arr[i] = count;
 	}
-	cout << '\n';
-	array_delete(Pbuf);
-	return Maxlength;
+	cout << "Отредактированный массив:" << endl;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if(array_get(Parr, i) % 2 != 0&&i%2!=0)
+			array_set(Parr, i, arr[i] - m + n);
+		else if (array_get(Parr, i) % 2 != 0)
+			array_set(Parr, i, arr[i] -m);
+		else if(i%2!=0)
+			array_set(Parr, i, arr[i] +n);
+		cout << array_get(Parr, i) << " | ";
+	}
+	delete []arr;
 }
 
 
 
 int main()
 {
+	setlocale(LC_ALL, "RU");
 	srand(time(NULL));
-	int a;
-	cout << "Write size arr: ";
-	cin >> a;
+	int input;
+	cout << "Введите длину массива: ";
+	cin >> input;
 	cout << "\n\n";
-	Array* Parr = array_create(a);
-	FillingSearching(Parr, a);
+
+	Array* Parr = array_create(input);
+	FillingSearching(Parr, input);
 
 
 	array_delete(Parr);
+	
 	system("pause");
 }
