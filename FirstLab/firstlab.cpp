@@ -9,34 +9,33 @@ int ArrayProcessing(Array* ARR)
 	bool Flag = false;
 
 	int size = array_size(ARR);
+	int num = 0;
 
-	for (int i = 0; i < size; i++)
-	{
-		array_set(ARR, i, rand() % 101);
-		int max = array_get(ARR, 0);
-		cout << array_get(ARR, i) << " ";
 
-		if (array_get(ARR, i) > max)
-		{
+	for (int i = 0; i < size; i++){
+		cout << "Введите значения: ";
+		cin >> num;
+		array_set(ARR, i, num);
+	}
+
+	int max = array_get(ARR, 0);
+
+	for (int i = 0; i < size; i++) {
+		if (max < array_get(ARR, i)) {
 			max = array_get(ARR, i);
 			index1 = i;
 			Flag = false;
-		}
-		else if (array_get(ARR, i) == max)
-		{
+		} else if (max == array_get(ARR, i)){
 			max = array_get(ARR, i);
 			index2 = i;
 			Flag = true;
 		}
 
 	}
-	if (Flag)
-	{
+	if (Flag){
 		cout << "\n\nПервая встреченная машина с макс скоростью и ее номер: " << index1 << "\n";
 		cout << "\n\nНомер последней машины с макс скоростью: " << index2 << "\n\n";
-	}
-	else
-	{
+	}else{
 		cout << "\n\nПервая встреченная машина с макс скоростью и ее номер: " << index1 << "\n\n";
 	}
 }
@@ -49,6 +48,7 @@ int main()
 	cout << "Введите длину массива: ";
 	cin >> length;
 	cout << "\n\n";
+
 
 	Array* ARR = array_create(length);
 	ArrayProcessing(ARR);
