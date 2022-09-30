@@ -46,6 +46,6 @@ int main()
 
 
 	array_delete(Parr);
-	
+	array_delete(Parr_count);
 	system("pause");
 }
