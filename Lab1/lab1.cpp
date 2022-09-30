@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ctime>
+#include <climits>
 #include "array.h"
 
 using namespace std;
@@ -23,31 +24,36 @@ void sort_array(Array* arr) {
     }
 }
 
+Array* find_even_numbers(Array* arr) {
+    int new_size = 0;
+    for (int i = 0; i < array_size(arr); i++) {
+        if (array_get(arr, i) % 2 == 0) new_size++;
+    }
+    Array* new_arr = array_create(new_size);
+    int j = 0;
+    for (int i = 0; i < array_size(arr); i++) {
+        int num = array_get(arr, i);
+        if (num % 2 == 0) array_set(new_arr, j++, num);
+    }
+    return new_arr;
+}
+
 int main() {
     srand(time(0));
     int size;
     cin >> size;
     Array* arr = array_create(size);
     fill_array(arr);
-    sort_array(arr);
-    int n1, n2, last;
-    for (int i = 0; i < array_size(arr); i++) {
-        Data v = array_get(arr, i);
-        if ( v % 2 == 0) {
-            n1 = v;
-            last = i;
-            break;
-        }
+    Array* even_arr = find_even_numbers(arr);
+    sort_array(even_arr);
+    int min_diff = INT_MAX;
+    for (int i = 0; i < array_size(even_arr) - 1; i++) {
+        int diff = array_get(even_arr, i + 1) - array_get(even_arr, i);
+        if (min_diff > diff) min_diff = diff;
     }
-    for (int i = last + 1; i < array_size(arr); i++) {
-        Data v = array_get(arr, i);
-        if (v % 2 == 0) {
-            n2 = v;
-            break;
-        }
-    }
-    cout << n2 - n1;
+    cout << min_diff;
     system("pause");
     array_delete(arr);
+    array_delete(even_arr);
 }
 
