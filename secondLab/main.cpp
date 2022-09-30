@@ -35,6 +35,7 @@ bool SolutionLabTwo(const string &s) {
                 break;
             }
     }
+    return stack_empty(stack);
     stack_delete(stack);
 }
 
