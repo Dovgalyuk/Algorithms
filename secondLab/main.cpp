@@ -36,6 +36,7 @@ bool SolutionLabTwo(const string &s) {
             }
     }
     return stack_empty(stack);
+    stack_delete(stack);
 }
 
 void WorkingQuestionMark(const string& s) {
