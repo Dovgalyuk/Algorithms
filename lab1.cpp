@@ -7,7 +7,7 @@ int main()
 {
 	int M;
 	std::cin >> M;
-	int* A = new int[M];
+	array<int, M> A;
 	for (int i = 0; i < M; i++)
 	{
 		std::cin >> A[i];
