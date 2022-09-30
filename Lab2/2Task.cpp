@@ -42,7 +42,7 @@ string ReversePolishEntry(string& inputStr)                           // Опе�
             {
                 resulstStr += inputStr[i];                 // Записываем ее в результирующую строку
             }
-            else if (Priority(inputStr[i]) > Priority(stack_get(stack)))   // Если приоритет оператора >= последенему в стеке оператору
+            else if (Priority(inputStr[i]) > Priority(stack_get(stack)))   // Если приоритет оператора > последенему в стеке оператору
             {
                 stack_push(stack, inputStr[i]);                           // Записываем его в сек
             }
