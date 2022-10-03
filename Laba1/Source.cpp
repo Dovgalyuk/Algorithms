@@ -2,7 +2,7 @@
 #include <ctime>
 #include "array.h"
 using namespace std;
-void FillingSearching(Array* Parr,Array* Parr_count, int const SIZE)
+void FillingSearching(Array* Parr)
 {
 	int *arr=new int[SIZE];
 	int count, m, n;
@@ -14,17 +14,16 @@ void FillingSearching(Array* Parr,Array* Parr_count, int const SIZE)
 	{
 		array_set(Parr, i, count = rand() % 100);                     
 		cout << array_get(Parr, i) << " | ";                   
-		array_set(Parr_count, i,count);
 	}
 	cout << "Отредактированный массив:" << endl;
 	for (int i = 0; i < SIZE; i++)
 	{
 		if(array_get(Parr, i) % 2 != 0&&i%2!=0)
-			array_set(Parr, i, array_get(Parr_count, i) - m + n);
+			array_set(Parr, i, array_get(Parr,i) - m + n);
 		else if (array_get(Parr, i) % 2 != 0)
-			array_set(Parr, i, array_get(Parr_count, i) -m);
+			array_set(Parr, i, array_get(Parr, i) -m);
 		else if(i%2!=0)
-			array_set(Parr, i, array_get(Parr_count, i) +n);
+			array_set(Parr, i, array_get(Parr, i) +n);
 		cout << array_get(Parr, i) << " | ";
 	}
 }
@@ -41,11 +40,9 @@ int main()
 	cout << "\n\n";
 
 	Array* Parr = array_create(input);
-	Array* Parr_count = array_create(input);
-	FillingSearching(Parr,Parr_count, input);
+	FillingSearching(Parr);
 
 
 	array_delete(Parr);
-	array_delete(Parr_count);
 	system("pause");
 }
