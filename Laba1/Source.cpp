@@ -4,19 +4,20 @@
 using namespace std;
 void FillingSearching(Array* Parr)
 {
-	int *arr=new int[SIZE];
+	
 	int count, m, n;
 	cout << "m:=";
 	cin >> m;
 	cout << "n:=";
 	cin>> n;
-	for (int i = 0; i < SIZE; i++)
+
+	for (int i = 0; i < array_size(Parr); i++)
 	{
 		array_set(Parr, i, count = rand() % 100);                     
 		cout << array_get(Parr, i) << " | ";                   
 	}
 	cout << "Отредактированный массив:" << endl;
-	for (int i = 0; i < SIZE; i++)
+	for (int i = 0; i < array_size(Parr); i++)
 	{
 		if(array_get(Parr, i) % 2 != 0&&i%2!=0)
 			array_set(Parr, i, array_get(Parr,i) - m + n);
@@ -45,4 +46,5 @@ int main()
 
 	array_delete(Parr);
 	system("pause");
+	return 0;
 }
