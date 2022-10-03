@@ -20,13 +20,14 @@ bool SolutionLabTwo(const string &s) {
                 stack_push(stack, '}'); 
                 break;
             case '<': 
-                stack_push(stack, '>'); 
+                stack_push(stack, '>');
                 break;
             case ')':
             case ']':
             case '}':
             case '>':
                 if (stack_empty(stack) || stack_get(stack) != c) {
+                    stack_delete(stack);
                     return false;
                 }
                 stack_pop(stack);
@@ -35,8 +36,9 @@ bool SolutionLabTwo(const string &s) {
                 break;
             }
     }
-    return stack_empty(stack);
+
     stack_delete(stack);
+    return true;
 }
 
 void WorkingQuestionMark(const string& s) {
