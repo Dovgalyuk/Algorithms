@@ -16,16 +16,8 @@ bool SolutionLabTwo(const string &s) {
             case '[': 
                 stack_push(stack, ']'); 
                 break;
-            case '{': 
-                stack_push(stack, '}'); 
-                break;
-            case '<': 
-                stack_push(stack, '>');
-                break;
             case ')':
             case ']':
-            case '}':
-            case '>':
                 if (stack_empty(stack) || stack_get(stack) != c) {
                     stack_delete(stack);
                     return false;
