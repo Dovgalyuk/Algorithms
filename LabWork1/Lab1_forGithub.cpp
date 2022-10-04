@@ -1,14 +1,14 @@
-﻿#include <iostream>
+#include <iostream>
 #include <ctime>
 #include "array.h"
 using namespace std;
 
 
-void FillingSearching(Array* Parr, int const SIZE)
+void FillingSearching(Array* Parr)
 {
 	int counter_zero = 0, counter_positive = 0, counter_negative = 0;
 
-	for (int i = 0; i < SIZE; i++)
+	for (int i = 0; i < array_size(Parr); i++)
 	{
 		array_set(Parr, i, -100 + rand() % (201));                       // Генерация случайного числа от -100 до 100
 		cout << array_get(Parr, i) << " | ";                    //  Вывод сгенерированного массива на экран
@@ -44,7 +44,7 @@ int main()
 	cout << "\n\n";
 
 	Array* Parr = array_create(input);
-	FillingSearching(Parr, input);
+	FillingSearching(Parr);
 
 
 	array_delete(Parr);
