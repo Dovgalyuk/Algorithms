@@ -9,15 +9,22 @@ bool SolutionLabTwo(const string &s) {
 
     for (char c : s) {
         switch (c) {
-
             case '(': 
                 stack_push(stack, ')'); 
                 break;
             case '[': 
                 stack_push(stack, ']'); 
                 break;
+            case '{': 
+                stack_push(stack, '}'); 
+                break;
+            case '<': 
+                stack_push(stack, '>'); 
+                break;
             case ')':
             case ']':
+            case '}':
+            case '>':
                 if (stack_empty(stack) || stack_get(stack) != c) {
                     stack_delete(stack);
                     return false;
