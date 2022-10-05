@@ -8,7 +8,7 @@ struct Array
     Array(size_t arr_leng)
     {
         leng = arr_leng;
-        _array = new Data[leng];
+        _array = new Data[arr_leng];
     }
 
     ~Array()
@@ -32,7 +32,7 @@ void array_delete(Array *arr)
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    if(index < array_size(_arr)) return arr->_array[index]
+    if (index < array_size(arr)) return arr->_array[index];
     else return 0;
    // return (Data)0;
 }
@@ -40,12 +40,12 @@ Data array_get(const Array *arr, size_t index)
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
-    if(index < array_size(_arr)) arr->_array[index] = value
-    else return 0;
+    if (index < array_size(arr)) arr->_array[index] = value;
+
 }
 
 // returns array size
 size_t array_size(const Array *arr)
 {
-    return arr->arr_leng;
+    return arr->leng;
 }
