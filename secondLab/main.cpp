@@ -3,6 +3,12 @@
 #include "list.h"
 using namespace std;
 
+struct DeleteStack {
+    ~DeleteStack() {
+        cout << "after return" << '\n';
+    }
+};
+
 
 bool SolutionLabTwo(const string &s) {
     Stack* stack = stack_create();
@@ -35,9 +41,15 @@ bool SolutionLabTwo(const string &s) {
                 break;
             }
     }
+    
+
+    while(!stack_empty(stack)) {
+        stack_pop(stack);
+        return 0;
+    }
 
     stack_delete(stack);
-    return true;
+    return 1;
 }
 
 void WorkingQuestionMark(const string& s) {
@@ -45,6 +57,7 @@ void WorkingQuestionMark(const string& s) {
 }
 
 int main() {
+    WorkingQuestionMark("[](");
     WorkingQuestionMark("([])");
     WorkingQuestionMark("([)");
 }
