@@ -3,11 +3,6 @@
 #include "list.h"
 using namespace std;
 
-struct DeleteStack {
-    ~DeleteStack() {
-        cout << "after return" << '\n';
-    }
-};
 
 
 bool SolutionLabTwo(const string &s) {
