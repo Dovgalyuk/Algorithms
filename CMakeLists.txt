@@ -1,9 +1,3 @@
-cmake_minimum_required(VERSION 3.0)
-project(Algorithms)
-
-enable_testing()
-
-add_subdirectory(LibraryC)
-add_subdirectory(LibraryCPP)
-add_subdirectory(LibraryCPPTemplate)
-add_subdirectory(Laba1)
+add_executable(Laba2 Source.cpp)
+target_include_directories(Laba2 PUBLIC ../LibraryCPP)
+target_link_libraries(Laba2 LibraryCPP)
