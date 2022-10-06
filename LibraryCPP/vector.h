@@ -71,7 +71,7 @@ protected:
     size_t length; // Count of elements
     size_t capacity; // Count of reserved elements
 
-    /// Константа для увеличения размера массива
+    /// РљРѕРЅСЃС‚Р°РЅС‚Р° РґР»СЏ СѓРІРµР»РёС‡РµРЅРёСЏ СЂР°Р·РјРµСЂР° РјР°СЃСЃРёРІР°
     const int MULTIPLIER = 2;
 };
 #endif
