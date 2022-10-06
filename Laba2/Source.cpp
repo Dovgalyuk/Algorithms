@@ -94,4 +94,5 @@ int main() {
         std::cout << "Open error!\n";
     }
     fin.close();
+    return 0;
 }
