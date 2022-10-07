@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "list.h"
 #include "stack.h"
 #include "Interpreter.hpp"
 
@@ -12,7 +13,7 @@ void Interpreter::setString(const std::string str) {
 void Interpreter::run() {
     for(char chr : str) {
         if(chr >= '0' && chr <= '9') {
-            int val = static_cast<int>(chr)-48;
+            int val = static_cast<int>(chr)-'0';
             stack_push(stack, val);
             continue;
         } 
@@ -45,11 +46,7 @@ void Interpreter::run() {
                     int val_2 = stack_get(stack); 
                     stack_pop(stack);
 
-                    if(val_1 > val_2) {
-                        stack_push(stack, 1);
-                    } else {
-                        stack_push(stack, 0);
-                    }
+                    stack_push(stack, val_1 > val_2);
                     break;
                 }
                 case '!': {
@@ -99,6 +96,9 @@ void Interpreter::run() {
                     int val_2 = stack_get(stack);
                     stack_pop(stack);
 
+                    if(val_2 == 0)
+                        throw "Error: divide by Zero!";
+
                     int result = val_1 / val_2;
                     stack_push(stack, result);
                     break;
@@ -124,18 +124,16 @@ Interpreter::~Interpreter () {
 }
 
 int main() {
-    Interpreter *interpreter = new Interpreter;
+    Interpreter interpreter;
 
     std::string str_input;
     std::cout << "Input str:" << std::endl;
     std::getline(std::cin, str_input); 
 
-    interpreter->setString(str_input);
+    interpreter.setString(str_input);
     try {
-        interpreter->run();
+        interpreter.run();
     } catch (const char* msg) {
         std::cout << msg << std::endl;
     }
-
-    delete interpreter;
 }
