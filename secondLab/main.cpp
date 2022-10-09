@@ -4,7 +4,6 @@
 using namespace std;
 
 
-
 bool SolutionLabTwo(const string &s) {
     Stack* stack = stack_create();
 
@@ -36,15 +35,10 @@ bool SolutionLabTwo(const string &s) {
                 break;
             }
     }
-    
 
-    while(!stack_empty(stack)) {
-        stack_pop(stack);
-        return 0;
-    }
-
+    auto flag = stack_empty(stack);
     stack_delete(stack);
-    return 1;
+    return flag;
 }
 
 void WorkingQuestionMark(const string& s) {
