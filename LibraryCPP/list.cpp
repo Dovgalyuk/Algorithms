@@ -30,6 +30,7 @@ void list_delete(List *list)
     while(list->head != nullptr) {
         list_erase_next(list, list->head);
     }
+    list_erase_head(list);
     delete list;
 }
 
@@ -96,11 +97,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
     }
     // Если справа пусто
     if(item->next == nullptr) {
-        // Удаление корня
-        if(list->head == item) {
-            list->head = nullptr;
-            delete item;
-        }
         return tmp;
     }
     // Удаляемый элемент
@@ -111,4 +107,9 @@ ListItem *list_erase_next(List *list, ListItem *item)
 
     delete tmp;
     return item->next;
+}
+
+void list_erase_head(List *list) {
+    list->head = nullptr;
+    delete list->head;
 }

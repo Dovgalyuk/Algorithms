@@ -36,7 +36,9 @@ Data stack_get(const Stack *stack)
 
 void stack_pop(Stack *stack)
 {
-    if (list_item_next(list_first(stack->list)) != nullptr) {
+    if (list_first(stack->list) == nullptr) {
+        throw "Error: deleting an empty element!";
+    } else if (list_item_next(list_first(stack->list)) != nullptr) {
         // Получаем значение следующего элемента за удаляемым
         Data value = list_item_data(list_item_next(list_first(stack->list)));
         // Удаляем следующий элемент за удаляемым
@@ -46,8 +48,8 @@ void stack_pop(Stack *stack)
         // Удаляем нужный элемент
         list_erase_next(stack->list, list_first(stack->list));
     } else {
-        // Если удаляем корень
-        list_erase_next(stack->list, list_first(stack->list));
+        // Удаляем корень
+        list_erase_head(stack->list);
     }
 }
 
