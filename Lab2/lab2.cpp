@@ -9,7 +9,7 @@ void Task()
 {
 	Stack* stack = stack_create();
 	string s, s1;
-	cout << "Ââåäèòå ñòğîêó: ";
+	cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ ÑÑ‚Ñ€Ğ¾ĞºÑƒ: ";
 	getline(cin, s);
 	for (int i = 0; i <= s.length(); i++)
 	{
