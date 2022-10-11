@@ -38,7 +38,6 @@ int main()
     }
 
 
-
     std::cout << "List: ";
     for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
     {

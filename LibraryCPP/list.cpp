@@ -27,7 +27,7 @@ List *list_create()
 
 void list_delete(List *list)
 {
-    while(list->head != nullptr) {
+    while(list->head->next != nullptr) {
         list_erase_next(list, list->head);
     }
     list_erase_head(list);
