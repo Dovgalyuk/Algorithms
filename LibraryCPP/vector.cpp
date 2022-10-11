@@ -1,13 +1,16 @@
 #include "vector.h"
+#include <memory.h>
 
 struct Vector
 {
     Data* data;
     size_t size;
+    size_t capacity;
 
     Vector() {
         this->size = 1; //Initial size
-        this->data = new Data[size];
+        this->capacity = 10;//Initial capacity
+        this->data = new Data[capacity];
     }
 
     ~Vector() {
@@ -50,17 +53,23 @@ void vector_resize(Vector *vector, size_t size)
 {
     size_t cur_size = vector_size(vector);
 
-    if (cur_size == size) return;
-    
-    size_t count = cur_size > size ? size : cur_size;
-    Data* new_data = new Data[size];
-
-    for (int i = 0; i < count; i++) {
-        new_data[i] = vector_get(vector, i);
+    if (size <= vector->capacity && size > cur_size) {
+        vector->size = size;
     }
 
-    delete[] vector->data;
-    
-    vector->size = size;
-    vector->data = new_data;
+    if (size > vector->capacity || cur_size > size) {
+        
+        size_t new_capacity = size << 1;// grow vector size * 2
+        
+        Data* new_data = new Data[new_capacity];
+        
+        size_t count = cur_size > size ? size : cur_size;
+        memcpy(new_data,vector->data,count * sizeof(Data));
+        
+        delete[] vector->data;
+        
+        vector->size = size;
+        vector->capacity = new_capacity;
+        vector->data = new_data;
+    }  
 }
