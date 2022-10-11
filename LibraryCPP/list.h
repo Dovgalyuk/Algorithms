@@ -44,6 +44,8 @@ ListItem *list_erase(List *list, ListItem *item);
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);
 
-void list_erase_head(List *list);
+// Deletes the head of the list. 
+// Returns pointer to the item next to the deleted one.
+ListItem *list_erase_head(List *list);
 
 #endif

@@ -38,17 +38,7 @@ void stack_pop(Stack *stack)
 {
     if (list_first(stack->list) == nullptr) {
         throw "Error: deleting an empty element!";
-    } else if (list_item_next(list_first(stack->list)) != nullptr) {
-        // Получаем значение следующего элемента за удаляемым
-        Data value = list_item_data(list_item_next(list_first(stack->list)));
-        // Удаляем следующий элемент за удаляемым
-        list_erase_next(stack->list, list_first(stack->list));
-        // Перемещаем в начало
-        list_insert(stack->list, value);
-        // Удаляем нужный элемент
-        list_erase_next(stack->list, list_first(stack->list));
     } else {
-        // Удаляем корень
         list_erase_head(stack->list);
     }
 }

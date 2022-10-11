@@ -109,7 +109,11 @@ ListItem *list_erase_next(List *list, ListItem *item)
     return item->next;
 }
 
-void list_erase_head(List *list) {
-    list->head = nullptr;
-    delete list->head;
+ListItem *list_erase_head(List *list) {
+    ListItem* tmp = nullptr;
+    tmp = list->head;
+    list->head = list->head->next;
+    
+    delete tmp;
+    return list->head;
 }
