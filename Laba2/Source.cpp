@@ -3,54 +3,16 @@
 #include <cctype>
 #include "stack.h"
 using namespace std;
-void check(Stack<int> number, char ch[], bool& ZERO)
-{
-    int i = 0;
-    int a = number.get();
-    number.pop();
-    int b = 0;
-    if (!number.empty()) {
-        b = number.get();
-        number.pop();
-        if (ch[i] == '+') {
-            number.push(a + b);
-            i++;
-        }
-        else if (ch[i] == '-') {
-            number.push(a - b);
-            i++;
-        }
-        else if (ch[i] == '*') {
-            number.push(a * b);
-            i++;
-        }
-        else if (ch[i] == '/') {
-            if (b != 0) {
-                number.push(a + b);
-                i++;
-            }
-            else {
-                ZERO = false;
-            }
-        }
-    }
-    else {
-        number.push(a);
-    }
-}
 int main() {
     //  10 9 - + (UNDERFLOW)
     //  1 2 + 3 (OVERFLOW)
     //  90 0 / (ZERO)
-    Stack<int> number, number1;
-    char arr[2]={' ',' '};
-    int i = 0;
+    Stack<int> number;
     bool ZERO = true;
     ifstream fin;
     fin.open("first.txt");
-
+    char ch = ' ', last_ch = '.';
     if (fin.is_open()) {
-        char ch, last_ch = '.';
         while (fin.get(ch)) {
             if (isdigit(ch)) {
                 if (isdigit(last_ch)) {
@@ -59,32 +21,47 @@ int main() {
                     number.push(10 * b + a);
                 }
                 else {
-                    int i = 0;
                     number.push(ch - '0');
                 }
             }
             else if (ch != '\n') {
-                
-                arr[i] = ch;
-                i++;
+                int a = number.get();
+                number.pop();
+                int b = 0;
+                if (!number.empty()) {
+                    b = number.get();
+                    number.pop();
+                    if (ch == '+') {
+                        number.push(a + b);
+                    }
+                    if (ch == '-') {
+                        number.push(a - b);
+                    }
+                    else if (ch == '/') {
+                        if (a != 0) {
+                            number.push(a + b);
+                        }
+                        else {
+                            ZERO = false;
+                        }
+                    }
+                }
+                else {
+                    number.push(a);
+                }
             }
             last_ch = ch;
         }
     }
     else {
-        std::cout << "Open error!\n";
+        cout << "Open error!\n";
     }
-    while (!number.empty()) {
-        number1.push(number.get());
-        number.pop();
-    }
-    check(number1, arr, ZERO);
     int j = 0;
-    for (j = 0; !number1.empty(); j++)
-        number1.pop();
+    for (j = 0; !number.empty(); j++)
+        number.pop();
     if (ZERO == true) {
-        if (j <= 2) cout << "UNDERFLOW" << std::endl;
-        else if (j > 1) cout << "OVERFLOW" << std::endl;
+        if (j > 1)  cout << "OVERFLOW" << endl;
+        else if (j <= 2) cout << "UNDERFLOW" << endl;
     }
     else {
         cout << "ZERO" << std::endl;
