@@ -20,8 +20,6 @@ int main(){
 	array->output();
 	cout << endl;
 	array->sort();
-	int max = array->get(0);
-	int min = array->get(0);
 	cout << "Массив(отсортированный): ";
 	array->output();
 	cout << endl;
