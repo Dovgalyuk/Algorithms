@@ -1,27 +1,87 @@
-#ifndef ARRAY_H
-#define ARRAY_H
+#pragma once
+#ifndef ARRAY_TEMPLATE_H
+#define ARRAY_TEMPLATE_H
+#include <iostream>
+using namespace std;
 
-#include <cstddef>
+template <typename Data> class Array
+{
+public:
+    // create array
+    Array(size_t size)
+    {
+        elem = new Data[size];
+        sized = size;
 
-// Non-resizeable array
-// Stores integer values inside
-typedef int Data;
+    }
 
-struct Array;
+    // delete array, free memory
+    ~Array()
+    {
+        delete[] elem;
+    }
 
-// create array
-Array *array_create(size_t size);
+    // returns specified array element
+    Data get(size_t index) const
+    {
+        return elem[index];
+    }
 
-// delete array, free memory
-void array_delete(Array *arr);
+    void sort() const {
+        int tmp = 0;
+        for (int i = 0; i < sized; i++) {
+            for (int j = (sized - 1); j >= (i + 1); j--) {
+                if (elem[j] < elem[j - 1]) {
+                    tmp = elem[j];
+                    elem[j] = elem[j - 1];
+                    elem[j - 1] = tmp;
+                }
+            }
+        }
+    }
 
-// returns specified array element
-Data array_get(const Array *arr, size_t index);
+    int min() const {
+        int min = elem[0];
+        for (int i = 0; i < sized; i++) {
+            if (min > elem[i]) {
+                min = elem[i];
+            }
+        }
+        return min;
+    }
 
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value);
+    int max() const {
+        int max = elem[0];
+        for (int i = 0; i < sized; i++) {
+            if (max < elem[i]) {
+                max = elem[i];
+            }
+        }
+        return max;
+    }
 
-// returns array size
-size_t array_size(const Array *arr);
+    void output() const {
+        for (int i = 0; i < sized; i++) {
+            cout << elem[i] << " ";
+        }
+    }
 
+    // sets the specified array element to the value
+    void set(size_t index, Data value)
+    {
+        elem[index] = value;
+    }
+
+    // returns array size
+    size_t size() const
+    {
+
+        return sized;
+    }
+
+private:
+    Data* elem;
+    size_t sized;
+    // private data should be here
+};
 #endif

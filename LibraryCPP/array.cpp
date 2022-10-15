@@ -1,34 +1,34 @@
 #include "array.h"
+#include <stdlib.h>
+#include <iostream>
+using namespace std;
+typedef int Data;
+typedef Array<Data> MyArray;
 
-struct Array
-{
-};
-
-// create array
-Array *array_create(size_t size)
-{
-    return new Array;
-}
-
-// delete array, free memory
-void array_delete(Array *arr)
-{
-    delete arr;
-}
-
-// returns specified array element
-Data array_get(const Array *arr, size_t index)
-{
-    return (Data)0;
-}
-
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value)
-{
-}
-
-// returns array size
-size_t array_size(const Array *arr)
-{
-    return 0;
+int main(){
+	srand(time(NULL));
+	setlocale(LC_ALL, "RUS");
+	int n;
+	int sum = 0;
+	cout << "Введите размерность массива: ";
+	cin >> n;
+	MyArray* array = new MyArray(n);
+	for (int i = 0; i < n; i++) {
+		array->set(i, rand() % 100);
+	}
+	cout << "Массив: ";
+	array->output();
+	cout << endl;
+	array->sort();
+	int max = array->get(0);
+	int min = array->get(0);
+	cout << "Массив(отсортированный): ";
+	array->output();
+	cout << endl;
+	for (int i = 0; i < array->size(); i++) {
+		if (array->get(i) != array->max() and array->get(i) != array->min()) {
+			sum += array->get(i);
+		}
+	}
+	cout << "Сумма элементов массива(без минимального и максимального элементов): " << sum << endl;
 }
