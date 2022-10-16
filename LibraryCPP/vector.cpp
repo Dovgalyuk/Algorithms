@@ -67,7 +67,7 @@ void vector_resize(Vector *vector, size_t size)
         {
             data[i] = 0;
         }
-}
     delete[] vector->data;
     vector->data = data;
     vector->size = new_size;
+}
