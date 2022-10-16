@@ -12,7 +12,7 @@ Vector *vector_create()
     Vector* vector = new Vector;
     vector->size = vector->reserved_size = 0;
     vector->data = new Data[vector->reserved_size];
-    return Vector;;
+    return vector;
 }
 
 void vector_delete(Vector *vector)
