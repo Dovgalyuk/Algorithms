@@ -2,7 +2,7 @@
 
 struct Vector
 {
-  size_t size;
+        size_t size;
 	size_t reserved_size;
 	Data* data;
 };
@@ -12,7 +12,7 @@ Vector *vector_create()
     Vector* vector = new Vector;
     vector->size = vector->reserved_size = 0;
     vector->data = new Data[vector->reserved_size];
-    return Vector;
+    return Vector;;
 }
 
 void vector_delete(Vector *vector)
