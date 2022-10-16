@@ -2,15 +2,16 @@
 
 struct Vector
 {
-  Data* data;
   size_t size;
+	size_t reserved_size;
+	Data* data;
 };
 
 Vector *vector_create()
 {
     Vector* vector = new Vector;
-    vector->size = 0;
-    vector->data = new Data[0];
+    vector->size = vector->reserved_size = 0;
+    vector->data = new Data[vector->reserved_size];
     return Vector;
 }
 
@@ -28,9 +29,16 @@ Data vector_get(const Vector *vector, size_t index)
 
 void vector_set(Vector *vector, size_t index, Data value)
 {
-    if (index > vector->size)
+    if (index + 1 > vector->size)
     {
-        vector_resize(vector, index);
+      if (index + 1 >= vector->reserved_size)
+      {
+			  vector_resize(vector, index + 1);
+      }
+		  else
+      {
+         vector->size++;
+      }
     }
     vector->data[index] = value;
 }
@@ -42,32 +50,23 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-    size_t new_size = 0;
-    Data* data;
-    if (size <= vector->size)
-    {
-        new_size = size;
-        data = new Data[new_size];
+   if ((size < vector->size) || (size >= vector->reserved_size))
+	{
+		vector->reserved_size = size * 2;
+		Data* new_data = new Data[vector->reserved_size];
 
-        for (int i = 0; i < size; i++)
-        {
-            data[i] = vector->data[i];
-        }
-    }
-    else
-    {
-        new_size = size > vector->size * 2 ? size : vector->size * 2;
-        data = new Data[new_size];
+		if (vector->size > 0)
+		{
+			size_t temp;
+			if (vector->size < size)
+				temp = vector->size;
+			else temp = size;
+			for (size_t i = 0; i < temp; i++)
+				new_data[i] = vector->data[i];
+		}
 
-        for (int i = 0; i < vector->size; i++)
-        {
-            data[i] = vector->data[i];
-        }
-        for (int i = vector->size - 1; i < new_size; i++)
-        {
-            data[i] = 0;
-        }
-    delete[] vector->data;
-    vector->data = data;
-    vector->size = new_size;
+		delete[] vector->data;
+		vector->data = new_data;
+		vector->size = size;
+	}
 }
