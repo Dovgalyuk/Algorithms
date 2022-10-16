@@ -16,7 +16,7 @@ void Task()
 			if (s[i] != ' ' && s[i]!='\0') s1 = s1 + s[i];
 			else
 			{
-				if ((s1[0]>=48) && (s1[0]<=57))
+				if ((s1[0]>='0') && (s1[0] <= '9'))
 				{
 					int chislo = stoi(s1);
 					stack_push(stack, chislo);
@@ -95,6 +95,14 @@ void Task()
 					int lastt = stack_get(stack);
 					stack_pop(stack);
 					stack_push(stack, last / lastt);
+				}
+				if (s1 == "%")
+				{
+					int last = stack_get(stack);
+					stack_pop(stack);
+					int lastt = stack_get(stack);
+					stack_pop(stack);
+					stack_push(stack, last % lastt);
 				}
 				s1 = "";
 			}
