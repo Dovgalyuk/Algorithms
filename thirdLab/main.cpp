@@ -37,7 +37,7 @@ int main() {
 		fin >> end;
 
 		if (cityIdx.find(Start) == cityIdx.end()) {
-			cityIdx.insert( pair< string, int>(Start, cityAmount++));
+			cityIdx.insert(make_pair(Start, cityAmount++));
 			cityName.push_back(Start);
 			graph.push_back({});
 		}
