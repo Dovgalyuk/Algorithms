@@ -48,6 +48,7 @@ int main() {
                 }
                 else {
                     number.push(a);
+                    break;
                 }
             }
             last_ch = ch;
