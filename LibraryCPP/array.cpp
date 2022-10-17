@@ -39,6 +39,7 @@ void array_delete(Array* arr) {
 	delete arr;
 }
 
+
 // returns specified array element
 Data array_get(const Array* arr, size_t index) {
 	size_t size = array_size(arr);
