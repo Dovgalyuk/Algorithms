@@ -29,21 +29,20 @@ Data vector_get(const Vector *vector, size_t index)
 
 void vector_set(Vector *vector, size_t index, Data value)
 {
-
-    vector->data[index] = value;
+    if (index < vector->size)
+    {
+	vector->data[index] = value;
+    }
+    else
+    {
+	vector_resize(vector, index + 1);
+	vector->data[index] = value;
+    }
 }
 
 size_t vector_size(const Vector *vector)
 {
-   if (index < vector->size)
-   {
-	vector->data[index] = value;
-   }
-   else
-   {
-	vector_resize(vector, index + 1);
-	vector->data[index] = value;
-   }
+   return vector->size;
 }
 
 void vector_resize(Vector *vector, size_t size)
