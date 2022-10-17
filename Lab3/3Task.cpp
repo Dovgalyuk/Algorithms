@@ -5,13 +5,12 @@
 
 using std::cin; using std::cout; using std::string;  using std::ifstream;
 
-int main();
 int main()
 {
 	Queue* queue = queue_create();
 	int width, height = 0, distance = 0, X, Y, z = 0;
 	bool flag = true;
-	string Patch, Str, BufStr, Way("."), Wall("#");
+	string Patch, Str, BufStr;
 
 	cout << "\n\tEnter the full path to the file: "; getline(cin, Patch); cout << "\n\n"; // Ввод пути к файлу с лабиринтом. У меня лежал тут ( C:\Users\ygali\Downloads\Labirint.txt )
 	ifstream file(Patch);                                                        // Открываем файл на чтение
@@ -19,9 +18,7 @@ int main()
 	if (!file.is_open())                                                          // Если файл НЕ открыт,
 	{
 		cout << "\n\tMistake! The path  ( " << Patch << " )  is not found!\n\n\a"; // Выводим сообщение об ошибке
-		system("pause");
-		system("cls");                                                           // Чистим экран
-		main();                                                                  // и позволяем запустить программу снова
+                return 0;                                                
 	}
 	else                                                          
 	{
@@ -76,17 +73,14 @@ int main()
 	{
 		for (int j = 0; j < width; j++)
 		{
-			maze[i][j] = Str[z];                            // Переносим все элементы лабиринта в двумерный массив строк (матрицу)
+			maze[i][j] = Str[z];                            // Переносим все элементы лабиринта (который сейчас в виде строки Str) в двумерный массив строк (матрицу) maze[i][j]
 
 			if (Str[z] == 'X')                             // Находим стартовую позицию в лабиринте
 			{
 				queue_insert(queue, i);
 				queue_insert(queue, j);
 			}
-			if (z != Str.size())
-			{
-				++z;
-			}
+	              ++z;
 		}
 	}
 
@@ -98,13 +92,13 @@ int main()
 		queue_remove(queue);      // Удаляем взятый элемент из очереди
 		mark[X][Y] = true;       // Помечаем текущее местоположение как посещенное
 		                                                                              // Пока flag = true и в текщем месте НЕ '.' (в которую можно попасть), НЕ '#' и НЕ 'X' (старт), а искомое число, которое располагается ближе всего к старту
-		while (flag && maze[X][Y].find(Way) == string::npos && (maze[X][Y].find(Wall) == string::npos) && (maze[X][Y].find("X") == string::npos))
+		while (flag && maze[X][Y] != "." && (maze[X][Y] != "#") && (maze[X][Y] != "X" ))
 		{
 			cout << "\tThe shortest number found: " << maze[X][Y] << "\n";              // Печатаем это число
 			flag = false;                                                     // Меняем flag на false, чтобы выйти из цикла
 		}
 		 // Если место в которое мы хотим попасть доступно или если это искомое число (хочу пометить позицию искомого числа как посещенное место)
-		if (maze[X - 1][Y].find(Way) != string::npos || maze[X - 1][Y].find(Way) == string::npos && (maze[X - 1][Y].find(Wall) == string::npos)) // Вверх в лабиринте
+		if (maze[X - 1][Y] == "." || maze[X - 1][Y] != "." && (maze[X - 1][Y] != "#") && (maze[X - 1][Y] != "X")) // Вверх в лабиринте
 		{  
 			if (mark[X - 1][Y] == false)       // Если мы еще не были в этом месте
 			{
@@ -115,7 +109,7 @@ int main()
 			}
 		}      // Для остальных направлений движения по лабиринту все аналогично
 
-		if (maze[X + 1][Y].find(Way) != string::npos || maze[X + 1][Y].find(Way) == string::npos && (maze[X + 1][Y].find(Wall) == string::npos) && (maze[X + 1][Y].find("X") == string::npos)) {    // Вниз в лабиринте
+		if (maze[X + 1][Y] == "." || maze[X + 1][Y] != "." && (maze[X + 1][Y] != "#") && (maze[X + 1][Y] != "X")) {    // Вниз в лабиринте
 			if (mark[X + 1][Y] == false)
 			{
 				mark[X + 1][Y] = true;
@@ -125,7 +119,7 @@ int main()
 			}
 		}
 
-		if (maze[X][Y + 1].find(Way) != string::npos || maze[X][Y + 1].find(Way) == string::npos && (maze[X][Y + 1].find(Wall) == string::npos) && (maze[X][Y + 1].find("X") == string::npos)) {    // Вправо в лабиринте
+		if (maze[X][Y + 1] == "." || maze[X][Y + 1] != "." && (maze[X][Y + 1] != "#") && (maze[X][Y + 1] != "X")) {    // Вправо в лабиринте
 			if (mark[X][Y + 1] == false)
 			{
 				mark[X][Y + 1] = true;
@@ -135,7 +129,7 @@ int main()
 			}
 		}
 
-		if (maze[X][Y - 1].find(Way) != string::npos || maze[X][Y + 1].find(Way) == string::npos && (maze[X][Y + 1].find(Wall) == string::npos) && (maze[X][Y + 1].find("X") == string::npos)) {    // Влево в лабиринте
+		if (maze[X][Y - 1] == "." || maze[X][Y + 1] != "." && (maze[X][Y + 1] != "#") && (maze[X][Y + 1] != "X")) {    // Влево в лабиринте
 			if (mark[X][Y - 1] == false)
 			{
 				mark[X][Y - 1] = true;
@@ -174,7 +168,4 @@ int main()
 
 	queue_delete(queue);            // Удаляем очередь
 	cout << "\n\n";
-	system("pause");
-	system("cls");
-	main();
 }
