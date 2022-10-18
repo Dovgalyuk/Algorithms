@@ -5,7 +5,7 @@ using namespace std;
 typedef int Data;
 typedef Array<Data> MyArray;
 
-int main(){
+int main() {
 	srand(time(NULL));
 	setlocale(LC_ALL, "RUS");
 	int n;
