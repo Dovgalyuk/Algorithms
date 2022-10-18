@@ -47,7 +47,7 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-   	if (size < vector->reserved_size)
+   	if (size <= vector->reserved_size)
 	{
 		vector->size = size;
 	}
