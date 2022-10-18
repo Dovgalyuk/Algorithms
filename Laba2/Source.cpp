@@ -24,7 +24,9 @@ int main() {
                     number.push(ch - '0');
                 }
             }
-            else if (ch != '\n') {
+            else if (ch != '\n'&&ch!=' ') {
+                if (number.empty())
+                    break;
                 int a = number.get();
                 number.pop();
                 int b = 0;
