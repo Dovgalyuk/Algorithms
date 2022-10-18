@@ -57,7 +57,9 @@ void vector_resize(Vector *vector, size_t size)
 		Data* newData = new Data[newSize];
 
 		for (size_t i = 0; i < vector->size; i++)
-			newData[i] = vector->data[i];
+		{
+                   newData[i] = vector->data[i];
+                }
 
 		delete[] vector->data;
 
