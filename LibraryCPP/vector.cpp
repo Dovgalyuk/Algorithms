@@ -2,7 +2,7 @@
 
 struct Vector
 {
-    size_t size;
+        size_t size;
 	size_t reserved_size;
 	Data* data;
 };
@@ -47,7 +47,7 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-   	if (size < vector->reserved_size)
+   	if (size <= vector->reserved_size)
 	{
 		vector->size = size;
 	}
@@ -57,7 +57,9 @@ void vector_resize(Vector *vector, size_t size)
 		Data* newData = new Data[newSize];
 
 		for (size_t i = 0; i < vector->size; i++)
-			newData[i] = vector->data[i];
+		{
+                   newData[i] = vector->data[i];
+                }
 
 		delete[] vector->data;
 
