@@ -8,7 +8,7 @@ using std::cin; using std::cout; using std::string;  using std::ifstream;
 int main()
 {
 	Queue* queue = queue_create();
-	int width, height = 0, distance = 0, X = 0, Y = 0, z = 0;
+	int width, height = 0, X = 0, Y = 0, z = 0;
 	bool flag = true;
 	string Patch, Str, BufStr;
 
@@ -67,7 +67,7 @@ int main()
 		}
 	}
 
-	while (!queue_empty(queue) && flag)       // Пока очередь НЕ пуста и flag == true (число не найдено)
+	while (!queue_empty(queue) && flag)       // Пока очередь НЕ пуста и flag == true (число НЕ найдено)
 	{
 		X = queue_get(queue);      // Берем из очереди элемент (наимен строки влабиринте)
 		queue_remove(queue);       // Удаляем взятый элемент из очереди
@@ -81,65 +81,43 @@ int main()
 			cout << "\tThe shortest number found: " << maze[X][Y] << "\n";              // Печатаем это число
 			flag = false;                                                     // Меняем flag на false, чтобы выйти из цикла
 		}
-		else
+		// Если место в которое мы хотим попасть доступно или если это искомое число (хочу пометить позицию искомого числа как посещенное место)
+		if (maze[X - 1][Y] == '.' || isdigit(maze[X - 1][Y])) // Вверх в лабиринте
 		{
-			// Если место в которое мы хотим попасть доступно или если это искомое число (хочу пометить позицию искомого числа как посещенное место)
-			if (maze[X - 1][Y] == '.' || isdigit(maze[X - 1][Y])) // Вверх в лабиринте
+			if (mark[X - 1][Y] == false)       // Если мы еще не были в этом месте
 			{
-				if (mark[X - 1][Y] == false)       // Если мы еще не были в этом месте
-				{
-					if (isdigit(maze[X - 1][Y]))   // Если в этом месте число,
-					{
-						queue_remove(queue);      // То забываем про все предыдущие возможные пути,
-						queue_remove(queue);     // Ведь ближайшее число найдено
-					}
-					queue_insert(queue, X - 1);  // Заносим его координаты, чтобы
-					queue_insert(queue, Y);     // далее его посетить 
-				}
-			}      // Для остальных направлений движения по лабиринту все аналогично
-
-			if (maze[X + 1][Y] == '.' || isdigit(maze[X + 1][Y])) {    // Вниз в лабиринте
-				if (mark[X + 1][Y] == false)
-				{
-					if (isdigit(maze[X + 1][Y]))
-					{
-						queue_remove(queue);
-						queue_remove(queue);
-					}
-					queue_insert(queue, X + 1);
-					queue_insert(queue, Y);
-				}
+				queue_insert(queue, X - 1);  // Заносим его координаты в очередь, чтобы
+				queue_insert(queue, Y);     // далее его посетить 
 			}
+		}      // Для остальных направлений движения по лабиринту все аналогично
 
-			if (maze[X][Y + 1] == '.' || isdigit(maze[X][Y + 1])) {    // Вправо в лабиринте
-				if (mark[X][Y + 1] == false)
-				{
-					if (isdigit(maze[X][Y + 1]))
-					{
-						queue_remove(queue);
-						queue_remove(queue);
-					}
-					queue_insert(queue, X);
-					queue_insert(queue, Y + 1);
-				}
+		if (maze[X + 1][Y] == '.' || isdigit(maze[X + 1][Y]))       // Вниз в лабиринте
+		{    
+			if (mark[X + 1][Y] == false)
+			{
+				queue_insert(queue, X + 1);
+				queue_insert(queue, Y);
 			}
+		}
 
-			if (maze[X][Y - 1] == '.' || isdigit(maze[X][Y - 1])) {    // Влево в лабиринте
-				if (mark[X][Y - 1] == false)
-				{
-					if (isdigit(maze[X][Y - 1]))
-					{
-						queue_remove(queue);
-						queue_remove(queue);
-					}
-					queue_insert(queue, X);
-					queue_insert(queue, Y - 1);
-				}
+		if (maze[X][Y + 1] == '.' || isdigit(maze[X][Y + 1]))      // Вправо в лабиринте
+	    {
+			if (mark[X][Y + 1] == false)
+			{
+				queue_insert(queue, X);
+				queue_insert(queue, Y + 1);
 			}
-			++distance;               // Считаем количество посещенных доступных мест при поиске числа
+		}
+
+		if (maze[X][Y - 1] == '.' || isdigit(maze[X][Y - 1]))     // Влево в лабиринте
+		{
+			if (mark[X][Y - 1] == false)
+			{
+				queue_insert(queue, X);
+				queue_insert(queue, Y - 1);
+			}
 		}
 	}
-	cout << "\n\tThe path from the start: " << distance << " cells.\n";  // Выводим количество посещенных доступных (кроме старта) мест, на экран
 	cout << "\n\tMaze:\tVisited places in the maze:\n\n\n\t";
 
 	for (int i = 0; i < height; i++)                   // Выводим матрицу лабиринта и посещенных мест на экран
