@@ -51,20 +51,15 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-    size_t cur_size = vector_size(vector);
-
-    if (size <= vector->capacity && size > cur_size) {
+    if (size <= vector->capacity){
         vector->size = size;
-    }
-
-    if (size > vector->capacity || cur_size > size) {
+    } else {
         
         size_t new_capacity = size << 1;// grow vector size * 2
         
         Data* new_data = new Data[new_capacity];
         
-        size_t count = cur_size > size ? size : cur_size;
-        memcpy(new_data,vector->data,count * sizeof(Data));
+        memcpy(new_data,vector->data,vector_size(vector) * sizeof(Data));
         
         delete[] vector->data;
         
