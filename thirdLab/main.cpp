@@ -9,7 +9,7 @@ using namespace std;
 
 
 int main() {
-    string fileInputName  = "input.txt";
+  	string fileInputName  = "input.txt";
 	string fileOutputName = "result.txt";
 	const Data arrSize = 20;
 
@@ -73,7 +73,7 @@ int main() {
 	}
 
 	int count = 0;
-	vector <list<Data>> path(arrSize);
+	vector<int> path[arrSize];
 	Data d = cityIdx[end];
 
 
@@ -96,7 +96,7 @@ int main() {
 	fin.close();
 	fout.close();
 
-    cout << "Data was written in: " << fileOutputName <<'\n';
+    	cout << "Data was written in: " << fileOutputName <<'\n';
 
 	return 0;
 }
