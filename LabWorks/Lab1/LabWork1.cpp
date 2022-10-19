@@ -1,5 +1,6 @@
-﻿#include <iostream>
+#include <iostream>
 #include <ctime>
+#include "array.h"
 
 using namespace std;
 
@@ -11,14 +12,10 @@ int main()
 	int juneDays;
 	cout << "Введите число - размер массива: ";
 	cin >> juneDays;
-	int* array = new int[juneDays];
+	Array *array = array_create(juneDays);
 	for (int i = 0; i < juneDays; i++)
 	{
-		array[i] = rand() % randMax + 1;
-	}
-	for (int i = 0; i < juneDays; i++)
-	{
-		cout << i+1 << " " << array[i] << '\n';
+		array_set(array,i,rand() % randMax + 1);
 	}
 	int halfPart = 0;
 	int halfSum = 0;
@@ -27,7 +24,7 @@ int main()
 	for (int i = 0; i < juneDays; i++)
 	{
 		counter += 1;
-		halfSum += array[i];
+		halfSum += array_get(arr,i);
 		if (counter == juneDays / 2)
 		{
 			if (halfSum > maxHalfSum)
@@ -46,7 +43,7 @@ int main()
 	for (int i = 0; i < juneDays; i++)
 	{
 		counter += 1;
-		decadeSum += array[i];
+		decadeSum += array_get(arr,i);;
 		if (counter == juneDays / 3)
 		{
 			if (decadeSum > maxDecadeSum)
@@ -61,6 +58,6 @@ int main()
 
 	cout << '\n' << '\n' << "а) В " << halfPart << "-ую половину июня выпало больше осадков" << '\n';
 	cout << "б) В " << decadePart << "-ую декаду июня выпало больше осадков" << '\n';
-	delete[] array;
+	array_delete(arr);
 	return 0;
 }
