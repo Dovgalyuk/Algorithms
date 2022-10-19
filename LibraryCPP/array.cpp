@@ -1,14 +1,5 @@
 #pragma once
-#pragma once
-
-#ifndef ARRAY_H
-#define ARRAY_H
-
-#include <cstddef>
-
-// Non-resizeable array
-// Stores integer values inside
-typedef int Data;
+#include "array.h"
 
 struct Array {
 	Data* data;
@@ -39,7 +30,6 @@ void array_delete(Array* arr) {
 	delete arr;
 }
 
-
 // returns specified array element
 Data array_get(const Array* arr, size_t index) {
 	size_t size = array_size(arr);
@@ -58,5 +48,3 @@ void array_set(Array* arr, size_t index, Data value) {
 		arr->data[index] = value;
 	}
 }
-
-#endif
