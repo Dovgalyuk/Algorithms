@@ -3,8 +3,9 @@
 
 using namespace std;
 
-void fill_array(Array* arr, int size) {
+void fill_array(Array* arr) {
 	int height;
+	int size = array_size(arr);
 	for (int i = 0; i < size; i++) {
 		cout << "write height students(cm): ";
 		cin >> height;
@@ -12,16 +13,18 @@ void fill_array(Array* arr, int size) {
 	}
 }
 
-int find_average(Array* arr, int size) {
+int find_average(Array* arr) {
 	int average = 0;
+	int size = array_size(arr);
 	for (int i = 0; i < size; i++) {
 		average += array_get(arr, i);
 	}
 	return average / size;
 }
 
-int find_count_students(Array* arr, int size, int average) {
+int find_count_students(Array* arr, int average) {
 	int count = 0;
+	int size = array_size(arr);
 	for (int i = 0; i < size; i++) {
 		if (array_get(arr, i) > average) count++;
 	}
@@ -37,11 +40,11 @@ int main() {
 	Array* arr = array_create(size);
 
 	//fill array
-	fill_array(arr, size);
+	fill_array(arr);
 
 	//search average value
-	int average = find_average(arr, size);
+	int average = find_average(arr);
 
 	//search for the number of students whose growth is above average
-	cout << "Количество студентов у которых рост выше среднего по классу: " << find_count_students(arr, size, average) << "\n\n";
+	cout << "Количество студентов у которых рост выше среднего по классу: " << find_count_students(arr, average) << "\n\n";
 }
