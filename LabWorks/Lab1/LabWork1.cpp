@@ -24,7 +24,7 @@ int main()
 	for (int i = 0; i < juneDays; i++)
 	{
 		counter += 1;
-		halfSum += array_get(arr,i);
+		halfSum += array_get(array,i);
 		if (counter == juneDays / 2)
 		{
 			if (halfSum > maxHalfSum)
@@ -43,7 +43,7 @@ int main()
 	for (int i = 0; i < juneDays; i++)
 	{
 		counter += 1;
-		decadeSum += array_get(arr,i);;
+		decadeSum += array_get(array,i);;
 		if (counter == juneDays / 3)
 		{
 			if (decadeSum > maxDecadeSum)
@@ -58,6 +58,6 @@ int main()
 
 	cout << '\n' << '\n' << "а) В " << halfPart << "-ую половину июня выпало больше осадков" << '\n';
 	cout << "б) В " << decadePart << "-ую декаду июня выпало больше осадков" << '\n';
-	array_delete(arr);
+	array_delete(array);
 	return 0;
 }
