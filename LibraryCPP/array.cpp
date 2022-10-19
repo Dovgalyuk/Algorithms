@@ -3,7 +3,7 @@
 struct Array
 {
     Data *data;
-    size_t sizeOfArray;
+    size_t arraySize;
     Array(const size_t size) 
     {
         arraySize = size;
