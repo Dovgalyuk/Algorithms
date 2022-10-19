@@ -9,9 +9,9 @@ struct Array
         arraySize = size;
         data = new Data[arraySize];
     }
-    ~Array
+    ~Array()
     {
-        delete[] data
+        delete[] data;
     }
     
 };
