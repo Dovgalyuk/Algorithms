@@ -3,6 +3,31 @@
 #include "array.h"
 
 using namespace std;
+int CheckMaxPrecipitation(Array *array, int period)
+{
+	int counter = 0;
+	int periodSum = 0;
+	int periodSumMax = 0;
+	int maxPrecipitationPeriod = 0;
+	for (int i = 0; i < array_size(array); i++)
+	{
+		counter += 1;
+		periodSum += array_get(array, i);
+		if (counter == array_size(array) / period)
+		{
+			if (periodSum > periodSumMax)
+			{
+				periodSumMax = periodSum;
+				counter = 0;
+				maxPrecipitationPeriod = (i + 1) / (array_size(array) / period);
+			}
+			periodSum = 0;
+		}
+	}
+	return maxPrecipitationPeriod;
+}
+
+
 
 int main()
 {
@@ -12,52 +37,16 @@ int main()
 	int juneDays;
 	cout << "Введите число - размер массива: ";
 	cin >> juneDays;
-	Array *array = array_create(juneDays);
+	Array* array = array_create(juneDays);
+
 	for (int i = 0; i < juneDays; i++)
 	{
-		array_set(array,i,rand() % randMax + 1);
-	}
-	int halfPart = 0;
-	int halfSum = 0;
-	int maxHalfSum = halfSum;
-	int counter = 0;
-	for (int i = 0; i < juneDays; i++)
-	{
-		counter += 1;
-		halfSum += array_get(array,i);
-		if (counter == juneDays / 2)
-		{
-			if (halfSum > maxHalfSum)
-			{
-				maxHalfSum = halfSum;
-				counter = 0;
-				halfPart = (i+1) / (juneDays / 2);
-			}
-			halfSum = 0;
-		}
-	}
-	int decadePart = 0;
-	int decadeSum = 0;
-	int maxDecadeSum = decadeSum;
-	counter = 0;
-	for (int i = 0; i < juneDays; i++)
-	{
-		counter += 1;
-		decadeSum += array_get(array,i);;
-		if (counter == juneDays / 3)
-		{
-			if (decadeSum > maxDecadeSum)
-			{
-				maxDecadeSum = decadeSum;
-				counter = 0;
-				decadePart = (i+1) / (juneDays / 3);
-			}
-			decadeSum = 0;
-		}
+		array_set(array, i, rand() % randMax + 1);
 	}
 
-	cout << '\n' << '\n' << "а) В " << halfPart << "-ую половину июня выпало больше осадков" << '\n';
-	cout << "б) В " << decadePart << "-ую декаду июня выпало больше осадков" << '\n';
+	
+	cout << "а) В " << CheckMaxPrecipitation(array,2) << "-ую половину июня выпало больше осадков" << '\n';
+	cout << "б) В " << CheckMaxPrecipitation(array,3) << "-ую декаду июня выпало больше осадков" << '\n';
 	array_delete(array);
 	return 0;
 }
