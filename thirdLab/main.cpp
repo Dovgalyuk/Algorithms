@@ -73,23 +73,21 @@ int main() {
 	}
 
 	int count = 0;
-	vector<int> path[arrSize];
+	vector<int> path;
 	Data d = cityIdx[end];
 
 
 	while(from[d] != -1) {
-		path[count].push_back(d);
+		path.push_back(d);
 		count++;
 		d = from[d];
 	}
 
-	path[count].push_back(d);
+	path.push_back(d);
 	count++;
 	
 	for (int i = count - 1; i >= 0; i--) {
-		for (int item : path[i]) {
-			fout << cityName[item] << " ";
-		}
+		fout << cityName[path[i]] << " ";
 	}
 	queue_delete(queue);
 
