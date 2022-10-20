@@ -8,7 +8,7 @@ struct Vector
     size_t capacity;
 
     Vector() {
-        this->size = 1; //Initial size
+        this->size = 0; //Initial size
         this->capacity = 10;//Initial capacity
         this->data = new Data[capacity];
     }

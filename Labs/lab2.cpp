@@ -29,7 +29,7 @@ void divide(Stack* stack) {
 void percent(Stack* stack) {
 	int v1 = stack_get(stack); stack_pop(stack);
 	int v2 = stack_get(stack); stack_pop(stack);
-	stack_push(stack, v1 / v2 * 100);
+	stack_push(stack, v1 % v2);
 }
 
 void inverse(Stack* stack) {

@@ -4,11 +4,9 @@
 struct Stack
 {
     Vector* vector;
-    size_t last;
 
     Stack() {
         this->vector = vector_create();
-        this->last = -1;
     }
 
     ~Stack() {
@@ -29,22 +27,23 @@ void stack_delete(Stack *stack)
 void stack_push(Stack *stack, Data data)
 {
     size_t size = vector_size(stack->vector);
-    if (++stack->last == size)
-        vector_resize(stack->vector,size + 1);
-    vector_set(stack->vector,stack->last, data);
+    vector_resize(stack->vector, size + 1);
+    vector_set(stack->vector,size, data);
 }
 
 Data stack_get(const Stack *stack)
 {
-    return vector_get(stack->vector,stack->last);
+    return stack_empty(stack) ? throw "Empty stack error" 
+        : vector_get(stack->vector, vector_size(stack->vector) - 1);
 }
 
 void stack_pop(Stack *stack)
 {
-    vector_resize(stack->vector,stack->last--);
+    stack_empty(stack) ? throw "Empty stack error" : 
+        vector_resize(stack->vector, vector_size(stack->vector) - 1);
 }
 
 bool stack_empty(const Stack *stack)
 {
-    return stack->last == -1;
+    return vector_size(stack->vector) == 0;
 }
