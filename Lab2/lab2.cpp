@@ -6,6 +6,30 @@
 
 using namespace std;
 
+void muladdsub(Stack *stack)
+{
+    switch (stack_get(stack))
+    {
+    case '*':
+        stack_pop(stack);
+        cout << "POP B\n";
+        cout << "MUL A, B\n";
+        break;
+    case '-':
+        stack_pop(stack);
+        cout << "POP B\n";
+        cout << "SUB A, B\n";
+        break;
+    case '+':
+        stack_pop(stack);
+        cout << "POP B\n";
+        cout << "ADD A, B\n";
+        break;
+    default:
+        break;
+    }
+}
+
 void third(string& str)
 {
     Stack* stack = stack_create();
@@ -26,32 +50,9 @@ void third(string& str)
             cout << "POP A\n";
             stack_pop(stack);
             stack_pop(buf);
-            switch (stack_get(buf))
-            {
-            case '*': 
-                stack_pop(buf);
-                cout << "POP B\n";
-                stack_pop(buf);
-                cout << "MUL A, B\n";
-                stack_pop(buf);
-                break;
-            case '-':
-                stack_pop(buf);
-                cout << "POP B\n";
-                stack_pop(buf);
-                cout << "SUB A, B\n";
-                stack_pop(buf);
-                break;
-            case '+':
-                stack_pop(buf);
-                cout << "POP B\n";
-                stack_pop(buf);
-                cout << "ADD A, B\n";
-                stack_pop(buf);
-                break;
-            default:
-                break;
-            }
+            muladdsub(buf);
+            stack_pop(buf);
+            stack_pop(buf);
             stack_push(buf, a);
             cout << "PUSH A\n";
         }
@@ -102,25 +103,9 @@ void third(string& str)
                 cout << "POP A\n";
                 stack_pop(buf);
             }
-            switch (stack_get(stack))
-            {
-            case'+':
-                stack_pop(stack);
-                cout << "POP B\n";
-                cout << "ADD A,B\n";
-                stack_push(buf, a);
-                cout << "PUSH A\n";
-                break;
-            case'-':
-                stack_pop(stack);
-                cout << "POP B\n";
-                cout << "SUB A,B\n";
-                stack_push(buf, a);
-                cout << "PUSH A\n";
-                break;
-            default:
-                break;
-            }
+            muladdsub(stack);
+            stack_push(buf, a);
+            cout << "PUSH A\n";
             if (!stack_empty(stack))
             {
                 stack_push(buf, stack_get(stack));
