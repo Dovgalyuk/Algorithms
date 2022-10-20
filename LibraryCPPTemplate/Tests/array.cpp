@@ -1,32 +1,29 @@
-#include "array.h"
-#include <stdlib.h>
 #include <iostream>
-using namespace std;
-typedef int Data;
-typedef Array<Data> MyArray;
+#include "array.h"
 
-int main(){
-	srand(time(NULL));
-	setlocale(LC_ALL, "RUS");
-	int n;
-	int sum = 0;
-	cout << "Введите размерность массива: ";
-	cin >> n;
-	MyArray* array = new MyArray(n);
-	for (int i = 0; i < n; i++) {
-		array->set(i, rand() % 100);
-	}
-	cout << "Массив: ";
-	array->output();
-	cout << endl;
-	array->sort();
-	cout << "Массив(отсортированный): ";
-	array->output();
-	cout << endl;
-	for (int i = 0; i < array->size(); i++) {
-		if (array->get(i) != array->max() and array->get(i) != array->min()) {
-			sum += array->get(i);
-		}
-	}
-	cout << "Сумма элементов массива(без минимального и максимального элементов): " << sum << endl;
+typedef Array<int> MyArray;
+
+int main()
+{
+    MyArray *arr = new MyArray(10);
+
+    if (arr->size() != 10)
+    {
+        std::cout << "Invalid array size\n";
+        return 1;
+    }
+
+    for (int i = 0 ; i < 10 ; ++i)
+        arr->set(i, i * 2);
+
+    for (int i = 0 ; i < 10 ; ++i)
+    {
+        if (arr->get(i) != i * 2)
+        {
+            std::cout << "Invalid array element " << i << "\n";
+            return 1;
+        }
+    }
+
+    delete arr;
 }
