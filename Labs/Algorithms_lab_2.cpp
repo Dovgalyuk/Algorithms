@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include "stack.h"
 #include "vector.h"
 #include <string>
