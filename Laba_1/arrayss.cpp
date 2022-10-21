@@ -1,4 +1,4 @@
-#include "arrayss.h"
+#include "array.h"
 #include <stdlib.h>
 #include <iostream>
 using namespace std;
