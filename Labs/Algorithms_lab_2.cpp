@@ -2,7 +2,6 @@
 #include "stack.h"
 #include "vector.h"
 #include <string>
-#include <conio.h>
 
 using namespace std;
 
