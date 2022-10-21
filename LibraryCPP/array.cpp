@@ -5,10 +5,10 @@ struct Array
     Data* arr_1;
     size_t count;
 
-    Array(size_t count)
+    Array(size_t n)
     {
-        _n = count;
-        _arr = new Data[count];
+        count = n;
+        arr_1 = new Data[count];
     }
 
     ~Array()
@@ -71,4 +71,17 @@ int array_max(Array* arr) {
         }
     }
     return max;
+}
+
+void array_sort(Array* arr) {
+    int tmp = 0;
+    for (size_t i = 0; i < array_size(arr); i++) {
+        for (size_t j = (array_size(arr) - 1); j >= (i + 1); j--) {
+            if (arr->arr_1[j] < arr->arr_1[j-1]) {
+                tmp = arr->arr_1[j];
+                arr->arr_1[j] = arr->arr_1[j-1];
+                arr->arr_1[j-1] = tmp;
+            }
+        }
+    }
 }
