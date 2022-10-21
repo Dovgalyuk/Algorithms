@@ -37,13 +37,13 @@ void stack_push(Stack* stack, Data data)
 
 Data stack_get(const Stack* stack)
 {   
-    return stack_empty(stack) ? throw exception("Empty stack error")
+    return stack_empty(stack) ? throw "Empty stack error"
         : vector_get(stack->vector, vector_size(stack->vector) - 1); 
 }
 
 void stack_pop(Stack* stack)
 {
-    stack_empty(stack) ? throw exception("Empty stack error") :
+    stack_empty(stack) ? throw "Empty stack error" :
         vector_resize(stack->vector, vector_size(stack->vector) - 1);
 }
 
