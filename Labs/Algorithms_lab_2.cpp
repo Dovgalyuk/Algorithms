@@ -60,9 +60,9 @@ void stack_minus(Stack *stack) {
 		stack_push(stack, first_value - second_value);
 		cout << "Успешно!\n";
 	}
-	catch (const exception& e)
+	catch (const char *a)
 	{
-		cout << e.what() << "\n";
+		cout << a << "\n";
 	}
 }
 
@@ -76,16 +76,16 @@ void divide(Stack* stack) {
 		int second_value = stack_get(stack);
 		stack_pop(stack);
 		if (second_value == 0) {
-			throw exception("Divide by zero!\n");
+			throw "Divide by zero!";
 		}
 		else {
 			stack_push(stack, first_value / second_value);
 		}
 		cout << "Успешно!\n";
 	}
-	catch (const exception& e)
+	catch (const char* a)
 	{
-		cout << e.what() << "\n";
+		cout << a << "\n";
 	}
 }
 
@@ -102,9 +102,9 @@ void multiply(Stack* stack) {
 		stack_push(stack, first_value * second_value);
 		cout << "Успешно!\n";
 	}
-	catch (const exception& e)
+	catch (const char* a)
 	{
-		cout << e.what() << "\n";
+		cout << a << "\n";
 	}
 }
 
@@ -116,7 +116,7 @@ void percent(Stack* stack) {
 	int second_value = stack_get(stack);
 	stack_pop(stack);
 	if (second_value == 0) {
-		throw exception("Divide by zero!\n");
+		throw "Divide by zero!";
 	}
 	else {
 		stack_push(stack, first_value % second_value);
@@ -132,9 +132,9 @@ void duplicate(Stack* stack) {
 		stack_push(stack, value);
 		cout << "Успешно!\n";
 	}
-	catch (const exception& e)
+	catch (const char* a)
 	{
-		cout << e.what() << "\n";
+		cout << a << "\n";
 	}
 }
 
@@ -145,9 +145,9 @@ void drop(Stack* stack) {
 		stack_pop(stack);
 		cout << "Успешно!\n";
 	}
-	catch (const exception& e)
+	catch (const char* a)
 	{
-		cout << e.what() << "\n";
+		cout << a << "\n";
 	}
 }
 
@@ -165,9 +165,9 @@ void swap(Stack* stack) {
 		stack_push(stack, second_value);
 		cout << "Успешно!\n";
 	}
-	catch (const exception& e)
+	catch (const char* a)
 	{
-		cout << e.what() << "\n";
+		cout << a << "\n";
 	}
 }
 
@@ -185,9 +185,9 @@ void over(Stack* stack) {
 		stack_push(stack, second_value);
 		cout << "Успешно!\n";
 	}
-	catch (const exception& e)
+	catch (const char* a)
 	{
-		cout << e.what() << "\n";
+		cout << a << "\n";
 	}
 
 }
@@ -214,9 +214,9 @@ void rot(Stack *stack) {
 		stack_push(stack, third_value); //первый элемент стека стал вершиной(последним) 2
 		cout << "Успешно!\n";
 	}
-	catch (const exception& e)
+	catch (const char* a)
 	{
-		cout << e.what() << "\n";
+		cout << a << "\n";
 	}
 }
 
@@ -226,9 +226,9 @@ void show_and_pop(Stack* stack) {
 		cout << stack_get(stack) << "\n";
 		stack_pop(stack);	
 	}
-	catch (const exception& e)
+	catch (const char* a)
 	{
-		cout << e.what() << "\n";
+		cout << a << "\n";
 	}
 }
 
@@ -323,9 +323,9 @@ void program_execution(Stack* stack) {
 			try{
 				divide(stack);
 			}
-			catch (const std::exception& e)
+			catch (const char* a)
 			{
-				cout << e.what() << "\n";
+				cout << a << "\n";
 			}
 			break;
 		case 37:
@@ -333,9 +333,9 @@ void program_execution(Stack* stack) {
 			{
 				percent(stack);
 			}
-			catch (const std::exception& e)
+			catch (const char* a)
 			{
-				cout << e.what() << "\n";
+				cout << a << "\n";
 			}
 			break;
 			//Дублирует верхний элемент стека z 
