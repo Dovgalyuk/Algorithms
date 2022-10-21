@@ -239,68 +239,60 @@ void program_execution(Stack* stack) {
 	do
 	{
 
-		char choise = _getch();
+		char choise;
+		cout << "choise: ";
+		cin >> choise;
 
 		switch (choise) {
 
 			//Добавить на вершину стэка 0 
 		case 48:
 			stack_push(stack, 0);
-			cout << "Число добавлено в стек\n";
 			break;
 			
 			//Добавить на вершину стэка 1
 		case 49:
 			stack_push(stack, 1);
-			cout << "Число добавлено в стек\n";
 			break;
 
 			//Добавить на вершину стэка 2
 		case 50:
 			stack_push(stack, 2);
-			cout << "Число добавлено в стек\n";
 			break;
 
 			//Добавить на вершину стэка 3
 		case 51:
 			stack_push(stack, 3);
-			cout << "Число добавлено в стек\n";
 			break;
 
 			//Добавить на вершину стэка 4
 		case 52:
 			stack_push(stack, 4);
-			cout << "Число добавлено в стек\n";
 			break;
 
 			//Добавить на вершину стэка 5
 		case 53:
 			stack_push(stack, 5);
-			cout << "Число добавлено в стек\n";
 			break;
 
 			//Добавить на вершину стэка 6
 		case 54:
 			stack_push(stack, 6);
-			cout << "Число добавлено в стек\n";
 			break;
 
 			//Добавить на вершину стэка 7
 		case 55:
 			stack_push(stack, 7);
-			cout << "Число добавлено в стек\n";
 			break;
 
 			//Добавить на вершину стэка 8
 		case 56:
 			stack_push(stack, 8);
-			cout << "Число добавлено в стек\n";
 			break;
 
 			//Добавить на вершину стэка 9
 		case 57:
 			stack_push(stack, 9);
-			cout << "Число добавлено в стек\n";
 			break;
 
 			//Сложить верхние 2 элемента стека +
