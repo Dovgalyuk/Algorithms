@@ -29,87 +29,83 @@ void show_menu() {
 }
 
 //Сложить 2 числа в стеке
-void stack_plus(Stack* stack) {
-	int first_value = stack_get(stack);
-	stack_pop(stack);
-
-	int second_value = stack_get(stack);
-	stack_pop(stack);
-
-	stack_push(stack, first_value + second_value);
-	cout << "Успешно!\n";
-	/*try
+void stack_plus(Stack *stack) {
+	try
 	{
+		int first_value = stack_get(stack);
+		stack_pop(stack);
 
+		int second_value = stack_get(stack);
+		stack_pop(stack);
+
+		stack_push(stack, first_value + second_value);
+		cout << "Успешно!\n";
 	}
-	catch (const std::string& e)
+	catch (const exception& e)
 	{
-		cout << e << "\n";
-	}*/
+		cout << e.what() << "\n";
+	}
 }
 
 //Вычесть 2 числа в стеке
-void stack_minus(Stack* stack) {
-	int first_value = stack_get(stack);
-	stack_pop(stack);
-
-	int second_value = stack_get(stack);
-	stack_pop(stack);
-
-	stack_push(stack, first_value - second_value);
-	cout << "Успешно!\n";
-	/*try
+void stack_minus(Stack *stack) {
+	try
 	{
+		int first_value = stack_get(stack);
+		stack_pop(stack);
 
+		int second_value = stack_get(stack);
+		stack_pop(stack);
+
+		stack_push(stack, first_value - second_value);
+		cout << "Успешно!\n";
 	}
-	catch (const std::string& e)
+	catch (const exception& e)
 	{
-		cout << e << "\n";
-	}*/
+		cout << e.what() << "\n";
+	}
 }
 
 //Разделить 2 числа в стеке
 void divide(Stack* stack) {
-	int first_value = stack_get(stack);
-	stack_pop(stack);
-
-	int second_value = stack_get(stack);
-	stack_pop(stack);
-	if (second_value == 0) {
-		throw exception("Divide by zero!\n");
-	}
-	else {
-		stack_push(stack, first_value / second_value);
-	}
-	cout << "Успешно!\n";
-	/*try
+	try
 	{
+		int first_value = stack_get(stack);
+		stack_pop(stack);
 
+		int second_value = stack_get(stack);
+		stack_pop(stack);
+		if (second_value == 0) {
+			throw exception("Divide by zero!\n");
+		}
+		else {
+			stack_push(stack, first_value / second_value);
+		}
+		cout << "Успешно!\n";
 	}
-	catch (const string& e)
+	catch (const exception& e)
 	{
-		cout << e << "\n";
-	}*/
+		cout << e.what() << "\n";
+	}
 }
 
 //умножить 2 числа в стеке
 void multiply(Stack* stack) {
-	int first_value = stack_get(stack);
-	stack_pop(stack);
-
-	int second_value = stack_get(stack);
-	stack_pop(stack);
-
-	stack_push(stack, first_value * second_value);
-	cout << "Успешно!\n";
-	/*try
+	try
 	{
+		int first_value = stack_get(stack);
+		stack_pop(stack);
 
+		int second_value = stack_get(stack);
+		stack_pop(stack);
+
+		stack_push(stack, first_value * second_value);
+		cout << "Успешно!\n";
 	}
-	catch (const std::string& e)
+	catch (const exception& e)
 	{
-		cout << e << "\n";
-	}*/
+		cout << e.what() << "\n";
+	}
 }
 
 //Остаток от деления
@@ -130,72 +126,69 @@ void percent(Stack* stack) {
 
 //Дублировать вершину стека
 void duplicate(Stack* stack) {
-	int value = stack_get(stack);
-	stack_push(stack, value);
-	cout << "Успешно!\n"; \
-		/*try
-		{
-
-		}
-		catch (const std::string& e)
-		{
-			cout << e << "\n";
-		}*/
+	try
+	{
+		int value = stack_get(stack);
+		stack_push(stack, value);
+		cout << "Успешно!\n";
+	}
+	catch (const exception& e)
+	{
+		cout << e.what() << "\n";
+	}
 }
 
 //Удалить вершину стека
 void drop(Stack* stack) {
-	stack_pop(stack);
-	cout << "Успешно!\n";
-	/*try
+	try
 	{
-
+		stack_pop(stack);
+		cout << "Успешно!\n";
 	}
-	catch (const std::string& e)
+	catch (const exception& e)
 	{
-		cout << e << "\n";
-	}*/
+		cout << e.what() << "\n";
+	}
 }
 
 //Меняет местами два числа на вершине стека
 void swap(Stack* stack) {
-	int first_value = stack_get(stack);
-	stack_pop(stack);
-
-	int second_value = stack_get(stack);
-	stack_pop(stack);
-
-	stack_push(stack, first_value);
-	stack_push(stack, second_value);
-	cout << "Успешно!\n";
-	/*try
+	try
 	{
+		int first_value = stack_get(stack);
+		stack_pop(stack);
 
+		int second_value = stack_get(stack);
+		stack_pop(stack);
+
+		stack_push(stack, first_value);
+		stack_push(stack, second_value);
+		cout << "Успешно!\n";
 	}
-	catch (const std::string& e)
+	catch (const exception& e)
 	{
-		cout << e << "\n";
-	}*/
+		cout << e.what() << "\n";
+	}
 }
 
 //Добавить элемент в стек, который находится под вершиной
 void over(Stack* stack) {
-	int first_value = stack_get(stack);
-	stack_pop(stack);
-
-	int second_value = stack_get(stack);
-
-	stack_push(stack, first_value);
-	stack_push(stack, second_value);
-	cout << "Успешно!\n";
-	/*try
+	
+	try
 	{
+		int first_value = stack_get(stack);
+		stack_pop(stack);
 
+		int second_value = stack_get(stack);
+
+		stack_push(stack, first_value);
+		stack_push(stack, second_value);
+		cout << "Успешно!\n";
 	}
-	catch (const std::string& e)
+	catch (const exception& e)
 	{
-		cout << e << "\n";
-	}*/
+		cout << e.what() << "\n";
+	}
 
 }
 
@@ -204,41 +197,39 @@ void over(Stack* stack) {
 //первый становится вторым (последний(вершина) элемент стека становится вторым)
 //второй становится третьим (второй становится первым элементом в стеке)
 //третий становится первым (первый элемент стека становится последним (вершина))
-void rot(Stack* stack) {
-	int first_value = stack_get(stack); //Первый элемент (Последний(вершина) в стеке) 3
-	stack_pop(stack);
-
-	int second_value = stack_get(stack); //Второй элемент  2
-	stack_pop(stack);
-
-	int third_value = stack_get(stack); //Третий элемент (первый в стеке) 1
-	stack_pop(stack);
-
-	stack_push(stack, second_value); //второй стал первым элементом стека 1
-	stack_push(stack, first_value); //вершина стека стала вторым элементом 3
-	stack_push(stack, third_value); //первый элемент стека стал вершиной(последним) 2
-	cout << "Успешно!\n";
-	/*try
+void rot(Stack *stack) {
+	try
 	{
+		int first_value = stack_get(stack); //Первый элемент (Последний(вершина) в стеке) 3
+		stack_pop(stack);
 
+		int second_value = stack_get(stack); //Второй элемент  2
+		stack_pop(stack);
+
+		int third_value = stack_get(stack); //Третий элемент (первый в стеке) 1
+		stack_pop(stack);
+
+		stack_push(stack, second_value); //второй стал первым элементом стека 1
+		stack_push(stack, first_value); //вершина стека стала вторым элементом 3
+		stack_push(stack, third_value); //первый элемент стека стал вершиной(последним) 2
+		cout << "Успешно!\n";
 	}
-	catch (const std::string& e)
+	catch (const exception& e)
 	{
-		cout << e << "\n";
-	}*/
+		cout << e.what() << "\n";
+	}
 }
 
 //Показать и извлечь из стека
 void show_and_pop(Stack* stack) {
-	cout << stack_get(stack) << "\n";
-	stack_pop(stack);
-	/*try {
-
+	try {
+		cout << stack_get(stack) << "\n";
+		stack_pop(stack);	
 	}
-	catch (const std::string& e)
+	catch (const exception& e)
 	{
-		cout << e << "\n";
-	}*/
+		cout << e.what() << "\n";
+	}
 }
 
 void program_execution(Stack* stack) {
@@ -257,7 +248,7 @@ void program_execution(Stack* stack) {
 			stack_push(stack, 0);
 			cout << "Число добавлено в стек\n";
 			break;
-
+			
 			//Добавить на вершину стэка 1
 		case 49:
 			stack_push(stack, 1);
@@ -329,17 +320,23 @@ void program_execution(Stack* stack) {
 
 			//Разделить верхние 2 элемента стека /
 		case 47:
-			divide(stack);
-			/*try{
-
+			try{
+				divide(stack);
 			}
 			catch (const std::exception& e)
 			{
 				cout << e.what() << "\n";
-			}*/
+			}
 			break;
 		case 37:
-			percent(stack);
+			try
+			{
+				percent(stack);
+			}
+			catch (const std::exception& e)
+			{
+				cout << e.what() << "\n";
+			}
 			break;
 			//Дублирует верхний элемент стека z 
 		case 122:
@@ -392,9 +389,9 @@ int main()
 {
 	setlocale(LC_ALL, "rus");
 
-	Stack* stack = stack_create();
+	Stack *stack = stack_create();
 
 	show_menu();
 	program_execution(stack);
-
+	
 }
