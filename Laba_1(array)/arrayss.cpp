@@ -1,32 +1,30 @@
-#include "array.h"
+#include "arrayss.h"
 #include <stdlib.h>
 #include <iostream>
 using namespace std;
-typedef int Data;
-typedef Array<Data> MyArray;
+
+int Zad(Array* zar, int const SIZE) {
+	int sum = 0;
+	for (int i = 0; i < SIZE; i++) {
+		array_set(zar, i, rand() % 100);
+		cout << array_get(zar, i) << " ";
+	}
+	array_sort(zar);
+	for (int i = 0; i < SIZE; i++) {
+		if (array_get(zar, i) != array_min(zar) and array_get(zar, i) != array_max(zar))
+			sum += array_get(zar, i);
+	}
+	return sum;
+}
 
 int main(){
 	srand(time(NULL));
 	setlocale(LC_ALL, "RUS");
 	int n;
-	int sum = 0;
 	cout << "Введите размерность массива: ";
 	cin >> n;
-	MyArray* array = new MyArray(n);
-	for (int i = 0; i < n; i++) {
-		array->set(i, rand() % 100);
-	}
-	cout << "Массив: ";
-	array->output();
-	cout << endl;
-	array->sort();
-	cout << "Массив(отсортированный): ";
-	array->output();
-	cout << endl;
-	for (int i = 0; i < array->size(); i++) {
-		if (array->get(i) != array->max() and array->get(i) != array->min()) {
-			sum += array->get(i);
-		}
-	}
+	Array* zar = array_create(n);
+	Zad(zar, n);
+	array_delete(zar);
 	cout << "Сумма элементов массива(без минимального и максимального элементов): " << sum << endl;
 }
