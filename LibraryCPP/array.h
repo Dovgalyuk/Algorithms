@@ -24,4 +24,10 @@ void array_set(Array *arr, size_t index, Data value);
 // returns array size
 size_t array_size(const Array *arr);
 
+int array_min(Array* arr);
+
+int array_max(Array* arr);
+
+void array_sort(Array* arr);
+
 #endif
