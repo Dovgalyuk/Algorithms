@@ -44,4 +44,7 @@ ListItem *list_erase(List *list, ListItem *item);
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);
 
+//Returns the last item from the list
+ListItem* list_last(List* list);
+
 #endif
