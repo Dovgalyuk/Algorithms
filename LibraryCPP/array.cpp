@@ -54,7 +54,7 @@ size_t array_size(const Array *arr)
 }
 
 int array_min(Array* arr) {
-    int min = arr->arr_1[0];
+    Data min = arr->arr_1[0];
     for (int i = 0; i < array_size(arr); ++i) {
         if (min > arr->arr_1[i]) {
             min = arr->arr_1[i];
@@ -64,7 +64,7 @@ int array_min(Array* arr) {
 }
 
 int array_max(Array* arr) {
-    int max = arr->arr_1[0];
+    Data max = arr->arr_1[0];
     for (int i = 0; i < array_size(arr); ++i) {
         if (max < arr->arr_1[i]) {
             max = arr->arr_1[i];
