@@ -29,82 +29,55 @@ void show_menu() {
 
 //Сложить 2 числа в стеке
 void stack_plus(Stack *stack) {
-	try
-	{
-		int first_value = stack_get(stack);
-		stack_pop(stack);
+	int first_value = stack_get(stack);
+	stack_pop(stack);
 
-		int second_value = stack_get(stack);
-		stack_pop(stack);
+	int second_value = stack_get(stack);
+	stack_pop(stack);
 
-		stack_push(stack, first_value + second_value);
-		cout << "Успешно!\n";
-	}
-	catch (const exception& e)
-	{
-		cout << e.what() << "\n";
-	}
+	stack_push(stack, first_value + second_value);
+	cout << "Успешно!\n";
 }
 
 //Вычесть 2 числа в стеке
 void stack_minus(Stack *stack) {
-	try
-	{
-		int first_value = stack_get(stack);
-		stack_pop(stack);
+	int first_value = stack_get(stack);
+	stack_pop(stack);
 
-		int second_value = stack_get(stack);
-		stack_pop(stack);
+	int second_value = stack_get(stack);
+	stack_pop(stack);
 
-		stack_push(stack, first_value - second_value);
-		cout << "Успешно!\n";
-	}
-	catch (const char *a)
-	{
-		cout << a << "\n";
-	}
+	stack_push(stack, first_value - second_value);
+	cout << "Успешно!\n";
+	
 }
 
 //Разделить 2 числа в стеке
 void divide(Stack* stack) {
-	try
-	{
-		int first_value = stack_get(stack);
-		stack_pop(stack);
+	int first_value = stack_get(stack);
+	stack_pop(stack);
 
-		int second_value = stack_get(stack);
-		stack_pop(stack);
-		if (second_value == 0) {
-			throw "Divide by zero!";
-		}
-		else {
-			stack_push(stack, first_value / second_value);
-		}
-		cout << "Успешно!\n";
+	int second_value = stack_get(stack);
+	stack_pop(stack);
+	if (second_value == 0) {
+		throw "Divide by zero!";
 	}
-	catch (const char* a)
-	{
-		cout << a << "\n";
+	else {
+		stack_push(stack, first_value / second_value);
+		cout << "Успешно!\n";
 	}
 }
 
 //умножить 2 числа в стеке
 void multiply(Stack* stack) {
-	try
-	{
-		int first_value = stack_get(stack);
-		stack_pop(stack);
+	int first_value = stack_get(stack);
+	stack_pop(stack);
 
-		int second_value = stack_get(stack);
-		stack_pop(stack);
+	int second_value = stack_get(stack);
+	stack_pop(stack);
 
-		stack_push(stack, first_value * second_value);
-		cout << "Успешно!\n";
-	}
-	catch (const char* a)
-	{
-		cout << a << "\n";
-	}
+	stack_push(stack, first_value * second_value);
+	cout << "Успешно!\n";
 }
 
 //Остаток от деления
@@ -125,70 +98,40 @@ void percent(Stack* stack) {
 
 //Дублировать вершину стека
 void duplicate(Stack* stack) {
-	try
-	{
-		int value = stack_get(stack);
-		stack_push(stack, value);
-		cout << "Успешно!\n";
-	}
-	catch (const char* a)
-	{
-		cout << a << "\n";
-	}
+	int value = stack_get(stack);
+	stack_push(stack, value);
+	cout << "Успешно!\n";
 }
 
 //Удалить вершину стека
 void drop(Stack* stack) {
-	try
-	{
-		stack_pop(stack);
-		cout << "Успешно!\n";
-	}
-	catch (const char* a)
-	{
-		cout << a << "\n";
-	}
+	stack_pop(stack);
+	cout << "Успешно!\n";
 }
 
 //Меняет местами два числа на вершине стека
 void swap(Stack* stack) {
-	try
-	{
-		int first_value = stack_get(stack);
-		stack_pop(stack);
+	int first_value = stack_get(stack);
+	stack_pop(stack);
 
-		int second_value = stack_get(stack);
-		stack_pop(stack);
+	int second_value = stack_get(stack);
+	stack_pop(stack);
 
-		stack_push(stack, first_value);
-		stack_push(stack, second_value);
-		cout << "Успешно!\n";
-	}
-	catch (const char* a)
-	{
-		cout << a << "\n";
-	}
+	stack_push(stack, first_value);
+	stack_push(stack, second_value);
+	cout << "Успешно!\n";
 }
 
 //Добавить элемент в стек, который находится под вершиной
 void over(Stack* stack) {
-	
-	try
-	{
-		int first_value = stack_get(stack);
-		stack_pop(stack);
+	int first_value = stack_get(stack);
+	stack_pop(stack);
 
-		int second_value = stack_get(stack);
+	int second_value = stack_get(stack);
 
-		stack_push(stack, first_value);
-		stack_push(stack, second_value);
-		cout << "Успешно!\n";
-	}
-	catch (const char* a)
-	{
-		cout << a << "\n";
-	}
-
+	stack_push(stack, first_value);
+	stack_push(stack, second_value);
+	cout << "Успешно!\n";
 }
 
 
@@ -197,170 +140,93 @@ void over(Stack* stack) {
 //второй становится третьим (второй становится первым элементом в стеке)
 //третий становится первым (первый элемент стека становится последним (вершина))
 void rot(Stack *stack) {
-	try
-	{
-		int first_value = stack_get(stack); //Первый элемент (Последний(вершина) в стеке) 3
-		stack_pop(stack);
+	int first_value = stack_get(stack); //Первый элемент (Последний(вершина) в стеке) 3
+	stack_pop(stack);
 
-		int second_value = stack_get(stack); //Второй элемент  2
-		stack_pop(stack);
+	int second_value = stack_get(stack); //Второй элемент  2
+	stack_pop(stack);
 
-		int third_value = stack_get(stack); //Третий элемент (первый в стеке) 1
-		stack_pop(stack);
+	int third_value = stack_get(stack); //Третий элемент (первый в стеке) 1
+	stack_pop(stack);
 
-		stack_push(stack, second_value); //второй стал первым элементом стека 1
-		stack_push(stack, first_value); //вершина стека стала вторым элементом 3
-		stack_push(stack, third_value); //первый элемент стека стал вершиной(последним) 2
-		cout << "Успешно!\n";
-	}
-	catch (const char* a)
-	{
-		cout << a << "\n";
-	}
+	stack_push(stack, second_value); //второй стал первым элементом стека 1
+	stack_push(stack, first_value); //вершина стека стала вторым элементом 3
+	stack_push(stack, third_value); //первый элемент стека стал вершиной(последним) 2
+	cout << "Успешно!\n";
 }
 
 //Показать и извлечь из стека
 void show_and_pop(Stack* stack) {
-	try {
-		cout << stack_get(stack) << "\n";
-		stack_pop(stack);	
-	}
-	catch (const char* a)
-	{
-		cout << a << "\n";
-	}
+	cout << stack_get(stack) << "\n";
+	stack_pop(stack);
 }
 
-void program_execution(Stack* stack) {
+void program_execution(Stack* stack, bool& is_run) {
 
-	bool is_run = true;
+	string choise;
+	cout << "choise: ";
+	cin >> choise;
 
-	do
-	{
-
-		char choise;
-		cout << "choise: ";
-		cin >> choise;
-
-		switch (choise) {
-
-			//Добавить на вершину стэка 0 
-		case 48:
-			stack_push(stack, 0);
-			break;
-			
-			//Добавить на вершину стэка 1
-		case 49:
-			stack_push(stack, 1);
-			break;
-
-			//Добавить на вершину стэка 2
-		case 50:
-			stack_push(stack, 2);
-			break;
-
-			//Добавить на вершину стэка 3
-		case 51:
-			stack_push(stack, 3);
-			break;
-
-			//Добавить на вершину стэка 4
-		case 52:
-			stack_push(stack, 4);
-			break;
-
-			//Добавить на вершину стэка 5
-		case 53:
-			stack_push(stack, 5);
-			break;
-
-			//Добавить на вершину стэка 6
-		case 54:
-			stack_push(stack, 6);
-			break;
-
-			//Добавить на вершину стэка 7
-		case 55:
-			stack_push(stack, 7);
-			break;
-
-			//Добавить на вершину стэка 8
-		case 56:
-			stack_push(stack, 8);
-			break;
-
-			//Добавить на вершину стэка 9
-		case 57:
-			stack_push(stack, 9);
-			break;
-
+	for (char _choise : choise) {
+		if (_choise >= '0' && _choise <= '9') {
+			stack_push(stack, _choise - 48);
+			continue;
+		}
+		switch (_choise) {
 			//Сложить верхние 2 элемента стека +
-		case 43:
+		case '+':
 			stack_plus(stack);
 			break;
 
 			//Вычесть верхние 2 элемента стека -
-		case 45:
+		case '-':
 			stack_minus(stack);
 			break;
 
 			//Умножить верхние 2 элемента стека *
-		case 42:
+		case '*':
 			multiply(stack);
 			break;
 
 			//Разделить верхние 2 элемента стека /
-		case 47:
-			try{
-				divide(stack);
-			}
-			catch (const char* a)
-			{
-				cout << a << "\n";
-			}
+		case '/':
+			divide(stack);
 			break;
-		case 37:
-			try
-			{
-				percent(stack);
-			}
-			catch (const char* a)
-			{
-				cout << a << "\n";
-			}
+		case '%':
+			percent(stack);
 			break;
 			//Дублирует верхний элемент стека z 
-		case 122:
+		case 'z':
 			duplicate(stack);
 			break;
 
 			//Удаляет верхний элемент стека x
-		case 120:
+		case 'x':
 			drop(stack);
 			break;
 
 			//меняет местами два числа на вершине стека c
-		case 99:
+		case 'c':
 			swap(stack);
 			break;
 
 			//берёт элемент под вершиной стека и добавляет его в стек v
-		case 118:
+		case 'v':
 			over(stack);
 			break;
 
 			//перемещает "по кругу" верхние три элемента стека b 
-		case 98:
+		case 'b':
 			rot(stack);
 			break;
 
 			//извлекает из стека верхний элемент и выводит на экран m 
-		case 109:
+		case 'm':
 			show_and_pop(stack);
 			break;
 
 			//Показать меню
-		case 115:
+		case 's':
 			cout << "\n";
 			system("cls");
 			show_menu();
@@ -372,7 +238,7 @@ void program_execution(Stack* stack) {
 		default:
 			break;
 		}
-	} while (is_run);
+	}
 }
 
 
@@ -381,8 +247,19 @@ int main()
 	setlocale(LC_ALL, "rus");
 
 	Stack *stack = stack_create();
+	bool is_run = true;
 
 	show_menu();
-	program_execution(stack);
 	
+	do
+	{
+		try
+		{
+			program_execution(stack, is_run);
+		}
+		catch (const char* a)
+		{
+			cout << a << "\n";
+		}
+	} while (is_run);
 }
