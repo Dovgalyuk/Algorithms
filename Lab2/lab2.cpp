@@ -83,6 +83,29 @@ void findstaples(Stack* stack)
     }
     stack_pop(stack);
     muladdsub(staples);
+    stack_delete(staples);
+}
+
+void bufstack(Stack* stack)
+{
+    Stack* buf = stack_create();
+    int a;
+    while (stack_get(stack) != 0)
+    {
+        if (stack_get(stack) == ')')
+        {
+            findstaples(buf);
+        }
+        if (stack_get(stack) != 0)
+        {
+            stack_push(buf, stack_get(stack));
+            if (stack_get(stack) <= '9' && stack_get(stack) >= '0')
+                cout << "PUSH " << char(stack_get(stack)) << "\n";
+            stack_pop(stack);
+        }
+    }
+    muladdsub(buf);
+    stack_delete(buf);
 }
 
 void third(string& str)
@@ -92,25 +115,8 @@ void third(string& str)
     {
         stack_push(stack, str[i]);
     }
-    Stack* buf = stack_create();
-    int a;
-    while (stack_get(stack)!=0)
-    {
-        if (stack_get(stack) == ')')
-        {
-            findstaples(buf);
-        }
-        if (stack_get(stack)!=0)
-        {
-            stack_push(buf, stack_get(stack));
-            if (stack_get(stack) <= '9' && stack_get(stack) >= '0')
-                cout << "PUSH " << char(stack_get(stack)) << "\n";
-            stack_pop(stack);
-        }
-    }
-    muladdsub(buf);
+    bufstack(stack);
     stack_delete(stack);
-    stack_delete(buf);
 }
 
 int main()
