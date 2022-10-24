@@ -5,13 +5,15 @@ using namespace std;
 
 int Zad(Array* zar, int const SIZE) {
 	int sum = 0;
+	count = 0;
 	for (int i = 0; i < SIZE; i++) {
 		array_set(zar, i, rand() % 100);
 		cout << array_get(zar, i) << " ";
 	}
-	array_sort(zar);
 	for (int i = 0; i < SIZE; i++) {
-		if (array_get(zar, i) != array_min(zar) and array_get(zar, i) != array_max(zar))
+		if (array_get(zar, i) == array_min(zar) or array_get(zar, i) == array_max(zar))
+			count++;
+		if (count == 1 and array_get(zar, i) != array_min(zar) and array_get(zar, i) != array_max(zar))
 			sum += array_get(zar, i);
 	}
 	return sum;
