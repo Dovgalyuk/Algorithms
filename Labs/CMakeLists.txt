@@ -6,3 +6,7 @@ add_executable(Algorithms_lab_2CPP Algorithms_lab_2.cpp)
 target_include_directories(Algorithms_lab_2CPP PUBLIC ../LibraryCPP)
 target_link_libraries(Algorithms_lab_2CPP LibraryCPP)
 
+add_executable(Algorithms_lab_3CPP Algorithms_lab_3.cpp)
+target_include_directories(Algorithms_lab_3CPP PUBLIC ../LibraryCPP)
+target_link_libraries(Algorithms_lab_3CPP LibraryCPP)
+
