@@ -31,37 +31,35 @@ struct List
     }
 };
 
-//Create array
 List *list_create()
 {
     return new List;
 }
 
-//delete array
 void list_delete(List* list)
 {
     // TODO: free items
     delete list;
 }
 
-//return first element
 ListItem* list_first(List* list)
 {
     return list->head;
 }
 
-//return the data of an element
 Data list_item_data(const ListItem* item){
     return item->data;
 }
 
-//return next item
 ListItem* list_item_next(ListItem* item){
     return item->pNext;
 }
 
+ListItem* list_item_prev(ListItem* item)
+{
+    return NULL;
+}
 
-//insert item
 ListItem* list_insert(List* list, Data data){
    if (list->head == nullptr) {
        return list->head = new ListItem(data);
@@ -79,7 +77,6 @@ ListItem* list_insert(List* list, Data data){
        return current->pNext;
    }
 }
-
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data){
     ListItem* previous = list->head;
@@ -99,7 +96,6 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data){
     return current;
 }
 
-//delete element
 ListItem* list_erase(List* list, ListItem* item)
 {
     ListItem* temp = list->head;
@@ -135,3 +131,4 @@ ListItem* list_erase_next(List* list, ListItem* item){
 ListItem* list_last(List *list) {
     return (list->last == nullptr) ? list->head : list->last;
 }
+
