@@ -61,37 +61,25 @@ ListItem* list_item_prev(ListItem* item)
 }
 
 ListItem* list_insert(List* list, Data data){
-   if (list->head == nullptr) {
-       return list->head = new ListItem(data);
-   }
-   else {
-       ListItem* current = list->head;
+    ListItem* add_item = new ListItem(data, NULL);
 
-       while (current->pNext != nullptr) {
-           current = current->pNext;
-       }
+    add_item->pNext = list->head;
 
-       current->pNext = new ListItem(data);
-       list->last = current->pNext;
+    if (!list->head) list->last = add_item;
 
-       return current->pNext;
-   }
+    return list->head = add_item;
 }
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data){
     ListItem* previous = list->head;
 
-    while (previous != item) {
-        previous = previous->pNext;
-    }
+    while (previous != item) previous = previous->pNext;
 
     ListItem *current = new ListItem(data, previous->pNext);
 
     previous->pNext = current;
 
-    if (current->pNext == nullptr) {
-        list->last = current;
-    }
+    if (current->pNext == nullptr) list->last = current;
 
     return current;
 }
