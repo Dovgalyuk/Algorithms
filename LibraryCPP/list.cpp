@@ -31,7 +31,6 @@ struct List
     }
 };
 
-//+
 List *list_create()
 {
     return new List;
@@ -43,18 +42,15 @@ void list_delete(List* list)
     delete list;
 }
 
-//+
 ListItem* list_first(List* list)
 {
     return list->head;
 }
 
-//+
 Data list_item_data(const ListItem* item){
     return (item == NULL) ? throw "NULL DATA" : item->data;
 }
 
-//+
 ListItem* list_item_next(ListItem* item){
     return item->pNext;
 }
@@ -64,7 +60,6 @@ ListItem* list_item_prev(ListItem* item)
     return NULL;
 }
 
-//+
 ListItem* list_insert(List* list, Data data){
    if (list->head == nullptr) {
        return list->head = new ListItem(data);
@@ -83,7 +78,6 @@ ListItem* list_insert(List* list, Data data){
    }
 }
 
-//+
 ListItem* list_insert_after(List* list, ListItem* item, Data data){
     ListItem* previous = list->head;
 
@@ -102,7 +96,6 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data){
     return current;
 }
 
-//+
 ListItem* list_erase(List* list, ListItem* item)
 {
     if (item == list->head) {
@@ -130,7 +123,6 @@ ListItem* list_erase(List* list, ListItem* item)
     }
 }
 
-//+
 ListItem* list_erase_next(List* list, ListItem* item){
     if (item == list->head) {
         ListItem* temp = list->head;
@@ -159,7 +151,6 @@ ListItem* list_erase_next(List* list, ListItem* item){
     }
 }
 
-//+
 ListItem* list_last(List *list) {
     return (list->last == nullptr) ? list->head : list->last;
 }
