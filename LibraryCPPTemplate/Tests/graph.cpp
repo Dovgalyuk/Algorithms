@@ -5,7 +5,7 @@ using std::cin; using std::cout; using std::vector;
 
 int main() {
 
-    int VertexNumber = 5;
+    int VertexNumber = 10;
 
     Graph<int>* graph = new Graph<int>(VertexNumber, 1);
 
@@ -36,9 +36,9 @@ int main() {
 
     cout << "\n";
 
-    graph->AddEdge(graph->GetVertex(0), graph->GetVertex(4), 10);
+    graph->AddEdge(graph->GetVertex(0), graph->GetVertex(5), 10);
 
-    if (!graph->AvailabilityLink(graph->GetVertex(0), graph->GetVertex(4))) 
+    if (!graph->AvailabilityLink(graph->GetVertex(0), graph->GetVertex(5))) 
     {
         cout << "\t\nError --> adding an edge\n\n\a";
         return 1;
@@ -52,20 +52,20 @@ int main() {
         return 1;
     }
 
-    graph->AddEdge(graph->GetVertex(0), graph->GetVertex(1), 15);
+    graph->AddEdge(graph->GetVertex(0), graph->GetVertex(9), 15);
     graph->AddEdge(graph->GetVertex(0), graph->GetVertex(2), 35);
 
-    graph->GetEdge(graph->GetVertex(0), graph->GetVertex(1))->weight = 18;
+    graph->GetEdge(graph->GetVertex(0), graph->GetVertex(9))->weight = 18;
 
-    if (graph->GetWeightEdge(graph->GetVertex(0), graph->GetVertex(1)) != 18) 
+    if (graph->GetWeightEdge(graph->GetVertex(0), graph->GetVertex(9)) != 18) 
     {
         cout << "\t\nError --> the weight of the edge has not been established\n\n\a";
         return 1;
     }
 
-    graph->RemoveEdge(graph->GetVertex(0), graph->GetVertex(1));
+    graph->RemoveEdge(graph->GetVertex(0), graph->GetVertex(9));
 
-    if (graph->AvailabilityLink(graph->GetVertex(0), graph->GetVertex(1))) 
+    if (graph->AvailabilityLink(graph->GetVertex(0), graph->GetVertex(9))) 
     {
         cout << "\t\nError --> delete a edge\n\n\a";
         return 1;
