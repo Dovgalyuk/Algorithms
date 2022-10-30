@@ -175,7 +175,7 @@ template<typename Data> class Graph
             {
                 for (int i = 0; i < VertexVec.size(); i++)
                 {
-                    VertexVec[i]->removeEdge(VertexVec[index]);
+                    VertexVec[i]->RemoveEdge(VertexVec[index]);
                 }
 
                 delete VertexVec[index];
