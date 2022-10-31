@@ -65,13 +65,12 @@ public:
         Item *NewItem = new Item(data);
         NewItem->nextItem = item->next();
 
-        if (NewItem->next()) 
+        if (item->next() != nullptr) 
         {
-            NewItem->next()->prevItem = NewItem;
+            item->next()->prevItem = NewItem;
         } 
-
-        item->nextItem = NewItem;
         NewItem->prevItem = item;
+        item->nextItem = NewItem;
         return NewItem;
     }
 
