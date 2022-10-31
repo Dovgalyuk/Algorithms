@@ -25,6 +25,7 @@ public:
     // Creates new list
     List()
     {
+         head = nullptr;
     }
 
     // Destroys the list and frees the memory
