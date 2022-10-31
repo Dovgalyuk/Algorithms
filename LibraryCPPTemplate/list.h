@@ -9,9 +9,10 @@ public:
     public:
         Item *nextItem = nullptr;
         Item *prevItem = nullptr;
+
         Item *next() { return nextItem; }
         Item *prev() { return prevItem; }
-        Data data() const { return Data(); }
+        Data data() const { return dataItem; }
 
         Item(Data newData) 
         {
@@ -25,17 +26,18 @@ public:
     // Creates new list
     List()
     {
-         head = nullptr;
+        head = nullptr;
     }
 
     // Destroys the list and frees the memory
     ~List()
-    {     while (head)
-          {
+    {
+        while (head) 
+        {
             Item *temp = head;
             head = head->next();
             delete temp;
-          }
+        }
     }
 
     // Retrieves the first item from the list
@@ -56,6 +58,7 @@ public:
         }
 
         head = item;
+
         return item;
     }
 
@@ -65,12 +68,14 @@ public:
         Item *NewItem = new Item(data);
         NewItem->nextItem = item->next();
 
-        if (item->next() != nullptr) 
+        if (NewItem->next()) 
         {
-            item->next()->prevItem = NewItem;
+            NewItem->next()->prevItem = NewItem;
         } 
-        NewItem->prevItem = item;
+
         item->nextItem = NewItem;
+        NewItem->prevItem = item;
+
         return NewItem;
     }
 
@@ -112,4 +117,5 @@ private:
     // private data should be here
     Item *head;
 };
+
 #endif
