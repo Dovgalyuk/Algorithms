@@ -57,12 +57,12 @@ template<typename Data> class Graph
 
             void RemoveEdge(Vertex* toVertex) 
             {
-                for (auto i = edges->first(); i; i = i->next()) 
+                for (auto i = edges.first(); i; i = i->next()) 
                 {
                     if (i->data()->getToVertex() == toVertex) 
                     {
                         delete i->data();
-                        edges->erase(i);
+                        edges.erase(i);
                         break;
                     }
                 }
@@ -175,7 +175,7 @@ template<typename Data> class Graph
             {
                 for (int i = 0; i < VertexVec.size(); i++)
                 {
-                    VertexVec[i]->removeEdge(VertexVec[index]);
+                    VertexVec[i]->RemoveEdge(VertexVec[index]);
                 }
 
                 delete VertexVec[index];
