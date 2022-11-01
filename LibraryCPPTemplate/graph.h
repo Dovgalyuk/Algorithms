@@ -59,7 +59,7 @@ template<typename Data> class Graph
             {
                 for (auto i = edges.first(); i; i = i->next()) 
                 {
-                    if (i->data()->getToVertex() == toVertex) 
+                    if (i->data()->GetToVertex() == toVertex) 
                     {
                         delete i->data();
                         edges.erase(i);
