@@ -13,13 +13,13 @@ template<typename Data> class Graph
         struct Vertex 
         {
             Data data;
-            List<Edge*> *edges = new List<Edge*>;
-
+            List<Edge*> edges = List<Edge*>();
+      
             Vertex(Data VertexData): data(VertexData) {}
 
             ~Vertex() 
             {
-                auto Del = edges->first();
+                auto Del = edges.first();
 
                 while(Del != nullptr) 
                 {
@@ -40,12 +40,12 @@ template<typename Data> class Graph
 
             void AddEdge(Vertex* toVertex) 
             {
-                edges->insert(new Edge(toVertex));
+                edges.insert(new Edge(toVertex));
             }
 
             Edge* GetEdge(Vertex* toVertex) 
             {
-                for (auto i = edges->first(); i; i = i->next()) 
+                for (auto i = edges.first(); i; i = i->next()) 
                 {
                     if (i->data()->GetToVertex() == toVertex) 
                     {
@@ -59,7 +59,7 @@ template<typename Data> class Graph
             {
                 for (auto i = edges->first(); i; i = i->next()) 
                 {
-                    if (i->data()->GetToVertex() == toVertex) 
+                    if (i->data()->getToVertex() == toVertex) 
                     {
                         delete i->data();
                         edges->erase(i);
@@ -98,7 +98,7 @@ template<typename Data> class Graph
 
             EdgeIterator(Vertex* head) 
             {
-                edgeElem = head->edges->first();
+                edgeElem = head->edges.first();
             }
 
             void operator ++() 
@@ -146,7 +146,7 @@ template<typename Data> class Graph
         
         bool AvailabilityLink(Vertex* fromVertex, Vertex* toVertex)                 
         {
-            for (auto i = fromVertex->edges->first(); i; i = i->next()) 
+            for (auto i = fromVertex->edges.first(); i != nullptr; i = i->next()) 
             {
                 if (i->data()->GetToVertex() == toVertex) 
                 {
@@ -175,7 +175,7 @@ template<typename Data> class Graph
             {
                 for (int i = 0; i < VertexVec.size(); i++)
                 {
-                    VertexVec[i]->RemoveEdge(VertexVec[index]);
+                    VertexVec[i]->removeEdge(VertexVec[index]);
                 }
 
                 delete VertexVec[index];
@@ -196,7 +196,7 @@ template<typename Data> class Graph
         {
             return VertexVec[index]->GetData();
         }
-
+        
         void AddEdge(Vertex* fromVertex, Vertex* toVertex, int weightEdge) 
         {
 
