@@ -6,6 +6,24 @@
 
 using namespace std;
 
+int priority(const char& ch)
+{
+    switch (ch)
+    {
+    case '(':
+        return 0;
+    case ')':
+        return 1;
+    case '+':
+    case '-':
+        return 3;
+        break;
+    case '*':
+        return 4;
+        break;
+    }
+}
+
 Stack *muladdsub(Stack *stack)
 {
     cout << "POP A\n";
@@ -30,40 +48,49 @@ Stack *muladdsub(Stack *stack)
     return stack;
 }
 
-void findstaples(Stack* stack)
-{
-    Stack* staples = stack_create();
-    while (stack_get(stack) != '(')
-    {
-        stack_push(staples, stack_get(stack));
-        if (stack_get(staples) == '*')
-            muladdsub(staples);
-        stack_pop(stack);
-    }
-    stack_pop(stack);
-    while(!stack_empty(staples))
-        muladdsub(staples);
-    stack_delete(staples);
-}
-
 void third(string str)
 {
     Stack* stack = stack_create();
     int a;
     for (int i = 0; i < str.length();i++)
     {
-        if (str[i] == ')')
-            findstaples(stack);
-        if (str[i] <= '9' && str[i] >= '0')
-            cout << "PUSH " << str[i] << "\n";
-        if (!isdigit(str[i]) && str[i] != ')')
-            stack_push(stack, str[i]);
-        if(i>0)
-            if (str[i-1] == '*' && int(str.find('(')) < 0)
-                muladdsub(stack);
+        if (str[i] != '(' && str[i] != ')')
+        {
+            if (stack_empty(stack) && !isdigit(str[i]))
+                stack_push(stack, str[i]);
+            else if (isdigit(str[i]))
+                cout << "PUSH " << str[i] << "\n";
+            else if (priority(str[i]) >= priority(stack_get(stack)))
+                stack_push(stack, str[i]);
+            else
+            {
+                while (!stack_empty(stack))
+                {
+                    muladdsub(stack);
+                }
+                stack_push(stack, str[i]);
+            }
+        }
+        else
+        {
+            if (str[i] == ')')
+            {
+                while (stack_get(stack) != '(')
+                {
+                    muladdsub(stack);
+                }
+                stack_pop(stack);
+            }
+            else
+            {
+                stack_push(stack, str[i]);
+            }
+        }
     }
-    while(!stack_empty(stack))
+    while (!stack_empty(stack))
+    {
         muladdsub(stack);
+    }
     stack_delete(stack);
 }
 
