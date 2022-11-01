@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include "graph.h"
@@ -90,7 +90,7 @@ int main()
     cout << "\n\tEnter the vertex number: "; cin >> VertexNumber; cout << "\n";             
     cout << "\n\tEnter the count of edges: "; cin >> EdgeCount; cout << "\n";
 
-    Graph<VertexData>* graph = new Graph<VertexData>(VertexNumber, VertexD);
+    auto graph = new Graph<VertexData>(VertexNumber, VertexD);
 
     for (int i = 0; i < VertexNumber; i++)
     {
@@ -111,11 +111,11 @@ int main()
             cin >> Number;
             GrapgData[i][j] = Number;                               // и заполняем его 
         }
+        graph->AddEdge(graph->GetVertex(GrapgData[i][0]), graph->GetVertex(GrapgData[i][1]), GrapgData[i][2]);                   // Добавляем ребра и вершины в граф
     }
 
     for (int i = 0; i < EdgeCount; i++)              
     {
-        graph->AddEdge(graph->GetVertex(GrapgData[i][0]), graph->GetVertex(GrapgData[i][1]), GrapgData[i][2]);                   // Добавляем ребра и вершины в граф
         delete[] GrapgData[i];                                        // Тут чистим созданный ранее динамический массив
     }
     delete[] GrapgData;
@@ -124,7 +124,6 @@ int main()
     for (int i = 0; i < graph->SizeVertexVec(); i++)       // Получаем все значения ребер и их вершины
     {
         auto* it = graph->GetVertex(i);
-
         Graph<VertexData>::EdgeIterator iter(it);
 
         while (*iter != nullptr) 
