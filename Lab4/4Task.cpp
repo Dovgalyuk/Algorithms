@@ -1,7 +1,8 @@
+#include "graph.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "graph.h"
+
 
 using std::cin; using std::cout; using std::vector;
 
@@ -85,13 +86,13 @@ int main()
     vector<Edge> AllEdges;
     vector<Edge> Result;
     VertexData VertexD;
-    int VertexNumber =0,EdgeCount = 0, Number = 0, WeightTree = 0;
+    int VertexNumber = 0, EdgeCount = 0, Number = 0, WeightTree = 0;
+    int Ver1 = 0,*PVer1 = &Ver1, Ver2 = 0, * PVer = &Ver2, EdgeWeight = 0;
 
     cout << "\n\tEnter the vertex number: "; cin >> VertexNumber; cout << "\n";             
     cout << "\n\tEnter the count of edges: "; cin >> EdgeCount; cout << "\n";
 
     auto graph = new Graph<VertexData>(VertexNumber, VertexD);
-
     for (int i = 0; i < VertexNumber; i++)
     {
         VertexD.data = i;
@@ -101,26 +102,13 @@ int main()
     cout << "\n\tEnter the links between the vertex:";
     cout << "\n\t(The first two numbers are vertex, and the third number is the weight of the edge between them)\n\n";
 
-    int** GrapgData = new int* [EdgeCount];                            // Создаем двумерный массив для ввода вершин и веса ребра между ними (первые два чила - вершина, третье число - вес ребра между вершинами)     
     for (int i = 0; i < EdgeCount; i++)
     {
         cout << "\t";
-        GrapgData[i] = new int[3];
-        for (int j = 0; j < 3; j++)
-        {                                                                                                                         
-            cin >> Number;
-            GrapgData[i][j] = Number;                               // и заполняем его 
-        }
-        graph->AddEdge(graph->GetVertex(GrapgData[i][0]), graph->GetVertex(GrapgData[i][1]), GrapgData[i][2]);                   // Добавляем ребра и вершины в граф
+        cin >> Ver1 >> Ver2 >> EdgeWeight;
+        graph->AddEdge(graph->GetVertex(Ver1), graph->GetVertex(Ver2), EdgeWeight);        // Добавляем ребра и вершины в граф
     }
-
-    for (int i = 0; i < EdgeCount; i++)              
-    {
-        delete[] GrapgData[i];                                        // Тут чистим созданный ранее динамический массив
-    }
-    delete[] GrapgData;
-    GrapgData = nullptr;
-                                                          
+                                                    
     for (int i = 0; i < graph->SizeVertexVec(); i++)       // Получаем все значения ребер и их вершины
     {
         auto* it = graph->GetVertex(i);
