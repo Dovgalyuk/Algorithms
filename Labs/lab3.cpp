@@ -1,27 +1,38 @@
 #include<iostream>
 #include<fstream>
+#include <cmath> 
 #include "queue.h"
 
 // 0000..1111 only 1-15 numbers
 const int MAX_DIGITS = 4;
 
-int get_bit(const int num, const int pos) {
-	return (num & (1 << pos)) >> pos;
+int get_bit(
+	const int num, 
+	const int pos,
+	const int count
+) {
+	int result = 0;
+	for (int i = 0; i < count; ++i) {
+		result |= (num & (1 << (pos + i))) >> pos;
+	}
+	return result;
 }
 
 void radix_sort(Queue* queue) {
 	
-	const int RADIX = 2;
+	const int RADIX = 4;
 
-	//Creating two buckets
+	int offset = sqrt(RADIX);
+
+	//Creating buckets
 	Queue* buckets[RADIX];
 	for (int i = 0; i < RADIX; ++i) buckets[i] = queue_create();
 
-	for (int i = 0; i < MAX_DIGITS; ++i) {
+	for (int i = 0; i < MAX_DIGITS; i += offset) {
 		
 		while (!queue_empty(queue)) {
 			int num = queue_get(queue);
-			queue_insert(buckets[get_bit(num,i)],num);
+			queue_insert(buckets[get_bit(num,i,offset)],num);
 			queue_remove(queue);
 		}
 

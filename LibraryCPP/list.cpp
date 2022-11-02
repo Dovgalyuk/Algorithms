@@ -83,6 +83,7 @@ ListItem *list_erase(List *list, ListItem *item)
     //We don't need to know about previous.
     if (item == list->head) {
         ListItem* next = list_item_next(item);
+        if (item == list->last) list->last = 0;
         delete item;
         return list->head = next;
     }
