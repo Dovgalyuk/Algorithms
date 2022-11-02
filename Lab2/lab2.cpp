@@ -60,11 +60,11 @@ void third(string str)
                 stack_push(stack, str[i]);
             else if (isdigit(str[i]))
                 cout << "PUSH " << str[i] << "\n";
-            else if (priority(str[i]) >= priority(stack_get(stack)))
+            else if (priority(str[i]) > priority(stack_get(stack)))
                 stack_push(stack, str[i]);
             else
             {
-                while (!stack_empty(stack))
+                while (!stack_empty(stack) && stack_get(stack) != '(')
                 {
                     muladdsub(stack);
                 }
