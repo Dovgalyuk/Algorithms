@@ -86,8 +86,7 @@ int main()
     vector<Edge> AllEdges;
     vector<Edge> Result;
     VertexData VertexD;
-    int VertexNumber = 0, EdgeCount = 0, Number = 0, WeightTree = 0;
-    int Ver1 = 0,*PVer1 = &Ver1, Ver2 = 0, * PVer = &Ver2, EdgeWeight = 0;
+    int VertexNumber = 0, EdgeCount = 0, Number = 0, WeightTree = 0, Ver1 = 0, Ver2 = 0, EdgeWeight = 0;
 
     cout << "\n\tEnter the vertex number: "; cin >> VertexNumber; cout << "\n";             
     cout << "\n\tEnter the count of edges: "; cin >> EdgeCount; cout << "\n";
