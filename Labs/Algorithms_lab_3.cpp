@@ -5,13 +5,16 @@ using namespace std;
 
 const int LETTERS = 26;
 bool visited_vertex[LETTERS] = { false };
+bool neighboors[LETTERS][LETTERS] = { false };
 int ascii = 'A';
 
-void showTransformations(string answer_string) {
-    for (int i = 0; i < answer_string.length(); i++) {
-        if (answer_string[i + 1] == '\0') cout << answer_string[i];
-        else cout << answer_string[i] << "->";
+
+void showTransformations() {
+    cout << "\n";
+    for (int i = 0; i < LETTERS; i++) {
+        if (visited_vertex[i]) cout << char(i + ascii) << "\n";
     }
+
 }
 void writeTransformations(int count_transformations, string &input_string) {
     char substance_for_transformation, resulted_substance;
@@ -26,31 +29,30 @@ void writeTransformations(int count_transformations, string &input_string) {
         input_string.push_back(resulted_substance);
         input_string.push_back(' ');
 
-        count_transformations--;
+        neighboors[substance_for_transformation - ascii][resulted_substance - ascii] = true;
+
+        count_transformations--;    
     }
 }
-void writeInitialSubstanceAndCountTransformations(char& initial_substance, int& count_transformations, string &answer_string) {
+void writeInitialSubstanceAndCountTransformations(char& initial_substance, int& count_transformations) {
     cout << "Write initial substance: ";
     cin >> initial_substance;
 
-    answer_string += initial_substance;
+    visited_vertex[initial_substance - ascii] = true;
 
     cout << "Write count transformations: ";
     cin >> count_transformations;
 }
-void execute(Queue* queue, string input_string, string &answer_string) {
+void execute(Queue* queue, string input_string) {
     while (!queue_empty(queue)) {
-        for (int j = 0; j < input_string.length(); j += 3)
-        {
-            char current_vertex = queue_get(queue);
-            if (current_vertex == input_string[j] && !visited_vertex[current_vertex - ascii])
-            {
-                answer_string.push_back(input_string[j + 1]);
-                queue_insert(queue, input_string[j + 1]);
-                visited_vertex[current_vertex - ascii] = true;
+        char current_vertex = queue_get(queue);
+        queue_remove(queue);
+        for (int i = 0; i < LETTERS; i++){
+            if (!visited_vertex[i] && neighboors[current_vertex - ascii][i]) {
+                visited_vertex[i] = true;
+                queue_insert(queue, i + ascii);
             }
         }
-        queue_remove(queue);
     }
 }
     
@@ -61,7 +63,7 @@ int main() {
     Queue* queue = queue_create();
 
     //writing the original substance and the number of transformations
-    writeInitialSubstanceAndCountTransformations(initial_substance, count_transformations, answer_string);
+    writeInitialSubstanceAndCountTransformations(initial_substance, count_transformations);
 
     //adding initial_substance in the queue
     queue_insert(queue, initial_substance);
@@ -70,10 +72,10 @@ int main() {
     writeTransformations(count_transformations, input_string);
 
     //execute program
-    execute(queue, input_string, answer_string);
+    execute(queue, input_string);
 
     //out the response to the console
-    showTransformations(answer_string);
+    showTransformations();
 
     //delete queue
     queue_delete(queue);
