@@ -11,18 +11,14 @@ int get_bit(
 	const int pos,
 	const int count
 ) {
-	int result = 0;
-	for (int i = 0; i < count; ++i) {
-		result |= (num & (1 << (pos + i))) >> pos;
-	}
-	return result;
+	return (num >> pos) & ((1 << count) - 1);
 }
 
 void radix_sort(Queue* queue) {
 	
-	const int RADIX = 4;
+	const int offset = 2;
 
-	int offset = sqrt(RADIX);
+	const int RADIX = 1 << offset;
 
 	//Creating buckets
 	Queue* buckets[RADIX];
