@@ -8,75 +8,20 @@ template<typename Data> class Graph
 {
 public:
 
+    Data data;
+
     struct Edge;
 
-    struct Vertex
-    {
-        Data data;
-        List<Edge*> edges;
-
-        Vertex(Data VertexData) : data(VertexData) {}
-     
-        ~Vertex()
-        {
-            auto Del = edges.first();
-
-            while (Del != nullptr)
-            {
-                delete Del->data();
-                Del = Del->next();
-            }
-        }
-
-        void SetData(Data data_)
-        {
-            data = data_;
-        }
-
-        Data GetData()
-        {
-            return data;
-        }
-
-        void AddEdge(Vertex* toVertex)
-        {
-            edges.insert(new Edge(toVertex));
-        }
-
-        Edge* GetEdge(Vertex* toVertex)
-        {
-            for (auto i = edges.first(); i; i = i->next())
-            {
-                if (i->data()->GetToVertex() == toVertex)
-                {
-                    return i->data();
-                }
-            }
-            return nullptr;
-        }
-
-        void RemoveEdge(Vertex* toVertex)
-        {
-            for (auto i = edges.first(); i; i = i->next())
-            {
-                if (i->data()->GetToVertex() == toVertex)
-                {
-                    delete i->data();
-                    edges.erase(i);
-                    break;
-                }
-            }
-        }
-    };
+    List<Edge*> edges;
 
     struct Edge
     {
-        Vertex* toVertex;
+        Graph* toVertex;
         int weight = 0;
 
-        Edge(Vertex* toVertex) : toVertex(toVertex) {}
+        Edge(Graph* toVertex) : toVertex(toVertex) {}
 
-        Vertex* GetToVertex()
+        Graph* GetToVertex()
         {
             return toVertex;
         }
@@ -96,7 +41,7 @@ public:
     {
         typename List<Edge*>::Item* edgeElem;
 
-        EdgeIterator(Vertex* head)
+        EdgeIterator(Graph* head)
         {
             edgeElem = head->edges.first();
         }
@@ -127,15 +72,25 @@ public:
         VertexVec.resize(VertexNumber);
         for (size_t i = 0; i < VertexNumber; i++)
         {
-            VertexVec[i] = new Vertex(data);
+            VertexVec[i] = new Graph(data);
         }
     }
+
+    Graph(Data VertexData) : data(VertexData) {}
 
     ~Graph()
     {
         for (int i = 0; i < VertexVec.size(); i++)
         {
             delete VertexVec[i];
+        }
+
+        auto Del = edges.first();
+
+        while (Del != nullptr)
+        {
+            delete Del->data();
+            Del = Del->next();
         }
     }
 
@@ -144,7 +99,7 @@ public:
         return VertexVec.size();
     }
 
-    bool AvailabilityLink(Vertex* fromVertex, Vertex* toVertex)
+    bool AvailabilityLink(Graph* fromVertex, Graph* toVertex)
     {
         for (auto i = fromVertex->edges.first(); i != nullptr; i = i->next())
         {
@@ -156,15 +111,15 @@ public:
         return false;
     }
 
-    Vertex* AddVertex(Vertex* data)
+    Graph* AddVertex(Graph* data)
     {
-        auto* vertex = new Vertex(data);
+        auto* vertex = new Graph(data);
         VertexVec.push_back(vertex);
 
         return vertex;
     }
 
-    Vertex* GetVertex(size_t index)
+    Graph* GetVertex(size_t index)
     {
         return VertexVec[index];
     }
@@ -197,7 +152,7 @@ public:
         return VertexVec[index]->GetData();
     }
    
-    void AddEdge(Vertex* fromVertex, Vertex* toVertex, int weightEdge)
+    void AddEdge(Graph* fromVertex, Graph* toVertex, int weightEdge)
     {
 
         if (AvailabilityLink(fromVertex, toVertex))
@@ -211,22 +166,22 @@ public:
         }
     }
 
-    Edge* GetEdge(Vertex* fromVertex, Vertex* toVertex)
+    Edge* GetEdge(Graph* fromVertex, Graph* toVertex)
     {
         return fromVertex->GetEdge(toVertex);
     }
 
-    int GetWeightEdge(Vertex* fromVertex, Vertex* toVertex)
+    int GetWeightEdge(Graph* fromVertex, Graph* toVertex)
     {
         return fromVertex->GetEdge(toVertex)->GetWeight();
     }
 
-    void RemoveEdge(Vertex* fromVertex, Vertex* toVertex)
+    void RemoveEdge(Graph* fromVertex, Graph* toVertex)
     {
         fromVertex->RemoveEdge(toVertex);
     }
 
-    size_t GetIndexVertex(Vertex* vertex)
+    size_t GetIndexVertex(Graph* vertex)
     {
         for (size_t i = 0; i < VertexVec.size(); i++)
         {
@@ -240,7 +195,46 @@ public:
     }
 
 private:
-    std::vector<Vertex*> VertexVec;
+    std::vector<Graph*> VertexVec;
+
+    void SetData(Data data_)
+    {
+        data = data_;
+    }
+
+    Data GetData()
+    {
+        return data;
+    }
+
+    void AddEdge(Graph* toVertex)
+    {
+        edges.insert(new Edge(toVertex));
+    }
+
+    Edge* GetEdge(Graph* toVertex)
+    {
+        for (auto i = edges.first(); i; i = i->next())
+        {
+            if (i->data()->GetToVertex() == toVertex)
+            {
+                return i->data();
+            }
+        }
+        return nullptr;
+    }
+
+    void RemoveEdge(Graph* toVertex)
+    {
+        for (auto i = edges.first(); i; i = i->next())
+        {
+            if (i->data()->GetToVertex() == toVertex)
+            {
+                delete i->data();
+                edges.erase(i);
+                break;
+            }
+        }
+    }
 };
 #endif
-
