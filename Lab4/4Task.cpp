@@ -1,8 +1,7 @@
-#include "graph.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
+#include "graph.h"
 
 using std::cin; using std::cout; using std::vector;
 
