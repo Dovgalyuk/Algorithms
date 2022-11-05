@@ -1,8 +1,7 @@
 #include <cstddef>
 #include "list.h"
 
-struct ListItem
-{
+struct ListItem{
     Data data;
     ListItem* pNext;
 
@@ -12,8 +11,7 @@ struct ListItem
     }
 };
 
-struct List
-{
+struct List{
     ListItem* head;
     ListItem* last;
 
@@ -31,19 +29,16 @@ struct List
     }
 };
 
-List *list_create()
-{
+List *list_create(){
     return new List;
 }
 
-void list_delete(List* list)
-{
+void list_delete(List* list){
     // TODO: free items
     delete list;
 }
 
-ListItem* list_first(List* list)
-{
+ListItem* list_first(List* list){
     return list->head;
 }
 
@@ -55,15 +50,12 @@ ListItem* list_item_next(ListItem* item){
     return item->pNext;
 }
 
-ListItem* list_item_prev(ListItem* item)
-{
+ListItem* list_item_prev(ListItem* item){
     return NULL;
 }
 
 ListItem* list_insert(List* list, Data data){
-    ListItem* add_item = new ListItem(data, NULL);
-
-    add_item->pNext = list->head;
+    ListItem* add_item = new ListItem(data, list->head);
 
     if (!list->head) list->last = add_item;
 
@@ -71,21 +63,16 @@ ListItem* list_insert(List* list, Data data){
 }
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data){
-    ListItem* previous = list->head;
+    ListItem * add_item = new ListItem(data, item->pNext);
 
-    while (previous != item) previous = previous->pNext;
+    item->pNext = add_item;
 
-    ListItem *current = new ListItem(data, previous->pNext);
+    if (add_item->pNext == nullptr) list->last = add_item;
 
-    previous->pNext = current;
-
-    if (current->pNext == nullptr) list->last = current;
-
-    return current;
+    return add_item;
 }
 
-ListItem* list_erase(List* list, ListItem* item)
-{
+ListItem* list_erase(List* list, ListItem* item){
     if (item == list->head) {
         ListItem* temp = list->head;
         list->head = list->head->pNext;
@@ -93,21 +80,15 @@ ListItem* list_erase(List* list, ListItem* item)
         return list->head;
     }
     else {
-        ListItem* previous = list->head;
-        while (previous->pNext != item) {
-            previous = previous->pNext;
-        }
-        ListItem* current = previous->pNext;
+        ListItem* current = item->pNext;
 
-        previous->pNext = current->pNext;
+        item->pNext = current->pNext;
 
-        if (previous->pNext == nullptr) {
-            list->last = previous;
-        }
+        if (item->pNext == nullptr) list->last = item;
 
         delete current;
 
-        return previous->pNext;
+        return item->pNext;
     }
 }
 
@@ -119,27 +100,19 @@ ListItem* list_erase_next(List* list, ListItem* item){
         return list->head;
     }
     else {
-        ListItem* previous = list->head;
+        ListItem* current = item->pNext;
 
-        while (previous != item) {
-            previous = previous->pNext;
-        }
+        item->pNext = current->pNext;
 
-        ListItem* current = previous->pNext;
-
-        previous->pNext = current->pNext;
-
-        if (previous->pNext == nullptr) {
-            list->last = previous;
-        }
+        if (item->pNext == nullptr) list->last = item;
 
         delete current;
 
-        return previous;
+        return item;
     }
 }
 
-ListItem* list_last(List *list) {
+ListItem* list_last(List* list) {
     return (list->last == nullptr) ? list->head : list->last;
 }
 
