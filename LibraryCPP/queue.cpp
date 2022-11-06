@@ -29,7 +29,7 @@ void queue_insert(Queue* queue, Data data)
     if (queue_empty(queue))
         list_insert(queue->list, data);
     else
-        list_insert_after(queue->list, list_last(queue->list), data);
+        list_insert_after(queue->list, list_insert(queue->list,data), data);
 }
 
 Data queue_get(const Queue* queue)
