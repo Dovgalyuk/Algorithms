@@ -28,3 +28,4 @@ void queue_remove(Queue* queue);
 bool queue_empty(const Queue* queue);
 
 #endif
+
