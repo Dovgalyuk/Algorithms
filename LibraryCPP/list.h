@@ -33,19 +33,15 @@ ListItem* list_insert(List* list, Data data);
 // Inserts new list item after the specified item
 ListItem* list_insert_after(List* list, ListItem* item, Data data);
 
-ListItem* list_erase_next(List* list, ListItem* item);
-
-ListItem* list_erase_first(List* list);
 // Deletes the specified list item.
-// Returns pointer to the item next to the deleted one.
 // Not applicable for the singly linked lists.
 // Should be O(1)
 ListItem* list_erase(List* list, ListItem* item);
 
-// Deletes the list item following the specified one.
-// Returns pointer to the item next to the deleted one.
+// Deletes the list item following the specified one
 // Should be O(1)
 ListItem* list_erase_next(List* list, ListItem* item);
-ListItem* list_last(List* list);
+
+ListItem* list_erase_first(List* list);
 
 #endif
