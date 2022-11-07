@@ -11,9 +11,9 @@ int main()
 	int width, height = 0, x = 0, y = 0, z = 0;
 	string way, str, strbuf;
 
-	cout << "Enter the way to the file: "; 
-	getline(cin, way); 
-	cout << "\n"; //C:\Users\User\Desktop\labirint.txt 
+	cout << "Enter the way to the file: ";
+	getline(cin, way);
+	cout << "\n"; // C:\Users\User\Desktop\labirint.txt
 	ifstream file(way);
 
 	if (!file.is_open())
@@ -74,6 +74,7 @@ int main()
 			{
 				queue_insert(queue, x - 1);
 				queue_insert(queue, y);
+				mark[x - 1][y] = true;
 				++count;
 			}
 		}
@@ -83,6 +84,7 @@ int main()
 			{
 				queue_insert(queue, x + 1);
 				queue_insert(queue, y);
+				mark[x + 1][y] = true;
 				++count;
 			}
 		}
@@ -92,6 +94,7 @@ int main()
 			{
 				queue_insert(queue, x);
 				queue_insert(queue, y + 1);
+				mark[x][y + 1] = true;
 				++count;
 			}
 		}
@@ -101,6 +104,7 @@ int main()
 			{
 				queue_insert(queue, x);
 				queue_insert(queue, y - 1);
+				mark[x][y - 1] = true;
 				++count;
 			}
 		}
