@@ -55,7 +55,7 @@ int main() {
     graph->AddEdge(graph->GetVertex(0), graph->GetVertex(9), 15);
     graph->AddEdge(graph->GetVertex(0), graph->GetVertex(2), 35);
 
-    graph->GetEdge(graph->GetVertex(0), graph->GetVertex(9))->weight = 18;
+    graph->GetEdge(graph->GetVertex(0), graph->GetVertex(9))->SetWeight(18);
 
     if (graph->GetWeightEdge(graph->GetVertex(0), graph->GetVertex(9)) != 18) 
     {
