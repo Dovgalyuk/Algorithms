@@ -12,28 +12,91 @@ public:
 
     struct Edge;
 
-    List<Edge*> edges;
+    struct Vertex
+    {
+        friend class Graph;
+    
+        private:
+        Data data;
+        List<Edge*> edges;
 
+        Vertex(Data VertexData) : data(VertexData) {}
+
+        ~Vertex()
+        {
+            auto Del = edges.first();
+
+            while (Del != nullptr)
+            {
+                delete Del->data();
+                Del = Del->next();
+            }
+        }
+
+        void SetData(Data data_)
+        {
+            data = data_;
+        }
+
+        Data GetData()
+        {
+            return data;
+        }
+
+        void AddEdge(Vertex* toVertex)
+        {
+            edges.insert(new Edge(toVertex));
+        }
+
+        Edge* GetEdge(Vertex* toVertex)
+        {
+            for (auto i = edges.first(); i; i = i->next())
+            {
+                if (i->data()->GetToVertex() == toVertex)
+                {
+                    return i->data();
+                }
+            }
+            return nullptr;
+        }
+
+        void RemoveEdge(Vertex* toVertex)
+        {
+            for (auto i = edges.first(); i; i = i->next())
+            {
+                if (i->data()->GetToVertex() == toVertex)
+                {
+                    delete i->data();
+                    edges.erase(i);
+                    break;
+                }
+            }
+        }
+    };
+   
     struct Edge
     {
-        Graph* toVertex;
-        int weight = 0;
+        friend class Graph;
 
-        Edge(Graph* toVertex) : toVertex(toVertex) {}
-
-        Graph* GetToVertex()
+        Vertex* GetToVertex()
         {
             return toVertex;
         }
+        
+        int GetWeight()
+        {
+            return weight;
+        }
+
+    private:
+        Vertex* toVertex;
+        int weight = 0;
+
+        Edge(Vertex* toVertex) : toVertex(toVertex) {}
 
         void SetWeight(int weight_)
         {
             weight = weight_;
-        }
-
-        int GetWeight()
-        {
-            return weight;
         }
     };
 
@@ -41,7 +104,7 @@ public:
     {
         typename List<Edge*>::Item* edgeElem;
 
-        EdgeIterator(Graph* head)
+        EdgeIterator(Vertex* head)
         {
             edgeElem = head->edges.first();
         }
@@ -72,25 +135,15 @@ public:
         VertexVec.resize(VertexNumber);
         for (size_t i = 0; i < VertexNumber; i++)
         {
-            VertexVec[i] = new Graph(data);
+            VertexVec[i] = new Vertex(data);
         }
     }
-
-    Graph(Data VertexData) : data(VertexData) {}
 
     ~Graph()
     {
         for (int i = 0; i < VertexVec.size(); i++)
         {
             delete VertexVec[i];
-        }
-
-        auto Del = edges.first();
-
-        while (Del != nullptr)
-        {
-            delete Del->data();
-            Del = Del->next();
         }
     }
 
@@ -99,7 +152,7 @@ public:
         return VertexVec.size();
     }
 
-    bool AvailabilityLink(Graph* fromVertex, Graph* toVertex)
+    bool AvailabilityLink(Vertex* fromVertex, Vertex* toVertex)
     {
         for (auto i = fromVertex->edges.first(); i != nullptr; i = i->next())
         {
@@ -111,7 +164,7 @@ public:
         return false;
     }
 
-    Graph* AddVertex(Graph* data)
+    Vertex* AddVertex(Vertex* data)
     {
         auto* vertex = new Graph(data);
         VertexVec.push_back(vertex);
@@ -119,7 +172,7 @@ public:
         return vertex;
     }
 
-    Graph* GetVertex(size_t index)
+    Vertex* GetVertex(size_t index)
     {
         return VertexVec[index];
     }
@@ -152,7 +205,7 @@ public:
         return VertexVec[index]->GetData();
     }
    
-    void AddEdge(Graph* fromVertex, Graph* toVertex, int weightEdge)
+    void AddEdge(Vertex* fromVertex, Vertex* toVertex, int weightEdge)
     {
 
         if (AvailabilityLink(fromVertex, toVertex))
@@ -166,22 +219,22 @@ public:
         }
     }
 
-    Edge* GetEdge(Graph* fromVertex, Graph* toVertex)
+    Edge* GetEdge(Vertex* fromVertex, Vertex* toVertex)
     {
         return fromVertex->GetEdge(toVertex);
     }
 
-    int GetWeightEdge(Graph* fromVertex, Graph* toVertex)
+    int GetWeightEdge(Vertex* fromVertex, Vertex* toVertex)
     {
         return fromVertex->GetEdge(toVertex)->GetWeight();
     }
 
-    void RemoveEdge(Graph* fromVertex, Graph* toVertex)
+    void RemoveEdge(Vertex* fromVertex, Vertex* toVertex)
     {
         fromVertex->RemoveEdge(toVertex);
     }
 
-    size_t GetIndexVertex(Graph* vertex)
+    size_t GetIndexVertex(Vertex* vertex)
     {
         for (size_t i = 0; i < VertexVec.size(); i++)
         {
@@ -195,46 +248,6 @@ public:
     }
 
 private:
-    std::vector<Graph*> VertexVec;
-
-    void SetData(Data data_)
-    {
-        data = data_;
-    }
-
-    Data GetData()
-    {
-        return data;
-    }
-
-    void AddEdge(Graph* toVertex)
-    {
-        edges.insert(new Edge(toVertex));
-    }
-
-    Edge* GetEdge(Graph* toVertex)
-    {
-        for (auto i = edges.first(); i; i = i->next())
-        {
-            if (i->data()->GetToVertex() == toVertex)
-            {
-                return i->data();
-            }
-        }
-        return nullptr;
-    }
-
-    void RemoveEdge(Graph* toVertex)
-    {
-        for (auto i = edges.first(); i; i = i->next())
-        {
-            if (i->data()->GetToVertex() == toVertex)
-            {
-                delete i->data();
-                edges.erase(i);
-                break;
-            }
-        }
-    }
+    std::vector<Vertex*> VertexVec;
 };
 #endif
