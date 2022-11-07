@@ -90,7 +90,7 @@ int main()
     cout << "\n\tEnter the vertex number: "; cin >> VertexNumber; cout << "\n";             
     cout << "\n\tEnter the count of edges: "; cin >> EdgeCount; cout << "\n";
 
-    auto graph = new Graph<VertexData>(VertexNumber, VertexD);
+    Graph<VertexData>* graph = new Graph<VertexData>(VertexNumber, VertexD);
     for (int i = 0; i < VertexNumber; i++)
     {
         VertexD.data = i;
@@ -111,10 +111,10 @@ int main()
     {
         auto* it = graph->GetVertex(i);
         Graph<VertexData>::EdgeIterator iter(it);
-
+        
         while (*iter != nullptr) 
         {
-            int to = graph->GetIndexVertex((*iter)->toVertex);
+            int to = graph->GetIndexVertex((*iter)->GetToVertex());
             AllEdges.push_back(Edge(i, to, (*iter)->GetWeight()));
             ++iter;
         }
