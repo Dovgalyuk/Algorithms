@@ -80,35 +80,46 @@ ListItem* list_erase(List* list, ListItem* item){
         return list->head;
     }
     else {
-        ListItem* current = item->pNext;
+        ListItem *previous = list->head;
 
-        item->pNext = current->pNext;
+        while (previous->pNext != item) {
+            previous = previous->pNext;
+        }
 
-        if (item->pNext == nullptr) list->last = item;
+        previous->pNext = item->pNext;
 
-        delete current;
+        if (previous->pNext == nullptr) list->last = previous;
 
-        return item->pNext;
+        delete item;
+        
+        return previous->pNext;
     }
 }
 
 ListItem* list_erase_next(List* list, ListItem* item){
+    //removing item after head
     if (item == list->head) {
-        ListItem* temp = list->head;
-        list->head = list->head->pNext;
+        ListItem* temp = list->head->pNext;
+        list->head->pNext = temp->pNext;
         delete temp;
-        return list->head;
+        return list->head->pNext;
     }
     else {
-        ListItem* current = item->pNext;
+        //checking if item is last element
+        if (item == list_last(list)) {
+            list_erase(list, item);
+        }
+        else {
+            ListItem* current = item->pNext;
 
-        item->pNext = current->pNext;
+            item->pNext = current->pNext;
 
-        if (item->pNext == nullptr) list->last = item;
+            if (item->pNext == nullptr) list->last = item;
 
-        delete current;
+            delete current;
 
-        return item;
+            return item;
+        }
     }
 }
 
