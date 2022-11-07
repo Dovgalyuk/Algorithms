@@ -83,6 +83,11 @@ public:
             return toVertex;
         }
         
+        void SetWeight(int weight_)
+        {
+            weight = weight_;
+        }
+
         int GetWeight()
         {
             return weight;
@@ -93,11 +98,6 @@ public:
         int weight = 0;
 
         Edge(Vertex* toVertex) : toVertex(toVertex) {}
-
-        void SetWeight(int weight_)
-        {
-            weight = weight_;
-        }
     };
 
     struct EdgeIterator
