@@ -19,19 +19,23 @@ int main()
 	while (x != 27) {
 		cout << "Введите команду: ";
 		cin >> command >> n_1;
-		if (command == "push" and n != 0) {
-			stack_push(stack, n_1);
-			n--;
+		if (command == "push") {
+			if (n > 0) {
+				stack_push(stack, n_1);
+				n--;
+			}
+			if (n <= 0) {
+				cout << "BAD PUSH" << endl;
+			}
 		}
-		else if (command == "push" and n <= 0) {
-			cout << "BAD PUSH" << endl;
-		}
-		else if (command == "pop" and !stack_empty(stack)) {
-			stack_pop(stack);
-			n++;
-		}
-		else if (command == "pop" and stack_empty(stack)) {
-			cout << "BAD POP" << endl;
+		if (command == "pop") {
+			if (!stack_empty(stack)) {
+				stack_pop(stack);
+				n++;
+			}
+			if (stack_empty(stack)) {
+				cout << "BAD POP" << endl;
+			}
 		}
 		if (x == 27) {
 			system("cls");
