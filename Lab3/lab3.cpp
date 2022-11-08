@@ -10,14 +10,14 @@ int main()
 	setlocale(LC_ALL, "ru");
 	Data count, start, end;
 	string s;
-	cout << "Íå çàáóäüòå óêàçàòü ðàñøèðåíèå ôàéëà! (.txt)" << endl;
-	cout << "Ââåäèòå ïîëíûé ïóòü ê ôàéëó: ";
+	cout << "ÃÃ¥ Ã§Ã Ã¡Ã³Ã¤Ã¼Ã²Ã¥ Ã³ÃªÃ Ã§Ã Ã²Ã¼ Ã°Ã Ã±Ã¸Ã¨Ã°Ã¥Ã­Ã¨Ã¥ Ã´Ã Ã©Ã«Ã ! (.txt)" << endl;
+	cout << "Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ Ã¯Ã®Ã«Ã­Ã»Ã© Ã¯Ã³Ã²Ã¼ Ãª Ã´Ã Ã©Ã«Ã³: ";
 	getline(cin, s);
 	// s = "C:\\Users\\Danya\\source\\repos\\Algorithms3\\Algorithms3\\inputfile.txt";
 	ifstream input(s);
 	if (!input.is_open())                                                
 	{
-		cout << "Ôàéë íå íàéäåí!" << endl;
+		cout << "Ã”Ã Ã©Ã« Ã­Ã¥ Ã­Ã Ã©Ã¤Ã¥Ã­!" << endl;
 		system("pause");
 		system("cls");
 		return main();
@@ -71,9 +71,9 @@ int main()
 		}
 		else
 		{
-			cout << "Êðàò÷àéøèé ïóòü: " << end_vertex;
+			cout << "ÃŠÃ°Ã Ã²Ã·Ã Ã©Ã¸Ã¨Ã© Ã¯Ã³Ã²Ã¼: " << end_vertex;
 		}
-		for (int i = 0; i < count; i++)              // Òóò ÷èñòèì ñîçäàííûå ðàíåå äèíàìè÷åñêèå ìàññèâû
+		for (int i = 0; i < count; i++)              // Ã’Ã³Ã² Ã·Ã¨Ã±Ã²Ã¨Ã¬ Ã±Ã®Ã§Ã¤Ã Ã­Ã­Ã»Ã¥ Ã°Ã Ã­Ã¥Ã¥ Ã¤Ã¨Ã­Ã Ã¬Ã¨Ã·Ã¥Ã±ÃªÃ¨Ã¥ Ã¬Ã Ã±Ã±Ã¨Ã¢Ã»
 		{
 			delete[] matrix[i];
 		}
