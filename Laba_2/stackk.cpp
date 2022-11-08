@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <string>
-#include <conio.h>
 #include "list.h"
 #include "stack.h"
 using namespace std;
