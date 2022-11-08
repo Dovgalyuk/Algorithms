@@ -66,7 +66,6 @@ int main()
 		queue_remove(queue);
 		y = queue_get(queue);
 		queue_remove(queue);
-		mark[x][y] = true;
 
 		if (maze[x - 1][y] == '.')
 		{
