@@ -23,7 +23,7 @@ int main()
 				stack_push(stack, n_1);
 				n--;
 			}
-			if (n <= 0) {
+			else if (n <= 0) {
 				cout << "BAD PUSH" << endl;
 			}
 		}
@@ -32,7 +32,7 @@ int main()
 				stack_pop(stack);
 				n++;
 			}
-			if (stack_empty(stack)) {
+			else if (stack_empty(stack)) {
 				cout << "BAD POP" << endl;
 			}
 		}
