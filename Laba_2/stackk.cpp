@@ -11,12 +11,11 @@ int main()
 	string command;
 	int n = 0;
 	Data n_1 = 0;
-	int x = 0;
 
 	cout << "Введите размерность стека: ";
 	cin >> n;
 
-	while (x != 27) {
+	while (command != "exit") {
 		cout << "Введите команду: ";
 		cin >> command >> n_1;
 		if (command == "push") {
@@ -37,7 +36,7 @@ int main()
 				cout << "BAD POP" << endl;
 			}
 		}
-		if (x == 27) {
+		if (command == "exit") {
 			system("cls");
 			cout << "STACK" << endl;
 			while (n != 0) {
