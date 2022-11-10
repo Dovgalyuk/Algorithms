@@ -39,9 +39,9 @@ int main()
 		if (command == "exit") {
 			system("cls");
 			cout << "STACK" << endl;
-			while (n != 0) {
+			while (!stack_empty(stack)) {
 				cout << stack_get(stack) << endl;
-				n--;
+				stack_pop(stack);
 			}
 		}
 	}
