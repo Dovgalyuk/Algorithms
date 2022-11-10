@@ -9,7 +9,7 @@ struct Queue
 
     Queue() {
         vector = vector_create();
-        vector_resize(vector, 20);
+        vector_resize(vector, 2);
         head = -1;
         rear = -1;
     }
@@ -36,14 +36,11 @@ void queue_insert(Queue *queue, Data data)
         queue->rear = 0;
         queue->head = 0;
     } else if (queue->rear % size == queue->head) {
-        throw "Error: Queue is full!";
+        vector_resize(queue->vector, size*2);
+        size = vector_size(queue->vector);
     }
 
     int rear = queue->rear % size;
-    // if(rear == size - 1)
-
-    // if(rear == size - 1) {
-    //     vector_resize(queue->vector, size*2);
 
     vector_set(queue->vector, rear, data);
     queue->rear = rear+1;
