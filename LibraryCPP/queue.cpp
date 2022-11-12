@@ -26,10 +26,7 @@ void queue_delete(Queue* queue)
 
 void queue_insert(Queue* queue, Data data)
 {
-    if (queue_empty(queue))
-        list_insert(queue->list, data);
-    else
-        list_insert_after(queue->list, list_first(queue->list), data);
+    list_insert(queue->list, data);
 }
 
 Data queue_get(const Queue* queue)
