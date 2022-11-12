@@ -1,133 +1,63 @@
-#include <stdlib.h>
+#include <cstddef>
 #include "list.h"
 
-struct DLListItem
+struct ListItem
 {
-    Data data;
-    DLListItem* next;
-    DLListItem* prev;
 };
 
-struct DLList
+struct List
 {
-    DLListItem* head;
 };
 
-DLList* list_create()
+List *list_create()
 {
-    DLList* list = new DLList;
-    list->head = nullptr;
-    return list;
+    return new List;
 }
 
-void list_delete(DLList* list)
+void list_delete(List *list)
 {
-    DLListItem* current = list->head;
-
-    while (current != nullptr)
-    {
-        DLListItem* prev = current;
-        current = list_item_next(prev);
-        list_erase(list, prev);
-    }
-
+    // TODO: free items
     delete list;
 }
 
-DLListItem* list_first(DLList* list)
+ListItem *list_first(List *list)
 {
-    return list->head;
+    return NULL;
 }
 
-Data list_item_data(const DLListItem* item)
+Data list_item_data(const ListItem *item)
 {
-    return item->data;
+    return (Data)0;
 }
 
-DLListItem* list_item_next(DLListItem* item)
+ListItem *list_item_next(ListItem *item)
 {
-    return item->next;
+    return NULL;
 }
 
-DLListItem* list_item_prev(DLListItem* item)
+ListItem *list_item_prev(ListItem *item)
 {
-    return item->prev;
+    return NULL;
 }
 
-DLListItem* list_insert(DLList* list, Data data)
+ListItem *list_insert(List *list, Data data)
 {
-    DLListItem* item = new DLListItem;
-    item->data = data;
-
-    if (list->head == nullptr)
-    {
-        list->head = item;
-        list->head->next = item;
-        list->head->prev = item;
-    }
-    else
-    {
-        item->prev = list->head->prev;
-        item->next = list->head;
-        list->head->prev->next = item;
-        list->head->prev = item;
-    }
-    list->head = item;
-
-    return item;
+    return NULL;
 }
 
-DLListItem* list_insert_after(DLList* list, DLListItem* item, Data data)
+ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
-    DLListItem* new_item = new DLListItem;
-    new_item->data = data;
-
-    new_item->next = item->next;
-    new_item->prev = item;
-    if (item->next != nullptr)
-    {
-        item->next->prev = new_item;
-    }
-    item->next = new_item;
-
-    return new_item;
+    return NULL;
 }
 
-DLListItem* list_erase_first(DLList* list)
+ListItem *list_erase(List *list, ListItem *item)
 {
-    DLListItem* delete_item = list->head;
-    DLListItem* new_head = list->head->next;
-
-    if (new_head != nullptr)
-    {
-        delete_item->prev->next = new_head;
-        new_head->prev = delete_item->prev;
-        list->head = new_head;
-    }
-
-    delete delete_item;
-
-    return nullptr;
+    return NULL;
 }
 
-DLListItem* list_erase(DLList* list, DLListItem* item)
+ListItem *list_erase_next(List *list, ListItem *item)
 {
-    DLListItem* item_prev = item->prev;
-    DLListItem* item_next = item->next;
-    item_next->prev = item_prev;
-    item_prev->next = item->next;
-
-    if (item == list->head)
-    {
-        return list_erase_first(list);
-    }
-    delete item;
-
-    return item_next;
+    return NULL;
 }
 
-DLListItem* list_erase_next(DLList* list, DLListItem* item)
-{
-    return list_erase(list, item->next);
-}
 
