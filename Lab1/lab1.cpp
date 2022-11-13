@@ -55,4 +55,6 @@ int main()
 		cout << array_get(mass2, i) << " , ";
 	}
 	
+	array_delete(mass);
+	array_delete(mass2);
 }
