@@ -9,7 +9,10 @@ struct Array
         arrayS = size;
         data = new Data[arrayS];
     }
-   
+   ~Array()
+    {
+        delete[] data;
+    }
 };
 
 // create array
