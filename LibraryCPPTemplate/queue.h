@@ -1,6 +1,6 @@
 #ifndef QUEUE_H
 #define QUEUE_H
-#include <list.h>
+#include "list.h"
 
 template <typename Data> class Queue
 {
