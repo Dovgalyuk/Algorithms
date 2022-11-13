@@ -36,8 +36,26 @@ void queue_insert(Queue *queue, Data data)
         queue->rear = 0;
         queue->head = 0;
     } else if (queue->rear % size == queue->head) {
+        Data *buff = new Data[size*2];
+        int counter = 0;
+
+        for(int i = queue->head; i < size; i++) {
+            buff[counter] = vector_get(queue->vector,i);  
+            counter++;
+        }
+        for(int i = 0; i < queue->rear; i++) {
+            buff[counter] = vector_get(queue->vector,i);
+            counter++;
+        }
+        queue->head = 0;
+        queue->rear = size;
+
+        for(int i = 0; i < size; i++) {
+            vector_set(queue->vector, i, buff[i]);
+        }
         vector_resize(queue->vector, size*2);
         size = vector_size(queue->vector);
+        delete[] buff;
     }
 
     int rear = queue->rear % size;
