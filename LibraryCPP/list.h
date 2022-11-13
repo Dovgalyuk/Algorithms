@@ -1,62 +1,51 @@
-#include <cstddef>
-#include "list.h"
+#ifndef LIST_H
+#define LIST_H
 
-struct ListItem
-{
-};
+// List
+// Stores integer values inside
+typedef int Data;
 
-struct List
-{
-};
+struct List;
+struct ListItem;
 
-List *list_create()
-{
-    return new List;
-}
+// Creates new list
+List* list_create();
 
-void list_delete(List *list)
-{
-    // TODO: free items
-    delete list;
-}
+// Destroys the list and frees the memory
+void list_delete(List* list);
 
-ListItem *list_first(List *list)
-{
-    return NULL;
-}
+// Retrieves the first item from the list
+ListItem* list_first(List* list);
 
-Data list_item_data(const ListItem *item)
-{
-    return (Data)0;
-}
+// Extracts data from the list item
+Data list_item_data(const ListItem* item);
 
-ListItem *list_item_next(ListItem *item)
-{
-    return NULL;
-}
+// Returns list item following after the specified one
+ListItem* list_item_next(ListItem* item);
 
-ListItem *list_item_prev(ListItem *item)
-{
-    return NULL;
-}
+// Returns previous element for the specified item.
+// Not applicable for the singly linked lists.
+ListItem* list_item_prev(ListItem* item);
 
-ListItem *list_insert(List *list, Data data)
-{
-    return NULL;
-}
+// Inserts new list item into the beginning
+ListItem* list_insert(List* list, Data data);
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    return NULL;
-}
+// Inserts new list item after the specified item
+ListItem* list_insert_after(List* list, ListItem* item, Data data);
 
-ListItem *list_erase(List *list, ListItem *item)
-{
-    return NULL;
-}
+// Deletes the specified list item.
+// Returns pointer to the item next to the deleted one.
+// Not applicable for the singly linked lists.
+// Should be O(1)
+ListItem* list_erase(List* list, ListItem* item);
 
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    return NULL;
-}
+// Deletes the list item following the specified one.
+// Returns pointer to the item next to the deleted one.
+// Should be O(1)
+ListItem* list_erase_next(List* list, ListItem* item);
+
+//Returns the last item from the list
+ListItem* list_last(List* list);
+
+#endif
 
