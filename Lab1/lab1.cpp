@@ -6,10 +6,10 @@
 
 using namespace std;
 
-int counting(Array* arr, int const SIZE)
+int counting(Array* arr)
 {
 	int shet = 0;
-	for (int i = 0; i < SIZE; i++)
+		for (int i = 0; i < array_size(arr); i++)
 	{
 		array_set(arr, i, rand() % 51);
 		if (array_get(arr, i) % 2 == 0)
@@ -20,10 +20,10 @@ int counting(Array* arr, int const SIZE)
 	return shet;
 }
 
-void completion(Array* arr, Array* arr2, int const SIZE)
+void completion(Array* arr, Array* arr2)
 {
 	int shet = 0;
-	for (int i = 0; i < SIZE; i++)
+	for (int i = 0; i < array_size(arr); i++)
 	{
 		if (array_get(arr, i) % 2 == 0)
 		{
@@ -44,11 +44,11 @@ int main()
     cin >> size;
 	Array* mass = array_create(size); //создаём первый массив с заданным размером
 
-	int size2 = counting(mass, size); // заполняем первый массив, считая при этом кол-во четных
+	int size2 = counting(mass); // заполняем первый массив, считая при этом кол-во четных
 
 	Array* mass2 = array_create(size2);// создаём второй массив с размером раным кол-ву четных значений из первого
 
-	completion(mass, mass2, size);// заполняем второй массив
+	completion(mass, mass2);// заполняем второй массив
 
 	for (int i = 0; i < size2; i++) //вывод индексов четных значений среди элементов первого массива
 	{
