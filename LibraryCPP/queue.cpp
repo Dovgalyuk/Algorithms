@@ -4,7 +4,7 @@
 
 struct Queue
 {
-    DLList* list;
+    List* list;
 };
 
 Queue* queue_create()
