@@ -1,32 +1,32 @@
 #include <stdlib.h>
 #include "list.h"
 
-struct DLListItem
+struct ListItem
 {
     Data data;
-    DLListItem* next;
-    DLListItem* prev;
+    ListItem* next;
+    ListItem* prev;
 };
 
-struct DLList
+struct List
 {
-    DLListItem* head;
+    ListItem* head;
 };
 
-DLList* list_create()
+List* list_create()
 {
-    DLList* list = new DLList;
+    List* list = new List;
     list->head = nullptr;
     return list;
 }
 
-void list_delete(DLList* list)
+void list_delete(List* list)
 {
-    DLListItem* current = list->head;
+    ListItem* current = list->head;
 
     while (current != nullptr)
     {
-        DLListItem* prev = current;
+        ListItem* prev = current;
         current = list_item_next(prev);
         list_erase(list, prev);
     }
@@ -34,29 +34,29 @@ void list_delete(DLList* list)
     delete list;
 }
 
-DLListItem* list_first(DLList* list)
+ListItem* list_first(List* list)
 {
     return list->head;
 }
 
-Data list_item_data(const DLListItem* item)
+Data list_item_data(const ListItem* item)
 {
     return item->data;
 }
 
-DLListItem* list_item_next(DLListItem* item)
+ListItem* list_item_next(ListItem* item)
 {
     return item->next;
 }
 
-DLListItem* list_item_prev(DLListItem* item)
+ListItem* list_item_prev(ListItem* item)
 {
     return item->prev;
 }
 
-DLListItem* list_insert(DLList* list, Data data)
+ListItem* list_insert(List* list, Data data)
 {
-    DLListItem* item = new DLListItem;
+    ListItem* item = new ListItem;
     item->data = data;
 
     if (list->head == nullptr)
@@ -77,9 +77,9 @@ DLListItem* list_insert(DLList* list, Data data)
     return item;
 }
 
-DLListItem* list_insert_after(DLList* list, DLListItem* item, Data data)
+ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
-    DLListItem* new_item = new DLListItem;
+    ListItem* new_item = new ListItem;
     new_item->data = data;
 
     new_item->next = item->next;
@@ -93,10 +93,10 @@ DLListItem* list_insert_after(DLList* list, DLListItem* item, Data data)
     return new_item;
 }
 
-DLListItem* list_erase_first(DLList* list)
+ListItem* list_erase_first(List* list)
 {
-    DLListItem* delete_item = list->head;
-    DLListItem* new_head = list->head->next;
+    ListItem* delete_item = list->head;
+    ListItem* new_head = list->head->next;
 
     if (new_head != nullptr)
     {
@@ -110,10 +110,10 @@ DLListItem* list_erase_first(DLList* list)
     return nullptr;
 }
 
-DLListItem* list_erase(DLList* list, DLListItem* item)
+ListItem* list_erase(List* list, ListItem* item)
 {
-    DLListItem* item_prev = item->prev;
-    DLListItem* item_next = item->next;
+    ListItem* item_prev = item->prev;
+    ListItem* item_next = item->next;
     item_next->prev = item_prev;
     item_prev->next = item->next;
 
@@ -126,10 +126,12 @@ DLListItem* list_erase(DLList* list, DLListItem* item)
     return item_next;
 }
 
-DLListItem* list_erase_next(DLList* list, DLListItem* item)
+ListItem* list_erase_next(List* list, ListItem* item)
 {
     return list_erase(list, item->next);
 }
+
+
 
 
 
