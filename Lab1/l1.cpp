@@ -3,11 +3,11 @@
 
 using namespace std;
 
-void rain(Array* arr, int const Size)
+void rain(Array* arr)
 {
     int n = 0; // кол-во дней
     int mm = 0; // мм осадков всего
-    for (int i = 0; i < Size; i++)
+    for (int i = 0; i < array_size(arr); i++)
     {
         if (array_get(arr, i) > 0)
         {
@@ -36,6 +36,6 @@ int main()
         cout << array_get(mas, i) << " ";
     }
     cout << endl;
-    rain(mas, size);
+    rain(mas);
     array_delete(mas);
 }
