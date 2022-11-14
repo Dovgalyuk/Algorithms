@@ -5,30 +5,31 @@
 // Stores integer values inside
 typedef int Data;
 
-struct DLList;
-struct DLListItem;
+struct List;
+struct ListItem;
 
-DLList* list_create();
+List* list_create();
 
-void list_delete(DLList* list);
+void list_delete(List* list);
 
-DLListItem* list_first(DLList* list);
+ListItem* list_first(List* list);
 
-Data list_item_data(const DLListItem* item);
+Data list_item_data(const ListItem* item);
 
-DLListItem* list_item_next(DLListItem* item);
+ListItem* list_item_next(ListItem* item);
 
-DLListItem* list_item_prev(DLListItem* item);
+ListItem* list_item_prev(ListItem* item);
 
-DLListItem* list_insert(DLList* list, Data data);
+ListItem* list_insert(List* list, Data data);
 
-DLListItem* list_insert_after(DLList* list, DLListItem* item, Data data);
+ListItem* list_insert_after(List* list, ListItem* item, Data data);
 
-DLListItem* list_erase(DLList* list, DLListItem* item);
+ListItem* list_erase(List* list, ListItem* item);
 
-DLListItem* list_erase_next(DLList* list, DLListItem* item);
+ListItem* list_erase_next(List* list, ListItem* item);
 
-DLListItem* list_erase_first(DLList* list);
+ListItem* list_erase_first(List* list);
 
 #endif
+
 
