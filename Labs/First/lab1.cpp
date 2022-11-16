@@ -1,6 +1,6 @@
 #include <iostream>
 #include <ctime>
-#include "../../LibraryCPP/array.h"
+#include "array.h"
 
 using namespace std;
 
