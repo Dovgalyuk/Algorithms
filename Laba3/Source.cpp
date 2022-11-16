@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include "queue.h"
 
@@ -7,8 +7,10 @@ using namespace std;
 
 int main()
 {
+
+    const int COUNT = 1000000;
     int n, s, f,t;
-    cin >> n >> s >> f;
+    cin >> n >> s >> f; 
     vector<vector<int>>a(n);
     for (int i = 0; i < n; i++)
         for (int j = 0; j < n; j++)
@@ -37,7 +39,8 @@ int main()
             }
         }
     }
-    if (b[f] < 1000000) cout << b[f];
+    if (b[f] < COUNT) cout << b[f];
     else cout <<"IMPOSSIBLE";
+    queue_delete(q);
     return 0;
 }
