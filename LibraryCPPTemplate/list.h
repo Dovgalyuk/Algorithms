@@ -7,10 +7,10 @@ public:
     class Item
     {
     public:
-        Item *nextItem = nullptr;
-        Item *prevItem = nullptr;
-        Item *next() { return nextItem; }
-        Item *prev() { return prevItem; }
+        Item* nextItem = nullptr;
+        Item* prevItem = nullptr;
+        Item* next() { return nextItem; }
+        Item* prev() { return prevItem; }
         Data data() const { return data_; }
         void setData(Data data_) {
             this->data_ = data_;
@@ -38,13 +38,13 @@ public:
     }
 
     // Retrieves the first item from the list
-    Item *first()
+    Item* first()
     {
         return firstItem;
     }
 
     // Inserts new list item into the beginning
-    Item *insert(Data data)
+    Item* insert(Data data)
     {
         Item* item = new Item();
         item->setData(data);
@@ -57,7 +57,7 @@ public:
     }
 
     // Inserts new list item after the specified item
-    Item *insert_after(Item *item, Data data)
+    Item* insert_after(Item* item, Data data)
     {
 
         Item* newItem = new Item();
@@ -75,7 +75,7 @@ public:
     // Returns pointer to the item next to the deleted one.
     // Not applicable for the singly linked lists.
     // Should be O(1)
-    Item *erase(Item *item)
+    Item* erase(Item* item)
     {
 
         if (firstItem == item) {
@@ -96,13 +96,14 @@ public:
     // Deletes the list item following the specified one.
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
-    Item *erase_next(Item *item)
+    Item* erase_next(Item* item)
     {
         return erase(item->next());
     }
 private:
     // private data should be here
-    Item *firstItem;
+    Item* firstItem;
 };
 
 #endif
+
