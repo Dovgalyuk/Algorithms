@@ -8,52 +8,57 @@ public:
     // Create empty queue
     Queue()
     {
-        _list = new List<Data>();
+        list = new List<Data>();
+        size = 0;
     }
 
     // Deletes queue
     ~Queue()
     {
-        delete _list;
+        delete list;
     }
 
     // Includes new element into the queue
     // Should be O(1) on average
     void insert(Data data)
     {
-        if (empty()) {
-            _list->insert(data);
-            _last = _list->first();
-        } else {
-            _list->insert(data);
+        if (lastItem) {
+            lastItem = list->insert_after(lastItem, data);
         }
+        else {
+            lastItem = list->insert(data);
+        }
+        size++;
     }
 
     // Retrieves first element from the queue
     Data get() const
     {
-        return _last->data();
+        return list->first()->data();
     }
 
     // Removes first element from the queue
     // Should be O(1) on average
     void remove()
     {
-        auto *prev = _last->prev();
-        _list->erase(_last);
-        _last = prev;
+        list->erase(list->first());
+        if (size == 1) {
+            lastItem == nullptr;
+        }
+        size--;
     }
 
     // Returns true if the queue is empty
     bool empty() const
     {
-        return _list->first() == nullptr;
+        return (size == 0);
     }
 
 private:
     // private data should be here
-    List<Data>* _list;
-    typename List<Data>::Item* _last;
+    List<Data>* list;
+    size_t size;
+    typename List<Data>::Item* lastItem = nullptr;
 };
 
 #endif
