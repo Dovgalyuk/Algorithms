@@ -1,0 +1,67 @@
+﻿#include <iostream>
+#include "array.h"
+
+void fillArray(Array* arr, int size) {
+    int number;
+    
+    for (int i = 0; i < size; i++)
+    {
+        std::cout << "Enter number of " << i << " element: ";
+        std::cin >> number;
+        array_set(arr, i, number);
+    }
+}
+
+void printArray(Array* arr) {
+    int size = array_size(arr);
+    for (int i = 0; i < size; i++)
+    {
+        std::cout << array_get(arr, i) << " ";
+    }
+}
+
+void checkNumbers(Array* arr, int min, int max) {
+    int value;
+    int size = array_size(arr);
+    int delSum = 0;
+    for (int i = 0; i < size-delSum; i++)
+    {
+        value = array_get(arr, i);
+        if (value >= min && value <=max)
+        {
+            for (int j = i; j < size - delSum; j++)
+            {
+                array_set(arr, j, array_get(arr, j + 1));
+            }
+            array_set(arr, size - delSum, 0);
+            delSum++;
+            i--;
+        }
+    }
+}
+
+int main()
+{
+    int size;
+    std::cout << "Enter array size: ";
+    std::cin >> size;
+
+    Array* arr = array_create(size);
+
+    fillArray(arr, size);
+
+    int a, b;
+    
+    std::cout << "Enter minimum: ";
+    std::cin >> a;
+
+    std::cout << "Enter maximum: ";
+    std::cin >> b;
+
+    checkNumbers(arr, a, b);
+    printArray(arr);
+    
+    array_delete(arr);
+
+    return(0);
+}
