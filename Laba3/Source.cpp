@@ -18,7 +18,7 @@ int main()
            if (t == 1) 
                a[i].push_back(j);
        }
-   auto queue = new Queue<char>;
+   auto queue = new Queue<int>;
    vector<int>b(n, 1e6);
    s--;
    f--;
