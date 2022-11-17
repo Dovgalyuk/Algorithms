@@ -5,9 +5,9 @@ int main()
 {
     Queue *queue = queue_create();
 
-    queue_insert(queue, 3);
-    queue_insert(queue, 2);
     queue_insert(queue, 1);
+    queue_insert(queue, 2);
+    queue_insert(queue, 3);
 
     if (queue_get(queue) != 1)
     {
