@@ -23,7 +23,7 @@ public:
     {
         if (empty()) {
             list->insert(data);
-            lastItem = list->first();
+            list->lastItem = list->first();
         }
         else {
             list->insert(data);
@@ -33,16 +33,16 @@ public:
     // Retrieves first element from the queue
     Data get() const
     {
-        return lastItem->data();
+        return list->lastItem->data();
     }
 
     // Removes first element from the queue
     // Should be O(1) on average
     void remove()
     {
-        auto* prev = lastItem->prev();
-        list->erase(lastItem);
-        lastItem = prev;
+        auto* prev = list->lastItem->prev();
+        list->erase(list->lastItem);
+        list->lastItem = prev;
     }
 
     // Returns true if the queue is empty
@@ -54,7 +54,6 @@ public:
 private:
     // private data should be here
     List<Data>* list;
-    typename List<Data>::Item* lastItem;
 };
 
 #endif
