@@ -20,6 +20,8 @@ public:
         Data data_;
     };
 
+    typename List<Data>::Item* lastItem;
+
     // Creates new list
     List()
     {
@@ -63,9 +65,6 @@ public:
         Item* newItem = new Item();
         newItem->setData(data);
         newItem->nextItem = item->next();
-        if (newItem->next()) {
-            newItem->next()->prevItem = newItem;
-        }
         item->nextItem = newItem;
         newItem->prevItem = item;
         return newItem;
@@ -81,9 +80,6 @@ public:
         if (firstItem == item) {
             firstItem = item->next();
         }
-        if (item->next()) {
-            item->next()->prevItem = item->prevItem;
-        }
         if (item->prev()) {
             item->prev()->nextItem = item->nextItem;
         }
@@ -92,18 +88,13 @@ public:
         return newItem;
 
     }
-
     // Deletes the list item following the specified one.
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
-    Item* erase_next(Item* item)
-    {
-        return erase(item->next());
-    }
 private:
-    // private data should be here
     Item* firstItem;
 };
 
 #endif
+
 
