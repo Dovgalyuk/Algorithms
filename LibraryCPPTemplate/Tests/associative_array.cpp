@@ -10,7 +10,7 @@ int main() {
         array.Insert(to_string(i), to_string(i));
     }
     srand(time(0));
-    for (int i = 0; i <= count; ++i) 
+    for (int i = 0; i < count; ++i) 
     {
         if (array.SearchTree(to_string(i)) == false)
         {
