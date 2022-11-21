@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <map>
@@ -16,10 +16,16 @@ void Comparison(int length)
 {
     srand(time(0));
     auto* arr = new RBAssocArray(to_string(NULL), to_string(NULL));
+    string *Strs = new string[length];
+    for (int i = 0; i < length; ++i)
+    {
+        Strs[i] = to_string(i);
+      
+    }
     auto start = chrono::system_clock::now();
     for (int i = 0; i < length; ++i) 
     {
-        arr->Insert(to_string(i), to_string(i));
+        arr->Insert(Strs[i], Strs[i]);
     }
     auto end = chrono::system_clock::now();
     chrono::duration<double, Ratio> insertToArray = end - start;
@@ -28,7 +34,7 @@ void Comparison(int length)
     start = chrono::system_clock::now();
     for (int i = 0; i < length; ++i) 
     {
-        map[std::to_string(i)] = i;
+        map[Strs[i]] = Strs[i];
     }
     end = chrono::system_clock::now();
     chrono::duration<double, Ratio> insertToMap = end - start;
@@ -38,7 +44,7 @@ void Comparison(int length)
     string StrMap = to_string(insertToMap.count());
     StrMap.replace(StrMap.find('.'), 1, 1, ',');
 
-    delete arr;
+    delete arr;  delete[] Strs;
     cout << "\t" << length << "  | " << StrArr << "\t   | " << StrMap << "\n";
 }
 
