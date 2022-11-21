@@ -4,7 +4,7 @@
 using namespace std;
 int main() {
     RBAssociativeArray<string, string> array(to_string(NULL), to_string(NULL));
-    int count = 1000;
+    int count = 100000;
     for (int i = 0; i < count; ++i) 
     {
         array.Insert(to_string(i), to_string(i));
