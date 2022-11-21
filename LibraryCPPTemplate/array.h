@@ -10,12 +10,6 @@ public:
     // create array
     explicit Array(size_t size): _size(size), _array(new Data[size]){}
 
-    // copy constructor
-    Array(const Array &a): _size(a._size), _array(std::copy(a._array))
-    {
-        // implement or disable this function
-    }
-
     // assignment operator
     Array &operator=(const Array &a)
     {
