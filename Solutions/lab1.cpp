@@ -30,7 +30,10 @@ void solution() {
             cout << "Wrong direction input" << endl;
         }
 
-        Array<int>* array = new Array<int>(size);
+        Array<int>* firstArray = new Array<int>(size);
+
+        // Теперь компилируется :)
+        Array<int>* array = new Array<int>(firstArray);
 
         for (size_t i = 0; i < size; ++i) {
             array->set(i, rand());
