@@ -20,7 +20,7 @@ public:
         Data data_;
     };
 
-    typename List<Data>::Item* lastItem;
+    typename List<Data>::Item* lastItem = nullptr;;
 
     // Creates new list
     List()
