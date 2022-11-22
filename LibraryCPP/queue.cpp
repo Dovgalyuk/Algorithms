@@ -47,6 +47,15 @@ void queue_insert(Queue *queue, Data data)
         queue->head = 0;
         queue->tail = j + 1;
     }
+    vector_set(que_vector, queue->tail, data);
+    if (queue->tail == vector_size(queue->vector) - 1)
+    {
+        queue->tail = 0;
+    }
+    else
+    {
+        queue->tail++;
+    }
 }
 
 Data queue_get(const Queue *queue)
