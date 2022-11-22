@@ -28,7 +28,7 @@ void array_delete(Array* arr)
 // returns specified array element
 Data array_get(const Array* arr, size_t index)
 {
-    if (arr->size > index && index >= 0)
+    if (arr->size > index)
     {
         return arr->data[index];
     }
@@ -38,7 +38,7 @@ Data array_get(const Array* arr, size_t index)
 // sets the specified array element to the value
 void array_set(Array* arr, size_t index, Data value)
 {
-    if (arr->size > index && index >= 0)
+    if (arr->size > index)
     {
         arr->data[index] = value;
     }
