@@ -27,7 +27,4 @@ void stack_pop(Stack *stack);
 // Returns true if the stack is empty
 bool stack_empty(const Stack *stack);
 
-//Function for calculating priority
-int stack_prior(Stack* stack);
-
 #endif
