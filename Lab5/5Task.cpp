@@ -10,7 +10,7 @@ using namespace std;
 typedef string Key;
 typedef string Value;
 typedef milli Ratio;
-typedef RBAssociativeArray<Key,Value> RBAssocArray;
+typedef RBAssociativeArray RBAssocArray;
 
 void Comparison(int length)
 {
