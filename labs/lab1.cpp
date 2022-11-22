@@ -6,11 +6,7 @@
 #include <string>
 
 using namespace std;
-bool checkNumber(Data number) 
-{
-    string checkedValue = to_string(number);
-    return (checkedValue[checkedValue.size() - 1] == '5') ? true : false;
-}
+
 
 int main()
 {
@@ -35,7 +31,7 @@ int main()
 
     for (size_t i = 0; i < size; i++)
     {
-        if (checkNumber(array_get(arr, i))) countNumbers5++;
+        if (array_get(arr, i) % 10 == 5) countNumbers5++;
         if (array_get(arr, i) % 2 == 0) countNumbers2++;
     }
 
