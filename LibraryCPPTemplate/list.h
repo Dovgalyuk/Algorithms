@@ -79,18 +79,15 @@ public:
     // Should be O(1)
     Item* erase(Item* item)
     {
+        struct Item* *prev, *next;
+        prev = item->prev;
+        next = item->next;
 
-        if (firstItem == item) {
-            firstItem = item->next();
-        }
-        if (item->prev()) {
-            item->prev()->nextItem = item->nextItem;
-        }
-        Item* newItem = item->next();
+        prev->next = item->next;
+        next->prev = item->prev;
         delete item;
-        return newItem;
-
-    }
+        return newItem; 
+}
     // Deletes the list item following the specified one.
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
