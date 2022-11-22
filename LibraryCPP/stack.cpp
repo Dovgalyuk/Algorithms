@@ -54,31 +54,3 @@ bool stack_empty(const Stack *stack)
 {
     return vector_size(stack->vector) == 0;
 }
-
-int stack_prior(Stack* stack)
-{
-    if (stack_get(stack) == '(')
-    {
-        return 1;
-    }
-    if (stack_get(stack) == ')')
-    {
-        return 1;
-    }
-    if (stack_get(stack) == '+')
-    {
-        return 2;
-    }
-    if (stack_get(stack) == '-')
-    {
-        return 2;
-    }
-    if (stack_get(stack) == '*')
-    {
-        return 3;
-    }
-    if (stack_get(stack) == '/')
-    {
-        return 3;
-    }
-}
