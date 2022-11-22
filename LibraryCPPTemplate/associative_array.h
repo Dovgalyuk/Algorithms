@@ -5,7 +5,7 @@
 
 using namespace std;
 
-template<typename Key, typename Value> class RBAssociativeArray
+class RBAssociativeArray
 {
 public:
 
@@ -13,18 +13,42 @@ public:
 	{
 		friend class RBAssociativeArray;
 
+
+		Node* getLeft()
+		{
+			return left;
+		}
+
+		Node* getRight()
+		{
+			return right;
+		}
+
 		string getKey()
 		{
 			return key;
 		}
+		string getData()
+		{
+			return value;
+		}
+		bool Less(string than)      // <
+		{
+			return comp(key, than);
+		}
+
+		bool More(string than)      // >
+		{
+			return comp(than, key);
+		}
 
 	private:
-		string key, value, searchNode;  // Ключ, значение, искомое значение (оставил на всякий случай, тк функция поиска булевая)
+		string key, value;
 		Node* parent = nullptr;
 		Node* left = nullptr;
 		Node* right = nullptr;
 		char color = 'B';
-
+		less<string> comp;
 		Node(string key, string value) : key(key), value(value) {}
 	}; Node* main = nullptr;
 
@@ -37,16 +61,28 @@ public:
 		TNULL->left = nullptr;
 		TNULL->right = nullptr;
 		root = TNULL;
-		searchPtr = TNULL;          // Уазатель на искомое значение
 	}
 	~RBAssociativeArray()
 	{
 		delete[] main;
 	}
 
-	bool SearchTree(string key)
+	Node* SearchTree(string key)
 	{
-		return SearchTreeP(this->root, key);
+		Node* node = root;
+		while (node)
+		{
+			if (node->Less(key))
+			{
+				node = node->getRight();
+			}
+			else if (node->More(key))
+			{
+				node = node->getLeft();
+			}
+			else { return node; }
+		}
+		return nullptr;
 	}
 
 	NodePtr Minimum(NodePtr node)
@@ -74,11 +110,7 @@ public:
 		while (x != TNULL)
 		{
 			y = x;
-			if (node->value.size() > x->value.size())
-			{
-				x = x->right;
-			}
-			else if (node->value < x->value)
+			if (node->value < x->value)
 			{
 				x = x->left;
 			}
@@ -92,10 +124,6 @@ public:
 		if (y == nullptr)
 		{
 			root = node;
-		}
-		else if (node->value.size() > y->value.size())
-		{
-			y->right = node;
 		}
 		else if (node->value < y->value)
 		{
@@ -128,7 +156,6 @@ public:
 private:
 	NodePtr root;
 	NodePtr TNULL;
-	NodePtr searchPtr;
 
 	void LeftRotate(NodePtr x)
 	{
@@ -178,26 +205,6 @@ private:
 		}
 		y->right = x;
 		x->parent = y;
-	}
-
-	bool SearchTreeP(NodePtr node, string key)
-	{
-		if (node == nullptr)
-		{
-			return false;
-		}
-		if (node->key == key)
-		{
-			node->searchNode = node->value;  // Запоминаем найденное значечение, чтобы была возможность его получить при необходимости
-			searchPtr = node;               // Запоминаем указатель искомого значения
-			return true;
-		}
-		if (SearchTreeP(node->left, key) || SearchTreeP(node->right, key))
-		{
-			node->searchNode = node->value;
-			return true;
-		}
-		return false;
 	}
 
 	void FixDelete(NodePtr x)
@@ -297,9 +304,9 @@ private:
 		NodePtr z = TNULL;
 		NodePtr x, y;
 
-		if (SearchTreeP(this->root, key))
+		if (SearchTree(key))
 		{
-			z = searchPtr;
+			z = node;
 		}
 		else return;
 
