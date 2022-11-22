@@ -50,7 +50,10 @@ public:
     {
         Item* item = new Item();
         item->setData(data);
-        item->nextItem = firstItem;
+        item->nextItem = firstItem; // предыдущий узел указывает на создаваемый
+        firstItem->item = data; // сохранение данных добавляемого узла
+        firstItem->nextItem = item;
+        firstItem->prevItem = item;
         if (firstItem) {
             firstItem->prevItem = item;
         }
