@@ -2,28 +2,34 @@
 #include <ctime>
 #include "associative_array.h"
 using namespace std;
-int main() {
-    RBAssociativeArray<string, string> array(to_string(NULL), to_string(NULL));
-    int count = 100000;
-    for (int i = 0; i < count; ++i) 
+
+int main() 
+{
+    RBAssociativeArray array(to_string(NULL), to_string(NULL));
+    int count = 1000000;
+    for (int i = 0; i < count; ++i)
     {
-        array.Insert(to_string(i), to_string(i));
+        string Str = to_string(i);
+        array.Insert(Str, Str);
     }
     srand(time(0));
     for (int i = 0; i < count; ++i) 
     {
-        if (array.SearchTree(to_string(i)) == false)
+        string Str = to_string(i);
+        auto* P = array.SearchTree(Str);
+        if (!P || P->getKey() != Str)
         {
-            cout << "Data storage error" << i << "\n\n";
+            cout << "Data storage error " << i << "\n\n";
             return 1;
         }
     }
     for (int i = 0; i < 5; ++i) 
     {
         int id = rand() % count;
-        array.DeleteNode(to_string(id));
-
-        if (array.SearchTree(to_string(id))==true)
+        string Str = to_string(id);
+        array.DeleteNode(Str);
+        auto* P = array.SearchTree(Str);
+        if (!P || P->getKey() != Str)
         {
             cout << "Data deletion was not successful\t id: " << id << "\n\n";
             return 1;
