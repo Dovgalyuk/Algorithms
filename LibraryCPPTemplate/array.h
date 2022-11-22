@@ -19,8 +19,10 @@ public:
     // assignment operator
     Array &operator=(const Array &a)
     {
-        _size = a._size;
-        _array = std::copy(a._array);
+        _size = a->_size;
+        _array(new Data[a->size()]);
+        std::copy(a->_array, a->_array + a->size(), _array);
+
         return *this;
     }
 

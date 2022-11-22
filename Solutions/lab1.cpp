@@ -33,7 +33,9 @@ void solution() {
         Array<int>* firstArray = new Array<int>(size);
 
         // Теперь компилируется :)
-        Array<int>* array = new Array<int>(firstArray);
+        Array<int>* secondArray = new Array<int>(firstArray);
+
+        Array<int>* array = secondArray;
 
         for (size_t i = 0; i < size; ++i) {
             array->set(i, rand());
