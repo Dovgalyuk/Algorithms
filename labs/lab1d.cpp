@@ -23,7 +23,6 @@ void printArray(Array* arr) {
 void checkNumbers(Array* arr, int min, int max) {
     int value;
     int size = array_size(arr);
-    int delSum = 0;
     for (int i = 0; i < size; i++)
     {
         value = array_get(arr, i);
