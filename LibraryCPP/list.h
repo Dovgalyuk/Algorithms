@@ -48,4 +48,3 @@ size_t list_get_length(const List* list);
 
 #endif
 
-
