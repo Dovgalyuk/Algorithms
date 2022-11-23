@@ -1,45 +1,43 @@
+#include <stdlib.h>
 #include "queue.h"
 #include "list.h"
+
+#define front list_item_prev(list_first(queue->list))
 
 struct Queue
 {
     List* list;
-
-    Queue() {
-        this->list = list_create();
-    }
-
-    ~Queue() {
-        list_delete(this->list);
-    }
 };
 
 Queue* queue_create()
 {
-    return new Queue();
+    Queue* queue = new Queue;
+    queue->list = list_create();
+    return queue;
 }
 
 void queue_delete(Queue* queue)
 {
+    list_delete(queue->list);
     delete queue;
 }
 
 void queue_insert(Queue* queue, Data data)
 {
-        list_insert(queue->list, data);
+    list_insert(queue->list, data);
 }
 
 Data queue_get(const Queue* queue)
 {
-    return list_item_data(list_first(queue->list));
+    return list_item_data(front);
 }
 
 void queue_remove(Queue* queue)
 {
-    list_erase(queue->list, list_first(queue->list));
+    list_erase(queue->list, front);
 }
 
 bool queue_empty(const Queue* queue)
 {
-    return !list_first(queue->list);
+    return list_get_length(queue->list) == 0;
 }
