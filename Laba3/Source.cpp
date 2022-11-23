@@ -40,6 +40,6 @@ int main()
    }
    if (b[f] < 1000000) cout << b[f];
    else cout << "IMPOISBLE";
-   queue_remove(queue);
+   queue_delete(queue);
    return 0;
 }
