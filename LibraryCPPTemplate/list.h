@@ -7,92 +7,72 @@ public:
     class Item
     {
     public:
-        Item* nextItem = nullptr;
-        Item* prevItem = nullptr;
-        Item* next() { return nextItem; }
-        Item* prev() { return prevItem; }
-        Data data() const { return data_; }
-        void setData(Data data_) {
-            this->data_ = data_;
-        }
+        Item *next() { return nullptr; }
+        Item *prev() { return nullptr; }
+        Data data() const { return Data(); }
     private:
         // internal data here
-        Data data_;
     };
-
-    typename List<Data>::Item* lastItem = nullptr;;
 
     // Creates new list
     List()
     {
-        firstItem = nullptr;
+    }
+
+    // copy constructor
+    List(const List &a)
+    {
+        // implement or disable this function
+    }
+
+    // assignment operator
+    List &operator=(const List &a)
+    {
+        // implement or disable this function
+        return *this;
     }
 
     // Destroys the list and frees the memory
     ~List()
     {
-        Item* item = firstItem;
-        while (item) {
-            Item* deletedItem = item;
-            item = item->next();
-            delete deletedItem;
-        }
     }
 
     // Retrieves the first item from the list
-    Item* first()
+    Item *first()
     {
-        return firstItem;
+        return nullptr;
     }
 
     // Inserts new list item into the beginning
-    Item* insert(Data data)
+    Item *insert(Data data)
     {
-        Item* item = new Item();
-        item->setData(data);
-        item->nextItem = firstItem; // предыдущий узел указывает на создаваемый
-        firstItem->item = data; // сохранение данных добавляемого узла
-        firstItem->nextItem = item;
-        firstItem->prevItem = item;
-        if (firstItem) {
-            firstItem->prevItem = item;
-        }
-        firstItem = item;
-        return item;
+        return nullptr;
     }
 
     // Inserts new list item after the specified item
-    Item* insert_after(Item* item, Data data)
+    Item *insert_after(Item *item, Data data)
     {
-
-        Item* newItem = new Item();
-        newItem->setData(data);
-        newItem->nextItem = item->next();
-        item->nextItem = newItem;
-        newItem->prevItem = item;
-        return newItem;
+        return nullptr;
     }
 
     // Deletes the specified list item.
     // Returns pointer to the item next to the deleted one.
     // Not applicable for the singly linked lists.
     // Should be O(1)
-    Item* erase(Item* item)
+    Item *erase(Item *item)
     {
-        struct Item* *prev, *next;
-        prev = item->prev;
-        next = item->next;
+        return nullptr;
+    }
 
-        prev->next = item->next;
-        next->prev = item->prev;
-        delete item;
-        return newItem; 
-}
     // Deletes the list item following the specified one.
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
+    Item *erase_next(Item *item)
+    {
+        return nullptr;
+    }
 private:
-    Item* firstItem;
+    // private data should be here
 };
 
 #endif
