@@ -6,7 +6,7 @@ void fillArray(Array* arr) {
     int size = array_size(arr);
     for (int i = 0; i < size; i++)
     {
-        std::cout << "Enter number of " << i << " element: ";
+        std::cout << "Enter number of " << i+1 << " element: ";
         std::cin >> number;
         array_set(arr, i, number);
     }
@@ -24,17 +24,17 @@ void checkNumbers(Array* arr, int min, int max) {
     int value;
     int size = array_size(arr);
     int delSum = 0;
-    for (int i = 0; i < size-delSum; i++)
+    for (int i = 0; i < size; i++)
     {
         value = array_get(arr, i);
         if (value >= min && value <=max)
         {
-            for (int j = i; j < size - delSum - 1; j++)
+            for (int j = i; j < size; j++)
             {
                 array_set(arr, j, array_get(arr, j + 1));
             }
-            array_set(arr, size - delSum, 0);
-            delSum++;
+            array_set(arr, size, 0);
+            size--;
             i--;
         }
     }
