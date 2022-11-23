@@ -29,44 +29,33 @@ int main()
         for (int i = 0; i < expression.size(); i++) // проверяем каждый элемент входной строки
         {
             switch (get_priority(expression[i])) {
-            case 1: if (expression[i] == 40)
-            {
-                stack_push(stack, expression[i]);
-            }
-                  else
-            {
-                while (stack_get(stack) != 40)
+            case 1: case 2: case 3:
+                if (get_priority(stack_get(stack)) >= get_priority(expression[i]))
                 {
-                    vivod.push_back(stack_get(stack));
-                    stack_pop(stack);
-                }
-                stack_pop(stack); 
-            }
-                  break;
-            case 2: 
-                if (get_priority(stack_get(stack)) >= 2)
-                {
-                    while (get_priority(stack_get(stack)) >= 2)
+                    if (expression[i] == '(')
                     {
-                        vivod.push_back(stack_get(stack));
-                        stack_pop(stack);
+                        stack_push(stack, expression[i]);
+                        break;
                     }
-                    stack_push(stack, expression[i]);
-                }
-                else
-                {
-                    stack_push(stack, expression[i]);
-                };
-                break;
-            case 3:
-                if (get_priority(stack_get(stack)) == 3)
-                {
-                    while (get_priority(stack_get(stack)) == 3)
+                    if (expression[i] == ')')
                     {
-                        vivod.push_back(stack_get(stack));
+                        while (stack_get(stack) != '(')
+                        {
+                            vivod.push_back(stack_get(stack));
+                            stack_pop(stack);
+                        }
                         stack_pop(stack);
+                        break;
                     }
-                    stack_push(stack, expression[i]);
+                    else
+                    {
+                        while (get_priority(stack_get(stack)) >= get_priority(expression[i]))
+                        {
+                            vivod.push_back(stack_get(stack));
+                            stack_pop(stack);
+                        }
+                        stack_push(stack, expression[i]);
+                    }
                 }
                 else
                 {
