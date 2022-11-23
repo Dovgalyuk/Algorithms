@@ -18,28 +18,28 @@ int main()
            if (t == 1) 
                a[i].push_back(j);
        }
-   auto queue = new Queue<int>;
+   Queue* queue = queue_create();
    vector<int>b(n, 1e6);
    s--;
    f--;
-   queue->insert(s);
+   queue_insert(queue, s);
    b[s] = 0;
-   while (! queue->empty())
+   while (!queue_empty(queue))
    {
-       int v =  queue->get();
-       queue->remove();
+       int v = queue_get(queue);
+       queue_remove(queue);
        for (int i = 0; i < a[v].size(); i++)
        {
            int next = a[v][i];
            if (b[next] > b[v] + 1)
            {
                b[next] = b[v] + 1;
-                queue->insert(next);
+               queue_insert(queue, next);
            }
        }
    }
-   if (b[f] < COUNT) cout << b[f];
-   else cout <<"IMPOSSIBLE";
-    queue->remove();
+   if (b[f] < 1000000) cout << b[f];
+   else cout << "IMPOISBLE";
+   queue_remove(queue);
    return 0;
 }
