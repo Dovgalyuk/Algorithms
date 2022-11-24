@@ -9,7 +9,6 @@ int get_priority(char stack)
     {
         return 1;
     }
-   
     if (stack == '+' || stack == '-')
     {
         return 2;
@@ -28,26 +27,26 @@ int main()
         Stack* stack = stack_create(); 
         for (int i = 0; i < expression.size(); i++) // проверяем каждый элемент входной строки
         {
-            switch (get_priority(expression[i])) {
-            case 1: case 2: case 3:
-                if (get_priority(stack_get(stack)) >= get_priority(expression[i]))
+            if (get_priority(expression[i]) == 1 || get_priority(expression[i]) == 2 || get_priority(expression[i]) == 3)
+            {
+                if (expression[i] == '(')
                 {
-                    if (expression[i] == '(')
+                    stack_push(stack, expression[i]);
+                    i++;
+                }
+                if (expression[i] == ')')
+                {
+                    while (stack_get(stack) != '(')
                     {
-                        stack_push(stack, expression[i]);
-                        break;
-                    }
-                    if (expression[i] == ')')
-                    {
-                        while (stack_get(stack) != '(')
-                        {
-                            vivod.push_back(stack_get(stack));
-                            stack_pop(stack);
-                        }
+                        vivod.push_back(stack_get(stack));
                         stack_pop(stack);
-                        break;
                     }
-                    else
+                    stack_pop(stack);
+                    i++;
+                }
+                else
+                {
+                    if (get_priority(stack_get(stack)) >= get_priority(expression[i]))
                     {
                         while (get_priority(stack_get(stack)) >= get_priority(expression[i]))
                         {
@@ -56,15 +55,16 @@ int main()
                         }
                         stack_push(stack, expression[i]);
                     }
+                    else
+                    {
+                        stack_push(stack, expression[i]);
+                    };
                 }
-                else
-                {
-                    stack_push(stack, expression[i]);
-                };
-                break;
-            default:
-                vivod.push_back(expression[i]);
             }
+            else
+            {
+                vivod.push_back(expression[i]);
+            }           
         }
         while (!stack_empty(stack))
         {
