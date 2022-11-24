@@ -32,7 +32,7 @@ void checkNumbers(Array* arr, int min, int max) {
             {
                 array_set(arr, j, array_get(arr, j + 1));
             }
-            array_set(arr, size, 0);
+            array_set(arr, size-1, 0);
             size--;
             i--;
         }
