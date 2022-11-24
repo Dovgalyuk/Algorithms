@@ -34,11 +34,11 @@ void queue_insert(Queue *queue, Data data)
         Vector* new_vector = vector_create();
         vector_resize(new_vector, vector_size(que_vector) * 2);
         size_t j = 0;
-        for (int i = queue->head; i < vector_size(que_vector); i++) {
+        for (size_t i = queue->head; i < vector_size(que_vector); i++) {
             vector_set(new_vector, j, vector_get(que_vector, i));
             j++;
         }
-        for (int i = 0; i <= queue->tail; i++) {
+        for (size_t i = 0; i <= queue->tail; i++) {
             vector_set(new_vector, j, vector_get(que_vector, i));
             j++;
         }
@@ -46,6 +46,15 @@ void queue_insert(Queue *queue, Data data)
         vector_delete(que_vector);
         queue->head = 0;
         queue->tail = j + 1;
+    }
+    vector_set(que_vector, queue->tail, data);
+    if (queue->tail == vector_size(queue->vector) - 1)
+    {
+        queue->tail = 0;
+    }
+    else
+    {
+        queue->tail++;
     }
 }
 
