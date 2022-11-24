@@ -27,7 +27,7 @@ int main()
         Stack* stack = stack_create(); 
         for (int i = 0; i < expression.size(); i++) // проверяем каждый элемент входной строки
         {
-            if (get_priority(expression[i]) == 1 || get_priority(expression[i]) == 2 || get_priority(expression[i]) == 3)
+            if (get_priority(expression[i]) == 1 || 2 || 3)
             {
                 if (expression[i] == '(')
                 {
