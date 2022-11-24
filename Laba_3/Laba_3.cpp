@@ -3,6 +3,11 @@
 #include "queue.h"
 using namespace std;
 
+const int count = 26;
+bool visited[count] = { false };
+bool neighbors[count][count] = { false };
+int ascii = 'A';
+
 int main()
 {
     setlocale(LC_ALL, "rus");
@@ -13,30 +18,39 @@ int main()
     Queue* queue = queue_create();
     cout << "Введите начальный элемент: ";
     cin >> initial_elem;
+    visited[initial_elem - ascii] = true;
     cout << "Введите количество превращений: ";
     cin >> count_trans;
     queue_insert(queue, initial_elem);
     system("cls");
     cout << "Введите желаемые превращения(использовать знак '->' для работы программы): " << endl;
-    while (check != count_trans) {
+    while (count_trans) {
         cin >> elem >> sign_trans >> final_elem;
         if (sign_trans != "->") {
             cout << "Неверный ввод знака преващений!" << endl;
         }
         else {
-            if (initial_elem == elem) {
-                queue_insert(queue, final_elem);
+            neighbors[elem - ascii][final_elem - ascii] = true;
+            count_trans--;
+        }   
+    }
+    cout << endl;
+    while (!queue_empty(queue)) {
+        char current = queue_get(queue);
+        queue_remove(queue);
+        for (int i = 0; i < count; i++) {
+            if (!visited[i] && neighbors[current - ascii][i]) {
+                visited[i] = true;
+                queue_insert(queue, i + ascii);
             }
-            else if (queue_get(queue) == elem) {
-                queue_insert(queue, final_elem);
-            }
-            check++;
         }
     }
     cout << "Превращения из начального элемента: " << endl;
-    while (queue_get(queue) != initial_elem) {
-        cout << queue_get(queue) << endl;
-        queue_remove(queue);
+    for (int i = 0; i < count; i++) {
+        if (visited[i]) {
+            cout << char(i + ascii) << endl;
+        }
     }
     queue_delete(queue);
+    return 0;
 }
