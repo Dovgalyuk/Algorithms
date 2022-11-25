@@ -17,6 +17,10 @@ int get_priority(char stack)
     {
         return 3;
     }
+    else
+    {
+        return 0; // если пустой
+    }
 }
 int main()
 {
@@ -25,13 +29,18 @@ int main()
     while (getline(cin, expression)) // для многоразового ввода
     {
         Stack* stack = stack_create(); 
-        for (int i = 0; i < expression.size(); i++) // проверяем каждый элемент входной строки
+        for (int i = 0; i < expression.size();) // проверяем каждый элемент входной строки
         {
-            if (get_priority(expression[i]) == 1 || 2 || 3)
+            if (get_priority(expression[i]) >= 1 && get_priority(expression[i]) <= 3)
             {
                 if (expression[i] == '(')
                 {
-                    stack_push(stack, expression[i]);
+                    while (expression[i] == '(')
+                    {
+                        stack_push(stack, expression[i]);
+                        i++;
+                    }
+                    vivod.push_back(expression[i]); // чтобы буква не попала в else
                     i++;
                 }
                 if (expression[i] == ')')
@@ -44,26 +53,29 @@ int main()
                     stack_pop(stack);
                     i++;
                 }
-                else
+                else 
                 {
                     if (get_priority(stack_get(stack)) >= get_priority(expression[i]))
                     {
                         while (get_priority(stack_get(stack)) >= get_priority(expression[i]))
-                        {
+                        {    
                             vivod.push_back(stack_get(stack));
                             stack_pop(stack);
                         }
                         stack_push(stack, expression[i]);
+                        i++;
                     }
                     else
                     {
                         stack_push(stack, expression[i]);
+                        i++;
                     };
                 }
             }
             else
             {
                 vivod.push_back(expression[i]);
+                i++;
             }           
         }
         while (!stack_empty(stack))
