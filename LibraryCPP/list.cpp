@@ -61,7 +61,7 @@ ListItem* list_insert(List* list, Data data)
     ListItem* item = new ListItem;
     item->data = data;
 
-    if (list->head == nullptr || list->length == 0)
+    if (list_get_length(list)==0)
     {
         list->head = item;
         list->head->next = item;
@@ -87,7 +87,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
 
     new_item->next = item->next;
     new_item->prev = item;
-    if (item->next != nullptr)
+    if (list_item_data(item))
     {
         item->next->prev = new_item;
     }
@@ -109,18 +109,18 @@ ListItem* list_erase_first(List* list)
     delete delete_item;
     list->length--;
 
-    return nullptr;
+    return list->head->next;
 }
 
 ListItem* list_erase(List* list, ListItem* item)
 {
     ListItem* item_prev = item->prev;
     ListItem* item_next = item->next;
-    if (item_next != nullptr)
+    if (list_item_data(item_next))
     {
         item_next->prev = item_prev;
     }
-    if (item_prev != nullptr)
+    if (list_item_data(item_prev))
     {
         item_prev->next = item->next;
     }
