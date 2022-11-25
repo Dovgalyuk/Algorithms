@@ -38,7 +38,7 @@ Data stack_get(const Stack *stack)
     }
     else
     {
-        return false;
+        return Data();
     }
 }
 
