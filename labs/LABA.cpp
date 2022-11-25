@@ -55,4 +55,5 @@ int main() {
 	FillArray(massive);
 	PrintArray(massive);
 	CheckArray(massive);
+	array_delete(massive);
 }
