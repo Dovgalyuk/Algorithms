@@ -11,6 +11,24 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+void shiftArray(Array<int> *array, bool toLeft) {
+    if (toLeft) {
+        for (int i = 0; i < array->size(); i++) {
+            if (i + 1 < array->size())
+                array->set(i, array->get(i+1));
+            else
+                array->set(i, 0);
+        }
+    } else {
+        for (int i = array->size() - 1; i >= 0; i--) {
+            if (i - 1 < array->size())
+                array->set(i, array->get(i - 1));
+            else
+                array->set(i, 0);
+        }
+    }
+}
+
 void solution() {
 
     srand(time(NULL));
@@ -44,21 +62,11 @@ void solution() {
         cout << "Non shifted array: " << endl;
         cout << array << endl;
 
-        if (direction == 0) {
-            cout << "Shifting to left: " << endl;
-            for (int i = 0; i < array->size(); i++) {
-                if (i + shift < array->size())
-                    array->set(i, array->get(i+shift));
-                else
-                    array->set(i, 0);
-            }
-        } else if (direction == 1) {
-            cout << "Shifting to right: " << endl;
-            for (int i = array->size() - 1; i >= 0; i--) {
-                if (i - shift < array->size())
-                    array->set(i, array->get(i - shift));
-                else
-                    array->set(i, 0);
+        for (int i = 0; i < shift; i++) {
+            if (direction == 0) {
+                shiftArray(array, true);
+            } else {
+                shiftArray(array, false);
             }
         }
 
