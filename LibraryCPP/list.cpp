@@ -143,6 +143,7 @@ ListItem* list_erase_next(List* list, ListItem* item)
 size_t list_get_length(const List* list)
 {
     return list->length;
+    
 }
 
 
