@@ -61,7 +61,7 @@ ListItem* list_insert(List* list, Data data)
     ListItem* item = new ListItem;
     item->data = data;
 
-    if (list_get_length(list)==0)
+    if (list->length == 0)
     {
         list->head = item;
         list->head->next = item;
