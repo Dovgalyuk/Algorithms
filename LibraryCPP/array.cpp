@@ -48,7 +48,7 @@ void array_set(Array *arr, size_t index, Data value)
 {
     if (index >= array_size(arr))
     {
-        return 0;
+        return ;
     }
     else 
     {
