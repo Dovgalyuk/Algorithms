@@ -43,6 +43,7 @@ public:
                 }
             }
         }
+        return Data();
     }
     // Destroys the list and frees the memory
     ~List() {
