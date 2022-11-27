@@ -102,12 +102,12 @@ public:
     // Not applicable for the singly linked lists.
     // Should be O(1)
     Item* erase(Item* item) {
+        this->size--;
         if (list_empty()) throw "List is empty\n\n";
         else if (item == this->head) {
             Item* toDelete = this->head;
             this->head = toDelete->next();
             delete toDelete;
-            this->size--;
             return this->head->next();
         }
         else {
@@ -119,18 +119,18 @@ public:
             Item* toDelete = previous->next();
             if (previous->next_item) previous->next_item = toDelete->next_item;
             delete toDelete;
-            this->size--;
             return previous->next_item;
         }
     }
 
-    void* erase(int index) {
+    Item* erase(int index) {
+        this->size--;
         if (list_empty()) throw "List is empty\n\n";
         else if (index == 0) {
             Item* toDelete = this->head;
             this->head = toDelete->next();
             delete toDelete;
-            this->size--;
+            return this->head->next();
         }
         else {
             Item* previous = this->head;
@@ -140,8 +140,8 @@ public:
             Item* toDelete = previous->next();
             if (previous->next()) previous->next_item = toDelete->next();
             delete toDelete;
+            return previous->next();
         }
-        this->size--;
     }
 
     // Deletes the list item following the specified one.
