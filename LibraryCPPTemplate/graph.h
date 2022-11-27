@@ -98,7 +98,7 @@ public:
 
 		void set_weight(Data weight) { this->weight = weight; };
 		Data get_weight() { 
-			return (this->weight == NULL) ? 0 : this->weight;
+			return (this) ? this->weight : throw "Nullptr exception\n";
 		};
 		Vertex* get_vertex() { return this->in; }
 	private:
