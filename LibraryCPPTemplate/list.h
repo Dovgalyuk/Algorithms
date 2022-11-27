@@ -27,7 +27,7 @@ public:
         this->size = 0;
     }
 
-    Data& operator[](int index) {
+    Data operator[](int index) {
         if (index == -1) throw "Element was not found!\n";
         else {
             int counter = 0;
