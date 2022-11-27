@@ -11,15 +11,15 @@ public:
         Item* prev_item;
 
         Item(Data data, Item* next) {
-            this->data = data;
+            this->item_data= data;
             this->next_item = next;
         }
         
-        Data getData() { return this->data; }
+        Data data() { return this->item_data; }
         Item* next() { return this->next_item; }
         Item* prev() { return this->prev_item; }
         void setData(Data data) { this->data = data; }
-        Data data;
+        Data item_data;
     };
     // Creates new list
     List() {
@@ -33,7 +33,7 @@ public:
             int counter = 0;
             Item* current = this->head;
             while (current != nullptr) {
-                Data data = current->getData();
+                Data data = current->data();
                 if (index == size) return data;
                 else if (counter > size) throw "Index out of range exception!\n";
                 else {
@@ -103,8 +103,16 @@ public:
     // Should be O(1)
     Item* erase(Item* item) {
         if (list_empty()) throw "List is empty\n\n";
+        else if (item == this->head) {
+            Item* toDelete = this->head;
+            this->head = toDelete->next();
+            delete toDelete;
+            this->size--;
+            return this->head->next();
+        }
         else {
             Item* previous = this->head;
+            
             while (previous->next() != item) {
                 previous = previous->next();
             }
@@ -118,23 +126,22 @@ public:
 
     void* erase(int index) {
         if (list_empty()) throw "List is empty\n\n";
-        else {
-            if (index == 0) {
-                Item* toDelete = this->head;
-                this->head = toDelete->next();
-                delete toDelete;
-            }
-            else {
-                Item* previous = this->head;
-                for (size_t i = 0; i < index - 1; i++){
-                    previous = previous->next();
-                }
-                Item* toDelete = previous->next();
-                if (previous->next()) previous->next_item = toDelete->next();
-                delete toDelete;
-            }
+        else if (index == 0) {
+            Item* toDelete = this->head;
+            this->head = toDelete->next();
+            delete toDelete;
             this->size--;
         }
+        else {
+            Item* previous = this->head;
+            for (size_t i = 0; i < index - 1; i++) {
+                previous = previous->next();
+            }
+            Item* toDelete = previous->next();
+            if (previous->next()) previous->next_item = toDelete->next();
+            delete toDelete;
+        }
+        this->size--;
     }
 
     // Deletes the list item following the specified one.
