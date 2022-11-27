@@ -109,6 +109,4 @@ int main() {
 	}
 
 	delete graph;
-
-	return 0;
 }
