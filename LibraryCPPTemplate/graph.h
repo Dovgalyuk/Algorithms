@@ -9,11 +9,11 @@
 
 using namespace std;
 
-template <typename Data, typename weight>
+template <typename Data, typename Weight>
 //typedef int Data;
 class Graph{
 public:
-	Graph(Data data, weight weight) { 
+	Graph(Data data, Weight weight) { 
 		for (size_t i = 0; i < weight; i++){
 			this->add_vertex(data);
 		}
@@ -74,7 +74,7 @@ public:
 				}
 			}
 		};
-		void add_edge(Vertex* vertex, Data weight) {
+		void add_edge(Vertex* vertex, Weight weight) {
 			this->edges.push_back(new Edge(vertex, weight));
 		};
 
@@ -103,7 +103,7 @@ public:
 		Vertex* get_vertex() { return this->in; }
 	private:
 		Vertex* in;
-		Data weight;
+		Weight weight;
 	};
 	struct Iterator {
 		typename List<Graph::Edge*>::Item* item;
@@ -181,7 +181,7 @@ public:
 	}
 private:
 	List<Vertex*> vertexes;
-	weight weight;
+	Weight weight;
 };
 
 #endif
