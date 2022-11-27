@@ -13,7 +13,7 @@ template <typename Data, typename weight>
 //typedef int Data;
 class Graph{
 public:
-	Graph(Data data, size_t weight) { 
+	Graph(Data data, weight weight) { 
 		for (size_t i = 0; i < weight; i++){
 			this->add_vertex(data);
 		}
@@ -38,7 +38,7 @@ public:
 		void show_edges() {
 			if (this->edges.list_empty()) throw "\nEmpty list edges!\n";
 			else {
-				cout << "Ð¸áðà äëÿ âåðøèíû " << this->data << ": ";
+				cout << "ÃÂ¸Ã¡Ã°Ã  Ã¤Ã«Ã¿ Ã¢Ã¥Ã°Ã¸Ã¨Ã­Ã» " << this->data << ": ";
 				for (int i = 0; i < edges.getSize(); i++) {
 					cout << this->edges[i]->get_weight() << " ";
 				}
@@ -48,7 +48,7 @@ public:
 		void show_neighbours() {
 			if (this->edges.list_empty()) throw "\nEmpty list edges!\n";
 			else {
-				cout << "Ñîñåäè äëÿ âåðøèíû " << this->data << ": ";
+				cout << "Ã‘Ã®Ã±Ã¥Ã¤Ã¨ Ã¤Ã«Ã¿ Ã¢Ã¥Ã°Ã¸Ã¨Ã­Ã» " << this->data << ": ";
 				for (int i = 0; i < edges.getSize(); i++) {
 					cout << this->edges[i]->get_vertex()->get_data() << " ";
 				}
@@ -132,7 +132,7 @@ public:
 	void show_vertexes() {
 		if (this->vertexes.list_empty()) throw "Empty vertexes list!\n";
 		else {
-			cout << "Âåðøèíû â ãðàôå: ";
+			cout << "Ã‚Ã¥Ã°Ã¸Ã¨Ã­Ã» Ã¢ Ã£Ã°Ã Ã´Ã¥: ";
 			for (int i = 0; i < vertexes.getSize(); ++i) {
 				cout << vertexes[i]->data << " ";
 			}
@@ -181,7 +181,7 @@ public:
 	}
 private:
 	List<Vertex*> vertexes;
-	size_t weight;
+	weight weight;
 };
 
 #endif
