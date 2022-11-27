@@ -31,7 +31,7 @@ public:
 			auto itemDel = edges.first();
 
 			while (itemDel != nullptr) {
-				delete itemDel->getData();
+				delete itemDel->data();
 				itemDel = itemDel->next();
 			}
 		}
@@ -59,16 +59,16 @@ public:
 		Data get_data() { return this->data; };
 		Edge* get_edge(Vertex* vertex) {
 			for (auto item = edges.first(); item; item = item->next_item) {
-				if (item->getData()->get_vertex() == vertex) {
-					return item->getData();
+				if (item->data()->get_vertex() == vertex) {
+					return item->data();
 				}
 			}
 			return nullptr;
 		};
 		void remove_edge(Vertex* vertex) {
 			for (auto item = edges.first(); item; item = item->next_item) {
-				if (item->getData()->get_vertex() == vertex) {
-					delete item->getData();
+				if (item->data()->get_vertex() == vertex) {
+					delete item->data();
 					edges.erase(item);
 					break;
 				}
@@ -114,7 +114,7 @@ public:
 			if (item) item = item->next_item;
 		};
 		Edge* operator*() {
-			if (item) return item->getData();
+			if (item) return item->data();
 			else return nullptr;
 		};
 
@@ -146,7 +146,7 @@ public:
 	};
 	void delete_edge(Vertex* out, Vertex* in) {
 		for (auto item = out->edges.first(); item; item = item->next_item) {
-			if (item->getData()->get_vertex() == in) {
+			if (item->data()->get_vertex() == in) {
 				delete item;
 				out->edges.erase(item);
 			}
@@ -155,20 +155,20 @@ public:
 	int find_index(Vertex* vertex) {
 		int index = 0;
 		for (auto item = vertexes.first(); item; item = item->next()) {
-			if (item->getData() == vertex) return index;
+			if (item->data() == vertex) return index;
 			index++;
 		}
 	};
 	int find_index_edges(size_t index, Vertex *vertex) {
 		int counter = 0;
 		for (auto item = get_vertex(index)->edges.first(); item; item = item->next_item) {
-			if (item->getData()->get_vertex() == vertex) { return counter; }
+			if (item->data()->get_vertex() == vertex) { return counter; }
 			counter++;
 		}
 	};
 	bool check_edge_with_empty(Vertex* vertex_out, Vertex *vertex_in) {
 		for (auto item = vertex_out->edges.first(); item; item = item->next_item) {
-			if (item->getData()->get_vertex() == vertex_in) {
+			if (item->data()->get_vertex() == vertex_in) {
 				return false;
 			}
 		}
