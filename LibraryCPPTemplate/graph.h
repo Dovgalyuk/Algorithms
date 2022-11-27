@@ -158,6 +158,7 @@ public:
 			if (item->data() == vertex) return index;
 			index++;
 		}
+		return -1;
 	};
 	int find_index_edges(size_t index, Vertex *vertex) {
 		int counter = 0;
@@ -165,6 +166,7 @@ public:
 			if (item->data()->get_vertex() == vertex) { return counter; }
 			counter++;
 		}
+		return -1;
 	};
 	bool check_edge_with_empty(Vertex* vertex_out, Vertex *vertex_in) {
 		for (auto item = vertex_out->edges.first(); item; item = item->next_item) {
