@@ -2,7 +2,6 @@
 #include <cctype>
 #include "queue.h"
 #include "vector.h"
-#include <set>
 #include <fstream>
 
 using namespace std;
@@ -11,7 +10,6 @@ void poisk_v_shirinu(bool** matr, int n, int x, int y)
 {
 	Queue* queue = queue_create();
 	Vector* dist = vector_create(); // расстояния до начальной вершины
-	set <int> visited; // множество посещенных
 	for (int i = 0; i < n; i++) // заполним нулями для дальнейшей проверки
 	{
 		vector_set(dist, i, 0);
@@ -21,7 +19,6 @@ void poisk_v_shirinu(bool** matr, int n, int x, int y)
 	{
 		int kk = queue_get(queue); // берем из очереди крайний элемент
 		queue_remove(queue); // удаляем его
-		visited.insert(kk); // родитель посещен
 		for (int i = 0; i < n; i++) // смотрим, с какими вершинами смежна kk
 		{
 			if ((matr[kk][i] == true) && (vector_get(dist, i) == 0) && (i != (x - 1))) // последнее условие - чтобы не трогать начальную вершину в массиве по ее индексу
