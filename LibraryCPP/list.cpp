@@ -26,7 +26,7 @@ void list_delete(List* list)
 {
     ListItem* current = list->head;
 
-    while (list->length != 0)
+    while (list->length)
     {
         ListItem* prev = current;
         current = list_item_next(prev);
@@ -87,7 +87,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
 
     new_item->next = item->next;
     new_item->prev = item;
-    if (list_item_data(item))
+    if (list->length)
     {
         item->next->prev = new_item;
     }
@@ -116,14 +116,8 @@ ListItem* list_erase(List* list, ListItem* item)
 {
     ListItem* item_prev = item->prev;
     ListItem* item_next = item->next;
-    if (list_item_data(item_next))
-    {
-        item_next->prev = item_prev;
-    }
-    if (list_item_data(item_prev))
-    {
-        item_prev->next = item->next;
-    }
+    item_next->prev = item_prev;
+    item_prev->next = item->next;
 
     if (item == list->head)
     {
@@ -131,7 +125,6 @@ ListItem* list_erase(List* list, ListItem* item)
     }
     delete item;
     list->length--;
-
     return item_next;
 }
 
@@ -143,7 +136,6 @@ ListItem* list_erase_next(List* list, ListItem* item)
 size_t list_get_length(const List* list)
 {
     return list->length;
-    
 }
 
 
