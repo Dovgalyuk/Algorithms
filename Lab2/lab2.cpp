@@ -53,10 +53,8 @@ int main()
                     stack_pop(stack);
                     i++;
                 }
-                else 
-                {
-                    if (get_priority(stack_get(stack)) >= get_priority(expression[i]))
-                    {
+                else
+                {           
                         while (get_priority(stack_get(stack)) >= get_priority(expression[i]))
                         {    
                             vivod.push_back(stack_get(stack));
@@ -64,17 +62,11 @@ int main()
                         }
                         stack_push(stack, expression[i]);
                         i++;
-                    }
-                    else
-                    {
-                        stack_push(stack, expression[i]);
-                        i++;
-                    };
                 }
             }
             else
             {
-                vivod.push_back(expression[i]);
+                vivod.push_back(expression[i]);  
                 i++;
             }           
         }
