@@ -31,7 +31,7 @@ int main()
         Stack* stack = stack_create(); 
         for (int i = 0; i < expression.size();) // проверяем каждый элемент входной строки
         {
-            if (get_priority(expression[i]) >= 1 && get_priority(expression[i]) <= 3)
+            while (get_priority(expression[i]) >= 1 && get_priority(expression[i]) <= 3)
             {
                 if (expression[i] == '(')
                 {
@@ -64,11 +64,10 @@ int main()
                         i++;
                 }
             }
-            else
-            {
-                vivod.push_back(expression[i]);  
-                i++;
-            }           
+
+            vivod.push_back(expression[i]);  
+            i++;
+                     
         }
         while (!stack_empty(stack))
         {
