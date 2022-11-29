@@ -119,6 +119,7 @@ public:
 		Graph::Vertex* new_vertex = new Vertex(data);
 		this->vertexes.push_back(new_vertex);
 		this->size_graph++;
+		return new_vertex;
 	};
 	void remove_edge(Vertex* out, Vertex* in) { out->remove_edge(in); }
 	Data get_vertex_data(size_t index) { return this->vertexes[index]->get_data(); }
@@ -136,6 +137,22 @@ public:
 		if (index >= vertexes.getSize()) throw "Vertex was not found!\n";
 		else vertexes.erase(index);
 		this->size_graph--;
+	};
+	int find_index(Vertex* vertex) {
+		int index = 0;
+		for (auto item = vertexes.first(); item; item = item->next()) {
+			if (item->data() == vertex) return index;
+			index++;
+		}
+		return -1;
+	};
+	int find_index_edges(size_t index, Vertex *vertex) {
+		int counter = 0;
+		for (auto item = get_vertex(index)->edges.first(); item; item = item->next_item) {
+			if (item->data()->get_vertex() == vertex) { return counter; }
+			counter++;
+		}
+		return -1;
 	};
 	bool check_edge_with_empty(Vertex* vertex_out, Vertex *vertex_in) {
 		for (auto item = vertex_out->edges.first(); item; item = item->next_item) {
