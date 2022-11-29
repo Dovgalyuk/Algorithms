@@ -1,21 +1,21 @@
-﻿#include <iostream>
+#include <iostream>
 #include "graph.h"
 
 using namespace std;
 
-template <typename Data, typename weight>
-void inputTheVertexes(const int size_graph, Graph<Data, weight>* graph) {
+template <typename Data, typename Weight>
+void inputTheVertexes(const int size_graph, Graph<Data, Weight>* graph) {
     for (int i = 0; i < size_graph; ++i) {
-        int tempData;
+        Data data;
         cout << "[" << i << "] = ";
-        cin >> tempData;
-        graph->get_vertex(i)->set_data(tempData);
+        cin >> data;
+        graph->get_vertex(i)->set_data(data);
     }
     cout << "\n";
 }
 
-template <typename Data, typename weight>
-void inputEdgesForVertexes(const int size_graph, Graph<Data, weight>* graph) {
+template <typename Data, typename Weight>
+void inputEdgesForVertexes(const int size_graph, Graph<Data, Weight>* graph) {
     for (int i = 0; i < size_graph; i++) {
         cout << "\n";
         cout << "Вершина: " << graph->get_vertex_data(i) << " (Индекс: " << graph->find_index(graph->get_vertex(i)) << ")" << "\n";
@@ -28,68 +28,90 @@ void inputEdgesForVertexes(const int size_graph, Graph<Data, weight>* graph) {
             int indexToVertex;
             cin >> indexToVertex;
             cout << "Введите вес: ";
-            int tempWeight;
+            Weight tempWeight;
             cin >> tempWeight;
             graph->get_vertex(i)->add_edge(graph->get_vertex(indexToVertex), tempWeight);
         }
     }
 }
 
-int** initializationMatrix(const int size_graph) {
-    int** shortest_path = new int* [size_graph];
+template <typename Data, typename Weight>
+Data** initializationMatrix(const int size_graph) {
+    Data** paths = new int* [size_graph];
     for (size_t i = 0; i < size_graph; i++) {
-        shortest_path[i] = new int[size_graph];
+        paths[i] = new int[size_graph];
     }
     for (int i = 0; i < size_graph; i++) {
         for (int j = 0; j < size_graph; j++) {
-            shortest_path[i][j] = -5;
+            paths[i][j] = -5;
         }
     }
-    return shortest_path;
+    return paths;
 }
 
-template <typename Data, typename weight>
-void setWeightInTheMatrix(const int size_graph, int** shortest_path, Graph<Data, weight>* graph) {
+template <typename Data, typename Weight>
+void setWeightInTheMatrix(const int size_graph, Data** paths, Graph<Data, Weight>* graph) {
     // 'edge = -1' - path is not exist
     for (int i = 0; i < size_graph; ++i) {
         for (int j = 0; j < size_graph; ++j) {
             if (i == j) {
                 //If the vertices are the same, then the cell is 0
-                shortest_path[i][j] = 0;
+                paths[i][j] = 0;
             }
             else {
-                //if the path exists, set the weight of its edge.
-                if (!graph->check_edge_with_empty(graph->get_vertex(i), graph->get_vertex(j))) shortest_path[i][j] = graph->get_vertex(i)->get_edge(graph->get_vertex(j))->get_weight();
+                //if the path exists, set the Weight of its edge.
+                if (!graph->check_edge_with_empty(graph->get_vertex(i), graph->get_vertex(j))) paths[i][j] = graph->get_vertex(i)->get_edge(graph->get_vertex(j))->get_weight();
                 //othersize, set -1
                 else
-                    shortest_path[i][j] = -1;
+                    paths[i][j] = -1;
             }
         }
     }
 }
 
 //show the original matrix in the console
-void showTheOriginalMatrix(const int size_graph, int** shortest_path) {
+template <typename Data, typename Weight>
+void showTheOriginalMatrix(const int size_graph, Data** paths) {
     cout << "\n";
     for (int i = 0; i < size_graph; i++) {
         for (int j = 0; j < size_graph; j++) {
-            cout << shortest_path[i][j] << " ";
+            cout << paths[i][j] << " ";
         }
         cout << "\n";
     }
+
+    int index = 0;
+    int data;
+    List<int> list;
+    for (size_t i = 0; i < size_graph; i++) {
+        data = 100000;
+        for (size_t j = 0; j <= size_graph; j++) {
+            if (index == i && paths[i][j] > 0 && paths[i][j] < data) {
+                data = paths[i][j];
+                list.push_back(paths[i][j]);
+                index = j;
+            }
+        }
+    }
+    for (auto item = list.first(); item; item = item->next()) {
+        cout << item->data() << " ";
+    }
+    cout << "\n\n";
 }
 
 //finding the shortest path using floyd's algorithm
-void findTheShortestPath(const int size_graph, int** shortest_path) {
+template <typename Data, typename Weight>
+void findTheLongestTheShortestPath(const int size_graph, Data** paths) {
+    int index = 0;
     for (int k = 0; k < size_graph; k++) {
         for (int i = 0; i < size_graph; i++) {
             for (int j = 0; j < size_graph; j++) {
-                if (i != j && shortest_path[i][k] != -1 && shortest_path[k][j] != -1) {
-                    if (shortest_path[i][j] == -1) {
-                        shortest_path[i][j] = shortest_path[i][k] + shortest_path[k][j];
+                if (i != j && paths[i][k] != -1 && paths[k][j] != -1) {
+                    if (paths[i][j] == -1) {
+                        paths[i][j] = paths[i][k] + paths[k][j];
                     }
                     else {
-                        shortest_path[i][j] = min(shortest_path[i][j], shortest_path[i][k] + shortest_path[k][j]);
+                        paths[i][j] = min(paths[i][j], paths[i][k] + paths[k][j]);
                     }
                 }
             }
@@ -97,24 +119,31 @@ void findTheShortestPath(const int size_graph, int** shortest_path) {
     }
 }
 
-template <typename Data, typename weight>
-void showTheShortestPath(const int size_graph, int** shortest_path, Graph<Data, weight>* graph) {
-    cout << "\n" << "shortest path:" << "\n";
+template <typename Data, typename Weight>
+void showTheLongestOfTheShortestPath(const int size_graph, Data** paths, Graph<Data, Weight>* graph) {
+    int data = -1, index_i = 0, index_j = 0;
+    for (size_t i = 0; i < size_graph; i++) {
+        for (size_t j = 1; j < size_graph; j++) {
+            if (paths[i][j] > 0 && paths[i][j] > data) {
+                data = paths[i][j];
+                index_i = i;
+                index_j = j;
+            }
+        }
+    }
+    cout << "Самый длинный из кратчайших путей из вершины " << "'" << graph->get_vertex_data(index_i) << "'" << " в вершину " << "'" << graph->get_vertex_data(index_j) << "' = " << paths[index_i][index_j] << "\n";
+
+    cout << "\n";
     for (auto i = 0; i < size_graph; i++) {
         for (size_t j = 0; j < size_graph; j++) {
-            cout << shortest_path[i][j] << " ";
+            cout << paths[i][j] << " ";
         }
         cout << "\n";
     }
-
-    cout << "\n";
-    for (size_t i = 0; i < size_graph; i++) {
-        for (size_t j = 1; j < size_graph; j++) {
-            if (shortest_path[i][j] > 0) cout << "Из вершины " << "'" << graph->get_vertex_data(i) << "'" << " в вершину " << "'" << graph->get_vertex_data(j) << "' = " << shortest_path[i][j] << "\n";
-        }
-    }
+    
 }
 
+template <typename Data, typename Weight>
 void program() {
     cout << "Введите количество вершин: ";
     int size_graph;
@@ -126,24 +155,26 @@ void program() {
 
     inputEdgesForVertexes(size_graph, graph);
 
-    int** shortest_path = initializationMatrix(size_graph);
+    Data** paths = initializationMatrix<Data, Weight>(size_graph);
 
-    setWeightInTheMatrix(size_graph, shortest_path, graph);
+    setWeightInTheMatrix(size_graph, paths, graph);
 
-    showTheOriginalMatrix(size_graph, shortest_path);
+    showTheOriginalMatrix<int, int>(size_graph, paths);
 
-    findTheShortestPath(size_graph, shortest_path);
+    findTheLongestTheShortestPath<int, int>(size_graph, paths);
 
-    showTheShortestPath(size_graph, shortest_path, graph);
+    showTheLongestOfTheShortestPath(size_graph, paths, graph);
 }
 
 int main() {
     setlocale(LC_ALL, "rus");
 
     try {
-        program();
+        program<int, int>();
     }
     catch (const char* e) {
         cout << e << "\n\n";
     }
+
+    return 0;
 }
