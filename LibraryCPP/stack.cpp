@@ -27,23 +27,17 @@ void stack_delete(Stack* stack)
 
 void stack_push(Stack* stack, Data data)
 {
-    if (list_first(stack->list) == nullptr)
-    {
-        list_insert(stack->list, data);
-    }
-    else {
-        list_insert_after(stack->list, list_last(stack->list), data);
-    }
+    list_insert(stack->list, data);
 }
 
 Data stack_get(const Stack* stack)
 {
-    return list_item_data(list_last(stack->list));
+    return list_item_data(list_first(stack->list));
 }
 
 void stack_pop(Stack* stack)
 {
-    list_erase(stack->list, list_last(stack->list));
+    list_erase(stack->list, list_first(stack->list));
 }
 
 bool stack_empty(const Stack* stack)

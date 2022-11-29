@@ -78,28 +78,19 @@ ListItem* list_insert(List* list, Data data)
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
-    if (!list->ListHead)
-    {
-        list->ListHead = new ListItem(data);
-        list->ListTail = list->ListHead;
-        return list->ListHead;
-    }
+    if (!list->ListHead) throw "You tryed to use insert after to empty list";
     else if (list->ListHead->pointerNext == nullptr) {
         ListItem* add_item = new ListItem(data, nullptr, item);
         list->ListTail = add_item;
         return list->ListHead->pointerNext = new ListItem(data, nullptr, item);
-    } 
-    else if (item->pointerNext == nullptr) {
-        ListItem* add_item = new ListItem(data, nullptr, item);
-        list->ListTail = add_item;
-        return item->pointerNext = new ListItem(data, nullptr, item);
     }
     else {
         ListItem* add_item = new ListItem(data, item->pointerNext, item);
         item->pointerNext = add_item;
-        add_item->pointerNext->pointerPrev = add_item;
+        (item == list->ListTail) ? list->ListTail = add_item : add_item->pointerNext->pointerPrev = add_item;
         return add_item;
     }
+    
 }
 
 ListItem* list_erase(List* list, ListItem* item)
@@ -131,15 +122,42 @@ ListItem* list_erase(List* list, ListItem* item)
 
 ListItem* list_erase_next(List* list, ListItem* item)
 {
-    if (item != list_last(list))
-    {
-        ListItem* deleted_item = item->pointerNext;
-        item->pointerNext = deleted_item->pointerNext;
-        deleted_item->pointerNext->pointerPrev = item;
-        delete deleted_item;
-        return item->pointerNext;
+    if (!list->ListHead) throw "You tryed to use function erase next to empty list";
+    else if (item == list->ListHead) {
+        if (item->pointerNext != list_last(list)) {
+
+            item->pointerNext = item->pointerNext->pointerNext;
+            delete item->pointerNext->pointerPrev;
+            item->pointerNext->pointerPrev = list->ListHead;
+            return item->pointerNext;
+        }
+        else {
+            throw "Function won't return next to the item element, because after delete item is last element";
+            /*delete item->pointerNext;
+            item->pointerNext = nullptr;
+            list->ListTail = item;
+            return item;*/
+        }
+        
+    }
+    else if (item == list->ListTail) {
+        throw "You tryed to use function erase next to last element";
     }
     else {
-        return list->ListHead = list->ListTail = nullptr;
+        ListItem* del_item = item->pointerNext;
+        if (del_item != list_last(list)) {
+            item->pointerNext = del_item->pointerNext;
+            del_item->pointerNext->pointerPrev = item;
+            delete del_item;
+            return item->pointerNext;
+        }
+        else {
+            throw "Function won't return next to the item element, because after delete item is last element";
+            /*item->pointerNext = nullptr;
+            list->ListTail = item;
+            delete del_item;
+            return list->ListTail;*/
+        }
+        
     }
 }
