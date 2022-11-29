@@ -26,14 +26,14 @@ public:
 	public:
 		Vertex() { this->data = NULL; };
 		Vertex(Data data) { this->data = data; }
-		/*~Vertex() {
+		~Vertex() {
 			auto itemDel = edges.first();
 
 			while (itemDel != nullptr) {
 				delete itemDel->data();
 				itemDel = itemDel->next();
 			}
-		}*/
+		}
 		
 		void show_edges() {
 			if (this->edges.list_empty()) throw "\nEmpty list edges!\n";
