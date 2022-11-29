@@ -38,9 +38,14 @@ int main()
     }
 
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
+     for (ListItem* item = list_first(list); item;)
     {
         std::cout << list_item_data(item) << " ";
+        item = list_item_next(item);
+        if (list_item_data(item) == list_item_data(list_first(list)))
+        {
+            break;
+        }
     }
     std::cout << "\n";
 
