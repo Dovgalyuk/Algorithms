@@ -83,16 +83,19 @@ ListItem* list_insert(List* list, Data data)
 ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
     ListItem* new_item = new ListItem;
-    new_item->data = data;
-
-    new_item->next = item->next;
-    new_item->prev = item;
-    if (list->length)
+    if (list->length == 0)
     {
-        item->next->prev = new_item;
+        list_insert(list, data);
     }
-    item->next = new_item;
-    list->length++;
+    else 
+    {
+        new_item->data = data;
+        new_item->next = item->next;
+        new_item->prev = item;
+        item->next->prev = new_item;
+        item->next = new_item;
+        list->length++;
+    }
 
     return new_item;
 }
