@@ -20,7 +20,7 @@ public:
 		}
 		this->size_graph = size;
 	}
-	~Graph() { delete this->vertexes; }
+	~Graph() { delete[] this->vertexes; }
 
 	struct Edge;
 
@@ -143,7 +143,7 @@ public:
 	void delete_vertex(size_t index) {
 		if (index >= vertexes.getSize()) throw "Vertex was not found!\n";
 		else vertexes.erase(index);
-		this->weight--;
+		this->size_graph--;
 	};
 	int find_index(Vertex* vertex) {
 		int index = 0;
