@@ -20,27 +20,27 @@ public:
 		}
 		this->size_graph = size;
 	}
-
 	struct Edge;
 
 	struct Vertex {
 	public:
 		Vertex() { this->data = NULL; };
 		Vertex(Data data) { this->data = data; }
-		~Vertex() {
+		/*~Vertex() {
 			auto itemDel = edges.first();
 
 			while (itemDel != nullptr) {
 				delete itemDel->data();
 				itemDel = itemDel->next();
 			}
-		}
+		}*/
+		
 		void show_edges() {
 			if (this->edges.list_empty()) throw "\nEmpty list edges!\n";
 			else {
 				cout << "Рёбра для вершины " << this->data << ": ";
 				for (int i = 0; i < edges.getSize(); i++) {
-					cout << this->edges[i]->get_weight() << " ";
+					cout << this->edges[i].get_weight() << " ";
 				}
 			}
 			cout << "\n\n";
@@ -50,16 +50,16 @@ public:
 			else {
 				cout << "Соседи для вершины " << this->data << ": ";
 				for (int i = 0; i < edges.getSize(); i++) {
-					cout << this->edges[i]->get_vertex()->get_data() << " ";
+					cout << this->edges[i].get_vertex()->get_data() << " ";
 				}
 			}
 			cout << "\n\n";
 		};
 		void set_data(Data data) { this->data = data; };
 		Data get_data() { return this->data; };
-		Edge* get_edge(Vertex* vertex) {
+		Edge get_edge(Vertex* vertex) {
 			for (auto item = edges.first(); item; item = item->next_item) {
-				if (item->data()->get_vertex() == vertex) {
+				if (item->data().get_vertex() == vertex) {
 					return item->data();
 				}
 			}
@@ -67,19 +67,18 @@ public:
 		};
 		void remove_edge(Vertex* vertex) {
 			for (auto item = edges.first(); item; item = item->next_item) {
-				if (item->data()->get_vertex() == vertex) {
-					delete item->data();
+				if (item->data().get_vertex() == vertex) {
 					edges.erase(item);
 					break;
 				}
 			}
 		};
 		void add_edge(Vertex* vertex, Data weight) {
-			this->edges.push_back(new Edge(vertex, weight));
+			this->edges.push_back(*new Edge(vertex, weight));
 		};
 
 		Data data;
-		List<Edge*> edges;
+		List<Edge> edges;
 	};
 	struct Edge {
 	public:
@@ -106,14 +105,14 @@ public:
 		Weight weight;
 	};
 	struct Iterator {
-		typename List<Graph::Edge*>::Item* item;
+		typename List<Graph::Edge>::Item* item;
 		Iterator(Vertex* vertex) {
 			this->item = vertex->edges.first();
 		};
 		void operator++() {
 			if (item) item = item->next_item;
 		};
-		Edge* operator*() {
+		Edge operator*() {
 			if (item) return item->data();
 			else return nullptr;
 		};
@@ -155,14 +154,14 @@ public:
 	int find_index_edges(size_t index, Vertex *vertex) {
 		int counter = 0;
 		for (auto item = get_vertex(index)->edges.first(); item; item = item->next_item) {
-			if (item->data()->get_vertex() == vertex) { return counter; }
+			if (item->data().get_vertex() == vertex) { return counter; }
 			counter++;
 		}
 		return -1;
 	};
 	bool check_edge_with_empty(Vertex* vertex_out, Vertex *vertex_in) {
 		for (auto item = vertex_out->edges.first(); item; item = item->next_item) {
-			if (item->data()->get_vertex() == vertex_in) {
+			if (item->data().get_vertex() == vertex_in) {
 				return false;
 			}
 		}
