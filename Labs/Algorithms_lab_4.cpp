@@ -62,7 +62,7 @@ int main() {
             }
             else {
                 //if the path exists, set the Size of its edge.
-                if (!graph->check_edge_with_empty(graph->get_vertex(i), graph->get_vertex(j))) paths[i][j] = graph->get_vertex(i)->get_edge(graph->get_vertex(j)).get_weight();
+                if (!graph->check_edge_with_empty(graph->get_vertex(i), graph->get_vertex(j))) paths[i][j] = graph->get_vertex(i)->get_edge(graph->get_vertex(j))->get_weight();
                 //othersize, set -1
                 else
                     paths[i][j] = -1;
