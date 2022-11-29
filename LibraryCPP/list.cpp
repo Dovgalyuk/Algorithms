@@ -111,7 +111,10 @@ ListItem* list_erase_first(List* list)
 
     delete delete_item;
     list->length--;
-
+    if (list->length == 0) 
+        {
+            return list->head = nullptr;
+        }
     return list->head->next;
 }
 
