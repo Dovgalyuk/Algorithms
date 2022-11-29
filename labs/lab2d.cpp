@@ -34,14 +34,11 @@ char checkCommand(string command) {
 		else if (command == ".") {
 			return command[0];
 		}
+		else if (command[0] >= '0' && command[0] <= '9') {
+			return 'n';
+		}
 		else {
-			if (command[0] >='0' && command[0] <= '9')
-			{
-				return 'n';
-			}
-			else {
-				return 'e';
-			}
+			return 'e';
 		}
 	}
 	
@@ -185,5 +182,7 @@ int main()
 	Stack* stack = stack_create();
 
 	inputCommand(stack);
+	stack_delete(stack);
 
+	return 0;
 }
