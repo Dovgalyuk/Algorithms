@@ -9,17 +9,18 @@
 
 using namespace std;
 
+typedef int Size;
 template <typename Data, typename Weight>
 //typedef int Data;
 class Graph{
 public:
-	Graph(Data data, Weight weight) { 
-		for (size_t i = 0; i < weight; i++){
+	Graph(Data data, Size size) { 
+		for (size_t i = 0; i < size; i++){
 			this->add_vertex(data);
 		}
-		this->weight = weight;
+		this->size_graph = size;
 	}
-	~Graph() { vertexes.list_delete(&vertexes); }
+	~Graph() { delete this->vertexes; }
 
 	struct Edge;
 
@@ -38,7 +39,7 @@ public:
 		void show_edges() {
 			if (this->edges.list_empty()) throw "\nEmpty list edges!\n";
 			else {
-				cout << "Ð¸áðà äëÿ âåðøèíû " << this->data << ": ";
+				cout << "Рёбра для вершины " << this->data << ": ";
 				for (int i = 0; i < edges.getSize(); i++) {
 					cout << this->edges[i]->get_weight() << " ";
 				}
@@ -48,7 +49,7 @@ public:
 		void show_neighbours() {
 			if (this->edges.list_empty()) throw "\nEmpty list edges!\n";
 			else {
-				cout << "Ñîñåäè äëÿ âåðøèíû " << this->data << ": ";
+				cout << "Соседи для вершины " << this->data << ": ";
 				for (int i = 0; i < edges.getSize(); i++) {
 					cout << this->edges[i]->get_vertex()->get_data() << " ";
 				}
@@ -74,7 +75,7 @@ public:
 				}
 			}
 		};
-		void add_edge(Vertex* vertex, Weight weight) {
+		void add_edge(Vertex* vertex, Data weight) {
 			this->edges.push_back(new Edge(vertex, weight));
 		};
 
@@ -91,7 +92,7 @@ public:
 			this->in = in;
 			this->weight = NULL;
 		};
-		Edge(Vertex* in, Data weight) {
+		Edge(Vertex* in, Weight weight) {
 			this->weight = weight;
 			this->in = in;
 		};
@@ -123,7 +124,7 @@ public:
 	Vertex* add_vertex(Data data) {
 		Graph::Vertex* new_vertex = new Vertex(data);
 		this->vertexes.push_back(new_vertex);
-		this->weight++;
+		this->size_graph++;
 		return new_vertex;
 	};
 	Data get_vertex_data(size_t index) {
@@ -132,7 +133,7 @@ public:
 	void show_vertexes() {
 		if (this->vertexes.list_empty()) throw "Empty vertexes list!\n";
 		else {
-			cout << "Âåðøèíû â ãðàôå: ";
+			cout << "Вершины в графе: ";
 			for (int i = 0; i < vertexes.getSize(); ++i) {
 				cout << vertexes[i]->data << " ";
 			}
@@ -143,14 +144,6 @@ public:
 		if (index >= vertexes.getSize()) throw "Vertex was not found!\n";
 		else vertexes.erase(index);
 		this->weight--;
-	};
-	void delete_edge(Vertex* out, Vertex* in) {
-		for (auto item = out->edges.first(); item; item = item->next_item) {
-			if (item->data()->get_vertex() == in) {
-				delete item;
-				out->edges.erase(item);
-			}
-		}
 	};
 	int find_index(Vertex* vertex) {
 		int index = 0;
@@ -176,14 +169,14 @@ public:
 		}
 		return true;
 	};
-	size_t size() { return this->weight; };
+	size_t size() { return this->size_graph; };
 	Vertex* get_vertex(size_t index) { return vertexes[index]; };
 	void set_data_from_vertex(size_t index, Data data) {
 		get_vertex(index)->set_data(data);
 	}
 private:
 	List<Vertex*> vertexes;
-	Weight weight;
+	Size size_graph;
 };
 
 #endif
