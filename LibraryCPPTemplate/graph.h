@@ -20,7 +20,6 @@ public:
 		}
 		this->size_graph = size;
 	}
-	~Graph() { delete[] this->vertexes; }
 
 	struct Edge;
 
