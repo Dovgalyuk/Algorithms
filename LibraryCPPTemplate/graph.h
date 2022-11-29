@@ -66,11 +66,7 @@ public:
 		};
 		void remove_edge(Vertex* vertex) {
 			for (auto item = edges.first(); item; item = item->next_item) {
-				if (item->data()->get_vertex() == vertex) {
-					delete item->data();
-					edges.erase(item);
-					break;
-				}
+				if (item->data()->get_vertex() == vertex) { edges.erase(item); break; }
 			}
 		};
 		void add_edge(Vertex* vertex, Data weight) {
@@ -119,15 +115,13 @@ public:
 
 	};
 
-	Vertex* add_vertex(Data data) {
+	void add_vertex(Data data) {
 		Graph::Vertex* new_vertex = new Vertex(data);
 		this->vertexes.push_back(new_vertex);
 		this->size_graph++;
-		return new_vertex;
 	};
-	Data get_vertex_data(size_t index) {
-		return this->vertexes[index]->get_data();
-	}
+	void remove_edge(Vertex* out, Vertex* in) { out->remove_edge(in); }
+	Data get_vertex_data(size_t index) { return this->vertexes[index]->get_data(); }
 	void show_vertexes() {
 		if (this->vertexes.list_empty()) throw "Empty vertexes list!\n";
 		else {
@@ -143,22 +137,6 @@ public:
 		else vertexes.erase(index);
 		this->size_graph--;
 	};
-	int find_index(Vertex* vertex) {
-		int index = 0;
-		for (auto item = vertexes.first(); item; item = item->next()) {
-			if (item->data() == vertex) return index;
-			index++;
-		}
-		return -1;
-	};
-	int find_index_edges(size_t index, Vertex *vertex) {
-		int counter = 0;
-		for (auto item = get_vertex(index)->edges.first(); item; item = item->next_item) {
-			if (item->data()->get_vertex() == vertex) { return counter; }
-			counter++;
-		}
-		return -1;
-	};
 	bool check_edge_with_empty(Vertex* vertex_out, Vertex *vertex_in) {
 		for (auto item = vertex_out->edges.first(); item; item = item->next_item) {
 			if (item->data()->get_vertex() == vertex_in) {
@@ -169,9 +147,7 @@ public:
 	};
 	size_t size() { return this->size_graph; };
 	Vertex* get_vertex(size_t index) { return vertexes[index]; };
-	void set_data_from_vertex(size_t index, Data data) {
-		get_vertex(index)->set_data(data);
-	}
+	void set_data_from_vertex(size_t index, Data data) { get_vertex(index)->set_data(data); }
 private:
 	List<Vertex*> vertexes;
 	Size size_graph;
