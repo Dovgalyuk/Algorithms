@@ -119,7 +119,6 @@ public:
 		Graph::Vertex* new_vertex = new Vertex(data);
 		this->vertexes.push_back(new_vertex);
 		this->size_graph++;
-		return new_vertex;
 	};
 	void remove_edge(Vertex* out, Vertex* in) { out->remove_edge(in); }
 	Data get_vertex_data(size_t index) { return this->vertexes[index]->get_data(); }
