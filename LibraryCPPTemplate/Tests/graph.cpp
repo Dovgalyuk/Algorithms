@@ -40,7 +40,7 @@ int main() {
 	graph->get_vertex(0)->add_edge(graph->get_vertex(1), 10);
 
 	//check for an empty edge
-	if (graph->check_edge_with_empty(graph->get_vertex(0), graph->get_vertex(1)), graph->get_vertex(0)->edges[0]->get_weight() != 10) {
+	if (graph->check_edge_with_empty(graph->get_vertex(0), graph->get_vertex(1)), graph->get_vertex(0)->edges[0].get_weight() != 10) {
 		cout << "Adding a edge does not work correctly.\n";
 		return 1;
 	}
@@ -52,9 +52,9 @@ int main() {
 	graph->get_vertex(0)->add_edge(graph->get_vertex(5), 46);
 
 	//check for the setting weight
-	graph->get_vertex(0)->edges[0]->set_weight(95);
+	graph->get_vertex(0)->edges[0].set_weight(95);
 
-	if (graph->get_vertex(0)->edges[0]->get_weight() != 95) {
+	if (graph->get_vertex(0)->edges[0].get_weight() != 95) {
 		cout << "Error setting the weight or getting the weight\n";
 		return -1;
 	}
@@ -106,7 +106,7 @@ int main() {
 	//checking the correct vertex index
 	if (graph->find_index_edges(0, graph->get_vertex(1)) != 0) {
 		cout << "Error the correct vertex index\n";
-	}
 
-	delete graph;
+		return 0;
+	}
 }
