@@ -23,15 +23,14 @@ int main() {
         }
     }
 
-    graph->addEdge(2,2, 15);
+    graph->addEdge(2,1, 15);
     graph->addEdge(0,3, 3);
 
-    if(!graph->isEdgeExist(2,2)) {
+    if(!graph->isEdgeExist(2,1)) {
         std::cout << "Invalid edge creation\n";
         return 1;
     }
 
-    // int count = 0;
     auto it = graph->getIterator(0);
     while(*it != nullptr) {
         if((*it)->getVertexData() != 3) {
@@ -41,7 +40,7 @@ int main() {
         ++it;
     }
 
-    if(graph->getEdge(2,2)->getEdgeData() != 15) {
+    if(graph->getEdge(2,1)->getEdgeData() != 15) {
         std::cout << "Invalid edge data\n";
         return 1;
     }
@@ -52,8 +51,8 @@ int main() {
         return 1;
     }
 
-    graph->removeEdge(2,2);
-    if(graph->isEdgeExist(2,2)) {
+    graph->removeEdge(2,1);
+    if(graph->isEdgeExist(2,1)) {
         std::cout << "Invalid edge deletion\n";
         return 1;
     }

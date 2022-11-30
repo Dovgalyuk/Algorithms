@@ -69,7 +69,7 @@ public:
         size_t _max_size = size *2;
         Data *tmp = new Data[_max_size];
         // Перенос элементов
-        for(int i = 0; i < vector_size; i++) {
+        for(size_t i = 0; i < vector_size; i++) {
             tmp[i] = data[i];
         }
         // Удаление текущего массива, замена расширенным
