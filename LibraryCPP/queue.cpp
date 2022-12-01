@@ -4,7 +4,6 @@
 struct Queue
 {
     List* list;
-    size_t head;
     size_t tail;
 
     ~Queue() {
