@@ -118,25 +118,10 @@ ListItem* list_erase(List* list, ListItem* item)
 ListItem* list_erase_next(List* list, ListItem* item)
 {
     if (!list->ListHead) throw "You tryed to use function erase next to empty list";
-    else if (item == list->ListHead) {
-        if (item->pointerNext != list_last(list)) {
-            return list_erase(list, item->pointerNext);
-        }
-        else {
-            throw "Function won't return next to the item element, because after delete item is last element";
-        }
-        
-    }
     else if (item == list->ListTail) {
         throw "You tryed to use function erase next to last element";
     }
     else {
-        if (item->pointerNext != list_last(list)) {
-            return list_erase(list, item->pointerNext);
-        }
-        else {
-            throw "Function won't return next to the item element, because after delete item is last element";
-        }
-        
+        return list_erase(list, item->pointerNext);
     }
 }
