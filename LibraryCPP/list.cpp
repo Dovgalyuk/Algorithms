@@ -26,7 +26,6 @@ struct List
             delete temp;
         }
         delete last;
-        delete first;
     }
 };
 
