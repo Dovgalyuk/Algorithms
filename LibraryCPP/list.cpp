@@ -30,6 +30,7 @@ void list_delete(List * list)
         list->first = list->first->prev;
         delete temp;
     }
+    delete list->first;
     delete list->last;
     delete list;
 }
