@@ -4,14 +4,8 @@
 struct ListItem
 {
     Data field;
-    ListItem* next; 
-    ListItem* prev; 
-    ListItem()
-    {
-        field = NULL;
-        prev = nullptr;
-        next = nullptr;
-    }
+    ListItem* next;
+    ListItem* prev;
 };
 
 struct List
@@ -20,8 +14,8 @@ struct List
     ListItem* last;
     List()
     {
-        first = nullptr;
-        last = nullptr;
+        first = 0;
+        last = 0;
     }
     ~List()
     {
@@ -35,41 +29,47 @@ struct List
     }
 };
 
-List *list_create()
+List* list_create()
 {
     return new List;
 }
 
-void list_delete(List *list)
+void list_delete(List * list)
 {
     delete list;
 }
 
-ListItem *list_first(List *list)
+ListItem* list_first(List* list)
 {
     return list->first;
 }
-
-Data list_item_data(const ListItem *item)
+ListItem* list_last(List* list)
 {
-    return item->field;
+    return list->first;
+}
+Data list_item_data(const ListItem* item)
+{
+
+        return item->field;
+
 }
 
-ListItem *list_item_next(ListItem *item)
+ListItem* list_item_next(ListItem* item)
+{
+        return item->prev;
+}
+
+ListItem* list_item_prev(ListItem* item)
 {
     return item->next;
 }
 
-ListItem *list_item_prev(ListItem *item)
-{
-    return item->prev;
-}
-
-ListItem *list_insert(List *list, Data data)
+ListItem* list_insert(List* list, Data data)
 {
     ListItem* ins = new ListItem;
     ins->field = data;
-    if (list->first) {
+    if (list->first)
+    {
         ins->prev = list->first;
         list->first->next = ins;
     }
@@ -83,23 +83,37 @@ ListItem *list_insert(List *list, Data data)
     return ins;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
+ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
-    ListItem* ins = new ListItem;
-    ins->field = data;
-
-    if (item->next != nullptr) {
-        ins->next = item->next;
-    }
-    item->next = ins;
-    return ins;
-}
-
-ListItem *list_erase(List *list, ListItem *item)
-{
-    if (list->first)                
+    ListItem* newItem = new ListItem;
+    newItem->field = data;
+    if (item == list->first)
     {
-        if (item->next == item)  
+        newItem->next = list->first;
+        newItem->prev = list->first->prev;
+        list->first->prev = newItem;
+        return newItem;
+    }
+    if (item == list->last)
+    {
+        newItem->next = list->last;
+        newItem->prev = list->last->prev;
+        list->last->prev = newItem;
+        return newItem;
+    }
+    else
+    {
+        newItem->next = item;
+        newItem->prev = item->prev;
+        item->prev = newItem;
+        return newItem;
+    }
+}
+ListItem* list_erase(List* list, ListItem* item)
+{
+    if (list->first)
+    {
+        if (item->next == item)
         {
             list->first = NULL;
             list->last = NULL;
@@ -108,23 +122,24 @@ ListItem *list_erase(List *list, ListItem *item)
         {
             if (item == list->last)
             {
-                list->last = list->last->prev;
-
+                list->last = list->last->next;
             }
             if (item == list->first)
             {
-                list->first = list->first->next;
+                list->first = list->first->prev;
             }
             (item->next)->prev = item->prev;
             (item->prev)->next = item->next;
             return item;
-            delete item;
         }
+   }
+    else
+    {
+        return NULL;
     }
-  
 }
 
-ListItem *list_erase_next(List *list, ListItem *item)
+ListItem* list_erase_next(List* list, ListItem* item)
 {
     ListItem* erase = nullptr;
     if (list->first == nullptr) {
@@ -140,3 +155,4 @@ ListItem *list_erase_next(List *list, ListItem *item)
     delete erase;
     return item->next;
 }
+
