@@ -11,6 +11,7 @@ using namespace std;
 
 typedef int Size;
 template <typename Data, typename Weight>
+//typedef int Data;
 class Graph{
 public:
 	Graph(Data data, Size size) { 
@@ -69,7 +70,7 @@ public:
 			}
 		};
 		void add_edge(Vertex* vertex, Data weight) {
-			this->edges.push_back(*new Edge(vertex, weight));
+			this->edges.push_back(Edge(vertex, weight));
 		};
 
 		Data data;
@@ -120,7 +121,7 @@ public:
 		this->size_graph++;
 	};
 	void remove_edge(Vertex* out, Vertex* in) { out->remove_edge(in); }
-	Data get_vertex_data(size_t index) { return this->vertexes[index]->get_data(); }
+	Data get_vertex_data(size_t index) { return get_vertex(index)->get_data(); }
 	void show_vertexes() {
 		if (this->vertexes.list_empty()) throw "Empty vertexes list!\n";
 		else {
@@ -161,7 +162,15 @@ public:
 		return true;
 	};
 	size_t size() { return this->size_graph; };
-	Vertex* get_vertex(size_t index) { return vertexes[index]; };
+	Vertex* get_vertex(size_t index) {
+		int counter = 0;
+		auto* item = vertexes.first();
+		while (index != counter) {
+			item = item->next_item;
+			counter++;
+		}
+		return item->item_data;
+	};
 	void set_data_from_vertex(size_t index, Data data) { get_vertex(index)->set_data(data); }
 private:
 	List<Vertex*> vertexes;
