@@ -2,7 +2,6 @@
 #include "list.h"
 #include <cstddef>
 
-using namespace std;
 struct Queue
 {
     List* list;
