@@ -96,18 +96,24 @@ int main() {
 
     int data = -1, index_i = 0, index_j = 0;
 
-    for (size_t i = 0; i < size_graph; i++) {
-        for (size_t j = 1; j < size_graph; j++) {
-            if (paths[i][j] > 0 && paths[i][j] > data) {
-                data = paths[i][j];
-                index_i = i;
-                index_j = j;
+        for (size_t i = 0; i < size_graph; i++) {
+            for (size_t j = 1; j < size_graph; j++) {
+                if (paths[i][j] > 0 && paths[i][j] > data) {
+                    data = paths[i][j];
+                    index_i = i;
+                    index_j = j;
+                }
             }
         }
-    }
 
     cout << "\nСамый длинный из кратчайших путей из вершины " << "'" << graph->get_vertex_data(index_i) << "'" << " в вершину " << "'" << graph->get_vertex_data(index_j) << "' = " << paths[index_i][index_j] << "\n";
 
+    for (size_t i = 0; i < size_graph; i++) {
+        for (size_t j = 1; j < size_graph; j++) {
+            cout << paths[i][j] << " ";
+        }
+        cout << "\n";
+    }
 
 
     return 0;
