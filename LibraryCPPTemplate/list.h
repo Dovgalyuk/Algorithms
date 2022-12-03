@@ -26,25 +26,7 @@ public:
         this->head = nullptr;
         this->size = 0;
     }
-
-    Data &operator[](int index) {
-        if (index == -1) throw "Element was not found!\n";
-        else {
-            int counter = 0;
-            Item* current = this->head;
-            while (current != nullptr) {
-                Data *data = &current->item_data;
-                if (index == size) return *data;
-                else if (counter > size) throw "Index out of range exception!\n";
-                else {
-                    if (counter == index) return *data;
-                    current = current->next();
-                    counter++;
-                }
-            }
-        }
-        return *new Data();
-    }
+    
     // Destroys the list and frees the memory
     ~List() {
         Item* toDelete = this->head;
