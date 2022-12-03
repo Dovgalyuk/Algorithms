@@ -12,16 +12,14 @@ struct List
 {
     ListItem* first;
     ListItem* last;
-    List()
-    {
-        first = 0;
-        last = 0;
-    }
 };
 
 List* list_create()
 {
-    return new List;
+    List* list = new List;
+    list->first = nullptr;
+    list->last = nullptr;
+    return list;
 }
 
 void list_delete(List * list)
