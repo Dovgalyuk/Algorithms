@@ -112,8 +112,8 @@ ListItem* list_erase(List* list, ListItem* item)
     {
         if (item->next == item)
         {
-            list->first = NULL;
-            list->last = NULL;
+            list->first = nullptr;
+            list->last = nullptr;
         }
         else
         {
