@@ -40,13 +40,11 @@ ListItem* list_first(List* list)
 }
 ListItem* list_last(List* list)
 {
-    return list->first;
+    return list->last;
 }
 Data list_item_data(const ListItem* item)
 {
-
-        return item->field;
-
+    return item->field;
 }
 
 ListItem* list_item_next(ListItem* item)
