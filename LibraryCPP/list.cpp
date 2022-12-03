@@ -17,16 +17,6 @@ struct List
         first = 0;
         last = 0;
     }
-    ~List()
-    {
-        while (first != last)
-        {
-            ListItem* temp = first;
-            first = first->prev;
-            delete temp;
-        }
-        delete last;
-    }
 };
 
 List* list_create()
@@ -36,6 +26,13 @@ List* list_create()
 
 void list_delete(List * list)
 {
+        while (list->first != list->last)
+    {
+        ListItem* temp = list->first;
+        list->first = list->first->prev;
+        delete temp;
+    }
+    delete list->last;
     delete list;
 }
 
