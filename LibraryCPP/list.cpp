@@ -68,7 +68,10 @@ ListItem* list_item_prev(ListItem* item)
 //Вставляем элемент в начало списка
 ListItem* list_insert(List* list, Data data)
 {
-    if (list->ListHead) return list->ListHead = new ListItem (data, list->ListHead); 
+    if (list->ListHead) {
+        list->ListHead->pointerPrev = new ListItem(data, list->ListHead);
+        return list->ListHead = list->ListHead->pointerPrev;
+    }
     else {
         list->ListHead = new ListItem(data);
         list->ListTail = list->ListHead;
