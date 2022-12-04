@@ -13,9 +13,7 @@ void KruskalsAlgorithm::getAllEdges() {
         while(*it != nullptr) {
             size_t start = graph->getVertex(i)->getVertexData();
             size_t end = (*it)->getVertexData();
-            if(graph->isEdgeExist(start, end)) {
-                edges.push_back({start, end, graph->getEdge(start, end)->getEdgeData()});
-            }
+            edges.push_back({start, end, graph->getEdge(start, end)->getEdgeData()});
             ++it;
         }
     }

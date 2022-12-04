@@ -8,7 +8,6 @@ class Graph {
     public:
         Graph(size_t vertex_amount, Data vertex_data) {
             vertexes = new Vector<Vertex*>;
-            vertexes->resize(vertex_amount);
             // Заполнение вершинами
             vertexes->resize(vertex_amount);
             for(size_t i = 0; i < vertex_amount; i++) {
@@ -46,13 +45,9 @@ class Graph {
 
         struct Edge {
             private:
-                Vertex *start;
-                Vertex *end;
                 Data edge_data;
             public:
-                Edge(Vertex *start, Vertex *end, Data edge_data) {
-                    this->start = start;
-                    this->end = end;
+                Edge(Data edge_data) {
                     this->edge_data = edge_data;
                 }
                 void setEdgeData(Data edge_data) {
@@ -125,7 +120,7 @@ class Graph {
 
             delete edgeMatrix;
             edgeMatrix = buffMatrix;
-            return index; // ???? 
+            return index;
         }
 
         void removeVertex(size_t index) {
@@ -135,11 +130,17 @@ class Graph {
             if(index >= _vertex_amount) {
                 return;
             }
+
+            // Переопределение вектора вершин
+            Vector<Vertex*> *buff_vertexes = new Vector<Vertex*>;
+            buff_vertexes->resize(_vertex_amount-1);
+
             for(size_t i = 0; i < _vertex_amount-1; i++) {
                 // Смещение вершин в векторе
-                vertexes->set(i, vertexes->get(i + (i >= index)));
+                buff_vertexes->set(i, vertexes->get(i + (i >= index)));
             }
-            vertexes->resize(_vertex_amount - 1);
+            delete vertexes;
+            vertexes = buff_vertexes;
 
             // Новое кол-во вершин
             size_t vertex_amount = getVertexAmount();
@@ -161,7 +162,7 @@ class Graph {
         }
 
         void addEdge(size_t start_vertex_index, size_t end_vertex_index, Data edge_data) {
-            Edge *edge = new Edge(getVertex(start_vertex_index), getVertex(end_vertex_index), edge_data);
+            Edge *edge = new Edge(edge_data);
             size_t vertex_amount = getVertexAmount();
             edgeMatrix->set(start_vertex_index * vertex_amount + end_vertex_index, edge);
         }
