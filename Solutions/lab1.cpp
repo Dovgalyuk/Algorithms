@@ -13,15 +13,15 @@ using std::endl;
 
 void shiftArray(Array<int> *array, bool toLeft) {
     if (toLeft) {
-        array->set(0, 0);
-        for (int i = 0; i < array->size(); i++) {
-            array->set(i, array->get(i+1));
+        for (int i = 1; i < array->size(); i++) {
+            array->set(i-1, array->get(i));
         }
-    } else {
         array->set(array->size() - 1, 0);
-        for (int i = array->size() - 1; i >= 0; i--) {
+    } else {
+        for (int i = array->size() - 1; i > 0; i--) {
             array->set(i, array->get(i - 1));
         }
+        array->set(0, 0);
     }
 }
 
