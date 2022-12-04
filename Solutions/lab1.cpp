@@ -22,6 +22,7 @@ void shiftArray(Array<int> *array, bool toLeft) {
             array->set(i, array->get(i - 1));
         }
         array->set(0, 0);
+
     }
 }
 
