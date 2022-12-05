@@ -22,15 +22,15 @@ List* list_create()
     return list;
 }
 
-void list_delete(List * list)
+void list_delete(List* list)
 {
-        while (list->first != list->last)
+    while (list->first != list->last)
     {
         ListItem* temp = list->first;
         list->first = list->first->prev;
         delete temp;
     }
-    delete list->last;
+    delete list->first;
     delete list;
 }
 
@@ -44,12 +44,15 @@ ListItem* list_last(List* list)
 }
 Data list_item_data(const ListItem* item)
 {
-    return item->field;
+    if (item)
+    {
+        return item->field;
+    }
 }
 
 ListItem* list_item_next(ListItem* item)
 {
-        return item->prev;
+    return item->prev;
 }
 
 ListItem* list_item_prev(ListItem* item)
@@ -104,28 +107,35 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
 }
 ListItem* list_erase(List* list, ListItem* item)
 {
+    ListItem* erase = nullptr;
     if (list->first)
     {
         if (item->next == item)
         {
-            list->first = nullptr;
-            list->last = nullptr;
+            erase = item;
+            delete erase;
+            list->first = NULL;
+            list->last = NULL;
+            return item;
         }
         else
         {
             if (item == list->last)
             {
+                erase = list->last;
                 list->last = list->last->next;
             }
             if (item == list->first)
             {
+                erase = list->first;
                 list->first = list->first->prev;
             }
             (item->next)->prev = item->prev;
             (item->prev)->next = item->next;
+            delete erase;
             return item;
         }
-   }
+    }
     else
     {
         return NULL;
