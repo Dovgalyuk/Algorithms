@@ -131,16 +131,14 @@ class Graph {
                 return;
             }
 
-            // Переопределение вектора вершин
-            Vector<Vertex*> *buff_vertexes = new Vector<Vertex*>;
-            buff_vertexes->resize(_vertex_amount-1);
-
+            Vertex *vertex = vertexes->get(index);
+            delete vertex;
             for(size_t i = 0; i < _vertex_amount-1; i++) {
                 // Смещение вершин в векторе
-                buff_vertexes->set(i, vertexes->get(i + (i >= index)));
+                Vertex *test = vertexes->get(i + (i >= index));
+                vertexes->set(i, test);
             }
-            delete vertexes;
-            vertexes = buff_vertexes;
+            vertexes->resize(_vertex_amount-1);
 
             // Новое кол-во вершин
             size_t vertex_amount = getVertexAmount();
