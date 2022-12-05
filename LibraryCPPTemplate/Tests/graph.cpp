@@ -109,7 +109,7 @@ int main() {
 		if (graph->find_index_edges(0, graph->get_vertex(1)) != 0) {
 			cout << "Error the correct vertex index\n";
 
-			return 0;
+			return -1;
 		}
 	}
 	catch (const char* e)
