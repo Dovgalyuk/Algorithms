@@ -47,17 +47,4 @@ bool queue_empty(const Queue* queue)
 {
     return queue->tail == 0;
 }
-void queue_remove(Queue* queue)
-{
-    if (!queue_empty(queue))
-    {
-        list_erase(queue->list, list_item_prev(list_first(queue->list)));
-        queue->tail--;
-    }
-}
-
-bool queue_empty(const Queue *queue)
-{
-   return queue->tail == 0;
-}
 
