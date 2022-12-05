@@ -36,7 +36,7 @@ Data array_get(const Array *arr, size_t index)
     }
     else
     {
-        return false;
+        return Data();
     }
 }
 
