@@ -9,7 +9,7 @@ struct Vector
     Vector() {
         this->size = 0;
         this->capacity = 5;
-        this->data = new Data[capacity];
+        this->data = new Data[capacity]{NULL};
     }
 
     ~Vector() {
@@ -62,7 +62,7 @@ void vector_resize(Vector *vector, size_t size)
     }
     else {
         size_t temp_capacity = vector->capacity * 2;
-        Data* temp_data = new Data[temp_capacity];
+        Data* temp_data = new Data[temp_capacity]{NULL};
 
         for (int i = 0; i < vector->size; i++)
         {
