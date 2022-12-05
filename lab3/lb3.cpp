@@ -1,5 +1,4 @@
 #include "queue.h"
-#include "list.h"
 #include <iostream>
 #include <string>
 #include <fstream> 
@@ -39,6 +38,7 @@ int main()
 		}
 		k++;
 	}
+	out.close();
 	int** rast = new int* [labirynth.size()]; //создаём двумерный массив расстояний и заполняем его нулями
 	for (int i = 0; i < labirynth.size(); i++)
 	{
@@ -73,7 +73,7 @@ int main()
 	}
 	if (rast[fx][fy]) //если финиш достигнут
 	{
-		while (rast[fx][fy]-1 != rast[sx][sy])
+		while (rast[fx][fy] - 1 != rast[sx][sy])
 		{
 			for (int k = 0; k < 4; k++) //возвращаемся от конца к началу
 			{
@@ -102,6 +102,6 @@ int main()
 		delete[] rast[i];
 	}
 	delete[] rast;
-	labirynth.clear();
+	vector<string>().swap(labirynth);
 	queue_delete(queue);
 }
