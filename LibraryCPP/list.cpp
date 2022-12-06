@@ -52,12 +52,12 @@ Data list_item_data(const ListItem* item)
 
 ListItem* list_item_next(ListItem* item)
 {
-    return item->next;
+    return item->prev;
 }
 
 ListItem* list_item_prev(ListItem* item)
 {
-    return item->prev;
+    return item->next;
 }
 
 ListItem* list_insert(List* list, Data data)
@@ -112,10 +112,13 @@ ListItem* list_erase(List* list, ListItem* item)
     {
         if (item->next == item)
         {
+            list->first = nullptr;
+            list->last = nullptr;
             erase = item;
+            delete erase;
             list->first = NULL;
             list->last = NULL;
-            delete erase;
+            return item;
         }
         else
         {
@@ -137,7 +140,7 @@ ListItem* list_erase(List* list, ListItem* item)
     }
     else
     {
-        return NULL;
+    return NULL;
     }
 }
 
