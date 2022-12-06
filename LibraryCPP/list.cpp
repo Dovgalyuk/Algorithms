@@ -144,18 +144,7 @@ ListItem* list_erase(List* list, ListItem* item)
 
 ListItem* list_erase_next(List* list, ListItem* item)
 {
-    ListItem* erase = nullptr;
-    if (list->first == nullptr) {
-        return erase;
-    }
-    if (item->next == nullptr) {
-        return erase;
-    }
-    erase = item->next;
-
-    item->next = item->next->next;
-
-    delete erase;
-    return item->next;
+    list_erase(list, list_item_next(item));
+    return item;
 }
 
