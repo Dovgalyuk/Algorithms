@@ -27,7 +27,7 @@ void list_delete(List* list)
     while (list->first != list->last)
     {
         ListItem* temp = list->first;
-        list->first = list->first->prev;
+        list->first = list->first->next;
         delete temp;
     }
     delete list->first;
@@ -48,16 +48,20 @@ Data list_item_data(const ListItem* item)
     {
         return item->field;
     }
+    else
+    {
+        return Data();
+    }
 }
 
 ListItem* list_item_next(ListItem* item)
 {
-    return item->prev;
+    return item->next;
 }
 
 ListItem* list_item_prev(ListItem* item)
 {
-    return item->next;
+    return item->prev;
 }
 
 ListItem* list_insert(List* list, Data data)
@@ -66,15 +70,15 @@ ListItem* list_insert(List* list, Data data)
     ins->field = data;
     if (list->first)
     {
-        ins->prev = list->first;
-        list->first->next = ins;
+        ins->next = list->first;
+        list->first->prev = ins;
     }
     else
     {
         list->last = ins;
     }
-    ins->next = list->last;
-    list->last->prev = ins;
+    ins->prev = list->last;
+    list->last->next = ins;
     list->first = ins;
     return ins;
 }
@@ -85,23 +89,23 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
     newItem->field = data;
     if (item == list->first)
     {
-        newItem->next = list->first;
-        newItem->prev = list->first->prev;
-        list->first->prev = newItem;
+        newItem->prev = list->first;
+        newItem->next = list->first->next;
+        list->first->next = newItem;
         return newItem;
     }
     if (item == list->last)
     {
-        newItem->next = list->last;
-        newItem->prev = list->last->prev;
-        list->last->prev = newItem;
+        newItem->prev = list->last;
+        newItem->next = list->last->next;
+        list->last->next = newItem;
         return newItem;
     }
     else
     {
-        newItem->next = item;
-        newItem->prev = item->prev;
-        item->prev = newItem;
+        newItem->prev = item;
+        newItem->next = item->next;
+        item->next = newItem;
         return newItem;
     }
 }
@@ -116,21 +120,18 @@ ListItem* list_erase(List* list, ListItem* item)
             list->last = nullptr;
             erase = item;
             delete erase;
-            list->first = NULL;
-            list->last = NULL;
-            return item;
         }
         else
         {
             if (item == list->last)
             {
                 erase = list->last;
-                list->last = list->last->next;
+                list->last = list->last->prev;
             }
             if (item == list->first)
             {
                 erase = list->first;
-                list->first = list->first->prev;
+                list->first = list->first->next;
             }
             (item->next)->prev = item->prev;
             (item->prev)->next = item->next;
@@ -140,7 +141,7 @@ ListItem* list_erase(List* list, ListItem* item)
     }
     else
     {
-    return NULL;
+        return NULL;
     }
 }
 
@@ -149,4 +150,5 @@ ListItem* list_erase_next(List* list, ListItem* item)
     list_erase(list, list_item_next(item));
     return item;
 }
+
 
