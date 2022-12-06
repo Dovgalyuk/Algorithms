@@ -37,6 +37,7 @@ int main()
 		if (elem < 50)
 			sumLess50 += elem;
 	}
+	array_delete(arr);
 
 	if (sumMore20 > 100) 
 		cout << "сумма элементов, которые больше 20, превышает 100 ("<< sumMore20<<")";
