@@ -48,6 +48,10 @@ Data list_item_data(const ListItem* item)
     {
         return item->field;
     }
+    else
+    {
+        return Data();
+    }
 }
 
 ListItem* list_item_next(ListItem* item)
