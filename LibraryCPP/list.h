@@ -43,5 +43,7 @@ ListItem *list_erase(List *list, ListItem *item);
 // Returns pointer to the item next to the deleted one.
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);
+//Returns the last element of list.
+ListItem* list_last(List* list);
 
 #endif
