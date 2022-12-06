@@ -133,9 +133,9 @@ class Graph {
 
             Vertex *vertex = vertexes->get(index);
             delete vertex;
-            for(size_t i = 0; i < _vertex_amount-1; i++) {
+            for(size_t i = index; i < _vertex_amount-1; i++) {
                 // Смещение вершин в векторе
-                vertexes->set(i, vertexes->get(i + (i >= index)));
+                vertexes->set(i, vertexes->get(i + 1));
             }
             vertexes->resize(_vertex_amount-1);
 
