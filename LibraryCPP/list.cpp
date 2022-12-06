@@ -24,13 +24,13 @@ List* list_create()
 
 void list_delete(List* list)
 {
-    while (list->last != list->first)
+   while(list->first != list->last)
     {
-        ListItem* temp = list->last;
-        list->last = list->last->prev;
+        ListItem* temp = list->first;
+        list->first = list->first->next;
         delete temp;
     }
-    delete list->last;
+    delete list->first;
     delete list;
 }
 
