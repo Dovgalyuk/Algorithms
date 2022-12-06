@@ -1,13 +1,13 @@
-﻿#include "vector.h"
+#include "vector.h"
 #include "stack.h"
 #include <iostream>
 #include "conio.h"
 #include <fstream>
 using namespace std;
 
-bool balanced(const std::string& s)
+bool balanced(const std::string& s, Stack* stack)
 {
-    Stack* stack = stack_create();
+    
     for (char c : s) {
         switch (c) {
 
@@ -30,11 +30,11 @@ bool balanced(const std::string& s)
     return stack_empty(stack);
 }
 
-void test(const string s) {
+void test(const string s, Stack* stack) {
     fstream file("path.txt", fstream::in | fstream::out | fstream::app);
 
     if (file.is_open()) {
-        if (balanced(s)) file << '"' << s << '"' << " : Yes\n";
+        if (balanced(s, stack)) file << '"' << s << '"' << " : Yes\n";
         else file << '"' << s << '"' << " : No\n";
     }
     file << "-----------------\n";
@@ -44,13 +44,15 @@ void test(const string s) {
 int main()
 {
     string message;
+    Stack* stack = stack_create();
     cout << "press the 'esc' to finish\nOr press other buttons to continue\n";
     while (_getch() != 27) {
         cout << "input message: ";
         cin >> message;
-        test(message);
+        test(message, stack);
         cout << "press the 'esc' to finish\nOr press other buttons to continue\n";
     }
+    stack_delete(stack);
     return 0;
 }
 
