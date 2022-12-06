@@ -47,4 +47,3 @@ bool queue_empty(const Queue* queue)
 {
     return queue->tail == 0;
 }
-
