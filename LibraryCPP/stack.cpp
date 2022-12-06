@@ -32,10 +32,9 @@ void stack_push(Stack* stack, Data data)
 
 Data stack_get(const Stack* stack)
 {
-
-    return stack_empty(stack) ? throw "Empty stack error"
-        : vector_get(stack->vector, vector_size(stack->vector) - 1);
-
+    if (stack_empty(stack)) { throw "Empty stack error"; }
+    else { return vector_get(stack->vector, vector_size(stack->vector) - 1); }
+    return(Data) 0;
 }
 
 void stack_pop(Stack* stack)
