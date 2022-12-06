@@ -31,14 +31,14 @@ void queue_insert(Queue* queue, Data data)
 
 Data queue_get(const Queue* queue)
 {
-    return list_item_data(list_item_prev(list_first(queue->list)));
+    return list_item_data(list_last(queue->list));
 }
 
 void queue_remove(Queue* queue)
 {
     if (!queue_empty(queue))
     {
-        list_erase(queue->list, list_item_prev(list_first(queue->list)));
+        list_erase(queue->list, list_last(queue->list));
         queue->tail--;
     }
 }
