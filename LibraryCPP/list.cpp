@@ -25,6 +25,11 @@ List* list_create()
 void list_delete(List* list)
 {
     // TODO: free items
+    while (list_item_next(list->head) != nullptr)
+    {
+        list_erase_next(list, list->head);
+    }
+    delete list->head;
     delete list;
     
 }
@@ -84,5 +89,4 @@ ListItem* list_erase_next(List* list, ListItem* item)
         delete erase;
         return item;
     }
-
 }
