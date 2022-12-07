@@ -27,7 +27,6 @@ void list_delete(List* list)
     {
         list_erase(list, list->first);
     }
-    delete list->first;
     delete list;
 }
 
