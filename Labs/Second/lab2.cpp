@@ -81,7 +81,7 @@ int main() {
                     }
                 }
             } else {
-                cout << "ERROR: Command recognition exeption  -> " << str << endl;
+                cout << "ERROR: Command recognition exception  -> " << str << endl;
                 file.close();
             }
         }
