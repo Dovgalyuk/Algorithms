@@ -1,7 +1,18 @@
 #include "stack.h"
+#include "list.h"
+#include <cstddef>
 
 struct Stack
 {
+    List *list;
+
+    Stack() {
+        this->list = list_create();
+    }
+
+    ~Stack() {
+        list_delete(this->list);
+    }
 };
 
 Stack *stack_create()
@@ -11,24 +22,31 @@ Stack *stack_create()
 
 void stack_delete(Stack *stack)
 {
-    // TODO: free stack elements
     delete stack;
 }
 
 void stack_push(Stack *stack, Data data)
 {
+    list_insert(stack->list, data);
 }
 
 Data stack_get(const Stack *stack)
 {
-    return (Data)0;
+    if(list_first(stack->list) == nullptr)
+        throw "No elements in stack";
+
+    return list_item_data(list_first(stack->list));
 }
 
 void stack_pop(Stack *stack)
 {
+    if(list_first(stack->list) == nullptr)
+        throw "Popping empty element";
+
+    list_erase(stack->list, list_first(stack->list));
 }
 
 bool stack_empty(const Stack *stack)
 {
-    return true;
+    return list_first(stack->list) == nullptr;
 }
