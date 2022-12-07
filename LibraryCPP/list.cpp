@@ -23,7 +23,7 @@ List* list_create()
 
 void list_delete(List* list)
 {
-    while(list->first != nullptr)
+    while(list->first)
     {
         list_erase(list, list->first);
     }
