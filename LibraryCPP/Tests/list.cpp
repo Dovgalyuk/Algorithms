@@ -29,7 +29,7 @@ int main()
         return 1;
     }
 
-    list_erase(list, list_first(list));
+    /*list_erase(list, list_first(list));
 
     if (list_item_data(list_first(list)) != 4)
     {
@@ -42,7 +42,16 @@ int main()
     {
         std::cout << list_item_data(item) << " ";
     }
+    std::cout << "\n";*/
+    
+    
+        std::cout << "List: ";
+    for (ListItem* item = list_item_next(list_first(list)); item; item = list_item_next(item))
+    {
+        std::cout << list_item_data(item) << " ";
+    }
     std::cout << "\n";
 
+    
     list_delete(list);
 }
