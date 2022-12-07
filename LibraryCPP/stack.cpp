@@ -19,6 +19,11 @@ Stack* stack_create()
 void stack_delete(Stack* stack)
 {
     // TODO: free stack elements
+    while (!stack_empty)
+    {
+        stack_pop(stack);
+    }
+    delete list_first(stack->list);
     delete stack;
 }
 
