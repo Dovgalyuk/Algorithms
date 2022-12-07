@@ -23,9 +23,12 @@ List* list_create()
 
 void list_delete(List* list)
 {
-    while(list->first)
+    ListItem* current = list->first;
+    while (list->first)
     {
-        list_erase(list, list->first);
+        ListItem* prev = current;
+        current = list_item_next(prev);
+        list_erase(list, prev);
     }
     delete list;
 }
