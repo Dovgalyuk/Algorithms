@@ -1,6 +1,7 @@
 #include <cstddef>
 #include "list.h"
 
+
 struct ListItem
 {
     Data field;
@@ -11,26 +12,22 @@ struct ListItem
 struct List
 {
     ListItem* first;
-    ListItem* last;
 };
 
 List* list_create()
 {
     List* list = new List;
     list->first = nullptr;
-    list->last = nullptr;
     return list;
 }
 
 void list_delete(List* list)
 {
-   while(list->first != list->last)
+    while(list_item_next(list->first) != nullptr)
     {
-        ListItem* temp = list->first;
-        list->first = list->first->next;
-        delete temp;
+        list_erase(list, list->first);
     }
-    delete list->last;
+    delete list->first;
     delete list;
 }
 
@@ -38,10 +35,7 @@ ListItem* list_first(List* list)
 {
     return list->first;
 }
-ListItem* list_last(List* list)
-{
-    return list->last;
-}
+
 Data list_item_data(const ListItem* item)
 {
     if (item)
@@ -56,31 +50,49 @@ Data list_item_data(const ListItem* item)
 
 ListItem* list_item_next(ListItem* item)
 {
-    return item->next;
+    if (item)
+    {
+        return item->next;
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 ListItem* list_item_prev(ListItem* item)
 {
-    return item->prev;
+    if (item)
+    {
+        return item->prev;
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 ListItem* list_insert(List* list, Data data)
 {
-    ListItem* ins = new ListItem;
-    ins->field = data;
-    if (list->first)
+    ListItem* item = new ListItem;
+    item->field = data;
+
+    if (!list->first)
     {
-        ins->next = list->first;
-        list->first->prev = ins;
+        list->first = item;
+        list->first->next = item;
+        list->first->prev = item;
     }
     else
     {
-        list->last = ins;
+        item->prev = list->first->prev;
+        item->next = list->first;
+        list->first->prev->next = item;
+        list->first->prev = item;
     }
-    ins->prev = list->last;
-    list->last->next = ins;
-    list->first = ins;
-    return ins;
+    list->first = item;
+
+    return item;
 }
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data)
@@ -92,13 +104,6 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
         newItem->prev = list->first;
         newItem->next = list->first->next;
         list->first->next = newItem;
-        return newItem;
-    }
-    if (item == list->last)
-    {
-        newItem->prev = list->last;
-        newItem->next = list->last->next;
-        list->last->next = newItem;
         return newItem;
     }
     else
@@ -116,23 +121,20 @@ ListItem* list_erase(List* list, ListItem* item)
     {
         if (item->next == item)
         {
-            list->first = NULL;
-            list->last = NULL;
+            list->first = nullptr;
             erase = item;
             delete erase;
-            return item;
         }
         else
         {
-            if (item == list->last)
-            {
-                erase = list->last;
-                list->last = list->last->prev;
-            }
             if (item == list->first)
             {
                 erase = list->first;
                 list->first = list->first->next;
+            }
+            else
+            {
+                erase = item;
             }
             (item->next)->prev = item->prev;
             (item->prev)->next = item->next;
