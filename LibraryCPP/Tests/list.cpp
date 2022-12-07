@@ -49,5 +49,4 @@ int main()
     }
     std::cout << "\n";
 
-    list_delete(list);
 }
