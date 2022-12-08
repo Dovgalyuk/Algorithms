@@ -27,7 +27,7 @@ using namespace std;
 //}
 //
 void writeData(Stack* stack, char num) {//Запись данных в стек
-	int value = atoi(&num);//Перевод значения в int
+	int value = num - '0';//Перевод значения в int
 	stack_push(stack, value);//Записываем данные в стек
 }
 
@@ -99,7 +99,7 @@ void compareNum(Stack* stack) {//Сравнение значений
 }
 
 char checkingForNumber(char command) {
-	if (command >= 48 && command <= 57) 
+	if (command >= '0' && command <= '9')
 	{
 		return 'n';
 	}
