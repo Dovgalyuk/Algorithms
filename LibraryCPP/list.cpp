@@ -11,15 +11,13 @@ struct ListItem
 struct List
 {
     ListItem* head;
-    List()
-    {
-        head = NULL;
-    }
 };
 
 List* list_create()
 {
-    return new List();
+    List* list = new List;
+    list->head = nullptr;
+    return list;
 }
 
 void list_delete(List* list)
