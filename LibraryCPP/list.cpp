@@ -68,9 +68,6 @@ ListItem *list_insert(List *list, Data data)
 
     newItem->nextItem = list->firstItem;
 
-    if (list->firstItem != nullptr)
-        newItem->nextItem = list->firstItem;
-
     list->firstItem = newItem;
 
     return newItem;
@@ -109,14 +106,27 @@ ListItem *list_erase(List *list, ListItem *item)
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    if (item->nextItem) {
-        ListItem* temp = item->nextItem->nextItem;
-        delete item->nextItem;
-
-        item->nextItem = temp;
-
-        return temp;
+    ListItem *tmp = nullptr;
+    if(list->firstItem == nullptr || item->nextItem == nullptr) {
+        return tmp;
     }
+    // Удаляемый элемент
+    tmp = item->nextItem;
 
-    return 0;
+    // Элемент слева от удаляемого => элемент справа
+    item->nextItem = item->nextItem->nextItem;
+
+    delete tmp;
+
+    return item->nextItem;
+}
+
+ListItem *list_erase_first(List *list) {
+    ListItem* tmp = nullptr;
+    tmp = list->firstItem;
+    list->firstItem = list->firstItem->nextItem;
+
+    delete tmp;
+
+    return list->firstItem;
 }
