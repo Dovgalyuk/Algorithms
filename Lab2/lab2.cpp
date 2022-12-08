@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include "stack.h"
+#include "list.h"
 
 using namespace std;
+
 
 int main()
 {
@@ -14,7 +16,7 @@ int main()
     {
         stack_push(stack, a[i]);
     }
-    while (stack_empty(stack))
+    while (!stack_empty(stack))
     {
         switch (stack_get(stack)) {
         case '[':
@@ -51,4 +53,5 @@ int main()
     else
         cout << "NO";
     stack_delete(stack);
+
 }
