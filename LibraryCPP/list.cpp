@@ -123,7 +123,7 @@ ListItem* list_erase(List* list, ListItem* item)
             list->first = nullptr;
             erase = item;
             delete erase;
-            return item;
+            return NULL;
         }
         else
         {
@@ -132,14 +132,10 @@ ListItem* list_erase(List* list, ListItem* item)
                 erase = list->first;
                 list->first = list->first->next;
             }
-            else
-            {
-                erase = item;
-            }
             (item->next)->prev = item->prev;
             (item->prev)->next = item->next;
             delete erase;
-            return item;
+            return item->next;
         }
     }
     else
