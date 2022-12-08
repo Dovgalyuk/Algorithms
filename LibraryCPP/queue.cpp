@@ -38,7 +38,11 @@ Data queue_get(const Queue *queue)
 void queue_remove(Queue *queue)
 {
     if (queue_empty(queue)) throw "Queue is empty";
-    else {
+    else if (vector_size(queue->vector) == 1) {
+        vector_delete(queue->vector);
+        queue->vector = vector_create();
+    }
+    else {    
         Vector* temp_vector = vector_create();
         vector_resize(temp_vector, vector_size(queue->vector) - 1);
         for (int i = 1; i < vector_size(queue->vector); i++)

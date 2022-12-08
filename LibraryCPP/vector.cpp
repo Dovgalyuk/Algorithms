@@ -61,7 +61,7 @@ void vector_resize(Vector *vector, size_t size)
         vector->size = size;
     }
     else {
-        size_t temp_capacity = vector->capacity * 2;
+        size_t temp_capacity = size * 2;
         Data* temp_data = new Data[temp_capacity]{NULL};
 
         for (int i = 0; i < vector->size; i++)
