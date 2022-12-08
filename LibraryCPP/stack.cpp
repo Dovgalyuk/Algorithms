@@ -32,13 +32,13 @@ Data stack_get(const Stack *stack) {
         throw "ERROR: Stack empty";
     else
         return vector_get(stack->vector, vector_size(stack->vector) - 1);
-
 }
 
 void stack_pop(Stack *stack) {
-    size_t size = vector_size(stack->vector);
-    stack_empty(stack) ? throw "ERROR: Stack empty" :
-    vector_resize(stack->vector, size - 1);
+    if (stack_empty(stack))
+        throw "ERROR: Stack empty";
+    else
+        vector_resize(stack->vector, vector_size(stack->vector) - 1);
 }
 
 bool stack_empty(const Stack *stack) {
