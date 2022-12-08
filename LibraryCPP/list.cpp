@@ -23,7 +23,7 @@ List* list_create()
 void list_delete(List* list)
 {
     // TODO: free items
-    while (list_item_next(list->head) != nullptr)
+    while (list_item_next(list->head))
     {
         list_erase_next(list, list->head);
     }
@@ -34,17 +34,27 @@ void list_delete(List* list)
 
 ListItem* list_first(List* list)
 {
-    return list->head;
+    if (list->head)
+        return list->head;
+    else
+        return NULL;
+
 }
 
 Data list_item_data(const ListItem* item)
 {
-    return item->data;
+    if (item)
+        return item->data;
+    else
+        return NULL;
 }
 
 ListItem* list_item_next(ListItem* item)
 {
-    return item->pNext;
+    if (item)
+        return item->pNext;
+    else
+        return NULL;
 }
 
 // Not applicable for the singly linked lists.
