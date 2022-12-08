@@ -89,4 +89,6 @@ ListItem* list_erase_next(List* list, ListItem* item)
         delete erase;
         return item;
     }
+    else
+        return NULL;
 }
