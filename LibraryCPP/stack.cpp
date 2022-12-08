@@ -19,11 +19,7 @@ Stack* stack_create()
 void stack_delete(Stack* stack)
 {
     // TODO: free stack elements
-    while (!stack_empty)
-    {
-        stack_pop(stack);
-    }
-    delete list_first(stack->list);
+    list_delete(stack->list);
     delete stack;
 }
 
@@ -46,6 +42,8 @@ void stack_pop(Stack* stack)
 
 bool stack_empty(const Stack* stack)
 {   
-    if(list_item_next(list_first(stack->list)) != nullptr)
+    if (list_item_next(list_first(stack->list)) == nullptr)
         return true;
+    else
+        return false;
 }
