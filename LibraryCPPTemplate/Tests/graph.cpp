@@ -86,6 +86,23 @@ int main() {
 	}
 	print_vertex_edges(from);
 
+	//graph iterator test
+	const int expected_number_of_edges = 4;
+	int number_of_edges = 0;
+	for (auto i = from->begin(); i.item != 0; ++i) {
+		number_of_edges++;
+		auto to = i.item->data().vertex;
+		if (!graph->is_edge_exists(from, to)) {
+			cout << "The iterator refers to a nonexistent edge";
+			return 1;
+		}
+	}
+
+	if (expected_number_of_edges != number_of_edges) {
+		cout << "Vertex iterator has wrong size";
+		return 1;
+	}
+
 	//graph remove edge test
 	auto to = graph->get_vertex(4);
 	graph->remove_edge(from, to);

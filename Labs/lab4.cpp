@@ -1,6 +1,6 @@
 #include <iostream>
-#include <algorithm>
 #include <math.h>
+#include <limits.h>
 #include "graph.h"
 
 using namespace std;
@@ -9,40 +9,34 @@ void prims_algorithm(Graph<int>& graph) {
 	
 	int edges_count = graph.size() - 1;
 	
-	bool visited[graph.size()]{ false };
-	visited[0] = true;
+	Graph<int>::Edge prims_tree[edges_count];
+
+	for (int i = 0; i < edges_count; ++i) prims_tree[i] = { 0,INT_MAX };
+
+	for (int i = 0; i < graph.size(); ++i) {
+		
+		auto vertex = graph.get_vertex(i);
+		
+		for (auto j = vertex->begin(); j.item != 0; ++j) {
+			
+			int vertex_dest = j.item->data().vertex->data;
+			
+			auto edge = &prims_tree[vertex_dest - 1];
+			
+			if (edge->weight <= j.item->data().weight) continue;
+
+			edge->vertex = vertex;
+			edge->weight = j.item->data().weight;
+		}
+	}
 
 	for (int i = 0; i < edges_count; ++i) {
-		
-		int min_weight = INFINITY;
-		int from, to;
-		
-		for (int j = 0; j < graph.size(); ++j) {
-			
-			if (!visited[j]) continue;
-
-			auto vertex = graph.get_vertex(j);
-
-			for (auto k = vertex->begin(); k.item != 0; ++k) {
-				
-				auto edge = k.item->data();
-
-				if (edge.weight > min_weight) continue;
-
-				if (visited[edge.vertex->data]) continue;
-
-				min_weight = edge.weight;
-				
-				from = vertex->data;
-				to = edge.vertex->data;
-
-			}
-		}
-
-		visited[to] = true;
-
-		cout << from << "->" << to << " : " << min_weight << endl;
-
+		printf(
+			"%d -> %d : %d \n",
+			prims_tree[i].vertex->data,
+			i + 1,
+			prims_tree[i].weight
+		);
 	}
 }
 
