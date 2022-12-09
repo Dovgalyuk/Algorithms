@@ -102,6 +102,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
         newItem->field = data;
         newItem->prev = item;
         newItem->next = item->next;
+        item->next->prev = newItem;
         item->next = newItem;
         return newItem;
     }
@@ -124,15 +125,16 @@ ListItem* list_erase(List* list, ListItem* item)
         }
         else
         {
+           ListItem* item_next = item->next;
             if (item == list->first)
-             {
+            {
                 list->first = list->first->next;
-             }
-             erase = item;
+            }
+            erase = item;
             (item->next)->prev = item->prev;
             (item->prev)->next = item->next;
             delete erase;
-            return item->next;
+            return item_next;
         }
     }
     else
