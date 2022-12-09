@@ -5,3 +5,7 @@ target_link_libraries(lab1d.cpp LibraryCPP)
 add_executable(lab2dCPP lab2d.cpp)
 target_include_directories(lab2d.cpp PUBLIC ../LibraryCPP)
 target_link_libraries(lab2d.cpp LibraryCPP)
+
+add_executable(lab3dCPP lab3d.cpp)
+target_include_directories(lab3d.cpp PUBLIC ../LibraryCPP)
+target_link_libraries(lab3d.cpp LibraryCPP)
