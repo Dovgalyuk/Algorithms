@@ -119,7 +119,7 @@ int main()
         cin >> yCoordinate;
 
         checkCoordinate(xCoordinate, yCoordinate, M, N);
-        xCoordinate--;//Убавляем у координат еденицу, для работы с матрицей (т.к. по заданию нам необходимо подавать координаты от 1 до M/N)
+        xCoordinate--;//Убавляем у координат единицу, для работы с матрицей (т.к. по заданию нам необходимо подавать координаты от 1 до M/N)
         yCoordinate--;
 
         matrix[yCoordinate][xCoordinate] = 1;
