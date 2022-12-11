@@ -28,4 +28,4 @@ add_executable(TestHashTableCPP TestHashTable.cpp)
 target_include_directories(TestHashTableCPP PUBLIC ..)
 target_link_libraries(TestHashTableCPP LibraryCPP)
 add_test(TestHashTableCPP TestHashTableCPP)
-
+set_tests_properties(TestHashTableCPP PROPERTIES TIMEOUT 10)
