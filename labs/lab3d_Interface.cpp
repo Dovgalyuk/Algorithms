@@ -71,21 +71,25 @@ bool checkMatrixFill(int** matrix, int M, int N) {
 }
 int setColors(int** matrix, Queue* queue, int M, int N) {
 
-    int y = queue_get(queue);
-    queue_remove(queue);
+    int k = 0;
 
-    int x = queue_get(queue);
-    queue_remove(queue);
+    while (!checkMatrixFill(matrix, M, N))
+    {
+        int y = queue_get(queue);
+        queue_remove(queue);
 
-    int k = matrix[y][x]; //Записываем в переменную k единицу, которую ранее присвоили элементу по введенным координатам из введенных координат
+        int x = queue_get(queue);
+        queue_remove(queue);
 
-    checkLeft(matrix, queue, x, y, k);
-    checkTop(matrix, queue, x, y,k);
-    checkRight(matrix, queue, x, y, M,k);
-    checkBottom(matrix, queue, x, y,N,k);
+        k = matrix[y][x]; //Записываем в переменную k единицу, которую ранее присвоили элементу по введенным координатам из введенных координат
 
-    if (!checkMatrixFill(matrix, M, N)) k = setColors(matrix, queue, M, N);
-    else return k;
+        checkLeft(matrix, queue, x, y, k);
+        checkTop(matrix, queue, x, y, k);
+        checkRight(matrix, queue, x, y, M, k);
+        checkBottom(matrix, queue, x, y, N, k);
+    }
+
+    return k;
 }
 
 int main()
@@ -135,7 +139,7 @@ int main()
 
 
     //Чистка памяти
-    for (int i = 0; i < N; i++) delete matrix[i];
+    for (int i = 0; i < N; i++) delete[] matrix[i];
     delete[] matrix;
     queue_delete(queue);
 
