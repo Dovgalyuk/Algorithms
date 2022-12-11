@@ -4,9 +4,14 @@
 struct Queue
 {
     Vector* vector;
+    
+    size_t head;
+    size_t tail;
 
     Queue() {
         this->vector = vector_create();
+        this->head = 0;
+        this->tail = 0;
     }
 
     ~Queue() {
@@ -26,36 +31,49 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue *queue, Data data)
 {
-    vector_resize(queue->vector, vector_size(queue->vector) + 1);
-    return vector_set(queue->vector, vector_size(queue->vector) - 1, data);
+    if (queue_empty(queue)) {
+        vector_resize(queue->vector, 30);
+        vector_set(queue->vector, queue->head, data);
+        queue->tail++;
+    }
+    else if (queue->head == queue->tail) {
+        vector_set(queue->vector, 0, queue_get(queue));
+        queue->head = 0;
+        queue->tail = 1;
+        queue_insert(queue, data);
+    }
+    else if (queue->tail == vector_size(queue->vector) - 1) {
+        vector_resize(queue->vector, vector_size(queue->vector) * 2);
+        vector_set(queue->vector, queue->tail, data);
+        queue->tail++;
+    } 
+    else {
+        vector_set(queue->vector, queue->tail, data);
+        queue->tail++;
+    }
 }
 
 Data queue_get(const Queue *queue)
 {
-    return vector_get(queue->vector, 0);
+    return vector_get(queue->vector, queue->head);
 }
 
 void queue_remove(Queue *queue)
 {
     if (queue_empty(queue)) throw "Queue is empty";
-    else if (vector_size(queue->vector) == 1) {
-        vector_delete(queue->vector);
-        queue->vector = vector_create();
+    else if (queue->head+1 == queue->tail) {
+        vector_set(queue->vector, queue->head, 0);
+        queue->tail = 0;
+        queue->head = 0;
     }
-    else {    
-        Vector* temp_vector = vector_create();
-        vector_resize(temp_vector, vector_size(queue->vector) - 1);
-        for (int i = 1; i < vector_size(queue->vector); i++)
-        {
-            vector_set(temp_vector, i-1, vector_get(queue->vector, i));
-        }
-        vector_delete(queue->vector);
-        queue->vector = temp_vector;
+    else {
+        vector_set(queue->vector, queue->head, 0);
+        queue->head++;
     }
 }
 
 bool queue_empty(const Queue *queue)
 {
-    if (vector_size(queue->vector) == 0) return true;
+    if (queue->head == queue->tail && queue->head == 0) return true;
     else return false;
 }
