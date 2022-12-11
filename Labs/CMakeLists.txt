@@ -13,3 +13,6 @@ target_link_libraries(Algorithms_lab_3CPP LibraryCPP)
 add_executable(Algorithms_lab_4CPP Algorithms_lab_4.cpp)
 target_include_directories(Algorithms_lab_4CPP PUBLIC ../LibraryCPPTemplate)
 
+add_executable(Algorithms_lab_5CPP Algorithms_lab_5.cpp)
+add_library(lib_5 SHARED ${PROJECT_SOURCE_DIR}/LibraryCPP/HashTable.h)
+target_link_libraries(Algorithms_lab_5CPP lib_5)
