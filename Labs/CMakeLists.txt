@@ -14,4 +14,4 @@ add_executable(Algorithms_lab_4CPP Algorithms_lab_4.cpp)
 target_include_directories(Algorithms_lab_4CPP PUBLIC ../LibraryCPPTemplate)
 
 add_executable(Algorithms_lab_5CPP Algorithms_lab_5.cpp)
-target_link_libraries(Algorithms_lab_5CPP lib_5 LibraryCPP)
+target_link_libraries(Algorithms_lab_5CPP LibraryCPP)
