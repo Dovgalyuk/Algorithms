@@ -1,5 +1,5 @@
 #include <iostream>
-#include "array.h"
+#include "../LibraryCPPTemaplate/array.h"
 
 using namespace std;
 
