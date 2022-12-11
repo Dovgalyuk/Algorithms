@@ -90,7 +90,7 @@ ListItem* list_erase(List* list, ListItem* item)
 ListItem* list_erase_next(List* list, ListItem* item)
 {
     ListItem* erase = nullptr;
-    if (list->head)
+    if (list_item_next(item))
     {
         erase = item->pNext;
         item->pNext = list_item_next(list_item_next(item));
