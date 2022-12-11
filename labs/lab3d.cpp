@@ -73,21 +73,25 @@ bool checkMatrixFill(int** matrix, int M, int N) {
 }
 int setColors(int** matrix, Queue* queue, int M, int N) {
 
-    int y = queue_get(queue);
-    queue_remove(queue);
+    int k = 0;
 
-    int x = queue_get(queue);
-    queue_remove(queue);
+    while (!checkMatrixFill(matrix, M, N))
+    {
+        int y = queue_get(queue);
+        queue_remove(queue);
 
-    int k = matrix[y][x]; //Записываем в переменную k единицу, которую ранее присвоили элементу по введенным координатам из введенных координат
+        int x = queue_get(queue);
+        queue_remove(queue);
 
-    checkLeft(matrix, queue, x, y, k);
-    checkTop(matrix, queue, x, y,k);
-    checkRight(matrix, queue, x, y, M,k);
-    checkBottom(matrix, queue, x, y,N,k);
+        k = matrix[y][x]; //Записываем в переменную k единицу, которую ранее присвоили элементу по введенным координатам из введенных координат
 
-    if (!checkMatrixFill(matrix, M, N)) k = setColors(matrix, queue, M, N);
-    else return k;
+        checkLeft(matrix, queue, x, y, k);
+        checkTop(matrix, queue, x, y, k);
+        checkRight(matrix, queue, x, y, M, k);
+        checkBottom(matrix, queue, x, y, N, k);
+    }
+
+    return k;
 }
 
 int main()
@@ -103,46 +107,41 @@ int main()
 
     ifstream file(pathToFile);
 
-    try
-    {
-
-        if (!file.is_open()) {
-            throw "You entered the wrong path";
-        }
-        else {
-            file >> N;
-            file >> M;
-
-            int** matrix = new int* [N] {0};//Создаем матрицу[N][M]
-            for (int i = 0; i < N; i++) matrix[i] = new int[M] {0};
-
-            while (!file.eof()) {
-                file >> xCoordinate;
-                file >> yCoordinate;
-
-                checkCoordinate(xCoordinate, yCoordinate, M, N);
-                xCoordinate--;//Убавляем у координат единицу, для работы с матрицей (т.к. по заданию нам необходимо подавать координаты от 1 до M/N)
-                yCoordinate--;
-
-                matrix[yCoordinate][xCoordinate] = 1;
-                queue_insert(queue, yCoordinate);
-                queue_insert(queue, xCoordinate);
-            }
-
-            int k = setColors(matrix, queue, M, N) + 1;
-            printMatrix(matrix, N, M);
-            cout << "\n\nThe board have been painted in " << k << " colors" << "\n";
-
-            //Чистка памяти
-            for (int i = 0; i < N; i++) delete matrix[i];
-            delete[] matrix;
-            queue_delete(queue);
-        }
-
+    if (!file.is_open()) {
+        cout << "You entered the wrong path";
+        throw "You entered the wrong path";
     }
-    catch (const char *msg)
-    {
-        cout << msg;
+    else {
+        file >> N;
+        file >> M;
+
+        int** matrix = new int* [N] {0};//Создаем матрицу[N][M]
+        for (int i = 0; i < N; i++) matrix[i] = new int[M] {0};
+
+        while (!file.eof()) {
+            file >> xCoordinate;
+            file >> yCoordinate;
+
+            checkCoordinate(xCoordinate, yCoordinate, M, N);
+            xCoordinate--;//Убавляем у координат единицу, для работы с матрицей (т.к. по заданию нам необходимо подавать координаты от 1 до M/N)
+            yCoordinate--;
+
+            matrix[yCoordinate][xCoordinate] = 1;
+            queue_insert(queue, yCoordinate);
+            queue_insert(queue, xCoordinate);
+        }
+
+        int k = 0;
+
+        k = setColors(matrix, queue, M, N) + 1;
+
+        printMatrix(matrix, N, M);
+        cout << "\n\nThe board have been painted in " << k << " colors" << "\n";
+
+        //Чистка памяти
+        for (int i = 0; i < N; i++) delete[] matrix[i];
+        delete[] matrix;
         queue_delete(queue);
     }
+    
 }
