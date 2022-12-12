@@ -9,49 +9,41 @@ using namespace std;
 int main()
 {
     Stack* stack = stack_create();
+    Stack* stack_special = stack_create();
     string a;
-    int a1 = 0, a2 = 0, a3 = 0, a4 = 0;
+    char o;
+    bool prav = true;
     getline(cin, a);
-    for(int i = 0; i < a.size(); i++)
+    for (int i = 0; i < a.size(); i++)
     {
         stack_push(stack, a[i]);
     }
     while (!stack_empty(stack))
     {
-        switch (stack_get(stack)) {
-        case '[':
-            a1++;
-                break;
-        case '{':
-            a2++;
-                break;
-        case '(':
-            a3++;
-            break;
-        case '<':
-            a4++;
-            break;
-        case ']':
-            a1--;
-            break;
-        case '}':
-            a2--;
-            break;
-        case ')':
-            a3--;
-            break;
-        case '>':
-            a4--;
-            break;
-        default:
-            break;
+        o = stack_get(stack);
+        if (o == ')' || o == '}' || o == ']' || o == '>')
+        {
+            stack_push(stack_special, o);
+            stack_pop(stack);
         }
-        stack_pop(stack);
+        else
+        {     
+            if ((stack_get(stack_special) == int(o) + 2) || (stack_get(stack_special) == ')' && o == '('))
+            {
+                stack_pop(stack_special);
+                stack_pop(stack);
+            }
+            else
+            {
+                prav = false;
+                break;
+            }
+        }
     }
-    if (a1 == 0 && a2 == 0 && a3 == 0 && a4 == 0)
+    if (prav)
         cout << "YES";
     else
         cout << "NO";
     stack_delete(stack);
-
+    stack_delete(stack_special);
 }
