@@ -1,10 +1,10 @@
-﻿#include <iostream>
+#include <iostream>
 #include "BinaryHeap.h"
 using namespace std;
 
 int main()
 {
-	Heap* BinH = new Heap;
+	auto* BinH = new Heap<int>;
 
 	int count = 1000000;
 	for (int i = 1; i <= count; ++i)
@@ -33,5 +33,3 @@ int main()
 
 	delete BinH;
 }
-
-
