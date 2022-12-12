@@ -43,9 +43,9 @@ Stack *parseFrom(const std::string& input) {
             if (ch == '\n')
                 break;
 
-            if (currentNumber != 0) {
+            if (currentNumber) {
                 stack_push(stack, currentNumber);
-                currentNumber = 0;
+                currentNumber = NULL;
             }
 
             if (ch != ' ' && isOperation(ch)) {
@@ -54,7 +54,7 @@ Stack *parseFrom(const std::string& input) {
             }
         }
     }
-    if (currentNumber != 0) {
+    if (currentNumber) {
         stack_push(stack, currentNumber);
     }
 

@@ -44,4 +44,6 @@ ListItem *list_erase(List *list, ListItem *item);
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);
 
+ListItem *list_erase_first(List *list);
+
 #endif
