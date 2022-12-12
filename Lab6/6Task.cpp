@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <chrono>
 #include <vector>
 #include <queue>
@@ -10,8 +10,8 @@ typedef milli Ratio;
 
 void Comparison(int length)
 {
-	auto* BinH = new Heap;
-
+	auto* BinH = new Heap <pair<int, int>>;
+	
 	int n = length;
 	vector < vector < pair<int, int> > > g(n);
 	int s = 1;                               
@@ -26,10 +26,12 @@ void Comparison(int length)
 		q.pop();
 		if (cur_d > d[v])  continue;
 
-		for (size_t j = 0; j < g[v].size(); ++j) {
+		for (size_t j = 0; j < g[v].size(); ++j) 
+		{
 			int to = g[v][j].first,
 				len = g[v][j].second;
-			if (d[v] + len < d[to]) {
+			if (d[v] + len < d[to]) 
+			{
 				d[to] = d[v] + len;
 				p[to] = v;
 				q.push(make_pair(-d[to], to));
@@ -40,27 +42,23 @@ void Comparison(int length)
 	chrono::duration<double, Ratio> Queue = end - start;
 
 	start = chrono::system_clock::now();
-	BinH->Insert(0);
-	BinH->Insert(s);
-
+	BinH->Insert(make_pair(0, s));
 
 	while (!BinH->Empty()) 
 	{
-		int cur_d = BinH->GetMax();
-		BinH->RemoveMax();
-		int v = BinH->GetMax();
-		BinH->Insert(cur_d);
+		int v = BinH->GetMax().second, cur_d = BinH->GetMax().first;
 		BinH->RemoveMax();
 		if (cur_d > d[v])  continue;
 
-		for (size_t j = 0; j < g[v].size(); ++j) {
+		for (size_t j = 0; j < g[v].size(); ++j) 
+		{
 			int to = g[v][j].first,
 				len = g[v][j].second;
-			if (d[v] + len < d[to]) {
+			if (d[v] + len < d[to]) 
+			{
 				d[to] = d[v] + len;
 				p[to] = v;
-				BinH->Insert(-d[to]);
-				BinH->Insert(to);
+				BinH->Insert(make_pair(-d[to], to));
 			}
 		}
 	}
