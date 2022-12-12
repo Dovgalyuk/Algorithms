@@ -39,6 +39,8 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data);
 // Should be O(1)
 ListItem *list_erase(List *list, ListItem *item);
 
+ListItem* list_erase_top(List* list);
+
 // Deletes the list item following the specified one.
 // Returns pointer to the item next to the deleted one.
 // Should be O(1)
