@@ -1,5 +1,6 @@
 #include <cstddef>
 #include "list.h"
+#include <iostream>
 
 struct ListItem
 {
