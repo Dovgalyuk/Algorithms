@@ -86,6 +86,14 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
 ListItem *list_erase(List *list, ListItem *item)
 {
+    if (item == list_first(list))
+    {
+        return list_erase_top(list);
+    }
+    else
+    {
+        std::cout << "Данная функция не применима к односвязному списку";
+    }
     return NULL;
 }
 ListItem* list_erase_top(List* list)
