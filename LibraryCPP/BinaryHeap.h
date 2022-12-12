@@ -1,23 +1,24 @@
-﻿#ifndef BINARYHEAP_H
+#ifndef BINARYHEAP_H
 #define BINARYHEAP_H
 
 
 #include <vector>
 using namespace std;
 
+template<typename T>
 struct Heap
 {
 public:
 
-    vector<int> tree;
+    vector<T> tree;
 
-    void Insert(int x)
+    void Insert(T x)
     {
         tree.push_back(x);
         sift_up(GetSize() - 1);
     }
 
-    int GetMax()
+    T GetMax()
     {
         if (GetSize() > 0)
         {
@@ -39,63 +40,59 @@ public:
 
     bool Empty()
     {
-        return GetSize() == false;
+        if (GetSize() != 0)
+        {
+            return false;
+        }
+        else { return true; }
     }
 
 private:
- 
+
     void sift_up(int v)
     {
-        if (v == 0)
-        {
-            return;    
-        }
+        int p = (v - 1) / 2;
+        T temp = tree[v];
 
-        if (tree[v / 2] < tree[v]) {
-            swap(tree[v], tree[v / 2]);
-            sift_up(v / 2);
+        while (v > 0)
+        {
+            if (temp <= tree[p])
+            {
+                break;
+            }
+            else
+            {
+                tree[v] = tree[p];
+                v = p;
+                p = (p - 1) / 2;
+            }
         }
+        tree[v] = temp;
     }
 
     void sift_down(int v)
     {
-        if (v * 2 >= GetSize())
-        {
-            return;     
-        }
-
-        
         int max_idx;
-        if (v * 2 + 1 == GetSize())
-        {                                      
-            max_idx = v * 2;
-        }
-        else if (tree[v * 2] >= tree[v * 2 + 1])
-        {
-            max_idx = v * 2;
-        }
-        else
-        {
-            max_idx = v * 2 + 1;
-        }
 
-        if (tree[v] < tree[max_idx])
+        if (!Empty())
         {
-            swap(tree[v], tree[max_idx]);
-            sift_down(max_idx);
-        }
-    }
-
-    int GetIndex(int data)
-    {
-        for (int i = 0; i < GetSize(); i++)
-        {
-            if (data == tree[i])
+            int l = 2 * v + 1;
+            T temp = tree[v];
+            while (l <= GetSize() - 1)
             {
-                return i;
+                if (l < GetSize() - 1 && tree[l] < tree[l + 1])
+                    l++;
+                if (temp >= tree[l])
+                    break;
+                else
+                {
+                    tree[v] = tree[l];
+                    v = l;
+                    l = 2 * l + 1;
+                }
             }
+            tree[v] = temp;
         }
-        return 0;
     }
 
     int GetSize()
