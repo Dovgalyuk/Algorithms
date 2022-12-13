@@ -75,7 +75,7 @@ int setColors(int** matrix, Queue* queue, int M, int N) {
 
     int k = 0;
 
-    while (!checkMatrixFill(matrix, M, N))
+    while (!queue_empty(queue))
     {
         int y = queue_get(queue);
         queue_remove(queue);
@@ -133,7 +133,7 @@ int main()
 
         int k = 0;
 
-        k = setColors(matrix, queue, M, N) + 1;
+        k = setColors(matrix, queue, M, N);
 
         printMatrix(matrix, N, M);
         cout << "\n\nThe board have been painted in " << k << " colors" << "\n";
