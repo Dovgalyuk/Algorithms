@@ -67,10 +67,10 @@ public:
     // Inserts new list item after the specified item
     Item *insert_after(Item *item, Data data) {
         auto *newItem = new Item(data);
-        newItem->next = item->next();
+        newItem->next = item->item_next();
 
-        if (item->next() != nullptr)
-            item->next()->prev = newItem;
+        if (item->item_next() != nullptr)
+            item->item_next()->prev = newItem;
 
         newItem->prev = item;
         item->next = newItem;
