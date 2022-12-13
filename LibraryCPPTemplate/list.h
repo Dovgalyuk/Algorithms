@@ -1,78 +1,110 @@
 #ifndef LIST_H
 #define LIST_H
 
-template <typename Data> class List
-{
+template <typename Data>
+class List {
 public:
-    class Item
-    {
+    class Item {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item *next;
+        Item *prev;
+
+        Item(Data data) {
+            next = nullptr;
+            prev = nullptr;
+            field = data;
+        }
+        Item *item_next() { return next; }
+        Item *item_prev() { return prev; }
+        Data data() const { return field; }
     private:
-        // internal data here
+        Data field;
     };
 
     // Creates new list
-    List()
-    {
-    }
-
-    // copy constructor
-    List(const List &a)
-    {
-        // implement or disable this function
-    }
-
-    // assignment operator
-    List &operator=(const List &a)
-    {
-        // implement or disable this function
-        return *this;
+    List() {
+        first = nullptr;
     }
 
     // Destroys the list and frees the memory
-    ~List()
-    {
+    ~List() {
+        Item *item = first;
+        Item *next;
+        while(item != nullptr) {
+            next = item->item_next();
+            delete item;
+            item = next;
+        }
     }
 
     // Retrieves the first item from the list
-    Item *first()
-    {
-        return nullptr;
+    Item *list_first() {
+        return first;
+    }
+
+    // Return list items count
+    size_t getSize() const {
+        int size = 0;
+        Item *next = first;
+        while(next != nullptr) {
+            size++;
+            next = next->next();
+        }
+        return size;
     }
 
     // Inserts new list item into the beginning
-    Item *insert(Data data)
-    {
-        return nullptr;
+    Item *insert(Data data) {
+        auto *newItem = new Item(data);
+        newItem->next = first;
+
+        if (first != nullptr)
+            first->prev = newItem;
+
+        first = newItem;
+        return newItem;
     }
 
     // Inserts new list item after the specified item
-    Item *insert_after(Item *item, Data data)
-    {
-        return nullptr;
+    Item *insert_after(Item *item, Data data) {
+        auto *newItem = new Item(data);
+        newItem->next = item->next();
+
+        if (item->next() != nullptr)
+            item->next()->prev = newItem;
+
+        newItem->prev = item;
+        item->next = newItem;
+        return newItem;
     }
 
     // Deletes the specified list item.
-    // Returns pointer to the item next to the deleted one.
     // Not applicable for the singly linked lists.
     // Should be O(1)
-    Item *erase(Item *item)
-    {
-        return nullptr;
+    Item *erase(Item *item) {
+        auto *next = item->item_next();
+        auto *prevItem = item->item_prev();
+
+        if (first == item)
+            first = next;
+
+        if (next != nullptr)
+            next->prev = prevItem;
+
+        if (prevItem != nullptr)
+            prevItem->next = next;
+
+        delete item;
+        return next;
     }
 
-    // Deletes the list item following the specified one.
-    // Returns pointer to the item next to the deleted one.
+    // Deletes the list item following the specified one
     // Should be O(1)
-    Item *erase_next(Item *item)
-    {
-        return nullptr;
+    Item *erase_next(Item *item) {
+        return erase(item->item_next());
     }
-private:
-    // private data should be here
+protected:
+    Item *first;
 };
 
 #endif
