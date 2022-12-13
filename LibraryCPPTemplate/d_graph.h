@@ -15,10 +15,9 @@ public:
 
     struct Edge 
     {
-        Vertex* first;
-        Vertex* second;
+        Vertex* vertex;
         int weight;
-        Edge(Vertex* first, Vertex* second, int weight) : first(first), second(second), weight(weight) {}
+        Edge(Vertex* vertex, int weight) : vertex(vertex), weight(weight) {}
     };
 
     struct VertexIterator 
@@ -106,7 +105,7 @@ public:
 
     void add_edge(size_t first_vertex_index, size_t second_vertex_index, int weight) 
     {
-        Edge* edge = new Edge(get_vertex(first_vertex_index), get_vertex(second_vertex_index), weight);
+        Edge* edge = new Edge(get_vertex(second_vertex_index), weight);
         add_edge_to_matrix(first_vertex_index, second_vertex_index, edge);
     }
 
