@@ -62,15 +62,6 @@ void checkBottom(int** matrix, Queue* queue, int x, int y, int N, int k) {
         queue_insert(queue, x);
     }
 }
-bool checkMatrixFill(int** matrix, int M, int N) {
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++)
-        {
-            if (matrix[i][j] == 0) return false;
-        }
-    }
-    return true;
-}
 int setColors(int** matrix, Queue* queue, int M, int N) {
 
     int k = 0;
