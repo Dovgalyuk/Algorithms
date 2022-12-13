@@ -36,7 +36,6 @@ public:
             item = next;
         }
     }
-
     // Retrieves the first item from the list
     Item *list_first() {
         return first;
