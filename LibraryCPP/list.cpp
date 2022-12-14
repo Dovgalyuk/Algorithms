@@ -65,10 +65,7 @@ ListItem *list_insert(List *list, Data data)
 {
     ListItem* newItem = new ListItem;
     newItem->data = data;
-    if (list->top != nullptr) 
-    {
-        newItem->next = list->top;
-    }
+    newItem->next = list->top;
     list->top = newItem;
     return newItem;
 }
@@ -77,10 +74,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
     ListItem* newItem = new ListItem;
     newItem->data = data;
-    if (item->next != nullptr) 
-    {
-        newItem->next = item->next;
-    }
+    newItem->next = item->next;
     item->next = newItem;
     return newItem;
 }
@@ -93,10 +87,11 @@ ListItem *list_erase(List *list, ListItem *item)
     }
     else
     {
-        std::cout << "Данная функция не применима к односвязному списку";
+        std::cout << "Not applicable for the singly linked lists";
     }
     return NULL;
 }
+
 ListItem* list_erase_top(List* list)
 {
     if (list->top == nullptr)
