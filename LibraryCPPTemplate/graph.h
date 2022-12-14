@@ -8,10 +8,10 @@
 template<typename Data, typename Weight>
 class Graph {
 public:
-    struct Edge; //ребро
-    struct Vertex { //вершина
+    struct Edge; //Г°ГҐГЎГ°Г®
+    struct Vertex { //ГўГҐГ°ГёГЁГ­Г 
         Data data;
-        List<Edge*> edges = List<Edge*>();
+        List<Edge*> edges;
             
         Vertex(Data data) {
             this->data = data;
@@ -34,7 +34,7 @@ public:
             return data;
         }
 
-        void addEdge(Vertex* toVertex) {  // добавить ребро
+        void addEdge(Vertex* toVertex) {  // Г¤Г®ГЎГ ГўГЁГІГј Г°ГҐГЎГ°Г®
             edges.insert(new Edge(toVertex));
         }
 
@@ -48,7 +48,7 @@ public:
             return nullptr;
         }
 
-        void removeEdge(Vertex* toVertex) { // удалить ребро
+        void removeEdge(Vertex* toVertex) { // ГіГ¤Г Г«ГЁГІГј Г°ГҐГЎГ°Г®
             for (auto item = edges.list_first(); item != nullptr; item = item->item_next()) {
                 if (item->data()->getToVertex() == toVertex) {
                     delete item->data();
@@ -81,7 +81,7 @@ public:
         }
     };
 
-    struct EdgeIterator { //итератор
+    struct EdgeIterator { //ГЁГІГҐГ°Г ГІГ®Г°
 
         typename List<Edge*>::Item *edgeItem;
 
@@ -104,7 +104,7 @@ public:
         }
     };
 
-    Graph(size_t numberVertex, Data data) { //граф
+    Graph(size_t numberVertex, Data data) { //ГЈГ°Г Гґ
         vertexes.resize(numberVertex);
         for (size_t i = 0; i < numberVertex; i++) {
             vertexes[i] = new Vertex(data);
@@ -131,7 +131,7 @@ public:
         return false;
     }
 
-    Vertex* addVertex(Data data) { // добавить вершину
+    Vertex* addVertex(Data data) { // Г¤Г®ГЎГ ГўГЁГІГј ГўГҐГ°ГёГЁГ­Гі
         auto vertex = new Vertex(data);
         vertexes.push_back(vertex);
         return vertex;
@@ -141,7 +141,7 @@ public:
         return vertexes[index];
     }
 
-    void removeVertex(size_t index) { //удалить вершину
+    void removeVertex(size_t index) { //ГіГ¤Г Г«ГЁГІГј ГўГҐГ°ГёГЁГ­Гі
         if (index < vertexes.size()) {
             for (int i = 0; i < vertexes.size(); i++) {
                 vertexes[i]->removeEdge(vertexes[index]);
