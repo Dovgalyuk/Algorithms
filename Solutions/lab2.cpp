@@ -31,30 +31,32 @@ bool isOperation(const char &ch) {
 Stack *parseFrom(const std::string& input) {
     Stack *stack = stack_create();
 
-    int result, currentNumber = 0;
+    int result = 0, currentNumber = -1;
 
     for(auto ch: input) {
 
         if (isdigit(ch)) {
+            if (currentNumber == -1)
+                currentNumber = 0;
             currentNumber = 10 * currentNumber + ch - '0';
-
         } else if (ch) {
 
             if (ch == '\n')
                 break;
 
-            if (currentNumber) {
+            if (currentNumber > -1) {
                 stack_push(stack, currentNumber);
-                currentNumber = NULL;
+                currentNumber = -1;
             }
 
             if (ch != ' ' && isOperation(ch)) {
                 result = calculate(stack, ch);
+                std::cout << "result " << result << std::endl;
                 stack_push(stack, result);
             }
         }
     }
-    if (currentNumber) {
+    if (currentNumber > -1) {
         stack_push(stack, currentNumber);
     }
 
