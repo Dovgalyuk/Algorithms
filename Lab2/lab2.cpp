@@ -33,7 +33,7 @@ int main()
             }
         }
     }
-    if (prav)
+    if (prav && stack_empty(stack_special))
         cout << "YES";
     else
         cout << "NO";
