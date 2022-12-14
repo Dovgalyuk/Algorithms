@@ -28,7 +28,8 @@ int main() {
     int countVertexes;
     cin >> countVertexes; 
 
-    auto graph = new Graph<int, int>(countVertexes, 1);
+    Graph<int, int> graph1(countVertexes, 1);
+    auto graph = &graph1;
 
     for (int i = 0; i < countVertexes; ++i) { // помечаем вершины
         int tempData;
@@ -88,4 +89,11 @@ int main() {
         }
         cout << endl;
     }
+     //очищаем память
+    for (int i = 0; i < countVertexes; i++)
+    {
+        delete[] shortPath[i];
+    }
+    delete[] shortPath;
+    delete graph;
 }
