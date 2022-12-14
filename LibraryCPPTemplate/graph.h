@@ -50,6 +50,13 @@ public:
 		auto new_vertex = new Vertex{ data, List<Edge>() };
 		this->vertexes.push_back(new_vertex);
 	}
+
+	Vertex* find_vertex(Data data) {
+		for (auto ver : vertexes) {
+			if (ver->data == data) return ver;
+		}
+		return 0;
+	}
 	
 	void remove_vertex(int index) {
 		if (index >= this->vertexes.size() || index < 0) return;
