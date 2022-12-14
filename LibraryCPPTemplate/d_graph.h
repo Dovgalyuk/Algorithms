@@ -239,7 +239,9 @@ protected:
 
     void add_edge_to_matrix(size_t first_vertex_index, size_t second_vertex_index, Edge* edge) 
     {
-        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), edge);
+        Vertex* check_vertex = edge->vertex;
+        Data check_data = check_vertex->data;
+        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), check_data);
     }
 
     void remove_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index) 
