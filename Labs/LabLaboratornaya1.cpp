@@ -19,7 +19,12 @@ void FindArithmMean(const Array* arr){
 			CountSize_t++;
 		}
 	}
-	cout << SummArithmMean / CountSize_t;
+	if(CountSize_t != 0){
+		cout << SummArithmMean / CountSize_t << endl;
+	}
+	else{
+		cout << "The array does not contain positive numbers..." << endl;
+	}
 }
 int main()
 {
