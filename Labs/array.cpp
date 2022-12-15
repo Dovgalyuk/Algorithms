@@ -9,6 +9,9 @@ struct Array {
         Size = size;
         Data = new int[size];
     }
+    ~Array() {
+        delete[] Data;
+    }
 };
 
 // create array
