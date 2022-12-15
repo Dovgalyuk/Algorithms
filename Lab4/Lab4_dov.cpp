@@ -1,5 +1,5 @@
 #include <iostream>
-#include "d_graph.h"
+#include "dgraph.h"
 #include <vector>
 
 using namespace std;
