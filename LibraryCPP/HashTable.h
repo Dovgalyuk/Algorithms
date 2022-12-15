@@ -1,5 +1,7 @@
 #include <iostream>
-#include "../LibraryCPPTemplate/array.h"
+#include "Array.h"
+
+using namespace std;
 
 struct Element {
 	Element();
@@ -31,4 +33,5 @@ string find(string key, HashTable* table);
 bool compare_strings(string first, string second);
 bool check_capacity(int size, int capacity);
 //-------------------------------------------------------//
+
 void delete_table(HashTable* table);

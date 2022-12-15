@@ -1,5 +1,5 @@
 #include "HashTable.h"
-#include "../LibraryCPPTemplate/array.h"
+#include "Array.h"
 
 using namespace std;
 
