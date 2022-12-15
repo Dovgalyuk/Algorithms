@@ -11,7 +11,7 @@ public:
     struct Edge; //?????
     struct Vertex { //???????
         Data data;
-        List<Edge> edges;
+        List<Edge*> edges;
 
         Vertex(Data data) {
             this->data = data;
