@@ -1,6 +1,7 @@
 #include <iostream>
 #include "dgraph.h"
 #include <vector>
+#include <climits>
 
 using namespace std;
 
