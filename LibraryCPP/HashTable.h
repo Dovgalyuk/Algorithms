@@ -1,8 +1,6 @@
 #include <iostream>
 #include "../LibraryCPPTemplate/array.h"
 
-using namespace std;
-
 struct Element {
 	Element();
 	Element(string key, string value, bool deleted);
@@ -18,13 +16,19 @@ struct HashTable {
 	~HashTable();
 };
 
-int FirstHashFunction(string key, int capacity);
-int SecondHashFunction(string key, int capacity);
+//-------------------- Hash Functions -------------------//
+int FirstHashFunction(const string& key, int capacity);
+int SecondHashFunction(const string& key, int capacity);
+//-------------------------------------------------------//
 
+//---------------- Functions for solution ---------------//
+void algorithm(string key, string value, HashTable* table, Array<Element>* arr);
 void add(string key, string value, HashTable* table);
-void del(string key, HashTable* table);
-string find(string key, HashTable* table);
 void resize(HashTable* table);
+void del(string key, HashTable* table);
 int find_index(string key, HashTable* table);
+string find(string key, HashTable* table);
 bool compare_strings(string first, string second);
 bool check_capacity(int size, int capacity);
+//-------------------------------------------------------//
+void delete_table(HashTable* table);
