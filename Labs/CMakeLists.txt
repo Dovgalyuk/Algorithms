@@ -1,0 +1,3 @@
+add_executable(LabLaboratornaya1CPP LabLaboratornaya1.cpp)
+target_include_directories(LabLaboratornaya1CPP PUBLIC ../LibraryCPP)
+target_link_libraries(LabLaboratornaya1CPP LibraryCPP)
