@@ -103,6 +103,7 @@ ListItem *list_erase_next(List *list, ListItem *item)
     }
 
     return 0;
+
 }
 
 ListItem *list_erase_first(List *list) {
