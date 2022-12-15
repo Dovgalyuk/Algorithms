@@ -18,7 +18,7 @@ int main()
 
     for (int i = 0 ; i < 10 ; ++i)
     {
-        if (arr->get(i) != i * 2)
+        if (*arr->get(i) != i * 2)
         {
             std::cout << "Invalid array element " << i << "\n";
             return 1;
