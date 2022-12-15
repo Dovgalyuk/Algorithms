@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include "graph.h"
 #include <vector>
 using namespace std;
@@ -26,21 +26,20 @@ int main() {
     setlocale(LC_ALL, "ru");
     cout << "Введите количество вершин :";
     int countVertexes;
-    cin >> countVertexes; 
+    cin >> countVertexes;
+    Graph<int, int> graph(countVertexes, 1);
 
-    Graph<int, int> graph1(countVertexes, 1);
-    auto graph = &graph1;
 
     for (int i = 0; i < countVertexes; ++i) { // помечаем вершины
         int tempData;
         cout << "[" << i << "] = ";
         cin >> tempData;
-        graph->setDataVertex(i, tempData);
+        graph.setDataVertex(i, tempData);
     }
 
     for (int i = 0; i < countVertexes; i++) { // заполняем ребра для каждой вершины   
         cout << endl;
-        cout << "Вершина: " << graph->getDataVertex(i) << " (с индексом: " << i << ")" << endl;
+        cout << "Вершина: " << graph.getDataVertex(i) << " (с индексом: " << i << ")" << endl;
         cout << "Сколько рёбер у вершины?" << endl;
         int tempCountEdges;
         cin >> tempCountEdges;
@@ -51,10 +50,9 @@ int main() {
             cout << "Вес ребра: ";
             int tempWeight;
             cin >> tempWeight;
-            graph->addEdge(graph->getVertex(i), graph->getVertex(indexToVertex), tempWeight);
+            graph.addEdge(graph.getVertex(i), graph.getVertex(indexToVertex), tempWeight);
         }
     }
-
     int** shortPath = new int* [countVertexes]; // создаём таблицу смежности и заполняем её нулями
     for (int i = 0; i < countVertexes; i++)
     {
@@ -71,29 +69,29 @@ int main() {
                 shortPath[i][j] = 0;
             }
             else {
-                if (graph->checkEdge(graph->getVertex(i), graph->getVertex(j))) //если есть путь из одного во второй
-                    shortPath[i][j] = graph->getWeightEdge(graph->getVertex(i), graph->getVertex(j)); //заполняем элемент матрицы весом ребра
+                if (graph.checkEdge(graph.getVertex(i), graph.getVertex(j))) //если есть путь из одного во второй
+                    shortPath[i][j] = graph.getWeightEdge(graph.getVertex(i), graph.getVertex(j)); //заполняем элемент матрицы весом ребра
                 else
                     shortPath[i][j] = -1; //если пути нет - ставим минус один - "бесконечность"
             }
         }
     }
-    
+
     Floid(shortPath, countVertexes); //отправляем нашу матрицу проходить итерации
 
-    cout << endl <<"Матрица кратчайших путей: " << endl;
+    cout << endl << "Матрица кратчайших путей: " << endl;
 
-    for (int i = 0; i < countVertexes; i++) {
+    for (int i = 0; i < countVertexes; i++) { //вывод матрицы 
         for (int j = 0; j < countVertexes; j++) {
             cout << shortPath[i][j] << " ";
         }
         cout << endl;
     }
-     //очищаем память
+
+    //очищаем память
     for (int i = 0; i < countVertexes; i++)
     {
         delete[] shortPath[i];
     }
     delete[] shortPath;
-    delete graph;
 }
