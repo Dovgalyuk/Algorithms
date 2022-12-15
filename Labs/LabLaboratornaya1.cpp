@@ -29,5 +29,4 @@ int main()
 	Array* DataMas = array_create(SizeArray);
 	FillArray(DataMas);
 	FindArithmMean(DataMas);
-	array_delete(DataMas);
 }
