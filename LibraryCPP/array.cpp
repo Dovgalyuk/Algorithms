@@ -1,4 +1,4 @@
-#include"Array.h"
+#include"array.h"
 struct Array
 {
     Data* _arr;
