@@ -8,11 +8,11 @@
 template<typename Data, typename Weight>
 class Graph {
 public:
-    struct Edge; //ðåáðî
-    struct Vertex { //âåðøèíà
+    struct Edge; //?????
+    struct Vertex { //???????
         Data data;
-        List<Edge*> edges;
-            
+        List<Edge> edges;
+
         Vertex(Data data) {
             this->data = data;
         }
@@ -20,7 +20,7 @@ public:
         ~Vertex() {
             auto itemDel = edges.list_first();
 
-            while(itemDel != nullptr) {
+            while (itemDel != nullptr) {
                 delete itemDel->data();
                 itemDel = itemDel->item_next();
             }
@@ -34,7 +34,7 @@ public:
             return data;
         }
 
-        void addEdge(Vertex* toVertex) {  // äîáàâèòü ðåáðî
+        void addEdge(Vertex* toVertex) {  // ???????? ?????
             edges.insert(new Edge(toVertex));
         }
 
@@ -48,7 +48,7 @@ public:
             return nullptr;
         }
 
-        void removeEdge(Vertex* toVertex) { // óäàëèòü ðåáðî
+        void removeEdge(Vertex* toVertex) { // ??????? ?????
             for (auto item = edges.list_first(); item != nullptr; item = item->item_next()) {
                 if (item->data()->getToVertex() == toVertex) {
                     delete item->data();
@@ -81,9 +81,9 @@ public:
         }
     };
 
-    struct EdgeIterator { //èòåðàòîð
+    struct EdgeIterator { //????????
 
-        typename List<Edge*>::Item *edgeItem;
+        typename List<Edge*>::Item* edgeItem;
 
         EdgeIterator(Vertex* head) {
             edgeItem = head->edges.list_first();
@@ -98,13 +98,14 @@ public:
         Edge* operator *() {
             if (edgeItem != nullptr) {
                 return edgeItem->data();
-            } else {
+            }
+            else {
                 return nullptr;
             }
         }
     };
 
-    Graph(size_t numberVertex, Data data) { //ãðàô
+    Graph(size_t numberVertex, Data data) { //????
         vertexes.resize(numberVertex);
         for (size_t i = 0; i < numberVertex; i++) {
             vertexes[i] = new Vertex(data);
@@ -131,17 +132,17 @@ public:
         return false;
     }
 
-    Vertex* addVertex(Data data) { // äîáàâèòü âåðøèíó
+    Vertex* addVertex(Data data) { // ???????? ???????
         auto vertex = new Vertex(data);
         vertexes.push_back(vertex);
         return vertex;
     }
 
-    Vertex* getVertex(size_t index) { 
+    Vertex* getVertex(size_t index) {
         return vertexes[index];
     }
 
-    void removeVertex(size_t index) { //óäàëèòü âåðøèíó
+    void removeVertex(size_t index) { //??????? ???????
         if (index < vertexes.size()) {
             for (int i = 0; i < vertexes.size(); i++) {
                 vertexes[i]->removeEdge(vertexes[index]);
@@ -155,7 +156,7 @@ public:
         }
     }
 
-    void setDataVertex(size_t index, Data data) { 
+    void setDataVertex(size_t index, Data data) {
         if (index >= vertexes.size()) return;
         vertexes[index]->setData(data);
     }
@@ -171,7 +172,7 @@ public:
         fromVertex->getEdge(toVertex)->setWeight(weightEdge);
     }
 
-    Edge* getEdge (Vertex* fromVertex, Vertex* toVertex) {
+    Edge* getEdge(Vertex* fromVertex, Vertex* toVertex) {
         return fromVertex->getEdge(toVertex);
     }
 
@@ -198,3 +199,4 @@ private:
 };
 
 #endif
+
