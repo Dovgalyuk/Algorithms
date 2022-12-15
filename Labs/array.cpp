@@ -7,6 +7,10 @@ struct Array {
         this->ArraySize = ArraySize;
         ArrayData = new int[this->ArraySize];
     }
+    ~Array{
+        delete[] ArrayData;
+    }
+    
 };
 
 // create array
