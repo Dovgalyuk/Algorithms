@@ -5,7 +5,7 @@ struct Array {
     size_t ArraySize;
     Array(size_t ArraySize) {
         this->ArraySize = ArraySize;
-        ArrayData = new int[this->ArraySize];
+        ArrayData = new Data[this->ArraySize];
     }
 };
 
