@@ -7,10 +7,7 @@ struct Array {
     size_t Size;
     Array(size_t size) {
         Size = size;
-        Data = new int[size];
-    }
-    ~Array() {
-        delete[] Data;
+        Data = new Data[size];
     }
 };
 
