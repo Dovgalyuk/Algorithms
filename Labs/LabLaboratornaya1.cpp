@@ -20,10 +20,10 @@ void FindArithmMean(const Array* arr){
 		}
 	}
 	if(CountSize_t != 0){
-		cout << SummArithmMean / CountSize_t << endl;
+		cout << SummArithmMean / CountSize_t;
 	}
 	else{
-		cout << "The array does not contain positive numbers..." << endl;
+		cout << "The array does not contain positive numbers...";
 	}
 }
 int main()
