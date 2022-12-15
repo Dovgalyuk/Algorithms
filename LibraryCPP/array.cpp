@@ -3,11 +3,11 @@
 typedef int Data;
 
 struct Array {
-    Data* Data;
+    Data* ArrData;
     size_t Size;
     Array(size_t size) {
         Size = size;
-        Data = new int[size];
+        ArrData = new int[size];
     }
 };
 
@@ -18,7 +18,7 @@ Array* array_create(size_t size) {
 
 // delete array, free memory
 void array_delete(Array* arr) {
-    delete[] arr->Data;
+    delete[] arr->ArrData;
 }
 
 // returns specified array element
@@ -27,7 +27,7 @@ Data array_get(const Array* arr, size_t index) {
         return 0;
     }
     else {
-        return arr->Data[index];
+        return arr->ArrData[index];
     }
 }
 
@@ -37,7 +37,7 @@ void array_set(Array* arr, size_t index, Data value) {
         return;
     }
     else {
-        arr->Data[index] = value;
+        arr->ArrData[index] = value;
     }
 }
 
