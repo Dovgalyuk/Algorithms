@@ -2,26 +2,26 @@
 #define ARRAY_TEMPLATE_H
 
 template <typename Data>
-class Array{
+class Array {
 public:
     // create array
-    explicit Array(size_t size){
+    explicit Array(size_t size) {
         this->data = new Data[size];
         this->size_array = size;
     }
 
     // delete array, free memory
-    ~Array(){
+    ~Array() {
         delete[] data;
     }
 
     // returns specified array element
-    Data get(size_t index) const{
-       return data[index];
+    Data *get(size_t index) const {
+        return &data[index];
     }
 
     // sets the specified array element to the value
-    void set(size_t index, Data value){
+    void set(size_t index, Data value) {
         data[index] = value;
     }
     // returns array size
