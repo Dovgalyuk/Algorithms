@@ -1,4 +1,4 @@
-#include "d_graph.h"
+#include "dgraph.h"
 
 using namespace std;
 
