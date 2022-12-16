@@ -5,7 +5,7 @@ using namespace std;
 
 int main() 
 {
-    RBAssociativeArray array(to_string(NULL), to_string(NULL));
+    RBAssociativeArray array(to_string(0), to_string(0));
     int count = 1000000;
     for (int i = 0; i < count; ++i)
     {
