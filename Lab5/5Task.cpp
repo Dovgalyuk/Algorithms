@@ -15,7 +15,7 @@ typedef RBAssociativeArray RBAssocArray;
 void Comparison(int length)
 {
     srand(time(0));
-    auto* arr = new RBAssocArray(to_string(NULL), to_string(NULL));
+    auto* arr = new RBAssocArray(to_string(0), to_string(0));
     string *Strs = new string[length];
     for (int i = 0; i < length; ++i)
     {
