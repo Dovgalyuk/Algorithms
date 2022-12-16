@@ -24,7 +24,7 @@ public:
         {
             return tree[0];
         }
-        else { return make_pair(GetSize(), GetSize()); }
+        else { return make_pair(0, 0); }
     }
 
     void RemoveMax()
