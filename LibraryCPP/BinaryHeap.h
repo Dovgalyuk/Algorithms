@@ -24,7 +24,11 @@ public:
         {
             return tree[0];
         }
-        else { return make_pair(0, 0); }
+        else 
+        { 
+            tree.resize(0);
+            return tree[0]; 
+        }
     }
 
     void RemoveMax()
