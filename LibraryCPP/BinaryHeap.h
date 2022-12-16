@@ -24,7 +24,7 @@ public:
         {
             return tree[0];
         }
-
+        else { cout << "Ошибка: Куча пуста!\a\n\n"; }
     }
 
     void RemoveMax()
