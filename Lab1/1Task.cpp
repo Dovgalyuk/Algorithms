@@ -50,5 +50,5 @@ int main()
 	
 
 	array_delete(Parr);
-	system("pause");
+	//system("pause");
 }
