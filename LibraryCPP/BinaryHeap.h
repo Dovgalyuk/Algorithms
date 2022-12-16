@@ -24,7 +24,7 @@ public:
         {
             return tree[0];
         }
-         else { exit; }
+         else { EXIT_SUCCESS; }
     }
 
     void RemoveMax()
