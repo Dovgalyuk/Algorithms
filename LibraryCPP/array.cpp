@@ -2,33 +2,51 @@
 
 struct Array
 {
+    // У струтуры есть динамический массив и размер
+    size_t number;
+    Data* data;
+    //Конструктор, получает размер, создаёт массив
+    Array(size_t size)
+    {
+        number = size;
+        data = new Data[size];
+    }
 };
 
-// create array
-Array *array_create(size_t size)
+// Функция создаёт струстуру, в ней просто возврщаем новый Array, создав его с конструктором
+Array* array_create(size_t size)
 {
-    return new Array;
+    return new Array(size);
 }
 
-// delete array, free memory
-void array_delete(Array *arr)
+// Процедура удаляет структура, в ней удаляем динамический массив, чтобы освободить память в куче
+void array_delete(Array* arr)
 {
-    delete arr;
+    delete arr->data;
 }
 
-// returns specified array element
-Data array_get(const Array *arr, size_t index)
+// Функция возвращает элемент в заданой структуре, в заданом месте
+Data array_get(const Array* arr, size_t index)
 {
-    return (Data)0;
+    // в случае, если заданный индекс больше, чем размер массива, возвращаем ноль
+    if (index >= array_size(arr))
+        return 0;
+    else
+        return (arr->data[index]);
 }
 
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value)
+// Процедура присвает заданному месту в заданой структуре, заданные данные
+void array_set(Array* arr, size_t index, Data value)
 {
+    // в случае, если заданный индекс больше, чем размер массива, возвращаем ноль
+    if (index >= array_size(arr))
+        return;
+    else
+        arr->data[index] = value;
 }
 
-// returns array size
-size_t array_size(const Array *arr)
+// Функция возвращает размер массива
+size_t array_size(const Array* arr)
 {
-    return 0;
+    return arr->number;
 }
