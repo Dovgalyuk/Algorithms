@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../LibraryCPPTemplate/array.h"
+#include "Array.h"
 
 using namespace std;
 
@@ -24,7 +24,7 @@ int SecondHashFunction(const string& key, int capacity);
 //-------------------------------------------------------//
 
 //---------------- Functions for solution ---------------//
-void algorithm(string key, string value, HashTable* table, Array<Element>* arr);
+int algorithm(string key, HashTable* table, Array<Element>* arr, bool &not_found);
 void add(string key, string value, HashTable* table);
 void resize(HashTable* table);
 void del(string key, HashTable* table);
