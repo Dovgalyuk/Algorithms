@@ -1,0 +1,27 @@
+﻿  Lab_2_Shedrin.cpp
+C:\Users\tvizet\Documents\Algorithms\Lab_2_Shedrin\Lab_2_Shedrin.cpp(31,45): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\tvizet\Documents\Algorithms\Lab_2_Shedrin\Lab_2_Shedrin.cpp(46,16): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\tvizet\Documents\Algorithms\Lab_2_Shedrin\Lab_2_Shedrin.cpp(46,152): warning C4267: аргумент: преобразование из "size_t" в "_Ty"; возможна потеря данных
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\tvizet\Documents\Algorithms\Lab_2_Shedrin\Lab_2_Shedrin.cpp(47,16): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\tvizet\Documents\Algorithms\Lab_2_Shedrin\Lab_2_Shedrin.cpp(47,152): warning C4267: аргумент: преобразование из "size_t" в "_Ty"; возможна потеря данных
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\tvizet\Documents\Algorithms\Lab_2_Shedrin\Lab_2_Shedrin.cpp(54,16): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\tvizet\Documents\Algorithms\Lab_2_Shedrin\Lab_2_Shedrin.cpp(54,152): warning C4267: аргумент: преобразование из "size_t" в "_Ty"; возможна потеря данных
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\tvizet\Documents\Algorithms\Lab_2_Shedrin\Lab_2_Shedrin.cpp(55,16): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\tvizet\Documents\Algorithms\Lab_2_Shedrin\Lab_2_Shedrin.cpp(55,152): warning C4267: аргумент: преобразование из "size_t" в "_Ty"; возможна потеря данных
+          with
+          [
+              _Ty=int
+          ]
+  Lab_2_Shedrin.vcxproj -> C:\Users\tvizet\Documents\Algorithms\Lab_2_Shedrin\x64\Debug\Lab_2_Shedrin.exe
