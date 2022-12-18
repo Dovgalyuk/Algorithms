@@ -1,10 +1,9 @@
-﻿#include <iostream>
+#include <iostream>
 #include "graph.h"
 
 
-
 int main() {
-	auto graph = new Graph<int, int>(10, 1);
+    auto graph = new Graph<int, int>(10, 1);
 
     if (graph->getDataVertex(0) != 1) {
         std::cout << "Graph initialization is incorrect\n";
@@ -34,7 +33,7 @@ int main() {
 
     graph->addEdge(graph->getVertex(0), graph->getVertex(9), 15);
     graph->addEdge(graph->getVertex(0), graph->getVertex(2), 35);
-    graph->getEdge(graph->getVertex(0), graph->getVertex(9))->weight = 80;
+    graph->getEdge(graph->getVertex(0), graph->getVertex(9)).setWeight(80);
 
     if (graph->getWeightEdge(graph->getVertex(0), graph->getVertex(9)) != 80) {
         std::cout << "Error modifying the edge weight\n";
@@ -74,7 +73,7 @@ int main() {
     }
 
     std::cout << std::endl;
-
+    
     delete graph;
 
 }
