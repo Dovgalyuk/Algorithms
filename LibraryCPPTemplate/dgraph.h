@@ -196,13 +196,13 @@ protected:
     void remove_vertex_from_matrix(size_t removed_vertex_index, int amount_vertex_in_matrix) 
     {
         int vertex_amount = get_vertex_amount();
-        Vector<Edge*>* new_matrix = new Vector<Edge*>;
+        Vector<Edge>* new_matrix = new Vector<Edge>;
         new_matrix->resize(vertex_amount * vertex_amount);
         for (int i = 0; i < vertex_amount; ++i) 
         {
             for (int j = 0; j < vertex_amount; ++j) 
             {
-                Edge* edge = matrix->get(((i + (i >= removed_vertex_index)) * amount_vertex_in_matrix) + (j + (j >= removed_vertex_index)));
+                Edge edge = matrix->get(((i + (i >= removed_vertex_index)) * amount_vertex_in_matrix) + (j + (j >= removed_vertex_index)));
                 new_matrix->set((i * vertex_amount) + j, edge);
             }
         }
@@ -213,7 +213,7 @@ protected:
     void add_vertex_to_matrix(int amount_vertex_in_matrix) 
     {
         int vertex_amount = get_vertex_amount();
-        Vector<Edge*>* new_matrix = new Vector<Edge*>;
+        Vector<Edge>* new_matrix = new Vector<Edge>;
         new_matrix->resize(vertex_amount * vertex_amount);
         for (int i = 0; i < amount_vertex_in_matrix; ++i) 
         {
