@@ -21,7 +21,7 @@ public:
 
         VertexIterator(DGraph* graph) : graph(graph) {}
 
-        Vertex* operator *() 
+        Data operator *() 
         {
             return index_next_item < graph->vertices->size() ? graph->get_vertex(index_next_item) : nullptr;
         }
@@ -52,7 +52,7 @@ public:
             return -1;
         }
 
-        Vertex* operator *() 
+        Data operator *() 
         {
             return last_index != -1 ? graph->get_vertex(last_index) : nullptr;
         }
@@ -63,7 +63,7 @@ public:
         }
     };
 
-    Vector<Vertex*>* vertices;
+    Vector<Data*>* vertices;
 
     DGraph(size_t vertex_amount, Data default_value) : matrix(new Vector<Edge>) 
     {
@@ -88,7 +88,7 @@ public:
         return add_vertex(new Vertex(data));
     }
 
-    size_t add_vertex(Vertex* vertex) 
+    size_t add_vertex(Data* vertex) 
     {
         size_t index = vertices->size();
         vertices->resize(index + 1);
@@ -120,7 +120,7 @@ public:
         remove_edge_from_matrix(first_vertex_index, second_vertex_index);
     }
 
-    Vertex* get_vertex(size_t index) 
+    Data* get_vertex(size_t index) 
     {
         return vertices->get(index);
     }
@@ -151,7 +151,7 @@ public:
         set_vertex(index, new Vertex(data));
     }
 
-    void set_vertex(size_t index, Vertex* vertex) 
+    void set_vertex(size_t index, Data* vertex) 
     {
         if (index >= vertices->size()) return;
         vertices->set(index, vertex);
