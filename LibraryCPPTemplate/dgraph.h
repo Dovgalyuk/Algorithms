@@ -7,17 +7,11 @@
 template <typename Data> class DGraph 
 {
 public:
-    struct Vertex 
-    {
-        Data data;
-        Vertex(Data data) : data(data) {}
-    };
-
     struct Edge 
     {
-        Vertex* vertex;
+        Data* data;
         int weight;
-        Edge(Vertex* vertex, int weight) : vertex(vertex), weight(weight) {}
+        Edge(Data *data, int weight) : data(data), weight(weight) {}
     };
 
     struct VertexIterator 
