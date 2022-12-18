@@ -8,16 +8,19 @@ public:
     public:
         Item *next;
         Item *prev;
-
         Item(Data data) {
             next = nullptr;
             prev = nullptr;
             field = data;
         }
+
         Item *item_next() { return next; }
         Item *item_prev() { return prev; }
-        Data data() const { return field; }
-    private:
+
+        Data& data() { return field; }
+        const Data& data() const { return field; }
+
+    private:    
         Data field;
     };
 
@@ -55,7 +58,7 @@ public:
 
     // Inserts new list item into the beginning
     Item *insert(Data data) {
-        auto *newItem = new Item(data);
+        auto newItem = new Item(data);
         newItem->next = first;
 
         if (first != nullptr)
