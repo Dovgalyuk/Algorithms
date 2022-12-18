@@ -20,7 +20,7 @@ Vector* vector_create()
 
 void vector_delete(Vector* vector)
 {
-    delete vector->data;
+    delete[] vector->data;
     delete vector;
 }
 
@@ -59,11 +59,11 @@ void vector_resize(Vector* vector, size_t size)
         delete[] vector->data;
         vector->data = nw;
     }
-    else if (size >= vector->size)
+    else /*if (size >= vector->size)*/
     {
         vector->size = size;
     }
-    else
+ /*   else
     {
         vector->capasity = size * 2;
         Data* nw = new Data[vector->capasity];
@@ -74,5 +74,5 @@ void vector_resize(Vector* vector, size_t size)
         vector->size = size;
         delete[] vector->data;
         vector->data = nw;
-    }
+    }*/
 }
