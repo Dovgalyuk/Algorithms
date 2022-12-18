@@ -1,13 +1,16 @@
 #include "queue.h"
+#include <iostream>
 #include "vector.h"
 
 struct Queue
 {
-    int id;
+    int id_r, id_l, el_amount;
     Vector* vec;
     Queue()
     {
-        id = 0;
+        id_r = 0;
+        id_l = 0;
+        el_amount = 0;
         vec = vector_create();
         vector_resize(vec, 1);
     }
@@ -26,32 +29,62 @@ void queue_delete(Queue* queue)
 
 void queue_insert(Queue* queue, Data data)
 {
-    vector_set(queue->vec, queue->id, data);
-    queue->id++;
-    vector_resize(queue->vec, vector_size(queue->vec)+1);
-    
+    if (queue->id_r  == vector_size(queue->vec))
+    {
+        if (queue->id_l > 0)
+            queue->id_r = 0;
+        else
+            vector_resize(queue->vec, vector_size(queue->vec) + 1);
+
+    }
+    else if (queue->id_r == queue->id_l)
+    {
+        vector_resize(queue->vec, vector_size(queue->vec) + 1);
+        while (queue->id_l != 0)
+        {
+            vector_set(queue->vec, vector_size(queue->vec) - 1, vector_get(queue->vec, 0));
+            queue_remove(queue);
+            queue->id_l--;
+        }
+        queue->id_r = vector_size(queue->vec) - 2;
+    }
+    vector_set(queue->vec, queue->id_r, data);
+    queue->id_r++;
+    queue->el_amount++;
 }
 
 Data queue_get(const Queue* queue)
 {
-    if (vector_get(queue->vec, 0))
-        return vector_get(queue->vec, 0);
+    if (!queue_empty(queue))
+    {   
+        return vector_get(queue->vec, queue->id_l);
+    }      
     else
+    {
         return 0;
+    }
+
 }
 
 void queue_remove(Queue* queue)
 {
-    for (int i = 0; i <= queue->id; i++)
+    if (queue_empty(queue))
     {
-        vector_set(queue->vec, i, vector_get(queue->vec, i + 1));
+        return;
     }
-    queue->id--;
+    else
+    {
+        vector_set(queue->vec, queue->id_l, 0);
+        queue->el_amount--;
+        queue->id_l++;
+        if (queue->id_l == vector_size(queue->vec))
+            queue->id_l = 0;
+    }
 }
 
 bool queue_empty(const Queue* queue)
 {
-    if (queue->id == 0)
+    if (queue->el_amount == 0)
         return true;
     else
         return false;
