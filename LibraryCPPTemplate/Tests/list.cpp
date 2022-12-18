@@ -5,7 +5,7 @@ typedef List<int> MyList;
 
 int main()
 {
-    MyList *list = new MyList;
+    MyList* list = new MyList;
 
     if (!list)
     {
@@ -17,7 +17,7 @@ int main()
     list->insert(2);
     list->insert(3);
 
-    if (list->first()->data() != 3)
+    if (list->first()->getData() != 3)
     {
         std::cout << "list_insert error\n";
         return 1;
@@ -25,7 +25,7 @@ int main()
 
     list->insert_after(list->first(), 4);
 
-    if (list->first()->next()->data() != 4)
+    if (list->first()->getNext()->getData() != 4)
     {
         std::cout << "list_insert_after error\n";
         return 1;
@@ -33,16 +33,16 @@ int main()
 
     list->erase(list->first());
 
-    if (list->first()->data() != 4)
+    if (list->first()->getData() != 4)
     {
         std::cout << "list_erase error\n";
         return 1;
     }
 
     std::cout << "List: ";
-    for (auto item = list->first() ; item ; item = item->next())
+    for (auto item = list->first(); item; item = item->getNext())
     {
-        std::cout << item->data() << " ";
+        std::cout << item->getData() << " ";
     }
     std::cout << "\n";
 
