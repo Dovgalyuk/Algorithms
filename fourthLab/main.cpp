@@ -8,9 +8,9 @@ class PathFinder {
     PathFinder(D_Graph<int>* graph, int from) {
         start = from;
         for (size_t i = 0; i < graph->size(); i++) {
-            graph->getVertex(i)->setLabel(INT_MAX);
+            graph->getVertex(i)->setLabel(0);
             if (i != start) {
-                graph->getVertex(i)->setLabel(0);
+                graph->getVertex(i)->setLabel(INT_MAX);
             }
         }
 
@@ -19,21 +19,22 @@ class PathFinder {
             p.push_back(start);
         }
 
-        while (auto res = vertexWithMinLabel(graph) != -1) {
-            auto minVertex = graph->getVertex(res);
+        while (vertexWithMinLabel(graph) != -1) {
+            size_t minVertexIndex = vertexWithMinLabel(graph);
+            auto minVertex = graph->getVertex(minVertexIndex);
             
-            D_Graph<int>::EdgesIterator iterator(*minVertex);
+            D_Graph<int>::EdgesIterator iterator(minVertex);
     
             while (*iterator != nullptr) {
                 int summ = minVertex->getLabel() + (*iterator)->getWeight();
                 if (summ < (*iterator)->getDest()->getLabel()) {
                     (*iterator)->getDest()->setLabel(summ);
-                    p[graph->getIndexOf((*iterator)->getDest())] = res;
+                    p[graph->getIndexOf((*iterator)->getDest())] = minVertexIndex;
                 }
 
                 ++iterator;        
             }
-            used[res] = true;
+            used[minVertexIndex] = true;
         }
     }
     std::vector<int> pathTo(size_t index) {
@@ -92,6 +93,5 @@ int main() {
     }
     
     delete graph;
-
     return 0;
 }
