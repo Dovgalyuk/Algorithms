@@ -11,19 +11,14 @@ public:
     struct Edge; //?????
     struct Vertex { //???????
         Data data;
-        List<Edge*> edges;
+        List<Edge> edges;
 
         Vertex(Data data) {
             this->data = data;
         }
 
         ~Vertex() {
-            auto itemDel = edges.list_first();
-
-            while (itemDel != nullptr) {
-                delete itemDel->data();
-                itemDel = itemDel->item_next();
-            }
+                delete &this->getEdge(this);
         }
 
         void setData(Data data) {
@@ -35,23 +30,20 @@ public:
         }
 
         void addEdge(Vertex* toVertex) {  // ???????? ?????
-            edges.insert(new Edge(toVertex));
+            edges.insert(Edge(toVertex));
         }
 
-        Edge* getEdge(Vertex* toVertex) {
+        Edge& getEdge(Vertex* toVertex) {
             for (auto item = edges.list_first(); item != nullptr; item = item->item_next()) {
-                if (item->data()->getToVertex() == toVertex) {
+                if (item->data().getToVertex() == toVertex) {              
                     return item->data();
                 }
             }
-
-            return nullptr;
         }
 
         void removeEdge(Vertex* toVertex) { // ??????? ?????
             for (auto item = edges.list_first(); item != nullptr; item = item->item_next()) {
-                if (item->data()->getToVertex() == toVertex) {
-                    delete item->data();
+                if (item->data().getToVertex() == toVertex) {
                     edges.erase(item);
                     break;
                 }
@@ -66,14 +58,18 @@ public:
 
         Edge(Vertex* toVertex) {
             this->toVertex = toVertex;
+            weight = NULL;
         }
-
+        Edge() {
+            toVertex = nullptr;
+            weight = NULL;
+        }
         Vertex* getToVertex() {
             return toVertex;
         }
 
-        void setWeight(int weight) {
-            this->weight = weight;
+        void setWeight(int weight_ins) {
+            this->weight = weight_ins;
         }
 
         int getWeight() {
@@ -83,7 +79,7 @@ public:
 
     struct EdgeIterator { //????????
 
-        typename List<Edge*>::Item* edgeItem;
+        typename List<Edge>::Item* edgeItem;
 
         EdgeIterator(Vertex* head) {
             edgeItem = head->edges.list_first();
@@ -97,7 +93,7 @@ public:
 
         Edge* operator *() {
             if (edgeItem != nullptr) {
-                return edgeItem->data();
+                return &edgeItem->data();
             }
             else {
                 return nullptr;
@@ -124,7 +120,7 @@ public:
 
     bool checkEdge(Vertex* fromVertex, Vertex* toVertex) {
         for (auto item = fromVertex->edges.list_first(); item != nullptr; item = item->item_next()) {
-            if (item->data()->getToVertex() == toVertex) {
+            if (item->data().getToVertex() == toVertex) {
                 return true;
             }
         }
@@ -169,15 +165,16 @@ public:
         if (!checkEdge(fromVertex, toVertex)) {
             fromVertex->addEdge(toVertex);
         }
-        fromVertex->getEdge(toVertex)->setWeight(weightEdge);
+
+        fromVertex->getEdge(toVertex).setWeight(weightEdge);
     }
 
-    Edge* getEdge(Vertex* fromVertex, Vertex* toVertex) {
+    Edge& getEdge(Vertex* fromVertex, Vertex* toVertex) {
         return fromVertex->getEdge(toVertex);
     }
 
     int getWeightEdge(Vertex* fromVertex, Vertex* toVertex) {
-        return getEdge(fromVertex, toVertex)->getWeight();
+        return getEdge(fromVertex, toVertex).getWeight();
     }
 
     void removeEdge(Vertex* fromVertex, Vertex* toVertex) {
@@ -199,4 +196,6 @@ private:
 };
 
 #endif
+
+
 
