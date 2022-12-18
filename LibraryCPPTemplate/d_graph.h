@@ -31,12 +31,12 @@ template<typename Data> class D_Graph
             label = 0;
         }
         ~Vertex() {
-            auto mustBeDeleted = edges->first();
+            auto mustBeDeleted = edges.first();
             while(mustBeDeleted != nullptr) {
                 delete mustBeDeleted->data();
                 mustBeDeleted = mustBeDeleted->next();
             }
-            delete edges;
+            delete &edges;
         }
         Data getData(){
             return data;
@@ -47,7 +47,7 @@ template<typename Data> class D_Graph
 
 
         void addEdgeTo(Vertex* to) {
-            edges->insert(new Edge(to));
+            edges.insert(new Edge(to));
         }
         void removeEdgeTo(Vertex* to) {
             for (auto item = edges->first(); item; item = item->next()) {
@@ -59,7 +59,7 @@ template<typename Data> class D_Graph
             }
         }
         Edge* getEdgeTo(Vertex* to) {
-            for (auto item = edges->first(); item; item = item->next()) {
+            for (auto item = edges.first(); item; item = item->next()) {
                 if (item->data()->getDest() == to) {
                     return item->data();
                 }
@@ -72,7 +72,8 @@ template<typename Data> class D_Graph
         void setLabel(int newLabel) {
             label = newLabel;
         }
-        List<Edge*> *edges = new List<Edge*>;
+        List<Edge*> edges;
+
         private:
         Data data;
         int label;
@@ -101,8 +102,8 @@ template<typename Data> class D_Graph
     struct EdgesIterator {
         
         typename List<Edge*>::Item *lastItem;
-        EdgesIterator(Vertex* root) {    
-            lastItem = root->edges->first();
+        EdgesIterator(Vertex root) {    
+            lastItem = root.edges.first();
         }
 
         void operator ++() {
