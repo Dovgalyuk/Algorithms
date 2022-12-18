@@ -65,7 +65,7 @@ public:
 
     Vector<Vertex*>* vertices;
 
-    DGraph(size_t vertex_amount, Data default_value) : matrix(new Vector<Edge*>) 
+    DGraph(size_t vertex_amount, Data default_value) : matrix(new Vector<Edge>) 
     {
         vertices = new Vector<Vertex*>;
         vertices->resize(vertex_amount);
@@ -183,7 +183,7 @@ public:
         return NearVertexIterator(this, root_index);
     }
 protected:
-    Vector<Edge*>* matrix;
+    Vector<Edge>* matrix;
 
     void fill_matrix_with_null() 
     {
