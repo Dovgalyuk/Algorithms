@@ -58,12 +58,8 @@ public:
 
         Edge(Vertex* toVertex) {
             this->toVertex = toVertex;
-            weight = NULL;
         }
-        Edge() {
-            toVertex = nullptr;
-            weight = NULL;
-        }
+        Edge() {}
         Vertex* getToVertex() {
             return toVertex;
         }
