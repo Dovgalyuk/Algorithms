@@ -1,7 +1,18 @@
 #include "vector.h"
+#include <iostream>
+using namespace std;
 
 struct Vector
 {
+    Data* data;
+    size_t size;
+    size_t capacity;
+    Vector()
+    {
+        capacity = 1;
+        size = 0;
+        data = new Data[capacity];
+    }
 };
 
 Vector *vector_create()
@@ -11,24 +22,58 @@ Vector *vector_create()
 
 void vector_delete(Vector *vector)
 {
-    // TODO: free vector internals
+    delete[] vector->data;
     delete vector; 
 }
 
 Data vector_get(const Vector *vector, size_t index)
 {
-    return (Data)0;
+    if (index < vector->size && index >= 0)
+    {
+        return vector->data[index];
+    }
+    else
+    {
+        cout << "Error: out of range" << '\n';
+        return false;
+    }
 }
 
 void vector_set(Vector *vector, size_t index, Data value)
 {
+    if (index < vector->size && index >= 0)
+    {
+        vector->data[index] = value;
+    }
+    else
+    {
+        cout << "Error: out of range" << '\n';
+    }
 }
 
 size_t vector_size(const Vector *vector)
 {
-    return 0;
+    return vector->size;
 }
 
 void vector_resize(Vector *vector, size_t size)
 {
+    if (size <= vector->capacity)
+    {
+        vector->size = size;
+        return;
+    }
+    else
+    {
+        size_t newCapacity = size * 2;
+        Data* tmpData = new Data[newCapacity];
+        for (int i = 0; i < vector->size; i++)
+        {
+            tmpData[i] = vector->data[i];
+        }
+        delete[] vector->data;
+        vector->capacity = newCapacity;
+        vector->size = size;
+        vector->data = tmpData;
+    }
 }
