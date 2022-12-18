@@ -5,83 +5,56 @@
 
 using namespace std;
 
-void print_prims_tree(Graph<int>& graph) {
-	
-	for (int i = 0; i < graph.size(); ++i) {
-		
-		auto from = graph.get_vertex(i);
-
-		for (auto k = from->begin(); k.item != 0; ++k) {
-			
-			auto edge = k.item->data();
-
-			auto to = k.item->data().vertex;
-
-			printf(
-				"%d -> %d : %d \n",
-				from->data,
-				to->data,
-				edge.weight
-			);
-
-		}
-	}
-}
-
-Graph<int> prims_algorithm(Graph<int>& graph) {
+void prims_algorithm(Graph<int>& graph) {
 
 	int edges_count = graph.size() - 1;
 
-	Graph<int> prim_tree(1,0);
+	Graph<int>::Edge prims_tree[graph.size()];
+
+	for (int i = 0; i < graph.size(); ++i) prims_tree[i] = { 0,INT_MAX };
 	
 	bool visited[graph.size()]{ false };
 	visited[0] = true;
 
-	for (int i = 0; i < edges_count; ++i) {
-		
-		//Start position of nearest vertex 
-		int from = 0;	
+	int near_ver_pos = 0;
 
-		//End position of nearest vertex
-		int to = 0;
+	for (int i = 0; i < edges_count; ++i) {
+
+		auto vertex = graph.get_vertex(near_ver_pos);
+
+		for (auto k = vertex->begin(); k.item != 0; ++k) {
+
+			auto edge = k.item->data();
+
+			if (edge.weight < prims_tree[edge.vertex->data].weight) {
+				prims_tree[edge.vertex->data].weight = edge.weight;
+				prims_tree[edge.vertex->data].vertex = vertex;
+			}
+
+		}
 
 		int min_weight = INT_MAX;
 
-		for (int j = 0; j < prim_tree.size(); ++j) {
-			
-			int pos = prim_tree.get_vertex(j)->data;
-
-			auto vertex = graph.get_vertex(pos);
-
-			for (auto k = vertex->begin(); k.item != 0; ++k) {
-				
-				auto edge = k.item->data();
-
-				if (edge.weight > min_weight) continue;
-				
-				if (visited[edge.vertex->data]) continue;
-
-				from = pos;
-				to = edge.vertex->data;
-				min_weight = edge.weight;
-
+		for (int j = 0; j < graph.size(); ++j) {
+			if (!visited[j] && prims_tree[j].weight < min_weight) {
+				min_weight = prims_tree[j].weight;
+				near_ver_pos = j;
 			}
 		}
 
-		auto vertex = prim_tree.find_vertex(to);
-
-		if (!vertex) prim_tree.add_vertex(to);
-
-		auto from_vec = prim_tree.find_vertex(from);
-		auto to_vec = prim_tree.find_vertex(to);
-
-		prim_tree.add_edge(from_vec,to_vec,min_weight);
-
-		visited[to] = true;
-
+		visited[near_ver_pos] = true;
 	}
 
-	return prim_tree;
+	for (int i = 0; i < graph.size(); ++i) {
+		auto edge = prims_tree[i];
+		if (edge.vertex == 0) continue;
+		printf(
+			"%d -> %d : %d \n",
+			edge.vertex->data,
+			i,
+			edge.weight
+		);
+	}
 }
 
 int main() {
@@ -104,8 +77,6 @@ int main() {
 		graph.add_edge(ver1,ver2,weight);
 	}
 
-	auto prim_tree = prims_algorithm(graph);
-
-	print_prims_tree(prim_tree);
+	prims_algorithm(graph);
 
 }
