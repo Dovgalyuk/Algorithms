@@ -18,7 +18,7 @@ public:
         }
 
         ~Vertex() {
-                delete &this->getEdge(this);
+            delete this->getEdge(this);
         }
 
         void setData(Data data) {
@@ -33,12 +33,13 @@ public:
             edges.insert(Edge(toVertex));
         }
 
-        Edge& getEdge(Vertex* toVertex) {
+        Edge* getEdge(Vertex* toVertex) {
             for (auto item = edges.list_first(); item != nullptr; item = item->item_next()) {
-                if (item->data().getToVertex() == toVertex) {              
-                    return item->data();
+                if (item->data().getToVertex() == toVertex) {
+                    return &item->data();
                 }
             }
+            return nullptr;
         }
 
         void removeEdge(Vertex* toVertex) { // ??????? ?????
@@ -162,15 +163,15 @@ public:
             fromVertex->addEdge(toVertex);
         }
 
-        fromVertex->getEdge(toVertex).setWeight(weightEdge);
+        fromVertex->getEdge(toVertex)->setWeight(weightEdge);
     }
 
-    Edge& getEdge(Vertex* fromVertex, Vertex* toVertex) {
+    Edge* getEdge(Vertex* fromVertex, Vertex* toVertex) {
         return fromVertex->getEdge(toVertex);
     }
 
     int getWeightEdge(Vertex* fromVertex, Vertex* toVertex) {
-        return getEdge(fromVertex, toVertex).getWeight();
+        return getEdge(fromVertex, toVertex)->getWeight();
     }
 
     void removeEdge(Vertex* fromVertex, Vertex* toVertex) {
