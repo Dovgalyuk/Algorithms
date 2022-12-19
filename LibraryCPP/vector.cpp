@@ -61,7 +61,6 @@ void vector_resize(Vector *vector, size_t size)
     if (size <= vector->capacity)
     {
         vector->size = size;
-        return;
     }
     else
     {
