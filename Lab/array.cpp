@@ -2,31 +2,53 @@
 #include <ctime>
 #include "array.h"
 
-Data getTheMostPopularNubmerInArray(Array* arr){
+void getTheMostPopularNubmersInArray(Array* arr){
 
     size_t size = array_size(arr);
-    int k, l, max;
-    max = array_get(arr,0);
 
-    for (int i = 0; i < size - 1; i++) {
-        k = 1;
-        for (int j = i + 1; j < size; j++) {
-            if (array_get(arr, i) == array_get(arr, j)) k++;
-            if (k > max) { max = k; l = i; }
-        }
+     //Сделаем массив с таким же size и заполним его нулями
+     Array* temp = array_create(size);
+     for (size_t i = 0; i < array_size(temp); ++i) {
+         array_set(temp, i, 0);
+     }
+
+    // Для каждого элемента ...
+    for (int i = 0; i < size; ++i)
+    {
+        // ...находим первый такой элемент
+        bool found = false;
+        for (int j = 0; j < i; ++j)
+            if (array_get(arr,j) == array_get(arr, i))
+            {
+                found = true;
+                array_set(temp, j, array_get(temp, j) + 1);      // и увеличиваем его счетчик в temp
+                break;
+            }
+        if (!found)  array_set(temp, i, array_get(temp, i) + 1);     // (или тут, если такого элемента еще не было)
     }
-    for (int i = 0; i < size - 1; i++) {
-        k = 1;
-        for (int j = i + 1; j < size; j++)
+
+
+    //В временном массиве найдем максимум
+    int max = 0;
+    for (int i = 0; i < size; ++i)
+        if (max < array_get(temp, i))
         {
-            if (array_get(arr, i) == array_get(arr, j)) k++;
+            max = array_get(temp, i);
         }
-        if (k == max) std::cout << array_get(arr, i) << " ";
+
+    //Популярных чисел может быть несколько, выводим все которые удовлетворяют условие
+    std::cout << "The most popular number(s) - ";
+    for (size_t i = 0; i < array_size(temp); i++)
+    {
+        if (array_get(temp, i) == max) {
+            std::cout << array_get(arr, i)<<" ";
+        }
     }
-    return max;
+
+    array_delete(temp);
 }
 
-main() {
+void main() {
     srand(time(0));
     size_t size;
 
@@ -37,17 +59,16 @@ main() {
 
 
     for (size_t i = 0; i < array_size(arr); ++i) {
-        int value = rand() % 31;
+        int value = rand() % 11;
         array_set(arr, i, value);
     }
 
     for (std::size_t i = 0; i < array_size(arr); i++) {
-        std::cout << array_get(arr, i) << std::endl;
+        std::cout << array_get(arr, i) << " ";
     }
-
-    int number = getTheMostPopularNubmerInArray(arr);
-
-    std::cout << "number - " << number << std::endl;
+    
+        std::cout << std::endl;
+    getTheMostPopularNubmersInArray(arr);
 
     system("pause");
 
