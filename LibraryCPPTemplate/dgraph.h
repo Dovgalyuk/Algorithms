@@ -66,7 +66,7 @@ public:
 
     Vector<Data*>* vertices;
 
-    DGraph(size_t vertex_amount, Data default_value) : matrix(new Vector<Edge*>) 
+    DGraph(size_t vertex_amount, Data default_value) : matrix(new Vector<Edge>) 
     {
         vertices = new Vector<Data*>;
         vertices->resize(vertex_amount);
@@ -185,7 +185,7 @@ public:
     }
 
 protected:
-    Vector<Edge*>* matrix;
+    Vector<Edge>* matrix;
 
     void fill_matrix_with_null() 
     {
