@@ -6,29 +6,29 @@ void getTheMostPopularNubmersInArray(Array* arr){
 
     size_t size = array_size(arr);
 
-     //Сделаем массив с таким же size и заполним его нулями
+    
      Array* temp = array_create(size);
      for (size_t i = 0; i < array_size(temp); ++i) {
          array_set(temp, i, 0);
      }
 
-    // Для каждого элемента ...
+
     for (int i = 0; i < size; ++i)
     {
-        // ...находим первый такой элемент
+
         bool found = false;
         for (int j = 0; j < i; ++j)
             if (array_get(arr,j) == array_get(arr, i))
             {
                 found = true;
-                array_set(temp, j, array_get(temp, j) + 1);      // и увеличиваем его счетчик в temp
+                array_set(temp, j, array_get(temp, j) + 1);     
                 break;
             }
-        if (!found)  array_set(temp, i, array_get(temp, i) + 1);     // (или тут, если такого элемента еще не было)
+        if (!found)  array_set(temp, i, array_get(temp, i) + 1);     
     }
 
 
-    //В временном массиве найдем максимум
+
     int max = 0;
     for (int i = 0; i < size; ++i)
         if (max < array_get(temp, i))
@@ -36,7 +36,7 @@ void getTheMostPopularNubmersInArray(Array* arr){
             max = array_get(temp, i);
         }
 
-    //Популярных чисел может быть несколько, выводим все которые удовлетворяют условие
+
     std::cout << "The most popular number(s) - ";
     for (size_t i = 0; i < array_size(temp); i++)
     {
