@@ -84,11 +84,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     return item->nextItem = newItem;
 }
 
-ListItem *list_erase(List *list, ListItem *item)
-{
-    return NULL;
-}
-
 ListItem *list_erase_next(List *list, ListItem *item)
 {
     if (item->nextItem) {
@@ -105,6 +100,12 @@ ListItem *list_erase_next(List *list, ListItem *item)
     return 0;
 
 }
+
+ListItem *list_erase(List *list, ListItem *item)
+{
+    return NULL;
+}
+
 
 ListItem *list_erase_first(List *list) {
     ListItem* tmp = nullptr;
