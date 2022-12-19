@@ -35,7 +35,7 @@ int main()
   for (int i = 0; i < array_size(array); i++)
   {
 
-    if (array_get(array, i) % 2 != 0 && i < array_size(array))
+    if (array_get(array, i) % 2 != 0)
     {
       current_length += 1;
     }
@@ -46,8 +46,10 @@ int main()
     if (current_length > max_length)
     {
       max_length = current_length;
-    };
+    }
   }
 
   std::cout << max_length << std::endl;
+
+  array_delete(array);
 }
