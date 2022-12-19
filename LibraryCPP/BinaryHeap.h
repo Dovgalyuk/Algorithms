@@ -26,8 +26,11 @@ public:
         }
         else 
         { 
-            tree.resize(0);
-            return tree[0]; 
+            tree.resize(1);
+            T code = tree[0];
+            tree.clear();
+            cout << "Error! The binary heap is empty! The function returned: NULL\a\n\n";
+            return code;
         }
     }
 
@@ -76,7 +79,7 @@ private:
 
     void sift_down(int v)
     {
-        int max_idx;
+       
 
         if (!Empty())
         {
