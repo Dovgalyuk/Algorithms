@@ -1,44 +1,57 @@
-﻿#include <iostream>
+#include <iostream>
 #include "vector.h"
 #include "queue.h"
 #include <fstream>
 using namespace std;
 
-int BFS(int** matrix, int start, int end, int V)
+void BFS(int** matrix, int start, int V)
 {
-	bool* used = new bool[V];
-	for (int i = 0; i < V; i++)
+	ofstream out("output.txt");
+	for (int v = start; v < V; v++)
 	{
-		used[i] = false;
-	}
-	int min = NULL;
-	Queue* queue;
-	queue = queue_create();
-	queue_insert(queue, start);
-	int count = 0;
-	while (!queue_empty(queue))
-	{
-		int st = queue_get(queue);
-		used[st] = true;
-		queue_remove(queue);
-		count++;
+		if (v == start)
+		{
+			out << 0 << '\n';
+			continue;
+		}
+		bool* used = new bool[V];
 		for (int i = 0; i < V; i++)
 		{
-			if ((matrix[st][i]) == 1 && (!used[i]))
+			used[i] = false;
+		}
+		bool found = false;
+		int min = NULL;
+		Queue* queue;
+		queue = queue_create();
+		queue_insert(queue, start);
+		int count = 0;
+		while (!queue_empty(queue))
+		{
+			int st = queue_get(queue);
+			used[st] = true;
+			queue_remove(queue);
+			count++;
+			for (int i = 0; i < V; i++)
 			{
-				if (i == end)
+				if ((matrix[st][i]) == 1 && (!used[i]))
 				{
-					if (count < min || min == NULL)
+					if (i == v)
 					{
-						min = count;
+						out << count << '\n';
+						found = true;
+						break;
 					}
+					queue_insert(queue, i);
 				}
-				queue_insert(queue, i);
+			}
+			if (found)
+			{
+				break;
 			}
 		}
+		queue_delete(queue);
+		delete[] used;
 	}
-	delete[] used;
-	return min;
 }
 
 
@@ -66,12 +79,7 @@ int main()
 		}
 	}
 	file.close();
-	ofstream out("output.txt");
-	for (int i = 0; i < V; i++)
-	{
-		out << BFS(matrix, 0, i, V) << '\n';
-	}
-	
+	BFS(matrix, 0, V);
 
 
 
@@ -82,3 +90,4 @@ int main()
 	delete[] matrix;
 	return 0;
 }
+
