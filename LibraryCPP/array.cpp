@@ -20,9 +20,10 @@ Array* array_create(size_t size)
 }
 
 // Процедура удаляет структура, в ней удаляем динамический массив, чтобы освободить память в куче
-void array_delete(Array* arr)
-{
-    delete arr->data;
+void array_delete(Array* arr) 
+{ 
+    delete[] arr->data; 
+    delete arr; 
 }
 
 // Функция возвращает элемент в заданой структуре, в заданом месте
