@@ -48,7 +48,7 @@ void getTheMostPopularNubmersInArray(Array* arr){
     array_delete(temp);
 }
 
-void main() {
+int main() {
     srand(time(0));
     size_t size;
 
@@ -69,8 +69,6 @@ void main() {
     
         std::cout << std::endl;
     getTheMostPopularNubmersInArray(arr);
-
-    system("pause");
-
     array_delete(arr);
+    return 0;
 }
