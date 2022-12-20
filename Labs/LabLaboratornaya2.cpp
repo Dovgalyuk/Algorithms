@@ -30,7 +30,7 @@ bool StringValidation(Stack* stack, string str) {
 			break;
 		}
 	}
-	if ((count34 != 0 && count34 % 2 == 0) && (count39 != 0 && count39 % 2 == 0) && count41 == count40) return true;
+	if (count34 % 2 == 0 && count39 % 2 == 0 && count41 == count40) return true;
 	else return false;
 }
 
