@@ -16,11 +16,7 @@ public:
         Vertex(Data data) {
             this->data = data;
         }
-
-        ~Vertex() {
-            delete this->getEdge(this);
-        }
-
+        
         void setData(Data data) {
             this->data = data;
         }
