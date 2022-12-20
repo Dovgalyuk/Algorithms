@@ -4,11 +4,11 @@
 struct Stack {
     List* list;
     Stack() {
-        this->list = list_create();
+        list = list_create();
     }
     
     ~Stack(){
-        list_delete(this->list);
+        list_delete(list);
     }
 };
 
