@@ -1,53 +1,135 @@
-#include "array.h"
+//Односвязный список устроен так, что каждый элемент указывает на следующий
 
-struct Array
+#include <cstddef>
+#include "list.h"
+
+//Структура описывает элемент односвязного списка
+struct ListItem
 {
-    // У струтуры есть динамический массив и размер
-    size_t number;
-    Data* data;
-    //Конструктор, получает размер, создаёт массив
-    Array(size_t size)
-    {
-        number = size;
-        data = new Data[size];
-    }
+    //Указатель на следующий элемент
+    ListItem* pNext;
+    //Данные, которые хранятся в элементе
+    Data data;
 };
 
-// Функция создаёт струстуру, в ней просто возврщаем новый Array, создав его с конструктором
-Array* array_create(size_t size)
+//Структура описывает односвязный список
+struct List
 {
-    return new Array(size);
+    //Указатель на первый элемент
+    ListItem* head;
+};
+
+//Функция создаёт список
+List* list_create()
+{
+    //Создаём новый список
+    List* list = new List;
+    //Присваиваем первому элементу nullptr
+    list->head = nullptr;
+    //Возвращаем этот список
+    return list;
 }
 
-// Процедура удаляет структура, в ней удаляем динамический массив, чтобы освободить память в куче
-void array_delete(Array* arr) 
-{ 
-    delete[] arr->data; 
-    delete arr; 
+//Функция удаляет список
+void list_delete(List* list)
+{
+    //Пока есть элементы после первого выполняем цикл
+    while (list_item_next(list->head))
+    {
+        //Удаляем элемент после первого
+        list_erase_next(list, list->head);
+    }
+    //Удаляем первый элемент
+    delete list->head;
+    //Удаляем список
+    delete list;
+
 }
 
-// Функция возвращает элемент в заданой структуре, в заданом месте
-Data array_get(const Array* arr, size_t index)
+//Функция возвращает первый элемент списка
+ListItem* list_first(List* list)
 {
-    // в случае, если заданный индекс больше, чем размер массива, возвращаем ноль
-    if (index >= array_size(arr))
-        return 0;
+    //Проверяем есть ли первый элемент, если есть возвращаем его, иначе NULL
+    if (list->head)
+        return list->head;
     else
-        return (arr->data[index]);
+        return NULL;
+
 }
 
-// Процедура присвает заданному месту в заданой структуре, заданные данные
-void array_set(Array* arr, size_t index, Data value)
+//Функция возвращает данные, которые хранятся в указанном элементе
+Data list_item_data(const ListItem* item)
 {
-    // в случае, если заданный индекс больше, чем размер массива, возвращаем ноль
-    if (index >= array_size(arr))
-        return;
+    //Проверяем есть ли элемент, если есть возвращаем его значение, иначе NULL
+    if (item)
+        return item->data;
     else
-        arr->data[index] = value;
+        return NULL;
 }
 
-// Функция возвращает размер массива
-size_t array_size(const Array* arr)
+//Функция возвращает элемент списка, который следует за указанным
+ListItem* list_item_next(ListItem* item)
 {
-    return arr->number;
+    //Проверяем есть ли элемент, если есть возвращаем ссылку на следующий элемент, иначе NULL
+    if (item)
+        return item->pNext;
+    else
+        return NULL;
+}
+
+//Функция не подходит для односвязного списка
+ListItem* list_item_prev(ListItem* item)
+{
+    return NULL;
+}
+
+//Функция вставляет новый элемент в начало списка
+ListItem* list_insert(List* list, Data data)
+{
+    //Создаём новый элемент списка
+    ListItem* a = new ListItem;
+    a->data = data;
+    //Указываем ссылку на первый элемент списка в новом элементе
+    a->pNext = list_first(list);
+    //У списка переприсваиваем первый элемент списка на новый
+    list->head = a;
+    return a;
+}
+
+//Функция вставляет новый элемент в список после указанного элемента
+ListItem* list_insert_after(List* list, ListItem* item, Data data)
+{
+    //Создаём новый элемент списка
+    ListItem* a = new ListItem;
+    a->data = data;
+    //Указываем ссылку на следующий за указанным элемент списка в новом элементе
+    a->pNext = item->pNext;
+    //У списка переприсваиваем указанный элемент списка на новый
+    item->pNext = a;
+    return a;
+}
+
+//Функция не подходит для односвязного списка
+ListItem* list_erase(List* list, ListItem* item)
+{
+    return NULL;
+}
+
+//Функция удаляет элемент списка после указанного
+ListItem* list_erase_next(List* list, ListItem* item)
+{
+    //Создаём новый элемент списка (Используем для удаления данных)
+    ListItem* erase = nullptr;
+    //Проверяем существует ли необходисый нам элемент
+    if (list_item_next(item))
+    {
+        //Присваиваем erase элемент, который нам нужно удалить
+        erase = item->pNext;
+        //Присваиваем ссылку на следующий за указанным элемент списка указанному элементу
+        item->pNext = list_item_next(list_item_next(item));
+        delete erase;
+        return item;
+    }
+    else
+        return NULL;
 }
