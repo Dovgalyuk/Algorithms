@@ -68,7 +68,7 @@ class HashTable {
 	}
 	void resize() {
 		this->size = 0;
-		Array<Element>* new_elements = new Array<Element>(capacity * 2);
+		Array<Element>* new_elements = new Array<Element>(capacity * 4);
 		for (size_t i = 0; i < this->capacity; i++) {
 			string key = this->elements->get(i)->key;
 			string value = this->elements->get(i)->value;
@@ -80,7 +80,7 @@ class HashTable {
 			}
 		}
 		this->elements = new_elements;
-		this->capacity *= 2;
+		this->capacity *= 4;
 	}
 	int find_index(string key) {
 		bool not_found = true;
