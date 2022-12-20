@@ -86,19 +86,20 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
+
     if (item->nextItem) {
+
+        if (item->nextItem == list->lastItem) {
+            delete list->lastItem;
+            return list->lastItem = item;
+        }
+
         ListItem* next = item->nextItem->nextItem;
         delete item->nextItem;
         return item->nextItem = next;
     }
 
-    if (item->nextItem == list->lastItem) {
-        delete list->lastItem;
-        return list->lastItem = item;
-    }
-
     return 0;
-
 }
 
 ListItem *list_erase(List *list, ListItem *item)
