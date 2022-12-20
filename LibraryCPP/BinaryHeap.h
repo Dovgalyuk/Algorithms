@@ -26,11 +26,7 @@ public:
         }
         else 
         { 
-            tree.resize(1);
-            T code = tree[0];
-            tree.clear();
-            cout << "Error! The binary heap is empty! The function returned: NULL\a\n\n";
-            return code;
+            return T();
         }
     }
 
