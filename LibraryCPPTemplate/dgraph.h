@@ -168,7 +168,7 @@ public:
 
     void set_edge_weight(size_t first_vertex_index, size_t second_vertex_index, int weight)
     {
-        Edge test = get_edge(first_vertex_index, second_vertex_index);
+        Edge edge = get_edge(first_vertex_index, second_vertex_index);
         test.weight = weight;
     }
 
@@ -194,8 +194,7 @@ protected:
     {
         for (int i = 0; i < matrix->size(); ++i)
         {
-            Edge test = 0;
-            matrix->set(i, test);
+            matrix->set(i, nullptr);
         }
     }
 
@@ -239,12 +238,12 @@ protected:
 
     void add_edge_to_matrix(size_t first_vertex_index, size_t second_vertex_index, Edge* edge)
     {
-        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), edge->vertex->data);
+        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), edge);
     }
 
     void remove_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index)
     {
-        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), NULL);
+        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), nullptr);
     }
 
     Edge get_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index)
