@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include "template_array.h"
+#include "array.h"
 
 using namespace std;
 
