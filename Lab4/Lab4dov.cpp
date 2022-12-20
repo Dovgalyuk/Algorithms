@@ -38,32 +38,32 @@ int main()
     fillGraph(graph);
 
     auto* vertex = graph.get_vertex(FIRST_VERTEX);
-    vertex->cost = 0;
-    Data* min_cost_vertex;
+    vertex->data.cost = 0;
+    DGraph<Data>::Vertex* min_cost_vertex;
     do
     {
         min_cost_vertex = nullptr;
-        vertex->was = true;
+        vertex->data.was = true;
         for (int i = 0; i < graph.get_vertex_amount(); ++i)
         {
-            DGraph<Data>::VertexIterator vertex_iter = graph;
-            auto* new_vertex = vertex_iter.graph.get_vertex(i);
-            if (!new_vertex->was) 
+            DGraph<Data>::VertexIterator vertex_iter(graph,0);
+            auto* new_vertex = graph.get_vertex(i);
+            if (!new_vertex->data.was)
             {
-                int new_cost = new_vertex->cost;
-                if (graph.contains_edge_between_vertices(vertex->index, i)) 
+                int new_cost = new_vertex->data.cost;
+                if (graph.contains_edge_between_vertices(vertex->data.index, i))
                 {
-                    new_cost = min(new_cost, vertex->cost + graph.get_edge_weight(vertex->index, i));
-                    new_vertex->cost = new_cost;
+                    new_cost = min(new_cost, vertex->data.cost + graph.get_edge_weight(vertex->data.index, i));
+                    new_vertex->data.cost = new_cost;
                 }
-                if (min_cost_vertex == nullptr || new_cost < min_cost_vertex->cost) 
+                if (min_cost_vertex == nullptr || new_cost < min_cost_vertex->data.cost) 
                 {
-                    cout << vertex->index<<"->";
+                    cout << vertex->data.index<<"->";
                     min_cost_vertex = new_vertex;
                 }
             }
         }
         vertex = min_cost_vertex;
     } while (min_cost_vertex == nullptr);
-    cout<<"\n" << graph.get_vertex(SECOND_VERTEX)->cost;
+    cout<<"\n" << graph.get_vertex(SECOND_VERTEX)->data.cost;
 }
