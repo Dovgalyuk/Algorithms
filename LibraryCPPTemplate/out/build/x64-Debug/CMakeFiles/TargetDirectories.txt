@@ -1,0 +1,9 @@
+C:/Users/Acer/source/repos/Algorithms/LibraryCPPTemplate/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPPTemplate/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPPTemplate/out/build/x64-Debug/Tests/CMakeFiles/rebuild_cache.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPPTemplate/out/build/x64-Debug/Tests/CMakeFiles/TestArrayCPPTemplate.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPPTemplate/out/build/x64-Debug/Tests/CMakeFiles/edit_cache.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPPTemplate/out/build/x64-Debug/Tests/CMakeFiles/TestListCPPTemplate.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPPTemplate/out/build/x64-Debug/Tests/CMakeFiles/TestQueueCPPTemplate.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPPTemplate/out/build/x64-Debug/Tests/CMakeFiles/TestStackCPPTemplate.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPPTemplate/out/build/x64-Debug/Tests/CMakeFiles/TestVectorCPPTemplate.dir

@@ -1,0 +1,114 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "Tests",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Tests",
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "Project",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "LibraryC::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-LibraryC-Debug-47dda23d3592fb680a65.json",
+					"name" : "LibraryC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestArrayC::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestArrayC-Debug-eaecf63b6f86d496b983.json",
+					"name" : "TestArrayC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestListC::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestListC-Debug-9b20821e37905ce2f600.json",
+					"name" : "TestListC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestQueueC::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestQueueC-Debug-038c2a6ee45e646807ff.json",
+					"name" : "TestQueueC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestStackC::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestStackC-Debug-52af6febd359b1e88842.json",
+					"name" : "TestStackC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestVectorC::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestVectorC-Debug-09ca5b01f48496ea35ed.json",
+					"name" : "TestVectorC",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Acer/source/repos/Algorithms/LibraryC/out/build/x64-Debug",
+		"source" : "C:/Users/Acer/source/repos/Algorithms/LibraryC"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

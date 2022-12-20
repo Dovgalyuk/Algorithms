@@ -1,0 +1,10 @@
+C:/Users/Acer/source/repos/Algorithms/LibraryCPP/out/build/x64-Debug/CMakeFiles/LibraryCPP.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPP/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPP/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPP/out/build/x64-Debug/Tests/CMakeFiles/TestArrayCPP.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPP/out/build/x64-Debug/Tests/CMakeFiles/TestListCPP.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPP/out/build/x64-Debug/Tests/CMakeFiles/TestQueueCPP.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPP/out/build/x64-Debug/Tests/CMakeFiles/TestStackCPP.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPP/out/build/x64-Debug/Tests/CMakeFiles/TestVectorCPP.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPP/out/build/x64-Debug/Tests/CMakeFiles/edit_cache.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryCPP/out/build/x64-Debug/Tests/CMakeFiles/rebuild_cache.dir

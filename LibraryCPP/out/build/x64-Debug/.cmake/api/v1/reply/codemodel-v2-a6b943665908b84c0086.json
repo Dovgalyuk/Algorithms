@@ -1,0 +1,114 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "Tests",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Tests",
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "Project",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "LibraryCPP::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-LibraryCPP-Debug-4a0f41a3844fde348f69.json",
+					"name" : "LibraryCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestArrayCPP::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestArrayCPP-Debug-2debdf2b139095a341c7.json",
+					"name" : "TestArrayCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestListCPP::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestListCPP-Debug-f490c572494e7a594c75.json",
+					"name" : "TestListCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestQueueCPP::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestQueueCPP-Debug-32ccff31f4172c4dcdb2.json",
+					"name" : "TestQueueCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestStackCPP::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestStackCPP-Debug-72ef2d0936976e9af153.json",
+					"name" : "TestStackCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestVectorCPP::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestVectorCPP-Debug-92a2137803d618240ea6.json",
+					"name" : "TestVectorCPP",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Acer/source/repos/Algorithms/LibraryCPP/out/build/x64-Debug",
+		"source" : "C:/Users/Acer/source/repos/Algorithms/LibraryCPP"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

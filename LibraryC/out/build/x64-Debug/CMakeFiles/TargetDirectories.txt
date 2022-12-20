@@ -1,0 +1,10 @@
+C:/Users/Acer/source/repos/Algorithms/LibraryC/out/build/x64-Debug/CMakeFiles/LibraryC.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryC/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryC/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryC/out/build/x64-Debug/Tests/CMakeFiles/TestArrayC.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryC/out/build/x64-Debug/Tests/CMakeFiles/TestListC.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryC/out/build/x64-Debug/Tests/CMakeFiles/TestQueueC.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryC/out/build/x64-Debug/Tests/CMakeFiles/TestStackC.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryC/out/build/x64-Debug/Tests/CMakeFiles/TestVectorC.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryC/out/build/x64-Debug/Tests/CMakeFiles/edit_cache.dir
+C:/Users/Acer/source/repos/Algorithms/LibraryC/out/build/x64-Debug/Tests/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,102 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "Tests",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Tests",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "Project",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "TestArrayCPPTemplate::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestArrayCPPTemplate-Debug-8950059ba1a915ef318c.json",
+					"name" : "TestArrayCPPTemplate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestListCPPTemplate::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestListCPPTemplate-Debug-c68d76d805d961fe6c88.json",
+					"name" : "TestListCPPTemplate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestQueueCPPTemplate::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestQueueCPPTemplate-Debug-e23f43c4fb38bec8fbd3.json",
+					"name" : "TestQueueCPPTemplate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestStackCPPTemplate::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestStackCPPTemplate-Debug-b245377c9635f4a88515.json",
+					"name" : "TestStackCPPTemplate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "TestVectorCPPTemplate::@3e3005ae7443f751ac85",
+					"jsonFile" : "target-TestVectorCPPTemplate-Debug-691dcafb9ee3fb6b688a.json",
+					"name" : "TestVectorCPPTemplate",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Acer/source/repos/Algorithms/LibraryCPPTemplate/out/build/x64-Debug",
+		"source" : "C:/Users/Acer/source/repos/Algorithms/LibraryCPPTemplate"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}
