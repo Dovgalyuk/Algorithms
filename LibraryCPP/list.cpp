@@ -63,6 +63,7 @@ ListItem* list_erase(List* list) {
         tempPtr = list->firstItem;
         list->firstItem = list->firstItem->nextItem;
         delete tempPtr;
+        return list->firstItem;
     }
 }
 
