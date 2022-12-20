@@ -47,32 +47,30 @@ size_t vector_size(const Vector* vector)
 
 void vector_resize(Vector* vector, size_t size)
 {
-    if (size >= vector->capasity)
+    if ((size >= vector->size) && (vector->capasity >= size))
+    {
+        vector->size = size;
+    }
+    else 
     {
         vector->capasity = size * 2; 
         Data* nw = new Data[vector->capasity];
-        for (size_t i = 0; i < vector->size; i++)
-            nw[i] = vector_get(vector, i);
-        for (size_t i = vector->size; i < vector->capasity; i++)
-            nw[i] = 0;
+        if (size < vector->size)
+        {
+            for (size_t i = 0; i < size; i++)
+                nw[i] = vector_get(vector, i);
+            for (size_t i = size; i < vector->capasity; i++)
+                nw[i] = 0;
+        }
+        else
+        {
+            for (size_t i = 0; i < vector->size; i++)
+                nw[i] = vector_get(vector, i);
+            for (size_t i = vector->size; i < vector->capasity; i++)
+                nw[i] = 0;
+        }
         vector->size = size;
         delete[] vector->data;
         vector->data = nw;
     }
-    else /*if (size >= vector->size)*/
-    {
-        vector->size = size;
-    }
- /*   else
-    {
-        vector->capasity = size * 2;
-        Data* nw = new Data[vector->capasity];
-        for (size_t i = 0; i < size; i++)
-            nw[i] = vector_get(vector, i);
-        for (size_t i = vector->size; i < vector->capasity; i++)
-            nw[i] = 0;
-        vector->size = size;
-        delete[] vector->data;
-        vector->data = nw;
-    }*/
 }
