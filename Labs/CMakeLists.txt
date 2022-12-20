@@ -15,4 +15,3 @@ target_include_directories(Algorithms_lab_4CPP PUBLIC ../LibraryCPPTemplate)
 
 add_executable(Algorithms_lab_5CPP Algorithms_lab_5.cpp)
 target_include_directories(Algorithms_lab_5CPP PUBLIC ../LibraryCPPTemplate)
-target_link_libraries(Algorithms_lab_5CPP LibraryCPPTemplate)
