@@ -17,10 +17,10 @@ public:
 
     struct VertexIterator 
     {
-        DGraph* graph = nullptr;
+        DGraph graph = nullptr;
         size_t index_next_item = 0;
 
-        VertexIterator(DGraph* graph) : graph(graph) {}
+        VertexIterator(DGraph graph) : graph(graph) {}
 
         Data operator *()
         {
@@ -35,11 +35,11 @@ public:
 
     struct NearVertexIterator 
     {
-        DGraph* graph = nullptr;
+        DGraph graph = nullptr;
         size_t root_vertex = 0;
         int last_index = -1;
 
-        NearVertexIterator(DGraph* graph, size_t root_vertex) : graph(graph), root_vertex(root_vertex) { last_index = find_next_vertex(); }
+        NearVertexIterator(DGraph graph, size_t root_vertex) : graph(graph), root_vertex(root_vertex) { last_index = find_next_vertex(); }
 
         int find_next_vertex() 
         {
@@ -100,7 +100,7 @@ public:
 
     void add_edge(size_t first_vertex_index, size_t second_vertex_index, int weight) 
     {
-        Edge* edge = new Edge(get_vertex(second_vertex_index), weight);
+        Edge edge = Edge(get_vertex(second_vertex_index), weight);
         add_edge_to_matrix(first_vertex_index, second_vertex_index, edge);
     }
 
@@ -170,8 +170,8 @@ public:
 
     bool contains_edge_between_vertices(size_t first_vertex_index, size_t second_vertex_index) 
     {
-        Edge* edge = get_edge_from_matrix(first_vertex_index, second_vertex_index);
-        return edge != nullptr;
+        Edge edge = get_edge_from_matrix(first_vertex_index, second_vertex_index);
+        return edge;
     }
 
     VertexIterator get_vertex_iterator() 
@@ -191,20 +191,20 @@ protected:
     {
         for (int i = 0; i < matrix->size(); ++i) 
         {
-            matrix->set(i, nullptr);
+            matrix->set(i, Data(0));
         }
     }
 
     void remove_vertex_from_matrix(size_t removed_vertex_index, int amount_vertex_in_matrix) 
     {
+        Vector<Edge>* new_matrix = new Vector<Edge>;
         int vertex_amount = get_vertex_amount();
-        Vector<Edge*>* new_matrix = new Vector<Edge*>;
-        new_matrix->resize(vertex_amount * vertex_amount);
+        new_matrix->resize(vertex_amount * vertex_amount); 
         for (int i = 0; i < vertex_amount; ++i) 
         {
             for (int j = 0; j < vertex_amount; ++j) 
             {
-                Edge* edge = matrix->get(((i + (i >= removed_vertex_index)) * amount_vertex_in_matrix) + (j + (j >= removed_vertex_index)));
+                Edge edge = matrix->get(((i + (i >= removed_vertex_index)) * amount_vertex_in_matrix) + (j + (j >= removed_vertex_index)));
                 new_matrix->set((i * vertex_amount) + j, edge);
             }
         }
@@ -215,7 +215,7 @@ protected:
     void add_vertex_to_matrix(int amount_vertex_in_matrix) 
     {
         int vertex_amount = get_vertex_amount();
-        Vector<Edge*>* new_matrix = new Vector<Edge*>;
+        Vector<Edge>* new_matrix = new Vector<Edge>;
         new_matrix->resize(vertex_amount * vertex_amount);
         for (int i = 0; i < amount_vertex_in_matrix; ++i) 
         {
@@ -233,7 +233,7 @@ protected:
         return first_vertex_index * get_vertex_amount() + second_vertex_index;
     }
 
-    void add_edge_to_matrix(size_t first_vertex_index, size_t second_vertex_index, Edge* edge) 
+    void add_edge_to_matrix(size_t first_vertex_index, size_t second_vertex_index, Edge edge) 
     {
         matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), edge);
     }
@@ -243,7 +243,7 @@ protected:
         matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), nullptr);
     }
 
-    Edge* get_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index) 
+    Edge get_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index) 
     {
         return matrix->get(get_edge_index_in_matrix(first_vertex_index, second_vertex_index));
     }
