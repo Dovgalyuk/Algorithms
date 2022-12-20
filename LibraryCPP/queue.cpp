@@ -39,16 +39,21 @@ void queue_insert(Queue* queue, Data data)
     }
     else if (queue->id_r == queue->id_l)
     {
-        vector_resize(queue->vec, vector_size(queue->vec) + 1);
+        queue->id_r--;
+        vector_resize(queue->vec, vector_size(queue->vec) * 2);
         for (int i = 0; i < queue->id_l; i++)
         {
-            int oo = vector_get(queue->vec, 0);
-            for (int j = 1; j < queue->el_amount ; j++)
-            {
-                vector_set(queue->vec, j, vector_get(queue->vec, j + 1));
-            }
-            vector_set(queue->vec, queue->el_amount, oo);
-        }       
+            vector_set(queue->vec, vector_size(queue->vec) - 1 - i, vector_get(queue->vec, queue->id_r));
+            vector_set(queue->vec, queue->id_r, 0);
+            queue->id_r--;
+        }
+        for (int i = 0; i < queue->el_amount - queue->id_l; i++)
+        {
+            vector_set(queue->vec, queue->el_amount + i, vector_get(queue->vec, queue->id_l));
+            vector_set(queue->vec, queue->id_l, 0);
+            queue->id_l++;
+
+        }
         queue->id_r = vector_size(queue->vec) - 2;
     }
     vector_set(queue->vec, queue->id_r, data);
@@ -87,9 +92,5 @@ void queue_remove(Queue* queue)
 
 bool queue_empty(const Queue* queue)
 {
-    if (queue->el_amount == 0)
-        return true;
-    else
-        return false;
-
+        return queue->el_amount == 0;
 }
