@@ -54,7 +54,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
     item->nextItem = listItem;
     return listItem;
 }
-ListItem* list_erase(List* list) {
+ListItem* list_first_erase(List* list) {
     ListItem* tempPtr;
     if (list->firstItem == nullptr){
         return NULL;
