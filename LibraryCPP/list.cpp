@@ -36,7 +36,7 @@ ListItem* list_first(List* list) {
 
 Data list_item_data(const ListItem* item) {
     if (item != nullptr) return item->dataListItem;
-    else return NULL;
+    else return 0;
 }
 
 ListItem* list_item_next(ListItem* item) {
