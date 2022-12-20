@@ -1,61 +1,82 @@
 #include <cstddef>
 #include "list.h"
 
-struct ListItem
-{
+ 
+
+struct ListItem {
+    Data dataListItem;
+    ListItem* nextItem;
+    ListItem(Data dataListItem, ListItem* nextItem = nullptr) {
+        this->dataListItem = dataListItem;
+        this->nextItem = nextItem;
+    }
 };
 
-struct List
-{
+struct List {
+    ListItem* firstItem;
+    List() {
+        firstItem = nullptr;
+    }
+    ~List() {
+        delete firstItem;
+    }
 };
 
-List *list_create()
-{
+List* list_create(){
     return new List;
 }
+List* list_null(List* list) {
+    return list;
+}
 
-void list_delete(List *list)
-{
-    // TODO: free items
+void list_delete(List* list) {
     delete list;
 }
 
-ListItem *list_first(List *list)
-{
-    return NULL;
+ListItem* list_first(List* list) {
+    return list->firstItem;
 }
 
-Data list_item_data(const ListItem *item)
-{
-    return (Data)0;
+Data list_item_data(const ListItem* item) {
+    if (item != nullptr) return item->dataListItem;
+    else return NULL;
 }
 
-ListItem *list_item_next(ListItem *item)
-{
-    return NULL;
+ListItem* list_item_next(ListItem* item) {
+    return item->nextItem;
 }
 
-ListItem *list_item_prev(ListItem *item)
-{
-    return NULL;
+ListItem* list_insert(List* list, Data data){
+    list->firstItem = new ListItem(data, list->firstItem);
+    return list->firstItem;
 }
 
-ListItem *list_insert(List *list, Data data)
-{
-    return NULL;
+ListItem* list_insert_after(List* list, ListItem* item, Data data) {
+    ListItem* listItem = new ListItem(data);
+    listItem->nextItem = item->nextItem;
+    item->nextItem = listItem;
+    return listItem;
+}
+ListItem* list_erase(List* list) {
+    ListItem* tempPtr;
+    if (list->firstItem == NULL){
+        return NULL;
+    }
+    else {
+        tempPtr = list->firstItem;
+        list->firstItem = list->firstItem->nextItem;
+        delete tempPtr;
+    }
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    return NULL;
-}
-
-ListItem *list_erase(List *list, ListItem *item)
-{
-    return NULL;
-}
-
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    return NULL;
+ListItem* list_erase_next(List* list, ListItem* item) {
+    if (list_item_next(item)) {
+        ListItem* tempPtr = item->nextItem;
+        if (tempPtr->nextItem != nullptr) 
+            item->nextItem = tempPtr->nextItem;
+        else item->nextItem = nullptr;
+        delete tempPtr;
+        return item;
+    }
+    else return NULL;
 }
