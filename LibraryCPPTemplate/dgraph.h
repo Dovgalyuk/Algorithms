@@ -195,7 +195,7 @@ protected:
     {
         for (int i = 0; i < matrix->size(); ++i)
         {
-            Edge edge;
+            Edge edge(nullptr, 0);
             matrix->set(i, edge);
         }
     }
