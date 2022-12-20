@@ -22,9 +22,9 @@ public:
 
         VertexIterator(DGraph graph) : graph(graph) {}
 
-        Data operator *()
+        Data* operator *()
         {
-            return index_next_item < graph->vertices->size() ? graph->get_vertex(index_next_item) : nullptr;
+            return index_next_item < graph.vertices->size() ? graph.get_vertex(index_next_item) : nullptr;
         }
 
         void operator ++(int i) 
@@ -43,9 +43,9 @@ public:
 
         int find_next_vertex() 
         {
-            for (int i = last_index + 1; i < graph->get_vertex_amount(); ++i) 
+            for (int i = last_index + 1; i < graph.get_vertex_amount(); ++i) 
             {
-                if (graph->contains_edge_between_vertices(root_vertex, i)) 
+                if (graph.contains_edge_between_vertices(root_vertex, i)) 
                 {
                     return i;
                 }
@@ -53,9 +53,9 @@ public:
             return -1;
         }
 
-        Data operator *()
+        Data* operator *()
         {
-            return last_index != -1 ? graph->get_vertex(last_index) : nullptr;
+            return last_index != -1 ? graph.get_vertex(last_index) : nullptr;
         }
 
         void operator ++(int i) 
