@@ -105,7 +105,7 @@ public:
 
     void add_edge(size_t first_vertex_index, size_t second_vertex_index, int weight)
     {
-        Edge* edge = new Edge(get_vertex(second_vertex_index), weight);
+        Edge edge = Edge(get_vertex(second_vertex_index), weight);
         add_edge_to_matrix(first_vertex_index, second_vertex_index, edge);
     }
 
@@ -170,7 +170,7 @@ public:
     void set_edge_weight(size_t first_vertex_index, size_t second_vertex_index, int weight)
     {
         Edge edge = get_edge(first_vertex_index, second_vertex_index);
-        test.weight = weight;
+        edge.weight = weight;
     }
 
     bool contains_edge_between_vertices(size_t first_vertex_index, size_t second_vertex_index)
