@@ -20,7 +20,7 @@ int main()
         }
     }
 
-    int data = NULL;
+    int *data = 0;
     auto iterator = graph.get_vertex_iterator();
     while((*iterator) != NULL) 
     {
@@ -73,13 +73,13 @@ int main()
     graph.set_vertex_data(0, 1);
     graph.remove_vertex(1);
 
-    data = 1;
+    *data = 1;
     int count = 0;
     iterator = graph.get_vertex_iterator();
     while ((*iterator) != NULL)
     {
         count++;
-        if ((*iterator) != data++)
+        if ((*iterator) != data++) 
         {
             std::cout << "Removing the vertex from the graph does not work correctly.";
             return 1;
