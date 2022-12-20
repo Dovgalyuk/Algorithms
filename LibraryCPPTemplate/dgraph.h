@@ -4,7 +4,8 @@
 #include <vector>
 #include "vector.h"
 
-template <typename Data> class DGraph {
+template <typename Data> class DGraph 
+{
 public:
     struct Vertex
     {
@@ -236,7 +237,7 @@ protected:
         return first_vertex_index * get_vertex_amount() + second_vertex_index;
     }
 
-    void add_edge_to_matrix(size_t first_vertex_index, size_t second_vertex_index, Edge* edge)
+    void add_edge_to_matrix(size_t first_vertex_index, size_t second_vertex_index, Edge edge)
     {
         matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), edge);
     }
