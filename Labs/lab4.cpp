@@ -42,6 +42,12 @@ void prims_algorithm(Graph<int>& graph) {
 			}
 		}
 
+		//if we didn't find the nearest vertex then there is no minimum spanning tree
+		if (min_weight == INT_MAX) {
+			cout << "It is impossible to find a minimal spanning tree" << endl;
+			exit(1);
+		}
+
 		visited[near_ver_pos] = true;
 	}
 
