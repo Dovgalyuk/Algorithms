@@ -28,7 +28,7 @@ int main() {
 			return 1;
 		}
 	}
-
+	
 	delete_table(table);
 
 	return 0;
