@@ -1,5 +1,5 @@
 #include <iostream>
-#include "array.h"
+#include "template_array.h"
 
 typedef Array<int> MyArray;
 
