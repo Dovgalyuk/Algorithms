@@ -9,7 +9,7 @@ struct Queue
     Queue()
     {
         queueVector = vector_create();
-        vector_resize(queueVector, 2);
+        vector_resize(queueVector, 4);
         first = 0;
         last = 0;
     }
