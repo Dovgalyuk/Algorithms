@@ -90,7 +90,7 @@ class HashTable {
 	}
 public:
 	HashTable() {
-		this->capacity = 32;
+		this->capacity = 16;
 		this->size = 0;
 		this->count_deleted = 0;
 		this->elements = new Array<Element>(capacity);
