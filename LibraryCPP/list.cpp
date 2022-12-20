@@ -17,9 +17,6 @@ struct List {
     List() {
         firstItem = nullptr;
     }
-    ~List() {
-        delete firstItem;
-    }
 };
 
 List* list_create(){
