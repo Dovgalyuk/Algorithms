@@ -1,5 +1,5 @@
-#ifndef D_GRAPH_TEMPLATE_H
-#define D_GRAPH_TEMPLATE_H
+#ifndef DGRAPH_TEMPLATE_H
+#define DGRAPH_TEMPLATE_H
 
 #include <vector>
 #include "vector.h"
