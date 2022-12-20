@@ -30,7 +30,7 @@ Data stack_get(const Stack* stack) {
 }
 
 void stack_pop(Stack* stack) {
-    list_first_erase(stack->list);
+    list_erase(stack->list, list_first(stack->list));
 }
 
 bool stack_empty(const Stack* stack) {
