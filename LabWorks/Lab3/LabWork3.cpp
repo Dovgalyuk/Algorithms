@@ -7,51 +7,46 @@ using namespace std;
 void BFS(int** matrix, int start, int V)
 {
 	ofstream out("output.txt");
-	for (int v = start; v < V; v++)
+	int* found = new int[V];
+	for (int i = 0; i < V; i++)
 	{
-		if (v == start)
-		{
-			out << 0 << '\n';
-			continue;
-		}
-		bool* used = new bool[V];
+		found[i] = 0;
+	}
+	bool* used = new bool[V];
+	for (int i = 0; i < V; i++)
+	{
+		used[i] = false;
+	}
+	int min = NULL;
+	Queue* queue;
+	queue = queue_create();
+	queue_insert(queue, start);
+	int count = 0;
+	while (!queue_empty(queue))
+	{
+		int st = queue_get(queue);
+		used[st] = true;
+		queue_remove(queue);
+		count++;
 		for (int i = 0; i < V; i++)
 		{
-			used[i] = false;
-		}
-		bool found = false;
-		int min = NULL;
-		Queue* queue;
-		queue = queue_create();
-		queue_insert(queue, start);
-		int count = 0;
-		while (!queue_empty(queue))
-		{
-			int st = queue_get(queue);
-			used[st] = true;
-			queue_remove(queue);
-			count++;
-			for (int i = 0; i < V; i++)
+			if ((matrix[st][i]) == 1 && (!used[i]))
 			{
-				if ((matrix[st][i]) == 1 && (!used[i]))
+				if (found[i] == 0)
 				{
-					if (i == v)
-					{
-						out << count << '\n';
-						found = true;
-						break;
-					}
-					queue_insert(queue, i);
+					found[i] = count;
 				}
-			}
-			if (found)
-			{
-				break;
+				queue_insert(queue, i);
 			}
 		}
-		queue_delete(queue);
-		delete[] used;
 	}
+	for (int i = 0; i < V; i++)
+	{
+		out << found[i] << '\n';
+	}
+	queue_delete(queue);
+	delete[] found;
+	delete[] used;
 }
 
 
@@ -90,4 +85,3 @@ int main()
 	delete[] matrix;
 	return 0;
 }
-
