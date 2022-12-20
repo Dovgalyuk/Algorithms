@@ -34,10 +34,9 @@ void list_delete(List* list)
 
 ListItem* list_first(List* list)
 {
-    if (list->top)
+ 
         return list->top;
-    else
-        return NULL;
+ 
 
 }
 
