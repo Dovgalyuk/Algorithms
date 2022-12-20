@@ -33,7 +33,7 @@ void execute(HashTable* table, int size) {
 	for (int i = 0; i < size; i++) random_key[i] = random_word();
 
 	start_table = chrono::system_clock::now();
-	for (int i = 0; i < size; i++) add(random_key[i], random_value[i], table);
+	for (int i = 0; i < size; i++) table->add(random_key[i], random_value[i]);
 	table_end = chrono::system_clock::now();
 
 	time_table = table_end - start_table;
@@ -52,7 +52,7 @@ void execute(HashTable* table, int size) {
 
 int main() {
 	setlocale(LC_ALL, "rus");
-	srand(time(NULL));
+	srand(time (NULL));
 
 	HashTable* table = new HashTable();
 
@@ -63,11 +63,8 @@ int main() {
 	execute(table, 10000);
 	execute(table, 50000);
 	execute(table, 100000);
-	execute(table, 200000);
 	execute(table, 500000);
-	execute(table, 800000);
-
-	delete_table(table);
+	execute(table, 1000000);
 
 	return 0;
 }
