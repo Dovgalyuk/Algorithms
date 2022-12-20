@@ -34,7 +34,7 @@ bool StringValidation(Stack* stack, string str) {
 	else return false;
 }
 
-void main() {
+int main() {
 	string inputString;
 	getline(cin, inputString);
 	Stack* stack = stack_create();
