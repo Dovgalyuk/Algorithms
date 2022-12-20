@@ -1,34 +1,64 @@
-#include "stack.h"
+//Стэк работает по принципу "Первый вошёл, последний вышел", поэтому последний элемент, который мы помещаемь в список, мы будем извлекать в первую очередь
 
+#include "stack.h"
+#include "list.h"
+
+//Структура стэка
 struct Stack
 {
+    //В стэкэ у нас содержится наш список
+    List* list;
+    //Конструктор
+    Stack()
+    {
+        //Создаём список
+        list = list_create();
+        //Присваиваем первому элементу произвольное значение, мы не будет его использовать, он нужен, чтобы мы могли работать с первым элементов стекав
+        list_insert(list, 'a');
+    }
 };
 
-Stack *stack_create()
+//Функция создаёт стэк
+Stack* stack_create()
 {
-    return new Stack;
+    return new Stack();
 }
 
-void stack_delete(Stack *stack)
+//Функция удаляет стэк
+void stack_delete(Stack* stack)
 {
-    // TODO: free stack elements
+     
+    list_delete(stack->list);
     delete stack;
 }
 
-void stack_push(Stack *stack, Data data)
+//Функция добавляет новый элемент в стэк
+void stack_push(Stack* stack, Data data)
 {
+    //Добавляем новый элемент после первого элемента списка
+    list_insert_after(stack->list, list_first(stack->list), data);
 }
 
-Data stack_get(const Stack *stack)
+//Функция извлекает данные из стэка
+Data stack_get(const Stack* stack)
 {
-    return (Data)0;
+    //Возвращаем данные элемента, который расположен после первого элемента списка
+    return (list_item_data(list_item_next(list_first(stack->list))));
 }
 
-void stack_pop(Stack *stack)
+//Функция удаляет элемент из стэка
+void stack_pop(Stack* stack)
 {
+    //Удаляем элемент, который расположен после первого элемента списка
+    list_erase_next(stack->list, list_first(stack->list));
 }
 
-bool stack_empty(const Stack *stack)
+//Функция проверяет пуст список или нет
+bool stack_empty(const Stack* stack)
 {
-    return true;
+    //Если первый элемент указывает на nullptr, значит в стэке нет элементов
+    if (list_item_next(list_first(stack->list)) == nullptr)
+        return true;
+    else
+        return false;
 }
