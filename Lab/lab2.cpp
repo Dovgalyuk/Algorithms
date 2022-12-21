@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include "list.h"
 #include "stack.h"
 #include <string>
@@ -6,12 +6,13 @@
 using namespace std;
 
 
+
 void deistvie(Stack* stack, int size, string command)
 {
     string l;
     int o = 0;
 
-    if (command.length() == 5)
+    if (command.length() == 6)
     {
         o = (int)command[5] - (int)'0';
         if (o > size)
@@ -38,6 +39,7 @@ int main() {
     string command, command1, command2, command3, command4, command5;
     int size;
     cin >> size;
+    cout << endl;
     getline(cin, command1);
     getline(cin, command2);
     getline(cin, command3);
@@ -49,10 +51,6 @@ int main() {
     deistvie(stack, size, command4);
     deistvie(stack, size, command5);
 
-    
-
-   
-    
     return 0;
 
 }
