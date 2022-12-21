@@ -64,6 +64,12 @@ ListItem* list_erase_first(List* list) {
     }
 }
 
+ListItem* list_erase(List* list, ListItem* item) {
+    if (item == list_first(list))
+        return list_erase_first(list);
+    return NULL;
+}
+
 ListItem* list_erase_next(List* list, ListItem* item) {
     if (list_item_next(item)) {
         ListItem* tempPtr = item->nextItem;
