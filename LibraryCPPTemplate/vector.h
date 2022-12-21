@@ -11,7 +11,7 @@ public:
     {
         vector_size = 0;
         max_size = 1;
-        data = new Data[max_size];
+        data = (Data*)max_size;
     }
     ~Vector()
     {
