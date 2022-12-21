@@ -75,7 +75,7 @@ public:
 		int end = -1;
 		int getNearVertexId()
 		{
-			for (int i = end + 1; i < graph->getVertexAmount; i++)
+			for (int i = end + 1; i < graph->getVertexAmount(); i++)
 			{
 				if (graph->isEdge(begin, i))
 					return i;
