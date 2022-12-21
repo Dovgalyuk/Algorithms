@@ -1,116 +1,77 @@
+#include <iostream>
 #include "dgraph.h"
-
-using namespace std;
 
 int main() 
 {
-    int amount = 10;
-    auto* graph = new DGraph<int>(amount, 1);
-    for (int i = 0; i < amount; ++i) 
+    size_t vertex_count = 5;
+    DGraph<int>* graph = new DGraph<int>(vertex_count, 1);
+
+    if (graph->getVertexAmount() != 5) 
     {
-        graph->set_vertex_data(i, i);
+        std::cout << "Invalid vertex amount\n";
+        return 1;
     }
 
-    for (int i = 0; i < graph->get_vertex_amount(); ++i) 
+    for (int i = 0; i < vertex_count; i++) 
     {
-        if (graph->get_vertex_data(i) != i) 
+        graph->getVertex(i)->setVertexData(i);
+    }
+
+    for (int i = 0; i < vertex_count; i++) 
+    {
+        if (graph->getVertex(i)->getVertexData() != i) 
         {
-            cout << "Adding a vertex to the graph does not work correctly.";
+            std::cout << "Invalid vertex data\n";
             return 1;
         }
     }
 
-    int data = 0;
-    auto iterator = graph->get_vertex_iterator();
-    while ((*iterator) != nullptr) 
+    graph->addEdge(2, 1, 15);
+    graph->addEdge(0, 3, 3);
+
+    if (!graph->isEdge(2, 1)) 
     {
-        if ((*iterator)->data != data++) 
+        std::cout << "Invalid edge creation\n";
+        return 1;
+    }
+
+    auto it = graph->getIterator(0);
+    while (*it != nullptr) 
+    {
+        if ((*it)->getVertexData() != 3) 
         {
-            cout << "The iterator is not working correctly.";
+            std::cout << "Invalid iteration\n";
             return 1;
         }
-        iterator++;
+        ++it;
     }
 
-    graph->add_edge(0, 1, 1);
-    graph->add_edge(0, 2, 2);
-
-    for (int i = 0; i < 2; ++i) 
+    if (graph->getEdge(2, 1).getEdgeData() != 15) 
     {
-        if (!graph->contains_edge_between_vertices(0, i + 1) ||
-            graph->contains_edge_between_vertices(i + 1, 0)) 
-        {
-            cout << "Adding a edge to the graph does not work correctly.";
-            return 1;
-        }
-    }
-
-    graph->set_vertex_data(0, 10);
-
-    if (graph->get_vertex_data(0) != 10) 
-    {
-        cout << "Modifying the vertex data does not work correctly.";
+        std::cout << "Invalid edge data\n";
         return 1;
     }
 
-    graph->set_edge_weight(0, 1, 10);
-
-    if (graph->get_edge_weight(0, 1) != 10) 
+    graph->getEdge(0, 3).setEdgeData(30);
+    if (graph->getEdge(0, 3).getEdgeData() != 30) 
     {
-        std::cout << "Modifying the edge weight does not work correctly.";
+        std::cout << "Invalid edge data setting\n";
         return 1;
     }
 
-    //graph->remove_edge(0, 1);
-
-    if (graph->contains_edge_between_vertices(0, 1) ||
-        !graph->contains_edge_between_vertices(0, 2)) 
+    graph->removeEdge(2, 1);
+    if (graph->isEdge(2, 1)) 
     {
-        cout << "Removing the edge from the graph does not work correctly.";
+        std::cout << "Invalid edge deletion\n";
         return 1;
     }
 
-    graph->set_vertex_data(0, 1);
-    graph->remove_vertex(1);
-
-    data = 1;
-    int count = 0;
-    iterator = graph->get_vertex_iterator();
-    while ((*iterator) != nullptr) 
+    graph->removeVertex(3);
+    if (graph->getVertexAmount() != 4) 
     {
-        count++;
-        if ((*iterator)->data != data++) 
-        {
-            cout << "Removing the vertex from the graph does not work correctly.";
-            return 1;
-        }
-        iterator++;
-    }
-    if (count != 9) 
-    {
-        cout << "Removing the vertex from the graph does not work correctly.";
+        std::cout << "Invalid vertex deletion\n";
         return 1;
     }
 
-    graph->set_edge_weight(0, 1, 1);
-    graph->add_edge(0, 2, 2);
-    graph->add_edge(0, 3, 3);
-    graph->add_edge(0, 4, 4);
-    graph->add_edge(0, 5, 5);
-
-    auto near_vertices_iterator = graph->get_near_vertex_iterator(0);
-    count = 0;
-    while ((*near_vertices_iterator) != nullptr) 
-    {
-        count++;
-        near_vertices_iterator++;
-    }
-
-    if (count != 5) 
-    {
-        cout << "The near vertex iterator does not work correctly.";
-        return 1;
-    }
-
-    return 0;
+    delete graph;
 }
