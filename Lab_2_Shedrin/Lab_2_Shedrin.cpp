@@ -1,6 +1,10 @@
 ﻿#include <iostream>
 #include <string>
-#include "../LibraryCPP/stack.h"
+
+#if _MSC_VER >= 1930
+#include "../LibraryCPP/stack.h" //Это нужно для визуал студии 
+#endif
+
 #include <list>
 using namespace std;
 
@@ -18,7 +22,6 @@ bool cintainis(list<int> f, int i) {
 
 void datareader(string in) {
     string nev = "";
-
     Stack* stack_number = stack_create();
     int stack_number_L = 0;
     for (size_t i = 0; i < in.length(); i++)
@@ -92,6 +95,9 @@ void datareader(string in) {
         cout << "PUSH A" << "\n";
 
     }
+
+    stack_delete(stack_number);
+    stack_delete(stack_operand);
 }
 
 int main()
