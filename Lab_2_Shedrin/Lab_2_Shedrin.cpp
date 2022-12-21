@@ -24,14 +24,17 @@ void datareader(string in) {
     string nev = "";
     Stack* stack_number = stack_create();
     int stack_number_L = 0;
+    int sk_inter = 0;
     for (size_t i = 0; i < in.length(); i++)
     {
       //  if (isdigit(in[i])) { stack_push(stack, in[i]-'0'); len++; } // отладка 
         if (in[i] == '(') {
             int stop = 0;
-            for (size_t j = in.length(); j > 0; j--)
+            for (size_t j = i; j < in.length(); j++)
             {
-                if (in[j] == ')') { stop = j; }
+                if (in[j] == '(') { sk_inter++; }
+                if (in[j] == ')') { sk_inter--; }
+                if (sk_inter == 0) { stop = j; sk_inter = 0; break; }
             }
             datareader(in.substr(i+1, stop - i));
             i = stop;
