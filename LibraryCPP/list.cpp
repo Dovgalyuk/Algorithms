@@ -1,8 +1,6 @@
 #include <cstddef>
 #include "list.h"
 
- 
-
 struct ListItem {
     Data dataListItem;
     ListItem* nextItem;
@@ -19,7 +17,7 @@ struct List {
     }
 };
 
-List* list_create(){
+List* list_create() {
     return new List;
 }
 List* list_null(List* list) {
@@ -43,7 +41,7 @@ ListItem* list_item_next(ListItem* item) {
     return item->nextItem;
 }
 
-ListItem* list_insert(List* list, Data data){
+ListItem* list_insert(List* list, Data data) {
     list->firstItem = new ListItem(data, list->firstItem);
     return list->firstItem;
 }
@@ -54,11 +52,10 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
     item->nextItem = listItem;
     return listItem;
 }
-ListItem* list_erase(List* list, ListItem* Item) {
+ListItem* list_erase_first(List* list) {
     ListItem* tempPtr;
-    if (list->firstItem == nullptr){
+    if (list->firstItem == nullptr)
         return NULL;
-    }
     else {
         tempPtr = list->firstItem;
         list->firstItem = list->firstItem->nextItem;
@@ -70,9 +67,7 @@ ListItem* list_erase(List* list, ListItem* Item) {
 ListItem* list_erase_next(List* list, ListItem* item) {
     if (list_item_next(item)) {
         ListItem* tempPtr = item->nextItem;
-        if (tempPtr->nextItem != nullptr) 
-            item->nextItem = tempPtr->nextItem;
-        else item->nextItem = nullptr;
+        item->nextItem = nullptr;
         delete tempPtr;
         return item;
     }
