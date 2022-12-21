@@ -39,15 +39,14 @@ void queue_insert(Queue* queue, Data data)
     }
     else if (queue->id_r == queue->id_l)
     {
-        queue->id_r--;
         vector_resize(queue->vec, vector_size(queue->vec) + queue->id_l);
         for (int i = 0; i < queue->id_l; i++)
         {
+            queue->id_r--;
             vector_set(queue->vec, vector_size(queue->vec) - 1 - i, vector_get(queue->vec, queue->id_r));
             vector_set(queue->vec, queue->id_r, 0);
-            queue->id_r--;
+
         }
-        queue->id_r ++;
     }
     vector_set(queue->vec, queue->id_r, data);
     queue->id_r++;
