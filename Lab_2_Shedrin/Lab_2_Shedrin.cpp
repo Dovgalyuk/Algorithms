@@ -3,6 +3,8 @@
 
 #if _MSC_VER >= 1930
 #include "../LibraryCPP/stack.h" //Это нужно для визуал студии 
+#else 
+#include "stack.h"
 #endif
 
 #include <list>
