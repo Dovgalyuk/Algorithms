@@ -10,7 +10,11 @@ bool StringValidation(Stack* stack, string str) {
 	for (char c : str) {
 		switch (c) {
 		case '(': stack_push(stack, '('); break;
-		case ')': stack_pop(stack); break;
+		case ')':
+			if (stack_empty(stack))
+				return false;
+			stack_pop(stack);
+			break;
 		case '\'': count34++; break;
 		case '"': count39++; break;
 		default: break;
