@@ -7,15 +7,14 @@ using namespace std;
 
 
 
-void deistvie(Stack* stack, int size, string command)
+void deistvie(Stack* stack, string command, int o)
 {
     string l;
-    int o = 0;
 
     if (command.length() == 6)
     {
         o = (int)command[5] - (int)'0';
-        if (o > size)
+        if (o > 3)
             cout << "BAD PUSH" << endl;
         else 
         {
@@ -29,7 +28,7 @@ void deistvie(Stack* stack, int size, string command)
                 cout << "BAD POP" << endl;
         else
         {
-            cout << o << endl;
+            cout << stack_get(stack) << endl;
             stack_pop(stack);
         }
     }
@@ -40,16 +39,17 @@ int main() {
     int size;
     cin >> size;
     cout << endl;
+    int o = 0;
     getline(cin, command1);
     getline(cin, command2);
     getline(cin, command3);
     getline(cin, command4);
     getline(cin, command5);
-    deistvie(stack, size, command1);
-    deistvie(stack, size, command2);
-    deistvie(stack, size, command3);
-    deistvie(stack, size, command4);
-    deistvie(stack, size, command5);
+    deistvie(stack, command1, o);
+    deistvie(stack, command2, o);
+    deistvie(stack, command3, o);
+    deistvie(stack, command4, o);
+    deistvie(stack, command5, o);
 
     return 0;
 
