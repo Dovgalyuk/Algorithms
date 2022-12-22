@@ -52,6 +52,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
     item->nextItem = listItem;
     return listItem;
 }
+
 ListItem* list_erase_first(List* list) {
     ListItem* tempPtr;
     if (list->firstItem == nullptr)
@@ -64,16 +65,11 @@ ListItem* list_erase_first(List* list) {
     }
 }
 
-ListItem* list_erase(List* list, ListItem* item) {
-    if (item == list_first(list))
-        return list_erase_first(list);
-    return NULL;
-}
-
 ListItem* list_erase_next(List* list, ListItem* item) {
+    ListItem* tempPtr = nullptr;
     if (list_item_next(item)) {
-        ListItem* tempPtr = item->nextItem;
-        item->nextItem = nullptr;
+        tempPtr = item->nextItem;
+        item->nextItem = list_item_next(list_item_next(item));
         delete tempPtr;
         return item;
     }
