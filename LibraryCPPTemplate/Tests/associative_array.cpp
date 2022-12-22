@@ -18,7 +18,7 @@ int main()
         auto P = array.search(Str);
         if (P != Str)
         {
-            cout << "Data storage error " << i << "\n\n";
+            cout << "Data storage error ";
             return 1;
         }
     } 
