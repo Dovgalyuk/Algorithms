@@ -1,7 +1,7 @@
 #include <iostream>
 #include "array.h"
 #include <cstdlib>
-#include <ctime> 
+#include <ctime>
 using namespace std;
 
 int main()
@@ -11,27 +11,26 @@ int main()
 	int size = 0;
 	cout << "Enter array size: ";
 	cin >> size;
-	int* mass = new int[size];
+	Array* mass = array_create(size);
 
 	srand(time(NULL));
 	for (int i = 0; i < size; i++) {
-		mass[i] = 1 + rand() % 10000; 
+		array_set(mass, i, rand() % 10000 + 1);
 
 	}
 
 	if (size == 1) {
-		soprotivlenie = mass[0];
-
+		soprotivlenie = array_get(arr, 0);
 	}
 	else {
 		for (int i = 0; i < size; i++) {
-			summa += (1. / mass[i]);
+			summa += (1. / array_get(arr, i));
 		}
 		soprotivlenie = (1. / summa);
 
 	}
 
 	cout << "obshee soprotivlenie = " << soprotivlenie;
-	delete[] mass;
+	array_delete(arr);
 	return 0;
 }
