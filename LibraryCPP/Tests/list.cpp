@@ -29,7 +29,7 @@ int main()
         return 1;
     }
 
-    list_erase(list, list_first(list));
+    ListItem* list_erase_first(List* list);
 
     if (list_item_data(list_first(list)) != 4)
     {
