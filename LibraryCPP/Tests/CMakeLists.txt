@@ -24,7 +24,4 @@ target_link_libraries(TestVectorCPP LibraryCPP)
 add_test(TestVectorCPP TestVectorCPP)
 set_tests_properties(TestVectorCPP PROPERTIES TIMEOUT 10)
 
-add_executable(TestAssociativeArrayCPPTemplate associative_array.cpp)
-target_include_directories(TestAssociativeArrayCPPTemplate PUBLIC ..)
-add_test(TestAssociativeArrayCPPTemplate TestAssociativeArrayCPPTemplate)
-set_tests_properties(TestAssociativeArrayCPPTemplate PROPERTIES TIMEOUT 10)
+
