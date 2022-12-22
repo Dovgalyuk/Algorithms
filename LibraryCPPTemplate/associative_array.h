@@ -26,10 +26,6 @@ public:
 	{
 		container->remove(key);
 	}
-	void print()
-	{
-		container->display();
-	}
 	string search(string key)
 	{
 		return container->search_field(key);
