@@ -5,29 +5,60 @@
 
 using namespace std;
 
-bool check(Stack* stack,string stroka)
+bool check(Stack* stack, string stroka)
 {
+   
+    
     for (char i : stroka) {
         switch (i) {
-        case '(': stack_push(stack, ')'); break;
-        
-        case '[': stack_push(stack, ']'); break;
-        case '{': stack_push(stack, '}'); break;
-        case '<': stack_push(stack, '>'); break;
+        case '(': stack_push(stack, '(');  break;
+        case '[': stack_push(stack, '[');  break;
+        case '{': stack_push(stack, '{');  break;
+        case '<': stack_push(stack, '<');  break;
         case ')':
+            if (stack_empty(stack) || stack_get(stack) != '(')
+
+        {
+            return false;
+        }
+                stack_pop(stack);
+
+                break;
         case ']':
+            if (stack_empty(stack) || stack_get(stack) != '[')
+
+        {
+            return false;
+        }
+                stack_pop(stack);
+
+                break;
         case '}':
+            if (stack_empty(stack) || stack_get(stack) != '{')
+
+        {
+            return false;
+        }
+                stack_pop(stack);
+
+                break;
         case '>':
             
-            if (stack_empty(stack) ) {
+
+            if (stack_empty(stack) || stack_get(stack) != '<')
+        
+            {
                 return false;
             }
             stack_pop(stack);
+            
             break;
         default: break;
         }
    }
-    return stack_empty(stack);
+    
+   
+    
     
 }
 
@@ -45,6 +76,7 @@ int main() {
         cout << "YES" << endl;
     else
         cout << "NO" << endl;
+    stack_delete(stack);
     
    
 	
