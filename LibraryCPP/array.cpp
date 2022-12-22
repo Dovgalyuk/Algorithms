@@ -42,9 +42,7 @@ Data array_get(const Array* arr, size_t index) {
 }
 
 // sets the specified array element to the value
-void array_set(Array* arr, size_t index, Data value)
-{
-}
+
 
 // returns array size
 void array_set(Array* arr, size_t index, Data value) {
