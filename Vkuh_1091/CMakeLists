@@ -1,0 +1,3 @@
+add_executable(laba_1CPP laba_1.cpp)
+target_include_directories(laba_1CPP PUBLIC ../LibraryCPP)
+target_link_libraries(laba_1CPP LibraryCPP)
