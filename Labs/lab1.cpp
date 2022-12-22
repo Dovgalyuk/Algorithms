@@ -20,17 +20,17 @@ int main()
 	}
 
 	if (size == 1) {
-		soprotivlenie = array_get(arr, 0);
+		soprotivlenie = array_get(mass, 0);
 	}
 	else {
 		for (int i = 0; i < size; i++) {
-			summa += (1. / array_get(arr, i));
+			summa += (1. / array_get(mass, i));
 		}
 		soprotivlenie = (1. / summa);
 
 	}
 
 	cout << "obshee soprotivlenie = " << soprotivlenie;
-	array_delete(arr);
+	array_delete(mass);
 	return 0;
 }
