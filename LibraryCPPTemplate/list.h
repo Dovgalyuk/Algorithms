@@ -1,58 +1,79 @@
 #ifndef LIST_H
 #define LIST_H
 
-template <typename Data> class List
+template <typename Data> 
+class List
 {
 public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item* nextt;
+        Item* prevv;
+        Item(Data data)
+        {
+            nextt = nullptr;
+            prevv = nullptr;
+            field = data;
+        }
+        Item* next() {return nextt;}
+        Item* prev() {return prevv;}
+        Data& data() {return field;}
+        const Data& data() const {return field;}
+
     private:
-        // internal data here
+        Data field;
     };
 
     // Creates new list
     List()
     {
-    }
-
-    // copy constructor
-    List(const List &a)
-    {
-        // implement or disable this function
-    }
-
-    // assignment operator
-    List &operator=(const List &a)
-    {
-        // implement or disable this function
-        return *this;
+        head = nullptr;
     }
 
     // Destroys the list and frees the memory
     ~List()
     {
+        Item* item = head;
+        Item* next;
+        while (item != nullptr) {
+            next = item->next();
+            delete item;
+            item = next;
+        }
     }
 
-    // Retrieves the first item from the list
+    // Retrieves the head item from the list
     Item *first()
     {
-        return nullptr;
+        return head;
     }
 
     // Inserts new list item into the beginning
     Item *insert(Data data)
     {
-        return nullptr;
+        auto newItem = new Item(data);
+        newItem->nextt = head;
+        if (head != nullptr)
+        {
+            head->prevv = newItem;
+        }
+        head = newItem;
+        return newItem;
     }
 
     // Inserts new list item after the specified item
     Item *insert_after(Item *item, Data data)
     {
-        return nullptr;
+        auto* newItem = new Item(data);
+        newItem->nextt = item->next();
+        newItem->prevv = item;
+        if (item->next() != nullptr)
+        {
+            item->next()->prevv = newItem;
+        }
+        item->nextt = newItem;
+        return newItem;
     }
 
     // Deletes the specified list item.
@@ -61,7 +82,23 @@ public:
     // Should be O(1)
     Item *erase(Item *item)
     {
-        return nullptr;
+        auto *nextItem = item->next();
+        auto *prevItem = item->prev();
+
+        if (head == item)
+        {
+            head = nextItem;
+        }
+        if (nextItem != nullptr)
+        {
+            prevItem = nextItem->prev();
+        }
+        if (prevItem != nullptr)
+        {
+            nextItem = prevItem->next();
+        }
+        delete item;
+        return nextItem;
     }
 
     // Deletes the list item following the specified one.
@@ -69,10 +106,20 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item)
     {
-        return nullptr;
+        return erase(item->next());
     }
-private:
-    // private data should be here
+
+    size_t get_size() const {
+        int size = 0;
+        Item* nextItem = head;
+        while (nextItem != nullptr) {
+            size++;
+            nextItem = nextItem->next();
+        }
+        return size;
+    }
+protected:
+    Item* head;
 };
 
 #endif
