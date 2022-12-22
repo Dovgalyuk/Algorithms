@@ -12,15 +12,10 @@ void BFS(int** matrix, int start, int V)
 	{
 		found[i] = 0;
 	}
-	bool* used = new bool[V];
-	for (int i = 0; i < V; i++)
-	{
-		used[i] = false;
-	}
 	bool* f = new bool[V];
 	for (int i = 0; i < V; i++)
 	{
-		used[i] = false;
+		f[i] = false;
 	}
 	Queue* queue;
 	queue = queue_create();
@@ -28,11 +23,10 @@ void BFS(int** matrix, int start, int V)
 	while (!queue_empty(queue))
 	{
 		int st = queue_get(queue);
-		used[st] = true;
 		queue_remove(queue);
-		for (int i = 0; i < V; i++)
+		for (int i = 1; i < V; i++)
 		{
-			if ((matrix[st][i]) == 1 && (!used[i]))
+			if ((matrix[st][i]) == 1 && (!f[i]))
 			{
 				if (f[i] != true)
 				{
@@ -49,7 +43,6 @@ void BFS(int** matrix, int start, int V)
 	}
 	queue_delete(queue);
 	delete[] found;
-	delete[] used;
 }
 
 
@@ -78,7 +71,6 @@ int main()
 	}
 	file.close();
 	BFS(matrix, 0, V);
-
 
 
 	for (int i = 0; i < V; i++)
