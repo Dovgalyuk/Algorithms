@@ -15,7 +15,7 @@ public:
 		edge_matrix = new Vector<Edge>;
 		edge_matrix->resize(vertex_amount * vertex_amount);
 		for (size_t i = 0; i < edge_matrix->size(); i++)
-			edge_matrix->set(i, NULL);
+			edge_matrix->set(i, (Data)NULL);
 	}
 
 	~DGraph()
@@ -29,10 +29,7 @@ public:
 	protected:
 		Data data_vertex;
 	public:
-		Vertex(Data vertex_data)
-		{
-			this->data_vertex = vertex_data;
-		}	
+		Vertex(Data vertex_data) : data_vertex(vertex_data) {}
 		void setVertexData(Data vertex_data)
 		{
 			this->data_vertex = vertex_data;
@@ -48,10 +45,7 @@ public:
 	protected:
 		Data data_edge;
 	public:
-		Edge(Data edge_data)
-		{
-			this->data_edge = edge_data;
-		}
+		Edge(Data edge_data) : data_edge(edge_data) {}
 		void setEdgeData(Data edge_data)
 		{
 			this->data_edge = edge_data;
@@ -166,7 +160,7 @@ public:
 	void removeEdge(size_t from_vertex_index, size_t where_vertex_index)
 	{
 		size_t vertex_amount = getVertexAmount();
-		edge_matrix->set(from_vertex_index * vertex_amount + where_vertex_index, NULL);
+		edge_matrix->set(from_vertex_index * vertex_amount + where_vertex_index, (Data)NULL);
 	}
 
 	Edge getEdge(size_t from_vertex_index, size_t where_vertex_index)
