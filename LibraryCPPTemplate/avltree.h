@@ -19,15 +19,6 @@ class Tree
 
     node* root;
 
-    void makeEmpty(node* t)
-    {
-        if (t == NULL)
-            return;
-        makeEmpty(t->left);
-        makeEmpty(t->right);
-        delete t;
-    }
-
     node* insert(string x, string y, node* t)
     {
         if (t == NULL)
@@ -40,7 +31,7 @@ class Tree
         }
         else if (x < t->key)
         {
-            t->left = insert(x,y, t->left);
+            t->left = insert(x, y, t->left);
             if (height(t->left) - height(t->right) == 2)
             {
                 if (x < t->left->key)
@@ -51,7 +42,7 @@ class Tree
         }
         else if (x > t->key)
         {
-            t->right = insert(x,y, t->right);
+            t->right = insert(x, y, t->right);
             if (height(t->right) - height(t->left) == 2)
             {
                 if (x > t->right->key)
@@ -107,15 +98,6 @@ class Tree
             return findMin(t->left);
     }
 
-    node* findMax(node* t)
-    {
-        if (t == NULL)
-            return NULL;
-        else if (t->right == NULL)
-            return t;
-        else
-            return findMax(t->right);
-    }
 
     node* remove(string x, node* t)
     {
@@ -211,36 +193,21 @@ class Tree
             return height(t->left) - height(t->right);
     }
 
-    void inorder(node* t)
-    {
-        if (t == NULL)
-            return;
-        inorder(t->left);
-        cout << t->key << " ";
-        inorder(t->right);
-    }
-
 public:
     Tree()
     {
         root = NULL;
     }
-
     void insert(string x, string y)
     {
-        root = insert(x,y, root);
+        root = insert(x, y, root);
     }
 
     void remove(string x)
     {
         root = remove(x, root);
     }
-   
-    void display()
-    {
-        inorder(root);
-        cout << endl;
-    }
+
     string search_field(string x)
     {
         return Search(x);
