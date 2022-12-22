@@ -28,7 +28,7 @@ int main()
         std::cout << "list_insert_after error\n";
         return 1;
     }
-    list_erase_first(List* list);
+    list_erase_first(list);
 
     if (list_item_data(list_first(list)) != 4)
     {
