@@ -1,26 +1,28 @@
-﻿#include<iostream>
+#include<iostream>
 #include<string>
 #include"stack.h"
 
 using namespace std;
 
 bool StringValidation(Stack* stack, string str) {
-	int count34 = 0;
-	int count39 = 0;
 	for (char c : str) {
 		switch (c) {
 		case '(': stack_push(stack, '('); break;
-		case ')':
-			if (stack_empty(stack))
-				return false;
-			stack_pop(stack);
+		case ')': 
+			if (stack_get(stack) == '(') stack_pop(stack);
 			break;
-		case '\'': count34++; break;
-		case '"': count39++; break;
+		case '\'': 
+			if (stack_get(stack) == '\'') stack_pop(stack);
+			else stack_push(stack, '\'');
+			break;
+		case '"':
+			if (stack_get(stack) == '"') stack_pop(stack);
+			else stack_push(stack, '"');
+			break;
 		default: break;
 		}
 	}
-	if (stack_empty(stack) && count34 % 2 == 0 && count39 % 2 == 0) return true;
+	if (stack_empty(stack)) return true;
 	else return false;
 }
 
