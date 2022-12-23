@@ -7,25 +7,31 @@ using namespace std;
 
 bool check(Stack* stack, string stroka)
 {
-   
-    
+    int count1 = 0;
+    int count2 = 0;
+    int count3 = 0;
+    int count4 = 0;
     for (char i : stroka) {
+        
         switch (i) {
-        case '(': stack_push(stack, '(');  break;
-        case '[': stack_push(stack, '[');  break;
-        case '{': stack_push(stack, '{');  break;
-        case '<': stack_push(stack, '<');  break;
+        case '(': stack_push(stack, '('); count1++;  break;
+        case '[': stack_push(stack, '['); count2++; break;
+        case '{': stack_push(stack, '{'); count3++;  break;
+        case '<': stack_push(stack, '<'); count4++;  break;
         case ')':
-            if (stack_empty(stack) || stack_get(stack) != '(')
+            count1--;
+            if (stack_empty(stack) || stack_get(stack) != '(' || count1 ==1   )
 
         {
             return false;
         }
-                stack_pop(stack);
+            
+                stack_pop(stack); 
 
                 break;
         case ']':
-            if (stack_empty(stack) || stack_get(stack) != '[')
+            count2--;
+            if (stack_empty(stack) || stack_get(stack) != '[' || count2 == 1)
 
         {
             return false;
@@ -34,7 +40,8 @@ bool check(Stack* stack, string stroka)
 
                 break;
         case '}':
-            if (stack_empty(stack) || stack_get(stack) != '{')
+            count3--;
+            if (stack_empty(stack) || stack_get(stack) != '{' || count3 == 1)
 
         {
             return false;
@@ -43,9 +50,9 @@ bool check(Stack* stack, string stroka)
 
                 break;
         case '>':
-            
+            count4--;
 
-            if (stack_empty(stack) || stack_get(stack) != '<')
+            if (stack_empty(stack) || stack_get(stack) != '<' || count4 == 1)
         
             {
                 return false;
@@ -55,7 +62,15 @@ bool check(Stack* stack, string stroka)
             break;
         default: break;
         }
+       
+        
+        
+       
    }
+    if (stack_empty(stack))
+        return true;
+    else
+        return false;
     
    
     
