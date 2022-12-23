@@ -12,11 +12,6 @@ void BFS(int** matrix, int start, int V)
 	{
 		found[i] = 0;
 	}
-	bool* f = new bool[V];
-	for (int i = 0; i < V; i++)
-	{
-		f[i] = false;
-	}
 	Queue* queue;
 	queue = queue_create();
 	queue_insert(queue, start);
@@ -24,15 +19,11 @@ void BFS(int** matrix, int start, int V)
 	{
 		int st = queue_get(queue);
 		queue_remove(queue);
-		for (int i = 1; i < V; i++)
+		for (int i = 0; i < V; i++)
 		{
-			if ((matrix[st][i]) == 1 && (!f[i]))
+			if ((matrix[st][i] == 1) && (found[i] == 0) && (i != start))
 			{
-				if (f[i] != true)
-				{
-					found[i] = found[st] + 1;
-				}
-				f[i] = true;
+				found[i] = found[st] + 1;
 				queue_insert(queue, i);
 			}
 		}
