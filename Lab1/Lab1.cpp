@@ -2,7 +2,6 @@
 #include <ctime>
 #include <climits>
 #include "array.h"
-
 using namespace std;
 
 void fill_array(Array* arr) {
@@ -26,8 +25,12 @@ void sort_array(Array* arr) {
 
 int main()
 {
+    setlocale(LC_ALL, "RU");
+	srand(time(NULL));
+    cout << "Введите размер массива: ";
     int M;
     std::cin >> M;
+    
     Array* A = array_create(M);
     fill_array(A);
     int ch = 0;
@@ -41,6 +44,7 @@ int main()
     }
 
     std::cout << ch;
-    system("pause");
+    
     array_delete(A);
+    system("pause");
 }
