@@ -5,11 +5,12 @@
 using namespace std;
 
 bool StringValidation(Stack* stack, string str) {
+	int count = 0;
 	for (char c : str) {
 		switch (c) {
-		case '(': stack_push(stack, '('); break;
+		case '(': stack_push(stack, '('); count++; break;
 		case ')': 
-			if (stack_get(stack) == '(') stack_pop(stack);
+			if (stack_get(stack) == '('); count--; stack_pop(stack);
 			break;
 		case '\'': 
 			if (stack_get(stack) == '\'') stack_pop(stack);
@@ -22,7 +23,7 @@ bool StringValidation(Stack* stack, string str) {
 		default: break;
 		}
 	}
-	if (stack_empty(stack)) return true;
+	if (stack_empty(stack) && count == 0) return true;
 	else return false;
 }
 
