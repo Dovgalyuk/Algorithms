@@ -8,8 +8,8 @@
 template<typename Data>
 class Graf {
 public:
-    struct Edge; //?????
-    struct Vertex { //???????
+    struct Edge; 
+    struct Vertex { 
         Data data;
         List<Edge> edges;
 
@@ -25,7 +25,7 @@ public:
             return data;
         }
 
-        void addEdge(Vertex* toVertex) {  // ???????? ?????
+        void addEdge(Vertex* toVertex) {  
             edges.insert(Edge(toVertex));
         }
 
@@ -38,7 +38,7 @@ public:
             return nullptr;
         }
 
-        void removeEdge(Vertex* toVertex) { // ??????? ?????
+        void removeEdge(Vertex* toVertex) { 
             for (auto item = edges.first(); item != nullptr; item = item->next()) {
                 if (item->data().getToVertex() == toVertex) {
                     edges.erase(item);
@@ -67,7 +67,7 @@ public:
 
     };
 
-    struct EdgeIterator { //????????
+    struct EdgeIterator { 
 
         typename List<Edge>::Item* edgeItem;
 
@@ -91,7 +91,7 @@ public:
         }
     };
 
-    Graf(size_t numberVertex, Data data) { //????
+    Graf(size_t numberVertex, Data data) { 
         vertexes.resize(numberVertex);
         for (size_t i = 0; i < numberVertex; i++) {
             vertexes[i] = new Vertex(data);
@@ -118,7 +118,7 @@ public:
         return false;
     }
 
-    Vertex* addVertex(Data data) { // ???????? ???????
+    Vertex* addVertex(Data data) { 
         auto vertex = new Vertex(data);
         vertexes.push_back(vertex);
         return vertex;
@@ -128,7 +128,7 @@ public:
         return vertexes[index];
     }
 
-    void removeVertex(size_t index) { //??????? ???????
+    void removeVertex(size_t index) { 
         if (index < vertexes.size()) {
             for (int i = 0; i < vertexes.size(); i++) {
                 vertexes[i]->removeEdge(vertexes[index]);
