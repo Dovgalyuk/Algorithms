@@ -1,7 +1,7 @@
-﻿#include <iostream>
+#include <iostream>
 #include "graf.h"
-#include "queue.h"
-#include "vector.h"
+#include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -57,61 +57,55 @@ int main() {
         }
     }
 
-    Queue* queue = queue_create();
-    Vector* dist = vector_create(); // расстояния до начальной вершины
-    Vector* parents = vector_create(); // родители
-    for (int i = 0; i < countVertexes; i++) // заполним нулями для дальнейшей проверки
+    queue <int> queue;
+    vector <int> dist(countVertexes, 0); // расстояния до начальной вершины
+    vector <int> parents(countVertexes, 0); // родители
+  
+    queue.push(a); // помещаем начальную вершину в очередь
+    while (!queue.empty()) // пока очередь не опустела
     {
-        vector_set(dist, i, 0);
-        vector_set(parents, i, -1);
-    }
-    queue_insert(queue, a); // помещаем начальную вершину в очередь
-    while (!queue_empty(queue)) // пока очередь не опустела
-    {
-        int kk = queue_get(queue); // берем из очереди крайний элемент
-        queue_remove(queue); // удаляем его
+        int kk = queue.front(); // берем из очереди крайний элемент
+        queue.pop(); // удаляем его
         for (int i = 0; i < countVertexes; i++) // смотрим, с какими вершинами смежна kk
         {
-            if ((matr[kk][i] != 0) && (kk != i) && (vector_get(dist, i) == 0)) // последнее условие - чтобы не трогать начальную вершину в массиве по ее индексу
+            if ((matr[kk][i] != 0) && (kk != i) && (dist.at(i) == 0)) // последнее условие - чтобы не трогать начальную вершину в массиве по ее индексу
             {
-                queue_insert(queue, i);  //добавляем в очередь вершину i
-                vector_set(dist, i, vector_get(dist, kk) + 1); // записываем расстояние до i 
-                vector_set(parents, i, kk);
+                queue.push(i);  //добавляем в очередь вершину i
+                dist.insert(dist.begin() + i, dist.at(kk) + 1); // записываем расстояние до i 
+                parents.insert(parents.begin() + i, kk);
             }
         }
     }
 
-    if (vector_get(dist, b) == 0)
+    if (dist.at(b) == 0)
     {
         cout << "Такого пути не существует.";
     }
 
     else
     {
-        Vector* path = vector_create();
+        vector <int> path(countVertexes, 0);
         int t;
         int index = 0;
-        t = vector_get(parents, b);
-        vector_set(path, index, b);
+        t = parents.at(b);
+        path.insert(path.begin() + index, b);
         index += 1;
         while (t != a) {
-            vector_set(path, index, t);
-            t = vector_get(parents, t);
+            path.insert(path.begin() + index, t);
+            t = parents.at(t);
             index += 1;
         }
-        vector_set(path, index, a);
-
+        path.insert(path.begin() + index, a);
         cout << "Кратчайший путь: ";
         for (int i = index; i > 0; i--)
         {
-            cout << vector_get(path, i) << "->";
+            cout << path.at(i) << "->";
         }
-        cout << vector_get(path, 0) << endl;
-        vector_delete(path);
+        cout << path.at(0) << endl;
+        path.clear();
     }
-    vector_delete(dist);
-    vector_delete(parents);
-    queue_delete(queue);
+    dist.clear();
+    parents.clear();
     for (int i = 0; i < countVertexes; i++)
     {
         delete[] matr[i];
