@@ -13,19 +13,19 @@ int main()
     Array* arr = array_create(size);
     
     cout << "Enter array value: ";
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++) {
         int val;
         cin >> val;
         array_set(arr, i, val);
-
-    for (int i = 0; i < size; i++)
-        if (array_get(arr,i)> 10)
+    }
+    for (int i = 0; i < size; i++) {
+        if (array_get(arr, i) > 10)
         {
             sred_arifmet += array_get(arr, i);
             chislo++;
         }
-
+    }
     cout << "Srednearifmeticheskoe " << chislo << " elementov bolshe 10" << sred_arifmet / chislo << endl;
-    array_delete(arr) ;
+    array_delete(arr);
     return 0;
 }
