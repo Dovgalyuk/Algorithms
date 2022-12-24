@@ -1,9 +1,9 @@
-﻿#include <iostream>
+#include <iostream>
 #include "graf.h"
 
 
 int main() {
-    auto graf = new Graf<int>(10, 1);
+    auto graf = new Graf<int, int>(10, 1);
 
     if (graf->getDataVertex(0) != 1) {
         std::cout << "graf initialization error\n";
@@ -24,15 +24,21 @@ int main() {
     }
     std::cout << "\n";
 
-    graf->addEdge(graf->getVertex(0), graf->getVertex(9));
+    graf->addEdge(graf->getVertex(0), graf->getVertex(9), 7);
 
     if (!graf->checkEdge(graf->getVertex(0), graf->getVertex(9))) {
         std::cout << "addEdge error";
         return 1;
     }
 
-    graf->addEdge(graf->getVertex(0), graf->getVertex(9));
-    graf->addEdge(graf->getVertex(0), graf->getVertex(2));
+    graf->addEdge(graf->getVertex(0), graf->getVertex(9), 20);
+    graf->addEdge(graf->getVertex(0), graf->getVertex(2), 30);
+    graf->getEdge(graf->getVertex(0), graf->getVertex(9))->ves = 15;
+
+    if (graf->getWeightEdge(graf->getVertex(0), graf->getVertex(9)) != 15) {
+        std::cout << "Error modifying the edge weight\n";
+        return 1;
+    }
 
     graf->removeEdge(graf->getVertex(0), graf->getVertex(9));
 
@@ -41,7 +47,7 @@ int main() {
         return 1;
     }
 
-    Graf<int>::EdgeIterator iterator(graf->getVertex(0));
+    Graf<int, int>::EdgeIterator iterator(graf->getVertex(0));
 
     int count = 0;
 
