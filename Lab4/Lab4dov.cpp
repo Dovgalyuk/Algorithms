@@ -45,8 +45,7 @@ int main()
         vertex->data.was = true;
         for (int i = 0; i < graph.get_vertex_amount(); ++i)
         {
-            DGraph<Data>::VertexIterator vertex_iter(graph);
-            auto* new_vertex = vertex_iter.graph.get_vertex(i);
+            auto* new_vertex = graph.get_vertex(i);
             if (!new_vertex->data.was)
             {
                 int new_cost = new_vertex->data.cost;
