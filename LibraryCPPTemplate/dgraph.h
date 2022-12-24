@@ -207,7 +207,7 @@ protected:
         {
             for (int j = 0; j < vertex_amount; ++j) 
             {
-                Edge* edge = matrix->get(((i + (i >= removed_vertex_index)) * amount_vertex_in_matrix) + (j + (j >= removed_vertex_index)));
+                Edge edge = matrix->get(((i + (i >= removed_vertex_index)) * amount_vertex_in_matrix) + (j + (j >= removed_vertex_index)));
                 new_matrix->set((i * vertex_amount) + j, edge);
             }
         }
