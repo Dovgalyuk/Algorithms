@@ -10,21 +10,22 @@ int main()
     int size = 0;
     cout << "Enter array size: ";
     cin >> size;
-    int* mass = new int[size];
-
+    Array* arr = array_create(size);
+    
     cout << "Enter array value: ";
     for (int i = 0; i < size; i++)
-        cin >> mass[i];
-
+        int val;
+        cin >> val;
+        array_set(arr, i, val);
 
     for (int i = 0; i < size; i++)
-        if (mass[i] > 10)
+        if (array_get(arr,i)> 10)
         {
-            sred_arifmet += mass[i];
+            sred_arifmet += array_get(arr, i);
             chislo++;
         }
 
     cout << "Srednearifmeticheskoe " << chislo << " elementov bolshe 10" << sred_arifmet / chislo << endl;
-    delete[] mass;
+    array_delete(arr) ;
     return 0;
 }
