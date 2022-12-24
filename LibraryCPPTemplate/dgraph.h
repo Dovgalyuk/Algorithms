@@ -21,10 +21,10 @@ public:
 
     struct VertexIterator 
     {
-        DGraph graph = NULL;
+        DGraph *graph = nullptr;
         size_t index_next_item = 0;
 
-        VertexIterator(DGraph graph) : graph(graph) {}
+        VertexIterator(DGraph *graph) : graph(graph) {}
 
         Vertex* operator *() 
         {
@@ -39,11 +39,11 @@ public:
 
     struct NearVertexIterator 
     {
-        DGraph graph = NULL;
+        DGraph *graph = nullptr;
         size_t root_vertex = 0;
         int last_index = -1;
 
-        NearVertexIterator(DGraph graph, size_t root_vertex) : graph(graph), root_vertex(root_vertex) { last_index = find_next_vertex(); }
+        NearVertexIterator(DGraph *graph, size_t root_vertex) : graph(graph), root_vertex(root_vertex) { last_index = find_next_vertex(); }
 
         int find_next_vertex() 
         {
