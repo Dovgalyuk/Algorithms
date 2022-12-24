@@ -1,56 +1,48 @@
 #include <iostream>
-#include "list.h"
-#include "stack.h"
 #include <string>
-
+#include "stack.h"
 using namespace std;
 
-
-
-void deistvie(Stack* stack, string command, int o)
-{
-    string l;
-
-    if (command.length() == 6)
-    {
-        o = (int)command[5] - (int)'0';
-        if (o > 3)
-            cout << "BAD PUSH" << endl;
-        else 
-        {
-            cout << "Push " << o << endl;
-            stack_push(stack, o);
-        }
-    }
-    else
-    {
-        if(stack_empty(stack) == true)
-                cout << "BAD POP" << endl;
-        else
-        {
-            cout << stack_get(stack) << endl;
-            stack_pop(stack);
-        }
-    }
-}
 int main() {
     Stack* stack = stack_create();
-    string command, command1, command2, command3, command4, command5;
-    int size;
+
+    size_t size;
+    int k = 0;
     cin >> size;
-    cout << endl;
-    int o = 0;
-    getline(cin, command1);
-    getline(cin, command2);
-    getline(cin, command3);
-    getline(cin, command4);
-    getline(cin, command5);
-    deistvie(stack, command1, o);
-    deistvie(stack, command2, o);
-    deistvie(stack, command3, o);
-    deistvie(stack, command4, o);
-    deistvie(stack, command5, o);
+    cin.ignore();
+    string buf;
+    getline(cin, buf);
 
+    while ((buf.find("push ") == 0) || (buf.find("pop") == 0)) {
+        if ((buf.find("push") == 0) && (buf.find_first_of("0123456789", 5) == 5)) {
+            if (k != size) {
+                string str = buf.substr(5);
+                int o = stoi(str);
+                stack_push(stack, o);
+                k += 1;
+            }
+            else {
+                cout << "BAD PUSH\n";
+            }
+        }
+        if ((buf.find("pop") == 0)) {
+            if (!stack_empty(stack)) {
+                cout << stack_get(stack) << "\n";
+                stack_pop(stack);
+                k -= 1;
+            }
+            else {
+                cout << "BAD POP\n";
+            }
+        }
+        getline(cin, buf);
+    }
+
+    
+    for (int i = 0; i < size;i++) {
+        cout << stack_get(stack) << "\n";
+        stack_pop(stack);
+    }
+    stack_delete(stack);
     return 0;
-
 }
