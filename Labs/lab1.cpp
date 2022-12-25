@@ -8,6 +8,7 @@ int main()
 
 	int arr_size, counter = 0, num1 = 0, num2;
 
+
 	cout << "Enter array size: ";
 	cin >> arr_size;
 	Array* arr = array_create(arr_size);
