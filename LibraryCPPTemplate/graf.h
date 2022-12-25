@@ -184,10 +184,8 @@ public:
                 return i;
             }
         }
-
         return -1;
     }
-
 private:
     std::vector<Vertex*> vertexes;
 };
