@@ -1,53 +1,53 @@
 #include <iostream>
 #include "stack.h"
 
+typedef Stack<int> MyStack;
+
 int main()
 {
-    Stack *stack = stack_create();
+    MyStack stack;
 
-    stack_push(stack, 1);
-    stack_push(stack, 2);
-    stack_push(stack, 3);
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
 
-    if (stack_get(stack) != 3)
+    if (stack.get() != 3)
     {
         std::cout << "Invalid stack top after push\n";
         return 1;
     }
 
-    std::cout << "Get: " << stack_get(stack) << "\n";
-    stack_pop(stack);
+    std::cout << "Get: " << stack.get() << "\n";
+    stack.pop();
 
-    if (stack_get(stack) != 2)
+    if (stack.get() != 2)
     {
         std::cout << "Invalid stack top after pop\n";
         return 1;
     }
 
-    std::cout << "Get: " << stack_get(stack) << "\n";
-    stack_pop(stack);
+    std::cout << "Get: " << stack.get() << "\n";
+    stack.pop();
 
-    if (stack_get(stack) != 1)
+    if (stack.get() != 1)
     {
         std::cout << "Invalid stack top after pop\n";
         return 1;
     }
 
-    std::cout << "Get: " << stack_get(stack) << "\n";
-    stack_push(stack, 4);
-    stack_push(stack, 5);
+    std::cout << "Get: " << stack.get() << "\n";
+    stack.push(4);
+    stack.push(5);
 
-    if (stack_get(stack) != 5)
+    if (stack.get() != 5)
     {
         std::cout << "Invalid stack top after push\n";
         return 1;
     }
 
-    while (!stack_empty(stack))
+    while (!stack.empty())
     {
-        std::cout << "Get: " << stack_get(stack) << "\n";
-        stack_pop(stack);
+        std::cout << "Get: " << stack.get() << "\n";
+        stack.pop();
     }
-
-    stack_delete(stack);
 }
