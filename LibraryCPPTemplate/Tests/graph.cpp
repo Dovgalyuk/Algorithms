@@ -2,14 +2,6 @@
 #include "graph.h"
 
 
-/*
-Tests/CMakeLists.txt
-add_executable(TestGraphCPPTemplate graph.cpp)
-target_include_directories(TestGraphCPPTemplate PUBLIC ..)
-add_test(TestGraphCPPTemplate TestGraphCPPTemplate)
-
-*/
-
 typedef Graph<int> MyGraph;
 
 int main() {
