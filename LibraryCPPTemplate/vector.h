@@ -3,75 +3,72 @@
 
 #include <cstddef>
 
-template <typename Data>
-class Vector {
+template <typename Data> class Vector
+{
 public:
-
     // Creates vector
-    Vector() {
-        data = nullptr;
-        length = 0;
-        capacity = 0;
+    Vector()
+    {
+        vector_size = 0;
+        max_size = 1;
+        data = new Data[max_size];
     }
 
-    // Deletes vector structure and internal data
-    ~Vector() {
+    ~Vector()
+    {
         delete[] data;
     }
 
     // Retrieves vector element with the specified index
-    Data get(size_t index) const {
+    Data get(size_t index) const
+    {
+        if(index < 0 || vector_size <= index) {
+            throw "Error: the index does not exist!"; 
+        }
         return data[index];
     }
 
     // Sets vector element with the specified index
-    void set(size_t index, Data value) {
-        if (index >= length) {
-            resize(index);
+    void set(size_t index, Data value)
+    {
+        if(index < 0 || vector_size <= index) {
+            throw "Error: the index does not exist!";
         }
         data[index] = value;
     }
 
     // Retrieves current vector size
-    size_t size() const {
-        return length;
-    }
-
-    // Reserve memory
-    void reserve(size_t size) {
-        if (capacity >= size) return;
-
-        if (capacity == 0) capacity = 1;
-
-        while (capacity < size)
-            capacity *= MULTIPLIER;
-
-        Data* copy = new Data[capacity];
-
-        for (int i = 0; i < length; i++) {
-            copy[i] = data[i];
-        }
-
-        delete[] data;
-        data = copy;
+    size_t size() const
+    {
+        return vector_size;
     }
 
     // Changes the vector size (may increase or decrease)
     // Should be O(1) on average
-    void resize(size_t size) {
-        if (capacity < size)
-            reserve(size);
-        length = size;
+    void resize(size_t size)
+    {
+        if (size <= max_size) {
+            vector_size = size;
+            return;
+        }
+        size_t _max_size = size *2;
+        Data *tmp = new Data[_max_size];
+        for(size_t i = 0; i < vector_size; i++) {
+            tmp[i] = data[i];
+        }
+        delete[] data;
+
+        data = tmp;
+        max_size = _max_size;
+        vector_size = size;
     }
 
-protected:
+private:
     // private data should be here
-    Data* data;
-
-    size_t length; // Count of elements
-    size_t capacity; // Count of reserved elements
-
-    /// Константа для увеличения размера массива
-    const int MULTIPLIER = 2;
+    Data *data;
+    size_t vector_size;
+    size_t max_size;
 };
+
 #endif
+
