@@ -24,11 +24,4 @@ target_link_libraries(TestVectorCPP LibraryCPP)
 add_test(TestVectorCPP TestVectorCPP)
 set_tests_properties(TestVectorCPP PROPERTIES TIMEOUT 10)
 
-add_executable(TestGraphCPP graph_test.cpp)
-target_include_directories(TestGraphCPP PUBLIC ..)
-add_test(TestGraphCPP TestGraphCPP)
-
-add_executable(TestGraphCPPTemplate graph_test.cpp)
-target_include_directories(TestGraphCPPTemplate PUBLIC ..)
-add_test(TestGraphCPPTemplate TestGraphCPPTemplate)
 
