@@ -81,29 +81,6 @@ int main() {
                 parents[i] = kk;
 
             } 
-          
-            /*else if ((matr[kk][i] != 0) && (kk != i) && (dist.at(i) != 0) && (i == b) && (parents.at(b) == parents.at(kk) - 1)) // если есть еще один кратчайший путь
-            {
-                vector <int> NewPath(countVertexes, 0);
-                int t;
-                int index = 0;
-                t = kk; // родитель конечной вершины
-                NewPath.insert(NewPath.begin() + index, b);
-                index += 1;
-                while (t != a) {
-                    NewPath.insert(NewPath.begin() + index, t);
-                    t = parents.at(t);
-                    index += 1;
-                }
-                NewPath.insert(NewPath.begin() + index, a);
-                cout << "Кратчайший путь: ";
-                for (int i = index; i > 0; i--)
-                {
-                    cout << NewPath.at(i) << "->";
-                }
-                cout << NewPath.at(0) << endl;
-                NewPath.clear();
-            }*/
         }
     }
     cout << endl;
