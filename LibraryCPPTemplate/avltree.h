@@ -19,7 +19,7 @@ class Tree
 
     node* root;
 
-    node* insert(string x, string y, node* t)
+    node* insert(const string& x, const string& y, node* t)
     {
         if (t == NULL)
         {
@@ -51,7 +51,6 @@ class Tree
                     t = doubleLeftRotate(t);
             }
         }
-
         t->height = max(height(t->left), height(t->right)) + 1;
         return t;
     }
@@ -103,18 +102,14 @@ class Tree
     {
         node* temp;
 
-        // Element not found
         if (t == NULL)
             return NULL;
 
-        // Searching for element
         else if (x < t->key)
             t->left = remove(x, t->left);
         else if (x > t->key)
             t->right = remove(x, t->right);
 
-        // Element found
-        // With 2 children
         else if (t->left && t->right)
         {
             temp = findMin(t->right);
@@ -122,7 +117,7 @@ class Tree
             t->field = temp->field;
             t->right = remove(t->key, t->right);
         }
-        // With one or zero child
+
         else
         {
             temp = t;
@@ -137,18 +132,17 @@ class Tree
 
         t->height = max(height(t->left), height(t->right)) + 1;
 
-        // If node is unbalanced
-        // If left node is deleted, right case
+
         if (height(t->left) - height(t->right) == 2)
         {
-            // right right case
+
             if (height(t->left->left) - height(t->left->right) == 1)
                 return singleLeftRotate(t);
-            // right left case
+
             else
                 return doubleLeftRotate(t);
         }
-        // If right node is deleted, left case
+
         else if (height(t->right) - height(t->left) == 2)
         {
             // left left case
@@ -160,7 +154,7 @@ class Tree
         }
         return t;
     }
-    string Search(string v) {
+    const string& Search(const string& v) {
         if (root == NULL) {
             return root->field;
         }
