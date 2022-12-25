@@ -2,17 +2,22 @@
 
 struct Vector
 {
-    int size;
-    int capasity;
     Data* data;
+    size_t size;
+    size_t capacity;
+
+    Vector() 
+    {
+       size = 0;
+       capacity = 5;
+       data = new Data[capacity];
+    }
+
 };
 
 Vector* vector_create()
 {
-    Vector* vector = new Vector;
-    vector->size = vector->capasity= 0;
-    vector->data = new Data[vector->capasity];
-    return vector;
+    return new Vector;
 }
 
 void vector_delete(Vector* vector)
@@ -31,42 +36,36 @@ Data vector_get(const Vector* vector, size_t index)
 
 void vector_set(Vector* vector, size_t index, Data value)
 {
-    if (index < vector->size)
-    {
-        vector->data[index] = value;
-    }
+    if (index >= vector->size)
+        return;
     else
-    {
-        vector_resize(vector, index + 1);
         vector->data[index] = value;
-    }
 }
 
 size_t vector_size(const Vector* vector)
 {
- 
     return vector->size;
 }
 
 void vector_resize(Vector* vector, size_t size)
 {
-    if (size <= vector->capasity)
+    if (vector->capacity > size)
     {
         vector->size = size;
     }
-    else
-    {
-        size_t newSize = size * 2;
-        Data* newData = new Data[newSize];
+    else {
+        size_t temp_capacity = size * 2;
+        Data* temp_data = new Data[temp_capacity]{ NULL };
 
-        for (size_t i = 0; i < vector->size; i++)
+        for (int i = 0; i < vector->size; i++)
         {
-            newData[i] = vector->data[i];
+            temp_data[i] = vector->data[i];
         }
 
         delete[] vector->data;
-        vector->data = newData;
+
+        vector->capacity = temp_capacity;
         vector->size = size;
-        vector->capasity = newSize;
+        vector->data = temp_data;
     }
 }
