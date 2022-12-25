@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 class Tree
 {
     struct node
@@ -21,40 +20,22 @@ class Tree
 
     node* insert(const string& x, const string& y, node* t)
     {
-        if (t == NULL)
+        if (!t)
         {
             t = new node;
-            t->key = x;
             t->field = y;
+            t->key = x;
             t->height = 0;
             t->left = t->right = NULL;
+            return t;
         }
-        else if (x < t->key)
-        {
+        if (x < t->key)
             t->left = insert(x, y, t->left);
-            if (height(t->left) - height(t->right) == 2)
-            {
-                if (x < t->left->key)
-                    t = singleRightRotate(t);
-                else
-                    t = doubleRightRotate(t);
-            }
-        }
-        else if (x > t->key)
-        {
+        else
             t->right = insert(x, y, t->right);
-            if (height(t->right) - height(t->left) == 2)
-            {
-                if (x > t->right->key)
-                    t = singleLeftRotate(t);
-                else
-                    t = doubleLeftRotate(t);
-            }
-        }
-        t->height = max(height(t->left), height(t->right)) + 1;
-        return t;
+        return balance(t);
     }
-
+    
     node* singleRightRotate(node*& t)
     {
         node* u = t->left;
@@ -75,18 +56,6 @@ class Tree
         return u;
     }
 
-    node* doubleLeftRotate(node*& t)
-    {
-        t->right = singleRightRotate(t->right);
-        return singleLeftRotate(t);
-    }
-
-    node* doubleRightRotate(node*& t)
-    {
-        t->left = singleLeftRotate(t->left);
-        return singleRightRotate(t);
-    }
-
     node* findMin(node* t)
     {
         if (t == NULL)
@@ -97,66 +66,81 @@ class Tree
             return findMin(t->left);
     }
 
-
-    node* remove(string x, node* t)
+    node* findMax(node* t)
     {
-        node* temp;
-
         if (t == NULL)
             return NULL;
-
-        else if (x < t->key)
-            t->left = remove(x, t->left);
-        else if (x > t->key)
-            t->right = remove(x, t->right);
-
-        else if (t->left && t->right)
-        {
-            temp = findMin(t->right);
-            t->key = temp->key;
-            t->field = temp->field;
-            t->right = remove(t->key, t->right);
-        }
-
-        else
-        {
-            temp = t;
-            if (t->left == NULL)
-                t = t->right;
-            else if (t->right == NULL)
-                t = t->left;
-            delete temp;
-        }
-        if (t == NULL)
+        else if (t->right == NULL)
             return t;
-
-        t->height = max(height(t->left), height(t->right)) + 1;
-
-
-        if (height(t->left) - height(t->right) == 2)
-        {
-
-            if (height(t->left->left) - height(t->left->right) == 1)
-                return singleLeftRotate(t);
-
-            else
-                return doubleLeftRotate(t);
-        }
-
-        else if (height(t->right) - height(t->left) == 2)
-        {
-            // left left case
-            if (height(t->right->right) - height(t->right->left) == 1)
-                return singleRightRotate(t);
-            // left right case
-            else
-                return doubleRightRotate(t);
-        }
-        return t;
+        else
+            return findMax(t->right);
     }
-    const string& Search(const string& v) {
+
+    int bfactor(node* p)
+    {
+        return height(p->right) - height(p->left);
+    }
+
+    node* balance(node* p) 
+    {
+        p->height = max(height(p->left), height(p->right)) + 1;
+        if (bfactor(p) == 2)
+        {
+            if (bfactor(p->right) < 0)
+                p->right = singleRightRotate(p->right);
+            return singleLeftRotate(p);
+        }
+        if (bfactor(p) == -2)
+        {
+            if (bfactor(p->left) > 0)
+                p->left = singleLeftRotate(p->left);
+            return singleRightRotate(p);
+        }
+        return p; 
+    }
+
+    node* findmin(node* p) 
+    {
+        return p->left ? findmin(p->left) : p;
+    }
+
+    node* removemin(node* p) 
+    {
+        if (p->left == 0)
+            return p->right;
+        p->left = removemin(p->left);
+        return balance(p);
+    }
+
+    node* remove(node* p, const string& k) 
+    {
+        if (!p) return 0;
+        if (k < p->key)
+            p->left = remove(p->left, k);
+        else if (k > p->key)
+            p->right = remove(p->right, k);
+        else 
+        {
+            node* q = p->left;
+            node* r = p->right;
+            delete p;
+            if (!r) return q;
+            node* min = findmin(r);
+            min->right = removemin(r);
+            min->left = q;
+            return balance(min);
+        }
+        return balance(p);
+    }
+
+    int height(node* t)
+    {
+        return (t == NULL ? -1 : t->height);
+    }
+
+    string Search(string v) {
         if (root == NULL) {
-            return root->field;
+            return "";
         }
         else {
             node* temp = root;
@@ -171,20 +155,8 @@ class Tree
                     temp = temp->right;
                 }
             }
-            return NULL;
+            return "";
         }
-    }
-    int height(node* t)
-    {
-        return (t == NULL ? -1 : t->height);
-    }
-
-    int getBalance(node* t)
-    {
-        if (t == NULL)
-            return 0;
-        else
-            return height(t->left) - height(t->right);
     }
 
 public:
@@ -199,9 +171,8 @@ public:
 
     void remove(string x)
     {
-        root = remove(x, root);
+        root = remove(root, x);
     }
-
     string search_field(string x)
     {
         return Search(x);
