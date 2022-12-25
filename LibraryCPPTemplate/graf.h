@@ -99,7 +99,7 @@ public:
     };
 
     Graf(size_t numberVertex, Data data) { 
-        vertexes.resize(numberVertex+1);
+        vertexes.resize(numberVertex);
         for (size_t i = 0; i < numberVertex; i++) {
             vertexes[i] = new Vertex(data);
         }
