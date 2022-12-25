@@ -12,13 +12,13 @@ Array* array_create(size_t size, FFree f)
 }
 
 // delete array, free memory
-void array_delete(Array* arr)
+void array_delete(Array *arr)
 {
     free(arr);
 }
 
 // returns specified array element
-Data array_get(const Array* arr, size_t index)
+Data array_get(const Array *arr, size_t index)
 {
     return (Data)0;
 }
