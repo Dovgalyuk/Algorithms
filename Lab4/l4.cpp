@@ -10,12 +10,15 @@ int main() {
     cout << "Kоличество вершин: ";
     int countVertexes;
     cin >> countVertexes;
-    cout << "-------------------------";
+        cout << "---------------------------------------------------------";
     cout << endl;
     Graf<int, int> graf(countVertexes, 1);
 
-    for (int i = 0; i < countVertexes; ++i) { // помечаем вершины
-        graf.setDataVertex(i, i);
+    for (int i = 0; i < countVertexes; ++i) { // называем вершины
+        int name;
+        cout << "Имя для вершины [" << i << "] (число) = ";
+        cin >> name;
+        graf.setDataVertex(i, name);
     }
 
     for (int i = 0; i < countVertexes; i++) { // заполняем ребра для каждой вершины   
@@ -23,13 +26,16 @@ int main() {
         cout << "Сколько рёбер исходит из вершины " << graf.getDataVertex(i) << "?" << endl;
         int tempCountEdges;
         cin >> tempCountEdges;
-        for (int j = 0; j < tempCountEdges; ++j) {
-            cout << "В какую вершину идет " << j + 1 << " ребро ? ";
-            int ToVertex;
-            cin >> ToVertex;
-            graf.addEdge(graf.getVertex(i), graf.getVertex(ToVertex),1);
+        if (tempCountEdges != 0)
+        {
+            for (int j = 0; j < tempCountEdges; ++j) {
+                cout << "В какую вершину идет " << j + 1 << " ребро? ";
+                int ToVertex;
+                cin >> ToVertex;
+                graf.addEdge(graf.getVertex(i), graf.getVertex(ToVertex), 1);
+            }
         }
-        cout << "----------------------------------------------------";
+        cout << "---------------------------------------------------------";
     }
     cout << endl;
     cout << "Между какими вершинами нужно найти кратчайший путь? ";
@@ -66,18 +72,42 @@ int main() {
     {
         int kk = queue.front(); // берем из очереди крайний элемент
         queue.pop(); // удаляем его
-        for (int i = 0; i < countVertexes; i++) // смотрим, с какими вершинами смежна kk
+        for (int i = 0; i < countVertexes; ++i) // смотрим, с какими вершинами смежна kk
         {
-            if ((matr[kk][i] != 0) && (kk != i) && (dist.at(i) == 0)) // последнее условие - чтобы не трогать начальную вершину в массиве по ее индексу
+            if ((matr[kk][i] == true) && (dist[i] == 0) && (i != a))
             {
                 queue.push(i);  //добавляем в очередь вершину i
-                dist.insert(dist.begin() + i, dist.at(kk) + 1); // записываем расстояние до i 
-                parents.insert(parents.begin() + i, kk);
-            }
+                dist[i] = dist[kk] + 1; // записываем расстояние до i 
+                parents[i] = kk;
+
+            } 
+          
+            /*else if ((matr[kk][i] != 0) && (kk != i) && (dist.at(i) != 0) && (i == b) && (parents.at(b) == parents.at(kk) - 1)) // если есть еще один кратчайший путь
+            {
+                vector <int> NewPath(countVertexes, 0);
+                int t;
+                int index = 0;
+                t = kk; // родитель конечной вершины
+                NewPath.insert(NewPath.begin() + index, b);
+                index += 1;
+                while (t != a) {
+                    NewPath.insert(NewPath.begin() + index, t);
+                    t = parents.at(t);
+                    index += 1;
+                }
+                NewPath.insert(NewPath.begin() + index, a);
+                cout << "Кратчайший путь: ";
+                for (int i = index; i > 0; i--)
+                {
+                    cout << NewPath.at(i) << "->";
+                }
+                cout << NewPath.at(0) << endl;
+                NewPath.clear();
+            }*/
         }
     }
-
-    if (dist.at(b) == 0)
+    cout << endl;
+    if (dist[b] == 0)
     {
         cout << "Такого пути не существует.";
     }
@@ -87,21 +117,21 @@ int main() {
         vector <int> path(countVertexes, 0);
         int t;
         int index = 0;
-        t = parents.at(b);
-        path.insert(path.begin() + index, b);
+        path[index] = b;
+        t = parents[b];
         index += 1;
         while (t != a) {
-            path.insert(path.begin() + index, t);
-            t = parents.at(t);
-            index += 1;
+            path[index] = t;
+            t = parents[t];
+            index += 1;             
         }
-        path.insert(path.begin() + index, a);
+        path[index] = a; // index в итоге стал равен длине кратчайшего пути
         cout << "Кратчайший путь: ";
         for (int i = index; i > 0; i--)
         {
-            cout << path.at(i) << "->";
+            cout << path[i] << "->";
         }
-        cout << path.at(0) << endl;
+        cout << path[0] << endl;
         path.clear();
     }
     dist.clear();
