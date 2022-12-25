@@ -10,15 +10,13 @@ int main() {
     cout << "Kоличество вершин: ";
     int countVertexes;
     cin >> countVertexes;
-        cout << "---------------------------------------------------------";
+    cout << "-------------------------";
     cout << endl;
     Graf<int, int> graf(countVertexes, 1);
 
-    for (int i = 0; i < countVertexes; ++i) { // называем вершины
-        int name;
-        cout << "Имя для вершины [" << i << "] (число) = ";
-        cin >> name;
-        graf.setDataVertex(i, name);
+    for (int i = 0; i < countVertexes; ++i)   // называем вершины
+    {
+        graf.setDataVertex(i, i);
     }
 
     for (int i = 0; i < countVertexes; i++) { // заполняем ребра для каждой вершины   
@@ -35,7 +33,7 @@ int main() {
                 graf.addEdge(graf.getVertex(i), graf.getVertex(ToVertex), 1);
             }
         }
-        cout << "---------------------------------------------------------";
+        cout << "----------------------------------------------------";
     }
     cout << endl;
     cout << "Между какими вершинами нужно найти кратчайший путь? ";
