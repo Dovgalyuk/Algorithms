@@ -5,7 +5,7 @@ struct Array
     Data* data;
     size_t size;
 
-    Array(const size_t size) {
+    Array(size_t size) {
         this->size = size;
         this->data = new Data[size];
     }
