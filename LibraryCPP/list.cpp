@@ -3,38 +3,55 @@
 
 struct ListItem
 {
+    Data data;
+    ListItem* next;
 };
 
 struct List
 {
+    ListItem* top;
 };
 
 List *list_create()
 {
-    return new List;
+    List* list = new List;
+    list->top = nullptr;
+    return list;
 }
 
 void list_delete(List *list)
 {
     // TODO: free items
+    while (list_item_next(list->top))
+    {
+        list_erase_next(list, list->top);
+    }
+    delete list->top;
     delete list;
 }
 
 ListItem *list_first(List *list)
 {
-    return NULL;
+    return list->top;
 }
 
 Data list_item_data(const ListItem *item)
 {
-    return (Data)0;
+    if (item)
+        return item->data;
+    else
+        return Data();
 }
 
 ListItem *list_item_next(ListItem *item)
 {
-    return NULL;
+    if (item)
+        return item->next;
+    else
+        return NULL;
 }
 
+//не нужна для односвязного списка
 ListItem *list_item_prev(ListItem *item)
 {
     return NULL;
@@ -42,14 +59,23 @@ ListItem *list_item_prev(ListItem *item)
 
 ListItem *list_insert(List *list, Data data)
 {
-    return NULL;
+    ListItem* a = new ListItem;
+    a->data = data;
+    a->next = list_first(list);
+    list->top = a;
+    return a;
 }
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
-    return NULL;
+    ListItem* a = new ListItem;
+    a->data = data;
+    a->next = item->next;
+    item->next = a;
+    return a;
 }
 
+//не нужна для односвязного списка
 ListItem *list_erase(List *list, ListItem *item)
 {
     return NULL;
@@ -57,5 +83,14 @@ ListItem *list_erase(List *list, ListItem *item)
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    return NULL;
+     ListItem* erase = nullptr;
+    if (list_item_next(item))
+    {
+        erase = item->next;
+        item->next = list_item_next(list_item_next(item));
+        delete erase;
+        return item;
+    }
+    else
+        return NULL;
 }
