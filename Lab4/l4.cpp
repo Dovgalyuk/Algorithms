@@ -79,32 +79,7 @@ int main() {
                 queue.push(i);  // добавляем в очередь вершину i
                 dist[i] = dist[kk] + 1; // записываем расстояние до i 
                 parents[i] = kk; // записываем родителя i
-
             } 
-            
-           /* else if ((matr[kk][i] != 0) && (dist[i] != 0) && (i != a)) // если есть еще один кратчайший путь
-            {
-                vector <int> NewPath(countVertexes, 0);
-                int t;
-                int index = 0;
-                t = kk; // родитель конечной вершины
-                NewPath[index] = b;
-                index += 1;
-                while (t != a) {
-                    NewPath[index] = t;
-                    t = parents[t];
-                    index += 1;
-                }
-                NewPath[index] = a;
-
-                cout << "Кратчайший путь: ";
-                for (int i = index; i > 0; i--)
-                {
-                    cout << NewPath[i] << "->";
-                }
-                cout << NewPath[0] << endl;
-                NewPath.clear();
-            }*/
         }
     }
     cout << endl;
