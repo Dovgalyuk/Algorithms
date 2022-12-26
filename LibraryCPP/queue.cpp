@@ -6,14 +6,12 @@ struct Queue
     Vector* vector;
     size_t head;
     size_t tail;
-    int kol;
     Queue()
     {
         head = 0;
         tail = 0;
         vector = vector_create();
         vector_resize(vector, 1);
-        kol = 0;
     }
 };
 
@@ -51,7 +49,6 @@ void queue_insert(Queue* queue, Data data)
     }
     vector_set(queue->vector, queue->tail, data);
     queue->tail++;
-    queue->kol++;
 }
 
 Data queue_get(const Queue* queue)
