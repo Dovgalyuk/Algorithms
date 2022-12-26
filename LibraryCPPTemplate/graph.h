@@ -148,15 +148,13 @@ class Graph {
             return vertexes->get(index);
         }
 
-        void addEdge(size_t start_vertex_index, size_t end_vertex_index, Data edge_data) {
+        void addEdge(size_t from_vertex_index, size_t to_vertex_index, Data edge_data) {
             Edge *edge = new Edge(edge_data);
-            size_t vertex_amount = getVertexAmount();
-            edgeMatrix->set(start_vertex_index * vertex_amount + end_vertex_index, edge);
+            edgeMatrix->set(from_vertex_index * getVertexAmount() + to_vertex_index, edge);
         }
 
-        void removeEdge(size_t start_vertex_index, size_t end_vertex_index) {
-            size_t vertex_amount = getVertexAmount();
-            edgeMatrix->set(start_vertex_index * vertex_amount + end_vertex_index, nullptr);
+        void removeEdge(size_t from_vertex_index, size_t to_vertex_index) {
+             edgeMatrix->set(from_vertex_index * getVertexAmount() + to_vertex_index, nullptr);
         }
 
         Edge *getEdge(size_t start_vertex_index, size_t end_vertex_index) {
@@ -167,6 +165,8 @@ class Graph {
         bool isEdgeExist(size_t start_vertex_index, size_t end_vertex_index) {
             return getEdge(start_vertex_index, end_vertex_index) != nullptr;
         }
+
+        
     private: 
         Vector<Vertex*> *vertexes;
         Vector<Edge*> *edgeMatrix;
