@@ -12,4 +12,3 @@ target_link_libraries(lab3dCPP LibraryCPP)
 
 add_executable(lab4dCPP lab4d.cpp)
 target_include_directories(lab4dCPP PUBLIC ../LibraryCPPTemplate)
-target_link_libraries(lab4dCPP LibraryCPPTemplate)
