@@ -170,6 +170,4 @@ int main() {
 		return 0;
 	}
 
-	cout << "All test have been passed!";
-	return 1;
 }
