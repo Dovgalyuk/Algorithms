@@ -17,7 +17,7 @@ int main()
     list->insert(2);
     list->insert(3);
 
-    if (list->first()->getData() != 3)
+    if (list->first()->data != 3)
     {
         std::cout << "list_insert error\n";
         return 1;
@@ -25,7 +25,7 @@ int main()
 
     list->insert_after(list->first(), 4);
 
-    if (list->first()->getNext()->getData() != 4)
+    if (list->first()->getNext()->data != 4)
     {
         std::cout << "list_insert_after error\n";
         return 1;
@@ -33,7 +33,7 @@ int main()
 
     list->erase(list->first());
 
-    if (list->first()->getData() != 4)
+    if (list->first()->data != 4)
     {
         std::cout << "list_erase error\n";
         return 1;
@@ -42,7 +42,7 @@ int main()
     std::cout << "List: ";
     for (auto item = list->first(); item; item = item->getNext())
     {
-        std::cout << item->getData() << " ";
+        std::cout << item->data << " ";
     }
     std::cout << "\n";
 
