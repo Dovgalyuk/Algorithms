@@ -104,60 +104,61 @@ int main() {
         }
         path[index] = a;   // в path хранится путь найденный по поиску в ширину но мы его не выводим пока что
 
+        // ищем такие же кратчайшие пути, начиная с начальной
 
-        // ищем такие же кратчайшие пути, начиная с конечной
-        
-        for (int i = (countVertexes-1); i > -1; i--) // снова поиск в ширину но с конца
+        for (int i = 0; i < countVertexes; ++i) // снова поиск в ширину но с конца
         {
 
-            if (matr[i][b] == true) // проверяем, какие ребра идут в конечную вершину
+            if (matr[a][i] == true) // проверяем, какие ребра идут в конечную вершину
             {
-                vector <int> distBottom(countVertexes, 0); // расстояния до конечной вершины
-                vector <int> parentsBottom(countVertexes, 0); // родители
-              
-                queue.push(i); // помещаем конечную вершину в очередь
-                distBottom[i] = distBottom[b] + 1; // записываем расстояние до i от конечной (1)
-                parentsBottom[i] = b; // родитель i - конечная вершина
+                vector <int> distTop(countVertexes, 0); // расстояния до конечной вершины
+                vector <int> parentsTop(countVertexes, 0); // родители
 
+                
+                distTop[i] = distTop[a] + 1; // записываем расстояние до i от начальной (1)
+                parentsTop[i] = a; // родитель i - начальная вершина
+
+                queue.push(i); // помещаем начальную вершину в очередь
                 while (!queue.empty()) // пока очередь не опустела
                 {
                     int kk = queue.front(); // берем из очереди крайний элемент
                     queue.pop(); // удаляем его
-                    for (int j = (countVertexes-1); j > -1; j--) // смотрим, с какими вершинами смежна kk
+                    for (int j = 0; j < countVertexes; ++j) // смотрим, с какими вершинами смежна kk
                     {
-                        if ((matr[j][kk] == true) && (distBottom[j] == 0) && (j != b))
+                        if ((matr[kk][j] == true) && (distTop[j] == 0))
                         {
                             queue.push(j);  //добавляем в очередь вершину j
-                            distBottom[j] = distBottom[kk] + 1; // записываем расстояние до j от конечной
-                            parentsBottom[j] = kk; // записываем родителя j  
+                            distTop[j] = distTop[kk] + 1; // записываем расстояние до j от начальной
+                            parentsTop[j] = kk; // записываем родителя j  
                         }
                     }
                 }
-                if (distBottom[a] == index) // если пройденное расстояние до начальной равно кратчайшему пути
+                if (distTop[b] == index) // если пройденное расстояние до конечной равно кратчайшему пути
                 {
-                    vector <int> pathBottom(countVertexes, 0); // массив для пути
+                    vector <int> pathTop(countVertexes, 0); // массив для пути
                     int t;
                     int index = 0; // теперь с помощью index отслеживаем место в массиве
-                    pathBottom[index] = a;
-                    t = parentsBottom[a]; 
+                    pathTop[index] = b;
+                    t = parentsTop[b];
                     index += 1;
-                    while (t != b) {  // идем к начальной, считывая родителей 
-                        pathBottom[index] = t;
-                        t = parentsBottom[t];
+                    while (t != a) {  // идем к начальной, считывая родителей 
+                        pathTop[index] = t;
+                        t = parentsTop[t];
                         index += 1;
                     }
-                    pathBottom[index] = b; 
+                    pathTop[index] = a;
 
-                    for (int i = 0; i < index; i++) // выводим путь
+                    for (int i = index; i > 0; i--) // выводим путь
                     {
-                        cout << pathBottom[i] << "->";
+                        cout << pathTop[i] << "->";
                     }
                     cout << b;
-                    pathBottom.clear();
+                    cout << endl;
+
+                    pathTop.clear();
                 }
-                cout << endl;
-                distBottom.clear();
-                parentsBottom.clear();
+                distTop.clear();
+                parentsTop.clear();
             }
         }
         path.clear();
