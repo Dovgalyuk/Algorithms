@@ -24,8 +24,8 @@ int get_priority(char stack)
 }
 int main()
 {
-    string expression; // то, что человек ввёл
-    string vivod; // строка на вывод
+    string expression; // строка на ввод
+    string outp; // строка на вывод
     while (getline(cin, expression)) // для многоразового ввода
     {
         Stack* stack = stack_create(); 
@@ -40,14 +40,14 @@ int main()
                         stack_push(stack, expression[i]);
                         i++;
                     }
-                    vivod.push_back(expression[i]); // чтобы буква не попала в else
+                    outp.push_back(expression[i]); // чтобы буква не попала в else
                     i++;
                 }
                 if (expression[i] == ')')
                 {
                     while (stack_get(stack) != '(')
                     {
-                        vivod.push_back(stack_get(stack));
+                        outp.push_back(stack_get(stack));
                         stack_pop(stack);
                     }
                     stack_pop(stack);
@@ -57,7 +57,7 @@ int main()
                 {           
                         while (get_priority(stack_get(stack)) >= get_priority(expression[i]))
                         {    
-                            vivod.push_back(stack_get(stack));
+                            outp.push_back(stack_get(stack));
                             stack_pop(stack);
                         }
                         stack_push(stack, expression[i]);
@@ -65,17 +65,17 @@ int main()
                 }
             }
 
-            vivod.push_back(expression[i]);  
+            outp.push_back(expression[i]);  
             i++;
                      
         }
         while (!stack_empty(stack))
         {
-            vivod.push_back(stack_get(stack));
+            outp.push_back(stack_get(stack));
             stack_pop(stack);
         }
-        cout << vivod << endl;
-        vivod.clear();
+        cout << outp << endl;
+        outp.clear();
         stack_delete(stack);
     }       
 }
