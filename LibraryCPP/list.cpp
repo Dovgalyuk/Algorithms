@@ -3,10 +3,28 @@
 
 struct ListItem
 {
+    Data data;
+    ListItem* next;
+
+    ListItem(Data data, ListItem* next) {
+        this->data = data;
+        this->next = next;
+    }
 };
 
 struct List
 {
+    ListItem* head = NULL;
+    ListItem* last = NULL;
+
+    ~List() {
+        ListItem* current = this->head;
+        while (current) {
+            ListItem* next = current->next;
+            delete current;
+            current = next;
+        }
+    }
 };
 
 List *list_create()
@@ -16,23 +34,22 @@ List *list_create()
 
 void list_delete(List *list)
 {
-    // TODO: free items
     delete list;
 }
 
 ListItem *list_first(List *list)
 {
-    return NULL;
+    return list->head;
 }
 
 Data list_item_data(const ListItem *item)
 {
-    return (Data)0;
+    return item->data;
 }
 
 ListItem *list_item_next(ListItem *item)
 {
-    return NULL;
+    return item->next;
 }
 
 ListItem *list_item_prev(ListItem *item)
@@ -42,20 +59,50 @@ ListItem *list_item_prev(ListItem *item)
 
 ListItem *list_insert(List *list, Data data)
 {
-    return NULL;
+    ListItem* new_item = new ListItem(data, NULL);
+
+    new_item->next = list->head;
+
+    if(!list->head) list->last = new_item;
+
+    return list->head = new_item;
 }
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
-    return NULL;
+    if(item == nullptr) {
+        return list_insert(list, data);
+    } else {
+        ListItem* new_item = new ListItem(data, item->next);
+
+        if (item == list->last) list->last = new_item;
+
+        return item->next = new_item;
+    }
 }
 
 ListItem *list_erase(List *list, ListItem *item)
 {
+    if (item == list->head) {
+        ListItem* next = list_item_next(item);
+        if (item == list->last) list->last = 0;
+        delete item;
+        return list->head = next;
+    }
     return NULL;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    return NULL;
+    if (item->next) {
+        ListItem* next = item->next->next;
+        delete item->next;
+        return item->next = next;
+    }
+
+    return 0;
+}
+
+ListItem* list_last(List* list) {
+    return list->last;
 }
