@@ -96,7 +96,7 @@ int main() {
         }
         cout << "\nСамый короткий путь: " << b[path_in - 1] << "\n";
     }
-
+    queue_delete (queue);
     input.close();
 
     return 0;
