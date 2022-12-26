@@ -6,3 +6,7 @@ target_link_libraries(Solution1 LibraryCPP)
 add_executable(Solution2 lab2.cpp)
 target_include_directories(Solution2 PUBLIC ../LibraryCPP)
 target_link_libraries(Solution2 LibraryCPP)
+
+add_executable(Solution3 lab3.cpp)
+target_include_directories(Solution3 PUBLIC ../LibraryCPP)
+target_link_libraries(Solution3 LibraryCPP)
