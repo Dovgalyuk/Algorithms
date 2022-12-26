@@ -3,9 +3,8 @@
 
 #include <cstdio>
 
-template <typename Data> 
-class List
-{
+template <typename Data>
+class List {
 public:
     class Item
     {
@@ -23,16 +22,14 @@ public:
             this->next = next;
         }
 
-        Data getData() {
-            return this->data;
-        }
         Item* getNext() {
             return this->next;
         }
 
+        Data data;
     private:
         Item* next;
-        Data data;
+        
     };
 
     // Creates new list
@@ -43,20 +40,6 @@ public:
         this->listSize = 0;
     }
 
-    //// copy constructor
-    //List(const List& a)
-    //{
-    //    // implement or disable this function
-    //}
-
-    //// assignment operator
-    //List& operator=(const List& a)
-    //{
-    //    // implement or disable this function
-    //    return *this;
-    //}
-
-    // Destroys the list and frees the memory
     ~List()
     {
         while (head) {
@@ -69,14 +52,21 @@ public:
     // Retrieves the first item from the list
     Item* first()
     {
-        return head;
+        return this->head;
+    }
+
+    Item* last()
+    {
+        return this->tail;
     }
 
     // Inserts new list item into the beginning
     Item* insert(Data data)
     {
         this->listSize++;
-        if (head != nullptr) return head = new Item(data, head);
+        if (head != nullptr) {
+            return this->head = new Item(data, this->first());
+        }
         else {
             head = new Item(data);
             tail = head;
@@ -118,26 +108,21 @@ public:
             delete item;
             return head;
         }
-        else if (item == tail) {
-            Item* temp_item = head;
-            for (int i = 0; i <= listSize; i++)
-            {
-                temp_item = temp_item->getNext();
-                if (i == listSize) {
-                    delete item;
-                    return tail = temp_item;
-                }
-            }
-        } 
         else {
             Item* temp_prev = head;
             Item* temp_item = temp_prev->getNext();
-            
+
             while (temp_item != item) {
-                Item* temp_prev = head->getNext();
-                Item* temp_item = temp_prev->getNext();
+                temp_prev = temp_item;
+                temp_item = temp_prev->getNext();
             }
 
+            if (item == tail) {
+                tail = temp_prev;
+                tail->setNext(nullptr);
+                delete item;
+                return tail;
+            }
             temp_prev->setNext(item->getNext());
             delete item;
             return temp_prev->getNext();
@@ -149,14 +134,24 @@ public:
     // Should be O(1)
     Item* erase_next(Item* item)
     {
-        if (head==nullptr || item->getNext == nullptr) throw "Error! You type wrong item";
+        this->listSize--;
+        if (head == nullptr || item->getNext == nullptr) throw "Error! You type wrong item";
         else {
             return erase(item->getNext);
         }
     }
 
+    size_t getSize() {
+        return this->listSize;
+    }
+
+    bool isListEmpty() {
+        if (this->listSize == 0) return true;
+        else return false;
+    }
+
 private:
-    Item* head, *tail;
+    Item* head, * tail;
     size_t listSize;
 };
 
