@@ -23,7 +23,7 @@ int main() {
 	//Проверка размера графа после его создания
 	if (testGraph->getSize() != size) {
 		cout << "Error size graph\n\n";
-		return 0;
+		return 1;
 	}
 
 	//Проверка работы итератора вершин
@@ -37,7 +37,7 @@ int main() {
 
 	if (counter != size) {
 		cout << "Vertex Iterator error!";
-		return 0;
+		return 1;
 	}
 	vIterator.iteratorBegin(testGraph); //Обнуление значения итератора
 
@@ -62,7 +62,7 @@ int main() {
 	while (*vIterator != nullptr) {
 		if (testGraph->getVertexData(*vIterator) != value) {
 			cout << "Error fill vertex value";
-			return 0;
+			return 1;
 		}
 		++vIterator;
 		value++;
@@ -84,12 +84,12 @@ int main() {
 
 	if (counter != size) {
 		cout << "Vertex Iterator error!";
-		return 0;
+		return 1;
 	}
 
 	if (counter != size) {
 		cout << "Vertex delete error!";
-		return 0;
+		return 1;
 	}
 	vIterator.iteratorBegin(testGraph);
 
@@ -105,12 +105,12 @@ int main() {
 
 	if (counter != size) {
 		cout << "Vertex Iterator error!";
-		return 0;
+		return 1;
 	}
 
 	if (counter != size) {
 		cout << "Vertex delete error!";
-		return 0;
+		return 1;
 	}
 	vIterator.iteratorBegin(testGraph);
 
@@ -118,43 +118,43 @@ int main() {
 	testGraph->addEdgeBetween(findVertex(testGraph, 0), findVertex(testGraph, 1));
 	if (!testGraph->isEdgeExistBetween(findVertex(testGraph, 0), findVertex(testGraph, 1))) {
 		cout << "Error create edge between vertexes";
-		return 0;
+		return 1;
 	}
 
 	testGraph->addEdgeBetween(findVertex(testGraph, 0), findVertex(testGraph, 2));
 	if (!testGraph->isEdgeExistBetween(findVertex(testGraph, 0), findVertex(testGraph, 2))) {
 		cout << "Error create edge between vertexes";
-		return 0;
+		return 1;
 	}
 
 	testGraph->addEdgeBetween(findVertex(testGraph, 0), findVertex(testGraph, 3), 10);
 	if (!testGraph->isEdgeExistBetween(findVertex(testGraph, 0), findVertex(testGraph, 3))) {
 		cout << "Error create edge between vertexes";
-		return 0;
+		return 1;
 	}
 
 	//Проверка работы метода по удалению ребра между вершинами
 	testGraph->deleteEdgeBetween(findVertex(testGraph, 0), findVertex(testGraph, 2));
 	if (testGraph->isEdgeExistBetween(findVertex(testGraph, 0), findVertex(testGraph, 2))) {
 		cout << "Error delete edge between vertexes";
-		return 0;
+		return 1;
 	}
 
 	testGraph->setVertexData(findVertex(testGraph, 5), 31);
 	if (findVertex(testGraph, 5)->getData() != 31) {
 		cout << "Error set data to Vertex";
-		return 0;
+		return 1;
 	}
 
 	if (testGraph->getVertexData(findVertex(testGraph, 5)) != findVertex(testGraph, 5)->getData()) {
 		cout << "Error get data to Vertex";
-		return 0;
+		return 1;
 	}
 
 	testGraph->setEdgeWeight(findVertex(testGraph, 0), findVertex(testGraph, 1), 5);
 	if (testGraph->getEdgeWeight(findVertex(testGraph, 0), findVertex(testGraph, 1)) != 5) {
 		cout << "Error get weight to Edge between Vertexes";
-		return 0;
+		return 1;
 	}
 
 	Graph<int>::edgeIterator eIterator(findVertex(testGraph, 0));
@@ -167,7 +167,7 @@ int main() {
 
 	if (counter != findVertex(testGraph, 0)->getSize()) {
 		cout << "Vertex delete error!";
-		return 0;
+		return 1;
 	}
 
 }
