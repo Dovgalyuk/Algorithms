@@ -10,16 +10,16 @@ int main()
 	setlocale(LC_ALL, "rus");
 	Queue* queue = queue_create();
 	int width, height = 0, x = 0, y = 0, z = 0;
-	std::string way, str, buf;
+	std::string str, buf;
 	std::ifstream file;
 	file.open("c:\\file.txt");
 
-while (!file.eof())
-{
-	getline(file, buf);
-	++height;
-	str += buf;
-}
+	while (!file.eof())
+	{
+		getline(file, buf);
+		++height;
+		str += buf;
+	}
 	width = buf.size();
 	file.close();
 	buf.clear();
@@ -30,10 +30,10 @@ while (!file.eof())
 		mark[i] = new int[width];
 		for (int j = 0; j < width; j++)
 			mark[i][j] = 0;
-		
+
 	}
-	
-	char**  labyrinth = new char* [height];
+
+	char** labyrinth = new char* [height];
 	for (int i = 0; i < height; i++)
 	{
 		labyrinth[i] = new char[width];
@@ -58,17 +58,17 @@ while (!file.eof())
 		y = queue_get(queue);
 		queue_remove(queue);
 
-		if ( (labyrinth[x - 1][y] == '.') || (isdigit(labyrinth[x-1][y])) )
+		if ((labyrinth[x - 1][y] == '.') || (isdigit(labyrinth[x - 1][y])))
 		{
 			if (mark[x - 1][y] == 0)
-			{ 
+			{
 				queue_insert(queue, x - 1);
 				queue_insert(queue, y);
 				mark[x - 1][y] = mark[x][y] + 1;
 			}
-				
+
 		}
-		if ( (labyrinth[x + 1][y] == '.') || (isdigit(labyrinth[x + 1][y])) )
+		if ((labyrinth[x + 1][y] == '.') || (isdigit(labyrinth[x + 1][y])))
 		{
 			if (mark[x + 1][y] == 0)
 			{
@@ -76,29 +76,29 @@ while (!file.eof())
 				queue_insert(queue, y);
 				mark[x + 1][y] = mark[x][y] + 1;
 			}
-		
+
 		}
 
-		if( (labyrinth[x][y + 1] == '.') || (isdigit(labyrinth[x][y+1])) )
+		if ((labyrinth[x][y + 1] == '.') || (isdigit(labyrinth[x][y + 1])))
 		{
 			if (mark[x][y + 1] == 0)
 			{
-                queue_insert(queue, x);
+				queue_insert(queue, x);
 				queue_insert(queue, y + 1);
 				mark[x][y + 1] = mark[x][y] + 1;
 			}
 		}
 
-		if ((labyrinth[x][y - 1] == '.') || (isdigit(labyrinth[x][y-1])) )
+		if ((labyrinth[x][y - 1] == '.') || (isdigit(labyrinth[x][y - 1])))
 		{
 			if (mark[x][y - 1] == 0)
-			{ 
+			{
 				queue_insert(queue, x);
 				queue_insert(queue, y - 1);
 				mark[x][y - 1] = mark[x][y] + 1;
-				
-			}	
-			
+
+			}
+
 		}
 	}
 
@@ -120,9 +120,9 @@ while (!file.eof())
 	{
 		for (int j = 0; j < width; j++)
 		{
-			if ((isdigit(labyrinth[i][j]))&&(mark[i][j]<minway))
-					minway = mark[i][j];	
-		
+			if ((isdigit(labyrinth[i][j])) && (mark[i][j] < minway))
+				minway = mark[i][j];
+
 		}
 	}
 	for (int i = 0; i < height; i++)
@@ -130,7 +130,7 @@ while (!file.eof())
 		for (int j = 0; j < width; j++)
 		{
 			if (isdigit(labyrinth[i][j]) && (mark[i][j] == minway))
-				std::cout <<"Ближайшая к стартовой позиции цифра: "<< labyrinth[i][j];
+				std::cout << "Ближайшая к стартовой позиции цифра: " << labyrinth[i][j];
 		}
 	}
 
@@ -145,5 +145,5 @@ while (!file.eof())
 	delete[] mark;
 	mark = nullptr;
 	queue_delete(queue);
-	 
+
 }
