@@ -194,7 +194,7 @@ protected:
     {
         for (int i = 0; i < matrix->size(); ++i)
         {
-            matrix->set(i, Edge(NULL));
+            matrix->set(i, Edge(NULL, NULL));
         }
     }
 
