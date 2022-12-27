@@ -16,40 +16,41 @@ public:
     {
         Vertex* vertex;
         int weight;
+        Edge() : vertex(nullptr), weight() {};
         Edge(Vertex* vertex, int weight) : vertex(vertex), weight(weight) {}
     };
 
-    struct VertexIterator 
+    struct VertexIterator
     {
-        DGraph *graph = nullptr;
+        DGraph* graph = nullptr;
         size_t index_next_item = 0;
 
-        VertexIterator(DGraph *graph) : graph(graph) {}
+        VertexIterator(DGraph* graph) : graph(graph) {}
 
-        Vertex* operator *() 
+        Vertex* operator *()
         {
             return index_next_item < graph->vertices->size() ? graph->get_vertex(index_next_item) : nullptr;
         }
 
-        void operator ++(int i) 
+        void operator ++(int i)
         {
             index_next_item++;
         }
     };
 
-    struct NearVertexIterator 
+    struct NearVertexIterator
     {
-        DGraph *graph = nullptr;
+        DGraph* graph = nullptr;
         size_t root_vertex = 0;
         int last_index = -1;
 
-        NearVertexIterator(DGraph *graph, size_t root_vertex) : graph(graph), root_vertex(root_vertex) { last_index = find_next_vertex(); }
+        NearVertexIterator(DGraph* graph, size_t root_vertex) : graph(graph), root_vertex(root_vertex) { last_index = find_next_vertex(); }
 
-        int find_next_vertex() 
+        int find_next_vertex()
         {
-            for (int i = last_index + 1; i < graph->get_vertex_amount(); ++i) 
+            for (int i = last_index + 1; i < graph->get_vertex_amount(); ++i)
             {
-                if (graph->contains_edge_between_vertices(root_vertex, i)) 
+                if (graph->contains_edge_between_vertices(root_vertex, i))
                 {
                     return i;
                 }
@@ -57,12 +58,12 @@ public:
             return -1;
         }
 
-        Vertex* operator *() 
+        Vertex* operator *()
         {
             return last_index != -1 ? graph->get_vertex(last_index) : nullptr;
         }
 
-        void operator ++(int i) 
+        void operator ++(int i)
         {
             last_index = find_next_vertex();
         }
@@ -78,7 +79,7 @@ public:
         {
             vertices->set(i, new Vertex(default_value));
         }
-        matrix->resize(vertex_amount * vertex_amount);
+        matrix->resize(vertex_amount * vertex_amount); 
         fill_matrix_with_null();
     }
 
@@ -168,14 +169,15 @@ public:
 
     void set_edge_weight(size_t first_vertex_index, size_t second_vertex_index, int weight) 
     {
-        Edge test = get_edge(first_vertex_index, second_vertex_index);
-        test.weight = weight;
+        Edge edge = get_edge(first_vertex_index, second_vertex_index);
+        edge.weight = weight;
+        add_edge_to_matrix(first_vertex_index, second_vertex_index, edge);
     }
 
     bool contains_edge_between_vertices(size_t first_vertex_index, size_t second_vertex_index) 
     {
-        Edge* edge = new Edge(get_edge_from_matrix(first_vertex_index, second_vertex_index));
-        return edge != nullptr;
+        Edge edge = get_edge_from_matrix(first_vertex_index, second_vertex_index);
+        return edge.vertex != nullptr;
     }
 
     VertexIterator get_vertex_iterator() 
@@ -194,7 +196,7 @@ protected:
     {
         for (int i = 0; i < matrix->size(); ++i) 
         {
-            matrix->set(i, Edge(NULL));
+            matrix->set(i, Edge());
         }
     }
 
@@ -243,7 +245,7 @@ protected:
 
     void remove_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index) 
     {
-        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), Edge(NULL));
+        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), Edge());
     }
 
     Edge get_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index) 
