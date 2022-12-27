@@ -1,10 +1,12 @@
 ﻿#include <iostream>	
 #include "list.h"
 #include "graph.h"
+#include <stack>
 
 using namespace std;
 
-Graph<int>::Vertex* findVertex (Graph<int>* graph, int count) {
+//Function that return link to needed Vertex from list of Vertexes
+Graph<int>::Vertex* linkToVertex (Graph<int>* graph, int count) {
 	Graph<int>::vertexIterator vIterator(graph);
 	int counter = 0;
 	while (counter != count) {
@@ -13,16 +15,59 @@ Graph<int>::Vertex* findVertex (Graph<int>* graph, int count) {
 	}
 	return *vIterator;
 }
+//Function of search in Depth
+void searchInDepth(Graph<int>::Vertex* vertex, List<Graph<int>::Vertex*>* visitedVertexes) {
+	bool isEnd = false;
+	stack<Graph<int>::Vertex*> stack;
+
+	while (!isEnd) {
+		Graph<int>::edgeIterator eIterator(vertex);
+
+		while (*eIterator != nullptr) {
+			Graph<int>::Edge* i = *eIterator;
+			stack.push(i->getDirection());
+			++eIterator;
+		}
+		eIterator.iteratorBegin(vertex);
+
+		if (visitedVertexes->isListEmpty()) visitedVertexes->insert(vertex);
+		else visitedVertexes->insert_after(visitedVertexes->last(), vertex);
+
+		if (!stack.empty()) {
+			vertex = stack.top();
+			stack.pop();
+			for (List<Graph<int>::Vertex*>::Item* i = visitedVertexes->first(); i != nullptr; i = i->getNext()) {
+				if (i->data == vertex && !stack.empty()) {
+					vertex = stack.top();
+					stack.pop();
+					i = visitedVertexes->first();
+				} 
+				else if (i->data == vertex && stack.empty()) {
+					isEnd = true;
+					break;
+				}
+			}
+		}
+		else isEnd = true;
+	}
+}
+
 
 int main() {
 	
-	int size = 11;
+	//value to define size of graph
+	size_t size = 10;
 
+	//Creating graph
 	Graph<int>* graph = new Graph<int>(size);
+	//Creating massive of visited vertexes by searchInDeep
+	List<Graph<int>::Vertex*> visitedVertexes;
 
+	//Making vertex Iterator
 	Graph<int>::vertexIterator vIterator(graph);
 
-	int value = 0;
+	//Vertex filling
+	int value = 1;
 	while (*vIterator != nullptr) {
 		graph->setVertexData(*vIterator, value);
 		++vIterator;
@@ -30,16 +75,43 @@ int main() {
 	}
 	vIterator.iteratorBegin(graph);
 
-	graph->addEdgeBetween(findVertex(graph, 0), findVertex(graph, 1));
-	graph->addEdgeBetween(findVertex(graph, 0), findVertex(graph, 2), 19);
-	graph->addEdgeBetween(findVertex(graph, 0), findVertex(graph, 3));
-	graph->addEdgeBetween(findVertex(graph, 3), findVertex(graph, 2));
-	graph->addEdgeBetween(findVertex(graph, 2), findVertex(graph, 4));
-	graph->addEdgeBetween(findVertex(graph, 4), findVertex(graph, 5));
-	graph->addEdgeBetween(findVertex(graph, 6), findVertex(graph, 7));
-	graph->addEdgeBetween(findVertex(graph, 7), findVertex(graph, 8));
-	graph->addEdgeBetween(findVertex(graph, 9), findVertex(graph, 10));
+	//Making edges between Vertexes
+	graph->addEdgeBetween(linkToVertex(graph, 0), linkToVertex(graph, 1));
+	graph->addEdgeBetween(linkToVertex(graph, 0), linkToVertex(graph, 3));
+	graph->addEdgeBetween(linkToVertex(graph, 0), linkToVertex(graph, 2));
+	graph->addEdgeBetween(linkToVertex(graph, 4), linkToVertex(graph, 5));
+	graph->addEdgeBetween(linkToVertex(graph, 5), linkToVertex(graph, 6));
+	graph->addEdgeBetween(linkToVertex(graph, 6), linkToVertex(graph, 4));
+	graph->addEdgeBetween(linkToVertex(graph, 7), linkToVertex(graph, 8));
 
+	int connectivityCount = 0;
+	for (size_t graphItem = 0; visitedVertexes.getSize() != size; graphItem++) {
+		if (visitedVertexes.isListEmpty()) {
+			searchInDepth(linkToVertex(graph, graphItem), &visitedVertexes);
+			connectivityCount++;
+		}
+		else {
+			bool isVisited = false;
+			for (List<Graph<int>::Vertex*>::Item* i = visitedVertexes.first(); i != nullptr; i = i->getNext()) {
+				if (linkToVertex(graph, graphItem) == i->data) {
+					isVisited = true;
+					break;
+				} 
+			}
+			if (!isVisited) {
+				searchInDepth(linkToVertex(graph, graphItem), &visitedVertexes);
+				connectivityCount++;
+			}
+		}
+	}
 
+	while (!visitedVertexes.isListEmpty()) {
+		cout << visitedVertexes.first()->data->getData() << " | ";
+		visitedVertexes.erase(visitedVertexes.first());
+	}
+	cout  << "\n\n" << "Graph connectivity components count is: " << connectivityCount;
+
+	//Memory clear
+	delete graph;
 	return 0;
 }
