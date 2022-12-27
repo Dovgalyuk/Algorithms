@@ -27,7 +27,7 @@ int main()
         //Иначе, если заряд отрицательный и стэк не пустой, выводим элемент стэка и тот, который ввели только что
         else if (!stack_empty(stack))
         {
-            cout << stack_get(stack) << " " << cord << endl;
+            cout << stack_get(stack) << " " << cord<<endl;
         }
     }
     //Закрываем файл для чтения
