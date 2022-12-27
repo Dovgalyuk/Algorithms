@@ -71,11 +71,10 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data) {
     }
 }
 
-ListItem *list_erase(List *list, ListItem *item)
-{
+ListItem *list_erase(List *list, ListItem *item) {
     //Реализована только часть, тк у меня односвязный список, а не двусвязный
     if (item == list->head) {
-        ListItem* next = list_item_next(item);
+        ListItem *next = list_item_next(item);
         if (item == list->last) list->last = 0;
         delete item;
         return list->head = next;
@@ -85,7 +84,7 @@ ListItem *list_erase(List *list, ListItem *item)
 }
 
 ListItem *list_erase_next(List *list, ListItem *item) {
-    if (!item) return NULL;
+    if(!item || list->last == item) return NULL;
     auto next = item->next->next;
     delete item->next;
     if (!next) {
