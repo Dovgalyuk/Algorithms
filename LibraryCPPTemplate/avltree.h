@@ -137,7 +137,7 @@ class Tree
         return (t == NULL ? -1 : t->height);
     }
 
-    string Search(string v) {
+    string Search(const string& v) {
         if (root == NULL) {
             return "";
         }
@@ -172,7 +172,7 @@ public:
     {
         root = remove(root, x);
     }
-    string search_field(string x)
+    string search_field(const string& x)
     {
         return Search(x);
     }
