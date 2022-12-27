@@ -15,7 +15,7 @@ int main()
     {
         string Str = to_string(i);
         auto P = array.search(Str);
-        if (P != Str)
+        if (P->key != Str)
         {
             cout << "Data storage error ";
             return 1;
@@ -25,7 +25,7 @@ int main()
     {
         string Str = to_string(i);
         array.remove(Str);
-        if (array.search(Str) != "")
+        if (array.search(Str) != nullptr)
         {
             cout << "Error deleting an element";
             return 1;
