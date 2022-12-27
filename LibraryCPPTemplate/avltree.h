@@ -6,6 +6,7 @@ using namespace std;
 
 class Tree
 {
+    public:
     struct node
     {
         string key;
@@ -137,15 +138,15 @@ class Tree
         return (t == NULL ? -1 : t->height);
     }
 
-    string Search(const string& v) {
+    node* Search(const string& v) {
         if (root == NULL) {
-            return "";
+            return nullptr;
         }
         else {
             node* temp = root;
             while (temp != NULL) {
                 if (v == temp->key) {
-                    return temp->field;
+                    return temp;
                 }
                 else if (v < temp->key) {
                     temp = temp->left;
@@ -154,11 +155,9 @@ class Tree
                     temp = temp->right;
                 }
             }
-            return "";
+            return nullptr;
         }
     }
-
-public:
     Tree()
     {
         root = NULL;
@@ -167,12 +166,11 @@ public:
     {
         root = insert(x, y, root);
     }
-
     void remove(string x)
     {
         root = remove(root, x);
     }
-    string search_field(const string& x)
+    node* search_field(const string& x)
     {
         return Search(x);
     }
