@@ -91,6 +91,7 @@ int main() {
    else 
     {
         cout << "Кратчайшие пути: " << endl;
+
         vector <int> path(countVertexes, 0); 
         int t;
         int index = 0;   // тут находим длину кратчайшего чтобы потом сравнивать
@@ -150,8 +151,10 @@ int main() {
                         index += 1;
                     }
                     pathTop[index] = a;
-
-                    reverse(pathTop.begin(), pathTop.end());
+                    for (auto start = pathTop.begin(), end = prev(pathTop.end());
+                        start < end; ++start, --end) {
+                        swap(*start, *end);
+                    }
                     for (int k = 0; k < index+1; k++) // вносим путь в массив
                     {
                         paths[stroki][k] = pathTop[k];
