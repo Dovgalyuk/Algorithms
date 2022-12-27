@@ -9,7 +9,7 @@ struct Queue
 
     Queue() {
         vector = vector_create();
-        vector_resize(vector, 2);
+        vector_resize(vector, 100);
         first = -1;
         last = -1;
     }
@@ -47,7 +47,7 @@ void queue_insert(Queue *queue, Data data)
                     incresedVector,
                     counter,
                     vector_get(queue->vector,i)
-                    );
+            );
             counter++;
         }
         for(int i = 0; i < queue->last; i++) {
@@ -85,5 +85,5 @@ void queue_remove(Queue *queue)
 
 bool queue_empty(const Queue *queue)
 {
-    return (queue->last == -1 && queue->first == -1);
+    return queue->last == queue->first;
 }
