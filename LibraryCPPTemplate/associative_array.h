@@ -26,7 +26,7 @@ public:
 	{
 		container->remove(key);
 	}
-	string search(const string& key)
+	Tree::node* search(const string& key)
 	{
 		return container->search_field(key);
 	}
