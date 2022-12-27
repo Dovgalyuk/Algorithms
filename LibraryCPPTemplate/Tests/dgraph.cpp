@@ -54,7 +54,7 @@ int main()
 
     graph->set_edge_weight(0, 1, 10);
 
-    if (graph->get_edge_weight(0, 1) != 10) 
+    if (graph->get_edge_weight(0, 1) != 10)
     {
         std::cout << "Modifying the edge weight does not work correctly.";
         return 1;
