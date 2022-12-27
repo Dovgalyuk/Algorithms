@@ -91,7 +91,6 @@ int main() {
    else 
     {
         cout << "Кратчайшие пути: " << endl;
-
         vector <int> path(countVertexes, 0); 
         int t;
         int index = 0;   // тут находим длину кратчайшего чтобы потом сравнивать
