@@ -7,25 +7,6 @@
 using namespace std;
 
 
-//
-//char instruction (string command) {
-//	
-//		if (command == "+" || command == "-" || command == "*" || command == "/" || command == "%")
-//		{
-//			return '+';
-//		}
-//		else if (command == ".") {
-//			return command[0];
-//		}
-//		else if(command[0] >= '0' && command[0] <= '9') {
-//			return 'A';
-//		}
-//		else {
-//			return 'B';
-//		}
-//	
-//}
-//
 void writeData(Stack* stack, char num) {//Запись данных в стек
 	int value = num - '0';//Перевод значения в int
 	stack_push(stack, value);//Записываем данные в стек
