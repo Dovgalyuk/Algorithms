@@ -26,7 +26,7 @@ public:
 	{
 		container->remove(key);
 	}
-	string search(string key)
+	string search(const string& key)
 	{
 		return container->search_field(key);
 	}
