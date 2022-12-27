@@ -12,41 +12,27 @@ bool isNumber(const char c) {
     return c >= '0' && c <= '9';
 }
 
-bool isPass(const char i) {
-    return i == PASSED;
-}
-
-bool isEmpty(const char i) {
-    return i == EMPTY;
-}
-
-bool checkPoint(const char i) {
-    return (isEmpty(i) || isNumber(i)) && !isPass(i);
-}
-
-void insertPoint(Queue *Qx, Queue *Yx, const int x, const int y) {
-    queue_insert(Qx, x);
-    queue_insert(Yx, y);
+void checkPoint(vector<string> masFile, Queue *Qx, Queue *Yx, const int x, const int y) {
+    char i = masFile[x][y];
+    if (i == EMPTY || isNumber(i)) {
+        queue_insert(Qx, x);
+        queue_insert(Yx, y);
+    }
 }
 
 void findPoints(vector<string> &masFile, Queue *Qx, Queue *Qy, const int x, const int y) {
-    char up = masFile[x - 1][y];
-    char down = masFile[x + 1][y];
-    char right = masFile[x][y - 1];
-    char left = masFile[x][y + 1];
 
-    if (checkPoint(left)) {
-        insertPoint(Qx, Qy, x, y + 1);
-    }
-    if (checkPoint(right)) {
-        insertPoint(Qx, Qy, x, y - 1);
-    }
-    if (checkPoint(up)) {
-        insertPoint(Qx, Qy, x - 1, y);
-    }
-    if (checkPoint(down)) {
-        insertPoint(Qx, Qy, x + 1, y);
-    }
+    //left
+    checkPoint(masFile, Qx, Qy, x, y + 1);
+
+    //right
+    checkPoint(masFile, Qx, Qy, x, y - 1);
+
+    //up
+    checkPoint(masFile, Qx, Qy, x - 1, y);
+
+    //down
+    checkPoint(masFile, Qx, Qy, x + 1, y);
 
     masFile[x][y] = PASSED;
 }
@@ -76,7 +62,7 @@ int main() {
             }
         }
 
-        while (!queue_empty(x)) {
+        while (!queue_empty(x) || !queue_empty(y)) {
             int x1 = queue_get(x);
             int y1 = queue_get(y);
             if (isNumber(masFile[x1][y1])) {
@@ -87,11 +73,12 @@ int main() {
                 file.close();
                 exit(0);
             }
-            findPoints(masFile, x, y, x1, y1);
             queue_remove(x);
             queue_remove(y);
+            if (masFile[x1][y1] != PASSED) {
+                findPoints(masFile, x, y, x1, y1);
+            }
         }
-
     } else {
         cout << "ERROR: Opening file" << endl;
     }
