@@ -55,11 +55,11 @@ public:
 
         Edge(Vertex* toVertex) {
             this->toVertex = toVertex;
-            ves = NULL;
+
         }
         Edge() {
             toVertex = nullptr;
-            ves = NULL;
+
         }
         Vertex* getToVertex() {
             return toVertex;
@@ -99,7 +99,7 @@ public:
     };
 
     Graf(size_t numberVertex, Data data) { 
-        vertexes.resize(numberVertex);
+        vertexes.resize(numberVertex+1);
         for (size_t i = 0; i < numberVertex; i++) {
             vertexes[i] = new Vertex(data);
         }
@@ -184,8 +184,10 @@ public:
                 return i;
             }
         }
+
         return -1;
     }
+
 private:
     std::vector<Vertex*> vertexes;
 };
