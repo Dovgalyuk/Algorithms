@@ -13,6 +13,7 @@ struct Queue
         first = -1;
         last = -1;
     }
+
     ~Queue() {
         vector_delete(vector);
     }
