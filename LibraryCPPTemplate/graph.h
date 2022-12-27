@@ -206,6 +206,10 @@ public:
 			if (edgeIter) edgeIter = edgeIter->getNext();
 		}
 
+		void iteratorBegin(Vertex* vertex) {
+			this->edgeIter = vertex->listOfEdges.first();
+		}
+
 		Edge* operator*() {
 			if (edgeIter != nullptr) {
 				return &edgeIter->data;
