@@ -6,7 +6,7 @@ using namespace std;
 
 class Tree
 {
-    public:
+public:
     struct node
     {
         string key;
@@ -15,7 +15,7 @@ class Tree
         node* right;
         int height;
     };
-
+private:
     node* root;
 
     node* insert(const string& x, const string& y, node* t)
@@ -158,6 +158,7 @@ class Tree
             return nullptr;
         }
     }
+    public:
     Tree()
     {
         root = NULL;
