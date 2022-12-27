@@ -1,8 +1,7 @@
 #include <iostream>
 #include "dgraph.h"
 #include <vector>
-
-using namespace std;
+#include <climits>
 
 const int VERTICES_COUNT = 5;
 const int FIRST_VERTEX = 0;
@@ -16,7 +15,7 @@ struct Data
     Data(int index) : index(index) {}
 };
 
-void fillGraph(DGraph<Data> graph) 
+void fillGraph(DGraph<Data> &graph) 
 {
     for (int i = 0; i < VERTICES_COUNT; ++i) 
     {
@@ -29,39 +28,47 @@ void fillGraph(DGraph<Data> graph)
     graph.add_edge(3, 4, 60);
     graph.add_edge(3, 2, 20);
     graph.add_edge(2, 4, 10);
+
 }
 
 int main() 
 {
-    DGraph<Data> graph(0,Data(-1));
+    DGraph<Data> graph(0, Data(-1));
     fillGraph(graph);
 
     auto* vertex = graph.get_vertex(FIRST_VERTEX);
     vertex->data.cost = 0;
-    DGraph<Data>::Vertex* min_cost_vertex;
+    DGraph<Data>::Vertex* min_cost_vertex = nullptr;
     do
     {
-        min_cost_vertex = nullptr;
+        min_cost_vertex = vertex;
         vertex->data.was = true;
         for (int i = 0; i < graph.get_vertex_amount(); ++i)
         {
-            auto* new_vertex = graph.get_vertex(i);
-            if (!new_vertex->data.was)
+            auto iter = graph.get_vertex_iterator();
+            auto near_iter = graph.get_near_vertex_iterator(i);
+            if(near_iter.find_next_vertex()!=-1)
             {
-                int new_cost = new_vertex->data.cost;
-                if (graph.contains_edge_between_vertices(vertex->data.index, i))
+                iter.index_next_item = near_iter.find_next_vertex();
+                auto* new_vertex = graph.get_vertex(iter.index_next_item);
+                if (!new_vertex->data.was) 
                 {
-                    new_cost = min(new_cost, vertex->data.cost + graph.get_edge_weight(vertex->data.index, i));
-                    new_vertex->data.cost = new_cost;
-                }
-                if (min_cost_vertex == nullptr || new_cost < min_cost_vertex->data.cost) 
-                {
-                    cout << vertex->data.index<<"->";
-                    min_cost_vertex = new_vertex;
+                    int new_cost = new_vertex->data.cost;
+                    if (iter.index_next_item != 0)
+                    {
+                        new_cost = std::min(new_cost, vertex->data.cost + graph.get_edge_weight(vertex->data.index, i));
+                        new_vertex->data.cost = new_cost;
+                    }
+                    if (min_cost_vertex == nullptr || new_cost < min_cost_vertex->data.cost) 
+                    {
+                        std::cout << vertex->data.index << "->";
+                        min_cost_vertex = new_vertex;
+                    }
+                    min_cost_vertex = nullptr;
                 }
             }
         }
         vertex = min_cost_vertex;
-    } while (min_cost_vertex == nullptr);
-    cout<<"\n" << graph.get_vertex(SECOND_VERTEX)->data.cost;
+    } while (min_cost_vertex);
+    std::cout << graph.get_vertex(SECOND_VERTEX)->data.cost;
 }
