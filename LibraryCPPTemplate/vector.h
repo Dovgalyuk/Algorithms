@@ -11,7 +11,7 @@ public:
     {
         vector_size = 0;
         max_size = 1;
-        data = (Data*)max_size;
+        data = new Data[max_size];
     }
     ~Vector()
     {
@@ -40,16 +40,16 @@ public:
     // Should be O(1) on average
     void resize(size_t size)
     {
-        if (size <= max_size) 
+        if (size <= max_size)
         {
             vector_size = size;
             return;
         }
 
         size_t _max_size = size * 2;
-        Data* new_data = (Data*)_max_size;
+        Data* new_data = new Data[_max_size];
 
-        for (size_t i = 0; i < vector_size; i++) 
+        for (size_t i = 0; i < vector_size; i++)
         {
             new_data[i] = data[i];
         }
@@ -59,7 +59,6 @@ public:
         max_size = _max_size;
         vector_size = size;
     }
-
 private:
     // private data should be here
     Data* data;
