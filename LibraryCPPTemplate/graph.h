@@ -194,7 +194,7 @@ protected:
     {
         for (int i = 0; i < matrix->size(); ++i)
         {
-            matrix->set(i, Edge(NULL, NULL));
+            matrix->set(i, Edge(0, 0));
         }
     }
 
@@ -243,7 +243,7 @@ protected:
 
     void remove_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index)
     {
-        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), Edge(NULL));
+        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), Edge(0, 0));
     }
 
     Edge get_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index)
