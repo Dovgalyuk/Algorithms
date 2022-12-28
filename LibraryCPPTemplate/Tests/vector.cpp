@@ -60,7 +60,7 @@ int main()
     std::cout << "\n";
 
     // Performance test
-    for (int i = 1 ; i <= 10000000 ; ++i)
+    for (size_t i = 1 ; i <= 10000000 ; ++i)
     {
         vector.resize(i);
         vector.set(i - 1, i);
