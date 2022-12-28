@@ -16,6 +16,7 @@ public:
     {
         Vertex* vertex;
         int weight;
+        Edge() : vertex(nullptr), weight() {};
         Edge(Vertex* vertex, int weight) : vertex(vertex), weight(weight) {}
     };
 
@@ -168,14 +169,15 @@ public:
 
     void set_edge_weight(size_t first_vertex_index, size_t second_vertex_index, int weight)
     {
-        Edge test = get_edge(first_vertex_index, second_vertex_index);
-        test.weight = weight;
+        Edge edge = get_edge(first_vertex_index, second_vertex_index);
+        edge.weight = weight;
+        add_edge_to_matrix(first_vertex_index, second_vertex_index, edge);
     }
 
     bool contains_edge_between_vertices(size_t first_vertex_index, size_t second_vertex_index)
     {
-        Edge* edge = new Edge(get_edge_from_matrix(first_vertex_index, second_vertex_index));
-        return edge != nullptr;
+        Edge edge = get_edge_from_matrix(first_vertex_index, second_vertex_index);
+        return edge.vertex != nullptr;
     }
 
     VertexIterator get_vertex_iterator()
@@ -194,7 +196,7 @@ protected:
     {
         for (int i = 0; i < matrix->size(); ++i)
         {
-            matrix->set(i, Edge(0, 0));
+            matrix->set(i, Edge());
         }
     }
 
@@ -243,7 +245,7 @@ protected:
 
     void remove_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index)
     {
-        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), Edge(0, 0));
+        matrix->set(get_edge_index_in_matrix(first_vertex_index, second_vertex_index), Edge());
     }
 
     Edge get_edge_from_matrix(size_t first_vertex_index, size_t second_vertex_index)
