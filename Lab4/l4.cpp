@@ -96,178 +96,133 @@ int main() {
         int t;
         int index = 0;   // тут находим длину кратчайшего чтобы потом сравнивать
         path[index] = b;
-        t = parents[b];
+        t = parents[b]; // поднимаемся до начальной запоминая родителей
         index += 1;
         while (t != a) {
             path[index] = t;
             t = parents[t];
             index += 1;       // index в итоге стал равен длине кратчайшего пути
         }
-        path[index] = a;   // в path хранится путь найденный по поиску в ширину но мы его не выводим пока что
+        path[index] = a;   // в path хранится путь найденный по поиску в ширину но пока не выводим его
 
-        vector <vector <int>> paths(countVertexes * 3, vector <int>(index+1, 0)); // таблица для хранения всех кратчайших путей
-
-        // ищем такие же кратчайшие пути, начиная с начальной
-
-        int stroki = 0; // для отслеживания строки в которую записываем путь
-        for (int i = 0; i < countVertexes; ++i) // снова поиск в ширину 
-        {
-
-            if (matr[a][i] == true) // проверяем, какие ребра идут в конечную вершину
-            {
-                vector <int> distTop(countVertexes, 0); // расстояния до конечной вершины
-                vector <int> parentsTop(countVertexes, 0); // родители
-
-                
-                distTop[i] = distTop[a] + 1; // записываем расстояние до i от начальной (1)
-                parentsTop[i] = a; // родитель i - начальная вершина
-
-                queue.push(i); // помещаем начальную вершину в очередь
-                while (!queue.empty()) // пока очередь не опустела
-                {
-                    int kk = queue.front(); // берем из очереди крайний элемент
-                    queue.pop(); // удаляем его
-                    for (int j = 0; j < countVertexes; ++j) // смотрим, с какими вершинами смежна kk
-                    {
-                        if ((matr[kk][j] == true) && (distTop[j] == 0))
-                        {
-                            queue.push(j);  //добавляем в очередь вершину j
-                            distTop[j] = distTop[kk] + 1; // записываем расстояние до j от начальной
-                            parentsTop[j] = kk; // записываем родителя j  
-                        }
-                    }
-                }
-                if (distTop[b] == index) // если пройденное расстояние до конечной равно кратчайшему пути
-                {
-                    vector <int> pathTop(index+1, 0); // массив для пути
-                    int t;
-                    int index = 0; // теперь с помощью index отслеживаем место в массиве
-                    pathTop[index] = b;
-                    t = parentsTop[b];
-                    index += 1;
-                    while (t != a) {  // идем к начальной, считывая родителей 
-                        pathTop[index] = t;
-                        t = parentsTop[t];
-                        index += 1;
-                    }
-                    pathTop[index] = a;
-                    for (auto start = pathTop.begin(), end = prev(pathTop.end());
-                        start < end; ++start, --end) {
-                        swap(*start, *end);
-                    }
-                    for (int k = 0; k < index+1; k++) // вносим путь в массив
-                    {
-                        paths[stroki][k] = pathTop[k];
-                    }
-                    stroki++;
-                    pathTop.clear();
-                }
-                distTop.clear();
-                parentsTop.clear();
-            }
-        }
-       
-        // ищем такие же кратчайшие пути, начиная с конечной
-
-        for (int i = (countVertexes - 1); i > -1; i--) // снова поиск в ширину но с конца
-        {
-
-            if (matr[i][b] == true) // проверяем, какие ребра идут в конечную вершину
-            {
-                vector <int> distBottom(countVertexes, 0); // расстояния до конечной вершины
-                vector <int> parentsBottom(countVertexes, 0); // родители
-
-                queue.push(i); // помещаем конечную вершину в очередь
-                distBottom[i] = distBottom[b] + 1; // записываем расстояние до i от конечной (1)
-                parentsBottom[i] = b; // родитель i - конечная вершина
-
-                while (!queue.empty()) // пока очередь не опустела
-                {
-                    int kk = queue.front(); // берем из очереди крайний элемент
-                    queue.pop(); // удаляем его
-                    for (int j = (countVertexes - 1); j > -1; j--) // смотрим, с какими вершинами смежна kk
-                    {
-                        if ((matr[j][kk] == true) && (distBottom[j] == 0) && (j != b))
-                        {
-                            queue.push(j);  //добавляем в очередь вершину j
-                            distBottom[j] = distBottom[kk] + 1; // записываем расстояние до j от конечной
-                            parentsBottom[j] = kk; // записываем родителя j
-                        }
-                    }
-                }
-                if ((distBottom[a] == index)) // если пройденное расстояние до начальной равно кратчайшему пути
-                {
-                    vector <int> pathBottom(countVertexes, 0); // массив для пути
-                    int t;
-                    int index = 0; // теперь с помощью index отслеживаем место в массиве
-                    pathBottom[index] = a;
-                    t = parentsBottom[a];
-                    index += 1;
-                    while (t != b) {  // идем к начальной, считывая родителей
-                        pathBottom[index] = t;
-                        t = parentsBottom[t];
-                        index += 1;
-                    }
-                    pathBottom[index] = b;
-
-                    for (int k = 0; k < index+1; k++) // вносим путь в массив
-                    {
-                        paths[stroki][k] = pathBottom[k];
-                    }
-                    stroki++;
-                    pathBottom.clear();
-                }
-                distBottom.clear();
-                parentsBottom.clear();
-            }
-        }
-     
-        // проверяем были ли записаны одинаковые пути 
+        vector <vector <int>> paths(countVertexes * 10, vector <int>(index + 1, 0)); // таблица для хранения всех кратчайших путей
         
-        int flag = 0;
-        int kolvoStrok = stroki;
-        vector <int> pathBuf(index+1, 0);
-        vector <int> noOutput(kolvoStrok, 0); // номера строк которые не будем выводить
-        for (int i = kolvoStrok; i > -1; i--)
+        path.resize(index+1);
+        for (auto start = path.begin(), end = prev(path.end()); start < end; ++start, --end) // переворачиваем так как там от конца к началу
         {
-            flag = 0;
-            for (int k = 0; k < index+1; k++) // считываем путь чтобы сравнить с ним каждый
-            {
-                pathBuf[k] = paths[i][k];
-            }
-
-            for (int g = stroki -1; g > -1; g--)
-            {
-                for (int j = 1; j < index; j++)
-                {
-                    if ((pathBuf[j] == paths[g][j]))
-                    {
-                        flag++;
-                    }         
-                }
-
-                if (flag == index - 1) // если все элементы совпадают
-                {
-                    noOutput[i] = 1; // помечаем строку
-                }
-            }
-            stroki--;
+            swap(*start, *end);
         }
 
-        for (int i = 0; i < kolvoStrok; i++) { // вывод путей
+        for (int i = 0; i < index + 1; i++) // записываем первый путь
+        {
+            paths[0][i] = path[i];
+        }
 
-            if (noOutput[i] == 0)
+        int kolvoPaths = 1; // кол-во найденных путей
+
+        for (int i = 0; i < kolvoPaths; i++) // для каждого кратчайшего пути ищем кандидатов
+        {
+            int spurVertex = 0, nextVertex = 0;
+            int lendth = 0;
+
+            for (int j = 0; j < index; j++) // организуем вевление в каждой вершине последнего найденного пути
             {
+                vector <int> newPath(index + 1, 0); // новый путь
+                spurVertex = paths[i][j]; // вершина ветвления
+                nextVertex = paths[i][j + 1]; // вершина после вершины ветвления
+           
+                matr[spurVertex][nextVertex] = false; // временно удаляем ребро идущее из вершины ветвления
+
+                for (int k = 0; k < j + 1; k++) // записали корневой путь
+                {
+                    newPath[k] = paths[i][k];
+                   
+                }
+
+                // поиск в ширину
+
+                vector <int> distNew(countVertexes, 0); // расстояния до начальной вершины
+                vector <int> parentsNew(countVertexes, 0); // родители
+
+                queue.push(a); // помещаем начальную вершину в очередь
+                while (!queue.empty()) // пока очередь не опустела
+                {
+                    int kk = queue.front(); // берем из очереди крайний элемент
+                    queue.pop(); // удаляем его
+                    for (int h = 0; h < countVertexes; ++h) // смотрим, с какими вершинами смежна kk
+                    {
+                        if ((matr[kk][h] == true) && (distNew[h] == 0) && (h != a))
+                        {
+                            queue.push(h);  // добавляем в очередь вершину h
+                            distNew[h] = distNew[kk] + 1; // записываем расстояние до h
+                            parentsNew[h] = kk; // записываем родителя h
+                        }
+                    }
+                }
+
+                matr[spurVertex][nextVertex] = true; // возвращаем ребро на место
+                
+                if (distNew[b] == index) // если длина соответвтует кратчайшему
+                {
+                    lendth = index;
+                    int v;              
+                    newPath[lendth] = b;
+                    v = parentsNew[b]; // снова поднимаемся по родителям до начальной
+                    lendth--;
+                    while ((v != spurVertex) && (lendth != -1)) 
+                    {
+                        newPath[lendth] = v;
+                        v = parentsNew[v];
+                        lendth--;         
+                    }
+
+                    int flag = 0, count = 0;
+                    for (int z = 0; z < kolvoPaths; z++)
+                    {
+                        flag = 0;
+                        for (int y = 0; y < index + 1; y++) // считываем путь чтобы сравнить с ним каждый
+                        {
+                            if (paths[z][y] == newPath[y])
+                            {
+                                flag++;
+                            }  
+                            if (flag == index + 1) { count++; } // если все элементы совпали, сообщаем об этом
+
+                        }
+                    }
+
+                    if (count == 0) // если совпадений нет
+                    {
+                        for (int c = 0; c < index + 1; c++) // записываем путь в таблицу
+                        {
+                            paths[kolvoPaths][c] = newPath[c];
+                        }
+                        kolvoPaths++; 
+                    }
+                  
+                    spurVertex = 0;
+                    nextVertex = 0;
+                    newPath.clear();
+                    parentsNew.clear();
+                    distNew.clear();
+                }
+                
+            }
+        }
+
+        for (int i = 0; i < kolvoPaths; i++) { // вывод путей
+
+         
                 for (int j = 0; j < index; j++) {
                     cout << paths[i][j] << "->";
                 }
                 cout << paths[i][index];
                 cout << endl;
-            }
+            
         }
-
         path.clear();
    }
+ 
     dist.clear();
     parents.clear();
     for (int i = 0; i < countVertexes; i++)
