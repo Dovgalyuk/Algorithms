@@ -8,7 +8,7 @@ using namespace std;
 void radixSort(Queue* queue) {
 	const int limitBit = 4;
 
-	const int bitSort = 1;
+	const int bitSort = 3;
 
 	const int bitsKit = 1 << bitSort;
 
