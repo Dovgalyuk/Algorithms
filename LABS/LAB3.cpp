@@ -35,6 +35,10 @@ int main() {
 	in(queue2, file);
 	in(queue3, file);
 
+	if (queue_empty(queue2) && queue_empty(queue3) && queue_empty(queue1)) {
+		cout << "All queues empty" << endl;
+	}
+
 	if (queue_empty(queue2) && queue_empty(queue3) && !queue_empty(queue1)) {
 		while (!queue_empty(queue1)) {
 			out(queue1, 1);
