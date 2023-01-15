@@ -10,7 +10,7 @@ int main()
   std::ifstream inFile("in.txt");
   std::ofstream outFile("out.txt");
 
-  size_t size;
+  size_t size = 0;
   std::string buf;
 
   if (!inFile.is_open())
@@ -20,8 +20,7 @@ int main()
   }
   else
   {
-    getline(inFile, buf);
-    size = stoi(buf);
+    inFile >> size;
     if (size <= 0)
     {
       std::cout << "Wrong size";
@@ -29,7 +28,7 @@ int main()
     }
     for (size_t k = 0; k < size; k++)
     {
-      getline(inFile, buf);
+      inFile >> buf;
       queue_insert(queue, stoi(buf));
     }
   }
@@ -47,8 +46,7 @@ int main()
     {
       for (size_t k = 0; k < size; k++)
       {
-        getline(inFile, buf);
-        secondNum = stoi(buf);
+        inFile >> secondNum;
         firstNum = queue_get(queue);
         out = (secondNum + firstNum) + add;
         add = out / 10;
