@@ -1,4 +1,4 @@
-﻿#include <iostream>	
+#include <iostream>	
 #include "list.h"
 #include "graph.h"
 #include <stack>
@@ -16,7 +16,7 @@ Graph<int>::Vertex* linkToVertex (Graph<int>* graph, int count) {
 	return *vIterator;
 }
 //Function of search in Depth
-void searchInDepth(Graph<int>::Vertex* vertex, List<Graph<int>::Vertex*>* visitedVertexes) {
+void searchInDepth(Graph<int>::Vertex* vertex/*, List<Graph<int>::Vertex*>* visitedVertexes*/) {
 	bool isEnd = false;
 	stack<Graph<int>::Vertex*> stack;
 
@@ -30,7 +30,36 @@ void searchInDepth(Graph<int>::Vertex* vertex, List<Graph<int>::Vertex*>* visite
 		}
 		eIterator.iteratorBegin(vertex);
 
-		if (visitedVertexes->isListEmpty()) visitedVertexes->insert(vertex);
+		if (!stack.empty()) {
+			vertex->setData(1);
+			vertex = stack.top();
+			stack.pop();
+		}
+
+
+		if (!stack.empty()) {
+			if (vertex->getData() == 0 && !stack.empty()) {
+				vertex->setData(1);
+				vertex = stack.top();
+				stack.pop();
+			}
+			if (stack.empty()) {
+				isEnd = true;
+				break;
+			}
+		}
+		else {
+			if (vertex->getData() == 0) {
+				vertex->setData(1);
+				if (vertex->listOfEdges.isListEmpty()) {
+					isEnd = 1;
+					break;
+				}
+			} else isEnd = 1;
+		}
+
+
+		/*if (visitedVertexes->isListEmpty()) visitedVertexes->insert(vertex);
 		else visitedVertexes->insert_after(visitedVertexes->last(), vertex);
 
 		if (!stack.empty()) {
@@ -48,7 +77,7 @@ void searchInDepth(Graph<int>::Vertex* vertex, List<Graph<int>::Vertex*>* visite
 				}
 			}
 		}
-		else isEnd = true;
+		else isEnd = true;*/
 	}
 }
 
@@ -61,19 +90,19 @@ int main() {
 	//Creating graph
 	Graph<int>* graph = new Graph<int>(size);
 	//Creating massive of visited vertexes by searchInDeep
-	List<Graph<int>::Vertex*> visitedVertexes;
+	/*List<Graph<int>::Vertex*> visitedVertexes;*/
 
 	//Making vertex Iterator
 	Graph<int>::vertexIterator vIterator(graph);
 
 	//Vertex filling
-	int value = 1;
+	/*int value = 1;
 	while (*vIterator != nullptr) {
 		graph->setVertexData(*vIterator, value);
 		++vIterator;
 		value++;
 	}
-	vIterator.iteratorBegin(graph);
+	vIterator.iteratorBegin(graph);*/
 
 	//Making edges between Vertexes
 	graph->addEdgeBetween(linkToVertex(graph, 0), linkToVertex(graph, 1));
@@ -85,7 +114,7 @@ int main() {
 	graph->addEdgeBetween(linkToVertex(graph, 7), linkToVertex(graph, 8));
 
 	int connectivityCount = 0;
-	for (size_t graphItem = 0; visitedVertexes.getSize() != size; graphItem++) {
+	/*for (size_t graphItem = 0; visitedVertexes.getSize() != size; graphItem++) {
 		if (visitedVertexes.isListEmpty()) {
 			searchInDepth(linkToVertex(graph, graphItem), &visitedVertexes);
 			connectivityCount++;
@@ -109,7 +138,20 @@ int main() {
 		cout << visitedVertexes.first()->data->getData() << " | ";
 		visitedVertexes.erase(visitedVertexes.first());
 	}
-	cout  << "\n\n" << "Graph connectivity components count is: " << connectivityCount;
+	cout  << "\n\n" << "Graph connectivity components count is: " << connectivityCount;*/
+
+	searchInDepth(linkToVertex(graph, 0));
+	connectivityCount++;
+	for (size_t graphItem = 1; graphItem < graph->getSize(); graphItem++) {
+		if (linkToVertex(graph, graphItem)->getData() == 0) {
+			searchInDepth(linkToVertex(graph, graphItem));
+			connectivityCount++;
+		}
+	}
+
+	
+	cout << "\n\n" << "Graph connectivity components count is: " << connectivityCount; 
+	
 
 	//Memory clear
 	delete graph;
