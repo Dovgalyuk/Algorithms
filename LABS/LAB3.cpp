@@ -76,6 +76,8 @@ int main() {
 				out(queue2, 2);
 			else if (!queue_empty(queue3) && queue_get(queue3) > queue_get(queue2) && queue_get(queue3) > queue_get(queue1))
 				out(queue3, 3);
+			else if(!queue_empty(queue3) && queue_get(queue3) < queue_get(queue2) && queue_get(queue3) < queue_get(queue1))
+				out(queue3, 3);
 		}
 	
 	queue_delete(queue1);
