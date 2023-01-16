@@ -42,18 +42,17 @@ int main()
   {
     int add = 0;
     int out, firstNum, secondNum;
-    while (!(queue_empty(queue)))
+
+    for (size_t k = 0; k < size; k++)
     {
-      for (size_t k = 0; k < size; k++)
-      {
-        inFile >> secondNum;
-        firstNum = queue_get(queue);
-        out = (secondNum + firstNum) + add;
-        add = out / 10;
-        outFile << out % 10 << std::endl;
-        queue_remove(queue);
-      }
+      inFile >> secondNum;
+      firstNum = queue_get(queue);
+      out = (secondNum + firstNum) + add;
+      add = out / 10;
+      outFile << out % 10 << std::endl;
+      queue_remove(queue);
     }
+
     if (add != 0)
     {
       outFile << add;
