@@ -38,46 +38,46 @@ int main() {
 	if (queue_empty(queue2) && queue_empty(queue3) && queue_empty(queue1)) {
 		cout << "All queues empty" << endl;
 	}
-
-	if (queue_empty(queue2) && queue_empty(queue3) && !queue_empty(queue1)) {
-		while (!queue_empty(queue1)) {
-			out(queue1, 1);
-		}
-	}
-	if (queue_empty(queue1)) {
-		while (!queue_empty(queue2) || !queue_empty(queue3)) {
-			if (!queue_empty(queue2) && queue_get(queue2) < queue_get(queue3))
-				out(queue2, 2);
-			else
-				out(queue3, 3);
-		}
-	}
-	if (queue_empty(queue2)) {
-		while (!queue_empty(queue1) || !queue_empty(queue3)) {
-			if (!queue_empty(queue1) && queue_get(queue1) < queue_get(queue3))
-				out(queue1, 1);
-			else
-				out(queue3, 3);
-		}
-	}
-	if (queue_empty(queue3)) {
-		while (!queue_empty(queue2) || !queue_empty(queue1)) {
-			if (!queue_empty(queue1) && queue_get(queue1) < queue_get(queue2))
-				out(queue1, 1);
-			else
-				out(queue2, 2);
-		}
-	}
-	if (!queue_empty(queue1) && !queue_empty(queue2) && !queue_empty(queue3)) {
+	
 		while (!queue_empty(queue1) || !queue_empty(queue2) || !queue_empty(queue3)) {
+
+			if (queue_empty(queue2) && queue_empty(queue3) && !queue_empty(queue1)) {
+				while (!queue_empty(queue1)) {
+					out(queue1, 1);
+				}
+			}
+			if (queue_empty(queue1)) {
+				while (!queue_empty(queue2) || !queue_empty(queue3)) {
+					if (!queue_empty(queue2) && queue_get(queue2) < queue_get(queue3))
+						out(queue2, 2);
+					else if (!queue_empty(queue3) && queue_get(queue3) > queue_get(queue2))
+						out(queue3, 3);
+				}
+			}
+			if (queue_empty(queue2)) {
+				while (!queue_empty(queue1) || !queue_empty(queue3)) {
+					if (!queue_empty(queue1) && queue_get(queue1) < queue_get(queue3))
+						out(queue1, 1);
+					else if (!queue_empty(queue3) && queue_get(queue3) > queue_get(queue1))
+						out(queue3, 3);
+				}
+			}
+			if (queue_empty(queue3)) {
+				while (!queue_empty(queue2) || !queue_empty(queue1)) {
+					if (!queue_empty(queue1) && queue_get(queue1) < queue_get(queue2))
+						out(queue1, 1);
+					else
+						out(queue2, 2);
+				}
+			}
 			if (!queue_empty(queue1) && queue_get(queue1) < queue_get(queue2) && queue_get(queue1) < queue_get(queue3))
 				out(queue1, 1);
 			else if (!queue_empty(queue2) && queue_get(queue2) < queue_get(queue3))
 				out(queue2, 2);
-			else
+			else if (!queue_empty(queue3) && queue_get(queue3) > queue_get(queue2))
 				out(queue3, 3);
 		}
-	}
+	
 	queue_delete(queue1);
 	queue_delete(queue2);
 	queue_delete(queue3);
