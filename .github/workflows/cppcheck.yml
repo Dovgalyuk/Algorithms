@@ -16,4 +16,4 @@ jobs:
           other_options: "--error-exitcode=1"
 
       - name: print-result
-        run: cat cppcheck.txt
+        run: cat cppcheck.txt >> $GITHUB_OUTPUT
