@@ -17,3 +17,7 @@ jobs:
 
       - name: print-result
         run: cat cppcheck.txt >> $GITHUB_OUTPUT
+
+      - name: Get version
+        id: vars
+        run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
