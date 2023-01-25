@@ -5,7 +5,7 @@ typedef Array<int> MyArray;
 
 int main()
 {
-    MyArray *arr = new MyArray(10);
+    MyArray *arr = 0;//new MyArray(10);
 
     if (arr->size() != 10)
     {
