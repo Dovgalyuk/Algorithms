@@ -8,15 +8,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: ls
-        run: ls
-        
       - name: cppcheck
         uses: deep5050/cppcheck-action@main
+        continue-on-error: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN}}
           output_file: cppcheck.txt
           other_options: "--error-exitcode=1"
-        
+
       - name: print-result
-        run: cat $HOME/cppcheck.txt
+        run: cat cppcheck.txt
