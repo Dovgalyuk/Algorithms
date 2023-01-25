@@ -5,11 +5,8 @@ typedef Array<int> MyArray;
 
 int main()
 {
-    int *a = new int;
     MyArray *arr = new MyArray(10);
-arr->set(*a, *a);
-a = 0;
-arr->set(*a, *a);
+
     if (arr->size() != 10)
     {
         std::cout << "Invalid array size\n";
