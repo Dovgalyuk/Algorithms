@@ -16,8 +16,4 @@ jobs:
           other_options: "--error-exitcode=1"
 
       - name: print-result
-        run: cat cppcheck.txt >> $GITHUB_OUTPUT
-
-      - name: Get version
-        id: vars
-        run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
+        run: cat $HOME/cppcheck.txt
