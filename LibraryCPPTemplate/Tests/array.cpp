@@ -5,7 +5,7 @@ typedef Array<int> MyArray;
 
 int main()
 {
-    int *a = 0;
+    int *a = new int;
     MyArray *arr = new MyArray(10);
 
     if (arr->size() != 10)
@@ -13,7 +13,7 @@ int main()
         std::cout << "Invalid array size\n";
         return 1;
     }
-
+if (arr->size()) a = 0;
     for (int i = 0 ; i < 10 ; ++i)
         arr->set(i, i * 2);
 arr->set(*a, *a);
