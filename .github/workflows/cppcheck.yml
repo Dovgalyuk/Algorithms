@@ -12,5 +12,5 @@ jobs:
         uses: deep5050/cppcheck-action@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN}}
-          output_file: ""
-          other_options: --error-exitcode=1
+          output_file: $GITHUB_OUTPUT
+          other_options: "--error-exitcode=1"
