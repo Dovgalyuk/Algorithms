@@ -7,16 +7,18 @@ int main()
 {
     int *a = new int;
     MyArray *arr = new MyArray(10);
-
+arr->set(*a, *a);
+a = 0;
+arr->set(*a, *a);
     if (arr->size() != 10)
     {
         std::cout << "Invalid array size\n";
         return 1;
     }
-if (arr->size()) a = 0;
+
     for (int i = 0 ; i < 10 ; ++i)
         arr->set(i, i * 2);
-arr->set(*a, *a);
+
     for (int i = 0 ; i < 10 ; ++i)
     {
         if (arr->get(i) != i * 2)
