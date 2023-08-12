@@ -103,6 +103,10 @@ https://www.youtube.com/watch?v=intKT6COqQY
 https://www.youtube.com/watch?v=cca8QY3tuCI
 https://www.youtube.com/watch?v=9ev9Y-hJhj4
 
+## Алгоритм A*
+
+https://neerc.ifmo.ru/wiki/index.php?title=%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_A*
+
 ## Топологическая сортировка
 
 * Поиск сильно связных компонентов
@@ -130,10 +134,6 @@ https://www.youtube.com/watch?v=-4M5P5af7NE
 https://www.youtube.com/watch?v=RQtdVNIaH6c
 https://www.youtube.com/watch?v=ysbq-7IlC3M
 https://www.youtube.com/watch?v=RnQYXltlkrI
-
-## Декартовы деревья
-
-https://www.youtube.com/watch?v=aNswE4MlVgM
 
 ## Хеш-таблицы. Разрешение коллизий
 
@@ -187,6 +187,10 @@ https://habr.com/ru/post/455632/
 https://habr.com/ru/post/664044/
 https://habr.com/ru/post/673776/
 
+## Декартовы деревья
+
+https://www.youtube.com/watch?v=aNswE4MlVgM
+
 ## Суффиксные деревья
 
 https://www.youtube.com/watch?v=ahgv_eJDhrE
@@ -194,7 +198,3 @@ https://www.youtube.com/watch?v=ahgv_eJDhrE
 ## Компактные структуры данных
 
 https://habr.com/ru/company/mailru/blog/479822/
-
-## Алгоритм A*
-
-https://neerc.ifmo.ru/wiki/index.php?title=%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_A*
