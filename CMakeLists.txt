@@ -3,7 +3,7 @@ project(Algorithms)
 
 enable_testing()
 set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
-add_compile_options(-Wall -Wextra -Wpedantic)
+add_compile_options(-Wall -Wextra -Wpedantic -Wno-gnu-empty-struct -Wno-unused-parameter)
 
 add_subdirectory(LibraryC)
 add_subdirectory(LibraryCPP)
