@@ -19,7 +19,7 @@ int main()
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
     {
-        if (vector.get(i) != i)
+        if (vector.get(i) != (int)i)
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -47,7 +47,7 @@ int main()
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
     {
-        if (vector.get(i) != i)
+        if (vector.get(i) != (int)i)
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
