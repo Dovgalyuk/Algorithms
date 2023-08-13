@@ -12,6 +12,7 @@ int main()
     if (stack_get(stack) != 3)
     {
         std::cout << "Invalid stack top after push\n";
+        stack_delete(stack);
         return 1;
     }
 
@@ -21,6 +22,7 @@ int main()
     if (stack_get(stack) != 2)
     {
         std::cout << "Invalid stack top after pop\n";
+        stack_delete(stack);
         return 1;
     }
 
@@ -30,6 +32,7 @@ int main()
     if (stack_get(stack) != 1)
     {
         std::cout << "Invalid stack top after pop\n";
+        stack_delete(stack);
         return 1;
     }
 
@@ -40,6 +43,7 @@ int main()
     if (stack_get(stack) != 5)
     {
         std::cout << "Invalid stack top after push\n";
+        stack_delete(stack);
         return 1;
     }
 
