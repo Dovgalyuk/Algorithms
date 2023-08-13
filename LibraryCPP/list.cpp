@@ -50,7 +50,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     return NULL;
 }
 
-ListItem *list_erase(List *list, ListItem *item)
+ListItem *list_erase_first(List *list)
 {
     return NULL;
 }

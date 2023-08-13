@@ -31,7 +31,7 @@ int main()
         return 1;
     }
 
-    list->erase(list->first());
+    list->erase_first();
 
     if (list->first()->data() != 4)
     {

@@ -55,11 +55,9 @@ public:
         return nullptr;
     }
 
-    // Deletes the specified list item.
+    // Deletes the first list item.
     // Returns pointer to the item next to the deleted one.
-    // Not applicable for the singly linked lists.
-    // Should be O(1)
-    Item *erase(Item *item)
+    Item *erase_first()
     {
         return nullptr;
     }
