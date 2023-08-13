@@ -8,7 +8,14 @@ void myfree(void *p)
 
 int stack_get_int(Stack *s)
 {
-    return *(int*)stack_get(s);
+    void *v = stack_get(s);
+    if (!v)
+    {
+        std::cout << "Invalid stack_get\n";
+        stack_delete(s);
+        exit(1);
+    }
+    return *(int*)v;
 }
 
 int main()
@@ -22,6 +29,7 @@ int main()
     if (stack_get_int(stack) != 3)
     {
         std::cout << "Invalid stack top after push\n";
+        stack_delete(stack);
         return 1;
     }
 
@@ -31,6 +39,7 @@ int main()
     if (stack_get_int(stack) != 2)
     {
         std::cout << "Invalid stack top after pop\n";
+        stack_delete(stack);
         return 1;
     }
 
@@ -40,6 +49,7 @@ int main()
     if (stack_get_int(stack) != 1)
     {
         std::cout << "Invalid stack top after pop\n";
+        stack_delete(stack);
         return 1;
     }
 
@@ -50,6 +60,7 @@ int main()
     if (stack_get_int(stack) != 5)
     {
         std::cout << "Invalid stack top after push\n";
+        stack_delete(stack);
         return 1;
     }
 

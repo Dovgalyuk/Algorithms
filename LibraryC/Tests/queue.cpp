@@ -3,7 +3,14 @@
 
 int queue_get_int(Queue *q)
 {
-    return *(int*)queue_get(q);
+    void *v = queue_get(q);
+    if (!v)
+    {
+        std::cout << "Invalid queue_get\n";
+        queue_delete(q);
+        exit(1);
+    }
+    return *(int*)v;
 }
 
 int main()
@@ -17,6 +24,7 @@ int main()
     if (queue_get_int(queue) != 1)
     {
         std::cout << "Invalid first element of the queue\n";
+        queue_delete(queue);
         return 1;
     }
 
@@ -26,6 +34,7 @@ int main()
     if (queue_get_int(queue) != 2)
     {
         std::cout << "Invalid second element of the queue\n";
+        queue_delete(queue);
         return 1;
     }
 
@@ -35,6 +44,7 @@ int main()
     if (queue_get_int(queue) != 3)
     {
         std::cout << "Invalid third element of the queue\n";
+        queue_delete(queue);
         return 1;
     }
 
