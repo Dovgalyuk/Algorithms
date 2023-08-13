@@ -8,6 +8,7 @@ int main()
     if (array_size(arr) != 10)
     {
         std::cout << "Invalid array size\n";
+        array_delete(arr);
         return 1;
     }
 
@@ -19,6 +20,7 @@ int main()
         if (array_get(arr, i) != i * 2)
         {
             std::cout << "Invalid array element " << i << "\n";
+            array_delete(arr);
             return 1;
         }
     }
