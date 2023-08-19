@@ -13,3 +13,5 @@ endif()
 add_subdirectory(LibraryC)
 add_subdirectory(LibraryCPP)
 add_subdirectory(LibraryCPPTemplate)
+
+add_subdirectory(Lab1C)
