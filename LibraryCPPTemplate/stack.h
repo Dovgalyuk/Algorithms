@@ -1,5 +1,5 @@
-#ifndef STACK_H
-#define STACK_H
+#ifndef STACK_TEMPLATE_H
+#define STACK_TEMPLATE_H
 
 template <typename Data> class Stack
 {

@@ -1,7 +1,11 @@
-#ifndef LIST_TEMPLATE_H
-#define LIST_TEMPLATE_H
+#ifndef LIST_H
+#define LIST_H
 
-template <typename Data> class List
+#include <cstddef>
+
+typedef int Data;
+
+class List
 {
 public:
     class Item
@@ -15,60 +19,34 @@ public:
     };
 
     // Creates new list
-    List()
-    {
-    }
+    List();
 
     // copy constructor
-    List(const List &a)
-    {
-        // implement or disable this function
-    }
+    List(const List &a);
 
     // assignment operator
-    List &operator=(const List &a)
-    {
-        // implement or disable this function
-        return *this;
-    }
+    List &operator=(const List &a);
 
     // Destroys the list and frees the memory
-    ~List()
-    {
-    }
+    ~List();
 
     // Retrieves the first item from the list
-    Item *first()
-    {
-        return nullptr;
-    }
+    Item *first();
 
     // Inserts new list item into the beginning
-    Item *insert(Data data)
-    {
-        return nullptr;
-    }
+    Item *insert(Data data);
 
     // Inserts new list item after the specified item
-    Item *insert_after(Item *item, Data data)
-    {
-        return nullptr;
-    }
+    Item *insert_after(Item *item, Data data);
 
     // Deletes the first list item.
     // Returns pointer to the item next to the deleted one.
-    Item *erase_first()
-    {
-        return nullptr;
-    }
+    Item *erase_first();
 
     // Deletes the list item following the specified one.
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
-    Item *erase_next(Item *item)
-    {
-        return nullptr;
-    }
+    Item *erase_next(Item *item);
 private:
     // private data should be here
 };

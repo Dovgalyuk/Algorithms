@@ -1,5 +1,5 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef VECTOR_TEMPLATE_H
+#define VECTOR_TEMPLATE_H
 
 #include <cstddef>
 
