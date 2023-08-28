@@ -62,9 +62,9 @@ int main()
     }
 
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
+    for (ListItem *it = list_first(list) ; it ; it = list_item_next(it))
     {
-        std::cout << *(int*)list_item_data(item) << " ";
+        std::cout << *(int*)list_item_data(it) << " ";
     }
     std::cout << "\n";
 
