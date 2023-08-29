@@ -17,6 +17,8 @@
 
 # Требования к лабораторным работам
 
+[Как добавить решение задачи](LABS.md)
+
 * Решения отправляются с помощью Pull request
 * Должны проходить все релевантные тесты (проверяйте отчёт о тестировании при создании pull request)
 * Размер вектора должен домножаться на константу в случае его переполнения
@@ -33,7 +35,9 @@ https://habr.com/ru/post/653567/
 # Материалы для изучения
 
 https://www.youtube.com/watch?v=30PzSv4ZIBU&list=PLoWGNURguz9Xk248HDiJICojc-0rlayUW
+
 https://neerc.ifmo.ru/wiki/index.php?title=%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B_%D0%B8_%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B_%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85
+
 https://www.youtube.com/c/%D0%A2%D0%B8%D0%BC%D0%BE%D1%84%D0%B5%D0%B9%D0%A5%D0%B8%D1%80%D1%8C%D1%8F%D0%BD%D0%BE%D0%B2/playlists
 
 ## Стандартная библиотека C++
@@ -47,6 +51,7 @@ https://habr.com/ru/company/infopulse/blog/194726/
 ## Время работы алгоритмов
 
 https://www.youtube.com/watch?v=pxR3UoO9c9w
+
 https://www.youtube.com/watch?v=ZRdOb4yR0kk
 
 https://habr.com/ru/company/vdsina/blog/544218/
@@ -72,8 +77,11 @@ https://www.youtube.com/watch?v=sC566vzV9B0
 ## Динамическое программирование
 
 https://www.youtube.com/watch?v=f1w6Ac6OEsY
+
 https://www.youtube.com/watch?v=VmocLw9wwM0
+
 https://www.youtube.com/watch?v=UVAfng6OCW0
+
 https://www.youtube.com/watch?v=VgPAFaEYEo4
 
 ## Графы
@@ -101,6 +109,7 @@ https://www.youtube.com/watch?v=intKT6COqQY
 * Поиск пути на координатной сетке, волновой алгоритм
 
 https://www.youtube.com/watch?v=cca8QY3tuCI
+
 https://www.youtube.com/watch?v=9ev9Y-hJhj4
 
 ## Алгоритм A*
@@ -132,12 +141,15 @@ https://www.youtube.com/watch?v=-4M5P5af7NE
 * Расширяющиеся деревья (splay trees)
 
 https://www.youtube.com/watch?v=RQtdVNIaH6c
+
 https://www.youtube.com/watch?v=ysbq-7IlC3M
+
 https://www.youtube.com/watch?v=RnQYXltlkrI
 
 ## Хеш-таблицы. Разрешение коллизий
 
 https://www.youtube.com/watch?v=BtBxtoXBI54
+
 https://www.youtube.com/watch?v=rVr1y32fDI0
 
 https://code-explained.com/
@@ -145,11 +157,13 @@ https://code-explained.com/
 ## Двоичные кучи. Очередь с приоритетами
 
 https://www.youtube.com/watch?v=noQ4SUoqrQA
+
 https://www.youtube.com/watch?v=dcG0hvnRi24
 
 ## Перебор с возвратом
 
 https://www.youtube.com/watch?v=M66Tit-o6h4
+
 https://www.youtube.com/watch?v=JHzGsqPbEC8
 
 ## Жадные алгоритмы
@@ -158,6 +172,7 @@ https://www.youtube.com/watch?v=JHzGsqPbEC8
 * Код Хаффмена
 
 https://www.youtube.com/watch?v=RBZ8l3k9O4c
+
 https://www.youtube.com/watch?v=aFXFSTIIylU
 
 ## Сортировки
@@ -167,6 +182,7 @@ https://www.youtube.com/watch?v=aFXFSTIIylU
 * Сортировка с помощью кучи
 
 https://www.youtube.com/watch?v=cCLSjxrlORM
+
 https://www.youtube.com/watch?v=CKBvzscmwKs
 
 ## Поразрядная сортировка
@@ -184,7 +200,9 @@ https://www.youtube.com/watch?v=kIsPv5XRJgU
 # Дополнительные темы
 
 https://habr.com/ru/post/455632/
+
 https://habr.com/ru/post/664044/
+
 https://habr.com/ru/post/673776/
 
 ## Декартовы деревья
