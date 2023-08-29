@@ -20,15 +20,15 @@ public:
     }
 
     // copy constructor
-    List(const List &a)
+    template <typename T>
+    List(const List<T> &a)
     {
-        // implement or disable this function
     }
 
     // assignment operator
-    List &operator=(const List &a)
+    template <typename T>
+    List &operator=(const List<T> &a)
     {
-        // implement or disable this function
         return *this;
     }
 

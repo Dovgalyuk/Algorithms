@@ -6,12 +6,10 @@ Array::Array(size_t size)
 
 Array::Array(const Array &a)
 {
-    // implement or disable this function
 }
 
 Array &Array::operator=(const Array &a)
 {
-    // implement or disable this function
     return *this;
 }
 

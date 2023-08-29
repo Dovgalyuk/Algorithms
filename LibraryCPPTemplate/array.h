@@ -10,15 +10,15 @@ public:
     }
 
     // copy constructor
-    Array(const Array &a)
+    template <typename T>
+    Array(const Array<T> &a)
     {
-        // implement or disable this function
     }
 
     // assignment operator
-    Array &operator=(const Array &a)
+    template <typename T>
+    Array &operator=(const Array<T> &a)
     {
-        // implement or disable this function
         return *this;
     }
 

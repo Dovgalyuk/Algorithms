@@ -7,12 +7,10 @@ List::List()
 
 List::List(const List &a)
 {
-    // implement or disable this function
 }
 
 List &List::operator=(const List &a)
 {
-    // implement or disable this function
     return *this;
 }
 
