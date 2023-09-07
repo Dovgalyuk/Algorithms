@@ -1,0 +1,69 @@
+﻿#include "array.h"
+#include<time.h>
+#include <iostream>
+
+using namespace std;
+
+void task1(Array *arr)
+{
+    int size = array_size(arr);
+    int kolvo = 0;
+    for (int i = 0; i < size; i++) {
+        //достаточно проверять кратность для 2,3,5,7 для эффективности алгоритма
+        if (array_get(arr, i) % 2 == 0 || array_get(arr, i) % 3 == 0 || array_get(arr, i) % 5 == 0 || array_get(arr, i) % 7 == 0)
+            kolvo++;
+    }
+    cout << kolvo << endl;
+}
+
+void task2(Array *arr)
+{
+    int currentID = 0;
+    int maxSum = 0;
+
+    if (array_size(arr) <= 5) {
+        for (int i = 0; i < array_size(arr); ++i)
+            cout << array_get(arr, i) << endl;
+    }
+    else
+    {
+        for (int i = 0; i < array_size(arr) - 4; ++i) {
+            int currentSum = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) + array_get(arr, i + 3) + array_get(arr, i + 4);
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
+                currentID = i;
+            }
+        }
+
+        for (int i = currentID; i < currentID + 5; ++i)
+            cout << array_get(arr, i) << endl;
+    }
+}
+
+void CreateArray(Array* arr) {
+    int number;
+    int size = array_size(arr);
+    for (int i = 0; i < size; i++)
+        array_set(arr, i, rand());
+}
+
+int main()
+{
+    srand(time(NULL)); //random
+    Array *arr = NULL;
+    int size;
+    
+    //create first array, release first task and delete first array
+    cin >> size;
+    arr = array_create(size);
+    CreateArray(arr);
+    task1(arr);
+    array_delete(arr);
+
+    //create second array, release second task and delete second array
+    cin >> size;
+    arr = array_create(size);
+    CreateArray(arr);
+    task2(arr);
+    array_delete(arr);
+}
