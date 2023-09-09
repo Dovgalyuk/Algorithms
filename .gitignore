@@ -12,14 +12,3 @@ Debug/*
 Release/*
 .vs/*
 build/*
-
-CMakeFiles/
-CMakeCache.txt
-CMakeScripts/
-CMakeTmp/
-cmake_install.cmake
-Makefile
-CMakeFiles/
-CMakeScripts/
-CMakeTmp/
-CMakeCache.txt
