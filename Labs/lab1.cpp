@@ -1,12 +1,11 @@
 ﻿#include "array.h"
-#include<time.h>
 #include <iostream>
 
 using namespace std;
 
 void task1(Array *arr)
 {
-    int size = array_size(arr);
+    size_t size = array_size(arr);
     int kolvo = 0;
     for (int i = 0; i < size; i++) {
         //достаточно проверять кратность для 2,3,5,7 для эффективности алгоритма
@@ -41,15 +40,14 @@ void task2(Array *arr)
 }
 
 void CreateArray(Array* arr) {
-    int number;
-    int size = array_size(arr);
+    size_t size = array_size(arr);
     for (int i = 0; i < size; i++)
         array_set(arr, i, rand());
 }
 
 int main()
 {
-    srand(time(NULL)); //random
+    srand((unsigned int)time(NULL)); //random
     Array *arr = NULL;
     int size;
     
