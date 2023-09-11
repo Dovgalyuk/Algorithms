@@ -1,3 +1,5 @@
+Почта: mso_testov@mail.ru
+
 # Algorithms
 
 [Как выполнять лабораторные работы](LABS.md)
