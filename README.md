@@ -1,4 +1,3 @@
-Почта: mso_testov@mail.ru
 
 # Algorithms
 
