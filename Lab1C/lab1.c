@@ -33,12 +33,14 @@ void task2(Array* arr)
 		while (i < length) {
 			if (i >= 5) {
 				lastinfive = array_get(arr, i - 5);
-				sum += (int)array_get(arr, i);
+				int next = array_get(arr, i);
+				sum += next;
 				sum -= lastinfive;
 				if (sum > maxfive) maxfive = sum;
 			}
 			else {
-				sum += (int)array_get(arr, i);
+				int next = array_get(arr, i);
+				sum += next;
 			}
 			if (i == 4) {
 				maxfive = sum;
@@ -57,7 +59,7 @@ int main()
 	int size = 0;
 	printf("\nInput size of array\n");
 	scanf_s("%d", &size);
-	arr = array_create(size, arr);
+	arr = array_create(size, NULL);
 	for (int i = 0;i < size;i++) {
 		array_set(arr, i, rand() % 50 + 50);
 	}
@@ -65,7 +67,7 @@ int main()
 	array_delete(arr);
 	printf("\nInput size of array\n");
 	scanf_s("%d", &size);
-	arr = array_create(size, arr);
+	arr = array_create(size, NULL);
 	for (int i = 0;i < size;i++) {
 		array_set(arr, i, rand() % 10);
 	}
