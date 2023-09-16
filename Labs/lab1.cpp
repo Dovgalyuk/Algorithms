@@ -19,6 +19,7 @@ void task2(Array *arr)
 {
     size_t currentID = 0;
     size_t maxSum = 0;
+    size_t currentSum = 0;
 
     if (array_size(arr) <= 5) {
         for (size_t i = 0; i < array_size(arr); ++i)
@@ -26,8 +27,9 @@ void task2(Array *arr)
     }
     else
     {
-        for (size_t i = 0; i < array_size(arr) - 4; ++i) {
-            size_t currentSum = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) + array_get(arr, i + 3) + array_get(arr, i + 4);
+        currentSum = array_get(arr, 0) + array_get(arr, 1) + array_get(arr, 2) + array_get(arr, 3) + array_get(arr, 4); // записываем первые 5 значений
+        for (size_t i = 1; i < array_size(arr) - 4; ++i) {
+            currentSum = currentSum - array_get(arr, i-1) + array_get(arr, i + 4); //вычитаем первое в предыдущей сумме и добавляем последнее в новой
             if (currentSum > maxSum) {
                 maxSum = currentSum;
                 currentID = i;
