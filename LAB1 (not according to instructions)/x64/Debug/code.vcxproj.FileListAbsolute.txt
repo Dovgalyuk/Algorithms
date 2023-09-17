@@ -1,0 +1,3 @@
+D:\Учёба\Университет\СДиА\Лабораторные работы\lab_1\code\x64\Debug\code.exe
+C:\Users\timlissovv\Files\Учёба\СДиА\Лабораторные работы\lab_1\code\x64\Debug\code.exe
+C:\Users\timlissovv\Files\Учёба_loc\СДиА\Лабораторные работы\lab_1\code\x64\Debug\code.exe

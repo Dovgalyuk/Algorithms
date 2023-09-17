@@ -1,0 +1,7 @@
+﻿  array_member.cpp
+C:\Users\timlissovv\Files\Учёба_loc\СДиА\Лабораторные работы\lab_1\code\array_member.cpp(57,52): warning C4244: +=: преобразование "double" в "int", возможна потеря данных
+  code.cpp
+C:\Users\timlissovv\Files\Учёба_loc\СДиА\Лабораторные работы\lab_1\code\code.cpp(14,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Создание кода...
+C:\Users\timlissovv\Files\Учёба_loc\СДиА\Лабораторные работы\lab_1\code\array_member.cpp(156): warning C4715: array_member::array_processing_1: значение возвращается не при всех путях выполнения
+  code.vcxproj -> C:\Users\timlissovv\Files\Учёба_loc\СДиА\Лабораторные работы\lab_1\code\x64\Debug\code.exe
