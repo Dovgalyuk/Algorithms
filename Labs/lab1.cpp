@@ -21,6 +21,11 @@ void task2(Array *arr)
     size_t maxSum = 0;
     size_t currentSum = 0;
 
+    //int mas[] = { 2,2,2,2,2,1,1,1,1,1 };
+    //for (int i = 0; i < array_size(arr); ++i) {
+    //    array_set(arr, i, mas[i]);
+    //}
+
     if (array_size(arr) <= 5) {
         for (size_t i = 0; i < array_size(arr); ++i)
             cout << array_get(arr, i) << endl;
@@ -28,6 +33,7 @@ void task2(Array *arr)
     else
     {
         currentSum = array_get(arr, 0) + array_get(arr, 1) + array_get(arr, 2) + array_get(arr, 3) + array_get(arr, 4); // записываем первые 5 значений
+        maxSum = currentSum;
         for (size_t i = 1; i < array_size(arr) - 4; ++i) {
             currentSum = currentSum - array_get(arr, i-1) + array_get(arr, i + 4); //вычитаем первое в предыдущей сумме и добавляем последнее в новой
             if (currentSum > maxSum) {
