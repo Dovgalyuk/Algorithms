@@ -48,4 +48,4 @@ void array_set(Array* arr, size_t index, Data value)
 size_t array_size(const Array* arr)
 {
     return arr->size;
-}\n
+}
