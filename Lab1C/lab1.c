@@ -3,11 +3,13 @@
 
 void task1(Array* arr)
 {
+	printf("good");
 	int firstMax = -1, lastMax = -1;
 	int max = -1;
-	int length = array_size(arr);
-	for (int i = 0;i < length;i++) {
-		int x = array_get(arr, i);
+	size_t length = array_size(arr);
+	for (size_t i = 0;i < length;i++) {
+		int x = (int*)array_get(arr, i);
+		printf("good");
 		if (x == max) {
 			lastMax = i;
 		}
@@ -25,22 +27,23 @@ void task1(Array* arr)
 
 void task2(Array* arr)
 {
-	int length = array_size(arr);
+	size_t length = array_size(arr);
 	if (length >= 5) {
 		int sum = 0;
-		int i = 0, lastinfive;
+		int i = 0;
+		int* lastinfive;
 		int maxfive;
 		while (i < length) {
 			if (i >= 5) {
 				lastinfive = array_get(arr, i - 5);
-				int next = array_get(arr, i);
-				sum += next;
-				sum -= lastinfive;
+				int* next = array_get(arr, i);
+				sum += *next;
+				sum -= *lastinfive;
 				if (sum > maxfive) maxfive = sum;
 			}
 			else {
-				int next = array_get(arr, i);
-				sum += next;
+				int* next = array_get(arr, i);
+				sum += *next;
 			}
 			if (i == 4) {
 				maxfive = sum;
@@ -56,21 +59,30 @@ void task2(Array* arr)
 int main()
 {
 	Array* arr = NULL;
-	int size = 0;
+	size_t size = 0;
+	int* elCont;
 	printf("\nInput size of array\n");
 	scanf_s("%d", &size);
 	arr = array_create(size, NULL);
-	for (int i = 0;i < size;i++) {
-		array_set(arr, i, rand() % 50 + 50);
+	for (size_t i = 0;i < size;i++) {
+		int random = (rand() % 50 + 50);
+		elCont = &random;
+		array_set(arr, i, elCont);
 	}
-	task1(arr);
+	for (size_t i = 0;i < size;i++) {
+		int x = *((int*)array_get(arr, i));
+		printf("\n%d ", x);
+	}
+	//task1(arr);
 	array_delete(arr);
-	printf("\nInput size of array\n");
+	/*printf("\nInput size of array\n");
 	scanf_s("%d", &size);
-	arr = array_create(size, NULL);
+	arr = array_create(size,NULL);
 	for (int i = 0;i < size;i++) {
-		array_set(arr, i, rand() % 10);
+		int randomNumber = rand() % 10;
+		*elCont = randomNumber;
+		array_set(arr, i, elCont);
 	}
 	task2(arr);
-	array_delete(arr);
+	array_delete(arr);*/
 }
