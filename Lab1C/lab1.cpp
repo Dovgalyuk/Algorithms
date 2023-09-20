@@ -21,7 +21,8 @@ void task1(Array *arr)
 
 void task2(Array *arr)
 {
-    int a, b, current = 0;
+    int a, b;
+    size_t current = 0;
     cin >> a;
     cin >> b;
     for (size_t i = 0; i < array_size(arr);i++)
