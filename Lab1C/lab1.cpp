@@ -15,10 +15,11 @@ void task1(Array* arr)
 {
     RandArr(arr);
 
-    int count = 0, minArrMember = 101, maxArrMember = -1;
+    int count = 0;
     float middle;
+    int minArrMember = 101, maxArrMember = -1;
 
-    for (int index = 0; index < array_size(arr); index++)
+    for (size_t index = 0; index < array_size(arr); index++)
     {
         if (array_get(arr, index) < minArrMember)
             minArrMember = array_get(arr, index);
@@ -27,9 +28,9 @@ void task1(Array* arr)
             maxArrMember = array_get(arr, index);
     }
 
-    middle = (maxArrMember + minArrMember) / 2;
+    middle = float((maxArrMember + minArrMember) / 2);
     
-    for (int index = 0; index < array_size(arr); index++)
+    for (size_t index = 0; index < array_size(arr); index++)
     {
         if (array_get(arr, index) > middle)
         {
@@ -45,17 +46,18 @@ void task2(Array* arr)
     RandArr(arr);
 
     int sum = 0;
-    float middle;
+    float middle,count = 0;
 
-    for (int index = 0; index < array_size(arr); index++)
+    for (size_t index = 0; index < array_size(arr); index++)
     {
         sum += array_get(arr, index);
+        count++;
     }
 
-    middle = sum / array_size(arr);
+    middle = sum / count;
 
 
-    for (int index = 0; index < array_size(arr); index++)
+    for (size_t index = 0; index < array_size(arr); index++)
     {
         if (array_get(arr, index) < middle)
         {
