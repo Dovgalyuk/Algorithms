@@ -5,7 +5,7 @@ using namespace std;
 
 void RandArr(Array* arr)
 {
-    for (int index = 0; index < array_size(arr); index++)
+    for (size_t index = 0; index < array_size(arr); index++)
     {
         array_set(arr, index, rand() % 100);
     }
