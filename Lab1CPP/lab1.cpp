@@ -25,7 +25,7 @@ void print_array(Array* arr) //Функция для вывода массива
     }
 }
 
-void input_array(Array* arr, size_t max_range_random, size_t min_range_random) //Функция для заполнения массива рандомными числа (рандомные числа в определенном диапазоне)
+void input_array(Array* arr, int max_range_random, int min_range_random) //Функция для заполнения массива рандомными числа (рандомные числа в определенном диапазоне)
 {
     for (size_t i = 0; i < array_size(arr); i++) //Перебор массива
     {
@@ -37,7 +37,7 @@ void input_array(Array* arr, size_t max_range_random, size_t min_range_random) /
     
 }
 
-void task2(Array* arr, size_t shift_direction, size_t number_elements_shift)
+void task2(Array* arr, int shift_direction, int number_elements_shift)
 {
     size_t number_of_changes = number_elements_shift; //Переменная для хранения количества изменений в массиве
 
@@ -112,7 +112,7 @@ void task2(Array* arr, size_t shift_direction, size_t number_elements_shift)
 int main()
 {
     size_t size_arr; //Переменная для ввода размера массива
-    size_t max_range_random = 100, min_range_random = 1; //Переменные для хранения границ диапазона генерации случайных чисел
+    int max_range_random = 100, min_range_random = 1; //Переменные для хранения границ диапазона генерации случайных чисел
 
     cout << "Enter array size: ";
     cin >> size_arr; //Ввод размера массива
@@ -132,7 +132,7 @@ int main()
     task1(arr); //Выполнение первого задания (подсчет общего сопротивления)
     array_delete(arr); //Освобождение памяти (удаление массива)
 
-    size_t shift_direction, number_elements_shift; //Переменные для хранения направления сдвига и количества элементов для сдвига
+    int shift_direction, number_elements_shift; //Переменные для хранения направления сдвига и количества элементов для сдвига
 
     cout << "Enter array size: ";
     cin >> size_arr; //Ввод размера массива
