@@ -17,7 +17,7 @@ void task1(Array* arr)
 
     total_resistance = 1 / total_resistance; //Нахождение общего сопротивления
 
-    cout << "Total resistance = " << round(total_resistance * 10000) / 10000 << endl; //Вывод суммы с округлением до 4-х знаков после запятой
+    cout << "Total resistance = " << total_resistance << endl; //Вывод общего сопротивления
 }
 
 void print_array(Array* arr) //Функция для вывода массива в консоль
@@ -61,8 +61,6 @@ void shift_left(Array* arr) //Функция сдвига массива вле�
 
 void task2(Array* arr, int shift_direction, size_t number_elements_shift)
 {
-    size_t number_of_changes = number_elements_shift; //Переменная для хранения количества изменений в массиве
-
     if (number_elements_shift >= array_size(arr)) //Если введено количество элементов для сдвига больше или равное размеру массива, то обнуление всего массива
     {
         cout << "The number of elements to shift is entered >= than the size of the array itself. All array elements are 0" << endl; //Вывод сообщения
