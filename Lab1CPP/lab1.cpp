@@ -50,7 +50,7 @@ int main()
     srand(time(NULL) / 1000);
 
     Array* arr = NULL;
-    size_t size = NULL;
+    size_t size;
 
     /* Create array here */
     std::cout << "Enter size of array: ";
