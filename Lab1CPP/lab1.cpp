@@ -6,7 +6,7 @@
 
 void task1(Array* arr)
 {
-    size_t result = 0;
+    int result = 0;
 
     for (size_t i = 0; i < array_size(arr); i++)
     {
