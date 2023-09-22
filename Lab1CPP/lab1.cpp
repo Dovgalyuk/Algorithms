@@ -37,7 +37,7 @@ void input_array(Array* arr, int max_range_random, int min_range_random) //Фу�
 
 }
 
-void task2(Array* arr, int shift_direction, int number_elements_shift)
+void task2(Array* arr, size_t shift_direction, size_t number_elements_shift)
 {
     size_t number_of_changes = number_elements_shift; //Переменная для хранения количества изменений в массиве
 
