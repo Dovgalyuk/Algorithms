@@ -17,3 +17,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           style: file
+          tidy-checks: 'bugprone-*,performance-*,clang-analyzer-*,cppcoreguidelines-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-init-variables,-cppcoreguidelines-owning-memory,-cppcoreguidelines-no-malloc'
