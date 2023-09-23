@@ -16,9 +16,9 @@ void task1(Array* arr)
     RandArr(arr);
 
     int count = 0;
-    float middle = 0;
-    int minArrMember = 102,
-        maxArrMember = -1;
+    float middle = 0,
+        minArrMember = FLT_MAX,
+        maxArrMember = -FLT_MAX;
 
     for (size_t index = 0; index < array_size(arr); index++)
     {
@@ -28,9 +28,9 @@ void task1(Array* arr)
         if (array_get(arr, index) > maxArrMember)
             maxArrMember = array_get(arr, index);
     }
+
     middle = static_cast<float>((maxArrMember + minArrMember) / 2);
-    //middle = float((maxArrMember + minArrMember) / 2);
-    
+
     for (size_t index = 0; index < array_size(arr); index++)
     {
         if (array_get(arr, index) > middle)
@@ -46,9 +46,9 @@ void task2(Array* arr)
 {
     RandArr(arr);
 
-    int sum = 0;
     float middle = 0,
-        count = 0;
+        count = 0,
+        sum = 0;
 
     for (size_t index = 0; index < array_size(arr); index++)
     {
@@ -56,8 +56,7 @@ void task2(Array* arr)
         count++;
     }
 
-    middle = static_cast<float>(sum / count);
-
+    middle = sum / count;
 
     for (size_t index = 0; index < array_size(arr); index++)
     {
@@ -71,7 +70,7 @@ void task2(Array* arr)
 
 int main()
 {
-    Array* arr = NULL;
+    Array* arr = nullptr;
     size_t size = 0;
 
     cin >> size;
@@ -79,7 +78,7 @@ int main()
     arr = array_create(size);
     task1(arr);
     array_delete(arr);
-    arr = NULL;
+    arr = nullptr;
     cin >> size;
 
     arr = array_create(size);
