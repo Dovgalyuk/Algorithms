@@ -9,7 +9,7 @@ using namespace std;
 int first_task(const Array* arr,int a, int b) //Первое задание 
 {
     int sum=0;
-    for (int i=0; i<array_size(arr);i++)
+    for (size_t i=0; i<array_size(arr);i++)
     { 
       
        if (array_get(arr, i) % a == 0 || array_get(arr, i) % b == 0)
@@ -30,7 +30,7 @@ int second_task(const Array* arr)
     }
     int maxSum = 0;
     int MaxEleIndex = 0;
-    for (int i = 0; i < array_size(arr) - 5; i++)
+    for (size_t i = 0; i < array_size(arr) - 5; i++)
     {
         int sum = 0;
         for (int j = i; j < i + 5; j++)
@@ -60,7 +60,7 @@ int main()
 
 
     srand(time(NULL) % 100);            //Генератор случайных чисел
-    for (int i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         array_set(arr, i, rand());
     }
@@ -77,7 +77,7 @@ int main()
     }
     else
     {
-        for (int i = second_task(arr); i < second_task(arr) + 5; i++)
+        for (size_t i = second_task(arr); i < second_task(arr) + 5; i++)
         {
             cout << "Second task answer:" <<  array_get(arr, i) << endl;
         }
