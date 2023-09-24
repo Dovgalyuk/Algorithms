@@ -1,29 +1,45 @@
-#include <iostream>
 #include "array.h"
+#include <iostream>
+using namespace std;
 
-int main()
+
+struct Array
 {
-    Array *arr = array_create(10);
+public:
+    Data* data;
+    Data sizeArr;
 
-    if (array_size(arr) != 10)
-    {
-        std::cout << "Invalid array size\n";
-        array_delete(arr);
-        return 1;
-    }
 
-    for (int i = 0 ; i < 10 ; ++i)
-        array_set(arr, i, i * 2);
+};
 
-    for (int i = 0 ; i < 10 ; ++i)
-    {
-        if (array_get(arr, i) != i * 2)
-        {
-            std::cout << "Invalid array element " << i << "\n";
-            array_delete(arr);
-            return 1;
-        }
-    }
+// create array
+Array* array_create(size_t size)
+{
+    Array* arr = new Array;  //Выделение памяти под структуру
+    arr->sizeArr = size;          //Выделение памяти под хранения размера массива
+    arr->data = new Data[size];  // Выделения памяти под значения в массиве
 
-    array_delete(arr);
+    return arr;
 }
+
+// delete array, free memory
+void array_delete(Array* arr)
+{
+    delete[] arr->data;   //Удаления массива
+    delete arr;    //Удаление структуры
+}
+
+// returns specified array element
+Data array_get(const Array* arr, size_t index)
+{
+    return arr->data[index];
+}
+
+// sets the specified array element to the value
+void array_set(Array* arr, size_t index, Data value)
+{
+    arr->data[index] = value;  //Присвоение значения в массив по заданному индексу
+
+
+}
+
