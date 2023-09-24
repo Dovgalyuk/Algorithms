@@ -4,56 +4,12 @@
 using namespace std;
 
 
-struct Array
-{
-public:
-    Data* data;
-    Data sizeArr;
 
-
-};
-
-// create array
-Array* array_create(size_t size)
-{
-    Array* arr = new Array;  //Выделение памяти под структуру
-    arr->sizeArr = size;          //Выделение памяти под хранения размера массива
-    arr->data = new Data[size];  // Выделения памяти под значения в массиве
- 
-    return arr;
-}
-
-// delete array, free memory
-void array_delete(Array* arr)
-{
-    delete[] arr->data;   //Удаления массива
-    delete arr;    //Удаление структуры
-}
-
-// returns specified array element
-Data array_get(const Array* arr, size_t index)
-{
-    return arr->data[index];
-}
-
-// sets the specified array element to the value
-void array_set(Array* arr, size_t index, Data value)
-{ 
-    arr->data[index] = value;  //Присвоение значения в массив по заданному индексу
-
-
-}
-
-// returns array size
-size_t array_size(const Array* arr)
-{
-    return arr->sizeArr;
-}
 
 int first_task(const Array* arr,int a, int b) //Первое задание 
 {
     int sum=0;
-    for (size_t i=0; i<array_size(arr);i++)
+    for (int i=0; i<array_size(arr);i++)
     { 
       
        if (array_get(arr, i) % a == 0 || array_get(arr, i) % b == 0)
@@ -74,10 +30,10 @@ int second_task(const Array* arr)
     }
     int maxSum = 0;
     int MaxEleIndex = 0;
-    for (size_t i = 0; i < array_size(arr) - 5; i++)
+    for (int i = 0; i < array_size(arr) - 5; i++)
     {
         int sum = 0;
-        for (size_t j = i; j < i + 5; j++)
+        for (int j = i; j < i + 5; j++)
         {
             sum += array_get(arr, j);
         }
@@ -102,10 +58,9 @@ int main()
     cout << endl;
     Array* arr= array_create(sizeofArr); //Создание экземпляра массива
 
-    arr->sizeArr = sizeofArr;         //Сохраненние размерности массива
 
-    srand(time(NULL) / 100);            //Генератор случайных чисел
-    for (size_t i = 0; i < array_size(arr); i++)
+    srand(time(NULL) % 100);            //Генератор случайных чисел
+    for (int i = 0; i < array_size(arr); i++)
     {
         array_set(arr, i, rand());
     }
@@ -122,7 +77,7 @@ int main()
     }
     else
     {
-        for (size_t i = second_task(arr); i < second_task(arr) + 5; i++)
+        for (int i = second_task(arr); i < second_task(arr) + 5; i++)
         {
             cout << "Second task answer:" <<  array_get(arr, i) << endl;
         }
