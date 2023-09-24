@@ -1,6 +1,4 @@
 #include "array.h"
-#include <iostream>
-using namespace std;
 
 
 struct Array
@@ -32,7 +30,12 @@ void array_delete(Array* arr)
 // returns specified array element
 Data array_get(const Array* arr, size_t index)
 {
-    return arr->data[index];
+    if (index <= arr->sizeArr)
+    {
+        return arr->data[index];
+    }
+    else return (Data)0;
+
 }
 
 // sets the specified array element to the value
@@ -42,4 +45,13 @@ void array_set(Array* arr, size_t index, Data value)
 
 
 }
+// returns array size
+size_t array_size(const Array* arr)
+{
+    return arr->sizeArr;
+}
 
+int main()
+{
+
+}

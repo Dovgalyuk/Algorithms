@@ -1,5 +1,4 @@
 #include "array.h"
-#include <iostream>
 struct Array
 {
 
@@ -49,5 +48,6 @@ size_t array_size(const Array* arr)
 {
     return arr->sizeArr;
 }
+
 
 
