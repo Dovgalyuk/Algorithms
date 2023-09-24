@@ -2,12 +2,15 @@
 
 struct Array
 {
+ 
+
+
 };
 
 // create array
 Array *array_create(size_t size)
 {
-    return new Array;
+    return new Array[size];
 }
 
 // delete array, free memory
@@ -25,10 +28,21 @@ Data array_get(const Array *arr, size_t index)
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
+
 }
 
 // returns array size
 size_t array_size(const Array *arr)
 {
     return 0;
+}
+
+
+
+int main()
+{
+    
+    Array* arr1 = array_create();
+   
+    
 }
