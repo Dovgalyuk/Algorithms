@@ -50,3 +50,7 @@ size_t array_size(const Array* arr)
 }
 
 
+int main()
+{
+
+}
