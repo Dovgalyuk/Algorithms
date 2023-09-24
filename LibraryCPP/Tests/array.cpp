@@ -7,7 +7,7 @@ struct Array
 {
 public:
     Data* data;
-    Data sizeArr;
+    size_t sizeArr;
 
 
 };

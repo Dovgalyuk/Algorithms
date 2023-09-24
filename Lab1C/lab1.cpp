@@ -51,7 +51,7 @@ int second_task(const Array* arr)
 int main()
 {
     setlocale(LC_ALL, "Russian");
-    int sizeofArr;
+    size_t sizeofArr;
     int a, b;
     cout << "Enter size of array:";
     cin >> sizeofArr;   
@@ -71,7 +71,7 @@ int main()
 
     cout << "First task answer: "<<first_task(arr, a, b)<<endl; //Вывод результатов первого задания
 
-    if (second_task(arr) == -1)                       //Вывод разультатов второго задания
+    if (second_task(arr) == -1)                       //Вывод результатов второго задания
     {
         cout << "Size of array is less than 5 elements." << endl;
     }

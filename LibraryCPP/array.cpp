@@ -1,7 +1,8 @@
 #include "array.h"
+#include <iostream>
 struct Array
 {
-public:
+
     Data* data;
     size_t sizeArr;
 
@@ -50,7 +51,3 @@ size_t array_size(const Array* arr)
 }
 
 
-int main()
-{
-
-}
