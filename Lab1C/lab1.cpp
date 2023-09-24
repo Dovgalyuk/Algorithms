@@ -4,7 +4,7 @@
 using namespace std;
 
 
-
+int flag = 0;
 
 int first_task(const Array* arr,int a, int b) //Первое задание 
 {
@@ -22,18 +22,18 @@ int first_task(const Array* arr,int a, int b) //Первое задание
 
 }
 
-int second_task(const Array* arr)
+size_t second_task(const Array* arr)
 {
     if (array_size(arr) < 5)
     {
-        return -1;
+       flag = 1;
     }
     int maxSum = 0;
-    int MaxEleIndex = 0;
+    size_t MaxEleIndex = 0;
     for (size_t i = 0; i < array_size(arr) - 5; i++)
     {
         int sum = 0;
-        for (int j = i; j < i + 5; j++)
+        for (size_t j = i; j < i + 5; j++)
         {
             sum += array_get(arr, j);
         }
@@ -50,6 +50,7 @@ int second_task(const Array* arr)
 
 int main()
 {
+    
     setlocale(LC_ALL, "Russian");
     size_t sizeofArr;
     int a, b;
@@ -71,7 +72,7 @@ int main()
 
     cout << "First task answer: "<<first_task(arr, a, b)<<endl; //Вывод результатов первого задания
 
-    if (second_task(arr) == -1)                       //Вывод результатов второго задания
+    if (flag == 1)                       //Вывод результатов второго задания
     {
         cout << "Size of array is less than 5 elements." << endl;
     }
