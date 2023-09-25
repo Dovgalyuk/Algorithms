@@ -70,26 +70,23 @@ void task2(Array* arr, int shift_direction, size_t number_elements_shift)
         }
         return; //Выход из функции
     }
-    else if (number_elements_shift == 0) //Если введено количество элементов для сдвига равное 0, то массив не изменяется
+    if (number_elements_shift == 0) //Если введено количество элементов для сдвига равное 0, то массив не изменяется
     {
         cout << "You entered 0 for the number of shifts. No changes" << endl; //Вывод сообщения
         return; //Выход из функции
 
     }
-    else if (!shift_direction) //Если выбран сдвиг вправо, то
+    for (size_t i = 0; i < number_elements_shift; i++) //Выплнение сдвига введенное количство раз
     {
-        for (size_t i = 0; i < number_elements_shift; i++) //Выплнение сдвига введенное количство раз
+        if (!shift_direction) //Если выбран сдвиг вправо, то
         {
-            shift_right(arr); //Вызов функции сдвига
+            shift_right(arr); //Вызов функции сдвига вправо
             cout << endl << "Modified array: " << endl;
             print_array(arr); //Вывод измененного массива
-        }       
-    }
-    else if (shift_direction) //Если выбран сдвиг влево, то
-    {
-        for (size_t i = 0; i < number_elements_shift; i++) //Выплнение сдвига введенное количство раз
+        }
+        else
         {
-            shift_left(arr); //Вызов функции сдвига
+            shift_left(arr); //Вызов функции сдвига влево
             cout << endl << "Modified array: " << endl;
             print_array(arr); //Вывод измененного массива
         }
