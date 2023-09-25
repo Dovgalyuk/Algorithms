@@ -3,6 +3,7 @@
 
 typedef struct Array
 {
+
 } Array;
 
 // create array

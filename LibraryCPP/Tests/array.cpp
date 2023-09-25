@@ -26,4 +26,5 @@ int main()
     }
 
     array_delete(arr);
+    std::cout << "Test array was aplied";
 }

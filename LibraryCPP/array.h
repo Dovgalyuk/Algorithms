@@ -4,7 +4,6 @@
 #include <cstddef>
 
 // Non-resizeable array
-// Stores integer values inside
 typedef int Data;
 
 struct Array;
