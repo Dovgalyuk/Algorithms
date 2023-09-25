@@ -38,9 +38,7 @@ Data stack_get(const Stack* stack)
 
 void stack_pop(Stack* stack)
 {
-    ListItem* first_item = list_first(stack->list);
-    if (first_item)
-        list_erase_first(stack->list);
+    list_erase_first(stack->list);
 }
 
 bool stack_empty(const Stack* stack)
