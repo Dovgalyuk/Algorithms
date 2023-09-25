@@ -4,7 +4,7 @@
 using namespace std;
 
 
-int flag = 0;
+
 
 int first_task(const Array* arr,int a, int b) //Первое задание 
 {
@@ -22,27 +22,7 @@ int first_task(const Array* arr,int a, int b) //Первое задание
 
 }
 
-/*
-int second_task(const Array* arr)
-{
-    if (array_size(arr) < 5)
-    {
-       flag = 1;
-    }
 
-    int MaxEleIndex = 0;
-    int sum = 0;
-    for (size_t i = 0; i <4; i++)
-    {
-        sum += array_get(arr, i);
-    }
-    for (size_t i = 5; i < array_size(arr); i++)
-    {
-
-    }
-
-    return MaxEleIndex;
-}*/
 size_t second_task(const Array* arr)
 {
     int sum = 0;
@@ -76,8 +56,7 @@ size_t second_task(const Array* arr)
             }
             
         }
-       
-        
+   
     }
     return 0;
  }
@@ -105,18 +84,19 @@ int main()
 
 
     cout << "First task answer: "<<first_task(arr, a, b)<<endl; //Вывод результатов первого задания
-    array_delete(arr);
+    array_delete(arr); //Удаление массива
 
     
 
     cout << "Enter size of array:";
-    cin >> sizeofArr;
-    Array* array = array_create(sizeofArr);
+    cin >> sizeofArr;  //Ввод данных
+    Array* array = array_create(sizeofArr); //Создание экземпляра массива
+
     for (size_t i = 0; i < array_size(array); i++)
     {
         array_set(array, i, rand());
     }
-    second_task(array);
+    second_task(array); //Второе задание
  
     array_delete(array);   //Удаление массива
     
