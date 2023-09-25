@@ -22,31 +22,65 @@ int first_task(const Array* arr,int a, int b) //Первое задание
 
 }
 
-size_t second_task(const Array* arr)
+/*
+int second_task(const Array* arr)
 {
     if (array_size(arr) < 5)
     {
        flag = 1;
     }
-    int maxSum = 0;
-    size_t MaxEleIndex = 0;
-    for (size_t i = 0; i < array_size(arr) - 5; i++)
+
+    int MaxEleIndex = 0;
+    int sum = 0;
+    for (size_t i = 0; i <4; i++)
     {
-        int sum = 0;
-        for (size_t j = i; j < i + 5; j++)
-        {
-            sum += array_get(arr, j);
-        }
-        if (sum > maxSum)
-        {
-            maxSum = sum;
-            MaxEleIndex = i;
-        }
+        sum += array_get(arr, i);
     }
-    
+    for (size_t i = 5; i < array_size(arr); i++)
+    {
+
+    }
+
     return MaxEleIndex;
-}
+}*/
+size_t second_task(const Array* arr)
+{
+    int sum = 0;
  
+    size_t size= array_size(arr);
+    
+    if (size< 5)
+    {
+        cout << "Array size is less than a 5 elements!" << endl;
+        
+
+    }
+    else
+    { 
+        
+        for (size_t i = 5; i < size; i++)
+        {
+            if (array_get(arr, i) > array_get(arr, i - 5))
+            {
+                
+                sum += array_get(arr, i);
+                cout << "Second task result: " << array_get(arr, i)<<endl;
+                
+            }
+            else
+            {
+                
+                sum += array_get(arr, i - 5);
+                cout << "Second task result: " << array_get(arr, i-5)<<endl;
+                
+            }
+            
+        }
+       
+        
+    }
+    return 0;
+ }
 
 int main()
 {
@@ -59,7 +93,7 @@ int main()
     cout << endl;
     Array* arr= array_create(sizeofArr); //Создание экземпляра массива
 
-
+   
     srand(time(NULL) % 100);            //Генератор случайных чисел
     for (size_t i = 0; i < array_size(arr); i++)
     {
@@ -71,20 +105,20 @@ int main()
 
 
     cout << "First task answer: "<<first_task(arr, a, b)<<endl; //Вывод результатов первого задания
+    array_delete(arr);
 
-    if (flag == 1)                       //Вывод результатов второго задания
+    
+
+    cout << "Enter size of array:";
+    cin >> sizeofArr;
+    Array* array = array_create(sizeofArr);
+    for (size_t i = 0; i < array_size(array); i++)
     {
-        cout << "Size of array is less than 5 elements." << endl;
+        array_set(array, i, rand());
     }
-    else
-    {
-        for (size_t i = second_task(arr); i < second_task(arr) + 5; i++)
-        {
-            cout << "Second task answer:" <<  array_get(arr, i) << endl;
-        }
-    }
+    second_task(array);
  
-    array_delete(arr);   //Удаление массива
+    array_delete(array);   //Удаление массива
     
     return 0;
 }
