@@ -78,7 +78,7 @@ int main()
 	create(arr);
 	task1(arr);
 	array_delete(arr);
-	cout << "Task 1" << endl;
+	cout << "Task 2" << endl;
 	create(arr);
 	task2(arr);
 	array_delete(arr);

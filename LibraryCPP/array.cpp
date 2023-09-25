@@ -13,6 +13,10 @@ struct Array
         this->size_arr = size;
         this->data = new Data[size];
     }
+    ~Array()
+    {
+        delete[] this->data;
+    }
 };
 
 // create array
