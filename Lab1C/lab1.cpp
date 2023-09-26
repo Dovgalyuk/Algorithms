@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void create(Array*& arr) { //функция создания и заполнения массива случайными числами
+Array* create(Array* arr) { //функция создания и заполнения массива случайными числами
 	size_t size; //размер массива
 	cout << "Enter array's size: ";
 	while (true) { //обработка неверного ввода
@@ -21,6 +21,7 @@ void create(Array*& arr) { //функция создания и заполнения массива случайными чи
 	for (size_t i = 0; i < size; i++) { //перебор массива 
 		array_set(arr, i, rand() % 100); //присваиваем случайное число от 0 до 100
 	}
+	return arr;
 }
 
 void print(const Array* arr) { //функция печати массива
@@ -59,7 +60,7 @@ void task2(Array* arr)
 		Data elem = array_get(arr, i); //узнаем элемент, который будем проверять
 		size_t local_count = 0; //счетчик, если элемент не делится на другой 1 элемент массива
 		for (size_t j = 0; j < size; j++) { //перебор массива второй раз
-			if (elem % array_get(arr, j) != 0) { //проверяем, если элемент не делится на другой элемент массива, добавляем в local_count 1
+			if ((array_get(arr,j)==0) || (elem % array_get(arr, j) != 0)) { //проверяем, если элемент не делится на другой элемент массива, добавляем в local_count 1
 				local_count += 1;
 			}
 		}
@@ -75,11 +76,11 @@ int main()
 	srand(time(NULL));
 	Array* arr = NULL;
 	cout << "Task 1" << endl;
-	create(arr);
+	arr = create(arr);
 	task1(arr);
 	array_delete(arr);
 	cout << "Task 2" << endl;
-	create(arr);
+	arr = create(arr);
 	task2(arr);
 	array_delete(arr);
 }
