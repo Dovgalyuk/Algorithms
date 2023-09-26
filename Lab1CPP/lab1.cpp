@@ -81,15 +81,13 @@ void task2(Array* arr, int shift_direction, size_t number_elements_shift)
         if (!shift_direction) //Если выбран сдвиг вправо, то
         {
             shift_right(arr); //Вызов функции сдвига вправо
-            cout << endl << "Modified array: " << endl;
-            print_array(arr); //Вывод измененного массива
         }
         else
         {
             shift_left(arr); //Вызов функции сдвига влево
-            cout << endl << "Modified array: " << endl;
-            print_array(arr); //Вывод измененного массива
         }
+        cout << endl << "Modified array: " << endl;
+        print_array(arr); //Вывод измененного массива
     }
 }
 
