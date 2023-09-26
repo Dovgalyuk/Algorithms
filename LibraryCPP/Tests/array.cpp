@@ -32,3 +32,7 @@ size_t array_size(const Array* arr)
 {
     return 0;
 }
+int main()
+{
+
+}
