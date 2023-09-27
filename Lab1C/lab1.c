@@ -55,7 +55,7 @@ void task2(Array* arr)
 int main()
 {
 	Array* arr = NULL;
-	size_t size = 0;
+	int size = 0;
 	printf("\nInput size of array\n");
 	scanf("%d", &size);
 	arr = array_create(size, NULL);
