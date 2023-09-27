@@ -1,0 +1,10 @@
+﻿  array.cpp
+  LAB1.cpp
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LABS\LAB1\LAB1\LAB1.cpp(11,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LABS\LAB1\LAB1\LAB1.cpp(26,37): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LABS\LAB1\LAB1\LAB1.cpp(52,12): warning C4101: id: неиспользованная локальная переменная
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LABS\LAB1\LAB1\LAB1.cpp(77,23): warning C4018: <: несоответствие типов со знаком и без знака
+  Создание кода...
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\array.cpp(34): warning C4715: array_get: значение возвращается не при всех путях выполнения
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\array.cpp(20): warning C4172: возвращение адреса локальной или временной переменной : arr
+  LAB1.vcxproj -> C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LABS\LAB1\Debug\LAB1.exe
