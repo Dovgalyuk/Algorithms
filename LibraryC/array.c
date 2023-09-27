@@ -23,6 +23,7 @@ Array* array_create(size_t size, FFree f)
 // delete array, free memory
 void array_delete(Array* arr)
 {
+    free(arr->array);
     free(arr);
 }
 
