@@ -24,7 +24,7 @@ struct Maze
         while (!file.eof()) {
             std::getline(file, buff);
             height++;
-            for (int i = 0; i < buff.size(); i++)
+            for (size_t i = 0; i < buff.size(); i++)
                 result += buff[i];
         }
 
