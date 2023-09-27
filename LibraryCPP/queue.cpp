@@ -36,13 +36,13 @@ void queue_insert(Queue* queue, Data data)
         queue->rear = 0;
         queue->head = 0;
     }
-    else if (queue->rear % size == queue->head) {
+    else if (queue->rear % static_cast<int>(size) == queue->head) {
         Vector* buff = vector_create();
         vector_resize(buff, size * 2);
 
         int counter = 0;
 
-        for (int i = queue->head; i < size; i++) {
+        for (size_t i = queue->head; i < size; i++) {
             vector_set(buff, counter, vector_get(queue->vector, i));
             counter++;
         }
