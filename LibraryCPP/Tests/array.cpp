@@ -1,38 +1,29 @@
+#include <iostream>
 #include "array.h"
 
-struct Array
-{
-};
-
-// create array
-Array* array_create(size_t size)
-{
-    return new Array;
-}
-
-// delete array, free memory
-void array_delete(Array* arr)
-{
-    delete arr;
-}
-
-// returns specified array element
-Data array_get(const Array* arr, size_t index)
-{
-    return (Data)0;
-}
-
-// sets the specified array element to the value
-void array_set(Array* arr, size_t index, Data value)
-{
-}
-
-// returns array size
-size_t array_size(const Array* arr)
-{
-    return 0;
-}
 int main()
 {
+    Array *arr = array_create(10);
 
+    if (array_size(arr) != 10)
+    {
+        std::cout << "Invalid array size\n";
+        array_delete(arr);
+        return 1;
+    }
+
+    for (int i = 0 ; i < 10 ; ++i)
+        array_set(arr, i, i * 2);
+
+    for (int i = 0 ; i < 10 ; ++i)
+    {
+        if (array_get(arr, i) != i * 2)
+        {
+            std::cout << "Invalid array element " << i << "\n";
+            array_delete(arr);
+            return 1;
+        }
+    }
+
+    array_delete(arr);
 }
