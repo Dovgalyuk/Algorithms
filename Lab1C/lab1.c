@@ -55,9 +55,9 @@ void task2(Array* arr)
 int main()
 {
 	Array* arr = NULL;
-	int size = 0;
+	size_t size = 0;
 	printf("\nInput size of array\n");
-	scanf("%d", &size);
+	scanf("%Iu", &size);
 	arr = array_create(size, NULL);
 	for (size_t i = 0;i < size;i++) {
 		int* a = (int*)malloc(sizeof(int));
@@ -68,7 +68,7 @@ int main()
 	task1(arr);
 	array_delete(arr);
 	printf("\nInput size of array\n");
-	scanf("%d", &size);
+	scanf("%Iu", &size);
 	arr = array_create(size, NULL);
 	for (size_t i = 0;i < size;i++) {
 		int* a = (int*)malloc(sizeof(int));
