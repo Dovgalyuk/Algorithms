@@ -1,0 +1,279 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineSystem.cmake:204 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The system is: Windows - 10.0.19043 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64/cl.exe 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      2
+      Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.37.32824 для x64
+      (C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+      
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "C:\\Program", использование объектного файла
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Files\\Microsoft", использование объектного файла
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Visual", использование объектного файла
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe", использование объектного файла
+      CMakeCCompilerId.c
+      Microsoft (R) Incremental Linker Version 14.37.32824.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      
+      /out:Program.exe 
+      C:\\Program 
+      Files\\Microsoft 
+      Visual 
+      Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe 
+      CMakeCCompilerId.obj 
+      LINK : fatal error LNK1181: не удается открыть входной файл "C:\\Program.obj"
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64/cl.exe 
+      Build flags: 
+      Id flags: -c 
+      
+      The output was:
+      0
+      Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.37.32824 для x64
+      (C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+      
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "C:\\Program", использование объектного файла
+      cl: командная строка warning D9027: пропуск исходного файла "C:\\Program"
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Files\\Microsoft", использование объектного файла
+      cl: командная строка warning D9027: пропуск исходного файла "Files\\Microsoft"
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Visual", использование объектного файла
+      cl: командная строка warning D9027: пропуск исходного файла "Visual"
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe", использование объектного файла
+      cl: командная строка warning D9027: пропуск исходного файла "Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe"
+      CMakeCCompilerId.c
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.obj"
+      
+      The C compiler identification is MSVC, found in:
+        C:/Users/user/build/Algorithms/out/build/x64-Debug/CMakeFiles/3.26.4-msvc4/CompilerIdC/CMakeCCompilerId.obj
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:1153 (message)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:221 (CMAKE_DETERMINE_MSVC_SHOWINCLUDES_PREFIX)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Detecting C compiler /showIncludes prefix:
+        main.c
+        Примечание: включение файла:  C:\\Users\\user\\build\\Algorithms\\out\\build\\x64-Debug\\CMakeFiles\\ShowIncludes\\foo.h
+        
+      Found prefix "Примечание: включение файла:  "
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64/cl.exe 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      2
+      Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.37.32824 для x64
+      (C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+      
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "C:\\Program", использование объектного файла
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Files\\Microsoft", использование объектного файла
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Visual", использование объектного файла
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe", использование объектного файла
+      CMakeCXXCompilerId.cpp
+      Microsoft (R) Incremental Linker Version 14.37.32824.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      
+      /out:Program.exe 
+      C:\\Program 
+      Files\\Microsoft 
+      Visual 
+      Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe 
+      CMakeCXXCompilerId.obj 
+      LINK : fatal error LNK1181: не удается открыть входной файл "C:\\Program.obj"
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64/cl.exe 
+      Build flags: 
+      Id flags: -c 
+      
+      The output was:
+      0
+      Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.37.32824 для x64
+      (C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+      
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "C:\\Program", использование объектного файла
+      cl: командная строка warning D9027: пропуск исходного файла "C:\\Program"
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Files\\Microsoft", использование объектного файла
+      cl: командная строка warning D9027: пропуск исходного файла "Files\\Microsoft"
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Visual", использование объектного файла
+      cl: командная строка warning D9027: пропуск исходного файла "Visual"
+      cl: командная строка warning D9024: нераспознанный тип исходных файлов "Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe", использование объектного файла
+      cl: командная строка warning D9027: пропуск исходного файла "Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe"
+      CMakeCXXCompilerId.cpp
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
+      
+      The CXX compiler identification is MSVC, found in:
+        C:/Users/user/build/Algorithms/out/build/x64-Debug/CMakeFiles/3.26.4-msvc4/CompilerIdCXX/CMakeCXXCompilerId.obj
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:1153 (message)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:221 (CMAKE_DETERMINE_MSVC_SHOWINCLUDES_PREFIX)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Detecting CXX compiler /showIncludes prefix:
+        main.c
+        Примечание: включение файла:  C:\\Users\\user\\build\\Algorithms\\out\\build\\x64-Debug\\CMakeFiles\\ShowIncludes\\foo.h
+        
+      Found prefix "Примечание: включение файла:  "
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "C:/Users/user/build/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-5fyojj"
+      binary: "C:/Users/user/build/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-5fyojj"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: C:/Users/user/build/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-5fyojj
+        
+        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe -v cmTC_fc990 && [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1437~1.328\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_fc990.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_fc990.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
+        cl: командная строка warning D9024: нераспознанный тип исходных файлов "C:\\Program", использование объектного файла
+        cl: командная строка warning D9027: пропуск исходного файла "C:\\Program"
+        cl: командная строка warning D9024: нераспознанный тип исходных файлов "Files\\Microsoft", использование объектного файла
+        cl: командная строка warning D9027: пропуск исходного файла "Files\\Microsoft"
+        cl: командная строка warning D9024: нераспознанный тип исходных файлов "Visual", использование объектного файла
+        cl: командная строка warning D9027: пропуск исходного файла "Visual"
+        cl: командная строка warning D9024: нераспознанный тип исходных файлов "Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe", использование объектного файла
+        cl: командная строка warning D9027: пропуск исходного файла "Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe"
+        [2/2] cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_fc990.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1437~1.328\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_fc990.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_fc990.exe /implib:cmTC_fc990.lib /pdb:cmTC_fc990.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "C:/Users/user/build/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-q3um86"
+      binary: "C:/Users/user/build/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-q3um86"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: C:/Users/user/build/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-q3um86
+        
+        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe -v cmTC_98549 && [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1437~1.328\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /GR /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_98549.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_98549.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
+        FAILED: CMakeFiles/cmTC_98549.dir/CMakeCXXCompilerABI.cpp.obj 
+        C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1437~1.328\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /GR /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_98549.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_98549.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
+        Program
+        c1xx: fatal error C1083: Не удается открыть файл источник: C:\\Program: No such file or directory,
+        Microsoft
+        c1xx: fatal error C1083: Не удается открыть файл источник: Files\\Microsoft: No such file or directory,
+        Visual
+        c1xx: fatal error C1083: Не удается открыть файл источник: Visual: No such file or directory,
+        cl.exe
+        c1xx: fatal error C1083: Не удается открыть файл источник: Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe: No such file or directory,
+        Создание кода...
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake:49 (try_compile)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64/cl.exe"
+    directories:
+      source: "C:/Users/user/build/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-gdnklq"
+      binary: "C:/Users/user/build/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-gdnklq"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_CXX_COMPILER_WORKS"
+      cached: true
+      stdout: |
+        Change Dir: C:/Users/user/build/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-gdnklq
+        
+        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe -v cmTC_07e2a && [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1437~1.328\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /GR /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_07e2a.dir\\testCXXCompiler.cxx.obj /FdCMakeFiles\\cmTC_07e2a.dir\\ /FS -c C:\\Users\\user\\build\\Algorithms\\out\\build\\x64-Debug\\CMakeFiles\\CMakeScratch\\TryCompile-gdnklq\\testCXXCompiler.cxx
+        FAILED: CMakeFiles/cmTC_07e2a.dir/testCXXCompiler.cxx.obj 
+        C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1437~1.328\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /GR /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_07e2a.dir\\testCXXCompiler.cxx.obj /FdCMakeFiles\\cmTC_07e2a.dir\\ /FS -c C:\\Users\\user\\build\\Algorithms\\out\\build\\x64-Debug\\CMakeFiles\\CMakeScratch\\TryCompile-gdnklq\\testCXXCompiler.cxx
+        Program
+        c1xx: fatal error C1083: Не удается открыть файл источник: C:\\Program: No such file or directory,
+        Microsoft
+        c1xx: fatal error C1083: Не удается открыть файл источник: Files\\Microsoft: No such file or directory,
+        Visual
+        c1xx: fatal error C1083: Не удается открыть файл источник: Visual: No such file or directory,
+        cl.exe
+        c1xx: fatal error C1083: Не удается открыть файл источник: Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx86\\x86\\cl.exe: No such file or directory,
+        Создание кода...
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 1
+...
