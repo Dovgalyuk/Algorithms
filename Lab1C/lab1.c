@@ -1,15 +1,15 @@
-#include <stdio.h>
-#include "array.h"
+#define _CRT_SECURE_NO_WARNINGS
 
+#include <stdio.h>
+#include <stdlib.h>
+#include "array.h"
 void task1(Array* arr)
 {
-	printf("good");
 	int firstMax = -1, lastMax = -1;
 	int max = -1;
 	size_t length = array_size(arr);
 	for (size_t i = 0;i < length;i++) {
-		int x = (int*)array_get(arr, i);
-		printf("good");
+		int x = *((int*)array_get(arr, i));
 		if (x == max) {
 			lastMax = i;
 		}
@@ -30,59 +30,52 @@ void task2(Array* arr)
 	size_t length = array_size(arr);
 	if (length >= 5) {
 		int sum = 0;
-		int i = 0;
-		int* lastinfive;
+		size_t i = 0;
 		int maxfive;
 		while (i < length) {
 			if (i >= 5) {
-				lastinfive = array_get(arr, i - 5);
-				int* next = array_get(arr, i);
-				sum += *next;
-				sum -= *lastinfive;
+				sum += *((int*)array_get(arr, i));
+				sum -= *((int*)array_get(arr, i - 5));
 				if (sum > maxfive) maxfive = sum;
 			}
 			else {
-				int* next = array_get(arr, i);
-				sum += *next;
+				sum += *((int*)array_get(arr, i));
 			}
 			if (i == 4) {
 				maxfive = sum;
 			}
 			i++;
 		}
-		printf("Max five of numbers %d\n", maxfive);
+		printf("\nMax five of numbers %d\n", maxfive);
 	}
 	else
-		printf("Count of numbers lower 5\n");
+		printf("\nCount of numbers lower 5\n");
 }
 
 int main()
 {
 	Array* arr = NULL;
 	size_t size = 0;
-	int* elCont;
 	printf("\nInput size of array\n");
-	scanf_s("%d", &size);
+	scanf("%d", &size);
 	arr = array_create(size, NULL);
 	for (size_t i = 0;i < size;i++) {
-		int random = (rand() % 50 + 50);
-		elCont = &random;
-		array_set(arr, i, elCont);
+		int* a = (int*)malloc(sizeof(int));
+		*a = rand() % 50 + 70;
+		array_set(arr, i, a);
+		printf(" %d ", *a);
 	}
-	for (size_t i = 0;i < size;i++) {
-		int x = *((int*)array_get(arr, i));
-		printf("\n%d ", x);
-	}
-	//task1(arr);
+	task1(arr);
 	array_delete(arr);
-	/*printf("\nInput size of array\n");
-	scanf_s("%d", &size);
-	arr = array_create(size,NULL);
-	for (int i = 0;i < size;i++) {
-		int randomNumber = rand() % 10;
-		*elCont = randomNumber;
-		array_set(arr, i, elCont);
+	printf("\nInput size of array\n");
+	scanf("%d", &size);
+	arr = array_create(size, NULL);
+	for (size_t i = 0;i < size;i++) {
+		int* a = (int*)malloc(sizeof(int));
+		*a = rand() % 10;
+		array_set(arr, i, a);
+		printf(" %d ", *a);
 	}
 	task2(arr);
-	array_delete(arr);*/
+	array_delete(arr);
 }
