@@ -76,11 +76,11 @@ int main()
 	srand(time(NULL));
 	Array* arr = NULL;
 	cout << "Task 1" << endl;
-	arr = create(arr);
+	arr = create();
 	task1(arr);
 	array_delete(arr);
 	cout << "Task 2" << endl;
-	arr = create(arr);
+	arr = create();
 	task2(arr);
 	array_delete(arr);
 }
