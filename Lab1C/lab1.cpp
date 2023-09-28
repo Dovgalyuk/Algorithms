@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void count(Array *arr, int value, int &znach) { //Вычисление колличества одинаковых оценок
+void count(Array *arr, Data value, int &znach) { //Вычисление колличества одинаковых оценок
 	size_t size = array_size(arr);
 	for (size_t i = 0; i < size; i++) {
 		if (array_get(arr, i) == value) {
@@ -31,7 +31,7 @@ void task1(Array *arr)
 	cout << "Foreign language grades:" << endl;
 	conclusion(arr);
 	cout << endl;
-	for (int i = 2; i < 6; i++) {
+	for (Data i = 2; i < 6; i++) {
 		int znach = 0;
 		count(arr, i, znach);
 		cout << "Quantity " << i << ": " << znach << " " << endl;
@@ -49,10 +49,10 @@ void task2(Array *arr)
 	cout << "Values in array:" << endl;
 	conclusion(arr);
 	cout << endl;
-	vector<int> replays(0);
+	vector<Data> replays(0);
 	cout << "Elements that appear exactly twice:" << endl;
 	for (size_t i = 0; i < size; i++) { //Нахождение элементов которые встречаются ровно два раза
-		int a = array_get(arr, i);
+		Data a = array_get(arr, i);
 		int quantity = 1;
 		for (size_t j = 0; j < size; j++) {
 			if ((a == array_get(arr, j)) && (i != j)) {
