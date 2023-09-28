@@ -52,15 +52,13 @@ size_t vector_size(const Vector* vector)
 
 void vector_resize(Vector* vector, size_t size)
 {
-    size_t _size = vector->size;
-
     if (size <= vector->max_size) {
         vector->size = size;
         return;
     }
     size_t _max_size = size * 2;
     Data* tmp = new Data[_max_size];
-    for (size_t i = 0; i < _size; i++) {
+    for (size_t i = 0; i < vector->size; i++) {
         tmp[i] = vector->data[i];
     }
     delete[] vector->data;

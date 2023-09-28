@@ -1,11 +1,16 @@
 #include "queue.h"
 #include "vector.h"
 
+#if defined(_MSC_VER)
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
+
 struct Queue
 {
     Vector* vector;
-    int head;
-    int rear;
+    ssize_t head;
+    ssize_t rear;
 
     Queue() {
         vector = vector_create();
@@ -58,7 +63,7 @@ void queue_insert(Queue* queue, Data data)
         size = vector_size(queue->vector);
     }
 
-    int rear = queue->rear % size;
+    auto rear = queue->rear % size;
 
     vector_set(queue->vector, rear, data);
     queue->rear = rear + 1;
@@ -76,7 +81,7 @@ Data queue_get(const Queue* queue)
 void queue_remove(Queue* queue)
 {
     size_t size = vector_size(queue->vector);
-    int head = queue->head;
+    auto head = queue->head;
 
     if (!queue_empty(queue)) {
         head++;

@@ -12,7 +12,7 @@ int main()
         return 1;
     }
 
-    for (Data i = 0 ; i < static_cast<int>(vector_size(vector)); ++i)
+    for (auto i = 0 ; i < vector_size(vector); ++i)
         vector_set(vector, i, i);
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
