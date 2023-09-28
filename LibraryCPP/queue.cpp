@@ -1,16 +1,11 @@
 #include "queue.h"
 #include "vector.h"
 
-#if defined(_MSC_VER)
-#include <BaseTsd.h>
-typedef SSIZE_T ssize_t;
-#endif
-
 struct Queue
 {
     Vector* vector;
-    ssize_t head;
-    ssize_t rear;
+    intptr_t head;
+    intptr_t rear;
 
     Queue() {
         vector = vector_create();
