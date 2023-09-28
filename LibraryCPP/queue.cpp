@@ -4,8 +4,8 @@
 struct Queue
 {
     Vector* vector;
-    intptr_t head;
-    intptr_t rear;
+    ptrdiff_t head;
+    ptrdiff_t rear;
 
     Queue() {
         vector = vector_create();
