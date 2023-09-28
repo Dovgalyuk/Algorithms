@@ -33,7 +33,7 @@ Data array_get(const Array* arr, size_t index)
         return arr->data[index];
     }
     else return (Data)0;
-    
+
 }
 
 // sets the specified array element to the value
@@ -42,12 +42,10 @@ void array_set(Array* arr, size_t index, Data value)
     arr->data[index] = value;  //ѕрисвоение значени€ в массив по заданному индексу
 
 
-} 
+}
 // returns array size
 size_t array_size(const Array* arr)
 {
     return arr->sizeArr;
 }
-
-
 
