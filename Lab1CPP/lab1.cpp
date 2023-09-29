@@ -26,40 +26,65 @@ int first_task(const Array* arr,int a, int b) //ѕервое задание
 size_t second_task(const Array* arr)
 {
     int sum = 0;
- 
-    size_t size= array_size(arr);
-    
-    if (size< 5)
-    {
-        cout << "Array size is less than a 5 elements!" << endl;
-        
+    int summax = 0;
+    int counter = 5;
 
-    }
-    else
-    { 
+    size_t size = array_size(arr);
+
+    if (size < 5)
+    {
+        cout << "Array size is less or equal to 5 elements!" << endl;
+        return 0;
         
+    }
+    else if (size == 5)
+    {
+        for (size_t i = 0; i < 5; i++)
+        {
+            sum += array_get(arr, i);
+        }
+        summax = sum;
+    }
+    else if (size > 5)
+    {
+        for (size_t i = 0; i < 5; i++)
+        {
+            sum += array_get(arr, i);
+        }
+
         for (size_t i = 5; i < size; i++)
         {
+            if (sum > summax)
+            {
+                summax = sum;
+            }
             if (array_get(arr, i) > array_get(arr, i - 5))
             {
-                
+
                 sum += array_get(arr, i);
-                cout << "Second task result: " << array_get(arr, i)<<endl;
-                
+                sum -= array_get(arr, i - 5);
+
+                counter++;
             }
             else
             {
-                
+                if (counter <= 10)
+                {
+                    sum += array_get(arr, i);
+                    sum -= array_get(arr, i - 5);
+                    counter++;
+                    continue;
+                }
                 sum += array_get(arr, i - 5);
-                cout << "Second task result: " << array_get(arr, i-5)<<endl;
-                
+                sum -= array_get(arr, i);
+
             }
-            
+
         }
-   
     }
-    return 0;
- }
+    return summax;
+}
+
 
 int main()
 {
@@ -88,15 +113,15 @@ int main()
 
     
 
-    cout << "Enter size of array:";
+    cout << "Enter size of array: ";
     cin >> sizeofArr;  //¬вод данных
     Array* array = array_create(sizeofArr); //—оздание экземпл€ра массива
 
-    for (size_t i = 0; i < array_size(array); i++)
+    for (Data i = 0; i < array_size(array); i++)
     {
         array_set(array, i, rand());
     }
-    second_task(array); //¬торое задание
+    cout << "Second task answer: " << second_task(array) << endl;; //¬торое задание
  
     array_delete(array);   //”даление массива
     
