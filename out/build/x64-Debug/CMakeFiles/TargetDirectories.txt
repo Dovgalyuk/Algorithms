@@ -14,6 +14,7 @@ D:/Github/Algorithms-University/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/
 D:/Github/Algorithms-University/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/edit_cache.dir
 D:/Github/Algorithms-University/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/rebuild_cache.dir
 D:/Github/Algorithms-University/out/build/x64-Debug/Lab1CPP/CMakeFiles/Lab1C.dir
+D:/Github/Algorithms-University/out/build/x64-Debug/Lab1CPP/CMakeFiles/Lab1CPP.dir
 D:/Github/Algorithms-University/out/build/x64-Debug/Lab1CPP/CMakeFiles/test.dir
 D:/Github/Algorithms-University/out/build/x64-Debug/Lab1CPP/CMakeFiles/edit_cache.dir
 D:/Github/Algorithms-University/out/build/x64-Debug/Lab1CPP/CMakeFiles/rebuild_cache.dir

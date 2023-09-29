@@ -117,7 +117,7 @@ int main()
     cin >> sizeofArr;  //¬вод данных
     Array* array = array_create(sizeofArr); //—оздание экземпл€ра массива
 
-    for (Data i = 0; i < array_size(array); i++)
+    for (size_t i = 0; i < array_size(array); i++)
     {
         array_set(array, i, rand());
     }

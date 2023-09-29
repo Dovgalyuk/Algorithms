@@ -444,6 +444,43 @@ build Lab1CPP\Lab1C.exe: CXX_EXECUTABLE_LINKER__Lab1C_Debug Lab1CPP\CMakeFiles\L
   TARGET_IMPLIB = Lab1CPP\Lab1C.lib
   TARGET_PDB = Lab1CPP\Lab1C.pdb
 
+# =============================================================================
+# Object build statements for EXECUTABLE target Lab1CPP
+
+
+#############################################
+# Order-only phony target for Lab1CPP
+
+build cmake_object_order_depends_target_Lab1CPP: phony || cmake_object_order_depends_target_LibraryCPP
+
+build Lab1CPP\CMakeFiles\Lab1CPP.dir\lab1.cpp.obj: CXX_COMPILER__Lab1CPP_Debug D$:\Github\Algorithms-University\Lab1CPP\lab1.cpp || cmake_object_order_depends_target_Lab1CPP
+  FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
+  INCLUDES = -ID:\Github\Algorithms-University\Lab1CPP\..\LibraryCPP
+  OBJECT_DIR = Lab1CPP\CMakeFiles\Lab1CPP.dir
+  OBJECT_FILE_DIR = Lab1CPP\CMakeFiles\Lab1CPP.dir
+  TARGET_COMPILE_PDB = Lab1CPP\CMakeFiles\Lab1CPP.dir\
+  TARGET_PDB = Lab1CPP\Lab1CPP.pdb
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target Lab1CPP
+
+
+#############################################
+# Link the executable Lab1CPP\Lab1CPP.exe
+
+build Lab1CPP\Lab1CPP.exe: CXX_EXECUTABLE_LINKER__Lab1CPP_Debug Lab1CPP\CMakeFiles\Lab1CPP.dir\lab1.cpp.obj | LibraryCPP\LibraryCPP.lib || LibraryCPP\LibraryCPP.lib
+  FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd
+  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
+  LINK_LIBRARIES = LibraryCPP\LibraryCPP.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  OBJECT_DIR = Lab1CPP\CMakeFiles\Lab1CPP.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_COMPILE_PDB = Lab1CPP\CMakeFiles\Lab1CPP.dir\
+  TARGET_FILE = Lab1CPP\Lab1CPP.exe
+  TARGET_IMPLIB = Lab1CPP\Lab1CPP.lib
+  TARGET_PDB = Lab1CPP\Lab1CPP.pdb
+
 
 #############################################
 # Utility command for test
@@ -486,6 +523,10 @@ build Lab1C: phony Lab1CPP\Lab1C.exe
 
 build Lab1C.exe: phony Lab1CPP\Lab1C.exe
 
+build Lab1CPP: phony Lab1CPP\Lab1CPP.exe
+
+build Lab1CPP.exe: phony Lab1CPP\Lab1CPP.exe
+
 build LibraryCPP: phony LibraryCPP\LibraryCPP.lib
 
 build LibraryCPP.lib: phony LibraryCPP\LibraryCPP.lib
@@ -525,7 +566,7 @@ build all: phony LibraryCPP\all Lab1CPP\all
 #############################################
 # Folder: D:/Github/Algorithms-University/out/build/x64-Debug/Lab1CPP
 
-build Lab1CPP\all: phony Lab1CPP\Lab1C.exe
+build Lab1CPP\all: phony Lab1CPP\Lab1C.exe Lab1CPP\Lab1CPP.exe
 
 # =============================================================================
 

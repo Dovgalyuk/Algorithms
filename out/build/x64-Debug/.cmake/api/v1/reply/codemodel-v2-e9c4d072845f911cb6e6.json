@@ -35,7 +35,7 @@
 					"source" : "LibraryCPP",
 					"targetIndexes" : 
 					[
-						1
+						2
 					]
 				},
 				{
@@ -50,11 +50,11 @@
 					"source" : "LibraryCPP/Tests",
 					"targetIndexes" : 
 					[
-						2,
 						3,
 						4,
 						5,
-						6
+						6,
+						7
 					]
 				},
 				{
@@ -69,7 +69,8 @@
 					"source" : "Lab1CPP",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -93,7 +94,8 @@
 						3,
 						4,
 						5,
-						6
+						6,
+						7
 					]
 				}
 			],
@@ -104,6 +106,13 @@
 					"id" : "Lab1C::@ee6367d4ac0702ad1401",
 					"jsonFile" : "target-Lab1C-Debug-4eab1c0aa43c9498d990.json",
 					"name" : "Lab1C",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "Lab1CPP::@ee6367d4ac0702ad1401",
+					"jsonFile" : "target-Lab1CPP-Debug-ac7afe5fffa1cd03ca38.json",
+					"name" : "Lab1CPP",
 					"projectIndex" : 0
 				},
 				{
