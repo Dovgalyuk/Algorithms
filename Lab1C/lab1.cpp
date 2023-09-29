@@ -61,7 +61,7 @@ void task2(Array *arr)
 		}
 		if (quantity == 2) {
 			bool flag = true;
-			for (int k = 0; k < replays.size(); k++) { //ѕроверка не выводилось ли уже это число 
+			for (size_t k = 0; k < replays.size(); k++) { //ѕроверка не выводилось ли уже это число 
 				if (a == replays[k]) {
 					flag = false;
 				}
