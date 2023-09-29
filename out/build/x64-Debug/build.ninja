@@ -96,34 +96,6 @@ build LibraryCPP\CMakeFiles\LibraryCPP.dir\array.cpp.obj: CXX_COMPILER__LibraryC
   TARGET_COMPILE_PDB = LibraryCPP\CMakeFiles\LibraryCPP.dir\LibraryCPP.pdb
   TARGET_PDB = LibraryCPP\LibraryCPP.pdb
 
-build LibraryCPP\CMakeFiles\LibraryCPP.dir\list.cpp.obj: CXX_COMPILER__LibraryCPP_Debug D$:\Github\Algorithms-University\LibraryCPP\list.cpp || cmake_object_order_depends_target_LibraryCPP
-  FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
-  OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
-  OBJECT_FILE_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
-  TARGET_COMPILE_PDB = LibraryCPP\CMakeFiles\LibraryCPP.dir\LibraryCPP.pdb
-  TARGET_PDB = LibraryCPP\LibraryCPP.pdb
-
-build LibraryCPP\CMakeFiles\LibraryCPP.dir\queue.cpp.obj: CXX_COMPILER__LibraryCPP_Debug D$:\Github\Algorithms-University\LibraryCPP\queue.cpp || cmake_object_order_depends_target_LibraryCPP
-  FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
-  OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
-  OBJECT_FILE_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
-  TARGET_COMPILE_PDB = LibraryCPP\CMakeFiles\LibraryCPP.dir\LibraryCPP.pdb
-  TARGET_PDB = LibraryCPP\LibraryCPP.pdb
-
-build LibraryCPP\CMakeFiles\LibraryCPP.dir\stack.cpp.obj: CXX_COMPILER__LibraryCPP_Debug D$:\Github\Algorithms-University\LibraryCPP\stack.cpp || cmake_object_order_depends_target_LibraryCPP
-  FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
-  OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
-  OBJECT_FILE_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
-  TARGET_COMPILE_PDB = LibraryCPP\CMakeFiles\LibraryCPP.dir\LibraryCPP.pdb
-  TARGET_PDB = LibraryCPP\LibraryCPP.pdb
-
-build LibraryCPP\CMakeFiles\LibraryCPP.dir\vector.cpp.obj: CXX_COMPILER__LibraryCPP_Debug D$:\Github\Algorithms-University\LibraryCPP\vector.cpp || cmake_object_order_depends_target_LibraryCPP
-  FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
-  OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
-  OBJECT_FILE_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
-  TARGET_COMPILE_PDB = LibraryCPP\CMakeFiles\LibraryCPP.dir\LibraryCPP.pdb
-  TARGET_PDB = LibraryCPP\LibraryCPP.pdb
-
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target LibraryCPP
@@ -132,7 +104,7 @@ build LibraryCPP\CMakeFiles\LibraryCPP.dir\vector.cpp.obj: CXX_COMPILER__Library
 #############################################
 # Link the static library LibraryCPP\LibraryCPP.lib
 
-build LibraryCPP\LibraryCPP.lib: CXX_STATIC_LIBRARY_LINKER__LibraryCPP_Debug LibraryCPP\CMakeFiles\LibraryCPP.dir\array.cpp.obj LibraryCPP\CMakeFiles\LibraryCPP.dir\list.cpp.obj LibraryCPP\CMakeFiles\LibraryCPP.dir\queue.cpp.obj LibraryCPP\CMakeFiles\LibraryCPP.dir\stack.cpp.obj LibraryCPP\CMakeFiles\LibraryCPP.dir\vector.cpp.obj
+build LibraryCPP\LibraryCPP.lib: CXX_STATIC_LIBRARY_LINKER__LibraryCPP_Debug LibraryCPP\CMakeFiles\LibraryCPP.dir\array.cpp.obj
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64
   OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir

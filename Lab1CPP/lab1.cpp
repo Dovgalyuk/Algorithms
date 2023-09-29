@@ -28,7 +28,7 @@ size_t second_task(const Array* arr)
     int sum = 0;
     int summax = 0;
     int counter = 5;
-
+    size_t indx = 0;
     size_t size = array_size(arr);
 
     if (size < 5)
@@ -44,6 +44,7 @@ size_t second_task(const Array* arr)
             sum += array_get(arr, i);
         }
         summax = sum;
+        indx = 5;
     }
     else if (size > 5)
     {
@@ -57,6 +58,7 @@ size_t second_task(const Array* arr)
             if (sum > summax)
             {
                 summax = sum;
+                indx = i;
             }
             if (array_get(arr, i) > array_get(arr, i - 5))
             {
@@ -82,7 +84,7 @@ size_t second_task(const Array* arr)
 
         }
     }
-    return summax;
+    return indx;
 }
 
 
@@ -91,6 +93,7 @@ int main()
     
     setlocale(LC_ALL, "Russian");
     size_t sizeofArr;
+    size_t indx;
     int a, b;
     cout << "Enter size of array:";
     cin >> sizeofArr;   
@@ -121,7 +124,12 @@ int main()
     {
         array_set(array, i, rand());
     }
-    cout << "Second task answer: " << second_task(array) << endl;; //Второе задание
+    indx = second_task(arr);
+    for (size_t i = indx - 5; i < indx; i++)
+    {
+        cout << "Second task answer: " << array_get(arr,i) << endl; //Второе задание
+    }
+   
  
     array_delete(array);   //Удаление массива
     
