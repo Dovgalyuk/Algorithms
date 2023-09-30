@@ -17,7 +17,8 @@ Array* create() {
             cin.clear(); // Очищаем флаг ошибки
             cin.ignore(32767, '\n'); // Очищаем буфер ввода
         }
-        else {            
+        else {   
+           
             arr = array_create(size); // Создаем массив указанного размера
             for (size_t i = 0; i < size; i++) {
                 int j = rand() % 2; // Генерируем случайное число: 0 или 1
@@ -28,8 +29,9 @@ Array* create() {
                     array_set(arr, i, (rand() % 100)); // Если число 1, то генерируем положительное число
                 }
             }
+            break;
         }
-        break;
+        
     }
     return arr; // Возвращаем созданный массив
 }
