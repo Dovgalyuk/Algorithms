@@ -5,13 +5,15 @@
 
 using namespace std;
 
-void count(Array *arr, Data value, int &znach) { //Вычисление колличества одинаковых оценок
+int count(Array *arr, Data value) { //Вычисление колличества одинаковых оценок
+	int znach = 0;
 	size_t size = array_size(arr);
 	for (size_t i = 0; i < size; i++) {
 		if (array_get(arr, i) == value) {
 			znach += 1;
 		}
 	}
+	return znach;
 }
 
 void conclusion(Array *arr) { //Вывод на экран массива
@@ -32,9 +34,7 @@ void task1(Array *arr)
 	conclusion(arr);
 	cout << endl;
 	for (Data i = 2; i < 6; i++) {
-		int znach = 0;
-		count(arr, i, znach);
-		cout << "Quantity " << i << ": " << znach << " " << endl;
+		cout << "Quantity " << i << ": " << count(arr, i) << " " << endl;
 	}
 
 
@@ -49,7 +49,6 @@ void task2(Array *arr)
 	cout << "Values in array:" << endl;
 	conclusion(arr);
 	cout << endl;
-	vector<Data> replays(0);
 	cout << "Elements that appear exactly twice:" << endl;
 	for (size_t i = 0; i < size; i++) { //Нахождение элементов которые встречаются ровно два раза
 		Data a = array_get(arr, i);
@@ -60,16 +59,8 @@ void task2(Array *arr)
 			}
 		}
 		if (quantity == 2) {
-			bool flag = true;
-			for (size_t k = 0; k < replays.size(); k++) { //Проверка не выводилось ли уже это число 
-				if (a == replays[k]) {
-					flag = false;
-				}
-			}
-			if (flag) {
-				replays.push_back(a);
-				cout << a << " ";
-			}
+			cout << a << " ";
+			array_set(arr, i, -a);
 		}
 	}
 }
