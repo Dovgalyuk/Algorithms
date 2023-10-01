@@ -73,7 +73,7 @@ int size_and_print(Stack* stack) {
 	return size;
 }
 
-void task1(Stack*  stack)	 {
+void task1(Stack* stack) {
 	Stack* exam = stack_copy(stack);
 	int size = size_and_print(exam);
 	if (size % 2 == 0) {
@@ -84,17 +84,16 @@ void task1(Stack*  stack)	 {
 			Data symbolic = stack_get(stack);
 			stack_pop(stack);
 			exam = stack_copy(stack);
-			int len = get_len(exam,symbolic,opened,closed);
-			if (len % 2 != 0 || opened != closed) {
-				cout << "NO";
-				break;
-			}
-			else {
+			int len = get_len(exam, symbolic, opened, closed);
+			if (len % 2 == 0 && opened == closed) {
 				pair++;
 			}
 		}
-		if (pair == size/2) {
+		if (pair == size / 2) {
 			cout << "YES";
+		}
+		else {
+			cout << "NO";
 		}
 	}
 	else {
@@ -105,7 +104,7 @@ void task1(Stack*  stack)	 {
 int main()
 {
 	Stack* stack = stack_create();
-	string str="";
+	string str = "";
 	getline(cin, str);
 	char* c = const_cast<char*>(str.c_str());
 	for (size_t i = 0; i < str.size(); i++) {
