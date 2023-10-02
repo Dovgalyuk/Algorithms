@@ -10,7 +10,7 @@ typedef char Data;
 struct Vector;
 
 // Creates vector
-Vector* vector_create(size_t size);
+Vector* vector_create();
 
 // Deletes vector structure and internal data
 void vector_delete(Vector* vector);

@@ -6,7 +6,7 @@ struct Stack
 {
     Vector* vector;
     Stack() {
-        this->vector= vector_create(0);
+        this->vector= vector_create();
     }
 };
 

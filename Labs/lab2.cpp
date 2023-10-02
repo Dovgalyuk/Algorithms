@@ -111,7 +111,7 @@ int main()
 		getline(cin, str); //считывание ввода строки пользователя
 		size_t correct_count = 0; //счетчик правильности символа
 		for (size_t i = 0; i < str.size(); i++) { //циклом проверяем все символы
-			if (str[i] != '[' && str[i] != ']' && str[i] != '(' && str[i] != ')' && str[i] != '[' && str[i] != ']') {
+			if (str[i] != '[' && str[i] != ']' && str[i] != '(' && str[i] != ')' && str[i] != '{' && str[i] != '}') {
 				cout << "Incorrect input (please use just [,],(,),{,})\n";
 				break;
 			}

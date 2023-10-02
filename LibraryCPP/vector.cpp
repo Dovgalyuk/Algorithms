@@ -1,11 +1,12 @@
 #include "vector.h"
 #include "iostream"
+
 struct Vector
 {
     size_t size;
     Data* data;
-    Vector(size_t size){
-        this->size = size;
+    Vector(){
+        this->size = 0;
         this->data = new Data[size];
     }
     /*Vector(const Vector& prev_Vector) {
@@ -21,9 +22,9 @@ struct Vector
     }
 };
 
-Vector* vector_create(size_t size)
+Vector* vector_create()
 {
-    return new Vector(size);
+    return new Vector();
 }
 
 void vector_delete(Vector* vector)
