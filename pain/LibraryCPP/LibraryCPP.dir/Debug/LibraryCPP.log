@@ -1,0 +1,41 @@
+﻿  Building Custom Rule C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/LibraryCPP/CMakeLists.txt
+  array.cpp
+  list.cpp
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(23,28): error C2220: следующее предупреждение рассматривается как ошибка
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(23,28): warning C4100: list: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(28,37): warning C4100: item: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(33,36): warning C4100: item: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(38,36): warning C4100: item: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(43,40): warning C4100: data: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(43,29): warning C4100: list: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(48,62): warning C4100: data: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(48,51): warning C4100: item: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(48,35): warning C4100: list: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(53,34): warning C4100: list: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(58,49): warning C4100: item: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\list.cpp(58,33): warning C4100: list: неиспользованный формальный параметр
+  queue.cpp
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\queue.cpp(18,38): error C2220: следующее предупреждение рассматривается как ошибка
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\queue.cpp(18,38): warning C4100: data: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\queue.cpp(18,26): warning C4100: queue: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\queue.cpp(22,29): warning C4100: queue: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\queue.cpp(27,26): warning C4100: queue: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\queue.cpp(31,31): warning C4100: queue: неиспользованный формальный параметр
+  stack.cpp
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\stack.cpp(18,36): error C2220: следующее предупреждение рассматривается как ошибка
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\stack.cpp(18,36): warning C4100: data: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\stack.cpp(18,24): warning C4100: stack: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\stack.cpp(22,29): warning C4100: stack: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\stack.cpp(27,23): warning C4100: stack: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\stack.cpp(31,31): warning C4100: stack: неиспользованный формальный параметр
+  vector.cpp
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\vector.cpp(18,46): error C2220: следующее предупреждение рассматривается как ошибка
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\vector.cpp(18,46): warning C4100: index: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\vector.cpp(18,31): warning C4100: vector: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\vector.cpp(23,52): warning C4100: value: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\vector.cpp(23,40): warning C4100: index: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\vector.cpp(23,25): warning C4100: vector: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\vector.cpp(27,34): warning C4100: vector: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\vector.cpp(32,43): warning C4100: size: неиспользованный формальный параметр
+C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\vector.cpp(32,28): warning C4100: vector: неиспользованный формальный параметр
+  Создание кода...

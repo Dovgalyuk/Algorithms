@@ -11,7 +11,7 @@ void task1(Array* arr)
 {
     int count_negative = 0, count_positiove = 0;
 
-    for (int i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         if (array_get(arr, i) > 0)
             count_positiove++;
@@ -26,7 +26,7 @@ void task1(Array* arr)
     Array* p_arr = array_create(count_positiove);
     Array* n_arr = array_create(count_negative);
 
-    for (int z = 0, i = 0, j = 0; i < array_size(arr); z++)
+    for (size_t z = 0, i = 0, j = 0; i < array_size(arr); z++)
     {
         if (array_get(arr, i) > 0)
         {
@@ -58,27 +58,20 @@ void task2(Array* arr)
     vector<Data> arr_count_num(1);
     arr_count_num[0] = 1;
 
-    bool flag;
-
-    for (int i = 1; i < array_size(arr); i++)
+    for (size_t i = 1; i < array_size(arr); i++)
     {
-        flag = 0;
         Data buff = array_get(arr, i);
         for (int j = 0; j < arr_num.size(); j++)
         {
             if (buff == arr_num[j])
             {
                 arr_count_num[j]++;
-                flag = 1;
+                arr_num.push_back(buff);
+                arr_count_num.push_back(1);
                 break;
             }
         }
 
-        if (!flag)
-        {
-            arr_num.push_back(buff);
-            arr_count_num.push_back(1);
-        }
     }
 
     cout << "\n\n Повторяющие два раза числа(если они есть):" << endl;

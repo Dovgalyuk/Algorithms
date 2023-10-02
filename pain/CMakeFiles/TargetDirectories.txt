@@ -1,0 +1,13 @@
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/CMakeFiles/RUN_TESTS.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/CMakeFiles/ALL_BUILD.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/CMakeFiles/ZERO_CHECK.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/LibraryCPP/CMakeFiles/LibraryCPP.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/LibraryCPP/CMakeFiles/RUN_TESTS.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/LibraryCPP/Tests/CMakeFiles/TestArrayCPP.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/LibraryCPP/Tests/CMakeFiles/TestListCPP.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/LibraryCPP/Tests/CMakeFiles/TestQueueCPP.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/LibraryCPP/Tests/CMakeFiles/TestStackCPP.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/LibraryCPP/Tests/CMakeFiles/TestVectorCPP.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/LibraryCPP/Tests/CMakeFiles/RUN_TESTS.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/Lab1C/CMakeFiles/Lab1C.dir
+C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/Lab1C/CMakeFiles/RUN_TESTS.dir

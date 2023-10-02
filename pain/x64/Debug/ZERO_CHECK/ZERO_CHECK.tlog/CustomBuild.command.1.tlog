@@ -1,0 +1,10 @@
+^C:\УЧЁБА\2 КУРС\СТУКРУТРНЫЕ АЛГОРИТМЫ\GIT\ALGORITHMS\PAIN\CMAKEFILES\A619541571E942D084441CED99688AE0\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" "-SC:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms" "-BC:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/pain/Algorithms.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
