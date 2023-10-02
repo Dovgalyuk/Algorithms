@@ -34,16 +34,19 @@ void task2(Array* arr)
 {
     int c, z, x;
     c = 0;
-    for (int i = 0; i < a; i++)
+    for (size_t i = 0; i < a; i++)
     {
         if (*(int*)(array_get(arr, i)) > 0)
         {
-            for (int j = i + 1; j < a; j++)
+            for (size_t j = i + 1; j < a; j++)
                 if (*(int*)(array_get(arr, i)) == *(int*)(array_get(arr, j)))
                 {
                     c += 1;
                     z = *(int*)(array_get(arr, i));
-                    *(int*)(array_get(arr, j)) = -1;
+                    int* p = (int*)malloc(sizeof(int));
+                    *p = -1;
+                    array_set(arr, i, p);
+                   
                 }
             if (c == 1)
             {
@@ -64,7 +67,7 @@ int main()
     scanf("%d", &a);
     
     arr = array_create(a, NULL);
-    for (int i = 0; i < a; i++)
+    for (size_t i = 0; i < a; i++)
     {
         int* p = (int*)malloc(sizeof(int)); 
         *p = rand();
@@ -76,7 +79,7 @@ int main()
     /* Create another array here */
     scanf("%i", &a);
     arr = array_create(a, NULL);
-    for (int i = 0; i < a; i++)
+    for (size_t i = 0; i < a; i++)
     {
         int* p = (int*)malloc(sizeof(int));
         *p = rand();

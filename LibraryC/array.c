@@ -1,21 +1,22 @@
-﻿19:06
 #include <stdlib.h>
-#include "C:\Users\kirill\Desktop\array.h"
+#include "array.h"
 
 typedef struct Array
 {
-	int size;
-	int* array;
+	size_t size;
+	Data* array;
+	FFree* del;
 } Array;
 
 // create array
 Array* array_create(size_t size, FFree f)
 {
 	if (size > 0) {
-		Array* newarray = (Array*)malloc(sizeof(Array));
-		newarray->size = size;
-		newarray->array = (int*)malloc(sizeof(int) * size);
-		return newarray;
+		Array* n = (Array*)malloc(sizeof(Array));
+		n->size = size;
+		n->array = (Data*)malloc(sizeof(Data) * size);
+		n->del = f;
+		return n;
 	}
 	else
 		return malloc(sizeof(Array));
@@ -24,6 +25,15 @@ Array* array_create(size_t size, FFree f)
 // delete array, free memory
 void array_delete(Array* arr)
 {
+	if (arr->del != NULL)
+		for (size_t i = 0; i < arr->size; i++) {
+			arr->del(arr->array[i]);
+		}
+	else
+		for (size_t i = 0; i < arr->size; i++) {
+			free(arr->array[i]);
+		}
+	free(arr->array);
 	free(arr);
 }
 
@@ -49,5 +59,5 @@ void array_set(Array* arr, size_t index, Data value)
 size_t array_size(const Array* arr)
 {
 	return arr->size;
-	//return 0;
+	
 }
