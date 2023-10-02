@@ -13,7 +13,7 @@ void task1(Array* arr)
 {
     
     int sumosadkov = 0;
-    for (int i = 0; i <a; i++)
+    for (size_t i = 0; i <a; i++)
     {
         sumosadkov += *(int*)(array_get(arr, i));
         
