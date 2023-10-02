@@ -2,7 +2,6 @@
 #include "array.h"
 #include <ctime> 
 
-
 using namespace std;
 
 int count(Array *arr, Data value) { //Вычисление колличества одинаковых оценок
@@ -65,7 +64,9 @@ void task2(Array *arr)
 	}
 }
 
-void examination(size_t &size) { //Проверка на правльный ввод
+size_t examination() { //Проверка на правльный ввод
+	size_t size;
+	cout << "Enter array length:";
 	while (true) {
 		cin >> size;
 		if (!cin.fail()) {
@@ -77,6 +78,7 @@ void examination(size_t &size) { //Проверка на правльный ввод
 			cin.ignore(32767, '\n');
 		}
 	}
+	return size;
 }
 
 
@@ -85,17 +87,13 @@ int main()
 {
 	srand(time(NULL));
 	Array *arr = NULL;
-	size_t size;
-	cout << "Enter array length:";
-	examination(size);
-	arr = array_create(size);
+	arr = array_create(examination());
 	/* Create array here */
 	task1(arr);
 	array_delete(arr);
 	/* Create another array here */
 	cout << "Enter array length:";
-	examination(size);
-	arr = array_create(size);
+	arr = array_create(examination());
 	task2(arr);
 	array_delete(arr);
 }
