@@ -26,11 +26,11 @@ Array* array_create(size_t size, FFree f)
 void array_delete(Array* arr)
 {
     if (arr->deleter != NULL)
-        for (int i = 0; i < arr->size;i++) {
+        for (size_t i = 0; i < arr->size;i++) {
             arr->deleter(arr->array[i]);
         }
     else
-        for (int i = 0; i < arr->size;i++) {
+        for (size_t i = 0; i < arr->size;i++) {
             free(arr->array[i]);
         }
     free(arr->array);
