@@ -1,0 +1,420 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						3,
+						5,
+						7,
+						9
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "LibraryC",
+					"childIndexes" : 
+					[
+						2
+					],
+					"jsonFile" : "directory-LibraryC-Debug-9c63ba562690c16d60d6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "LibraryC",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "LibraryC/Tests",
+					"jsonFile" : "directory-LibraryC.Tests-Debug-f29a3a703750704fc8dc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "LibraryC/Tests",
+					"targetIndexes" : 
+					[
+						4,
+						8,
+						12,
+						16,
+						20
+					]
+				},
+				{
+					"build" : "LibraryCPP",
+					"childIndexes" : 
+					[
+						4
+					],
+					"jsonFile" : "directory-LibraryCPP-Debug-8c2b2f26cf0865286634.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "LibraryCPP",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "LibraryCPP/Tests",
+					"jsonFile" : "directory-LibraryCPP.Tests-Debug-b42857901d3b9ccab6ce.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "LibraryCPP/Tests",
+					"targetIndexes" : 
+					[
+						5,
+						9,
+						13,
+						17,
+						21
+					]
+				},
+				{
+					"build" : "LibraryCPPClass",
+					"childIndexes" : 
+					[
+						6
+					],
+					"jsonFile" : "directory-LibraryCPPClass-Debug-563b71ad89c8caa9e2ac.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "LibraryCPPClass",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "LibraryCPPClass/Tests",
+					"jsonFile" : "directory-LibraryCPPClass.Tests-Debug-a94342b7f71ecb768ada.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 0,
+					"source" : "LibraryCPPClass/Tests",
+					"targetIndexes" : 
+					[
+						6,
+						10,
+						14,
+						18,
+						22
+					]
+				},
+				{
+					"build" : "LibraryCPPTemplate",
+					"childIndexes" : 
+					[
+						8
+					],
+					"jsonFile" : "directory-LibraryCPPTemplate-Debug-01d49cd6cb0a591a5084.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "LibraryCPPTemplate"
+				},
+				{
+					"build" : "LibraryCPPTemplate/Tests",
+					"jsonFile" : "directory-LibraryCPPTemplate.Tests-Debug-e60ead1b66233bc05f0e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 7,
+					"projectIndex" : 0,
+					"source" : "LibraryCPPTemplate/Tests",
+					"targetIndexes" : 
+					[
+						7,
+						11,
+						15,
+						19,
+						23
+					]
+				},
+				{
+					"build" : "Lab1C",
+					"jsonFile" : "directory-Lab1C-Debug-42e6e8c49d67c6e886b2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Lab1C",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9
+					],
+					"name" : "Algorithms",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 9,
+					"id" : "Lab1C::@c050f807fd595b3ba8be",
+					"jsonFile" : "target-Lab1C-Debug-7e1fd91ce9d7286bbe5d.json",
+					"name" : "Lab1C",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "LibraryC::@05a76b2f4dbe82cfc264",
+					"jsonFile" : "target-LibraryC-Debug-1aa1c17736d613d409fb.json",
+					"name" : "LibraryC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "LibraryCPP::@4b3589622afbd1422885",
+					"jsonFile" : "target-LibraryCPP-Debug-67c3ed425c5cb69c08cd.json",
+					"name" : "LibraryCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "LibraryCPPClass::@73029f66a4a4277003c7",
+					"jsonFile" : "target-LibraryCPPClass-Debug-28444c9fc7c8c1b4b6ff.json",
+					"name" : "LibraryCPPClass",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "TestArrayC::@258c58ed07dec5af0266",
+					"jsonFile" : "target-TestArrayC-Debug-6e9c11d8a74985b4c4d6.json",
+					"name" : "TestArrayC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "TestArrayCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestArrayCPP-Debug-2bccf51cb929454f7a13.json",
+					"name" : "TestArrayCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "TestArrayCPPClass::@57f63cd1dba2bf5e6593",
+					"jsonFile" : "target-TestArrayCPPClass-Debug-0fc810334a02a1569fcc.json",
+					"name" : "TestArrayCPPClass",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "TestArrayCPPTemplate::@72c6537b31d5b298c81f",
+					"jsonFile" : "target-TestArrayCPPTemplate-Debug-4bfeb32785cbc7154466.json",
+					"name" : "TestArrayCPPTemplate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "TestListC::@258c58ed07dec5af0266",
+					"jsonFile" : "target-TestListC-Debug-57d76ff8f8e042a57e0d.json",
+					"name" : "TestListC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "TestListCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestListCPP-Debug-36c1c55925c9b5daf91a.json",
+					"name" : "TestListCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "TestListCPPClass::@57f63cd1dba2bf5e6593",
+					"jsonFile" : "target-TestListCPPClass-Debug-0ca006c8f39321deef15.json",
+					"name" : "TestListCPPClass",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "TestListCPPTemplate::@72c6537b31d5b298c81f",
+					"jsonFile" : "target-TestListCPPTemplate-Debug-cb002e041aad5149dda7.json",
+					"name" : "TestListCPPTemplate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "TestQueueC::@258c58ed07dec5af0266",
+					"jsonFile" : "target-TestQueueC-Debug-a03f70920424aa45b27c.json",
+					"name" : "TestQueueC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "TestQueueCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestQueueCPP-Debug-392acdc8a07496c9ef13.json",
+					"name" : "TestQueueCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "TestQueueCPPClass::@57f63cd1dba2bf5e6593",
+					"jsonFile" : "target-TestQueueCPPClass-Debug-07319742fc2f574e4931.json",
+					"name" : "TestQueueCPPClass",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "TestQueueCPPTemplate::@72c6537b31d5b298c81f",
+					"jsonFile" : "target-TestQueueCPPTemplate-Debug-6b20f90313afb405dd3a.json",
+					"name" : "TestQueueCPPTemplate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "TestStackC::@258c58ed07dec5af0266",
+					"jsonFile" : "target-TestStackC-Debug-58de0a26d092093b3a90.json",
+					"name" : "TestStackC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "TestStackCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestStackCPP-Debug-3936b512af7ff91649a3.json",
+					"name" : "TestStackCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "TestStackCPPClass::@57f63cd1dba2bf5e6593",
+					"jsonFile" : "target-TestStackCPPClass-Debug-8526fe8ab5748465177a.json",
+					"name" : "TestStackCPPClass",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "TestStackCPPTemplate::@72c6537b31d5b298c81f",
+					"jsonFile" : "target-TestStackCPPTemplate-Debug-b186ddb679ec061b386a.json",
+					"name" : "TestStackCPPTemplate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "TestVectorC::@258c58ed07dec5af0266",
+					"jsonFile" : "target-TestVectorC-Debug-494d5816cc257cddf4db.json",
+					"name" : "TestVectorC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "TestVectorCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestVectorCPP-Debug-51ed7dbc10bed6aca820.json",
+					"name" : "TestVectorCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "TestVectorCPPClass::@57f63cd1dba2bf5e6593",
+					"jsonFile" : "target-TestVectorCPPClass-Debug-59f4bc3d2ee549cd57fa.json",
+					"name" : "TestVectorCPPClass",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "TestVectorCPPTemplate::@72c6537b31d5b298c81f",
+					"jsonFile" : "target-TestVectorCPPTemplate-Debug-84a8324e3e58b0fcb03b.json",
+					"name" : "TestVectorCPPTemplate",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "F:/Algorithms-Uni/Algorithms-University/out/build/x64-Debug",
+		"source" : "F:/Algorithms-Uni/Algorithms-University"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 5
+	}
+}
