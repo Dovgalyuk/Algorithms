@@ -92,7 +92,6 @@ int main()
 	task1(arr);
 	array_delete(arr);
 	/* Create another array here */
-	cout << "Enter array length:";
 	arr = array_create(examination());
 	task2(arr);
 	array_delete(arr);
