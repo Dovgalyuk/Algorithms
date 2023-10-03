@@ -58,6 +58,7 @@ void task2(Array* arr)
         }
         c = 0;
     }
+
 }
 
 int main()
@@ -88,20 +89,7 @@ int main()
     task2(arr);
     array_delete(arr);
 
-   
-    
-   
 
-  
-   
-   
-
-    
-
-   
-   
-    
-    
-    
-    
 }
+
+
