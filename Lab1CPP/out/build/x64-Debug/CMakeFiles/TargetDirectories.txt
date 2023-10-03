@@ -1,4 +1,0 @@
-D:/Github/Algorithms-University/Lab1CPP/out/build/x64-Debug/CMakeFiles/Lab1C.dir
-D:/Github/Algorithms-University/Lab1CPP/out/build/x64-Debug/CMakeFiles/Lab1CPP.dir
-D:/Github/Algorithms-University/Lab1CPP/out/build/x64-Debug/CMakeFiles/edit_cache.dir
-D:/Github/Algorithms-University/Lab1CPP/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
