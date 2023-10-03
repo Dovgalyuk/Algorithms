@@ -20,7 +20,6 @@ private:
     void Way(const int x, const int y, Queue* queue);
     void Draw(const int x_end, const int y_end);
 };
-
 Maze::Maze() {
     width = 0;
     height = 0;
@@ -81,36 +80,34 @@ Maze::~Maze() {
     tag_map = nullptr;
 }
 void Maze::Way(const int x, const int y, Queue* queue) {
-    if (!tag_map[x][y]) {
-        tag_map[x][y] = true;
+    tag_map[x][y] = true;
 
-        if (map[x + 1][y] == '.' || map[x + 1][y] == 'Y') {
-            if (!tag_map[x + 1][y]) {
-                routes[x + 1][y] = routes[x][y] + 1;
-                queue_insert(queue, x + 1);
-                queue_insert(queue, y);
-            }
+    if (map[x + 1][y] == '.' || map[x + 1][y] == 'Y') {
+        if (!tag_map[x + 1][y]) {
+            routes[x + 1][y] = routes[x][y] + 1;
+            queue_insert(queue, x + 1);
+            queue_insert(queue, y);
         }
-        if (map[x - 1][y] == '.' || map[x - 1][y] == 'Y') {
-            if (!tag_map[x - 1][y]) {
-                routes[x - 1][y] = routes[x][y] + 1;
-                queue_insert(queue, x - 1);
-                queue_insert(queue, y);
-            }
+    }
+    if (map[x - 1][y] == '.' || map[x - 1][y] == 'Y') {
+        if (!tag_map[x - 1][y]) {
+            routes[x - 1][y] = routes[x][y] + 1;
+            queue_insert(queue, x - 1);
+            queue_insert(queue, y);
         }
-        if (map[x][y + 1] == '.' || map[x][y + 1] == 'Y') {
-            if (!tag_map[x][y + 1]) {
-                routes[x][y + 1] = routes[x][y] + 1;
-                queue_insert(queue, x);
-                queue_insert(queue, y + 1);
-            }
+    }
+    if (map[x][y + 1] == '.' || map[x][y + 1] == 'Y') {
+        if (!tag_map[x][y + 1]) {
+            routes[x][y + 1] = routes[x][y] + 1;
+            queue_insert(queue, x);
+            queue_insert(queue, y + 1);
         }
-        if (map[x][y - 1] == '.' || map[x][y - 1] == 'Y') {
-            if (!tag_map[x][y - 1]) {
-                routes[x][y - 1] = routes[x][y] + 1;
-                queue_insert(queue, x);
-                queue_insert(queue, y - 1);
-            }
+    }
+    if (map[x][y - 1] == '.' || map[x][y - 1] == 'Y') {
+        if (!tag_map[x][y - 1]) {
+            routes[x][y - 1] = routes[x][y] + 1;
+            queue_insert(queue, x);
+            queue_insert(queue, y - 1);
         }
     }
 }
