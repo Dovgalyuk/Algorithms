@@ -133,5 +133,5 @@ int main()
  
     array_delete(array);   //Удаление массива
     
-    return 0;
+    
 }
