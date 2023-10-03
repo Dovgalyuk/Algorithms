@@ -4,10 +4,12 @@
 struct Vector
 {
     size_t size;
+    size_t max_size;
     Data* data;
     Vector(){
         this->size = 0;
-        this->data = new Data[size];
+        this->max_size = 1;
+        this->data = new Data[max_size];
     }
     /*Vector(const Vector& prev_Vector) {
         std::cout << "copy vec";
@@ -50,17 +52,14 @@ size_t vector_size(const Vector* vector)
 
 void vector_resize(Vector* vector, size_t size)
 {
-    size_t old_size = vector->size;
-    Data* new_data = new Data[size];
-    if (size < old_size) {
-        for (size_t i = 0; i < size; i++) {
-            new_data[i] = vector->data[i];
-        }
+    if (size <= vector->max_size) {
+        vector->size = size;
+        return;
     }
-    else {
-        for (size_t i = 0; i < old_size; i++) {
-            new_data[i] = vector->data[i];
-        }
+    vector->max_size = size * 2;
+    Data* new_data = new Data[vector->max_size];
+    for (size_t i = 0; i < vector->size; i++) {
+        new_data[i] = vector->data[i];
     }
     delete[] vector->data;
     vector->size = size;
