@@ -26,46 +26,74 @@ int first_task(const Array* arr,int a, int b) //ѕервое задание
 size_t second_task(const Array* arr)
 {
     int sum = 0;
- 
-    size_t size= array_size(arr);
-    
-    if (size< 5)
-    {
-        cout << "Array size is less than a 5 elements!" << endl;
-        
+    int summax = 0;
+    int counter = 5;
+    size_t indx = 0;
+    size_t size = array_size(arr);
 
-    }
-    else
-    { 
+    if (size < 5)
+    {
+        cout << "Array size is less or equal to 5 elements!" << endl;
+        return 0;
         
+    }
+    else if (size == 5)
+    {
+        for (size_t i = 0; i < 5; i++)
+        {
+            sum += array_get(arr, i);
+        }
+        summax = sum;
+        indx = 5;
+    }
+    else if (size > 5)
+    {
+        for (size_t i = 0; i < 5; i++)
+        {
+            sum += array_get(arr, i);
+        }
+
         for (size_t i = 5; i < size; i++)
         {
+            if (sum > summax)
+            {
+                summax = sum;
+                indx = i;
+            }
             if (array_get(arr, i) > array_get(arr, i - 5))
             {
-                
+
                 sum += array_get(arr, i);
-                cout << "Second task result: " << array_get(arr, i)<<endl;
-                
+                sum -= array_get(arr, i - 5);
+
+                counter++;
             }
             else
             {
-                
+                if (counter <= 10)
+                {
+                    sum += array_get(arr, i);
+                    sum -= array_get(arr, i - 5);
+                    counter++;
+                    continue;
+                }
                 sum += array_get(arr, i - 5);
-                cout << "Second task result: " << array_get(arr, i-5)<<endl;
-                
+                sum -= array_get(arr, i);
+
             }
-            
+
         }
-   
     }
-    return 0;
- }
+    return indx;
+}
+
 
 int main()
 {
     
     setlocale(LC_ALL, "Russian");
     size_t sizeofArr;
+    size_t indx;
     int a, b;
     cout << "Enter size of array:";
     cin >> sizeofArr;   
@@ -88,7 +116,7 @@ int main()
 
     
 
-    cout << "Enter size of array:";
+    cout << "Enter size of array: ";
     cin >> sizeofArr;  //¬вод данных
     Array* array = array_create(sizeofArr); //—оздание экземпл€ра массива
 
@@ -96,7 +124,12 @@ int main()
     {
         array_set(array, i, rand());
     }
-    second_task(array); //¬торое задание
+    indx = second_task(arr);
+    for (size_t i = indx - 5; i < indx; i++)
+    {
+        cout << "Second task answer: " << array_get(arr,i) << endl; //¬торое задание
+    }
+   
  
     array_delete(array);   //”даление массива
     
