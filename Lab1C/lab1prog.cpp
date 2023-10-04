@@ -1,10 +1,10 @@
-ï»¿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
 using namespace std;
 void first_podschet(const vector<int>& arr, int N) {
-	cout << "ÐœÐ°ÑÑÐ¸Ð²: ";
+	cout << "Ìàññèâ: ";
 	for (int k = 0; k < N; k++) {
 		cout << arr[k] << " ";
 	}
@@ -21,27 +21,27 @@ void first_podschet(const vector<int>& arr, int N) {
 			nol += 1;
 		}
 	}
-	cout << "ÐŸÐ¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ñ… Ñ‡Ð¸ÑÐµÐ»: " << plus << endl;
-	cout << "ÐžÑ‚Ñ€Ð¸Ñ†Ð°Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ñ… Ñ‡Ð¸ÑÐµÐ»: " << minus << endl;
-	cout << "ÐÑƒÐ»ÐµÐ²Ñ‹Ñ… Ñ‡Ð¸ÑÐµÐ»: " << nol << endl;
+	cout << "Ïîëîæèòåëüíûõ ÷èñåë: " << plus << endl;
+	cout << "Îòðèöàòåëüíûõ ÷èñåë: " << minus << endl;
+	cout << "Íóëåâûõ ÷èñåë: " << nol << endl;
 
 }
 void second_deleters(const vector<int>& arr, int N) {
-	cout << "ÐœÐ°ÑÑÐ¸Ð²: ";
+	cout << "Ìàññèâ: ";
 	for (int k = 0; k < N; k++) {
 		cout << arr[k] << " ";
 	}
 	cout << endl;
 	for (int i = 0; i < N; i++) {
 		bool notDelete = true;
-		for (int j = 0; j < N ; j++) {
-			if ((i!=j) && (arr[i] % arr[j] == 0)) {
+		for (int j = 0; j < N; j++) {
+			if ((i != j) && (arr[i] % arr[j] == 0)) {
 				notDelete = false;
 				break;
 			}
 		}
 		if (notDelete) {
-			cout << "ÐÐµ Ð´ÐµÐ»ÑŽÑ‰Ð¸ÐµÑÑ Ñ‡Ð¸ÑÐ»Ð¾: " << arr[i] << endl;
+			cout << "Íå äåëþùèåñÿ ÷èñëî: " << arr[i] << endl;
 		}
 		cout << endl;
 	}
@@ -51,18 +51,18 @@ int main()
 {
 	setlocale(LC_ALL, "rus");
 
-	
+
 	cout << endl;
 	bool oneMoreTime = true;
 	while (oneMoreTime) {
 		int choise;
-		cout << "Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð·Ð°Ð´Ð°Ð½Ð¸Ðµ(0 - Ð’Ñ‹Ñ…Ð¾Ð´)" << endl;
-		cout << "1-ÐŸÐ¾Ð´ÑÑ‡ÐµÑ‚ Ð¿Ð¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ñ…,Ð¾Ñ‚Ñ€Ð¸Ñ†Ð°Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ñ…,Ð½ÑƒÐ»ÐµÐ²Ñ‹Ñ…" << endl;
-		cout << "2-ÐÐµ Ð´ÐµÐ»ÑŽÑ‰Ð¸ÐµÑÑ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹" << endl;
+		cout << "Âûáåðèòå çàäàíèå(0 - Âûõîä)" << endl;
+		cout << "1-Ïîäñ÷åò ïîëîæèòåëüíûõ,îòðèöàòåëüíûõ,íóëåâûõ" << endl;
+		cout << "2-Íå äåëþùèåñÿ ýëåìåíòû" << endl;
 		cin >> choise;
 		if (choise == 1) {
 			int N;
-			cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð¼Ð°ÑÑÐ¸Ð²Ð°: ";
+			cout << "Ââåäèòå ðàçìåð ìàññèâà: ";
 			cin >> N;
 			vector<int> mas(N);
 			srand(time(0));
@@ -74,7 +74,7 @@ int main()
 		}
 		if (choise == 2) {
 			int N;
-			cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð¼Ð°ÑÑÐ¸Ð²Ð°: ";
+			cout << "Ââåäèòå ðàçìåð ìàññèâà: ";
 			cin >> N;
 			vector<int> mas(N);
 			srand(time(0));
@@ -89,7 +89,7 @@ int main()
 		}
 		if (choise != 0) {
 			int oneMoreTimeOrNot;
-			cout << "Ð—Ð°Ð¿ÑƒÑÑ‚Ð¸Ñ‚ÑŒ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñƒ ÑÐ½Ð¾Ð²Ð°? (1 - Ð”Ð°, 0 - ÐÐµÑ‚): ";
+			cout << "Çàïóñòèòü ïðîãðàììó ñíîâà? (1 - Äà, 0 - Íåò): ";
 			cin >> oneMoreTimeOrNot;
 			cout << endl;
 			if (oneMoreTimeOrNot == 1) {
