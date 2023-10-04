@@ -2,6 +2,7 @@ add_executable(TestArrayCPP array.cpp)
 target_include_directories(TestArrayCPP PUBLIC ..)
 target_link_libraries(TestArrayCPP LibraryCPP)
 add_test(TestArrayCPP TestArrayCPP)
+<<<<<<< Updated upstream
 
 add_executable(TestListCPP list.cpp)
 target_include_directories(TestListCPP PUBLIC ..)
@@ -24,3 +25,5 @@ target_include_directories(TestVectorCPP PUBLIC ..)
 target_link_libraries(TestVectorCPP LibraryCPP)
 add_test(TestVectorCPP TestVectorCPP)
 set_tests_properties(TestVectorCPP PROPERTIES TIMEOUT 10)
+=======
+>>>>>>> Stashed changes

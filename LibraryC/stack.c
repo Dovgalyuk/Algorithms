@@ -3,6 +3,7 @@
 
 typedef struct Stack
 {
+    size_t size;
 } Stack;
 
 Stack *stack_create(FFree f)
