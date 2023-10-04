@@ -5,24 +5,27 @@
 #include "array.h"
 void task1(Array* arr)
 {
-	int firstMax = -1, lastMax = -1;
-	int max = -1;
-	size_t length = array_size(arr);
-	for (size_t i = 0;i < length;i++) {
-		int x = *((int*)array_get(arr, i));
-		if (x == max) {
-			lastMax = i;
+	if (arr != NULL) {
+		int firstMax = -1, lastMax = -1;
+		int max = -1;
+		size_t length = array_size(arr);
+		for (size_t i = 0;i < length;i++) {
+			int x = *((int*)array_get(arr, i));
+			if (x == max) {
+				lastMax = i;
+			}
+			else if (x > max) {
+				max = x;
+				firstMax = i;
+				lastMax = -1;
+			}
 		}
-		else if (x > max) {
-			max = x;
-			firstMax = i;
-			lastMax = -1;
+		if (lastMax != -1) {
+			printf("\nindex of first MaxSpeed Auto = %d , index of LastMax = %d\n", firstMax, lastMax);
 		}
+		else printf("\nindex of MaxSpeed Auto = %d \n", firstMax);
 	}
-	if (lastMax != -1) {
-		printf("\nindex of first MaxSpeed Auto = %d , index of LastMax = %d\n", firstMax, lastMax);
-	}
-	else printf("\nindex of MaxSpeed Auto = %d \n", firstMax);
+	printf("\nmassive is empty\n");
 }
 
 void task2(Array* arr)
