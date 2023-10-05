@@ -4,23 +4,43 @@
 
 using namespace std;
 
+string input() { //првоерка на ввод скобок
+	cout << "Please enter a string consisting of [, ], (, ), { , }: ";
+	while (true) {
+		string str;
+		getline(cin, str);
+		size_t size = str.size();
+		size_t count = 0;
+		for (size_t i = 0; i < size; i++) {
+			if (str[i] == '[' || str[i] == '(' || str[i] == '{' || str[i] == ']' || str[i] == ')' || str[i] == '}') {
+				count++;
+			}
+		}
+		if (count == size) {
+			return str;
+		}
+		else {
+			cout << "Incorrect input! Try again\n";
+		}
+	}
+}
+
 void task1(string str) {
 	Stack* stack = stack_create(); //выделение памяти под стэк
-	size_t size = str.size();
+	size_t size = str.size(); //узнаем длину (возможно, что ответ )
 	if (size % 2 == 0) {
-		int pair = 0;
-		for (size_t i = 0; i < size; i++) {
+		for (size_t i = 0; i < size; i++) {//проверяем каждый элемент через два for
 			if (str[i] == '[' || str[i] == '{' || str[i] == '(') {
-				stack_push(stack, str[i]);
-				int between = 0;
-				int opened = 0;
-				int closed = 0;
+				stack_push(stack, str[i]); // добавляем элемент в stack
+				int between = 0; //кол-во элементов между двух скобок
+				int opened = 0; //кол-во октрывающих скобок
+				int closed = 0; //кол-во закрывающих скобок
 				for (size_t j = i + 1; j < size; j++) {
-					if (closed==opened && between%2==0 
-						&& ((stack_get(stack) == '[' && str[j] == ']') || 
-						(stack_get(stack) == '{' && str[j] == '}') || 
-						(stack_get(stack) == '(' && str[j] == ')'))) {
-						pair++;
+					if (closed == opened && between % 2 == 0
+						&& ((stack_get(stack) == '[' && str[j] == ']') ||
+							(stack_get(stack) == '{' && str[j] == '}') ||
+							(stack_get(stack) == '(' && str[j] == ')'))) {
+						stack_pop(stack);
 						break;
 					}
 					else if (str[j] == ']' || str[j] == '}' || str[j] == ')') {
@@ -31,10 +51,9 @@ void task1(string str) {
 					}
 					between++;
 				}
-				stack_pop(stack);
 			}
 		}
-		if (pair == size / 2) {
+		if (stack_empty(stack)) { //если стэк пуст, то все верно
 			cout << "YES\n";
 		}
 		else {
@@ -44,13 +63,11 @@ void task1(string str) {
 	else {
 		cout << "NO\n";
 	}
-	stack_delete(stack);
+	stack_delete(stack);//освобождаем память
 }
 
 int main()
 {
-	string str;
-	cout << "Please enter a string consisting of [, ], (, ), { , }: ";
-	getline(cin, str);
+	string str = input();
 	task1(str);
 }
