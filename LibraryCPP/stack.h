@@ -7,10 +7,6 @@ typedef char Data;
 
 struct Stack;
 
-
-//создание копии стека
-Stack* stack_copy(const Stack* stack);
-
 // Creates empty stack
 Stack* stack_create();
 

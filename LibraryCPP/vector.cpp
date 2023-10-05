@@ -1,5 +1,4 @@
 #include "vector.h"
-#include "iostream"
 
 struct Vector
 {
@@ -11,14 +10,6 @@ struct Vector
         this->max_size = 1;
         this->data = new Data[max_size];
     }
-    /*Vector(const Vector& prev_Vector) {
-        std::cout << "copy vec";
-        this->size = prev_Vector.size;
-        this->data = new Data[this->size];
-        for (size_t i = 0; i < this->size; i++) {
-            this->data[i] = prev_Vector.data[i];
-        }
-    }*/
     ~Vector(){
         delete[] this->data;
     }

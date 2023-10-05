@@ -1,32 +1,15 @@
 #include "stack.h"
 #include "vector.h"
-#include "iostream"
 
 struct Stack
 {
     Vector* vector;
-    Stack() {
-        this->vector= vector_create();
-    }
 };
-
-Stack* stack_copy(const Stack* stack)
-{
-    Stack* newStack = stack_create();
-    size_t stackSize = vector_size(stack->vector);
-
-    for (size_t i = 0; i < stackSize; i++)
-    {
-        Data data = vector_get(stack->vector, i);
-        stack_push(newStack, data);
-    }
-
-    return newStack;
-}
 
 Stack* stack_create()
 {
     Stack* stack = new Stack;
+    stack->vector = vector_create();
     return stack;
 }
 
@@ -56,11 +39,6 @@ void stack_pop(Stack* stack)
 bool stack_empty(const Stack* stack)
 {   
     size_t size = vector_size(stack->vector);
-    if (size == 0) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return size == 0;
 }
 
