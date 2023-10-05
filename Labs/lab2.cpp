@@ -46,7 +46,7 @@ void task1(string str) {
 					else if (str[j] == ']' || str[j] == '}' || str[j] == ')') {
 						closed++;
 					}
-					else if (str[j] == '[' || str[j] == ' {' || str[j] == '(') {
+					else if (str[j] == '[' || str[j] == '{' || str[j] == '(') {
 						opened++;
 					}
 					between++;
