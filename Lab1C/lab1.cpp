@@ -46,7 +46,7 @@ void first(Array* arr) {
     Data countminus = 0;
     for (size_t i = 0; i < size; i++) {
         elem = array_get(arr, i); // Получаем элемент массива по индексу
-        if (elem < 0) {
+        if (elem > 0) {
             sum += elem;// Суммируем все элементы массива
             count++; // Увеличиваем счетчик
         }
