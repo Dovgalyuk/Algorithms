@@ -61,3 +61,4 @@ size_t array_size(const Array* arr)
 	return arr->size;
 	
 }
+
