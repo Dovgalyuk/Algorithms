@@ -36,12 +36,14 @@ void task2(Array* arr)
     size_t max = array_get(arr, 0);
     size_t sum = 0;
     
+    
     for (size_t i = 0; i < size; i++) {
-        if (array_get(arr, i) < min) {
-            min = array_get(arr, i);
+        size_t current_value = array_get(arr, i);
+        if (current_value < min) {
+            min = current_value;
         }
-        if (array_get(arr, i) > max) {
-            max = array_get(arr, i);
+        if (current_value > max) {
+            max = current_value;
         }
     }
     for (size_t i = 0; i < size; i++) {
