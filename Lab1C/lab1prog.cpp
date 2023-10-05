@@ -61,11 +61,14 @@ int main()
 		cout << "1-Контейнер Array" << endl;
 		cout << "2-Подсчет положительных,отрицательных,нулевых" << endl;
 		cout << "3-Не делющиеся элементы" << endl;
+		cout << "1-Подсчет положительных,отрицательных,нулевых" << endl;
+		cout << "2-Не делющиеся элементы" << endl;
 		cin >> choise;
 		if (choise == 1) {
-			array<int, 6 > arr = { 5, 7, 1, 2, 4, 9 };
+			const unsigned n = 6;
+			array<int, n > arr { 5, 7, 1, 2, 4, 9 };
 			cout << "Контейнер Array: ";
-			for (int i = 0; i < (int)arr.size(); i++) {
+			for (int i = 0; i < n; i++) {
 				cout << arr[i] << " ";
 			}
 			cout << endl;
