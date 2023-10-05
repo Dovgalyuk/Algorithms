@@ -37,9 +37,9 @@ void task1(string str) {
 				int closed = 0; //кол-во закрывающих скобок
 				for (size_t j = i + 1; j < size; j++) {
 					if (closed == opened && between % 2 == 0
-						&& ((stack_get(stack) == '[' && str[j] == ']') ||
-							(stack_get(stack) == '{' && str[j] == '}') ||
-							(stack_get(stack) == '(' && str[j] == ')'))) {
+						&& ((stack_get(stack) == (Data)'[' && str[j] == (Data)']') ||
+							(stack_get(stack) == (Data)'{' && str[j] == (Data)'}') ||
+							(stack_get(stack) == (Data)'(' && str[j] == (Data)')'))) {
 						stack_pop(stack);
 						break;
 					}
