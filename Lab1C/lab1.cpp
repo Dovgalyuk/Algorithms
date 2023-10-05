@@ -60,7 +60,7 @@ size_t second_task(const Array* arr)
                 summax = sum;
                 indx = i;
             }
-            if (array_get(arr, i) > array_get(arr, i - 5))
+            if (array_get(arr, i) >= array_get(arr, i - 5))
             {
 
                 sum += array_get(arr, i);
@@ -68,7 +68,7 @@ size_t second_task(const Array* arr)
 
                 counter++;
             }
-            else
+            else if (array_get(arr, i) <= array_get(arr, i - 5))
             {
                 if (counter <= 10)
                 {
@@ -92,13 +92,13 @@ int main()
 {
     
     setlocale(LC_ALL, "Russian");
-    size_t sizeofArr;
+    size_t sizeofArr1;
     size_t indx;
     int a, b;
     cout << "Enter size of array:";
-    cin >> sizeofArr;   
+    cin >> sizeofArr1;   
     cout << endl;
-    Array* arr= array_create(sizeofArr); //—оздание экземпл€ра массива
+    Array* arr= array_create(sizeofArr1); //—оздание экземпл€ра массива
 
    
     srand(time(NULL) % 100);            //√енератор случайных чисел
@@ -115,22 +115,22 @@ int main()
     array_delete(arr); //”даление массива
 
     
-
+    size_t sizeofArr2;
     cout << "Enter size of array: ";
-    cin >> sizeofArr;  //¬вод данных
-    Array* array = array_create(sizeofArr); //—оздание экземпл€ра массива
+    cin >> sizeofArr2;  //¬вод данных
+    Array* array = array_create(sizeofArr2); //—оздание экземпл€ра массива
 
     for (size_t i = 0; i < array_size(array); i++)
     {
         array_set(array, i, rand());
     }
-    indx = second_task(arr);
-    for (size_t i = indx - 5; i < indx; i++)
-    {
-        cout << "Second task answer: " << array_get(arr,i) << endl; //¬торое задание
-    }
-   
- 
+   indx = second_task(array);
+    
+   for (size_t i = indx - 5; i < indx; i++)
+   {
+       cout << "Second task answer: " << array_get(array, i) << endl; //¬торое задание
+   }
+           
     array_delete(array);   //”даление массива
     
     
