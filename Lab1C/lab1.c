@@ -2,7 +2,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "array.h"
 #include <stdio.h>
-#include <iostream>
 
 
 using namespace std;
