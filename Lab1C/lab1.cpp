@@ -38,16 +38,10 @@ void task2(Array* arr)
         //Proverka,nahoditsa li element v intervale
         if (currentElement < a || currentElement > b)
         {
-            //Element d intervale
+            //Element v intervale
             Data currentData = Data(currentElement);
             array_set(arr, zero, currentData);
             zero++;
-        }
-        else
-        {
-            //Element ne v intervale
-            Data zeroData = Data();
-            array_set(arr, zero, zeroData);
         }
     }
 
