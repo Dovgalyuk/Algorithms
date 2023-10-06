@@ -68,7 +68,7 @@ size_t second_task(const Array* arr)
 
                 counter++;
             }
-            else if (array_get(arr, i) <= array_get(arr, i - 5))
+            else 
             {
                 if (counter <= 10)
                 {
