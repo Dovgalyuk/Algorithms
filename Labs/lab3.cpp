@@ -1,189 +1,115 @@
-﻿#include <iostream>
-#include <fstream>
-#include <sstream>
-#include "queue.h"
+﻿#include "queue.h"
+#include <iostream>
+#include <string>
+#include <fstream> 
+#include <vector> 
+using namespace std;
 
-class Maze {
-public:
-    Maze();
-    ~Maze();
-    void Print();
-    void Find();
-    void Read();
-private:
-    int width = 0;
-    int height = 0;
-    char** map = nullptr;
-    bool** tag_map = nullptr;
-    int** routes = nullptr;
-
-    void Way(const int x, const int y, Queue* queue);
-    void Draw(const int x_end, const int y_end);
-};
-Maze::Maze() {
-    width = 0;
-    height = 0;
+vector<string> Read(int& k, int& sx, int& sy, Queue* queue, int& fx, int& fy) {
+	vector<string> labirynth;
+	string strbuf;
+	ifstream out("maze.txt");
+	while (getline(out, strbuf))
+	{
+		labirynth.push_back(strbuf);
+		for (int i = 0; i < labirynth[k].size(); i++)
+		{
+			if (labirynth[k][i] == 'X')
+			{
+				sx = k;
+				sy = i;
+				queue_insert(queue, sx);
+				queue_insert(queue, sy);
+			}
+			if (labirynth[k][i] == 'Y')
+			{
+				fx = k;
+				fy = i;
+			}
+		}
+		k++;
+	}
+	out.close();
+	return labirynth;
 }
-void Maze::Read() {
-    std::ifstream file("maze.txt");
-    std::string buff;
-    std::string result;
-
-    if (!file.is_open()) {
-        std::cout << "File not found" << std::endl;
-        return;
-    }
-
-    while (!file.eof()) {
-        std::getline(file, buff);
-        height++;
-        for (size_t i = 0; i < buff.size(); i++)
-            result += buff[i];
-    }
-
-    width = static_cast<int>(buff.size());
-    file.close();
-    buff.clear();
-
-    tag_map = new bool* [height];
-    routes = new int* [height];
-    for (int i = 0; i < height; i++) {
-        tag_map[i] = new bool[width];
-        routes[i] = new int[width];
-        for (int j = 0; j < width; j++) {
-            tag_map[i][j] = false;
-            routes[i][j] = -1;
-        }
-    }
-
-    int k = 0;
-    map = new char* [height];
-    for (int i = 0; i < height; i++) {
-        map[i] = new char[width];
-        for (int j = 0; j < width; j++) {
-            map[i][j] = result[k];
-            k++;
-        }
-    }
+int** setter(int** rast, vector<string>& labirynth, int& sx, int& sy) {
+	for (int i = 0; i < labirynth.size(); i++)
+	{
+		rast[i] = new int[labirynth[i].size()];
+		for (int l = 0; l < labirynth[i].size(); l++)
+		{
+			rast[i][l] = 0;
+		}
+	}
+	rast[sx][sy] = 1;
+	return rast;
 }
-Maze::~Maze() {
-    for (int i = 0; i < height; i++) {
-        delete[] map[i];
-        delete[] tag_map[i];
-        delete[] routes[i];
-    }
-    delete[] routes;
-    routes = nullptr;
-    delete[] map;
-    map = nullptr;
-    delete[] tag_map;
-    tag_map = nullptr;
+void Check(Queue* queue, vector<string>& labirynth, int* dx, int* dy, int** rast) {
+	while (!queue_empty(queue))
+	{
+		int x = queue_get(queue);
+		queue_remove(queue);
+		int y = queue_get(queue);
+		queue_remove(queue);
+		for (int k_k = 0; k_k < 4; k_k++)
+		{
+			int xx = x + dx[k_k];
+			int yy = y + dy[k_k];
+			if (xx >= 0 && xx < labirynth.size() && yy >= 0 && yy < labirynth[1].size())
+			{
+				if (rast[xx][yy] == 0 && labirynth[xx][yy] != '#')
+				{
+					rast[xx][yy] = rast[x][y] + 1;
+					queue_insert(queue, xx);
+					queue_insert(queue, yy);
+				}
+			}
+		}
+	}
 }
-void Maze::Way(const int x, const int y, Queue* queue) {
-    tag_map[x][y] = true;
+void PrintAndClear(int** rast, vector<string>& labirynth, int& sx, int& sy, int& fx, int& fy, int* dx, int* dy, int& k, Queue* queue) {
+	if (rast[fx][fy])
+	{
+		while (rast[fx][fy] - 1 != rast[sx][sy])
+		{
+			for (int k_k = 0; k_k < 4; k_k++)
+			{
+				int x = fx + dx[k_k];
+				int y = fy + dy[k_k];
 
-    if (map[x + 1][y] == '.' || map[x + 1][y] == 'Y') {
-        if (!tag_map[x + 1][y]) {
-            routes[x + 1][y] = routes[x][y] + 1;
-            queue_insert(queue, x + 1);
-            queue_insert(queue, y);
-        }
-    }
-    if (map[x - 1][y] == '.' || map[x - 1][y] == 'Y') {
-        if (!tag_map[x - 1][y]) {
-            routes[x - 1][y] = routes[x][y] + 1;
-            queue_insert(queue, x - 1);
-            queue_insert(queue, y);
-        }
-    }
-    if (map[x][y + 1] == '.' || map[x][y + 1] == 'Y') {
-        if (!tag_map[x][y + 1]) {
-            routes[x][y + 1] = routes[x][y] + 1;
-            queue_insert(queue, x);
-            queue_insert(queue, y + 1);
-        }
-    }
-    if (map[x][y - 1] == '.' || map[x][y - 1] == 'Y') {
-        if (!tag_map[x][y - 1]) {
-            routes[x][y - 1] = routes[x][y] + 1;
-            queue_insert(queue, x);
-            queue_insert(queue, y - 1);
-        }
-    }
-}
-void Maze::Draw(const int x_end, const int y_end) {
-    int x = x_end;
-    int y = y_end;
-    map[x][y] = 'Y';
+				if (rast[fx][fy] - 1 == rast[x][y])
+				{
+					labirynth[x][y] = 'x';
+					fx = x;
+					fy = y;
+				}
+			}
+		}
+		for (int l = 0; l < labirynth.size(); l++)
+			cout << labirynth[l] << endl;
+	}
+	else
+		cout << "IMPOSSIBLE" << endl;
 
-    while (routes[x][y] != 2) {
-        if (routes[x - 1][y] == routes[x][y] - 1) {
-            x--;
-        }
-        else if (routes[x + 1][y] == routes[x][y] - 1) {
-            x++;
-        }
-        else if (routes[x][y - 1] == routes[x][y] - 1) {
-            y--;
-        }
-        else if (routes[x][y + 1] == routes[x][y] - 1) {
-            y++;
-        }
-        map[x][y] = 'x';
-    }
-}
-void Maze::Find() {
-    Queue* queue = queue_create();
-    int x_start, y_start;
-    int x_end = 0;
-    int y_end = 0;
-    int x, y;
+	for (int i = 0; i < k; i++)
+		delete[] rast[i];
 
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            if (map[i][j] == 'X') {
-                x_start = i; y_start = j;
-                queue_insert(queue, x_start);
-                queue_insert(queue, y_start);
-
-                routes[i][j] = 1;
-            }
-            else if (map[i][j] == 'Y') {
-                x_end = i; y_end = j;
-            }
-        }
-    }
-
-    while (!queue_empty(queue)) {
-        x = queue_get(queue);
-        queue_remove(queue);
-        y = queue_get(queue);
-        queue_remove(queue);
-
-        Way(x, y, queue);
-    }
-
-    if (!tag_map[x_end][y_end]) {
-        std::cout << "IMPOSSIBLE" << std::endl;
-        return;
-    }
-    else {
-        Draw(x_end, y_end);
-        Print();
-    }
-}
-void Maze::Print() {
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++)
-            std::cout << map[i][j];
-        std::cout << "\n";
-    }
-    std::cout << std::endl;
+	delete[] rast;
+	queue_delete(queue);
 }
 
-int main() {
-    Maze Maze;
-    Maze.Read();
-    Maze.Print();
-    Maze.Find();
+int main()
+{
+	Queue* queue = queue_create();
+	int dy[4] = { 0, 0, 1,-1 };
+	int dx[4] = { -1, 1, 0, 0 };
+	int k = 0;
+	int sx = 0, sy = 0;
+	int fx = 0, fy = 0;
+	vector<string> labirynth = Read(k,sx,sy,queue, fx, fy);
+	int** rast = new int* [labirynth.size()];
+	rast = setter(rast, labirynth, sx, sy);
+	Check(queue, labirynth, dx, dy, rast);
+	PrintAndClear(rast, labirynth, sx, sy, fx, fy, dx, dy, k, queue);
+	return 0;
 }
