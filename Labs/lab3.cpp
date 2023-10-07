@@ -33,10 +33,10 @@ vector<string> Read(int& k, int& sx, int& sy, Queue* queue, int& fx, int& fy) {
 	return labirynth;
 }
 int** setter(int** rast, vector<string>& labirynth, int& sx, int& sy) {
-	for (int i = 0; i < labirynth.size(); i++)
+	for (size_t i = 0; i < labirynth.size(); i++)
 	{
 		rast[i] = new int[labirynth[i].size()];
-		for (int l = 0; l < labirynth[i].size(); l++)
+		for (size_t l = 0; l < labirynth[i].size(); l++)
 		{
 			rast[i][l] = 0;
 		}
@@ -53,15 +53,15 @@ void Check(Queue* queue, vector<string>& labirynth, int* dx, int* dy, int** rast
 		queue_remove(queue);
 		for (int k_k = 0; k_k < 4; k_k++)
 		{
-			int xx = x + dx[k_k];
-			int yy = y + dy[k_k];
+			size_t xx = x + dx[k_k];
+			size_t yy = y + dy[k_k];
 			if (xx >= 0 && xx < labirynth.size() && yy >= 0 && yy < labirynth[1].size())
 			{
 				if (rast[xx][yy] == 0 && labirynth[xx][yy] != '#')
 				{
 					rast[xx][yy] = rast[x][y] + 1;
-					queue_insert(queue, xx);
-					queue_insert(queue, yy);
+					queue_insert(queue, static_cast<int>(xx));
+					queue_insert(queue, static_cast<int>(yy));
 				}
 			}
 		}
@@ -85,7 +85,7 @@ void PrintAndClear(int** rast, vector<string>& labirynth, int& sx, int& sy, int&
 				}
 			}
 		}
-		for (int l = 0; l < labirynth.size(); l++)
+		for (size_t l = 0; l < labirynth.size(); l++)
 			cout << labirynth[l] << endl;
 	}
 	else
