@@ -12,19 +12,19 @@ vector<string> Read(int& k, int& sx, int& sy, Queue* queue, int& fx, int& fy) {
 	while (getline(out, strbuf))
 	{
 		labirynth.push_back(strbuf);
-		for (auto i = 0; i < labirynth[k].size(); i++)
+		for (size_t i = 0; i < labirynth[k].size(); i++)
 		{
 			if (labirynth[k][i] == 'X')
 			{
-				sx = k;
-				sy = i;
+				sx = static_cast<int>(k);
+				sy = static_cast<int>(i);
 				queue_insert(queue, sx);
 				queue_insert(queue, sy);
 			}
 			if (labirynth[k][i] == 'Y')
 			{
-				fx = k;
-				fy = i;
+				fx = static_cast<int>(k);
+				fy = static_cast<int>(i);
 			}
 		}
 		k++;
