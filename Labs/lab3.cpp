@@ -12,7 +12,7 @@ vector<string> Read(int& k, int& sx, int& sy, Queue* queue, int& fx, int& fy) {
 	while (getline(out, strbuf))
 	{
 		labirynth.push_back(strbuf);
-		for (int i = 0; i < labirynth[k].size(); i++)
+		for (auto i = 0; i < labirynth[k].size(); i++)
 		{
 			if (labirynth[k][i] == 'X')
 			{
