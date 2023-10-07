@@ -53,9 +53,9 @@ void Check(Queue* queue, vector<string>& labirynth, int* dx, int* dy, int** rast
 		queue_remove(queue);
 		for (int k_k = 0; k_k < 4; k_k++)
 		{
-			size_t xx = x + dx[k_k];
-			size_t yy = y + dy[k_k];
-			if (xx >= 0 && xx < labirynth.size() && yy >= 0 && yy < labirynth[1].size())
+			int xx = x + dx[k_k];
+			int yy = y + dy[k_k];
+			if (xx >= 0 && xx < static_cast<int>(labirynth.size()) && yy >= 0 && yy < static_cast<int>(labirynth[1].size()))
 			{
 				if (rast[xx][yy] == 0 && labirynth[xx][yy] != '#')
 				{
