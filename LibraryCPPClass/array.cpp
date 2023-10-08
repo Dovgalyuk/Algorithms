@@ -1,5 +1,6 @@
 #include "array.h"
 
+
 Array::Array(size_t size)
 {
 }
