@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int pror(char c) { //приоритет операций
+int pror(Data c) { //приоритет операций
 	switch (c)
 	{
 	case '(':
@@ -25,7 +25,7 @@ int pror(char c) { //приоритет операций
 void opz(string Refraction) {
 	string otvet;
 	Stack* stack = stack_create();
-	for (int i = 0; i < Refraction.size(); i++) { //проходим по всему выражению
+	for (size_t i = 0; i < Refraction.size(); i++) { //проходим по всему выражению
 		if (isalpha(Refraction[i])) {//если это буква, то сразу доваляем её в строчку
 			otvet += Refraction[i];
 		}
@@ -63,7 +63,7 @@ void opz(string Refraction) {
 		otvet += stack_get(stack);
 		stack_pop(stack);
 	}
-	cout <<"Reverse Polish notation:" << endl << otvet;
+	cout << "Reverse Polish notation:" << endl << otvet;
 }
 
 string proverka() { //проверка на правльеый ввод выражения
