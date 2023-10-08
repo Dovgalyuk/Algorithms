@@ -33,8 +33,8 @@ void task1(Array *arr)
 
 void task2(Array *arr)
 {
-    size_t size = array_size(arr); // Получаем размер массива
-
+    size_t size = array_size(arr); 
+//лямбда функция для проверки делится ли элемент на другие элементы
     auto is_divisible = [&](int num) {
         for (size_t i = 0; i < size; i++)
         {
