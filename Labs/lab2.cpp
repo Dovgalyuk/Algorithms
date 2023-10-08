@@ -20,6 +20,7 @@ int pror(Data c) { //приоритет операций
 	default:
 		break;
 	}
+	return -1;
 }
 
 void opz(string Refraction) {
