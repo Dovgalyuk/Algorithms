@@ -51,6 +51,10 @@ void task1(Array* arr)
 
 void task2(Array* arr)
 {
+    int mas[] = { 2,4,2,4,2,1,1,1,1,1,3,3 };
+   for (int i = 0; i < array_size(arr); ++i) {
+       array_set(arr, i, mas[i]);
+   }
     // у меня было два варианта сортировка изначального массива или дополнительная память. Выбрал второе.
     vector<Data> arr_num(1);
     arr_num[0] = array_get(arr, 0);
@@ -58,11 +62,13 @@ void task2(Array* arr)
     vector<Data> arr_count_num(1);
     arr_count_num[0] = 1;
 
-    bool flag=1;
+    bool flag;
 
     for (size_t i = 1; i < array_size(arr); i++)
     {
         Data buff = array_get(arr, i);
+        flag = 1;
+  
         for (int j = 0; j < arr_num.size(); j++)
         {
             if (buff == arr_num[j])
@@ -71,14 +77,14 @@ void task2(Array* arr)
                 arr_count_num[j]++;
                 break;
             }
+        }
 
             if (flag)
             {
                 arr_num.push_back(buff);
                 arr_count_num.push_back(1);
-                flag = 0;
             }
-        }
+        
 
     }
 
@@ -108,7 +114,7 @@ int main()
     Array* arr = NULL;
     /* Create array here */
 
-    srand(NULL);
+    srand((unsigned int)time(NULL));
     size_t size;
 
     setlocale(LC_ALL, "ru");
