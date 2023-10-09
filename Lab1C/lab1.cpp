@@ -1,8 +1,7 @@
-#include "array.h"
+#include"array.h"
 #include<iostream>
 #include<vector>
 #include<ctime>
-
 
 
 using namespace std;
@@ -10,7 +9,6 @@ using namespace std;
 void task1(Array* arr)
 {
     int count_negative = 0, count_positiove = 0;
-
     for (size_t i = 0; i < array_size(arr); i++)
     {
         if (array_get(arr, i) > 0)
@@ -22,7 +20,6 @@ void task1(Array* arr)
         else
             count_negative++;
     }
-
     Array* p_arr = array_create(count_positiove);
     Array* n_arr = array_create(count_negative);
 
@@ -51,11 +48,11 @@ void task1(Array* arr)
 
 void task2(Array* arr)
 {
-    int mas[] = { 2,4,2,4,2,1,1,1,1,1,3,3 };
+  /*  int mas[] = { 2,4,2,4,2,1,1,1,1,1,3,3 };
    for (int i = 0; i < array_size(arr); ++i) {
        array_set(arr, i, mas[i]);
-   }
-    // у меня было два варианта сортировка изначального массива или дополнительная память. Выбрал второе.
+   }*/
+
     vector<Data> arr_num(1);
     arr_num[0] = array_get(arr, 0);
 
@@ -69,7 +66,7 @@ void task2(Array* arr)
         Data buff = array_get(arr, i);
         flag = 1;
   
-        for (int j = 0; j < arr_num.size(); j++)
+        for (vector<int>::size_type j = 0; j < arr_num.size(); j++)
         {
             if (buff == arr_num[j])
             {
@@ -78,20 +75,16 @@ void task2(Array* arr)
                 break;
             }
         }
-
-            if (flag)
-            {
-                arr_num.push_back(buff);
-                arr_count_num.push_back(1);
-            }
-        
-
+        if (flag)
+        {
+            arr_num.push_back(buff);
+            arr_count_num.push_back(1);
+        }
     }
 
-    cout << "\n\n Повторяющие два раза числа(если они есть):" << endl;
+    cout << "\nПовторяющие два раза числа(если они есть):" << endl;
 
-
-    for (int i = 0; i < arr_count_num.size(); i++)
+    for (vector<int>::size_type i = 0; i < arr_count_num.size(); i++)
     {
         if (arr_count_num[i] == 2)
         {
@@ -102,28 +95,26 @@ void task2(Array* arr)
 
 void fill_array(Array* arr)
 {
-    for (int i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         array_set(arr, i, rand());
     }
 }
 
-
 int main()
 {
-    Array* arr = NULL;
+    srand((unsigned int)time(NULL));
+    setlocale(LC_ALL, "ru");
+
     /* Create array here */
 
-    srand((unsigned int)time(NULL));
+    Array* arr = NULL;
     size_t size;
 
-    setlocale(LC_ALL, "ru");
     cout << "\nВведите размер массива для task1" << endl;
     cin >> size;
-
     arr = array_create(size);
     fill_array(arr);
-
     task1(arr);
     array_delete(arr);
 
@@ -131,10 +122,8 @@ int main()
     /* Create another array here */
     cout << "\nВведите размер массива для task2" << endl;
     cin >> size;
-
     arr = array_create(size);
     fill_array(arr);
-
     task2(arr);
     array_delete(arr);
 }
