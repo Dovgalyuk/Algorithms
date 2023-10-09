@@ -2,9 +2,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "array.h"
 #include <stdio.h>
-
-
-using namespace std;
+#include <stdlib.h>
 int a;
 
 
@@ -90,7 +88,6 @@ int main()
 
 
 }
-
 
 
 
