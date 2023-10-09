@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "array.h"
+#include <stdlib.h>
 
 void task1(Array* arr)
 {
@@ -70,7 +71,7 @@ int main()
 
     // ¬вод размера массива с клавиатуры
     printf("¬ведите размер массива: ");
-    scanf("%zu", &size);
+    scanf_s("%zu", &size);
 
     // —оздание массива и заполнение его случайными данными
     arr = array_create(size);
@@ -87,7 +88,7 @@ int main()
 
     // ¬вод размера нового массива с клавиатуры
     printf("¬ведите размер нового массива: ");
-    scanf("%zu", &size);
+    scanf_s("%zu", &size);
 
     // —оздание нового массива и заполнение его случайными данными
     arr = array_create(size);
