@@ -1,3 +1,0 @@
-﻿  Building Custom Rule C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/Lab1C/CMakeLists.txt
-  lab1.cpp
-LINK : fatal error LNK1104: не удается открыть файл "..\LibraryCPP\Debug\LibraryCPP.lib"

@@ -1,3 +1,0 @@
-﻿  Building Custom Rule C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/LibraryCPP/Tests/CMakeLists.txt
-  queue.cpp
-LINK : fatal error LNK1104: не удается открыть файл "..\Debug\LibraryCPP.lib"

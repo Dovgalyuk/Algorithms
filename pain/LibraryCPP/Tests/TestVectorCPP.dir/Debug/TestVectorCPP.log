@@ -1,4 +1,0 @@
-﻿  Building Custom Rule C:/Учёба/2 курс/стукрутрные алгоритмы/git/Algorithms/LibraryCPP/Tests/CMakeLists.txt
-  vector.cpp
-C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\Tests\vector.cpp(16,32): error C2220: следующее предупреждение рассматривается как ошибка
-C:\Учёба\2 курс\стукрутрные алгоритмы\git\Algorithms\LibraryCPP\Tests\vector.cpp(16,32): warning C4267: аргумент: преобразование из "size_t" в "Data"; возможна потеря данных

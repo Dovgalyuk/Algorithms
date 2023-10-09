@@ -58,6 +58,8 @@ void task2(Array* arr)
     vector<Data> arr_count_num(1);
     arr_count_num[0] = 1;
 
+    bool flag=1;
+
     for (size_t i = 1; i < array_size(arr); i++)
     {
         Data buff = array_get(arr, i);
@@ -65,10 +67,16 @@ void task2(Array* arr)
         {
             if (buff == arr_num[j])
             {
+                flag = 0;
                 arr_count_num[j]++;
+                break;
+            }
+
+            if (flag)
+            {
                 arr_num.push_back(buff);
                 arr_count_num.push_back(1);
-                break;
+                flag = 0;
             }
         }
 
