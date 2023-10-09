@@ -29,7 +29,7 @@ void task1(Array* arr)
 
 void task2(Array* arr)
 {
-    int c, z, x;
+    size_t c, z, x;
     c = 0;
     for (size_t i = 0; i < a; i++)
     {
