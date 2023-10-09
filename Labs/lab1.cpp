@@ -17,7 +17,7 @@ void task1(Array *arr)
         int value = array_get(arr, i);
 
         // Если флаг установлен в true, уменьшаем элемент на m, иначе увеличиваем на n
-        //использовал логику того что четные и нечетные элементы идут друг за другом
+        //использовал логику того что элементы с нечетными номерами  и  нечетные элементы идут друг за другом
         if (decrease)
         {
             array_set(arr, i, value - m);
@@ -62,18 +62,6 @@ void task2(Array *arr)
             cout << current << " ";
         }
     }
-}
-
-int main()
-{
-    Array *arr = NULL;
-    size_t size;
-    cin >> size;
-    arr = array_create(size);
-    CreateArray(arr);
-    task2(arr);
-    array_delete(arr);
-    return 0;
 }
 
 
