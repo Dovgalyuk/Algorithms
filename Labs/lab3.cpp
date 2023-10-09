@@ -93,7 +93,7 @@ void PrintAndClear(int** rast, vector<string> labirynth, int fx, int fy, const i
 	else
 		cout << "IMPOSSIBLE" << endl;
 
-	for (int i = 0; i < labirynth.size(); i++)
+	for (size_t i = 0; i < labirynth.size(); i++)
 		delete[] rast[i];
 
 	delete[] rast;
