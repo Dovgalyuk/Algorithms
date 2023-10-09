@@ -1,36 +1,37 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include <cstddef>
+#include <vector> // Подключаем заголовочный файл для использования std::vector
 
-typedef int Data;
+using Data = int; // Используем псевдоним типа int для удобства
 
 class Array
 {
 public:
-    // create array
-    explicit Array(size_t size);
+    explicit Array(size_t size) : m_data(size) {} // Конструктор контейнера, принимающий размер массива и инициализирующий m_data с помощью конструктора std::vector
 
-    // copy constructor
-    Array(const Array &a);
+    Data get(size_t index) const // Метод для получения значения элемента по индексу
+    {
+        if (index < m_data.size()) { // Проверяем, что индекс не выходит за границы массива
+            return m_data[index]; // Возвращаем значение элемента по индексу
+        }
+        return -1; // Возвращаем значение по умолчанию при некорректном индексе
+    }
 
-    // assignment operator
-    Array &operator=(const Array &a);
+    void set(size_t index, Data value) // Метод для установки значения элемента по индексу
+    {
+        if (index < m_data.size()) { // Проверяем, что индекс не выходит за границы массива
+            m_data[index] = value; // Устанавливаем значение элемента по индексу
+        }
+    }
 
-    // delete array, free memory
-    ~Array();
-
-    // returns specified array element
-    Data get(size_t index) const;
-
-    // sets the specified array element to the value
-    void set(size_t index, Data value);
-
-    // returns array size
-    size_t size() const;
+    size_t size() const // Метод для получения размера массива
+    {
+        return m_data.size();
+    }
 
 private:
-    // private data should be here
+    std::vector<Data> m_data; // Внутренний контейнер, использующий std::vector для хранения данных
 };
 
 #endif

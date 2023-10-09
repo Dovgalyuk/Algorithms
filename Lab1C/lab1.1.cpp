@@ -1,30 +1,31 @@
-#include <stdio.h>
-#include "array.h"
-
-void task1(Array *arr)
-{
+﻿#include <iostream>
+#include <vector>
+#include "Array.h"
+using namespace std;
+void summapos(const Array& arr) {
     cout << "Massiv:";
     for (int k = 0; k < arr.size(); k++) {
-        std::cout << arr.get(k) << " ";
+        cout << arr.get(k) << " ";
     }
-    std::cout << std::endl;
+    cout << endl;
 
     int sum = 0;
     for (int k = 0; k < arr.size(); k++) {
         if (arr.get(k) > 0 && arr.get(k) % 2 == 0) {
             sum += arr.get(k);
         }
-}
+    }
+
+    cout << "Summaa (1 zadanie):" << sum << endl;
 }
 
-void task2(Array *arr)
-{
-    cout << "Massiv";
+void nedel(const Array& arr) {
+    cout << "Massiv:" << " ";
     for (int k = 0; k < arr.size(); k++) {
         cout << arr.get(k) << " ";
     }
     cout << endl;
-
+    cout << "nedel:" << " ";
     for (int i = 0; i < arr.size(); ++i) {
         bool digit = false;
         for (int j = 0; j < arr.size(); ++j) {
@@ -34,15 +35,12 @@ void task2(Array *arr)
             }
         }
         if (!digit) {
-            cout << "nedel:" << " " << arr.get(i) << endl;
+            cout << arr.get(i) << " ";
         }
     }
 }
 
-int main()
-{
-    Array *arr = NULL;
-    /* Create array here */
+int main() {
     cout << "Input array: ";
     int size;
     cin >> size;
@@ -51,17 +49,8 @@ int main()
     for (int i = 0; i < size; i++) {
         mas.set(i, rand() % 100);
     }
-    task1(arr);
-    array_delete(arr);
-    /* Create another array here */
-    cout << "Input array: ";
-    int size;
-    cin >> size;
-    Array mas(size);
-    srand(time(0));
-    for (int i = 0; i < size; i++) {
-        mas.set(i, rand() % 100);
-    }
-    task2(arr);
-    array_delete(arr);
+    cout << std::endl;
+    summapos(mas);
+    nedel(mas);
+    return 0;
 }
