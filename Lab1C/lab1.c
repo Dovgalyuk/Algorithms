@@ -1,4 +1,4 @@
-﻿ 
+﻿
 #define _CRT_SECURE_NO_WARNINGS
 #include "array.h"
 #include <stdio.h>
@@ -29,7 +29,7 @@ void task1(Array* arr)
 
 void task2(Array* arr)
 {
-    size_t c, z, x;
+    size_t c, z;
     c = 0;
     for (size_t i = 0; i < a; i++)
     {
@@ -48,7 +48,7 @@ void task2(Array* arr)
             if (c == 1)
             {
                 
-                printf("%i", z);
+                printf("%zi", z);
                 printf("%s", "\t");
                 
             }
@@ -62,7 +62,7 @@ int main()
 {
    
     Array* arr = NULL;
-    scanf("%d", &a);
+    scanf("%zd", &a);
     
     arr = array_create(a, NULL);
     for (size_t i = 0; i < a; i++)
@@ -75,7 +75,7 @@ int main()
     task1(arr);
     array_delete(arr);
     /* Create another array here */
-    scanf("%i", &a);
+    scanf("%zi", &a);
     arr = array_create(a, NULL);
     for (size_t i = 0; i < a; i++)
     {
