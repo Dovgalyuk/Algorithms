@@ -3,7 +3,7 @@
 #include "array.h"
 #include <stdio.h>
 #include <stdlib.h>
-int a;
+size_t a;
 
 
 void task1(Array* arr)
