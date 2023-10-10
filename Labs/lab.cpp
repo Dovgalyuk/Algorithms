@@ -28,11 +28,14 @@ string input() { //првоерка на ввод скобок
 void task1(string str) {
 	Stack* stack = stack_create(); //выделение памяти под стэк
 	size_t size = str.size(); //узнаем длину
+	int count = 0;
 	for (size_t i = 0; i < size; i++) {
 		if (str[i] == '[' || str[i] == '{' || str[i] == '(') {
+			count++;
 			stack_push(stack, str[i]); // добавляем элемент в stack
 		}
 		else {
+			count--;
 			if (!stack_empty(stack) && ((stack_get(stack) == '[' && str[i] == ']') || //проверяем если стэк не пуст и последний элемент составляет пару
 				(stack_get(stack) == '{' && str[i] == '}') ||
 				(stack_get(stack) == '(' && str[i] == ')'))) {
@@ -43,7 +46,7 @@ void task1(string str) {
 			}
 		}
 	}
-	if (stack_empty(stack)) { //если стэк пуст, то все верно
+	if (stack_empty(stack) && count == 0) { //если стэк пуст, то все верно
 		cout << "YES\n";
 	}
 	else {
