@@ -33,7 +33,7 @@ vector<string> Read(int& sx, int& sy, Queue* queue, int& fx, int& fy) {
 	out.close();
 	return labirynth;
 }
-int** setter(vector<string>& labirynth, int& sx, int& sy) {
+int** setter(vector<string>& labirynth, int sx, int sy) {
 	int** rast = new int* [labirynth.size()];
 	for (size_t i = 0; i < labirynth.size(); i++)
 	{
