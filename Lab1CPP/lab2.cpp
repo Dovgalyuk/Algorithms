@@ -31,7 +31,7 @@ int main()
     std::cout << "Enter expression to convert: ";
     getline(cin, input_expression); //Ввод строки с выражением
 
-    for (int i = 0; i < input_expression.size(); i++) //Перебор введенной строки по символам
+    for (size_t i = 0; i < input_expression.size(); i++) //Перебор введенной строки по символам
     {
         switch (input_expression[i]) //Конструкция используется для сравнения символов из выражения
         {
