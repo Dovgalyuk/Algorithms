@@ -1,0 +1,125 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						3
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "LibraryCPP",
+					"childIndexes" : 
+					[
+						2
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "LibraryCPP",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "LibraryCPP/Tests",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "LibraryCPP/Tests",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "Lab1CPP",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Lab1CPP",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					],
+					"name" : "Algorithms",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "Lab1CPP::@ee6367d4ac0702ad1401",
+					"jsonFile" : "target-Lab1CPP-Debug-077498b9dd1567517f86.json",
+					"name" : "Lab1CPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "LibraryCPP::@4b3589622afbd1422885",
+					"jsonFile" : "target-LibraryCPP-Debug-a19c6a67c9da328c5223.json",
+					"name" : "LibraryCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "TestArrayCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestArrayCPP-Debug-dfd8dcc5ff89b335e4ac.json",
+					"name" : "TestArrayCPP",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Salazar/source/repos/Algorithms/out/build/x64-Debug",
+		"source" : "C:/Users/Salazar/source/repos/Algorithms"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}
