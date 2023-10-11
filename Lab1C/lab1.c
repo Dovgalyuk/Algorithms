@@ -3,14 +3,14 @@
 #include "array.h"
 #include <stdio.h>
 #include <stdlib.h>
-size_t a;
+
 
 
 void task1(Array* arr)
 {
     
     int sumosadkov = 0;
-    for (size_t i = 0; i <a; i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         sumosadkov += *(int*)(array_get(arr, i));
         
@@ -31,11 +31,11 @@ void task2(Array* arr)
 {
     size_t c, z;
     c = 0;
-    for (size_t i = 0; i < a; i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         if (*(int*)(array_get(arr, i)) > 0)
         {
-            for (size_t j = i + 1; j < a; j++)
+            for (size_t j = i + 1; j < array_size(arr); j++)
                 if (*(int*)(array_get(arr, i)) == *(int*)(array_get(arr, j)))
                 {
                     c += 1;
@@ -60,7 +60,7 @@ void task2(Array* arr)
 
 int main()
 {
-   
+   size_t a;
     Array* arr = NULL;
     scanf("%zd", &a);
     

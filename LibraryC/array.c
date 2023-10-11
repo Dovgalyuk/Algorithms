@@ -16,6 +16,9 @@ Array* array_create(size_t size, FFree f)
 		n->size = size;
 		n->array = (Data*)malloc(sizeof(Data) * size);
 		n->del = f;
+		for (size_t i = 0; i < size; i++) {
+			n->array[i] = NULL;
+		}
 		return n;
 	}
 	else
@@ -49,6 +52,14 @@ Data array_get(const Array* arr, size_t index)
 // sets the specified array element to the value
 void array_set(Array* arr, size_t index, Data value)
 {
+	if (arr->del != NULL && index < arr->size)
+		
+			arr->del(arr->array[index]);
+		
+	else
+		
+			free(arr->array[index]);
+		
 	if (index < arr->size) {
 		arr->array[index] = value;
 	}
