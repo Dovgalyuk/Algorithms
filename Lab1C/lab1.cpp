@@ -8,6 +8,11 @@ using namespace std;
 
 void task1(Array* arr)
 {
+  /* int mas[12] = { 2,-4,-2,4,2,-1,0,0,1,1,-3,3 };
+   for (int i = 0; i < array_size(arr); ++i) {
+       array_set(arr, i, mas[i]);
+   }*/
+
     int count_negative = 0, count_positiove = 0;
     for (size_t i = 0; i < array_size(arr); i++)
     {
@@ -23,13 +28,12 @@ void task1(Array* arr)
     Array* p_arr = array_create(count_positiove);
     Array* n_arr = array_create(count_negative);
 
-    for (size_t z = 0, i = 0, j = 0; i < array_size(arr); z++)
+    for (size_t i = 0, p = 0, n=0; i < array_size(arr); i++)
     {
         if (array_get(arr, i) > 0)
         {
-            array_set(p_arr, i, array_get(arr, z));
-            i++;
-
+            array_set(p_arr, p, array_get(arr, i));
+            p++;
         }
 
         else if (array_get(arr, i) == 0)
@@ -37,8 +41,8 @@ void task1(Array* arr)
 
         else
         {
-            array_set(n_arr, j, array_get(arr, z));
-            j++;
+            array_set(n_arr, n, array_get(arr, i));
+            n++;
         }
     }
 
@@ -48,7 +52,7 @@ void task1(Array* arr)
 
 void task2(Array* arr)
 {
-  /*  int mas[] = { 2,4,2,4,2,1,1,1,1,1,3,3 };
+  /*  int mas[12] = { 2,4,2,4,2,1,1,1,1,1,3,3 };
    for (int i = 0; i < array_size(arr); ++i) {
        array_set(arr, i, mas[i]);
    }*/
