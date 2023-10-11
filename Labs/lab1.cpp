@@ -3,91 +3,109 @@
 
 using namespace std;
 
-void task1(Array *arr)
+/*void printArray(Array *arr, size_t size)
 {
-    int m, n;
-    cin >> m >> n; 
+    for (size_t i = 0; i < size; i++)
+    {
+        cout << array_get(arr, i) << " ";
+    }
+    cout << endl;
+}*/
 
+void task1(Array *arr, int m, int n)
+{
     size_t size = array_size(arr);
-    bool decrease = true; 
 
-    
+    //cout << "Изначальный  для  1:" << endl;
+    //printArray(arr, size);
+
     for (size_t i = 0; i < size; i++)
     {
         int value = array_get(arr, i);
 
-        // Если флаг установлен в true, уменьшаем элемент на m, иначе увеличиваем на n
-        //использовал логику того что элементы с нечетными номерами  и  нечетные элементы идут друг за другом
-        if (decrease)
+        if (i % 2 == 1) 
         {
             array_set(arr, i, value - m);
         }
-        else
+        else 
         {
             array_set(arr, i, value + n);
         }
-
-        decrease = !decrease;
     }
+
+    //cout << "после  задания 1:" << endl;
+   //printArray(arr, size);
 }
 
 void task2(Array *arr)
 {
-    size_t size = array_size(arr); 
-//лямбда функция для проверки делится ли элемент на другие элементы
-    auto is_divisible = [&](int num) {
-        for (size_t i = 0; i < size; i++)
-        {
-            for (size_t j = 0; j < size; j++)
-            {
-                if (i != j)
-                {
-                    int current = array_get(arr, i);
-                    int other = array_get(arr, j);
-                    if (other != 0 && current % other == 0)
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    };
+    size_t size = array_size(arr);
+
+    //cout << "Изначальный  2:" << endl;
+    //printArray(arr, size);
 
     for (size_t i = 0; i < size; i++)
     {
         int current = array_get(arr, i);
-        if (is_divisible(current))
+        bool isDivisible = false;
+
+        for (size_t j = 0; j < size; j++)
+        {
+            if (i != j)
+            {
+                int other = array_get(arr, j);
+                if (other != 0 && current % other == 0)
+                {
+                    isDivisible = true;
+                    break;
+                }
+            }
+        }
+
+        if (!isDivisible)
         {
             cout << current << " ";
         }
     }
+
+    cout << endl;
 }
 
-
-void CreateArray(Array* arr) {
-    size_t size = array_size(arr);
+void CreateArray(Array *arr, size_t size)
+{
     for (size_t i = 0; i < size; i++)
-        array_set(arr, i, rand());
+        array_set(arr, i, rand() % 101); // числа от 0 до 100
 }
-
 
 int main()
 {
     Array *arr = NULL;
-     size_t size;
+    size_t size;
+    int m, n;
 
-
+    cout << "размер: ";
     cin >> size;
+
+    cout << "m: ";
+    cin >> m;
+
+    cout << "n: ";
+    cin >> n;
+
     arr = array_create(size);
-    CreateArray(arr);
-    task1(arr);
+    CreateArray(arr, size);
+
+    task1(arr, m, n);
     array_delete(arr);
 
+    cout << " размер нового масс: ";
+    cin >> size;
 
-   cin >> size;
     arr = array_create(size);
-    CreateArray(arr);
+    CreateArray(arr, size);
+
     task2(arr);
     array_delete(arr);
+
+    return 0;
 }
