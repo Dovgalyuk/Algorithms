@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "array.h"
 #include <iostream>
-#include "array.cpp"
 
 using namespace std;
 
