@@ -35,21 +35,29 @@ void task2(Array* arr)
     size_t min = array_get(arr, 0);
     size_t max = array_get(arr, 0);
     size_t sum = 0;
+    size_t minIndex = 0;
+    size_t maxIndex = 0;
     
     
     for (size_t i = 0; i < size; i++) {
         size_t current_value = array_get(arr, i);
         if (current_value < min) {
             min = current_value;
+            minIndex = i;
         }
         if (current_value > max) {
             max = current_value;
+            maxIndex = i;
         }
     }
-    for (size_t i = 0; i < size; i++) {
+
+    size_t startIndex = minIndex < maxIndex ? minIndex : maxIndex;
+    size_t endIndex = minIndex > maxIndex ? minIndex : maxIndex;
+
+    for (size_t i = startIndex + 1; i < endIndex; i++) {
         sum += array_get(arr, i);
     }
-    cout << "\nSum is: \n" << sum - min - max;
+    cout << "\nSum is: \n" << sum;
     return;
 }
 
