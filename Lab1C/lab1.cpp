@@ -77,7 +77,6 @@ size_t second_task(const Array* arr)
                     counter++;
                     
                 }
-
             }
 
         }
