@@ -20,18 +20,27 @@ void task1(Array *arr, int m, int n)
     //printArray(arr, size);
 
     for (size_t i = 0; i < size; i++)
+{
+    int value = array_get(arr, i);
+    if ((value % 2 != 0) && (i % 2 != 0))
     {
-        int value = array_get(arr, i);
-
-        if (i % 2 == 1) 
-        {
-            array_set(arr, i, value - m);
-        }
-        else 
-        {
-            array_set(arr, i, value + n);
-        }
+        // Если число нечетное и имеет нечетный индекс
+        array_set(arr, i, value - m );
+        array_set(arr, i, value + n);
     }
+    else if (i % 2 != 0)
+    {
+        // Если только индекс нечетный
+        array_set(arr, i, value + n);
+    }
+    else if (value % 2 != 0)
+    {
+        // Если только число нечетное
+        array_set(arr, i, value - m);
+    }
+}
+
+
 
     //cout << "после  задания 1:" << endl;
    //printArray(arr, size);
