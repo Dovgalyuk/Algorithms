@@ -1,5 +1,6 @@
 #include <cstddef>
 #include "list.h"
+#include <new>
 
 struct ListItem
 {
@@ -83,9 +84,13 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
         return nullptr;
     }
 
-    ListItem* item_new = new ListItem{ data, nullptr, nullptr };
+    ListItem* item_new;
 
-    if (item_new == nullptr)
+    try
+    {
+        item_new = new ListItem{ data, nullptr, nullptr };
+    }
+    catch (std::bad_alloc& exeption)
     {
         return nullptr;
     }
@@ -109,7 +114,6 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
 
 ListItem* list_erase_first(List* list)
 {
-
     if (list->pointer_to_head_list == nullptr)
     {
         return nullptr;
@@ -133,8 +137,7 @@ ListItem* list_erase_first(List* list)
 }
 
 ListItem* list_erase_next(List* list, ListItem* item)
-{
-    
+{    
     if (item == nullptr || item->pointer_to_next_element == nullptr)
     {
         return nullptr;

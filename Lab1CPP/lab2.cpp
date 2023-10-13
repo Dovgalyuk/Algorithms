@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include "list.h"
 #include "stack.h"
 
 using namespace std;
@@ -39,27 +38,33 @@ int main()
             stack_push(stack_for_operation_signs, input_expression[i]); //Добавление в стек знака
             break; //Выход из switch
         case ')': //Если закрывающаяся скобка
-            while (get_level_operation(stack_get(stack_for_operation_signs)) >= 1) //Пока не встретится открывающаяся скобка в стеке
+            if (!stack_empty(stack_for_operation_signs)) //Если стек не пустой
             {
-                if (stack_get(stack_for_operation_signs) == '(') //Если на вершине стека открывающаяся скобка
+                while (get_level_operation(stack_get(stack_for_operation_signs)) >= 1) //Пока не встретится открывающаяся скобка в стеке
                 {
+                    if (stack_get(stack_for_operation_signs) == '(') //Если на вершине стека открывающаяся скобка
+                    {
+                        stack_pop(stack_for_operation_signs); //Удалить элемент на вершине стека
+                        break; //Выйти из цикла while
+                    }
+                    output_expression += stack_get(stack_for_operation_signs); //Добавить в выходное выражение элемент из вершины стека
                     stack_pop(stack_for_operation_signs); //Удалить элемент на вершине стека
-                    break; //Выйти из цикла while
                 }
-                output_expression += stack_get(stack_for_operation_signs); //Добавить в выходное выражение элемент из вершины стека
-                stack_pop(stack_for_operation_signs); //Удалить элемент на вершине стека
-            }
+            }            
             break; //Выход из switch
         case '*': //Если знак умножения
         case '/': //Или знак деления
         case '+': //Или знак сложения
         case '-': //Или знак вычитания
-            while (get_level_operation(stack_get(stack_for_operation_signs)) >= get_level_operation(input_expression[i])) //Пока уровень приоритета элемента на вершине стека больше или равен текущему элементу из строки
+            if (!stack_empty(stack_for_operation_signs)) //Если стек не пустой
             {
-                output_expression += stack_get(stack_for_operation_signs); //Добавить в выходное выражение элемент из вершины стека
-                stack_pop(stack_for_operation_signs); //Удалить элемент на вершине стека
+                while (get_level_operation(stack_get(stack_for_operation_signs)) >= get_level_operation(input_expression[i])) //Пока уровень приоритета элемента на вершине стека больше или равен текущему элементу из строки
+                {
+                    output_expression += stack_get(stack_for_operation_signs); //Добавить в выходное выражение элемент из вершины стека
+                    stack_pop(stack_for_operation_signs); //Удалить элемент на вершине стека
+                }
+                stack_push(stack_for_operation_signs, input_expression[i]); //Добавление в стек текущего элемента из строки
             }
-            stack_push(stack_for_operation_signs, input_expression[i]); //Добавление в стек текущего элемента из строки
             break; //Выход из switch
         default: //Если символ, отличающийся от символа операции (т.е. цифра или переменная)
             output_expression += input_expression[i]; //Добавление в выходное выражение
