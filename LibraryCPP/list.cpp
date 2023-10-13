@@ -1,6 +1,7 @@
 #include <cstddef>
 #include "list.h"
 #include <new>
+#include <iostream>
 
 struct ListItem
 {
@@ -92,6 +93,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
     }
     catch (std::bad_alloc& exeption)
     {
+        std::cout << exeption.what() << std::endl;
         return nullptr;
     }
 
