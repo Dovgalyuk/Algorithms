@@ -40,39 +40,41 @@ void task1(Array *arr)
     cout << "Piterok: " << kolvo_5 << "; Shetverok: " << kolvo_4 << "; Troek: " << kolvo_3 << "; Dvoek: " << kolvo_2 << endl;
 }
 
-size_t findSmallestPosition(Array *arr, size_t startPosition, size_t listLength)
+size_t findSmallestPosition(Array *arr, size_t startPosition)
 {
     size_t smallestPosition = startPosition;
 
-    for (size_t i = startPosition; i < listLength; i++)
+    for (size_t i = startPosition; i < array_size(arr); i++)
     {
         if (array_get(arr, i) < array_get(arr, smallestPosition))
             smallestPosition = i;
     }
     return smallestPosition;
 }
-void selectionSort(Array *arr, size_t listLength)
+void selectionSort(Array *arr)
 {
-    for (size_t i = 0; i < listLength; i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
-        size_t smallestPosition = findSmallestPosition(arr, i, listLength);
+        size_t smallestPosition = findSmallestPosition(arr, i);
         int a = array_get(arr, i);
         int b = array_get(arr, smallestPosition);
         array_set(arr, i, b);
         array_set(arr, smallestPosition, a);
     }
-    return;
 }
 void task2(Array *arr)
 {
     size_t size = array_size(arr);
-    selectionSort(arr, size);
+    selectionSort(arr);
 
     int minDiff = array_get(arr, 1) - array_get(arr, 0);
     for (size_t i = 2; i != size; i++)
     {
-        minDiff = min(minDiff, array_get(arr, i) - array_get(arr, i - 1));
+        if (array_get(arr, i) % 2 == 0) {
+            minDiff = min(minDiff, array_get(arr, i) - array_get(arr, i - 2));
+        }
     }
+
     cout << "Minimalnaia raznitsa = " << minDiff << endl;
 }
 
