@@ -75,10 +75,8 @@ size_t second_task(const Array* arr)
                     sum += array_get(arr, i);
                     sum -= array_get(arr, i - 5);
                     counter++;
-                    continue;
+                    
                 }
-                sum += array_get(arr, i - 5);
-                sum -= array_get(arr, i);
 
             }
 
