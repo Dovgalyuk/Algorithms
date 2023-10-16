@@ -36,7 +36,7 @@ public:
     // Retrieves vector element with the specified index
     Data get(size_t index) const
     {
-        if (index < 0 || vector_size <= index) {
+        if (vector_size <= index) {
             throw "Error: the index does not exist!";
         }
         return data[index];
@@ -45,7 +45,7 @@ public:
     // Sets vector element with the specified index
     void set(size_t index, Data value)
     {
-        if (index < 0 || vector_size <= index) {
+        if (vector_size <= index) {
             throw "Error: the index does not exist!";
         }
         data[index] = value;
