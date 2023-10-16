@@ -61,6 +61,8 @@ int main() {
         std::cin >> start_vertex_index >> end_vertex_index >> edge_data;
         graph.addEdge(start_vertex_index, end_vertex_index, edge_data);
     }
+
+    //5-8-1
     //graph.addEdge(0, 1, 10);
     //graph.addEdge(0, 2, 5);
     //graph.addEdge(1, 2, 2);
@@ -82,8 +84,6 @@ int main() {
         else
             std::cout << "Shortest path from vertex " << start << " to vertex " << i << " is NULL\n";
     }
-
-    delete[] shortest_paths;  // освобождаем выделенную память
 
     return 0;
 }

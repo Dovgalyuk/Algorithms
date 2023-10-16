@@ -1,6 +1,6 @@
 #ifndef VECTOR_H
 #define VECTOR_H
-
+#include <iostream>
 #include <cstddef>
 
 template <typename Data> class Vector
@@ -30,7 +30,6 @@ public:
     // Deletes vector structure and internal data
     ~Vector()
     {
-        delete[] data;
     }
 
     // Retrieves vector element with the specified index
