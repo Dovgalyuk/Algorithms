@@ -1,34 +1,64 @@
 #include "vector.h"
+#include <cstdlib>
 
-struct Vector
-{
+// Structure to represent the vector
+struct Vector {
+    Data* data;      // Dynamic array to store the elements
+    size_t capacity; // Total capacity of the array
+    size_t size;     // Current number of elements
 };
 
-Vector *vector_create()
-{
-    return new Vector;
+// Creates a new vector
+Vector* vector_create() {
+    Vector* vector = new Vector;
+    vector->data = nullptr;
+    vector->capacity = 0;
+    vector->size = 0;
+    return vector;
 }
 
-void vector_delete(Vector *vector)
-{
-    // TODO: free vector internals
-    delete vector; 
+// Deletes a vector, freeing the memory
+void vector_delete(Vector* vector) {
+    delete[] vector->data;
+    delete vector;
 }
 
-Data vector_get(const Vector *vector, size_t index)
-{
-    return (Data)0;
-}
-
-void vector_set(Vector *vector, size_t index, Data value)
-{
-}
-
-size_t vector_size(const Vector *vector)
-{
+// Retrieves the element at the specified index
+Data vector_get(const Vector* vector, size_t index) {
+    if (index < vector->size) {
+        return vector->data[index];
+    }
     return 0;
 }
 
-void vector_resize(Vector *vector, size_t size)
-{
+// Sets the element at the specified index
+void vector_set(Vector* vector, size_t index, Data value) {
+    if (index < vector->size) {
+        vector->data[index] = value;
+    }
+}
+
+// Retrieves the current size of the vector
+size_t vector_size(const Vector* vector) {
+    return vector->size;
+}
+
+// Changes the vector size (may increase or decrease)
+void vector_resize(Vector* vector, size_t size) {
+    if (size == vector->size) {
+        return; // No need to resize
+    }
+
+    if (size > vector->capacity) {
+        // If the requested size is greater than the capacity, reallocate memory
+        Data* new_data = new Data[size];
+        for (size_t i = 0; i < vector->size; ++i) {
+            new_data[i] = vector->data[i];
+        }
+        delete[] vector->data;
+        vector->data = new_data;
+        vector->capacity = size;
+    }
+
+    vector->size = size;
 }
