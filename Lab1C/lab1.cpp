@@ -51,6 +51,11 @@ size_t second_task(const Array* arr)
         for (size_t i = 0; i < 5; i++)
         {
             sum += array_get(arr, i);
+            if (sum > summax)
+            {
+                summax = sum;
+                indx = i;
+            }
         }
 
         for (size_t i = 5; i < size; i++)
