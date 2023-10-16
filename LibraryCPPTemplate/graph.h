@@ -70,9 +70,9 @@ public:
 
         int getNearVertexIndex() {
             // Поиск доступной вершины
-            for (int i = end + 1; i < graph->getVertexAmount(); i++) {
+            for (size_t i = end + 1; i < graph->getVertexAmount(); i++) {
                 if (graph->isEdgeExist(start, i)) {
-                    return i;
+                    return static_cast<int>(i);
                 }
             }
             return -1;

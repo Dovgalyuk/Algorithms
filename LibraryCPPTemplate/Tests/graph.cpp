@@ -12,11 +12,11 @@ int main() {
         return 1;
     }
 
-    for (int i = 0; i < vertex_count; i++) {
-        graph->getVertex(i)->setVertexData(i);
+    for (size_t i = 0; i < vertex_count; i++) {
+        graph->getVertex(i)->setVertexData(static_cast<int>(i));
     }
 
-    for (int i = 0; i < vertex_count; i++) {
+    for (size_t i = 0; i < vertex_count; i++) {
         if (graph->getVertex(i)->getVertexData() != i) {
             std::cout << "Invalid vertex data\n";
             return 1;
