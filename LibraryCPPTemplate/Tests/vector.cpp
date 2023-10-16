@@ -14,7 +14,7 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector.size() ; ++i)
+    for (int i = 0 ; i < vector.size() ; ++i)
         vector.set(i, i);
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
