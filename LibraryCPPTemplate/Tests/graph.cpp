@@ -17,7 +17,7 @@ int main() {
     }
 
     for (size_t i = 0; i < vertex_count; i++) {
-        if (graph->getVertex(i)->getVertexData() != i) {
+        if (graph->getVertex(i)->getVertexData() != static_cast<int>(i)) {
             std::cout << "Invalid vertex data\n";
             return 1;
         }
