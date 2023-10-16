@@ -6,8 +6,9 @@ using namespace std;
 
 void task1(Array* arr)
 {
-    int sum = 0, index = 0, min_razn;
-    for (int i = 0; i < array_size(arr); i++)
+    size_t index = 0;
+    int sum = 0, min_razn;
+    for (size_t i = 0; i < array_size(arr); i++)
     {
 		cout << array_get(arr, i) << " ";
         sum += array_get(arr, i);
@@ -15,7 +16,7 @@ void task1(Array* arr)
 	cout << endl;
     float srzn = (float)sum / array_size(arr);
     min_razn = abs(array_get(arr, 0) - (int)srzn);
-    for (int i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         if (abs(array_get(arr, i) - srzn) < min_razn)
         {
@@ -29,15 +30,15 @@ void task1(Array* arr)
 void task2(Array* arr)
 {
     bool flag = 1;
-    for (int i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         cout << array_get(arr, i) << " ";
     }
     cout << endl;
     cout << "result: ";
-    for (int i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
-        for (int j = 0; j < array_size(arr); j++)
+        for (size_t j = 0; j < array_size(arr); j++)
         {
             if (array_get(arr, i) == array_get(arr, j) && i!=j)
             {
