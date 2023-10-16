@@ -33,6 +33,11 @@ void task1(Array *arr)
             precipitation += array_get(arr, i);
         }
     }
+    if (!rainyDays)
+    {
+        cout << "\nThere were no rainy days.\n";
+        return;
+    }
     cout << "\nNumber of rainy days: " << rainyDays << "\nAmount of precipitation per month: " << precipitation << "\nAverage precipitation: " << (float)precipitation / rainyDays << endl;
 }
 
@@ -57,7 +62,7 @@ void task2(Array *arr)
         return;
     }
 
-    int minDifference = tempArr->data[0] - tempArr->data[1];
+    int minDifference = array_get(tempArr, 0) - array_get(tempArr, 1);
     int curDifference;
     for (size_t i = 0; i < evenElemCounter - 1; i++)
     {
