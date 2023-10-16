@@ -28,7 +28,7 @@ int* dijkstra(const Graph<Data>& graph, size_t vertex_amount, size_t start_verte
 
         for (size_t neighbor_index = 0; neighbor_index < vertex_amount; ++neighbor_index) {
             // Check if there is an edge between current_vertex and neighbor_index
-            Graph<Data>::Edge* edge = mutableGraph.getEdge(current_vertex, neighbor_index);
+            typename Graph<Data>::Edge* edge = mutableGraph.getEdge(current_vertex, neighbor_index);
             if (edge != nullptr) {
                 int edge_weight = edge->getEdgeData();
 
