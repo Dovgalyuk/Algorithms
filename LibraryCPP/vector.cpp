@@ -50,14 +50,17 @@ void vector_resize(Vector* vector, size_t size) {
     }
 
     if (size > vector->capacity) {
-        // If the requested size is greater than the capacity, reallocate memory
-        Data* new_data = new Data[size];
+        // If the requested size is greater than the capacity, allocate more memory
+        size_t new_capacity = (size > vector->capacity * 2) ? size : vector->capacity * 2;
+        Data* new_data = new Data[new_capacity];
+
         for (size_t i = 0; i < vector->size; ++i) {
             new_data[i] = vector->data[i];
         }
+
         delete[] vector->data;
         vector->data = new_data;
-        vector->capacity = size;
+        vector->capacity = new_capacity;
     }
 
     vector->size = size;
