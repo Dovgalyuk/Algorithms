@@ -67,7 +67,7 @@ void task2(Array *arr)
     size_t size = array_size(arr);
     selectionSort(arr);
 
-    int minDiff = array_get(arr, 1) - array_get(arr, 0);
+    int minDiff = 10000000000000;
     for (size_t i = 2; i != size; i++)
     {
         if (array_get(arr, i) % 2 == 0) {
