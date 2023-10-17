@@ -4,8 +4,6 @@
 using namespace std;
 
 
-
-
 int first_task(const Array* arr,int a, int b) //ѕервое задание 
 {
     int sum=0;
@@ -54,9 +52,10 @@ size_t second_task(const Array* arr)
             if (sum > summax)
             {
                 summax = sum;
-                indx = i;
+                
             }
         }
+        indx = 5;
 
         for (size_t i = 5; i < size; i++)
         {
@@ -64,6 +63,7 @@ size_t second_task(const Array* arr)
             {
                 summax = sum;
                 indx = i;
+
             }
             if (array_get(arr, i) >= array_get(arr, i - 5))
             {
@@ -75,20 +75,19 @@ size_t second_task(const Array* arr)
             }
             else 
             {
-                if (counter <= 10)
+                if (counter < 10)
                 {
                     sum += array_get(arr, i);
                     sum -= array_get(arr, i - 5);
                     counter++;
-                    
                 }
-                sum -= array_get(arr, i);
-                sum += array_get(arr, i - 5);
+              
+                continue;
             }
 
         }
     }
-    return indx;
+    return indx-5;
 }
 
 
@@ -104,11 +103,12 @@ int main()
     cout << endl;
     Array* arr= array_create(sizeofArr1); //—оздание экземпл€ра массива
 
-   
+    
     srand(time(NULL) % 100);            //√енератор случайных чисел
-    for (size_t i = 0; i < array_size(arr); i++)
+    for (size_t i = 1; i < array_size(arr); i++)
     {
         array_set(arr, i, rand());
+        
     }
     cout << "Enter a and b: ";  //¬вод чисел а и b
     cin >> a>> b;
@@ -123,19 +123,39 @@ int main()
     cout << "Enter size of array: ";
     cin >> sizeofArr2;  //¬вод данных
     Array* array = array_create(sizeofArr2); //—оздание экземпл€ра массива
-
-    for (size_t i = 0; i < array_size(array); i++)
+    
+    for (size_t i = 0; i <array_size(array); i++)
     {
-        array_set(array, i, rand());
+        
+       array_set(array, i, rand());
+        
     }
    indx = second_task(array);
-    
-   for (size_t i = indx - 5; i < indx; i++)
+   if (indx < 5)
    {
-       cout << "Second task answer: " << array_get(array, i) << endl; //¬торое задание
+       for (size_t i = 0; i < 5; i++)
+       {
+           cout << "Second task answer: " << array_get(array, i) << endl; 
+       }
    }
-           
-    array_delete(array);   //”даление массива
+   else if (indx + 5 == array_size(array)-1)
+   {
+       for (size_t i = array_size(array)-1; i >indx; i--)
+       {
+           cout << "Second task answer: " << array_get(array, i) << endl; 
+       }
+   }
+   else
+   {
+       for (size_t i = indx; i<indx+5; i++)
+       {
+           cout << "Second task answer: " << array_get(array, i) << endl; 
+       }
+   }
+   
+   
+   array_delete(array);   //”даление массива        
+    
     
     
 }
