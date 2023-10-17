@@ -50,7 +50,7 @@ size_t array_size(const Array* arr)
 Array* re_size(Array* arr, Data value) {
     size_t size = array_size(arr);
     Array* second = new Array(size + 1);
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         array_set(second, i, array_get(arr, i));
     }
     array_set(second, size, value);
