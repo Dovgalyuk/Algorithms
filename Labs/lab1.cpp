@@ -7,7 +7,8 @@ using namespace std;
 void task1(Array* arr)
 {
     size_t index = 0;
-    int sum = 0, min_razn;
+    int sum = 0;
+    float min_razn;
     for (size_t i = 0; i < array_size(arr); i++)
     {
 		cout << array_get(arr, i) << " ";
@@ -15,12 +16,12 @@ void task1(Array* arr)
     }
 	cout << endl;
     float srzn = (float)sum / array_size(arr);
-    min_razn = abs(array_get(arr, 0) - (int)srzn);
+    min_razn = abs(array_get(arr, 0) - srzn);
     for (size_t i = 0; i < array_size(arr); i++)
     {
         if (abs(array_get(arr, i) - srzn) < min_razn)
         {
-            min_razn = abs(array_get(arr, i) - (int)srzn);
+            min_razn = abs(array_get(arr, i) - srzn);
             index = i;
         }
     }
@@ -29,7 +30,7 @@ void task1(Array* arr)
 
 void task2(Array* arr)
 {
-    bool flag = 1;
+    bool flag;
     for (size_t i = 0; i < array_size(arr); i++)
     {
         cout << array_get(arr, i) << " ";
@@ -38,11 +39,12 @@ void task2(Array* arr)
     cout << "result: ";
     for (size_t i = 0; i < array_size(arr); i++)
     {
+        flag = true;
         for (size_t j = 0; j < array_size(arr); j++)
         {
             if (array_get(arr, i) == array_get(arr, j) && i!=j)
             {
-                flag = 0;
+                flag = false;
                 break;
             }
         }
@@ -58,7 +60,7 @@ void createArray(Array* arr)
     size_t size = array_size(arr);
     for (size_t i = 0; i < size; i++)
     {
-        array_set(arr, i, rand());
+        array_set(arr, i, rand()%100);
     }
 }
 
@@ -68,7 +70,7 @@ int main()
     Array* arr = NULL;
 
     /* Create array here */
-    int size;
+    size_t size;
     cout << "Size array1: ", cin >> size;
     arr = array_create(size);
     createArray(arr);
