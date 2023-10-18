@@ -58,7 +58,7 @@ void shiftArray(Array* arr, size_t steps, int direction)
             array_set(arr, 0, 0); // 0 на первую позицию
 
             // Выводим массив после каждого шага
-            printf("Шаг %d: ", i + 1);
+            printf("Шаг %ld: ", i + 1);
             for (size_t k = 0; k < size; ++k)
             {
                 printf("%d ", array_get(arr, k));
@@ -81,7 +81,7 @@ void shiftArray(Array* arr, size_t steps, int direction)
             array_set(arr, size - 1, 0); // 0 на последнюю позицию
 
             // Выводим массив после каждого шага
-            printf("Шаг %d: ", i + 1);
+            printf("Шаг %ld: ", i + 1);
             for (size_t k = 0; k < size; ++k)
             {
                 printf("%d ", array_get(arr, k));
@@ -131,12 +131,12 @@ int main()
         array_set(arr, i, rand() % 100); // Генерация случайного числа от 0 до 99
     }
 
-     if (scanf("%zu", &direct) != 1 && scanf("%zu", &direct) != -1)
+     if (scanf("%zu", &direct) != 1 && direct != -1)
     {
         printf("Неверно указано направление сдвига\n");
         return 1;
     }
-     if (scanf("%zu", &step) <= 0 || scanf("%zu", &step) >= size)
+     if (scanf("%zu", &step) <= 0 || step >= size)
     {
         printf("Неверное количество шагов\n");
         return 1;
