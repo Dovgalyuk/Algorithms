@@ -25,8 +25,7 @@ void task1(Array *arr, int m, int n)
     if ((value % 2 != 0) && (i % 2 != 0))
     {
         // Если число нечетное и имеет нечетный индекс
-        array_set(arr, i, value - m );
-        array_set(arr, i, value + n);
+        array_set(arr, i, value - m + n);
     }
     else if (i % 2 != 0)
     {
