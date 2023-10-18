@@ -13,22 +13,22 @@ using namespace std;
         Array* vec = NULL;
         int max = array_get(arr, 0);
         
-        for (int i = 0; i < array_size(arr); i++) {
+        for (size_t i = 0; i < array_size(arr); i++) {
             if (array_get(arr, i) > max) {
                 max = array_get(arr,i);
             }
         }
         
-        for (int i = 0; i < array_size(arr); i++) {
+        for (size_t i = 0; i < array_size(arr); i++) {
             if (array_get(arr, i) == max) {
                 vec = array_create(1);
-                array_set(vec, 0, i);
+                array_set(vec, 0, static_cast<int>(i));
                 break;
             }
         }
-        for (int i = 0; i < array_size(arr) - 1; i++) {
+        for (size_t i = 0; i < array_size(arr) - 1; i++) {
             if (array_get(arr,i) == max) {
-                vec = re_size(vec, i);
+                vec = re_size(vec, static_cast<int>(i));
             }
         }
         if (array_size(vec) > 1) {
@@ -44,8 +44,8 @@ using namespace std;
             for (int j = i + 1; j < array_size(arr); j++) {
                 if (array_get(arr,j) < array_get(arr, i)) {
                     peregon = array_get(arr, i);
-                    array_set(arr, i, array_get(arr, j));
-                    array_set(arr, j,peregon);
+                    array_set(arr, i, static_cast<int>(array_get(arr, j)));
+                    array_set(arr, j,static_cast<int>(peregon));
                 }
             }
         }
@@ -57,16 +57,16 @@ using namespace std;
         for (int i = 0; i < array_size(arr); i++) {
             if (array_get(arr,i) % 2 == 0) {
                 carChet = array_create(1);
-                array_set(carChet,0,array_get(arr,i));
+                array_set(carChet,0,static_cast<int>(array_get(arr,i)));
                 break;
             }
         }
-        for (int i = 0; i < array_size(arr); i++) {
+        for (size_t i = 0; i < array_size(arr); i++) {
             if (array_get(arr, i) % 2 == 0) {
-                carChet = re_size(carChet, array_get(arr, i));
+                carChet = re_size(carChet, static_cast<int>(array_get(arr, i)));
             }
         }
-        for (int i = 1; i < array_size(carChet); i++) {
+        for (size_t i = 1; i < array_size(carChet); i++) {
             if (array_get(carChet,i) - array_get(carChet,i-1) < min && array_get(carChet,i) != array_get(carChet,i-1)) {
                 min = array_get(carChet,i) - array_get(carChet,i-1);
             }
