@@ -30,22 +30,33 @@ void task1(Array* arr)
 void task2(Array* arr)
 {
     size_t c, z;
-    c = 0;
+    
     for (size_t i = 0; i < array_size(arr); i++)
     {
-        if (*(int*)(array_get(arr, i)) > 0)
+        c = 0;
+        if (*(int*)(array_get(arr, i)) >= 0)
         {
-            for (size_t j = i + 1; j < array_size(arr); j++)
+            for (size_t j = 0; j < array_size(arr); j++)
+           
+                
+               
                 if (*(int*)(array_get(arr, i)) == *(int*)(array_get(arr, j)))
                 {
+                    
+
                     c += 1;
+
                     z = *(int*)(array_get(arr, i));
-                    int* p = (int*)malloc(sizeof(int));
-                    *p = -1;
-                    array_set(arr, i, p);
-                   
+                    if (i != j)
+                    {
+                        int* p = (int*)malloc(sizeof(int));
+                        *p = -1;
+                        array_set(arr, j, p);
+                    }
+
                 }
-            if (c == 1)
+            
+            if (c == 2)
             {
                 
                 printf("%zi", z);
@@ -53,7 +64,7 @@ void task2(Array* arr)
                 
             }
         }
-        c = 0;
+        
     }
 
 }
@@ -79,10 +90,15 @@ int main()
     arr = array_create(a, NULL);
     for (size_t i = 0; i < a; i++)
     {
-        int* p = (int*)malloc(sizeof(int));
+       int* p = (int*)malloc(sizeof(int));
+        
         *p = rand();
         array_set(arr, i, p);
+        
+        
     }
+    
+
     task2(arr);
     array_delete(arr);
 
