@@ -217,8 +217,10 @@ public:
         size_t index = start_vertex_index * vertex_amount + end_vertex_index;
 
         // Удалить существующее ребро, если оно есть
-        if (edgeMatrix->get(index)) {
-            delete edgeMatrix->get(index);
+        Edge* existingEdge = edgeMatrix->get(index);
+        if (existingEdge) {
+            delete existingEdge;
+            edgeMatrix->set(index, nullptr); // set the pointer to nullptr after deletion
         }
 
         // Создать и установить новое ребро
