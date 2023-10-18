@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include "array.h"
 #include <stdlib.h>
+#include <locale.h>
+#include <iostream>
 
 void task1(Array* arr)
 {
-    // Çàäà÷à 1: â êàêîé ïåðèîä âûïàëî áîëüøå îñàäêîâ: â ïåðâóþ ïîëîâèíó èþíÿ èëè âî âòîðóþ
+    // Задача 1: в какой период выпало больше осадков: в первую половину июня или во вторую
     int firstHalfSum = 0;
     int secondHalfSum = 0;
     size_t size = array_size(arr);
@@ -23,90 +25,131 @@ void task1(Array* arr)
 
     if (firstHalfSum > secondHalfSum)
     {
-        printf("Áîëüøå îñàäêîâ âûïàëî â ïåðâóþ ïîëîâèíó èþíÿ\n");
+        printf("Больше осадков выпало в первую половину июня\n");
     }
     else if (secondHalfSum > firstHalfSum)
     {
-        printf("Áîëüøå îñàäêîâ âûïàëî âî âòîðóþ ïîëîâèíó èþíÿ\n");
+        printf("Больше осадков выпало во вторую половину июня\n");
     }
     else
     {
-        printf("Îñàäêè ðàâíîìåðíî ðàñïðåäåëåíû ìåæäó ïåðâîé è âòîðîé ïîëîâèíàìè èþíÿ\n");
+        printf("Осадки равномерно распределены между первой и второй половинами июня\n");
     }
 }
 
-void task2(Array* arr)
+void shiftArray(Array* arr, int steps, int direction)
 {
-    // Çàäà÷à 2: â êàêóþ äåêàäó ìåñÿöà âûïàëî áîëüøå âñåãî îñàäêîâ
-    int maxDecadeSum = 0;
-    size_t maxDecadeStartIndex = 0;
+    // Проверка на валидность направления
+    if (direction != 1 && direction != -1)
+    {
+        printf("Неверно указано направление сдвига\n");
+        return;
+    }
+
     size_t size = array_size(arr);
 
-    for (size_t i = 0; i < size; i += 10)
+    // Проверка на валидность числа шагов
+    if (steps <= 0 || steps >= size)
     {
-        int decadeSum = 0;
-        for (size_t j = i; j < i + 10 && j < size; ++j)
+        printf("Неверное количество шагов\n");
+        return;
+    }
+
+    // Сдвиг вправо
+    if (direction == 1)
+    {
+        for (int i = 0; i < steps; ++i)
         {
-            decadeSum += array_get(arr, j);
-        }
-        if (decadeSum > maxDecadeSum)
-        {
-            maxDecadeSum = decadeSum;
-            maxDecadeStartIndex = i;
+
+            for (size_t j = size - 1; j > 0; --j)
+            {
+                array_set(arr, j, array_get(arr, j - 1)); // Сдвигаем элементы вправо
+            }
+
+            array_set(arr, 0, 0); // 0 на первую позицию
+
+            // Выводим массив после каждого шага
+            printf("Шаг %d: ", i + 1);
+            for (size_t k = 0; k < size; ++k)
+            {
+                printf("%d ", array_get(arr, k));
+            }
+            printf("\n");
         }
     }
 
-    printf("Äåêàäà ñ íàèáîëüøèì êîëè÷åñòâîì îñàäêîâ: ");
-    for (size_t i = maxDecadeStartIndex; i < maxDecadeStartIndex + 10 && i < size; ++i)
+    // Сдвиг влево
+    if (direction == -1)
     {
-        printf("%d ", array_get(arr, i));
+        for (int i = 0; i < steps; ++i)
+        {
+
+            for (size_t j = 0; j < size - 1; ++j)
+            {
+                array_set(arr, j, array_get(arr, j + 1)); // Сдвигаем элементы влево
+            }
+
+            array_set(arr, size - 1, 0); // 0 на последнюю позицию
+
+            // Выводим массив после каждого шага
+            printf("Шаг %d: ", i + 1);
+            for (size_t k = 0; k < size; ++k)
+            {
+                printf("%d ", array_get(arr, k));
+            }
+            printf("\n");
+        }
     }
-    printf("\n");
 }
+
 
 int main()
 {
+    setlocale(LC_ALL, "ru");
     Array* arr = NULL;
     size_t size;
-
-    // Ââîä ðàçìåðà ìàññèâà ñ êëàâèàòóðû
-    printf("Ââåäèòå ðàçìåð ìàññèâà: ");
-    if (scanf("%zu", &size) != 1) {
-    printf("Ошибка ввода размера.\n");
-    return 1;
+    int direct;
+    int step;
+    // Ввод размера массива с клавиатуры
+    printf("Введите размер массива: ");
+    if (scanf_s("%zu", &size) != 1) {
+        printf("Ошибка ввода размера.\n");
+        return 1;
     }
-
-    // Ñîçäàíèå ìàññèâà è çàïîëíåíèå åãî ñëó÷àéíûìè äàííûìè
+    // Создание массива и заполнение его случайными данными
     arr = array_create(size);
     for (size_t i = 0; i < size; ++i)
     {
-        array_set(arr, i, rand() % 100); // Ãåíåðàöèÿ ñëó÷àéíîãî ÷èñëà îò 0 äî 99
+        array_set(arr, i, rand() % 100); // Генерация случайного числа от 0 до 99
     }
 
-    // Âûçîâ çàäà÷è 1
+    // Вызов задачи 1
     task1(arr);
 
-    // Óäàëåíèå ìàññèâà
+    // Удаление массива
     array_delete(arr);
 
-    // Ââîä ðàçìåðà íîâîãî ìàññèâà ñ êëàâèàòóðû
-    printf("Ââåäèòå ðàçìåð íîâîãî ìàññèâà: ");
-    if (scanf("%zu", &size) != 1) {
-    printf("Ошибка ввода размера.\n");
-    return 1;
-}
-
-    // Ñîçäàíèå íîâîãî ìàññèâà è çàïîëíåíèå åãî ñëó÷àéíûìè äàííûìè
+    // Ввод размера нового массива с клавиатуры
+    printf("Введите размер нового массива: ");
+    if (scanf_s("%zu", &size) != 1) {
+        printf("Ошибка ввода размера.\n");
+        return 1;
+    }
+    // Создание нового массива и заполнение его случайными данными
     arr = array_create(size);
     for (size_t i = 0; i < size; ++i)
     {
-        array_set(arr, i, rand() % 100); // Ãåíåðàöèÿ ñëó÷àéíîãî ÷èñëà îò 0 äî 99
+        array_set(arr, i, rand() % 100); // Генерация случайного числа от 0 до 99
     }
 
-    // Âûçîâ çàäà÷è 2
-    task2(arr);
+    printf("Введите направление сдвига: ");
+    scanf_s("%d",&direct);
+    printf("Введите колво шагов: ");
+    scanf_s("%d",&step);
+    // Вызов задачи 2
+    shiftArray(arr, step, direct);
 
-    // Óäàëåíèå âòîðîãî ìàññèâà
+    // Удаление второго массива
     array_delete(arr);
 
     return 0;
