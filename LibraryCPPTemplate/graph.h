@@ -213,18 +213,9 @@ public:
     }
 
     void addEdge(size_t start_vertex_index, size_t end_vertex_index, Data edge_data) {
+        Edge* edge = new Edge(edge_data);
         size_t vertex_amount = getVertexAmount();
-        size_t index = start_vertex_index * vertex_amount + end_vertex_index;
-
-        // Удалить существующее ребро, если оно есть
-        Edge* existingEdge = edgeMatrix->get(index);
-        if (existingEdge) {
-            delete existingEdge;
-            edgeMatrix->set(index, nullptr); // set the pointer to nullptr after deletion
-        }
-
-        // Создать и установить новое ребро
-        edgeMatrix->set(index, new Edge(edge_data));
+        edgeMatrix->set(start_vertex_index * vertex_amount + end_vertex_index, edge);
     }
 
     void removeEdge(size_t start_vertex_index, size_t end_vertex_index) {
