@@ -15,7 +15,7 @@ public:
     }
 
     Vector(const Vector& other)
-        : vector_size(other.vector_size), max_size(other.max_size), data(new Data[other.max_size])
+        : data(new Data[other.max_size]), vector_size(other.vector_size), max_size(other.max_size)
     {
         for (size_t i = 0; i < vector_size; i++)
         {
