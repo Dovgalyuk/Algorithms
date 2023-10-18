@@ -52,9 +52,9 @@ Data array_get(const Array* arr, size_t index)
 // sets the specified array element to the value
 void array_set(Array* arr, size_t index, Data value)
 {
-	if (arr->del != NULL)
+	if (arr->del != NULL && index < arr->size)
 		
-		if (index < arr->size)	arr->del(arr->array[index]);
+		arr->del(arr->array[index]);
 		
 	else
 		
