@@ -222,7 +222,11 @@ public:
     void addEdge(size_t start_vertex_index, size_t end_vertex_index, Data edge_data) {
         Edge* edge = new Edge(edge_data);
         size_t vertex_amount = getVertexAmount();
-        edgeMatrix->set(start_vertex_index * vertex_amount + end_vertex_index, edge);
+        size_t index = start_vertex_index * vertex_amount + end_vertex_index;
+        if (edgeMatrix->get(index)) {  // Check if there's already an edge
+            delete edgeMatrix->get(index);  // Delete the existing edge
+        }
+        edgeMatrix->set(index, edge);  // Set the new edge
     }
 
     void removeEdge(size_t start_vertex_index, size_t end_vertex_index) {
