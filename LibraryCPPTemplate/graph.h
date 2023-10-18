@@ -227,8 +227,6 @@ public:
 
     void removeEdge(size_t start_vertex_index, size_t end_vertex_index) {
         size_t vertex_amount = getVertexAmount();
-        Edge* edge = edgeMatrix->get(start_vertex_index * vertex_amount + end_vertex_index);
-        delete edge;
         edgeMatrix->set(start_vertex_index * vertex_amount + end_vertex_index, nullptr);
     }
 
