@@ -112,7 +112,7 @@ int main()
     int step;
     // Ввод размера массива с клавиатуры
     printf("Введите размер массива: ");
-    if (scanf_s("%zu", &size) != 1) {
+    if (scanf("%zu", &size) != 1) {
         printf("Ошибка ввода размера.\n");
         return 1;
     }
@@ -131,7 +131,7 @@ int main()
 
     // Ввод размера нового массива с клавиатуры
     printf("Введите размер нового массива: ");
-    if (scanf_s("%zu", &size) != 1) {
+    if (scanf("%zu", &size) != 1) {
         printf("Ошибка ввода размера.\n");
         return 1;
     }
@@ -143,9 +143,9 @@ int main()
     }
 
     printf("Введите направление сдвига: ");
-    scanf_s("%d",&direct);
+    scanf("%d",&direct);
     printf("Введите колво шагов: ");
-    scanf_s("%d",&step);
+    scanf("%d",&step);
     // Вызов задачи 2
     shiftArray(arr, step, direct);
 
