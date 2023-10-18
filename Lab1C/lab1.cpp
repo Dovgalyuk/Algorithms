@@ -99,6 +99,7 @@ int main()
     size_t size;
     size_t direct;
     size_t step;
+    size_t minus = -1;
     // Ввод размера массива с клавиатуры
     printf("Введите размер массива: ");
     if (scanf("%zu", &size) != 1) {
@@ -131,12 +132,12 @@ int main()
         array_set(arr, i, rand() % 100); // Генерация случайного числа от 0 до 99
     }
 
-     if (scanf("%zu", &direct) != 1 && (size_t)direct != -1)
+     if (scanf("%zu", &direct) != 1 && direct != minus)
     {
         printf("Неверно указано направление сдвига\n");
         return 1;
     }
-     if (scanf("%zu", &step) <= 0 || (size_t)step >= size)
+     if (scanf("%zu", &step) <= 0 || step >= size)
     {
         printf("Неверное количество шагов\n");
         return 1;
