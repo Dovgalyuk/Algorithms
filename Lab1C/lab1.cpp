@@ -37,7 +37,7 @@ void task1(Array* arr)
     }
 }
 
-void shiftArray(Array* arr, int steps, int direction)
+void shiftArray(Array* arr, size_t steps, int direction)
 {
     // Проверка на валидность направления
     if (direction != 1 && direction != -1)
@@ -108,8 +108,8 @@ int main()
     setlocale(LC_ALL, "ru");
     Array* arr = NULL;
     size_t size;
-    int direct;
-    int step;
+    size_t direct;
+    size_t step;
     // Ввод размера массива с клавиатуры
     printf("Введите размер массива: ");
     if (scanf("%zu", &size) != 1) {
@@ -143,9 +143,9 @@ int main()
     }
 
     printf("Введите направление сдвига: ");
-    scanf("%d",&direct);
+    scanf("%zu",&direct);
     printf("Введите колво шагов: ");
-    scanf("%d",&step);
+    scanf("%zu",&step);
     // Вызов задачи 2
     shiftArray(arr, step, direct);
 
