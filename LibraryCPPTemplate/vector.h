@@ -14,6 +14,36 @@ public:
         data = new Data[max_size];
     }
 
+    Vector(const Vector& other)
+        : vector_size(other.vector_size), max_size(other.max_size), data(new Data[other.max_size])
+    {
+        for (size_t i = 0; i < vector_size; i++)
+        {
+            data[i] = other.data[i];
+        }
+    }
+
+    Vector& operator=(const Vector& other)
+    {
+        if (this == &other) // handle self assignment
+        {
+            return *this;
+        }
+
+        delete[] data;  // free current data
+
+        vector_size = other.vector_size;
+        max_size = other.max_size;
+        data = new Data[max_size];
+
+        for (size_t i = 0; i < vector_size; i++)
+        {
+            data[i] = other.data[i];
+        }
+
+        return *this;
+    }
+
     ~Vector()
     {
         delete[] data;
@@ -56,7 +86,7 @@ public:
             new_data[i] = data[i];
         }
 
-        delete[] data;
+        delete[] data;  // Free the old memory before assigning the new memory
         data = new_data;
         max_size = _max_size;
         vector_size = size;

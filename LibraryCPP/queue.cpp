@@ -37,6 +37,7 @@ void queue_insert(Queue* queue, Data data)
         queue->head = 0;
     }
     else if (queue->rear % static_cast<int>(size) == queue->head) {
+        //если очередь заполнена, то увеличиваем размер очереди, чтобы добавить новый элемент.
         Vector* buff = vector_create();
         vector_resize(buff, size * 2);
 
@@ -58,9 +59,11 @@ void queue_insert(Queue* queue, Data data)
         size = vector_size(queue->vector);
     }
 
+    //¬ычисление индекса дл€ вставки нового элемента.
     auto rear = queue->rear % size;
-
+    //¬ставка элемента в очередь по вычисленному индексу.
     vector_set(queue->vector, rear, data);
+    //ќбновление указател€ хвоста очереди дл€ следующей вставки.
     queue->rear = rear + 1;
 }
 
@@ -73,6 +76,7 @@ Data queue_get(const Queue* queue)
     return Data();
 }
 
+//удал€ет элемент из начала очереди
 void queue_remove(Queue* queue)
 {
     size_t size = vector_size(queue->vector);
@@ -87,6 +91,7 @@ void queue_remove(Queue* queue)
         }
         else {
             queue->head = head % size;
+            //”станавливаетс€ новый индекс головы, учитыва€ размер очереди.
         }
     }
 }
