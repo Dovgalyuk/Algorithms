@@ -131,12 +131,12 @@ int main()
         array_set(arr, i, rand() % 100); // Генерация случайного числа от 0 до 99
     }
 
-     if (scanf("%zu", &direct) != 1 && direct != -1)
+     if (scanf("%zu", &direct) != 1 && (size_t)direct != -1)
     {
         printf("Неверно указано направление сдвига\n");
         return 1;
     }
-     if (scanf("%zu", &step) <= 0 || step >= size)
+     if (scanf("%zu", &step) <= 0 || (size_t)step >= size)
     {
         printf("Неверное количество шагов\n");
         return 1;
