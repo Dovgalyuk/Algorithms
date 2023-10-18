@@ -22,7 +22,6 @@ public:
         }
 
     }
-
     ~Graph() {
         for (size_t i = 0; i < vertexes->size(); i++) {
             delete vertexes->get(i);
@@ -33,7 +32,6 @@ public:
         delete vertexes;
         delete edgeMatrix;
     }
-
     Graph(const Graph& other) {
         // Глубокое копирование вершин
         vertexes = new Vector<Vertex*>;
@@ -55,7 +53,6 @@ public:
             }
         }
     }
-
     Graph& operator=(const Graph& other) {
         if (this == &other) {
             return *this;  // Защита от самоприсваивания
@@ -87,7 +84,6 @@ public:
 
         return *this;
     }
-
     struct Vertex {
     private:
         Data vertex_data;
@@ -161,7 +157,6 @@ public:
     Iterator getIterator(size_t start) {
         return Iterator(this, start);
     }
-
     size_t addVertex(Data vertex_data) {
         // Добавление вершины
         size_t index = vertexes->size();
@@ -183,7 +178,6 @@ public:
         edgeMatrix = buffMatrix;
         return index;
     }
-
     void removeVertex(size_t index) {
         // Кол-во вершин исходного графа
         size_t _vertex_amount = getVertexAmount();
@@ -214,18 +208,17 @@ public:
         delete edgeMatrix;
         edgeMatrix = buffMatrix;
     }
-
     Vertex* getVertex(size_t index) {
         return vertexes->get(index);
     }
 
     void addEdge(size_t start_vertex_index, size_t end_vertex_index, Data edge_data) {
-        Edge* edge = new Edge(edge_data);
         size_t vertex_amount = getVertexAmount();
         size_t index = start_vertex_index * vertex_amount + end_vertex_index;
         if (edgeMatrix->get(index)) {  // Check if there's already an edge
             delete edgeMatrix->get(index);  // Delete the existing edge
         }
+        Edge* edge = new Edge(edge_data);
         edgeMatrix->set(index, edge);  // Set the new edge
     }
 
