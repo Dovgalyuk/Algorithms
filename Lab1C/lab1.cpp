@@ -5,8 +5,8 @@ using namespace std;
 
     void FillRandom(Array* arr) {
         size_t size = array_size(arr);
-        for (int i = 0; i < size; i++) {
-            array_set(arr, i, rand() % (250 - 100 + 1) + 100);
+        for (size_t i = 0; i < size; i++) {
+            array_set(arr, i,static_cast<int>(rand() % (250 - 100 + 1) + 100));
         }
     }
     void MinMax(Array* arr) {
@@ -40,8 +40,8 @@ using namespace std;
     }
     void Sort(Array* arr) {
         int peregon = 0;
-        for (int i = 0; i < array_size(arr) - 1; i++) {
-            for (int j = i + 1; j < array_size(arr); j++) {
+        for (size_t i = 0; i < array_size(arr) - 1; i++) {
+            for (size_t j = i + 1; j < array_size(arr); j++) {
                 if (array_get(arr,j) < array_get(arr, i)) {
                     peregon = array_get(arr, i);
                     array_set(arr, i, static_cast<int>(array_get(arr, j)));
@@ -54,7 +54,7 @@ using namespace std;
         Sort(arr);
         int min = 1000000;
         Array* carChet = NULL;
-        for (int i = 0; i < array_size(arr); i++) {
+        for (size_t i = 0; i < array_size(arr); i++) {
             if (array_get(arr,i) % 2 == 0) {
                 carChet = array_create(1);
                 array_set(carChet,0,static_cast<int>(array_get(arr,i)));
