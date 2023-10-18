@@ -39,26 +39,15 @@ void task1(Array* arr)
 
 void shiftArray(Array* arr, size_t steps, int direction)
 {
-    // Проверка на валидность направления
-    if (direction != 1 && direction != -1)
-    {
-        printf("Неверно указано направление сдвига\n");
-        return;
-    }
-
+   
     size_t size = array_size(arr);
 
-    // Проверка на валидность числа шагов
-    if (steps <= 0 || steps >= size)
-    {
-        printf("Неверное количество шагов\n");
-        return;
-    }
+    
 
     // Сдвиг вправо
     if (direction == 1)
     {
-        for (int i = 0; i < steps; ++i)
+        for (size_t i = 0; i < steps; ++i)
         {
 
             for (size_t j = size - 1; j > 0; --j)
@@ -81,7 +70,7 @@ void shiftArray(Array* arr, size_t steps, int direction)
     // Сдвиг влево
     if (direction == -1)
     {
-        for (int i = 0; i < steps; ++i)
+        for (size_t i = 0; i < steps; ++i)
         {
 
             for (size_t j = 0; j < size - 1; ++j)
@@ -142,10 +131,16 @@ int main()
         array_set(arr, i, rand() % 100); // Генерация случайного числа от 0 до 99
     }
 
-    printf("Введите направление сдвига: ");
-    scanf("%zu",&direct);
-    printf("Введите колво шагов: ");
-    scanf("%zu",&step);
+     if (scanf("%zu", &direct) != 1 && scanf("%zu", &direct) != -1)
+    {
+        printf("Неверно указано направление сдвига\n");
+        return 1;
+    }
+     if (scanf("%zu", &step) <= 0 || scanf("%zu", &step) >= size)
+    {
+        printf("Неверное количество шагов\n");
+        return 1;
+    }
     // Вызов задачи 2
     shiftArray(arr, step, direct);
 
