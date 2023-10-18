@@ -24,6 +24,12 @@ public:
     }
 
     ~Graph() {
+        for (size_t i = 0; i < vertexes->size(); i++) {
+            delete vertexes->get(i);
+        }
+        for (size_t i = 0; i < edgeMatrix->size(); i++) {
+            delete edgeMatrix->get(i);
+        }
         delete vertexes;
         delete edgeMatrix;
     }
@@ -221,6 +227,8 @@ public:
 
     void removeEdge(size_t start_vertex_index, size_t end_vertex_index) {
         size_t vertex_amount = getVertexAmount();
+        Edge* edge = edgeMatrix->get(start_vertex_index * vertex_amount + end_vertex_index);
+        delete edge;
         edgeMatrix->set(start_vertex_index * vertex_amount + end_vertex_index, nullptr);
     }
 
