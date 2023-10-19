@@ -40,7 +40,8 @@ int main()
         std::cout << "Invalid resize\n";
         return 1;
     }
-
+    for (size_t i = 0; i < vector_size(vector); ++i)
+        vector_set(vector, i, new int(i));
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
         std::cout << vector_get_int(vector, i) << " ";
