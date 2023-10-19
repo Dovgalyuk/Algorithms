@@ -30,7 +30,7 @@ void list_delete(List *list)
     {
         ListItem* current_list_item;
 
-        if (list->tail_of_list->pointer_to_previous != list->tail_of_list->pointer_to_previous)
+        if (list->tail_of_list->pointer_to_previous != nullptr)
             current_list_item = list->tail_of_list->pointer_to_previous;
         else
             current_list_item = list->tail_of_list;
