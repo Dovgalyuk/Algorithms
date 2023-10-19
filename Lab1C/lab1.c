@@ -59,7 +59,7 @@ void task2(Array* arr)
             if (c == 2)
             {
                 
-                printf("%zi", *(int*)(array_get(arr, i)));
+                printf("%i", *(int*)(array_get(arr, i)));
                 printf("%s", "\t");
                 
             }
