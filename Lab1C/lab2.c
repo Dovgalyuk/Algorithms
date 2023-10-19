@@ -29,7 +29,8 @@ int main()
 	int error = 0, x = 0, y = 0, answer = 0;
 	Stack* stack = NULL;
 	stack = stack_create(NULL);
-	gets(string);
+	fgets(string, sizeof(string), stdin);
+	string[strlen(string) - 1] = '\0';
 
 	number = strtok(string, " ");
 
@@ -85,5 +86,4 @@ int main()
 		ErrorMessage(error);
 
 	stack_delete(stack);
-	getch();
 }
