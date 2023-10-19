@@ -65,10 +65,8 @@ void vector_resize(Vector* vector, size_t size)
 	if (vector != NULL) {
 		if (size > vector->size) {
 			vector->v = (Data*)realloc(vector->v, size * sizeof(Data));
-			for (size_t i = vector->size;i < size;i++) {
-				Data a = (Data)malloc(sizeof(Data));
-				vector->v[i] = a;
-			}
+			for (size_t i = vector->size;i < size;i++)
+				vector->v[i] = NULL;
 			vector->size = size;
 		}
 		else if (size < vector->size) {
