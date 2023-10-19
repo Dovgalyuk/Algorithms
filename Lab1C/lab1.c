@@ -29,7 +29,7 @@ void task1(Array* arr)
 
 void task2(Array* arr)
 {
-    size_t c, z;
+    size_t c;
     
     for (size_t i = 0; i < array_size(arr); i++)
     {
@@ -46,7 +46,7 @@ void task2(Array* arr)
 
                     c += 1;
 
-                    z = *(int*)(array_get(arr, i));
+                   
                     if (i != j)
                     {
                         int* p = (int*)malloc(sizeof(int));
@@ -59,7 +59,7 @@ void task2(Array* arr)
             if (c == 2)
             {
                 
-                printf("%zi", z);
+                printf("%zi", *(int*)(array_get(arr, i)));
                 printf("%s", "\t");
                 
             }
@@ -104,6 +104,7 @@ int main()
 
 
 }
+
 
 
 
