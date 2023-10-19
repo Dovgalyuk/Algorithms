@@ -62,13 +62,13 @@ void task2(Array *arr)
         return;
     }
 
-    int minDifference = array_get(tempArr, 0) - array_get(tempArr, 1);
+    int minDifference = abs(array_get(tempArr, 0) - array_get(tempArr, 1));
     int curDifference;
     for (size_t i = 0; i < evenElemCounter - 1; i++)
     {
         for (size_t j = i + 1; j < evenElemCounter; j++)
         {
-            curDifference = -abs(array_get(tempArr, i) - array_get(tempArr, j));
+            curDifference = abs(array_get(tempArr, i) - array_get(tempArr, j));
             if (minDifference > curDifference)
                 minDifference = curDifference;
         }
