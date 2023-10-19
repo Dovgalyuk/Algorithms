@@ -25,7 +25,7 @@ void task1(Array* arr)
 		}
 		else printf("\nindex of MaxSpeed Auto = %d \n", firstMax);
 	}
-	printf("\nmassive is empty\n");
+	else printf("\nmassive is empty\n");
 }
 
 void task2(Array* arr)
