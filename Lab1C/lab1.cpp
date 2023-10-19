@@ -1,6 +1,7 @@
 #include "array.h"
 #include <time.h>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -66,13 +67,25 @@ void task2(Array *arr)
 {
     size_t size = array_size(arr);
     selectionSort(arr);
-
+    vector<int> nambers;
     int minDiff = 1000000;
     for (size_t i = 0; i != size; i++)
     {
         if (array_get(arr, i) % 2 == 0)
         {
-            minDiff = min(minDiff, array_get(arr, i) - array_get(arr, i - 2));
+            nambers.push_back(array_get(arr, i));
+        }
+    }
+    for (size_t i = 1; i < nambers.size(); i++)
+    {
+        if (nambers.size() > 1)
+        {
+            minDiff = min(minDiff, nambers[i] - nambers[i - 1]);
+        }
+        else
+        {
+            cout << "Nexvataet shisel!" << endl;
+            return;
         }
     }
 
@@ -81,8 +94,7 @@ void task2(Array *arr)
 
 void CreateArray(Array *arr)
 {
-    size_t size = array_size(arr);
-    for (size_t i = 0; i < size; i++)
+    for (size_t i = 0; i < array_size(arr); i++)
         array_set(arr, i, rand());
 }
 
@@ -92,13 +104,11 @@ int main()
     Array *arr = NULL;
     size_t size;
 
-    // create first array, release first task and delete first array
     cin >> size;
     arr = array_create(size);
     task1(arr);
     array_delete(arr);
 
-    // create second array, release second task and delete second array
     cin >> size;
     arr = array_create(size);
     CreateArray(arr);
