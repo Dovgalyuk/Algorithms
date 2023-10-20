@@ -25,7 +25,6 @@ size_t second_task(const Array* arr)
 {
     int sum = 0;
     int summax = 0;
-    int counter = 5;
     size_t indx = 0;
     size_t size = array_size(arr);
 
@@ -71,30 +70,14 @@ size_t second_task(const Array* arr)
                 sum += array_get(arr, i);
                 sum -= array_get(arr, i - 5);
 
-                counter++;
+                
             }
             else 
             {
 
-                
-
                 sum += array_get(arr, i);
                 sum -= array_get(arr, i - 5);
 
-
-                if (counter < 10)
-                {
-                    sum += array_get(arr, i);
-                    sum -= array_get(arr, i - 5);
-                    counter++;
-                }
-
-                sum += array_get(arr, i);
-                sum -= array_get(arr, i - 5);
-
-
-              
-                continue;
 
             }
 
@@ -118,7 +101,7 @@ int main()
 
     
     srand(time(NULL) % 100);            //√енератор случайных чисел
-    for (size_t i = 1; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         array_set(arr, i, rand());
         
@@ -136,10 +119,10 @@ int main()
     cout << "Enter size of array: ";
     cin >> sizeofArr2;  //¬вод данных
     Array* array = array_create(sizeofArr2); //—оздание экземпл€ра массива
-
+    
     for (size_t i = 0; i < array_size(array); i++)
     {
-
+        
         array_set(array, i, rand());
 
     }
