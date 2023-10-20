@@ -75,6 +75,9 @@ size_t second_task(const Array* arr)
             }
             else 
             {
+                sum += array_get(arr, i);
+                sum -= array_get(arr, i - 5);
+
                 if (counter < 10)
                 {
                     sum += array_get(arr, i);
@@ -115,7 +118,7 @@ int main()
     cout << endl;
 
 
-    cout << "First task answer: "<<first_task(arr, a, b)<<endl; //Вывод результатов первого задания
+  cout << "First task answer: "<<first_task(arr, a, b)<<endl; //Вывод результатов первого задания
     array_delete(arr); //Удаление массива
 
     
@@ -123,11 +126,12 @@ int main()
     cout << "Enter size of array: ";
     cin >> sizeofArr2;  //Ввод данных
     Array* array = array_create(sizeofArr2); //Создание экземпляра массива
-    
+    int g;
     for (size_t i = 0; i <array_size(array); i++)
     {
+        cin >> g;
         
-       array_set(array, i, rand());
+       array_set(array, i, g);
         
     }
    indx = second_task(array);
