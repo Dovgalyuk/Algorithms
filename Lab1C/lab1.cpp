@@ -10,7 +10,7 @@ void Random(Array* arr){
 }
 void task1(Array* arr) {
     Random(arr);
-    for (int i = 0; i < array_size(arr); i++) {
+    for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << '\t';
     }
     cout << '\n';
@@ -23,7 +23,7 @@ void task1(Array* arr) {
 }
 void task2(Array* arr) {
     Random(arr);
-    for (int i = 0; i < array_size(arr); i++) {
+    for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << '\t';
     }
     cout << '\n';
