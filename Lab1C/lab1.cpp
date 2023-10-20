@@ -80,7 +80,7 @@ void task2(Array *arr)
             count += 1;
         }
     }
-    for (size_t i = 1; i < count; i++)
+    for (int i = 1; i < count; i++)
     {
         if (count > 1)
         {
