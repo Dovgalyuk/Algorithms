@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include "array.h"
+#include <iostream>
+
 
 void task1(Array *arr)
 {
