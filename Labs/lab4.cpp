@@ -86,6 +86,6 @@ int main() {
         else
             std::cout << "Shortest path from vertex " << start << " to vertex " << i << " is NULL\n";
     }
-
+    delete[] shortest_paths;
     return 0;
 }
