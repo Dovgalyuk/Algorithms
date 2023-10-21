@@ -46,7 +46,6 @@ int* dijkstra(const Graph<Data>& graph, size_t vertex_amount, size_t start_verte
 int main() {
     size_t vertex_amount = 0;
     int N = 0;
-    Graph<int>::Edge* edge = new Graph<int>::Edge(1);
     // Добавление рёбер
     std::cout << "Input vertex_amount> ";
     std::cin >> vertex_amount;
@@ -59,8 +58,6 @@ int main() {
         int edge_data = 0;
         std::cout << "input " << i << " data (size_t start_vertex_index, size_t end_vertex_index, Data edge_data)> ";
         std::cin >> start_vertex_index >> end_vertex_index >> edge_data;
-
-        edge += 1;
         graph.addEdge(start_vertex_index, end_vertex_index, edge_data);
     }
 

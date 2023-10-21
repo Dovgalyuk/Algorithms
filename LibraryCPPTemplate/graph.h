@@ -173,7 +173,11 @@ public:
                 buffMatrix->set((i * vertex_amount) + j, edgeMatrix->get(i * index + j));
             }
         }
-
+        for (size_t i = 0; i < edgeMatrix->size(); i++) {
+            if (edgeMatrix->get(i)) {
+                delete edgeMatrix->get(i);
+            }
+        }
         delete edgeMatrix;
         edgeMatrix = buffMatrix;
         return index;
@@ -194,6 +198,16 @@ public:
         }
         vertexes->resize(_vertex_amount - 1);
 
+        for (size_t i = 0; i < _vertex_amount; i++) {
+            Edge* edge1 = edgeMatrix->get(index * _vertex_amount + i);
+            Edge* edge2 = edgeMatrix->get(i * _vertex_amount + index);
+            if (edge1) {
+                delete edge1;
+            }
+            if (edge2) {
+                delete edge2;
+            }
+        }
         // Ќовое кол-во вершин
         size_t vertex_amount = getVertexAmount();
         // ѕереопределение матрицы смежности
@@ -214,14 +228,17 @@ public:
 
     void addEdge(size_t start_vertex_index, size_t end_vertex_index, Data edge_data) {
         size_t vertex_amount = getVertexAmount();
-        Edge* oldEdge = edgeMatrix->get(start_vertex_index * vertex_amount + end_vertex_index);
-        if (oldEdge) {
-            delete oldEdge;
+        Edge* existingEdge = edgeMatrix->get(start_vertex_index * vertex_amount + end_vertex_index);
+
+        if (existingEdge) {
+            // ≈сли ребро уже существует, просто обновл€ем его данные
+            existingEdge->setEdgeData(edge_data);
         }
-        oldEdge = new Edge(edge_data);
-
-        edgeMatrix->set(start_vertex_index * vertex_amount + end_vertex_index, oldEdge);
-
+        else {
+            // ≈сли ребра не существует, создаем новое
+            Edge* newEdge = new Edge(edge_data);
+            edgeMatrix->set(start_vertex_index * vertex_amount + end_vertex_index, newEdge);
+        }
     }
 
     void removeEdge(size_t start_vertex_index, size_t end_vertex_index) {
