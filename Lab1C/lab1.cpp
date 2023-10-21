@@ -5,8 +5,8 @@ using namespace std;
 
     void FillRandom(Array* arr) {
         size_t size = array_size(arr);
-        for (int i = 0; i < size; i++) {
-            array_set(arr, i, rand() % (250 - 100 + 1) + 100);
+        for (size_t i = 0; i < size; i++) {
+            array_set(arr, i,static_cast<int>(rand() % (250 - 100 + 1) + 100));
         }
     }
     void MinMax(Array* arr) {
@@ -16,12 +16,13 @@ using namespace std;
         int max1 = 0;
         int max2 = 0;
         
-        for (int i = 0; i < array_size(arr); i++) {
+        for (size_t i = 0; i < array_size(arr); i++) {
             if (array_get(arr, i) > max) {
                 max = array_get(arr,i);
             }
         }
         
+<<<<<<< HEAD
         for (int i = 0; i < array_size(arr); i++) {
             if (array_get(arr, i) == max && fix == 0) {
                 max1 = i;
@@ -35,6 +36,22 @@ using namespace std;
         }
         if (max2 != 0) {
             cout << max1 << " " << max2 << endl;
+=======
+        for (size_t i = 0; i < array_size(arr); i++) {
+            if (array_get(arr, i) == max) {
+                vec = array_create(1);
+                array_set(vec, 0, static_cast<int>(i));
+                break;
+            }
+        }
+        for (size_t i = 0; i < array_size(arr) - 1; i++) {
+            if (array_get(arr,i) == max) {
+                vec = re_size(vec, static_cast<int>(i));
+            }
+        }
+        if (array_size(vec) > 1) {
+            cout << array_get(vec, 0) << " " << array_get(vec, array_size(vec) - 1)<< endl;
+>>>>>>> 36bcd1069387f7471f176cee2bf67741c1c635d3
         }
         else {
             cout << max << endl;
@@ -42,12 +59,12 @@ using namespace std;
     }
     void Sort(Array* arr) {
         int peregon = 0;
-        for (int i = 0; i < array_size(arr) - 1; i++) {
-            for (int j = i + 1; j < array_size(arr); j++) {
+        for (size_t i = 0; i < array_size(arr) - 1; i++) {
+            for (size_t j = i + 1; j < array_size(arr); j++) {
                 if (array_get(arr,j) < array_get(arr, i)) {
                     peregon = array_get(arr, i);
-                    array_set(arr, i, array_get(arr, j));
-                    array_set(arr, j,peregon);
+                    array_set(arr, i, static_cast<int>(array_get(arr, j)));
+                    array_set(arr, j,static_cast<int>(peregon));
                 }
             }
         }
@@ -56,19 +73,19 @@ using namespace std;
         Sort(arr);
         int min = 1000000;
         Array* carChet = NULL;
-        for (int i = 0; i < array_size(arr); i++) {
+        for (size_t i = 0; i < array_size(arr); i++) {
             if (array_get(arr,i) % 2 == 0) {
                 carChet = array_create(1);
-                array_set(carChet,0,array_get(arr,i));
+                array_set(carChet,0,static_cast<int>(array_get(arr,i)));
                 break;
             }
         }
-        for (int i = 0; i < array_size(arr); i++) {
+        for (size_t i = 0; i < array_size(arr); i++) {
             if (array_get(arr, i) % 2 == 0) {
-                carChet = re_size(carChet, array_get(arr, i));
+                carChet = re_size(carChet, static_cast<int>(array_get(arr, i)));
             }
         }
-        for (int i = 1; i < array_size(carChet); i++) {
+        for (size_t i = 1; i < array_size(carChet); i++) {
             if (array_get(carChet,i) - array_get(carChet,i-1) < min && array_get(carChet,i) != array_get(carChet,i-1)) {
                 min = array_get(carChet,i) - array_get(carChet,i-1);
             }
