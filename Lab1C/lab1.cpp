@@ -22,7 +22,7 @@ using namespace std;
             }
         }
 
-        for (int i = 0; i < array_size(arr); i++) {
+        for (size_t i = 0; i < array_size(arr); i++) {
             if (array_get(arr, i) == max && fix == 0) {
                 max1 = i;
                 fix += 1;
