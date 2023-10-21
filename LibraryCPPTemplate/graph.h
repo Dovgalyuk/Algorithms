@@ -213,8 +213,12 @@ public:
     }
 
     void addEdge(size_t start_vertex_index, size_t end_vertex_index, Data edge_data) {
-        Edge* edge = new Edge(edge_data);
         size_t vertex_amount = getVertexAmount();
+        Edge* oldEdge = edgeMatrix->get(start_vertex_index * vertex_amount + end_vertex_index);
+        if (oldEdge) {
+            delete oldEdge;  // Освобождение памяти для старого ребра
+        }
+        Edge* edge = new Edge(edge_data);
         edgeMatrix->set(start_vertex_index * vertex_amount + end_vertex_index, edge);
     }
 
