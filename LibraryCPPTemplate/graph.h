@@ -220,6 +220,7 @@ public:
         }
         Edge* edge = new Edge(edge_data);
         edgeMatrix->set(start_vertex_index * vertex_amount + end_vertex_index, edge);
+        delete edge;
     }
 
     void removeEdge(size_t start_vertex_index, size_t end_vertex_index) {
