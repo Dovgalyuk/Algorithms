@@ -7,7 +7,7 @@
 // Stores pointer to custom user data
 typedef void* Data;
 // Custom function to free user pointers on delete
-typedef void (FFree)(void*);
+typedef void (ffree)(void*);
 
 typedef struct Vector Vector;
 
@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 	// Creates vector
-	Vector* vector_create(FFree f);
+	Vector* vector_create(ffree f);
 
 	// Deletes vector structure and internal data
 	void vector_delete(Vector* vector);
