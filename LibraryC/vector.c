@@ -68,10 +68,10 @@ void vector_resize(Vector* vector, size_t size)
 		if (size > vector->size) {
 			if (vector->maxsize < size)
 			{
-				vector->vector = (Data*)realloc(vector->vector, 2 * size * sizeof(Data));
-				for (size_t i = vector->maxsize; i < 2 * size; i++)
+				vector->vector = (Data*)realloc(vector->vector, size * sizeof(Data));
+				for (size_t i = vector->maxsize; i < size; i++)
 					vector->vector[i] = NULL;
-				vector->maxsize = 2 * size;
+				vector->maxsize = size;
 			}
 			vector->size = size;
 		}
