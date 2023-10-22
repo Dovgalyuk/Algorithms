@@ -102,12 +102,8 @@ ListItem *list_erase_next(List* list, ListItem* item)
 
     ListItem* p;
     p = item->next;
-
-    if (p->next != nullptr)
-    {
-        item->next = p->next;
-    }
+    item->next = p->next;
 
     delete p;
-    return item->next;
+    return item->next; //maybe return nullptr
 }

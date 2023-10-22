@@ -11,7 +11,7 @@ void check_input(Stack *stack, string input, int &stack_size, int &stack_fill_el
 {
 	string comand = {}, num = {};
 
-	for (short int i = 0; i < input.length();i++)
+	for (basic_string<char>::size_type i = 0; i < input.length();i++)
 	{
 		if(isalpha(input[i])) comand += input[i];
 
