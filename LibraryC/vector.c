@@ -21,8 +21,8 @@ Vector* vector_create(ffree f)
 
 void vector_delete(Vector* vector)
 {
-	if (vector != NULL) {
-		if (vector->deleter != NULL)
+	if (vector) {
+		if (vector->deleter)
 			for (size_t i = 0; i < vector->maxsize; i++) {
 				vector->deleter(vector->v[i]);
 			}
@@ -37,7 +37,7 @@ void vector_delete(Vector* vector)
 
 Data vector_get(const Vector* vector, size_t index)
 {
-	if (vector != NULL)
+	if (vector)
 		if (index < vector->size)
 			return vector->v[index];
 	return (Data)0;
@@ -45,7 +45,7 @@ Data vector_get(const Vector* vector, size_t index)
 
 void vector_set(Vector* vector, size_t index, Data value)
 {
-	if ((vector != NULL) && (index < vector->size))
+	if ((vector) && (index < vector->size))
 		if (vector->v[index] != NULL) {
 			if (vector->deleter != NULL)
 				vector->deleter(vector->v[index]);
@@ -57,14 +57,14 @@ void vector_set(Vector* vector, size_t index, Data value)
 
 size_t vector_size(const Vector* vector)
 {
-	if (vector != NULL)
+	if (vector)
 		return vector->size;
 	return 0;
 }
 
 void vector_resize(Vector* vector, size_t size)
 {
-	if (vector != NULL) {
+	if (vector) {
 		if (size > vector->size) {
 			if (vector->maxsize < size)
 			{
@@ -77,8 +77,8 @@ void vector_resize(Vector* vector, size_t size)
 		}
 		else if (size < vector->size) {
 			for (size_t i = 2 * size; i < vector->maxsize; i++) {
-				if (vector->v[i] != NULL) {
-					if (vector->deleter != NULL)
+				if (vector->v[i]) {
+					if (vector->deleter)
 						vector->deleter(vector->v[i]);
 					else
 						free(vector->v[i]);
