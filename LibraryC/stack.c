@@ -10,13 +10,10 @@ typedef struct Stack
 Stack* stack_create()
 {
     Stack* stack = (Stack*)malloc(sizeof(Stack));
-    if (stack) {
-        stack->vector = vector_create(NULL);
-        if (!stack->vector) {
-            free(stack);
-            return NULL;
-        }
-    }
+    
+    stack->vector = vector_create(NULL);
+        
+   
     return stack;
 }
 
@@ -44,13 +41,9 @@ Data stack_get(const Stack* stack)
 
 void stack_pop(Stack* stack)
 {
-    
-    size_t currentSize = vector_size(stack->vector);
-    if (currentSize > 0) {
-        vector_resize(stack->vector, currentSize - 1);
-    } 
-}
 
+    vector_resize(stack->vector, vector_size(stack->vector) - 1);
+}
 
 int stack_empty(const Stack* stack)
 {
