@@ -13,7 +13,7 @@ int vector_get_int(Vector* v, size_t i)
 
 int main()
 {
-    Vector* vector = vector_create(NULL);
+    Vector* vector = vector_create(myfree);
 
     vector_resize(vector, 5);
     if (vector_size(vector) != 5)
