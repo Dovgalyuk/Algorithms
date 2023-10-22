@@ -76,7 +76,7 @@ void vector_resize(Vector* vector, size_t size)
 			vector->size = size;
 		}
 		else if (size < vector->size) {
-			for (size_t i = 2 * size; i < vector->maxsize; i++) {
+			for (size_t i = size; i < vector->maxsize; i++) {
 				if (vector->vector[i]) {
 					if (vector->deleter)
 						vector->deleter(vector->vector[i]);
