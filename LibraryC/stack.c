@@ -1,17 +1,16 @@
 #include <stdlib.h>
-#include <assert.h>
 #include "vector.h"
-
+#include "stack.h"
 typedef struct Stack
 {
-    Vector* vector; // Вектор для хранения данных в стеке
+    Vector* vector; 
 } Stack;
 
-Stack* stack_create()
+Stack* stack_create(FFree f)
 {
     Stack* stack = (Stack*)malloc(sizeof(Stack));
     
-    stack->vector = vector_create(NULL);
+    stack->vector = vector_create(f);
         
    
     return stack;
@@ -45,7 +44,7 @@ void stack_pop(Stack* stack)
     vector_resize(stack->vector, vector_size(stack->vector) - 1);
 }
 
-int stack_empty(const Stack* stack)
+bool stack_empty(const Stack* stack)
 {
     
     return vector_size(stack->vector) == 0;
