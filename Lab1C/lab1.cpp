@@ -113,12 +113,12 @@ void task2(Array *arr)
     cout << endl;
 
 
-	size_t pos;
+	int pos;
     cout << "Vvedite chislo dlya sdviga" << endl;
 	cin >> pos;
     cout << endl;
 
-	size_t k = array_size(arr)-pos;
+	int k = array_size(arr)-pos;
 	int k2 = pos-1;
 
     int size = array_size(arr);
