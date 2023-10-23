@@ -1,5 +1,0 @@
-C:/Users/verik/OneDrive/Рабочий стол/Algorithms/CMakeProject1/out/build/x64-debug/CMakeFiles/edit_cache.dir
-C:/Users/verik/OneDrive/Рабочий стол/Algorithms/CMakeProject1/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
-C:/Users/verik/OneDrive/Рабочий стол/Algorithms/CMakeProject1/out/build/x64-debug/CMakeProject1/CMakeFiles/CMakeProject1.dir
-C:/Users/verik/OneDrive/Рабочий стол/Algorithms/CMakeProject1/out/build/x64-debug/CMakeProject1/CMakeFiles/edit_cache.dir
-C:/Users/verik/OneDrive/Рабочий стол/Algorithms/CMakeProject1/out/build/x64-debug/CMakeProject1/CMakeFiles/rebuild_cache.dir
