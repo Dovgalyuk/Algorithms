@@ -11,3 +11,4 @@ target_include_directories(Labs3 PUBLIC ../LibraryCPP)
 target_link_libraries(Labs3 LibraryCPP)
 
 add_executable(Labs4 "lab4.cpp")
+include_directories(${CMAKE_SOURCE_DIR}/LibraryCPPTemplate)
