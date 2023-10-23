@@ -137,7 +137,7 @@ void task2(Array *arr)
 			
 			if (i == array_size(arr)-pos)
 			{
-				while(k < array_size(arr))
+				while(k < size)
 				{
 					array_set(arr, k, 0);
 					k++;
