@@ -93,6 +93,7 @@ void task2(Array *arr)
         return;
     }
     cout << "Minimalnaia raznitsa = " << minDiff << endl;
+    array_delete(nambers);
 }
 
 void CreateArray(Array *arr)
