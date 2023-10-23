@@ -27,7 +27,10 @@ Vector<int> dijkstra(const Graph<Data>& graph, size_t vertex_amount, size_t star
         if (distance > distances.get(current_vertex))
             continue;
 
-        for (size_t neighbor_index = 0; neighbor_index < vertex_amount; ++neighbor_index) {
+        typename Graph<Data>::Iterator it = mutableGraph.getIterator(current_vertex);
+        while (*it) {
+            size_t neighbor_index = it.getEnd();  // Получаем индекс текущего соседа
+
             // Check if there is an edge between current_vertex and neighbor_index
             typename Graph<Data>::Edge* edge = mutableGraph.getEdge(current_vertex, neighbor_index);
             if (edge != nullptr) {
@@ -38,6 +41,8 @@ Vector<int> dijkstra(const Graph<Data>& graph, size_t vertex_amount, size_t star
                     minHeap.push(std::make_pair(distances.get(neighbor_index), neighbor_index));
                 }
             }
+
+            ++it;
         }
     }
 

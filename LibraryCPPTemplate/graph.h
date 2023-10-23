@@ -148,6 +148,9 @@ public:
         void operator ++() {
             end = getNearVertexIndex();
         }
+        size_t getEnd() const {
+            return end;
+        }
     };
 
     Iterator getIterator(size_t start) {
