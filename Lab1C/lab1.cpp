@@ -20,7 +20,7 @@ void task1(Array *arr)
     else {
 
 
-    for (int i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         sum += array_get(arr, i);
         switch (i)
@@ -113,13 +113,13 @@ void task2(Array *arr)
     cout << endl;
 
 
-	int pos;
+	size_t pos;
     cout << "Vvedite chislo dlya sdviga" << endl;
 	cin >> pos;
     cout << endl;
 
-	int k = array_size(arr)-pos;
-	int k2 = pos-1;
+	size_t k = array_size(arr)-pos;
+	size_t k2 = pos-1;
 
 
 	if (pos >= 0 && pos <= array_size(arr))
@@ -129,7 +129,7 @@ void task2(Array *arr)
 	{
 	
 
-	for (int i = 0; i < array_size(arr) ; i++)
+	for (size_t i = 0; i < array_size(arr) ; i++)
     {
             array_set(arr, i, array_get(arr, i+pos));
 			
@@ -142,7 +142,7 @@ void task2(Array *arr)
 				}
 			}
 
-			for (int j = 0; j < array_size(arr); j++)
+			for (size_t j = 0; j < array_size(arr); j++)
 			{
 				cout <<"Index "<< j << " = " << array_get(arr, j) << endl;
 			}
@@ -157,7 +157,7 @@ void task2(Array *arr)
 
 	else if (napr=='r')
 	{
-		for (int j = array_size(arr)-1; j >= 0 ; j--)
+		for (size_t j = array_size(arr)-1; j >= 0 ; j--)
 		{
             array_set(arr, j, array_get(arr, j-pos));
 
@@ -171,7 +171,7 @@ void task2(Array *arr)
 				
 			}
 			
-			for (int j = 0; j < array_size(arr); j++)
+			for (size_t j = 0; j < array_size(arr); j++)
 			{
 				cout <<"Index "<< j << " = " << array_get(arr, j) << endl;
 			}
