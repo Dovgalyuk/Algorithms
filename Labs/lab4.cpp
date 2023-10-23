@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <queue>
+#include <climits>
 #include "graph.h"
 
 const int INF = INT_MAX;
