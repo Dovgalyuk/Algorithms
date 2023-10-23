@@ -5,22 +5,21 @@ struct Array
     Data *data;
     size_t size;
 
-    Array(size_t size)
-    {
-        this->size = size;
-        this->data = new Data[size];
-    }
 };
 
 // create array
 Array *array_create(size_t size)
 {
-    return new Array(size);
+    Array* arr = new Array;
+    arr->size = size;
+    arr->data = new Data[size];
+    return arr;
 }
 
 // delete array, free memory
 void array_delete(Array *arr)
 {
+    delete[] arr->data;
     delete arr;
 }
 
