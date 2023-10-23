@@ -5,9 +5,18 @@ using namespace std;
 
 void Random(Array* arr){
     for(size_t i = 0; i < array_size(arr); i++){
-        array_set(arr, i, rand() % 100);
+        array_set(arr, i, 100 - rand() % 200);
     }
 }
+
+int ABS(int x) {
+    if (x < 0) {
+        return -x;
+    } else {
+        return x;
+    }
+}
+
 void task1(Array* arr) {
     Random(arr);
     for (size_t i = 0; i < array_size(arr); i++) {
@@ -15,12 +24,17 @@ void task1(Array* arr) {
     }
     cout << '\n';
     double sum = 0;
+    int j = 0;
     for(size_t i = 0; i < array_size(arr); i++){
-        sum += array_get(arr, i);
+        if(array_get(arr,i) >= 0){
+            j++;
+            sum += array_get(arr, i);
+        }
     }
-    sum /=array_size(arr);
+    sum /=j;
     cout << "Avg: " <<sum <<'\n';
 }
+
 void task2(Array* arr) {
     Random(arr);
     for (size_t i = 0; i < array_size(arr); i++) {
@@ -35,31 +49,25 @@ void task2(Array* arr) {
             timed = Number;
             for (size_t j = i + 1; j < ArraySize; j++) {
                 int nextNumber = array_get(arr, j);
-                if (nextNumber % 2 == 0 && timed <= nextNumber) {
+                if (nextNumber % 2 == 0) {
                     int x = nextNumber - timed;
-                    if (diff > x && x != 0) {
-                        diff = x;
-                    }
-                }
-                else if (nextNumber % 2 == 0 && timed > nextNumber) {
-                    int x = timed - nextNumber;
+                    x = ABS(x);
                     if (diff > x && x != 0) {
                         diff = x;
                     }
                 }
             }
         }
-    }
-    if (diff == 100) {
-        cout << "Array doesn't have even num" << '\n';
-    }
-    else {
-        cout << "Min diff between even num: " << diff << '\n';
-    }
-} 
+    } 
+     if (diff == 100) {
+            cout << "Array doesn't have even num" << '\n';
+        }
+        else {
+            cout << "Min diff between even num: " << diff << '\n';
+        }
+}
 
-int main()
-{
+int main(){
     Array* arr = NULL;
     size_t size;
 
