@@ -10,8 +10,8 @@ void task1(Array *arr)
     //Будем считать что в месяце в среднем 30 дней
 
     int sum = 0;
-
-    if (array_size(arr) < 0 || array_size(arr) > 360)
+    int size = array_size(arr);
+    if (size < 0 || size > 360)
     {
         cout << "Invalid value" << endl;
         return;
@@ -119,10 +119,12 @@ void task2(Array *arr)
     cout << endl;
 
 	size_t k = array_size(arr)-pos;
-	size_t k2 = pos-1;
+	int k2 = pos-1;
+
+    int size = array_size(arr);
 
 
-	if (pos >= 0 && pos <= array_size(arr))
+	if (pos >= 0 && pos <= size)
 	{
 
 	if (napr == 'l')
@@ -157,7 +159,7 @@ void task2(Array *arr)
 
 	else if (napr=='r')
 	{
-		for (size_t j = array_size(arr)-1; j >= 0 ; j--)
+		for (int j = array_size(arr)-1; j >= 0 ; j--)
 		{
             array_set(arr, j, array_get(arr, j-pos));
 
