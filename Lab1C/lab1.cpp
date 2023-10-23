@@ -64,22 +64,9 @@ size_t second_task(const Array* arr)
                 indx = i;
 
             }
-            if (array_get(arr, i) >= array_get(arr, i - 5))
-            {
-
+  
                 sum += array_get(arr, i);
                 sum -= array_get(arr, i - 5);
-
-                
-            }
-            else 
-            {
-
-                sum += array_get(arr, i);
-                sum -= array_get(arr, i - 5);
-
-
-            }
 
         }
     }
@@ -119,11 +106,11 @@ int main()
     cout << "Enter size of array: ";
     cin >> sizeofArr2;  //¬вод данных
     Array* array = array_create(sizeofArr2); //—оздание экземпл€ра массива
-    
+    int g;
     for (size_t i = 0; i < array_size(array); i++)
     {
-        
-        array_set(array, i, rand());
+        cin >> g;
+        array_set(array, i, g);
 
     }
    
