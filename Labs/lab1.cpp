@@ -21,21 +21,17 @@ void task1(Array *arr, int m, int n)
 
     for (size_t i = 0; i < size; i++)
 {
+    
     int value = array_get(arr, i);
-    if ((value % 2 != 0) && (i % 2 != 0))
-    {
-        // Если число нечетное и имеет нечетный индекс
-        array_set(arr, i, value - m + n);
+     if (i % 2 != 0) {
+    // Если только индекс нечетный
+    array_set(arr, i, value + n);
+    value = array_get(arr, i); 
     }
-    else if (i % 2 != 0)
-    {
-        // Если только индекс нечетный
-        array_set(arr, i, value + n);
-    }
-    else if (value % 2 != 0)
-    {
-        // Если только число нечетное
-        array_set(arr, i, value - m);
+
+    if (value % 2 != 0) {
+    // Если только число нечетное
+    array_set(arr, i, value - m);
     }
 }
 
