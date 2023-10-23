@@ -106,11 +106,11 @@ int main()
     cout << "Enter size of array: ";
     cin >> sizeofArr2;  //¬вод данных
     Array* array = array_create(sizeofArr2); //—оздание экземпл€ра массива
-    int g;
+   
     for (size_t i = 0; i < array_size(array); i++)
     {
-        cin >> g;
-        array_set(array, i, g);
+        
+        array_set(array, i, rand());
 
     }
    
