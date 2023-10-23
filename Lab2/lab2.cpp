@@ -7,7 +7,7 @@
 using namespace std;
 
 
-void check_input(Stack *stack, string input, int &stack_size, int &stack_fill_element)
+void check_input(Stack *stack, string input, const int stack_size, int &stack_fill_element)
 {
 	string comand = {}, num = {};
 
@@ -44,12 +44,6 @@ void check_input(Stack *stack, string input, int &stack_size, int &stack_fill_el
 		else cout << "BAD PUSH" << endl;
 	}
 
-	else if (comand.empty() && !num.empty())
-	{
-		stack_size = stoi(num);
-	}
-
-
 }
 
 
@@ -70,10 +64,13 @@ int main()
 		cout << "OPEN FILE!" << endl;
 	}*/
 
-	string input;
 	Stack* stack = stack_create();
 
-	int size_stack = 0, stack_fill_element = 0;
+	string input;
+	getline(fin, input);
+
+	int size_stack = stoi(input);
+	int stack_fill_element = 0;
 	
 
 	while (!fin.eof())

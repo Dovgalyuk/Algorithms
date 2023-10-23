@@ -55,15 +55,12 @@ ListItem *list_insert(List *list, Data data)
 {
     ListItem* new_Head = new ListItem{ data, nullptr };
 
-    if (list->Head == nullptr)
-    {
-        list->Head = new_Head;
-    }
-    else
+    if (list->Head != nullptr)
     {
         new_Head->next = list->Head;
-        list->Head = new_Head;
     }
+
+    list->Head = new_Head;
 
     return new_Head;
 }
@@ -73,9 +70,6 @@ ListItem *list_insert_after(List* list, ListItem* item, Data data)
     if (item == nullptr || list==nullptr) return nullptr;
 
     ListItem *new_item = new ListItem{ data, nullptr };
-
-    if (new_item == nullptr)
-        return nullptr;
 
     new_item->next = item->next;
     item->next = new_item;
