@@ -10,11 +10,11 @@ Vector<int> dijkstra(const Graph<Data>& graph, size_t vertex_amount, size_t star
     // Создаем копию графа для обхода ограничения const
     Graph<Data> mutableGraph = graph;
 
-    Vector<int> distances;
-    distances.resize(vertex_amount);
-    for (size_t i = 0; i < vertex_amount; ++i)
-        distances.set(i, INF);
-    distances.set(start_vertex, 0);
+    // Инициализация расстояний в метках вершин
+    for (size_t i = 0; i < vertex_amount; ++i) {
+        mutableGraph.getVertex(i)->setVertexData(INF);
+    }
+    mutableGraph.getVertex(start_vertex)->setVertexData(0);
 
     std::priority_queue<std::pair<int, size_t>, std::vector<std::pair<int, size_t>>, std::greater<std::pair<int, size_t>>> minHeap;
     minHeap.push(std::make_pair(0, start_vertex));
@@ -24,7 +24,7 @@ Vector<int> dijkstra(const Graph<Data>& graph, size_t vertex_amount, size_t star
         size_t current_vertex = minHeap.top().second;
         minHeap.pop();
 
-        if (distance > distances.get(current_vertex))
+        if (distance > mutableGraph.getVertex(current_vertex)->getVertexData())
             continue;
 
         typename Graph<Data>::Iterator it = mutableGraph.getIterator(current_vertex);
@@ -36,9 +36,9 @@ Vector<int> dijkstra(const Graph<Data>& graph, size_t vertex_amount, size_t star
             if (edge != nullptr) {
                 int edge_weight = edge->getEdgeData();
 
-                if (distances.get(current_vertex) + edge_weight < distances.get(neighbor_index)) {
-                    distances.set(neighbor_index, distances.get(current_vertex) + edge_weight);
-                    minHeap.push(std::make_pair(distances.get(neighbor_index), neighbor_index));
+                if (mutableGraph.getVertex(current_vertex)->getVertexData() + edge_weight < mutableGraph.getVertex(neighbor_index)->getVertexData()) {
+                    mutableGraph.getVertex(neighbor_index)->setVertexData(mutableGraph.getVertex(current_vertex)->getVertexData() + edge_weight);
+                    minHeap.push(std::make_pair(mutableGraph.getVertex(neighbor_index)->getVertexData(), neighbor_index));
                 }
             }
 
@@ -46,7 +46,14 @@ Vector<int> dijkstra(const Graph<Data>& graph, size_t vertex_amount, size_t star
         }
     }
 
-    return distances;
+    // Создаем вектор для возврата результатов
+    Vector<int> result;
+    result.resize(vertex_amount);
+    for (size_t i = 0; i < vertex_amount; ++i) {
+        result.set(i, mutableGraph.getVertex(i)->getVertexData());
+    }
+
+    return result;
 }
 
 int main() {
