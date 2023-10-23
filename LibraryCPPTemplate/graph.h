@@ -32,27 +32,6 @@ public:
         delete vertexes;
         delete edgeMatrix;
     }
-    Graph(const Graph& other) {
-        // Глубокое копирование вершин
-        vertexes = new Vector<Vertex*>;
-        vertexes->resize(other.vertexes->size());
-        for (size_t i = 0; i < other.vertexes->size(); ++i) {
-            vertexes->set(i, new Vertex(other.vertexes->get(i)->getVertexData()));
-        }
-
-        // Глубокое копирование матрицы смежности
-        edgeMatrix = new Vector<Edge*>;
-        edgeMatrix->resize(other.edgeMatrix->size());
-        for (size_t i = 0; i < other.edgeMatrix->size(); ++i) {
-            Edge* edge = other.edgeMatrix->get(i);
-            if (edge) {
-                edgeMatrix->set(i, new Edge(edge->getEdgeData()));
-            }
-            else {
-                edgeMatrix->set(i, nullptr);
-            }
-        }
-    }
     Graph& operator=(const Graph& other) {
         if (this == &other) {
             return *this;  // Защита от самоприсваивания
