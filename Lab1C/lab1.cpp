@@ -29,7 +29,7 @@ using namespace std;
                     max2 = i;
             }
         }
-        if (max2 != 0) {
+        if (max2 != max1) {
             cout << max1 << " " << max2 << endl;
             }
             else {
@@ -74,16 +74,20 @@ using namespace std;
     int DiffCorrect(Array* arr) {
         Sort(arr);
         int ch = 0;
-        for (int i = 0; i < array_size(arr); i++) {
+        for (size_t i = 0; i < array_size(arr); i++) {
             if (array_get(arr, i) % 2 == 0) {
                 ch++;
             }
         }
+        
         Array* Chet = NULL;
         Chet = array_create(ch);
-        for (size_t i = 0; i < array_size(Chet); i++) {
+        int chetPos = 0;
+        for (size_t i = 0; i < array_size(arr); i++) {
             if (array_get(arr, i) % 2 == 0) {
-                array_set(Chet, i, static_cast<int>(array_get(arr, i)));
+                array_set(Chet, chetPos, static_cast<int>(array_get(arr, i)));
+                chetPos++;
+                
             }
         }
         int minR = 1000;
