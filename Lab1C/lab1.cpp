@@ -48,29 +48,7 @@ using namespace std;
             }
         }
     }
-    int Difference(Array* arr) {
-        Sort(arr);
-        int min = 1000000;
-        Array* carChet = NULL; 
-        carChet = array_create(1);
-        for (size_t i = 0; i < array_size(arr); i++) {
-            if (array_get(arr,i) % 2 == 0) {
-                array_set(carChet,0,static_cast<int>(array_get(arr,i)));
-                break;
-            }
-        }
-        for (size_t i = 0; i < array_size(arr); i++) {
-            if (array_get(arr, i) % 2 == 0) {
-                carChet = re_size(carChet, static_cast<int>(array_get(arr, i)));
-            }
-        }
-        for (size_t i = 1; i < array_size(carChet); i++) {
-            if (array_get(carChet,i) - array_get(carChet,i-1) < min && array_get(carChet,i) != array_get(carChet,i-1)) {
-                min = array_get(carChet,i) - array_get(carChet,i-1);
-            }
-        }
-        return min;
-    }
+    
     int DiffCorrect(Array* arr) {
         Sort(arr);
         int ch = 0;
