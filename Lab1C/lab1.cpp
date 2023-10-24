@@ -26,17 +26,22 @@ void task1(Array* arr) {
     double sum = 0;
     int j = 0;
     for(size_t i = 0; i < array_size(arr); i++){
-        if(array_get(arr,i) >= 0){
+        if(array_get(arr,i) > 0){
             j++;
             sum += array_get(arr, i);
         }
     }
-    sum /=j;
-    cout << "Avg: " <<sum <<'\n';
+    if(j != 0){
+        sum /=j;
+        cout << "Avg: " <<sum <<'\n';
+    }else{
+        cout << "not a single positive element in the array\n";
+    }
 }
 
 void task2(Array* arr) {
     Random(arr);
+    
     for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << '\t';
     }
@@ -57,7 +62,7 @@ void task2(Array* arr) {
                     }
                 }
             }
-        }
+        } 
     } 
      if (diff == 100) {
             cout << "Array doesn't have even num" << '\n';
