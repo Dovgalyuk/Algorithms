@@ -24,5 +24,6 @@ int main()
             return 1;
         }
     }
+
     array_delete(arr);
 }
