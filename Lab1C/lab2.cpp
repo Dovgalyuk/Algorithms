@@ -53,6 +53,7 @@ int main()
 
 
             stack_push(a, p);
+        }
         if (z == "pop")
             stack_pop(a);
         if (z == "imul")
