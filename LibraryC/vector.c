@@ -85,7 +85,7 @@ void vector_resize(Vector* vector, size_t size)
 				}
 			}
 			vector->size = size;
-			vector->maxsize = 2 * size;
+			
 		}
 	}
 }

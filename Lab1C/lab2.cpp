@@ -3,17 +3,19 @@
 #include <stdio.h>
 #include <iostream>
 #include "stack.h"
+#include "vector.h"
 #include <string>
 using namespace std;
 int main()
 {
+    
     Stack* a;
     a = stack_create(NULL);
     string z;
     int b0=0, b1=0, b2=0, b3=0,buf;
   
 
-    z = "bipush 1";
+    /*z = "bipush 1";
     if (z.find(' ')) {
         stoi(z.substr(z.find(' ') + 1));
         int* p = (int*)malloc(sizeof(int));
@@ -39,11 +41,18 @@ int main()
 
 
         stack_push(a, p);
-    }
-    for (int i = 0; i < 2; i++)
+    }*/
+    for (int i = 0; i < 5; i++)
     {
 
         cin >> z;
+        if (z.find(' ')) {
+            stoi(z.substr(z.find(' ') + 1));
+            int* p = (int*)malloc(sizeof(int));
+            *p = stoi(z.substr(z.find(' ') + 1));
+
+
+            stack_push(a, p);
         if (z == "pop")
             stack_pop(a);
         if (z == "imul")
