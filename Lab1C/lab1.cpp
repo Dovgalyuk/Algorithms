@@ -5,8 +5,10 @@ using namespace std;
 
     void FillRandom(Array* arr) {
         size_t size = array_size(arr);
+        cout << "ћассив, заполненный случайными числами:" << endl;
         for (size_t i = 0; i < size; i++) {
             array_set(arr, i, static_cast<int>(rand() % (250 - 100 + 1) + 100));
+            cout << array_get(arr, i)<<endl;
         }
     }
     void MinMax(Array* arr) {
@@ -69,6 +71,36 @@ using namespace std;
         }
         return min;
     }
+    int DiffCorrect(Array* arr) {
+        Sort(arr);
+        int ch = 0;
+        for (int i = 0; i < array_size(arr); i++) {
+            if (array_get(arr, i) % 2 == 0) {
+                ch++;
+            }
+        }
+        Array* Chet = NULL;
+        Chet = array_create(ch);
+        for (size_t i = 0; i < array_size(Chet); i++) {
+            if (array_get(arr, i) % 2 == 0) {
+                array_set(Chet, i, static_cast<int>(array_get(arr, i)));
+            }
+        }
+        int minR = 1000;
+        for (size_t i = 1; i < array_size(Chet); i++) {
+            if ((array_get(Chet, i) - array_get(Chet, i - 1)) < minR) {
+                if (array_get(Chet, i) != array_get(Chet, i - 1)) {
+                    minR = array_get(Chet, i) - array_get(Chet, i - 1);
+                }
+            }
+        }
+        if (minR != 1000) {
+            return minR;
+        }
+        else{
+             return -1;
+        }
+    }
     int main() {
         setlocale(LC_ALL, "Russian");
         Array* arr = NULL;
@@ -80,5 +112,5 @@ using namespace std;
         FillRandom(arr);
         cout << "ћинимальный и максимальный элемент: ";
         MinMax(arr);
-        cout << "ћинимальна€ разница между скорост€ми автомобилей: "<<Difference(arr);
+        cout << "ћинимальна€ разница между скорост€ми автомобилей: "<<DiffCorrect(arr);
     }
