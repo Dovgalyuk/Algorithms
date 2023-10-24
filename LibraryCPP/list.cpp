@@ -24,30 +24,17 @@ List *list_create()
     return new_list;
 }
 
-void list_delete(List *list)
+void list_delete(List* list)
 {
-    if (list->head_of_list != nullptr && list->tail_of_list != nullptr)
+    ListItem* current_list_item = list->head_of_list;
+
+    while (current_list_item != nullptr)
     {
-        ListItem* current_list_item;
-
-        if (list->tail_of_list->pointer_to_previous != nullptr)
-            current_list_item = list->tail_of_list->pointer_to_previous;
-        else
-            current_list_item = list->tail_of_list;
-
-        while (current_list_item->pointer_to_previous != nullptr)
-        {
-            delete current_list_item->pointer_to_next;
-            current_list_item = current_list_item->pointer_to_previous;
-        }
-
-        delete current_list_item->pointer_to_next;
+        ListItem* next_pointer = current_list_item->pointer_to_next;
         delete current_list_item;
-
-        delete list;
+        current_list_item = next_pointer;
     }
-    else
-        delete list;
+    delete list;
 }
 
 ListItem *list_first(List *list)

@@ -125,7 +125,5 @@ int main()
 
     input_data = infix_to_RPN(input_data);
 
-    cout << input_data;
-
-    cout << endl << calculate_expression(input_data);
+    cout << calculate_expression(input_data);
 }
