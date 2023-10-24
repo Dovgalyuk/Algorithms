@@ -37,8 +37,11 @@ Vector<int> dijkstra(const Graph<Data>& graph, size_t vertex_amount, size_t star
             assert(edge != nullptr);
             int edge_weight = edge->getEdgeData();
 
-            if (mutableGraph.getVertex(current_vertex)->getVertexData() + edge_weight < mutableGraph.getVertex(neighbor_index)->getVertexData()) {
-                mutableGraph.getVertex(neighbor_index)->setVertexData(mutableGraph.getVertex(current_vertex)->getVertexData() + edge_weight);
+            int current_vertex_data = mutableGraph.getVertex(current_vertex)->getVertexData();
+            int neighbor_vertex_data = mutableGraph.getVertex(neighbor_index)->getVertexData();
+
+            if (current_vertex_data + edge_weight < neighbor_vertex_data) {
+                mutableGraph.getVertex(neighbor_index)->setVertexData(current_vertex_data + edge_weight);
                 minHeap.push(std::make_pair(mutableGraph.getVertex(neighbor_index)->getVertexData(), neighbor_index));
             }
 
