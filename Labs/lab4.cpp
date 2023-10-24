@@ -2,6 +2,7 @@
 #include <queue>
 #include <climits>
 #include "graph.h"
+#include <cassert>
 
 const int INF = INT_MAX;
 
@@ -33,13 +34,12 @@ Vector<int> dijkstra(const Graph<Data>& graph, size_t vertex_amount, size_t star
 
             // Check if there is an edge between current_vertex and neighbor_index
             typename Graph<Data>::Edge* edge = mutableGraph.getEdge(current_vertex, neighbor_index);
-            if (edge != nullptr) {
-                int edge_weight = edge->getEdgeData();
+            assert(edge != nullptr);
+            int edge_weight = edge->getEdgeData();
 
-                if (mutableGraph.getVertex(current_vertex)->getVertexData() + edge_weight < mutableGraph.getVertex(neighbor_index)->getVertexData()) {
-                    mutableGraph.getVertex(neighbor_index)->setVertexData(mutableGraph.getVertex(current_vertex)->getVertexData() + edge_weight);
-                    minHeap.push(std::make_pair(mutableGraph.getVertex(neighbor_index)->getVertexData(), neighbor_index));
-                }
+            if (mutableGraph.getVertex(current_vertex)->getVertexData() + edge_weight < mutableGraph.getVertex(neighbor_index)->getVertexData()) {
+                mutableGraph.getVertex(neighbor_index)->setVertexData(mutableGraph.getVertex(current_vertex)->getVertexData() + edge_weight);
+                minHeap.push(std::make_pair(mutableGraph.getVertex(neighbor_index)->getVertexData(), neighbor_index));
             }
 
             ++it;
