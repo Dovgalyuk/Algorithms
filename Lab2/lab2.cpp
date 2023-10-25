@@ -2,7 +2,6 @@
 #include<iostream>
 #include<fstream>
 #include<stack.h>
-#include<vector>
 
 using namespace std;
 
