@@ -13,3 +13,4 @@ Release/*
 .vs/*
 build/*
 out/*
+.vscode/*
