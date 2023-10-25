@@ -86,29 +86,23 @@ int main()
 
 	cout << "Stack" << endl;
 
-	//version which not coincide output data form task
-
-	/*while (!stack_empty(stack))
-	{
-		cout << stack_get(stack) << endl;
-		stack_pop(stack);
-	}*/
-
-	vector<Data> reverse;
+	Stack* reverse;
+	reverse = stack_create();
 
 	while (!stack_empty(stack))
 	{
-		reverse.insert(reverse.begin(), stack_get(stack));
+		stack_push(reverse, stack_get(stack));
 		stack_pop(stack);
 	}
 
-	for (vector<Data>::size_type i = 0; i < reverse.size(); i++)
+	while (!stack_empty(reverse))
 	{
-		cout << reverse[i] << endl;
+		cout << stack_get(reverse) << endl;
+		stack_pop(reverse);
 	}
-	reverse.clear();
-
+	
 	stack_delete(stack);
+	stack_delete(reverse);
 	
 	return 0;
 }
