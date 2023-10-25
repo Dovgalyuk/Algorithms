@@ -12,7 +12,7 @@ int main()
         return 1;
     }
 
-    for (Data i = 0; i < vector_size(vector); ++i)
+    for (size_t i = 0; i < vector_size(vector); ++i)
         vector_set(vector, i, i);
 
     for (size_t i = 0; i < vector_size(vector); ++i)
@@ -58,7 +58,7 @@ int main()
     std::cout << "\n";
 
     // Performance test
-    for (Data i = 1; i <= 10000000; ++i)
+    for (int i = 1; i <= 10000000; ++i)
     {
         vector_resize(vector, i);
         vector_set(vector, i - 1, i);
