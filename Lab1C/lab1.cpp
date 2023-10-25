@@ -43,6 +43,7 @@ void task1(Array *arr)
             break;
         }
     }
+    arrMonths.clear();
 }
 
 void task2(Array *arr)
