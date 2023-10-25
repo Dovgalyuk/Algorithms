@@ -110,6 +110,7 @@ ListItem *list_erase_first(List *list)
     {
         list->head_of_list = list->head_of_list->pointer_to_next;
         delete list->head_of_list->pointer_to_previous;
+        list->head_of_list->pointer_to_previous = nullptr;
     }
 
     return list->head_of_list;
