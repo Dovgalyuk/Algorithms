@@ -46,7 +46,7 @@ void task2(Array* arr) {
         cout << array_get(arr, i) << '\t';
     }
     cout << '\n';
-    int diff = 100, timed = 0;
+    int diff = 2147483647, timed = 0;
     size_t ArraySize = array_size(arr);
     for (size_t i = 0; i < ArraySize; i++) {
         int Number = array_get(arr, i);
@@ -64,7 +64,7 @@ void task2(Array* arr) {
             }
         } 
     } 
-     if (diff == 100) {
+     if (diff == 2147483647) {
             cout << "Array doesn't have even num" << '\n';
         }
         else {
