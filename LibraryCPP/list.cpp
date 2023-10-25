@@ -1,11 +1,10 @@
-#include <cstddef>
+﻿#include <cstddef>
 #include "list.h"
 
 struct ListItem
 {
     Data data;
     ListItem* next;
-    ListItem* prev;
 };
 
 struct List
@@ -49,14 +48,9 @@ ListItem* list_item_next(ListItem* item)
     return item->next;
 }
 
-ListItem* list_item_prev(ListItem* item)
-{
-    return item->prev;
-}
-
 ListItem* list_insert(List* list, Data data)
 {
-    ListItem* item = new ListItem{ data, nullptr, nullptr };
+    ListItem* item = new ListItem{ data, nullptr };
     if (list->head == nullptr)
     {
         list->head = item;
@@ -65,7 +59,6 @@ ListItem* list_insert(List* list, Data data)
     else
     {
         item->next = list->head;
-        list->head->prev = item;
         list->head = item;
     }
     return item;
@@ -75,16 +68,13 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
     if (item == nullptr)
         return nullptr;
-    ListItem* new_item = new ListItem{ data, nullptr, nullptr };
+    ListItem* new_item = new ListItem{ data, nullptr };
     if (new_item == nullptr)
         return nullptr;
 
     new_item->next = item->next;
-    new_item->prev = item;
 
-    if (item->next != nullptr)
-        item->next->prev = new_item;
-    else
+    if (item->next == nullptr)
         list->tail = new_item;
 
     item->next = new_item;
@@ -98,9 +88,8 @@ ListItem* list_erase_first(List* list)
 
     ListItem* item = list->head;
     list->head = item->next;
-    if (list->head != nullptr)
-        list->head->prev = nullptr;
-    else
+
+    if (list->head == nullptr)
         list->tail = nullptr;
 
     delete item;
@@ -115,9 +104,7 @@ ListItem* list_erase_next(List* list, ListItem* item)
     ListItem* to_remove = item->next;
     item->next = to_remove->next;
 
-    if (to_remove->next != nullptr)
-        to_remove->next->prev = item;
-    else
+    if (to_remove->next == nullptr)
         list->tail = item;
 
     delete to_remove;

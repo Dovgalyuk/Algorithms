@@ -15,11 +15,8 @@ Stack* stack_create()
 
 void stack_delete(Stack* stack)
 {
-    if (stack)
-    {
-        list_delete(stack->list);
-        delete stack;
-    }
+    list_delete(stack->list);
+    delete stack;
 }
 
 void stack_push(Stack* stack, Data data)
@@ -32,8 +29,10 @@ Data stack_get(const Stack* stack)
     ListItem* first_item = list_first(stack->list);
     if (first_item)
         return list_item_data(first_item);
-    else
-        return (Data)0;
+    else {
+        Data emptyData{}; // использование конструктора по умолчанию
+        return emptyData;
+    }
 }
 
 void stack_pop(Stack* stack)
