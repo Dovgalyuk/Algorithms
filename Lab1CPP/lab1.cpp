@@ -1,15 +1,11 @@
-#include <iostream>
-#include <ctime>
 #include "array.h"
 #include "math.h"
 
-using namespace std;
+#include <iostream>
+#include <ctime>
 
-struct Array
-{
-    size_t size;
-    Data* data;
-};
+
+using namespace std;
 
 void task1(Array *arr)
 {
@@ -33,7 +29,7 @@ void task1(Array *arr)
     cout << "\nSum of all digits of all array numbers - " << count << endl;
 }
 
-void task2(Array *arr)
+void task2(struct Array *arr)
 {
     for (size_t i = 0; i < array_size(arr); i++)
         array_set(arr, i, rand() % 202 - 101);
@@ -44,10 +40,9 @@ void task2(Array *arr)
 
     Array *tempArr = array_create(array_size(arr));
     size_t evenElemCounter = 0;
-    for (size_t i = 0; i < array_size(arr); i++)
-        if (arr->data[i] % 2 == 0)
-            array_set(tempArr, evenElemCounter++, array_get(arr, i));
-    
+    for (size_t i = 0; i < array_size(arr); i++){
+        if (arr->data[i] % 2 == 0) array_set(tempArr, evenElemCounter++, array_get(arr, i));
+    }
     if (evenElemCounter < 2)
     {
         cout << endl << "Not enough even elements.";
@@ -74,7 +69,7 @@ int main()
 {
     srand((int)time(NULL));
 
-    Array *arr = NULL;
+    struct Array *arr = NULL;
     size_t size;
 
     /* Create array here */

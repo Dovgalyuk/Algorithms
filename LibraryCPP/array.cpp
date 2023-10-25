@@ -1,10 +1,5 @@
 #include "array.h"
 
-struct Array
-{
-    size_t size;
-    Data* data;
-};
 
 // create array
 Array *array_create(size_t size)

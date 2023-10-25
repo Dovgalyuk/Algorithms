@@ -4,10 +4,16 @@
 #include <cstddef>
 
 // Non-resizeable array
+
+
+
 // Stores integer values inside
 typedef int Data;
 
-struct Array;
+struct Array{
+    size_t size;
+    Data* data;
+};
 
 // create array
 Array *array_create(size_t size);
