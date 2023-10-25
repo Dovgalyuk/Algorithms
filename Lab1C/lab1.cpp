@@ -10,7 +10,7 @@ int sum(Array *arr, int s1, int s2)
     //function for summing each month
     int summa = 0;
 
-    for (int i = s1, j = s2; s1 <= s2; s1++)
+    for (int i = s1, j = s2; i <= j; i++)
     {
         summa += array_get(arr, i);
     }
@@ -23,14 +23,16 @@ void task1(Array *arr)
 {
     //Будем считать что в месяце в среднем 30 дней
 
-    int s1 = 0;
-    int s2 = 29;
+    size_t s1 = 0;
+    size_t s2 = 29;
 
     vector<string> arrMonths = {"За январь выпало - ", "За февраль выпало - ", "За март выпало - ", "За апрель выпало - ",
     "За май выпало - ", "За июнь выпало - ", "За июль выпало - ", "За август выпало - ", "За сентябрь выпало - ", 
     "За октябрь выпало - ", "За ноябрь выпало - ", "За декабрь выпало - "};
 
-    for (int i = 0; i < arrMonths.size(); i++)
+    int sizeArrMonths = arrMonths.size();
+
+    for (int i = 0; i < sizeArrMonths; i++)
     {
         int summa = sum(arr, s1, s2);
         cout << arrMonths[i] << summa << endl;
