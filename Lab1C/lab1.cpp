@@ -42,7 +42,6 @@ void task1(Array *arr)
             break;
         }
     }
-    delete(arrMonths);
 }
 
 void task2(Array *arr)
