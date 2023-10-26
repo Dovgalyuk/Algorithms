@@ -81,6 +81,9 @@ class HashTable {
 				this->size++;
 			}
 		}
+		//clear
+		delete this->elements;
+
 		this->elements = new_elements;
 	}
 	int find_index(string key) {

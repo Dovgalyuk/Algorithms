@@ -65,5 +65,6 @@ int main() {
 	execute(table, 100000);
 	execute(table, 500000);
 
+	delete table; //clear
 	return 0;
 }
