@@ -16,18 +16,16 @@ public:
     }
 
     // copy constructor
-    template <typename T>
-    Array(const Array<T>& a) {
+    Array(const Array<Data>& a) {
         size_array = a.size_array;
         data = new Data[size_array];
         for (size_t i = 0; i < size_array; i++) {
-            data[i] = *a.get(i);
+            data[i] = a.data[i];
         }
     }
 
     // assignment operator
-    template <typename T>
-    Array& operator=(const Array<T>& a) {
+    Array& operator=(const Array<Data>& a) {
         if (this == &a) {
             // self-assignment, do nothing
             return *this;
@@ -40,7 +38,7 @@ public:
         size_array = a.size_array;
         data = new Data[size_array];
         for (size_t i = 0; i < size_array; i++) {
-            data[i] = *a.get(i);
+            data[i] = a.data[i];
         }
 
         return *this;
@@ -55,6 +53,7 @@ public:
     void set(size_t index, Data value) {
         data[index] = value;
     }
+
     // returns array size
     size_t size() const { return this->size_array; }
 
