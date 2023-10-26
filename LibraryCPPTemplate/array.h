@@ -15,6 +15,37 @@ public:
         delete[] data;
     }
 
+    // copy constructor
+    template <typename T>
+    Array(const Array<T>& a) {
+        size_array = a.size_array;
+        data = new Data[size_array];
+        for (size_t i = 0; i < size_array; i++) {
+            data[i] = *a.get(i);
+        }
+    }
+
+    // assignment operator
+    template <typename T>
+    Array& operator=(const Array<T>& a) {
+        if (this == &a) {
+            // self-assignment, do nothing
+            return *this;
+        }
+
+        // delete current data
+        delete[] data;
+
+        // deep copy
+        size_array = a.size_array;
+        data = new Data[size_array];
+        for (size_t i = 0; i < size_array; i++) {
+            data[i] = *a.get(i);
+        }
+
+        return *this;
+    }
+
     // returns specified array element
     Data* get(size_t index) const {
         return &data[index];
