@@ -11,7 +11,7 @@ int main() {
 
 	HashTable* table = new HashTable();
 
-	int size_for_tests = 500000; //performance
+	size_t size_for_tests = 500000; //performance
 
 	//add
 	for (size_t i = 0; i < size_for_tests; i++) table->add(to_string(i), to_string(i));

@@ -71,7 +71,7 @@ class HashTable {
 		this->capacity *= 4;
 
 		Array<Element>* new_elements = new Array<Element>(capacity);
-		for (size_t i = 0; i < this->capacity / 4; i++) {
+		for (size_t i = 0; i < static_cast<size_t>(this->capacity / 4); i++) {
 			string key = this->elements->get(i)->key;
 			string value = this->elements->get(i)->value;
 			if (key.size() != 0) {
