@@ -199,7 +199,7 @@ int main()
             stack_pop(a);
         }
 
-        _flushall();
+        
     } 
     
     cout << "stack\n";
