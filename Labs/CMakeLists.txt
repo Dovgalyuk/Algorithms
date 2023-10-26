@@ -12,3 +12,6 @@ target_link_libraries(Labs3 LibraryCPP)
 
 add_executable(Labs4 "lab4.cpp")
 include_directories(${CMAKE_SOURCE_DIR}/LibraryCPPTemplate)
+
+add_executable(Labs5 "lab5.cpp")
+include_directories(${CMAKE_SOURCE_DIR}/LibraryCPPTemplate)

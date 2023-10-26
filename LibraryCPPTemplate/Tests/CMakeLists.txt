@@ -7,3 +7,8 @@ add_executable(TestGraphCPPTemplate graph.cpp)
 target_include_directories(TestGraphCPPTemplate PUBLIC ..)
 add_test(TestGraphCPPTemplate TestGraphCPPTemplate)
 set_tests_properties(TestGraphCPPTemplate PROPERTIES TIMEOUT 10)
+
+add_executable(TestArrayCPPTemplate array.cpp)
+target_include_directories(TestArrayCPPTemplate PUBLIC ..)
+add_test(TestArrayCPPTemplate TestArrayCPPTemplate)
+set_tests_properties(TestArrayCPPTemplate PROPERTIES TIMEOUT 10)
