@@ -1,6 +1,5 @@
 #include "array.h"
 #include <iostream>
-#include <vector>
 #include <string>
 
 using namespace std;
@@ -26,11 +25,11 @@ void task1(Array *arr)
     size_t s1 = 0;
     size_t s2 = 29;
 
-    vector<string> arrMonths = {"За январь выпало - ", "За февраль выпало - ", "За март выпало - ", "За апрель выпало - ",
+    static const string arrMonths[] = {"За январь выпало - ", "За февраль выпало - ", "За март выпало - ", "За апрель выпало - ",
     "За май выпало - ", "За июнь выпало - ", "За июль выпало - ", "За август выпало - ", "За сентябрь выпало - ", 
     "За октябрь выпало - ", "За ноябрь выпало - ", "За декабрь выпало - "};
 
-    int sizeArrMonths = arrMonths.size();
+    int sizeArrMonths = 12;
 
     for (int i = 0; i < sizeArrMonths; i++)
     {
@@ -43,7 +42,7 @@ void task1(Array *arr)
             break;
         }
     }
-    arrMonths.clear();
+    delete(arrMonths);
 }
 
 void task2(Array *arr)
@@ -58,57 +57,53 @@ void task2(Array *arr)
 	cin >> pos;
     cout << endl;
 
-	int k2 = pos-1;
     int size = array_size(arr);
-    int k = size - pos;
+
+    int zero1 = size - 1;
+    int zero2 = 0;
 
 	if (pos >= 0 && pos <= size)
 	{
 	    if (napr == 'l')
 	    {
-	        for (size_t i = 0; i < array_size(arr) ; i++)
+	        for(int j = 0; j < pos; j++)
             {
-                array_set(arr, i, array_get(arr, i+pos));
-			    if (i == array_size(arr)-pos)
-			    {
-				    while(k < size)
-				    {
-					    array_set(arr, k, 0);
-					    k++;
-				    }
-			    }
-
-			    for (size_t j = 0; j < array_size(arr); j++)
-			    {
-				    cout <<"Index "<< j << " = " << array_get(arr, j) << endl;
-			    }
-			    cout << endl;
-                if (i == array_size(arr)-pos)
-				    break;
+                for(int i = 1; i < size; i++)
+                {
+                    array_set(arr, i-1, array_get(arr, i));
+                    if (i == zero1)
+                    {
+                        array_set(arr, i, 0);
+                        zero1--;
+                    }
+                }
+                for (int i = 0; i < size; i++)
+                {
+                    cout << array_get(arr, i) << endl;
+                }
+                cout << endl;
             }
 	
 	    }
 
 	    else if (napr=='r')
 	    {
-		    for (int j = array_size(arr)-1; j >= 0 ; j--)
-		    {
-                array_set(arr, j, array_get(arr, j-pos));
-                if (j == pos-1)
-			    {
-				    while (k2 >= 0)
-				    {
-					    array_set(arr, k2, 0); 
-					    k2--;
-				    }
-				}
-			    for (size_t j = 0; j < array_size(arr); j++)
-			    {
-				    cout <<"Index "<< j << " = " << array_get(arr, j) << endl;
-			    }
-			    cout << endl;
-                if (j == pos-1)
-				    break;
+		    for (int j = 0; j < pos; j++)
+            {
+                for (int i = size-2; i >= 0; i--)
+                {
+                    array_set(arr, i+1, array_get(arr, i));
+                    if(i == zero2)
+                    {
+                        array_set(arr, i, 0);
+                        zero2++;
+                    }
+                }
+                for (int i = 0; i < size; i++)
+                {
+                    cout << array_get(arr, i) << endl;
+                }
+                cout << endl;
             }
         }
 	    else
