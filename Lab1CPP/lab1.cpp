@@ -41,7 +41,7 @@ void task2(struct Array *arr)
     Array *tempArr = array_create(array_size(arr));
     size_t evenElemCounter = 0;
     for (size_t i = 0; i < array_size(arr); i++){
-        if (arr->data[i] % 2 == 0) array_set(tempArr, evenElemCounter++, array_get(arr, i));
+        if (array_get(arr, i) % 2 == 0) array_set(tempArr, evenElemCounter++, array_get(arr, i));
     }
     if (evenElemCounter < 2)
     {
