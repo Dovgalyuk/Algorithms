@@ -45,8 +45,10 @@ int main()
     for (int i = 0; i < 5; i++)
     {
 
-        cin >> z;
-        if (z.find(' ')) {
+        getline(cin, z);
+        
+        if (size(z)>6 && z[5]=='h') {
+           
             stoi(z.substr(z.find(' ') + 1));
             int* p = (int*)malloc(sizeof(int));
             *p = stoi(z.substr(z.find(' ') + 1));
@@ -54,6 +56,7 @@ int main()
 
             stack_push(a, p);
         }
+
         if (z == "pop")
             stack_pop(a);
         if (z == "imul")
@@ -132,8 +135,9 @@ int main()
             int* p = (int*)malloc(sizeof(int));
             *p = buf;
             stack_push(a, p);
-        
-            *p = buf1;
+            int* l = (int*)malloc(sizeof(int));
+            
+            *l = buf1;
             stack_push(a, p);
 
         }
@@ -195,7 +199,7 @@ int main()
             stack_pop(a);
         }
 
-
+        _flushall();
     } 
     
     cout << "stack\n";
@@ -214,7 +218,7 @@ int main()
 
     
 
-
+        stack_delete(a);
     }
 
 
