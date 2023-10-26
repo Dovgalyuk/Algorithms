@@ -69,13 +69,23 @@ int main() {
                 stack_pop(stack);
             } else if (std::strcmp(token, "swap") == 0) {
                 // обмен двух верхних элементов стека
-                Data a = stack_get(stack);
-                stack_pop(stack);
-                Data b = stack_get(stack);
-                stack_pop(stack);
-                stack_push(stack, a);
-                stack_push(stack, b);
-            } else if (std::strcmp(token, "over") == 0) {
+                if (!stack_empty(stack)) {
+                    Data a = stack_get(stack);
+                    stack_pop(stack);
+                    if (!stack_empty(stack)) {
+                        Data b = stack_get(stack);
+                        stack_pop(stack);
+                        stack_push(stack, a);
+                        stack_push(stack, b);
+                    } else {
+                        // В стеке только один элемент
+                        stack_push(stack, a);
+                        std::cerr << "error: not enoygh elements" << std::endl;
+                        return 1;
+                    }
+                } 
+            }
+            else if (std::strcmp(token, "over") == 0) {
                 // добавление элемента под вершиной стека в стек
                 Data second = stack_get(stack);
                 stack_pop(stack);
