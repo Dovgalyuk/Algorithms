@@ -1,4 +1,5 @@
 ﻿#include <cstddef>
+#include <cstdlib> // Для использования malloc и free
 #include "list.h"
 
 struct ListItem
@@ -67,19 +68,16 @@ ListItem* list_insert(List* list, Data data)
 ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
     if (item == nullptr)
-        return nullptr;
-    ListItem* new_item = new ListItem{ data, nullptr };
-    if (new_item == nullptr)
-        return nullptr;
+        return list_insert(list, data);
+    else
+    {
+        ListItem* list_item_to_insert = new ListItem{ data, item->next };
+        item->next = list_item_to_insert;
 
-    new_item->next = item->next;
-
-    if (item->next == nullptr)
-        list->tail = new_item;
-
-    item->next = new_item;
-    return new_item;
+        return list_item_to_insert;
+    }
 }
+
 
 ListItem* list_erase_first(List* list)
 {
