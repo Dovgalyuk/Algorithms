@@ -24,5 +24,6 @@ int main() {
 	//check
 	for (size_t i = 100; i < 120; i++)if (table->find(to_string(i)) != "UNKNOWN VALUE EXCEPTION\n") { cout << "Search or insert error\n"; return 1; }
 
+	delete table;
 	return 0;
 }
