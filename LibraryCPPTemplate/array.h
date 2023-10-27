@@ -6,59 +6,62 @@ class Array
 {
 public:
     // create array
-    explicit Array(size_t size)
+    explicit Array(size_t length)
     {
-        ptr = new Data[size];
-        this->size = size;
+        _ptr = new Data[length];
+        _size = length;
     }
 
     // copy constructor
     template <typename T>
     Array(const Array<T> &a)
     {
-        delete[] ptr;
-        ptr = new Data[a.size];
-        for (size_t i = 0; i < a.size; i++)
-            ptr[i] = (Data)a.ptr[i];
+        _ptr = new Data[a._size];
+        for (size_t i = 0; i < a._size; i++)
+            _ptr[i] = (Data)a._ptr[i];
     }
 
     // assignment operator
     template <typename T>
     Array &operator=(const Array<T> &a)
     {
-        this->~Array();
-        this = Array(a);
+        delete[] _ptr;
+        _ptr = new Data[a._size];
+        for (size_t i = 0; i < a._size; i++)
+            _ptr[i] = (Data)a._ptr[i];
+        this->_size = a._size;
         return *this;
     }
 
     // delete array, free memory
     ~Array()
     {
-        delete[] ptr;
+        delete[] _ptr;
+        _ptr = nullptr;
     }
 
     // returns specified array element
     Data get(size_t index) const
     {
-        return ptr[index];
+        return _ptr[index];
     }
 
     // sets the specified array element to the value
     void set(size_t index, Data value)
     {
-        prt[index] = value;
+        _ptr[index] = value;
     }
 
     // returns array size
     size_t size() const
     {
-        return size;
+        return _size;
     }
 
 private:
     // private data should be here
-    Data *ptr = nullptr;
-    size_t size = 0;
+    Data *_ptr = nullptr;
+    size_t _size = 0;
 };
 
 #endif
