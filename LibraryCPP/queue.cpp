@@ -4,6 +4,7 @@
 struct Queue
 {
     List* list = list_create();
+    ListItem* last = nullptr; //указатель на последний
 };
 
 Queue *queue_create()
@@ -19,7 +20,14 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue *queue, Data data)
 {
-    list_insert(queue->list, data);
+    if (queue->last)
+    {
+        queue->last = list_insert_after(queue->list, queue->last, data);
+    }
+    else
+    {
+        queue->last = list_insert(queue->list, data);
+    }
 }
 
 Data queue_get(const Queue *queue)
@@ -33,9 +41,13 @@ Data queue_get(const Queue *queue)
 
 void queue_remove(Queue *queue)
 {
-    if (!queue_empty(queue))
+    if(!queue_empty(queue))
     {
         list_erase_first(queue->list);
+        if (queue_empty(queue))
+        {
+            queue->last = nullptr;
+        }
     }
 }
 
