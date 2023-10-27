@@ -1,9 +1,9 @@
 #include <iostream>
-#include "../array.h"
+#include "array.h"
 
 typedef Array<int> MyArray;
 
-int _main()
+int main()
 {
     MyArray *arr = new MyArray(10);
 
@@ -29,16 +29,4 @@ int _main()
 
     delete arr;
     return 0;
-}
-
-int main()
-{
-    MyArray k(15);
-    std::cout << k.get(5);
-    k.set(5, 3);
-    std::cout << k.get(5);
-    MyArray b(16);
-    k = b;
-    std::cout << k.get(5);
-    std::cout << std::endl;
 }
