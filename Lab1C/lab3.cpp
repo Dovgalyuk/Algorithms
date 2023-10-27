@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <climits>
 
 using namespace std;
 
@@ -53,7 +54,7 @@ void bfs(Point start)
             int newX = int(curX) + dir.x;
             int newY = int(curY) + dir.y;
             //Если точка доступна и не была отмечена раньше, добавляем
-            if (newX >= 0 && newX < rows && newY >= 0 && newY < cols && !visited[newX][newY] && maze[newX][newY] != '#')
+            if (newX >= 0 && newX < int(rows) && newY >= 0 && newY < int(cols) && !visited[newX][newY] && maze[newX][newY] != '#')
             {
                 visited[newX][newY] = true;
                 path[newX][newY] = path[curX][curY] + 1;
@@ -75,9 +76,9 @@ char find_nearest_number(Point start)
     int minpathance = INT_MAX;
 
     //Проверяем каждую ячейку на кратчайший путь
-    for (int i = 0; i < rows; ++i)
+    for (int i = 0; i < int(rows); ++i)
     {
-        for (int j = 0; j < cols; ++j)
+        for (int j = 0; j < int(cols); ++j)
         {
             if (maze[i][j] >= '0' && maze[i][j] <= '9' && visited[i][j] && path[i][j] < minpathance)
             {
@@ -103,7 +104,7 @@ int main()
         path.push_back(vector<int>(line.size(), 0));
 
         //Поиск стартовой позиции "X"
-        for (int j = 0; j < line.size(); ++j)
+        for (int j = 0; j < int(line.size()); ++j)
         {
             if (line[j] == 'X')
             {
