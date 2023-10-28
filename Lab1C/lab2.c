@@ -4,16 +4,20 @@
 #include <stdlib.h>
 #include "stack.h"
 #include "string.h"
+#define NONE 0
+#define ZERO 1
+#define UNDERFLOW 2
+#define OVERFLOW 3
 
 void ErrorMessage(int err) {
 	switch (err) {
-	case 1:
+	case ZERO:
 		printf("\nZERO");
 		break;
-	case 2:
+	case UNDERFLOW:
 		printf("\nUNDERFLOW");
 		break;
-	case 3:
+	case OVERFLOW:
 		printf("\nOVERFLOW");
 		break;
 	default:
@@ -30,11 +34,11 @@ int main()
 	Stack* stack = NULL;
 	stack = stack_create(NULL);
 	fgets(string, sizeof(string), stdin);
-	string[strlen(string) - 1] = '\0';
 
+	string[strlen(string) - 1] = '\0';
 	number = strtok(string, " ");
 
-	while (number && error == 0) {
+	while (number && error == NONE) {
 		if (strstr(op, number) == NULL) {
 			int* c = (int*)malloc(sizeof(int));
 			*c = atoi(number);
@@ -47,15 +51,15 @@ int main()
 				x = *((int*)stack_get(stack));
 				stack_pop(stack);
 			}
-			else error = 2;
+			else error = UNDERFLOW;
 
 
 			if (stack_get(stack) != NULL) {
 				y = *((int*)stack_get(stack));
 				stack_pop(stack);
 			}
-			else error = 2;
-			if (error == 0) {
+			else error = UNDERFLOW;
+			if (error == NONE) {
 				int* c = (int*)malloc(sizeof(int));
 
 				if (strcmp(number, "+") == 0)
@@ -66,7 +70,7 @@ int main()
 					*c = y * x;
 				else if (strcmp(number, "/") == 0)
 				{
-					if (x == 0) error = 1;
+					if (x == 0) error = ZERO;
 					else
 						*c = y / x;
 				}
@@ -78,9 +82,9 @@ int main()
 	if (!error) {
 		answer = *((int*)stack_get(stack));
 		stack_pop(stack);
-		if (!stack_empty(stack)) error = 3;
+		if (!stack_empty(stack)) error = OVERFLOW;
 	}
-	if (error == 0)
+	if (error == NONE)
 		printf("\nOtvet: %d\n", answer);
 	else
 		ErrorMessage(error);
