@@ -8,9 +8,8 @@ struct Stack{
 
 Stack *stack_create(){
     Stack* new_stack = new Stack;
-    List* new_list = list_create();
 
-    new_stack->list = new_list;
+    new_stack->list = list_create();
 
     return new_stack;
 }
@@ -30,20 +29,16 @@ void stack_push(Stack *stack, Data data){
 }
 
 Data stack_get(const Stack *stack){
-    return list_item_data(stack->last_item);
+    ListItem* first_item = list_first(stack->list);
+
+    if (first_item != nullptr)
+        return list_item_data(first_item);
+    else
+        return (Data)0;
 }
 
 void stack_pop(Stack *stack){
-    if (stack->last_item != nullptr && list_item_prev(stack->last_item) != nullptr){
-        stack->last_item = list_item_prev(stack->last_item);
-
-        list_erase_next(stack->list, stack->last_item);
-    }
-    else if (stack->last_item != nullptr && list_item_prev(stack->last_item) == nullptr)
-    {
-        list_erase_first(stack->list);
-        stack->last_item = nullptr;
-    }
+    stack->last_item = list_erase_first(stack->list);
 }
 
 bool stack_empty(const Stack *stack){

@@ -31,7 +31,6 @@ string infix_to_RPN(string& infix) {
     for (char c : infix) {
         if (isalnum(c))
             result += c;  // Если символ - цифра или буква, добавляем к выходной строке
-
         else if (is_operator(c)) {
             while (!stack_empty(operators) && get_operator_priority(stack_get(operators)) >= get_operator_priority(c)) {
                 result += stack_get(operators);
