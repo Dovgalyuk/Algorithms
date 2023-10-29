@@ -14,7 +14,8 @@ public:
     }
     ~Vector() //Деструктор
     {
-        delete[] data;
+        delete [] data;
+        delete vector;
     }
 };
 
