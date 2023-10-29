@@ -1,8 +1,0 @@
-# ninja log v5
-60	1848	7202825302618775	LibraryCPP/Tests/CMakeFiles/TestArrayCPP.dir/array.cpp.obj	dff8bb84054268f
-107	1714	7202828092010523	LibraryCPP/Tests/CMakeFiles/TestListCPP.dir/list.cpp.obj	89abeb3549029b44
-80	1881	7202831660266684	LibraryCPP/Tests/CMakeFiles/TestQueueCPP.dir/queue.cpp.obj	cb1e773c2e6712d3
-76	2047	7202866490125490	LibraryCPP/Tests/CMakeFiles/TestStackCPP.dir/stack.cpp.obj	d551a76dac93f04b
-24	1599	7202868426002124	LibraryCPP/CMakeFiles/LibraryCPP.dir/array.cpp.obj	e44782cf4b115029
-25	2160	7202888853549089	LibraryCPP/CMakeFiles/LibraryCPP.dir/array.cpp.obj	e44782cf4b115029
-83	2355	7202888855578777	LibraryCPP/Tests/CMakeFiles/TestArrayCPP.dir/array.cpp.obj	dff8bb84054268f
