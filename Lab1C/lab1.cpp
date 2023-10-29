@@ -30,7 +30,7 @@ void nedel(const Array* arr) {
     for (size_t i = 0; i < array_size(arr); ++i) {
         bool digit = false;
         for (size_t j = 0; j < array_size(arr); ++j) {
-            if (array_get(arr, i) % array_get(arr, j) == 0 && i != j) {
+            if (array_get(arr, j) != 0 && array_get(arr, i) % array_get(arr, j) == 0 && i != j) {
                 digit = true;
                 break;
             }
