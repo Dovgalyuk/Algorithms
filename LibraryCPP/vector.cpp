@@ -3,7 +3,7 @@
 struct Vector
 {
 public:
-    int global_size; //Глобальный размер
+    size_t global_size; //Глобальный размер
     size_t current_size; //Текущий размер
     Data* data; //Данные
     Vector() //Конструктор
