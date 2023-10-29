@@ -39,16 +39,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/user/Algorithms/out/build/x64-Debug/LibraryCPPClass/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("C:/Users/user/Algorithms/out/build/x64-Debug/LibraryCPPTemplate/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
   include("C:/Users/user/Algorithms/out/build/x64-Debug/Lab1CPP/cmake_install.cmake")
 endif()
 

@@ -142,18 +142,6 @@
 			"path" : "LibraryCPP/Tests/CMakeLists.txt"
 		},
 		{
-			"path" : "LibraryCPPClass/CMakeLists.txt"
-		},
-		{
-			"path" : "LibraryCPPClass/Tests/CMakeLists.txt"
-		},
-		{
-			"path" : "LibraryCPPTemplate/CMakeLists.txt"
-		},
-		{
-			"path" : "LibraryCPPTemplate/Tests/CMakeLists.txt"
-		},
-		{
 			"path" : "Lab1CPP/CMakeLists.txt"
 		}
 	],
