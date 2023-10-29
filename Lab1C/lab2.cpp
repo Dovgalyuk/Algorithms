@@ -107,6 +107,6 @@ int main()
 
 
     }
-    vector_delete(stack);
+    stack_delete(stack);
 
 }
