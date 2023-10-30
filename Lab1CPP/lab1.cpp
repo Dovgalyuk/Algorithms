@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "array.h"
+#include "../LibraryCPPTemplate/array.h"
 
 void task1(Array<int> *arr)
 {
@@ -60,7 +60,7 @@ int main()
     arr = new Array<int>(size);
 
     for (size_t i = 0; i < arr->size(); i++)
-        arr->set(i, rand());
+        arr->set(i, rand() % 100);
 
     task1(arr);
     delete arr;
@@ -71,7 +71,7 @@ int main()
     arr = new Array<int>(size);
 
     for (size_t i = 0; i < arr->size(); i++)
-        arr->set(i, rand());
+        arr->set(i, rand() % 100);
 
     task2(arr);
     delete arr;
