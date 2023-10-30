@@ -29,7 +29,7 @@ class HashTable {
     struct Element {
         std::string key;
         std::string value;
-        bool deleted = false;
+        bool deleted;
         Element() {
             this->key = "";
             this->value = "";
@@ -96,6 +96,34 @@ public:
         this->size = 0;
         this->count_deleted = 0;
         this->elements = new Array<Element>(capacity);
+    }
+    HashTable(const HashTable& other) {
+        capacity = other.capacity;
+        size = other.size;
+        count_deleted = other.count_deleted;
+        elements = new Array<Element>(capacity);
+        for (int i = 0; i < capacity; ++i) {
+            if (other.elements->get(i)->key.size() != 0) {
+                elements->set(i, *(other.elements->get(i)));
+            }
+        }
+    }
+    HashTable& operator=(const HashTable& other) {
+        if (this != &other) {
+            delete elements;
+
+            capacity = other.capacity;
+            size = other.size;
+            count_deleted = other.count_deleted;
+
+            elements = new Array<Element>(capacity);
+            for (int i = 0; i < capacity; ++i) {
+                if (other.elements->get(i)->key.size() != 0) {
+                    elements->set(i, *(other.elements->get(i)));
+                }
+            }
+        }
+        return *this;
     }
     ~HashTable() {
         delete this->elements;
