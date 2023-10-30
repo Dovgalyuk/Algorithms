@@ -5,28 +5,22 @@
 #include "array.h"
 
 class HashTable {
+public:
     struct Element {
         std::string key;
         std::string value;
         bool deleted;
-        Element() {
-            this->key = "";
-            this->value = "";
-            this->deleted = false;
-        }
-        Element(std::string key, std::string value, bool deleted = false) {
-            this->key = key;
-            this->deleted = deleted;
-            this->value = value;
-        }
+        Element() : key(""), value(""), deleted(false) {}
+        Element(std::string key, std::string value, bool deleted = false) : key(key), value(value), deleted(deleted) {}
     };
 
+private:
     Array<Element>* elements;
     int capacity;
     int size;
     int count_deleted;
 
-    int FirstHashFunction(const std::string& key, int capa) {
+    static int FirstHashFunction(const std::string& key, int capa) {
         int hash = 0;
         unsigned long long unique_value = 1;
         for (size_t i = 0; key[i]; i++) {
@@ -35,7 +29,7 @@ class HashTable {
         return hash % capa;
     }
 
-    int SecondHashFunction(const std::string& key, int capa) {
+    static int SecondHashFunction(const std::string& key, int capa) {
         int hash = 0;
         unsigned long long unique_value = 1;
         for (size_t i = 0; key[i]; i++) {
@@ -47,67 +41,65 @@ class HashTable {
         return result;
     }
 
-    bool check_capacity() { return this->size + this->count_deleted >= this->capacity / 2; }
-    int algorithm(std::string key, Array<Element>* in_elements, bool& founded) {
-        int first_hash = FirstHashFunction(key, this->capacity);
+    bool check_capacity() {
+        return this->size + this->count_deleted >= this->capacity / 2;
+    }
+
+    static int algorithm(const std::string& key, Array<Element>* in_elements, int capa, bool& founded) {
+        int first_hash = FirstHashFunction(key, capa);
         int final_hash = first_hash;
-        if (in_elements->get(final_hash)->key.size() != 0 && in_elements->get(final_hash)->deleted == false) {
+        if (!in_elements->get(final_hash)->key.empty() && !in_elements->get(final_hash)->deleted) {
             if (founded && (key == in_elements->get(final_hash)->key)) { founded = false; return final_hash; }
-            int second_hash = SecondHashFunction(key, this->capacity);
+            int second_hash = SecondHashFunction(key, capa);
             int iter = 1;
-            final_hash = (first_hash + iter * second_hash) % capacity;
-            while (in_elements->get(final_hash)->key.size() != 0 && in_elements->get(final_hash)->deleted == false) {
+            final_hash = (first_hash + iter * second_hash) % capa;
+            while (!in_elements->get(final_hash)->key.empty() && !in_elements->get(final_hash)->deleted) {
                 if (founded && key == in_elements->get(final_hash)->key) { founded = false; return final_hash; }
                 iter++;
-                final_hash = (first_hash + iter * second_hash) % capacity;
+                final_hash = (first_hash + iter * second_hash) % capa;
             }
         }
         return final_hash;
     }
-    void resize() {
-        this->size = 0;
-        this->capacity *= 4;
 
-        Array<Element>* new_elements = new Array<Element>(capacity);
-        for (size_t i = 0; i < static_cast<size_t>(this->capacity / 4); i++) {
-            std::string key = this->elements->get(i)->key;
-            std::string value = this->elements->get(i)->value;
-            if (key.size() != 0) {
-                bool not_found = false;
-                int index = algorithm(key, new_elements, not_found);
-                new_elements->set(index, Element(key, value));
-                this->size++;
+    void resize() {
+        int old_capacity = this->capacity;
+        this->capacity *= 4;
+        Array<Element>* new_elements = new Array<Element>(this->capacity);
+
+        for (int i = 0; i < old_capacity; ++i) {
+            Element* elem = this->elements->get(i);
+            if (!elem->key.empty() && !elem->deleted) {
+                bool not_found = true;
+                int index = algorithm(elem->key, new_elements, this->capacity, not_found);
+                new_elements->set(index, *elem);
             }
         }
-        // clear
-        delete this->elements;
 
+        delete this->elements;
         this->elements = new_elements;
+        this->count_deleted = 0;
     }
-    int find_index(std::string key) {
+
+    int find_index(const std::string& key) {
         bool not_found = true;
-        int hash_index = algorithm(key, this->elements, not_found);
-        if (not_found) return -1;
+        int hash_index = algorithm(key, this->elements, this->capacity, not_found);
+        if (not_found || this->elements->get(hash_index)->deleted) return -1;
         return hash_index;
     }
+
 public:
-    HashTable() {
-        this->capacity = 16;
-        this->size = 0;
-        this->count_deleted = 0;
-        this->elements = new Array<Element>(capacity);
-    }
-    HashTable(const HashTable& other) {
-        capacity = other.capacity;
-        size = other.size;
-        count_deleted = other.count_deleted;
-        elements = new Array<Element>(capacity);
+    HashTable() : capacity(16), size(0), count_deleted(0), elements(new Array<Element>(16)) {}
+
+    HashTable(const HashTable& other) : capacity(other.capacity), size(other.size), count_deleted(other.count_deleted), elements(new Array<Element>(other.capacity)) {
         for (int i = 0; i < capacity; ++i) {
-            if (other.elements->get(i)->key.size() != 0) {
-                elements->set(i, *(other.elements->get(i)));
+            Element* elem = other.elements->get(i);
+            if (!elem->key.empty()) {
+                elements->set(i, *elem);
             }
         }
     }
+
     HashTable& operator=(const HashTable& other) {
         if (this != &other) {
             delete elements;
@@ -115,35 +107,38 @@ public:
             capacity = other.capacity;
             size = other.size;
             count_deleted = other.count_deleted;
-
             elements = new Array<Element>(capacity);
+
             for (int i = 0; i < capacity; ++i) {
-                if (other.elements->get(i)->key.size() != 0) {
-                    elements->set(i, *(other.elements->get(i)));
+                Element* elem = other.elements->get(i);
+                if (!elem->key.empty()) {
+                    elements->set(i, *elem);
                 }
             }
         }
         return *this;
     }
+
     ~HashTable() {
-        delete this->elements;
+        delete elements;
     }
 
-    void add(std::string key, std::string value) {
-        bool not_found = false;
-        int final_hash = algorithm(key, this->elements, not_found);
+    void add(const std::string& key, const std::string& value) {
+        bool not_found = true;
+        int final_hash = algorithm(key, this->elements, this->capacity, not_found);
         elements->set(final_hash, Element(key, value));
         this->size++;
         if (check_capacity()) resize();
     }
-    void del(std::string key) {
+
+    void del(const std::string& key) {
         int index_to_delete = find_index(key);
         if (index_to_delete == -1) return;
-        this->size--;
-        this->count_deleted++;
         this->elements->get(index_to_delete)->deleted = true;
+        this->count_deleted++;
     }
-    std::string find(std::string key) {
+
+    std::string find(const std::string& key) {
         int index = find_index(key);
         if (index == -1) return "UNKNOWN VALUE EXCEPTION\n";
         return elements->get(index)->value;
