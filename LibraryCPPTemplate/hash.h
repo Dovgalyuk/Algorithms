@@ -18,7 +18,7 @@ private:
     Array<Element>* elements;
     int capacity;
     int size;
-    int count_deleted;
+    int count_deleted = 0;
 
     static int FirstHashFunction(const std::string& key, int capa) {
         int hash = 0;
@@ -89,9 +89,11 @@ private:
     }
 
 public:
-    HashTable() : capacity(16), size(0), count_deleted(0), elements(new Array<Element>(16)) {}
+    HashTable()
+        : elements(new Array<Element>(16)), capacity(16), size(0), count_deleted(0) {}
 
-    HashTable(const HashTable& other) : capacity(other.capacity), size(other.size), count_deleted(other.count_deleted), elements(new Array<Element>(other.capacity)) {
+    HashTable(const HashTable& other)
+        : elements(new Array<Element>(other.capacity)), capacity(other.capacity), size(other.size), count_deleted(other.count_deleted) {
         for (int i = 0; i < capacity; ++i) {
             Element* elem = other.elements->get(i);
             if (!elem->key.empty()) {
