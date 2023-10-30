@@ -4,27 +4,6 @@
 #include <string>
 #include "array.h"
 
-int FirstHashFunction(const std::string& key, int capacity) {
-    int hash = 0;
-    unsigned long long unique_value = 1;
-    for (size_t i = 0; key[i]; i++) {
-        hash = (hash * unique_value + key[i]) % capacity;
-    }
-    return hash % capacity;
-}
-
-int SecondHashFunction(const std::string& key, int capacity) {
-    int hash = 0;
-    unsigned long long unique_value = 1;
-    for (size_t i = 0; key[i]; i++) {
-        hash = (hash * unique_value + key[i]) % capacity;
-        unique_value *= 27;
-    }
-    int result = hash % capacity;
-    if (result % 2 == 0) return result + 1;
-    return result;
-}
-
 class HashTable {
     struct Element {
         std::string key;
@@ -47,17 +26,38 @@ class HashTable {
     int size;
     int count_deleted;
 
+    int FirstHashFunction(const std::string& key, int capa) {
+        int hash = 0;
+        unsigned long long unique_value = 1;
+        for (size_t i = 0; key[i]; i++) {
+            hash = (hash * unique_value + key[i]) % capa;
+        }
+        return hash % capa;
+    }
+
+    int SecondHashFunction(const std::string& key, int capa) {
+        int hash = 0;
+        unsigned long long unique_value = 1;
+        for (size_t i = 0; key[i]; i++) {
+            hash = (hash * unique_value + key[i]) % capa;
+            unique_value *= 27;
+        }
+        int result = hash % capa;
+        if (result % 2 == 0) return result + 1;
+        return result;
+    }
+
     bool check_capacity() { return this->size + this->count_deleted >= this->capacity / 2; }
-    int algorithm(std::string key, Array<Element>* in_elements, bool& not_found) {
+    int algorithm(std::string key, Array<Element>* in_elements, bool& founded) {
         int first_hash = FirstHashFunction(key, this->capacity);
         int final_hash = first_hash;
         if (in_elements->get(final_hash)->key.size() != 0 && in_elements->get(final_hash)->deleted == false) {
-            if (not_found && (key == in_elements->get(final_hash)->key)) { not_found = false; return final_hash; }
+            if (founded && (key == in_elements->get(final_hash)->key)) { founded = false; return final_hash; }
             int second_hash = SecondHashFunction(key, this->capacity);
             int iter = 1;
             final_hash = (first_hash + iter * second_hash) % capacity;
             while (in_elements->get(final_hash)->key.size() != 0 && in_elements->get(final_hash)->deleted == false) {
-                if (not_found && key == in_elements->get(final_hash)->key) { not_found = false; return final_hash; }
+                if (founded && key == in_elements->get(final_hash)->key) { founded = false; return final_hash; }
                 iter++;
                 final_hash = (first_hash + iter * second_hash) % capacity;
             }
