@@ -18,6 +18,7 @@ void queue_delete(Queue* queue) {
     delete queue;
 }
 
+
 void queue_insert(Queue* queue, Data data) {
     if (queue->last != nullptr) {
         list_insert_after(queue->list, queue->last, data);
@@ -37,9 +38,14 @@ Data queue_get(const Queue* queue) {
     return -1;
 }
 
+
 void queue_remove(Queue* queue) {
+    if (queue->last && queue->last == list_first(queue->list)) {
+        queue->last = nullptr;
+    }
     list_erase_first(queue->list);
 }
+
 
 bool queue_empty(const Queue* queue) {
     return list_first(queue->list) == nullptr;
