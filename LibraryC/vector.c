@@ -64,28 +64,19 @@ size_t vector_size(const Vector* vector)
 
 void vector_resize(Vector* vector, size_t size)
 {
-	if (vector) {
+	if (vector != NULL) {
 		if (size > vector->size) {
 			if (vector->maxsize < size)
 			{
-				vector->v = (Data*)realloc(vector->v, 2 * size * sizeof(Data));
-				for (size_t i = vector->maxsize; i < 2 * size; i++)
+				vector->v = (Data*)realloc(vector->v, 3 * size * sizeof(Data));
+				for (size_t i = vector->maxsize; i < 3 * size; i++)
 					vector->v[i] = NULL;
-				vector->maxsize = 2 * size;
+				vector->maxsize = 3 * size;
 			}
 			vector->size = size;
 		}
 		else if (size < vector->size) {
-			for (size_t i = 2 * size; i < vector->maxsize; i++) {
-				if (vector->v[i]) {
-					if (vector->deleter)
-						vector->deleter(vector->v[i]);
-					else
-						free(vector->v[i]);
-				}
-			}
 			vector->size = size;
-			vector->maxsize = 2* size;
 		}
 	}
 }

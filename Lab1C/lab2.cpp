@@ -42,11 +42,15 @@ int main()
 
         stack_push(a, p);
     }*/
-    for (int i = 0; i < 5; i++)
+    cout << "vvedite stop dlz zaversheniz vvoda";
+   while (1)
     {
 
         getline(cin, z);
-        
+        if (z == "stop")
+            break;
+        else
+
         if (size(z)>6 && z[5]=='h') {
            
             stoi(z.substr(z.find(' ') + 1));
@@ -56,9 +60,11 @@ int main()
 
             stack_push(a, p);
         }
+        else
 
         if (z == "pop")
             stack_pop(a);
+        else
         if (z == "imul")
         {
             buf = *(int*)stack_get(a);
@@ -69,6 +75,7 @@ int main()
             *p = buf;
             stack_push(a, p);
         }
+        else
         if (z == "iand")
         {
             buf = *(int*)stack_get(a);
@@ -80,6 +87,7 @@ int main()
             stack_push(a, p);
 
         }
+        else
         if (z == "ior")
         {
             buf = *(int*)stack_get(a);
@@ -91,6 +99,7 @@ int main()
             stack_push(a, p);
 
         }
+        else
         if (z == "ixor")
         {
             buf = *(int*)stack_get(a);
@@ -102,6 +111,7 @@ int main()
             stack_push(a, p);
 
         }
+        else
         if (z == "iadd")
         {
             buf = *(int*)stack_get(a);
@@ -113,6 +123,7 @@ int main()
             stack_push(a, p);
 
         }
+        else
         if (z == "isub")
         {
             buf = *(int*)stack_get(a);
@@ -124,6 +135,7 @@ int main()
             stack_push(a, p);
 
         }
+        else
         if (z == "swap")
         {
             int buf1;
@@ -141,6 +153,7 @@ int main()
             stack_push(a, p);
 
         }
+        else
         if (z == "iload_0")
         {
 
@@ -149,6 +162,7 @@ int main()
             stack_push(a, p);
 
         }
+        else
         if (z == "iload_1")
         {
 
@@ -157,6 +171,7 @@ int main()
             stack_push(a, p);
 
         }
+        else
         if (z == "iload_2")
         {
 
@@ -165,6 +180,7 @@ int main()
             stack_push(a, p);
 
         }
+        else
         if (z == "iload_3")
         {
 
@@ -173,25 +189,28 @@ int main()
             stack_push(a, p);
 
         }
-
+        else
         if (z == "istore_0")
         {
             b0 = *(int*)stack_get(a);
             stack_pop(a);
 
         }
+        else
         if (z == "istore_1")
         {
 
             b1 = *(int*)stack_get(a);
             stack_pop(a);
         }
+        else
         if (z == "istore_2")
         {
 
             b2 = *(int*)stack_get(a);
             stack_pop(a);
         }
+        else
         if (z == "istore_3")
         {
 
