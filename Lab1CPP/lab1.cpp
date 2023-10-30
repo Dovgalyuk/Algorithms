@@ -18,7 +18,7 @@ void task1(Array* arr)
     }
 
     int min1 = arr->dynamArray[0];
-    int m = 0; // в будущем номер первого минимального массива
+    int unsigned m = 0; // в будущем номер первого минимального массива
     for (unsigned int i = 0; i < arr->size; i++) {
         if (arr->dynamArray[i] < min1)
         {
@@ -29,7 +29,7 @@ void task1(Array* arr)
 
     int min2 = (m == 0) ? arr->dynamArray[1] : arr->dynamArray[0]; // int min2 = arr1->dynamArray[0] не дает пропускать нулевой индекс
     for (unsigned int i = 0; i < arr->size; i++) {
-        if (i == (int)m)
+        if (i == m)
         {
             continue;
         }
