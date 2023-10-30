@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include "queue.h"
+#include <algorithm>
 
 using namespace std;
 typedef map<string, vector<string>> Graph;
