@@ -29,7 +29,7 @@ void task1(Array* arr)
 
     int min2 = (m == 0) ? arr->dynamArray[1] : arr->dynamArray[0]; // int min2 = arr1->dynamArray[0] не дает пропускать нулевой индекс
     for (unsigned int i = 0; i < arr->size; i++) {
-        if (i == m)
+        if (i == (int)m)
         {
             continue;
         }
@@ -56,8 +56,6 @@ void task2(Array* arr)
     for (unsigned int i = 0; i < arr->size; i++) {
         std::cout << arr->dynamArray[i] << " ";
     }
-
-    unsigned int m = arr->size; // чтобы считать с конца индексы в массиве 
 
     std::cout << "”кажите в какую сторону сдвинуть массив? (введите стрелку)\n\n¬лево  ' < '   ||   ' > '  ¬право\n";
     char a; std::cin >> a;
