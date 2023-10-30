@@ -67,7 +67,7 @@ void task2(Array *arr)
 	    {
 	        for(int j = 0; j < pos; j++)
             {
-                for(int i = 1; i < size; i++)
+                for(int i = 1; i <= zero1+1; i++)
                 {
                     array_set(arr, i-1, array_get(arr, i));
                     if (i == zero1)
@@ -89,7 +89,7 @@ void task2(Array *arr)
 	    {
 		    for (int j = 0; j < pos; j++)
             {
-                for (int i = size-2; i >= 0; i--)
+                for (int i = size-2; i >= zero2-1; i--)
                 {
                     array_set(arr, i+1, array_get(arr, i));
                     if(i == zero2)
