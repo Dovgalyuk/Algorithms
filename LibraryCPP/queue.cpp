@@ -3,11 +3,13 @@
 
 struct Queue {
     List* list;
+    ListItem* last;
 };
 
 Queue* queue_create() {
     Queue* queue = new Queue;
     queue->list = list_create();
+    queue->last = nullptr;
     return queue;
 }
 
@@ -17,15 +19,13 @@ void queue_delete(Queue* queue) {
 }
 
 void queue_insert(Queue* queue, Data data) {
-    ListItem* item = list_first(queue->list);
-    if (item) {
-        while (list_item_next(item) != nullptr) {
-            item = list_item_next(item);
-        }
-        list_insert_after(queue->list, item, data);
+    if (queue->last != nullptr) {
+        list_insert_after(queue->list, queue->last, data);
+        queue->last = list_item_next(queue->last);
     }
     else {
         list_insert(queue->list, data);
+        queue->last = list_first(queue->list);
     }
 }
 
@@ -34,8 +34,6 @@ Data queue_get(const Queue* queue) {
     if (item) {
         return list_item_data(item);
     }
-    // Assuming that Data is an integer and using -1 as an error code.
-    // Ideally, we should have a more robust error handling mechanism.
     return -1;
 }
 
