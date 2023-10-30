@@ -30,7 +30,9 @@ void stack_delete(Stack* stack)
 
 void stack_push(Stack* stack, Data data)
 {
-    vector_set(stack->vector_base, vector_size(stack->vector_base), data);
+    size_t index = vector_size(stack->vector_base);
+    vector_resize(stack->vector_base, vector_size(stack->vector_base) + 1);
+    vector_set(stack->vector_base, index, data);
 }
 
 Data stack_get(const Stack* stack)
@@ -50,7 +52,7 @@ Data stack_get(const Stack* stack)
 void stack_pop(Stack* stack)
 {
 
-    vector_resize(stack->vector_base, 1);
+    vector_resize(stack->vector_base, vector_size(stack->vector_base) - 1);
 
 }
 

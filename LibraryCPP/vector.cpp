@@ -14,8 +14,8 @@ public:
     }
     ~Vector() //Деструктор
     {
-        delete [] data;
-        
+        delete[] data;
+
     }
 };
 
@@ -41,13 +41,8 @@ Data vector_get(const Vector* vector, size_t index)
 
 void vector_set(Vector* vector, size_t index, Data value)
 {
-    if (vector->current_size == vector->global_size)
-    {
-        vector_resize(vector, vector->current_size);
-    }
-
     vector->data[index] = value;
-    vector->current_size++;
+
 }
 
 size_t vector_size(const Vector* vector)
@@ -59,23 +54,27 @@ void vector_resize(Vector* vector, size_t size)
 {
     if (size <= vector->current_size)  //Уменьшение размера вектора при удалении элемента
     {
-        vector->current_size -= size;
-        int* array_resize_dec = new int[vector->current_size];
+        vector->current_size = size;
+
+        return;
+
+    }
+    if (size >= vector->global_size)
+    {
+        vector->global_size = size * 2;                      //Увеличение размера вектора при добавлении элемента 
+        int* array_resize_inc = new int[vector->global_size];
         for (size_t i = 0; i < vector->current_size; i++)
         {
-            array_resize_dec[i] = vector->data[i];
+            array_resize_inc[i] = vector->data[i];
         }
-        vector->data = array_resize_dec;
+        vector->current_size = size;
+        delete[] vector->data;
+        vector->data = array_resize_inc;
         return;
     }
-
-    vector->global_size *= 2;                      //Увеличение размера вектора при добавлении элемента 
-    int* array_resize_inc = new int[vector->global_size];
-
-    for (size_t i = 0; i < vector->current_size; i++)
+    else
     {
-        array_resize_inc[i] = vector->data[i];
+        vector->current_size = size;
     }
-    vector->data = array_resize_inc;
-    delete[] array_resize_inc;
+
 }
