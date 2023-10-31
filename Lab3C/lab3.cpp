@@ -28,7 +28,6 @@ string dataToString(Data data, DataToStringMap& dataToStrMap) {
 
 
 vector<Data> bfsShortestPath(const Graph& graph, Data start, Data end) {
-    // Find the maximum index to determine the size of the array
     Data max_index = 0;
     for (const auto& pair : graph) {
         max_index = max(max_index, pair.first);
@@ -37,11 +36,10 @@ vector<Data> bfsShortestPath(const Graph& graph, Data start, Data end) {
         }
     }
 
-    // Create arrays with size max_index + 1 to account for 0-based indexing
     Data* predecessors = new Data[max_index + 1];
     fill_n(predecessors, max_index + 1, 0);
     bool* visited = new bool[max_index + 1];
-    memset(visited, 0, sizeof(bool) * (max_index + 1)); // Initialize all to false
+    fill_n(predecessors, max_index + 1, false);
 
     Queue* queue = queue_create();
 
@@ -71,7 +69,7 @@ vector<Data> bfsShortestPath(const Graph& graph, Data start, Data end) {
     if (!visited[end]) {
         delete[] predecessors;
         delete[] visited;
-        return path; // No path found
+        return path;
     }
 
     for (Data at = end; at != start; at = predecessors[at]) {
