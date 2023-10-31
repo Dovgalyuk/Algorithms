@@ -6,10 +6,10 @@ using namespace std;
 int task1(Array* arr) {
 
     size_t size = array_size(arr);
-    int maxLength = 0;
-    int currentLength = 0;
+    size_t maxLength = 0;
+    size_t currentLength = 0;
 
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         if (array_get(arr, i) % 2 == 1)
             currentLength++;
         else {
@@ -26,9 +26,9 @@ int task1(Array* arr) {
 
 
 void task2(Array* arr) {
-    for (int i = 0; i < size; i++) {
-        int n = 0;
-        for (int j = 0; j < size; j++) {
+    for (size_t i = 0; i < size; i++) {
+        size_t n = 0;
+        for (size_t j = 0; j < size; j++) {
             if (array_get(arr, i) != array_get(arr, j)) {
                 n++;
             }
