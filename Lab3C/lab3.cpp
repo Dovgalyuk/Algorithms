@@ -7,7 +7,7 @@
 #include <algorithm>
 
 using namespace std;
-typedef map<string, vector<string>> Graph;
+typedef map<Data, vector<Data>> Graph;
 typedef map<string, Data> StringToDataMap;
 typedef map<Data, string> DataToStringMap;
 
@@ -27,9 +27,22 @@ string dataToString(Data data, DataToStringMap& dataToStrMap) {
 }
 
 
-vector<Data> bfsShortestPath(const Graph& graph, Data start, Data end, StringToDataMap& strToDataMap, DataToStringMap& dataToStrMap) {
-    map<Data, Data> predecessors;
-    map<Data, bool> visited;
+vector<Data> bfsShortestPath(const Graph& graph, Data start, Data end) {
+    // Find the maximum index to determine the size of the array
+    Data max_index = 0;
+    for (const auto& pair : graph) {
+        max_index = max(max_index, pair.first);
+        for (const auto& neighbor : pair.second) {
+            max_index = max(max_index, neighbor);
+        }
+    }
+
+    // Create arrays with size max_index + 1 to account for 0-based indexing
+    Data* predecessors = new Data[max_index + 1];
+    fill_n(predecessors, max_index + 1, 0);
+    bool* visited = new bool[max_index + 1];
+    memset(visited, 0, sizeof(bool) * (max_index + 1)); // Initialize all to false
+
     Queue* queue = queue_create();
 
     visited[start] = true;
@@ -43,9 +56,7 @@ vector<Data> bfsShortestPath(const Graph& graph, Data start, Data end, StringToD
             break;
         }
 
-        string currentCity = dataToString(current, dataToStrMap);
-        for (const auto& neighborName : graph.at(currentCity)) {
-            Data neighbor = stringToData(neighborName, strToDataMap, dataToStrMap);
+        for (const auto& neighbor : graph.at(current)) {
             if (!visited[neighbor]) {
                 visited[neighbor] = true;
                 predecessors[neighbor] = current;
@@ -57,7 +68,9 @@ vector<Data> bfsShortestPath(const Graph& graph, Data start, Data end, StringToD
     queue_delete(queue);
 
     vector<Data> path;
-    if (predecessors.find(end) == predecessors.end()) {
+    if (!visited[end]) {
+        delete[] predecessors;
+        delete[] visited;
         return path; // No path found
     }
 
@@ -66,6 +79,9 @@ vector<Data> bfsShortestPath(const Graph& graph, Data start, Data end, StringToD
     }
     path.push_back(start);
     reverse(path.begin(), path.end());
+
+    delete[] predecessors;
+    delete[] visited;
 
     return path;
 }
@@ -95,12 +111,14 @@ int main() {
         istringstream iss(l);
         string city1, city2;
         while (iss >> city1 >> city2) {
-            graph[city1].push_back(city2);
-            graph[city2].push_back(city1);
+            Data city1Data = stringToData(city1, strToDataMap, dataToStrMap);
+            Data city2Data = stringToData(city2, strToDataMap, dataToStrMap);
+            graph[city1Data].push_back(city2Data);
+            graph[city2Data].push_back(city1Data);
         }
     }
 
-    vector<Data> path = bfsShortestPath(graph, startData, endData, strToDataMap, dataToStrMap);
+    vector<Data> path = bfsShortestPath(graph, startData, endData);
 
     ofstream output("output.txt");
     if (!path.empty()) {

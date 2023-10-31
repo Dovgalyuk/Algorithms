@@ -21,8 +21,7 @@ void queue_delete(Queue* queue) {
 
 void queue_insert(Queue* queue, Data data) {
     if (queue->last != nullptr) {
-        list_insert_after(queue->list, queue->last, data);
-        queue->last = list_item_next(queue->last);
+        queue->last = list_insert_after(queue->list, queue->last, data);
     }
     else {
         list_insert(queue->list, data);
