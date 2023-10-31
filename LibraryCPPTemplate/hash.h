@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include "array.h"
+#include <utility> // для std::pair
+
 
 class HashTable {
 public:
@@ -140,9 +142,9 @@ public:
         this->count_deleted++;
     }
 
-    std::string find(const std::string& key) {
+    std::pair<bool, std::string> find(const std::string& key) {
         int index = find_index(key);
-        if (index == -1) return "UNKNOWN VALUE EXCEPTION\n";
-        return elements->get(index)->value;
+        if (index == -1) return std::make_pair(false, "");
+        return std::make_pair(true, elements->get(index)->value);
     }
 };

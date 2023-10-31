@@ -16,13 +16,26 @@ int main() {
 	//add
 	for (size_t i = 0; i < size_for_tests; i++) table->add(to_string(i), to_string(i));
 
-	for (size_t i = 0; i < 100; i++) if (table->find(to_string(i)) != to_string(i)) cout << "Searching or adding error\n";
+	for (size_t i = 0; i < 100; i++)
+	{
+		auto result = table->find(to_string(i));
+		if (!result.first || result.second != to_string(i)) {
+			cout << "Searching or adding error\n";
+		}
+	}
 
 	//remove
 	for (size_t i = 0; i < size_for_tests; i++) { table->del(to_string(i)); }
 
 	//check
-	for (size_t i = 100; i < 120; i++)if (table->find(to_string(i)) != "UNKNOWN VALUE EXCEPTION\n") { cout << "Search or insert error\n"; return 1; }
+	for (size_t i = 100; i < 120; i++)
+	{
+		auto result = table->find(to_string(i));
+		if (result.first) {
+			cout << "Search or insert error\n";
+			return 1;
+		}
+	}
 
 	delete table;
 	return 0;
