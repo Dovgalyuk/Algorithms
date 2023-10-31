@@ -26,6 +26,7 @@ int task1(Array* arr) {
 
 
 void task2(Array* arr) {
+    size_t size = array_size(arr);
     for (size_t i = 0; i < size; i++) {
         size_t n = 0;
         for (size_t j = 0; j < size; j++) {
