@@ -21,7 +21,7 @@ int task1(Array* arr) {
     }
     if (currentLength > maxLength)
         maxLength = currentLength;
-    return maxLength;
+    cout << "Result: " << maxLength;
 }
 
 
@@ -30,11 +30,11 @@ void task2(Array* arr) {
     for (size_t i = 0; i < size; i++) {
         size_t n = 0;
         for (size_t j = 0; j < size; j++) {
-            if (array_get(arr, i) != array_get(arr, j)) {
+            if (array_get(arr, i) == array_get(arr, j)) {
                 n++;
             }
         }
-        if (n == size - 1) {
+        if (n == 1) {
             cout << array_get(arr, i) << " ";
         }
     }
