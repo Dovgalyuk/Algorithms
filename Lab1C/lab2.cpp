@@ -8,22 +8,13 @@ void task(Stack* stack)
     int temp1;
     int temp2;
     bool sign = false;
-    string s;
-    char c;
-    while (cin.get(c))
+    char c=0;
+    for (size_t i = 0; c!='\n'; i++)
     {
-        if (c == '\n')
-        {
-            break;
-        }
-        else
-        {
-            s += c;
-        }
-    }
-    for (size_t i = 0; i <= s.length(); i++)
-    {
-        if (s[i] == '*')
+     
+        cin.get(c);
+        
+        if (c == '*')
         {
             temp1 = stack_get(stack);
             stack_pop(stack);
@@ -34,7 +25,7 @@ void task(Stack* stack)
 
 
         }
-        else if (s[i] == '+')
+        else if (c == '+')
         {
             temp1 = stack_get(stack);
             stack_pop(stack);
@@ -43,7 +34,7 @@ void task(Stack* stack)
             stack_push(stack, temp2);
             sign = true;
         }
-        else if (s[i] == '-')
+        else if (c == '-')
         {
             temp1 = stack_get(stack);
             stack_pop(stack);
@@ -52,7 +43,7 @@ void task(Stack* stack)
             stack_push(stack, temp2);
             sign = true;
         }
-        else if (s[i] == '/')
+        else if (c == '/')
         {
             temp1 = stack_get(stack);
             stack_pop(stack);
@@ -61,7 +52,7 @@ void task(Stack* stack)
             stack_push(stack, temp2);
             sign = true;
         }
-        else  if (s[i] == '\0')
+        else  if (c == '\n')
         {
             if (sign == true)
             {
@@ -72,7 +63,7 @@ void task(Stack* stack)
             break;
 
         }
-        else   if (s[i] == ' ')
+        else   if (c == ' ')
         {
             if (sign == true)
             {
@@ -85,7 +76,7 @@ void task(Stack* stack)
         }
         else
         {
-            acc = acc * 10 + s[i] - '0';
+            acc = acc * 10 + c - '0';
 
         }
     }
