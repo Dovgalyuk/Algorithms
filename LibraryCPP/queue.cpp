@@ -24,8 +24,7 @@ void queue_insert(Queue* queue, Data data) {
         queue->last = list_insert_after(queue->list, queue->last, data);
     }
     else {
-        list_insert(queue->list, data);
-        queue->last = list_first(queue->list);
+        queue->last = list_insert(queue->list, data);
     }
 }
 

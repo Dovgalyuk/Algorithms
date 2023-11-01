@@ -1,25 +1,25 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <sstream>
-#include <map>
 #include <vector>
 #include "queue.h"
 #include <algorithm>
 
 using namespace std;
-typedef map<Data, vector<Data>> Graph;
-typedef map<string, Data> StringToDataMap;
-typedef map<Data, string> DataToStringMap;
+typedef vector<vector<Data>> Graph;
+typedef vector<pair<string, Data>> StringToDataMap;
+typedef vector<string> DataToStringMap;
 
 Data stringToData(const string& str, StringToDataMap& strToDataMap, DataToStringMap& dataToStrMap) {
     static Data nextData = 0;
-    auto it = strToDataMap.find(str);
-    if (it == strToDataMap.end()) {
-        strToDataMap[str] = nextData;
-        dataToStrMap[nextData] = str;
-        return nextData++;
+    for (auto& pair : strToDataMap) {
+        if (pair.first == str) {
+            return pair.second;
+        }
     }
-    return it->second;
+    strToDataMap.push_back(make_pair(str, nextData));
+    dataToStrMap.push_back(str);
+    return nextData++;
 }
 
 string dataToString(Data data, DataToStringMap& dataToStrMap) {
@@ -28,18 +28,11 @@ string dataToString(Data data, DataToStringMap& dataToStrMap) {
 
 
 vector<Data> bfsShortestPath(const Graph& graph, Data start, Data end) {
-    Data max_index = 0;
-    for (const auto& pair : graph) {
-        max_index = max(max_index, pair.first);
-        for (const auto& neighbor : pair.second) {
-            max_index = max(max_index, neighbor);
-        }
-    }
-
+    size_t max_index = graph.size() - 1;
     Data* predecessors = new Data[max_index + 1];
     fill_n(predecessors, max_index + 1, 0);
     bool* visited = new bool[max_index + 1];
-    fill_n(predecessors, max_index + 1, false);
+    fill_n(visited, max_index + 1, false);
 
     Queue* queue = queue_create();
 
@@ -92,42 +85,50 @@ int main() {
         lines.push_back(line);
     }
     input.close();
+    if (!lines.empty()) {
+        istringstream last_line_stream(lines.back());
+        string startCity, endCity;
+        last_line_stream >> startCity >> endCity;
+        lines.pop_back();
+        StringToDataMap strToDataMap;
+        DataToStringMap dataToStrMap;
 
-    istringstream last_line_stream(lines.back());
-    string startCity, endCity;
-    last_line_stream >> startCity >> endCity;
-    lines.pop_back();
-
-    StringToDataMap strToDataMap;
-    DataToStringMap dataToStrMap;
-
-    Data startData = stringToData(startCity, strToDataMap, dataToStrMap);
-    Data endData = stringToData(endCity, strToDataMap, dataToStrMap);
-
-    Graph graph;
-    for (const auto& l : lines) {
-        istringstream iss(l);
-        string city1, city2;
-        while (iss >> city1 >> city2) {
-            Data city1Data = stringToData(city1, strToDataMap, dataToStrMap);
-            Data city2Data = stringToData(city2, strToDataMap, dataToStrMap);
-            graph[city1Data].push_back(city2Data);
-            graph[city2Data].push_back(city1Data);
+        Data startData = stringToData(startCity, strToDataMap, dataToStrMap);
+        Data endData = stringToData(endCity, strToDataMap, dataToStrMap);
+        Graph graph;
+        for (const auto& l : lines) {
+            istringstream iss(l);
+            string city1, city2;
+            while (iss >> city1 >> city2) {
+                Data city1Data = stringToData(city1, strToDataMap, dataToStrMap);
+                Data city2Data = stringToData(city2, strToDataMap, dataToStrMap);
+                Data maxCityData = max(city1Data, city2Data);
+                if (graph.size() <= maxCityData) {
+                    graph.resize(maxCityData + 1);
+                }
+                graph[city1Data].push_back(city2Data);
+                graph[city2Data].push_back(city1Data);
+            }
         }
-    }
 
-    vector<Data> path = bfsShortestPath(graph, startData, endData);
 
-    ofstream output("output.txt");
-    if (!path.empty()) {
-        for (Data data : path) {
-            output << dataToString(data, dataToStrMap) << " ";
+        vector<Data> path = bfsShortestPath(graph, startData, endData);
+
+        ofstream output("output.txt");
+        if (!path.empty()) {
+            for (Data data : path) {
+                output << dataToString(data, dataToStrMap) << " ";
+            }
         }
+        else {
+            output << "No path found.";
+        }
+        output.close();
     }
-    else {
-        output << "No path found.";
+    else
+    {
+        cerr << "Input file is empty or does not contain any lines." << endl;
+        return 1;
     }
-    output.close();
-
     return 0;
 }
