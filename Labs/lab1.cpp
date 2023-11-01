@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int task1(Array* arr) {
+void task1(Array* arr) {
 
     size_t size = array_size(arr);
     size_t maxLength = 0;
