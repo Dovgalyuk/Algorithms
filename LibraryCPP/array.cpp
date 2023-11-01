@@ -1,6 +1,11 @@
 #include <iostream>
 #include "array.h"
 
+struct Array {
+    int* dynamArray;
+    size_t size;
+};
+
 // create array
 Array* array_create(size_t size)
 {

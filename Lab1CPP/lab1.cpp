@@ -2,6 +2,11 @@
 #include <random>
 #include "array.h"
 
+struct Array {
+    int* dynamArray;
+    size_t size;
+};
+
 void task1(Array* arr)
 {
     // этот метод создает псевдорандомные числа от 1 до 100
