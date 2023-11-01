@@ -103,7 +103,7 @@ int main() {
                 Data city1Data = stringToData(city1, strToDataMap, dataToStrMap);
                 Data city2Data = stringToData(city2, strToDataMap, dataToStrMap);
                 Data maxCityData = max(city1Data, city2Data);
-                if (graph.size() <= maxCityData) {
+                if ((Data)graph.size() <= maxCityData) {
                     graph.resize(maxCityData + 1);
                 }
                 graph[city1Data].push_back(city2Data);
