@@ -1,9 +1,12 @@
 #include <iostream>
 #include "stack.h"
-#include <cctype> // Для isdigit
 #include <string>
 
 using namespace std;
+
+bool isDigit(char c) {
+    return c >= '0' && c <= '9';
+}
 
 int main() {
     Stack* stack = stack_create();
@@ -16,7 +19,7 @@ int main() {
         cin >> operation;
 
         if (operation == "x") {
-            break; // Выход из цикла при вводе 'q'
+            break; // Выход из цикла при вводе 'x'
         }
         else if (operation == "PUSH") {
             string param;
@@ -34,12 +37,12 @@ int main() {
             else if (param == "D") {
                 stack_push(stack, registers[3]);
             }
-            else if (param.length() == 1 && isdigit(param[0])) {
+            else if (param.length() == 1 && isDigit(param[0])) {
                 Data data = stoi(param);
                 stack_push(stack, data);
             }
             else {
-                cout << "PUSH operator is incorrect" << param << endl;
+                cout << "PUSH operator is incorrect: " << param << endl;
             }
         }
         else if (operation == "POP") {
