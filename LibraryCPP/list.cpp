@@ -59,6 +59,7 @@ ListItem* list_insert(List* list, Data data) {
     return newItem;
 }
 
+
 ListItem* list_insert_after(List* list, ListItem* item, Data data) {
     if (!item) {
         return nullptr;

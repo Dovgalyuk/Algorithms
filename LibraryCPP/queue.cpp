@@ -1,6 +1,8 @@
 #include "queue.h"
 #include "list.h"
 
+Data emptyPoint = { -1, -1 }; // Используйте некорректные значения для обозначения отсутствия данных
+
 struct Queue {
     List* list;
 };
@@ -25,7 +27,7 @@ Data queue_get(const Queue* queue) {
     if (item) {
         return list_item_data(item);
     }
-    return -1;
+    return emptyPoint; // Вернуть специальное значение для пустой очереди
 }
 
 void queue_remove(Queue* queue) {
