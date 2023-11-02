@@ -9,7 +9,7 @@ void task(Stack* stack)
     int temp2;
     bool sign = false;
     char c=0;
-    for (size_t i = 0; c!='\n'; i++)
+    while ( c!='\n')
     {
      
         cin.get(c);
@@ -91,7 +91,7 @@ int main()
     Stack* stack = stack_create();
 
     task(stack);
-    while (stack_empty(stack) != true)
+    while (!stack_empty(stack))
     {
         cout << stack_get(stack) << endl;
         stack_pop(stack);
