@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void main() {
+int main() {
     string filename = "input.txt";
     Stack* stack = stack_create();
     unordered_map<char, int> registers = { {'A', 0}, {'B', 0}, {'C', 0}, {'D', 0} };
@@ -56,4 +56,6 @@ void main() {
     stack_delete(stack);
 
     for (std::pair<char, int> element : registers) cout << element.first << " = " << element.second << endl;
+
+    return 0;
 }
