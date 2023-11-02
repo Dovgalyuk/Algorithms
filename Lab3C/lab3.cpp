@@ -2,24 +2,24 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <map>
 #include "queue.h"
 #include <algorithm>
 
 using namespace std;
 typedef vector<vector<Data>> Graph;
-typedef vector<pair<string, Data>> StringToDataMap;
+typedef map<string, Data> StringToDataMap;
 typedef vector<string> DataToStringMap;
 
 Data stringToData(const string& str, StringToDataMap& strToDataMap, DataToStringMap& dataToStrMap) {
     static Data nextData = 0;
-    for (auto& pair : strToDataMap) {
-        if (pair.first == str) {
-            return pair.second;
-        }
+    auto it = strToDataMap.find(str);
+    if (it == strToDataMap.end()) {
+        strToDataMap[str] = nextData;
+        dataToStrMap.push_back(str);
+        return nextData++;
     }
-    strToDataMap.push_back(make_pair(str, nextData));
-    dataToStrMap.push_back(str);
-    return nextData++;
+    return it->second;
 }
 
 string dataToString(Data data, DataToStringMap& dataToStrMap) {
