@@ -4,6 +4,7 @@
 #include <stack>
 #include <sstream>
 #include <unordered_map>
+#include "stack.h"
 
 using namespace std;
 
