@@ -48,7 +48,7 @@ bool checkHtmlTags(const string& inputFile, const string& outputFile) {
         outFile.close();
     }
     
-    stack_delete(stack);
+stack_delete(stack);
     
     return true;
 }
