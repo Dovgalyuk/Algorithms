@@ -47,8 +47,8 @@ int main() {
             registers[param] = value;
         }
         else {
-            cerr << "Invalid operation: " << line << endl;
-            return;
+            cout << "Invalid operation: " << line << endl;
+            return 0;
         }
     }
 
