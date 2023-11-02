@@ -15,8 +15,8 @@ int main() {
 
     ifstream inputFile(filename);
     if (!inputFile) {
-        cerr << "Failed to open input file." << endl;
-        return;
+        cout << "Failed to open input file." << endl;
+        return 0;
     }
 
     string line;
