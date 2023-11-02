@@ -1,3 +1,5 @@
+#include "list.h"
+
 struct Stack
 {
     List *list;
