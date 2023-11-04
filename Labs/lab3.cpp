@@ -8,6 +8,7 @@ struct Point {
     int x, y;
 };
 
+
 int bfs(char maze[MAX_SIZE][MAX_SIZE], Point start, int rows, int cols) {
     Queue* queue = queue_create();
     bool visited[MAX_SIZE][MAX_SIZE] = {false};
@@ -36,7 +37,10 @@ int bfs(char maze[MAX_SIZE][MAX_SIZE], Point start, int rows, int cols) {
 
             if (newX >= 0 && newX < rows && newY >= 0 && newY < cols &&
                 maze[newX][newY] != '#' && !visited[newX][newY]) {
-                queue_insert(queue, {newX, newY});
+                Data newData;
+                newData.x = newX;
+                newData.y = newY;
+                queue_insert(queue, newData);
                 distance[newX][newY] = distance[current.x][current.y] + 1;
                 visited[newX][newY] = true;
             }
