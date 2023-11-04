@@ -1,34 +1,76 @@
+#include <cstddef> 
 #include "array.h"
+#include <iostream>
+
+using namespace std;
+
+typedef int Data; 
+
 
 struct Array
 {
+	Data* data; 
+	size_t size; 
 };
 
-// create array
-Array *array_create(size_t size)
+Array* array_create(size_t size)
 {
-    return new Array;
+	Array* arr = new Array;
+	arr->data = new Data[size]; 
+	arr->size = size;
+	return arr;
 }
 
-// delete array, free memory
-void array_delete(Array *arr)
+
+void array_delete(Array* arr)
 {
-    delete arr;
+	delete[] arr->data; 
+	delete arr;
 }
 
-// returns specified array element
-Data array_get(const Array *arr, size_t index)
+Data array_get(const Array* arr, size_t index)
 {
-    return (Data)0;
+	if (index < arr->size)
+	{
+		return arr->data[index];
+	}
+	return Data();
 }
 
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value)
+
+void array_set(Array* arr, size_t index, Data value)
 {
+	if (index < arr->size)
+	{
+		arr->data[index] = value;
+	}
 }
 
-// returns array size
-size_t array_size(const Array *arr)
+size_t array_size(const Array* arr)
 {
-    return 0;
+	return arr->size;
+}
+
+
+int main()
+{
+	size_t size = 10; 
+	Array* arr = array_create(size); 
+
+	
+	for (size_t i = 0; i < size; ++i)
+	{
+		array_set(arr, i, i * 2);
+	}
+
+	
+	for (size_t i = 0; i < size; ++i)
+	{
+		cout << "arr[" << i << "] = " << array_get(arr, i) << std::endl;
+	}
+
+	
+	array_delete(arr);
+
+	return 0;
 }
