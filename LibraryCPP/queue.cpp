@@ -1,6 +1,7 @@
 #include "queue.h"
 #include "list.h"
 
+
 Data emptyPoint = { -1, -1 }; // Используйте некорректные значения для обозначения отсутствия данных
 
 struct Queue {
@@ -18,7 +19,7 @@ void queue_delete(Queue* queue) {
     delete queue;
 }
 
-void queue_insert(Queue* queue, Data data) {
+void queue_insert(Queue* queue,  Data data) {
     list_insert(queue->list, data);
 }
 
