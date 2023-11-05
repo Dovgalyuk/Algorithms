@@ -1,65 +1,51 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
 
-template <typename Data>
-class Array {
+template <typename Data> class Array
+{
 public:
     // create array
-    explicit Array(size_t size) {
-        this->data = new Data[size];
-        this->size_array = size;
-    }
-
-    // delete array, free memory
-    ~Array() {
-        delete[] data;
+    explicit Array(size_t size)
+    {
     }
 
     // copy constructor
-    Array(const Array<Data>& a) {
-        size_array = a.size_array;
-        data = new Data[size_array];
-        for (size_t i = 0; i < size_array; i++) {
-            data[i] = a.data[i];
-        }
+    template <typename T>
+    Array(const Array<T> &a)
+    {
     }
 
     // assignment operator
-    Array& operator=(const Array<Data>& a) {
-        if (this == &a) {
-            // self-assignment, do nothing
-            return *this;
-        }
-
-        // delete current data
-        delete[] data;
-
-        // deep copy
-        size_array = a.size_array;
-        data = new Data[size_array];
-        for (size_t i = 0; i < size_array; i++) {
-            data[i] = a.data[i];
-        }
-
+    template <typename T>
+    Array &operator=(const Array<T> &a)
+    {
         return *this;
     }
 
+    // delete array, free memory
+    ~Array()
+    {
+    }
+
     // returns specified array element
-    Data* get(size_t index) const {
-        return &data[index];
+    Data get(size_t index) const
+    {
+        return Data(0);
     }
 
     // sets the specified array element to the value
-    void set(size_t index, Data value) {
-        data[index] = value;
+    void set(size_t index, Data value)
+    {
     }
 
     // returns array size
-    size_t size() const { return this->size_array; }
+    size_t size() const
+    {
+        return 0;
+    }
 
-    size_t size_array;
 private:
-    Data* data;
+    // private data should be here
 };
 
 #endif
