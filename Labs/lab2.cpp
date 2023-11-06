@@ -20,7 +20,7 @@ int main() {
     vector_set(registers, 2, 0);
     vector_set(registers, 3, 0);
 
-    vector_set(strings, 0, 'A')
+    vector_set(strings, 0, 'A');
     vector_set(strings, 1, 'B');
     vector_set(strings, 2, 'C');
     vector_set(strings, 3, 'D');
@@ -28,7 +28,7 @@ int main() {
     ifstream inputFile(filename);
     if (!inputFile) {
         cerr << "Failed to open input file." << endl;
-        return;
+        return 0;
     }
 
     string line;
@@ -62,12 +62,12 @@ int main() {
         }
         else {
             cerr << "Invalid operation: " << line << endl;
-            return;
+            return 0;
         }
     }
 
     inputFile.close();
     stack_delete(stack);
-    for (int i = 0; i < 4; i++) cout << vector_get(strings, i) << " = " << vector_get(registers, i)] << endl;
+    for (int i = 0; i < 4; i++) cout << vector_get(strings, i) << " = " << vector_get(registers, i) << endl;
     return 0;
 }
