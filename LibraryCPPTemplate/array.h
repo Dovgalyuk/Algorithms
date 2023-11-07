@@ -1,65 +1,66 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
 
+// Объявляем шаблонный класс Array для работы с массивами произвольного типа Data
 template <typename Data>
 class Array {
 public:
-    // create array
+    // Конструктор для создания массива
     explicit Array(size_t size) {
-        this->data = new Data[size];
-        this->size_array = size;
+        this->data = new Data[size]; // Выделение памяти под массив
+        this->size_array = size;     // Запоминание размера массива
     }
 
-    // delete array, free memory
+    // Деструктор для уничтожения массива и освобождения памяти
     ~Array() {
-        delete[] data;
+        delete[] data; // Освобождение памяти
     }
 
-    // copy constructor
+    // Конструктор копирования
     Array(const Array<Data>& a) {
-        size_array = a.size_array;
-        data = new Data[size_array];
+        size_array = a.size_array;         // Копирование размера массива
+        data = new Data[size_array];       // Выделение памяти под копию массива
         for (size_t i = 0; i < size_array; i++) {
-            data[i] = a.data[i];
+            data[i] = a.data[i];           // Копирование элементов массива
         }
     }
 
-    // assignment operator
+    // Оператор присваивания
     Array& operator=(const Array<Data>& a) {
         if (this == &a) {
-            // self-assignment, do nothing
+            // Проверка на самоприсваивание
             return *this;
         }
 
-        // delete current data
+        // Удаление текущих данных
         delete[] data;
 
-        // deep copy
-        size_array = a.size_array;
-        data = new Data[size_array];
+        // Глубокое копирование
+        size_array = a.size_array;        // Копирование размера массива
+        data = new Data[size_array];      // Выделение памяти под новый массив
         for (size_t i = 0; i < size_array; i++) {
-            data[i] = a.data[i];
+            data[i] = a.data[i];          // Копирование элементов массива
         }
 
-        return *this;
+        return *this; // Возвращение текущего объекта
     }
 
-    // returns specified array element
+    // Возвращает указатель на элемент массива по индексу
     Data* get(size_t index) const {
         return &data[index];
     }
 
-    // sets the specified array element to the value
+    // Устанавливает значение элемента массива по индексу
     void set(size_t index, Data value) {
         data[index] = value;
     }
 
-    // returns array size
+    // Возвращает размер массива
     size_t size() const { return this->size_array; }
 
-    size_t size_array;
+    size_t size_array; // Переменная для хранения размера массива
 private:
-    Data* data;
+    Data* data; // Указатель на массив
 };
 
-#endif
+#endif // ARRAY_TEMPLATE_H
