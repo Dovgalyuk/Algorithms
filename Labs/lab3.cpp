@@ -14,7 +14,7 @@ void buildGraph(vector<string>& reactions) {
         size_t arrowPos = reaction.find("->");
         int src = reaction[0] - 'A';
         int dest = reaction[arrowPos + 2] - 'A';
-        graph[src].push_back(dest); 
+        graph[src].push_back(dest);
     }
 }
 
@@ -30,19 +30,20 @@ void bfs(int start) {
         if (start != node) {
             cout << static_cast<char>(node + 'A') << endl;
         }
-        for (const auto& neighbor : graph[node]){
+        for (const auto& neighbor : graph[node]) {
             if (!visited[neighbor]) {
                 queue_insert(q, neighbor);
                 visited[neighbor] = true;
             }
         }
     }
+    queue_delete(q);
 }
 
 int main() {
     string Sub;
     cin >> Sub;
-    cin.ignore(); 
+    cin.ignore();
 
     vector<string> reactions;
     string reaction;
