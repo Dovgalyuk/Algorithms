@@ -20,22 +20,22 @@ void free_function(void *p) {
     free(p);
 }
 
-void printArray(Array *arr, char *nameMonth[12], size_t daysMonth[12]) {
-    size_t m = 0, mD = 0;
-    printf("Array: \n");
-    while(m != 12 && mD != array_size(arr)){
-        printf("%s :\n", nameMonth[m]);
-        for (size_t i = 0 ; i < daysMonth[m] && mD != array_size(arr); i++)
-        {
-            printf("%d ", *(int*)array_get(arr, mD));
-            mD++;
-            if(mD == array_size(arr) || i + 1  == daysMonth[m]) {
-                printf("[%ld]\n", i+1);
-            }
-        }
-        m++;
-    }
-}
+//void printArray(Array *arr, char *nameMonth[12], size_t daysMonth[12]) {
+//    size_t m = 0, mD = 0;
+//    printf("Array: \n");
+//    while(m != 12 && mD != array_size(arr)){
+//        printf("%s :\n", nameMonth[m]);
+//        for (size_t i = 0 ; i < daysMonth[m] && mD != array_size(arr); i++)
+//        {
+//            printf("%d ", *(int*)array_get(arr, mD));
+//            mD++;
+//            if(mD == array_size(arr) || i + 1  == daysMonth[m]) {
+//                printf("[%ld]\n", i+1);
+//            }
+//        }
+//        m++;
+//    }
+//}
 
 size_t rainfallYear(Array *arr, char *nameMonth[12], size_t daysMonth[12], int result[12]) {
     size_t m = 0, mD = 0;
@@ -81,9 +81,9 @@ void task1(Array *arr)
         *d = rand()%MAX_RAINFALL;
         array_set(arr, i, d);
     }
-    printArray(arr, nameMonth, daysMonth);
-    m = rainfallYear(arr, nameMonth, daysMonth, rainfallMonth);
-    printf("Precipitation per year: \n");
+    //printArray(arr, nameMonth, daysMonth);
+    //m = rainfallYear(arr, nameMonth, daysMonth, rainfallMonth);
+    //printf("Precipitation per year: \n");
     for (size_t i = 0 ; i < m; i++)
     {
         printf("%d ", rainfallMonth[i]);
