@@ -27,7 +27,6 @@ Array *array_create(size_t size, FFree f)
     return result;
 }
 
-
 // delete array, free memory
 void array_delete(Array *arr)
 {
@@ -42,31 +41,40 @@ void array_delete(Array *arr)
     }
 }
 
-
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    if (index < arr->size) {
-        return arr->value[index];
-    } else {
+    if (arr == NULL) {
+        fprintf(stderr, "Error: array is NULL\n");
+        exit(1);
+    }
+    if (index >= arr->size) {
         fprintf(stderr, "Error: index %zu is out of bounds\n", index);
         exit(1);
     }
+    return arr->value[index];
 }
 
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
-    if (index < arr->size) { 
-        arr->value[index] = value;
-    } else {
+    if (arr == NULL) {
+        fprintf(stderr, "Error: array is NULL\n");
+        exit(1);
+    }
+    if (index >= arr->size) {
         fprintf(stderr, "Error: index %zu is out of bounds\n", index);
         exit(1);
     }
+    arr->value[index] = value;
 }
 
 // returns array size
 size_t array_size(const Array *arr)
 {
+    if (arr == NULL) {
+        fprintf(stderr, "Error: array is NULL\n");
+        exit(1);
+    }
     return arr->size;
 }
