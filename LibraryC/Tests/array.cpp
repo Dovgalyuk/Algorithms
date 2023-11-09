@@ -8,7 +8,7 @@ int main()
     if (array_size(arr) != 10)
     {
         std::cout << "Invalid array size\n";
-        array_delete(arr);
+        array_delete(arr, [](void *p) { delete (int*)p; });
         return 1;
     }
 
@@ -24,10 +24,10 @@ int main()
         if (*(int*)array_get(arr, i) != i * 2)
         {
             std::cout << "Invalid array element " << i << "\n";
-            array_delete(arr);
+            array_delete(arr, [](void *p) { delete (int*)p; });
             return 1;
         }
     }
 
-    array_delete(arr);
+    array_delete(arr, [](void *p) { delete (int*)p; });
 }

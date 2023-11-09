@@ -19,15 +19,11 @@ Array *array_create(size_t size, FFree f)
     return result;
 }
 
-void free_function(void *p) {
-    free(p);
-}
-
 // delete array, free memory
-void array_delete(Array *arr)
+void array_delete(Array *arr, FFree f)
 {
     for (size_t i = 0; i < arr->size; i++) {
-        free_function;
+        f(arr[i].value);
     }
     free(arr);
 }
