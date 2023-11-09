@@ -27,7 +27,7 @@ void free_function(void *p) {
 void array_delete(Array *arr)
 {
     for (size_t i = 0; i < arr->size; i++) {
-        free_function(arr[i].value);
+        free_function;
     }
     free(arr);
 }
