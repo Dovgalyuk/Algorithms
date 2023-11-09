@@ -30,4 +30,10 @@ int main()
     }
 
     array_delete(arr);
+    for (int i = 0; i < array_size; ++i) {
+        delete arr[i];
+    }
+    delete[] arr;
+    
+    return 0;
 }
