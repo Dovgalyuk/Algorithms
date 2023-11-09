@@ -18,7 +18,7 @@ Array *array_create(size_t size, FFree f)
     result->size = size;
     result->value = malloc(sizeof(Data) * size);
     if (result->value == NULL) {
-        free(result);
+        free(result); // освобождаем память для структуры Array
         return NULL;
     }
     return result;
@@ -27,7 +27,9 @@ Array *array_create(size_t size, FFree f)
 // delete array, free memory
 void array_delete(Array *arr)
 {
-    free(arr->value);
+    for (int i = 0; i < arr->size; i++) {
+        free(arr->value[i]);
+    }
     free(arr);
 }
 
