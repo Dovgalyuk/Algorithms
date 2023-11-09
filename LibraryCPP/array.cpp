@@ -2,11 +2,12 @@
 
 struct Array
 {
-    const size_t size;
+    size_t size;
     Data *values;
 
-    ~Array() {
-        delete this;
+    Array(size_t size) {
+        this->size = size;
+        this->values = new Data[size];
     }
 };
 
