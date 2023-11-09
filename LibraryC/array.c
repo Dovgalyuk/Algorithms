@@ -5,6 +5,7 @@
 typedef struct Array
 {
     size_t size;
+    FFree FFreef;
     Data value;
 } Array;
 
@@ -16,7 +17,7 @@ Array *array_create(size_t size, FFree f)
         return NULL;
     }
     result->size = size;
-    result->FFree = f; 
+    result->FFreef = f; 
     return result;
 }
 
