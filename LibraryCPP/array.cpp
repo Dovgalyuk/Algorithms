@@ -2,15 +2,13 @@
 
 struct Array
 {
-    size_t size;
+    const size_t size;
     Data *values;
 };
 
 Array *array_create(size_t size)
 {
-    Array *arr = new Array;
-    arr->size = size;
-    arr->values = new Data[size];
+    Array *arr = new Array{size, new Data[size]};
     return arr;
 }
 

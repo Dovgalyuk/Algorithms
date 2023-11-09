@@ -37,7 +37,7 @@ void free_function(void *p) {
 //    }
 //}
 
-size_t rainfallYear(Array *arr, char *nameMonth[12], size_t daysMonth[12], int result[12]) {
+size_t rainfallYear(Array *arr, size_t daysMonth[12], int result[12]) {
     size_t m = 0, mD = 0;
     int sum;
     while(m != 12 && mD != array_size(arr)){
@@ -82,7 +82,7 @@ void task1(Array *arr)
         array_set(arr, i, d);
     }
     //printArray(arr, nameMonth, daysMonth);
-    //m = rainfallYear(arr, nameMonth, daysMonth, rainfallMonth);
+    m = rainfallYear(arr, daysMonth, rainfallMonth);
     //printf("Precipitation per year: \n");
     for (size_t i = 0 ; i < m; i++)
     {
