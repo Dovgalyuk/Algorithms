@@ -19,7 +19,7 @@ extern "C" {
 Array *array_create(size_t size, FFree f);
 
 // delete array, free memory
-void array_delete(Array *arr, FFree f);
+void array_delete(Array *arr);
 
 // returns specified array element
 Data array_get(const Array *arr, size_t index);
