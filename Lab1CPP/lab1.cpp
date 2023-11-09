@@ -8,14 +8,12 @@
 
 using namespace std;
 
-void task1(Array *arr);
+Array *task1();
 
 
 int main()
 {
-    Array *arr = NULL;
-    /* Create array here */
-    task1(arr);
+    Array *arr = task1();
     if (arr != NULL) {
         array_delete(arr);
     }
@@ -54,8 +52,9 @@ size_t rainfallYear(Array *arr, size_t daysMonth[12], int result[12]) {
     return m;
 }
 
-void task1(Array *arr)
+Array *task1()
 {
+    Array *arr = nullptr;
     size_t daysMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     //string nameMonth[] = {"Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"};
     size_t size = 0, m = 0;
@@ -87,4 +86,5 @@ void task1(Array *arr)
         cout << rainfallMonth[i] << " ";
     }
     cout << endl;
+    return arr;
 }
