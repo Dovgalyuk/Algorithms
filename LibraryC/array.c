@@ -11,7 +11,7 @@ typedef struct Array
 // create array
 Array *array_create(size_t size, FFree f)
 {
-    Array *result = malloc(sizeof(Array));
+    Array *result = malloc(sizeof(Array) * size); 
     if (result == NULL) {
         return NULL;
     }
@@ -28,7 +28,12 @@ void array_delete(Array *arr)
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    return arr[index].value;
+    if (index < arr->size) {
+        return arr[index].value;
+    } else {
+        fprintf(stderr, "Error: index %zu is out of bounds\n", index);
+        exit(1);
+    }
 }
 
 // sets the specified array element to the value
