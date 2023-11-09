@@ -4,6 +4,10 @@ struct Array
 {
     const size_t size;
     Data *values;
+
+    ~Array() {
+        delete this;
+    }
 };
 
 Array *array_create(size_t size)
