@@ -3,10 +3,12 @@
 
 typedef struct ListItem
 {
+        Data value;
 } ListItem;
 
 typedef struct List
 {
+        Data value;
 } List;
 
 List *list_create(FFree f)

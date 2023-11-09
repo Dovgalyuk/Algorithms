@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include "queue.h"
 
+
 typedef struct Queue
 {
+        Data value;
 } Queue;
 
 Queue *queue_create(FFree f)

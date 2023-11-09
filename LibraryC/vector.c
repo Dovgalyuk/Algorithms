@@ -3,6 +3,7 @@
 
 typedef struct Vector
 {
+        Data value;
 } Vector;
 
 Vector *vector_create(FFree f)

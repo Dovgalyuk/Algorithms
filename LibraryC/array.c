@@ -3,12 +3,19 @@
 
 typedef struct Array
 {
+    size_t size;
+    Data value;
 } Array;
 
 // create array
 Array *array_create(size_t size, FFree f)
 {
-    return malloc(sizeof(Array));
+    Array *result = malloc(sizeof(Array));
+    if (result == NULL) {
+        return NULL;
+    }
+    result->size = size;
+    return result;
 }
 
 // delete array, free memory
@@ -20,16 +27,17 @@ void array_delete(Array *arr)
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    return (Data)0;
+    return arr[index].value;
 }
 
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
+    arr[index].value = value;
 }
 
 // returns array size
 size_t array_size(const Array *arr)
 {
-    return 0;
+    return arr->size;
 }
