@@ -56,7 +56,7 @@ size_t rainfallYear(Array *arr, char *nameMonth[12], size_t daysMonth[12], int r
 void task1(Array *arr)
 {
     size_t daysMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    char *nameMonth[] = {"Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"};
+    //char *nameMonth[] = {"Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"};
     size_t size, m = 0;
     int rainfallMonth[12];
     if(!scanf("%zu", &size) || size > MAX_DAYS + 1 || size < 1) {
