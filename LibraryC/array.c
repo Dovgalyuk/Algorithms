@@ -19,11 +19,6 @@ Array *array_create(size_t size, FFree f)
     return result;
 }
 
-// delete array, free memory
-void array_delete(Array *arr)
-{
-    free(arr);
-}
 
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
@@ -51,4 +46,13 @@ void array_set(Array *arr, size_t index, Data value)
 size_t array_size(const Array *arr)
 {
     return arr->size;
+}
+
+// delete array, free memory
+void array_delete(Array *arr)
+{
+    for(size_t i = 0; i < array_size(arr); i++){
+        free(arr[i].value);
+    }
+    free(arr);
 }

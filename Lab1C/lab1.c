@@ -13,7 +13,9 @@ int main()
     Array *arr = NULL;
     /* Create array here */
     task1(arr);
-    array_delete(arr);
+    if(arr != NULL) {
+        array_delete(arr);
+    }
 }
 
 void free_function(void *p) {
