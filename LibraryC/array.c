@@ -16,15 +16,18 @@ Array *array_create(size_t size, FFree f)
         return NULL;
     }
     result->size = size;
-    //result->FFreef = f; 
     return result;
 }
 
+void free_function(void *p) {
+    free(p);
+}
+
 // delete array, free memory
-void array_delete(Array *arr, FFree f)
+void array_delete(Array *arr)
 {
     for (size_t i = 0; i < arr->size; i++) {
-        f(arr[i].value);
+        free_function(arr[i].value);
     }
     free(arr);
 }
