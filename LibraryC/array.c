@@ -21,6 +21,9 @@ Array *array_create(size_t size, FFree f)
         free(result);
         return NULL;
     }
+    for (size_t i = 0; i < size; ++i) {
+        result->value[i] = NULL;
+    }
     return result;
 }
 
