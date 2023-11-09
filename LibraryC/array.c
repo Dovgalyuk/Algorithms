@@ -5,7 +5,7 @@
 typedef struct Array
 {
     size_t size;
-    FFree FFree;
+    FFree *Free;
     Data value;
 } Array;
 
@@ -17,7 +17,7 @@ Array *array_create(size_t size, FFree f)
         return NULL;
     }
     result->size = size;
-    result->FFree = f;
+    result->Free = f;
     return result;
 }
 
@@ -25,7 +25,7 @@ Array *array_create(size_t size, FFree f)
 void array_delete(Array *arr)
 {
     for (size_t i = 0; i < arr->size; i++) {
-        arr[i].FFree(arr[i].value);
+        arr[i].Free(arr[i].value);
     }
     free(arr);
 }
