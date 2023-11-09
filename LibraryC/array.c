@@ -51,7 +51,7 @@ size_t array_size(const Array *arr)
 // delete array, free memory
 void array_delete(Array *arr)
 {
-    for(size_t i = 0; i < array_size(arr); i++){
+    for(size_t i = 0; i < array_size(arr); i++) {
         free(arr[i].value);
     }
     free(arr);
