@@ -33,7 +33,12 @@ Data array_get(const Array *arr, size_t index)
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
-    arr[index].value = value;
+    if (index < arr->size) { 
+        arr[index].value = value;
+    } else {
+        fprintf(stderr, "Error: index %zu is out of bounds\n", index);
+        exit(1);
+    }
 }
 
 // returns array size
