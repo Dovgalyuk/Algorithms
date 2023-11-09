@@ -18,18 +18,22 @@ Array *array_create(size_t size, FFree f)
     result->size = size;
     result->value = malloc(sizeof(Data) * size);
     if (result->value == NULL) {
-        free(result); // освобождаем память для структуры Array
+        free(result);
         return NULL;
     }
     return result;
 }
 
+
 // delete array, free memory
 void array_delete(Array *arr)
 {
-    free(arr->value);
-    free(arr);
+    if (arr != NULL) {
+        free(arr->value);
+        free(arr);
+    }
 }
+
 
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
