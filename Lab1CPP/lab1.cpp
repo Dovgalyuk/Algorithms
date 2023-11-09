@@ -16,7 +16,9 @@ int main()
     Array *arr = NULL;
     /* Create array here */
     task1(arr);
-    array_delete(arr);
+    if (arr != NULL) {
+        array_delete(arr);
+    }
 }
 
 //void printArray(Array *arr, string nameMonth[12], size_t daysMonth[12]) {
@@ -71,14 +73,14 @@ void task1(Array *arr)
     {
         cout << "Invalid array size\n";
         array_delete(arr);
-        return;
+        exit(1);
     }
 
     for (size_t i = 0; i < array_size(arr); i++) {
         array_set(arr, i, rand()%MAX_RAINFALL);
     }
     //printArray(arr, nameMonth, daysMonth);
-    //m = rainfallYear(arr, nameMonth, daysMonth, rainfallMonth);
+    m = rainfallYear(arr, nameMonth, daysMonth, rainfallMonth);
     //cout << "Precipitation per year: \n";
     for (size_t i = 0 ; i < m; i++)
     {
