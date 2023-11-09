@@ -13,7 +13,7 @@ struct Array
 
 Array *array_create(size_t size)
 {
-    Array *arr = new Array{size, new Data[size]};
+    Array *arr = new Array(size);
     return arr;
 }
 
