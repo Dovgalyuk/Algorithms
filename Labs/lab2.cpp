@@ -68,6 +68,7 @@ int main() {
 
     inputFile.close();
     stack_delete(stack);
+    vector_delete(vector);
     for (int i = 0; i < 4; i++) cout << vector_get(strings, i) << " = " << vector_get(registers, i) << endl;
     return 0;
 }
