@@ -8,12 +8,14 @@
 
 using namespace std;
 
-Array *task1();
+void task1(Array *&arr);
 
 
 int main()
 {
-    Array *arr = task1();
+    Array *arr = NULL;
+    /* Create array here */
+    task1(arr);
     if (arr != NULL) {
         array_delete(arr);
     }
@@ -52,11 +54,9 @@ size_t rainfallYear(Array *arr, size_t daysMonth[12], int result[12]) {
     return m;
 }
 
-Array *task1()
+void task1(Array *&arr)  // Использование передачи по ссылке
 {
-    Array *arr = nullptr;
     size_t daysMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    //string nameMonth[] = {"Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"};
     size_t size = 0, m = 0;
     int rainfallMonth[12];
     if (!(cin >> size) || size > MAX_DAYS + 1 || size < 1) {
@@ -64,27 +64,24 @@ Array *task1()
         exit(1);
     }
 
-    if(size == MAX_DAYS + 1) {
+    if (size == MAX_DAYS + 1) {
         daysMonth[1]++;
     }
     arr = array_create(size);
-    if (array_size(arr) != size)
-    {
+    if (array_size(arr) != size) {
         cout << "Invalid array size\n";
         array_delete(arr);
         exit(1);
     }
 
     for (size_t i = 0; i < array_size(arr); i++) {
-        array_set(arr, i, rand()%MAX_RAINFALL);
+        array_set(arr, i, rand() % MAX_RAINFALL);
     }
-    //printArray(arr, nameMonth, daysMonth);
+
     m = rainfallYear(arr, daysMonth, rainfallMonth);
-    //cout << "Precipitation per year: \n";
-    for (size_t i = 0 ; i < m; i++)
-    {
+
+    for (size_t i = 0; i < m; i++) {
         cout << rainfallMonth[i] << " ";
     }
     cout << endl;
-    return arr;
 }
