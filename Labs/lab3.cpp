@@ -1,83 +1,95 @@
 #include <iostream>
+#include <string>
 #include <fstream>
+#include <vector>
+#include <climits>
 #include "queue.h"
 
-const int MAX_SIZE = 100;
+using namespace std;
 
-struct Point {
-    int x, y;
-};
+vector<string> Read(int& sx, int& sy, Queue* queue) {
+    vector<string> labyrinth;
+    string strbuf;
+    ifstream inFile("input.txt");
 
-
-int bfs(char maze[MAX_SIZE][MAX_SIZE], Point start, int rows, int cols) {
-    Queue* queue = queue_create();
-    bool visited[MAX_SIZE][MAX_SIZE] = {false};
-    int distance[MAX_SIZE][MAX_SIZE];
-
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            distance[i][j] = -1;
-        }
+    if (!inFile.is_open()) {
+        cout << "Error: Unable to open the input file." << endl;
+        exit(EXIT_FAILURE);
     }
 
-    queue_insert(queue, start);
-    distance[start.x][start.y] = 0;
-    visited[start.x][start.y] = true;
+    int k = 0;
+    while (getline(inFile, strbuf)) {
+        labyrinth.push_back(strbuf);
+        for (size_t i = 0; i < labyrinth[k].size(); i++) {
+            if (labyrinth[k][i] == 'X') {
+                sx = static_cast<int>(k);
+                sy = static_cast<int>(i);
+                queue_insert(queue, sx);
+                queue_insert(queue, sy);
+            }
+        }
+        k++;
+    }
+
+    inFile.close();
+    return labyrinth;
+}
+
+void BFS(vector<string>& labyrinth, int sx, int sy, int& nearestNumber, Queue* queue) {
+    const int rows = static_cast<int>(labyrinth.size());
+    const int cols = static_cast<int>(labyrinth[0].size());
+
+    vector<vector<bool>> visited(rows, vector<bool>(cols, false));
+
+    // Перемещение по соседним клеткам в ширину
+    const int dx[] = {-1, 0, 1, 0};
+    const int dy[] = {0, 1, 0, -1};
+
+    queue_insert(queue, sx);
+    queue_insert(queue, sy);
+    visited[sx][sy] = true;
 
     while (!queue_empty(queue)) {
-        Point current = queue_get(queue);
-        queue_remove(queue);
+        int x = queue_get(queue);
+		queue_remove(queue);
+		int y = queue_get(queue);
+		queue_remove(queue);
 
-        int dx[] = {-1, 1, 0, 0};
-        int dy[] = {0, 0, -1, 1};
+        // Проверка, содержит ли текущая клетка цифру
+        if (isdigit(labyrinth[x][y])) {
+            nearestNumber = labyrinth[x][y] - '0';
+            return;
+        }
+
 
         for (int i = 0; i < 4; ++i) {
-            int newX = current.x + dx[i];
-            int newY = current.y + dy[i];
+            int nx = x + dx[i];
+            int ny = y + dy[i];
 
-            if (newX >= 0 && newX < rows && newY >= 0 && newY < cols &&
-                maze[newX][newY] != '#' && !visited[newX][newY]) {
-                Data newData;
-                newData.x = newX;
-                newData.y = newY;
-                queue_insert(queue, newData);
-                distance[newX][newY] = distance[current.x][current.y] + 1;
-                visited[newX][newY] = true;
+            if (nx >= 0 && nx < rows && ny >= 0 && ny < cols && !visited[nx][ny] && labyrinth[nx][ny] != '#') {
+                visited[nx][ny] = true;
+                queue_insert(queue, nx);
+                queue_insert(queue, ny);
             }
         }
     }
-
-    int minDistance = MAX_SIZE * MAX_SIZE;
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            if (maze[i][j] >= '0' && maze[i][j] <= '9') {
-                minDistance = std::min(minDistance, distance[i][j]);
-            }
-        }
-    }
-
-    return minDistance;
 }
 
 int main() {
-    std::ifstream input("input.txt");
-    int rows, cols;
-    input >> rows >> cols;
-    char maze[MAX_SIZE][MAX_SIZE];
+    Queue* queue = queue_create();
+    int sx = 0, sy = 0;
+    int nearestNumber = -1;
 
-    Point start;
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            input >> maze[i][j];
-            if (maze[i][j] == 'X') {
-                start.x = i;
-                start.y = j;
-            }
-        }
+    vector<string> labyrinth = Read(sx, sy, queue);
+    BFS(labyrinth, sx, sy, nearestNumber, queue);
+
+    if (nearestNumber != -1) {
+        cout << nearestNumber << endl;
+    } else {
+        cout << "IMPOSSIBLE" << endl;
     }
 
-    int result = bfs(maze, start, rows, cols);
-    std::cout << result << std::endl;
+    queue_delete(queue);
 
     return 0;
 }

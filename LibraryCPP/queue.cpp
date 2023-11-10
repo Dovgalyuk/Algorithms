@@ -1,40 +1,57 @@
 #include "queue.h"
 #include "list.h"
 
-
-Data emptyPoint = { -1, -1 }; // Используйте некорректные значения для обозначения отсутствия данных
-
-struct Queue {
-    List* list;
+struct Queue
+{
+    List* list = list_create();
+    ListItem* last = nullptr; 
 };
 
-Queue* queue_create() {
-    Queue* queue = new Queue;
-    queue->list = list_create();
-    return queue;
+Queue* queue_create()
+{
+    return new Queue;
 }
 
-void queue_delete(Queue* queue) {
+void queue_delete(Queue* queue)
+{
     list_delete(queue->list);
     delete queue;
 }
 
-void queue_insert(Queue* queue,  Data data) {
-    list_insert(queue->list, data);
-}
-
-Data queue_get(const Queue* queue) {
-    ListItem* item = list_first(queue->list);
-    if (item) {
-        return list_item_data(item);
+void queue_insert(Queue* queue, Data data)
+{
+    if (queue->last)
+    {
+        queue->last = list_insert_after(queue->list, queue->last, data);
     }
-    return emptyPoint; // Вернуть специальное значение для пустой очереди
+    else
+    {
+        queue->last = list_insert(queue->list, data);
+    }
 }
 
-void queue_remove(Queue* queue) {
-    list_erase_first(queue->list);
+Data queue_get(const Queue* queue)
+{
+    if (queue_empty(queue)) 
+    {
+        return (Data)0;
+    }
+    return list_item_data(list_first(queue->list));
 }
 
-bool queue_empty(const Queue* queue) {
+void queue_remove(Queue* queue)
+{
+    if (!queue_empty(queue))
+    {
+        list_erase_first(queue->list);
+        if (queue_empty(queue))
+        {
+            queue->last = nullptr;
+        }
+    }
+}
+
+bool queue_empty(const Queue* queue)
+{
     return list_first(queue->list) == nullptr;
 }
