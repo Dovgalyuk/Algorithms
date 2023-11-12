@@ -29,9 +29,7 @@ extern "C" {
 	// Returns list item following after the specified one
 	ListItem* list_item_next(ListItem* item);
 
-	// Returns previous element for the specified item.
-	// Not applicable for the singly linked lists.
-	ListItem* list_item_prev(ListItem* item);
+	
 
 	// Inserts new list item into the beginning
 	ListItem* list_insert(List* list, Data data);

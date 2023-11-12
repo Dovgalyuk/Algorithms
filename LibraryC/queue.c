@@ -5,6 +5,7 @@
 typedef struct Queue
 {
 	List* list;
+	
 } Queue;
 
 Queue* queue_create(ffree f)
@@ -27,7 +28,7 @@ void queue_insert(Queue* queue, Data data)
 		list_insert(queue->list, data);
 		return;
 	}
-	list_insert_after(queue->list, list_item_prev(list_first(queue->list)), data);
+	list_insert_after(queue->list, list_first(queue->list), data);
 }
 
 Data queue_get(const Queue* queue)

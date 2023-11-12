@@ -28,7 +28,7 @@ void list_delete(List* list)
 	ListItem* item = list->Head;
 
 	while (item != NULL) {
-		ListItem* Next = item->Next;
+		ListItem* next = item->Next;
 		if (list->deleter != NULL)
 			list->deleter(item->Value);
 		else
@@ -57,10 +57,7 @@ ListItem* list_item_next(ListItem* item)
 	return item->Next;
 }
 
-ListItem* list_item_prev(ListItem* item)
-{
-	
-}
+
 
 ListItem* list_insert(List* list, Data data)
 {
