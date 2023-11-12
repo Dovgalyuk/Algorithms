@@ -17,7 +17,7 @@ int main() {
 	};
 	char z;
 	int count=1;
-	int kordinata;
+	int kordinata=0;
 	for (int a = 0; a < 5; a++)
 		for (int b = 0; b < 6; b++)
 		{
@@ -72,7 +72,7 @@ int main() {
 			count++;
 
 		}
-		if ((z & 10 - 1) >=0 && lab[z / 10][z % 10 - 1] == '.')
+		if ((z % 10 - 1) >=0 && lab[z / 10][z % 10 - 1] == '.')
 		{
 			int* p = (int*)malloc(sizeof(int));
 			*p = z - 1;
