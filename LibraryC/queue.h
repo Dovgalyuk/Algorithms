@@ -1,43 +1,30 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include <stdbool.h>
-
 // Queue
-// Stores pointer to custom user data
-typedef void* Data;
-// Custom function to free user pointers on delete
-typedef void (ffree)(void*);
+// Stores integer values inside
+typedef int Data;
 
-typedef struct Queue Queue;
+struct Queue;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+// Create empty queue
+Queue* queue_create();
 
-	// Create empty queue
-	Queue* queue_create(ffree f);
+// Deletes queue
+void queue_delete(Queue* queue);
 
-	// Deletes queue
-	void queue_delete(Queue* queue);
+// Includes new element into the queue
+// Should be O(1) on average
+void queue_insert(Queue* queue, Data data);
 
-	// Includes new element into the queue
-	// Should be O(1) on average
-	void queue_insert(Queue* queue, Data data);
+// Retrieves first element from the queue
+Data queue_get(const Queue* queue);
 
-	// Retrieves first element from the queue
-	Data queue_get(const Queue* queue);
+// Removes first element from the queue
+// Should be O(1) on average
+void queue_remove(Queue* queue);
 
-	// Removes first element from the queue
-	// Should be O(1) on average
-	void queue_remove(Queue* queue);
-
-	// Returns true if the queue is empty
-	bool queue_empty(const Queue* queue);
-
-#ifdef __cplusplus
-}
-#endif
+// Returns true if the queue is empty
+bool queue_empty(const Queue* queue);
 
 #endif
-
