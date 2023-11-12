@@ -3,59 +3,152 @@
 
 typedef struct ListItem
 {
+	Data Value;
+	ListItem* Next;
+	
 } ListItem;
 
 typedef struct List
 {
+	ListItem* Head;
+	
+	FFree* deleter;
 } List;
 
-List *list_create(FFree f)
+List* list_create(FFree f)
 {
-    return malloc(sizeof(List));
+	List* newList = (List*)malloc(sizeof(List));
+	newList->Head = NULL;
+	newList->deleter = f;
+	return newList;
 }
 
-void list_delete(List *list)
+void list_delete(List* list)
 {
-    // TODO: free items
-    free(list);
+	ListItem* item = list->Head;
+
+	while (item != NULL) {
+		ListItem* next = item->Next;
+		if (list->deleter != NULL)
+			list->deleter(item->Value);
+		else
+			free(item->Value);
+		free(item);
+		
+	}
+
+	free(list);
+	list = NULL;
 }
 
-ListItem *list_first(List *list)
+ListItem* list_first(List* list)
 {
-    return NULL;
+	return list->Head;
 }
 
-Data list_item_data(const ListItem *item)
+Data list_item_data(const ListItem* item)
 {
-    return (Data)0;
+	if (item == NULL) return (Data)0;
+	return item->Value;
 }
 
-ListItem *list_item_next(ListItem *item)
+ListItem* list_item_next(ListItem* item)
 {
-    return NULL;
+	return item->Next;
 }
 
-ListItem *list_item_prev(ListItem *item)
+ListItem* list_item_prev(ListItem* item)
 {
-    return NULL;
+	
 }
 
-ListItem *list_insert(List *list, Data data)
+ListItem* list_insert(List* list, Data data)
 {
-    return NULL;
+	ListItem* newItem = (ListItem*)malloc(sizeof(ListItem));
+
+	newItem->Value = data;
+
+	if (list->Head == NULL) {
+		list->Head = newItem;
+	
+		newItem->Next = list->Head;
+		
+		return newItem;
+	}
+
+	newItem->Next = list->Head;
+	
+	
+
+	list->Head = newItem;
+	return newItem;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
+ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
-    return NULL;
+	ListItem* newItem = (ListItem*)malloc(sizeof(ListItem));
+
+	newItem->Value = data;
+
+	
+	newItem->Next = item->Next;
+	item->Next = newItem;
+
+	
+
+	return newItem;
 }
 
-ListItem *list_erase_first(List *list)
+ListItem* list_erase_first(List* list)
 {
-    return NULL;
+	ListItem* first = list->Head;
+
+	
+		free(first->Value);
+		free(first);
+		list->Head = NULL;
+		
+		return NULL;
+	
+
+
+	list->Head = list_item_next(first);
+
+	if (list->deleter != NULL)
+		list->deleter(first->Value);
+	else
+		free(first->Value);
+	free(first);
+	first = NULL;
+
+	return list->Head;
 }
 
-ListItem *list_erase_next(List *list, ListItem *item)
+ListItem* list_erase_next(List* list, ListItem* item)
 {
-    return NULL;
+	ListItem* forDel = item->Next;
+
+	if (item == forDel) {
+		if (list->deleter != NULL)
+			list->deleter(forDel->Value);
+		else
+			free(forDel->Value);
+		free(forDel);
+		list->Head = NULL;
+		
+		return NULL;
+	}
+
+	item->Next = forDel->Next;
+	
+
+	if (forDel == list->Head)
+		list->Head = forDel->Next;
+
+	if (list->deleter != NULL)
+		list->deleter(forDel->Value);
+	else
+		free(forDel->Value);
+	free(forDel);
+	return item->Next;
 }
