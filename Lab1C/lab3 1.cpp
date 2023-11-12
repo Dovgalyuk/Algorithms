@@ -96,4 +96,5 @@ int main() {
 			cout << lab[a][b];
 		cout << "\n";
 	}
+	queue_remove(a);
 }
