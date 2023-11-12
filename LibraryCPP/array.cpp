@@ -3,6 +3,7 @@
 struct Array
 {
    Data* data;
+
    size_t size;
 
    Array(size_t size) {
