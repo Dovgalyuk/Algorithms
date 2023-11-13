@@ -6,20 +6,22 @@
 using namespace std;
 
 int main() {
+	int stroki, dlstrok;
+	cout << "vveditecolvo strok";
+	cin >> stroki;
+	string lab[100]; 
+	for (int a = 0; a < stroki; a++)
+	{
+		cin >> lab[a];
+	}
+	
 
-
-	string lab[5] = {
-	"######",
-	"#...X#",
-	"#.####",
-	"#....#",
-	"######"
-	};
 	char z;
 	int count = 1;
 	int kordinata = 0;
-	for (int a = 0; a < 5; a++)
-		for (int b = 0; b < 6; b++)
+	dlstrok = lab[0].length();
+	for (int a = 0; a < stroki; a++)
+		for (int b = 0; b < dlstrok; b++)
 		{
 
 			z = lab[a][b];
