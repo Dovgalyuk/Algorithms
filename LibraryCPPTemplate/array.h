@@ -14,16 +14,17 @@ public:
 
     // copy constructor
     template <typename T>
-    Array(Array<T> &a)
+    explicit Array(Array<T> a)
     {
         ptr = new Data[a._size];
         for (size_t i = 0; i < a._size; i++)
             ptr[i] = (Data)a.ptr[i];
+        _size = a._size;
     }
 
     // assignment operator
     template <typename T>
-    Array &operator=(const Array<T> &a)
+    Array &operator=(const Array<T> a)
     {
         delete[] ptr;
         ptr = new Data[a._size];
