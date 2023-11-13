@@ -52,7 +52,6 @@ void task2(Array<int> *arr)
 int main()
 {
     Array<int> *arr = nullptr;
-
     /* Create array here */
 
     size_t size;

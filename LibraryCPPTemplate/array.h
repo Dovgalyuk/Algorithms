@@ -1,70 +1,75 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
+#include <cstddef>
+#include <algorithm>
 
 template <typename Data>
 class Array
 {
 public:
     // create array
-    explicit Array(size_t length)
+    explicit Array(std::size_t size = 0) : mSize(size),
+                                           mArray(mSize ? new Data[mSize] : nullptr)
+
     {
-        ptr = new Data[length];
-        this->_size = length;
     }
 
     // copy constructor
-    template <typename T>
-    explicit Array(Array<T> &a)
+    Array(const Array &other) : mSize(other.mSize),
+                                mArray(mSize ? new Data[mSize] : nullptr)
     {
-        delete ptr;
-        ptr = new Data[a._size];
-        for (size_t i = 0; i < a._size; i++)
-            ptr[i] = (Data)a.ptr[i];
-        _size = a._size;
+        std::copy(other.mArray, other.mArray + mSize, mArray);
+    }
+
+    // Move constructor
+    Array(const Array &&other) noexcept : Array()
+    {
+        swap(*this, other);
     }
 
     // assignment operator
-    template <typename T>
-    Array &operator=(const Array<T> a)
+    Array &
+    operator=(const Array other)
     {
-        delete[] ptr;
-        ptr = new Data[a._size];
-        for (size_t i = 0; i < a._size; i++)
-            ptr[i] = (Data)a.ptr[i];
-        _size = a._size;
+        swap(*this, other);
         return *this;
     }
 
     // delete array, free memory
     ~Array()
     {
-        delete[] ptr;
-        ptr = nullptr;
-        _size = 0;
+        delete[] mArray;
     }
 
     // returns specified array element
-    Data get(size_t index) const
+    Data get(std::size_t index) const
     {
-        return ptr[index];
+        return mArray[index];
     }
 
     // sets the specified array element to the value
-    void set(size_t index, Data value)
+    void set(std::size_t index, Data value)
     {
-        ptr[index] = value;
+        mArray[index] = value;
     }
 
     // returns array size
-    size_t size() const
+    std::size_t size() const
     {
-        return _size;
+        return mSize;
+    }
+
+    friend void swap(Array &first, Array &second)
+    {
+        using std::swap;
+        swap(first.mSize, second.mSize);
+        swap(first.mArray, second.mArray);
     }
 
 private:
     // private data should be here
-    Data *ptr = nullptr;
-    size_t _size;
+    std::size_t mSize;
+    Data *mArray;
 };
 
 #endif
