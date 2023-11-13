@@ -1,116 +1,38 @@
-#include <iostream>
-#include "array.h"
-#include <time.h> 
-#include <random>
+#include <stdio.h>  
+#include <stdio.h> 
 
-using namespace std;
+int main() {
+    int Y[24];
+    int Q[6][4];
+    int i, j;
+    int count = 0;
 
-Array* create() {
-    size_t size;
-    Array* arr = NULL; // Создаем массив без заданного размера
-    cout << "what about size of array? " << endl;
-    while (true) {
-        cin >> size; // Вводим размер массива
+    printf("Введите элементы массива Y:\n");
 
-        if (cin.fail()) { // Если ввод не удался
-            cout << "Incorrect input" << endl;
-            cin.clear(); // Очищаем флаг ошибки
-            cin.ignore(32767, '\n'); // Очищаем буфер ввода
-        }
-        else {   
-           
-            arr = array_create(size); // Создаем массив указанного размера
-            for (size_t i = 0; i < size; i++) {
-                int j = rand() % 2; // Генерируем случайное число: 0 или 1
-                if (j == 0) {
-                    array_set(arr, i, (rand() % 100) * -1); // Если число 0, то генерируем отрицательное число
-                }
-                else {
-                    array_set(arr, i, (rand() % 100)); // Если число 1, то генерируем положительное число
-                }
-            }
-            break;
-        }
-        
-    }
-    return arr; // Возвращаем созданный массив
-}
-
-void first(Array* arr) {
-    size_t size = array_size(arr); // Получаем размер массива
-    Data elem = 0;
-    Data sum = 0;
-    Data summinus = 0;
-    float ariph = 0;
-    Data count = 0;
-    Data countminus = 0;
-    for (size_t i = 0; i < size; i++) {
-        elem = array_get(arr, i); // Получаем элемент массива по индексу
-        if (elem > 0) {
-            sum += elem;// Суммируем все элементы массива
-            count++; // Увеличиваем счетчик
-        }
-        else {
-            summinus += elem;
-            countminus++;
-        }
-         
-        
+    for (i = 0; i < 24; i++) {
+        scanf("%d", &Y[i]);
     }
 
-    ariph = ((float)sum / (float)count); // Вычисляем среднее арифметическое положительных
-    cout << "The positive arithmetic mean of this array" << endl << ariph << endl; // Выводим среднее арифметическое
-    ariph = 0;
-    ariph = ((float)summinus / (float)countminus);// Вычисляем среднее арифметическое отрицательных
-    cout << "Negative arithmetic mean of this array" << endl << ariph << endl; // Выводим среднее арифметическое
-    
-}
+    printf("\nМассив Y:\n");
 
-void second(Array* arr) {
-    size_t size = array_size(arr); // Получаем размер массива
-    Data elem = 0;
-    Data elemsec = 0;
+    for (i = 0; i < 24; i++) {
+        printf("%d ", Y[i]);
 
-    for (size_t i = 0; i < size; i++) {
-        elem = array_get(arr, i); // Получаем элемент массива по индексу
-        int count = 1;
-        for (size_t j = 0; j < size; j++) {
-            elemsec = array_get(arr, j); // Получаем второй элемент массива по индексу
-            if (elem == elemsec && i != j) { // Если элементы равны, но индексы не совпадают
-                count++; // Увеличиваем счетчик        
-            }
+        if ((i + 1) % 4 == 0) {
+            printf("\n");
         }
-        if (count == 2) { // Если count равно 2, то элемент повторяется один раз
-            cout << elem << " "; // Выводим элемент      
+    }
+
+    printf("\n\nМатрица Q:\n");
+
+    for (i = 0; i < 6; i++) {
+        for (j = 0; j < 4; j++) {
+            Q[i][j] = Y[count];
+            count++;
+            printf("%d ", Q[i][j]);
         }
-        array_set(arr, i, -1000); // Заменяем элемент на -1000
+        printf("\n");
     }
-}
 
-
-void print(const Array* arr) {
-    size_t size = array_size(arr); // Получаем размер массива
-    cout << "Look on your array: " << endl;
-    for (size_t i = 0; i < size; i++) {
-        cout << array_get(arr, i) << " "; // Выводим элементы массива
-    }
-    cout << endl;
-}
-
-int main()
-{
-    srand(time(NULL)); // Инициализируем генератор случайных чисел
-    Array* arr = NULL;
-
-    cout << "task1" << endl;
-    arr = create(); // Создаем массив
-    print(arr); // Выводим массив на экран
-    first(arr); // Выполняем первое задание
-    array_delete(arr); // Удаляем массив
-
-    cout << "task2" << endl;
-    arr = create(); // Создаем массив
-    print(arr); // Выводим массив на экран
-    second(arr); // Выполняем второе задание 
-    array_delete(arr);
+    return 0;
 }
