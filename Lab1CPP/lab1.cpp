@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include "../LibraryCPPTemplate/array.h"
 
@@ -56,7 +56,7 @@ int main()
     /* Create array here */
 
     size_t size;
-    scanf("%zu", &size);
+    std::cin >> size;
     arr = new Array<int>(size);
 
     for (size_t i = 0; i < arr->size(); i++)
@@ -67,7 +67,7 @@ int main()
 
     /* Create another array here */
 
-    scanf("%zu", &size);
+    std::cin >> size;
     arr = new Array<int>(size);
 
     for (size_t i = 0; i < arr->size(); i++)
