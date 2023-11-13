@@ -1,95 +1,61 @@
 #include "queue.h"
-#include "vector.h"
+#include "vector.h" 
 
 struct Queue
 {
-    Vector* vector;
-    ptrdiff_t head;
-    ptrdiff_t rear;
-
-    Queue() {
-        vector = vector_create();
-        vector_resize(vector, 2);
-        head = -1;
-        rear = -1;
-    }
-    ~Queue() {
-        vector_delete(vector);
-    }
+    Vector* data;  // Использование библиотеки "vector" для хранения данных
 };
 
 Queue* queue_create()
 {
-    return new Queue;
+    Queue* queue = new Queue;
+    queue->data = vector_create();
+    return queue;
 }
 
 void queue_delete(Queue* queue)
 {
+    vector_delete(queue->data);
     delete queue;
 }
 
 void queue_insert(Queue* queue, Data data)
 {
-    size_t size = vector_size(queue->vector);
-    if (queue_empty(queue)) {
-        queue->rear = 0;
-        queue->head = 0;
-    }
-    else if (queue->rear % static_cast<int>(size) == queue->head) {
-        Vector* buff = vector_create();
-        vector_resize(buff, size * 2);
-
-        int counter = 0;
-
-        for (size_t i = queue->head; i < size; i++) {
-            vector_set(buff, counter, vector_get(queue->vector, i));
-            counter++;
-        }
-        for (int i = 0; i < queue->rear; i++) {
-            vector_set(buff, counter, vector_get(queue->vector, i));
-            counter++;
-        }
-        vector_delete(queue->vector);
-        queue->vector = buff;
-        queue->head = 0;
-        queue->rear = static_cast<int>(size);
-
-        size = vector_size(queue->vector);
-    }
-
-    auto rear = queue->rear % size;
-    vector_set(queue->vector, rear, data);
-    queue->rear = rear + 1;
+    // Вставка элемента в конец очереди
+    vector_resize(queue->data, vector_size(queue->data) + 1);
+    vector_set(queue->data, vector_size(queue->data) - 1, data);
 }
 
 Data queue_get(const Queue* queue)
 {
-    if (!queue_empty(queue)) {
-        Data value = vector_get(queue->vector, queue->head);
-        return value;
+    // Получение элемента из начала очереди
+    if (!queue_empty(queue))
+    {
+        return vector_get(queue->data, 0);
     }
-    return Data();
+    else
+    {
+        // Возвращаем какую-то дефолтную Data в случае пустой очереди
+        return (Data)0;
+    }
 }
 
 void queue_remove(Queue* queue)
 {
-    size_t size = vector_size(queue->vector);
-    auto head = queue->head;
-
-    if (!queue_empty(queue)) {
-        head++;
-
-        if (queue->rear == head) {
-            queue->head = -1;
-            queue->rear = -1;
+    // Удаление элемента из начала очереди
+    if (!queue_empty(queue))
+    {
+        // Сдвигаем все элементы влево
+        for (size_t i = 1; i < vector_size(queue->data); ++i)
+        {
+            vector_set(queue->data, i - 1, vector_get(queue->data, i));
         }
-        else {
-            queue->head = head % size;
-        }
+        // Уменьшаем размер на 1
+        vector_resize(queue->data, vector_size(queue->data) - 1);
     }
 }
 
 bool queue_empty(const Queue* queue)
 {
-    return (queue->rear == -1 && queue->head == -1);
+    return vector_size(queue->data) == 0;
 }
