@@ -12,6 +12,8 @@ void BFS(vector<string>& labyrinth, const int start_position_height, const int s
 
 	int past_item_position_height=-1, past_item_position_width=-1;
 
+	int change_coordinate[2][8] = { {-1,-1,-1,0,1,1,1,0}, {-1,0,1,1,1,0,-1,-1} }; //1st to y, 2nd to x
+
 	bool f_exit=0;
 
 	Queue* queue = queue_create();
@@ -27,52 +29,12 @@ void BFS(vector<string>& labyrinth, const int start_position_height, const int s
 		position_width = queue_get(queue);
 		queue_remove(queue);
 
-		for (int j = 1, x=0, y=0; j <= 8 && !f_exit; j++)  //SÑANNER
+		for (int j = 0, x=0, y=0; j < 8 && !f_exit; j++)  //SÑANNER
 		{
-			switch (j)
-			{
-			case 1:
-				y = position_height - 1;
-				x = position_width - 1;
-				break;
+			y = position_height + change_coordinate[0][j];
+			x = position_width + change_coordinate[1][j];
 
-			case 2:
-				y = position_height - 1;
-				x = position_width;
-				break;
-
-			case 3:
-				y = position_height - 1;
-				x= position_width + 1;
-				break;
-
-			case 4:
-				y = position_height;
-				x = position_width + 1;
-				break;
-
-			case 5:
-				y = position_height + 1;
-				x = position_width + 1;
-				break;
-
-			case 6:
-				y = position_height + 1;
-				x = position_width;
-				break;
-
-			case 7:
-				y = position_height + 1;
-				x = position_width - 1;
-				break;
-
-			case 8:
-				y = position_height;
-				x = position_width - 1;
-				break;
-			}
-
-			if (labyrinth[y][x] == *".")
+			if (labyrinth[y][x] == '.')
 			{
 				queue_insert(queue, y);
 				queue_insert(queue, x);
@@ -85,6 +47,8 @@ void BFS(vector<string>& labyrinth, const int start_position_height, const int s
 				cout << "\nOutput Data: " << labyrinth[y][x];
 			}
 		}
+
+		if (f_exit) break; //I unlike this. I wanted to leave the array unchanged. 
 
 		if (past_item_position_height >= 0) labyrinth[past_item_position_height][past_item_position_width] = *".";
 
