@@ -6,19 +6,25 @@
 using namespace std;
 
 int main() {
-	int stroki, dlstrok;
+	int stroki=5, dlstrok;
 	cout << "vveditecolvo strok";
 	cin >> stroki;
-	string lab[100]; 
+	string lab[100];
+
 	for (int a = 0; a < stroki; a++)
 	{
 		cin >> lab[a];
 	}
 	
 
+
 	char z;
 	int count = 1;
-	int kordinata = 0;
+	
+	Queue* x;
+	x = queue_create();
+	Queue* y;
+	y = queue_create();
 	dlstrok = lab[0].length();
 	for (int a = 0; a < stroki; a++)
 		for (int b = 0; b < dlstrok; b++)
@@ -28,63 +34,66 @@ int main() {
 
 			if (z == 'X')
 			{
-				kordinata = a * 10 + b;
-
+				queue_insert(x, b);
+				queue_insert(y, a);
+				
 				break;
 			}
+
 		}
-	Queue* a;
-	a = queue_create();
-	Data p;
 	
-	p = kordinata;
-	queue_insert(a, p);
+	
 	while (1)
 	{
 
-		Data z = queue_get(a);
+		Data x1 = queue_get(x);
+		queue_remove(x);
 
-		queue_remove(a);
-		if ((z / 10 + 1) <= 4 && lab[z / 10 + 1][z % 10] == '.')
+		Data y1 = queue_get(y);
+		queue_remove(y);
+
+		if (y1+1 <= stroki && lab[y1+1][x1] == '.')
 		{
+
 			
-			p = z + 10;
-
-			queue_insert(a, p);
-			lab[z / 10 + 1][z % 10] = 'X';
+			queue_insert(x, x1);
+			queue_insert(y, y1+1);
+			lab[y1 + 1][x1] = 'X';
 			count++;
 		}
-		if ((z / 10 + 1) >= 0 && lab[z / 10 - 1][z % 10] == '.')
+		if ((y1-1) >= 0 && lab[y1 - 1][x1] == '.')
 		{
-		
 
-			p = z - 10;
 
-			queue_insert(a, p);
-			lab[z / 10 + 1][z % 10] = 'X';
-			count++;
-		}
-		if ((z % 10 + 1) <= 5 && lab[z / 10][z % 10 + 1] == '.')
-		{
 			
 
-			p = z + 1;
-			queue_insert(a, p);
-			lab[z / 10][z % 10 + 1] = 'X';
+			queue_insert(x, x1);
+			queue_insert(y, y1 - 1);
+			lab[y1 - 1][x1] = 'X';
 			count++;
-
 		}
-		if ((z % 10 - 1) >= 0 && lab[z / 10][z % 10 - 1] == '.')
+		if ((x1+1) <= dlstrok && lab[y1][x1+1] == '.')
 		{
+
+			queue_insert(x, x1+1);
+			queue_insert(y, y1);
 			
-			p = z - 1;
-			queue_insert(a, p);
-			lab[z / 10][z % 10 - 1] = 'X';
+			lab[y1][x1 + 1] = 'X';
 			count++;
 
 		}
-		if (queue_empty(a))
+		if ((x1 - 1) >= 0 && lab[y1][x1 - 1] == '.')
+		{
+
+			queue_insert(x, x1 - 1);
+			queue_insert(y, y1);
+			lab[y1][x1 - 1] = 'X';
+			count++;
+
+		}
+		if (queue_empty(x))
 			break;
+
 
 	}
 	cout << count;
@@ -98,5 +107,6 @@ int main() {
 			cout << lab[a][b];
 		cout << "\n";
 	}
-	queue_remove(a);
+	queue_delete(x);
+	queue_delete(y);
 }
