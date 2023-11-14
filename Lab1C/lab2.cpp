@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "stack.h"
+using namespace std;
 
 
 
@@ -10,7 +11,7 @@ bool isOperator(char c) {
 }
 
 // Функция для получения ассемблерной операции по оператору
-std::string getAssemblyOperation(char op) {
+string getOperation(char op) {
     if (op == '+') {
         return "ADD";
     }
@@ -42,20 +43,20 @@ int getPriority(char op) {
 }
 
 // Функция для преобразования арифметического выражения в ассемблерный код
-void convertToAssembly(const std::string& expression) {
+void convertToAssembly(const string& expression) {
     Stack* stack = stack_create();
 
     for (char c : expression) {
         if (isdigit(c)) {
-            std::cout << "PUSH " << c << std::endl;
+            cout << "PUSH " << c << endl;
         }
         else if (isOperator(c)) {
             while (!stack_empty(stack) && getPriority(stack_get(stack)) >= getPriority(c)) {
                 if (stack_get(stack) != '(') {
-                    std::cout << "POP A\n";
-                    std::cout << "POP B\n";
-                    std::cout << getAssemblyOperation(stack_get(stack)) << " A, B\n";
-                    std::cout << "PUSH A\n";
+                    cout << "POP A\n";
+                    cout << "POP B\n";
+                    cout << getOperation(stack_get(stack)) << " A, B\n";
+                    cout << "PUSH A\n";
                 }
                 stack_pop(stack);
             }
@@ -66,20 +67,23 @@ void convertToAssembly(const std::string& expression) {
         }
         else if (c == ')') {
             while (!stack_empty(stack) && stack_get(stack) != '(') {
-                std::cout << "POP A\n";
-                std::cout << "POP B\n";
-                std::cout << getAssemblyOperation(stack_get(stack)) << " A, B\n";
-                std::cout << "PUSH A\n";
+                cout << "POP A\n";
+                cout << "POP B\n";
+                cout << getOperation(stack_get(stack)) << " A, B\n";
+                cout << "PUSH A\n";
                 stack_pop(stack);
+            }
+            if (!stack_empty(stack) && stack_get(stack) == '(') {
+                stack_pop(stack); 
             }
         }
     }
 
     while (!stack_empty(stack)) {
-        std::cout << "POP A\n";
-        std::cout << "POP B\n";
-        std::cout << getAssemblyOperation(stack_get(stack)) << " A, B\n";
-        std::cout << "PUSH A\n";
+        cout << "POP A\n";
+        cout << "POP B\n";
+        cout << getOperation(stack_get(stack)) << " A, B\n";
+        cout << "PUSH A\n";
         stack_pop(stack);
     }
 
@@ -87,11 +91,11 @@ void convertToAssembly(const std::string& expression) {
 }
 
 int main() {
-    std::string expression;
-    std::cout << "Enter the arithmetic expression: ";
-    getline(std::cin, expression);
+    string expression;
+    cout << "Enter the arithmetic expression: ";
+    getline(cin, expression); 
 
-    std::cout << "Converting to assembly:" << std::endl;
+    cout << "Converting to assembly:" << endl;
     convertToAssembly(expression);
 
     return 0;
