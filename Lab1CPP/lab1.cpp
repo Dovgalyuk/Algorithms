@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
-#include "../LibraryCPPTemplate/array.h"
+#include "array.h"
 
 void task1(Array<int> *arr)
 {
