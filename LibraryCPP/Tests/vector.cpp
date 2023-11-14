@@ -13,7 +13,7 @@ int main()
     }
 
     for (size_t i = 0; i < vector_size(vector); ++i)
-        vector_set(vector, i, (int)i);
+        vector_set(vector, i, (char)i);
 
     for (size_t i = 0; i < vector_size(vector); ++i)
     {
@@ -61,7 +61,7 @@ int main()
     for (int i = 1; i <= 10000000; ++i)
     {
         vector_resize(vector, i);
-        vector_set(vector, i - 1, i);
+        vector_set(vector, i - 1, (char)i);
     }
 
     long long sum = 0;
