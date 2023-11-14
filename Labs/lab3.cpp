@@ -1,121 +1,62 @@
 #include <iostream>
-#include "queue.h"
+#include <vector>
+#include "queue.h" // Подключаем вашу библиотеку queue
 
 using namespace std;
 
-struct MyQueueNode {
-    int vertex;
-    int distance;
-};
+int bfs(const std::vector<std::vector<int>>& graph, int start, int finish, Queue* queue) {
+    vector<bool> visited(graph.size(), false);
+    vector<int> distance(graph.size(), -1);
 
-struct MyQueue {
-    MyQueueNode* data;
-    size_t size;
-    size_t capacity;
+    visited[start] = true;
+    distance[start] = 0;
+    queue_insert(queue, start);
 
-    MyQueue() {
-        size = 0;
-        capacity = 1;
-        data = new MyQueueNode[capacity];
-    }
+    while (!queue_empty(queue)) {
+        int current = queue_get(queue);
+        queue_remove(queue);
 
+        for (size_t i = 0; i < graph[current].size(); ++i) {
+            if (graph[current][i] && !visited[i]) {
+                visited[i] = true;
+                distance[i] = distance[current] + 1;
+                queue_insert(queue, static_cast<Data>(i));
 
-    void push(const MyQueueNode& value) { //Добавление элемента в конец очереди
-        if (size == capacity) {
-            size_t newCapacity = capacity * 2;
-            MyQueueNode* newData = new MyQueueNode[newCapacity];
-            for (size_t i = 0; i < size; ++i) {
-                newData[i] = data[i];
-            }
-            delete[] data;
-            data = newData;
-            capacity = newCapacity;
-        }
-
-        data[size++] = value;
-    }
-
-    void pop() { //Удаление элемента из начала очереди
-        if (size > 0) {
-            for (size_t i = 1; i < size; ++i) {
-                data[i - 1] = data[i];
-            }
-            --size;
-        }
-    }
-
-    MyQueueNode front() const { // Возвращает первый элемент в очереди
-        if (size > 0) {
-            return data[0];
-        }
-        throw "Queue is empty";
-    }
-
-    bool empty() const { //Проверяет, является ли очередь пустой
-        return size == 0;
-    }
-};
-
-int shortestPath(int** graph, int vertices, int start, int finish) {
-    int* visited = new int[vertices](); // Массив для отслеживания посещенных вершин
-
-    MyQueue q;
-    q.push({ start, 0 });
-    visited[start] = 1;
-
-    while (!q.empty()) {
-        MyQueueNode current = q.front();
-        q.pop();
-
-        int currentVertex = current.vertex;
-        int currentDistance = current.distance;
-
-        if (currentVertex == finish) {
-            delete[] visited;
-            return currentDistance;
-        }
-
-        for (int i = 0; i < vertices; ++i) {
-            if (graph[currentVertex][i] == 1 && visited[i] == 0) {
-                q.push({ i, currentDistance + 1 });
-                visited[i] = 1;
+                if (i == finish) {
+                    return distance[i];
+                }
             }
         }
     }
 
-    delete[] visited;
-    return -1; // Если путь не найден
+    return -1;
 }
 
 int main() {
-    int vertices, start, finish;
-    cin >> vertices >> start >> finish;
+    int n, start, finish;
+    cin >> n >> start >> finish;
+    start--; // Уменьшаем на 1, чтобы использовать нумерацию с нуля
+    finish--;
 
-    //Чтение матрицы смежности
-    int** graph = new int* [vertices];
-    for (int i = 0; i < vertices; ++i) {
-        graph[i] = new int[vertices];
-        for (int j = 0; j < vertices; ++j) {
+    Queue* queue = queue_create();
+
+    vector<vector<int>> graph(n, vector<int>(n));
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
             cin >> graph[i][j];
         }
     }
 
-    //Поиск кратчайшего пути
-    int result = shortestPath(graph, vertices, start - 1, finish - 1);
+    int shortest_path_length = bfs(graph, start, finish, queue);
 
-    //Вывод результата
-    if (result == -1) {
+    if (shortest_path_length == -1) {
         cout << "IMPOSSIBLE" << endl;
     }
     else {
-        cout << result << endl;
+        cout << shortest_path_length << endl;
     }
 
-    //Освобождение памяти
-    for (int i = 0; i < vertices; ++i) {
-        delete[] graph[i];
-    }
-    delete[] graph;
+    queue_delete(queue);
 
     return 0;
 }
