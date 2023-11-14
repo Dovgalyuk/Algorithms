@@ -35,7 +35,7 @@ vector<string> Read(int& sx, int& sy, Queue* queue) {
     return labyrinth;
 }
 
-void BFS(vector<string>& labyrinth, int sx, int sy, int& nearestNumber, Queue* queue) {
+void BFS(const vector<string>& labyrinth, int sx, int sy, int& nearestNumber, Queue* queue) {
     const int rows = static_cast<int>(labyrinth.size());
     const int cols = static_cast<int>(labyrinth[0].size());
 
@@ -45,8 +45,7 @@ void BFS(vector<string>& labyrinth, int sx, int sy, int& nearestNumber, Queue* q
     const int dx[] = {-1, 0, 1, 0};
     const int dy[] = {0, 1, 0, -1};
 
-    queue_insert(queue, sx);
-    queue_insert(queue, sy);
+
     visited[sx][sy] = true;
 
     while (!queue_empty(queue)) {
@@ -61,7 +60,7 @@ void BFS(vector<string>& labyrinth, int sx, int sy, int& nearestNumber, Queue* q
             return;
         }
 
-
+        // Перебор соседних клеток
         for (int i = 0; i < 4; ++i) {
             int nx = x + dx[i];
             int ny = y + dy[i];

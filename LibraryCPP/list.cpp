@@ -1,5 +1,6 @@
 #include <cstddef>
 #include "list.h"
+#include <new> 
 
 struct ListItem
 {
@@ -75,7 +76,8 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
     if (item == nullptr)
         return nullptr;
-    ListItem* new_item = new ListItem{ data, nullptr, nullptr };
+
+    ListItem* new_item = new(std::nothrow) ListItem{ data, nullptr, nullptr };
     if (new_item == nullptr)
         return nullptr;
 
