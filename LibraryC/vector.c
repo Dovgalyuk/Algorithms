@@ -3,7 +3,6 @@
 
 typedef struct Vector
 {
-    int k;
 } Vector;
 
 Vector *vector_create(FFree f)

@@ -3,7 +3,6 @@
 
 typedef struct Queue
 {
-    int k;
 } Queue;
 
 Queue *queue_create(FFree f)
