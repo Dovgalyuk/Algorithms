@@ -79,5 +79,12 @@ int main() {
 	// Освобождение памяти, занятой хеш-таблицей
 	delete table;
 
+
+	//HashTable* table2 = new HashTable();
+	//table2->add("@","1");
+	//table2->add("P", "2");
+	//table2->del("@");
+	//cout<<(table2->find("P").second)<<endl;
+
 	return 0;
 }

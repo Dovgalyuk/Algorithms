@@ -79,43 +79,84 @@ private:
         return this->size + this->count_deleted >= this->capacity / 2;
     }
 
+    //// Алгоритм для определения индекса элемента в хеш-таблице
+    //static int algorithm(const std::string& key, Array<Element>* in_elements, int capa, bool& not_found) {
+    //    // Используем первую хеш-функцию для определения начального индекса элемента
+    //    int first_hash = FirstHashFunction(key, capa);
+    //    int final_hash = first_hash;
+
+    //    // Если начальная позиция занята и элемент не помечен как удалённый, проверяем её
+    //    if (!in_elements->get(final_hash)->key.empty() && !in_elements->get(final_hash)->deleted) {
+    //        // Если мы ищем элемент и он присутствует по этому индексу, сбрасываем not_found и возвращаем индекс
+    //        if (not_found && (key == in_elements->get(final_hash)->key)) {
+    //            not_found = false;
+    //            return final_hash;
+    //        }
+
+    //        // Рассчитываем индекс с помощью второй хеш-функции для разрешения коллизий
+    //        int second_hash = SecondHashFunction(key, capa);
+
+    //        // Начинаем итеративный процесс для нахождения нового индекса
+    //        int iter = 1;
+
+    //        // Применяем двойное хеширование для нахождения свободного индекса или индекса с искомым ключом
+    //        final_hash = (first_hash + iter * second_hash) % capa;
+
+    //        // Повторяем до тех пор, пока не найдём свободный индекс или индекс с ключом
+    //        while (!in_elements->get(final_hash)->key.empty() && !in_elements->get(final_hash)->deleted) {
+    //            // Если нашли индекс с искомым ключом и мы в режиме поиска, сбрасываем not_found и возвращаем индекс
+    //            if (not_found && key == in_elements->get(final_hash)->key) {
+    //                not_found = false;
+    //                return final_hash;
+    //            }
+    //            // Увеличиваем итератор и ищем следующий индекс
+    //            iter++;
+    //            final_hash = (first_hash + iter * second_hash) % capa;
+    //        }
+    //    }
+    //    // Возвращаем индекс, куда можно поместить новый элемент или где находится элемент с искомым ключом
+    //    return final_hash;
+    //}
+
     // Алгоритм для определения индекса элемента в хеш-таблице
     static int algorithm(const std::string& key, Array<Element>* in_elements, int capa, bool& not_found) {
-        // Используем первую хеш-функцию для определения начального индекса элемента
+        // Вычисляем начальный индекс с помощью первой хеш-функции
         int first_hash = FirstHashFunction(key, capa);
-        int final_hash = first_hash;
+        // Вычисляем шаг для двойного хеширования с помощью второй хеш-функции
+        int second_hash = SecondHashFunction(key, capa);
 
-        // Если начальная позиция занята и элемент не помечен как удалённый, проверяем её
-        if (!in_elements->get(final_hash)->key.empty() && !in_elements->get(final_hash)->deleted) {
-            // Если мы ищем элемент и он присутствует по этому индексу, сбрасываем not_found и возвращаем индекс
-            if (not_found && (key == in_elements->get(final_hash)->key)) {
-                not_found = false;
+        // Итератор для обхода хеш-таблицы при коллизиях
+        int iter = 0;
+        // Индекс первого встреченного удаленного элемента, инициализирован -1 (отсутствие такого элемента)
+        int first_deleted_index = -1;
+
+        // Цикл, который продолжается до нахождения подходящего индекса
+        while (true) {
+            // Вычисляем индекс, используя двойное хеширование
+            int final_hash = (first_hash + iter * second_hash) % capa;
+            // Получаем элемент по вычисленному индексу
+            Element* elem = in_elements->get(final_hash);
+
+            // Если элемент удален и мы еще не записали индекс удаленного элемента
+            if (elem->deleted && first_deleted_index == -1) {
+                first_deleted_index = final_hash;
+            }
+
+            // Если нашли пустую ячейку или ячейку с искомым ключом
+            if (elem->key.empty() || elem->key == key) {
+                // Если ключ не найден и есть индекс удаленного элемента, возвращаем его индекс
+                if (elem->key.empty() && first_deleted_index != -1 && not_found) {
+                    return first_deleted_index;
+                }
+
+                // Устанавливаем флаг not_found в зависимости от того, пустая ли ячейка
+                not_found = elem->key.empty();
                 return final_hash;
             }
 
-            // Рассчитываем индекс с помощью второй хеш-функции для разрешения коллизий
-            int second_hash = SecondHashFunction(key, capa);
-
-            // Начинаем итеративный процесс для нахождения нового индекса
-            int iter = 1;
-
-            // Применяем двойное хеширование для нахождения свободного индекса или индекса с искомым ключом
-            final_hash = (first_hash + iter * second_hash) % capa;
-
-            // Повторяем до тех пор, пока не найдём свободный индекс или индекс с ключом
-            while (!in_elements->get(final_hash)->key.empty() && !in_elements->get(final_hash)->deleted) {
-                // Если нашли индекс с искомым ключом и мы в режиме поиска, сбрасываем not_found и возвращаем индекс
-                if (not_found && key == in_elements->get(final_hash)->key) {
-                    not_found = false;
-                    return final_hash;
-                }
-                // Увеличиваем итератор и ищем следующий индекс
-                iter++;
-                final_hash = (first_hash + iter * second_hash) % capa;
-            }
+            // Увеличиваем итератор для следующего шага в пробировании
+            iter++;
         }
-        // Возвращаем индекс, куда можно поместить новый элемент или где находится элемент с искомым ключом
-        return final_hash;
     }
 
     // Функция расширения таблицы
