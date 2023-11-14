@@ -5,6 +5,7 @@ int main()
 {
     Queue *queue = queue_create();
 
+
     queue_insert(queue, 1);
     queue_insert(queue, 2);
     queue_insert(queue, 3);
@@ -45,6 +46,11 @@ int main()
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         queue_insert(queue, i);
+    }
+
+    for (int i = 10000000; i > 1; --i)
+    {
+        queue_remove(queue);
     }
 
     queue_delete(queue);
