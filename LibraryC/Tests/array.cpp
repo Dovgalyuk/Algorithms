@@ -1,5 +1,5 @@
 #include <iostream>
-#include "array.h"
+#include "../array.h"
 
 int main()
 {

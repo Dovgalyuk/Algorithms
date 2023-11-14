@@ -19,7 +19,7 @@ Array::~Array()
 
 Data Array::get(size_t index) const
 {
-    return (Data)0;
+    return Data(0);
 }
 
 void Array::set(size_t index, Data value)
