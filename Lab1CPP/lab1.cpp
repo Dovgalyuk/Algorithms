@@ -37,7 +37,7 @@ void task2(Array<int> *arr)
             j = 0;
             i++;
         }
-        if (j == arr->size() - 1)
+        else if (j == arr->size() - 1)
         {
             printf("%d; ", arr->get(i));
             j = 0;
