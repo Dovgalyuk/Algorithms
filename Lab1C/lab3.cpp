@@ -13,7 +13,7 @@ size_t FindRootIndex(vector<vector<string>> v, string root) {
 				return i;
 		}
 	}
-	return _CRT_SIZE_MAX;
+	return SIZE_MAX;
 }
 size_t FindRootIndexForNode(vector<vector<string>> v, string node, size_t start = 0) {
 	if (!v.empty() && (start < v.size())) {
@@ -23,7 +23,7 @@ size_t FindRootIndexForNode(vector<vector<string>> v, string node, size_t start 
 					return i;
 		}
 	}
-	return _CRT_SIZE_MAX;
+	return SIZE_MAX;
 }
 vector<vector<string>> InputGraph(string* start, string* end) {
 	vector<vector<string>> graph;
@@ -50,7 +50,7 @@ vector<vector<string>> InputGraph(string* start, string* end) {
 			}
 
 			size_t index = FindRootIndex(graph, node1);
-			if (index == _CRT_SIZE_MAX)
+			if (index == SIZE_MAX)
 				graph.push_back(vector<string> {node1});
 			index = FindRootIndex(graph, node1);
 			graph[index].push_back(node2);
@@ -80,13 +80,13 @@ vector<vector<string>> InputGraph(string* start, string* end) {
 vector<string> findNodes(vector<vector<string>>graph, string node) {
 	vector<string> nodes;
 	size_t index = FindRootIndex(graph, node);
-	if (index != _CRT_SIZE_MAX) {
+	if (index != SIZE_MAX) {
 		for (size_t i = 1;i < graph[index].size();i++) {
 			nodes.push_back(graph[index][i]);
 		}
 	}
 	index = FindRootIndexForNode(graph, node);
-	while (index != _CRT_SIZE_MAX) {
+	while (index != SIZE_MAX) {
 		nodes.push_back(graph[index][0]);
 		index = FindRootIndexForNode(graph, node, index + 1);
 	}
