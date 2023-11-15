@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void BFS(vector<string> &labyrinth, const int start_position_height, const int start_position_width)
+void BFS(vector<string>& labyrinth, const int start_position_height, const int start_position_width)
 {
 	int position_height = start_position_height, position_width = start_position_width;
 
@@ -21,7 +21,7 @@ void BFS(vector<string> &labyrinth, const int start_position_height, const int s
 	queue_insert(queue, position_height);
 	queue_insert(queue, position_width);
 
-	while (!f_exit)
+	while (!queue_empty(queue))
 	{
 		position_height = queue_get(queue);
 		queue_remove(queue);
