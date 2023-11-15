@@ -43,7 +43,7 @@ int main() {
 		}
 	
 	
-	while (1)
+	while (!queue_empty(x))
 	{
 
 		Data x1 = queue_get(x);
@@ -91,17 +91,15 @@ int main() {
 			count++;
 
 		}
-		if (queue_empty(x))
-			break;
-
+		
 
 	}
 	cout << count;
 	cout << "\n";
-	for (int a = 0; a < 5; a++)
+	for (int a = 0; a < stroki; a++)
 	{
 
-		for (int b = 0; b < 6; b++)
+		for (int b = 0;  b < dlstrok; b++)
 
 
 			cout << lab[a][b];
