@@ -7,7 +7,7 @@
 // Stores pointer to custom user data
 typedef void* Data;
 // Custom function to free user pointers on delete
-typedef void (FFree)(void*);
+typedef void (ffree)(void*);
 
 typedef struct Queue Queue;
 
@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 // Create empty queue
-Queue *queue_create(FFree f);
+Queue *queue_create(ffree f);
 
 // Deletes queue
 void queue_delete(Queue *queue);
