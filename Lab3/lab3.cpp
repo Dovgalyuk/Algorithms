@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void BFS(vector<string>& labyrinth, const int start_position_height, const int start_position_width)
+void BFS(vector<string> &labyrinth, const int start_position_height, const int start_position_width)
 {
 	int position_height = start_position_height, position_width = start_position_width;
 
@@ -21,7 +21,7 @@ void BFS(vector<string>& labyrinth, const int start_position_height, const int s
 	queue_insert(queue, position_height);
 	queue_insert(queue, position_width);
 
-	while (!queue_empty(queue))
+	while (!f_exit)
 	{
 		position_height = queue_get(queue);
 		queue_remove(queue);
@@ -29,7 +29,7 @@ void BFS(vector<string>& labyrinth, const int start_position_height, const int s
 		position_width = queue_get(queue);
 		queue_remove(queue);
 
-		if (!f_exit)
+		if (!f_exit) 
 		{
 			for (int j = 0, x = 0, y = 0; j < 8; j++)  //SÑANNER
 			{
@@ -40,10 +40,10 @@ void BFS(vector<string>& labyrinth, const int start_position_height, const int s
 				{
 					queue_insert(queue, y);
 					queue_insert(queue, x);
-					labyrinth[y][x] = *"#";
+					labyrinth[y][x] = '#';
 				}
 
-				else if (labyrinth[y][x] >= *"0" && labyrinth[y][x] <= *"9")
+				else if (labyrinth[y][x] >= '0' && labyrinth[y][x] <= '9')
 				{
 					f_exit = 1;
 					cout << "\nOutput Data: " << labyrinth[y][x];
@@ -52,7 +52,7 @@ void BFS(vector<string>& labyrinth, const int start_position_height, const int s
 			}
 		}
 
-		if (past_item_position_height >= 0) labyrinth[past_item_position_height][past_item_position_width] = *".";
+		if (past_item_position_height >= 0) labyrinth[past_item_position_height][past_item_position_width] = '.';
 
 		past_item_position_height = position_height;
 
@@ -60,9 +60,9 @@ void BFS(vector<string>& labyrinth, const int start_position_height, const int s
 
 	}
 
-	labyrinth[past_item_position_height][past_item_position_width] = *".";
+	labyrinth[past_item_position_height][past_item_position_width] = '.';
 
-	labyrinth[start_position_height][start_position_height] = *"X";
+	labyrinth[start_position_height][start_position_height] = 'X';
 }
 
 
@@ -85,13 +85,13 @@ int main()
 	{
 		input += ch;
 
-		if (ch == *"X")
+		if (ch == 'X')
 		{
 			position_height = heigh;
 			position_width = width;
 		}
 
-		else if (ch == *"\n")
+		else if (ch == '\n')
 		{
 			heigh++;
 			width = -1;
