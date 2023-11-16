@@ -42,8 +42,8 @@ int main() {
 
     // Удаление вершины и ребра
     g->removeEdge(1, 2);
-    g->removeVertex(3);
     std::cout << "YES";
+    g->removeVertex(3);
     // Проверка удаления
     if (!g->edgeExists(1, 2) && g->getVertexMark(3) == "") {
         std::cout << "Vertex and edge removal check passed." << std::endl;
