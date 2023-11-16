@@ -80,16 +80,13 @@ public:
         auto vertexItem = findVertexItem(vertexId);
         if (!vertexItem) return;
 
-        auto edge = edges.first();
-        while (edge) {
-            auto nextEdge = edge->next();
+        // Создаём копию списка рёбер, так как оригинальный список будет изменяться в процессе итерации
+        List<Edge*> edgesCopy = edges;
+
+        for (auto edge = edgesCopy.first(); edge; edge = edge->next()) {
             if (edge->data()->from == vertexItem->data() || edge->data()->to == vertexItem->data()) {
-                edge->data()->from = nullptr;
-                edge->data()->to = nullptr;
-                delete edge->data();
-                edges.erase_next(edge->prev());
+                removeEdge(edge->data()->from->id, edge->data()->to->id);
             }
-            edge = nextEdge;
         }
 
         delete vertexItem->data();
@@ -98,10 +95,10 @@ public:
 
 
     void removeEdge(int fromId, int toId) {
-        auto edge = findEdgeItem(fromId, toId);
-        if (edge) {
-            delete edge->data();
-            edges.erase_next(edge->prev());
+        auto edgeItem = findEdgeItem(fromId, toId);
+        if (edgeItem) {
+            delete edgeItem->data();
+            edges.erase_next(edgeItem->prev());
         }
     }
 
