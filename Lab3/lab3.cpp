@@ -6,11 +6,12 @@
 
 using namespace std;
 
+//variet in comment return labytinth with unchange
 void BFS(vector<string>& labyrinth, const int start_position_height, const int start_position_width)
 {
 	int position_height = start_position_height, position_width = start_position_width;
 
-	int past_item_position_height=-1, past_item_position_width=-1;
+	//int past_item_position_height=-1, past_item_position_width=-1;
 
 	int change_coordinate[2][8] = { {-1,-1,-1,0,1,1,1,0}, {-1,0,1,1,1,0,-1,-1} }; //1st to y, 2nd to x
 
@@ -21,7 +22,8 @@ void BFS(vector<string>& labyrinth, const int start_position_height, const int s
 	queue_insert(queue, position_height);
 	queue_insert(queue, position_width);
 
-	while (!queue_empty(queue))
+	//while (!queue_empty(queue))
+	while (!f_exit)
 	{
 		position_height = queue_get(queue);
 		queue_remove(queue);
@@ -29,8 +31,8 @@ void BFS(vector<string>& labyrinth, const int start_position_height, const int s
 		position_width = queue_get(queue);
 		queue_remove(queue);
 
-		if (!f_exit) 
-		{
+		//if (!f_exit) 
+		//{
 			for (int j = 0, x = 0, y = 0; j < 8; j++)  //SÑANNER
 			{
 				y = position_height + change_coordinate[0][j];
@@ -50,19 +52,19 @@ void BFS(vector<string>& labyrinth, const int start_position_height, const int s
 					break;
 				}
 			}
-		}
+		//}
 
-		if (past_item_position_height >= 0) labyrinth[past_item_position_height][past_item_position_width] = '.';
+		/*if (past_item_position_height >= 0) labyrinth[past_item_position_height][past_item_position_width] = '.';
 
 		past_item_position_height = position_height;
 
-		past_item_position_width = position_width;
+		past_item_position_width = position_width;*/
 
 	}
 
-	labyrinth[past_item_position_height][past_item_position_width] = '.';
+	/*labyrinth[past_item_position_height][past_item_position_width] = '.';
 
-	labyrinth[start_position_height][start_position_height] = 'X';
+	labyrinth[start_position_height][start_position_height] = 'X';*/
 }
 
 
