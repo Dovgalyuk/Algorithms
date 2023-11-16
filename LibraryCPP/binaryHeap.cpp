@@ -31,9 +31,9 @@ void binaryHeap_heapify(BinaryHeap* heap, int i)
       int right = i * 2 + 1;
       int smallest = i;
 
-      if (left <= heap->dataCount && huffman_getNodeWeight(heap->heapData[left - 1]) < huffman_getNodeWeight(heap->heapData[smallest - 1]))
+      if (left <= (int)heap->dataCount && huffman_getNodeWeight(heap->heapData[left - 1]) < huffman_getNodeWeight(heap->heapData[smallest - 1]))
          smallest = left;
-      if (right <= heap->dataCount && huffman_getNodeWeight(heap->heapData[left - 1]) < huffman_getNodeWeight(heap->heapData[smallest - 1]))
+      if (right <= (int)heap->dataCount && huffman_getNodeWeight(heap->heapData[left - 1]) < huffman_getNodeWeight(heap->heapData[smallest - 1]))
          smallest = right;
       if (i == smallest)
          break;
