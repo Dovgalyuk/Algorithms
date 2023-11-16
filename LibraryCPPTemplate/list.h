@@ -16,8 +16,8 @@ public:
 
         Item(Data data, Item* prev = nullptr, Item* next = nullptr) : _data(data), _prev(prev), _next(next) {}
 
-        Item* next() { return _next; }
         Item* prev() { return _prev; }
+        Item* next() { return _next; }
         Data data() const { return _data; }
     };
 
@@ -27,15 +27,15 @@ private:
     size_t _size;
 
 public:
-    
+
     List() : _head(nullptr), _tail(nullptr), _size(0) {}
     ~List()
     {
         while (_head)
         {
-            Item* temp = _head;
-            _head = _head->next();
-            delete temp;
+            Item* temp = _head->next();
+            delete _head;
+            _head = temp;
         }
     }
 
@@ -55,6 +55,18 @@ public:
         }
         _size++;
         return newItem;
+    }
+
+    List(const List& other) : _head(nullptr), _tail(nullptr), _size(0) { copy(other); }
+
+    List& operator=(const List& other)
+    {
+        if (this != &other)
+        {
+            clear();
+            copy(other);
+        }
+        return *this;
     }
 
     Item* insert_after(Item* item, Data data)
@@ -114,6 +126,26 @@ public:
     }
 
     size_t size() const { return _size; }
+private:
+    void copy(const List& other)
+    {
+        for (Item* item = other._head; item; item = item->next())
+        {
+            insert(item->data());
+        }
+    }
+
+    void clear()
+    {
+        while (_head)
+        {
+            Item* temp = _head->next();
+            delete _head;
+            _head = temp;
+        }
+        _tail = nullptr;
+        _size = 0;
+    }
 };
 
 #endif // LIST_TEMPLATE_H
