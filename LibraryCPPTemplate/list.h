@@ -11,8 +11,8 @@ public:
     {
     public:
         Data _data;
-        Item* _next;
-        Item* _prev;
+        Item* _next = nullptr;
+        Item* _prev = nullptr;
 
         Item(Data data, Item* prev = nullptr, Item* next = nullptr) : _data(data), _prev(prev), _next(next) {}
 
