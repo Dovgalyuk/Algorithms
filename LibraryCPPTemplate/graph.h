@@ -49,16 +49,16 @@ public:
 
     Graph() {}
     ~Graph() {
-        auto v = vertices.first();
-        while (v) {
-            delete v->data();
-            v = vertices.erase_next(v->prev());
-        }
-
         auto e = edges.first();
         while (e) {
             delete e->data();
             e = edges.erase_next(e->prev());
+        }
+
+        auto v = vertices.first();
+        while (v) {
+            delete v->data();
+            v = vertices.erase_next(v->prev());
         }
     }
 
@@ -77,25 +77,25 @@ public:
     }
 
     void removeVertex(int vertexId) {
-        // Поиск элемента вершины для удаления
         auto vertexItem = findVertexItem(vertexId);
         if (!vertexItem) return;
 
-        // Удаление всех рёбер, связанных с удаляемой вершиной
         auto edge = edges.first();
         while (edge) {
             auto nextEdge = edge->next();
             if (edge->data()->from == vertexItem->data() || edge->data()->to == vertexItem->data()) {
-                delete edge->data();  // Удаление объекта ребра
-                edges.erase_next(edge->prev());  // Удаление элемента списка рёбер
+                edge->data()->from = nullptr;
+                edge->data()->to = nullptr;
+                delete edge->data();
+                edges.erase_next(edge->prev());
             }
             edge = nextEdge;
         }
 
-        // Удаление самой вершины
-        delete vertexItem->data();  // Удаление объекта вершины
-        vertices.erase_next(vertexItem->prev());  // Удаление элемента списка вершин
+        delete vertexItem->data();
+        vertices.erase_next(vertexItem->prev());
     }
+
 
     void removeEdge(int fromId, int toId) {
         auto edge = findEdgeItem(fromId, toId);
