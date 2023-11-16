@@ -121,7 +121,7 @@ int main()
     cin >> edgesCount;
 
     cout << "Enter the edges in the format: start end weight (each edge on a new line)" << endl;
-    for (size_t i = 0; i < edgesCount; i++) 
+    for (int i = 0; i < edgesCount; i++) 
     {
         int from, to;
         Data weight;
