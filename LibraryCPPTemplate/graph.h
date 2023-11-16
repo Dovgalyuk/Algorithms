@@ -118,7 +118,9 @@ public:
 
     std::string getVertexMark(int vertexId) {
         auto vertex = findVertex(vertexId);
-        return vertex ? vertex->mark : "";
+        if(vertex)
+            return vertex->mark;
+        return "";
     }
 
     void setEdgeMark(int fromId, int toId, const std::string& mark) {
@@ -130,7 +132,9 @@ public:
 
     std::string getEdgeMark(int fromId, int toId) {
         auto edge = findEdge(fromId, toId);
-        return edge ? edge->mark : "";
+        if(edge)
+            return edge->mark;
+        return "";
     }
 
     int vertexCount() const {
@@ -167,6 +171,7 @@ private:
     Edge* findEdge(int fromId, int toId) {
         Vertex* from = findVertex(fromId);
         Vertex* to = findVertex(toId);
+        if (!from || !to) return nullptr;
         for (auto item = edges.first(); item != nullptr; item = item->next()) {
             if (item->data()->from == from && item->data()->to == to) {
                 return item->data();

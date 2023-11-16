@@ -51,6 +51,4 @@ int main() {
     else {
         std::cout << "Vertex and edge removal check failed." << std::endl;
     }
-
-    return 0;
 }
