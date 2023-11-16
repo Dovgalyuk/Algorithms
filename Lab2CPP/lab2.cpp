@@ -1,11 +1,11 @@
 #include <iostream>
 #include "stack.h"
 
-List<char> openSymbols = {'\'', '\"', '('};
-List<char> closeSymbols = {'\'', '\"', ')'};
-
-void task1(std::string checkString)
+void task1(const std::string &checkString)
 {
+    List<char> openSymbols = {'\'', '\"', '('};
+    List<char> closeSymbols = {'\'', '\"', ')'};
+
     Stack<char> st;
     for (auto i : checkString)
     {
