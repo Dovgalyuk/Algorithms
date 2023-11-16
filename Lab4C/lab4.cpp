@@ -3,6 +3,7 @@
 #include <vector>
 #include <queue>
 #include "graph.h"
+#include <climits>
 
 using namespace std;
 vector<int> dijkstra(Graph& graph, int startVertex) {
@@ -61,7 +62,7 @@ int main() {
     cin >> startVertex;
     vector<int> distances = dijkstra(graph, startVertex);
 
-    for (int i = 0; i < distances.size(); ++i) {
+    for (int i = 0; i < (int)distances.size(); ++i) {
         if (distances[i] == INT_MAX) {
             cout << "Нет пути от вершины " << startVertex << " до вершины " << i << endl;
         }
