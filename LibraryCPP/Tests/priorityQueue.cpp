@@ -30,5 +30,9 @@ int main() {
     cout << "After inserting one node, is queue empty? " << (priorityQueue_empty(queue) ? "Yes" : "No") << endl;
     cout << "Queue size: " << priorityQueue_getSize(queue) << endl;
     priorityQueue_delete(queue);
+
+    huffman_deleteTree(nodeA);
+    huffman_deleteTree(nodeB);
+    huffman_deleteTree(fetchedNode);
     return 0;
 }
