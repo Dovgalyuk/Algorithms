@@ -5,7 +5,6 @@
 #include "graph.h"
 
 using namespace std;
-// Функция для реализации алгоритма Дейкстры
 vector<int> dijkstra(Graph& graph, int startVertex) {
     const int INF = INT_MAX;
     vector<int> distances(graph.vertexCount(), INF);
@@ -24,7 +23,7 @@ vector<int> dijkstra(Graph& graph, int startVertex) {
         auto neighbors = graph.getNeighbors(vertex);
         while (neighbors.hasNext()) {
             auto neighbor = neighbors.next();
-            int edgeWeight = 1;  // Можно изменить, если веса рёбер не равны 1
+            int edgeWeight = 1;
             int newDistance = distance + edgeWeight;
 
             if (newDistance < distances[neighbor->id]) {
@@ -40,8 +39,6 @@ vector<int> dijkstra(Graph& graph, int startVertex) {
 int main() {
     setlocale(LC_ALL, "rus");
     Graph graph;
-    // Чтение графа (вершин и рёбер) из стандартного ввода или файла
-    // Пример: сначала вводится количество вершин и рёбер, затем каждое ребро в формате (from, to)
     
     int vertexCount, edgeCount;
     cout << "Введите количество вершин: ";
@@ -59,13 +56,11 @@ int main() {
         graph.addEdge(from, to);
     }
 
-    // Запуск алгоритма Дейкстры
     int startVertex;
     cout << "Введите начальную вершину: ";
     cin >> startVertex;
     vector<int> distances = dijkstra(graph, startVertex);
 
-    // Вывод результатов
     for (int i = 0; i < distances.size(); ++i) {
         if (distances[i] == INT_MAX) {
             cout << "Нет пути от вершины " << startVertex << " до вершины " << i << endl;

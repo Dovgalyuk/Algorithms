@@ -49,7 +49,6 @@ public:
 
     Graph() {}
     ~Graph() {
-        // Очистка памяти, выделенной для вершин и рёбер
         auto v = vertices.first();
         while (v) {
             delete v->data();
@@ -63,7 +62,6 @@ public:
         }
     }
 
-    // Методы для работы с графом
     void addVertex(int vertexId) {
         Vertex* newVertex = new Vertex{vertexId};
         vertices.insert(newVertex);

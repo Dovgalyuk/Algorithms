@@ -27,6 +27,7 @@ private:
     size_t _size;
 
 public:
+    
     List() : _head(nullptr), _tail(nullptr), _size(0) {}
     ~List()
     {
