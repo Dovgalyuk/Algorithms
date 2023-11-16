@@ -77,24 +77,24 @@ public:
     }
 
     void removeVertex(int vertexId) {
+        // Поиск элемента вершины для удаления
         auto vertexItem = findVertexItem(vertexId);
         if (!vertexItem) return;
 
-        // Удаление всех рёбер, связанных с этой вершиной
+        // Удаление всех рёбер, связанных с удаляемой вершиной
         auto edge = edges.first();
         while (edge) {
+            auto nextEdge = edge->next();
             if (edge->data()->from == vertexItem->data() || edge->data()->to == vertexItem->data()) {
-                delete edge->data();
-                edge = edges.erase_next(edge->prev());
+                delete edge->data();  // Удаление объекта ребра
+                edges.erase_next(edge->prev());  // Удаление элемента списка рёбер
             }
-            else {
-                edge = edge->next();
-            }
+            edge = nextEdge;
         }
 
-        // Удаление вершины
-        delete vertexItem->data();
-        vertices.erase_next(vertexItem->prev());
+        // Удаление самой вершины
+        delete vertexItem->data();  // Удаление объекта вершины
+        vertices.erase_next(vertexItem->prev());  // Удаление элемента списка вершин
     }
 
     void removeEdge(int fromId, int toId) {
