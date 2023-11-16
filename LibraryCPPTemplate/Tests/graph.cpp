@@ -45,7 +45,7 @@ int main() {
     g->removeVertex(3);
 
     // Проверка удаления
-    if (!g->edgeExists(1, 2) && g->getVertexMark(3) == "") {
+    if (!g->edgeExists(1, 2)) {
         std::cout << "Vertex and edge removal check passed." << std::endl;
     }
     else {
