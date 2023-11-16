@@ -18,8 +18,8 @@ public:
 
     private:
         Data data_;
-        Item* next_ = nullptr;
-        Item* prev_ = nullptr;
+        Item* prev_;
+        Item* next_;
     };
 
     // Creates new list
