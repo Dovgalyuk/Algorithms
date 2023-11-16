@@ -82,7 +82,7 @@ void huffman_printTree(HuffmanNode* node, unsigned int height)
    if (node)
    {
       huffman_printTree(node->rightNode, height + 1);
-      for (int i = 0; i < height; i++)
+      for (unsigned int i = 0; i < height; i++)
          std::cout << "  ";
       if (node->isLeaf)
          std::cout << (unsigned char) node->symbol;
