@@ -12,10 +12,9 @@ PriorityQueue* priorityQueue_create(const size_t size)
    return queue;
 }
 
-void priorityQueue_delete(PriorityQueue* queue)
-{
-   binaryHeap_delete(queue->heap);
-   delete queue;
+void priorityQueue_delete(PriorityQueue* queue) {
+    binaryHeap_delete(queue->heap);
+    delete queue;
 }
 
 void priorityQueue_insert(PriorityQueue* queue, HuffmanNode* node)
