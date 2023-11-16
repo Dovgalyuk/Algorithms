@@ -13,7 +13,7 @@ add_test(TestListCPPTemplate TestListCPPTemplate)
 
 add_executable(TestStackCPPTemplate stack.cpp)	
 target_include_directories(TestStackCPPTemplate PUBLIC ..)	
-add_test(TestStackCPPTemplate TestStackCPPTemplate)	
+ add_test(TestStackCPPTemplate TestStackCPPTemplate)	
 
 # add_executable(TestVectorCPPTemplate vector.cpp)	
 # target_include_directories(TestVectorCPPTemplate PUBLIC ..)	
