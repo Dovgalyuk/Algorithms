@@ -63,7 +63,7 @@ public:
     }
 
     void addVertex(int vertexId) {
-        Vertex* newVertex = new Vertex{vertexId};
+        Vertex* newVertex = new Vertex{vertexId, ""};
         vertices.insert(newVertex);
     }
 
@@ -71,7 +71,7 @@ public:
         Vertex* fromVertex = findVertex(fromId);
         Vertex* toVertex = findVertex(toId);
         if (fromVertex && toVertex) {
-            Edge* newEdge = new Edge{ fromVertex, toVertex};
+            Edge* newEdge = new Edge{ fromVertex, toVertex, ""};
             edges.insert(newEdge);
         }
     }
