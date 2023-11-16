@@ -101,7 +101,7 @@ public:
 
                 // Удаляем все ребра, ведущие к удаляемой вершине
                 auto item = newAdjacencyList[j].first();
-                List<Edge>::Item* prevItem = nullptr;
+                typename List<Edge>::Item* prevItem = nullptr;
                 while (item != nullptr)
                 {
                     if (item->data().to == vertex)
@@ -135,7 +135,7 @@ public:
     // Удалить ребро из графа
     void removeEdge(int from, int to) {
         if (from < 0 || from >= vertexCount_) return;
-        List<Edge>::Item* prevItem = nullptr;
+        typename List<Edge>::Item* prevItem = nullptr;
         for (auto item = adjacencyList_[from].first(); item != nullptr; item = item->next()) {
             if (item->data().to == to) 
             {
@@ -172,7 +172,7 @@ public:
     {
         if (from < 0 || from >= vertexCount_)
             return;
-        List<Edge>::Item* prev = nullptr;
+        typename List<Edge>::Item* prev = nullptr;
         for (auto item = adjacencyList_[from].first(); item != nullptr; item = item->next())
         {
             if (item->data().to == to) 
