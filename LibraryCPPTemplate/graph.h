@@ -3,6 +3,7 @@
 
 #include "list.h"
 #include <string>
+#include <vector>
 
 class Graph {
 public:
@@ -81,12 +82,14 @@ public:
         if (!vertexItem) return;
 
         // Создаём копию списка рёбер, так как оригинальный список будет изменяться в процессе итерации
-        List<Edge*> edgesCopy = edges;
-
-        for (auto edge = edgesCopy.first(); edge; edge = edge->next()) {
+        std::vector<Edge*> edgesToRemove;
+        for (auto edge = edges.first(); edge; edge = edge->next()) {
             if (edge->data()->from == vertexItem->data() || edge->data()->to == vertexItem->data()) {
-                removeEdge(edge->data()->from->id, edge->data()->to->id);
+                edgesToRemove.push_back(edge->data());
             }
+        }
+        for (auto edge : edgesToRemove) {
+            removeEdge(edge->from->id, edge->to->id);
         }
 
         delete vertexItem->data();
@@ -95,10 +98,10 @@ public:
 
 
     void removeEdge(int fromId, int toId) {
-        auto edgeItem = findEdgeItem(fromId, toId);
-        if (edgeItem) {
-            delete edgeItem->data();
-            edges.erase_next(edgeItem->prev());
+        auto edge = findEdgeItem(fromId, toId);
+        if (edge) {
+            delete edge->data();
+            edges.erase_next(edge->prev());
         }
     }
 
