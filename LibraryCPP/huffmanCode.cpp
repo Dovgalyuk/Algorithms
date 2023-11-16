@@ -40,7 +40,7 @@ void huffman_makeNodesQueue(PriorityQueue* queue, Array* symbolsCount)
 
 void huffman_writeBitToByte(std::ofstream& fileOut, Byte& byteStruct, bool bitState)
 {
-    byteStruct.byte = (bool)(byteStruct.byte << 1) | bitState;
+    byteStruct.byte = (byteStruct.byte < 1) | bitState;
     byteStruct.bitsCount++;
 
     if (byteStruct.bitsCount == 8)
@@ -171,9 +171,9 @@ void huffman_compress(std::ifstream& fileIn, const std::string& compressedFileNa
     huffman_saveTreeToFile(fileOut, huffmanTree, byteStruct);
     huffman_writeUncompletedByte(fileOut, byteStruct);
 
-    fileOut.put((unsigned int)255);
+    fileOut.put((unsigned char)255);
     huffman_saveTotalSymbolsToFile(fileOut, huffman_getNodeWeight(huffmanTree));
-    fileOut.put((unsigned int)255);
+    fileOut.put((unsigned char)255);
 
     symbolsTableMap table;
     std::vector<bool> symbolCode;
