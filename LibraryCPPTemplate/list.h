@@ -39,7 +39,7 @@ public:
     };
 
     // Creates new list
-    List() : mFirst(nullptr), mLast(nullptr), mSize(0) {}
+    List() : mFirst(nullptr), mLast(nullptr) {}
 
     // Constructor with initializer list;
     List(std::initializer_list<Data> l) : List()
@@ -63,15 +63,13 @@ public:
     // Copy constructor
     List(const List<Data> &a) : List()
     {
-        if (a.mSize > 0)
+        clear();
+        Item *iterator = a.mFirst;
+        insert(iterator->data());
+        while (iterator->next() != nullptr)
         {
-            Item *iterator = a.mFirst;
-            insert(iterator->data());
-            while (mSize < a.mSize)
-            {
-                iterator = iterator->next();
-                insert_after(mLast, iterator->data());
-            }
+            iterator = iterator->next();
+            insert_after(mLast, iterator->data());
         }
     }
 
@@ -84,7 +82,7 @@ public:
         {
             Item *iteratorA = a.mFirst;
             Item *iteratorM = mFirst;
-            if (mSize == 0)
+            if (empty())
             {
                 insert(iteratorA->data());
                 iteratorM = mFirst;
@@ -104,15 +102,11 @@ public:
     // Destroys the list and frees the memory
     ~List()
     {
-        while (mSize > 0)
-            erase_first();
+        clear();
     }
 
-    // Retrieves size of list
-    std::size_t size() { return mSize; }
-
     // Checks if list is empty
-    bool empty() const { return mSize == 0; }
+    bool empty() const { return mFirst == nullptr; }
 
     // Retrieves the first item from the list
     Item *first() const { return mFirst; }
@@ -156,7 +150,6 @@ public:
         if (mLast == nullptr)
             mLast = mFirst;
 
-        mSize++;
         return mFirst;
     }
 
@@ -173,8 +166,6 @@ public:
         if (item == mLast)
             mLast = insert;
 
-        mSize++;
-
         return insert;
     }
 
@@ -182,7 +173,7 @@ public:
     // Returns pointer to the item next to the deleted one.
     Item *erase_first()
     {
-        if (mSize == 0)
+        if (empty())
             throw ListException("list is empty");
 
         Item *second = mFirst->next();
@@ -191,8 +182,6 @@ public:
 
         if (mFirst == nullptr)
             mLast = nullptr;
-
-        mSize--;
 
         return mFirst;
     }
@@ -221,58 +210,13 @@ public:
 
             delete toDelete;
         }
-        mSize--;
         return item;
-    }
-
-    // Increases size, inserts need count of items at the end with specified filler.
-    void append(std::size_t count, std::function<Data(std::size_t)> filler)
-    {
-        if (count < 1)
-            return;
-
-        if (mLast == nullptr)
-        {
-            insert(filler(mSize));
-            count--;
-        }
-        while (count > 0)
-        {
-            insert_after(mLast, filler(mSize));
-            count--;
-        }
-    }
-
-    // Increases size, inserts need count of items at the start with specified filler.
-    void appendStart(std::size_t count, std::function<Data(std::size_t)> filler)
-    {
-        if (count < 1)
-            return;
-
-        while (count > 0)
-        {
-            insert(filler(count - 1));
-            count--;
-        }
-    }
-
-    // Drops at the start specified count of items.
-    void drop(std::size_t count)
-    {
-        if (count < 1)
-            throw ListException("count of items must be positive");
-
-        while (count > 0)
-        {
-            erase_first();
-            count--;
-        }
     }
 
     // Erases all items.
     void clear()
     {
-        while (mSize > 0)
+        while (!empty())
             erase_first();
     }
 
@@ -280,7 +224,6 @@ private:
     // private data should be here
     Item *mFirst;
     Item *mLast;
-    std::size_t mSize;
 };
 
 class ListException : public std::runtime_error

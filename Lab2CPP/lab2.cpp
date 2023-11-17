@@ -13,6 +13,11 @@ void task1(const std::string &checkString)
             st.pop();
         else if (openSymbols.contains(i))
             st.push(i);
+        else if (st.empty() && closeSymbols.contains(i))
+        {
+            st.push(i);
+            break;
+        }
     }
     if (st.empty())
         std::cout << "YES" << std::endl;
@@ -26,9 +31,7 @@ void task2(List<int> &list)
 
 int main()
 {
-    std::string testPass = "124faffdsfdsfsdffdsfds'dfsfdsfwe\"fdsfds\"'";
-    std::string testFail = "12srefwewefwedsdffwefwefe\"sdfds\"dsff'sdffds''";
-    task1(testPass);
-    task1(testFail);
+    std::string test = ")";
+    task1(test);
     return 0;
 }
