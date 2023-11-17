@@ -157,7 +157,7 @@ private:
         for (auto item = vertices.first(); item != nullptr; item = item->next()) {
             if (item->data())
             {
-                if (item->data()->id != NULL)
+                if (item->data()->id)
                 {
                     if (item->data()->id == id) {
                         return item->data();
