@@ -37,6 +37,8 @@ public:
             delete _head;
             _head = temp;
         }
+        _tail = nullptr;
+        _size = 0;
     }
 
     Item* first() { return _head; }

@@ -156,15 +156,12 @@ private:
 
         List<Edge> newEdges;
         auto it = vertex->edges.first();
-
         while (it) {
             if (&it->_data != edge) {
-                newEdges.insert(it->_data); // Копирование всех элементов, кроме удаляемого
+                newEdges.insert(it->_data);
             }
             it = it->next();
         }
-
-        // Заменяем старый список рёбер новым
         vertex->edges = newEdges;
     }
 };
