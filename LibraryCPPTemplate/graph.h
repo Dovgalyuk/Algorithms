@@ -163,6 +163,7 @@ private:
                 else {
                     vertex->edges.erase_next(it->prev());
                 }
+                // Важно: после удаления ребра, выходим из цикла, чтобы не обращаться к удаленному ребру
                 break;
             }
             it = it->next();
