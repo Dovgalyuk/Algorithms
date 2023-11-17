@@ -1,53 +1,51 @@
-#include "graph.h"
 #include <iostream>
+#include "graph.h"
+
+typedef Graph<int, int> MyGraph;
 
 int main() {
-    Graph *g = new Graph;
+    MyGraph graph;
 
-    // Добавление вершин
-    g->addVertex(1);
-    g->addVertex(2);
-    g->addVertex(3);
+    // Тестирование добавления вершин
+    auto v1 = graph.addVertex(1);
+    auto v2 = graph.addVertex(2);
+    auto v3 = graph.addVertex(3);
 
-    // Добавление рёбер
-    g->addEdge(1, 2);
-    g->addEdge(2, 3);
-
-    // Проверка наличия ребра
-    if (g->edgeExists(1, 2) && g->edgeExists(2, 3) && !g->edgeExists(1, 3)) {
-        std::cout << "Edge existence check passed." << std::endl;
-    }
-    else {
-        std::cout << "Edge existence check failed." << std::endl;
+    if (graph.vertexCount() != 3) {
+        std::cout << "Error in addVertex or vertexCount\n";
+        return 1;
     }
 
-    // Установка и получение пометок для вершин и рёбер
-    g->setVertexMark(1, "A");
-    g->setEdgeMark(1, 2, "edge1");
-    if (g->getVertexMark(1) == "A" && g->getEdgeMark(1, 2) == "edge1") {
-        std::cout << "Vertex and edge mark check passed." << std::endl;
-    }
-    else {
-        std::cout << "Vertex and edge mark check failed." << std::endl;
-    }
+    // Тестирование добавления рёбер
+    auto e1 = graph.addEdge(v1, v2, 10);
+    graph.addEdge(v2, v3, 20);
 
-    // Использование NeighborIterator
-    Graph::NeighborIterator it = g->getNeighbors(2);
-    std::cout << "Neighbors of vertex 2: ";
+    if (!graph.edgeExists(v1, v2) || !graph.edgeExists(v2, v3)) {
+        std::cout << "Error in addEdge or edgeExists\n";
+        return 1;
+    }
+    // Тестирование итератора соседей
+    std::cout << "Neighbors of Vertex 2: ";
+    MyGraph::NeighborIterator it(v2);
     while (it.hasNext()) {
-        Graph::Vertex* v = it.next();
-        std::cout << v->id << " ";
+        auto neighbor = it.next();
+        std::cout << graph.getVertexData(neighbor) << " ";
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 
-    // Удаление вершины и ребра
-    g->removeEdge(1, 2);
-    g->removeVertex(3);
-    // Проверка удаления
-    if (!g->edgeExists(1, 2) && g->getVertexMark(3) == "") {
-        std::cout << "Vertex and edge removal check passed." << std::endl;
+    // Тестирование удаления ребра
+    graph.removeEdge(e1);
+    if (graph.edgeExists(v1, v2)) {
+        std::cout << "Error in removeEdge\n";
+        return 1;
     }
-    else {
-        std::cout << "Vertex and edge removal check failed." << std::endl;
+
+    // Тестирование удаления вершины
+    graph.removeVertex(v3);
+    if (graph.vertexCount() != 2) {
+        std::cout << "Error in removeVertex\n";
+        return 1;
     }
+
+    return 0;
 }

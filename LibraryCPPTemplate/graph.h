@@ -1,203 +1,171 @@
+
 #ifndef GRAPH_H
 #define GRAPH_H
 
 #include "list.h"
-#include <string>
+#include <unordered_map>
+#include <algorithm>
+#include <climits>
 
+template <typename VertexData, typename EdgeData>
 class Graph {
 public:
-    struct Vertex {
-        int id;
-        std::string mark;  // Пометка для вершины
-    };
-
+    struct Vertex;
     struct Edge {
-        Vertex* from;
-        Vertex* to;
-        std::string mark;  // Пометка для ребра
+        Vertex* from, * to;
+        EdgeData data;
+        Edge(Vertex* f, Vertex* t, EdgeData d) : from(f), to(t), data(d) {}
     };
 
-    // Итератор для перебора соседей заданной вершины
-    class NeighborIterator {
-    public:
-        NeighborIterator(List<Edge*>::Item* current, Vertex* vertex) : _current(current), _vertex(vertex) {
-            moveToNextValid();
+    struct Vertex {
+        VertexData data;
+        List<Edge> edges;
+        size_t id;  // Добавлен идентификатор для вершины
+
+        Vertex(VertexData d, size_t id) : data(d), id(id) {}
+    };
+
+    Graph(size_t initialSize = 0) : nextVertexId(0) {
+        for (size_t i = 0; i < initialSize; ++i) {
+            addVertex(VertexData());
+        }
+    }
+
+    ~Graph() {
+        for (auto& vertexPair : vertices) {
+            delete vertexPair.second;
+        }
+    }
+
+    Vertex* addVertex(const VertexData& data) {
+        size_t vertexId = nextVertexId++;
+        Vertex* newVertex = new Vertex(data, vertexId);
+        vertices[vertexId] = newVertex;
+        return newVertex;
+    }
+
+    void removeVertex(Vertex* vertex) {
+        if (!vertex) return;
+
+        // Удаление всех рёбер, связанных с вершиной
+        auto it = vertex->edges.first();
+        while (it) {
+            auto next = it->next();
+            Edge* edge = &it->_data;
+            if (edge->to != vertex) {
+                // Удаление ребра из списка рёбер другой вершины
+                removeEdgeFromVertex(edge->to, edge);
+            }
+            it = next;
         }
 
+        // Удаление вершины из графа
+        vertices.erase(std::find_if(vertices.begin(), vertices.end(),
+            [&](const auto& pair) { return pair.second == vertex; }));
+        delete vertex;
+    }
+
+    Edge* addEdge(Vertex* from, Vertex* to, const EdgeData& data) {
+        Edge newEdge(from, to, data);
+        from->edges.insert(newEdge);
+        return &from->edges.first()->_data;
+    }
+
+    void removeEdge(Edge* edge) {
+        if (!edge) return;
+        removeEdgeFromVertex(edge->from, edge);
+        if (edge->from != edge->to) {
+            removeEdgeFromVertex(edge->to, edge);
+        }
+    }
+
+    bool edgeExists(Vertex* from, Vertex* to) const {
+        if (!from || !to) return false;
+
+        auto it = from->edges.first();
+        while (it) {
+            if (it->_data.to == to) return true;
+            it = it->next();
+        }
+        return false;
+    }
+
+    size_t vertexCount() const {
+        return vertices.size();
+    }
+
+    void setVertexData(Vertex* vertex, const VertexData& data) {
+        if (vertex) vertex->data = data;
+    }
+
+    VertexData getVertexData(Vertex* vertex) const {
+        return vertex ? vertex->data : VertexData();
+    }
+
+    void setEdgeData(Edge* edge, const EdgeData& data) {
+        if (edge) edge->data = data;
+    }
+
+    EdgeData getEdgeData(Edge* edge) const {
+        return edge ? edge->data : EdgeData();
+    }
+
+    Vertex* getVertex(size_t vertexId) const {
+        auto it = vertices.find(vertexId);
+        if (it != vertices.end()) {
+            return it->second;
+        }
+        return nullptr;
+    }
+
+    size_t getVertexId(const Vertex* vertex) const {
+        if (vertex) {
+            return vertex->id;
+        }
+        return SIZE_MAX; // Возвращаем максимально возможное значение, если вершина не найдена
+    }
+
+
+    class NeighborIterator {
+    public:
+        NeighborIterator(Vertex* vertex) : current(vertex ? vertex->edges.first() : nullptr) {}
+
         bool hasNext() const {
-            return _current != nullptr;
+            return current != nullptr;
         }
 
         Vertex* next() {
-            if (!hasNext()) return nullptr;
-            Vertex* neighbor = (_current->data()->from == _vertex) ? _current->data()->to : _current->data()->from;
-            _current = _current->next();
-            moveToNextValid();
+            if (!hasNext()) {
+                return nullptr;
+            }
+            Vertex* neighbor = current->_data.to;
+            current = current->next();
             return neighbor;
         }
 
     private:
-        List<Edge*>::Item* _current;
-        Vertex* _vertex;
-
-        void moveToNextValid() {
-            while (_current != nullptr && _current->data()->from != _vertex && _current->data()->to != _vertex) {
-                _current = _current->next();
-            }
-        }
+        typename List<Edge>::Item* current;
     };
 
-    Graph() {}
-    ~Graph() {
-        auto e = edges.first();
-        while (e) {
-            delete e->data();
-            e = edges.erase_next(e->prev());
-        }
-
-        auto v = vertices.first();
-        while (v) {
-            delete v->data();
-            v = vertices.erase_next(v->prev());
-        }
-    }
-
-    void addVertex(int vertexId) {
-        Vertex* newVertex = new Vertex{vertexId, ""};
-        vertices.insert(newVertex);
-    }
-
-    void addEdge(int fromId, int toId) {
-        Vertex* fromVertex = findVertex(fromId);
-        Vertex* toVertex = findVertex(toId);
-        if (fromVertex && toVertex) {
-            Edge* newEdge = new Edge{ fromVertex, toVertex, ""};
-            edges.insert(newEdge);
-        }
-    }
-
-    void removeVertex(int vertexId) {
-        Vertex* vertexToRemove = findVertex(vertexId);
-        if (!vertexToRemove) return;
-
-        // Удаляем все рёбра, связанные с вершиной
-        auto edge = edges.first();
-        while (edge) {
-            if (edge->data()->from == vertexToRemove || edge->data()->to == vertexToRemove) {
-                Edge* temp = edge->data();
-                edge = edges.erase_next(edge->prev());
-                delete temp;
-            }
-            else {
-                edge = edge->next();
-            }
-        }
-
-        // Удаляем вершину
-        auto vertexItem = findVertexItem(vertexId);
-        delete vertexItem->data();
-        vertices.erase_next(vertexItem->prev());
-    }
-
-    void removeEdge(int fromId, int toId) {
-        auto edge = findEdgeItem(fromId, toId);
-        if (edge) {
-            delete edge->data();
-            edges.erase_next(edge->prev());
-        }
-    }
-
-
-    bool edgeExists(int fromId, int toId) {
-        return findEdgeItem(fromId, toId) != nullptr;
-    }
-
-    void setVertexMark(int vertexId, const std::string& mark) {
-        auto vertex = findVertex(vertexId);
-        if (vertex) {
-            vertex->mark = mark;
-        }
-    }
-
-    std::string getVertexMark(int vertexId) {
-        auto vertex = findVertex(vertexId);
-        if(vertex)
-            return vertex->mark;
-        return "";
-    }
-
-    void setEdgeMark(int fromId, int toId, const std::string& mark) {
-        auto edge = findEdge(fromId, toId);
-        if (edge) {
-            edge->mark = mark;
-        }
-    }
-
-    std::string getEdgeMark(int fromId, int toId) {
-        auto edge = findEdge(fromId, toId);
-        if(edge)
-            return edge->mark;
-        return "";
-    }
-
-    int vertexCount() const {
-        return (int)vertices.size();
-    }
-
-    NeighborIterator getNeighbors(int vertexId) {
-        Vertex* vertex = findVertex(vertexId);
-        return NeighborIterator(edges.first(), vertex);
-    }
-
 private:
-    List<Vertex*> vertices;
-    List<Edge*> edges;
+    std::unordered_map<size_t, Vertex*> vertices;
+    size_t nextVertexId;
 
-    Vertex* findVertex(int id) {
-        for (auto item = vertices.first(); item != nullptr; item = item->next()) {
-            if (item->data())
-            {
-                if (item->data()->id)
-                {
-                    if (item->data()->id == id) {
-                        return item->data();
-                    }
-                }
-            }
-        }
-        return nullptr;
-    }
+    void removeEdgeFromVertex(Vertex* vertex, Edge* edge) {
+        if (!vertex || !edge) return;
 
-    typename List<Vertex*>::Item* findVertexItem(int id) {
-        for (auto item = vertices.first(); item != nullptr; item = item->next()) {
-            if (item->data()->id == id) {
-                return item;
-            }
-        }
-        return nullptr;
-    }
+        List<Edge> newEdges;
+        auto it = vertex->edges.first();
 
-    Edge* findEdge(int fromId, int toId) {
-        Vertex* from = findVertex(fromId);
-        Vertex* to = findVertex(toId);
-        if (!from || !to) return nullptr;
-        for (auto item = edges.first(); item != nullptr; item = item->next()) {
-            if (item->data()->from == from && item->data()->to == to) {
-                return item->data();
+        while (it) {
+            if (&it->_data != edge) {
+                newEdges.insert(it->_data); // Копирование всех элементов, кроме удаляемого
             }
+            it = it->next();
         }
-        return nullptr;
-    }
 
-    typename List<Edge*>::Item* findEdgeItem(int fromId, int toId) {
-        Vertex* from = findVertex(fromId);
-        Vertex* to = findVertex(toId);
-        for (auto item = edges.first(); item != nullptr; item = item->next()) {
-            if (item->data()->from == from && item->data()->to == to) {
-                return item;
-            }
-        }
-        return nullptr;
+        // Заменяем старый список рёбер новым
+        vertex->edges = newEdges;
     }
 };
 

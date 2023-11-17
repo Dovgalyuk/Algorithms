@@ -1,35 +1,38 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
 #include <vector>
 #include <queue>
 #include "graph.h"
 #include <climits>
 
 using namespace std;
-vector<int> dijkstra(Graph& graph, int startVertex) {
+
+vector<int> dijkstra(Graph<int, int>& graph, int startVertexId) {
     const int INF = INT_MAX;
     vector<int> distances(graph.vertexCount(), INF);
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
 
-    distances[startVertex] = 0;
-    pq.push({ 0, startVertex });
+    distances[startVertexId] = 0;
+    pq.push({ 0, startVertexId });
 
     while (!pq.empty()) {
         int distance = pq.top().first;
-        int vertex = pq.top().second;
+        int vertexId = pq.top().second;
         pq.pop();
 
-        if (distance > distances[vertex]) continue;
+        if (distance > distances[vertexId]) continue;
 
-        auto neighbors = graph.getNeighbors(vertex);
+        // Использование NeighborIterator для перебора соседей
+        auto vertex = graph.getVertex(vertexId); // Эту функцию нужно реализовать в классе Graph
+        Graph<int, int>::NeighborIterator neighbors(vertex);
         while (neighbors.hasNext()) {
             auto neighbor = neighbors.next();
-            int edgeWeight = 1;
+            int edgeWeight = 1; // Вес ребра
             int newDistance = distance + edgeWeight;
 
-            if (newDistance < distances[neighbor->id]) {
-                distances[neighbor->id] = newDistance;
-                pq.push({ newDistance, neighbor->id });
+            int neighborId = (int)graph.getVertexId(neighbor); // Эту функцию нужно реализовать в классе Graph
+            if (newDistance < distances[neighborId]) {
+                distances[neighborId] = newDistance;
+                pq.push({ newDistance, neighborId });
             }
         }
     }
@@ -39,28 +42,38 @@ vector<int> dijkstra(Graph& graph, int startVertex) {
 
 int main() {
     setlocale(LC_ALL, "rus");
-    Graph graph;
-    
+    Graph<int, int> myGraph;
+
     int vertexCount, edgeCount;
     cout << "Введите количество вершин: ";
     cin >> vertexCount;
     cout << "Введите количество рёбер: ";
-    cin >>edgeCount;
+    cin >> edgeCount;
 
     for (int i = 0; i < vertexCount; ++i) {
-        graph.addVertex(i);
+        myGraph.addVertex(i);
     }
+
     cout << "Введите ребро в формате from to: " << endl;
     for (int i = 0; i < edgeCount; ++i) {
-        int from, to;
-        cin >> from >> to;
-        graph.addEdge(from, to);
+        int fromId, toId;
+        cin >> fromId >> toId;
+
+        Graph<int, int>::Vertex* fromVertex = myGraph.getVertex(fromId);
+        Graph<int, int>::Vertex* toVertex = myGraph.getVertex(toId);
+
+        if (fromVertex && toVertex) {
+            myGraph.addEdge(fromVertex, toVertex, 1); // Используем указатели на вершины
+        }
+        else {
+            cout << "Одна из вершин не найдена." << endl;
+        }
     }
 
     int startVertex;
     cout << "Введите начальную вершину: ";
     cin >> startVertex;
-    vector<int> distances = dijkstra(graph, startVertex);
+    vector<int> distances = dijkstra(myGraph, startVertex);
 
     for (int i = 0; i < (int)distances.size(); ++i) {
         if (distances[i] == INT_MAX) {
