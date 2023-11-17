@@ -73,9 +73,14 @@ public:
 
     void removeEdge(Edge* edge) {
         if (!edge) return;
-        bool isRemovedFromFirstVertex = removeEdgeFromVertex(edge->from, edge);
-        if (edge->from != edge->to && isRemovedFromFirstVertex) {
-            removeEdgeFromVertex(edge->to, edge);
+
+        Vertex* from = edge->from;
+        Vertex* to = edge->to;
+
+        removeEdgeFromVertex(from, edge);
+
+        if (from != to) {
+            removeEdgeFromVertex(to, edge);
         }
     }
 
@@ -151,8 +156,8 @@ private:
     std::unordered_map<size_t, Vertex*> vertices;
     size_t nextVertexId;
 
-    bool removeEdgeFromVertex(Vertex* vertex, Edge* edge) {
-        if (!vertex || !edge) return false;
+    void removeEdgeFromVertex(Vertex* vertex, Edge* edge) {
+        if (!vertex || !edge) return;
 
         auto it = vertex->edges.first();
         while (it) {
@@ -163,11 +168,11 @@ private:
                 else {
                     vertex->edges.erase_next(it->prev());
                 }
-                return true; // Ребро удалено
+                // Важно: после удаления ребра, выходим из цикла, чтобы не обращаться к удаленному ребру
+                break;
             }
             it = it->next();
         }
-        return false; // Ребро не найдено
     }
 };
 
