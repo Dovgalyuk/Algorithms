@@ -18,8 +18,7 @@ void testPriorityQueue() {
     std::cout << "Test insert and size: passed" << std::endl;
 
     // “ест возвращаемого значени€ и удалени€
-    HuffmanNode* testNode = priorityQueue_getNode(queue);
-    assert(huffman_getNodeChar(testNode) == 'a' && huffman_getNodeWeight(testNode) == 1);
+    assert(huffman_getNodeChar(priorityQueue_getNode(queue)) == 'a' && huffman_getNodeWeight(priorityQueue_getNode(queue)) == 1);
     priorityQueue_remove(queue);
     assert(priorityQueue_getSize(queue) == 0);
     std::cout << "Test get and remove: passed" << std::endl;
