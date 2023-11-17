@@ -1,5 +1,4 @@
 #include "binaryHeap.h"
-#include "huffmanTree.h"
 
 struct BinaryHeap
 {
@@ -95,14 +94,8 @@ size_t binaryHeap_getSize(BinaryHeap* heap)
    return heap->dataCount;
 }
 
-void binaryHeap_deleteAllNodes(BinaryHeap* heap) {
-    for (size_t i = 0; i < heap->dataCount; ++i) {
-        huffmanNode_delete(heap->heapData[i]);
-    }
-}
-
-void binaryHeap_delete(BinaryHeap* heap) {
-    binaryHeap_deleteAllNodes(heap);
-    delete[] heap->heapData;
-    delete heap;
+void binaryHeap_delete(BinaryHeap* heap)
+{
+   delete[] heap->heapData;
+   delete heap;
 }

@@ -28,5 +28,4 @@ HuffmanNode* huffman_deleteTree(HuffmanNode* node);
 
 void huffman_printTree(HuffmanNode* node, unsigned int height);
 
-void huffmanNode_delete(HuffmanNode* node);
 #endif
