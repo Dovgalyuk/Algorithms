@@ -15,7 +15,6 @@ void testPriorityQueue() {
     HuffmanNode* node1 = huffman_createLeafNode('a', 1);
     priorityQueue_insert(queue, node1);
     assert(priorityQueue_getSize(queue) == 1);
-    huffman_deleteTree(node1);
     std::cout << "Test insert and size: passed" << std::endl;
 
     // “ест возвращаемого значени€ и удалени€
