@@ -154,15 +154,19 @@ private:
     void removeEdgeFromVertex(Vertex* vertex, Edge* edge) {
         if (!vertex || !edge) return;
 
-        List<Edge> newEdges;
         auto it = vertex->edges.first();
         while (it) {
-            if (&it->_data != edge) {
-                newEdges.insert(it->_data);
+            if (&it->_data == edge) {
+                if (it == vertex->edges.first()) {
+                    vertex->edges.erase_first();
+                }
+                else {
+                    vertex->edges.erase_next(it->prev());
+                }
+                break;
             }
             it = it->next();
         }
-        vertex->edges = newEdges;
     }
 };
 
