@@ -3,7 +3,6 @@
 
 #include "list.h"
 #include <string>
-#include <vector>
 
 class Graph {
 public:
@@ -78,24 +77,27 @@ public:
     }
 
     void removeVertex(int vertexId) {
-        auto vertexItem = findVertexItem(vertexId);
-        if (!vertexItem) return;
+        Vertex* vertexToRemove = findVertex(vertexId);
+        if (!vertexToRemove) return;
 
-        // Создаём копию списка рёбер, так как оригинальный список будет изменяться в процессе итерации
-        std::vector<Edge*> edgesToRemove;
-        for (auto edge = edges.first(); edge; edge = edge->next()) {
-            if (edge->data()->from == vertexItem->data() || edge->data()->to == vertexItem->data()) {
-                edgesToRemove.push_back(edge->data());
+        // Удаляем все рёбра, связанные с вершиной
+        auto edge = edges.first();
+        while (edge) {
+            if (edge->data()->from == vertexToRemove || edge->data()->to == vertexToRemove) {
+                Edge* temp = edge->data();
+                edge = edges.erase_next(edge->prev());
+                delete temp;
+            }
+            else {
+                edge = edge->next();
             }
         }
-        for (auto edge : edgesToRemove) {
-            removeEdge(edge->from->id, edge->to->id);
-        }
 
+        // Удаляем вершину
+        auto vertexItem = findVertexItem(vertexId);
         delete vertexItem->data();
         vertices.erase_next(vertexItem->prev());
     }
-
 
     void removeEdge(int fromId, int toId) {
         auto edge = findEdgeItem(fromId, toId);
@@ -104,6 +106,7 @@ public:
             edges.erase_next(edge->prev());
         }
     }
+
 
     bool edgeExists(int fromId, int toId) {
         return findEdgeItem(fromId, toId) != nullptr;
