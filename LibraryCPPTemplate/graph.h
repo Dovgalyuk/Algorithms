@@ -10,11 +10,10 @@ public:
     // Структура, представляющая ребро
     struct Edge 
     {
-        int from;
         int to;// Вершина, куда ведет ребро
         Data weight;// Вес ребра
-
-        Edge(int from, int to, Data weight) : from(from), to(to), weight(weight) {}
+        Edge() : to(-1), weight(Data()) {}
+        Edge(int to, Data weight) : to(to), weight(weight) {}
     };
 
     // Конструктор графа с указанием количества вершин
@@ -81,7 +80,7 @@ public:
     {
         if (from >= 0 && from < vertexCount_ && to >= 0 && to < vertexCount_) 
         {
-            adjacencyList_[from].insert(Edge(from, to, weight));
+            adjacencyList_[from].insert(Edge(to, weight));
         }
     }
 
@@ -185,7 +184,15 @@ public:
                 {
                     adjacencyList_[from].erase_next(prev);
                 }
-                adjacencyList_[from].insert_after(prev, Edge(from, to, data)); // Используйте конструктор Edge
+                // Вставляем обновленное ребро после предыдущего элемента (или в начало, если prev == nullptr)
+                if (prev == nullptr)
+                {
+                    adjacencyList_[from].insert(Edge(to, data)); // Вставка в начало списка
+                }
+                else
+                {
+                    adjacencyList_[from].insert_after(prev, Edge(to, data)); // Вставка после prev
+                }
                 break;
             }
             prev = item;
@@ -241,7 +248,7 @@ public:
         {
             if (vertex >= 0 && vertex < graph->vertexCount_) 
             {
-                currentItem_ = graph->adjacencyList_[vertex].head();
+                currentItem_ = graph->adjacencyList_[vertex].first();
             }
         }
 
@@ -261,13 +268,13 @@ public:
         }
 
         // Получить данные текущего соседа
-        Data current() 
+        Edge current() 
         {
             if (currentItem_ != nullptr) 
             {
-                return currentItem_->data().weight;
+                return currentItem_->data();
             }
-            return Data(); // Возвращаем пустой Data, если нет текущего элемента
+            return Edge(); // Возвращаем пустой Edge, если нет текущего элемента
         }
 
     private:

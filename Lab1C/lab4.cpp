@@ -6,6 +6,7 @@
 using namespace std;
 
 typedef int Data;
+typedef Graph<Data>::Edge GraphEdge;
 
 class DisjointSet 
 {
@@ -54,28 +55,27 @@ private:
 
 
 // Функция для поиска минимального покрывающего дерева с помощью алгоритма Крускала
-vector<Graph<Data>::Edge> kruskalMST(Graph<Data>& graph) 
+vector<pair<int, GraphEdge>> kruskalMST(Graph<Data>& graph)
 {
-    vector<Graph<Data>::Edge> edges;
-    vector<Graph<Data>::Edge> mst; // Минимальное покрывающее дерево
+    vector<pair<int, GraphEdge>> edges;
+    vector<pair<int, GraphEdge>> mst; // Минимальное покрывающее дерево
 
     // Собираем все ребра из графа
     for (int i = 0; i < graph.vertexCount(); i++) 
     {
-        List<Graph<Data>::Edge>::Item* current = graph.adjacencyList(i).first();
-        while (current != nullptr) 
+        Graph<Data>::NeighborIterator it(&graph, i);
+        while (it.hasNext())
         {
-            // Создаем новое ребро с учетом начальной вершины (i)
-            Graph<Data>::Edge newEdge = { i, current->data().to, current->data().weight };
-            edges.push_back(newEdge);
-            current = current->next();
+            GraphEdge edge = it.current();
+            edges.push_back(make_pair(i, edge));
+            it.next();
         }
     }
 
     // Сортируем ребра по весу
-    sort(edges.begin(), edges.end(), [](Graph<Data>::Edge& a, Graph<Data>::Edge& b)
+    sort(edges.begin(), edges.end(), [](const pair<int, GraphEdge>& a, const pair<int, GraphEdge>& b)
         {
-            return a.weight < b.weight;
+            return a.second.weight < b.second.weight;
         });
 
     DisjointSet dsu(graph.vertexCount());
@@ -83,8 +83,11 @@ vector<Graph<Data>::Edge> kruskalMST(Graph<Data>& graph)
     // Проходим по отсортированным ребрам и строим MST
     for (auto edge : edges) 
     {
-        if (dsu.find(edge.from) != dsu.find(edge.to)) {
-            dsu.unionSets(edge.from, edge.to);
+        int from = edge.first;
+        int to = edge.second.to;
+        if (dsu.find(from) != dsu.find(to))
+        {
+            dsu.unionSets(from, to);
             mst.push_back(edge);
         }
     }
@@ -93,7 +96,6 @@ vector<Graph<Data>::Edge> kruskalMST(Graph<Data>& graph)
 }
 
 
-// Пример использования
 int main() 
 {
     /*example:
@@ -129,12 +131,12 @@ int main()
         graph.addEdge(from, to, weight);
     }
 
-    vector<Graph<Data>::Edge> mst = kruskalMST(graph);
+    vector<pair<int, GraphEdge>> mst = kruskalMST(graph);
 
     cout << "Edges of the Minimum Spanning Tree:" << endl;
     for (auto edge : mst) 
     {
-        cout << edge.from << " - " << edge.to << " : " << edge.weight << endl;
+        cout << edge.first << " - " << edge.second.to << " : " << edge.second.weight << endl;
     }
     
     return 0;

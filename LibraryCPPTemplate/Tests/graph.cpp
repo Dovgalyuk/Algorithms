@@ -22,22 +22,28 @@ int main() {
         return 1;
     }
 
-    // Тестирование добавления ребра
-    std::cout << "Testing addEdge..." << std::endl;
-    graph.addEdge(0, 1, 10);
-    if (!graph.hasEdge(0, 1)) 
+    // Тестирование добавления нескольких рёбер
+    std::cout << "Testing addEdge with multiple edges..." << std::endl;
+    for (int i = 0; i < 5; i++) 
     {
-        std::cout << "Add edge test failed." << std::endl;
-        return 1;
+        graph.addEdge(i, (i + 1) % graph.vertexCount(), 10 * i);
+        if (!graph.hasEdge(i, (i + 1) % graph.vertexCount())) 
+        {
+            std::cout << "Add edge test failed for edge " << i << " to " << (i + 1) % graph.vertexCount() << std::endl;
+            return 1;
+        }
     }
 
-    // Тестирование удаления ребра
-    std::cout << "Testing removeEdge..." << std::endl;
-    graph.removeEdge(0, 1);
-    if (graph.hasEdge(0, 1)) 
+    // Тестирование удаления нескольких рёбер
+    std::cout << "Testing removeEdge with multiple edges..." << std::endl;
+    for (int i = 0; i < 5; i++) 
     {
-        std::cout << "Remove edge test failed." << std::endl;
-        return 1;
+        graph.removeEdge(i, (i + 1) % graph.vertexCount());
+        if (graph.hasEdge(i, (i + 1) % graph.vertexCount())) 
+        {
+            std::cout << "Remove edge test failed for edge " << i << " to " << (i + 1) % graph.vertexCount() << std::endl;
+            return 1;
+        }
     }
 
     // Тестирование пометок для вершин

@@ -54,10 +54,20 @@ public:
                 delete temp;
             }
 
+            Item* lastInserted = nullptr;
             Item* current = a.head_;
             while (current)
             {
-                insert(current->data());
+                if (lastInserted == nullptr)
+                {
+                    //Первый элемент из списка 'a' вставляется в начало текущего списка
+                    lastInserted = insert(current->data());
+                }
+                else
+                {
+                    //Каждый последующий элемент вставляется после последнего вставленного элемента
+                    lastInserted = insert_after(lastInserted, current->data());
+                }
                 current = current->next();
             }
         }
