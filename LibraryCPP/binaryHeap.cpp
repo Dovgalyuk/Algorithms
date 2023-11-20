@@ -60,13 +60,13 @@ void binaryHeap_insert(BinaryHeap* heap, HuffmanNode* node)
     }
 }
 
-void binaryHeap_extractMin(BinaryHeap* heap)
-{
-    if (heap->dataCount)
-    {
+void binaryHeap_extractMin(BinaryHeap* heap) {
+    if (heap->dataCount) {
+        HuffmanNode* minNode = heap->heapData[0];
         heap->heapData[0] = heap->heapData[heap->dataCount - 1];
         heap->dataCount--;
         binaryHeap_heapify(heap, 1);
+        huffman_deleteTree(minNode);
     }
 }
 
