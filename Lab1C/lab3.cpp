@@ -6,27 +6,20 @@
 #include <fstream>
 
 using namespace std;
-size_t FindRootIndex(vector<vector<size_t>> v, size_t root) {
-	if (!v.empty()) {
-		for (size_t i = 0; i < v.size(); i++) {
-			if (v[i][0] == root)
-				return i;
+typedef vector<vector<size_t>> graph;
+size_t FindRootIndexForNode(const graph& g, size_t node, size_t start = 0) {
+	if (!g.empty() && (start < g.size())) {
+		for (size_t i = start; i < g.size(); i++) {
+			if (g[i].size() > 0)
+				for (size_t j = 0; j < g[i].size(); j++)
+					if (g[i][j] == node)
+						return i;
 		}
 	}
 	return SIZE_MAX;
 }
-size_t FindRootIndexForNode(vector<vector<size_t>> v, size_t node, size_t start = 0) {
-	if (!v.empty() && (start < v.size())) {
-		for (size_t i = start; i < v.size(); i++) {
-			for (size_t j = 1; j < v[i].size(); j++)
-				if (v[i][j] == node)
-					return i;
-		}
-	}
-	return SIZE_MAX;
-}
-vector<vector<size_t>> InputGraph(size_t* start, size_t* end, size_t* size, vector<string>& points) {
-	vector<vector<size_t>> graph;
+graph InputGraph(size_t* start, size_t* end, size_t* size, vector<string>& points) {
+	graph graph;
 	string str = "";
 	string node1 = "";
 	string node2 = "";
@@ -70,12 +63,8 @@ vector<vector<size_t>> InputGraph(size_t* start, size_t* end, size_t* size, vect
 				index2 = points.size();
 				points.push_back(node2);
 			}
-
-			size_t index = FindRootIndex(graph, index1);
-			if (index == SIZE_MAX)
-				graph.push_back(vector<size_t> {index1});
-			index = FindRootIndex(graph, index1);
-			graph[index].push_back(index2);
+			graph.resize(points.size());
+			graph[index1].push_back(index2);
 		}
 		else flag = false;
 	}
@@ -110,22 +99,22 @@ vector<vector<size_t>> InputGraph(size_t* start, size_t* end, size_t* size, vect
 
 	return graph;
 }
-vector<size_t> findNodes(vector<vector<size_t>>graph, size_t node) {
+vector<size_t> findNodes(const graph& g, size_t node) {
 	vector<size_t> nodes;
-	size_t index = FindRootIndex(graph, node);
-	if (index != SIZE_MAX) {
-		for (size_t i = 1;i < graph[index].size();i++) {
-			nodes.push_back(graph[index][i]);
+	size_t size = g[node].size();
+	if (size > 0) {
+		for (size_t i = 0;i < size;i++) {
+			nodes.push_back(g[node][i]);
 		}
 	}
-	index = FindRootIndexForNode(graph, node);
+	size_t index = FindRootIndexForNode(g, node);
 	while (index != SIZE_MAX) {
-		nodes.push_back(graph[index][0]);
-		index = FindRootIndexForNode(graph, node, index + 1);
+		nodes.push_back(index);
+		index = FindRootIndexForNode(g, node, index + 1);
 	}
 	return nodes;
 }
-vector<size_t> BFS(vector<vector<size_t>>graph, size_t node, size_t goalNode, size_t size) {
+vector<size_t> BFS(const graph& g, size_t node, size_t goalNode, size_t size) {
 	vector<bool> visited(size, false);
 	vector<size_t> parent(size, SIZE_MAX);
 	parent[node] = node;
@@ -141,7 +130,7 @@ vector<size_t> BFS(vector<vector<size_t>>graph, size_t node, size_t goalNode, si
 		if (node == goalNode) {
 			break;
 		}
-		vector<size_t> nodes = findNodes(graph, node);
+		vector<size_t> nodes = findNodes(g, node);
 		if (nodes.size() > 0) {
 			for (auto n : nodes) {
 				if (!visited[n]) {
@@ -153,26 +142,25 @@ vector<size_t> BFS(vector<vector<size_t>>graph, size_t node, size_t goalNode, si
 				}
 			}
 		}
-
 	}
 	queue_delete(queue);
 	return parent;
 }
-void PrintWay(vector<size_t> parent, vector<string> points, size_t node, string* message) {
+void PrintWay(const vector<size_t>& parent, const vector<string>& points, size_t node, string* message) {
 	if (parent[node] != node)
 		PrintWay(parent, points, parent[node], message);
 	*message += points[node] + " ";
 }
 int main()
 {
-	vector<vector<size_t>> graph;
 	vector<string> points;
 	size_t start, end, size;
-	graph = InputGraph(&start, &end, &size, points);
-	vector<size_t> parent = BFS(graph, start, end, size);
+	graph g = InputGraph(&start, &end, &size, points);
+	vector<size_t> parent = BFS(g, start, end, size);
 	ofstream fout("Way.txt");
 	string message = "";
 	PrintWay(parent, points, end, &message);
 	fout << message;
 	fout.close();
+	system("pause");
 }

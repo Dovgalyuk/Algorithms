@@ -40,9 +40,7 @@ void list_delete(List* list)
 			item = next;
 		else item = NULL;
 	}
-	list->Head = NULL;
 	free(list);
-	list = NULL;
 }
 
 ListItem* list_first(List* list)
@@ -81,7 +79,7 @@ ListItem* list_insert(List* list, Data data)
 
 	newItem->Next = list->Head;
 	newItem->Prev = list->Head->Prev;
-	list_item_prev(list->Head)->Next = newItem;
+	list->Head->Prev->Next = newItem;
 	list->Head->Prev = newItem;
 
 	list->Head = newItem;
@@ -95,7 +93,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
 	newItem->Value = data;
 
 	newItem->Prev = item;
-	list_item_next(item)->Prev = newItem;
+	item->Next->Prev = newItem;
 	newItem->Next = item->Next;
 	item->Next = newItem;
 
@@ -116,9 +114,9 @@ ListItem* list_erase_first(List* list)
 		return NULL;
 	}
 
-	list_item_next(first)->Prev = list_item_prev(first);
-	list_item_prev(first)->Next = list_item_next(first);
-	list->Head = list_item_next(first);
+	first->Next->Prev = first->Prev;
+	first->Prev->Next = first->Next;
+	list->Head = first->Next;
 
 	if (list->deleter != NULL)
 		list->deleter(first->Value);
@@ -145,7 +143,7 @@ ListItem* list_erase_next(List* list, ListItem* item)
 	}
 
 	item->Next = forDel->Next;
-	list_item_next(forDel)->Prev = item;
+	forDel->Next->Prev = item;
 
 	if (forDel == list->Head)
 		list->Head = forDel->Next;
@@ -157,4 +155,3 @@ ListItem* list_erase_next(List* list, ListItem* item)
 	free(forDel);
 	return item->Next;
 }
-
