@@ -18,7 +18,6 @@ void testPriorityQueue() {
     priorityQueue_insert(queue, node1);
     priorityQueue_insert(queue, node2);
     priorityQueue_insert(queue, node3);
-
     // Проверяем размер очереди после вставки узлов
     std::cout << "Тест: Размер очереди после добавления 3 узлов должен быть 3 - " << (priorityQueue_getSize(queue) == 3 ? "Успех" : "Ошибка") << std::endl;
 
@@ -40,11 +39,6 @@ void testPriorityQueue() {
 
     // Удаляем очередь
     priorityQueue_delete(queue);
-
-    // Удаляем узлы Huffman
-    huffman_deleteTree(node1);
-    huffman_deleteTree(node2);
-    huffman_deleteTree(node3);
 }
 
 int main() {
