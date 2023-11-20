@@ -162,5 +162,4 @@ int main()
 	PrintWay(parent, points, end, &message);
 	fout << message;
 	fout.close();
-	system("pause");
 }
