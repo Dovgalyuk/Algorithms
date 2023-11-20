@@ -180,7 +180,6 @@ void huffman_compress(std::ifstream& fileIn, const std::string& compressedFileNa
 
     huffman_makeTable(huffmanTree, table, symbolCode);
     huffmanTree = huffman_deleteTree(huffmanTree);
-
     while (!fileIn.eof())
     {
         symbolCode = table[(unsigned char)fileIn.get()];
