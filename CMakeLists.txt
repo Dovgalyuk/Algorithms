@@ -3,9 +3,16 @@ project(Algorithms)
 
 enable_testing()
 
-add_subdirectory(LibraryC)
+set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+if (MSVC)
+    add_compile_options(/W4 /WX)
+else()
+    add_compile_options(-Wall -Wextra -Wpedantic -Wno-gnu-empty-struct -Wno-unused-parameter)
+endif()
+
+
+
 add_subdirectory(LibraryCPP)
-add_subdirectory(LibraryCPPClass)
-add_subdirectory(LibraryCPPTemplate)
+
 
 add_subdirectory(Lab1C)
