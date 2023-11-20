@@ -8,7 +8,7 @@ class Stack
 {
 public:
     // Creates empty stack
-    Stack() : mList(), mSize(0)
+    Stack() : mList()
     {
     }
 
@@ -17,7 +17,6 @@ public:
     {
         // implement or disable this function
         mList = a.mList;
-        mSize = a.mSize;
     }
 
     // assignment operator
@@ -25,7 +24,6 @@ public:
     {
         // implement or disable this function
         mList = a.mList;
-        mSize = a.mSize;
         return *this;
     }
 
@@ -39,7 +37,6 @@ public:
     void push(Data data)
     {
         mList.insert(data);
-        mSize++;
     }
 
     // Retrives the last element from the stack
@@ -53,19 +50,17 @@ public:
     void pop()
     {
         mList.erase_first();
-        mSize--;
     }
 
     // Returns true if the stack is empty
     bool empty() const
     {
-        return mList.empty() && mSize == 0;
+        return mList.empty();
     }
 
 private:
     // private data should be here
     List<Data> mList;
-    std::size_t mSize;
 };
 
 #endif
