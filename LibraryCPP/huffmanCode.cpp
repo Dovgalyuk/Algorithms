@@ -145,12 +145,10 @@ void huffman_compress(std::ifstream& fileIn, const std::string& compressedFileNa
 
     PriorityQueue* nodesQueue = priorityQueue_create(huffman_alphabetGetSymbolsCount(symbolsCount));
     huffman_makeNodesQueue(nodesQueue, symbolsCount);
-
     while (priorityQueue_getSize(nodesQueue) > 1)
     {
         HuffmanNode* firstNode = priorityQueue_getNode(nodesQueue);
         priorityQueue_remove(nodesQueue);
-
         HuffmanNode* newInternalNode = huffman_createInternalNode(firstNode, priorityQueue_getNode(nodesQueue));
         priorityQueue_remove(nodesQueue);
 
