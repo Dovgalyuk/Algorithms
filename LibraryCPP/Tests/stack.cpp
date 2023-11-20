@@ -3,7 +3,7 @@
 
 int main()
 {
-    Stack *stack = stack_create();
+    Stack<int> *stack = stack_create<int>();
 
     stack_push(stack, 1);
     stack_push(stack, 2);

@@ -1,6 +1,3 @@
-#ifndef STACK_TEMPLATE_H
-#define STACK_TEMPLATE_H
-
 #include "stack.h"
 
 template <typename T>
@@ -72,5 +69,3 @@ bool stack_empty(const Stack<T> *stack)
 {
     return stack->top == nullptr;
 }
-
-#endif

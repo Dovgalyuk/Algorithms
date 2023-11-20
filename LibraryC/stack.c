@@ -1,18 +1,19 @@
+#include <stdlib.h>
 #include "stack.h"
 
-struct Stack
+typedef struct Stack
 {
-};
+} Stack;
 
-Stack *stack_create()
+Stack *stack_create(FFree f)
 {
-    return new Stack;
+    return malloc(sizeof(Stack));
 }
 
 void stack_delete(Stack *stack)
 {
     // TODO: free stack elements
-    delete stack;
+    free(stack);
 }
 
 void stack_push(Stack *stack, Data data)
