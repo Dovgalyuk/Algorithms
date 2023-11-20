@@ -67,6 +67,39 @@ int main() {
         return 1;
     }
 
+    // Тестирование добавления нескольких рёбер к одной вершине
+    std::cout << "Testing add multiple edges to a single vertex..." << std::endl;
+    for (int i = 1; i < graph.vertexCount(); i++) 
+    {
+        graph.addEdge(0, i, 10 * i);
+    }
+    for (int i = 1; i < graph.vertexCount(); i++) 
+    {
+        if (!graph.hasEdge(0, i)) 
+        {
+            std::cout << "Multiple edges test failed for edge from 0 to " << i << std::endl;
+            return 1;
+        }
+    }
+
+    // Тестирование удаления вершины
+    std::cout << "Testing removeVertex with non-empty edge set..." << std::endl;
+    int removeVertexIndex = 2; 
+    graph.removeVertex(removeVertexIndex);
+    if (graph.vertexCount() != 5) 
+    {
+        std::cout << "Remove vertex test failed: incorrect vertex count." << std::endl;
+        return 1;
+    }
+    for (int i = 0; i < graph.vertexCount(); i++) 
+    {
+        if (graph.hasEdge(i, removeVertexIndex)) 
+        {
+            std::cout << "Remove vertex test failed: found edge to removed vertex." << std::endl;
+            return 1;
+        }
+    }
+
     std::cout << "All tests passed successfully." << std::endl;
     return 0;
 }
