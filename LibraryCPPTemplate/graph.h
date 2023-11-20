@@ -12,15 +12,15 @@ class Graph {
 public:
     struct Vertex;
     struct Edge {
-        Vertex* from, * to;
+        Vertex* to;
         EdgeData data;
-        Edge(Vertex* f, Vertex* t, EdgeData d) : from(f), to(t), data(d) {}
+        Edge(Vertex* t, EdgeData d) : to(t), data(d) {} 
     };
 
     struct Vertex {
         VertexData data;
         List<Edge> edges;
-        size_t id;  // Добавлен идентификатор для вершины
+        size_t id;
 
         Vertex(VertexData d, size_t id) : data(d), id(id) {}
     };
@@ -52,35 +52,33 @@ public:
         while (it) {
             auto next = it->next();
             Edge* edge = &it->_data;
-            if (edge->to != vertex) {
-                // Удаление ребра из списка рёбер другой вершины
-                removeEdgeFromVertex(edge->to, edge);
-            }
+            removeEdgeFromVertex(edge->to, edge);
             it = next;
         }
 
         // Удаление вершины из графа
-        vertices.erase(std::find_if(vertices.begin(), vertices.end(),
-            [&](const auto& pair) { return pair.second == vertex; }));
+        vertices.erase(vertex->id);
         delete vertex;
     }
 
     Edge* addEdge(Vertex* from, Vertex* to, const EdgeData& data) {
-        Edge newEdge(from, to, data);
+        Edge newEdge(to, data);
         from->edges.insert(newEdge);
         return &from->edges.first()->_data;
     }
 
-    void removeEdge(Edge* edge) {
-        if (!edge) return;
+    void removeEdge(Vertex* from, Vertex* to) {
+        if (!from) return;
 
-        Vertex* from = edge->from;
-        Vertex* to = edge->to;
-
-        removeEdgeFromVertex(from, edge);
-
-        if (from != to) {
-            removeEdgeFromVertex(to, edge);
+        auto it = from->edges.first();
+        while (it) {
+            Edge* edge = &it->_data;
+            if (edge->to == to) {
+                // Удаление ребра совпадающего по 'to'
+                removeEdgeFromVertex(from, edge);
+                break;
+            }
+            it = it->next();
         }
     }
 
@@ -135,17 +133,23 @@ public:
     public:
         NeighborIterator(Vertex* vertex) : current(vertex ? vertex->edges.first() : nullptr) {}
 
+        struct NeighborInfo {
+            Vertex* neighbor;
+            Edge* edge;
+        };
+
         bool hasNext() const {
             return current != nullptr;
         }
 
-        Vertex* next() {
+        NeighborInfo next() {
             if (!hasNext()) {
-                return nullptr;
+                return { nullptr, nullptr };
             }
             Vertex* neighbor = current->_data.to;
+            Edge* edge = &(current->_data);
             current = current->next();
-            return neighbor;
+            return { neighbor, edge };
         }
 
     private:
