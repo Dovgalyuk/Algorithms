@@ -19,6 +19,7 @@ public:
         Item* prev() { return _prev; }
         Item* next() { return _next; }
         Data data() const { return _data; }
+        const Data& get_data() const { return _data; }
     };
 
 private:

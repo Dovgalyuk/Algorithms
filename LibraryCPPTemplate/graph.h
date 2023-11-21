@@ -154,8 +154,8 @@ public:
             if (!hasNext()) {
                 return { nullptr, nullptr };
             }
-            Vertex* neighbor = current->_data.to;
-            Edge* edge = &(current->_data);
+            Vertex* neighbor = current->get_data().to;
+            Edge* edge = const_cast<Edge*>(&current->get_data());
             current = current->next();
             return { neighbor, edge };
         }
