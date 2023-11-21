@@ -24,8 +24,7 @@ vec dijkstra(IntGraph& graph, int startVertexId) {
 
         if (distance > distances[vertexId]) continue;
 
-        // Использование NeighborIterator для перебора соседей
-        auto vertex = graph.getVertex(vertexId); // Эту функцию нужно реализовать в классе Graph
+        auto vertex = graph.getVertex(vertexId);
         IntGraph::NeighborIterator neighbors(vertex);
         while (neighbors.hasNext()) {
             auto neighborInfo = neighbors.next();

@@ -47,13 +47,22 @@ public:
     void removeVertex(Vertex* vertex) {
         if (!vertex) return;
 
-        // Удаление всех рёбер, связанных с вершиной
-        auto it = vertex->edges.first();
-        while (it) {
-            auto next = it->next();
-            Edge* edge = &it->_data;
-            removeEdgeFromVertex(edge->to, edge);
-            it = next;
+        // Удаление входящих рёбер
+        for (auto& vertexPair : vertices) {
+            Vertex* currentVertex = vertexPair.second;
+            auto it = currentVertex->edges.first();
+            while (it) {
+                auto next = it->next();
+                if (it->_data.to == vertex) {
+                    removeEdge(currentVertex, vertex);
+                }
+                it = next;
+            }
+        }
+
+        // Удаление исходящих рёбер
+        while (vertex->edges.first() != nullptr) {
+            removeEdge(vertex, vertex->edges.first()->_data.to);
         }
 
         // Удаление вершины из графа
@@ -74,7 +83,6 @@ public:
         while (it) {
             Edge* edge = &it->_data;
             if (edge->to == to) {
-                // Удаление ребра совпадающего по 'to'
                 removeEdgeFromVertex(from, edge);
                 break;
             }

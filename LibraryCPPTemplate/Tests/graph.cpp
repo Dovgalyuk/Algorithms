@@ -59,27 +59,59 @@ int main() {
 
     // Создание дополнительных рёбер
     for (int i = 0; i < additionalVertexCount; ++i) {
-        graph->addEdge(additionalVertices[i], additionalVertices[(i + 1) % additionalVertexCount], (i + 4) * 10);
+        for (int j = 1; j < additionalVertexCount; ++j) {  // Исключаем соединение вершины самой с собой
+            int toIndex = (i + j) % additionalVertexCount;
+            graph->addEdge(additionalVertices[i], additionalVertices[toIndex], j * 10);
+        }
     }
 
     // Проверка существования дополнительных рёбер
     for (int i = 0; i < additionalVertexCount; ++i) {
-        if (!graph->edgeExists(additionalVertices[i], additionalVertices[(i + 1) % additionalVertexCount])) {
-            std::cout << "Error in addEdge or edgeExists for additional vertices\n";
-            return 1;
+        for (int j = 1; j < additionalVertexCount; ++j) {
+            int toIndex = (i + j) % additionalVertexCount;
+            if (!graph->edgeExists(additionalVertices[i], additionalVertices[toIndex])) {
+                std::cout << "Error in addEdge or edgeExists for additional vertices\n";
+                return 1;
+            }
+        }
+    }
+    for (int i = 0; i < additionalVertexCount; ++i) {
+        graph->removeVertex(additionalVertices[i]);
+    }
+
+    // Проверка количества вершин после удаления
+    if (graph->vertexCount() != 2) {  // Остается только v1 и v2
+        std::cout << "Error in removeVertex for additional vertices\n";
+        return 1;
+    }
+
+    for (int i = 0; i < additionalVertexCount; ++i) {
+        additionalVertices[i] = graph->addVertex(i + 4);
+    }
+
+    for (int i = 0; i < additionalVertexCount; ++i) {
+        for (int j = 1; j < additionalVertexCount; ++j) {  // Исключаем соединение вершины самой с собой
+            int toIndex = (i + j) % additionalVertexCount;
+            graph->addEdge(additionalVertices[i], additionalVertices[toIndex], j * 10);
         }
     }
 
     // Удаление дополнительных рёбер
     for (int i = 0; i < additionalVertexCount; ++i) {
-        graph->removeEdge(additionalVertices[i], additionalVertices[(i + 1) % additionalVertexCount]);
+        for (int j = 1; j < additionalVertexCount; ++j) {
+            int toIndex = (i + j) % additionalVertexCount;
+            graph->removeEdge(additionalVertices[i], additionalVertices[toIndex]);
+        }
     }
 
     // Проверка отсутствия дополнительных рёбер
     for (int i = 0; i < additionalVertexCount; ++i) {
-        if (graph->edgeExists(additionalVertices[i], additionalVertices[(i + 1) % additionalVertexCount])) {
-            std::cout << "Error in removeEdge for additional vertices\n";
-            return 1;
+        for (int j = 1; j < additionalVertexCount; ++j) {
+            int toIndex = (i + j) % additionalVertexCount;
+            if (graph->edgeExists(additionalVertices[i], additionalVertices[toIndex])) {
+                std::cout << "Error in removeEdge for additional vertices\n";
+                return 1;
+            }
         }
     }
 
