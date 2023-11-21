@@ -26,16 +26,31 @@ void task1(Array* arr) {
     
     cout << '\n';
     double sum = 0;
+    double sumNeg = 0;
     int a = 0;
+    int aNeg = 0;
     for (size_t i = 0; i < array_size(arr); i++){
+        double num1 = array_get(arr,i);
+        if (num1 > 0){
          a++;
-         sum += array_get(arr, i);
+         sum += num1;
+        } else if (num1 < 0){
+         aNeg++;
+         sumNeg += num1;
+         }
     }
-    if( a != 0){
-        sum /=a;
-        cout << "avg: " << sum << '\n';
+    if( a > 0){
+        double avg = sum / a;
+        cout << "avg of positive elements: " << avg << '\n';
     }else{
-        cout << "no elements\n";
+        cout << "no positive elements\n";
+    }
+
+    if (aNeg > 0) {
+        double avgNeg = sumNeg / aNeg;
+        cout << "avg of negative elements:" << avgNeg << '\n';
+    } else {
+        cout << "No negative elements\n";
     }
 }
 
@@ -54,7 +69,7 @@ void task2(Array *arr)
         if (Num % 2 == 0) {
             t = Num;
             for (size_t j = i+1; j < ArrSize; j++){
-                size_t nextNum = array_get(arr, j);
+                int nextNum = array_get(arr, j);
                 if (nextNum % 2 == 0) {
                     int b = nextNum - t;
                     b = Abs(b);
