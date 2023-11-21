@@ -1,4 +1,9 @@
 #include "huffmanCode.h"
+#include <vector>
+#include <map>
+#include "array.h"
+#include "priorityQueue.h"
+typedef std::map<unsigned char, std::vector<bool>> symbolsTableMap;
 
 struct Byte
 {
@@ -225,30 +230,21 @@ HuffmanNode* huffman_rebuildHuffmanTree(Byte& byteStruct, HuffmanNode* node)
 
     if (!node)
     {
-        if (!isLeaf)
-            node = huffman_createInternalNode(NULL, NULL);
-        else
+        if (isLeaf)
         {
             unsigned char symbol = huffman_getSymbolFromByte(byteStruct);
             node = huffman_createLeafNode(symbol, 0);
-            return node;
+        }
+        else
+        {
+            node = huffman_createInternalNode(NULL, NULL);
         }
     }
 
     if (!isLeaf)
     {
-        if (!huffman_getCurrentBitState(byteStruct))
-            huffman_setLeftNode(node, huffman_createInternalNode(NULL, NULL));
         huffman_setLeftNode(node, huffman_rebuildHuffmanTree(byteStruct, huffman_getLeftNode(node)));
-
-        if (!huffman_getCurrentBitState(byteStruct))
-            huffman_setRightNode(node, huffman_createInternalNode(NULL, NULL));
         huffman_setRightNode(node, huffman_rebuildHuffmanTree(byteStruct, huffman_getRightNode(node)));
-    }
-    else
-    {
-        unsigned char symbol = huffman_getSymbolFromByte(byteStruct);
-        return huffman_createLeafNode(symbol, 0);
     }
 
     return node;
@@ -289,6 +285,11 @@ void huffman_decompress(std::ifstream& fileIn, const std::string& decompressedFi
 
     HuffmanNode* currentNode = huffmanTree;
 
+    // Проверка перед началом обработки битов
+    if (!currentNode) {
+        throw std::runtime_error("Ошибка: Дерево Хаффмана пусто");
+    }
+
     byteStruct.byte = (uint8_t)fileIn.get();
     byteStruct.bitsCount = 0;
 
@@ -310,9 +311,7 @@ void huffman_decompress(std::ifstream& fileIn, const std::string& decompressedFi
             else
                 currentNode = huffman_getLeftNode(currentNode);
 
-            if (!currentNode)
-                currentNode = huffmanTree;
-            else if (huffman_nodeIsLeaf(currentNode))
+            if (huffman_nodeIsLeaf(currentNode))
             {
                 fileOut.put(huffman_getNodeChar(currentNode));
                 currentNode = huffmanTree;
