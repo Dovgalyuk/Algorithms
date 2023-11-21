@@ -27,7 +27,6 @@ bool check(const std::string& html) {
                 }
             }
             ++i;
-
         }
         else
         {
