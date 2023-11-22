@@ -62,7 +62,7 @@ public:
         {
             Stack<Data> *item = this->top;
             this->top = item->next;
-            //delete item;
+            delete item;
         }
     }
 
