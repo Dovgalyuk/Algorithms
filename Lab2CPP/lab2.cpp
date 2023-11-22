@@ -6,8 +6,8 @@
 
 using namespace std;
 
-template <typename T>
-void task1(Stack<T> *particleStack);
+template <typename Data>
+void task1(Stack<Data> particleStack);
 
 struct Particle {
     int position;
@@ -19,24 +19,22 @@ struct ParticleResult {
     int second;
 };
 
+typedef Stack<ParticleResult> MyStackResult;
+
 int main()
 {
-    Stack<Particle> *stack = NULL;
+    Stack<Particle> stack;
     /* Create array here */
     task1(stack);
-    if (stack != NULL) {
-        stack_delete(stack);
-    }
 }
 
-template <typename T>
-void task1(Stack<T> *particleStack)  
+template <typename Data>
+void task1(Stack<Data> particleStack)  
 {
     int N;
     cin >> N;
 
-    particleStack = stack_create<Particle>();
-    Stack<ParticleResult> *resultStack = stack_create<ParticleResult>();
+    MyStackResult resultStack;
     Particle particle;
     ParticleResult result;
     
@@ -44,20 +42,20 @@ void task1(Stack<T> *particleStack)
     for (int i = 0; i < N; i++) {
         
         cin >> particle.position >> particle.charge;
-        stack_push(particleStack, particle);
+        particleStack.push(particle);
     }
     for (int i = 0; i < N; i++) {
-        particle = stack_get(particleStack);
-        stack_pop(particleStack);
-        if (!stack_empty(particleStack) && particle.charge == '-' && stack_get(particleStack).charge == '+') {
-            result.first = stack_get(particleStack).position; 
+        particle = particleStack.get();
+        particleStack.pop();
+        if (!particleStack.empty() && particle.charge == '-' && particleStack.get().charge == '+') {
+            result.first = particleStack.get().position; 
             result.second = particle.position;
-            stack_push(resultStack, result);
+            resultStack.push(result);
         }
     }
-    while(!stack_empty(resultStack)) {
-        result = stack_get(resultStack);
+    while(!resultStack.empty()) {
+        result = resultStack.get();
         cout << result.first << " " << result.second << endl;
-        stack_pop(resultStack);
+        resultStack.pop();
     }
 }

@@ -1,76 +1,30 @@
-#ifndef STACK_TEMPLATE_H
-#define STACK_TEMPLATE_H
+#ifndef STACK_H
+#define STACK_H
 
-#include "stack.h"
+// Stack
+// Stores integer values inside
+typedef int Data;
 
-template <typename T>
-struct StackItem
-{
-    T data;
-    StackItem<T> *next;
-};
+struct Stack;
 
-template <typename T>
-struct Stack
-{
-    StackItem<T> *top;
-};
+// Creates empty stack
+Stack *stack_create();
 
-template <typename T>
-Stack<T>* stack_create()
-{
-    Stack<T> *newStack = new Stack<T>;
-    newStack->top = nullptr;
-    return newStack;
-}
+// Deletes the stack
+void stack_delete(Stack *stack);
 
-template <typename T>
-void stack_delete(Stack<T> *stack)
-{
-    StackItem<T> *item = stack->top;
-    while (item != nullptr)
-    {
-        StackItem<T> *next = item->next;
-        delete item;
-        item = next;
-    }
-    delete stack;
-}
+// Pushes data on top of the stack
+// Should be O(1) on average
+void stack_push(Stack *stack, Data data);
 
-template <typename T>
-void stack_push(Stack<T> *stack, T data)
-{
-    StackItem<T> *newItem = new StackItem<T>;
-    newItem->data = data;
-    newItem->next = stack->top;
-    stack->top = newItem;
-}
+// Retrives the last element from the stack
+Data stack_get(const Stack *stack);
 
-template <typename T>
-T stack_get(const Stack<T> *stack)
-{
-    if (stack->top == nullptr)
-    {
-        return T();
-    }
-    return stack->top->data;
-}
+// Removes the last element from the stack
+// Should be O(1)
+void stack_pop(Stack *stack);
 
-template <typename T>
-void stack_pop(Stack<T> *stack)
-{
-    if (stack->top != nullptr)
-    {
-        StackItem<T> *item = stack->top;
-        stack->top = item->next;
-        delete item;
-    }
-}
-
-template <typename T>
-bool stack_empty(const Stack<T> *stack)
-{
-    return stack->top == nullptr;
-}
+// Returns true if the stack is empty
+bool stack_empty(const Stack *stack);
 
 #endif
