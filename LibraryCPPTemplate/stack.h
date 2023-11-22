@@ -26,7 +26,12 @@ public:
     // Deletes the stack
     ~Stack()
     {
-        //delete this;
+        Stack<Data> *curr = top;
+        while (curr != nullptr) {
+            Stack<Data> *next = curr->next;
+            delete curr;
+            curr = next;
+        }
     }
 
     // Pushes data on top of the stack
