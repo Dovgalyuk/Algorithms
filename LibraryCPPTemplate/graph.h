@@ -53,7 +53,7 @@ public:
             auto it = currentVertex->edges.first();
             while (it) {
                 auto next = it->next();
-                if (it->_data.to == vertex) {
+                if (it->data().to == vertex) {
                     removeEdge(currentVertex, vertex);
                 }
                 it = next;
@@ -62,7 +62,7 @@ public:
 
         // Удаление исходящих рёбер
         while (vertex->edges.first() != nullptr) {
-            removeEdge(vertex, vertex->edges.first()->_data.to);
+            removeEdge(vertex, vertex->edges.first()->data().to);
         }
 
         // Удаление вершины из графа
@@ -73,7 +73,7 @@ public:
     Edge* addEdge(Vertex* from, Vertex* to, const EdgeData& data) {
         Edge newEdge(to, data);
         from->edges.insert(newEdge);
-        return &from->edges.first()->_data;
+        return const_cast<Edge*>(&from->edges.first()->get_data());
     }
 
     void removeEdge(Vertex* from, Vertex* to) {
@@ -81,7 +81,7 @@ public:
 
         auto it = from->edges.first();
         while (it) {
-            Edge* edge = &it->_data;
+            Edge* edge = const_cast<Edge*>(&it->get_data());
             if (edge->to == to) {
                 removeEdgeFromVertex(from, edge);
                 break;
@@ -95,7 +95,7 @@ public:
 
         auto it = from->edges.first();
         while (it) {
-            if (it->_data.to == to) return true;
+            if (it->data().to == to) return true;
             it = it->next();
         }
         return false;
@@ -173,7 +173,7 @@ private:
 
         auto it = vertex->edges.first();
         while (it) {
-            if (&it->_data == edge) {
+            if (const_cast<Edge*>(&it->get_data()) == edge) {
                 if (it == vertex->edges.first()) {
                     vertex->edges.erase_first();
                 }
