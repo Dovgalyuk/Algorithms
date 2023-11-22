@@ -3,7 +3,9 @@
 
 #include <stdlib.h>
 #include <iostream>
-#include "huffmanTree.h"
+
+// Предварительное объявление структуры HuffmanNode
+struct HuffmanNode;
 
 struct BinaryHeap;
 

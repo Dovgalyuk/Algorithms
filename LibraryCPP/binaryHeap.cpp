@@ -4,6 +4,7 @@
 struct BinaryHeap
 {
     HuffmanNode** heapData;
+    unsigned long long int* weights; // массив для хранения весов
     size_t heapSize;
     size_t dataCount;
 };
@@ -12,6 +13,7 @@ BinaryHeap* binaryHeap_create(const size_t size)
 {
     BinaryHeap* heap = new BinaryHeap;
     heap->heapData = new HuffmanNode * [size];
+    heap->weights = new unsigned long long int[size]; // инициализация массива весов
     heap->heapSize = size;
     heap->dataCount = 0;
     return heap;
@@ -19,9 +21,15 @@ BinaryHeap* binaryHeap_create(const size_t size)
 
 void binaryHeap_swapData(BinaryHeap* heap, const size_t firstIndex, const size_t secondIndex)
 {
-    HuffmanNode* temp = heap->heapData[firstIndex];
+    // Меняем местами узлы
+    HuffmanNode* tempNode = heap->heapData[firstIndex];
     heap->heapData[firstIndex] = heap->heapData[secondIndex];
-    heap->heapData[secondIndex] = temp;
+    heap->heapData[secondIndex] = tempNode;
+
+    // Меняем местами веса
+    unsigned long long int tempWeight = heap->weights[firstIndex];
+    heap->weights[firstIndex] = heap->weights[secondIndex];
+    heap->weights[secondIndex] = tempWeight;
 }
 
 void binaryHeap_heapify(BinaryHeap* heap, int i)
@@ -32,9 +40,9 @@ void binaryHeap_heapify(BinaryHeap* heap, int i)
         int right = i * 2 + 1;
         int smallest = i;
 
-        if (left <= (int)heap->dataCount && huffman_getNodeWeight(heap->heapData[left - 1]) < huffman_getNodeWeight(heap->heapData[smallest - 1]))
+        if (left <= (int)heap->dataCount && heap->weights[left - 1] < heap->weights[smallest - 1])
             smallest = left;
-        if (right <= (int)heap->dataCount && huffman_getNodeWeight(heap->heapData[left - 1]) < huffman_getNodeWeight(heap->heapData[smallest - 1]))
+        if (right <= (int)heap->dataCount && heap->weights[right - 1] < heap->weights[smallest - 1])
             smallest = right;
         if (i == smallest)
             break;
@@ -57,6 +65,7 @@ void binaryHeap_insert(BinaryHeap* heap, HuffmanNode* node)
             i = i / 2;
         }
         heap->heapData[i - 1] = node;
+        heap->weights[i - 1] = huffman_getNodeWeight(node); // Сохраняем вес узла
     }
 }
 
@@ -100,5 +109,6 @@ void binaryHeap_delete(BinaryHeap* heap) {
         huffman_deleteTree(heap->heapData[i]);
     }
     delete[] heap->heapData;
+    delete[] heap->weights;
     delete heap;
 }

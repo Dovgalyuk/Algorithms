@@ -3,6 +3,7 @@
 #include <map>
 #include "array.h"
 #include "priorityQueue.h"
+#include "huffmanTree.h"
 typedef std::map<unsigned char, std::vector<bool>> symbolsTableMap;
 
 struct Byte
