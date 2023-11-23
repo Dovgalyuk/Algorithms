@@ -52,6 +52,7 @@ void testBinaryHeap() {
     }
 
     // Очищаем кучу
+    huffman_deleteTree(minNode);
     binaryHeap_delete(heap);
 }
 
