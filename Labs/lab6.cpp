@@ -9,5 +9,5 @@ int main()
 	fileIn.open("compressedText.arc", std::ios::binary);
 	huffman_decompress(fileIn, "decompessedText.txt");
 	fileIn.close();
-	return 0;
+	return 0; 
 }
