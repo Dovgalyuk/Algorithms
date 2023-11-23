@@ -2,6 +2,7 @@
 #define PRIORITYQUEUE_H
 
 #include "binaryHeap.h"
+#include "huffmanTree.h"
 
 struct PriorityQueue;
 
@@ -11,17 +12,11 @@ void priorityQueue_delete(PriorityQueue* queue);
 
 void priorityQueue_insert(PriorityQueue* queue, HuffmanNode* node);
 
-HuffmanNode* priorityQueue_getNode(PriorityQueue* queue);
+HuffmanNode* priorityQueue_getMin(PriorityQueue* queue);
 
-unsigned long long int priorityQueue_getNodeWeight(PriorityQueue* queue);
-
-unsigned char priorityQueue_getNodeSymbol(PriorityQueue* queue);
+HuffmanNode* priorityQueue_extractMin(PriorityQueue* queue);
 
 size_t priorityQueue_getSize(PriorityQueue* queue);
-
-bool priorityQueue_nodeIsLeaf(PriorityQueue* queue);
-
-void priorityQueue_remove(PriorityQueue* queue);
 
 bool priorityQueue_empty(PriorityQueue* queue);
 

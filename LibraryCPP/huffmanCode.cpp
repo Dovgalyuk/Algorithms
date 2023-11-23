@@ -151,21 +151,18 @@ void huffman_compress(std::ifstream& fileIn, const std::string& compressedFileNa
 
     PriorityQueue* nodesQueue = priorityQueue_create(huffman_alphabetGetSymbolsCount(symbolsCount));
     huffman_makeNodesQueue(nodesQueue, symbolsCount);
-    while (priorityQueue_getSize(nodesQueue) > 1)
-    {
-        HuffmanNode* firstNode = priorityQueue_getNode(nodesQueue);
-        priorityQueue_remove(nodesQueue);
-        HuffmanNode* newInternalNode = huffman_createInternalNode(firstNode, priorityQueue_getNode(nodesQueue));
-        priorityQueue_remove(nodesQueue);
 
-        priorityQueue_insert(nodesQueue, newInternalNode);
+    while (priorityQueue_getSize(nodesQueue) > 1) {
+        HuffmanNode* leftNode = priorityQueue_extractMin(nodesQueue);
+        HuffmanNode* rightNode = priorityQueue_extractMin(nodesQueue);
+        HuffmanNode* internalNode = huffman_createInternalNode(leftNode, rightNode);
+        priorityQueue_insert(nodesQueue, internalNode);
     }
 
-    HuffmanNode* huffmanTree = priorityQueue_getNode(nodesQueue);
+    HuffmanNode* huffmanTree = priorityQueue_getMin(nodesQueue);
     priorityQueue_delete(nodesQueue);
 
-    std::ofstream fileOut;
-    fileOut.open(compressedFileName, std::ios::binary);
+    std::ofstream fileOut(compressedFileName, std::ios::binary);
 
     if (!huffman_nodeIsLeaf(huffmanTree))
         huffman_writeBitToByte(fileOut, byteStruct, 0);
@@ -181,7 +178,6 @@ void huffman_compress(std::ifstream& fileIn, const std::string& compressedFileNa
 
     symbolsTableMap table;
     std::vector<bool> symbolCode;
-
     huffman_makeTable(huffmanTree, table, symbolCode);
     huffmanTree = huffman_deleteTree(huffmanTree);
     while (!fileIn.eof())

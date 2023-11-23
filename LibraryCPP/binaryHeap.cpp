@@ -1,102 +1,88 @@
 #include "binaryHeap.h"
-#include "huffmanTree.h"
 
 struct BinaryHeap
 {
-    HuffmanNode** heapData;
-    unsigned long long int* weights; // массив для хранения весов
+    void** heapData;
     size_t heapSize;
     size_t dataCount;
+    Comparator compare;
+    Destructor destroy;
 };
 
-BinaryHeap* binaryHeap_create(const size_t size)
+BinaryHeap* binaryHeap_create(const size_t size, Comparator comp, Destructor dest)
 {
     BinaryHeap* heap = new BinaryHeap;
-    heap->heapData = new HuffmanNode * [size];
-    heap->weights = new unsigned long long int[size]; // инициализация массива весов
+    heap->heapData = new void* [size];
     heap->heapSize = size;
     heap->dataCount = 0;
+    heap->compare = comp;
+    heap->destroy = dest;
     return heap;
 }
 
 void binaryHeap_swapData(BinaryHeap* heap, const size_t firstIndex, const size_t secondIndex)
 {
-    // Меняем местами узлы
-    HuffmanNode* tempNode = heap->heapData[firstIndex];
+    void* temp = heap->heapData[firstIndex];
     heap->heapData[firstIndex] = heap->heapData[secondIndex];
-    heap->heapData[secondIndex] = tempNode;
-
-    // Меняем местами веса
-    unsigned long long int tempWeight = heap->weights[firstIndex];
-    heap->weights[firstIndex] = heap->weights[secondIndex];
-    heap->weights[secondIndex] = tempWeight;
+    heap->heapData[secondIndex] = temp;
 }
 
 void binaryHeap_heapify(BinaryHeap* heap, int i)
 {
-    while (true)
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    int smallest = i;
+
+    if (left < heap->dataCount && heap->compare(heap->heapData[left], heap->heapData[smallest]) < 0)
+        smallest = left;
+    if (right < heap->dataCount && heap->compare(heap->heapData[right], heap->heapData[smallest]) < 0)
+        smallest = right;
+    if (smallest != i)
     {
-        int left = i * 2;
-        int right = i * 2 + 1;
-        int smallest = i;
-
-        if (left <= (int)heap->dataCount && heap->weights[left - 1] < heap->weights[smallest - 1])
-            smallest = left;
-        if (right <= (int)heap->dataCount && heap->weights[right - 1] < heap->weights[smallest - 1])
-            smallest = right;
-        if (i == smallest)
-            break;
-
-        binaryHeap_swapData(heap, i - 1, smallest - 1);
-        i = smallest;
+        binaryHeap_swapData(heap, i, smallest);
+        binaryHeap_heapify(heap, smallest);
     }
 }
 
-void binaryHeap_insert(BinaryHeap* heap, HuffmanNode* node)
+void binaryHeap_insert(BinaryHeap* heap, void* node)
 {
-    if (heap->dataCount < heap->heapSize)
-    {
-        heap->dataCount++;
-        size_t i = heap->dataCount;
+    if (heap->dataCount == heap->heapSize)
+        return;
 
-        while (i > 1 && huffman_getNodeWeight(heap->heapData[(i / 2) - 1]) >= huffman_getNodeWeight(node))
-        {
-            heap->heapData[i - 1] = heap->heapData[i / 2 - 1];
-            i = i / 2;
-        }
-        heap->heapData[i - 1] = node;
-        heap->weights[i - 1] = huffman_getNodeWeight(node); // Сохраняем вес узла
+    heap->dataCount++;
+    size_t i = heap->dataCount - 1;
+    heap->heapData[i] = node;
+
+    while (i != 0 && heap->compare(heap->heapData[(i - 1) / 2], heap->heapData[i]) > 0)
+    {
+        binaryHeap_swapData(heap, (i - 1) / 2, i);
+        i = (i - 1) / 2;
     }
 }
 
-void binaryHeap_extractMin(BinaryHeap* heap) {
-    if (heap->dataCount) {
-        HuffmanNode* minNode = heap->heapData[0];
-        heap->heapData[0] = heap->heapData[heap->dataCount - 1];
+void* binaryHeap_extractMin(BinaryHeap* heap)
+{
+    if (heap->dataCount <= 0)
+        return NULL;
+    if (heap->dataCount == 1)
+    {
         heap->dataCount--;
-        binaryHeap_heapify(heap, 1);
-        huffman_deleteTree(minNode);
+        return heap->heapData[0];
     }
+
+    void* root = heap->heapData[0];
+    heap->heapData[0] = heap->heapData[heap->dataCount - 1];
+    heap->dataCount--;
+    binaryHeap_heapify(heap, 0);
+
+    return root;
 }
 
-HuffmanNode* BinaryHeap_getNode(BinaryHeap* heap)
+void* binaryHeap_getMin(BinaryHeap* heap)
 {
+    if (heap->dataCount == 0)
+        return NULL;
     return heap->heapData[0];
-}
-
-bool binaryHeap_nodeIsLeaf(BinaryHeap* heap)
-{
-    return huffman_nodeIsLeaf(heap->heapData[0]);
-}
-
-unsigned long long int binaryHeap_getNodeWeight(BinaryHeap* heap)
-{
-    return huffman_getNodeWeight(heap->heapData[0]);
-}
-
-unsigned char binaryHeap_getNodeSymbol(BinaryHeap* heap)
-{
-    return huffman_getNodeChar(heap->heapData[0]);
 }
 
 size_t binaryHeap_getSize(BinaryHeap* heap)
@@ -104,11 +90,10 @@ size_t binaryHeap_getSize(BinaryHeap* heap)
     return heap->dataCount;
 }
 
-void binaryHeap_delete(BinaryHeap* heap) {
-    for (size_t i = 0; i < heap->dataCount; i++) {
-        huffman_deleteTree(heap->heapData[i]);
-    }
+void binaryHeap_delete(BinaryHeap* heap)
+{
+    for (size_t i = 0; i < heap->dataCount; i++)
+        heap->destroy(heap->heapData[i]);
     delete[] heap->heapData;
-    delete[] heap->weights;
     delete heap;
 }

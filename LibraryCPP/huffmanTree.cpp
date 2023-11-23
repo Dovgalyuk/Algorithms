@@ -77,6 +77,24 @@ HuffmanNode* huffman_deleteTree(HuffmanNode* node)
     return nullptr;
 }
 
+int huffmanNodeComparator(const void* nodeA, const void* nodeB)
+{
+    HuffmanNode* huffmanNodeA = (HuffmanNode*)nodeA;
+    HuffmanNode* huffmanNodeB = (HuffmanNode*)nodeB;
+
+    if (huffmanNodeA->weight < huffmanNodeB->weight)
+        return -1;
+    else if (huffmanNodeA->weight > huffmanNodeB->weight)
+        return 1;
+    return 0;
+}
+
+void huffmanNodeDestructor(void* node)
+{
+    HuffmanNode* huffmanNode = (HuffmanNode*)node;
+    huffman_deleteTree(huffmanNode);
+}
+
 void huffman_printTree(HuffmanNode* node, unsigned int height)
 {
     if (node)

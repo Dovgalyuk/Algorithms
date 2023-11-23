@@ -2,9 +2,20 @@
 #include "binaryHeap.h"
 #include "huffmanTree.h"
 
+// Функция-компаратор и деструктор для тестирования
+int testHuffmanNodeComparator(const void* a, const void* b) {
+    HuffmanNode* nodeA = (HuffmanNode*)a;
+    HuffmanNode* nodeB = (HuffmanNode*)b;
+    return (int)(huffman_getNodeWeight(nodeA) - huffman_getNodeWeight(nodeB));
+}
+
+void testHuffmanNodeDestructor(void* node) {
+    huffman_deleteTree((HuffmanNode*)node);
+}
+
 void testBinaryHeap() {
     // Создаем кучу
-    BinaryHeap* heap = binaryHeap_create(10);
+    BinaryHeap* heap = binaryHeap_create(10, testHuffmanNodeComparator, testHuffmanNodeDestructor);
 
     // Тест 1: Вставка элементов и проверка минимального элемента
     binaryHeap_insert(heap, huffman_createLeafNode('a', 5));
@@ -12,7 +23,8 @@ void testBinaryHeap() {
     binaryHeap_insert(heap, huffman_createLeafNode('c', 8));
 
     std::cout << "Тест 1: Минимальный элемент после вставки - ";
-    if (binaryHeap_getNodeSymbol(heap) == 'b' && binaryHeap_getNodeWeight(heap) == 3) {
+    HuffmanNode* minNode = (HuffmanNode*)binaryHeap_getMin(heap);
+    if (huffman_getNodeChar(minNode) == 'b' && huffman_getNodeWeight(minNode) == 3) {
         std::cout << "Успех" << std::endl;
     }
     else {
@@ -21,8 +33,9 @@ void testBinaryHeap() {
 
     // Тест 2: Извлечение минимального элемента
     binaryHeap_extractMin(heap);
+    minNode = (HuffmanNode*)binaryHeap_getMin(heap);
     std::cout << "Тест 2: Минимальный элемент после извлечения - ";
-    if (binaryHeap_getNodeSymbol(heap) == 'a' && binaryHeap_getNodeWeight(heap) == 5) {
+    if (huffman_getNodeChar(minNode) == 'a' && huffman_getNodeWeight(minNode) == 5) {
         std::cout << "Успех" << std::endl;
     }
     else {
