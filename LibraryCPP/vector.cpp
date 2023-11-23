@@ -29,18 +29,16 @@ void vector_delete(Vector* vector)
 
 Data vector_get(const Vector* vector, size_t index)
 {
-    size_t size = vector->size;
-    if (size <= index) {
-        throw "Error";
+    if (index >= vector->size) {
+        return (Data)0;
     }
     return vector->data[index];
 }
 
 void vector_set(Vector* vector, size_t index, Data value)
 {
-    size_t size = vector->size;
-    if (size <= index) {
-        throw "Error";
+    if (index >= vector->size) {
+        return;
     }
     vector->data[index] = value;
 }

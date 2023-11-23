@@ -1,12 +1,16 @@
 #include <iostream>
-#include <vector>
-#include "queue.h" // Подключаем вашу библиотеку queue
+#include "queue.h"
 
 using namespace std;
 
-int bfs(const std::vector<std::vector<int>>& graph, int start, int finish, Queue* queue) {
-    vector<bool> visited(graph.size(), false);
-    vector<int> distance(graph.size(), -1);
+int bfs(const int** graph, int num_vertices, int start, int finish, Queue* queue) {
+    bool* visited = new bool[num_vertices];
+    int* distance = new int[num_vertices];
+
+    for (int i = 0; i < num_vertices; ++i) {
+        visited[i] = false;
+        distance[i] = -1;
+    }
 
     visited[start] = true;
     distance[start] = 0;
@@ -16,19 +20,24 @@ int bfs(const std::vector<std::vector<int>>& graph, int start, int finish, Queue
         int current = queue_get(queue);
         queue_remove(queue);
 
-        for (size_t i = 0; i < graph[current].size(); ++i) {
+        for (int i = 0; i < num_vertices; ++i) {
             if (graph[current][i] && !visited[i]) {
                 visited[i] = true;
                 distance[i] = distance[current] + 1;
-                queue_insert(queue, static_cast<Data>(i));
+                queue_insert(queue, i);
 
                 if (i == finish) {
-                    return distance[i];
+                    int result = distance[i];
+                    delete[] visited;
+                    delete[] distance;
+                    return result;
                 }
             }
         }
     }
 
+    delete[] visited;
+    delete[] distance;
     return -1;
 }
 
@@ -40,14 +49,15 @@ int main() {
 
     Queue* queue = queue_create();
 
-    vector<vector<int>> graph(n, vector<int>(n));
+    int** graph = new int* [n];
     for (int i = 0; i < n; ++i) {
+        graph[i] = new int[n];
         for (int j = 0; j < n; ++j) {
             cin >> graph[i][j];
         }
     }
 
-    int shortest_path_length = bfs(graph, start, finish, queue);
+    int shortest_path_length = bfs((const int**)graph, n, start, finish, queue);
 
     if (shortest_path_length == -1) {
         cout << "IMPOSSIBLE" << endl;
@@ -55,6 +65,11 @@ int main() {
     else {
         cout << shortest_path_length << endl;
     }
+
+    for (int i = 0; i < n; ++i) {
+        delete[] graph[i];
+    }
+    delete[] graph;
 
     queue_delete(queue);
 
