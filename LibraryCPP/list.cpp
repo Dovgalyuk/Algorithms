@@ -26,7 +26,7 @@ List *list_create()
 void list_delete(List *list)
 {
     ListItem *current = list->head;
-    while (list != nullptr)
+    while (current != nullptr)
     {
         ListItem *next = current->next;
         delete current;
