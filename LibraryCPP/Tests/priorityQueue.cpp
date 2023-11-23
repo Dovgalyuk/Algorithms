@@ -37,7 +37,6 @@ void testPriorityQueue() {
     std::cout << (priorityQueue_empty(queue) ? "Успех" : "Ошибка") << std::endl;
 
     // Удаляем очередь
-    huffmanNodeDestructor(node1);
     priorityQueue_delete(queue);
 }
 
