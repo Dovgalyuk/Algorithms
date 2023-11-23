@@ -1,2 +1,2 @@
-add_executable(Lab1C lab4.cpp)
+add_executable(Lab1C lab5.cpp)
 include_directories(${CMAKE_SOURCE_DIR}/LibraryCPPTemplate)

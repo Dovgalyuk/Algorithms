@@ -1,7 +1,8 @@
-add_executable(TestListCPPTemplate list.cpp)
-target_include_directories(TestListCPPTemplate PUBLIC ..)
-add_test(TestListCPPTemplate TestListCPPTemplate)
+add_executable(TestArrayCPPTemplate array.cpp)
+target_include_directories(TestArrayCPPTemplate PUBLIC ..)
+add_test(TestArrayCPPTemplate TestArrayCPPTemplate)
 
-add_executable(TestGraphCPPTemplate graph.cpp)
-target_include_directories(TestGraphCPPTemplate PUBLIC ..)
-add_test(TestGraphCPPTemplate TestGraphCPPTemplate)
+add_executable(TestAvlCPPTemplate avl.cpp)
+target_include_directories(TestAvlCPPTemplate PUBLIC ..)
+add_test(TestAvlCPPTemplate TestAvlCPPTemplate)
+
