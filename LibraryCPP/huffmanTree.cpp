@@ -68,7 +68,7 @@ unsigned long long int huffman_getNodeWeight(HuffmanNode* node)
 
 HuffmanNode* huffman_deleteTree(HuffmanNode* node)
 {
-    if (!node)
+    if (node)
     {
         huffman_deleteTree(node->leftNode);
         huffman_deleteTree(node->rightNode);
