@@ -73,7 +73,7 @@ public:
     Edge* addEdge(Vertex* from, Vertex* to, const EdgeData& data) {
         Edge newEdge(to, data);
         from->edges.insert(newEdge);
-        return const_cast<Edge*>(&from->edges.first()->get_data());
+        return &from->edges.first()->get_data();
     }
 
     void removeEdge(Vertex* from, Vertex* to) {
@@ -81,7 +81,7 @@ public:
 
         auto it = from->edges.first();
         while (it) {
-            Edge* edge = const_cast<Edge*>(&it->get_data());
+            Edge* edge = &it->get_data();
             if (edge->to == to) {
                 removeEdgeFromVertex(from, edge);
                 break;
@@ -155,7 +155,7 @@ public:
                 return { nullptr, nullptr };
             }
             Vertex* neighbor = current->get_data().to;
-            Edge* edge = const_cast<Edge*>(&current->get_data());
+            Edge* edge = &current->get_data();
             current = current->next();
             return { neighbor, edge };
         }
@@ -173,14 +173,13 @@ private:
 
         auto it = vertex->edges.first();
         while (it) {
-            if (const_cast<Edge*>(&it->get_data()) == edge) {
+            if (&it->get_data() == edge) {
                 if (it == vertex->edges.first()) {
                     vertex->edges.erase_first();
                 }
                 else {
                     vertex->edges.erase_next(it->prev());
                 }
-                // Важно: после удаления ребра, выходим из цикла, чтобы не обращаться к удаленному ребру
                 break;
             }
             it = it->next();
