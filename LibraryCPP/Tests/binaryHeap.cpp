@@ -3,6 +3,7 @@
 #include "huffmanTree.h"
 
 int main() {
+    setlocale(LC_ALL, "ru");
     // Создаем кучу
     BinaryHeap* heap = binaryHeap_create(10, huffmanNodeComparator, huffmanNodeDestructor);
 

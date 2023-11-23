@@ -2,6 +2,7 @@
 #include "huffmanTree.h"
 
 void testHuffmanTree() {
+    setlocale(LC_ALL, "ru");
     // Тест 1: Создание и проверка листового узла
     HuffmanNode* leafNode = huffman_createLeafNode('a', 5);
     std::cout << "Тест 1: Листовой узел - ";
