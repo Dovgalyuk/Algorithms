@@ -33,9 +33,9 @@ void binaryHeap_heapify(BinaryHeap* heap, int i)
     int right = 2 * i + 2;
     int smallest = i;
 
-    if (left < heap->dataCount && heap->compare(heap->heapData[left], heap->heapData[smallest]) < 0)
+    if (left < (int)heap->dataCount && heap->compare(heap->heapData[left], heap->heapData[smallest]) < 0)
         smallest = left;
-    if (right < heap->dataCount && heap->compare(heap->heapData[right], heap->heapData[smallest]) < 0)
+    if (right < (int)heap->dataCount && heap->compare(heap->heapData[right], heap->heapData[smallest]) < 0)
         smallest = right;
     if (smallest != i)
     {
