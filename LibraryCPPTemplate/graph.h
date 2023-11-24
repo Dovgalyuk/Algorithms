@@ -50,14 +50,7 @@ public:
         // Удаление входящих рёбер
         for (auto& vertexPair : vertices) {
             Vertex* currentVertex = vertexPair.second;
-            auto it = currentVertex->edges.first();
-            while (it) {
-                auto next = it->next();
-                if (it->data().to == vertex) {
-                    removeEdgeFromVertex(currentVertex, &it->get_data());
-                }
-                it = next;
-            }
+            removeEdge(currentVertex, vertex);
         }
 
         // Удаление исходящих рёбер
