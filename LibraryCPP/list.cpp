@@ -91,7 +91,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
 }
 
 ListItem* list_erase_first(List* list)
-{             ////Удаление посмотреть, тест работает неккоректно
+{             
     if (list->Head)
     {
         ListItem* TempItem = new ListItem;
