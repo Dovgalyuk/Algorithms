@@ -30,27 +30,32 @@ void queue_insert(Queue* queue, Data data) {
 
     if (current_size == 0) {
         vector_resize(queue->vector, 1);
-        vector_set(queue->vector, 0, data);
-        queue->front = 0;
-        queue->rear = 1;
+        vector_set(queue->vector, queue->rear, data);
+        queue->rear++;
         return;
     }
 
-    if (queue->front == (queue->rear + 1) % current_size) {
+    size_t next_rear = (queue->rear + 1) % current_size;
+
+    if (next_rear == queue->front) {
         size_t new_size = current_size * 2;
         Vector* resized_vector = vector_create();
         vector_resize(resized_vector, new_size);
 
-        size_t j = 0;
-        for (size_t i = queue->front; i != queue->rear; i = (i + 1) % current_size) {
-            vector_set(resized_vector, j++, vector_get(queue->vector, i));
+        for (size_t i = queue->front, j = 0; i < current_size; ++i, ++j) {
+            vector_set(resized_vector, j, vector_get(queue->vector, i));
+        }
+
+        if (queue->front != 0) {
+            for (size_t i = 0, j = current_size - queue->front; i < queue->front; ++i, ++j) {
+                vector_set(resized_vector, j, vector_get(queue->vector, i));
+            }
         }
 
         vector_delete(queue->vector);
         queue->vector = resized_vector;
         queue->front = 0;
         queue->rear = current_size;
-
         current_size = new_size;
     }
 

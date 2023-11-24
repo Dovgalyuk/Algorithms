@@ -59,7 +59,7 @@ int main() {
 
     int shortest_path_length = bfs((const int**)graph, n, start, finish, queue);
 
-    if (shortest_path_length == -1) {
+    if (shortest_path_length <= 0) {
         cout << "IMPOSSIBLE" << endl;
     }
     else {
