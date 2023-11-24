@@ -4,11 +4,12 @@
 *.user
 *.filters
 *.obj
-*.exe
-ipch/*
-*/Debug/*
-*/Release/*
+.exe
+ipch/
+/Debug/
+/Release/
 Debug/*
 Release/*
 .vs/*
 build/*
+out/*
