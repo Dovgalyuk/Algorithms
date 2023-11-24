@@ -66,7 +66,7 @@ int main()
 	
 	for (size_t i = 0; i < size; ++i)
 	{
-		cout << "arr[" << i << "] = " << array_get(arr, i) << std::endl;
+		cout << "arr[" << i << "] = " << array_get(arr, i) << endl;
 	}
 
 	
