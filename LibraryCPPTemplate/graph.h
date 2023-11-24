@@ -54,7 +54,7 @@ public:
             while (it) {
                 auto next = it->next();
                 if (it->data().to == vertex) {
-                    removeEdge(currentVertex, vertex);
+                    removeEdgeFromVertex(currentVertex, &it->get_data());
                 }
                 it = next;
             }
