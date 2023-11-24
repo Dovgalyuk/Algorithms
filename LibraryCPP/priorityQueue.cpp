@@ -5,10 +5,10 @@ struct PriorityQueue
     BinaryHeap* heap;
 };
 
-PriorityQueue* priorityQueue_create(const size_t size)
+PriorityQueue* priorityQueue_create(const size_t size, Comparator comp, Destructor dest)
 {
     PriorityQueue* queue = new PriorityQueue;
-    queue->heap = binaryHeap_create(size, huffmanNodeComparator, huffmanNodeDestructor);
+    queue->heap = binaryHeap_create(size, comp, dest);
     return queue;
 }
 
@@ -18,19 +18,19 @@ void priorityQueue_delete(PriorityQueue* queue)
     delete queue;
 }
 
-void priorityQueue_insert(PriorityQueue* queue, HuffmanNode* node)
+void priorityQueue_insert(PriorityQueue* queue, void* data)
 {
-    binaryHeap_insert(queue->heap, (void*)node);
+    binaryHeap_insert(queue->heap, data);
 }
 
-HuffmanNode* priorityQueue_getMin(PriorityQueue* queue)
+void* priorityQueue_getMin(PriorityQueue* queue)
 {
-    return (HuffmanNode*)binaryHeap_getMin(queue->heap);
+    return binaryHeap_getMin(queue->heap);
 }
 
-HuffmanNode* priorityQueue_extractMin(PriorityQueue* queue)
+void* priorityQueue_extractMin(PriorityQueue* queue)
 {
-    return (HuffmanNode*)binaryHeap_extractMin(queue->heap);
+    return binaryHeap_extractMin(queue->heap);
 }
 
 size_t priorityQueue_getSize(PriorityQueue* queue)

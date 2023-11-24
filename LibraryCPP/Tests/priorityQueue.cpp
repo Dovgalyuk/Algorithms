@@ -2,9 +2,13 @@
 #include "priorityQueue.h"
 #include "huffmanTree.h"
 
+// Прототипы функций сравнения и деструктора для HuffmanNode
+int huffmanNodeComparator(const void* nodeA, const void* nodeB);
+void huffmanNodeDestructor(void* node);
+
 void testPriorityQueue() {
     // Создаем очередь с приоритетом
-    PriorityQueue* queue = priorityQueue_create(10);
+    PriorityQueue* queue = priorityQueue_create(10, huffmanNodeComparator, huffmanNodeDestructor);
 
     // Создаем несколько узлов Huffman
     HuffmanNode* node1 = huffman_createLeafNode('a', 5);
@@ -17,17 +21,17 @@ void testPriorityQueue() {
     priorityQueue_insert(queue, node3);
 
     // Извлекаем и проверяем узлы в правильном порядке, затем удаляем их
-    HuffmanNode* extractedNode = priorityQueue_extractMin(queue);
+    HuffmanNode* extractedNode = (HuffmanNode*)priorityQueue_extractMin(queue);
     std::cout << "Тест: Первый извлеченный узел должен иметь символ 'b' и вес 3 - ";
     std::cout << (huffman_getNodeChar(extractedNode) == 'b' && huffman_getNodeWeight(extractedNode) == 3 ? "Успех" : "Ошибка") << std::endl;
     huffman_deleteTree(extractedNode);
 
-    extractedNode = priorityQueue_extractMin(queue);
+    extractedNode = (HuffmanNode*)priorityQueue_extractMin(queue);
     std::cout << "Тест: Второй извлеченный узел должен иметь символ 'a' и вес 5 - ";
     std::cout << (huffman_getNodeChar(extractedNode) == 'a' && huffman_getNodeWeight(extractedNode) == 5 ? "Успех" : "Ошибка") << std::endl;
     huffman_deleteTree(extractedNode);
 
-    extractedNode = priorityQueue_extractMin(queue);
+    extractedNode = (HuffmanNode*)priorityQueue_extractMin(queue);
     std::cout << "Тест: Третий извлеченный узел должен иметь символ 'c' и вес 8 - ";
     std::cout << (huffman_getNodeChar(extractedNode) == 'c' && huffman_getNodeWeight(extractedNode) == 8 ? "Успех" : "Ошибка") << std::endl;
     huffman_deleteTree(extractedNode);

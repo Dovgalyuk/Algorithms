@@ -149,17 +149,17 @@ void huffman_compress(std::ifstream& fileIn, const std::string& compressedFileNa
     Array* symbolsCount = array_create(256);
     huffman_makeAlphabet(fileIn, symbolsCount);
 
-    PriorityQueue* nodesQueue = priorityQueue_create(huffman_alphabetGetSymbolsCount(symbolsCount));
+    PriorityQueue* nodesQueue = priorityQueue_create(huffman_alphabetGetSymbolsCount(symbolsCount), huffmanNodeComparator, huffmanNodeDestructor);
     huffman_makeNodesQueue(nodesQueue, symbolsCount);
 
     while (priorityQueue_getSize(nodesQueue) > 1) {
-        HuffmanNode* leftNode = priorityQueue_extractMin(nodesQueue);
-        HuffmanNode* rightNode = priorityQueue_extractMin(nodesQueue);
+        HuffmanNode* leftNode = (HuffmanNode*)priorityQueue_extractMin(nodesQueue);
+        HuffmanNode* rightNode = (HuffmanNode*)priorityQueue_extractMin(nodesQueue);
         HuffmanNode* internalNode = huffman_createInternalNode(leftNode, rightNode);
         priorityQueue_insert(nodesQueue, internalNode);
     }
 
-    HuffmanNode* huffmanTree = priorityQueue_getMin(nodesQueue);
+    HuffmanNode* huffmanTree = (HuffmanNode*)priorityQueue_getMin(nodesQueue);
     priorityQueue_delete(nodesQueue);
 
     std::ofstream fileOut(compressedFileName, std::ios::binary);
