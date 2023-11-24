@@ -38,22 +38,3 @@ size_t array_size(const Array* arr)
 	return arr->size;
 }
 
-int main()
-{
-	size_t size = 10;
-	Array* arr = array_create(size);
-
-	for (size_t i = 0; i < size; ++i)
-	{
-		array_set(arr, i, i * 2);
-	}
-
-	for (size_t i = 0; i < size; ++i)
-	{
-		cout << "arr[" << i << "] = " << array_get(arr, i) << endl;
-	}
-
-	array_delete(arr);
-
-	return 0;
-}
