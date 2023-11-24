@@ -29,6 +29,56 @@ public:
         return checkBalance(root) != -1;
     }
 
+    //Добавить пару ключ-значение
+    void insert(const string& key, const string& value) 
+    {
+        root = insertInternal(root, key, value);
+    }
+
+    //Найти значение по ключу
+    string find(const string& key) 
+    {
+        AVLNode* node = findInternal(root, key);
+        return node == nullptr ? "" : node->value;
+    }
+
+    //Удалить значение по ключу
+    void remove(const string& key) 
+    {
+        root = removeInternal(root, key);
+    }
+
+    //Деструктор для удаления всех узлов
+    ~AVLTree() 
+    {
+        destroyTree(root);
+    }
+
+private:
+    AVLNode* root;
+    int checkBalance(AVLNode* node) 
+    {
+        if (node == nullptr) 
+        {
+            return 0;
+        }
+
+        int leftHeight = checkBalance(node->left);
+        if (leftHeight == -1)
+            return -1; //Несбалансированное левое поддерево
+
+        int rightHeight = checkBalance(node->right);
+        if (rightHeight == -1)
+            return -1; //Несбалансированное правое поддерево
+
+        if (abs(leftHeight - rightHeight) > 1) 
+        {
+            return -1; //Текущий узел несбалансирован
+        }
+
+        return max(leftHeight, rightHeight) + 1; //Возвращаем высоту узла
+    }
+
     int height(AVLNode* node)
     {
         if (node == nullptr)
@@ -159,6 +209,26 @@ public:
         return node;
     }
 
+    bool isAVLTreeValid(AVLNode* node) 
+    {
+        if (node == nullptr) {
+            return true;
+        }
+
+        int leftHeight = height(node->left);
+        int rightHeight = height(node->right);
+
+        if (abs(leftHeight - rightHeight) > 1) {
+            return false;
+        }
+
+        bool isLeftValid = isAVLTreeValid(node->left);
+        bool isRightValid = isAVLTreeValid(node->right);
+
+        return isLeftValid && isRightValid;
+    }
+
+
     AVLNode* removeInternal(AVLNode* node, const string& key)
     {
         //Шаг 1: Обычное удаление BST
@@ -254,56 +324,6 @@ public:
         while (current->left != nullptr)
             current = current->left;
         return current;
-    }
-
-    //Добавить пару ключ-значение
-    void insert(const string& key, const string& value) 
-    {
-        root = insertInternal(root, key, value);
-    }
-
-    //Найти значение по ключу
-    string find(const string& key) 
-    {
-        AVLNode* node = findInternal(root, key);
-        return node == nullptr ? "" : node->value;
-    }
-
-    //Удалить значение по ключу
-    void remove(const string& key) 
-    {
-        root = removeInternal(root, key);
-    }
-
-    //Деструктор для удаления всех узлов
-    ~AVLTree() 
-    {
-        destroyTree(root);
-    }
-
-private:
-    AVLNode* root;
-    int checkBalance(AVLNode* node) 
-    {
-        if (node == nullptr) 
-        {
-            return 0;
-        }
-
-        int leftHeight = checkBalance(node->left);
-        if (leftHeight == -1)
-            return -1; //Несбалансированное левое поддерево
-
-        int rightHeight = checkBalance(node->right);
-        if (rightHeight == -1)
-            return -1; //Несбалансированное правое поддерево
-
-        if (abs(leftHeight - rightHeight) > 1) 
-        {
-            return -1; //Текущий узел несбалансирован
-        }
-
-        return max(leftHeight, rightHeight) + 1; //Возвращаем высоту узла
     }
 };
 

@@ -2,6 +2,7 @@
 #include <map>
 #include <chrono>
 #include <random>
+#include <vector>
 #include "avl.h"
 
 using namespace std;
@@ -24,14 +25,13 @@ string generateRandomString(size_t length)
 }
 
 //Функция для тестирования вставки в AVL
-void testAVLTreeInsertion(int numElements) 
+void testAVLTreeInsertion(vector<string> keys) 
 {
     AVLTree tree;
     auto start = high_resolution_clock::now();
 
-    for (int i = 0; i < numElements; i++) 
+    for (auto key : keys) 
     {
-        string key = generateRandomString(10);
         tree.insert(key, "Value " + key);
     }
 
@@ -41,14 +41,13 @@ void testAVLTreeInsertion(int numElements)
 }
 
 //Функция для тестирования вставки в map
-void testMapInsertion(int numElements) 
+void testMapInsertion(vector<string> keys) 
 {
     map<string, string> m;
     auto start = high_resolution_clock::now();
 
-    for (int i = 0; i < numElements; i++) 
+    for (auto key : keys) 
     {
-        string key = generateRandomString(10);
         m.insert({ key, "Value " + key });
     }
 
@@ -62,9 +61,16 @@ int main()
     int testSizes[] = { 100, 500, 1000, 10000, 100000, 500000 };
     for (int size : testSizes) 
     {
+        // Генерация случайных строк заранее
+        vector<string> keys;
+        for (int i = 0; i < size; i++)
+        {
+            keys.push_back(generateRandomString(10));
+        }
+
         cout << "Testing with " << size << " elements:" << endl;
-        testAVLTreeInsertion(size);
-        testMapInsertion(size);
+        testAVLTreeInsertion(keys);
+        testMapInsertion(keys);
         cout << endl;
     }
     return 0;

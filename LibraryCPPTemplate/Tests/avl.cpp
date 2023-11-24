@@ -1,6 +1,7 @@
 #include "avl.h"
 #include <iostream>
 #include <chrono>
+#include <vector>
 #include <random>
 
 using namespace std;
@@ -21,45 +22,76 @@ string generateRandomString(size_t length)
     return random_string;
 }
 
-void testInsertion(AVLTree& tree, int numElements)
+bool isTreeBalanced(AVLTree& tree)
+{
+    return tree.isBalanced();
+}
+
+bool verifyInsertion(AVLTree& tree, string key)
+{
+    string expectedValue = "Value " + key;
+    string actualValue = tree.find(key);
+    bool isBalanced = isTreeBalanced(tree);
+    return actualValue == expectedValue && isBalanced;
+}
+
+bool verifyDeletion(AVLTree& tree, string key)
+{
+    string value = tree.find(key);
+    bool isBalanced = isTreeBalanced(tree);
+    return value.empty() && isBalanced;
+}
+
+void testInsertion(AVLTree& tree, vector<string> keys)
 {
     auto start = high_resolution_clock::now();
-    for (int i = 0; i < numElements; i++) 
+    for (auto key : keys)
     {
-        string key = generateRandomString(10); // Генерация случайного ключа
+        //cout << "Inserting key: " << key << endl;
         tree.insert(key, "Value " + key);
+        if (!verifyInsertion(tree, key))
+        {
+            cout << "Insertion failed for key: " << key << endl;
+        }
     }
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
-    cout << "Insertion time for " << numElements << " elements: "
+    cout << "Insertion time for " << keys.size() << " elements: "
         << duration.count() << " microseconds" << endl;
 }
 
-void testSearch(AVLTree& tree, int numElements)
+void testSearch(AVLTree& tree, const vector<string>& keys)
 {
     auto start = high_resolution_clock::now();
-    for (int i = 0; i < numElements; i++) 
+    for (auto key : keys)
     {
-        string key = generateRandomString(10); // Генерация случайного ключа
-        tree.find(key);
+        //cout << "Searching for key: " << key << endl;
+        if (tree.find(key).empty())
+        {
+            cout << "Search failed for key: " << key << endl;
+        }
     }
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
-    cout << "Search time for " << numElements << " elements: "
+    cout << "Search time for " << keys.size() << " elements: "
         << duration.count() << " microseconds" << endl;
 }
 
-void testDeletion(AVLTree& tree, int numElements)
+void testDeletion(AVLTree& tree, const vector<string>& keys)
 {
     auto start = high_resolution_clock::now();
-    for (int i = 0; i < numElements; i++)
+    for (auto key : keys)
     {
-        string key = generateRandomString(10); // Генерация случайного ключа
+        //cout << "Deleting key: " << key << endl;
         tree.remove(key);
+        if (!verifyDeletion(tree, key))
+        {
+            cout << "Deletion failed for key: " << key << endl;
+        }
     }
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
-    cout << "Deletion time for " << numElements << " elements: "
+    cout << "Deletion time for " << keys.size() << " elements: "
         << duration.count() << " microseconds" << endl;
 }
 
@@ -71,11 +103,17 @@ int main()
     for (int i = 0; i < numTests; ++i) {
         AVLTree tree;
         int numElements = testSizes[i];
+        vector<string> keys;
+
+        for (int j = 0; j < numElements; j++)
+        {
+            keys.push_back(generateRandomString(10 + rand() % 10));
+        }
 
         cout << "Testing " << numElements << " elements:" << endl;
-        testInsertion(tree, numElements);
-        testSearch(tree, numElements);
-        testDeletion(tree, numElements);
+        testInsertion(tree, keys);
+        testSearch(tree, keys);
+        testDeletion(tree, keys);
         cout << endl;
     }
 
