@@ -46,4 +46,5 @@ int main()
     }
     std::cout << "\n";
 
+    delete list;
 }
