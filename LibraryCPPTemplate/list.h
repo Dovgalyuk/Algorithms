@@ -11,6 +11,7 @@ public:
         Item *next() { return next_; }
         Item *prev() { return prev_; }
         Data data() const { return data_; }
+        Item() : next_(nullptr), prev_(nullptr) {}
         void setData(Data data)
         {
             data_ = data;
@@ -38,14 +39,12 @@ public:
 
     ~List()
     {
-        Item *current = this->first_;
-        while (current != NULL)
+        while (first_ != nullptr)
         {
-            Item *nextCur = current->next();
-            //delete current;
-            current = nextCur;
+            Item *tmp = first_->next();
+            delete first_;
+            first_ = tmp;
         }
-        first_ = nullptr;
     }
 
     Item *first()
@@ -74,23 +73,23 @@ public:
     {
         if (prev_item == NULL)
         {
-            return NULL; 
+            return NULL;
         }
-
+    
         Item *newItem = new Item;
         newItem->setData(data);
         newItem->setNext(prev_item->next());
         newItem->setPrev(prev_item);
-
+    
         if (prev_item->next() != NULL)
         {
             prev_item->next()->setPrev(newItem);
         }
-
+    
         prev_item->setNext(newItem);
-
+    
         return newItem;
-    } 
+    }
 
     // Deletes the first list item.
     // Returns pointer to the item next to the deleted one.
