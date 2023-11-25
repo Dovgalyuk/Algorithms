@@ -14,13 +14,16 @@ struct List
 
 List *list_create()
 {
-    
+    List* list = new List;
+    list->current = nullptr;
     return new List;
 }
 
 void list_delete(List *list)
 {
-    // TODO: free items
+    while (list->current != nullptr) {
+        list->current->next
+    }
     delete list;
 }
 
@@ -31,12 +34,12 @@ ListItem *list_first(List *list)
 
 Data list_item_data(const ListItem *item)
 {
-    return (Data)0;
+    return item->data;
 }
 
 ListItem *list_item_next(ListItem *item)
 {
-    return NULL;
+    return item->next;
 }
 
 ListItem *list_item_prev(ListItem *item)
