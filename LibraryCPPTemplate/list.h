@@ -32,101 +32,85 @@ public:
 
     List()
     {
-        head_ = nullptr;
-        tail_ = nullptr;
+        first_ = nullptr;
     }
 
-    template <typename T>
-    List(const List<T> &a)
-    {
-        head_ = nullptr;
-        tail_ = nullptr;
-
-        for (Item *item = a.first(); item != nullptr; item = item->next())
-        {
-            insert(item->data());
-        }
-    }
 
     ~List()
     {
-        Item *item = head_;
-        while (item != nullptr)
+        Item *current = this->first_;
+        while (current != NULL)
         {
-            Item *next = item->next();
-            //delete item;
-            item = next;
+            Item *nextCur = current->next();
+            //delete current;
+            current = nextCur;
         }
-        head_ = nullptr;
-        tail_ = nullptr;
+        first_ = nullptr;
     }
 
     Item *first()
     {
-        return head_;
+        return first_;
     }
 
     Item *insert(Data data)
     {
-        Item *new_item = new Item();
-        new_item->setData(data);
+        Item *newItem = new Item;
+        newItem->setData(data);
+        newItem->setPrev(NULL);
+        newItem->setNext(first_);
 
-        if (head_ == nullptr)
+        if (first_ != NULL)
         {
-            head_ = new_item;
-            tail_ = new_item;
-        }
-        else
-        {
-            new_item->setNext(head_);
-            head_->setPrev(new_item);
-            head_ = new_item;
+            first_->setPrev(newItem);
         }
 
-        return new_item;
+        first_ = newItem;
+
+        return newItem;
     }
 
     Item *insert_after(Item *prev_item, Data data)
     {
-        if (prev_item == nullptr)
-            return nullptr;
+        if (prev_item == NULL)
+        {
+            return NULL; 
+        }
 
-        Item *new_item = new Item();
-        new_item->setData(data);
+        Item *newItem = new Item;
+        newItem->setData(data);
+        newItem->setNext(prev_item->next());
+        newItem->setPrev(prev_item);
 
-        new_item->setPrev(prev_item);
-        new_item->setNext(prev_item->next());
-        if (prev_item->next() != nullptr)
-            prev_item->next()->setPrev(new_item);
-        prev_item->setNext(new_item);
+        if (prev_item->next() != NULL)
+        {
+            prev_item->next()->setPrev(newItem);
+        }
 
-        return new_item;
+        prev_item->setNext(newItem);
+
+        return newItem;
     } 
 
     // Deletes the first list item.
     // Returns pointer to the item next to the deleted one.
     Item* erase_first()
     {
-        if (head_ == nullptr)
+        Item *firstItem = first_;
+
+        if (firstItem != NULL)
         {
-            return nullptr;
+            first_ = firstItem->next();
+
+            if (first_ != NULL)
+            {
+                first_->setPrev(NULL);
+            }
+
+            delete firstItem;
         }
 
-        Item* item = head_;
-        Item* next_item = item->next();
-
-        if (next_item != nullptr)
-        {
-            next_item->setPrev(nullptr);
-        }
-        else
-        {
-            tail_ = nullptr;
-        }
-        head_ = next_item;
-
-        delete item;
-        return next_item;
+        return first_;
     }
 
     // Deletes the list item following the specified one.
@@ -134,35 +118,27 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item)
     {
-        if (item == nullptr)
+        if (item == NULL || item->next() == NULL)
         {
+            return NULL; 
         }
 
-        Item *erased_item = item->next();
-        if (erased_item == nullptr)
+        Item *nextItem = item->next();
+        item->setNext(nextItem->next());
+
+        if (nextItem->next() != NULL)
         {
+            nextItem->next()->setPrev(item);
         }
 
-        Item *next_item = erased_item->next();
+        delete nextItem;
 
-        item->setNext(next_item);
-        if (next_item != nullptr)
-        {
-            next_item->setPrev(item);
-        }
-        else
-        {
-            tail_ = item;
-        }
-
-        delete erased_item;
-        return next_item;
+        return item->next();
     }
 
 protected:
     // private data should be here
-    Item *head_;
-    Item *tail_;
+    Item *first_;
 };
 
 #endif
