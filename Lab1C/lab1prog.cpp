@@ -63,7 +63,7 @@ int main()
 		cout << "3-Не делющиеся элементы" << endl;
 		cin >> choise;
 		if (choise == 1) {
-			const unsigned n = 6;
+			int n = 6;
 			array<int, n > arr { 5, 7, 1, 2, 4, 9 };
 			cout << "Контейнер Array: ";
 			for (int i = 0; i < n; i++) {
