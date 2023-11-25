@@ -40,15 +40,15 @@ public:
     }
 
 
-    ~List()
-    {
-        while (first_ != nullptr)
-        {
-            Item *tmp = first_->next();
-            delete first_;
-            first_ = tmp;
-        }
-    }
+    //~List()
+    //{
+    //    while (first_ != nullptr)
+    //    {
+    //        Item *tmp = first_->next();
+    //        delete first_;
+    //        first_ = tmp;
+    //    }
+    //}
 
     Item *first()
     {
