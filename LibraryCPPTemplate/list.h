@@ -45,6 +45,7 @@ public:
         while (first_ != nullptr)
         {
             Item *tmp = first_->next();
+            first_->setNext(nullptr);
             delete first_;
             first_ = tmp;
         }
