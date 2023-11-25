@@ -46,6 +46,17 @@ public:
         }
     }
 
+    ~List()
+    {
+        Item* item = head_;
+        while (item != nullptr)
+        {
+            Item* next = item->next();
+            delete item;
+            item = next;
+        }
+    }
+
     // Retrieves the first item from the list
     Item *first()
     {

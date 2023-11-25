@@ -47,6 +47,4 @@ int main()
         std::cout << item->data() << " ";
     }
     std::cout << "\n";
-
-    delete list;
 }
