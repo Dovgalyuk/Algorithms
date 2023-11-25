@@ -39,6 +39,42 @@ public:
         first_ = nullptr;
     }
 
+    // copy constructor
+    template <typename T>
+    List(const List<T> &a)
+    {
+        first_ = nullptr;
+        
+        // копируем каждый элемент списка a и вставляем их в новый список
+        for (Item* item = a.first(); item != nullptr; item = item->next())
+        {
+            insert(item->data());
+        }
+    }
+
+    // assignment operator
+    template <typename T>
+    List &operator=(const List<T> &a)
+    {
+        if (this != &a)
+        {
+            while (first_ != nullptr)
+            {
+                Item *tmp = first_->next();
+                first_->setNext(nullptr);
+                first_->setPrev(nullptr);
+                delete first_;
+                first_ = tmp;
+            }
+            
+            // копируем каждый элемент списка a и вставляем их в этот список
+            for (Item* item = a.first(); item != nullptr; item = item->next())
+            {
+                insert(item->data());
+            }
+        }
+        return *this;
+    }
 
     ~List()
     {
@@ -135,7 +171,6 @@ public:
             nextItem->next()->setPrev(item);
         }
 
-        item->setNext(nextItem->next());
         delete nextItem;
 
         return item->next();
