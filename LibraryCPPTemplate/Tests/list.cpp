@@ -48,4 +48,7 @@ int main()
     }
     std::cout << "\n";
 
+    if(list != NULL) {
+        list = NULL;
+    }
 }

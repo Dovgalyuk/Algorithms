@@ -11,7 +11,10 @@ public:
         Item *next() { return next_; }
         Item *prev() { return prev_; }
         Data data() const { return data_; }
-        Item() : next_(nullptr), prev_(nullptr) {}
+        Item(){
+            setNext(nullptr);
+            setPrev(nullptr);
+        }
         void setData(Data data)
         {
             data_ = data;
@@ -25,7 +28,7 @@ public:
             prev_ = prev;
         }
 
-    protected:
+    private:
         Item *next_;
         Item *prev_;
         Data data_;
@@ -75,19 +78,19 @@ public:
         {
             return NULL;
         }
-    
+
         Item *newItem = new Item;
         newItem->setData(data);
         newItem->setNext(prev_item->next());
         newItem->setPrev(prev_item);
-    
+
         if (prev_item->next() != NULL)
         {
             prev_item->next()->setPrev(newItem);
         }
-    
+
         prev_item->setNext(newItem);
-    
+
         return newItem;
     }
 
@@ -135,7 +138,7 @@ public:
         return item->next();
     }
 
-protected:
+private:
     // private data should be here
     Item *first_;
 };
