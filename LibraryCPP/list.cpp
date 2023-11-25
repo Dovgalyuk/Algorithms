@@ -3,14 +3,18 @@
 
 struct ListItem
 {
+    int data;
+    ListItem* next;
 };
 
 struct List
 {
+    ListItem* current;
 };
 
 List *list_create()
 {
+    
     return new List;
 }
 
