@@ -1,7 +1,8 @@
 #ifndef LIST_TEMPLATE_H
 #define LIST_TEMPLATE_H
 
-template <typename Data> class List
+template <typename Data>
+class List
 {
 public:
     class Item
@@ -10,37 +11,38 @@ public:
         Item *next() { return next_; }
         Item *prev() { return prev_; }
         Data data() const { return data_; }
-        void setData(Data data) {
+        void setData(Data data)
+        {
             data_ = data;
         }
-        void setNext(Item* next) {
+        void setNext(Item *next)
+        {
             next_ = next;
         }
-        void setPrev(Item* prev) {
+        void setPrev(Item *prev)
+        {
             prev_ = prev;
         }
+
     protected:
-        // internal data here
         Item *next_;
         Item *prev_;
         Data data_;
     };
 
-    // Creates new list
-        List()
+    List()
     {
         head_ = nullptr;
         tail_ = nullptr;
     }
 
-    // copy constructor
     template <typename T>
     List(const List<T> &a)
     {
         head_ = nullptr;
         tail_ = nullptr;
-        
-        for (Item* item = a.first(); item != nullptr; item = item->next())
+
+        for (Item *item = a.first(); item != nullptr; item = item->next())
         {
             insert(item->data());
         }
@@ -48,22 +50,22 @@ public:
 
     ~List()
     {
-        Item* item = head_;
+        Item *item = head_;
         while (item != nullptr)
         {
-            Item* next = item->next();
+            Item *next = item->next();
+            if (item != nullptr)
+                item->setPrev(nullptr);
             delete item;
             item = next;
         }
     }
 
-    // Retrieves the first item from the list
     Item *first()
     {
         return head_;
     }
 
-    // Inserts new list item into the beginning
     Item *insert(Data data)
     {
         Item *new_item = new Item();
@@ -84,27 +86,25 @@ public:
         return new_item;
     }
 
-    // Inserts new list item after the specified item
-    Item *insert_after(Item *item, Data data)
+    Item *insert_after(Item *prev_item, Data data)
     {
-        if (item == nullptr)
-        {
-        }
+        if (prev_item == nullptr)
+            return nullptr;
 
         Item *new_item = new Item();
         new_item->setData(data);
 
-        new_item->setNext(item->next());
-        if (item->next() != nullptr)
-        {
-            item->next()->setPrev(new_item);
-        }
-        else
-        {
+        Item *next_item = prev_item->next();
+
+        if (next_item != nullptr)
+            next_item->setPrev(new_item);
+
+        prev_item->setNext(new_item);
+        new_item->setPrev(prev_item);
+        new_item->setNext(next_item);
+
+        if (prev_item == tail_)
             tail_ = new_item;
-        }
-        new_item->setPrev(item);
-        item->setNext(new_item);
 
         return new_item;
     }
