@@ -49,17 +49,17 @@ public:
     }
 
     ~List()
-{
-    Item *item = head_;
-    while (item != nullptr)
     {
-        Item *next = item->next();
-        if (next != nullptr) 
-            next->setPrev(nullptr); 
-        //delete item;
-        item = next;
+        Item *item = head_;
+        while (item != nullptr)
+        {
+            Item *next = item->next();
+            //delete item;
+            item = next;
+        }
+        head_ = nullptr;
+        tail_ = nullptr;
     }
-}
 
     Item *first()
     {
