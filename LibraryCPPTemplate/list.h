@@ -49,17 +49,17 @@ public:
     }
 
     ~List()
+{
+    Item *item = head_;
+    while (item != nullptr)
     {
-        Item *item = head_;
-        while (item != nullptr)
-        {
-            Item *next = item->next();
-            if (item != nullptr)
-                item->setPrev(nullptr);
-            delete item;
-            item = next;
-        }
+        Item *next = item->next();
+        if (next != nullptr) 
+            next->setPrev(nullptr); 
+        //delete item;
+        item = next;
     }
+}
 
     Item *first()
     {
@@ -94,31 +94,26 @@ public:
         Item *new_item = new Item();
         new_item->setData(data);
 
-        Item *next_item = prev_item->next();
-
-        if (next_item != nullptr)
-            next_item->setPrev(new_item);
-
-        prev_item->setNext(new_item);
         new_item->setPrev(prev_item);
-        new_item->setNext(next_item);
-
-        if (prev_item == tail_)
-            tail_ = new_item;
+        new_item->setNext(prev_item->next());
+        if (prev_item->next() != nullptr)
+            prev_item->next()->setPrev(new_item);
+        prev_item->setNext(new_item);
 
         return new_item;
-    }
+    } 
 
     // Deletes the first list item.
     // Returns pointer to the item next to the deleted one.
-    Item *erase_first()
+    Item* erase_first()
     {
         if (head_ == nullptr)
         {
+            return nullptr;
         }
 
-        Item *item = head_;
-        Item *next_item = item->next();
+        Item* item = head_;
+        Item* next_item = item->next();
 
         if (next_item != nullptr)
         {
