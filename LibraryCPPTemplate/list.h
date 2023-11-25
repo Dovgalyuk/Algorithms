@@ -50,6 +50,14 @@ public:
         {
             insert(item->data());
         }
+        while (first_ != nullptr)
+            {
+                Item *tmp = first_->next();
+                first_->setNext(nullptr);
+                first_->setPrev(nullptr);
+                delete first_;
+                first_ = tmp;
+            }
     }
 
     // assignment operator
