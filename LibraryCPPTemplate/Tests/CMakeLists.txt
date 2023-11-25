@@ -2,10 +2,10 @@
 #target_include_directories(TestArrayCPPTemplate PUBLIC ..)
 #add_test(TestArrayCPPTemplate TestArrayCPPTemplate)
 #
-#add_executable(TestListCPPTemplate list.cpp)
-#target_include_directories(TestListCPPTemplate PUBLIC ..)
-#add_test(TestListCPPTemplate TestListCPPTemplate)
-#
+add_executable(TestListCPPTemplate list.cpp)
+target_include_directories(TestListCPPTemplate PUBLIC ..)
+add_test(TestListCPPTemplate TestListCPPTemplate)
+
 #add_executable(TestQueueCPPTemplate queue.cpp)
 #target_include_directories(TestQueueCPPTemplate PUBLIC ..)
 #add_test(TestQueueCPPTemplate TestQueueCPPTemplate)
