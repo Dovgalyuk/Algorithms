@@ -46,6 +46,7 @@ public:
         {
             Item *tmp = first_->next();
             first_->setNext(nullptr);
+            first_->setPrev(nullptr);
             delete first_;
             first_ = tmp;
         }
@@ -98,24 +99,23 @@ public:
     // Deletes the first list item.
     // Returns pointer to the item next to the deleted one.
     Item* erase_first()
+{
+    Item *firstItem = first_;
+
+    if (firstItem != NULL)
     {
-        Item *firstItem = first_;
+        first_ = firstItem->next();
 
-        if (firstItem != NULL)
+        if (first_ != NULL)
         {
-            first_ = firstItem->next();
-
-            if (first_ != NULL)
-            {
-                first_->setPrev(NULL);
-            }
-
-            first_ = firstItem->next();
-            delete firstItem;
+            first_->setPrev(NULL);
         }
 
-        return first_;
+        delete firstItem;
     }
+
+    return first_;
+}
 
     // Deletes the list item following the specified one.
     // Returns pointer to the item next to the deleted one.
