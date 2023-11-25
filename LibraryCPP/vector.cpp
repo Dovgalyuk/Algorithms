@@ -4,8 +4,8 @@ struct Vector
 {
     Data* arr;
     
-    Data current_size;
-    Data global_size;
+    size_t current_size;
+    size_t global_size;
 
     Vector()
     {
