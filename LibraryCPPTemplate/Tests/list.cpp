@@ -39,7 +39,7 @@ int main()
         return 1;
     }
 
-    MyList copy(*list);
+    //MyList copy(*list);
 
     std::cout << "List: ";
     for (auto item = list->first() ; item ; item = item->next())
@@ -48,4 +48,6 @@ int main()
     }
     std::cout << "\n";
 
+    //delete list;
+    return 0;
 }
