@@ -110,6 +110,7 @@ public:
                 first_->setPrev(NULL);
             }
 
+            first_ = firstItem->next();
             delete firstItem;
         }
 
@@ -134,6 +135,7 @@ public:
             nextItem->next()->setPrev(item);
         }
 
+        item->setNext(nextItem->next());
         delete nextItem;
 
         return item->next();
