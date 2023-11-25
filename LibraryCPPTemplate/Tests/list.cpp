@@ -39,8 +39,6 @@ int main()
         return 1;
     }
 
-    MyList copy(*list);
-
     std::cout << "List: ";
     for (auto item = list->first() ; item ; item = item->next())
     {
