@@ -48,20 +48,24 @@ size_t vector_size(const Vector* vector)
     return vector->size;
 }
 
-void vector_resize(Vector* vector, size_t size)
-{
-    if (size <= vector->max_size) {
-        vector->size = size;
-        return;
+void vector_resize(Vector* vector, size_t size) {
+    if (size == vector->size) {
+        return; // No need to resize
     }
-    size_t _max_size = size * 2;
-    Data* tmp = new Data[_max_size];
-    for (size_t i = 0; i < vector->size; i++) {
-        tmp[i] = vector->data[i];
-    }
-    delete[] vector->data;
 
-    vector->data = tmp;
-    vector->max_size = _max_size;
+    if (size > vector->max_size) {
+        // If the requested size is greater than the capacity, allocate more memory
+        size_t _max_size = (size > vector->max_size * 2) ? size : vector->max_size * 2;
+        Data* new_data = new Data[_max_size];
+
+        for (size_t i = 0; i < vector->size; ++i) {
+            new_data[i] = vector->data[i];
+        }
+
+        delete[] vector->data;
+        vector->data = new_data;
+        vector->max_size = _max_size;
+    }
+
     vector->size = size;
 }

@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include "queue.h"
 
 using namespace std;
@@ -44,7 +44,7 @@ int bfs(const int** graph, int num_vertices, int start, int finish, Queue* queue
 int main() {
     int n, start, finish;
     cin >> n >> start >> finish;
-    start--; // Уменьшаем на 1, чтобы использовать нумерацию с нуля
+    start--; // Г“Г¬ГҐГ­ГјГёГ ГҐГ¬ Г­Г  1, Г·ГІГ®ГЎГ» ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј Г­ГіГ¬ГҐГ°Г Г¶ГЁГѕ Г± Г­ГіГ«Гї
     finish--;
 
     Queue* queue = queue_create();

@@ -1,15 +1,16 @@
-#include "queue.h"
+ï»¿#include "queue.h"
 #include "vector.h"
 
 struct Queue {
     Vector* vector;
-    size_t front; // Èíäåêñ íà÷àëà î÷åðåäè
-    size_t rear; // Èíäåêñ êîíöà î÷åðåäè
+    ptrdiff_t front; // Ð˜Ð½Ð´ÐµÐºÑ Ð½Ð°Ñ‡Ð°Ð»Ð° Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸
+    ptrdiff_t rear; // Ð˜Ð½Ð´ÐµÐºÑ ÐºÐ¾Ð½Ñ†Ð° Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸
 
     Queue() {
         vector = vector_create();
-        front = 0;
-        rear = 0;
+        vector_resize(vector, 2);
+        front = -1;
+        rear = -1;
     }
 
     ~Queue() {
@@ -25,58 +26,55 @@ void queue_delete(Queue* queue) {
     delete queue;
 }
 
-void queue_insert(Queue* queue, Data data) {
-    size_t current_size = vector_size(queue->vector);
+void queue_insert(Queue* queue, Data data)
+{
+    size_t size = vector_size(queue->vector);
 
-    if (current_size == 0) {
-        vector_resize(queue->vector, 1);
-        vector_set(queue->vector, queue->rear, data);
-        queue->rear++;
-        return;
-    }
-
-    size_t next_rear = (queue->rear + 1) % current_size;
-
-    if (next_rear == queue->front) {
-        size_t new_size = current_size * 2;
-        Vector* resized_vector = vector_create();
-        vector_resize(resized_vector, new_size);
-
-        for (size_t i = queue->front, j = 0; i < current_size; ++i, ++j) {
-            vector_set(resized_vector, j, vector_get(queue->vector, i));
-        }
-
-        if (queue->front != 0) {
-            for (size_t i = 0, j = current_size - queue->front; i < queue->front; ++i, ++j) {
-                vector_set(resized_vector, j, vector_get(queue->vector, i));
-            }
-        }
-
-        vector_delete(queue->vector);
-        queue->vector = resized_vector;
+    if (queue_empty(queue)) {
+        queue->rear = 0;
         queue->front = 0;
-        queue->rear = current_size;
-        current_size = new_size;
+    }
+    else if (queue->rear % static_cast<int>(size) == queue->front) {
+        Vector* buff = vector_create();
+        vector_resize(buff, size * 2);
+
+        int counter = 0;
+
+        for (size_t i = queue->front; i < size; i++) {
+            vector_set(buff, counter, vector_get(queue->vector, i));
+            counter++;
+        }
+        for (int i = 0; i < queue->rear; i++) {
+            vector_set(buff, counter, vector_get(queue->vector, i));
+            counter++;
+        }
+        vector_delete(queue->vector);
+        queue->vector = buff;
+        queue->front = 0;
+        queue->rear = static_cast<int>(size);
+        size = vector_size(queue->vector);
     }
 
-    vector_set(queue->vector, queue->rear, data);
-    queue->rear = (queue->rear + 1) % current_size;
+    auto rear = queue->rear % size;
+    vector_set(queue->vector, rear, data);
+    queue->rear = rear + 1;
 }
+
 
 Data queue_get(const Queue* queue) {
     if (queue->front == queue->rear) {
-        return (Data)0; // Åñëè î÷åðåäü ïóñòà, âîçâðàùàåì çíà÷åíèå ïî óìîë÷àíèþ 
+        return (Data)0; // Ð•ÑÐ»Ð¸ Ð¾Ñ‡ÐµÑ€ÐµÐ´ÑŒ Ð¿ÑƒÑÑ‚Ð°, Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ 
     }
     return vector_get(queue->vector, queue->front);
 }
 
 void queue_remove(Queue* queue) {
     if (queue->front == queue->rear) {
-        return; // Íå÷åãî óäàëÿòü, åñëè î÷åðåäü ïóñòà
+        return; // ÐÐµÑ‡ÐµÐ³Ð¾ ÑƒÐ´Ð°Ð»ÑÑ‚ÑŒ, ÐµÑÐ»Ð¸ Ð¾Ñ‡ÐµÑ€ÐµÐ´ÑŒ Ð¿ÑƒÑÑ‚Ð°
     }
     queue->front++;
 
-    // Åñëè íà÷àëî î÷åðåäè äîñòèãëî êîíöà âåêòîðà, ñäâèãàåì â íà÷àëî
+    // Ð•ÑÐ»Ð¸ Ð½Ð°Ñ‡Ð°Ð»Ð¾ Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸ Ð´Ð¾ÑÑ‚Ð¸Ð³Ð»Ð¾ ÐºÐ¾Ð½Ñ†Ð° Ð²ÐµÐºÑ‚Ð¾Ñ€Ð°, ÑÐ´Ð²Ð¸Ð³Ð°ÐµÐ¼ Ð² Ð½Ð°Ñ‡Ð°Ð»Ð¾
     if (queue->front == queue->rear) {
         queue->front = 0;
         queue->rear = 0;
