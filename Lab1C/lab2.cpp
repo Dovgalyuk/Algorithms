@@ -8,37 +8,53 @@
 bool check(const std::string& html) {
     Stack* stack = stack_create();
 
-    for (std::size_t i = 0; i < html.size(); i+=6) {
+    for (std::size_t i = 0; i < html.size(); ++i) {
 
-        if(html[i + 5] != '>')
+        if (html[i] == '<')
         {
-            for (size_t g = i+6; g >= i; g--)
+            if (html[i + 1] != '/')
             {
-                if (g == i + 1) {
-                    g--;
-                }
-                if (std::tolower(html[g]) == stack_get(stack))
+                ++i;
+                for (; html[i] != '>'; ++i)
                 {
-                    stack_pop(stack);
-                }
-                else
-                {
-                    return 0;
+                    stack_push(stack, std::tolower(html[i]));
                 }
             }
-            ++i;
-        }
-        else
-        {
-            for (size_t j = i; j < i+6; j++)
+            else
             {
-                stack_push(stack, std::tolower(html[j]));
+                i += 2;
+                int f = 0;
+                for (; html[i] != '>'; ++i)
+                {
+                    f++;
+                }
+                i -= f;
+                --f;
+                for (; f!=-1; --f)
+                {
+                    if (std::tolower(html[i + f]) == stack_get(stack))
+                    {
+                        stack_pop(stack);
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
             }
-        }
+        }   
     }
 
-
-    return 1;
+    if (stack_empty(stack) == 1) 
+    {
+        stack_delete(stack);
+        return 1;
+    }
+    else
+    {
+        stack_delete(stack);
+        return 0;
+    }
 }
 
 int main() {
