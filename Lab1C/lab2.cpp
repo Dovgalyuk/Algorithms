@@ -20,7 +20,7 @@ string exprConversion(string expr)
 {
 	string convExpr = "";
 	Stack* operationStack = stack_create();
-	for (int i = 0; i < expr.length(); i++)
+	for (long unsigned int i = 0; i < expr.length(); i++)
 	{
 		char tmpChar = expr[i];
 		if (tmpChar == '(')
@@ -61,7 +61,7 @@ string exprConversion(string expr)
 
 void convToAssembler(string convExpr)
 {
-	for (int i = 0; i < convExpr.length(); i++)
+	for (long unsigned int i = 0; i < convExpr.length(); i++)
 	{
 		char tmpChar = convExpr[i];
 		if (tmpChar >= '0' && tmpChar <= '9')
