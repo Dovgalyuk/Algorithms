@@ -8,7 +8,7 @@ struct ListItem
     ListItem* next;
     ListItem()
     {
-        data = nullptr;
+        data = 0;
         next = nullptr;
     }
 };
