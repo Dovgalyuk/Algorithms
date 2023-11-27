@@ -3,6 +3,7 @@
 #include "queue.h"
 #include <fstream>
 #include <string>
+#include <array>
 using namespace std;
 
 //Точка лабиринта 
@@ -19,12 +20,14 @@ public:
 };
 
 
-const vector <Point> directions =  //Область Фон Неймана (направления движения)
+array <Point, 4> directions   //Область Фон Неймана (направления движения)
 {
+  {
 	{0,1},
 	{0,-1},
 	{1,0},
 	{-1,0}
+  }
 };
 //Задаём карту путей(расстояний) до выхода из лабиринта. Карта представлена в виде двумерного динамического массива.
 int** road_map_of_maze(vector<string>& maze, int x, int y) {
@@ -70,10 +73,10 @@ void Wave_Algorithm(Queue* queue, int** paths, vector<string>& maze)
 			}
 		}
 	}
-	queue_delete(queue);
+	
 }
 //Волновой алгоритм поиска путей 
-void Answer_Print(int** paths, vector<string> maze, int EndX, int EndY)
+void Answer_Print(int** paths, vector<string>& maze, int EndX, int EndY)
 {
 	if (paths[EndX][EndY]) //Есть ли путь
 	{
@@ -106,13 +109,7 @@ void Answer_Print(int** paths, vector<string> maze, int EndX, int EndY)
 	{
 		cout << "IMPOSSIBLE" << endl;
 	}
-	//Удаление массива путей
-	for (size_t i = 0; i < maze.size(); i++)
-	{
-		delete[] paths[i];
-	}
-
-	delete[] paths;
+	
 
 }
 int main()
@@ -154,5 +151,15 @@ int main()
 	int** paths = road_map_of_maze(maze, start.x, start.y); //Карта путей
 	Wave_Algorithm(queue, paths, maze);  //Волновой алгоритм поиска путей 
 	Answer_Print(paths, maze, end.x, end.y);  //Вывод ответа и удаление массива с путями лабиринта
+
+	//удаление очереди
+	queue_delete(queue);
+	//Удаление массива путей
+	for (size_t i = 0; i < maze.size(); i++)
+	{
+		delete[] paths[i];
+	}
+
+	delete[] paths;
 	return 0;
 }

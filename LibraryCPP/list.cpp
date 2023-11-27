@@ -48,7 +48,7 @@ Data list_item_data(const ListItem* item)
 ListItem* list_item_next(ListItem* item)
 {
 
-    return item = item->Next;
+    return item->Next;
 }
 
 ListItem* list_item_prev(ListItem* item)
@@ -94,10 +94,10 @@ ListItem* list_erase_first(List* list)
 {             
     if (list->Head)
     {
-        ListItem* TempItem = new ListItem;
-        TempItem = list->Head;
-        list->Head = list->Head->Next;
-        delete TempItem;
+        ListItem* TempItem = list->Head->Next;
+        delete list->Head;
+        list->Head = TempItem;
+        
         return list->Head;
     }
     return nullptr;
