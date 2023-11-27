@@ -76,7 +76,7 @@ public:
         while (it) {
             Edge* edge = &it->get_data();
             if (edge->to == to) {
-                removeEdgeFromVertex(from, edge);
+                removeEdgeFromVertex(from, it);
                 break;
             }
             it = it->next();
@@ -161,21 +161,16 @@ private:
     std::unordered_map<size_t, Vertex*> vertices;
     size_t nextVertexId;
 
-    void removeEdgeFromVertex(Vertex* vertex, Edge* edge) {
-        if (!vertex || !edge) return;
+    void removeEdgeFromVertex(Vertex* vertex, typename List<Edge>::Item* edgeItem) {
+        if (!vertex || !edgeItem) return;
 
-        auto it = vertex->edges.first();
-        while (it) {
-            if (&it->get_data() == edge) {
-                if (it == vertex->edges.first()) {
-                    vertex->edges.erase_first();
-                }
-                else {
-                    vertex->edges.erase_next(it->prev());
-                }
-                break;
+        if (edgeItem != nullptr) {
+            if (edgeItem == vertex->edges.first()) {
+                vertex->edges.erase_first();
             }
-            it = it->next();
+            else {
+                vertex->edges.erase_next(edgeItem->prev());
+            }
         }
     }
 };
