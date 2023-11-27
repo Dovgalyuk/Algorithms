@@ -14,6 +14,8 @@ int opPriority(char op)
 		return 2;
 	if (op == '(')
 		return 3;
+
+return 0;
 }
 
 string exprConversion(string expr)
