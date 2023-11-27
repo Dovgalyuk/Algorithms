@@ -8,7 +8,7 @@ struct ListItem
     ListItem* next;
     ListItem()
     {
-        data = NULL;
+        data = nullprt;
         next = nullptr;
     }
 };
@@ -23,6 +23,9 @@ struct List
 };
 
 List *list_create()
+{
+    return new List;
+}
 
 void list_delete(List *list)
 {
@@ -51,6 +54,11 @@ Data list_item_data(const ListItem *item)
 ListItem *list_item_next(ListItem *item)
 {
     return item->next;
+}
+
+ListItem *list_item_prev(ListItem *item)
+{
+    return NULL;
 }
 
 ListItem *list_insert(List *list, Data data)
