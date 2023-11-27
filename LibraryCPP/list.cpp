@@ -23,7 +23,6 @@ struct List
 };
 
 List *list_create()
-@@ -16,23 +29,31 @@ List *list_create()
 
 void list_delete(List *list)
 {
@@ -76,7 +75,7 @@ ListItem *list_erase(List *list, ListItem *item)
 {
     if (item == list_first(list))
     {
-        return list_erase_top(list);
+        return list_erase_next(list);
     }
     else
     {
