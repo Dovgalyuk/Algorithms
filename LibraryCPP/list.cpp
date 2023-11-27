@@ -41,28 +41,21 @@ void list_delete(List *list)
 
 ListItem *list_first(List *list)
 {
-    return NULL;
     return list->top;
 }
 
 Data list_item_data(const ListItem *item)
 {
-    return (Data)0;
     return item->data;
 }
 
 ListItem *list_item_next(ListItem *item)
 {
-    return NULL;
     return item->next;
 }
 
-ListItem *list_item_prev(ListItem *item)
-@@ -42,20 +63,55 @@ ListItem *list_item_prev(ListItem *item)
-
 ListItem *list_insert(List *list, Data data)
 {
-    return NULL;
     ListItem* newItem = new ListItem;
     newItem->data = data;
     newItem->next = list->top;
@@ -72,7 +65,6 @@ ListItem *list_insert(List *list, Data data)
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
-    return NULL;
     ListItem* newItem = new ListItem;
     newItem->data = data;
     newItem->next = item->next;
@@ -90,13 +82,11 @@ ListItem *list_erase(List *list, ListItem *item)
     {
         std::cout << "Not applicable for the singly linked lists";
     }
-    return NULL;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
 ListItem* list_erase_first(List* list)
 {
-    return NULL;
     if (list->top == nullptr)
     {
         return list->top;
