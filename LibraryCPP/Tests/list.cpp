@@ -29,7 +29,7 @@ int main()
         return 1;
     }
 
-    list_erase_first(list);
+    list_erase_top(list);
 
     if (list_item_data(list_first(list)) != 4)
     {
