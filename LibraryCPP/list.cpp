@@ -35,7 +35,7 @@ void list_delete(List *list)
         {
             list_erase_next(list, list->top);
         }
-        list_erase_first(list);
+        list_erase_top(list);
     }
     // TODO: free items
     delete list;
@@ -83,15 +83,16 @@ ListItem *list_erase(List *list, ListItem *item)
 {
     if (item == list_first(list))
     {
-        return list_erase_first(list);
+        return list_erase_top(list);
     }
     else
     {
         std::cout << "Not applicable for the singly linked lists";
     }
+    return NULL;
 }
 
-ListItem* list_erase_first(List* list)
+ListItem* list_erase_top(List* list)
 {
     if (list->top == nullptr)
     {
@@ -103,7 +104,7 @@ ListItem* list_erase_first(List* list)
     return list->top;
 }
 
-ListItem* list_erase_next(List* list)
+ListItem* list_erase_next(List* list, ListItem* item)
 {
     if (item->next == nullptr)
     {
