@@ -12,12 +12,14 @@ int opPriority(char op)
 		return 1;
 	if (op == '+' || op == '-')
 		return 2;
+	if (op == '(')
+		return 3;
 }
 
 string exprConversion(string expr)
 {
 	string convExpr = "";
-	Stack operationStack = stack_create();
+	Stack* operationStack = stack_create();
 	for (int i = 0; i < expr.length(); i++)
 	{
 		char tmpChar = expr[i];
@@ -61,7 +63,7 @@ void convToAssembler(string convExpr)
 {
 	for (int i = 0; i < convExpr.length(); i++)
 	{
-		char *tmpChar = convExpr[i];
+		char tmpChar = convExpr[i];
 		if (tmpChar >= '0' && tmpChar <= '9')
 		{
 			cout << "PUSH " << tmpChar << '\n';
