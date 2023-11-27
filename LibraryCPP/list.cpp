@@ -83,7 +83,7 @@ ListItem *list_erase(List *list, ListItem *item)
 {
     if (item == list_first(list))
     {
-        return list_erase_next(list);
+        return list_erase_first(list);
     }
     else
     {
