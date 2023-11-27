@@ -35,7 +35,7 @@ void list_delete(List *list)
         {
             list_erase_next(list, list->top);
         }
-        list_erase_top(list);
+        list_erase_first(list);
     }
     // TODO: free items
     delete list;
