@@ -4,7 +4,8 @@
 #include <ctime>
 #include <array>
 using namespace std;
-void first_podschet(const vector<int>& arr, int N) {
+
+void first_podschet(const array<int, 6>& arr, const int N) {
 	cout << "Массив: ";
 	for (int k = 0; k < N; k++) {
 		cout << arr[k] << " ";
@@ -25,9 +26,9 @@ void first_podschet(const vector<int>& arr, int N) {
 	cout << "Положительных чисел: " << plus << endl;
 	cout << "Отрицательных чисел: " << minus << endl;
 	cout << "Нулевых чисел: " << nol << endl;
-
 }
-void second_deleters(const vector<int>& arr, int N) {
+
+void second_deleters(const array<int, 6>& arr, const int N) {
 	cout << "Массив: ";
 	for (int k = 0; k < N; k++) {
 		cout << arr[k] << " ";
@@ -44,14 +45,11 @@ void second_deleters(const vector<int>& arr, int N) {
 		if (notDelete) {
 			cout << "Не делющиеся число: " << arr[i] << endl;
 		}
-		cout << endl;
 	}
-
 }
-int main()
-{
-	setlocale(LC_ALL, "rus");
 
+int main() {
+	setlocale(LC_ALL, "rus");
 
 	cout << endl;
 	bool oneMoreTime = true;
@@ -64,7 +62,7 @@ int main()
 		cin >> choise;
 		if (choise == 1) {
 			const int n = 6;
-			array<int, n > arr { 5, 7, 1, 2, 4, 9 };
+			array<int, n> arr{ 5, 7, 1, 2, 4, 9 };
 			cout << "Контейнер Array: ";
 			for (int i = 0; i < n; i++) {
 				cout << arr[i] << " ";
@@ -72,28 +70,26 @@ int main()
 			cout << endl;
 		}
 		if (choise == 2) {
-			int N;
-			cout << "Введите размер массива: ";
-			cin >> N;
-			vector<int> mas(N);
+			const int N = 6;
+
+			array<int, N> arr;
 			srand(time(0));
 			for (int i = 0; i < N; i++) {
-				mas[i] = rand() % 201 - 100;
+				arr[i] = rand() % 201 - 100;
 			}
 			cout << endl;
-			first_podschet(mas, N);
+			first_podschet(arr, N);
 		}
 		if (choise == 3) {
-			int N;
-			cout << "Введите размер массива: ";
-			cin >> N;
-			vector<int> mas(N);
+			const int N = 6;
+
+			array<int, N> arr;
 			srand(time(0));
 			for (int i = 0; i < N; i++) {
-				mas[i] = rand() % 201 - 100;
+				arr[i] = rand() % 201 - 100;
 			}
 			cout << endl;
-			second_deleters(mas, N);
+			second_deleters(arr, N);
 		}
 		if (choise == 0) {
 			oneMoreTime = false;
@@ -111,7 +107,6 @@ int main()
 			}
 		}
 	}
-
 
 	return 0;
 }
