@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <array>
+typedef std::vector <std::string> vct;
 using namespace std;
 
 //Точка лабиринта 
@@ -30,7 +31,7 @@ array <Point, 4> directions   //Область Фон Неймана (направления движения)
   }
 };
 //Задаём карту путей(расстояний) до выхода из лабиринта. Карта представлена в виде двумерного динамического массива.
-int** road_map_of_maze(vector<string>& maze, int x, int y) {
+int** road_map_of_maze( const vct& maze, int x, int y) {
 	int** paths = new int* [maze.size()];
 
 	for (size_t i = 0; i < maze.size(); i++)
@@ -44,7 +45,7 @@ int** road_map_of_maze(vector<string>& maze, int x, int y) {
 	paths[x][y] = 1;
 	return paths;
 }
-void Wave_Algorithm(Queue* queue, int** paths, vector<string>& maze)
+void Wave_Algorithm(Queue* queue, int** paths, vct& maze)
 {
 
 	while (!queue_empty(queue))
@@ -76,7 +77,7 @@ void Wave_Algorithm(Queue* queue, int** paths, vector<string>& maze)
 	
 }
 //Волновой алгоритм поиска путей 
-void Answer_Print(int** paths, vector<string>& maze, int EndX, int EndY)
+void Answer_Print(int** paths, vct& maze, int EndX, int EndY)
 {
 	if (paths[EndX][EndY]) //Есть ли путь
 	{
@@ -122,7 +123,7 @@ int main()
 	//Конец инициализации
 
 	//Ввод лабиринта
-	vector<string> maze; //Лабиринт
+	vct maze; //Лабиринт
 	string buffer;
 	ifstream getinfo("maze.txt");
 	int counter = 0;
