@@ -7,12 +7,12 @@ using namespace std;
 void task1(Array *arr)
 {
     size_t size = array_size(arr);
-    size_t reverseR = 0; // 1/R
+    double reverseR = 0; // 1/R
     size_t R = 0;        // R
     for (size_t i = 0; i < size; i++)
     {
         // 1/R = 1/r1 + 1/r2...
-        size_t element = array_get(arr, i);
+        double element = array_get(arr, i);
         element = pow(element, -1);
         reverseR += element;
     }
@@ -28,7 +28,7 @@ void task2(Array *arr)
         bool isUnique = true;
         for (size_t j = 0; j < size; ++j)
         {
-            if (i != j && array_get(arr, i) == array_get(arr, i))
+            if (i != j && array_get(arr, i) == array_get(arr, j))
             {
                 isUnique = false;
                 break;
