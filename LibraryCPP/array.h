@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ARRAY_H
 #define ARRAY_H
 
@@ -10,18 +11,24 @@ typedef int Data;
 struct Array;
 
 // create array
-Array *array_create(size_t size);
+Array* array_create(size_t size);
 
 // delete array, free memory
-void array_delete(Array *arr);
+void array_delete(Array* arr);
 
 // returns specified array element
-Data array_get(const Array *arr, size_t index);
+Data array_get(const Array* arr, size_t index);
 
 // sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value);
+void array_set(Array* arr, size_t index, Data value);
 
 // returns array size
-size_t array_size(const Array *arr);
+size_t array_size(const Array* arr);
 
-#endif
+//Array* random_full();
+
+//Array* delete_elements();
+
+//void print_data(Array* arr);
+
+#endif 

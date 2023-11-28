@@ -1,21 +1,26 @@
-#include <stdio.h>
+#include <iostream>
+
+
+#include <ctime>
+
 #include "array.h"
 
-void task1(Array *arr)
-{
-}
 
-void task2(Array *arr)
-{
-}
+int main() {
+	setlocale(LC_ALL, "Russian");
 
-int main()
-{
-    Array *arr = NULL;
-    /* Create array here */
-    task1(arr);
-    array_delete(arr);
-    /* Create another array here */
-    task2(arr);
-    array_delete(arr);
+	//ĞÀÑÊÎÌÅÍÒÈĞÎÂÀÒÜ
+
+	//Array* a = NULL;
+	//a = random_full();
+	//print_data(a);
+
+	
+	Array* b = NULL;
+	b = delete_elements();
+	print_data(b);
+
+	/*Array* c = NULL;
+	sum_elements();
+	print_data(c);*/
 }
