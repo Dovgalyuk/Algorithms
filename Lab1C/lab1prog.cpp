@@ -1,25 +1,26 @@
 #include <iostream>
-#include <vector>
 #include <cstdlib>
 #include <ctime>
-#include <array>
+#include "C:\\Users\Мирослав\Desktop\Algorithms\LibraryCPP\array.h" 
+#include "C:\\Users\Мирослав\Desktop\Algorithms\LibraryCPP\array.cpp" 
 using namespace std;
 
-void first_podschet(const array<int, 6>& arr, const int N) {
+void first_podschet(const Array& arr) {
 	cout << "Массив: ";
-	for (int k = 0; k < N; k++) {
-		cout << arr[k] << " ";
+	for (size_t k = 0; k < array_size(&arr); k++) {
+		cout << array_get(&arr, k) << " ";
 	}
 	cout << endl;
+
 	int minus = 0, plus = 0, nol = 0;
-	for (int j = 0; j < N; j++) {
-		if (arr[j] < 0) {
+	for (size_t j = 0; j < array_size(&arr); j++) {
+		if (array_get(&arr, j) < 0) {
 			minus += 1;
 		}
-		if (arr[j] > 0) {
+		if (array_get(&arr, j) > 0) {
 			plus += 1;
 		}
-		if (arr[j] == 0) {
+		if (array_get(&arr, j) == 0) {
 			nol += 1;
 		}
 	}
@@ -28,22 +29,23 @@ void first_podschet(const array<int, 6>& arr, const int N) {
 	cout << "Нулевых чисел: " << nol << endl;
 }
 
-void second_deleters(const array<int, 6>& arr, const int N) {
+void second_deleters(const Array& arr) {
 	cout << "Массив: ";
-	for (int k = 0; k < N; k++) {
-		cout << arr[k] << " ";
+	for (size_t k = 0; k < array_size(&arr); k++) {
+		cout << array_get(&arr, k) << " ";
 	}
 	cout << endl;
-	for (int i = 0; i < N; i++) {
+
+	for (size_t i = 0; i < array_size(&arr); i++) {
 		bool notDelete = true;
-		for (int j = 0; j < N; j++) {
-			if ((i != j) && (arr[i] % arr[j] == 0)) {
+		for (size_t j = 0; j < array_size(&arr); j++) {
+			if ((i != j) && (array_get(&arr, i) % array_get(&arr, j) == 0)) {
 				notDelete = false;
 				break;
 			}
 		}
 		if (notDelete) {
-			cout << "Не делющиеся число: " << arr[i] << endl;
+			cout << "Не делющиеся число: " << array_get(&arr, i) << endl;
 		}
 	}
 }
@@ -60,45 +62,64 @@ int main() {
 		cout << "2-Подсчет положительных,отрицательных,нулевых" << endl;
 		cout << "3-Не делющиеся элементы" << endl;
 		cin >> choise;
+
 		if (choise == 1) {
-			const int n = 6;
-			array<int, n> arr{ 5, 7, 1, 2, 4, 9 };
+			const size_t n = 6;
+			Array* arr = array_create(n);
+			array_set(arr, 0, 5);
+			array_set(arr, 1, 7);
+			array_set(arr, 2, 1);
+			array_set(arr, 3, 2);
+			array_set(arr, 4, 4);
+			array_set(arr, 5, 9);
+
 			cout << "Контейнер Array: ";
-			for (int i = 0; i < n; i++) {
-				cout << arr[i] << " ";
+			for (size_t i = 0; i < array_size(arr); i++) {
+				cout << array_get(arr, i) << " ";
 			}
 			cout << endl;
+
+			array_delete(arr);
 		}
+
 		if (choise == 2) {
-			const int N = 6;
+			const size_t N = 6;
+			Array* arr = array_create(N);
 
-			array<int, N> arr;
 			srand(time(0));
-			for (int i = 0; i < N; i++) {
-				arr[i] = rand() % 201 - 100;
+			for (size_t i = 0; i < array_size(arr); i++) {
+				array_set(arr, i, rand() % 201 - 100);
 			}
+
 			cout << endl;
-			first_podschet(arr, N);
+			first_podschet(*arr);
+			array_delete(arr);
 		}
+
 		if (choise == 3) {
-			const int N = 6;
+			const size_t N = 6;
+			Array* arr = array_create(N);
 
-			array<int, N> arr;
 			srand(time(0));
-			for (int i = 0; i < N; i++) {
-				arr[i] = rand() % 201 - 100;
+			for (size_t i = 0; i < array_size(arr); i++) {
+				array_set(arr, i, rand() % 201 - 100);
 			}
+
 			cout << endl;
-			second_deleters(arr, N);
+			second_deleters(*arr);
+			array_delete(arr);
 		}
+
 		if (choise == 0) {
 			oneMoreTime = false;
 		}
+
 		if (choise != 0) {
 			int oneMoreTimeOrNot;
 			cout << "Запустить программу снова? (1 - Да, 0 - Нет): ";
 			cin >> oneMoreTimeOrNot;
 			cout << endl;
+
 			if (oneMoreTimeOrNot == 1) {
 				continue;
 			}
