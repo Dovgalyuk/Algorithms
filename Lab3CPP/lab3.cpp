@@ -28,8 +28,7 @@ int main()
 {
     std::array<Queue<std::size_t>, powl(2, count_of_bits_in_step)> numbers;
 
-    std::string line;
-    std::cout << line << std::endl;
+    std::string line = "0 1 1 0 0 0 1 0 1 0 1";
     // std::getline(std::cin, line);
 
     std::vector<std::size_t> arr;
@@ -46,6 +45,7 @@ int main()
     }
 
     std::size_t count_of_steps = ceil(max_bits / (float)count_of_bits_in_step);
+    count_of_steps = (count_of_steps == 0) ? 1 : count_of_steps;
 
     for (std::size_t step = 0; step < count_of_steps; step++)
     {
