@@ -15,8 +15,7 @@ public:
                                        mArray(mSize ? new Data[mSize] : nullptr) {}
 
     // copy constructor
-    Array(const Array &other) : mSize(other.mSize),
-                                mArray(mSize ? new Data[mSize] : nullptr)
+    Array(const Array &other) : Array(other.mSize)
     {
         other.copyTo(*this);
     }

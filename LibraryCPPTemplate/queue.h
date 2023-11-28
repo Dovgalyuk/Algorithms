@@ -13,19 +13,16 @@ public:
     Queue() : mVector(), mBegin(0) {}
 
     // copy constructor
-    Queue(const Queue &a)
+    Queue(const Queue &a) : mVector(a.mVector), mBegin(a.mBegin)
     {
         // implement or disable this function
-        mVector = a.mVector;
-        mBegin = a.mBegin;
     }
 
     // assignment operator
-    Queue &operator=(Queue &a)
+    Queue &operator=(Queue a)
     {
         // implement or disable this function
-        mVector = a.mVector;
-        mBegin = a.mBegin;
+        swap(*this, a);
         return *this;
     }
 
@@ -64,6 +61,13 @@ public:
     bool empty() const
     {
         return mVector.size() - mBegin == 0;
+    }
+
+    friend void swap(Queue &first, Queue &second)
+    {
+        using std::swap;
+        swap(first.mVector, second.mVector);
+        swap(first.mBegin, second.mBegin);
     }
 
 private:

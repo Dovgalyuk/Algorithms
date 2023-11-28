@@ -45,7 +45,6 @@ int main()
     }
 
     std::size_t count_of_steps = ceil(max_bits / (float)count_of_bits_in_step);
-    count_of_steps = (count_of_steps == 0) ? 1 : count_of_steps;
 
     for (std::size_t step = 0; step < count_of_steps; step++)
     {
