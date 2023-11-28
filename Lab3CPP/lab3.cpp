@@ -31,6 +31,15 @@ int main()
     std::string line;
     std::getline(std::cin, line);
 
+    for (auto c : line)
+    {
+        if (!(std::isdigit(c) || c == ' '))
+        {
+            std::cout << "invalid argument" << std::endl;
+            return 1;
+        }
+    }
+
     std::vector<std::size_t> arr;
 
     for (auto i : split(line))
