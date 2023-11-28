@@ -7,13 +7,14 @@
 #include <vector>
 #include <algorithm>
 
-constexpr std::size_t powl(std::size_t a, std::size_t pow)
+#define MAX_BITS_IN_STEP 2
+
+constexpr std::size_t powul(std::size_t a, std::size_t pow)
 {
-    return (pow == 0) ? 1 : a * powl(a, pow - 1);
+    return (pow == 0) ? 1 : a * powul(a, pow - 1);
 }
 
-const std::size_t count_of_bits_in_step = 2;
-const std::size_t max_number_in_step = powl(2, count_of_bits_in_step) - 1;
+const std::size_t max_number_in_step = powul(2, MAX_BITS_IN_STEP) - 1;
 
 std::vector<std::string> split(std::string input)
 {
@@ -26,7 +27,7 @@ std::vector<std::string> split(std::string input)
 
 int main()
 {
-    std::array<Queue<std::size_t>, powl(2, count_of_bits_in_step)> numbers;
+    std::array<Queue<std::size_t>, powul(2, MAX_BITS_IN_STEP)> numbers;
 
     std::string line;
     std::getline(std::cin, line);
@@ -53,13 +54,13 @@ int main()
             max_bits = ceil(std::log2(i));
     }
 
-    std::size_t count_of_steps = ceil(max_bits / (float)count_of_bits_in_step);
+    std::size_t count_of_steps = ceil(max_bits / (float)MAX_BITS_IN_STEP);
 
     for (std::size_t step = 0; step < count_of_steps; step++)
     {
         while (!arr.empty())
         {
-            numbers[(arr[0] >> (step * count_of_bits_in_step)) & max_number_in_step].insert(arr[0]);
+            numbers[(arr[0] >> (step * MAX_BITS_IN_STEP)) & max_number_in_step].insert(arr[0]);
             arr.erase(arr.begin());
         }
         for (std::size_t i = 0; i < numbers.size(); i++)
