@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include "C:\\Users\Мирослав\Desktop\Algorithms\LibraryCPP\array.h" 
-#include "C:\\Users\Мирослав\Desktop\Algorithms\LibraryCPP\array.cpp" 
+#include "Algorithms\LibraryCPP\array.h" 
+#include "Algorithms\LibraryCPP\array.cpp" 
 using namespace std;
 
 void first_podschet(const Array& arr) {
