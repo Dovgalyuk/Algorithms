@@ -56,7 +56,17 @@ void array_set(Array* arr, size_t index, Data value)
 }
 
 // returns array size
-size_t array_size(const Array* arr)
+ size_t array_size(const Array* arr)
 {
-	return arr->size;
+	if (arr != nullptr) {
+		return arr->size;
+	}
+	else {
+		// обработка случая, когда arr равен nullptr
+		return 0; // или другое подходящее значение по умолчанию
+	}
 }
+//size_t array_size(const Array* arr)
+//{
+//	return arr->size;
+//}

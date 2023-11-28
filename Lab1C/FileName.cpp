@@ -43,8 +43,6 @@ Array* delete_elements() {
 	cin >> n;
 	cin >> m;
 
-	//bubble_sort(newArray->data, newArray->size);  // сортировка не нужна!!!
-
 	for (int i = 0; i < array_size(newArray); i++) {
 		if (array_get(newArray, i) >= n && array_get(newArray, i) <= m) {
 			array_set(newArray, i, 0);
@@ -52,6 +50,25 @@ Array* delete_elements() {
 	}
 
 	return newArray;
+}
+
+
+void sum_elements() {
+	Array* newArray = NULL;
+	newArray = random_full();
+
+	print_data(newArray);
+
+	int sum = 0;
+
+	for (int i = 0; i < array_size(newArray); i++) {
+		if (array_get(newArray, i) % 2 == 0 && array_get(newArray, i) > 0) 
+		{
+			sum += array_get(newArray, i);
+		}
+	}
+
+	cout << sum;
 }
 
 int main()
@@ -72,7 +89,7 @@ int main()
 
 	cout << "¬ведите количество элементов массива, выводит сумму четных" << endl;
 	Array* c = NULL;
-	//sum_elements();
+	sum_elements();
 	print_data(c);
 
 	return 0;
