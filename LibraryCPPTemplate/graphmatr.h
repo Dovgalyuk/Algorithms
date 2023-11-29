@@ -14,14 +14,14 @@ public:
         adjMatrix.resize(numVertices, std::vector<int>(numVertices, 0));
     }
 
-    void addEdge(int src, int dest, int weight) {
+    void addEdge(long unsigned int src, int dest, int weight) {
         if (src >= vertices.size() || dest >= vertices.size()) {
             throw std::out_of_range("Vertex does not exist");
         }
         adjMatrix[src][dest] = weight;
        
     }
-    void setEdgeMark(int src, int dest, int weight) {
+    void setEdgeMark(long unsigned int src, int dest, int weight) {
         if (src >= vertices.size() || dest >= vertices.size()) {
             throw std::out_of_range("Vertex does not exist");
         }
@@ -40,7 +40,7 @@ public:
         adjMatrix.resize(numVertices, std::vector<int>(numVertices, 0));
     }
 
-    void removeEdge(int src, int dest) {
+    void removeEdge(long unsigned int src, long unsigned int dest) {
         if (src >= vertices.size() || dest >= vertices.size()) {
             throw std::out_of_range("Vertex does not exist");
         }
@@ -48,35 +48,35 @@ public:
         adjMatrix[dest][src] = 0; 
     }
 
-    bool EdgeExists(int src, int dest) const {
+    bool EdgeExists(long unsigned int src, long unsigned int dest) const {
         if (src >= vertices.size() || dest >= vertices.size()) {
             throw std::out_of_range("Vertex does not exist");
         }
         return adjMatrix[src][dest] != 0;
     }
 
-    int getEdgeWeight(int src, int dest) {
+    int getEdgeWeight(long unsigned int src, long unsigned int dest) {
         if (src >= vertices.size() || dest >= vertices.size()) {
             throw std::out_of_range("Vertex does not exist");
         }
         return adjMatrix[src][dest];
     }
 
-    void setVertexMark(int vertex, T data) {
+    void setVertexMark(long unsigned int vertex, T data) {
         if (vertex >= vertices.size()) {
             throw std::out_of_range("Vertex does not exist");
         }
         vertices[vertex] = data;
     }
 
-    T getVertexMark(int vertex) {
+    T getVertexMark(long unsigned int vertex) {
         if (vertex >= vertices.size()) {
             throw std::out_of_range("Vertex does not exist");
         }
         return vertices[vertex];
     }
 
-    void removeVertex(int vertex) {
+    void removeVertex(long unsigned int vertex) {
         if (vertex >= vertices.size()) {
             throw std::out_of_range("Vertex does not exist");
         }
