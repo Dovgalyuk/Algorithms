@@ -6,7 +6,7 @@ using namespace std;
 #include "array.h"
 
 void print_data(Array* arr) {
-	for (int i = 0; i < array_size(arr); i++) {
+	for (size_t i = 0; i < array_size(arr); i++) {
 		cout << array_get(arr, i) << " ";
 	}
 	cout << endl;
@@ -17,7 +17,7 @@ Array* random_full() {
 	cin >> size;
 	Array* newArray = NULL;
 	newArray = array_create(size);
-	for (int i = 0; i < size; i++) {
+	for (size_t i = 0; i < size; i++) {
 		array_set(newArray, i, 1 + rand() % 10);
 	}
 
@@ -25,7 +25,7 @@ Array* random_full() {
 }
 
 void bubble_sort(int* arr, int n) {
-	for (int i = 0; i < n - 1; i++)
+	for (size_t i = 0; i < n - 1; i++)
 		for (int j = 0; j < n - i - 1; j++) {
 			if (arr[j] > arr[j + 1])
 				swap(arr[j], arr[j + 1]);
@@ -43,7 +43,7 @@ Array* delete_elements() {
 	cin >> n;
 	cin >> m;
 
-	for (int i = 0; i < array_size(newArray); i++) {
+	for (size_t i = 0; i < array_size(newArray); i++) {
 		if (array_get(newArray, i) >= n && array_get(newArray, i) <= m) {
 			array_set(newArray, i, 0);
 		}
@@ -61,7 +61,7 @@ void sum_elements() {
 
 	int sum = 0;
 
-	for (int i = 0; i < array_size(newArray); i++) {
+	for (size_t i = 0; i < array_size(newArray); i++) {
 		if (array_get(newArray, i) % 2 == 0 && array_get(newArray, i) > 0) 
 		{
 			sum += array_get(newArray, i);
