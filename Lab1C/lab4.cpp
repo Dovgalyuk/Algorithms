@@ -63,4 +63,4 @@ int main() {
     const auto& adjMatrix = graph.getAdjMatrix();
     KruskalMST(adjMatrix);
     return 0;
-}
+};
