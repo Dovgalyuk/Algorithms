@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include "graphmatr.h"
+#include <climits>
 using namespace std;
 
 #define V 5
@@ -30,9 +31,10 @@ void KruskalMST(vector<vector<int>> cost)
         parent[i] = i;
 
    
-    int edge_count = 0;
+    int edge_count = 0, a, b;
     while (edge_count < V - 1) {
-        int min = INT_MAX, a = -1, b = -1;
+        int min = INT_MAX;
+        a = -1, b = -1;
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < V; j++) {
                 if (find(i) != find(j) && cost[i][j] < min && cost[i][j]>0) {
