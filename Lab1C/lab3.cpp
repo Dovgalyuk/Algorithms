@@ -13,7 +13,7 @@ int shortestP(int adjMatrix[MAX_VERTICES][MAX_VERTICES], int numVertices, int st
     // Создание очереди для поиска в ширину
     Queue* queue = queue_create();
     // Массив для хранения длин путей от начальной вершины
-    int distances[MAX_VERTICES] = { 0 };
+    int distances[MAX_VERTICES] = { };
 
     // Начальная вершина добавляется в очередь и помечается как посещенная
     queue_insert(queue, start);
@@ -53,18 +53,19 @@ int main() {
     cin >> numVertices >> start >> end;
 
     int adjMatrix[MAX_VERTICES][MAX_VERTICES];
-    // Ввод матрицы смежности
+
+    // Ввод графа 'ВИДЕ' матрицы смежности
     for (int i = 0; i < numVertices; i++) {
         for (int j = 0; j < numVertices; j++) {
             cin >> adjMatrix[i][j];
         }
     }
-
+    
     // Вызов функции для определения длины кратчайшего пути
     int result = shortestP(adjMatrix, numVertices, start, end);
     // Вывод результата
     if (result == -1) {
-        cout << "IMPOSSIBLE" << endl;
+        cout << "IMPOSSIBLE\n";
     }
     else {
         cout << result << endl;
