@@ -12,6 +12,7 @@ add_executable(TestQueueCPPClass queue.cpp)
 target_include_directories(TestQueueCPPClass PUBLIC ..)
 target_link_libraries(TestQueueCPPClass LibraryCPPClass)
 add_test(TestQueueCPPClass TestQueueCPPClass)
+set_tests_properties(TestQueueCPPClass PROPERTIES TIMEOUT 10)
 
 add_executable(TestStackCPPClass stack.cpp)
 target_include_directories(TestStackCPPClass PUBLIC ..)
