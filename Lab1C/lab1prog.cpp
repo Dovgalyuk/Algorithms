@@ -1,26 +1,26 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include "array.h" 
-#include "array.cpp" 
+#include "array.h"
+
 using namespace std;
 
-void first_podschet(const Array& arr) {
+void first_podschet(const Array* arr) {
 	cout << "Массив: ";
-	for (size_t k = 0; k < array_size(&arr); k++) {
-		cout << array_get(&arr, k) << " ";
+	for (size_t k = 0; k < array_size(arr); k++) {
+		cout << array_get(arr, k) << " ";
 	}
 	cout << endl;
 
 	int minus = 0, plus = 0, nol = 0;
-	for (size_t j = 0; j < array_size(&arr); j++) {
-		if (array_get(&arr, j) < 0) {
+	for (size_t j = 0; j < array_size(arr); j++) {
+		if (array_get(arr, j) < 0) {
 			minus += 1;
 		}
-		if (array_get(&arr, j) > 0) {
+		if (array_get(arr, j) > 0) {
 			plus += 1;
 		}
-		if (array_get(&arr, j) == 0) {
+		if (array_get(arr, j) == 0) {
 			nol += 1;
 		}
 	}
@@ -29,23 +29,23 @@ void first_podschet(const Array& arr) {
 	cout << "Нулевых чисел: " << nol << endl;
 }
 
-void second_deleters(const Array& arr) {
+void second_deleters(const Array* arr) {
 	cout << "Массив: ";
-	for (size_t k = 0; k < array_size(&arr); k++) {
-		cout << array_get(&arr, k) << " ";
+	for (size_t k = 0; k < array_size(arr); k++) {
+		cout << array_get(arr, k) << " ";
 	}
 	cout << endl;
 
-	for (size_t i = 0; i < array_size(&arr); i++) {
+	for (size_t i = 0; i < array_size(arr); i++) {
 		bool notDelete = true;
-		for (size_t j = 0; j < array_size(&arr); j++) {
-			if ((i != j) && (array_get(&arr, i) % array_get(&arr, j) == 0)) {
+		for (size_t j = 0; j < array_size(arr); j++) {
+			if ((i != j) && (array_get(arr, i) % array_get(arr, j) == 0)) {
 				notDelete = false;
 				break;
 			}
 		}
 		if (notDelete) {
-			cout << "Не делющиеся число: " << array_get(&arr, i) << endl;
+			cout << "Не делющиеся число: " << array_get(arr, i) << endl;
 		}
 	}
 }
@@ -92,7 +92,7 @@ int main() {
 			}
 
 			cout << endl;
-			first_podschet(*arr);
+			first_podschet(arr);
 			array_delete(arr);
 		}
 
@@ -106,7 +106,7 @@ int main() {
 			}
 
 			cout << endl;
-			second_deleters(*arr);
+			second_deleters(arr);
 			array_delete(arr);
 		}
 
