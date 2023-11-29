@@ -1,13 +1,7 @@
 #include <iostream>
-#include <string>
-#include <cstdlib>
-//#include <stack>
 #include "stack.h"
 
 using namespace std;
-
-template <typename Data>
-void task1(Stack<Data>& particleStack);
 
 struct Particle {
     int position;
@@ -19,13 +13,13 @@ struct ParticleResult {
     int second;
 };
 
-typedef Stack<ParticleResult> MyStackResult;
+template <typename Data>
+void task1(Stack<Data>& particleStack);
 
-int main()
-{
+int main() {
     Stack<Particle> stack;
-    /* Create array here */
     task1(stack);
+    return 0;
 }
 
 template <typename Data>
@@ -45,10 +39,9 @@ void task1(Stack<Data>& particleStack) {
     Stack<Particle> tempStack;
 
     while (!particleStack.empty()) {
-        particle = particleStack.get();
-        particleStack.pop();
+        particle = particleStack.pop();
 
-        if (!tempStack.empty() && particle.charge != tempStack.get().charge) {
+        if (!tempStack.empty() && (particle.charge == '+' && tempStack.get().charge == '-')) {
             result.first = particle.position;
             result.second = tempStack.get().position;
             resultStack.push(result);
