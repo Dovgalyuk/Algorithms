@@ -14,16 +14,14 @@ public:
         adjMatrix.resize(numVertices, std::vector<int>(numVertices, 0));
     }
 
-    void addEdge(long unsigned int src, git push origin master
-        dest, int weight) {
+    void addEdge(long unsigned int src, long unsigned int dest, int weight) {
         if (src >= vertices.size() || dest >= vertices.size()) {
             throw std::out_of_range("Vertex does not exist");
         }
         adjMatrix[src][dest] = weight;
        
     }
-    void setEdgeMark(long unsigned int src, git push origin master
-        dest, int weight) {
+    void setEdgeMark(long unsigned int src, long unsigned int dest, int weight) {
         if (src >= vertices.size() || dest >= vertices.size()) {
             throw std::out_of_range("Vertex does not exist");
         }
