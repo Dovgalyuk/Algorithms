@@ -23,19 +23,10 @@ Array* random_full() {
 
 	return newArray;
 }
-//
-//void bubble_sort(int* arr, int n) {
-//	for (size_t i = 0; i < n - 1; i++)
-//		for (int j = 0; j < n - i - 1; j++) {
-//			if (arr[j] > arr[j + 1])
-//				swap(arr[j], arr[j + 1]);
-//		}
-//}
 
 Array* delete_elements() {
 	Array* newArray = NULL;
 	newArray = random_full();
-
 	print_data(newArray);
 
 	int n;
@@ -48,7 +39,17 @@ Array* delete_elements() {
 			array_set(newArray, i, 0);
 		}
 	}
-
+	for (size_t i = 0; i < array_size(newArray) - 1; i++)
+	{
+		for (size_t j = 0; j < array_size(newArray) - i - 1; j++) {
+			if (array_get(newArray, j) < array_get(newArray, j + 1))
+			{
+				int temp = array_get(newArray, j);
+				array_set(newArray, j, array_get(newArray, j + 1));
+				array_set(newArray, j + 1, temp);
+			}
+		}
+	}
 	return newArray;
 }
 
@@ -77,23 +78,23 @@ int main()
 
 	//РАСКОМЕНТИРОВАТЬ
 
-	cout << "Рандомный массив" << endl;
+	/*cout << "Рандомный массив" << endl;
 	Array* a = NULL;
 	a = random_full();
-	print_data(a);
-	array_delete(a);
 	
+	array_delete(a);
+	print_data(a);*/
 	
 	
 
-	/*cout << "Введите количество элементов массива, затем выберите интервал двумя числами" << endl;
+	cout << "Введите количество элементов массива, затем выберите интервал двумя числами" << endl;
 	Array* b = NULL;
 	b = delete_elements();
 	print_data(b);
 	array_delete(b);
 	
 
-	cout << "Введите количество элементов массива, выводит сумму четных" << endl;
+	/*cout << "Введите количество элементов массива, выводит сумму четных" << endl;
 	Array* c = NULL;
 	sum_elements();
 	print_data(c);
