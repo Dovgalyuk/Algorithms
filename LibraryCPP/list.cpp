@@ -12,7 +12,7 @@ struct ListItem
 struct List
 {
     ListItem *head;
-    ListItem *tail;
+    // ListItem *tail;
 };
 
 List *list_create()
