@@ -81,16 +81,23 @@ int main()
 	Array* a = NULL;
 	a = random_full();
 	print_data(a);
+	array_delete(a);
+	
+	
+	
 
-	cout << "¬ведите количество элементов массива, затем выберите интервал двум€ числами" << endl;
+	/*cout << "¬ведите количество элементов массива, затем выберите интервал двум€ числами" << endl;
 	Array* b = NULL;
 	b = delete_elements();
 	print_data(b);
+	array_delete(b);
+	
 
 	cout << "¬ведите количество элементов массива, выводит сумму четных" << endl;
 	Array* c = NULL;
 	sum_elements();
 	print_data(c);
+	array_delete(c);*/
 
 	return 0;
 }
