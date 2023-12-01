@@ -4,55 +4,37 @@
 struct Stack
 {
     List* list;
-    Stack()
-    {
-        list = list_create();
-        list_insert(list, 'a');
-    }
 };
 
-Stack *stack_create()
 Stack* stack_create()
 {
-    return new Stack;
-    return new Stack();
+    Stack* stack = new Stack;
+    stack->list = list_create();
+    return stack;
 }
 
-void stack_delete(Stack *stack)
 void stack_delete(Stack* stack)
 {
-    // TODO: free stack elements
     list_delete(stack->list);
     delete stack;
 }
 
-void stack_push(Stack *stack, Data data)
 void stack_push(Stack* stack, Data data)
 {
-    list_insert_after(stack->list, list_first(stack->list), data);
+    list_insert(stack->list, data);
 }
 
-Data stack_get(const Stack *stack)
 Data stack_get(const Stack* stack)
 {
-    return (Data)0;
-    Data n;
-    n = list_item_data(list_item_next(list_first(stack->list)));
-    return (n);
+    return list_item_data(list_first(stack->list));
 }
 
-void stack_pop(Stack *stack)
 void stack_pop(Stack* stack)
 {
-    list_erase_next(stack->list, list_first(stack->list));
+    list_erase(stack->list, list_first(stack->list));
 }
 
-bool stack_empty(const Stack *stack)
 bool stack_empty(const Stack* stack)
 {
-    return true;
-    if (list_item_next(list_first(stack->list)) == nullptr)
-        return true;
-    else
-        return false;
+    return (list_first(stack->list) == nullptr);
 }
