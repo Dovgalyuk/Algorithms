@@ -69,5 +69,9 @@ int main() {
     std::cout << "Adding test..." << std::endl;
     addTest(&tree, numElements);
 
+    std::cout << "Finding test..." << std::endl;
+    findTest(&tree, numElements);
+
+
     return 0;
 }
