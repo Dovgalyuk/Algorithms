@@ -31,7 +31,7 @@ Data stack_get(const Stack* stack)
 
 void stack_pop(Stack* stack)
 {
-    list_erase(stack->list, list_first(stack->list));
+    list_erase_next(stack->list, list_first(stack->list));
 }
 
 bool stack_empty(const Stack* stack)
