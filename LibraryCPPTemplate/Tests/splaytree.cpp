@@ -62,21 +62,22 @@ void stressTest(SplayTree *tree, int numOperations) {
 }
 
 int main() {
-    SplayTree *tree = new SplayTree;
+    SplayTree tree;
     srand((unsigned)time(0));
     int numElements = 1000;
     int numOperations = 10000;
 
     std::cout << "Adding test..." << std::endl;
-    addTest(tree, numElements);
+    addTest(&tree, numElements);
 
     std::cout << "Finding test..." << std::endl;
-    findTest(tree, numElements);
+    findTest(&tree, numElements);
 
     std::cout << "Removing test..." << std::endl;
-    removeTest(tree, numElements);
+    removeTest(&tree, numElements);
+
     std::cout << "Stress test..." << std::endl;
-    stressTest(tree, numOperations);
-    delete tree;
+    stressTest(&tree, numOperations);
+
     return 0;
 }
