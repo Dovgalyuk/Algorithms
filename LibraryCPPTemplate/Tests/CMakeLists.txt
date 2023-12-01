@@ -5,3 +5,7 @@ add_test(TestListCPPTemplate TestListCPPTemplate)
 add_executable(TestGraphCPPTemplate graph.cpp)
 target_include_directories(TestGraphCPPTemplate PUBLIC ..)
 add_test(TestGraphCPPTemplate TestGraphCPPTemplate)
+
+add_executable(TestSplayTreeCPPTemplate splaytree.cpp)
+target_include_directories(TestSplayTreeCPPTemplate PUBLIC ..)
+add_test(TestSplayTreeCPPTemplate TestSplayTreeCPPTemplate)
