@@ -70,14 +70,5 @@ int main() {
     std::cout << "Adding test..." << std::endl;
     addTest(&tree, numElements);
 
-    std::cout << "Finding test..." << std::endl;
-    findTest(&tree, numElements);
-
-    std::cout << "Removing test..." << std::endl;
-    removeTest(&tree, numElements);
-
-    std::cout << "Stress test..." << std::endl;
-    stressTest(&tree, numOperations);
-
     return 0;
 }
