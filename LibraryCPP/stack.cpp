@@ -1,4 +1,5 @@
 #include "list.h"
+#include <string>
 
 struct Stack
 {
