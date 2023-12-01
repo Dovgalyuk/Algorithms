@@ -65,7 +65,6 @@ int main() {
     SplayTree tree;
     srand((unsigned)time(0));
     int numElements = 1000;
-    int numOperations = 10000;
 
     std::cout << "Adding test..." << std::endl;
     addTest(&tree, numElements);
