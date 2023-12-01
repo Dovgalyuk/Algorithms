@@ -39,7 +39,7 @@ void stack_pop(Stack *stack)
     }
     else
     {
-        list_erase_top(stack->stackList);
+        list_erase_first(stack->stackList);
     }
 }
 
