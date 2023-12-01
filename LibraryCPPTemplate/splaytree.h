@@ -62,23 +62,26 @@ public:
 
         splay(z);
 
-        if (z->left != nullptr) {
-            Node* leftSubtree = z->left;
-            leftSubtree->parent = nullptr;
-            if (z->right != nullptr) {
-                Node* min = z->right;
-                while (min->left != nullptr) min = min->left;
-                splay(min);
-                min->left = leftSubtree;
-                leftSubtree->parent = min;
-            }
-            root = z->right;
+        Node* leftSubtree = z->left;
+        Node* rightSubtree = z->right;
+
+        if (leftSubtree != nullptr) leftSubtree->parent = nullptr;
+        if (rightSubtree != nullptr) rightSubtree->parent = nullptr;
+
+        if (leftSubtree != nullptr) {
+            root = leftSubtree;
+
+            Node* maxNode = root;
+            while (maxNode->right != nullptr) maxNode = maxNode->right;
+
+            splay(maxNode);
+            maxNode->right = rightSubtree;
+            if (rightSubtree != nullptr) rightSubtree->parent = maxNode;
         }
         else {
-            root = z->right;
+            root = rightSubtree;
         }
 
-        if (root != nullptr) root->parent = nullptr;
         delete z;
     }
 
