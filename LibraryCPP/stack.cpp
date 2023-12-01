@@ -3,18 +3,19 @@
 
 struct Stack
 {
-    List *list;
+    List* list;
 };
 
 Stack *stack_create()
 {
-    Stack *stack = new Stack;
+    Stack* stack = new Stack;
     stack->list = list_create();
     return stack;
 }
 
 void stack_delete(Stack *stack)
 {
+    // TODO: free stack elements
     list_delete(stack->list);
     delete stack;
 }
