@@ -13,7 +13,8 @@ bool checkHtmlTags(const string& inputFile, const string& outputFile) {
         stack_delete(stack);
         return false;
     }
-    int parsedData = stoi(tag.substr(1, tag.length() - 2));
+    int parsedData = stack_get(stack);
+s   tring openTag = to_string(parsedData);
     string line;
     while (getline(file, line)) {
         string tag = line;
