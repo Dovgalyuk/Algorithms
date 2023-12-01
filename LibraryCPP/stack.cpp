@@ -19,7 +19,7 @@ void stack_delete(Stack *stack)
     delete stack;
 }
 
-void stack_push(Stack *stack, int& data)
+void stack_push(Stack *stack, int data)
 {
     list_insert(stack->list, data);
 }
