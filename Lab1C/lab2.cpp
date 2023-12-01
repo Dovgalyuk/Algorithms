@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "stack.h"
+#include <cstdlib>
 
 using namespace std;
 bool checkHtmlTags(const string& inputFile, const string& outputFile) {
@@ -12,7 +13,7 @@ bool checkHtmlTags(const string& inputFile, const string& outputFile) {
         stack_delete(stack);
         return false;
     }
-    
+    int parsedData = stoi(tag.substr(1, tag.length() - 2));
     string line;
     while (getline(file, line)) {
         string tag = line;
@@ -35,7 +36,7 @@ bool checkHtmlTags(const string& inputFile, const string& outputFile) {
             }
             stack_pop(stack);
         } else {
-            stack_push(stack, tag.substr(1, tag.length() - 2));
+            stack_push(stack, parsedData);
         }
     }
     
