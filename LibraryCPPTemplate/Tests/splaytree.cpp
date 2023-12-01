@@ -32,7 +32,7 @@ void findTest(SplayTree *tree, int numElements) {
 }
 
 void removeTest(SplayTree *tree, int numElements) {
-    for (int i = 0; i < numElements / 2; ++i) {
+    for (int i = 0; i < numElements; ++i) {
         std::string key = "key" + std::to_string(rand() % numElements);
         tree->remove(key);
         std::string beforeRemove = tree->find(key);
@@ -75,7 +75,6 @@ int main() {
 
     std::cout << "Removing test..." << std::endl;
     removeTest(tree, numElements);
-
     std::cout << "Stress test..." << std::endl;
     stressTest(tree, numOperations);
     delete tree;
