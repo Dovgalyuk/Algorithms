@@ -19,7 +19,7 @@ void stack_delete(Stack *stack)
     delete stack;
 }
 
-void stack_push(Stack *stack, const string& data)
+void stack_push(Stack *stack, const std::string& data)
 {
     list_insert(stack->list, data);
 }
