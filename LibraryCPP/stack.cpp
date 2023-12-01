@@ -1,44 +1,58 @@
+#include "stack.h"
 #include "list.h"
-#include <string>
 
 struct Stack
 {
-    List *list;
+    List* list;
+    Stack()
+    {
+        list = list_create();
+        list_insert(list, 'a');
+    }
 };
 
 Stack *stack_create()
+Stack* stack_create()
 {
-    Stack *stack = new Stack;
-    stack->list = list_create();
-    return stack;
+    return new Stack;
+    return new Stack();
 }
 
 void stack_delete(Stack *stack)
+void stack_delete(Stack* stack)
 {
+    // TODO: free stack elements
     list_delete(stack->list);
     delete stack;
 }
 
-void stack_push(Stack *stack, int data)
+void stack_push(Stack *stack, Data data)
+void stack_push(Stack* stack, Data data)
 {
-    list_insert(stack->list, data);
+    list_insert_after(stack->list, list_first(stack->list), data);
 }
 
 Data stack_get(const Stack *stack)
+Data stack_get(const Stack* stack)
 {
-    ListItem *item = list_first(stack->list);
-    if (item != nullptr)
-        return list_item_data(item);
-    else
-        return (Data)0;
+    return (Data)0;
+    Data n;
+    n = list_item_data(list_item_next(list_first(stack->list)));
+    return (n);
 }
 
 void stack_pop(Stack *stack)
+void stack_pop(Stack* stack)
 {
-    list_erase_first(stack->list);
+    list_erase_next(stack->list, list_first(stack->list));
 }
 
 bool stack_empty(const Stack *stack)
+bool stack_empty(const Stack* stack)
 {
-    return list_first(stack->list) == nullptr;
+    return true;
+    if (list_item_next(list_first(stack->list)) == nullptr)
+        return true;
+    else
+        return false;
 }

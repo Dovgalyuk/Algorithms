@@ -1,63 +1,46 @@
 #include <iostream>
 #include <fstream>
 #include "stack.h"
-#include <cstdlib>
 
-using namespace std;
-bool checkHtmlTags(const string& inputFile, const string& outputFile) {
-    Stack *stack = stack_create();
-    
-    ifstream file(inputFile);
-    if (!file) {
-        cout << "Failed." << endl;
-        stack_delete(stack);
-        return false;
-    }
-    int parsedData = stack_get(stack);
-s   tring openTag = to_string(parsedData);
-    string line;
-    while (getline(file, line)) {
-        string tag = line;
+bool checkHTMLSequence(std::ifstream &inputFile) {
+    Stack* tagStack = stack_create();
+    std::string tag;
+    while (std::getline(inputFile, tag)) {
         if (tag.find("</") == 0) {
-            if (stack_empty(stack)) {
-                ofstream outFile(outputFile);
-                outFile << "NO";
-                outFile.close();
-                stack_delete(stack);
-                return true;
+            Data openTag;
+            if (!stack_empty(tagStack)) {
+                openTag = stack_get(tagStack);
+                stack_pop(tagStack);
+                std::string openTagString = "<" + openTag + ">";
+                if (openTagString != tag) {
+                    stack_delete(tagStack);
+                    return false;
+                }
+            } else {
+                stack_delete(tagStack);
+                return false;
             }
-            string openTag = stack_get(stack);
-            string closeTag = tag.substr(2, tag.length() - 3);
-            if (openTag != closeTag) {
-                ofstream outFile(outputFile);
-                outFile << "NO";
-                outFile.close();
-                stack_delete(stack);
-                return true;
-            }
-            stack_pop(stack);
         } else {
-            stack_push(stack, parsedData);
+            tag = tag.substr(1, tag.length() - 2);
+            stack_push(tagStack, tag);
         }
     }
-    
-    if (stack_empty(stack)) {
-        ofstream outFile(outputFile);
-        outFile << "YES";
-        outFile.close();
-    } else {
-        ofstream outFile(outputFile);
-        outFile << "NO";
-        outFile.close();
-    }
-    
-stack_delete(stack);
-    
-    return true;
+    bool result = stack_empty(tagStack);
+    stack_delete(tagStack);
+    return result;
 }
 
 int main() {
-    checkHtmlTags("input.txt", "output.txt");
-    
+    std::ifstream inputFile("input.txt");
+    if (inputFile.is_open()) {
+        if (checkHTMLSequence(inputFile)) {
+            std::cout << "YES" << std::endl;
+        } else {
+            std::cout << "NO" << std::endl;
+        }
+    } else {
+        std::cerr << "Unable to open file" << std::endl;
+    }
+    inputFile.close();
     return 0;
 }
