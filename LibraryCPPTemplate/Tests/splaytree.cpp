@@ -80,6 +80,7 @@ int main() {
     SplayTree tree;
     srand((unsigned)time(0));
     int numElements = 1000;
+    int numOperations = 10000;
     vector<string> keys;
     for (int i = 0; i < numElements; i++) {
         keys.push_back(generateRandomString(10));
@@ -93,6 +94,8 @@ int main() {
     std::cout << "Removing test..." << std::endl;
     removeTest(&tree, keys);
 
+    std::cout << "Stress test..." << std::endl;
+    stressTest(&tree, numOperations);
 
     return 0;
 }
