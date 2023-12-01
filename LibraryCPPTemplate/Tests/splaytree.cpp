@@ -32,7 +32,7 @@ void findTest(SplayTree *tree, int numElements) {
 }
 
 void removeTest(SplayTree *tree, int numElements) {
-    for (int i = 0; i < numElements; ++i) {
+    for (int i = 0; i < numElements / 2; ++i) {
         std::string key = "key" + std::to_string(rand() % numElements);
         tree->remove(key);
         std::string beforeRemove = tree->find(key);

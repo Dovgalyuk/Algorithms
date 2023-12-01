@@ -21,16 +21,17 @@ string generateRandomString(size_t length) {
 
 // Функция для тестирования вставки в SplayTree
 void testSplayTreeInsertion(vector<string> keys) {
-    SplayTree tree;
+    SplayTree *tree = new SplayTree;
     auto start = high_resolution_clock::now();
 
     for (auto key : keys) {
-        tree.add(key, "Value " + key);
+        tree->add(key, "Value " + key);
     }
 
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start).count();
     cout << "SplayTree Insertion Time: " << duration << " microseconds" << endl;
+    delete tree;
 }
 
 // Функция для тестирования вставки в map
