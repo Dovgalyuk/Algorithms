@@ -1,46 +1,75 @@
 #include <iostream>
+#include <stack.h>
 #include <fstream>
-#include "stack.h"
+#include <string>
+#include <algorithm>
 
-bool checkHTMLSequence(std::ifstream &inputFile) {
-    Stack* tagStack = stack_create();
-    std::string tag;
-    while (std::getline(inputFile, tag)) {
-        if (tag.find("</") == 0) {
-            Data openTag;
-            if (!stack_empty(tagStack)) {
-                openTag = stack_get(tagStack);
-                stack_pop(tagStack);
-                std::string openTagString = "<" + openTag + ">";
-                if (openTagString != tag) {
-                    stack_delete(tagStack);
-                    return false;
-                }
-            } else {
-                stack_delete(tagStack);
-                return false;
-            }
-        } else {
-            tag = tag.substr(1, tag.length() - 2);
-            stack_push(tagStack, tag);
-        }
-    }
-    bool result = stack_empty(tagStack);
-    stack_delete(tagStack);
-    return result;
-}
+int main()
+{
+  Stack *stack = stack_create();
 
-int main() {
-    std::ifstream inputFile("input.txt");
-    if (inputFile.is_open()) {
-        if (checkHTMLSequence(inputFile)) {
-            std::cout << "YES" << std::endl;
-        } else {
-            std::cout << "NO" << std::endl;
-        }
-    } else {
-        std::cerr << "Unable to open file" << std::endl;
+  std::ifstream inFile("in.txt");
+  std::ofstream outFile("out.txt");
+
+  while (inFile)
+  {
+    std::string line;
+    getline(inFile, line);
+
+    if (line == "")
+    {
+      continue;
     }
-    inputFile.close();
-    return 0;
+
+    for (int i = 0; i < line.length(); i++)
+    {
+      line[i] = tolower(line[i]);
+    }
+
+    if (line[0] != '<' || line[line.length() - 1] != '>')
+    {
+      outFile << "Wrong input format";
+      return 0;
+    }
+
+    if (line[1] != '/')
+    {
+      int hash_open_tag = std::hash<std::string>()(line);
+      stack_push(stack, hash_open_tag);
+    }
+    else
+    {
+      if (stack_empty(stack))
+      {
+        outFile << "NO";
+        return 0;
+      }
+
+      int hash_open_tag = stack_get(stack);
+      line.erase(1, 1);
+      int hash_close_tag = std::hash<std::string>()(line);
+      if (hash_open_tag == hash_close_tag)
+      {
+        stack_pop(stack);
+      }
+      else
+      {
+        outFile << "NO";
+        stack_delete(stack);
+        return 0;
+      }
+    }
+  }
+
+  if (stack_empty(stack))
+  {
+    outFile << "YES";
+  }
+  else
+  {
+    outFile << "NO";
+    stack_delete(stack);
+  }
+
+  return 0;
 }
