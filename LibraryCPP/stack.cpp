@@ -19,9 +19,9 @@ void stack_delete(Stack *stack)
     delete stack;
 }
 
-void stack_push(Stack *stack, const string& data)
+void stack_push(Stack *stack, const int& data)
 {
-    list_insert(stack->list, data.c_str());
+    list_insert(stack->list, data);
 }
 
 Data stack_get(const Stack *stack)
