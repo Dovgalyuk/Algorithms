@@ -72,6 +72,8 @@ int main() {
     std::cout << "Finding test..." << std::endl;
     findTest(&tree, numElements);
 
+    std::cout << "Removing test..." << std::endl;
+    removeTest(&tree, numElements);
 
     return 0;
 }
