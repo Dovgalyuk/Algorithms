@@ -35,11 +35,8 @@ Data list_item_data(const ListItem* item)
 {
     if (item)
         return item->data;
-    else
-        return NULL;
-        return Data();
+    return Data();
 }
-
 ListItem* list_item_next(ListItem* item)
 {
     if (item)
