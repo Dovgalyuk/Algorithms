@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "stack.h"
+
 using namespace std;
 bool checkHtmlTags(const string& inputFile, const string& outputFile) {
     Stack *stack = stack_create();
