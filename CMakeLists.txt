@@ -12,8 +12,4 @@ endif()
 
 add_subdirectory(LibraryCPP)
 
-<<<<<<< Updated upstream
-add_subdirectory(Lab1CPP)
-=======
 add_subdirectory(Lab2CPP)
->>>>>>> Stashed changes
