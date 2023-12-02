@@ -11,66 +11,70 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include "array.cpp"
+#include "array.h"
 
 using namespace std;
 
-class DynamicArray {
-public:
-	int size;
-	int* arr;
+//class DynamicArray {
+//public:
+//	int size;
+//	int* arr;
+//
+//	DynamicArray(int s) {
+//		size = s;
+//		arr = new int[size];
+//	}
+//
+//	void fillArrayRandomly() {
+//		for (int i = 0; i < size; i++) {
+//			arr[i] = rand() % 100 + 1; // «аполн€ем массив случайными числами от 1 до 100
+//		}
+//	}
+//
+//	void printArray() {
+//		for (int i = 0; i < size; i++) {
+//			cout << arr[i] << " ";
+//		}
+//		cout << endl;
+//	}
+//
+//	void increaseOddIndicesByN(int n) {
+//		for (int i = 0; i < size; i++) {
+//			if (i % 2 != 0) {
+//				arr[i] += n;
+//			}
+//		}
+//	}
+//
+//	void decreaseOddElementsByM(int m) {
+//		for (int i = 0; i < size; i++) {
+//			if (arr[i] % 2 != 0) {
+//				arr[i] -= m;
+//			}
+//		}
+//	}
+//
+//	void findUniqueElements() {
+//		for (int i = 0; i < size; i++) {
+//			int count = 0;
+//			for (int j = 0; j < size; j++) {
+//				if (i != j && arr[i] == arr[j]) {
+//					count++;
+//				}
+//			}
+//			if (count == 0) {
+//				cout << arr[i] << " ";
+//			}
+//		}
+//	}
+//
+//	~DynamicArray() {
+//		delete[] arr;
+//	}
+//};
 
-	DynamicArray(int s) {
-		size = s;
-		arr = new int[size];
-	}
 
-	void fillArrayRandomly() {
-		for (int i = 0; i < size; i++) {
-			arr[i] = rand() % 100 + 1; // «аполн€ем массив случайными числами от 1 до 100
-		}
-	}
-
-	void printArray() {
-		for (int i = 0; i < size; i++) {
-			cout << arr[i] << " ";
-		}
-		cout << endl;
-	}
-
-	void increaseOddIndicesByN(int n) {
-		for (int i = 0; i < size; i++) {
-			if (i % 2 != 0) {
-				arr[i] += n;
-			}
-		}
-	}
-
-	void decreaseOddElementsByM(int m) {
-		for (int i = 0; i < size; i++) {
-			if (arr[i] % 2 != 0) {
-				arr[i] -= m;
-			}
-		}
-	}
-
-	void findUniqueElements() {
-		for (int i = 0; i < size; i++) {
-			int count = 0;
-			for (int j = 0; j < size; j++) {
-				if (i != j && arr[i] == arr[j]) {
-					count++;
-				}
-			}
-			if (count == 0) {
-				cout << arr[i] << " ";
-			}
-		}
-	}
-
-	~DynamicArray() {
-		delete[] arr;
-	}
-};
 
 int main() {
 	setlocale(LC_ALL, "Ru");
