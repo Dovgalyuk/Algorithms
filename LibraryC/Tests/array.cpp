@@ -3,7 +3,7 @@
 
 int main()
 {
-    Array *arr = array_create(10, [](void *p) { delete (int*)p; });
+    Array* arr = array_create(10, [](void* p) { delete (int*)p; });
 
     if (array_size(arr) != 10)
     {
@@ -12,14 +12,14 @@ int main()
         return 1;
     }
 
-    for (int i = 0 ; i < 10 ; ++i)
+    for (int i = 0; i < 10; ++i)
     {
-        int *d = new int;
+        int* d = new int;
         *d = i * 2;
         array_set(arr, i, d);
     }
 
-    for (int i = 0 ; i < 10 ; ++i)
+    for (int i = 0; i < 10; ++i)
     {
         if (*(int*)array_get(arr, i) != i * 2)
         {
