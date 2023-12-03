@@ -3,7 +3,7 @@
 struct Vector
 {
     Data* arr;
-    
+
     size_t current_size;
     size_t global_size;
 
@@ -16,18 +16,18 @@ struct Vector
     }
 };
 
-Vector *vector_create()
+Vector* vector_create()
 {
     return new Vector;
 }
 
-void vector_delete(Vector *vector)
+void vector_delete(Vector* vector)
 {
     delete[] vector->arr;
-    delete vector; 
+    delete vector;
 }
 
-Data vector_get(const Vector *vector, size_t index)
+Data vector_get(const Vector* vector, size_t index)
 {
     if (index <= vector->current_size)
         return vector->arr[index];
@@ -35,39 +35,33 @@ Data vector_get(const Vector *vector, size_t index)
         return (Data)0;
 }
 
-void vector_set(Vector *vector, size_t index, Data value)
+void vector_set(Vector* vector, size_t index, Data value)
 {
     vector->arr[index] = value;
 }
 
-size_t vector_size(const Vector *vector)
+size_t vector_size(const Vector* vector)
 {
     return vector->current_size;
 }
 
-void vector_resize(Vector *vector, size_t size)
+void vector_resize(Vector* vector, size_t size)
 {
-    if (size <= vector->current_size)
+    if (size <= vector->global_size) 
     {
         vector->current_size = size;
-
         return;
     }
-    else
-        vector->current_size = size;
-    
-    if (size >= vector->global_size)
-    {
-        vector->global_size = size * 2;
 
-        Data* arr_temp = new Data[vector->global_size];
-        
-        for (size_t i = 0; i < vector->current_size; i++)
-            arr_temp[i] = vector->arr[i];
+    size_t _max_size = size * 2;
+    Data* tmp = new Data[_max_size];
 
-        delete[] vector->arr;
+    for (size_t i = 0; i < vector->current_size; i++) 
+        tmp[i] = vector->arr[i];
 
-        vector->arr = arr_temp;
-        vector->current_size = size;
-    }
+    delete[] vector->arr;
+
+    vector->arr = tmp;
+    vector->global_size = _max_size;
+    vector->current_size = size;
 }
