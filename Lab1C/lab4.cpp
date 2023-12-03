@@ -5,16 +5,17 @@
 #include <climits>
 using namespace std;
 
-#define V 5
-int parent[V];
+int V = 5;
+vector<int> parent(V);
+
+
 
 int find(int i)
 {
-    while (parent[i] != i)
-        i = parent[i];
-    return i;
+    if (parent[i] != i)
+        parent[i] = find(parent[i]);
+    return parent[i];
 }
-
 void union1(int i, int j)
 {
     int a = find(i);
@@ -22,7 +23,7 @@ void union1(int i, int j)
     parent[a] = b;
 }
 
-void KruskalMST(vector<vector<int>> cost)
+void KruskalMST(Graph<int>cost)
 {
     int mincost = 0; 
 
@@ -37,8 +38,8 @@ void KruskalMST(vector<vector<int>> cost)
         a = -1, b = -1;
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < V; j++) {
-                if (find(i) != find(j) && cost[i][j] < min && cost[i][j]>0) {
-                    min = cost[i][j];
+                if (find(i) != find(j) && cost.getEdgeWeight(i,j) < min && cost.getEdgeWeight(i, j) > 0) {
+                    min = cost.getEdgeWeight(i, j);
                     a = i;
                     b = j;
                 }
@@ -62,7 +63,7 @@ int main() {
     graph.addEdge(2, 4, 60);
     graph.addEdge(3, 4, 70);
 
-    const auto& adjMatrix = graph.getAdjMatrix();
-    KruskalMST(adjMatrix);
+    
+    KruskalMST(graph);
     return 0;
 };

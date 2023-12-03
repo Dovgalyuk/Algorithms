@@ -11,7 +11,8 @@ int main()
 
 
     graph.addEdge(0, 1, 3);
-
+    graph.addEdge(0, 2, 4);
+    graph.addEdge(2, 4, 5);
 
     if (!graph.EdgeExists(0, 1)) {
         cout << "edgnoexist";
@@ -43,7 +44,11 @@ int main()
         return 0;
     }
 
-
+    graph.removeVertex(0);
+    if (graph.getVertexMark(0) != "Vertex does not exist") {
+        cout << "removeVertexerror";
+        return 0;
+    }
 
 
 

@@ -1,10 +1,15 @@
 #include <vector>
 #include <stdexcept>
 #include <map>
+#include "vector.h"
 template <typename T>
 class Graph {
 private:
-    std::vector<std::vector<int>> adjMatrix; 
+   // Vector* adjMatrix=NULL;
+    
+ 
+    //adjMatrix = vector_create(vector_create(NULL));
+    std::vector<std::vector<int>> adjMatrix;
     std::vector<T> vertices; 
 
 
