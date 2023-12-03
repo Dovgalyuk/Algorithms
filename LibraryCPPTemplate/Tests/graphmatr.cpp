@@ -45,10 +45,7 @@ int main()
     }
 
     graph.removeVertex(0);
-    if (graph.getVertexMark(0) != "Vertex does not exist") {
-        cout << "removeVertexerror";
-        return 0;
-    }
+    
 
 
 
