@@ -1,4 +1,4 @@
-
+#include <vector>
 #include <iostream>
 #include "graphmatr.h"
 using namespace std;
