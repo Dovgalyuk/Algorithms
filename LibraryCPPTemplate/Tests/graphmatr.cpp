@@ -44,9 +44,9 @@ int main()
         return 0;
     }
 
-    std::vector<T> verticesBefore = graph.getVertices();
+    std::vector<int> verticesBefore = graph.getVertices();
     graph.removeVertex(0);
-    std::vector<T> verticesAfter = graph.getVertices();
+    std::vector<int> verticesAfter = graph.getVertices();
 
     if (verticesBefore.size() == verticesAfter.size()) {
         cout << "Vertex was not removed.";
