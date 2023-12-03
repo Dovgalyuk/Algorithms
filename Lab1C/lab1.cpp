@@ -7,7 +7,10 @@ void task1(Array* arr)
 {
     int size;
     printf("Введите размер массива: ");
-    scanf("%d", &size);
+    if (scanf("%d", &size) != 1) {
+        printf("Ошибка при чтении размера массива.\n");
+        return;
+    }
     arr = array_create(size);
 
     srand(time(0));
@@ -28,7 +31,10 @@ void task2(Array* arr)
 {
     int size;
     printf("Введите размер массива: ");
-    scanf("%d", &size);
+    if (scanf("%d", &size) != 1) {
+        printf("Ошибка при чтении размера массива.\n");
+        return;
+    }
     arr = array_create(size);
 
     srand(time(0));
