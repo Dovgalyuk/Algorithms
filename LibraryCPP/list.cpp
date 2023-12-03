@@ -9,27 +9,35 @@ struct ListItem
 
 struct List
 {
-    ListItem* current;
+    ListItem* last = NULL;
+    ListItem* first = NULL:
 };
 
-List *list_create()
+void insertMake(List* list, Data data)
 {
-    List* list = new List;
-    list->current = nullptr;
-    return new List;
+    ListItem* l = new listItem;
+    l->data = data;
+    if (list->first == NULL) {
+        list->last = l;
+        list->first = l;
+    }
+    else {
+        list->last->next = l;
+        list->last = l;
+    }
 }
 
 void list_delete(List *list)
 {
-    while (list->current != nullptr) {
-        list->current->next
+    while (list->last != nullptr) {
+        list->first = nullptr;
+        list->first->next = list->first;
     }
-    delete list;
 }
 
 ListItem *list_first(List *list)
 {
-    return NULL;
+    return list->first;
 }
 
 Data list_item_data(const ListItem *item)

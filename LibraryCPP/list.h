@@ -9,7 +9,7 @@ struct List;
 struct ListItem;
 
 // Creates new list
-List *list_create();
+void insertMake();
 
 // Destroys the list and frees the memory
 void list_delete(List *list);
