@@ -18,10 +18,10 @@ void radixSort(vector<size_t>& numbers) {
         }
 
         numbers.clear();
-        for (Queue& queue : queues) {
-            while (!queue_empty(queue)) {
-                numbers.push_back(queue_get(queue));
-                queue_remove(queue);
+        for (size_t i = 0; i < queues.size(); i++) {
+            while (!queue_empty(queues[i])) {
+                numbers.push_back(queue_get(queue[i]));
+                queue_remove(queue[i]);
             }
         }
     }
