@@ -5,15 +5,17 @@
 #include <iostream>
 
 // Node structure of Splay Tree
+template<typename K, typename V>
 struct Node {
-    std::string key;
-    std::string value;
-    Node* left, * right, * parent;
+    K key;
+    V value;
+    Node<K, V>* left, * right, * parent;
 
-    Node(const std::string& key, const std::string& value) : key(key), value(value), left(nullptr), right(nullptr), parent(nullptr) {}
+    Node(const K& key, const V& value) : key(key), value(value), left(nullptr), right(nullptr), parent(nullptr) {}
 };
 
 // Splay Tree based associative array class
+template<typename K, typename V>
 class SplayTree {
 public:
     SplayTree() : root(nullptr) {}
@@ -21,9 +23,9 @@ public:
         destroyTree(root);
     }
 
-    void add(const std::string& key, const std::string& value) {
-        Node* z = root;
-        Node* p = nullptr;
+    void add(K& key, const V& value) {
+        Node<K, V>* z = root;
+        Node<K, V>* p = nullptr;
 
         while (z != nullptr) {
             p = z;
@@ -35,7 +37,7 @@ public:
             }
         }
 
-        z = new Node(key, value);
+        z = new Node<K, V>(key, value);
         z->parent = p;
 
         if (p == nullptr) root = z;
@@ -45,8 +47,8 @@ public:
         splay(z);
     }
 
-    std::string find(const std::string& key) {
-        Node* res = findNode(root, key);
+    K find(const K& key) {
+        Node<K, V>* res = findNode(root, key);
         if (res != nullptr) {
             splay(res);
             return res->value;
@@ -56,14 +58,14 @@ public:
         }
     }
 
-    void remove(const std::string& key) {
-        Node* z = findNode(root, key);
+    void remove(const K& key) {
+        Node<K, V>* z = findNode(root, key);
         if (z == nullptr) return;
 
         splay(z);
 
-        Node* leftSubtree = z->left;
-        Node* rightSubtree = z->right;
+        Node<K, V>* leftSubtree = z->left;
+        Node<K, V>* rightSubtree = z->right;
 
         if (leftSubtree != nullptr) leftSubtree->parent = nullptr;
         if (rightSubtree != nullptr) rightSubtree->parent = nullptr;
@@ -71,7 +73,7 @@ public:
         if (leftSubtree != nullptr) {
             root = leftSubtree;
 
-            Node* maxNode = root;
+            Node<K, V>* maxNode = root;
             while (maxNode->right != nullptr) maxNode = maxNode->right;
 
             splay(maxNode);
@@ -86,9 +88,9 @@ public:
     }
 
 private:
-    Node* root;
+    Node<K, V>* root;
 
-    void splay(Node* node) {
+    void splay(Node<K, V>* node) {
         while (node->parent != nullptr) {
             if (node->parent->parent == nullptr) {
                 if (node->parent->left == node) rotateRight(node->parent);
@@ -113,8 +115,8 @@ private:
         }
     }
 
-    Node* rotateLeft(Node* x) {
-        Node* y = x->right;
+    Node<K, V>* rotateLeft(Node<K, V>* x) {
+        Node<K, V>* y = x->right;
         x->right = y->left;
         if (y->left != nullptr) y->left->parent = x;
         y->parent = x->parent;
@@ -126,8 +128,8 @@ private:
         return y;
     }
 
-    Node* rotateRight(Node* x) {
-        Node* y = x->left;
+    Node<K, V>* rotateRight(Node<K, V>* x) {
+        Node<K, V>* y = x->left;
         x->left = y->right;
         if (y->right != nullptr) y->right->parent = x;
         y->parent = x->parent;
@@ -139,7 +141,7 @@ private:
         return y;
     }
 
-    Node* findNode(Node* node, const std::string& key) {
+    Node<K, V>* findNode(Node<K, V>* node, const std::string& key) {
         while (node != nullptr) {
             if (node->key > key) node = node->left;
             else if (node->key < key) node = node->right;
@@ -148,14 +150,14 @@ private:
         return nullptr;
     }
 
-    void replaceNode(Node* oldNode, Node* newNode) {
+    void replaceNode(Node<K, V>* oldNode, Node<K, V>* newNode) {
         if (oldNode->parent == nullptr) root = newNode;
         else if (oldNode == oldNode->parent->left) oldNode->parent->left = newNode;
         else oldNode->parent->right = newNode;
         if (newNode != nullptr) newNode->parent = oldNode->parent;
     }
 
-    void destroyTree(Node* node) {
+    void destroyTree(Node<K, V>* node) {
         if (node != nullptr) {
             destroyTree(node->left);
             destroyTree(node->right);

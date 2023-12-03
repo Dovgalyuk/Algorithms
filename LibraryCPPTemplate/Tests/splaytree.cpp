@@ -3,7 +3,11 @@
 #include <string>
 #include <random>
 #include <vector>
- 
+
+typedef std::string K;
+typedef std::string V;
+typedef SplayTree<K, V> Splay;
+
 using namespace std;
 string generateRandomString(size_t length) {
     const string CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -17,10 +21,10 @@ string generateRandomString(size_t length) {
     }
     return random_string;
 }
-void addTest(SplayTree *tree, vector<string> keys) {
+void addTest(Splay* tree, vector<string> keys) {
     for (auto keyy : keys) {
-        std::string key = "key" + keyy;
-        std::string value = "value" + keyy;
+        K key = "key" + keyy;
+        V value = "value" + keyy;
         tree->add(key, value);
         std::string beforeAdd = tree->find(key);
         if (beforeAdd.empty()) {
@@ -30,10 +34,10 @@ void addTest(SplayTree *tree, vector<string> keys) {
     }
 }
 
-void findTest(SplayTree *tree, vector<string> keys) {
+void findTest(Splay* tree, vector<string> keys) {
     int found = 0;
     for (auto keyy : keys) {
-        std::string key = "key" + keyy;
+        K key = "key" + keyy;
         std::string result = tree->find(key);
         if (!result.empty()) {
             found++;
@@ -46,9 +50,9 @@ void findTest(SplayTree *tree, vector<string> keys) {
     std::cout << "Found " << found << " elements." << std::endl;
 }
 
-void removeTest(SplayTree *tree, vector<string> keys) {
+void removeTest(Splay* tree, vector<string> keys) {
     for (auto keyy : keys) {
-        std::string key = "key" + keyy;
+        K key = "key" + keyy;
         tree->remove(key);
         std::string beforeRemove = tree->find(key);
         if (!beforeRemove.empty()) {
@@ -58,11 +62,11 @@ void removeTest(SplayTree *tree, vector<string> keys) {
     }
 }
 
-void stressTest(SplayTree *tree, int numOperations) {
+void stressTest(Splay* tree, int numOperations) {
     for (int i = 0; i < numOperations; ++i) {
         int op = rand() % 3;
-        std::string key = "key" + std::to_string(rand() % 1000);
-        std::string value = "value" + std::to_string(rand() % 1000);
+        K key = "key" + std::to_string(rand() % 1000);
+        V value = "value" + std::to_string(rand() % 1000);
 
         if (op == 0) {
             tree->add(key, value);
@@ -77,7 +81,7 @@ void stressTest(SplayTree *tree, int numOperations) {
 }
 
 int main() {
-    SplayTree tree;
+    Splay tree;
     srand((unsigned)time(0));
     int numElements = 1000;
     int numOperations = 10000;

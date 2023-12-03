@@ -3,8 +3,13 @@
 #include <random>
 #include <vector>
 #include "splaytree.h"
+
 using namespace std;
 using namespace std::chrono;
+
+typedef std::string K;
+typedef std::string V;
+typedef SplayTree<K, V> Splay;
 
 string generateRandomString(size_t length) {
     const string CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -21,7 +26,7 @@ string generateRandomString(size_t length) {
 
 // Функция для тестирования вставки в SplayTree
 void testSplayTreeInsertion(vector<string> keys) {
-    SplayTree *tree = new SplayTree;
+    Splay* tree = new Splay;
     auto start = high_resolution_clock::now();
 
     for (auto key : keys) {
