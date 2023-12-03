@@ -4,16 +4,16 @@
 #include <fstream>
 #include <sstream>
 
-const int NUM_BITS = 2;
+const size_t NUM_BITS = 2;
 
 using namespace std;
 
-void radixSort(vector<int>& numbers) {
+void radixSort(vector<size_t>& numbers) {
     vector<Queue*> queues(1 << NUM_BITS);
 
-    for (int bit = 0; bit < sizeof(int) * 8; bit += NUM_BITS) {
-        for (int number : numbers) {
-            int bitValue = (number >> bit) & ((1 << NUM_BITS) - 1);
+    for (size_t bit = 0; bit < sizeof(size_t) * 8; bit += NUM_BITS) {
+        for (size_t number : numbers) {
+            size_t bitValue = (number >> bit) & ((1 << NUM_BITS) - 1);
             queue_insert(queues[bitValue], number);
         }
 
@@ -30,7 +30,7 @@ void radixSort(vector<int>& numbers) {
 int main() {
     ifstream inputFile("inputl3.txt");
     string line;
-    vector<int> numbers;
+    vector<size_t> numbers;
 
     if (inputFile.is_open()) {
         getline(inputFile, line);
