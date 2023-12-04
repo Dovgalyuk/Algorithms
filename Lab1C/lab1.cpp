@@ -37,10 +37,10 @@ void task1(Array *arr)
     //обработка массива
     for (size_t i = 0; i < array_size(arr); i++) {
         if (array_get(arr, i) % 2 != 0) {
-            arr->data[i] -= m;
+            array_set(arr, i, value - m);
         }
         if (i % 2 != 0) {
-            arr->data[i] += n;
+            array_set(arr, i, value + m);
         }
     }
     //вывод обработанного массива
@@ -60,11 +60,11 @@ void task2(Array *arr)
 
     //создание массива
     srand(time(NULL));
-    cout << "Созданный массив: " << endl;
+    /*cout << "Созданный массив: " << endl;*/
     for (size_t i = 0; i < array_size(arr); i++) {
         /*arr_random[i] = rand();*/
         array_set(arr, i, rand());
-        cout << array_get(arr, i) << " ";
+        /*cout << array_get(arr, i) << " ";*/
     } cout << endl;
 
     //обработка массива
