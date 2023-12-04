@@ -1,5 +1,4 @@
 #include "array.h"
-#include "array.cpp"
 #include <iostream>
 #include <map>
 
