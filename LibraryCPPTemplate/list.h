@@ -1,8 +1,6 @@
 #ifndef LIST_TEMPLATE_H
 #define LIST_TEMPLATE_H
 
-#include <cstddef> // for size_t
-
 template <typename Data>
 class List
 {
@@ -25,11 +23,10 @@ public:
 private:
     Item* _head;
     Item* _tail;
-    size_t _size;
 
 public:
 
-    List() : _head(nullptr), _tail(nullptr), _size(0) {}
+    List() : _head(nullptr), _tail(nullptr) {}
     ~List()
     {
         while (_head)
@@ -39,7 +36,6 @@ public:
             _head = temp;
         }
         _tail = nullptr;
-        _size = 0;
     }
 
     Item* first() { return _head; }
@@ -56,11 +52,10 @@ public:
         {
             _tail = newItem;
         }
-        _size++;
         return newItem;
     }
 
-    List(const List& other) : _head(nullptr), _tail(nullptr), _size(0) { copy(other); }
+    List(const List& other) : _head(nullptr), _tail(nullptr) { copy(other); }
 
     List& operator=(const List& other)
     {
@@ -88,7 +83,6 @@ public:
         {
             _tail = newItem;
         }
-        _size++;
         return newItem;
     }
 
@@ -106,7 +100,6 @@ public:
         {
             _tail = nullptr;
         }
-        _size--;
         return nextItem;
     }
 
@@ -124,11 +117,8 @@ public:
         {
             _tail = item;
         }
-        _size--;
         return nextItem;
     }
-
-    size_t size() const { return _size; }
 private:
     void copy(const List& other)
     {
@@ -147,7 +137,6 @@ private:
             _head = temp;
         }
         _tail = nullptr;
-        _size = 0;
     }
 };
 

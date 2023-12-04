@@ -1,7 +1,6 @@
 #ifndef SPLAYTREE_H
 #define SPLAYTREE_H
 
-#include <string>
 #include <iostream>
 
 // Node structure of Splay Tree
@@ -141,7 +140,7 @@ private:
         return y;
     }
 
-    Node<K, V>* findNode(Node<K, V>* node, const std::string& key) {
+    Node<K, V>* findNode(Node<K, V>* node, const K& key) {
         while (node != nullptr) {
             if (node->key > key) node = node->left;
             else if (node->key < key) node = node->right;
