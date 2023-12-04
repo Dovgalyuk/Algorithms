@@ -68,7 +68,7 @@ void task2(Array *arr)
     } cout << endl;
 
     //обработка массива
-    bool flag;
+    bool flag = true;
     for (size_t i = 0; i < array_size(arr); i++) {
         for (size_t j = 0; j < array_size(arr); j++) {
             flag = false;
