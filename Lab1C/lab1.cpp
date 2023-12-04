@@ -40,7 +40,7 @@ void task1(Array *arr)
             array_set(arr, i, value - m);
         }
         if (i % 2 != 0) {
-            array_set(arr, i, value + m);
+            array_set(arr, i, value + n);
         }
     }
     //вывод обработанного массива
