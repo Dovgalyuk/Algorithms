@@ -1,65 +1,101 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctime>
 #include "array.h"
+#include "array.cpp"
+#include <iostream>
+#include <map>
 
-void task1(Array* arr)
+void task1(Array* arr,int size)
 {
-    int size;
-    printf("Введите размер массива: ");
-    scanf("%d", &size);
-    arr = array_create(size);
-
-    srand(time(0));
-    int sum1 = 0;
-    int sum2 = 0;
-    for (int i = 0; i < size; i++) {
-        int num = rand() % 100; // генерируем случайное число от 0 до 99
-        array_set(arr, i, num);
-        if (num > 20) sum1 += num;
-        if (num < 50) sum2 += num;
+    // Заполняем массив случайными числами
+    for (int i = 0; i < size; i++)
+    {
+        arr->data[i] = rand() % 100; // Генерируем случайное число от 0 до 99
+    }
+    
+    for (int i = 0; i < size; i++)
+    {
+        std::cout << arr->data[i]<<std::endl;
     }
 
-    printf("Сумма элементов, которые больше 20: %d\n", sum1);
-    printf("Сумма элементов, которые меньше 50: %d\n", sum2);
+    // Выясняем, верно ли, что сумма элементов, которые больше 20, превышает 100
+    int sum = 0;
+    for (int i = 0; i < size; i++)
+    {
+        if (arr->data[i] > 20)
+        {
+            sum += arr->data[i];
+        }
+    }
+    if (sum > 100)
+    {
+        std::cout << "Сумма элементов, которые больше 20, превышает 100" << std::endl;
+    }
+    else
+    {
+        std::cout << "Сумма элементов, которые больше 20, не превышает 100" << std::endl;
+    }
+
+    // Выясняем, верно ли, что сумма элементов, которые меньше 50, является четным числом
+    sum = 0;
+    for (int i = 0; i < size; i++)
+    {
+        if (arr->data[i] < 50)
+        {
+            sum += arr->data[i];
+        }
+    }
+    if (sum % 2 == 0)
+    {
+        std::cout << "Сумма элементов, которые меньше 50, является четным числом" << std::endl;
+    }
+    else
+    {
+        std::cout << "Сумма элементов, которые меньше 50, не является четным числом" << std::endl;
+    }
 }
 
-void task2(Array* arr)
-{
-    int size;
-    printf("Введите размер массива: ");
-    scanf("%d", &size);
-    arr = array_create(size);
 
-    srand(time(0));
-    for (int i = 0; i < size; i++) {
-        int num = rand() % 100; // генерируем случайное число от 0 до 99
-        array_set(arr, i, num);
+void task2(Array* arr, int size)
+{
+    // Заполняем массив случайными числами
+    for (int i = 0; i < size; i++)
+    {
+        arr->data[i] = rand() % 100; // Генерируем случайное число от 0 до 99
     }
 
     // Находим элементы, которые в массиве встречаются только один раз
-    for (int i = 0; i < size; i++) {
-        int count = 0;
-        for (int j = 0; j < size; j++) {
-            if (array_get(arr, i) == array_get(arr, j)) {
-                count++;
-            }
-        }
-        if (count == 1) {
-            printf("%d ", array_get(arr, i));
+    std::map<int, int> counts;
+    for (int i = 0; i < size; i++)
+    {
+        counts[arr->data[i]]++;
+    }
+    for (auto it = counts.begin(); it != counts.end(); ++it)
+    {
+        if (it->second == 1)
+        {
+            std::cout << it->first << " встречается только один раз" << std::endl;
         }
     }
-    printf("\n");
 }
+
 
 int main()
 {
+    setlocale(0, "Russian");
     Array* arr = NULL;
-    /* Создаем массив */
-    task1(arr);
+
+    int i, j;
+
+    // Создаем массив и вызываем task1
+    std::cout << "Введите размер и мы создадим первый массив: ";
+    std::cin >> i;
+    arr = array_create(i); // Замените 10 на желаемый размер массива
+    task1(arr,i);
     array_delete(arr);
-    /* Создаем другой массив */
-    Array* arr1 = NULL;
-    task2(arr1);
-    array_delete(arr1);
+
+    // Создаем массив и вызываем task2
+    std::cout << "Введите размер и мы создадим второй массив: ";
+    std::cin >> j;
+    arr = array_create(j); // Замените 10 на желаемый размер массива
+    task2(arr,j);
+    array_delete(arr);
 }
