@@ -19,7 +19,7 @@ void task1(Array *arr)
 {
     size_t size;
     double n, m;
-    cout << "¬ведите размер массива: ";
+    cout << "Enter the size of the array: ";
     cin >> size;
     /*int* arr_random = new int[size];*/
     arr = array_create(size);
@@ -30,10 +30,8 @@ void task1(Array *arr)
         array_set(arr, i, rand());
         /*cout << array_get(arr, i) << " ";*/
     } cout << endl;
-    cout << "¬ведите m: ";
-    cin >> m;
-    cout << "¬ведите n: ";
-    cin >> n;
+    cout << "Enter m and n: ";
+    cin >> m >> n;
     //обработка массива
     for (size_t i = 0; i < array_size(arr); i++) {
         if (array_get(arr, i) % 2 != 0) {
@@ -44,7 +42,7 @@ void task1(Array *arr)
         }
     }
     //вывод обработанного массива
-    cout << "ќбработанный массив: " << endl;
+    cout << "Array: " << endl;
     for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << " ";
     }
@@ -53,18 +51,13 @@ void task1(Array *arr)
 void task2(Array *arr)
 {
     size_t size;
-    cout << endl << "¬ведите размер массива: ";
+    cout << endl << "Enter the size of the array: ";
     cin >> size;
     arr = array_create(size);
-    /*int* arr_random = new int[size];*/
-
     //создание массива
     srand(time(NULL));
-    /*cout << "—озданный массив: " << endl;*/
     for (size_t i = 0; i < array_size(arr); i++) {
-        /*arr_random[i] = rand();*/
         array_set(arr, i, rand());
-        /*cout << array_get(arr, i) << " ";*/
     } cout << endl;
 
     //обработка массива
@@ -85,7 +78,6 @@ void task2(Array *arr)
 
 int main()
 {
-    setlocale(LC_ALL, "Ru");
     Array* arr = NULL;
 
     task1(arr);
