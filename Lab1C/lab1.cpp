@@ -88,14 +88,14 @@ int main()
     // Создаем массив и вызываем task1
     std::cout << "Введите размер и мы создадим первый массив: ";
     std::cin >> i;
-    arr = array_create(i); // Замените 10 на желаемый размер массива
+    arr = array_create(i);
     task1(arr,i);
     array_delete(arr);
 
     // Создаем массив и вызываем task2
     std::cout << "Введите размер и мы создадим второй массив: ";
     std::cin >> j;
-    arr = array_create(j); // Замените 10 на желаемый размер массива
+    arr = array_create(j);
     task2(arr,j);
     array_delete(arr);
 }
