@@ -7,14 +7,15 @@
 Ввести целое число с клавиатуры, создать массив такой размерности и заполнить его случайными числами.
 В массиве найти элементы, которые в нем встречаются только один раз, и вывести их на экран.
 */
+#include "array.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include "array.h"
+
 
 using namespace std;
 
-void task1(Array* arr)
+void task1(Array *arr)
 {
     size_t size;
     double n, m;
@@ -49,7 +50,7 @@ void task1(Array* arr)
     }
 }
 
-void task2(Array* arr)
+void task2(Array *arr)
 {
     size_t size;
     cout << endl << "Введите размер массива: ";

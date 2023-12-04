@@ -1,7 +1,8 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include <cstddef>
+//#include <cstddef>
+#include <stddef.h>
 
 // Non-resizeable array
 
