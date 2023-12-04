@@ -24,11 +24,11 @@ void task1(Array *arr)
     /*int* arr_random = new int[size];*/
     arr = array_create(size);
     srand(time(NULL));
-    cout << "Созданный массив: " << endl;
+    /*cout << "Созданный массив: " << endl;*/
     //создание массива
     for (size_t i = 0; i < array_size(arr); i++) {
         array_set(arr, i, rand());
-        cout << array_get(arr, i) << " ";
+        /*cout << array_get(arr, i) << " ";*/
     } cout << endl;
     cout << "Введите m: ";
     cin >> m;
