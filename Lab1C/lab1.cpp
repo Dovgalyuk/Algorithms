@@ -11,7 +11,6 @@
 #include <cstdlib>
 #include <ctime>
 #include "array.h"
-#include "array.cpp"
 
 using namespace std;
 
