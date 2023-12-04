@@ -11,10 +11,11 @@
 #include <cstdlib>
 #include <ctime>
 #include "array.h"
+#include "array.cpp"
 
 using namespace std;
 
-void task1(Array *arr)
+void task1(Array* arr)
 {
     size_t size;
     double n, m;
@@ -25,7 +26,7 @@ void task1(Array *arr)
     srand(time(NULL));
     cout << "—озданный массив: " << endl;
     //создание массива
-    for (size_t i = 0; i < array_size(size); i++) {
+    for (size_t i = 0; i < array_size(arr); i++) {
         array_set(arr, i, rand());
         cout << array_get(arr, i) << " ";
     } cout << endl;
@@ -34,33 +35,33 @@ void task1(Array *arr)
     cout << "¬ведите n: ";
     cin >> n;
     //обработка массива
-    for (size_t i = 0; i < array_size(size); i++) {
+    for (size_t i = 0; i < array_size(arr); i++) {
         if (array_get(arr, i) % 2 != 0) {
-            array_get(arr, i) -= m;
+            arr->data[i] -= m;
         }
         if (i % 2 != 0) {
-            array_get(arr, i) += n;
+            arr->data[i] += n;
         }
     }
     //вывод обработанного массива
     cout << "ќбработанный массив: " << endl;
-    for (size_t i = 0; i < array_size(size); i++) {
+    for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << " ";
     }
 }
 
-void task2(Array *arr)
+void task2(Array* arr)
 {
     size_t size;
-    cout << "¬ведите размер массива: ";
+    cout << endl << "¬ведите размер массива: ";
     cin >> size;
-    arr = array_create(size_t size);
+    arr = array_create(size);
     /*int* arr_random = new int[size];*/
 
     //создание массива
     srand(time(NULL));
     cout << "—озданный массив: " << endl;
-    for (size_t i = 0; i < array_size(size); i++) {
+    for (size_t i = 0; i < array_size(arr); i++) {
         /*arr_random[i] = rand();*/
         array_set(arr, i, rand());
         cout << array_get(arr, i) << " ";
@@ -68,10 +69,10 @@ void task2(Array *arr)
 
     //обработка массива
     bool flag;
-    for (size_t i = 0; i < array_size(size); i++) {
-        for (size_t j = 0; j < array_size(size); j++) {
+    for (size_t i = 0; i < array_size(arr); i++) {
+        for (size_t j = 0; j < array_size(arr); j++) {
             flag = false;
-            if (i != j and (array_set(arr, i) == array_set(arr, j))) {
+            if (i != j and (array_get(arr, i) == array_get(arr, j))) {
                 flag = true;
                 break;
             }
@@ -84,7 +85,8 @@ void task2(Array *arr)
 
 int main()
 {
-    Array *arr = NULL;
+    setlocale(LC_ALL, "Ru");
+    Array* arr = NULL;
 
     task1(arr);
     array_delete(arr);
