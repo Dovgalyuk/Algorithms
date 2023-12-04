@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void task1(Array *arr)
+void task1(Array* arr)
 {
     size_t size;
     double n, m;
@@ -19,7 +19,7 @@ void task1(Array *arr)
     for (size_t i = 0; i < array_size(arr); i++) {
         array_set(arr, i, rand());
         /*cout << array_get(arr, i) << " ";*/
-    } cout << endl;
+    }
     cout << "Enter m and n: ";
     cin >> m >> n;
     //обработка массива
@@ -38,7 +38,7 @@ void task1(Array *arr)
     }
 }
 
-void task2(Array *arr)
+void task2(Array* arr)
 {
     size_t size;
     cout << endl << "Enter the size of the array: ";
@@ -48,7 +48,7 @@ void task2(Array *arr)
     srand(time(NULL));
     for (size_t i = 0; i < array_size(arr); i++) {
         array_set(arr, i, rand());
-    } cout << endl;
+    }
 
     //обработка массива
     bool flag = true;
