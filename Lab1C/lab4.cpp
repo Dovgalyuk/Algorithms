@@ -34,7 +34,7 @@ void KruskalMST(Graph<int>cost)
    
     int edge_count = 0, a, b;
     while (edge_count < V - 1) {
-        int min = INT_MAX;
+        int* min = (int*)INT_MAX;
         a = -1, b = -1;
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < V; j++) {
@@ -48,7 +48,7 @@ void KruskalMST(Graph<int>cost)
 
         union1(a, b);
         printf("Edge %d:(%d, %d) cost:%d \n", edge_count++, a, b, min);
-        mincost += min;
+        mincost += *(int*)min;
     }
     printf("\n Minimum cost= %d \n", mincost);
 }

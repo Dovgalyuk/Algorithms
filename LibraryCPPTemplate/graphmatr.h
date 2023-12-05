@@ -60,7 +60,7 @@ public:
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        return vector_get(adjMatrix, src * numVertices + dest);
+        return (int*)vector_get(adjMatrix, src * numVertices + dest);
     }
 
     void setVertexMark(long unsigned int vertex, T data) {
