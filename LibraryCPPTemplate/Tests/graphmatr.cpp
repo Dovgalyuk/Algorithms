@@ -21,7 +21,7 @@ int main()
 
 
 
-    graph.setEdgeMark(0, 1, 5);
+    graph.setEdgeMark(0, 1, (void*)5);
     if (graph.getEdgeWeight(0, 1) != 5) {
         cout << "weighterror";
         return 0;
