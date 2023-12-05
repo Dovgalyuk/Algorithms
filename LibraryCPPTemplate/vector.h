@@ -1,59 +1,41 @@
-#ifndef VECTOR_TEMPLATE_H
-#define VECTOR_TEMPLATE_H
+#ifndef VECTOR_H
+#define VECTOR_H
 
-#include <cstddef>
+#include <stddef.h>
 
-template <typename Data> class Vector
-{
-public:
-    // Creates vector
-    Vector()
-    {
-    }
+// Vector (dynamic array)
+// Stores pointer to custom user data
+typedef void* Data;
+// Custom function to free user pointers on delete
+typedef void (ffree)(void*);
 
-    // copy constructor
-    template <typename T>
-    Vector(const Vector<T> &a)
-    {
-    }
+typedef struct Vector Vector;
 
-    // assignment operator
-    template <typename T>
-    Vector &operator=(const Vector<T> &a)
-    {
-        return *this;
-    }
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-    // Deletes vector structure and internal data
-    ~Vector()
-    {
-    }
+	// Creates vector
+	Vector* vector_create(ffree f);
 
-    // Retrieves vector element with the specified index
-    Data get(size_t index) const
-    {
-        return Data();
-    }
+	// Deletes vector structure and internal data
+	void vector_delete(Vector* vector);
 
-    // Sets vector element with the specified index
-    void set(size_t index, Data value)
-    {
-    }
+	// Retrieves vector element with the specified index
+	Data vector_get(const Vector* vector, size_t index);
 
-    // Retrieves current vector size
-    size_t size() const
-    {
-        return 0;
-    }
+	// Sets vector element with the specified index
+	void vector_set(Vector* vector, size_t index, Data value);
 
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
-    void resize(size_t size)
-    {
-    }
+	// Retrieves current vector size
+	size_t vector_size(const Vector* vector);
 
-private:
-    // private data should be here
-};
+	// Changes the vector size (may increase or decrease)
+	// Should be O(1) on average
+	void vector_resize(Vector* vector, size_t size);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
