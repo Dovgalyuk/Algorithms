@@ -43,11 +43,11 @@ int main()
         cout << "edgeexusts error";
         return 0;
     }
-    const Vector* verticesBefore = graph.getVertices();
+   Vector* verticesBefore = graph.getVertices();
    
     
     graph.removeVertex(0);
-    const Vector* verticesAfter = graph.getVertices();
+    Vector* verticesAfter = graph.getVertices();
    
     if (vector_size(verticesBefore) == vector_size(verticesAfter)) {
         cout << "Vertex was not removed.";
