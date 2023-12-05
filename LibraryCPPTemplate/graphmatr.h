@@ -8,7 +8,7 @@ class Graph {
 private:
     Vector* vertices;
     Vector* adjMatrix;
-    int numVertices;
+    long unsigned int numVertices;
 
 public:
     Graph(int numVertices) : numVertices(numVertices) {
