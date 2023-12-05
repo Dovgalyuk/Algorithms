@@ -67,7 +67,7 @@ public:
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        vector_set(vertices, vertex, (void*)data);
+        vector_set(vertices, vertex, (void*)(intptr_t)data);
     }
 
     T getVertexMark(long unsigned int vertex) {
