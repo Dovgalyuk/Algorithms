@@ -82,10 +82,10 @@ public:
             throw std::out_of_range("Vertex does not exist");
         }
         vector_set(vertices, vertex, NULL);
-        for (int i = vertex * numVertices; i < (vertex + 1) * numVertices; i++) {
+        for (long unsigned int i = vertex * numVertices; i < (vertex + 1) * numVertices; i++) {
             vector_set(adjMatrix, i, 0);
         }
-        for (int i = vertex; i < numVertices - 1; i++) {
+        for (long unsigned int i = vertex; i < numVertices - 1; i++) {
             vector_set(vertices, i, (void*)vector_get(vertices, i + 1));
         }
         numVertices--;
