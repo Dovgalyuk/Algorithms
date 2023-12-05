@@ -86,7 +86,7 @@ public:
             vector_set(adjMatrix, i, 0);
         }
         for (long unsigned int i = vertex; i < numVertices - 1; i++) {
-            vector_set(vertices, i, (void*)vector_get(vertices, i + 1));
+            vector_set(vertices, i, (void*)(intptr_t)vector_get(vertices, i + 1));
         }
         numVertices--;
         vector_resize(adjMatrix, numVertices * numVertices);
