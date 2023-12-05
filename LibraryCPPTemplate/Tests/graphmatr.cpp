@@ -22,7 +22,7 @@ int main()
 
 
     graph.setEdgeMark(0, 1, (void*)5);
-    if (graph.getEdgeWeight(0, 1) != 5) {
+    if (graph.getEdgeWeight(0, 1) != (int*)5) {
         cout << "weighterror";
         return 0;
     }
@@ -32,7 +32,7 @@ int main()
 
 
     graph.setVertexMark(0, 7);
-    if (graph.getVertexMark(0) != 7) {
+    if (graph.getVertexMark(0) != (int*)7) {
         cout << "weighterror";
         return 0;
     }
