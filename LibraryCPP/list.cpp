@@ -86,6 +86,7 @@ ListItem *list_erase_first(List *list)
     ListItem* next = list->head->next;
     delete list->head;
     list->head = next;
+    next->prev = NULL;
     return list->head;
 }
 
