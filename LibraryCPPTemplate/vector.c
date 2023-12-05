@@ -40,8 +40,8 @@ int vector_get(const Vector* vector, size_t index)
 {
 	if (vector)
 		if (index < vector->size)
-			return vector->v[index];
-	return (Data)0;
+			return (int*)vector->v[index];
+	return 0;
 }
 
 int vector_set(Vector* vector, size_t index, Data value)
@@ -54,6 +54,7 @@ int vector_set(Vector* vector, size_t index, Data value)
 				free(vector->v[index]);
 		}
 	vector->v[index] = value;
+	return 0;
 }
 
 size_t vector_size(const Vector* vector)
