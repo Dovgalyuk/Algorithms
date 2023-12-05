@@ -5,14 +5,14 @@
 
 using namespace std;
 
-void task1(Array* arr)
+void task1()
 {
     size_t size;
     double n, m;
     cout << "Enter the size of the array: ";
     cin >> size;
     /*int* arr_random = new int[size];*/
-    arr = array_create(size);
+    Array* arr = array_create(size);
     srand(time(NULL));
     /*cout << "Созданный массив: " << endl;*/
     //создание массива
@@ -36,14 +36,15 @@ void task1(Array* arr)
     for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << " ";
     }
+    array_delete(arr);
 }
 
-void task2(Array* arr)
+void task2()
 {
     size_t size;
     cout << endl << "Enter the size of the array: ";
     cin >> size;
-    arr = array_create(size);
+    Array* arr = array_create(size);
     //создание массива
     srand(time(NULL));
     for (size_t i = 0; i < array_size(arr); i++) {
@@ -64,15 +65,15 @@ void task2(Array* arr)
             cout << array_get(arr, i) << " ";
         }
     }
+    array_delete(arr);
 }
 
 int main()
 {
-    Array* arr = NULL;
+    /*Array* arr = NULL;*/
+    task1();
+    /*array_delete(arr);*/
 
-    task1(arr);
-    array_delete(arr);
-
-    task2(arr);
-    array_delete(arr);
+    task2();
+    /*array_delete(arr);*/
 }
