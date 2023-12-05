@@ -10,9 +10,9 @@ int main()
     Graph<int> graph(5);
 
 
-    graph.addEdge(0, 1, 3);
-    graph.addEdge(0, 2, 4);
-    graph.addEdge(2, 4, 5);
+    graph.addEdge(0, 1, (void*)3);
+    graph.addEdge(0, 2, (void*)4);
+    graph.addEdge(2, 4, (void*)5);
 
     if (!graph.EdgeExists(0, 1)) {
         cout << "edgnoexist";
