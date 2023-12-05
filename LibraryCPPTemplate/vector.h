@@ -1,4 +1,4 @@
-
+#ifndef VECTOR_H
 #define VECTOR_H
 
 #include <stddef.h>
@@ -8,6 +8,7 @@
 typedef void* Data;
 // Custom function to free user pointers on delete
 typedef void (ffree)(void*);
+
 
 typedef struct Vector Vector;
 
@@ -36,6 +37,8 @@ extern "C" {
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "vector.h"
 
+
 typedef struct Vector
 {
 	size_t size;
