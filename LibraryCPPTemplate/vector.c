@@ -35,7 +35,7 @@ void vector_delete(Vector* vector)
 	}
 }
 
-Data vector_get(const Vector* vector, size_t index)
+int vector_get(const Vector* vector, size_t index)
 {
 	if (vector)
 		if (index < vector->size)
@@ -43,7 +43,7 @@ Data vector_get(const Vector* vector, size_t index)
 	return (Data)0;
 }
 
-void vector_set(Vector* vector, size_t index, Data value)
+int vector_set(Vector* vector, size_t index, Data value)
 {
 	if ((vector) && (index < vector->size))
 		if (vector->v[index] != NULL) {
