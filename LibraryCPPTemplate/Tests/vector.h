@@ -1,4 +1,4 @@
-
+#ifndef VECTOR_H
 #define VECTOR_H
 
 #include <stddef.h>
@@ -37,6 +37,8 @@ extern "C" {
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 
