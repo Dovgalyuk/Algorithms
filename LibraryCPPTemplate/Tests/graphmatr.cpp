@@ -1,4 +1,4 @@
-#include <vector>
+#include "vector.h"
 #include <iostream>
 #include "graphmatr.h"
 using namespace std;
@@ -43,11 +43,12 @@ int main()
         cout << "edgeexusts error";
         return 0;
     }
-
-    std::vector<int> verticesBefore = graph.getVertices();
+    Vector* verticesBefore = graph.getVertices();
+    
+    
     graph.removeVertex(0);
-    std::vector<int> verticesAfter = graph.getVertices();
-
+    
+    Vector* verticesAfter = graph.getVertices();
     if (verticesBefore.size() == verticesAfter.size()) {
         cout << "Vertex was not removed.";
         return 0;
