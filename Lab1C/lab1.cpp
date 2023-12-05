@@ -3,8 +3,9 @@
 #include <iostream>
 #include <map>
 
-void task1(Array* arr,int size)
+void task1(Array* arr)
 {
+    int size = array_size(arr);
     // Заполняем массив случайными числами
     for (int i = 0; i < size; i++)
     {
@@ -54,8 +55,9 @@ void task1(Array* arr,int size)
 }
 
 
-void task2(Array* arr, int size)
+void task2(Array* arr)
 {
+    int size = array_size(arr);
     // Заполняем массив случайными числами
     for (int i = 0; i < size; i++)
     {
@@ -88,14 +90,13 @@ int main()
     // Создаем массив и вызываем task1
     std::cout << "Введите размер и мы создадим первый массив: ";
     std::cin >> i;
-    arr = array_create(i);
-    task1(arr,i);
+    arr = array_create(i); 
+    task1(arr);
     array_delete(arr);
-
     // Создаем массив и вызываем task2
     std::cout << "Введите размер и мы создадим второй массив: ";
     std::cin >> j;
-    arr = array_create(j);
-    task2(arr,j);
+    arr = array_create(j); 
+    task2(arr);
     array_delete(arr);
 }
