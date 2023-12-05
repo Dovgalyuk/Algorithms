@@ -56,11 +56,11 @@ public:
         return vector_get(adjMatrix, src * numVertices + dest) != 0;
     }
 
-    int getEdgeWeight(long unsigned int src, long unsigned int dest) {
+    int* getEdgeWeight(long unsigned int src, long unsigned int dest) {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        return (int*)vector_get(adjMatrix, src * numVertices + dest);
+        return vector_get(adjMatrix, src * numVertices + dest);
     }
 
     void setVertexMark(long unsigned int vertex, T data) {
@@ -70,11 +70,11 @@ public:
         vector_set(vertices, vertex, (void*)(intptr_t)data);
     }
 
-    T getVertexMark(long unsigned int vertex) {
+    int* getVertexMark(long unsigned int vertex) {
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        return (int*)vector_get(vertices, vertex);
+        return vector_get(vertices, vertex);
     }
 
     void removeVertex(long unsigned int vertex) {
