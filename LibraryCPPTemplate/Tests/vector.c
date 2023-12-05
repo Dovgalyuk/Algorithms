@@ -36,7 +36,7 @@ void vector_delete(Vector* vector)
 	}
 }
 
-int vector_get(const Vector* vector, size_t index)
+int* vector_get(const Vector* vector, size_t index)
 {
 	if (vector)
 		if (index < vector->size)

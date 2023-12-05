@@ -23,7 +23,7 @@ extern "C" {
 	void vector_delete(Vector* vector);
 
 	// Retrieves vector element with the specified index
-	int vector_get(const Vector* vector, size_t index);
+	int* vector_get(const Vector* vector, size_t index);
 
 	// Sets vector element with the specified index
 	int vector_set(Vector* vector, size_t index, Data value);
