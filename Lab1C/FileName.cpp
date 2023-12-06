@@ -27,7 +27,7 @@ Array* random_full() {
 Array* delete_elements() {
 	Array* newArray = NULL;
 	Array* oldArray = NULL;
-	Array* anotherone = NULL;
+	/*Array* anotherone = NULL;*/
 	newArray = random_full();
 	print_data(newArray);
 
@@ -72,9 +72,11 @@ Array* delete_elements() {
 	for (size_t i = 0; i < array_size(oldArray); i++)
 	{
 		array_set(oldArray, i, array_get(newArray, i));
+		cout << i ;
 	}
+	cout << endl;
 
-	anotherone = array_create(array_size(oldArray) + no_need_element);
+	/*anotherone = array_create(array_size(oldArray) + no_need_element);
 
 	for (size_t i = 0; i < array_size(oldArray); i++)
 	{
@@ -84,12 +86,12 @@ Array* delete_elements() {
 	for (size_t i = (array_size(newArray) - no_need_element); i < array_size(anotherone); i++)
 	{
 		array_set(anotherone, i, 0);
-	}
+	}*/
 
-	array_delete(newArray);
-	array_delete(oldArray);
+	/*array_delete(newArray);
+	array_delete(oldArray);*/
 	/*return oldArray;*/ // Можно раскоментить return и закоментить array_delete(oldArray), чтобы глянуть, что элементы удаляются
-	return anotherone;
+	return newArray;
 }
 
 
