@@ -49,7 +49,7 @@ int main()
     graph.removeVertex(0);
   
    const Vector<int>* verticesAfter = graph.getVertices();
-    if (vector_size(verticesBefore) == size(verticesAfter)) {
+    if (size(verticesBefore) == size(verticesAfter)) {
         cout << "Vertex was not removed.";
         return 0;
     }
