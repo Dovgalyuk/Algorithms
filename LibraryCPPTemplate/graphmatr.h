@@ -1,102 +1,99 @@
-
 #include <stdexcept>
-#include <map>
-#include "vector.h"
+#include "vector.h" 
 using namespace std;
+
 template <typename T>
 class Graph {
 private:
-    Vector* vertices;
-    Vector* adjMatrix;
+    Vector<T>* vertices;
+    Vector<int>* adjMatrix;
     long unsigned int numVertices;
 
 public:
     Graph(int numVertices) : numVertices(numVertices) {
-        vertices = vector_create(NULL);
-        adjMatrix = vector_create(NULL);
-        vector_resize(vertices, numVertices);
-        vector_resize(adjMatrix, numVertices * numVertices);
+        vertices = new Vector<T>;
+        adjMatrix = new Vector<int>;
+        vertices->resize(numVertices);
+        adjMatrix->resize(numVertices * numVertices);
     }
 
     void addEdge(long unsigned int src, long unsigned int dest, void* weight) {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        vector_set(adjMatrix, src * numVertices + dest, weight);
+        adjMatrix->set(src * numVertices + dest, (int)(intptr_t)weight);
     }
-
 
     void setEdgeMark(long unsigned int src, long unsigned int dest, void* weight) {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        vector_set(adjMatrix, src * numVertices + dest, weight);
+        adjMatrix->set(src * numVertices + dest, (int)(intptr_t)weight);
     }
 
     void addVertex(T data) {
-        vector_resize(vertices, numVertices + 1);
-        vector_set(vertices, numVertices, data);
+        vertices->resize(numVertices + 1);
+        vertices->set(numVertices, data);
         numVertices++;
-        vector_resize(adjMatrix, numVertices * numVertices);
+        adjMatrix->resize(numVertices * numVertices);
     }
-
 
     void removeEdge(long unsigned int src, long unsigned int dest) {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        vector_set(adjMatrix, src * numVertices + dest, (void*)0);
-        vector_set(adjMatrix, dest * numVertices + src, (void*)0);
+        adjMatrix->set(src * numVertices + dest, 0);
+        adjMatrix->set(dest * numVertices + src, 0);
     }
 
     bool EdgeExists(long unsigned int src, long unsigned int dest) const {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        return vector_get(adjMatrix, src * numVertices + dest) != 0;
+        return adjMatrix->get(src * numVertices + dest) != 0;
     }
 
-    int* getEdgeWeight(long unsigned int src, long unsigned int dest) {
+    int getEdgeWeight(long unsigned int src, long unsigned int dest) {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        return (int*)(intptr_t)vector_get(adjMatrix, src * numVertices + dest);
+        return adjMatrix->get(src * numVertices + dest);
     }
 
     void setVertexMark(long unsigned int vertex, T data) {
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        vector_set(vertices, vertex, (void*)(intptr_t)data);
+        vertices->set(vertex, data);
     }
 
-    int* getVertexMark(long unsigned int vertex) {
+    int getVertexMark(long unsigned int vertex) {
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        return vector_get(vertices, vertex);
+        return vertices->get(vertex);
     }
 
     void removeVertex(long unsigned int vertex) {
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        vector_set(vertices, vertex, NULL);
+        vertices->set(vertex, NULL);
         for (long unsigned int i = vertex * numVertices; i < (vertex + 1) * numVertices; i++) {
-            vector_set(adjMatrix, i, 0);
+            adjMatrix->set(i, 0);
         }
         for (long unsigned int i = vertex; i < numVertices - 1; i++) {
-            vector_set(vertices, i, (void*)(intptr_t)vector_get(vertices, i + 1));
+            vertices->set(i, vertices->get(i + 1));
         }
         numVertices--;
-        vector_resize(adjMatrix, numVertices * numVertices);
+        adjMatrix->resize(numVertices * numVertices);
     }
 
-    const Vector* getAdjMatrix() const {
-        return adjMatrix;
-    }
-
-    const Vector* getVertices() const {
+    const Vector<T>* getVertices() const {
         return vertices;
+    }
+
+    const Vector<int>* getAdjMatrix() const {
+        return adjMatrix;
     }
 };
