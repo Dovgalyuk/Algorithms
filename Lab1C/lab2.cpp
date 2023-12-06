@@ -1,49 +1,59 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-using namespace std;
 
-bool isTag(const string& str) {
-    return (str.size() > 2 && str[0] == '<' && str[1] != '/');
+bool isTagOpening(const std::string& tag) {
+    return tag[0] == '<' && tag[1] != '/';
+}
+
+bool isTagClosing(const std::string& tag) {
+    return tag[0] == '<' && tag[1] == '/';
 }
 
 int main() {
-    ifstream input("input.txt");
-    ofstream output("output.txt");
-    
-    Stack* tagStack = stack_create();
-    string tag;
-    bool valid = true;
+    std::ifstream inputFile("input.txt");
 
-    while (getline(input, tag)) {
-        if (isTag(tag)) {
-            if (tag[1] != '/') {
-                stack_push(tagStack, tag);
-            } else {
-                if (stack_empty(tagStack)) {
-                    valid = false;
-                    break;
-                }
-                string openTag = list_item_data(list_first(tagStack));
-                openTag[1] = '/';
-                if (openTag != tag) {
-                    valid = false;
-                    break;
-                }
-                stack_pop(tagStack);
+    if (!inputFile.is_open()) {
+        std::cerr << "Error opening input file" << std::endl;
+        return 1;
+    }
+
+    std::ofstream outputFile("output.txt");
+
+    if (!outputFile.is_open()) {
+        stdcerr << "Error opening output file" << std::endl;
+        return 1;
+    }
+
+    Stack* stack = stack_create();
+    std::string tag;
+
+    while (std::getline(inputFile, tag)) {
+        if (isTagOpening(tag)) {
+            stack_push(stack, tag);
+        } else if (isTagClosing(tag)) {
+            if (stack_empty(stack)) {
+                outputFile << "NO" << std::endl;
+                return 0;
             }
+            std::string topTag = stack_get(stack);
+            if (topTag.substr(1) != tag.substr(2)) {
+                outputFile << "NO" << std::endl;
+                return 0;
+            }
+            stack_pop(stack);
         }
     }
 
-    if (!stack_empty(tagStack)) {
-        valid = false;
-    }
-
-    if (valid) {
-        output << "YES" << endl;
+    if (stack_empty(stack)) {
+        outputFile << "YES" << std::endl;
     } else {
-        output << "NO" << endl;
+        outputFile << "NO" << std::endl;
     }
 
-    stack_delete(tagStack);
+    stack_delete(stack);
+    inputFile.close();
+    outputFile.close();
+
     return 0;
+}
