@@ -9,7 +9,7 @@ const size_t NUM_BITS = 2;
 using namespace std;
 
 void radixSort(vector<size_t>& numbers) {
-    vector<Queue* queue_create()> queues(1 << NUM_BITS);
+    vector<Queue*> queues(1 << NUM_BITS);
 
     for (size_t bit = 0; bit < sizeof(size_t) * 8; bit += NUM_BITS) {
         for (size_t number : numbers) {
