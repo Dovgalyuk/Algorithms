@@ -22,14 +22,14 @@ public:
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        adjMatrix->set(src * numVertices + dest, (void*)weight);
+        adjMatrix->set(src * numVertices + dest, (void*)(intptr_t)weight);
     }
 
     void setEdgeMark(long unsigned int src, long unsigned int dest, void* weight) {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        adjMatrix->set(src * numVertices + dest, (void*)weight);
+        adjMatrix->set(src * numVertices + dest, (void*)(intptr_t)weight);
     }
 
     void addVertex(T data) {
