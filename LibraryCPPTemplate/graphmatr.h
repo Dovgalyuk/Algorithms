@@ -94,7 +94,7 @@ public:
             }
         }
 
-        vertices->erase(vertex, vertex);
+        vertices->erase(vertex);
         numVertices--;
         adjMatrix->resize(numVertices * numVertices);
     }

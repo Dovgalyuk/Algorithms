@@ -65,20 +65,19 @@ public:
             throw std::out_of_range("Index out of range");  
     }
 
-    void erase(size_t start, size_t end)
+    void erase(size_t index)
     {
-        if (start >= vector_size || end >= vector_size || start > end)
+        if (index >= vector_size)
         {
-            throw std::out_of_range("Indices out of range");
+            throw std::out_of_range("Index out of range");
         }
 
-        size_t elementsToRemove = end - start + 1;
-        for (size_t i = start; i < vector_size - elementsToRemove; ++i)
+        for (size_t i = index; i < vector_size - 1; ++i)
         {
-            data[i] = data[i + elementsToRemove];
+            data[i] = data[i + 1];
         }
 
-        vector_size -= elementsToRemove;
+        vector_size--;
     }
     size_t size() const  
     {
