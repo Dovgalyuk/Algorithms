@@ -46,10 +46,12 @@ int main()
     
    
    const Vector<int>* verticesBefore = graph.getVertices();
+   size_t sizeBefore = verticesBefore->size();
     graph.removeVertex(0);
   
    const Vector<int>* verticesAfter = graph.getVertices();
-    if (size(verticesBefore) == size(verticesAfter)) {
+   size_t sizeAfter = verticesAfter->size();
+    if (sizeBefore == sizeAfter) {
         cout << "Vertex was not removed.";
         return 0;
     }
