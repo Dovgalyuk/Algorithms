@@ -18,18 +18,18 @@ public:
         adjMatrix->resize(numVertices * numVertices);
     }
 
-    void addEdge(long unsigned int src, long unsigned int dest, void* weight) {
+    void addEdge(long unsigned int src, long unsigned int dest, int weight) {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        adjMatrix->set(src * numVertices + dest, (void*)(intptr_t)weight);
+        adjMatrix->set(src * numVertices + dest, weight);
     }
 
-    void setEdgeMark(long unsigned int src, long unsigned int dest, void* weight) {
+    void setEdgeMark(long unsigned int src, long unsigned int dest, int weight) {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        adjMatrix->set(src * numVertices + dest, (void*)(intptr_t)weight);
+        adjMatrix->set(src * numVertices + dest, weight);
     }
 
     void addVertex(T data) {
