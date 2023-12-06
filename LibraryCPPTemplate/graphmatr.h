@@ -79,13 +79,22 @@ public:
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        vertices->set(vertex, 0);
-        for (long unsigned int i = vertex * numVertices; i < (vertex + 1) * numVertices; i++) {
-            adjMatrix->set(i, 0);
-        }
+
+        
         for (long unsigned int i = vertex; i < numVertices - 1; i++) {
-            vertices->set(i, vertices->get(i + 1));
+            for (long unsigned int j = 0; j < numVertices; j++) {
+                adjMatrix->set(i * numVertices + j, adjMatrix->get((i + 1) * numVertices + j));
+            }
         }
+
+        
+        for (long unsigned int i = 0; i < numVertices - 1; i++) {
+            for (long unsigned int j = vertex; j < numVertices - 1; j++) {
+                adjMatrix->set(i * numVertices + j, adjMatrix->get(i * numVertices + j + 1));
+            }
+        }
+
+        vertices->erase(vertex, vertex);
         numVertices--;
         adjMatrix->resize(numVertices * numVertices);
     }

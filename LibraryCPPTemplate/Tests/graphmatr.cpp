@@ -11,7 +11,7 @@ int main()
 
 
     graph.addEdge(0, 1, 3);
-    graph.addEdge(0, 2,4);
+    graph.addEdge(0, 2, 4);
     graph.addEdge(2, 4, 5);
 
     if (!graph.EdgeExists(0, 1)) {
