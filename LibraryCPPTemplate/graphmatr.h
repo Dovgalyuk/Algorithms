@@ -79,7 +79,7 @@ public:
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        vertices->set(vertex, NULL);
+        vertices->set(vertex, 0);
         for (long unsigned int i = vertex * numVertices; i < (vertex + 1) * numVertices; i++) {
             adjMatrix->set(i, 0);
         }
