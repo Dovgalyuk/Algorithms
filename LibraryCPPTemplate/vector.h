@@ -1,6 +1,6 @@
 #ifndef VECTOR_H
 #define VECTOR_H
-
+#include <stdexcept>
 #include <cstddef>
 using namespace std;
 template <typename Data>
