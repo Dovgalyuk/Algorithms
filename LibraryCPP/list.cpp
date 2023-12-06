@@ -1,100 +1,41 @@
-#include <cstddef>
+#include <iostream>
 #include "list.h"
+int main()
+{
+    List *list = list_create();
+    if (!list)
+    {
+        std::cout << "List creation error\n";
+        return 1;
+    }
+    list_insert(list, 1);
+    list_insert(list, 2);
+    list_insert(list, 3);
+    if (list_item_data(list_first(list)) != 3)
+    {
+        std::cout << "list_insert error\n";
+        return 1;
+    }
+    list_insert_after(list, list_first(list), 4);
+    if (list_item_data(list_item_next(list_first(list))) != 4)
+    {
+        std::cout << "list_insert_after error\n";
+        return 1;
+    }
 
-struct ListItem
-{
-    Data data;
-    ListItem* next;
-    ListItem* prev;
-};
-struct List
-{
-    ListItem* head;
-};
-List *list_create()
-{
-    List* temp = new List;
-    temp->head = NULL;
-    return temp;
-}
-void list_delete(List *list)
-{
-    // TODO: free items
-    ListItem* cur = list->head;
-    ListItem* next;
-    while (cur)
-    {
-        next = cur->next;
-        delete cur;
-        cur = next;
-    }
-    delete list;
-}
-ListItem *list_first(List *list)
-{
-    return list->head;
-}
-Data list_item_data(const ListItem *item)
-{
-    return item->data;
-}
-ListItem *list_item_next(ListItem *item)
-{
-    return item->next;
-}
-ListItem *list_item_prev(ListItem *item)
-{
-    return item->prev;
-}
-ListItem *list_insert(List *list, Data data)
-{
-    ListItem* newItem = new ListItem;
-    newItem->data = data;
-    newItem->prev = NULL;
-    if (list->head)
-    {
-        newItem->next = list->head;
-        list->head->prev = newItem;
-    }
-    else
-        newItem->next = NULL;
-    list->head = newItem;
-    return list->head;
-}
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    ListItem* newItem = new ListItem;
-    newItem->data = data;
-    newItem->next = item->next;
-    if (item->next) item->next->prev = newItem;
-    newItem->prev = item;
-    item->next = newItem;
-    return list->head;
-}
-ListItem *list_erase_first(List *list)
-{
-    ListItem* next = list->head->next;
-    delete list->head;
-    list->head = next;
-    if(next) next->prev = NULL;
-    return list->head;
-}
+    list_erase_top(list);
+    list_erase_first(list);
 
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    ListItem* next = item->next;
-    item->next = next->next;
-    next->next->prev = item;
-    delete next;
-    if (item->next)
+    if (list_item_data(list_first(list)) != 4)
     {
-        ListItem* next = item->next;
-        if (next->next)
-        {
-            item->next = next->next;
-            next->next->prev = item;
-        }
-        delete next;
+        std::cout << "list_erase error\n";
+        return 1;
     }
-    return list->head;
+    std::cout << "List: ";
+    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
+    {
+        std::cout << list_item_data(item) << " ";
+    }
+    std::cout << "\n";
+    list_delete(list);
 }

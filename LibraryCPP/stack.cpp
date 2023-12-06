@@ -1,45 +1,45 @@
 #include "stack.h"
 #include "list.h"
+#include <iostream>
 
 struct Stack
 {
-    List* list;
+    List* stackList;
 };
-
 Stack *stack_create()
 {
-    Stack* temp = new Stack;
-    temp->list = list_create();
-    return temp;
+    Stack* stack = new Stack;
+    stack->stackList = list_create();
+    return stack;
 }
-
 void stack_delete(Stack *stack)
 {
-    list_delete(stack->list);
+    // TODO: free stack elements
+    list_delete(stack->stackList);
     delete stack;
 }
-
 void stack_push(Stack *stack, Data data)
 {
-    list_insert(stack->list, data);
+    list_insert(stack->stackList, data);
 }
-
 Data stack_get(const Stack *stack)
 {
-    ListItem* first = list_first(stack->list);
-    if (first)
-    {
-        return list_item_data(first);
-    }
-    return (Data)0; // Assuming default value is 0
+    return list_item_data(list_first(stack->stackList));
 }
-
 void stack_pop(Stack *stack)
 {
-    list_erase_first(stack->list);
+    if (stack_empty(stack))
+    {
+        std::cout << "Error stack empty";
+    }
+    else
+    {
+        list_erase_top(stack->stackList);
+        list_erase_first(stack->stackList);
+    }
 }
 
 bool stack_empty(const Stack *stack)
 {
-    return list_first(stack->list) == NULL;
+    return list_first(stack->stackList) == nullptr;
 }

@@ -1,51 +1,48 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <string>
+#include "list.h"
+#include "stack.h"
 
-bool isTagOpening(const std::string& tag) {
-    return tag[0] == '<' && tag[1] != '/';
-}
-
-bool isTagClosing(const std::string& tag) {
-    return tag[0] == '<' && tag[1] == '/';
-}
-
-int main() {
-    std::ifstream inputFile("input.txt");
+bool checkTagSequence(const std::string& inputFileName, const std::string& outputFileName) {
+    std::ifstream inputFile(inputFileName);
 
     if (!inputFile.is_open()) {
         std::cerr << "Error opening input file" << std::endl;
-        return 1;
+        return false;
     }
 
-    std::ofstream outputFile("output.txt");
+    std::ofstream outputFile(outputFileName);
 
     if (!outputFile.is_open()) {
-        stdcerr << "Error opening output file" << std::endl;
-        return 1;
+        std::cerr << "Error opening output file" << std::endl;
+        inputFile.close();
+        return false;
     }
 
-    Stack* stack = stack_create();
+    Stack *stack = stack_create();
     std::string tag;
 
     while (std::getline(inputFile, tag)) {
-        if (isTagOpening(tag)) {
-            stack_push(stack, tag);
-        } else if (isTagClosing(tag)) {
-            if (stack_empty(stack)) {
-                outputFile << "NO" << std::endl;
-                return 0;
+        if (tag[0] == '<') {
+            if (tag[1] == '/') {
+                std::string topTag = stack_get(stack);
+                if (topTag != tag.substr(2, tag.size() - 3)) {
+                    outputFile << "NO" << std::endl;
+                    inputFile.close();
+                    outputFile.close();
+                    stack_delete(stack);
+                    return false;
+                }
+                stack_pop(stack);
+            } else {
+                stack_push(stack, tag);
             }
-            std::string topTag = stack_get(stack);
-            if (topTag.substr(1) != tag.substr(2)) {
-                outputFile << "NO" << std::endl;
-                return 0;
-            }
-            stack_pop(stack);
         }
     }
 
-    if (stack_empty(stack)) {
+    bool correctSequence = stack_empty(stack);
+    if (correctSequence) {
         outputFile << "YES" << std::endl;
     } else {
         outputFile << "NO" << std::endl;
@@ -54,6 +51,14 @@ int main() {
     stack_delete(stack);
     inputFile.close();
     outputFile.close();
+    return true;
+}
 
+int main() {
+    if (checkTagSequence("input.txt", "output.txt")) {
+        std::cout << "Check complete, see output.txt for results." << std::endl;
+    } else {
+        std::cerr << "Tag sequence check failed." << std::endl;
+    }
     return 0;
 }
