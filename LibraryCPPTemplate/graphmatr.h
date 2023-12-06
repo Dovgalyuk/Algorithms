@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include "vector.h" 
+
 using namespace std;
 
 template <typename T>
@@ -21,14 +22,14 @@ public:
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        adjMatrix->set(src * numVertices + dest, (int)(intptr_t)weight);
+        adjMatrix->set(src * numVertices + dest, weight);
     }
 
     void setEdgeMark(long unsigned int src, long unsigned int dest, void* weight) {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        adjMatrix->set(src * numVertices + dest, (int)(intptr_t)weight);
+        adjMatrix->set(src * numVertices + dest, weight);
     }
 
     void addVertex(T data) {
