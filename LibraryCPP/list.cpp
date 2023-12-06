@@ -92,9 +92,15 @@ ListItem *list_erase_first(List *list)
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    ListItem* next = item->next;
-    item->next = next->next;
-    next->next->prev = item;
-    delete next;
+    if (item->next)
+    {
+        ListItem* next = item->next;
+        if (next->next)
+        {
+            item->next = next->next;
+            next->next->prev = item;
+        }
+        delete next;
+    }
     return list->head;
 }
