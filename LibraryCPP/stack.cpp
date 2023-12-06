@@ -62,10 +62,8 @@ Data stack_get(const Stack* stack)
     return list_item_data(list_first(stack->top));
 }
 
-int stack_pop(Stack* stack, int& tempData)
+void stack_pop(Stack* stack)
 {
-    tempData = stack->top->begin->data;
-
     // Сохраняем указатель на следующий элемент
     ListItem* nextItem = stack->top->begin->next;
 
@@ -80,7 +78,6 @@ int stack_pop(Stack* stack, int& tempData)
     {
         stack->top->end = nullptr;
     }
-    return tempData;
 }
 
 bool stack_empty(const Stack* stack)

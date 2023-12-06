@@ -48,15 +48,19 @@ int main()
         stack_push(stack, 2);
         stack_push(stack, 3);
 
-        stack_pop(stack, tempData); tempA = tempData;
-        stack_pop(stack, tempData); tempB = tempData;
+        tempData = stack->top->begin->data;
+        stack_pop(stack); tempA = tempData;
+        tempData = stack->top->begin->data;
+        stack_pop(stack); tempB = tempData;
 
         MUL(tempA, tempB, MULData);
 
         stack_push(stack, MULData);
 
-        stack_pop(stack, tempData); tempA = tempData;
-        stack_pop(stack, tempData); tempB = tempData;
+        tempData = stack->top->begin->data;
+        stack_pop(stack); tempA = tempData;
+        tempData = stack->top->begin->data;
+        stack_pop(stack); tempB = tempData;
 
         ADD(tempA, tempB, ADDData);
 
@@ -69,16 +73,20 @@ int main()
         stack_push(stack, 1);
         stack_push(stack, 2);
 
-        stack_pop(stack, tempData); tempA = tempData;
-        stack_pop(stack, tempData); tempB = tempData;
+        tempData = stack->top->begin->data;
+        stack_pop(stack); tempA = tempData;
+        tempData = stack->top->begin->data;
+        stack_pop(stack); tempB = tempData;
 
         ADD(tempA, tempB, ADDData);
 
         stack_push(stack, ADDData);
         stack_push(stack, 3);
 
-        stack_pop(stack, tempData); tempA = tempData;
-        stack_pop(stack, tempData); tempB = tempData;
+        tempData = stack->top->begin->data;
+        stack_pop(stack); tempA = tempData;
+        tempData = stack->top->begin->data;
+        stack_pop(stack); tempB = tempData;
 
         MUL(tempA, tempB, MULData);
 

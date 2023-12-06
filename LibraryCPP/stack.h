@@ -22,7 +22,7 @@ Data stack_get(const Stack* stack);
 
 // Removes the last element from the stack
 // Should be O(1)
-int stack_pop(Stack* stack, int& tempData);
+void stack_pop(Stack* stack);
 
 // Returns true if the stack is empty
 bool stack_empty(const Stack* stack);
