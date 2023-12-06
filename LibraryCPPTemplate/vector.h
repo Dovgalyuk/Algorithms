@@ -2,7 +2,7 @@
 #define VECTOR_H
 
 #include <cstddef>
-
+using namespace std;
 template <typename Data>
 class Vector
 {
