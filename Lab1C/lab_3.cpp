@@ -1,42 +1,54 @@
 ﻿#include <iostream>
+#include <unordered_map>
+#include <unordered_set>
 #include <string>
-#include <vector>
-#include <algorithm>
-
 #include "queue.h"
 
 using namespace std;
 
-int main()
-{
-    Queue* tmp_var = queue_create();
-    Queue* result = queue_create();
+int main() {
+    std::unordered_map<std::string, std::unordered_set<std::string>> reactions;
+    std::string start, reaction;
 
-    vector <string> input_data;
-    string input_temp;
-
-    while (cin >> input_temp)
-        input_data.push_back(input_temp);
-
-    sort(input_data.begin(), input_data.end());
-
-    for (auto element : input_data)
+    std::cin >> start;
+    while (std::cin >> reaction)
     {
-        if (queue_empty(tmp_var))
-            queue_insert(tmp_var, element[0]);
-        else if (queue_get(tmp_var) == element[0])
+        std::string substance1 = reaction.substr(0, reaction.find("->"));
+        std::string substance2 = reaction.substr(reaction.find("->") + 2);
+        reactions[substance1].insert(substance2);
+    }
+
+    Queue* queue = queue_create();
+    std::unordered_set<std::string> visited;
+
+    queue_insert(queue, start);
+    visited.insert(start);
+
+    while (!queue_empty(queue))
+    {
+        std::string current = queue_get(queue);
+        queue_remove(queue);
+
+        if (reactions.count(current) > 0) 
         {
-            queue_remove(tmp_var);
-
-            queue_insert(tmp_var, element[element.size() - 1]);
-
-            queue_insert(result, element[element.size() - 1]);
+            for (auto next : reactions[current]) 
+            {
+                if (visited.count(next) == 0) 
+                {
+                    queue_insert(queue, next);
+                    visited.insert(next);
+                }
+            }
         }
     }
 
-    while (!queue_empty(result))
+    for (auto substance : visited) 
     {
-        cout << (char)queue_get(result) << endl;
-        queue_remove(result);
+        if (substance != start)
+            std::cout << substance << " ";
     }
+
+    queue_delete(queue);
+
+    return 0;
 }

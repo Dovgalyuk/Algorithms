@@ -2,10 +2,11 @@
 #define VECTOR_H
 
 #include <cstddef>
+#include <string>
 
 // Vector (dynamic array)
 // Stores integer values inside
-typedef int Data;
+typedef std::string Data;
 
 struct Vector;
 
