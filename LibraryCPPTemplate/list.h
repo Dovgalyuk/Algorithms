@@ -72,13 +72,68 @@ public:
             past_p = past_p->next();
             it = it->next();
         }
+
+     /*   Item* _this = this->Head;
+        Item* _other = a->Head;
+        Item* past_this;
+
+        if (a == nullptr)
+        {
+            if (this->Head == nullptr) return;
+
+            else
+            {
+                delete this->Head;
+                this->Head = nullptr;
+            }
+        }
+
+        while (_other != nullptr)
+        {
+            if (_this == nullptr)
+            {
+                _this = new Item(_other.data(), past_this, nullptr);
+            }
+            else
+            {
+                _this->data() = _other.data();
+            }
+
+            _this = _this->next();
+            _other = _other->next();
+        }*/
     }
 
     // assignment operator
     template <typename T>
     List &operator=(const List<T> &a)
     {
-        return *this->List(a);
+        if (this->Head != nullptr)
+        {
+            delete this->Head;
+        }
+
+        Item* it = a->Head;
+
+        this->Head = new Item(it.data(), nullptr, nullptr);
+
+        Item* past_p, * p;
+
+        p = nullptr;
+        past_p = this->Head;
+
+        it = it.next();
+
+        while (it != nullptr)
+        {
+            p = new Item(it.data(), nullptr, nullptr);
+            past_p->next() = p;
+            p->prev() = past_p;
+
+            p = p->next();
+            past_p = past_p->next();
+            it = it->next();
+        }
     }
 
     // Destroys the list and frees the memory
@@ -158,7 +213,7 @@ public:
         if (item == nullptr || item->next == nullptr || this->Head == nullptr)
             return nullptr;
 
-        Item*p 
+        Item* p;
         p = item->next();
         item->next() = p->next();
 
