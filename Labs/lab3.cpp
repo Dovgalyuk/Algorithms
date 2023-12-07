@@ -10,7 +10,9 @@ using namespace std;
 
 void radixSort(vector<size_t>& numbers) {
     vector<Queue*> queues(1 << NUM_BITS);
-
+    for (size_t i = 0; i != (1 << NUM_BITS); i++) {
+        queues[i] = queue_create();
+    }
     for (size_t bit = 0; bit < sizeof(size_t) * 8; bit += NUM_BITS) {
         for (size_t number : numbers) {
             size_t bitValue = (number >> bit) & ((1 << NUM_BITS) - 1);
@@ -24,6 +26,9 @@ void radixSort(vector<size_t>& numbers) {
                 queue_remove(queues[i]);
             }
         }
+    }
+    for (size_t i = 0; i != (1 << NUM_BITS); i++) {
+        queues[i] = queue_delete();
     }
 }
 
