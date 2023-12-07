@@ -28,7 +28,7 @@ void radixSort(vector<size_t>& numbers) {
         }
     }
     for (size_t i = 0; i != (1 << NUM_BITS); i++) {
-        queues[i] = queue_delete();
+        queue_delete(queues[i]);
     }
 }
 
