@@ -27,7 +27,7 @@ Array* random_full() {
 Array* delete_elements() {
 	Array* newArray = NULL;
 	Array* oldArray = NULL;
-	/*Array* anotherone = NULL;*/
+	Array* anotherone = NULL;
 	newArray = random_full();
 	print_data(newArray);
 
@@ -37,15 +37,15 @@ Array* delete_elements() {
 	cin >> n;
 	cin >> m;
 
-	for (size_t i = 0; i < array_size(newArray); i++) 
-	{
-		if (array_get(newArray, i) >= n && array_get(newArray, i) <= m) 
-		{
-			array_set(newArray, i, 0);
-		}
-	}
+	//for (size_t i = 0; i < array_size(newArray); i++) 
+	//{
+	//	if (array_get(newArray, i) >= n && array_get(newArray, i) <= m) 
+	//	{
+	//		array_set(newArray, i, 0);
+	//	}
+	//}
 	
-	for (size_t i = 0; i < array_size(newArray) - 1; i++)
+	/*for (size_t i = 0; i < array_size(newArray) - 1; i++)
 	{
 
 		for (size_t j = 0; j < array_size(newArray) - i - 1; j++)
@@ -57,26 +57,34 @@ Array* delete_elements() {
 				array_set(newArray, j + 1, temp);
 			}
 		}
-	}
+	}*/
+
 
 	for (size_t i = 0; i < array_size(newArray); i++) 
 	{
-		if (array_get(newArray, i) == 0)
+		/*if (array_get(newArray, i) == 0)*/
+		if (array_get(newArray, i) >= n && array_get(newArray, i) <= m)
 		{
 			no_need_element++;
 		}
 	}
 
 	oldArray = array_create(array_size(newArray) - no_need_element);
+	size_t j = 0;
 
-	for (size_t i = 0; i < array_size(oldArray); i++)
+	for (size_t i = 0 ; i < array_size(newArray); i++)
 	{
-		array_set(oldArray, i, array_get(newArray, i));
-		cout << i ;
+			if (array_get(newArray, i) < n || array_get(newArray, i) > m)
+			{
+				array_set(oldArray, j, array_get(newArray, i));
+				j++;
+			}
+			cout << i;
 	}
+	
 	cout << endl;
 
-	/*anotherone = array_create(array_size(oldArray) + no_need_element);
+	anotherone = array_create(array_size(oldArray) + no_need_element);
 
 	for (size_t i = 0; i < array_size(oldArray); i++)
 	{
@@ -86,12 +94,12 @@ Array* delete_elements() {
 	for (size_t i = (array_size(newArray) - no_need_element); i < array_size(anotherone); i++)
 	{
 		array_set(anotherone, i, 0);
-	}*/
+	}
 
-	/*array_delete(newArray);
-	array_delete(oldArray);*/
+	array_delete(newArray);
+	array_delete(oldArray);
 	/*return oldArray;*/ // Можно раскоментить return и закоментить array_delete(oldArray), чтобы глянуть, что элементы удаляются
-	return newArray;
+	return anotherone;
 }
 
 
