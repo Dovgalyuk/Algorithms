@@ -4,7 +4,7 @@
 int main()
 {
     Array *arr = array_create(10);
-
+    std::cout << "Invalid array size\n";
     if (array_size(arr) != 10)
     {
         std::cout << "Invalid array size\n";
