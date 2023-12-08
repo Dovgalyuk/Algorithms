@@ -65,6 +65,22 @@ public:
             throw std::out_of_range("Index out of range");  
     }
 
+    void erase(const Data& value)
+    {
+        for (size_t i = 0; i < vector_size; ++i)
+        {
+            if (data[i] == value)
+            {
+                for (size_t j = i; j < vector_size - 1; ++j)
+                {
+                    data[j] = data[j + 1];
+                }
+                vector_size--;
+                return;
+            }
+        }
+        throw std::out_of_range("Value not found");
+    }
     size_t size() const  
     {
         return vector_size;
