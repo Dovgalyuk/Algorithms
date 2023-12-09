@@ -7,7 +7,7 @@ struct Stack
     Stack() : list(list_create()) {}
 };
 
-Stack* stack_create()
+Stack *stack_create()
 {
     return new Stack;
 }
