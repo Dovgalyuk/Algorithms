@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include "stack.h"
 #include "list.h"
-
 using namespace std;
 
 bool checkBracketsAndQuotes(Stack* bracketsAndQuotes, const string& input) {
@@ -20,7 +19,7 @@ bool checkBracketsAndQuotes(Stack* bracketsAndQuotes, const string& input) {
                 return false;
             }
             char top = stack_get(bracketsAndQuotes);
-            if ((c == ')' && top == '(') || (c == ']' && top == '[') || (c == '}' && top == '{') || (c == top && (count % 2 != 0)) || (c == top && (count % 2 != 0))) {
+            if ((c == ')' && top == '(') || (c == ']' && top == '[') || (c == '}' && top == '{')) {
                 stack_pop(bracketsAndQuotes);
             }
             else {
