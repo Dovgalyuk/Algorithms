@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "stack.h"
-#include "list.h"
+
 using namespace std;
 
 bool checkBracketsAndQuotes(Stack* bracketsAndQuotes, const string& input) {
