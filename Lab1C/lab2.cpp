@@ -9,7 +9,6 @@
 using namespace std;
 
 bool checkBracketsAndQuotes(Stack* bracketsAndQuotes, const string& input) {
-    int count = 0;
     for (char c : input) {
         if (c == '(' || c == '[' || c == '{') {
             stack_push(bracketsAndQuotes, c);
