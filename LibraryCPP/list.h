@@ -3,7 +3,7 @@
 
 // List
 // Stores integer values inside
-typedef int Data;
+typedef double Data;
 
 struct List;
 struct ListItem;
