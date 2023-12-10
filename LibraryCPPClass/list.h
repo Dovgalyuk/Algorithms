@@ -11,13 +11,12 @@ public:
    class Item
    {
    public:
-       Item *next() { return nextItem; }
-       Data data() const { return itemData; }
+      Data& data() { return itemData; }
+      Item*& next() { return nextItem; }
    private:
-       Data itemData;
-       Item *nextItem;
+      Data itemData;
+      Item *nextItem;
    };
-
    List();
    List(const List &a);
    List &operator=(const List &a);
