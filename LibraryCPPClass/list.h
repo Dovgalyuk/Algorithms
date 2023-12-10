@@ -14,9 +14,9 @@ public:
         Item *next() const { return _next; }
         Item *prev() const { return _prev; }
         Data data() const { return _data; }
-        void next(Item *item) { _next = item; }
-        void prev(Item *item) { _prev = item; }
-        void data(Data d) { _data = d; }
+        void setNext(Item *item) { _next = item; }
+        void setPrev(Item *item) { _prev = item; }
+        void setData(Data d) { _data = d; }
     private:
         Data _data;
         Item *_next;
