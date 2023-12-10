@@ -1,109 +1,70 @@
 #include <cstddef>
 #include "list.h"
 
-List::List() : head(nullptr), tail(nullptr) {}
+List::List() : head(nullptr) {}
 
-List::List(const List &a) : head(nullptr), tail(nullptr) {
-    Item *temp = a.first();
-    while (temp != nullptr) {
-        this->insert(temp->data());
-        temp = temp->next();
-    }
+List::List(const List &a) : head(nullptr) {
+   Item* node = a.head;
+   while (node != nullptr) {
+       insert(node->data());
+       node = node->next();
+   }
 }
 
 List &List::operator=(const List &a) {
-    if (this != &a) {
-        Item *temp = head;
-        while (temp != nullptr) {
-            Item *next = temp->next();
-            delete temp;
-            temp = next;
-        }
-        head = nullptr;
-        tail = nullptr;
-        temp = a.first();
-        while (temp != nullptr) {
-            this->insert(temp->data());
-            temp = temp->next();
-        }
-    }
-    return *this;
+   if (this != &a) {
+       List temp(a);
+       std::swap(head, temp.head);
+   }
+   return *this;
 }
 
 List::~List() {
-    Item *temp = head;
-    while (temp != nullptr) {
-        Item *next = temp->next();
-        delete temp;
-        temp = next;
-    }
+   while (head != nullptr) {
+       erase_first();
+   }
 }
 
 List::Item *List::first() {
-    return head;
+  return head;
 }
 
 List::Item *List::insert(Data data) {
-    Item *newItem = new Item();
-    newItem->data = data;
-    newItem->next = head;
-    if (head != nullptr) {
-        head->prev = newItem;
-    }
-    head = newItem;
-    if (tail == nullptr) {
-        tail = newItem;
-    }
-    return newItem;
+  Item* newItem = new Item;
+  newItem->itemData = data;
+  newItem->nextItem = head;
+  head = newItem;
+  return newItem;
 }
 
 List::Item *List::insert_after(Item *item, Data data) {
-    if (item == nullptr) {
-        return insert(data);
-    }
-    Item *newItem = new Item();
-    newItem->data = data;
-    newItem->next = item->next();
-    newItem->prev = item;
-    if (item->next() != nullptr) {
-        item->next()->prev = newItem;
-    }
-    item->next = newItem;
-    if (tail == item) {
-        tail = newItem;
-    }
-    return newItem;
+  if (item == nullptr) {
+      return nullptr;
+  }
+  Item* newItem = new Item;
+  newItem->itemData = data;
+  newItem->nextItem = item->next();
+  item->nextItem = newItem;
+  return newItem;
 }
 
 List::Item *List::erase_first() {
-    if (head == nullptr) {
-        return nullptr;
-    }
-    Item *temp = head->next();
-    delete head;
-    if (temp != nullptr) {
-        temp->prev = nullptr;
-    }
-    head = temp;
-    if (tail == nullptr) {
-        tail = temp;
-    }
-    return temp;
+  if (head == nullptr) {
+      return nullptr;
+  }
+  Item* nextItem = head->next();
+  delete head;
+  head = nextItem;
+  return nextItem;
 }
 
 List::Item *List::erase_next(Item *item) {
-    if (item == nullptr || item->next() == nullptr) {
-        return nullptr;
-    }
-    Item *temp = item->next()->next();
-    delete item->next();
-    item->next = temp;
-    if (temp != nullptr) {
-        temp->prev = item;
-    }
-    if (tail == item->next()) {
-        tail = item;
-    }
-    return temp;
+  if (item == nullptr || item->next() == nullptr) {
+      return nullptr;
+  }
+  Item* nextItem = item->next()->next();
+  delete item->next();
+  item->nextItem = nextItem;
+  return nextItem;
 }
 
