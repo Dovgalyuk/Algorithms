@@ -1,21 +1,13 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include <cstddef>
-
-typedef int Data;
+#include "list.h"  // Include the header file for the List class
 
 class Stack
 {
 public:
     // Creates empty stack
     Stack();
-
-    // copy constructor
-    Stack(const Stack &a);
-
-    // assignment operator
-    Stack &operator=(const Stack &a);
 
     // Deletes the stack
     ~Stack();
@@ -24,7 +16,7 @@ public:
     // Should be O(1) on average
     void push(Data data);
 
-    // Retrives the last element from the stack
+    // Retrieves the last element from the stack
     Data get() const;
 
     // Removes the last element from the stack
@@ -35,7 +27,7 @@ public:
     bool empty() const;
 
 private:
-    // private data should be here
+    List dataList;  // Private List member
 };
 
 #endif
