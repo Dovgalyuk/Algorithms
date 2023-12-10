@@ -65,6 +65,6 @@ List::Item *List::erase_next(Item *item) {
  }
  Item* nextItem = item->next()->next();
  delete item->next();
- item->next() = nextItem; // используйте метод next() для установки значения
+ item->next() = nextItem;
  return nextItem;
 }
