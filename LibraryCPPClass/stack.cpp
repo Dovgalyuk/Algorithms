@@ -1,4 +1,5 @@
 #include "stack.h"
+#include "list.cpp"
 
 // Creates empty stack
 Stack::Stack() : dataList() {}
