@@ -22,7 +22,7 @@ public:
    List &operator=(const List &a);
    ~List();
 
-   Item *first();
+   Item *first() const;
    Item *insert(Data data);
    Item *insert_after(Item *item, Data data);
    Item *erase_first();
