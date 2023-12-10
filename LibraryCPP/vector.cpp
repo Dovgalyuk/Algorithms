@@ -3,6 +3,7 @@
 struct Vector
 {
     size_t size;
+    size_t capacity;
     Data* data;
 };
 
@@ -11,6 +12,7 @@ Vector *vector_create()
     Vector* vector = new Vector;
     vector->data = NULL;
     vector->size = 0;
+    vector->capacity = 0;
     return vector;
 }
 
@@ -42,15 +44,20 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-    if (size == vector->size) {
+    if (size <= vector->capacity) {
+        vector->size = size;
         return;
     }
-    Data* newData = new Data[size];
-    size_t minSize = size < vector->size ? size : vector->size;
-    for (size_t i = 0; i < minSize; i++) {
+
+    size_t newCapacity = size * 2;
+    Data* newData = new Data[newCapacity];
+
+    for (size_t i = 0; i < vector->size; i++) {
         newData[i] = vector->data[i];
     }
+
     delete[] vector->data;
     vector->data = newData;
     vector->size = size;
+    vector->capacity = newCapacity;
 }
