@@ -11,16 +11,10 @@ public:
     class Item
     {
     public:
-        Item *next() const { return _next; }
-        Item *prev() const { return _prev; }
-        Data data() const { return _data; }
-        void setNext(Item *item) { _next = item; }
-        void setPrev(Item *item) { _prev = item; }
-        void setData(Data d) { _data = d; }
+        Item *next() { return nullptr; }
+        Item *prev() { return nullptr; }
+        Data data() const { return Data(); }
     private:
-        Data _data;
-        Item *_next;
-        Item *_prev;
         // internal data here
     };
 
@@ -37,7 +31,7 @@ public:
     ~List();
 
     // Retrieves the first item from the list
-    Item *first() const;
+    Item *first();
 
     // Inserts new list item into the beginning
     Item *insert(Data data);
@@ -54,8 +48,6 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
-    Item *head;
-    Item *tail;
     // private data should be here
 };
 
