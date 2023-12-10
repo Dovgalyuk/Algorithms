@@ -15,13 +15,8 @@ public:
         Item *prev() { return nullptr; }
         Data data() const { return Data(); }
          
-        void setNext(Item* next) { _next = next; }
-        void setPrev(Item* prev) { _prev = prev; }
-        void setData(Data data) { _data = data; }
     private:
-        Item* _next;
-        Item* _prev;
-        Data _data;
+       
     };
 
     // Creates new list
@@ -54,8 +49,7 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
-    Item* head;
-    Item* tail;
+   
 };
 
 #endif
