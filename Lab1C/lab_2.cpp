@@ -41,7 +41,7 @@ bool checkTags(const std::string& inputFile, const std::string& outputFile) {
                 }
             }
             else {
-                std::hash<string> hasher;
+                std::hash<std::string> hasher;
                 size_t tagInfo = hasher(tag.substr(1, tag.size() - 2));
                 stack_push(tagStack, tagInfo);
             }
