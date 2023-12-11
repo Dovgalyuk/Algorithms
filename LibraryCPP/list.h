@@ -28,10 +28,10 @@ ListItem *list_item_next(ListItem *item);
 ListItem *list_item_prev(ListItem *item);
 
 // Inserts new list item into the beginning
-ListItem *list_insert(List *list, Data data);
+ListItem *list_insert(List *list, std::string data);
 
 // Inserts new list item after the specified item
-ListItem *list_insert_after(List *list, ListItem *item, Data data);
+ListItem *list_insert_after(List *list, ListItem *item, std::string data);
 
 // Deletes the first list item.
 // Returns pointer to the item next to the deleted one.
