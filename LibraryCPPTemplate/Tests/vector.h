@@ -14,34 +14,34 @@ public:
         data = new Data[max_size];  
     }
 
-    Vector(const Vector& other)  
-        : data(new Data[other.max_size]), vector_size(other.vector_size), max_size(other.max_size)
+    Vector(const Vector& a)
+        : data(new Data[a.max_size]), vector_size(a.vector_size), max_size(a.max_size)
     {
-        for (size_t i = 0; i < vector_size; i++)  
+        for (size_t i = 0; i < vector_size; i++)
         {
-            data[i] = other.data[i];
+            data[i] = a.data[i];
         }
     }
 
-    Vector& operator=(const Vector& other)  
+    Vector& operator=(const Vector& a)
     {
-        if (this == &other) 
+        if (this == &a)
         {
             return *this;
         }
 
-        delete[] data;  
+        delete[] data;
 
-        vector_size = other.vector_size; 
-        max_size = other.max_size;  
-        data = new Data[max_size]; 
+        vector_size = a.vector_size;
+        max_size = a.max_size;
+        data = new Data[max_size];
 
-        for (size_t i = 0; i < vector_size; i++)  
+        for (size_t i = 0; i < vector_size; i++)
         {
-            data[i] = other.data[i];
+            data[i] = a.data[i];
         }
 
-        return *this;  
+        return *this;
     }
 
     ~Vector()  
