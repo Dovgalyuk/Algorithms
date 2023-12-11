@@ -11,6 +11,10 @@ private:
     long unsigned int numVertices;
 
 public:
+    ~Graph() {
+        delete vertices;
+        delete adjMatrix;
+    }
     Graph(int numVertices) : numVertices(numVertices) {
         vertices = new Vector<T>;
         adjMatrix = new Vector<int>;
