@@ -89,7 +89,5 @@ int main()
 
     task2(arr);
     array_delete(arr);
-
-    system("pause");
     return 0;
 }
