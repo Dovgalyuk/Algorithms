@@ -14,10 +14,8 @@ public:
         data = new Data[max_size];  
     }
 
-
     Vector(const Vector& a)
         : data(new Data[a.max_size]), vector_size(a.vector_size), max_size(a.max_size)
-
     {
         for (size_t i = 0; i < vector_size; i++)
         {
@@ -26,7 +24,6 @@ public:
     }
 
     Vector& operator=(const Vector& a)
-
     {
         if (this == &a)
         {
@@ -70,7 +67,8 @@ public:
 
     void erase(const Data& value)
     {
-        for (size_t i = 0; i < vector_size; ++i)
+        size_t i = 0;
+        while (i < vector_size)
         {
             if (data[i] == value)
             {
@@ -79,10 +77,12 @@ public:
                     data[j] = data[j + 1];
                 }
                 vector_size--;
-                return;
+            }
+            else
+            {
+                i++;
             }
         }
-        throw std::out_of_range("Value not found");
     }
     size_t size() const  
     {

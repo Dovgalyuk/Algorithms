@@ -46,7 +46,7 @@ int main()
     
    
    
-    graph.removeVertex(0);
+    graph.removeVertex(2);
     if (graph.getVertices()->size() != 4) {
         cout << "Vertex was not removed."; 
         return 0;

@@ -80,27 +80,33 @@ public:
     }
 
     void removeVertex(long unsigned int vertex) {
+
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
 
-        
+
         for (long unsigned int i = vertex; i < numVertices - 1; i++) {
             for (long unsigned int j = 0; j < numVertices; j++) {
                 adjMatrix->set(i * numVertices + j, adjMatrix->get((i + 1) * numVertices + j));
             }
         }
 
-        
-        for (long unsigned int i = 0; i < numVertices - 1; i++) {
+
+        for (long unsigned int i = 0; i < numVertices; i++) {
             for (long unsigned int j = vertex; j < numVertices - 1; j++) {
                 adjMatrix->set(i * numVertices + j, adjMatrix->get(i * numVertices + j + 1));
             }
         }
 
-        vertices->erase(vertex);
+
         numVertices--;
+
+
         adjMatrix->resize(numVertices * numVertices);
+
+
+        vertices->resize(numVertices);
     }
 
     const Vector<T>* getVertices() const {

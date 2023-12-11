@@ -67,7 +67,8 @@ public:
 
     void erase(const Data& value)
     {
-        for (size_t i = 0; i < vector_size; ++i)
+        size_t i = 0;
+        while (i < vector_size)
         {
             if (data[i] == value)
             {
@@ -76,10 +77,12 @@ public:
                     data[j] = data[j + 1];
                 }
                 vector_size--;
-                return;
+            }
+            else
+            {
+                i++;
             }
         }
-        throw std::out_of_range("Value not found");
     }
     size_t size() const  
     {
