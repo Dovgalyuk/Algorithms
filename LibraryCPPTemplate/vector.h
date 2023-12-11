@@ -13,16 +13,17 @@ public:
         max_size = 1;  
         data = new Data[max_size]; 
     }
-
-   Vector(const Vector &a)  
-        : data(new Data[other.max_size]), vector_size(other.vector_size), max_size(other.max_size)
+    // copy constructor
+   Vector(const Vector<T>& a)
     {
-        for (size_t i = 0; i < vector_size; i++)  
-        {
-            data[i] = other.data[i];
+        data = new Data[a.maxSize];
+        vectorSize = a.vectorSize;
+        maxSize = a.maxSize;
+        for (size_t i = 0; i < vectorSize; i++) {
+            data[i] = a.data[i];
         }
     }
-
+    // assignment operator
     Vector &operator=(const Vector &a)
     {
         if (this == &other) 
