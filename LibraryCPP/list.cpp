@@ -1,11 +1,10 @@
 #include <cstddef>
 #include "list.h"
 #include <new> 
-#include <string>
 
 struct ListItem
 {
-    std::string data;
+    Data data;
     ListItem* next;
     ListItem* prev;
 };
@@ -41,7 +40,7 @@ ListItem* list_first(List* list)
     return list->head;
 }
 
-std::string list_item_data(const ListItem* item)
+Data list_item_data(const ListItem* item)
 {
     return item->data;
 }
@@ -56,7 +55,7 @@ ListItem* list_item_prev(ListItem* item)
     return item->prev;
 }
 
-ListItem* list_insert(List* list, std::string data)
+ListItem* list_insert(List* list, Data data)
 {
     ListItem* item = new ListItem{ data, nullptr, nullptr };
     if (list->head == nullptr)
@@ -73,7 +72,7 @@ ListItem* list_insert(List* list, std::string data)
     return item;
 }
 
-ListItem* list_insert_after(List* list, ListItem* item, std::string data)
+ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
     if (item == nullptr)
         return nullptr;
