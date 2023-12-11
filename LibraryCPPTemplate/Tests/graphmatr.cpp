@@ -48,12 +48,12 @@ int main()
    
     graph.removeVertex(0);
     if (graph.getVertices()->size() != 4) {
-        cout << "Vertex was not removed." << endl; 
+        cout << "Vertex was not removed."; 
         return 0;
     }
 
    
-}
+
 
 
     return 0;
