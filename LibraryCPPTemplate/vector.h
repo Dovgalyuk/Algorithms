@@ -16,10 +16,10 @@ public:
     // copy constructor
     Vector(const Vector &a)
     {
-        data = new Data[a.max_Size];
-        vector_Size = a.vector_Size;
-        max_Size = a.max_Size;
-        for (size_t i = 0; i < vectorSize; i++) {
+        data = new Data[a.max_size];
+        vector_size = a.vector_size;
+        max_size = a.max_size;
+        for (size_t i = 0; i < vector_size; i++) {
             data[i] = a.data[i];
         }
     }
@@ -28,11 +28,11 @@ public:
     {
         if (this != &a) {
             delete[] data;
-            vector_Size = a.vector_Size;
-            max_Size = a.max_Size;
-            data = new Data[max_Size];
+            vector_size = a.vector_size;
+            max_size = a.max_size;
+            data = new Data[max_size];
 
-            for (size_t i = 0; i < vector_Size; i++) {
+            for (size_t i = 0; i < vector_size; i++) {
                 data[i] = a.data[i];
             }
         }
