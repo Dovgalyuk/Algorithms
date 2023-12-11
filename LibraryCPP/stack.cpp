@@ -28,13 +28,13 @@ void stack_push(Stack *stack, Data data){
     stack->last_item = list_insert(stack->list, data);
 }
 
-std::string stack_get(const Stack *stack){
+Data stack_get(const Stack *stack){
     ListItem* first_item = list_first(stack->list);
 
     if (first_item != nullptr)
         return list_item_data(first_item);
     else
-        return (std::string)0;
+        return (Data)0;
 }
 
 void stack_pop(Stack *stack){
