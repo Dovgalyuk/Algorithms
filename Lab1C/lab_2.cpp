@@ -17,7 +17,7 @@ bool checkTags(const std::string& inputFile, const std::string& outputFile) {
         if (tag.empty()) {
             continue;
         }
-        for (int i = 0; i < tag.size(); i++) {
+        for (size_t i = 0; i < tag.size(); i++) {
             tag[i] = tolower(tag[i]);
         }
 
@@ -40,7 +40,8 @@ bool checkTags(const std::string& inputFile, const std::string& outputFile) {
                 }
             }
             else {
-                stack_push(tagStack, (tag.substr(1, tag.size() - 2)));
+                std::string tagInfo = tag.substr(1, tag.size() - 2);
+                stack_push(tagStack, tagInfo);
             }
         }
     }
