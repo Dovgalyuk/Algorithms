@@ -45,17 +45,15 @@ int main()
     }
     
    
-   const Vector<int>* verticesBefore = graph.getVertices();
-  size_t sizeBefore = verticesBefore->size();
+   
     graph.removeVertex(0);
-  
-  const Vector<int>* verticesAfter = graph.getVertices();
-   size_t sizeAfter = verticesAfter->size();
-    if (sizeBefore == sizeAfter) {
-        cout << "Vertex was not removed.";
-       return 0;
-   }
-    
+    if (graph.getVertices()->size() != 4) {
+        cout << "Vertex was not removed." << endl; 
+        return 0;
+    }
+
+   
+}
 
 
     return 0;
