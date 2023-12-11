@@ -14,6 +14,7 @@ bool checkTags(const std::string& inputFile, const std::string& outputFile) {
     }
 
     std::string tag;
+    std::hash<std::string> hasher;
     while (std::getline(inFile, tag)) {
         if (tag.empty()) {
             continue;
@@ -33,7 +34,7 @@ bool checkTags(const std::string& inputFile, const std::string& outputFile) {
                 std::string openTag = std::to_string(stack_get(tagStack));
                 stack_pop(tagStack);
 
-                std::string closeTag = tag.substr(2, tag.size() - 3);
+                std::string closeTag = std::to_string(hasher(tag.substr(2, tag.size() - 3)));
                 if (openTag != closeTag) {
                     std::ofstream outFile(outputFile);
                     outFile << "NO";
@@ -41,7 +42,6 @@ bool checkTags(const std::string& inputFile, const std::string& outputFile) {
                 }
             }
             else {
-                std::hash<std::string> hasher;
                 size_t tagInfo = hasher(tag.substr(1, tag.size() - 2));
                 stack_push(tagStack, tagInfo);
             }
