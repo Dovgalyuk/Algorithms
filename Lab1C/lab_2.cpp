@@ -30,7 +30,7 @@ bool checkTags(const std::string& inputFile, const std::string& outputFile) {
                     return false;
                 }
 
-                std::string openTag = stack_get(tagStack);
+                std::string openTag = std::to_string(stack_get(tagStack));
                 stack_pop(tagStack);
 
                 std::string closeTag = tag.substr(2, tag.size() - 3);
@@ -41,7 +41,7 @@ bool checkTags(const std::string& inputFile, const std::string& outputFile) {
                 }
             }
             else {
-                hash<string> hasher;
+                std::hash<string> hasher;
                 size_t tagInfo = hasher(tag.substr(1, tag.size() - 2));
                 stack_push(tagStack, tagInfo);
             }
