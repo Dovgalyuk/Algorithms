@@ -17,8 +17,7 @@ bool isCorrect(std::string& s) {
     std::map<char, char> pairs = {
         {')', '('},
         {']', '['},
-        {'}', '{'},
-        {'"', '"'}
+        {'}', '{'}
     };
 
     for (char c : s) {
