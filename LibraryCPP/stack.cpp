@@ -1,5 +1,6 @@
 #include "stack.h"
 #include "list.h"
+#include <string>
 
 struct Stack{
     List* list = nullptr;
@@ -24,7 +25,7 @@ void stack_delete(Stack *stack){
     delete stack;
 }
 
-void stack_push(Stack *stack, Data data){
+void stack_push(Stack *stack, std::string data){
     stack->last_item = list_insert(stack->list, data);
 }
 
