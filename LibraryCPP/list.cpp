@@ -1,7 +1,6 @@
 #include <cstddef>
 #include "list.h"
 #include <new> 
-#include <string>
 
 struct ListItem
 {
@@ -56,7 +55,7 @@ ListItem* list_item_prev(ListItem* item)
     return item->prev;
 }
 
-ListItem* list_insert(List* list, std::string data)
+ListItem* list_insert(List* list, Data data)
 {
     ListItem* item = new ListItem{ data, nullptr, nullptr };
     if (list->head == nullptr)
