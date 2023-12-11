@@ -17,32 +17,26 @@ public:
     Vector(const Vector &a)
     {
         data = new Data[a.maxSize];
-        vectorSize = a.vectorSize;
-        maxSize = a.maxSize;
+        vector_Size = a.vectorSize;
+        max_Size = a.maxSize;
         for (size_t i = 0; i < vectorSize; i++) {
             data[i] = a.data[i];
         }
     }
     // assignment operator
-    Vector &operator=(const Vector &a)
+   Vector& operator=(const Vector &a)
     {
-        if (this == &other) 
-        {
-            return *this;
+        if (this != &a) {
+            delete[] data;
+            vector_Size = a.vectorSize;
+            max_Size = a.maxSize;
+            data = new Data[maxSize];
+
+            for (size_t i = 0; i < vector_Size; i++) {
+                data[i] = a.data[i];
+            }
         }
-
-        delete[] data;  
-
-        vector_size = other.vector_size;  
-        max_size = other.max_size;  
-        data = new Data[max_size];  
-
-        for (size_t i = 0; i < vector_size; i++)  
-        {
-            data[i] = other.data[i];
-        }
-
-        return *this;  
+        return *this;
     }
 
     ~Vector()  
