@@ -16,28 +16,29 @@ public:
     // copy constructor
     Vector(const Vector &a)
     {
-        data = new Data[a.maxSize];
-        vector_Size = a.vectorSize;
-        max_Size = a.maxSize;
+        data = new Data[a.max_Size];
+        vector_Size = a.vector_Size;
+        max_Size = a.max_Size;
         for (size_t i = 0; i < vectorSize; i++) {
             data[i] = a.data[i];
         }
     }
     // assignment operator
-   Vector& operator=(const Vector &a)
+    Vector &operator=(const Vector &a)
     {
         if (this != &a) {
             delete[] data;
-            vector_Size = a.vectorSize;
-            max_Size = a.maxSize;
-            data = new Data[maxSize];
+            vector_Size = a.vector_Size;
+            max_Size = a.max_Size;
+            data = new Data[max_Size];
 
             for (size_t i = 0; i < vector_Size; i++) {
                 data[i] = a.data[i];
             }
         }
         return *this;
-    }
+    } 
+    
 
     ~Vector()  
     {
