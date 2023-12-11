@@ -20,14 +20,12 @@ public:
     }
 
     // copy constructor
-    template <typename T>
-    List(const List<T> &a)
+    List(const List &a)
     {
     }
 
     // assignment operator
-    template <typename T>
-    List &operator=(const List<T> &a)
+    List &operator=(const List &a)
     {
         return *this;
     }
