@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <stack>
+#include "stack.h"
 #include <string>
 
 bool checkTags(const std::string& inputFile, const std::string& outputFile) {
