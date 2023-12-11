@@ -10,5 +10,8 @@ struct Stack;
 // Creates empty stack
 Stack *stack_create();
 Stack* stack_push(Stack* stack,Data data);
-void stack_getStack(Stack* stack);
+Data stack_getStack(Stack* stack);
+void stack_delete(Stack* stack); 
+bool stack_empty(Stack* stack);
+void stack_pop(Stack* stack);
 #endif
