@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <iterator>
 #include "stack.h"
 #include "list.h"
 
