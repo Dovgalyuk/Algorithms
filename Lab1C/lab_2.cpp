@@ -40,7 +40,7 @@ bool checkTags(const std::string& inputFile, const std::string& outputFile) {
                 }
             }
             else {
-                std::string tagInfo = tag.substr(1, tag.size() - 2);
+                std::string tagInfo = std::stoi(tag.substr(1, tag.size() - 2));
                 stack_push(tagStack, tagInfo);
             }
         }
