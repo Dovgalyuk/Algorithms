@@ -14,7 +14,7 @@ public:
         data = new Data[max_size]; 
     }
 
-    Vector(const Vector& other)  
+   Vector(const Vector &a)  
         : data(new Data[other.max_size]), vector_size(other.vector_size), max_size(other.max_size)
     {
         for (size_t i = 0; i < vector_size; i++)  
@@ -23,7 +23,7 @@ public:
         }
     }
 
-    Vector& operator=(const Vector& other)  
+    Vector &operator=(const Vector &a)
     {
         if (this == &other) 
         {
