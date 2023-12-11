@@ -1,8 +1,6 @@
 #include <cstddef>
 #include "list.h"
 
-typedef char Data;
-
 struct ListItem
 {
     Data data;
