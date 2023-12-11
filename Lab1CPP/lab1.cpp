@@ -8,8 +8,6 @@
 #include <ctime>
 #include <iostream>
 
-
-
 using namespace std;
 
 void task1(Array *arr)
@@ -26,12 +24,9 @@ void task1(Array *arr)
     for (size_t i = 0; i < arr_len; i++)
     {
         Data num = array_get(arr, i);
-        for (size_t div = 2; div < 10; div++) {
-            if (num % div == 0) {
-                cout << num << " % " << div << " = " << num % div << endl;
-                cnt_multiple++;
-                break;
-            }
+        if (num % 2 == 0 || num % 3 == 0 || num % 5 == 0 || num % 7 == 0) {
+            cout << num << " ";
+            cnt_multiple++;
         }
     }
     cout << "\nThe number of multiple numbers of the array is: " << cnt_multiple << endl;
@@ -67,9 +62,9 @@ void task2(Array *arr)
     }
 
     if (cnt_repeats_max == 0 && arr_len > 1) {
-        cout << "\nAll numbers of arrray is unique\n";
+        cout << "\n\nAll numbers of arrray is unique\n";
     } else {
-        cout << "\nNumber " << array_get(arr, id_max) << " occurs more often then the others\n";
+        cout << "\n\nNumber " << array_get(arr, id_max) << " occurs more often then the others\n";
     }
 }
 
@@ -86,7 +81,7 @@ int main()
     task1(arr);
     array_delete(arr);
 
-    cout << "-----------------------------------------------\nTask 2\n\nenter array size\n>>> ";
+    cout << "-----------------------------------------------------\nTask 2\n\nenter array size\n>>> ";
     /* Create another array here */
     size_arr = 0;
     cin >> size_arr;
