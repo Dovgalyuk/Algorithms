@@ -1,6 +1,6 @@
 #ifndef LIST_H
 #define LIST_H
-
+#include <string>
 // List
 // Stores integer values inside
 typedef int Data;
