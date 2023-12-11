@@ -18,7 +18,7 @@ void list_delete(List *list);
 ListItem *list_first(List *list);
 
 // Extracts data from the list item
-Data list_item_data(const ListItem *item);
+std::string list_item_data(const ListItem *item);
 
 // Returns list item following after the specified one
 ListItem *list_item_next(ListItem *item);
