@@ -41,7 +41,7 @@ ListItem* list_first(List* list)
     return list->head;
 }
 
-Data list_item_data(const ListItem* item)
+std::string list_item_data(const ListItem* item)
 {
     return item->data;
 }
