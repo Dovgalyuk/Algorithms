@@ -2,7 +2,6 @@
 #include <sstream>
 #include <vector>
 #include "stack.h"
-
 #include "list.h"
 
 using namespace std;
@@ -12,7 +11,7 @@ bool evaluateExpression(const vector<string>& expression) {
 
     for (const string& token : expression) {
         if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[1]))) {
-            stack_push(stack, stod(token)); 
+            stack_push(stack, stod(token));
         }
         else if (token == "+" || token == "-" || token == "*" || token == "/") {
             if (stack_empty(stack)) {
@@ -65,16 +64,19 @@ bool evaluateExpression(const vector<string>& expression) {
 }
 
 int main() {
-    vector<string> expression1 = { "1", "2", "+", "3" };
-    vector<string> expression2 = { "10", "9", "-", "+" };
+    setlocale(LC_ALL, "rus");
+    cout << "Введите символы через пробел: ";
+    string input1;
+    getline(cin, input1);
+    istringstream iss1(input1);
+    vector<string> expression1(istream_iterator<string>{iss1}, istream_iterator<string>{});
+
+    
 
     if (evaluateExpression(expression1)) {
         cout << "OK" << endl;
     }
 
-    if (evaluateExpression(expression2)) {
-        cout << "OK" << endl;
-    }
 
     return 0;
 }
