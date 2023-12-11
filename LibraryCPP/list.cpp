@@ -3,23 +3,27 @@
 
 struct ListItem
 {
-    int data;
+    Data* data;
     ListItem* next;
 };
 
 struct List
 {
     ListItem* last = NULL;
-    ListItem* first = NULL:
+    ListItem* first = NULL;
 };
 
+list* listCreate() {
+    List* list = new List;
+    list->last = NULL;
+    trturn list;
+}
 void insertMake(List* list, Data data)
 {
     ListItem* l = new listItem;
     l->data = data;
-    if (list->first == NULL) {
+    if (list->last == NULL) {
         list->last = l;
-        list->first = l;
     }
     else {
         list->last->next = l;
@@ -29,15 +33,12 @@ void insertMake(List* list, Data data)
 
 void list_delete(List *list)
 {
-    while (list->last != nullptr) {
-        list->first = nullptr;
-        list->first->next = list->first;
-    }
+    delete list;
 }
 
-ListItem *list_first(List *list)
+ListItem *list_last(List *list)
 {
-    return list->first;
+    return list->last;
 }
 
 Data list_item_data(const ListItem *item)
@@ -65,9 +66,15 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     return NULL;
 }
 
-ListItem *list_erase_first(List *list)
+ListItem *list_erase_last(List *list)
 {
-    return NULL;
+    while(list->first->next != list->last) {
+        list->first == list->first->next;
+    }
+    ListItem* item == nullptr;
+    item = list->last;
+    list->last == list->first;
+    return item;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)

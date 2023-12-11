@@ -9,13 +9,14 @@ struct List;
 struct ListItem;
 
 // Creates new list
-void insertMake();
+void insertMake(List* list, Data data);
 
+List* listCreate();
 // Destroys the list and frees the memory
 void list_delete(List *list);
 
 // Retrieves the first item from the list
-ListItem *list_first(List *list);
+ListItem *list_last(List *list);
 
 // Extracts data from the list item
 Data list_item_data(const ListItem *item);
@@ -35,7 +36,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data);
 
 // Deletes the first list item.
 // Returns pointer to the item next to the deleted one.
-ListItem *list_erase_first(List *list);
+ListItem *list_erase_last(List *list);
 
 // Deletes the list item following the specified one.
 // Returns pointer to the item next to the deleted one.
