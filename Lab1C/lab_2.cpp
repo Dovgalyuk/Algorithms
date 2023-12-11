@@ -2,6 +2,7 @@
 #include <fstream>
 #include "stack.h"
 #include <string>
+#include <unordered_map>
 
 bool checkTags(const std::string& inputFile, const std::string& outputFile) {
     Stack* tagStack = stack_create();
@@ -40,7 +41,8 @@ bool checkTags(const std::string& inputFile, const std::string& outputFile) {
                 }
             }
             else {
-                std::string tagInfo = tag.substr(1, tag.size() - 2);
+                hash<string> hasher;
+                size_t tagInfo = hasher(tag.substr(1, tag.size() - 2));
                 stack_push(tagStack, tagInfo);
             }
         }
