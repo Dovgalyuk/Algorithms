@@ -1,7 +1,6 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <iterator>
 #include "stack.h"
 #include "list.h"
 
@@ -9,10 +8,11 @@ using namespace std;
 
 bool evaluateExpression(const vector<string>& expression) {
     Stack* stack = stack_create();
-
+    int k = 0;
     for (const string& token : expression) {
         if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[1]))) {
             stack_push(stack, stod(token));
+            k++;
         }
         else if (token == "+" || token == "-" || token == "*" || token == "/") {
             if (stack_empty(stack)) {
@@ -51,10 +51,11 @@ bool evaluateExpression(const vector<string>& expression) {
             else if (token == "/") {
                 stack_push(stack, operand1 / operand2);
             }
+            k--;
         }
     }
 
-    if (!stack_empty(stack)) {
+    if (!stack_empty(stack) && k>1){
         cout << "OVERFLOW" << endl;
         stack_delete(stack);
         return false;
@@ -70,11 +71,7 @@ int main() {
     string input1;
     getline(cin, input1);
     istringstream iss1(input1);
-    vector<string> expression1;
-
-    while (iss1 >> input1) {
-        expression1.push_back(input1);
-    }
+    vector<string> expression1(istream_iterator<string>{iss1}, istream_iterator<string>{});
 
     
 
