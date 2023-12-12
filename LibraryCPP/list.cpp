@@ -18,7 +18,7 @@ list* listCreate() {
     list->last = NULL;
     trturn list;
 }
-void insertMake(List* list, Data data)
+List* insertMake(List* list, Data data)
 {
     ListItem* l = new listItem;
     l->data = data;
@@ -29,6 +29,7 @@ void insertMake(List* list, Data data)
         list->last->next = l;
         list->last = l;
     }
+    return list;
 }
 
 void list_delete(List *list)
@@ -64,6 +65,9 @@ ListItem *list_insert(List *list, Data data)
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
     return NULL;
+}
+ListItem* list_first(List* list) {
+    return list->first;
 }
 
 ListItem *list_erase_last(List *list)

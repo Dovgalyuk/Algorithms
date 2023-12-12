@@ -1,5 +1,5 @@
 #include "stack.h"
-#include "list.cpp"
+#include "list.h"
 
 struct Stack
 {
@@ -13,8 +13,8 @@ Stack *stack_create()
     return stack;
 }
 
-Stack* stack_push(Stack* stack,Data data) {
-    insertMake(stack->stack, data);
+void stack_push(Stack* stack,Data data) {
+    insertMake(stack->list, data);
 }
 Data stack_getStack(Stack* stack) {
     ListItem* last = list_last(stack->list);
@@ -30,8 +30,12 @@ void stack_pop(Stack* stack)
     list_erase_last(stack->list);
 }
 void stack_delete(Stack* stack) {
-    list_delete(stack);
+    list_delete(stack->list);
 }
 bool stack_empty(Stack* stack) {
-    return list_first(stack->list) == nullptr;
+    if (list_first(stack->list) == nullptr) {
+        return true;
+    }else {
+        return false;
+    }
 }

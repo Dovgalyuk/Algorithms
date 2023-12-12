@@ -9,8 +9,8 @@ struct List;
 struct ListItem;
 
 // Creates new list
-void insertMake(List* list, Data data);
-
+List* insertMake(List* list, Data data);
+ListItem* list_first(List* list);
 List* listCreate();
 // Destroys the list and frees the memory
 void list_delete(List *list);
