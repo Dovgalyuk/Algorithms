@@ -1,4 +1,7 @@
+#ifdef _MSVC_LANG
 #pragma warning(disable : 4100)
+#endif
+
 #include <cstddef>
 #include "list.h"
 

@@ -1,0 +1,8 @@
+{
+  "cmake.configureOnOpen": true,
+  "cmake.generator": "MinGW Makefiles",
+  "cmake.configureSettings": {
+    "CMAKE_CXX_COMPILER": "g++.exe",
+    "CMAKE_C_COMPILER": "gcc.exe"
+}
+}
