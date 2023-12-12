@@ -26,7 +26,7 @@ bool checkBracketsAndQuotes(Stack* bracketsAndQuotes, const string& input) {
             }
         }
         else if (c == '\"' || c == '\'') {
-            if ((stack_empty(bracketsAndQuotes)) || ((stack_get(bracketsAndQuotes) != c) && (stack_empty(bracketsAndQuotes) == false))) {
+            if ((stack_empty(bracketsAndQuotes)) || (stack_get(bracketsAndQuotes) != c)) {
                 stack_push(bracketsAndQuotes, c);
             }
             else if (stack_get(bracketsAndQuotes) == c) {
