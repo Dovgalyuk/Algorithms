@@ -27,8 +27,8 @@ Data vector_get(const Vector *vector, size_t index)
 
 void vector_set(Vector *vector, size_t index, Data value)
 {
-    if (vector == NULL)
-        return;
+    if (vector->size == index)
+        vector_resize(vector, (index + 1) );
 
     if (index < vector_size(vector)) {
         vector->data[index] = value;
