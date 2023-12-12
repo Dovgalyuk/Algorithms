@@ -30,7 +30,7 @@ using namespace std;
 
 	 std::cout << "stack:" <<endl;
 	 while (!stack_empty(stack)) {
-		 std::cout << stack_getStack(stack) << endl;
+		 std::cout << stack_get(stack) << endl;
 		 stack_pop(stack);
 	 }
 
