@@ -1,3 +1,4 @@
+#pragma warning(disable : 4100)
 #include "stack.h"
 
 Stack::Stack()

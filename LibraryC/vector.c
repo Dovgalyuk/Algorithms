@@ -3,6 +3,7 @@
 
 typedef struct Vector
 {
+    Data *ptr; // It is needed for correct build project
 } Vector;
 
 Vector *vector_create(FFree f)

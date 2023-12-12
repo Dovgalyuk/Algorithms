@@ -1,3 +1,4 @@
+#pragma warning(disable : 4100)
 #include "vector.h"
 
 Vector::Vector()

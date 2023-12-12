@@ -3,10 +3,12 @@
 
 typedef struct ListItem
 {
+    Data *ptr; // It is needed for correct build project
 } ListItem;
 
 typedef struct List
 {
+    Data *ptr; // It is needed for correct build project
 } List;
 
 List *list_create(FFree f)

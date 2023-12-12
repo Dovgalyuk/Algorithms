@@ -3,6 +3,7 @@
 
 typedef struct Stack
 {
+    Data *ptr; // It is needed for correct build project
 } Stack;
 
 Stack *stack_create(FFree f)

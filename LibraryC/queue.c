@@ -3,6 +3,7 @@
 
 typedef struct Queue
 {
+    Data *ptr; // It is needed for correct build project
 } Queue;
 
 Queue *queue_create(FFree f)

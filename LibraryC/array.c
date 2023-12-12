@@ -3,6 +3,7 @@
 
 typedef struct Array
 {
+    Data *ptr; // It is needed for correct build project
 } Array;
 
 // create array

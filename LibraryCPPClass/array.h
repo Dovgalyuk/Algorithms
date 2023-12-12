@@ -15,7 +15,7 @@ public:
     Array(const Array &a);
 
     // assignment operator
-    Array &operator=(const Array &a);
+    Array &operator=(const Array a);
 
     // delete array, free memory
     ~Array();
@@ -31,6 +31,8 @@ public:
 
 private:
     // private data should be here
+    size_t m_size;
+    Data *m_array;
 };
 
 #endif
