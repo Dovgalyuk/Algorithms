@@ -71,7 +71,11 @@ int main() {
     string input1;
     getline(cin, input1);
     istringstream iss1(input1);
-    vector<string> expression1(istream_iterator<string>{iss1}, istream_iterator<string>{});
+    vector<string> expression1;
+
+    while (iss1 >> input1) {
+        expression1.push_back(input1);
+    }
 
     
 
