@@ -89,26 +89,32 @@ public:
         return vector_size;
     }
 
-    void resize(size_t size) 
+    void resize(size_t size)
     {
-        if (size <= max_size)  
+        if (size <= max_size)
         {
-            vector_size = size;  
+            vector_size = size;
             return;
         }
 
-        size_t _max_size = size * 2;  
-        Data* new_data = new Data[_max_size]; 
+        size_t _max_size = size * 2;
+        Data* new_data = new Data[_max_size];
 
-        for (size_t i = 0; i < vector_size; i++) 
+        for (size_t i = 0; i < vector_size; i++)
         {
             new_data[i] = data[i];
         }
 
-        delete[] data; 
-        data = new_data;  
-        max_size = _max_size;  
-        vector_size = size;  
+       
+        for (size_t i = vector_size; i < _max_size; ++i)
+        {
+            new_data[i] = Data();
+        }
+
+        delete[] data;
+        data = new_data;
+        max_size = _max_size;
+        vector_size = size;
     }
 
 private:
