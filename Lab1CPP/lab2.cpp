@@ -8,7 +8,6 @@
 */
 #include "stack.h"
 
-#include <ctime>
 #include <iostream>
 #include <string>
 
@@ -20,25 +19,20 @@ int main() {
 
     for (size_t i = 0; i < str.length(); i++)
     {
-        if (str[i] == '\"' || str[i] == '\'' || str[i] == '(' || str[i] == ')') {
-            char ch = str[i];
-            if (str[i] == ')') {
-                ch = '(';
-            }
-            if (stack_get(stack) == ch) {
+        char ch = str[i];
+        if (ch == '\"' || ch == '\'' || ch == '(' || ch == ')') 
+        {
+            if ( (stack_get(stack) == ch && ch != '(' && ch != ')') 
+              || (stack_get(stack) == '(' && ch == ')') ) 
+            {
                 stack_pop(stack);
-            }
-            else {
+            } else {
                 stack_push(stack, ch);
             }
         }
     }
-    if (stack_empty(stack)) {
-        std::cout << "YES";
-    } else {
-        std::cout << "NO";
-    }
-
+    std::cout << (stack_empty(stack)? "YES" : "NO");
+    
     stack_delete(stack);
 
     return 0;
