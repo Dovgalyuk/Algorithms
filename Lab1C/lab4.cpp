@@ -25,20 +25,20 @@ void union1(int i, int j)
 
 void KruskalMST(Graph<int>cost)
 {
-    int mincost = 0; 
+    int mincost = 0;
 
- 
+
     for (int i = 0; i < V; i++)
         parent[i] = i;
 
-   
+
     int edge_count = 0, a, b;
     while (edge_count < V - 1) {
         int min = INT_MAX;
         a = -1, b = -1;
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < V; j++) {
-                if (find(i) != find(j) && cost.getEdgeWeight(i,j) < min && cost.getEdgeWeight(i, j) > 0) {
+                if (find(i) != find(j) && cost.getEdgeWeight(i, j) < min && cost.getEdgeWeight(i, j) > 0) {
                     min = cost.getEdgeWeight(i, j);
                     a = i;
                     b = j;
@@ -55,6 +55,17 @@ void KruskalMST(Graph<int>cost)
 
 int main() {
     Graph<int> graph(5);
+    int a=0, b=0, c=0;
+    while (a != -1)
+    {
+        cin >> a;
+        if (a == -1)
+            break;
+        cin >> b;
+        cin >> c;
+        graph.addEdge(a, b, c);
+    }
+
     graph.addEdge(0, 1, 10);
     graph.addEdge(0, 2, 20);
     graph.addEdge(1, 2, 30);
@@ -63,8 +74,7 @@ int main() {
     graph.addEdge(2, 4, 60);
     graph.addEdge(3, 4, 70);
 
-    
-    KruskalMST(graph);
+
+   // KruskalMST(graph);
     return 0;
 };
-
