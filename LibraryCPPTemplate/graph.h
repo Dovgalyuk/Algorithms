@@ -1,6 +1,8 @@
 #ifndef GRAPH_TEMPLATE_H
 #define GRAPH_TEMPLATE_H
 
+template <typename Data>
+
 #include <iostream>
 #include <list>
 #include <vector>
