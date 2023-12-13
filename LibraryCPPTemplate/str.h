@@ -71,21 +71,22 @@ public:
 
     void resize(size_t newSize) 
     {
-        newSize++;
-        if (capacity < newSize) 
+        char* newString = new char[newSize + 1];
+        size_t newLength = (length < newSize) ? length : newSize;
+
+        for (size_t i = 0; i < newLength; i++)
         {
-            expand(newSize);
-            char* newString = new char[capacity];
-            for (size_t i = 0; i < capacity; i++) 
-            {
-                newString[i] = string[i];
-            }
-            delete[] string;
-            string = newString;
+            newString[i] = string[i];
         }
-        length = newSize - 1;
-        string[length] = '\0';
+
+        newString[newSize] = '\0';
+
+        delete[] string;
+        string = newString;
+        length = newSize;
+        capacity = newSize + 1;
     }
+
 
     int findString(String const& str, size_t pos = 0) 
     {
@@ -149,14 +150,6 @@ public:
     }
 
 private:
-
-    void expand(size_t newSize)
-    {
-        while (capacity < newSize)
-        {
-            capacity *= multiplyCapacity;
-        }
-    }
 
     char* copyChars(const char* chars, size_t len) 
     {
