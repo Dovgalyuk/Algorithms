@@ -8,7 +8,7 @@ public:
     explicit Array(size_t size) : m_size(size), m_data(new Data[size]) {}
 
     // copy constructor
-    Array(const Array<Data> &a)
+    Array(const Array &a)
     {
         m_size = a.m_size;
         m_data = new Data[m_size];
@@ -19,7 +19,7 @@ public:
     }
 
     // assignment operator
-    Array &operator=(const Array<Data> &a)
+    Array &operator=(const Array &a)
     {
         if (this != &a)
         {
