@@ -23,7 +23,7 @@ int main() {
     std::cout << "Testing addEdge with multiple edges..." << std::endl;
     for (size_t i = 0; i < 5; i++)
     {
-        graph.addEdge(i, (i + 1) % graph.vertexCount(), 10 * i);
+        graph.addEdge(i, (i + 1) % graph.vertexCount());
         if (!graph.hasEdge(i, (i + 1) % graph.vertexCount()))
         {
             std::cout << "Add edge test failed for edge " << i << " to " << (i + 1) % graph.vertexCount() << std::endl;
