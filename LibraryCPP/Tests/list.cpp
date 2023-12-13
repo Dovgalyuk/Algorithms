@@ -21,7 +21,8 @@ int main()
         return 1;
     }
 
-    list_insert_after(list, list_first(list), 4);
+    // list_insert_after(list, list_first(list), 4);
+    list_insert_after(list_first(list), 4);
 
     if (list_item_data(list_item_next(list_first(list))) != 4)
     {

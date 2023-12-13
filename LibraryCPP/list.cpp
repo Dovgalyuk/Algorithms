@@ -11,7 +11,6 @@ struct ListItem
 struct List
 {
     ListItem *head = nullptr;
-    ListItem *tail = nullptr;
 };
 
 List *list_create()
@@ -55,11 +54,7 @@ ListItem *list_insert(List *list, Data data)
     newListItem->next = list->head;
     newListItem->prev = nullptr;
 
-    if (!list->head)
-    {
-        list->tail = newListItem;
-    }
-    else
+    if (list->head)
     {
         list->head->prev = newListItem;
     }
@@ -68,7 +63,7 @@ ListItem *list_insert(List *list, Data data)
     return newListItem;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
+ListItem *list_insert_after(ListItem *item, Data data)
 {
     if (!item)
     {
@@ -82,11 +77,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
     item->next = newListItem;
 
-    if (!newListItem->next)
-    {
-        list->tail = newListItem;
-    }
-    else
+    if (newListItem->next)
     {
         newListItem->next->prev = newListItem;
     }
@@ -105,10 +96,6 @@ ListItem *list_erase_first(List *list)
         {
             list->head->prev = nullptr;
         }
-        else
-        {
-            list->tail = nullptr;
-        }
 
         delete temp;
         return list->head;
@@ -116,7 +103,7 @@ ListItem *list_erase_first(List *list)
     return nullptr;
 }
 
-ListItem *list_erase_next(List *list, ListItem *item)
+ListItem *list_erase_next(ListItem *item)
 {
     if (!item || !item->next)
     {
@@ -129,10 +116,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
     if (item->next)
     {
         item->next->prev = item;
-    }
-    else
-    {
-        list->tail = item;
     }
 
     delete deletedItem;
