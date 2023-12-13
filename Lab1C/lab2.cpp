@@ -123,12 +123,18 @@ bool isCorrect(std::string& s) {
             }
         }
     }
-    
-    for (int num=0; num < vect.size();num++) {
-        if (!vect.at(num).first.empty()) {
-            return false;
+    try {
+        for (auto num = 0; num < vect.size(); num++) {
+            if (!vect.at(num).first.empty()) {
+                return false;
+            }
         }
     }
+    catch (std::out_of_range& e) {
+        std::cout << "Out of range exception" << std::endl;
+        return false;
+    }
+
     return true;
 }
 
