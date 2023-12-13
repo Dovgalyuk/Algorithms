@@ -65,24 +65,17 @@ public:
             throw std::out_of_range("Index out of range");
     }
 
-    void erase(const Data& value)
+    void erase(size_t index)
     {
-        size_t i = 0;
-        while (i < vector_size)
+        if (index >= vector_size)
+            throw std::out_of_range("Index out of range");
+
+        for (size_t i = index; i < vector_size - 1; ++i)
         {
-            if (data[i] == value)
-            {
-                for (size_t j = i; j < vector_size - 1; ++j)
-                {
-                    data[j] = data[j + 1];
-                }
-                vector_size--;
-            }
-            else
-            {
-                i++;
-            }
+            data[i] = data[i + 1];
         }
+
+        vector_size--;
     }
     size_t size() const
     {
