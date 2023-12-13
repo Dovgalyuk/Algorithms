@@ -20,7 +20,7 @@ int findShortestPath(const vector<unordered_map<int, Edge>>& graph, int start, i
 
     while (!queue_empty(q)) {
         int current = queue_get(q);
-        q.pop();
+        queue_remove(q);
 
         for (const auto& neighbor : graph[current]) {
             int newDistance = distance[current] + 1;
