@@ -1,4 +1,4 @@
-﻿﻿#include "queue.h"
+﻿#include "queue.h"
 #include "vector.h"
 
 struct Queue
@@ -66,7 +66,6 @@ void queue_insert(Queue* queue, Data data)
 
         size = vector_size(queue->vector);
     }
-
     auto rear = queue->rear % size;
     vector_set(queue->vector, rear, data);
     queue->rear = rear + 1;
