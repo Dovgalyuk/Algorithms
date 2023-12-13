@@ -124,7 +124,7 @@ bool isCorrect(std::string& s) {
         }
     }
     try {
-        for (auto num = 0; num < vect.size(); num++) {
+        for (std::deque<std::pair<Stack, int> >::size_type num = 0; num < vect.size(); num++) {
             if (!vect.at(num).first.empty()) {
                 return false;
             }
