@@ -7,11 +7,11 @@ template <typename Data>
 class Vector
 {
 public:
-    Vector()  
+    Vector()
     {
-        vector_size = 0;  
-        max_size = 1;  
-        data = new Data[max_size];  
+        vector_size = 0;
+        max_size = 1;
+        data = new Data[max_size];
     }
 
     Vector(const Vector& a)
@@ -44,25 +44,25 @@ public:
         return *this;
     }
 
-    ~Vector()  
+    ~Vector()
     {
-        delete[] data;  
+        delete[] data;
     }
 
-    Data get(size_t index) const  
+    Data get(size_t index) const
     {
-        if (index < vector_size)  
-            return data[index];  
+        if (index < vector_size)
+            return data[index];
         else
-            throw std::out_of_range("Index out of range");  
+            throw std::out_of_range("Index out of range");
     }
 
-    void set(size_t index, Data value) 
+    void set(size_t index, Data value)
     {
-        if (index < vector_size)  
-            data[index] = value;  
+        if (index < vector_size)
+            data[index] = value;
         else
-            throw std::out_of_range("Index out of range");  
+            throw std::out_of_range("Index out of range");
     }
 
     void erase(const Data& value)
@@ -84,7 +84,7 @@ public:
             }
         }
     }
-    size_t size() const  
+    size_t size() const
     {
         return vector_size;
     }
@@ -105,7 +105,7 @@ public:
             new_data[i] = data[i];
         }
 
-       
+
         for (size_t i = vector_size; i < _max_size; ++i)
         {
             new_data[i] = Data();
@@ -118,9 +118,9 @@ public:
     }
 
 private:
-    Data* data;  
-    size_t vector_size;  
-    size_t max_size;  
+    Data* data;
+    size_t vector_size;
+    size_t max_size;
 };
 
 
