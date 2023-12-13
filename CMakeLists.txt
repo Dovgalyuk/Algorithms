@@ -11,4 +11,5 @@ else()
 endif()
 
 add_subdirectory(LibraryCPP)
+add_subdirectory(LibraryCPPTemplate)
 add_subdirectory(Labs)
