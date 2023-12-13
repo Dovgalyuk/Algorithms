@@ -58,7 +58,7 @@ void testMapInsertion(vector<string> keys)
 
 int main() 
 {
-    int testSizes[] = { 100, 500, 1000, 10000, 100000, 500000 };
+    int testSizes[] = { 100, 500, 1000, 10000, 100000, 200000, 300000,400000, 500000, 600000,700000,800000,900000,1000000 };
     for (int size : testSizes) 
     {
         // Генерация случайных строк заранее
