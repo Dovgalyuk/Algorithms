@@ -12,6 +12,7 @@ public:
     void addEdge(size_t from, size_t to);
     void removeVertex(size_t vertex);
     void removeEdge(size_t from, size_t to);
+    size_t vertexCount();
     bool hasEdge(size_t from, size_t to);
     void setEdgeLabel(size_t from, size_t to, const std::string& label);
     std::string getEdgeLabel(size_t from, size_t to);
@@ -81,6 +82,9 @@ bool Graph::hasEdge(size_t from, size_t to) {
 
 void Graph::setEdgeLabel(size_t from, size_t to, const std::string& label) {
     m_edgeLabels[from][to] = label;
+}
+size_t Graph::vertexCount() {
+    return numVertices;
 }
 
 std::string Graph::getEdgeLabel(size_t from, size_t to) {
