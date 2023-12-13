@@ -5,7 +5,7 @@
 #include <list>
 #include <vector>
 
-class Graph {
+template <typename Data> class Graph {
 public:
     explicit Graph(size_t numVertices);
     void addVertex();
