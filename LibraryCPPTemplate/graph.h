@@ -40,6 +40,9 @@ private:
     std::vector<std::vector<std::string>> m_edgeLabels;
     std::vector<std::string> m_vertexLabels;
 };
+size_t Graph::vertexCount() {
+    return m_numVertices;
+}
 
 Graph::Graph(size_t numVertices)
     : m_numVertices(numVertices), m_adjList(numVertices),
@@ -83,9 +86,7 @@ bool Graph::hasEdge(size_t from, size_t to) {
 void Graph::setEdgeLabel(size_t from, size_t to, const std::string& label) {
     m_edgeLabels[from][to] = label;
 }
-size_t Graph::vertexCount() {
-    return numVertices;
-}
+
 
 std::string Graph::getEdgeLabel(size_t from, size_t to) {
     return m_edgeLabels[from][to];
