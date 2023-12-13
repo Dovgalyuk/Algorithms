@@ -6,15 +6,13 @@
 
 using namespace std;
  int main() {
-	 Stack* stack = stack_create();
-	 int local_var[4] = { 0, 0, 0, 0 };
-
 	 ifstream file("input.txt"); //C:\Users\user\Documents\Unreal Projects\GitSnake\Algorithms\out\build\x64-Debug\Labs - расположение файла
 	 if (!file.is_open()) {
 		 std::cout<<"Failed open!"<<endl;
 		 return 0;
 	 }
-
+     Stack* stack = stack_create();
+     int local_var[4] = { 0, 0, 0, 0 };
 	 string line;
 	 while (getline(file, line)) {
 		 istringstream iss(line);
