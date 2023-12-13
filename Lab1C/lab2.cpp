@@ -64,7 +64,6 @@ bool isCorrect(std::string& s) {
                     vect.at(level).first.push(c);
                 }
                 else {
-                    char c1 = vect.at(level).first.get();
                     if (vect.at(level).first.empty() || vect.at(level).first.get() != pairs[c]) {
                         return false;
                     }
@@ -75,7 +74,6 @@ bool isCorrect(std::string& s) {
         else if(inSQ == true) {
             if (!vect.at(level).first.empty()) {
                 if (c == '\'') {
-                    char c2 = stack.get();
                     vect.at(level).first.pop();
                     level--;
                     inSQ = false;
@@ -146,4 +144,3 @@ int main() {
 
     return 0;
 }
-
