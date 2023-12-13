@@ -6,7 +6,7 @@ using namespace std;
 template <typename T>
 class Graph {
 private:
-    Vector<T> vertices;
+    Vector<T>* vertices;
     Vector<int>* adjMatrix;
     long unsigned int numVertices;
 
