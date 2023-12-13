@@ -7,7 +7,7 @@ template <typename T>
 class Graph {
 private:
     Vector<T> vertices;
-    Vector<int> adjMatrix;
+    Vector<int>* adjMatrix;
     long unsigned int numVertices;
 
 public:
