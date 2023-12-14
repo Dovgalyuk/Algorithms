@@ -58,7 +58,7 @@ public:
         return adjMatrix->get(src * numVertices + dest) != 0;
     }
 
-    int getEdgeWeight(long unsigned int src, long unsigned int dest) {
+    int getEdgeWeight(long unsigned int src, long unsigned int dest)const {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
