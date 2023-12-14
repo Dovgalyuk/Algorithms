@@ -1,4 +1,4 @@
-#include "C:Users/kirill/Algorithms/LibraryCPPTemplate/vector.h"
+#include "vector.h"
 #include <iostream>
 #include "graphmatr.h"
 using namespace std;
