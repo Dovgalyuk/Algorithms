@@ -1,7 +1,7 @@
 #include <iostream>
 #include "graph.h"
 
-typedef Graph<size_t> MyGraph;
+typedef Graph<int> MyGraph;
 
 int main() {
     MyGraph graph(5);
