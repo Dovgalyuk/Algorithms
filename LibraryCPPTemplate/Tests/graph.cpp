@@ -7,7 +7,7 @@ int main() {
     size_t vertex_count = 6;
     MyGraph* graph = new MyGraph(vertex_count, 1);
 
-    if (graph->getVertexAmount() != 5) {
+    if (graph->getVertexAmount() != 6) {
         std::cout << "Invalid vertex amount\n";
         return 1;
     }
