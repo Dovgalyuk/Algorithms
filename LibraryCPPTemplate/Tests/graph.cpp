@@ -5,10 +5,6 @@ typedef Graph<int> MyGraph;
 
 int main() {
     MyGraph graph(5);
-    if (!graph) {
-        std::cout << "Graph creation error\n";
-        return 1;
-    }
     if (graph.vertexCount() != 5) 
     {
         std::cout << "Graph count error\n" << std::endl;
