@@ -28,7 +28,7 @@ int main() {
     graph->addEdge(3, 4, 5);
 
 
-    if (!graph->isEdgeExist(2, 1)) {
+    if (!graph->isEdgeExist(0, 1)) {
         std::cout << "Invalid edge creation\n";
         return 1;
     }
