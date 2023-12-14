@@ -8,13 +8,13 @@ template <typename Data> class Graph
 public:
     struct Edge
     {
-        size_t to;
+        int to;
         Data weight;
         Edge() : to(-1), weight(Data()) {}
-        Edge(size_t to, Data weight) : to(to), weight(weight) {}
+        Edge(int to, Data weight) : to(to), weight(weight) {}
     };
 
-    Graph(size_t vertexCount) : vertexCount_(vertexCount)
+    Graph(int vertexCount) : vertexCount_(vertexCount)
     {
         adjacencyList_ = new List<Edge>[vertexCount_];
         vertexData_ = new Data[vertexCount_];
@@ -23,7 +23,7 @@ public:
     Graph(Graph& other) : vertexCount_(other.vertexCount_)
     {
         adjacencyList_ = new List<Edge>[vertexCount_];
-        for (size_t i = 0; i < vertexCount_; i++)
+        for (int i = 0; i < vertexCount_; i++)
             adjacencyList_[i] = other.adjacencyList_[i];
     }
 
@@ -34,7 +34,7 @@ public:
             delete[] adjacencyList_;
             vertexCount_ = other.vertexCount_;
             adjacencyList_ = new List<Edge>[vertexCount_];
-            for (size_t i = 0; i < vertexCount_; i++)
+            for (int i = 0; i < vertexCount_; i++)
             {
                 adjacencyList_[i] = other.adjacencyList_[i];
             }
@@ -48,32 +48,32 @@ public:
         delete[] vertexData_;
     }
 
-    List<Edge>& adjacencyList(size_t vertex) { return adjacencyList_[vertex]; }
+    List<Edge>& adjacencyList(int vertex) { return adjacencyList_[vertex]; }
 
     void addVertex()
     {
         List<Edge>* newAdjacencyList = new List<Edge>[vertexCount_ + 1];
-        for (size_t i = 0; i < vertexCount_; i++)
+        for (int i = 0; i < vertexCount_; i++)
             newAdjacencyList[i] = adjacencyList_[i];
         delete[] adjacencyList_;
         adjacencyList_ = newAdjacencyList;
         vertexCount_++;
     }
 
-    void addEdge(size_t from, size_t to, Data weight)
+    void addEdge(int from, int to, Data weight)
     {
         if (from >= 0 && from < vertexCount_ && to >= 0 && to < vertexCount_)
             adjacencyList_[from].insert(Edge(to, weight));
     }
 
-    void removeVertex(size_t vertex)
+    void removeVertex(int vertex)
     {
         if (vertex < 0 || vertex >= vertexCount_)
             return;
 
         List<Edge>* newAdjacencyList = new List<Edge>[vertexCount_ - 1];
 
-        for (size_t i = 0, j = 0; i < vertexCount_; i++)
+        for (int i = 0, j = 0; i < vertexCount_; i++)
         {
             if (i != vertex)
             {
@@ -103,7 +103,7 @@ public:
         --vertexCount_;
     }
 
-    void removeEdge(size_t from, size_t to) {
+    void removeEdge(int from, int to) {
         if (from < 0 || from >= vertexCount_) return;
         typename List<Edge>::Item* prevItem = nullptr;
         for (auto item = adjacencyList_[from].first(); item != nullptr; item = item->next()) {
@@ -117,7 +117,7 @@ public:
         }
     }
 
-    bool hasEdge(size_t from, size_t to)
+    bool hasEdge(int from, int to)
     {
         if (from < 0 || from >= vertexCount_)
             return false;
@@ -129,7 +129,7 @@ public:
         return false;
     }
 
-    void setEdgeData(size_t from, size_t to, Data data)
+    void setEdgeData(int from, int to, Data data)
     {
         if (from < 0 || from >= vertexCount_)
             return;
@@ -154,7 +154,7 @@ public:
         }
     }
 
-    Data getEdgeData(size_t from, size_t to)
+    Data getEdgeData(int from, int to)
     {
         if (from < 0 || from >= vertexCount_)
             return Data();
@@ -168,21 +168,21 @@ public:
         return Data();
     }
 
-    void setVertexData(size_t vertex, Data data) { if (vertex >= 0 && vertex < vertexCount_) { vertexData_[vertex] = data; } }
+    void setVertexData(int vertex, Data data) { if (vertex >= 0 && vertex < vertexCount_) { vertexData_[vertex] = data; } }
 
-    Data getVertexData(size_t vertex)
+    Data getVertexData(int vertex)
     {
         if (vertex >= 0 && vertex < vertexCount_)
             return vertexData_[vertex];
         return Data();
     }
 
-    size_t vertexCount() { return vertexCount_; }
+    int vertexCount() { return vertexCount_; }
 
     class NeighborIterator
     {
     public:
-        NeighborIterator(Graph* graph, size_t vertex) : graph_(graph), vertex_(vertex), currentItem_(nullptr)
+        NeighborIterator(Graph* graph, int vertex) : graph_(graph), vertex_(vertex), currentItem_(nullptr)
         {
             if (vertex >= 0 && vertex < graph->vertexCount_)
             {
@@ -200,13 +200,13 @@ public:
 
     private:
         Graph* graph_;
-        size_t vertex_;
+        int vertex_;
         typename List<Edge>::Item* currentItem_;
     };
 
 private:
     List<Edge>* adjacencyList_;
-    size_t vertexCount_;
+    int vertexCount_;
     Data* vertexData_;
 };
 
