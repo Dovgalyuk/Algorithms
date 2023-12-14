@@ -4,10 +4,10 @@
 typedef Graph<int> MyGraph;
 
 int main() {
-    size_t vertex_count = 6;
+    size_t vertex_count = 9;
     MyGraph* graph = new MyGraph(vertex_count, 1);
 
-    if (graph->getVertexAmount() != 6) {
+    if (graph->getVertexAmount() != 9) {
         std::cout << "Invalid vertex amount\n";
         return 1;
     }
@@ -26,7 +26,7 @@ int main() {
     graph->addEdge(2, 1, 15);
     graph->addEdge(0, 3, 3);
     graph->addEdge(6, 3, 2);
-    graph->addEdge(5, 4, 20);
+    graph->addEdge(5, 4, 11);
     graph->addEdge(7, 8, 3);
     graph->addEdge(0, 2, 6);
 
