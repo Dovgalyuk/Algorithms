@@ -47,13 +47,12 @@ public:
     // Should be O(1) on average
     void remove()
     {
-        std::size_t buffer_size = (std::size_t)(mVector.size() * (queue_prebuffer_ratio - 1));
+        std::size_t buffer_size = mVector.size() * (queue_prebuffer_ratio - 1);
         mVector[mBegin] = 0;
         mBegin++;
         if (buffer_size - mBegin == 0)
         {
             shift_left(buffer_size);
-            mBegin = 0;
         }
     }
 
@@ -82,6 +81,7 @@ private:
         for (std::size_t i = count; i < mVector.size(); i++)
             std::swap(mVector[i], result[i - count]);
         mVector = result;
+        mBegin -= count;
     }
 };
 
