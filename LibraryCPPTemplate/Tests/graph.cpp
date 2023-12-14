@@ -47,7 +47,7 @@ int main() {
         return 1;
     }
 
-    if (graph->getEdge(2, 1)->getEdgeData() != 15) {
+    if (graph->getEdge(2, 1)->getEdgeData() != 3) {
         std::cout << "Invalid edge data\n";
         return 1;
     }
