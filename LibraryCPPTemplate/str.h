@@ -1,6 +1,8 @@
 #ifndef STRING_TEMPLATE_H
 #define STRING_TEMPLATE_H
 
+#include <vector>
+
 class String 
 {
 
@@ -90,7 +92,7 @@ public:
 
     int findString(String const& str, size_t pos = 0) 
     {
-        size_t* prefix = new size_t[str.length];
+        std::vector<size_t> prefix(str.length);
         prefix[0] = 0;
         for (size_t k = 0, i = 1; i < str.length; i++)
         {
@@ -117,11 +119,9 @@ public:
             }
             if (k == str.length)
             {
-                delete[] prefix;
                 return int(i - k + 1);
             }
         }
-        delete[] prefix;
         return NULL_POS;
     }
 
@@ -173,7 +173,6 @@ protected:
     size_t capacity = 0;
     size_t length = 0;
 
-    const int multiplyCapacity = 2;
 };
 
 #endif
