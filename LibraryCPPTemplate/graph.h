@@ -201,14 +201,8 @@ public:
         vertexes->resize(_vertex_amount - 1);
 
         for (size_t i = 0; i < _vertex_amount; i++) {
-            Edge* edge1 = edgeMatrix->get(index * _vertex_amount + i);
-            Edge* edge2 = edgeMatrix->get(i * _vertex_amount + index);
-            if (edge1) {
-                delete edge1;
-            }
-            if (edge2) {
-                delete edge2;
-            }
+            delete edgeMatrix->get(index * _vertex_amount + i);
+            delete edgeMatrix->get(i * _vertex_amount + index);
         }
 
 

@@ -25,6 +25,10 @@ int main() {
 
     graph->addEdge(2, 1, 15);
     graph->addEdge(0, 3, 3);
+    graph->addEdge(6, 3, 2);
+    graph->addEdge(5, 4, 20);
+    graph->addEdge(7, 8, 3);
+    graph->addEdge(0, 2, 6);
 
     if (!graph->isEdgeExist(2, 1)) {
         std::cout << "Invalid edge creation\n";
@@ -32,13 +36,33 @@ int main() {
     }
 
     auto it = graph->getIterator(0);
-    while (*it != nullptr) {
+    size_t visitedCount = 0;
+        while (*it != nullptr) {
+    
         if ((*it)->getVertexData() != 3) {
-            std::cout << "Invalid iteration\n";
+            std::cout << "Invalid vertex data\n";
             return 1;
         }
+
+    
+        if (visitedCount > 0 && !graph->isEdgeExist(it.getEnd(), it.getEnd() + 1)) {
+            std::cout << "Vertices are not adjacent\n";
+            return 1;
+        }
+
+    
         ++it;
+        ++visitedCount;
     }
+
+
+    if (visitedCount != graph->getVertexAmount()) {
+        std::cout << "Not all vertices were visited\n";
+        return 1;
+    }
+
+    std::cout << "Iterator test passed\n";
+    return 0;
 
     if (graph->getEdge(2, 1)->getEdgeData() != 15) {
         std::cout << "Invalid edge data\n";
