@@ -2,7 +2,6 @@
 #define GRAPH_TEMPLATE_H
 
 #include "list.h"
-#include <vector>
 
 template <typename Data> class Graph
 {
@@ -151,31 +150,6 @@ public:
                 break;
             }
             prev = item;
-        }
-    }
-    std::vector<std::vector<int>> shortestPaths;
-    void Floyd() {
-        
-        shortestPaths.resize(vertexCount_, std::vector<int>(vertexCount_, INT_MAX));
-        for (int i = 0; i < vertexCount_; ++i) {
-            shortestPaths[i][i] = 0;
-        }
-        for (int i = 0; i < vertexCount_; ++i) {
-            for (int j = 0; j < vertexCount_; ++j) {
-                if (this->hasEdge(i, j)) {
-                    shortestPaths[i][j] = this->getEdgeData(i, j);
-                }
-            }
-        }
-        for (int k = 0; k < vertexCount_; ++k) {
-            for (int i = 0; i < vertexCount_; ++i) {
-                for (int j = 0; j < vertexCount_; ++j) {
-                    if (shortestPaths[i][k] != INT_MAX && shortestPaths[k][j] != INT_MAX
-                        && shortestPaths[i][k] + shortestPaths[k][j] < shortestPaths[i][j]) {
-                        shortestPaths[i][j] = shortestPaths[i][k] + shortestPaths[k][j];
-                    }
-                }
-            }
         }
     }
 
