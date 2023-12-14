@@ -1,126 +1,213 @@
 #ifndef GRAPH_TEMPLATE_H
 #define GRAPH_TEMPLATE_H
 
-#include <iostream>
-#include <list>
-#include <vector>
+#include "list.h"
 
-template <typename Data> class Graph {
+template <typename Data> class Graph
+{
 public:
-    explicit Graph(size_t numVertices);
-    void addVertex();
-    void addEdge(size_t from, size_t to);
-    void removeVertex(size_t vertex);
-    void removeEdge(size_t from, size_t to);
-    size_t vertexCount();
-    bool hasEdge(size_t from, size_t to);
-    void setEdgeLabel(size_t from, size_t to, const std::string& label);
-    std::string getEdgeLabel(size_t from, size_t to);
-    void setVertexLabel(size_t vertex, const std::string& label);
-    std::string getVertexLabel(size_t vertex);
-
-    struct NeighborIterator {
-        NeighborIterator(const Graph* graph, size_t vertex);
-        size_t operator*() const;
-        NeighborIterator& operator++();
-        bool operator!=(const NeighborIterator& other) const;
-
-    private:
-        const Graph* m_graph;
-        size_t m_vertex;
-        typename std::list<size_t>::const_iterator m_current;
+    struct Edge
+    {
+        size_t to;
+        Data weight;
+        Edge() : to(-1), weight(Data()) {}
+        Edge(size_t to, Data weight) : to(to), weight(weight) {}
     };
 
-    NeighborIterator begin(size_t vertex) const;
-    NeighborIterator end(size_t vertex) const;
-
-private:
-    size_t m_numVertices;
-    std::vector<std::list<size_t>> m_adjList;
-    std::vector<std::vector<std::string>> m_edgeLabels;
-    std::vector<std::string> m_vertexLabels;
-};
-size_t Graph::vertexCount() {
-    return m_numVertices;
-}
-
-Graph::Graph(size_t numVertices)
-    : m_numVertices(numVertices), m_adjList(numVertices),
-    m_edgeLabels(numVertices, std::vector<std::string>(numVertices)),
-    m_vertexLabels(numVertices) {}
-
-void Graph::addVertex() {
-    ++m_numVertices;
-    m_adjList.resize(m_numVertices);
-    m_edgeLabels.resize(m_numVertices, std::vector<std::string>(m_numVertices));
-    m_vertexLabels.resize(m_numVertices);
-}
-
-void Graph::addEdge(size_t from, size_t to) {
-    m_adjList[from].push_back(to);
-}
-
-void Graph::removeVertex(size_t vertex) {
-    m_adjList[vertex].clear();
-    for (auto& list : m_adjList) {
-        list.remove(vertex);
+    Graph(size_t vertexCount) : vertexCount_(vertexCount)
+    {
+        adjacencyList_ = new List<Edge>[vertexCount_];
+        vertexData_ = new Data[vertexCount_];
     }
-    m_edgeLabels[vertex].clear();
-    m_vertexLabels[vertex].clear();
-}
 
-void Graph::removeEdge(size_t from, size_t to) {
-    m_adjList[from].remove(to);
-    m_edgeLabels[from][to].clear();
-}
+    Graph(Graph& other) : vertexCount_(other.vertexCount_)
+    {
+        adjacencyList_ = new List<Edge>[vertexCount_];
+        for (size_t i = 0; i < vertexCount_; i++)
+            adjacencyList_[i] = other.adjacencyList_[i];
+    }
 
-bool Graph::hasEdge(size_t from, size_t to) {
-    for (const auto& neighbor : m_adjList[from]) {
-        if (neighbor == to) {
-            return true;
+    Graph& operator=(Graph& other)
+    {
+        if (this != &other)
+        {
+            delete[] adjacencyList_;
+            vertexCount_ = other.vertexCount_;
+            adjacencyList_ = new List<Edge>[vertexCount_];
+            for (size_t i = 0; i < vertexCount_; i++)
+            {
+                adjacencyList_[i] = other.adjacencyList_[i];
+            }
+        }
+        return *this;
+    }
+
+    ~Graph()
+    {
+        delete[] adjacencyList_;
+        delete[] vertexData_;
+    }
+
+    List<Edge>& adjacencyList(size_t vertex) { return adjacencyList_[vertex]; }
+
+    void addVertex()
+    {
+        List<Edge>* newAdjacencyList = new List<Edge>[vertexCount_ + 1];
+        for (size_t i = 0; i < vertexCount_; i++)
+            newAdjacencyList[i] = adjacencyList_[i];
+        delete[] adjacencyList_;
+        adjacencyList_ = newAdjacencyList;
+        vertexCount_++;
+    }
+
+    void addEdge(size_t from, size_t to, Data weight)
+    {
+        if (from >= 0 && from < vertexCount_ && to >= 0 && to < vertexCount_)
+            adjacencyList_[from].insert(Edge(to, weight));
+    }
+
+    void removeVertex(size_t vertex)
+    {
+        if (vertex < 0 || vertex >= vertexCount_)
+            return;
+
+        List<Edge>* newAdjacencyList = new List<Edge>[vertexCount_ - 1];
+
+        for (size_t i = 0, j = 0; i < vertexCount_; i++)
+        {
+            if (i != vertex)
+            {
+                newAdjacencyList[j] = adjacencyList_[i];
+
+                auto item = newAdjacencyList[j].first();
+                typename List<Edge>::Item* prevItem = nullptr;
+                while (item != nullptr)
+                {
+                    if (item->data().to == vertex)
+                    {
+                        if (prevItem == nullptr) { item = newAdjacencyList[j].erase_first(); }
+                        else { item = newAdjacencyList[j].erase_next(prevItem); }
+                    }
+                    else
+                    {
+                        prevItem = item;
+                        item = item->next();
+                    }
+                }
+                j++;
+            }
+        }
+
+        delete[] adjacencyList_;
+        adjacencyList_ = newAdjacencyList;
+        --vertexCount_;
+    }
+
+    void removeEdge(size_t from, size_t to) {
+        if (from < 0 || from >= vertexCount_) return;
+        typename List<Edge>::Item* prevItem = nullptr;
+        for (auto item = adjacencyList_[from].first(); item != nullptr; item = item->next()) {
+            if (item->data().to == to)
+            {
+                if (prevItem == nullptr) { adjacencyList_[from].erase_first(); }
+                else { adjacencyList_[from].erase_next(prevItem); }
+                break;
+            }
+            prevItem = item;
         }
     }
-    return false;
-}
 
-void Graph::setEdgeLabel(size_t from, size_t to, const std::string& label) {
-    m_edgeLabels[from][to] = label;
-}
+    bool hasEdge(size_t from, size_t to)
+    {
+        if (from < 0 || from >= vertexCount_)
+            return false;
+        for (auto item = adjacencyList_[from].first(); item != nullptr; item = item->next())
+        {
+            if (item->data().to == to)
+                return true;
+        }
+        return false;
+    }
 
+    void setEdgeData(size_t from, size_t to, Data data)
+    {
+        if (from < 0 || from >= vertexCount_)
+            return;
+        typename List<Edge>::Item* prev = nullptr;
+        for (auto item = adjacencyList_[from].first(); item != nullptr; item = item->next())
+        {
+            if (item->data().to == to)
+            {
+                if (prev == nullptr)
+                {
+                    adjacencyList_[from].erase_first();
+                    adjacencyList_[from].insert(Edge(to, data));
+                }
+                else
+                {
+                    adjacencyList_[from].erase_next(prev);
+                    adjacencyList_[from].insert_after(prev, Edge(to, data));
+                }
+                break;
+            }
+            prev = item;
+        }
+    }
 
-std::string Graph::getEdgeLabel(size_t from, size_t to) {
-    return m_edgeLabels[from][to];
-}
+    Data getEdgeData(size_t from, size_t to)
+    {
+        if (from < 0 || from >= vertexCount_)
+            return Data();
+        for (auto item = adjacencyList_[from].first(); item != nullptr; item = item->next())
+        {
+            if (item->data().to == to)
+            {
+                return item->data().weight;
+            }
+        }
+        return Data();
+    }
 
-void Graph::setVertexLabel(size_t vertex, const std::string& label) {
-    m_vertexLabels[vertex] = label;
-}
+    void setVertexData(size_t vertex, Data data) { if (vertex >= 0 && vertex < vertexCount_) { vertexData_[vertex] = data; } }
 
-std::string Graph::getVertexLabel(size_t vertex) {
-    return m_vertexLabels[vertex];
-}
+    Data getVertexData(size_t vertex)
+    {
+        if (vertex >= 0 && vertex < vertexCount_)
+            return vertexData_[vertex];
+        return Data();
+    }
 
-Graph::NeighborIterator::NeighborIterator(const Graph* graph, size_t vertex)
-    : m_graph(graph), m_vertex(vertex), m_current(graph->m_adjList[vertex].begin()) {}
+    size_t vertexCount() { return vertexCount_; }
 
-size_t Graph::NeighborIterator::operator*() const {
-    return *m_current;
-}
+    class NeighborIterator
+    {
+    public:
+        NeighborIterator(Graph* graph, size_t vertex) : graph_(graph), vertex_(vertex), currentItem_(nullptr)
+        {
+            if (vertex >= 0 && vertex < graph->vertexCount_)
+            {
+                currentItem_ = graph->adjacencyList_[vertex].first();
+            }
+        }
+        void next() { if (currentItem_ != nullptr) { currentItem_ = currentItem_->next(); } }
+        bool hasNext() { return currentItem_ != nullptr; }
+        Edge current()
+        {
+            if (currentItem_ != nullptr)
+                return currentItem_->data();
+            return Edge();
+        }
 
-Graph::NeighborIterator& Graph::NeighborIterator::operator++() {
-    ++m_current;
-    return *this;
-}
+    private:
+        Graph* graph_;
+        size_t vertex_;
+        typename List<Edge>::Item* currentItem_;
+    };
 
-bool Graph::NeighborIterator::operator!=(const NeighborIterator& other) const {
-    return m_current != other.m_current;
-}
+private:
+    List<Edge>* adjacencyList_;
+    size_t vertexCount_;
+    Data* vertexData_;
+};
 
-Graph::NeighborIterator Graph::begin(size_t vertex) const {
-    return NeighborIterator(this, vertex);
-}
-
-Graph::NeighborIterator Graph::end(size_t vertex) const {
-    return NeighborIterator(this, vertex);
-}
 #endif
