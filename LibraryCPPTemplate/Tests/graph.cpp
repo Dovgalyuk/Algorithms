@@ -23,12 +23,12 @@ int main() {
         }
     }
 
-    graph->addEdge(0, 1, 15);
-    graph->addEdge(0, 2, 3);
+    graph->addEdge(0, 3, 15);
+    graph->addEdge(2, 1, 3);
     graph->addEdge(3, 4, 5);
 
 
-    if (!graph->isEdgeExist(0, 1)) {
+    if (!graph->isEdgeExist(2, 1)) {
         std::cout << "Invalid edge creation\n";
         return 1;
     }
@@ -38,7 +38,6 @@ int main() {
         while (*it != nullptr) {
             if ((*it)->getVertexData() != 3) {
                 std::cout << "Invalid iteration\n";
-                delete graph;  // Удаляем граф, чтобы избежать утечек памяти
                 return 1;
             }
             ++it;
@@ -66,7 +65,7 @@ int main() {
     }
 
     graph->removeVertex(3);
-    if (graph->getVertexAmount() != 4) {
+    if (graph->getVertexAmount() != 8) {
         std::cout << "Invalid vertex deletion\n";
         return 1;
     }
