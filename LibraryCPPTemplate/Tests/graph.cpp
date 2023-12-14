@@ -4,10 +4,10 @@
 typedef Graph<int> MyGraph;
 
 int main() {
-    size_t vertex_count = 5;
+    size_t vertex_count = 9;
     MyGraph* graph = new MyGraph(vertex_count, 1);
 
-    if (graph->getVertexAmount() != 5) {
+    if (graph->getVertexAmount() != 9) {
         std::cout << "Invalid vertex amount\n";
         return 1;
     }
@@ -23,21 +23,29 @@ int main() {
         }
     }
 
-    graph->addEdge(2, 1, 15);
-    graph->addEdge(0, 3, 3);
+    graph->addEdge(0, 1, 15);
+    graph->addEdge(0, 2, 3);
+    graph->addEdge(3, 4, 5);
+
 
     if (!graph->isEdgeExist(2, 1)) {
         std::cout << "Invalid edge creation\n";
         return 1;
     }
 
-    auto it = graph->getIterator(0);
-    while (*it != nullptr) {
-        if ((*it)->getVertexData() != 3) {
-            std::cout << "Invalid iteration\n";
-            return 1;
+    if (graph != nullptr) {
+        auto it = graph->getIterator(0);
+        while (*it != nullptr) {
+            if ((*it)->getVertexData() != 3) {
+                std::cout << "Invalid iteration\n";
+                delete graph;  // Удаляем граф, чтобы избежать утечек памяти
+                return 1;
+            }
+            ++it;
         }
-        ++it;
+    } else {
+        std::cout << "Graph does not exist\n";
+        return 1;
     }
 
     if (graph->getEdge(2, 1)->getEdgeData() != 15) {
