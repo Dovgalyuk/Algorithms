@@ -12,6 +12,13 @@
 4 3
 3 2
 
+5 1 4
+1 2
+1 5
+5 3
+4 3
+2 4
+
 */
 
 #include "queue.h"
@@ -21,26 +28,19 @@
 
 using namespace std;
 
-bool find_in_vector(std::vector<int> vector, int value)
-{
-    for (size_t i = 0; i < vector.size(); i++)
-    {
-        if (vector[i] == value)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 int main()
 {
     size_t count_nodes, start_nodes, finish_nodes, start_edge, finish_edge;
     cin >> count_nodes >> start_nodes >> finish_nodes;
 
-    int route_lenght = 0; // Длина маршрута
+    bool distance_found = 0; // Флаг для маршрута
 
-    std::vector<int> visited_nodes; // Посещенные вершины
+    std::vector<int> distance; // Растояния от начальной вершины до других
+    distance.resize(count_nodes, -1);
+
+    std::vector<bool> visited_nodess; // Посещенные вершины 
+    visited_nodess.resize(count_nodes, false);
+    visited_nodess[start_nodes - 1] = true;
 
     Queue* nodes_for_visit = queue_create(); // Очередь для хранения вершин для посещения
     queue_insert(nodes_for_visit, start_nodes);
@@ -55,10 +55,7 @@ int main()
     {     
         std::vector<int> correspondence_node;
 
-        for (size_t j = 0; j < count_nodes; j++)
-        {
-            correspondence_node.push_back(0);
-        }
+        correspondence_node.resize(count_nodes, 0);
 
         correspondence_matrix.push_back(correspondence_node);
     }
@@ -95,31 +92,28 @@ int main()
 
     while (!queue_empty(nodes_for_visit))
     {
-        int current_node = queue_get(nodes_for_visit);        
-        visited_nodes.push_back(current_node);
+        int current_node = queue_get(nodes_for_visit);
         queue_remove(nodes_for_visit);
         for (size_t i = 0; i < correspondence_matrix[current_node - 1].size(); i++)
         {
             if (correspondence_matrix[current_node - 1][i] == 1)
             {
-                if (i + 1 == finish_nodes)
+                if (!visited_nodess[i])
                 {
-                    route_lenght = 1;
-                    
-                    break;
-                }
+                    visited_nodess[i] = true;
+                    distance[i] = distance[current_node - 1] + 1;
 
-                if (find_in_vector(visited_nodes, i + 1))
-                {
-                    continue;
-                }
-                else
-                {
                     queue_insert(nodes_for_visit, i + 1);
+
+                    if (i + 1 == finish_nodes)
+                    {
+                        distance_found = 1;
+                        break;
+                    }
                 }
             }
         }
-        if (route_lenght)
+        if (distance_found)
         {
             break;
         }
@@ -127,10 +121,9 @@ int main()
     
     queue_delete(nodes_for_visit);
 
-    if (route_lenght)
-    {
-        route_lenght = visited_nodes.size();
-        cout << route_lenght << endl;
+    if (distance_found)
+    {        
+        cout << distance[finish_nodes - 1] + 1 << endl;
     }
     else
     {
