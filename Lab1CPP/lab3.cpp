@@ -62,7 +62,7 @@ int main()
 
     /* Ввод описания ребер графа */
 
-    int count_edge = 0;
+    size_t count_edge = 0;
 
     cout << "Enter number of edges" << endl;
 
