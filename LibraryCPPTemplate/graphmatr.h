@@ -6,8 +6,8 @@ using namespace std;
 template <typename T>
 class Graph {
 private:
-    Vector<T>* vertices;
-    Vector<int>* adjMatrix;
+    Vector<T> vertices;
+    Vector<int> adjMatrix;
     long unsigned int numVertices;
 
 public:
@@ -16,10 +16,8 @@ public:
         delete adjMatrix;
     }
     Graph(int numVertices) : numVertices(numVertices) {
-        vertices = new Vector<T>;
-        adjMatrix = new Vector<int>;
-        vertices->resize(numVertices);
-        adjMatrix->resize(numVertices * numVertices);
+        vertices.resize(numVertices);
+        adjMatrix.resize(numVertices * numVertices);
     }
 
     void addEdge(long unsigned int src, long unsigned int dest, int weight) {
