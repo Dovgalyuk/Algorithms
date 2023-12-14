@@ -11,10 +11,7 @@ private:
     long unsigned int numVertices;
 
 public:
-    ~Graph() {
-        delete vertices;
-        delete adjMatrix;
-    }
+    
     Graph(int numVertices) : numVertices(numVertices) {
         vertices.resize(numVertices);
         adjMatrix.resize(numVertices * numVertices);
@@ -86,14 +83,14 @@ public:
 
         for (long unsigned int i = vertex; i < numVertices - 1; i++) {
             for (long unsigned int j = 0; j < numVertices; j++) {
-                adjMatrix.set(i * numVertices + j, adjMatrix->get((i + 1) * numVertices + j));
+                adjMatrix.set(i * numVertices + j, adjMatrix.get((i + 1) * numVertices + j));
             }
         }
 
 
         for (long unsigned int i = 0; i < numVertices; i++) {
             for (long unsigned int j = vertex; j < numVertices - 1; j++) {
-                adjMatrix.set(i * numVertices + j, adjMatrix->get(i * numVertices + j + 1));
+                adjMatrix.set(i * numVertices + j, adjMatrix.get(i * numVertices + j + 1));
             }
         }
 
@@ -108,10 +105,10 @@ public:
     }
 
     const Vector<T>* getVertices() const {
-        return vertices;
+        return &vertices;
     }
 
     const Vector<int>* getAdjMatrix() const {
-        return adjMatrix;
+        return &adjMatrix;
     }
 };
