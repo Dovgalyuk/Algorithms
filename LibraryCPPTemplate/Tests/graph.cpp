@@ -37,10 +37,10 @@ int main() {
         std::cout << "setEdgeData error\n";
         return 1;
     }
-    for (size_t i = 0; i < graph.vertexCount(); i++) {
+    for (int i = 0; i < graph.vertexCount(); i++) {
         std::cout << "The adjacency list for a vertex " << i << ": ";
         List<typename Graph<int>::Edge>& adjacencyList = graph.adjacencyList(i);
-        for (size_t j = 0; j < adjacencyList.size(); j++) {
+        for (int j = 0; j < adjacencyList.size(); j++) {
             typename Graph<int>::Edge& edge = adjacencyList[j];
             std::cout << "(" << edge.to << ", " << edge.weight << ") ";
         }
