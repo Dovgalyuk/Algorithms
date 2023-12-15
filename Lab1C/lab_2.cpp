@@ -28,13 +28,14 @@ bool checkTags(const std::string& inputFile, const std::string& outputFile) {
                 if (stack_empty(tagStack)) {
                     std::ofstream outFile(outputFile);
                     outFile << "NO";
+                    stack_delete(tagStack);
                     return false;
                 }
 
-                std::string openTag = std::to_string(stack_get(tagStack));
+                size_t openTag = stack_get(tagStack);
                 stack_pop(tagStack);
 
-                std::string closeTag = std::to_string(hasher(tag.substr(2, tag.size() - 3)));
+                size_t closeTag = hasher(tag.substr(2, tag.size() - 3));
                 if (openTag != closeTag) {
                     std::ofstream outFile(outputFile);
                     outFile << "NO";
