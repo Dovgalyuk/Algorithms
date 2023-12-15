@@ -33,7 +33,7 @@ void task2(Array* arr)
     if (size >= 5){
 
         for (size_t i = 4; i < size; ++i){
-            int summ = array_get(arr, i-4) + array_get(arr, i-3) + array_get(arr, i-2) + array_get(arr, i-1) array_get(arr, i);
+            int summ = array_get(arr, i-4) + array_get(arr, i-3) + array_get(arr, i-2) + array_get(arr, i-1) + array_get(arr, i);
             if (summ > max){
                 max = summ;
             }
