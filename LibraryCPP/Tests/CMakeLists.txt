@@ -23,4 +23,15 @@ target_include_directories(TestQueueCPP PUBLIC ..)
 target_link_libraries(TestQueueCPP LibraryCPP)
 add_test(TestQueueCPP TestQueueCPP)
 
+add_executable(TestPriorityQueueCPP priorityqueue.cpp)
+target_include_directories(TestPriorityQueueCPP PUBLIC ..)
+target_link_libraries(TestPriorityQueueCPP LibraryCPP)
+add_test(TestPriorityQueueCPP TestPriorityQueueCPP)
+
+add_executable(TestHuffmanCPP huffman.cpp)
+target_include_directories(TestHuffmanCPP PUBLIC ..)
+target_link_libraries(TestHuffmanCPP LibraryCPP)
+add_test(TestHuffmanCPP TestHuffmanCPP)
+
+
 

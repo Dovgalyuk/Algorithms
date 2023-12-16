@@ -1,8 +1,6 @@
 #ifndef SPLAYTREE_H
 #define SPLAYTREE_H
 
-#include <iostream>
-
 // Node structure of Splay Tree
 template<typename K, typename V>
 struct Node {
@@ -46,7 +44,7 @@ public:
         splay(z);
     }
 
-    K find(const K& key) {
+    V find(const K& key) {
         Node<K, V>* res = findNode(root, key);
         if (res != nullptr) {
             splay(res);
@@ -147,13 +145,6 @@ private:
             else return node;
         }
         return nullptr;
-    }
-
-    void replaceNode(Node<K, V>* oldNode, Node<K, V>* newNode) {
-        if (oldNode->parent == nullptr) root = newNode;
-        else if (oldNode == oldNode->parent->left) oldNode->parent->left = newNode;
-        else oldNode->parent->right = newNode;
-        if (newNode != nullptr) newNode->parent = oldNode->parent;
     }
 
     void destroyTree(Node<K, V>* node) {
