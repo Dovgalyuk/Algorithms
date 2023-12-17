@@ -71,7 +71,12 @@ ListItem* list_insert(List* list, Data data)
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
-    return nullptr;
+    ListItem* new_item = new ListItem;
+    new_item->data = data;
+    new_item->next = item->next;
+    item->next = new_item;
+
+    return new_item;
 }
 
 ListItem* list_erase_first(List* list)
