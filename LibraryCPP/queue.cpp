@@ -1,6 +1,7 @@
 #include "queue.h"
 #include <deque> 
-
+#include "vector.h" 
+#include <cstdlib>
 struct Queue {
     std::deque<Vector> elements; 
 };
