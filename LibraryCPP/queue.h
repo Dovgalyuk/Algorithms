@@ -2,7 +2,7 @@
 #define QUEUE_H
 
 #include "vector.h"
-#include "vector.cpp"
+
 
 struct Queue;
 
