@@ -1,7 +1,8 @@
 #include "queue.h"
+#include <deque> 
 
 struct Queue {
-    std::deque<Vector> elements;
+    std::deque<Vector> elements; 
 };
 
 Queue *queue_create() {
