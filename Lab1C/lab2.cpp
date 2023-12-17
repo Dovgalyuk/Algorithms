@@ -6,132 +6,105 @@
 #include <algorithm> 
 #include <deque>
 
-void addStack(std::deque<std::pair<Stack, int>>& vect,int& level,int value) {
-    try {
-        Stack st = vect.at(level).first;
-    }
-    catch (std::out_of_range& e) {
-        Stack newStack;
-        vect.push_back(std::make_pair(newStack, value));      
-    }
-}
 bool isCorrect(std::string& s) {
     size_t pos = 0;
     std::string substr = "\\\"";
     while ((pos = s.find(substr, pos)) != std::string::npos) {
         s.erase(pos, substr.length());
     }
-    
+
     s.erase(std::remove_if(s.begin(), s.end(), [](char c) {
-        return c != '(' && c != ')' && c != '[' && c != ']' && c != '{' && c != '}' && c != '"' && c!= '\'';
+        return c != '(' && c != ')' && c != '[' && c != ']' && c != '{' && c != '}' && c != '"' && c != '\'';
         }), s.end());
+
     std::cout << s << std::endl;
-    //штука для того, чтобы проверять не просто строку из скобок каких-то
-    //но и чтобы мочь проверить, например, закрытие скобок в ветвлении или цикле for, или простом тексте
 
     Stack stack;
-    int value = 0;//пусть 0-скобки, 1-", 2-' 
-    std::deque<std::pair<Stack,int>> vect;
     std::map<char, char> pairs = {
         {')', '('},
         {']', '['},
         {'}', '{'}
     };
-    vect.push_back(std::make_pair(stack, value));
-    int level = 0;
-    bool inQ = false;
+    int level=0;
+    bool inQ = false; 
     bool inSQ = false;
-
     for (char c : s) {
-        if (inQ == true) {
-            if (!vect.at(level).first.empty()) { //Код поддерживает вложенность кавычек, кстати))
-                if (c == '"') {                 //Для этого стоит чередовать " и '
-                    vect.at(level).first.pop();//Как-то так, ёмоё.
-                    level--;
-                    if (vect.at(level).second == 2) {
-                        inSQ = true;
-                    }
-                    inQ = false;
+        if (inQ) {
+            if (c == '"') {
+                if (stack.empty() || stack.get() != '"') {
+                    return false;
                 }
-                else if (c == '\'') {
+                stack.pop();
+                inQ = false;
+                if (level > 1) {
                     inSQ = true;
-                    inQ = false;
-                    level++;
-                    addStack(vect, level,2);
-                    vect.at(level).first.push(c);
                 }
-                else if (pairs.find(c) == pairs.end()) {
-                    vect.at(level).first.push(c);
+                level--;
+            }
+            else if (c == '\'') {
+                stack.push(c);
+                inQ = false;
+                inSQ = true;
+                level++;
+            }
+            else if (pairs.find(c) == pairs.end()) {
+                stack.push(c);
+            }
+            else {
+                if (stack.empty() || stack.get() != pairs[c]) {
+                    return false;
                 }
-                else {
-                    if (vect.at(level).first.empty() || vect.at(level).first.get() != pairs[c]) {
-                        return false;
-                    }
-                    vect.at(level).first.pop();
-                }
+                stack.pop();
             }
         }
-        else if(inSQ == true) {
-            if (!vect.at(level).first.empty()) {
-                if (c == '\'') {
-                    vect.at(level).first.pop();
-                    level--;
-                    inSQ = false;
-                    if (vect.at(level).second == 1) {
-                        inQ = true;
-                    }
+        else if (inSQ) {
+            if (c == '\'') {
+                if (stack.empty() || stack.get() != '\'') {
+                    return false;
                 }
-                else if (c == '"') {
+                stack.pop();
+                inSQ = false;
+                if (level > 1) {
                     inQ = true;
-                    inSQ = false;
-                    level++;
-                    addStack(vect, level,1);
-                    vect.at(level).first.push(c);
                 }
-                else if (pairs.find(c) == pairs.end()) {
-                    vect.at(level).first.push(c);
+                level--;
+            }
+            else if (c == '"') {
+                stack.push(c);
+                inQ = true;
+                inSQ = false;
+                level++;
+            }
+            else if (pairs.find(c) == pairs.end()) {
+                stack.push(c);
+            }
+            else {
+                if (stack.empty() || stack.get() != pairs[c]) {
+                    return false;
                 }
-                else {
-                    if (vect.at(level).first.empty() || vect.at(level).first.get() != pairs[c]) {
-                        return false;
-                    }
-                    vect.at(level).first.pop();
-                }
+                stack.pop();
             }
         }
         else {
-            if (c == '"') {
+            if (c == '"' || c == '\'') {
+                stack.push(c);
+                inQ = (c == '"');
+                inSQ = (c == '\'');
                 level++;
-                addStack(vect, level,1);
-                inQ = true;
-                vect.at(level).first.push(c);
-            }
-            else if (c == '\'') {
-                level++;
-                addStack(vect, level,2);
-                inSQ = true;
-                vect.at(level).first.push(c);
             }
             else if (pairs.find(c) == pairs.end()) {
-                vect.at(level).first.push(c);
+                stack.push(c);
             }
             else {
-                if (vect.at(level).first.empty() || vect.at(level).first.get() != pairs[c]) {
+                if (stack.empty() || stack.get() != pairs[c]) {
                     return false;
                 }
-                vect.at(level).first.pop();
+                stack.pop();
             }
         }
     }
-    try {
-        for (std::deque<std::pair<Stack, int> >::size_type num = 0; num < vect.size(); num++) {
-            if (!vect.at(num).first.empty()) {
-                return false;
-            }
-        }
-    }
-    catch (std::out_of_range& e) {
-        std::cout << "Out of range exception" << std::endl;
+
+    if (!stack.empty()) {
         return false;
     }
 
