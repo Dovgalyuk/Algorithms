@@ -28,6 +28,10 @@ int findShortestPath(const vector<unordered_map<int, Edge>>& graph, int start, i
                 distance[neighbor.first] = newDistance;
                 previous[neighbor.first] = current;  // Запоминаем предыдущий узел для восстановления пути
                 queue_insert(q, neighbor.first);
+
+                if (neighbor.first) {
+                    break;
+                }
             }
         }
     }
@@ -88,7 +92,7 @@ int main() {
                 index2 = distance(cities.begin(), it2);
             }
 
-            graph[index1][index2] = Edge{ index2 };
+            graph[index1].insert({ index2, Edge{index2} });
         }
     }
 
