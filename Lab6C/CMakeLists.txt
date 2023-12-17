@@ -1,3 +1,2 @@
 add_executable(Lab6C lab6.cpp)
-target_include_directories(Lab6C PUBLIC ../LibraryCPP)
-target_link_libraries(Lab6C LibraryCPP)
+include_directories(${CMAKE_SOURCE_DIR}/LibraryCPPTemplate)

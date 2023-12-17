@@ -1,15 +1,18 @@
-#include "Huffman.h"
+#include "huffman.h"
 #include <fstream>
 #include <iostream>
 
-int main() {
-    Huffman huffman;
+using namespace std;
 
+int main() {
+    setlocale(LC_ALL, "RUS");
+    Huffman huffman;
+   
     // Кодирование файла
-    std::ifstream inputFile("input.txt");
-    std::ofstream encodedFile("encoded.bin", std::ios::binary);
+    ifstream inputFile("input.txt");
+    ofstream encodedFile("encoded.bin", ios::binary);
     if (!inputFile.is_open() || !encodedFile.is_open()) {
-        std::cerr << "Ошибка при открытии файлов для кодирования!" << std::endl;
+        cerr << "Ошибка при открытии файлов для кодирования!" << endl;
         return 1;
     }
 
@@ -17,13 +20,13 @@ int main() {
     inputFile.close();
     encodedFile.close();
 
-    std::cout << "Файл успешно закодирован." << std::endl;
+    cout << "Файл успешно закодирован." << endl;
 
     // Декодирование файла
-    std::ifstream encodedInput("encoded.bin", std::ios::binary);
-    std::ofstream decodedOutput("decoded.txt");
+    ifstream encodedInput("encoded.bin", ios::binary);
+    ofstream decodedOutput("decoded.txt");
     if (!encodedInput.is_open() || !decodedOutput.is_open()) {
-        std::cerr << "Ошибка при открытии файлов для декодирования!" << std::endl;
+        cerr << "Ошибка при открытии файлов для декодирования!" << endl;
         return 1;
     }
 
@@ -31,7 +34,6 @@ int main() {
     encodedInput.close();
     decodedOutput.close();
 
-    std::cout << "Файл успешно декодирован." << std::endl;
+    cout << "Файл успешно декодирован." << endl;
 
-    return 0;
 }

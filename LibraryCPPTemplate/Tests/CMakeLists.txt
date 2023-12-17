@@ -9,3 +9,11 @@ add_test(TestGraphCPPTemplate TestGraphCPPTemplate)
 add_executable(TestSplayTreeCPPTemplate splaytree.cpp)
 target_include_directories(TestSplayTreeCPPTemplate PUBLIC ..)
 add_test(TestSplayTreeCPPTemplate TestSplayTreeCPPTemplate)
+
+add_executable(TestPriorityQueueCPPTemplate priorityqueue.cpp)
+target_include_directories(TestPriorityQueueCPPTemplate PUBLIC ..)
+add_test(TestPriorityQueueCPPTemplate TestPriorityQueueCPPTemplate)
+
+add_executable(TestHuffmanCPPTemplate huffman.cpp)
+target_include_directories(TestHuffmanCPPTemplate PUBLIC ..)
+add_test(TestHuffmanCPPTemplate TestHuffmanCPPTemplate)
