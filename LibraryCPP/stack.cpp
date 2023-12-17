@@ -26,6 +26,7 @@ void stack_delete(Stack* stack)
 void stack_push(Stack* stack, Data newData)
 {
     ListItem* newItem = list_insert(stack->list, newData);
+    (void)newItem;
 }
 
 Data stack_get(const Stack* stack)
