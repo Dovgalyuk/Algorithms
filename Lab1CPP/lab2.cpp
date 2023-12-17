@@ -1,111 +1,86 @@
 #include <iostream>
+#include <stack>
 #include "list.h"
 #include "stack.h"
-
 using namespace std;
-
-struct Stack
-{
-    List* top;
-};
-
-struct ListItem
-{
-    Data data;
-    ListItem* next;
-};
-
-struct List
-{
-    ListItem* begin;
-    ListItem* end;
-};
-
-int MUL(int& tempA, int& tempB, int& MULData) {
-    MULData = tempA * tempB;
-    return MULData;
-}
-
-int ADD(int& tempA, int& tempB, int& ADDData) {
-    ADDData = tempA + tempB;
-    return ADDData;
-}
 
 int main()
 {
-    int tempData = 0; int tempA = 0, tempB = 0, MULData = 0, ADDData = 0, number;
+    int numbers; const char* expression = "";
+    cout << "Select expression: \n1. 1+2*3 \n2. (1+2)*3\n\n";
+    cin >> numbers;
+    if (numbers == 1) {
+        expression = "1+2*3";
+    }
+    else if (numbers == 2) {
+        expression = "(1+2)*3";
+    }
+    cout << endl;
+
+    stack<char> opstack;
 
     List* list = list_create();
     Stack* stack = stack_create();
 
-    cout << "Select operation(write the number): \n\n" << "1) 1+2*3\n" << "2) (1+2)*3\n\n";
-    cin >> number;
-    if (number == 1) {
-
-        cout << "\nPerforming an operation: 1+2*3\n";
-
-        stack_push(stack, 1);
-        stack_push(stack, 2);
-        stack_push(stack, 3);
-
-        tempData = stack->top->begin->data;
-        stack_pop(stack); tempA = tempData;
-        tempData = stack->top->begin->data;
-        stack_pop(stack); tempB = tempData;
-
-        MUL(tempA, tempB, MULData);
-
-        stack_push(stack, MULData);
-
-        tempData = stack->top->begin->data;
-        stack_pop(stack); tempA = tempData;
-        tempData = stack->top->begin->data;
-        stack_pop(stack); tempB = tempData;
-
-        ADD(tempA, tempB, ADDData);
-
-        stack_push(stack, ADDData);
-    }
-    else if (number == 2) {
-
-        cout << "\nPerforming an operation: (1+2)*3\n";
-
-        stack_push(stack, 1);
-        stack_push(stack, 2);
-
-        tempData = stack->top->begin->data;
-        stack_pop(stack); tempA = tempData;
-        tempData = stack->top->begin->data;
-        stack_pop(stack); tempB = tempData;
-
-        ADD(tempA, tempB, ADDData);
-
-        stack_push(stack, ADDData);
-        stack_push(stack, 3);
-
-        tempData = stack->top->begin->data;
-        stack_pop(stack); tempA = tempData;
-        tempData = stack->top->begin->data;
-        stack_pop(stack); tempB = tempData;
-
-        MUL(tempA, tempB, MULData);
-
-        stack_push(stack, MULData);
-    }
-    else {
-        cout << "Error";
+    for (char c = *expression; c != 0; c = *expression++) {
+        switch (c) {
+        case '+':
+        case '-':
+        case '*':
+            opstack.push(c);
+            break;
+        case '(':
+            opstack.push(c);
+            break;
+        case ')':
+            while (!opstack.empty() && opstack.top() != '(') {
+                int rhs = stack_get(stack); cout << "POP A\n";  stack_pop(stack);
+                int lhs = stack_get(stack); cout << "POP B\n";  stack_pop(stack);
+                char op = opstack.top(); opstack.pop();
+                switch (op) {
+                case '+':
+                    stack_push(stack, lhs + rhs); cout << "ADD A, B\nPUSH A\n";
+                    break;
+                case '-':
+                    stack_push(stack, lhs - rhs); cout << "SUB A, B\nPUSH A\n";
+                    break;
+                case '*':
+                    stack_push(stack, lhs * rhs); cout << "MUL A, B\nPUSH A\n";
+                    break;
+                }
+            }
+            opstack.pop(); // remove '(' from opStack
+            break;
+        default:
+            int number = (c - '0'); cout << "PUSH " << number << endl;
+            stack_push(stack, number);
+            break;
+        }
     }
 
-    ListItem* temp = stack->top->begin;
+    while (!opstack.empty() && opstack.top() != '(') {
+        int rhs = stack_get(stack); cout << "POP A\n"; stack_pop(stack);
+        int lhs = stack_get(stack); cout << "POP B\n"; stack_pop(stack);
+        char op = opstack.top(); opstack.pop();
+        switch (op) {
+        case '+':
+            stack_push(stack, lhs + rhs); cout << "ADD A, B\nPUSH A\n";
+            break;
+        case '-':
+            stack_push(stack, lhs - rhs); cout << "SUB A, B\nPUSH A\n";
+            break;
+        case '*':
+            stack_push(stack, lhs * rhs); cout << "MUL A, B\nPUSH A\n";
+            break;
+        }
+    }
 
-    // Проходим по списку, пока не достигнем конца
-    while (temp != nullptr)
+    int final_result = stack_get(stack);
+    std::cout << "\nResult = " << final_result << std::endl;
+
+    while (!opstack.empty())
     {
-        // Выводим данные текущего элемента
-        cout << "\nThe final result after surgery = " << temp->data << endl;
-
-        // Переходим к следующему элементу списка
-        temp = temp->next;
+        opstack.pop();
     }
 
     stack_delete(stack);
