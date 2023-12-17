@@ -1,6 +1,7 @@
 #include <iostream>
 #include "array.h"
 #include <ctime>
+#include <cstdint>
 #include <queue>
 
 using namespace std;
@@ -33,16 +34,16 @@ void task2(Array *arr)
         return;
     }
 
+    const int indsum = 5;
     int64_t sum = 0;
-    sum += arr->get(0);
-    sum += arr->get(1);
-    sum += arr->get(2);
-    sum += arr->get(3);
-    sum += arr->get(4);
 
+    for (size_t i=0; i < indsum; i++){
+        sum += arr->get(i);
+    }
+    
     int64_t max = sum;
 
-    for (size_t i = 5; i < arr->size(); i++)
+    for (size_t i = indsum; i < arr->size(); i++)
     {
         sum -= arr->get(i - 5);
         sum += arr->get(i);
@@ -54,6 +55,7 @@ void task2(Array *arr)
 
 int main()
 {
+    srand(time(NULL));
 
     Array *arr = NULL;
 
