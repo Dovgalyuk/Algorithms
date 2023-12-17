@@ -1,34 +1,54 @@
 #include "queue.h"
+#include <deque>
 
 struct Queue
 {
+    std::deque<Vector> elements;
 };
 
 Queue *queue_create()
 {
-    return new Queue;
+    Queue *queue = new Queue;
+    return queue;
 }
 
 void queue_delete(Queue *queue)
 {
-    // TODO: free queue items
     delete queue;
 }
 
-void queue_insert(Queue *queue, Data data)
+void queue_insert(Queue *queue, const Vector &data)
 {
+    queue->elements.push_back(data);
 }
 
-Data queue_get(const Queue *queue)
+Vector queue_get(const Queue *queue)
 {
-    return (Data)0;
+    if (!queue->elements.empty())
+    {
+        return queue->elements.front();
+    }
+    else
+    {
+        
+        exit(EXIT_FAILURE);
+    }
 }
 
 void queue_remove(Queue *queue)
 {
+    if (!queue->elements.empty())
+    {
+        queue->elements.pop_front();
+    }
+    else
+    {
+        
+        exit(EXIT_FAILURE);
+    }
 }
 
 bool queue_empty(const Queue *queue)
 {
-    return true;
+    return queue->elements.empty();
 }
