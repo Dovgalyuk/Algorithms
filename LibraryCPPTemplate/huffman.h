@@ -44,6 +44,12 @@ private:
             minHeap.insert(new Node(pair.first, pair.second), pair.second);
         }
 
+        // Обработка случая с одним уникальным символом
+        if (freqs.size() == 1) {
+            // Добавляем фиктивный узел
+            minHeap.insert(new Node('\0', 0), 0);
+        }
+
         while (minHeap.size() > 1) {
             Node* left = minHeap.extractMin();
             Node* right = minHeap.extractMin();
