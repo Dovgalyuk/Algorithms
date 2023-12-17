@@ -2,6 +2,8 @@
 #define PRIORITY_QUEUE_H
 
 #include <vector>
+#include <cstddef>
+#include <stdexcept>
 template <typename T>
 class PriorityQueue {
 public:
@@ -40,10 +42,10 @@ private:
         int left = leftChild(index);
         int right = rightChild(index);
 
-        if (left < heap.size() && heap[left].second < heap[smallest].second) {
+        if (left < (int)heap.size() && heap[left].second < heap[smallest].second) {
             smallest = left;
         }
-        if (right < heap.size() && heap[right].second < heap[smallest].second) {
+        if (right < (int)heap.size() && heap[right].second < heap[smallest].second) {
             smallest = right;
         }
         if (smallest != index) {
