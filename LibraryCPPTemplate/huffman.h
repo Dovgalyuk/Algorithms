@@ -9,13 +9,11 @@
 class Huffman {
 public:
     Huffman() : root(nullptr) {}
-    ~Huffman() {
-        deleteTree(root);
-    }
     void encode(std::istream& input, std::ostream& output) {
         buildTree(input);
         buildCodes(root, "");
         writeEncodedData(input, output);
+        deleteTree(root);
     }
     void decode(std::istream& input, std::ostream& output) {
         readEncodedData(input, output);
@@ -82,16 +80,54 @@ private:
         input.clear();
         input.seekg(0);
         char ch;
+        std::string bitString;
         while (input.get(ch)) {
-            output << huffmanCode[ch];
+            bitString += huffmanCode[ch];
+        }
+
+        // Записываем общее количество бит в начало файла
+        int totalBits = (int)bitString.length();
+        output.write(reinterpret_cast<const char*>(&totalBits), sizeof(totalBits));
+
+        // Кодирование битовой строки
+        char byte = 0;
+        int bitCount = 0;
+        for (char bit : bitString) {
+            byte = byte << 1 | (bit == '1');
+            bitCount++;
+            if (bitCount == 8) {
+                output.write(&byte, sizeof(char));
+                byte = 0;
+                bitCount = 0;
+            }
+        }
+
+        // Обработка последнего байта, если он не полный
+        if (bitCount > 0) {
+            byte <<= (8 - bitCount);
+            output.write(&byte, sizeof(char));
         }
     }
     void readEncodedData(std::istream& input, std::ostream& output) {
-        std::string encodedString;
-        getline(input, encodedString);
+        // Читаем общее количество бит из начала файла
+        int totalBits;
+        input.read(reinterpret_cast<char*>(&totalBits), sizeof(totalBits));
+
+        char byte;
+        std::string bitString;
+        int readBits = 0;
+
+        while (input.read(&byte, sizeof(char)) && readBits < totalBits) {
+            for (int i = 7; i >= 0 && readBits < totalBits; --i) {
+                bitString.push_back(((byte >> i) & 1) ? '1' : '0');
+                readBits++;
+            }
+        }
+
+        // Декодирование битовой строки
         std::string code;
-        for (char ch : encodedString) {
-            code += ch;
+        for (char bit : bitString) {
+            code += bit;
             if (reverseCode.find(code) != reverseCode.end()) {
                 output << reverseCode[code];
                 code.clear();
