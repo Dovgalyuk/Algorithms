@@ -55,12 +55,12 @@ void processArray(Array& arr, int m, int n) {
 
 void findMaxSum(const Array& arr) {
     int maxSum = 0;
-    size_t maxPos = 0; // изменено название переменной на maxPos
+    
     for (size_t i = 0; i < arr.size - 4; i++) {
         int sum = arr.data[i] + arr.data[i + 1] + arr.data[i + 2] + arr.data[i + 3] + arr.data[i + 4];
         if (sum > maxSum) {
             maxSum = sum;
-            maxPos = i; // изменено название переменной на maxPos
+            
         }
     }
 
