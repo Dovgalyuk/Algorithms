@@ -5,7 +5,7 @@ struct Queue
 {
     Vector* vector;
     size_t last;
-    size_t* first;
+    size_t first;
 
     Queue() {
         vector = vector_create();
@@ -39,19 +39,15 @@ void queue_insert(Queue* queue, Data data)
         Vector* buff = vector_create();
         vector_resize(buff, size * 2);
 
-        int counter = 0;
+        int ch = 0;
 
         for (size_t i = queue->first; i < size; i++) {
-            vector_set(buff, counter, vector_get(queue->vector, i));
-            counter++;
-        }
-        for (int i = 0; i < queue->rear; i++) {
-            vector_set(buff, counter, vector_get(queue->vector, i));
-            counter++;
+            vector_set(buff, ch, vector_get(queue->vector, i));
+            ch++;
         }
         vector_delete(queue->vector);
         queue->vector = buff;
-        queue->head = 0;
+        queue->first = 0;
         queue->last = static_cast<int>(size);
 
         size = vector_size(queue->vector);
