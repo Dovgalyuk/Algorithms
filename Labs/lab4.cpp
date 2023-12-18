@@ -3,7 +3,7 @@
 #include <climits>
 #include "graph.h"
 
-typedef Graph<int> MyGraph;
+typedef Graph<int, int> MyGraph;
 
 void Floyd(MyGraph& graph, std::vector<std::vector<int>>& shortestPaths) {
     int vertexCount = graph.vertexCount();
