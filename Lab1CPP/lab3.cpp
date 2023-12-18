@@ -90,32 +90,25 @@ int main()
         cout << endl;
     }
 
-    while (!queue_empty(nodes_for_visit))
+    while (!queue_empty(nodes_for_visit) || !distance_found)
     {
         int current_node = queue_get(nodes_for_visit);
         queue_remove(nodes_for_visit);
         for (size_t i = 0; i < correspondence_matrix[current_node - 1].size(); i++)
         {
-            if (correspondence_matrix[current_node - 1][i] == 1)
+            if (correspondence_matrix[current_node - 1][i] == 1 && !visited_nodess[i])
             {
-                if (!visited_nodess[i])
+                visited_nodess[i] = true;
+                distance[i] = distance[current_node - 1] + 1;
+
+                queue_insert(nodes_for_visit, i + 1);
+
+                if (i + 1 == finish_nodes)
                 {
-                    visited_nodess[i] = true;
-                    distance[i] = distance[current_node - 1] + 1;
-
-                    queue_insert(nodes_for_visit, i + 1);
-
-                    if (i + 1 == finish_nodes)
-                    {
-                        distance_found = 1;
-                        break;
-                    }
+                    distance_found = 1;
+                    break;
                 }
             }
-        }
-        if (distance_found)
-        {
-            break;
         }
     }
     
