@@ -11,11 +11,11 @@ public:
 
     size_t getLength() const { return length; }
 
-    String() : string(nullptr), capacity(0), length(0) {}
+    String() : string(nullptr), length(0) {}
 
-    String(const char* chars, size_t len) : string(copyChars(chars, len)), capacity(len), length(len) {}
+    String(const char* chars, size_t len) : string(copyChars(chars, len)), length(len) {}
 
-    String(const String& src) : string(copyChars(src.string, src.length)), capacity(src.length), length(src.length) {}
+    String(const String& src) : string(copyChars(src.string, src.length)), length(src.length) {}
 
     ~String() 
     { 
@@ -27,7 +27,6 @@ public:
         if (this != &src) {
             delete[] string;
             string = copyChars(src.string, src.length);
-            capacity = src.length;
             length = src.length;
         }
         return *this;
@@ -86,7 +85,6 @@ public:
         delete[] string;
         string = newString;
         length = newSize;
-        capacity = newSize + 1;
     }
 
 
@@ -170,7 +168,6 @@ private:
 
 protected:
     char* string = nullptr;
-    size_t capacity = 0;
     size_t length = 0;
 
 };
