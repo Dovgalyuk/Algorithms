@@ -104,7 +104,7 @@ ListItem *list_erase_first(List *list)
 
 ListItem *list_erase_next(ListItem *item)
 {
-    if (!item || !item->next)
+    if (!item)
     {
         return nullptr;
     }
@@ -115,6 +115,11 @@ ListItem *list_erase_next(ListItem *item)
     if (item->next)
     {
         item->next->prev = item;
+    }
+
+    if (item->next == item)
+    {
+        item->next = nullptr;
     }
 
     delete deletedItem;
