@@ -19,6 +19,7 @@ int main() {
     if (graph.getEdgeData(2, 3) != 30) 
     {
         std::cout << "addEdge error\n";
+        delete graph;
         return 1;
     }
 
@@ -27,6 +28,7 @@ int main() {
     if (graph.hasEdge(4, 0)) 
     {
         std::cout << "removeEdge error\n";
+        delete graph;
         return 1;
     }
     
@@ -35,8 +37,9 @@ int main() {
     if (graph.getEdgeData(0, 1) != 123) 
     {
         std::cout << "setEdgeData error\n";
+        delete graph;
         return 1;
     }
-
+    delete graph;
     return 0;
 }
