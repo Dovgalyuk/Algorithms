@@ -22,18 +22,19 @@ int main() {
         char ch = str[i];
         if (ch == '\"' || ch == '\'' || ch == '(' || ch == ')') 
         {
-            if ( (stack_get(stack) == ch && ch != '(' && ch != ')') 
-              || (stack_get(stack) == '(' && ch == ')') ) 
+            if (stack_empty(stack) ||
+                !( (stack_get(stack) == ch && ch != '(' && ch != ')') || (stack_get(stack) == '(' && ch == ')') ) ) 
             {
-                stack_pop(stack);
-            } else {
                 stack_push(stack, ch);
+            }
+            else {
+                stack_pop(stack);
             }
         }
     }
     std::cout << (stack_empty(stack)? "YES" : "NO");
     
     stack_delete(stack);
-
+    
     return 0;
 }
