@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "graph.h"
+#include <climits>
 
 typedef Graph<int, int> MyGraph;
 
