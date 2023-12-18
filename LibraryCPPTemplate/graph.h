@@ -43,6 +43,7 @@ public:
     ~Graph()
     {
         delete[] adjacencyList_;
+        delete[] vertexLabels_;
         delete[] vertexData_;
     }
 
