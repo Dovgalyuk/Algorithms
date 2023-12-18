@@ -156,7 +156,7 @@ public:
     EdgeLabel getEdgeData(int from, int to)
     {
         if (from < 0 || from >= vertexCount_)
-            return Data();
+            return EdgeLabel();
         for (auto item = adjacencyList_[from].first(); item != nullptr; item = item->next())
         {
             if (item->data().to == to)
@@ -164,7 +164,7 @@ public:
                 return item->data().weight;
             }
         }
-        return Data();
+        return EdgeLabel();
     }
 
     void setVertexData(int vertex, VertexLabel data) { if (vertex >= 0 && vertex < vertexCount_) { vertexData_[vertex] = data; } }
@@ -173,7 +173,7 @@ public:
     {
         if (vertex >= 0 && vertex < vertexCount_)
             return vertexData_[vertex];
-        return Data();
+        return VertexLabel();
     }
 
     int vertexCount() { return vertexCount_; }
