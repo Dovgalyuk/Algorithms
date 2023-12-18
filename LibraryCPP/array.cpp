@@ -2,11 +2,11 @@
 
 struct Array
 {
-    Data data;
+    Data* data;  // Используем указатель на Data вместо самого Data
     size_t size;
 };
 
-// create array
+// Создание массива
 Array array_create(size_t size)
 {
     Array newArr;
@@ -15,37 +15,37 @@ Array array_create(size_t size)
     return newArr;
 }
 
-// delete array, free memory
+// Удаление массива, освобождение памяти
 void array_delete(Array arr)
 {
     delete[] arr.data;
 }
 
-// returns specified array element
+// Возвращает указанный элемент массива
 Data array_get(const Array arr, size_t index)
 {
     if (index < arr.size) {
         return arr.data[index];
     }
     else {
-        // handle out of bounds error
-        return Data(); // return default value for Data type
+        // Обработка ошибки выхода за границы массива
+        return Data(); // Возвращаем значение по умолчанию для типа Data
     }
 }
 
-// sets the specified array element to the value
+// Устанавливает значение указанного элемента массива
 void array_set(Array arr, size_t index, Data value)
 {
     if (index < arr.size) {
         arr.data[index] = value;
     }
     else {
-        // handle out of bounds error
+        // Обработка ошибки выхода за границы массива
     }
 }
 
-// returns array size
+// Возвращает размер массива
 size_t array_size(const Array arr)
 {
-    return arr->size;
+    return arr.size;
 }
