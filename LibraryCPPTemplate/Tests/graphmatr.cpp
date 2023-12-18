@@ -10,9 +10,11 @@ int main()
     Graph<int> graph(5);
 
 
-    graph.addEdge(0, 1, 3);
-    graph.addEdge(0, 2, 4);
-    graph.addEdge(2, 4, 5);
+    graph.addEdge(0, 1, 1);
+    graph.addEdge(0, 2, 1);
+    graph.addEdge(1, 2, 1);
+    graph.addEdge(1, 3, 1);
+    graph.addEdge(2, 4, 1);
 
     if (!graph.EdgeExists(0, 1)) {
         cout << "edgnoexist";
@@ -52,8 +54,16 @@ int main()
         return 0;
     }
 
-   
+    Vector<long unsigned int> expectedAdjacentVertices = { 1, 2 };
+    Vector<long unsigned int> actualAdjacentVertices = g.getAdjacentVertices(0);
+    if (expectedAdjacentVertices != actualAdjacentVertices)
+    {
+        cout << "iterator bad ";
+        return 0;
 
+    }
+    
+ 
 
 
     return 0;

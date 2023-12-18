@@ -103,6 +103,20 @@ public:
 
         vertices.resize(numVertices);
     }
+    Vector<long unsigned int> getAdjacentVertices(long unsigned int vertex) {
+        if (vertex >= numVertices) {
+            throw std::out_of_range("Vertex does not exist");
+        }
+
+        Vector<long unsigned int> adjacentVertices;
+        for (long unsigned int i = 0; i < numVertices; i++) {
+            if (adjMatrix.get(vertex * numVertices + i) != 0) {
+                adjacentVertices.push_back(i);
+            }
+        }
+
+        return adjacentVertices;
+    }
 
     const Vector<T>* getVertices() const {
         return &vertices;
