@@ -7,7 +7,7 @@ struct Array
 };
 
 // Создание массива
-Array *array_create(size_t size)
+Array array_create(size_t size)
 {
     Array newArr;
     newArr.data = new Data[size];
