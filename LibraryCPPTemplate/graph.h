@@ -53,10 +53,15 @@ public:
     void addVertex()
     {
         List<Edge>* newAdjacencyList = new List<Edge>[vertexCount_ + 1];
-        for (int i = 0; i < vertexCount_; i++)
+        Vertex* newVertexLabels = new Vertex[vertexCount_ + 1];
+        for (int i = 0; i < vertexCount_; i++) {
             newAdjacencyList[i] = adjacencyList_[i];
+            newVertexLabels[i] = vertexLabels_[i];
+        }  
+        delete[] vertexLabels_;
         delete[] adjacencyList_;
         adjacencyList_ = newAdjacencyList;
+        vertexLabels_ = newVertexLabels;
         vertexCount_++;
     }
 
@@ -72,33 +77,44 @@ public:
             return;
 
         List<Edge>* newAdjacencyList = new List<Edge>[vertexCount_ - 1];
+        Vertex* newVertexLabels = new Vertex[vertexCount_ - 1];
 
         for (int i = 0, j = 0; i < vertexCount_; i++)
         {
             if (i != vertex)
             {
                 newAdjacencyList[j] = adjacencyList_[i];
+                newVertexLabels[j] = vertexLabels_[i];
 
                 auto item = newAdjacencyList[j].first();
+                auto item2 = newVertexLabels[j].first();
                 typename List<Edge>::Item* prevItem = nullptr;
                 while (item != nullptr)
                 {
                     if (item->data().to == vertex)
                     {
-                        if (prevItem == nullptr) { item = newAdjacencyList[j].erase_first(); }
-                        else { item = newAdjacencyList[j].erase_next(prevItem); }
+                        if (prevItem == nullptr) { 
+                            item = newAdjacencyList[j].erase_first(); 
+                            item2 = newVertexLabels[j].erase_first();
+                            }
+                        else { 
+                            item = newAdjacencyList[j].erase_next(prevItem); 
+                            item2 = newVertexLabels[j].erase_next(prevItem);
+                        }
                     }
                     else
                     {
                         prevItem = item;
                         item = item->next();
+                        item2 = item2->next();
                     }
                 }
                 j++;
             }
         }
-
+        delete[] vertexLabels_;
         delete[] adjacencyList_;
+        vertexLabels_ = newVertexLabels;
         adjacencyList_ = newAdjacencyList;
         --vertexCount_;
     }
