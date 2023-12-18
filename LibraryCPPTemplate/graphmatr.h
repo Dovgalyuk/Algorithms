@@ -11,7 +11,7 @@ private:
     long unsigned int numVertices;
 
 public:
-    
+
     Graph(int numVertices) : numVertices(numVertices) {
         vertices.resize(numVertices);
         adjMatrix.resize(numVertices * numVertices);
