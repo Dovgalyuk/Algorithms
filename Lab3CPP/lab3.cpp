@@ -37,14 +37,16 @@ int main()
 	string line;
 	getline(fin, line);
 
-	size_t len = line[0] - '0';
-	for (size_t i = 0; i < len * 2; i++)
+	size_t len = stoi(line);
+	for (size_t i = 0; i < len; i++)
 	{
 		getline(fin, line);
-		if (i < len)
-			queue_insert(first, line[0] - '0');
-		else
-			queue_insert(second, line[0] - '0');
+		queue_insert(first, line[0] - '0');
+	}
+	for (size_t i = 0; i < len; i++)
+	{
+		getline(fin, line);
+		queue_insert(second, line[0] - '0');
 	}
 	fin.close();
 

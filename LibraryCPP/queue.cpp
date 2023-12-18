@@ -25,8 +25,16 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue *queue, Data data)
 {
-    vector_resize(queue->data, ++queue->tail);
-    vector_set(queue->data, queue->tail - 1, data);
+    if (vector_size(queue->data) <= queue->tail)
+    {
+        Vector* newData = vector_create();
+        vector_resize(newData, (queue->tail + 1) * 2);
+        for (size_t i = 0; i < queue->tail; i++)
+            vector_set(newData, i, vector_get(queue->data, i));
+        vector_delete(queue->data);
+        queue->data = newData;
+    }
+    vector_set(queue->data, queue->tail++, data);
 }
 
 Data queue_get(const Queue *queue)
