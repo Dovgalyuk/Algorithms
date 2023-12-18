@@ -1,17 +1,13 @@
 #include <iostream>
 #include <vector>
-#include <unordered_map>
 #include "queue.h"
 #include <climits>
 #include <algorithm>
 
 using namespace std;
 
-struct Edge {
-    int destination;
-};
 
-int findShortestPath(const vector<unordered_map<int, Edge>>& graph, int start, int end, vector<int>& previous) {
+int findShortestPath(const vector<vector<int>>& graph, int start, int end, vector<int>& previous) {
     vector<int> distance(graph.size(), INT_MAX);
     Queue* q = queue_create();
 
@@ -22,14 +18,14 @@ int findShortestPath(const vector<unordered_map<int, Edge>>& graph, int start, i
         int current = queue_get(q);
         queue_remove(q);
 
-        for (const auto& neighbor : graph[current]) {
+        for (int neighbor : graph[current]) {
             int newDistance = distance[current] + 1;
-            if (newDistance < distance[neighbor.first]) {
-                distance[neighbor.first] = newDistance;
-                previous[neighbor.first] = current;  // Запоминаем предыдущий узел для восстановления пути
-                queue_insert(q, neighbor.first);
+            if (newDistance < distance[neighbor]) {
+                distance[neighbor] = newDistance;
+                previous[neighbor] = current;
+                queue_insert(q, neighbor);
 
-                if (neighbor.first) {
+                if (neighbor == end) {
                     break;
                 }
             }
@@ -61,7 +57,7 @@ void printPath(const vector<string>& cities, const vector<int>& previous, int st
 
 int main() {
     vector<string> cities;
-    vector<unordered_map<int, Edge>> graph;
+    vector<vector<int>> graph;
 
     string input;
     while (cin >> input && input != "End") {
@@ -92,7 +88,7 @@ int main() {
                 index2 = distance(cities.begin(), it2);
             }
 
-            graph[index1].insert({ index2, Edge{index2} });
+            graph[index1].push_back(index2);
         }
     }
 
