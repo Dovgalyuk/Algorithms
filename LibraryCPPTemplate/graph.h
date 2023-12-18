@@ -3,38 +3,37 @@
 
 #include "list.h"
 
-template <typename Data> class Graph
+template <typename VertexLabel, typename EdgeLabel> class Graph
 {
 public:
-    struct Edge
-    {
+    struct Edge {
         int to;
-        Data weight;
-        Edge() : to(-1), weight(Data()) {}
-        Edge(int to, Data weight) : to(to), weight(weight) {}
+        EdgeLabel weight;
+        Edge() : to(-1), weight(EdgeLabel()) {}
+        Edge(int to, EdgeLabel weight) : to(to), weight(weight) {}
     };
-    Graph(int vertexCount) : vertexCount_(vertexCount)
-    {
+    Graph(int vertexCount) : vertexCount_(vertexCount) {
+        vertexLabels_ = new VertexLabel[vertexCount_];
         adjacencyList_ = new List<Edge>[vertexCount_];
-        vertexData_ = new Data[vertexCount_];
     }
 
-    Graph(Graph& other) : vertexCount_(other.vertexCount_)
-    {
-        adjacencyList_ = new List<Edge>[vertexCount_];
-        for (int i = 0; i < vertexCount_; i++)
+    Graph(Graph& other) : vertexCount_(other.vertexCount_) {
+        vertexLabels_ = new VertexLabel[vertexCount_];
+        for (int i = 0; i < vertexCount_; i++) {
+            vertexLabels_[i] = other.vertexLabels_[i];
             adjacencyList_[i] = other.adjacencyList_[i];
+        }
     }
 
-    Graph& operator=(Graph& other)
-    {
-        if (this != &other)
-        {
+    Graph& operator=(Graph& other) {
+        if (this != &other) {
+            delete[] vertexLabels_;
             delete[] adjacencyList_;
             vertexCount_ = other.vertexCount_;
+            vertexLabels_ = new VertexLabel[vertexCount_];
             adjacencyList_ = new List<Edge>[vertexCount_];
-            for (int i = 0; i < vertexCount_; i++)
-            {
+            for (int i = 0; i < vertexCount_; i++) {
+                vertexLabels_[i] = other.vertexLabels_[i];
                 adjacencyList_[i] = other.adjacencyList_[i];
             }
         }
@@ -48,6 +47,7 @@ public:
     }
 
     List<Edge>& adjacencyList(int vertex) { return adjacencyList_[vertex]; }
+    VertexLabel& vertexLabel(int vertex) { return vertexLabels_[vertex]; }
 
     void addVertex()
     {
@@ -59,7 +59,7 @@ public:
         vertexCount_++;
     }
 
-    void addEdge(int from, int to, Data weight)
+    void addEdge(int from, int to, EdgeLabel weight)
     {
         if (from >= 0 && from < vertexCount_ && to >= 0 && to < vertexCount_)
             adjacencyList_[from].insert(Edge(to, weight));
@@ -128,7 +128,7 @@ public:
         return false;
     }
 
-    void setEdgeData(int from, int to, Data data)
+    void setEdgeData(int from, int to, EdgeLabel data)
     {
         if (from < 0 || from >= vertexCount_)
             return;
@@ -167,7 +167,7 @@ public:
         return Data();
     }
 
-    void setVertexData(int vertex, Data data) { if (vertex >= 0 && vertex < vertexCount_) { vertexData_[vertex] = data; } }
+    void setVertexData(int vertex, VertexLabel data) { if (vertex >= 0 && vertex < vertexCount_) { vertexData_[vertex] = data; } }
 
     Data getVertexData(int vertex)
     {
@@ -206,7 +206,7 @@ public:
 private:
     List<Edge>* adjacencyList_;
     int vertexCount_;
-    Data* vertexData_;
+    VertexLabel* vertexData_;
 };
 
 #endif
