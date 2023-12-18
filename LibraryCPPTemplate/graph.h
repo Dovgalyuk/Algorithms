@@ -153,7 +153,7 @@ public:
         }
     }
 
-    Data getEdgeData(int from, int to)
+    EdgeLabel getEdgeData(int from, int to)
     {
         if (from < 0 || from >= vertexCount_)
             return Data();
@@ -169,7 +169,7 @@ public:
 
     void setVertexData(int vertex, VertexLabel data) { if (vertex >= 0 && vertex < vertexCount_) { vertexData_[vertex] = data; } }
 
-    Data getVertexData(int vertex)
+    VertexLabel getVertexData(int vertex)
     {
         if (vertex >= 0 && vertex < vertexCount_)
             return vertexData_[vertex];
