@@ -51,10 +51,4 @@ size_t array_size(const Array* arr)
     return arr->size;
 }
 
-int main() {
-    // Пример использования
-    Array* arr = array_create(10);
-    // Используйте arr как обычно
-    array_delete(arr);  // Не забудьте освободить память
-    return 0;
-}
+
