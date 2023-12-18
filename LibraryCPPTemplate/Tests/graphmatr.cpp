@@ -58,17 +58,19 @@ int main()
 
 
     graph.removeVertex(2);
-    if (graph.getVertices()->size() != 4) {
-        cout << "Vertex was not removed.";
+    try {
+        graph.EdgeExists(2, 4);
+        cout << "Vertex 2 was not removed";
         return 0;
+    }
+    catch (const std::out_of_range& oor) {
+
     }
 
 
-
-
     return 0;
-};
 
+};
 
 
 

@@ -9,7 +9,13 @@ private:
     Vector<T> vertices;
     Vector<int> adjMatrix;
     long unsigned int numVertices;
+const Vector<T>* getVertices() const {
+        return &vertices;
+    }
 
+    const Vector<int>* getAdjMatrix() const {
+        return &adjMatrix;
+    }
 public:
 
     Graph(int numVertices) : numVertices(numVertices) {
@@ -122,11 +128,5 @@ public:
 
         return adjacentVertices;
     }
-    const Vector<T>* getVertices() const {
-        return &vertices;
-    }
-
-    const Vector<int>* getAdjMatrix() const {
-        return &adjMatrix;
-    }
+    
 };
