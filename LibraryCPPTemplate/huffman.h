@@ -11,7 +11,7 @@ public:
     Huffman() : root(nullptr) {}
     void encode(std::istream& input, std::ostream& output) {
         buildTree(input);
-        buildCodes(root, "");
+        buildCodes(root, {});
         writeEncodedData(input, output);
         deleteTree(root);
     }
@@ -59,18 +59,23 @@ private:
 
         root = minHeap.extractMin();
     }
-    void buildCodes(Node* node, const std::string& str) {
+    void buildCodes(Node* node, std::vector<bool> code) {
         if (!node) {
             return;
         }
 
         if (node->ch != '\0') {
-            huffmanCode[node->ch] = str;
-            reverseCode[str] = node->ch;
+            huffmanCode[node->ch] = code;
+            reverseCode[code] = node->ch;
         }
 
-        buildCodes(node->left, str + "0");
-        buildCodes(node->right, str + "1");
+        std::vector<bool> leftCode = code;
+        leftCode.push_back(0);
+        buildCodes(node->left, leftCode);
+
+        std::vector<bool> rightCode = code;
+        rightCode.push_back(1);
+        buildCodes(node->right, rightCode);
     }
     void deleteTree(Node* node) {
         if (node == nullptr) {
@@ -86,20 +91,21 @@ private:
         input.clear();
         input.seekg(0);
         char ch;
-        std::string bitString;
+        std::vector<bool> bitVector;
         while (input.get(ch)) {
-            bitString += huffmanCode[ch];
+            const std::vector<bool>& code = huffmanCode[ch];
+            bitVector.insert(bitVector.end(), code.begin(), code.end());
         }
 
         // Записываем общее количество бит в начало файла
-        int totalBits = (int)bitString.length();
+        int totalBits = (int)bitVector.size();
         output.write(reinterpret_cast<const char*>(&totalBits), sizeof(totalBits));
 
         // Кодирование битовой строки
         char byte = 0;
         int bitCount = 0;
-        for (char bit : bitString) {
-            byte = byte << 1 | (bit == '1');
+        for (bool bit : bitVector) {
+            byte = byte << 1 | (int)(bit);
             bitCount++;
             if (bitCount == 8) {
                 output.write(&byte, sizeof(char));
@@ -120,30 +126,30 @@ private:
         input.read(reinterpret_cast<char*>(&totalBits), sizeof(totalBits));
 
         char byte;
-        std::string bitString;
+        std::vector<bool> bitVector;
         int readBits = 0;
 
         while (input.read(&byte, sizeof(char)) && readBits < totalBits) {
             for (int i = 7; i >= 0 && readBits < totalBits; --i) {
-                bitString.push_back(((byte >> i) & 1) ? '1' : '0');
+                bitVector.push_back(((byte >> i) & 1) != 0);
                 readBits++;
             }
         }
 
         // Декодирование битовой строки
-        std::string code;
-        for (char bit : bitString) {
-            code += bit;
-            if (reverseCode.find(code) != reverseCode.end()) {
-                output << reverseCode[code];
+        std::vector<bool> code;
+        for (bool bit : bitVector) {
+            code.push_back(bit);
+            auto it = reverseCode.find(code);
+            if (it != reverseCode.end()) {
+                output << it->second;
                 code.clear();
             }
         }
     }
-
     PriorityQueue<Node*> minHeap;
-    std::unordered_map<char, std::string> huffmanCode;
-    std::unordered_map<std::string, char> reverseCode;
+    std::unordered_map<char, std::vector<bool>> huffmanCode;
+    std::unordered_map<std::vector<bool>, char> reverseCode;
     Node* root;
 };
 #endif
