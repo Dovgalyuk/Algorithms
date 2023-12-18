@@ -15,6 +15,7 @@ public:
     Graph(int vertexCount) : vertexCount_(vertexCount) {
         vertexLabels_ = new Vertex[vertexCount_];
         adjacencyList_ = new List<Edge>[vertexCount_];
+        vertexData_ = new Vertex[vertexCount_];
     }
 
     Graph(Graph& other) : vertexCount_(other.vertexCount_) {
@@ -87,7 +88,6 @@ public:
                 newVertexLabels[j] = vertexLabels_[i];
 
                 auto item = newAdjacencyList[j].first();
-                auto item2 = newVertexLabels[j].first();
                 typename List<Edge>::Item* prevItem = nullptr;
                 while (item != nullptr)
                 {
@@ -95,26 +95,21 @@ public:
                     {
                         if (prevItem == nullptr) { 
                             item = newAdjacencyList[j].erase_first(); 
-                            item2 = newVertexLabels[j].erase_first();
                             }
                         else { 
                             item = newAdjacencyList[j].erase_next(prevItem); 
-                            item2 = newVertexLabels[j].erase_next(prevItem);
                         }
                     }
                     else
                     {
                         prevItem = item;
                         item = item->next();
-                        item2 = item2->next();
                     }
                 }
                 j++;
             }
         }
-        delete[] vertexLabels_;
         delete[] adjacencyList_;
-        vertexLabels_ = newVertexLabels;
         adjacencyList_ = newAdjacencyList;
         --vertexCount_;
     }
