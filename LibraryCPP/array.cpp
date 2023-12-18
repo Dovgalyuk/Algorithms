@@ -7,11 +7,11 @@ struct Array
 };
 
 // create array
-Array *array_create(size_t size)
+Array* array_create(size_t size)
 {
-    Array newArr;
-    newArr.data = new Data[size];
-    newArr.size = size;
+    Array* newArr = new Array;
+    newArr->data = new Data[size];
+    newArr->size = size;
     return newArr;
 }
 
@@ -19,6 +19,7 @@ Array *array_create(size_t size)
 void array_delete(Array* arr)
 {
     delete[] arr->data;
+    delete arr;
 }
 
 // returns specified array element
@@ -52,8 +53,8 @@ size_t array_size(const Array* arr)
 
 int main() {
     // Пример использования
-    Array arr = *array_create(10);
+    Array* arr = array_create(10);
     // Используйте arr как обычно
-    array_delete(&arr);  // Не забудьте освободить память
+    array_delete(arr);  // Не забудьте освободить память
     return 0;
 }
