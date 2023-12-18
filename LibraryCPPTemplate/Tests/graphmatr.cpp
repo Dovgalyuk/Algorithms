@@ -56,13 +56,11 @@ int main()
 
     Vector<long unsigned int> expectedAdjacentVertices = { 1, 2 };
     Vector<long unsigned int> actualAdjacentVertices = g.getAdjacentVertices(0);
-    if (expectedAdjacentVertices != actualAdjacentVertices)
-    {
+
+    if (!std::equal(expectedAdjacentVertices.begin(), expectedAdjacentVertices.end(), actualAdjacentVertices.begin())) {
         cout << "iterator bad ";
         return 0;
-
     }
-    
  
 
 

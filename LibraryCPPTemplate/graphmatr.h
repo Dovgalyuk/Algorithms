@@ -111,13 +111,12 @@ public:
         Vector<long unsigned int> adjacentVertices;
         for (long unsigned int i = 0; i < numVertices; i++) {
             if (adjMatrix.get(vertex * numVertices + i) != 0) {
-                adjacentVertices.push_back(i);
+                adjacentVertices.set(adjacentVertices.size(), i);
             }
         }
 
         return adjacentVertices;
     }
-
     const Vector<T>* getVertices() const {
         return &vertices;
     }
