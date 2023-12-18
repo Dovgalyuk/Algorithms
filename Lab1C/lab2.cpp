@@ -1,5 +1,4 @@
 #include "stack.h"
-#include "stack.cpp"
 #include <iostream>
 #include <map>
 #include <string> 
