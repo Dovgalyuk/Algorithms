@@ -7,7 +7,7 @@ struct Array
 };
 
 // create array
-Array array_create(size_t size)
+Array *array_create(size_t size)
 {
     Array newArr;
     newArr.data = new Data[size];
@@ -52,7 +52,7 @@ size_t array_size(const Array* arr)
 
 int main() {
     // Пример использования
-    Array arr = array_create(10);
+    Array arr = *array_create(10);
     // Используйте arr как обычно
     array_delete(&arr);  // Не забудьте освободить память
     return 0;
