@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <climits>
-#include "graph.h"
+#include "graph2.h"
 
 typedef Graph<int, int> MyGraph;
 
@@ -33,11 +32,20 @@ void Floyd(MyGraph& graph, std::vector<std::vector<int>>& shortestPaths) {
 int main() {
 
     std::vector<std::vector<int>> shortestPaths;
-    MyGraph graph(4);
-    graph.addEdge(0, 1, 5);
-    graph.addEdge(0, 3, 10);
-    graph.addEdge(1, 2, 3);
-    graph.addEdge(2, 3, 1);
+    int n;
+    std::cout << "Count of graph: ";
+    std::cin >> n;
+    MyGraph graph(n);
+    for (int i = 0; i < n; i++) {
+        int from; int to; int data;
+        std::cout << "Graph " << i + 1 << " from: ";
+        std::cin >> from;
+        std::cout << "Graph " << i + 1 << " to: ";
+        std::cin >> to;
+        std::cout << "Graph " << i + 1 << " distance: ";
+        std::cin >> data;
+        graph.addEdge(from, to, data);
+    }
 
     Floyd(graph, shortestPaths);
     for (int i = 0; i < 4; ++i) {
