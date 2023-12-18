@@ -59,7 +59,7 @@ int main()
     expectedAdjacentVertices.set(1, 2);
     Vector<long unsigned int> actualAdjacentVertices = graph.getAdjacentVertices(0);
 
-    if (!std::equal(expectedAdjacentVertices.begin(), expectedAdjacentVertices.end(), actualAdjacentVertices.begin())) {
+    if (size(actualAdjacentVertices)!=2 || actualAdjacentVertices.get(0)!=expectedAdjacentVertices.get(0)|| actualAdjacentVertices.get(1) != expectedAdjacentVertices.get(1)) {
         cout << "iterator bad ";
         return 0;
     }
