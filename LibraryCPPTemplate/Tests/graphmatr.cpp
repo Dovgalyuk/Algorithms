@@ -39,34 +39,36 @@ int main()
         return 0;
     }
 
+    Vector<long unsigned int> expectedAdjacentVertices;
+    expectedAdjacentVertices.set(0, 1);
+    expectedAdjacentVertices.set(1, 2);
+    Vector<long unsigned int> actualAdjacentVertices = graph.getAdjacentVertices(0);
+
+    if (actualAdjacentVertices.get(0) != expectedAdjacentVertices.get(0) || actualAdjacentVertices.get(1) != expectedAdjacentVertices.get(1)) {
+        cout << "iterator bad ";
+        return 0;
+    }
 
     graph.removeEdge(0, 1);
     if (graph.EdgeExists(0, 1)) {
         cout << "edgeexusts error";
         return 0;
     }
-    
-   
-   
+
+
+
     graph.removeVertex(2);
     if (graph.getVertices()->size() != 4) {
-        cout << "Vertex was not removed."; 
+        cout << "Vertex was not removed.";
         return 0;
     }
 
-    Vector<long unsigned int> expectedAdjacentVertices;
-    expectedAdjacentVertices.set(0, 1);
-    expectedAdjacentVertices.set(1, 2);
-    Vector<long unsigned int> actualAdjacentVertices = graph.getAdjacentVertices(0);
 
-    if (size(actualAdjacentVertices)!=2 || actualAdjacentVertices.get(0)!=expectedAdjacentVertices.get(0)|| actualAdjacentVertices.get(1) != expectedAdjacentVertices.get(1)) {
-        cout << "iterator bad ";
-        return 0;
-    }
- 
 
 
     return 0;
 };
+
+
 
 

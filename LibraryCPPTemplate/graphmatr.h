@@ -104,14 +104,19 @@ public:
         vertices.resize(numVertices);
     }
     Vector<long unsigned int> getAdjacentVertices(long unsigned int vertex) {
+
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-
+        int a = 0;
         Vector<long unsigned int> adjacentVertices;
+        adjacentVertices.resize(numVertices);
         for (long unsigned int i = 0; i < numVertices; i++) {
-            if (adjMatrix.get(vertex * numVertices + i) != 0) {
-                adjacentVertices.set(adjacentVertices.size(), i);
+            if (EdgeExists(vertex, i)) {
+
+
+                adjacentVertices.set(a, i);
+                a++;
             }
         }
 
