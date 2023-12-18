@@ -3,7 +3,7 @@
 
 #include "list.h"
 
-template <typename VertexLabel, typename EdgeLabel> class Graph
+template <typename Vertex, typename EdgeLabel> class Graph
 {
 public:
     struct Edge {
@@ -13,12 +13,12 @@ public:
         Edge(int to, EdgeLabel weight) : to(to), weight(weight) {}
     };
     Graph(int vertexCount) : vertexCount_(vertexCount) {
-        vertexLabels_ = new VertexLabel[vertexCount_];
+        vertexLabels_ = new Vertex[vertexCount_];
         adjacencyList_ = new List<Edge>[vertexCount_];
     }
 
     Graph(Graph& other) : vertexCount_(other.vertexCount_) {
-        vertexLabels_ = new VertexLabel[vertexCount_];
+        vertexLabels_ = new Vertex[vertexCount_];
         for (int i = 0; i < vertexCount_; i++) {
             vertexLabels_[i] = other.vertexLabels_[i];
             adjacencyList_[i] = other.adjacencyList_[i];
@@ -30,7 +30,7 @@ public:
             delete[] vertexLabels_;
             delete[] adjacencyList_;
             vertexCount_ = other.vertexCount_;
-            vertexLabels_ = new VertexLabel[vertexCount_];
+            vertexLabels_ = new Vertex[vertexCount_];
             adjacencyList_ = new List<Edge>[vertexCount_];
             for (int i = 0; i < vertexCount_; i++) {
                 vertexLabels_[i] = other.vertexLabels_[i];
@@ -47,7 +47,7 @@ public:
     }
 
     List<Edge>& adjacencyList(int vertex) { return adjacencyList_[vertex]; }
-    VertexLabel& vertexLabel(int vertex) { return vertexLabels_[vertex]; }
+    Vertex& vertexLabel(int vertex) { return vertexLabels_[vertex]; }
 
     void addVertex()
     {
@@ -167,13 +167,13 @@ public:
         return EdgeLabel();
     }
 
-    void setVertexData(int vertex, VertexLabel data) { if (vertex >= 0 && vertex < vertexCount_) { vertexData_[vertex] = data; } }
+    void setVertexData(int vertex, Vertex data) { if (vertex >= 0 && vertex < vertexCount_) { vertexData_[vertex] = data; } }
 
-    VertexLabel getVertexData(int vertex)
+    Vertex getVertexData(int vertex)
     {
         if (vertex >= 0 && vertex < vertexCount_)
             return vertexData_[vertex];
-        return VertexLabel();
+        return Vertex();
     }
 
     int vertexCount() { return vertexCount_; }
@@ -204,9 +204,10 @@ public:
     };
 
 private:
+    Vertex* vertexLabels_;
     List<Edge>* adjacencyList_;
     int vertexCount_;
-    VertexLabel* vertexData_;
+    Vertex* vertexData_;
 };
 
 #endif
