@@ -54,7 +54,9 @@ int main()
         return 0;
     }
 
-    Vector<long unsigned int> expectedAdjacentVertices = { 1, 2 };
+    Vector<long unsigned int> expectedAdjacentVertices;
+    expectedAdjacentVertices.set(0, 1);
+    expectedAdjacentVertices.set(1, 2);
     Vector<long unsigned int> actualAdjacentVertices = graph.getAdjacentVertices(0);
 
     if (!std::equal(expectedAdjacentVertices.begin(), expectedAdjacentVertices.end(), actualAdjacentVertices.begin())) {
