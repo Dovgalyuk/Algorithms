@@ -101,6 +101,9 @@ int main()
         stack_pop(opstack);
     }
 
+    stack_delete(opstack);
+    list_delete(oplist);
+
     stack_delete(stack);
     list_delete(list);
 
