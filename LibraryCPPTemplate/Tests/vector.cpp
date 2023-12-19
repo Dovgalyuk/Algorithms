@@ -8,7 +8,7 @@ typedef Vector<int> MyVector;
 int main()
 {
     MyVector vector;
-    
+
     vector.resize(5);
 
     if (vector.size() != 5) {
@@ -40,7 +40,7 @@ int main()
     }
 
     for (size_t i = 0; i < vector.size(); i++) {
-        cout << vector.get(i)<<" ";
+        cout << vector.get(i) << " ";
     }
     cout << "\n";
 
@@ -62,4 +62,9 @@ int main()
         vector.resize(i);
     }
 
+    long long sum = 0;
+    for (int i = 0; i < 10000000; ++i)
+        sum += vector.get(i);
+
+    std::cout << sum << "\n";
 }
