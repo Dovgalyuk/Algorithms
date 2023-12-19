@@ -91,5 +91,13 @@ ListItem* list_erase_first(List* list)
 
 ListItem* list_erase_next(List* list, ListItem* item)
 {
-    return nullptr;
+    if (item == nullptr || item->next == nullptr) {
+        return nullptr; // Если элемент или следующий элемент не существуют, возвращаем nullptr
+    }
+
+    ListItem* nextItem = item->next; // Сохраняем следующий элемент
+    item->next = nextItem->next; // Изменяем следующий элемент указанного элемента
+    delete nextItem; // Удаляем следующий элемент
+
+    return item->next;
 }

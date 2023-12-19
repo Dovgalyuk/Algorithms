@@ -4,39 +4,57 @@
 #include "stack.h"
 using namespace std;
 
+int precedence(char op) {
+    if (op == '+' || op == '-')
+        return 1;
+    if (op == '*')
+        return 2;
+    return 0;
+}
+
 int main()
 {
-    int numbers; const char* expression = "";
-    cout << "Select expression: \n1. 1+2*3 \n2. (1+2)*3\n\n";
-    cin >> numbers;
-    if (numbers == 1) {
-        expression = "1+2*3";
-    }
-    else if (numbers == 2) {
-        expression = "(1+2)*3";
-    }
-    cout << endl;
+    string strexpression; const char* charexpression = "";
+    cout << "Enter an expression: \n\n";
+    cin >> strexpression; charexpression = strexpression.c_str();
 
-    stack<char> opstack;
+    List* oplist = list_create();
+    Stack* opstack = stack_create();
 
     List* list = list_create();
     Stack* stack = stack_create();
 
-    for (char c = *expression; c != 0; c = *expression++) {
+    for (char c = *charexpression; c != 0; c = *charexpression++) {
         switch (c) {
         case '+':
         case '-':
         case '*':
-            opstack.push(c);
+            while (stack_empty(opstack) == false && precedence(stack_get(opstack)) >= precedence(c)) {
+                int rhs = stack_get(stack); std::cout << "POP A\n"; stack_pop(stack);
+                int lhs = stack_get(stack); std::cout << "POP B\n"; stack_pop(stack);
+                char op = stack_get(opstack); stack_pop(opstack);
+                switch (op) {
+                case '+':
+                    stack_push(stack, lhs + rhs); std::cout << "ADD A, B\nPUSH A\n";
+                    break;
+                case '-':
+                    stack_push(stack, lhs - rhs); std::cout << "SUB A, B\nPUSH A\n";
+                    break;
+                case '*':
+                    stack_push(stack, lhs * rhs); std::cout << "MUL A, B\nPUSH A\n";
+                    break;
+                }
+            }
+            stack_push(opstack, c);
             break;
         case '(':
-            opstack.push(c);
+            stack_push(opstack, c);
             break;
         case ')':
-            while (!opstack.empty() && opstack.top() != '(') {
+            while (stack_empty(opstack) == false && stack_get(opstack) != '(') {
                 int rhs = stack_get(stack); cout << "POP A\n";  stack_pop(stack);
                 int lhs = stack_get(stack); cout << "POP B\n";  stack_pop(stack);
-                char op = opstack.top(); opstack.pop();
+                char op = stack_get(opstack); stack_pop(opstack);
                 switch (op) {
                 case '+':
                     stack_push(stack, lhs + rhs); cout << "ADD A, B\nPUSH A\n";
@@ -49,7 +67,7 @@ int main()
                     break;
                 }
             }
-            opstack.pop(); // remove '(' from opStack
+            stack_pop(opstack); // remove '(' from opStack
             break;
         default:
             int number = (c - '0'); cout << "PUSH " << number << endl;
@@ -58,10 +76,10 @@ int main()
         }
     }
 
-    while (!opstack.empty() && opstack.top() != '(') {
+    while (stack_empty(opstack) == false && stack_get(opstack) != '(') {
         int rhs = stack_get(stack); cout << "POP A\n"; stack_pop(stack);
         int lhs = stack_get(stack); cout << "POP B\n"; stack_pop(stack);
-        char op = opstack.top(); opstack.pop();
+        char op = stack_get(opstack); stack_pop(opstack);
         switch (op) {
         case '+':
             stack_push(stack, lhs + rhs); cout << "ADD A, B\nPUSH A\n";
@@ -78,9 +96,9 @@ int main()
     int final_result = stack_get(stack);
     std::cout << "\nResult = " << final_result << std::endl;
 
-    while (!opstack.empty())
+    while (stack_empty(opstack) == false)
     {
-        opstack.pop();
+        stack_pop(opstack);
     }
 
     stack_delete(stack);
