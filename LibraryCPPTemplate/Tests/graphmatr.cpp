@@ -16,6 +16,17 @@ int main()
     graph.addEdge(1, 3, 1);
     graph.addEdge(2, 4, 1);
 
+    AdjacentVertexIterator iterator = graph.getAdjacentVertices(0);
+
+
+    while (iterator.hasNext()) {
+        long unsigned int vertex = iterator.next();
+        if (graph.EdgeExists(vertex, 0)) {
+            cout << "iterator bad";
+            return 0;
+        }
+    }
+
     if (!graph.EdgeExists(0, 1)) {
         cout << "edgnoexist";
         return 0;
@@ -39,15 +50,7 @@ int main()
         return 0;
     }
 
-    Vector<long unsigned int> expectedAdjacentVertices;
-    expectedAdjacentVertices.set(0, 1);
-    expectedAdjacentVertices.set(1, 2);
-    Vector<long unsigned int> actualAdjacentVertices = graph.getAdjacentVertices(0);
 
-    if (actualAdjacentVertices.get(0) != expectedAdjacentVertices.get(0) || actualAdjacentVertices.get(1) != expectedAdjacentVertices.get(1)) {
-        cout << "iterator bad ";
-        return 0;
-    }
 
     graph.removeEdge(0, 1);
     if (graph.EdgeExists(0, 1)) {
@@ -71,6 +74,4 @@ int main()
     return 0;
 
 };
-
-
 

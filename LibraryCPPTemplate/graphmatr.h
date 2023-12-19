@@ -3,13 +3,42 @@
 
 using namespace std;
 
+class AdjacentVertexIterator {
+private:
+    const Vector<int>* adjMatrix;
+    long unsigned int numVertices;
+    long unsigned int currentVertex;
+    Vector<long unsigned int> adjacentVertices;
+
+public:
+    AdjacentVertexIterator(const Vector<int>* adjMatrix, long unsigned int startVertex, long unsigned int numVertices)
+        : adjMatrix(adjMatrix), numVertices(numVertices), currentVertex(startVertex) {
+        for (long unsigned int i = 0; i < numVertices; i++) {
+            if (adjMatrix->get(startVertex * numVertices + i) != 0) {
+                adjacentVertices.set(adjacentVertices.size(), i);
+            }
+        }
+    }
+
+    bool hasNext() {
+        return currentVertex < adjacentVertices.size();
+    }
+
+    long unsigned int next() {
+        if (currentVertex >= adjacentVertices.size()) {
+            return numVertices;
+        }
+        return adjacentVertices.get(currentVertex++);
+    }
+};
+
 template <typename T>
 class Graph {
 private:
     Vector<T> vertices;
     Vector<int> adjMatrix;
     long unsigned int numVertices;
-const Vector<T>* getVertices() const {
+    const Vector<T>* getVertices() const {
         return &vertices;
     }
 
@@ -109,24 +138,12 @@ public:
 
         vertices.resize(numVertices);
     }
-    Vector<long unsigned int> getAdjacentVertices(long unsigned int vertex) {
 
+
+    AdjacentVertexIterator getAdjacentVertices(long unsigned int vertex) {
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        int a = 0;
-        Vector<long unsigned int> adjacentVertices;
-        adjacentVertices.resize(numVertices);
-        for (long unsigned int i = 0; i < numVertices; i++) {
-            if (EdgeExists(vertex, i)) {
-
-
-                adjacentVertices.set(a, i);
-                a++;
-            }
-        }
-
-        return adjacentVertices;
+        return AdjacentVertexIterator(getAdjMatrix(), vertex, numVertices);
     }
-    
 };
