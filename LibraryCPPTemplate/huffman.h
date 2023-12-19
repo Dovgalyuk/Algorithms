@@ -69,7 +69,6 @@ private:
 
         if (node->ch != '\0') {
             huffmanCode[node->ch] = code;
-            reverseCode[code] = node->ch;
         }
 
         std::vector<bool> leftCode = code;
@@ -158,7 +157,6 @@ private:
     }
     PriorityQueue<Node*> minHeap;
     std::unordered_map<char, std::vector<bool>> huffmanCode;
-    std::unordered_map<std::vector<bool>, char> reverseCode;
     Node* root;
 };
 #endif
