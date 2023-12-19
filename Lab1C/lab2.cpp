@@ -23,27 +23,22 @@ bool isCorrect(std::string& s) {
         {']', '['},
         {'}', '{'}
     };
-
-    int level=0;
+    
     for (char c : s) {
         if (c == '"') {
             if (stack.get() == c) {
                 stack.pop();
-                level--;
             }
             else {
                 stack.push(c);
-                level++;
             }
         }
         else if (c == '\'') {
             if (stack.get() == c) {
                 stack.pop();
-                level--;
             }
             else {
                 stack.push(c);
-                level++;
             }
         }
         else if (pairs.find(c) == pairs.end()) {
