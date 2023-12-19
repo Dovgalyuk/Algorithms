@@ -3,7 +3,6 @@
 #include <map>
 #include <string> 
 #include <algorithm> 
-#include <deque>
 
 bool isCorrect(std::string& s) {
     size_t pos = 0;
@@ -24,85 +23,39 @@ bool isCorrect(std::string& s) {
         {']', '['},
         {'}', '{'}
     };
+
     int level=0;
-    bool inQ = false; 
-    bool inSQ = false;
     for (char c : s) {
-        if (inQ) {
-            if (c == '"') {
-                if (stack.empty() || stack.get() != '"') {
-                    return false;
-                }
+        if (c == '"') {
+            if (stack.get() == c) {
                 stack.pop();
-                inQ = false;
-                if (level > 1) {
-                    inSQ = true;
-                }
                 level--;
             }
-            else if (c == '\'') {
-                stack.push(c);
-                inQ = false;
-                inSQ = true;
-                level++;
-            }
-            else if (pairs.find(c) == pairs.end()) {
-                stack.push(c);
-            }
             else {
-                if (stack.empty() || stack.get() != pairs[c]) {
-                    return false;
-                }
-                stack.pop();
+                stack.push(c);
+                level++;
             }
         }
-        else if (inSQ) {
-            if (c == '\'') {
-                if (stack.empty() || stack.get() != '\'') {
-                    return false;
-                }
+        else if (c == '\'') {
+            if (stack.get() == c) {
                 stack.pop();
-                inSQ = false;
-                if (level > 1) {
-                    inQ = true;
-                }
                 level--;
             }
-            else if (c == '"') {
+            else {
                 stack.push(c);
-                inQ = true;
-                inSQ = false;
                 level++;
             }
-            else if (pairs.find(c) == pairs.end()) {
-                stack.push(c);
-            }
-            else {
-                if (stack.empty() || stack.get() != pairs[c]) {
-                    return false;
-                }
-                stack.pop();
-            }
+        }
+        else if (pairs.find(c) == pairs.end()) {
+            stack.push(c);
         }
         else {
-            if (c == '"' || c == '\'') {
-                stack.push(c);
-                inQ = (c == '"');
-                inSQ = (c == '\'');
-                level++;
+            if (stack.empty() || stack.get() != pairs[c]) {
+                return false;
             }
-            else if (pairs.find(c) == pairs.end()) {
-                stack.push(c);
-            }
-            else {
-                if (stack.empty() || stack.get() != pairs[c]) {
-                    return false;
-                }
-                stack.pop();
-            }
+            stack.pop();
         }
     }
-
     if (!stack.empty()) {
         return false;
     }
