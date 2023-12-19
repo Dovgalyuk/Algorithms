@@ -1,102 +1,86 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
+#include <random>
 #include "array.h"
 #include "array.cpp"
-// Функция для задачи 1
-void task1(Array* arr, int k1, int k2)
-{
-    // Перебираем все элементы массива
-    for (size_t i = 0; i < array_size(arr); ++i)
-    {
-        // Если элемент положительный
-        if (array_get(arr, i) > 0)
-        {
-            // Если текущий индекс равен k1, то заменяем элемент на k2
-            if (i == k1)
-            {
-                array_set(arr, i, array_get(arr, k2));
-            }
-            // Иначе заменяем элемент на k1
-            else
-            {
-                array_set(arr, i, array_get(arr, k1));
-            }
-        }
-    }
-}
 
-// Функция для задачи 2
-void task2(Array* arr)
+// функция для генерации случайного числа
+int random_number(int min, int max)
 {
-    // Инициализируем максимальную сумму и индекс начала подмассива
-    int maxSum = 0;
-    int startIndex = 0;
-    // Перебираем все подмассивы размером 5
-    for (size_t i = 0; i < array_size(arr) - 4; ++i)
-    {
-        int currentSum = 0;
-        // Вычисляем сумму текущего подмассива
-        for (size_t j = i; j < i + 5; ++j)
-        {
-            currentSum += array_get(arr, j);
-        }
-        // Если текущая сумма больше максимальной, то обновляем максимальную сумму и индекс начала подмассива
-        if (currentSum > maxSum)
-        {
-            maxSum = currentSum;
-            startIndex = i;
-        }
-    }
-    // Выводим пять соседних элементов с максимальной суммой
-    std::cout << "Пять соседних элементов с максимальной суммой: ";
-    for (size_t i = startIndex; i < startIndex + 5; ++i)
-    {
-        std::cout << array_get(arr, i) << " ";
-    }
-    std::cout << std::endl;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(min, max);
+    return distr(gen);
 }
 
 int main()
 {
-    // Инициализируем генератор случайных чисел
-    srand(time(0));
-    int n;
-    // Вводим размер массива
+    // ввод размера массива
+    int size;
     std::cout << "Введите размер массива: ";
-    std::cin >> n;
-    // Создаем массив
-    Array* arr1 = array_create(n);
-    // Заполняем массив случайными числами
-    for (size_t i = 0; i < n; ++i)
+    std::cin >> size;
+
+    // проверка на корректность размера массива
+    if (size <= 0)
     {
-        array_set(arr1, i, rand() % 100);
+        std::cout << "Некорректный размер массива. Размер массива должен быть положительным числом." << std::endl;
+        return 1; // возвращаем код ошибки
     }
-    // Вводим k1 и k2
-    int k1, k2;
-    std::cout << "Введите k1 и k2: ";
-    std::cin >> k1 >> k2;
-    // Выполняем задачу 1
-    task1(arr1, k1, k2);
-    // Выводим результат
-    for (size_t i = 0; i < n; ++i)
+
+    // создание массива с заданным размером
+    Array* arr = array_create(size);
+
+    // заполнение массива случайными числами
+    for (int i = 0; i < size; ++i)
     {
-        std::cout << array_get(arr1, i) << " ";
+        array_set(arr, i, random_number(1, 100));
+    }
+
+    // вывод исходного массива
+    std::cout << "Исходный массив: ";
+    for (int i = 0; i < size; ++i)
+    {
+        std::cout << array_get(arr, i) << " ";
     }
     std::cout << std::endl;
-    // Удаляем массив
-    array_delete(arr1);
 
-    // Повторяем процесс для второго массива
-    std::cout << "Введите размер массива: ";
-    std::cin >> n;
-    Array* arr2 = array_create(n);
-    for (size_t i = 0; i < n; ++i)
+    // ввод чисел k1 и k2
+    int k1, k2;
+    std::cout << "Введите индекс k1: ";
+    std::cin >> k1;
+    std::cout << "Введите индекс k2: ";
+    std::cin >> k2;
+
+    // проверка на корректность индексов
+    if (k1 < 0 || k1 >= size || k2 < 0 || k2 >= size)
     {
-        array_set(arr2, i, rand() % 100);
+        std::cout << "Некорректные индексы. Индексы должны быть в диапазоне от 0 до " << size - 1 << "." << std::endl;
+        array_delete(arr); // освобождаем память
+        return 1; // возвращаем код ошибки
     }
-    task2(arr2);
-    array_delete(arr2);
+
+    // вычитание элементов массива
+    for (int i = 0; i < size; ++i)
+    {
+        if (array_get(arr, i) > 0)
+        {
+            array_set(arr, i, array_get(arr, i) - array_get(arr, k1));
+        }
+        else
+        {
+            array_set(arr, i, array_get(arr, i) - array_get(arr, k2));
+        }
+    }
+
+    // вывод измененного массива
+    std::cout << "Измененный массив: ";
+    for (int i = 0; i < size; ++i)
+    {
+        std::cout << array_get(arr, i) << " ";
+    }
+    std::cout << std::endl;
+
+    // освобождение памяти
+    array_delete(arr);
 
     return 0;
 }
