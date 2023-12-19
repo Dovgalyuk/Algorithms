@@ -1,19 +1,20 @@
 #include <iostream>
 #include <ctime>
 #include "array.h"
+#include <climits>
 
 using namespace std;
 
 void task1(Array* arr) {
     size_t size = array_size(arr);
     cout << "All elements: ";
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         cout << array_get(arr, i) << " ";
     }
     cout << endl;
 
     cout << "Two-digit numbers: ";
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         if (array_get(arr, i) >= 10 && array_get(arr, i) <= 99) {
             cout << array_get(arr, i) << " ";
         }
@@ -21,7 +22,7 @@ void task1(Array* arr) {
     cout << endl;
 
     cout << "Three-digit numbers: ";
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         if (array_get(arr, i) >= 100 && array_get(arr, i) <= 999) {
             cout << array_get(arr, i) << " ";
         }
@@ -29,13 +30,13 @@ void task1(Array* arr) {
     cout << endl;
 }
 void task2(Array* arr) {
-    int minDiff = INT_MAX;
+    size_t minDiff = 10000000;
     size_t size = array_size(arr);
 
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = i + 1; j < size; j++) {
+    for (size_t i = 0; i < size - 1; i++) {
+        for (size_t j = i + 1; j < size; j++) {
             if (array_get(arr, i) % 2 == 0 && array_get(arr, j) % 2 == 0) {
-                int diff = abs(array_get(arr, i) - array_get(arr, j));
+                size_t diff = abs(array_get(arr, i) - array_get(arr, j));
                 if (diff < minDiff) {
                     minDiff = diff;
                 }
@@ -43,7 +44,7 @@ void task2(Array* arr) {
         }
     }
 
-    if (minDiff == INT_MAX) {
+    if (minDiff == 10000000) {
         cout << "There are no two different even elements in the array.\n";
     }
     else {
