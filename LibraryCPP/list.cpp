@@ -66,19 +66,9 @@ ListItem *list_insert(List *list, Data data)
 
 ListItem *list_insert_after(ListItem *item, Data data)
 {
-    if (!item)
-    {
-        return nullptr;
-    }
-
     ListItem *newListItem = new ListItem{data, item->next, item};
-
     item->next = newListItem;
-
-    if (newListItem->next)
-    {
-        newListItem->next->prev = newListItem;
-    }
+    newListItem->next->prev = newListItem;
 
     return newListItem;
 }
