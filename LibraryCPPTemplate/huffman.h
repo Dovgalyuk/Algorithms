@@ -9,11 +9,14 @@
 class Huffman {
 public:
     Huffman() : root(nullptr) {}
+    ~Huffman()
+    { 
+        deleteTree(root); 
+    }
     void encode(std::istream& input, std::ostream& output) {
         buildTree(input);
         buildCodes(root, {});
         writeEncodedData(input, output);
-        deleteTree(root);
     }
     void decode(std::istream& input, std::ostream& output) {
         readEncodedData(input, output);
@@ -129,21 +132,27 @@ private:
         std::vector<bool> bitVector;
         int readBits = 0;
 
+        Node* currentNode = root;
         while (input.read(&byte, sizeof(char)) && readBits < totalBits) {
             for (int i = 7; i >= 0 && readBits < totalBits; --i) {
-                bitVector.push_back(((byte >> i) & 1) != 0);
-                readBits++;
-            }
-        }
+                bool bit = (byte >> i) & 1;
+                bitVector.push_back(bit);
 
-        // Декодирование битовой строки
-        std::vector<bool> code;
-        for (bool bit : bitVector) {
-            code.push_back(bit);
-            auto it = reverseCode.find(code);
-            if (it != reverseCode.end()) {
-                output << it->second;
-                code.clear();
+                // Перемещаемся в дереве в соответствии с текущим битом
+                if (bit) {
+                    currentNode = currentNode->right;
+                }
+                else {
+                    currentNode = currentNode->left;
+                }
+
+                // Если достигли листа, выводим символ и сбрасываем текущий узел в корень
+                if (currentNode->left == nullptr && currentNode->right == nullptr) {
+                    output << currentNode->ch;
+                    currentNode = root;
+                }
+
+                readBits++;
             }
         }
     }
