@@ -30,7 +30,7 @@ void task1(Array* arr) {
     cout << endl;
 }
 void task2(Array* arr) {
-    size_t minDiff = 10000000;
+    size_t minDiff = INT_MAX;
     size_t size = array_size(arr);
 
     for (size_t i = 0; i < size - 1; i++) {
@@ -44,7 +44,7 @@ void task2(Array* arr) {
         }
     }
 
-    if (minDiff == 10000000) {
+    if (minDiff == INT_MAX) {
         cout << "There are no two different even elements in the array.\n";
     }
     else {
