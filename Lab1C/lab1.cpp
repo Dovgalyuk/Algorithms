@@ -16,10 +16,9 @@ void task1(Array* arr)
         {
             summ += array_get(arr, i);
         }
-
-        //Выводим сумму элементов
-        printf("%d", summ);
     }
+    //Выводим сумму элементов
+    printf("%d", summ);
 }
 
     // Задача 2: Найти пять соседних элементов, сумма значений которых максимальна.
@@ -31,9 +30,9 @@ void task2(Array* arr)
 
     //проверяем удовлетворимость условию задачи
     if (size >= 5){
-
-        for (size_t i = 4; i < size; ++i){
-            int summ = array_get(arr, i-4) + array_get(arr, i-3) + array_get(arr, i-2) + array_get(arr, i-1) + array_get(arr, i);
+        int summ = array_get(arr, 0) + array_get(arr, 1) + array_get(arr, 2) + array_get(arr, 3) + array_get(arr, 4);
+        for (size_t i = 5; i < size; ++i){
+            summ = summ - array_get(arr, i-5) + array_get(arr, i);
             if (summ > max){
                 max = summ;
             }
