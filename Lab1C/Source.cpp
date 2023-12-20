@@ -3,6 +3,15 @@
 #define ARRAY_H
 
 
+
+struct Array {
+    int* data;
+    size_t size;
+};
+
+
+
+
 // main.cpp
 #include "array.h"
 #include <iostream>

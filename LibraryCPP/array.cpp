@@ -6,7 +6,7 @@
 
 
 
-Array* array_create(size_t size) {
+Array array_create(size_t size) {
     Array* arr = new Array;
     arr->data = new Data[size];
     arr->size = size;
