@@ -10,10 +10,7 @@ struct Array {
 };
 
 Array array_create(size_t size);
-void array_set(Array& arr, size_t index, int value);
-void array_delete(Array& arr);
 
-#endif // ARRAY_H
 
 // array.cpp
 #include "array.h"
@@ -32,9 +29,7 @@ void array_set(Array& arr, size_t index, int value) {
     }
 }
 
-void array_delete(Array& arr) {
-    delete[] arr.data;
-}
+
 
 // main.cpp
 #include "array.h"
@@ -54,13 +49,30 @@ void processArray(Array& arr, int m, int n) {
 }
 
 void findMaxSum(const Array& arr) {
-    int maxSum = 0;
-    
-    for (size_t i = 0; i < arr.size - 4; i++) {
-        int sum = arr.data[i] + arr.data[i + 1] + arr.data[i + 2] + arr.data[i + 3] + arr.data[i + 4];
-        if (sum > maxSum) {
-            maxSum = sum;
-            
+    if (arr.size < 5) {
+        std::cout << "Массив слишком мал для вычисления максимальной суммы пяти соседних элементов." << std::endl;
+        return;
+    }
+
+    int currentSum = 0;
+
+    // Вычисляем начальную сумму первых пяти элементов
+    for (size_t i = 0; i < 5; i++) {
+        currentSum += arr.data[i];
+    }
+
+    int maxSum = currentSum;
+
+    // Проходимся по массиву, обновляя сумму на каждой итерации
+    for (size_t i = 5; i < arr.size; i++) {
+        // Добавляем новый элемент
+        currentSum += arr.data[i];
+        // Удаляем самый старый элемент (те, что за пределами "скользящего окна")
+        currentSum -= arr.data[i - 5];
+
+        // Обновляем максимальную сумму при необходимости
+        if (currentSum > maxSum) {
+            maxSum = currentSum;
         }
     }
 
