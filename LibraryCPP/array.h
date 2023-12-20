@@ -6,7 +6,7 @@
 
 // Non-resizeable array
 // Stores integer values inside
-typedef int Data;
+//typedef int Data;
 
 struct Array {
     int* data;
