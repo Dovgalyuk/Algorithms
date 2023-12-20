@@ -88,7 +88,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 ListItem *list_erase_first(List *list)
 {
     ListItem* headNext = list->head->pNext;
-    delete [] list->head;
+    delete list->head;
     list->head = headNext;
     return list->head;
 }
@@ -98,11 +98,11 @@ ListItem *list_erase_next(List *list, ListItem *item)
     if (item && item->pNext) {
         if (item->pNext->pNext) {
             ListItem* deleteItemNext = item->pNext->pNext;
-            delete[] item->pNext;
+            delete item->pNext;
             item->pNext = deleteItemNext;
         }
         else {
-            delete[] item->pNext;
+            delete item->pNext;
             item->pNext = nullptr;
         }
     }
