@@ -28,9 +28,12 @@ Data array_get(const Array* arr, size_t index) {
     }
 }
 
-void array_set(Array& arr, size_t index, int value) {
-    if (index < arr.size) {
-        arr.data[index] = value;
+void array_set(Array* arr, size_t index, Data value) {
+    if (index < arr->size) {
+        arr->data[index] = value;
+    }
+    else {
+        // handle out of bounds error
     }
 }
 
