@@ -1,10 +1,11 @@
 // array.cpp
 #include "array.h"
+#include <cstdlib>
 
-Array* array_create(size_t size) {
-    Array* arr = new Array;
-    arr->size = size;
-    arr->data = new Data[size];
+Array array_create(size_t size) {
+    Array arr;
+    arr.size = size;
+    arr.data = new int[size];
     return arr;
 }
 
@@ -23,12 +24,9 @@ Data array_get(const Array* arr, size_t index) {
     }
 }
 
-void array_set(Array* arr, size_t index, Data value) {
-    if (index < arr->size) {
-        arr->data[index] = value;
-    }
-    else {
-        // handle out of bounds error
+void array_set(Array& arr, size_t index, int value) {
+    if (index < arr.size) {
+        arr.data[index] = value;
     }
 }
 

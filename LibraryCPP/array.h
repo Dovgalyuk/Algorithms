@@ -6,15 +6,15 @@
 
 // Non-resizeable array
 // Stores integer values inside
-typedef int Data;
+//00typedef int Data;
 
 struct Array {
-    Data* data;
+    int* data;
     size_t size;
 };
 
 // create array
-Array* array_create(size_t size);
+Array array_create(size_t size);
 
 // delete array, free memory
 void array_delete(Array& arr);
