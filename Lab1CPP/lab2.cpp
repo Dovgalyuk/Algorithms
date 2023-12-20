@@ -5,11 +5,30 @@
 using namespace std;
 
 int precedence(char op) {
-    if (op == '+' || op == '-')
+    if (op == '+')
         return 1;
-    if (op == '*')
+    if (op == '-')
         return 2;
+    if (op == '*')
+        return 3;
     return 0;
+}
+
+void opdata(Stack* stack, Stack* opstack) {
+    int rhs = stack_get(stack); cout << "POP A\n"; stack_pop(stack);
+    int lhs = stack_get(stack); cout << "POP B\n"; stack_pop(stack);
+    char op = stack_get(opstack); stack_pop(opstack);
+    switch (op) {
+    case '+':
+        stack_push(stack, lhs + rhs); cout << "ADD A, B\nPUSH A\n";
+        break;
+    case '-':
+        stack_push(stack, lhs - rhs); cout << "SUB A, B\nPUSH A\n";
+        break;
+    case '*':
+        stack_push(stack, lhs * rhs); cout << "MUL A, B\nPUSH A\n";
+        break;
+    }
 }
 
 int main()
@@ -18,10 +37,7 @@ int main()
     cout << "Enter an expression: \n\n";
     cin >> strexpression; charexpression = strexpression.c_str();
 
-    List* oplist = list_create();
     Stack* opstack = stack_create();
-
-    List* list = list_create();
     Stack* stack = stack_create();
 
     for (char c = *charexpression; c != 0; c = *charexpression++) {
@@ -30,20 +46,7 @@ int main()
         case '-':
         case '*':
             while (stack_empty(opstack) == false && precedence(stack_get(opstack)) >= precedence(c)) {
-                int rhs = stack_get(stack); std::cout << "POP A\n"; stack_pop(stack);
-                int lhs = stack_get(stack); std::cout << "POP B\n"; stack_pop(stack);
-                char op = stack_get(opstack); stack_pop(opstack);
-                switch (op) {
-                case '+':
-                    stack_push(stack, lhs + rhs); std::cout << "ADD A, B\nPUSH A\n";
-                    break;
-                case '-':
-                    stack_push(stack, lhs - rhs); std::cout << "SUB A, B\nPUSH A\n";
-                    break;
-                case '*':
-                    stack_push(stack, lhs * rhs); std::cout << "MUL A, B\nPUSH A\n";
-                    break;
-                }
+                opdata(stack, opstack);
             }
             stack_push(opstack, c);
             break;
@@ -52,20 +55,7 @@ int main()
             break;
         case ')':
             while (stack_empty(opstack) == false && stack_get(opstack) != '(') {
-                int rhs = stack_get(stack); cout << "POP A\n";  stack_pop(stack);
-                int lhs = stack_get(stack); cout << "POP B\n";  stack_pop(stack);
-                char op = stack_get(opstack); stack_pop(opstack);
-                switch (op) {
-                case '+':
-                    stack_push(stack, lhs + rhs); cout << "ADD A, B\nPUSH A\n";
-                    break;
-                case '-':
-                    stack_push(stack, lhs - rhs); cout << "SUB A, B\nPUSH A\n";
-                    break;
-                case '*':
-                    stack_push(stack, lhs * rhs); cout << "MUL A, B\nPUSH A\n";
-                    break;
-                }
+                opdata(stack, opstack);
             }
             stack_pop(opstack); // remove '(' from opStack
             break;
@@ -76,36 +66,22 @@ int main()
         }
     }
 
-    while (stack_empty(opstack) == false && stack_get(opstack) != '(') {
-        int rhs = stack_get(stack); cout << "POP A\n"; stack_pop(stack);
-        int lhs = stack_get(stack); cout << "POP B\n"; stack_pop(stack);
-        char op = stack_get(opstack); stack_pop(opstack);
-        switch (op) {
-        case '+':
-            stack_push(stack, lhs + rhs); cout << "ADD A, B\nPUSH A\n";
-            break;
-        case '-':
-            stack_push(stack, lhs - rhs); cout << "SUB A, B\nPUSH A\n";
-            break;
-        case '*':
-            stack_push(stack, lhs * rhs); cout << "MUL A, B\nPUSH A\n";
-            break;
-        }
+    while (stack_empty(opstack) == false) {
+        opdata(stack, opstack);
+        stack_pop(opstack);
     }
 
-    int final_result = stack_get(stack);
-    std::cout << "\nResult = " << final_result << std::endl;
+    int result = stack_get(stack);
+    cout << "\nResult = " << result << endl;
 
-    while (stack_empty(opstack) == false)
+    while (stack_empty(opstack) == false && stack_empty(stack) == false)
     {
+        stack_pop(stack);
         stack_pop(opstack);
     }
 
     stack_delete(opstack);
-    list_delete(oplist);
-
     stack_delete(stack);
-    list_delete(list);
 
     return 0;
 }

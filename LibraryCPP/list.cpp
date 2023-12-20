@@ -41,7 +41,6 @@ ListItem* list_first(List* list)
 
 Data list_item_data(const ListItem* item)
 {
-
     if (item == nullptr) {
         cout << "Empty";
         return Data();
@@ -75,7 +74,6 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
     new_item->data = data;
     new_item->next = item->next;
     item->next = new_item;
-
     return new_item;
 }
 
@@ -92,12 +90,12 @@ ListItem* list_erase_first(List* list)
 ListItem* list_erase_next(List* list, ListItem* item)
 {
     if (item == nullptr || item->next == nullptr) {
-        return nullptr; // Если элемент или следующий элемент не существуют, возвращаем nullptr
+        return nullptr;
     }
 
-    ListItem* nextItem = item->next; // Сохраняем следующий элемент
-    item->next = nextItem->next; // Изменяем следующий элемент указанного элемента
-    delete nextItem; // Удаляем следующий элемент
+    ListItem* nextItem = item->next;
+    item->next = nextItem->next;
+    delete nextItem;
 
     return item->next;
 }
