@@ -3,10 +3,7 @@
 #include <cstdlib>
 
 
-struct Array {
-    Data* data;
-    size_t size;
-};
+
 
 
 Array* array_create(size_t size) {
