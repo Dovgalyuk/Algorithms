@@ -14,7 +14,7 @@ struct Array {
 };
 
 // create array
-Array array_create(size_t size);
+Array *array_create(size_t size);
 
 // delete array, free memory
 void array_delete(Array *arr);
