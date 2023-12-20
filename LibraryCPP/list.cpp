@@ -39,7 +39,7 @@ ListItem *list_first(List *list)
 
 Data list_item_data(const ListItem *item)
 {
-    return item? item->data : 0;
+    return item->data;
 }
 
 ListItem *list_item_next(ListItem *item)
@@ -49,8 +49,8 @@ ListItem *list_item_next(ListItem *item)
 
 ListItem *list_item_prev(ListItem *item)
 {
-    item = item;
-    return NULL;
+    //список односвязный, поэтому в предыдущий элемент с текущими параметрами не попасть
+    return item;
 }
 
 ListItem *list_insert(List *list, Data data)
