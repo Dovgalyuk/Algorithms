@@ -96,8 +96,8 @@ int main() {
     Array* arr = array_create(size);
 
     // Заполнение массива случайными числами
-    for (size_t i = 0; i < arr.size; i++) {
-        array_set(*arr, i, rand() % 100); // Заполняем случайными числами от 0 до 99
+    for (size_t i = 0; i < arr->size; i++) {
+        array_set(arr, i, rand() % 100); // Заполняем случайными числами от 0 до 99
     }
 
     printArray(*arr, "Исходный массив");
@@ -110,7 +110,7 @@ int main() {
 
     findMaxSum(*arr);
 
-    array_delete(*arr);
+    array_delete(arr);
 
     return 0;
 }
