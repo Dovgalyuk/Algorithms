@@ -93,24 +93,24 @@ int main() {
     int size, m, n;
     std::cout << "Введите размер массива: ";
     std::cin >> size;
-    Array arr = array_create(size);
+    Array* arr = array_create(size);
 
     // Заполнение массива случайными числами
     for (size_t i = 0; i < arr.size; i++) {
-        array_set(arr, i, rand() % 100); // Заполняем случайными числами от 0 до 99
+        array_set(*arr, i, rand() % 100); // Заполняем случайными числами от 0 до 99
     }
 
-    printArray(arr, "Исходный массив");
+    printArray(*arr, "Исходный массив");
 
     std::cout << "Введите значения m и n: ";
     std::cin >> m >> n;
 
-    processArray(arr, m, n);
-    printArray(arr, "Обработанный массив");
+    processArray(*arr, m, n);
+    printArray(*arr, "Обработанный массив");
 
-    findMaxSum(arr);
+    findMaxSum(*arr);
 
-    array_delete(arr);
+    array_delete(*arr);
 
     return 0;
 }
