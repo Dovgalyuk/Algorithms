@@ -2,32 +2,13 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include <cstddef>
+
 
 struct Array {
     int* data;
     size_t size;
 };
 
-Array array_create(size_t size);
-
-
-// array.cpp
-#include "array.h"
-#include <cstdlib>
-
-Array array_create(size_t size) {
-    Array arr;
-    arr.size = size;
-    arr.data = new int[size];
-    return arr;
-}
-
-void array_set(Array& arr, size_t index, int value) {
-    if (index < arr.size) {
-        arr.data[index] = value;
-    }
-}
 
 
 
