@@ -8,9 +8,9 @@ Array* array_create(size_t size) {
     return arr;
 }
 
-void array_delete(Array* arr) {
-    delete[] arr->data;
-    delete arr;
+void array_delete(Array& arr) {
+    delete[] arr.data;
+    // Не требуется delete arr, так как arr является объектом, а не указателем
 }
 
 Data array_get(const Array* arr, size_t index) {
