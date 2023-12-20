@@ -2,16 +2,23 @@
 #include "array.h"
 #include <cstdlib>
 
-Array array_create(size_t size) {
-    Array arr;
-    arr.size = size;
-    arr.data = new int[size];
+
+struct Array {
+    Data* data;
+    size_t size;
+};
+
+
+Array* array_create(size_t size) {
+    Array* arr = new Array;
+    arr->data = new Data[size];
+    arr->size = size;
     return arr;
 }
 
-void array_delete(Array& arr) {
-    delete[] arr.data;
-    // Не требуется delete arr, так как arr является объектом, а не указателем
+void array_delete(Array* arr) {
+    delete[] arr->data;
+    delete arr;
 }
 
 Data array_get(const Array* arr, size_t index) {
