@@ -10,24 +10,21 @@ struct ListItem
 struct List
 {
     ListItem* head;
+    ListItem* tail;
 };
 
 List *list_create()
 {
     List* list = new List;
-    list->head = nullptr; 
+    list->head = list->tail = nullptr; 
     return list;
 }
 
 void list_delete(List *list)
 {
-    ListItem* curr = list->head;
-    ListItem* next;
-    while (curr)
+    while (list->head)
     {
-        next = curr->pNext;
-        delete curr;
-        curr = next;
+        list_erase_first(list);
     }
     delete list;
 }
@@ -57,15 +54,13 @@ ListItem *list_insert(List *list, Data data)
 {
     ListItem* insertItem = new ListItem;
     insertItem->data = data;
-    insertItem->pNext = nullptr;
-    if (list->head) {
-        ListItem* temp = list->head;
-        list->head = insertItem;
-        insertItem->pNext = temp;
-    } else {
-        list->head = insertItem;
-        
+    insertItem->pNext = list->head;
+    
+    if (!list->tail) {
+        list->tail = insertItem;
     }
+
+    list->head = insertItem;
     return list->head;
 }
 
@@ -74,37 +69,42 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     if (item) {
         ListItem* insertItem = new ListItem;
         insertItem->data = data;
-        if (item->pNext) {
-            insertItem->pNext = item->pNext;
-            item->pNext = insertItem;
-        } else {
-            item->pNext = insertItem;
-            insertItem->pNext = nullptr;
+        insertItem->pNext = item->pNext;
+        item->pNext = insertItem;
+
+        if(item == list->tail) {
+            list->tail = insertItem;
         }
-    }
-    return list->head;
+    } 
+    return list->pNext;   
 }
 
 ListItem *list_erase_first(List *list)
 {
-    ListItem* headNext = list->head->pNext;
-    delete list->head;
-    list->head = headNext;
+    if (list->head) {
+        ListItem* old_head = list->head;
+        list->head = old_head->pNext;
+        delete old_head;
+    }
+    
+    if (!list->head) {
+        list->tail = nullptr;
+    }
+
     return list->head;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
     if (item && item->pNext) {
-        if (item->pNext->pNext) {
-            ListItem* deleteItemNext = item->pNext->pNext;
-            delete item->pNext;
-            item->pNext = deleteItemNext;
+        ListItem* deleteItemNext = item->pNext->pNext;
+
+        if (item->pNext == list->tail) {
+            list->tail = item;
         }
-        else {
-            delete item->pNext;
-            item->pNext = nullptr;
-        }
+
+        delete item->pNext;
+        item->pNext = deleteItemNext;
     }
 
     return list->head;
