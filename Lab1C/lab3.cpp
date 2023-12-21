@@ -64,7 +64,7 @@ bool solve_maze(Maze &maze) {
         Point current = q.front();
         q.pop();
 
-        if (current.x < 0 || current.y < 0 || current.x >= maze.grid.size() || current.y >= maze.grid[0].size()) {
+        if if (current.x < 0 || current.y < 0 || static_cast<size_t>(current.x) >= maze.grid.size() || static_cast<size_t>(current.y) >= maze.grid[0].size()) {
             continue;  
         }
 
