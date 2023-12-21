@@ -13,6 +13,7 @@ public:
     void addEdge(int src, int dest);
     void BFS(int startVertex);
     void printDistances();
+    ~Graph();
 };
 Graph::~Graph() {
     vector_delete(adjMatrix);
