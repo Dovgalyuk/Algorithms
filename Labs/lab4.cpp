@@ -11,7 +11,7 @@ vector< Graph<int>::Iterator> sorted(vector< Graph<int>::Iterator> ways, Graph<i
     size_t size = ways.size();
     for (size_t i = 0; i + 1 < size; ++i) {
         for (size_t j = 0; j + 1 < size - i; ++j) {
-            if (graph.getEdge(ways[j+1].getStart(), ways[j+1].getIndex())->getEdgeData() < graph.getEdge(ways[j].getStart(), ways[j].getIndex())->getEdgeData()) {
+            if (graph.getEdge(ways[j + 1].getStart(), ways[j + 1].getIndex())->getEdgeData() < graph.getEdge(ways[j].getStart(), ways[j].getIndex())->getEdgeData()) {
                 swap(ways[j], ways[j + 1]);
             }
         }

@@ -15,6 +15,7 @@ public:
     }
 
     // copy constructor
+    
     Vector(const Vector &a)
     {
         data = new Data[a.maxSize];
@@ -26,7 +27,7 @@ public:
     }
 
     // assignment operator
-    Vector &operator=(const Vector &a)
+    Vector& operator=(const Vector &a)
     {
         if (this != &a) {
             delete[] data;
@@ -50,7 +51,7 @@ public:
     // Retrieves vector element with the specified index
     Data get(size_t index) const
     {
-        if (index < vectorSize) {
+        if (index <= vectorSize) {
             return data[index];
         }
         else {
@@ -61,7 +62,7 @@ public:
     // Sets vector element with the specified index
     void set(size_t index, Data value)
     {
-        if (index < vectorSize) {
+        if (index <= vectorSize) {
             data[index] = value;
         }
         else {

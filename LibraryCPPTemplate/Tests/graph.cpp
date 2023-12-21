@@ -15,7 +15,7 @@ int main() {
     }
 
     for (size_t i = 0; i < 5; i++) {
-        if (graph->getVertex(i)->getVertexData() != (int)i) {
+        if (graph->getVertex(i).getVertexData() != (int)i) {
             cout << "Incorrect vertex data\n";
             return 1;
         }
@@ -56,9 +56,9 @@ int main() {
         }
         ++it;
     }
-    
+
     it = graph->getIterator(1);
-    
+
     while (*it) {
         if (it.getIndex() != 4) {
             cout << "Invalid iteration\n";
