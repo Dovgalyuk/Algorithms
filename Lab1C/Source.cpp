@@ -5,18 +5,18 @@
 #include <ctime>
 
 void processArray(Array* arr, int m, int n) {
-    for (size_t i = 0; i < arr.size; i++) {
-        if (arr.data[i] % 2 != 0) {
-            arr.data[i] -= m;
+    for (size_t i = 0; i < array_size(arr); i++) {
+        if (arr->data[i] % 2 != 0) {
+            arr->data[i] -= m;
         }
         if (i % 2 == 0) {
-            arr.data[i] += n;
+            arr->data[i] += n;
         }
     }
 }
 
 void findMaxSum(const Array* arr) {
-    if (arr.size < 5) {
+    if (arr->size < 5) {
         std::cout << "Массив слишком мал для вычисления максимальной суммы пяти соседних элементов." << std::endl;
         return;
     }
@@ -25,17 +25,17 @@ void findMaxSum(const Array* arr) {
 
     // Вычисляем начальную сумму первых пяти элементов
     for (size_t i = 0; i < 5; i++) {
-        currentSum += arr.data[i];
+        currentSum += arr->data[i];
     }
 
     int maxSum = currentSum;
 
     // Проходимся по массиву, обновляя сумму на каждой итерации
-    for (size_t i = 5; i < arr.size; i++) {
+    for (size_t i = 5; i < array_size(arr); i++) {
         // Добавляем новый элемент
-        currentSum += arr.data[i];
+        currentSum += arr->data[i];
         // Удаляем самый старый элемент (те, что за пределами "скользящего окна")
-        currentSum -= arr.data[i - 5];
+        currentSum -= arr->data[i - 5];
 
         // Обновляем максимальную сумму при необходимости
         if (currentSum > maxSum) {
@@ -49,8 +49,8 @@ void findMaxSum(const Array* arr) {
 
 void printArray(const Array* arr, const std::string& label) {
     std::cout << label << ": ";
-    for (size_t i = 0; i < arr.size; i++) {
-        std::cout << arr.data[i] << " ";
+    for (size_t i = 0; i < array_size(arr); i++) {
+        std::cout << arr->data[i] << " ";
     }
     std::cout << std::endl;
 }
@@ -63,7 +63,7 @@ int main() {
     Array* arr = array_create(size);
 
     // Заполнение массива случайными числами
-    for (size_t i = 0; i < arr->size; i++) {
+    for (size_t i = 0; i < array_size(arr); i++) {
         array_set(arr, i, rand() % 100); // Заполняем случайными числами от 0 до 99
     }
 
