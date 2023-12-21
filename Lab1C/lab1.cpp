@@ -34,11 +34,13 @@ void task2(Array* arr) {
     size_t size = array_size(arr);
 
     for (size_t i = 0; i < size - 1; i++) {
-        for (size_t j = i + 1; j < size; j++) {
-            if (array_get(arr, i) % 2 == 0 && array_get(arr, j) % 2 == 0) {
-                size_t diff = abs(array_get(arr, i) - array_get(arr, j));
-                if (diff < minDiff) {
-                    minDiff = diff;
+        if (array_get(arr, i) % 2 == 0) {
+            for (size_t j = i + 1; j < size; j++) {
+                if (array_get(arr, j) % 2 == 0 && array_get(arr, j) != array_get(arr, i)) {
+                    size_t diff = abs(array_get(arr, i) - array_get(arr, j));
+                    if (diff < minDiff) {
+                        minDiff = diff;
+                    }
                 }
             }
         }
