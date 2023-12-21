@@ -76,7 +76,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
             list->tail = insertItem;
         }
     } 
-    return list->pNext;   
+    return item->pNext;   
 }
 
 ListItem *list_erase_first(List *list)
