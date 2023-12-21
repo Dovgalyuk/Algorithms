@@ -16,7 +16,7 @@ public:
 
     // copy constructor
     
-    Vector(const Vector& a)
+    Vector(const Vector &a)
     {
         data = new Data[a.maxSize];
         vectorSize = a.vectorSize;
@@ -27,7 +27,7 @@ public:
     }
 
     // assignment operator
-    Vector& operator=(const Vector& a)
+    Vector &operator=(const Vector &a)
     {
         if (this != &a) {
             delete[] data;
