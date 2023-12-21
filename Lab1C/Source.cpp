@@ -7,10 +7,10 @@
 void processArray(Array* arr, int m, int n) {
     for (size_t i = 0; i < array_size(arr); i++) {
         if (array_get(arr, i) % 2 != 0) {
-            array_get(arr, i) -= m;
+            array_set(arr, i, array_get(arr, i) - m);
         }
         if (i % 2 == 0) {
-            array_get(arr, i) += n;
+            array_set(arr, i, array_get(arr, i) + n);
         }
     }
 }
