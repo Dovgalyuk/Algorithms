@@ -32,17 +32,17 @@ public:
     }
 };
 
-template <typename T>
+template <typename T, typename T2>
 class Graph {
 private:
     Vector<T> vertices;
-    Vector<int> adjMatrix;
+    Vector<T2> adjMatrix;
     long unsigned int numVertices;
     const Vector<T>* getVertices() const {
         return &vertices;
     }
 
-    const Vector<int>* getAdjMatrix() const {
+    const Vector<T2>* getAdjMatrix() const {
         return &adjMatrix;
     }
 public:
