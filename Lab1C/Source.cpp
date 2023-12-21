@@ -6,17 +6,17 @@
 
 void processArray(Array* arr, int m, int n) {
     for (size_t i = 0; i < array_size(arr); i++) {
-        if (arr->data[i] % 2 != 0) {
-            arr->data[i] -= m;
+        if (array_get(arr, i) % 2 != 0) {
+            array_get(arr, i) -= m;
         }
         if (i % 2 == 0) {
-            arr->data[i] += n;
+            array_get(arr, i) += n;
         }
     }
 }
 
 void findMaxSum(const Array* arr) {
-    if (arr->size < 5) {
+    if (array_size(arr) < 5) {
         std::cout << "Массив слишком мал для вычисления максимальной суммы пяти соседних элементов." << std::endl;
         return;
     }
@@ -25,7 +25,7 @@ void findMaxSum(const Array* arr) {
 
     // Вычисляем начальную сумму первых пяти элементов
     for (size_t i = 0; i < 5; i++) {
-        currentSum += arr->data[i];
+        currentSum += array_get(arr, i);
     }
 
     int maxSum = currentSum;
@@ -33,9 +33,9 @@ void findMaxSum(const Array* arr) {
     // Проходимся по массиву, обновляя сумму на каждой итерации
     for (size_t i = 5; i < array_size(arr); i++) {
         // Добавляем новый элемент
-        currentSum += arr->data[i];
+        currentSum += array_get(arr, i);
         // Удаляем самый старый элемент (те, что за пределами "скользящего окна")
-        currentSum -= arr->data[i - 5];
+        currentSum -= array_get(arr, i);
 
         // Обновляем максимальную сумму при необходимости
         if (currentSum > maxSum) {
@@ -50,7 +50,7 @@ void findMaxSum(const Array* arr) {
 void printArray(const Array* arr, const std::string& label) {
     std::cout << label << ": ";
     for (size_t i = 0; i < array_size(arr); i++) {
-        std::cout << arr->data[i] << " ";
+        std::cout << array_get(arr, i) << " ";
     }
     std::cout << std::endl;
 }
