@@ -9,8 +9,8 @@ struct Queue
 
     Queue() {
         vector = vector_create();
-        last = -1;
-        first = -1;
+        last = 0;
+        first = 0;
     }
     ~Queue() {
         vector_delete(vector);
@@ -52,7 +52,7 @@ void queue_insert(Queue* queue, Data data)
 
         size = vector_size(queue->vector);
     }
-    Data last = queue->last % size;
+    size_t last = queue->last % size;
     vector_set(queue->vector, last, data);
     queue->last = last + 1;
 }

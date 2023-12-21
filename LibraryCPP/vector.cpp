@@ -7,8 +7,8 @@ struct Vector
     size_t size_max;
 
     Vector() {
-        size = 0;
-        size_max = 1;
+        size = 1;
+        size_max = 2;
         data = new Data[size_max];
     }
 
@@ -30,7 +30,7 @@ void vector_delete(Vector *vector)
 Data vector_get(const Vector *vector, size_t index)
 {
     if (index <= vector->size) {
-        return;
+        return 0;
     }
     return vector->data[index];
 }
