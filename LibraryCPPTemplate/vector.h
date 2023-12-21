@@ -15,8 +15,7 @@ public:
     }
 
     // copy constructor
-    template <typename T>
-    Vector(const Vector<T>& a)
+    Vector(const Vector& a)
     {
         data = new Data[a.maxSize];
         vectorSize = a.vectorSize;
@@ -27,8 +26,7 @@ public:
     }
 
     // assignment operator
-    template <typename T>
-    Vector& operator=(const Vector<T>& a)
+    Vector& operator=(const Vector& a)
     {
         if (this != &a) {
             delete[] data;
