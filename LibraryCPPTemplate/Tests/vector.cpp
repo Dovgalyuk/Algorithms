@@ -58,7 +58,7 @@ int main()
     }
 
     //Проверка на правильное изменение размера
-    for (size_t i = 1; i < 10000000; i++) {
+    for (int i = 1; i <= 10000000; i++) {
         vector.resize(i);
         vector.set(i-1,i);
     }
@@ -66,7 +66,7 @@ int main()
     MyVector copy = vector;
 
     long long sum = 0;
-    for (size_t i = 0; i < 10000000; ++i)
+    for (int i = 0; i < 10000000; ++i)
         sum += vector.get(i);
 
     std::cout << sum << "\n";
