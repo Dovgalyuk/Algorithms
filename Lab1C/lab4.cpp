@@ -23,7 +23,7 @@ void union1(int i, int j)
     parent[a] = b;
 }
 
-void KruskalMST(const Graph<int>&cost)
+void KruskalMST(const Graph<int,int>&cost)
 {
     int mincost = 0;
 
@@ -54,7 +54,7 @@ void KruskalMST(const Graph<int>&cost)
 }
 
 int main() {
-    Graph<int> graph(5);
+    Graph<int,int> graph(5);
     int a=0, b=0, c=0;
     while (a != -1)
     {
