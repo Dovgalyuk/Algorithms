@@ -3,8 +3,9 @@
 
 #include <cstddef>
 
-typedef char Data;  
+typedef char Data;
 struct Vector;
+
 Vector* vector_create();
 void vector_delete(Vector* vector);
 Data vector_get(const Vector* vector, size_t index);

@@ -1,8 +1,7 @@
 #include "queue.h"
 #include "vector.h"
-#include "vector.cpp"
 #include <deque>
-#include <cstdlib>
+#include <iostream>
 
 struct Queue {
     std::deque<Vector> elements;
@@ -12,7 +11,6 @@ Vector queue_get(const Queue* queue) {
     if (!queue->elements.empty()) {
         return queue->elements.front();
     } else {
-        
         exit(EXIT_FAILURE);
     }
 }
@@ -25,7 +23,6 @@ void queue_remove(Queue* queue) {
     if (!queue->elements.empty()) {
         queue->elements.pop_front();
     } else {
-        
         exit(EXIT_FAILURE);
     }
 }
