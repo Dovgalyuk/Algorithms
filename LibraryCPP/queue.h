@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include "vector.h"
+#include <deque>
 
 struct Queue {
     std::deque<Vector> elements;

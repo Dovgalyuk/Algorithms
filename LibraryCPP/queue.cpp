@@ -14,7 +14,6 @@ Vector queue_get(const Queue* queue) {
         exit(EXIT_FAILURE);
     }
 }
-
 void queue_insert(Queue* queue, const Vector& data) {
     queue->elements.push_back(data);
 }
