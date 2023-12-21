@@ -58,8 +58,9 @@ int main()
     }
 
     //Проверка на правильное изменение размера
-    for (size_t i = 0; i < 10000000; i++) {
+    for (size_t i = 1; i < 10000000; i++) {
         vector.resize(i);
+        vector.set(i-1,i);
     }
 
     MyVector copy = vector;
