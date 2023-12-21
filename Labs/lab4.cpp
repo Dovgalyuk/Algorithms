@@ -33,7 +33,7 @@ Graph<int> primMinimumTree(Graph<int>& graph, size_t index) {
         }
     }
     ways = sorted(ways, graph);
-    while (find(inTree.begin(), inTree.end(), false) != inTree.end()) {
+    while (std::find(inTree.begin(), inTree.end(), false) != inTree.end()) {
         bool isChange = false;
         for (size_t i = 0; i < ways.size(); i++) {
             if (inTree[ways[i].getStart()] == true && inTree[ways[i].getIndex()] == false) {
