@@ -23,18 +23,10 @@ bool isCorrect(std::string& s) {
         {']', '['},
         {'}', '{'}
     };
-    
+
     for (char c : s) {
-        if (c == '"') {
-            if (stack.get() == c) {
-                stack.pop();
-            }
-            else {
-                stack.push(c);
-            }
-        }
-        else if (c == '\'') {
-            if (stack.get() == c) {
+        if (c == '"' || c == '\'') {
+            if (!stack.empty() && stack.get() == c) {
                 stack.pop();
             }
             else {
@@ -51,11 +43,8 @@ bool isCorrect(std::string& s) {
             stack.pop();
         }
     }
-    if (!stack.empty()) {
-        return false;
-    }
 
-    return true;
+    return stack.empty();
 }
 
 int main() {
