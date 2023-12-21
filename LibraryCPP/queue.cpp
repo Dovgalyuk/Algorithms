@@ -1,10 +1,5 @@
 #include "queue.h"
-#include "vector.h" 
-
-struct Queue {
-    Vector *vector; 
-};
-
+#include "vector.h"
 Queue *queue_create() {
     Queue *queue = new Queue;
     queue->vector = vector_create();

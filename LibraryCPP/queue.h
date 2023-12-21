@@ -1,20 +1,10 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include <cstddef>  // for size_t
+#include "vector.h"
 
-
-typedef char Data;  
-struct QueueNode
-{
-    Data data;
-    QueueNode *next;
-};
-
-struct Queue
-{
-    QueueNode *front;
-    QueueNode *rear;
+struct Queue {
+    Vector *vector;
 };
 
 Queue *queue_create();
@@ -24,4 +14,4 @@ Data queue_get(const Queue *queue);
 void queue_remove(Queue *queue);
 bool queue_empty(const Queue *queue);
 
-#endif 
+#endif
