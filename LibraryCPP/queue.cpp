@@ -1,36 +1,48 @@
-#include "queue.h"
-#include "vector.h"
-#include <deque>
-#include <iostream>
 
-Queue* queue_create() {
-    return new Queue;
+#include "queue.h"
+
+Queue *queue_create()
+{
+    Queue *queue = new Queue;
+    queue->vector = vector_create();
+    return queue;
 }
 
-void queue_delete(Queue* queue) {
+void queue_delete(Queue *queue)
+{
+    vector_delete(queue->vector);
     delete queue;
 }
 
-void queue_insert(Queue* queue, const Vector& data) {
-    queue->elements.push_back(data);
+void queue_insert(Queue *queue, Data data)
+{
+    vector_resize(queue->vector, vector_size(queue->vector) + 1);
+    vector_set(queue->vector, vector_size(queue->vector) - 1, data);
 }
 
-Vector queue_get(const Queue* queue) {
-    if (!queue->elements.empty()) {
-        return queue->elements.front();
-    } else {
-        exit(EXIT_FAILURE);
+Data queue_get(const Queue *queue)
+{
+    if (!queue_empty(queue))
+    {
+        return vector_get(queue->vector, 0);
+    }
+
+    return (Data)0;
+}
+
+void queue_remove(Queue *queue)
+{
+    if (!queue_empty(queue))
+    {
+        for (size_t i = 1; i < vector_size(queue->vector); ++i)
+        {
+            vector_set(queue->vector, i - 1, vector_get(queue->vector, i));
+        }
+        vector_resize(queue->vector, vector_size(queue->vector) - 1);
     }
 }
 
-void queue_remove(Queue* queue) {
-    if (!queue->elements.empty()) {
-        queue->elements.pop_front();
-    } else {
-        exit(EXIT_FAILURE);
-    }
-}
-
-bool queue_empty(const Queue* queue) {
-    return queue->elements.empty();
+bool queue_empty(const Queue *queue)
+{
+    return vector_size(queue->vector) == 0;
 }
