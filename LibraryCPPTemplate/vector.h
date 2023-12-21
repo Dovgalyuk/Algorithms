@@ -15,7 +15,6 @@ public:
     }
 
     // copy constructor
-    
     Vector(const Vector &a)
     {
         data = new Data[a.maxSize];
