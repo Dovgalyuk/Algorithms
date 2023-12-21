@@ -3,9 +3,17 @@
 #include <deque>
 #include <iostream>
 
-struct Queue {
-    std::deque<Vector> elements;
-};
+Queue* queue_create() {
+    return new Queue;
+}
+
+void queue_delete(Queue* queue) {
+    delete queue;
+}
+
+void queue_insert(Queue* queue, const Vector& data) {
+    queue->elements.push_back(data);
+}
 
 Vector queue_get(const Queue* queue) {
     if (!queue->elements.empty()) {
@@ -13,9 +21,6 @@ Vector queue_get(const Queue* queue) {
     } else {
         exit(EXIT_FAILURE);
     }
-}
-void queue_insert(Queue* queue, const Vector& data) {
-    queue->elements.push_back(data);
 }
 
 void queue_remove(Queue* queue) {
