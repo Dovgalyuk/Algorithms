@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
 
-    Graph<int> graph(5);
+    Graph<int,int> graph(5);
 
 
     graph.addEdge(0, 1, 1);
