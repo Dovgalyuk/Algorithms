@@ -3,7 +3,9 @@
 
 #include "vector.h"
 
-struct Queue;
+struct Queue {
+    std::deque<Vector> elements;
+};
 
 Queue* queue_create();
 void queue_delete(Queue* queue);
