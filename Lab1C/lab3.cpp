@@ -14,6 +14,11 @@ public:
     void BFS(int startVertex);
     void printDistances();
 };
+Graph::~Graph() {
+    vector_delete(adjMatrix);
+    vector_delete(visited);
+    vector_delete(distances);
+}
 
 Graph::Graph(int vertices) {
     numVertices = vertices;
