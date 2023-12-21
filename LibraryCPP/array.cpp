@@ -1,42 +1,50 @@
-// array.cpp
 #include "array.h"
-#include <cstdlib>
 
 
+using namespace std;
 
+struct Array
+{
 
+	size_t size_arr;
+	Data* data;
+	Array(size_t size)
+	{
+		this->size_arr = size;
+		this->data = new Data[size];
+	}
+	~Array()
+	{
+		delete[] this->data;
+	}
+};
 
-Array array_create(size_t size) {
-    Array* arr = new Array;
-    arr->data = new Data[size];
-    arr->size = size;
-    return arr;
+// create array
+Array* array_create(size_t size)
+{
+	return new Array(size);
 }
 
-void array_delete(Array* arr) {
-    delete[] arr->data;
-    delete arr;
+// delete array, free memory
+void array_delete(Array* arr)
+{
+	delete arr;
 }
 
-Data array_get(const Array* arr, size_t index) {
-    if (index < arr->size) {
-        return arr->data[index];
-    }
-    else {
-        // handle out of bounds error
-        return Data(); // return default value for Data type
-    }
+// returns specified array element
+Data array_get(const Array* arr, size_t index)
+{
+	return arr->data[index];
 }
 
-void array_set(Array* arr, size_t index, Data value) {
-    if (index < arr->size) {
-        arr->data[index] = value;
-    }
-    else {
-        // handle out of bounds error
-    }
+// sets the specified array element to the value
+void array_set(Array* arr, size_t index, Data value)
+{
+	arr->data[index] = value;
 }
 
-size_t array_size(const Array* arr) {
-    return arr->size;
+// returns array size
+size_t array_size(const Array* arr)
+{
+	return arr->size_arr;
 }

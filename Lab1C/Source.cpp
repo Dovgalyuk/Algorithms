@@ -1,24 +1,10 @@
-// array.h
-#ifndef ARRAY_H
-#define ARRAY_H
-
-
-
-struct Array {
-    int* data;
-    size_t size;
-};
-
-
-
 
 // main.cpp
 #include "array.h"
 #include <iostream>
-#include <cstdlib>
 #include <ctime>
 
-void processArray(Array& arr, int m, int n) {
+void processArray(Array* arr, int m, int n) {
     for (size_t i = 0; i < arr.size; i++) {
         if (arr.data[i] % 2 != 0) {
             arr.data[i] -= m;
@@ -29,7 +15,7 @@ void processArray(Array& arr, int m, int n) {
     }
 }
 
-void findMaxSum(const Array& arr) {
+void findMaxSum(const Array* arr) {
     if (arr.size < 5) {
         std::cout << "Массив слишком мал для вычисления максимальной суммы пяти соседних элементов." << std::endl;
         return;
@@ -61,7 +47,7 @@ void findMaxSum(const Array& arr) {
 }
 
 
-void printArray(const Array& arr, const std::string& label) {
+void printArray(const Array* arr, const std::string& label) {
     std::cout << label << ": ";
     for (size_t i = 0; i < arr.size; i++) {
         std::cout << arr.data[i] << " ";
@@ -81,15 +67,15 @@ int main() {
         array_set(arr, i, rand() % 100); // Заполняем случайными числами от 0 до 99
     }
 
-    printArray(*arr, "Исходный массив");
+    printArray(arr, "Исходный массив");
 
     std::cout << "Введите значения m и n: ";
     std::cin >> m >> n;
 
-    processArray(*arr, m, n);
-    printArray(*arr, "Обработанный массив");
+    processArray(arr, m, n);
+    printArray(arr, "Обработанный массив");
 
-    findMaxSum(*arr);
+    findMaxSum(arr);
 
     array_delete(arr);
 
