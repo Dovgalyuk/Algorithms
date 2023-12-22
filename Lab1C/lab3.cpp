@@ -1,19 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <queue> 
-
 #include "queue.h"
 #include "vector.h"
 
 using namespace std;
-struct Point {
-    int x, y;
-};
 
 struct Maze {
     vector<string> grid;
-    Point start, finish;
+    pair<int, int> start, finish;
 };
 
 void read_maze(const char *filename, Maze &maze);
@@ -24,14 +19,14 @@ void read_maze(const char *filename, Maze &maze) {
     ifstream file(filename);
 
     if (!file.is_open()) {
-        std::cerr << "Error opening file: " << filename << std::endl;
+        cerr << "Error opening file: " << filename << endl;
         exit(EXIT_FAILURE);
     }
 
     string line;
     int row = 0;
 
-    while (std::getline(file, line)) {
+    while (getline(file, line)) {
         maze.grid.push_back(line);
 
         size_t col = line.find('X');
@@ -57,34 +52,35 @@ void print_maze(const Maze &maze) {
 }
 
 bool solve_maze(Maze &maze) {
-    queue<Point> q;
-    q.push(maze.start);
+    Queue *q = queue_create();
+    queue_insert(q, maze.start);
 
-    while (!q.empty()) {
-        Point current = q.front();
-        q.pop();
+    while (!queue_empty(q)) {
+        pair<int, int> current = queue_get(q);
+        queue_remove(q);
 
-        if (current.x < 0 || current.y < 0 || static_cast<size_t>(current.x) >= maze.grid.size() || static_cast<size_t>(current.y) >= maze.grid[0].size()) {
-            continue;  
+        if (current.first < 0 || current.second < 0 || static_cast<size_t>(current.first) >= maze.grid.size() || static_cast<size_t>(current.second) >= maze.grid[0].size()) {
+            continue;
         }
 
-        char &cell = maze.grid[current.x][current.y];
+        char &cell = maze.grid[current.first][current.second];
 
         if (cell == 'Y') {
-            return true;  
+            return true;
         }
 
         if (cell == '.' || cell == 'X') {
-            cell = 'x';  
+            cell = 'x';
 
-            q.push({current.x + 1, current.y});
-            q.push({current.x - 1, current.y});
-            q.push({current.x, current.y + 1});
-            q.push({current.x, current.y - 1});
+            queue_insert(q, {current.first + 1, current.second});
+            queue_insert(q, {current.first - 1, current.second});
+            queue_insert(q, {current.first, current.second + 1});
+            queue_insert(q, {current.first, current.second - 1});
         }
     }
 
-    return false;  
+    queue_delete(q);
+    return false;
 }
 
 int main() {

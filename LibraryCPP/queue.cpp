@@ -1,5 +1,10 @@
 #include "queue.h"
 #include "vector.h"
+
+struct Queue {
+    Vector *vector;
+};
+
 Queue *queue_create() {
     Queue *queue = new Queue;
     queue->vector = vector_create();
@@ -11,12 +16,12 @@ void queue_delete(Queue *queue) {
     delete queue;
 }
 
-void queue_insert(Queue *queue, Data data) {
+void queue_insert(Queue *queue, const std::pair<int, int> &coordinates) {
     vector_resize(queue->vector, vector_size(queue->vector) + 1);
-    vector_set(queue->vector, vector_size(queue->vector) - 1, data);
+    vector_set(queue->vector, vector_size(queue->vector) - 1, coordinates);
 }
 
-Data queue_get(const Queue *queue) {
+std::pair<int, int> queue_get(const Queue *queue) {
     return vector_get(queue->vector, 0);
 }
 

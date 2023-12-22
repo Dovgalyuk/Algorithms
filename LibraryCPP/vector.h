@@ -1,21 +1,21 @@
+
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include <cstddef>  // for size_t
+#include <cstddef>  
+#include <utility>  
 
-typedef char Data;  
-struct Vector
-{
-    Data *data;      
-    size_t capacity;  
-    size_t size;      
+struct Vector {
+    std::pair<int, int> *data; 
+    size_t capacity;
+    size_t size;
 };
 
 Vector *vector_create(size_t initial_capacity = 10);
 void vector_delete(Vector *vector);
-Data vector_get(const Vector *vector, size_t index);
-void vector_set(Vector *vector, size_t index, Data value);
+std::pair<int, int> vector_get(const Vector *vector, size_t index); // Change the return type
+void vector_set(Vector *vector, size_t index, std::pair<int, int> value); // Change the data type
 size_t vector_size(const Vector *vector);
 void vector_resize(Vector *vector, size_t new_size);
 
-#endif
+#endif 
