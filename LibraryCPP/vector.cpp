@@ -26,7 +26,6 @@ Data vector_get(const Vector* vector, size_t index) {
     if (index < vector->size) {
         return vector->data[index];
     } else {
-        // Handle error, return a default value, throw an exception, etc.
         return (Data)0;
     }
 }
