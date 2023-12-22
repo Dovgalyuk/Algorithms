@@ -3,6 +3,7 @@
 
 #include "vector.h"
 #include <cstddef>
+
 typedef char Data;
 
 struct Queue;

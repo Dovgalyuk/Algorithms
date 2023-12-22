@@ -69,17 +69,18 @@ bool findPath(Vector* maze) {
     Point start;
     for (size_t i = 0; i < vector_size(maze); ++i) {
         if (vector_get(maze, i) == START) {
-            start.row = i / (vector_size(maze) + 1);  
+            start.row = i / (vector_size(maze) + 1);
             start.col = i % (vector_size(maze) + 1);
             break;
         }
     }
 
-    queue_insert(queue, start);  
+    queue_insert(queue, static_cast<Data>(PATH));
 
     while (!queue_empty(queue)) {
-        Point current = queue_get(queue).point; 
+        Data current = queue_get(queue);
         queue_remove(queue);
+
 
     }
 
