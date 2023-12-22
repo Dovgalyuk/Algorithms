@@ -2,13 +2,8 @@
 #include <fstream>
 #include "queue.h"
 #include "vector.h"
-
-
-struct Point {
-    size_t row;
-    size_t col;
-};
-
+#include "queue.cpp"
+#include "vector.cpp"
 
 using namespace std;
 
@@ -66,14 +61,6 @@ void printMaze(const Vector* maze) {
 
 bool findPath(Vector* maze) {
     Queue* queue = queue_create();
-    Point start;
-    for (size_t i = 0; i < vector_size(maze); ++i) {
-        if (vector_get(maze, i) == START) {
-            start.row = i / (vector_size(maze) + 1);
-            start.col = i % (vector_size(maze) + 1);
-            break;
-        }
-    }
 
     queue_insert(queue, static_cast<Data>(PATH));
 
