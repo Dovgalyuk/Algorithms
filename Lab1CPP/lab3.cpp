@@ -51,8 +51,6 @@ void input (Data &n, Data &start, Data &finish, List* list)
             list_insert(list, num2);
             list_insert(list, num);
         }
-    } else {
-        "Error open file!!!!!!\n";
     }
     fin.close();
 }
