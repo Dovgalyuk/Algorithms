@@ -75,10 +75,10 @@ bool findPath(Vector* maze) {
         }
     }
 
-    queue_insert(queue, START);
+    queue_insert(queue, start);  
 
     while (!queue_empty(queue)) {
-        Data current = queue_get(queue);
+        Point current = queue_get(queue).point; 
         queue_remove(queue);
 
     }
@@ -86,7 +86,6 @@ bool findPath(Vector* maze) {
     queue_delete(queue);
     return false;
 }
-
 int main() {
     const char* filename = "input.txt";  
     Vector* maze = readMaze(filename);
