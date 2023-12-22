@@ -3,6 +3,7 @@
 #include "queue.h"
 #include "vector.h"
 
+
 struct Point {
     size_t row;
     size_t col;
@@ -65,7 +66,6 @@ void printMaze(const Vector* maze) {
 
 bool findPath(Vector* maze) {
     Queue* queue = queue_create();
-
     Point start;
     for (size_t i = 0; i < vector_size(maze); ++i) {
         if (vector_get(maze, i) == START) {
@@ -78,9 +78,7 @@ bool findPath(Vector* maze) {
     queue_insert(queue, static_cast<Data>(PATH));
 
     while (!queue_empty(queue)) {
-        Data current = queue_get(queue);
         queue_remove(queue);
-
 
     }
 
