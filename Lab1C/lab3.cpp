@@ -30,7 +30,7 @@ void processRequests(const vector<Queue*>& queues, ofstream& output)
         int minQueueRequest = INT_MAX;
 
         // Find the queue and request with the earliest arrival time
-        for (size_type i = 0; i < queues.size(); i++)
+        for (size_t i = 0; i < queues.size(); i++)
         {
             if (!queue_empty(queues[i]))
             {
