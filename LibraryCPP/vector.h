@@ -5,12 +5,7 @@
 #include <cstddef>  
 #include <utility>  
 
-struct Vector {
-    std::pair<int, int> *data; 
-    size_t capacity;
-    size_t size;
-};
-
+struct Vector;
 Vector *vector_create(size_t initial_capacity = 10);
 void vector_delete(Vector *vector);
 std::pair<int, int> vector_get(const Vector *vector, size_t index); 

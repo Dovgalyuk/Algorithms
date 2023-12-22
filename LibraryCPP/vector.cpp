@@ -1,4 +1,9 @@
 #include "vector.h"
+struct Vector {
+    std::pair<int, int> *data; 
+    size_t capacity;
+    size_t size;
+};
 
 Vector *vector_create(size_t initial_capacity) {
     Vector *vector = new Vector;
