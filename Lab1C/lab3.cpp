@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <climits>
 #include "queue.h"
 
 using namespace std;
@@ -29,11 +30,11 @@ void processRequests(const vector<Queue*>& queues, ofstream& output)
         int minQueueRequest = INT_MAX;
 
         // Find the queue and request with the earliest arrival time
-        for (int i = 0; i < queues.size(); i++)
+        for (size_type i = 0; i < queues.size(); i++)
         {
             if (!queue_empty(queues[i]))
             {
-                int request = queue_front(queues[i]);
+                int request = queue_get(queues[i]);
                 if (request <= currentTime && request < minQueueRequest)
                 {
                     minQueueNum = i + 1;
