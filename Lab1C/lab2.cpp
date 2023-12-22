@@ -43,7 +43,7 @@ int main()
 		printf("NO\n");
 	}
 
-	stack_delete(stack)
+	stack_delete(stack);
 
 
     return 0;
