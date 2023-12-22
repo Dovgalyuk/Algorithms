@@ -1,16 +1,26 @@
-
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include <cstddef>  
-#include <utility>  
+typedef char Data;
 
 struct Vector;
-Vector *vector_create(size_t initial_capacity = 10);
-void vector_delete(Vector *vector);
-std::pair<int, int> vector_get(const Vector *vector, size_t index); 
-void vector_set(Vector *vector, size_t index, std::pair<int, int> value);
-size_t vector_size(const Vector *vector);
-void vector_resize(Vector *vector, size_t new_size);
 
-#endif 
+// Creates a new vector
+Vector* vector_create();
+
+// Deletes the vector and frees the memory
+void vector_delete(Vector* vector);
+
+// Gets the value at the specified index
+Data vector_get(const Vector* vector, size_t index);
+
+// Sets the value at the specified index
+void vector_set(Vector* vector, size_t index, Data value);
+
+// Gets the current size of the vector
+size_t vector_size(const Vector* vector);
+
+// Resizes the vector to the specified size
+void vector_resize(Vector* vector, size_t size);
+
+#endif
