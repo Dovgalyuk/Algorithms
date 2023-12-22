@@ -37,8 +37,9 @@ std::pair<int, int> queue_dequeue(Queue *queue) {
 }
 
 bool queue_empty(const Queue *queue) {
-    return vector_empty(queue->vector);  
+    return vector_size(queue->vector) == 0;  
 }
+
 
 std::pair<int, int> queue_get(const Queue *queue) {
     if (!queue_empty(queue)) {
