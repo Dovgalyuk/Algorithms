@@ -1,7 +1,6 @@
 #include "queue.h"
 #include "vector.h"
 #include <utility>
-
 struct Queue {
     Vector *vector;
 };
@@ -27,10 +26,12 @@ std::pair<int, int> queue_get(const Queue *queue) {
 }
 
 void queue_remove(Queue *queue) {
-    for (size_t i = 1; i < vector_size(queue->vector); ++i) {
-        vector_set(queue->vector, i - 1, vector_get(queue->vector, i));
+    if (!queue_empty(queue)) {
+        for (size_t i = 0; i < vector_size(queue->vector) - 1; ++i) {
+            vector_set(queue->vector, i, vector_get(queue->vector, i + 1));
+        }
+        vector_resize(queue->vector, vector_size(queue->vector) - 1);
     }
-    vector_resize(queue->vector, vector_size(queue->vector) - 1);
 }
 
 bool queue_empty(const Queue *queue) {
