@@ -9,6 +9,7 @@ add_test(TestListCPPTemplate TestListCPPTemplate)
 add_executable(TestQueueCPPTemplate queue.cpp)
 target_include_directories(TestQueueCPPTemplate PUBLIC ..)
 add_test(TestQueueCPPTemplate TestQueueCPPTemplate)
+set_tests_properties(TestQueueCPPTemplate PROPERTIES TIMEOUT 10)
 
 add_executable(TestStackCPPTemplate stack.cpp)
 target_include_directories(TestStackCPPTemplate PUBLIC ..)
