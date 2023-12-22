@@ -35,7 +35,7 @@ void findMaxSum(const Array* arr) {
         // Добавляем новый элемент
         currentSum += array_get(arr, i);
         // Удаляем самый старый элемент (те, что за пределами "скользящего окна")
-        currentSum -= array_get(arr, i);
+        currentSum -= array_get(arr, i - 5);
 
         // Обновляем максимальную сумму при необходимости
         if (currentSum > maxSum) {
