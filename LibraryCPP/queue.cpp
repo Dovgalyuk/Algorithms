@@ -34,3 +34,20 @@ std::pair<int, int> queue_dequeue(Queue *queue) {
 bool queue_empty(const Queue *queue) {
     return vector_size(queue->vector) == 0;
 }
+
+std::pair<int, int> queue_get(const Queue *queue) {
+    if (!queue_empty(queue)) {
+        return vector_get(queue->vector, 0);
+    }
+    return {-1, -1};  
+}
+
+void queue_remove(Queue *queue) {
+    if (!queue_empty(queue)) {
+        for (size_t i = 0; i < vector_size(queue->vector) - 1; ++i) {
+            vector_set(queue->vector, i, vector_get(queue->vector, i + 1));
+        }
+
+        vector_resize(queue->vector, vector_size(queue->vector) - 1);
+    }
+}
