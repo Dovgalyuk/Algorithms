@@ -1,102 +1,105 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
 #include "queue.h"
 #include "vector.h"
 
-using namespace std;
-
-struct Maze {
-    vector<string> grid;
-    pair<int, int> start, finish;
+struct Point {
+    size_t row;
+    size_t col;
 };
 
 
-void read_maze(const char *filename, Maze &maze) {
-    ifstream file(filename);
+using namespace std;
 
+const char WALL = '#';
+const char EMPTY = '.';
+const char START = 'X';
+const char FINISH = 'Y';
+const char PATH = 'x';
+
+
+Vector* readMaze(const char* filename) {
+    ifstream file(filename);
     if (!file.is_open()) {
         cerr << "Error opening file: " << filename << endl;
-        exit(EXIT_FAILURE);
+        return nullptr;
     }
 
-    string line;
-    int row = 0;
+    Vector* maze = vector_create();
+    char c;
 
-    while (getline(file, line)) {
-        maze.grid.push_back(line);
-
-        size_t col = line.find('X');
-        if (col != string::npos) {
-            maze.start = {static_cast<int>(row), static_cast<int>(col)};
+    size_t capacity = 0;
+    while (file.get(c)) {
+        if (c != '\n') {
+            ++capacity;
         }
+    }
 
-        col = line.find('Y');
-        if (col != string::npos) {
-            maze.finish = {static_cast<int>(row), static_cast<int>(col)};
+    file.clear();
+    file.seekg(0, ios::beg);
+    vector_resize(maze, capacity);
+
+    size_t index = 0;
+    while (file.get(c)) {
+        if (c != '\n') {
+            vector_set(maze, index++, c);
         }
-
-        ++row;
     }
 
     file.close();
+    return maze;
 }
 
-void print_maze(const Maze &maze) {
-    for (const auto &row : maze.grid) {
-        cout << row << endl;
+
+
+void printMaze(const Vector* maze) {
+    for (size_t i = 0; i < vector_size(maze); ++i) {
+        char c = vector_get(maze, i);
+        if (c == '\n') {
+            cout << std::endl;
+        } else {
+            cout << c;
+        }
     }
 }
 
-bool solve_maze(Maze &maze) {
-    Queue *q = queue_create();
-    queue_enqueue(q, maze.start);
+bool findPath(Vector* maze) {
+    Queue* queue = queue_create();
 
-    while (!queue_empty(q)) {
-        pair<int, int> current = queue_dequeue(q);
-
-        if (current == maze.finish) {
-            queue_delete(q);
-            return true;
-        }
-
-        if (current.first < 0 || current.second < 0 || static_cast<size_t>(current.first) >= maze.grid.size() ||
-            static_cast<size_t>(current.second) >= maze.grid[0].size()) {
-            continue;
-        }
-
-        char &cell = maze.grid[current.first][current.second];
-
-        if (cell == 'Y') {
-            queue_delete(q);
-            return true;
-        }
-
-        if (cell == '.' || cell == 'X') {
-            cell = 'x';
-
-            queue_enqueue(q, {current.first + 1, current.second});
-            queue_enqueue(q, {current.first - 1, current.second});
-            queue_enqueue(q, {current.first, current.second + 1});
-            queue_enqueue(q, {current.first, current.second - 1});
+    Point start;
+    for (size_t i = 0; i < vector_size(maze); ++i) {
+        if (vector_get(maze, i) == START) {
+            start.row = i / (vector_size(maze) + 1);  
+            start.col = i % (vector_size(maze) + 1);
+            break;
         }
     }
 
-    queue_delete(q);
+    queue_insert(queue, START);
+
+    while (!queue_empty(queue)) {
+        Data current = queue_get(queue);
+        queue_remove(queue);
+
+    }
+
+    queue_delete(queue);
     return false;
 }
 
-
 int main() {
-    Maze maze;
-    read_maze("input.txt", maze);
+    const char* filename = "input.txt";  
+    Vector* maze = readMaze(filename);
 
-    if (solve_maze(maze)) {
-        print_maze(maze);
-    } else {
-        cout << "IMPOSSIBLE" << endl;
+    if (maze) {
+        if (findPath(maze)) {
+            printMaze(maze);
+        } else {
+            cout << "IMPOSSIBLE" << std::endl;
+        }
+
+        vector_delete(maze);
     }
 
     return 0;
 }
-
