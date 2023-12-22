@@ -58,3 +58,14 @@ void queue_remove(Queue *queue) {
         vector_resize(queue->vector, vector_size(queue->vector) - 1); 
     }
 }
+void queue_insert(Queue *queue, size_t index, const std::pair<int, int> &coordinates) {
+    if (index <= vector_size(queue->vector)) {
+        vector_resize(queue->vector, vector_size(queue->vector) + 1); 
+
+        for (size_t i = vector_size(queue->vector) - 1; i > index; --i) {
+            vector_set(queue->vector, i, vector_get(queue->vector, i - 1));
+        }
+
+        vector_set(queue->vector, index, coordinates);  // Insert the new element
+    }
+}
