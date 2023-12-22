@@ -4,7 +4,7 @@
 
 int Calc(const std::string& str) {
     Stack* st = stack_create();
-    std::istringstream iss(expression);
+    std::istringstream iss(str);
     std::string token;
 
     while (iss >> token) {
