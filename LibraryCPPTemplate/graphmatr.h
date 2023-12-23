@@ -8,27 +8,28 @@ private:
     const Vector<int>* adjMatrix;
     long unsigned int numVertices;
     long unsigned int currentVertex;
-    Vector<long unsigned int> adjacentVertices;
 
 public:
     AdjacentVertexIterator(const Vector<int>* adjMatrix, long unsigned int startVertex, long unsigned int numVertices)
-        : adjMatrix(adjMatrix), numVertices(numVertices), currentVertex(startVertex) {
-        for (long unsigned int i = 0; i < numVertices; i++) {
-            if (adjMatrix->get(startVertex * numVertices + i) != 0) {
-                adjacentVertices.set(adjacentVertices.size(), i);
-            }
-        }
-    }
+        : adjMatrix(adjMatrix), numVertices(numVertices), currentVertex(startVertex) {}
 
     bool hasNext() {
-        return currentVertex < adjacentVertices.size();
+        for (long unsigned int i = currentVertex; i < numVertices; i++) {
+            if (adjMatrix->get(currentVertex * numVertices + i) != 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     long unsigned int next() {
-        if (currentVertex >= adjacentVertices.size()) {
-            return numVertices;
+        for (long unsigned int i = currentVertex; i < numVertices; i++) {
+            if (adjMatrix->get(currentVertex * numVertices + i) != 0) {
+                currentVertex = i;
+                return i;
+            }
         }
-        return adjacentVertices.get(currentVertex++);
+        return numVertices;
     }
 };
 
