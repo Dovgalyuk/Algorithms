@@ -43,5 +43,11 @@ int main()
         queue->remove();
     }
 
+    // Performance test
+    for (int i = 1 ; i <= 10000000 ; ++i)
+    {
+        queue->insert(i);
+    }
+
     delete queue;
 }
