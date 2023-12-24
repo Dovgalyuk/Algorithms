@@ -66,20 +66,26 @@ bool input (Data &n, Data &start, Data &finish, List* list)
     return flag;
 }
 
-void upd_queue_par(Data n, Data upd_iter, Data upd_value, Queue* parents) 
+void upd_parent(List* parents, Data n, Data upd_iter, Data upd_value) 
 {
-    //прокрутка очереди для вставки значения
-    for (Data i = 1; i <= n; i++) {
-        Data num = queue_get(parents);
-        if (i == upd_iter && num == 0) {
-            num = upd_value;
-        } 
-        queue_insert(parents, num);
-        queue_remove(parents);
+    ListItem* temp = list_first(parents);
+    if(upd_iter == 1 && list_item_data(temp) == 0) {
+        list_insert_after(parents, temp, upd_value);
+        list_erase_first(parents);
+    }
+    else {
+        for (Data i = 2; i <= n; i++) {
+            Data num = list_item_data(temp);
+            if (i == upd_iter && num == 0) {
+                list_insert_after(parents, temp, upd_value);  
+                list_erase_next(parents, list_item_next(temp));       
+            }
+            temp = list_item_next(temp);
+        }
     }
 }
 
-bool check_value(Data n, Data parent_element, Data child_element, List* list, Queue* parents) 
+bool check_value(Data n, Data child_element, List* list, List* parents) 
 {
     bool flag = true;
     // проверка вершины на пройденность
@@ -92,21 +98,20 @@ bool check_value(Data n, Data parent_element, Data child_element, List* list, Qu
     }     
     if (flag) {
         //проверка на одинакового родителя двух вершин
-        Data temp = 0;
+        Data data = 0;
+        ListItem* temp = list_first(parents);
         for (Data i = 1; i <= n; i++) 
         {
-            Data num = queue_get(parents);
-            if (num != 0 && temp == num) {
+            Data num = list_item_data(temp);
+            if (num != 0 && data == num) {
                 flag = false;
                 break;
             }
             
-            if (i == parent_element || i == child_element) {
-                temp = num;
+            if (i == child_element) {
+                data = num;
             } 
-            //прокрутка очереди для вставки значения
-            queue_insert(parents, num);
-            queue_remove(parents);
+            temp = list_item_next(temp);
         }
     }
     return flag;
@@ -115,13 +120,13 @@ bool check_value(Data n, Data parent_element, Data child_element, List* list, Qu
 List* find_shortest_road(Data n, Data start, Data finish, List* adj_list) 
 {
     Queue* queue = queue_create();
-    Queue* parents = queue_create();
+    List* parents = list_create();
     List* visited_nodes = list_create();
     List* road = list_create();
-    //инициализация очереди родителей
+    //инициализация списка родителей
     for (Data i = 1; i <= n; i++)
     {
-        queue_insert(parents, 0);
+        list_insert(parents, 0);
     }
     queue_insert(queue, start);
     //обход графа
@@ -145,10 +150,10 @@ List* find_shortest_road(Data n, Data start, Data finish, List* adj_list)
             {
                 child_element = list_item_data(list_item_next(item));
 
-                if (parent_element == start || check_value(n, parent_element, child_element, visited_nodes, parents)) {
+                if ( parent_element == start || check_value(n, child_element, visited_nodes, parents) ) {
                     dead_end_node = false;
                     queue_insert(queue, child_element);
-                    upd_queue_par(n, child_element, parent_element, parents);
+                    upd_parent(parents, n, child_element, parent_element);
                 }
             }
         }
@@ -161,7 +166,7 @@ List* find_shortest_road(Data n, Data start, Data finish, List* adj_list)
         road = nullptr;
     }
     queue_delete(queue);
-    queue_delete(parents);
+    list_delete(parents);
     list_delete(visited_nodes);
     return road;
 }
@@ -187,9 +192,10 @@ void output(List* road, Data start, Data finish) {
 int main()
 {
     List* adj_list = list_create();
+    List* road = nullptr;
     Data n = 0;
     Data start = 0, finish = 0;
-    List* road = nullptr;
+    
     if (input(n, start, finish, adj_list)){
         road = find_shortest_road(n, start, finish, adj_list);        
     }
