@@ -2,7 +2,7 @@
 #define VECTOR_H
 
 #include <cstddef>
-
+#include <algorithm>
 template <typename Data>
 class Vector
 {
@@ -39,7 +39,14 @@ public:
         return *this;
     } 
     
-
+void swap(Vector& other)
+    {
+        // используйте std::swap для обмена указателями на данные, размерами и максимальными размерами
+        std::swap(data, other.data);
+        std::swap(vector_size, other.vector_size);
+        std::swap(max_size, other.max_size);
+    }
+    
     ~Vector()  
     {
         delete[] data;  

@@ -39,47 +39,18 @@ public:
     }
 
     Graph& operator=(const Graph& other) {
-        if (this == &other) {
-            return *this;  
-        }
-
-        
-        if (vertexes) {
-            for (size_t i = 0; i < vertexes->size(); i++) {
-                delete vertexes->get(i);  
-            }
-            delete vertexes;  
-        }
-
-        if (edgeMatrix) {
-            for (size_t i = 0; i < edgeMatrix->size(); i++) {
-                delete edgeMatrix->get(i);  
-            }
-            delete edgeMatrix;  
-        }
-
-        
-        vertexes = new Vector<Vertex*>;
-        vertexes->resize(other.vertexes->size());  
-        for (size_t i = 0; i < other.vertexes->size(); ++i) {
-            vertexes->set(i, new Vertex(*(other.vertexes->get(i))));  
-        }
-
-        
-        edgeMatrix = new Vector<Edge*>;
-        edgeMatrix->resize(other.edgeMatrix->size());  
-        for (size_t i = 0; i < other.edgeMatrix->size(); ++i) {
-            Edge* edge = other.edgeMatrix->get(i);
-            if (edge) {
-                edgeMatrix->set(i, new Edge(*(edge)));  
-            }
-            else {
-                edgeMatrix->set(i, nullptr);  
-            }
-        }
-
-        return *this;  
+    if (this == &other) {
+        return *this;
     }
+
+    // Используем swap для обмена данными между объектами Vector
+    vertexes->swap(*(other.vertexes));
+    edgeMatrix->swap(*(other.edgeMatrix));
+
+    return *this;
+}
+
+    
     struct Vertex {
     private:
         Data vertex_data;
@@ -162,66 +133,60 @@ public:
     Iterator getIterator(size_t start) {
         return Iterator(this, start);
     }
+
     size_t addVertex(Data vertex_data) {
-        size_t index = vertexes->size();
-        vertexes->resize(index + 1);
-        vertexes->set(index, new Vertex(vertex_data));
+    size_t index = vertexes.size();
+    vertexes.resize(index + 1);
+    vertexes.set(index, Vertex(vertex_data));
 
-        size_t vertex_amount = getVertexAmount();
+    size_t vertex_amount = getVertexAmount();
 
-        Vector<Edge*>* buffMatrix = new Vector<Edge*>;
-        buffMatrix->resize(vertex_amount * vertex_amount);
-        for (size_t i = 0; i < vertex_amount; i++) {
-            for (size_t j = 0; j < vertex_amount; j++) {
-                buffMatrix->set((i * vertex_amount) + j, edgeMatrix->get(i * index + j));
-            }
+    Vector<Edge> buffMatrix;
+    buffMatrix.resize(vertex_amount * vertex_amount);
+    for (size_t i = 0; i < vertex_amount; i++) {
+        for (size_t j = 0; j < vertex_amount; j++) {
+            buffMatrix.set((i * vertex_amount) + j, edgeMatrix.get(i * index + j));
         }
-        for (size_t i = 0; i < edgeMatrix->size(); i++) {
-            if (edgeMatrix->get(i)) {
-                delete edgeMatrix->get(i);
-            }
-        }
-        delete edgeMatrix;
-        edgeMatrix = buffMatrix;
-        return index;
     }
+
+    edgeMatrix.swap(buffMatrix);
+
+    return index;
+}
     void removeVertex(size_t index) {
-        size_t _vertex_amount = getVertexAmount();
+    size_t _vertex_amount = getVertexAmount();
 
-        if (index >= _vertex_amount) {
-            return;
-        }
-
-        Vertex* vertex = vertexes->get(index);
-        delete vertex;
-
-        for (size_t i = index; i < _vertex_amount - 1; i++) {
-            vertexes->set(i, vertexes->get(i + 1));
-        }
-        vertexes->resize(_vertex_amount - 1);
-
-        for (size_t i = 0; i < _vertex_amount; i++) {
-            delete edgeMatrix->get(index * _vertex_amount + i);
-            delete edgeMatrix->get(i * _vertex_amount + index);
-        }
-
-
-        size_t vertex_amount = getVertexAmount();
-
-
-        Vector<Edge*>* buffMatrix = new Vector<Edge*>;
-        buffMatrix->resize(vertex_amount * vertex_amount);
-        for (size_t i = 0; i < vertex_amount; i++) {
-            for (size_t j = 0; j < vertex_amount; j++) {
-
-                Edge* edge = edgeMatrix->get(((i + (i >= index)) * _vertex_amount) + (j + (j >= index)));
-                buffMatrix->set((i * vertex_amount) + j, edge);
-            }
-        }
-
-        delete edgeMatrix;
-        edgeMatrix = buffMatrix;
+    if (index >= _vertex_amount) {
+        return;
     }
+
+    Vertex* vertex = vertexes->get(index);
+    delete vertex;
+
+    for (size_t i = index; i < _vertex_amount - 1; i++) {
+        vertexes->set(i, vertexes->get(i + 1));
+    }
+    vertexes->resize(_vertex_amount - 1);
+
+    for (size_t i = 0; i < _vertex_amount; i++) {
+        delete edgeMatrix->get(index * _vertex_amount + i);
+        delete edgeMatrix->get(i * _vertex_amount + index);
+    }
+
+    size_t vertex_amount = getVertexAmount();
+
+    Vector<Edge*>* buffMatrix = new Vector<Edge*>;
+    buffMatrix->resize(vertex_amount * vertex_amount);
+    for (size_t i = 0; i < vertex_amount; i++) {
+        for (size_t j = 0; j < vertex_amount; j++) {
+            Edge* edge = edgeMatrix->get(((i + (i >= index)) * _vertex_amount) + (j + (j >= index)));
+            buffMatrix->set((i * vertex_amount) + j, edge);
+        }
+    }
+
+    edgeMatrix->swap(*buffMatrix);
+    delete buffMatrix;
+}
     Vertex* getVertex(size_t index) {
         return vertexes->get(index);
     }
