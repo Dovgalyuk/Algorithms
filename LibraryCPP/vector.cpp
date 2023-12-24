@@ -78,7 +78,3 @@ void vector_resize(Vector* vector, size_t size)
     }
 
 }
-
-void vector_resize(Vector *vector, size_t size)
-{
-}
