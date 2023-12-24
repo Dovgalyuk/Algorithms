@@ -3,38 +3,38 @@
 
 #include "vector.h"
 
-template<typename Data>
+template<typename Info>
 class Graph {
 public:
 	
 	struct Vertex {
 	private:
-		Data vertexData;
+		Info vertexData;
 	public:
-		Vertex() : vertexData(Data()) {}
+		Vertex() : vertexData(Info()) {}
 
-		Vertex(Data vertexData) {
+		Vertex(Info vertexData) {
 			this->vertexData = vertexData;
 		}
-		void setVertexData(Data vertexData) {
+		void setVertexData(Info vertexData) {
 			this->vertexData = vertexData;
 		}
-		Data getVertexData() {
+		Info getVertexData() {
 			return this->vertexData;
 		}
 	};
 	
 	struct Edge {
 	private:
-		Data edgeData;
+		Info edgeData;
 	public:
-		Edge(Data data) {
+		Edge(Info data) {
 			this->edgeData = data;
 		}
-		void setEdgeData(Data data) {
+		void setEdgeData(Info data) {
 			this->edgeData = data;
 		}
-		Data getEdgeData() {
+		Info getEdgeData() {
 			return edgeData;
 		}
 	};
@@ -97,7 +97,7 @@ public:
 		return vertexes.size();
 	}
 
-	size_t addVertex(Data vertexData) {
+	size_t addVertex(Info vertexData) {
 		size_t index = vertexes.size();
 		vertexes.resize(index + 1);
 		vertexes.set(index, Vertex(vertexData));
@@ -170,7 +170,7 @@ public:
 		return getEdge(startVertexIndex, endVertexIndex) != nullptr;
 	}
 
-	void addEdge(size_t startVertexIndex, size_t endVertexIndex, Data edgeData) {
+	void addEdge(size_t startVertexIndex, size_t endVertexIndex, Info edgeData) {
 		size_t vertexAmount = getVertexAmount();
 
 		Edge* edge = edgeMatrix.get(startVertexIndex * vertexAmount + endVertexIndex);
