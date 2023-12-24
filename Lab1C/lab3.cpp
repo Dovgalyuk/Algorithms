@@ -9,7 +9,7 @@ int main() {
 	int stroki=5, dlstrok;
 	cout << "input colvo strok";
 	cin >> stroki;
-	string lab[10];
+	string lab[100];
 
 	for (int a = 0; a < stroki; a++)
 	{
@@ -18,9 +18,9 @@ int main() {
 	
 	char z;
 	int count = 1;
-	Queue x;
+	Queue *x;
 	x = queue_create();
-	Queue y;
+	Queue *y;
 	y = queue_create();
 	dlstrok = lab[0].length();
 	for (int a = 0; a < stroki; a++)
