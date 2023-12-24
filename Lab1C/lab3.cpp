@@ -18,9 +18,9 @@ int main() {
 	
 	char z;
 	int count = 1;
-	Queue *x;
+	Queue x;
 	x = queue_create();
-	Queue *y;
+	Queue y;
 	y = queue_create();
 	dlstrok = lab[0].length();
 	for (int a = 0; a < stroki; a++)
@@ -47,7 +47,7 @@ int main() {
 
 		if (y1+1 <= stroki && lab[y1+1][x1] == '.')
 		{
-    	queue_insert(x, x1);
+    			queue_insert(x, x1);
 			queue_insert(y, y1+1);
 			lab[y1 + 1][x1] = 'X';
 			count++;
@@ -80,8 +80,7 @@ int main() {
 	cout << "\n";
 	for (int a = 0; a < stroki; a++)
 	{
-		for (int b = 0;  b < dlstrok; b++)
-			cout << lab[a][b];
+		for (int b = 0;  b < dlstrok; b++) cout << lab[a][b];
 		cout << "\n";
 	}
 	queue_delete(x);
