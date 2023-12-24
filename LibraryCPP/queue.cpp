@@ -1,17 +1,20 @@
 #include "queue.h"
+#include "list.h"
 
 struct Queue
 {
+    List* list = list_create();
+    ListItem* last = nullptr;
 };
 
-Queue *queue_create()
+Queue* queue_create()
 {
     return new Queue;
 }
 
-void queue_delete(Queue *queue)
+void queue_delete(Queue* queue)
 {
-    // TODO: free queue items
+    list_delete(queue->list);
     delete queue;
 }
 
