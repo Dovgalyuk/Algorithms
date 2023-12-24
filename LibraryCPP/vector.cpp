@@ -26,7 +26,7 @@ Vector* vector_create()
 
 void vector_delete(Vector* vector)
 {
-    TODO: free vector internals
+    //TODO: free vector internals
     delete vector;
 }
 
