@@ -34,13 +34,15 @@ public:
     };
 
     // Creates new list
-    List(){
+    List()
+    {
         head_ = nullptr;
         tail_ = nullptr;    
     }
 
     // copy constructor
-    List(const List &a){
+    List(const List &a)
+    {
         head_ = nullptr;
         tail_ = nullptr;
         Item* temp = a.head_;
@@ -51,7 +53,8 @@ public:
     }
 
     // assignment operator
-    List& operator=(const List &a){
+    List &operator=(const List &a)
+    {
         if (this != &a) {
             while (head_) {
                 Item* temp = head_;
@@ -78,7 +81,8 @@ public:
     }
     
     // Destroys the list and frees the memory
-    ~List() {
+    ~List() 
+    {
         while (head_) {
             Item* deleted = head_;
             head_ = head_->next();
@@ -162,11 +166,13 @@ public:
         return item->next();
     }
 
-    Item* last() {
+    Item* last() 
+    {
         return tail_;
     }
 
-    Item* operator[](size_t index) const {
+    Item* operator[](size_t index) const 
+    {
         Item* current = head_;
         size_t i = 0;
 
