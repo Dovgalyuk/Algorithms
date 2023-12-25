@@ -36,7 +36,7 @@ void task1(Array *arr)
 void task2(Array *arr)
 {
     size_t size;
-    cout << "¬ведите размер массива : ";
+    cout << "¬ведите размер массива: ";
     cin >> size;
     arr = array_create(size);
     for (size_t i = 0; i < size; i++)
