@@ -22,7 +22,6 @@ struct Request
 void processRequests(const vector<Queue*>& queues, ofstream& output)
 {
     vector<Request> processedRequests;
-    int currentTime = 0;
 
     while (true)
     {
@@ -35,7 +34,7 @@ void processRequests(const vector<Queue*>& queues, ofstream& output)
             if (!queue_empty(queues[i]))
             {
                 int request = queue_get(queues[i]);
-                if (request <= currentTime && request < minQueueRequest)
+                if (request < minQueueRequest)
                 {
                     minQueueNum = i + 1;
                     minQueueRequest = request;
@@ -50,8 +49,6 @@ void processRequests(const vector<Queue*>& queues, ofstream& output)
         // Process the earliest request from the selected queue
         processedRequests.push_back({ minQueueNum, minQueueRequest });
         queue_remove(queues[minQueueNum - 1]);
-
-        currentTime++;
     }
 
     for (const auto& request : processedRequests)
@@ -83,7 +80,6 @@ int main()
 
         queues.push_back(queue);
     }
-
     processRequests(queues, output);
 
     for (auto queue : queues)
