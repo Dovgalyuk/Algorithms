@@ -6,32 +6,32 @@
 template<typename Data>
 class Graph {
 public:
-   Graph(size_t vertex_amount, Data vertex_data) : vertexes(), edgeMatrix() {
-        // Заполнение вершинами
-        vertexes.resize(vertex_amount);
-        for (size_t i = 0; i < vertex_amount; i++) {
-            vertexes.set(i, Vertex(vertex_data));
-        }
+   Graph(size_t vertexAmount) {
+		vertexes.resize(vertexAmount);
+		for (size_t i = 0; i < vertexAmount; i++) {
+			vertexes.set(i, Vertex( static_cast<int>(i) ));
+		}
+		edgeMatrix.resize(vertexAmount * vertexAmount);
+		for (size_t i = 0;i<edgeMatrix.size();i++){
+			edgeMatrix.set(i, nullptr);
+		}
+	}
+	//деструктор графа
+	~Graph() {
+		for (size_t i = 0; i < edgeMatrix.size(); i++) {
+			delete edgeMatrix.get(i);
+		}
+	}
+    Graph(const Graph& a) {
+    // Копирование вершин
+    vertexes = a.vertexes;
 
-        // Создание матрицы смежности
-        edgeMatrix.resize(vertex_amount * vertex_amount);
+    // Создаем временную копию объекта Vector<Edge>
+    Vector<Edge*> tempEdgeMatrix = a.edgeMatrix;
 
-        // Заполнение матрицы смежности указателями на Edge (nullptr для отсутствующих ребер)
-        for (size_t i = 0; i < edgeMatrix.size(); i++) {
-            edgeMatrix.set(i, nullptr);
-        }
-    }
-
-    ~Graph() {
-        // Используем деструктор Vector для удаления объектов Edge
-        for (size_t i = 0; i < edgeMatrix.size(); i++) {
-            delete edgeMatrix.get(i);
-        }
-    }
-
-    Graph(const Graph& other) : vertexes(), edgeMatrix() {
-        *this = other;
-    }
+    // Используем swap для обмена данными между объектами Vector<Edge>
+    edgeMatrix.swap(tempEdgeMatrix);
+}
 
     Graph& operator=(const Graph& other) {
         if (this == &other) {
@@ -56,46 +56,36 @@ public:
 
 
     struct Vertex {
-private:
-    Data vertex_data;
+	private:
+		Data vertexData;
+	public:
+		Vertex() : vertexData(Data()) {}
 
-public:
-    Vertex() : vertex_data(Data()) {}
-
-    Vertex(Data vertex_data) : vertex_data(vertex_data) {}
-
-    void setVertexData(Data data) {
-        this->vertex_data = data;
-    }
-
-    Data getVertexData() const {
-        return vertex_data;
-    }
-    
-    
-};
-
-struct Edge {
-private:
-    Data edge_data;
-
-public:
-    Edge() : edge_data() {}
-
-    Edge(Data data) : edge_data(data) {}
-
-    void setEdgeData(Data data) {
-        this->edge_data = data;
-    }
-
-    Data getEdgeData() const {
-        return edge_data;
-    }
-
-    void destroy() {
-        delete this;
-    }
-};
+		Vertex(Data vertexData) {
+			this->vertexData = vertexData;
+		}
+		void setVertexData(Data vertexData) {
+			this->vertexData = vertexData;
+		}
+		Data getVertexData() {
+			return this->vertexData;
+		}
+	};
+	
+	struct Edge {
+	private:
+		Data edgeData;
+	public:
+		Edge(Data data) {
+			this->edgeData = data;
+		}
+		void setEdgeData(Data data) {
+			this->edgeData = data;
+		}
+		Data getEdgeData() {
+			return edgeData;
+		}
+	};
 
 size_t getVertexAmount() const {
     return vertexes.size();
@@ -106,7 +96,7 @@ struct Iterator {
         private:
             Graph* graph;  // Указатель на граф
             size_t start;  // Индекс начальной вершины
-            size_t end;  // Индекс следующей смежной вершины
+            int end = -1;   // Индекс следующей смежной вершины
 
             // метод для поиска индекса ближайшей вершины, смежной с текущей
             size_t getNearVertexIndex() {
@@ -123,14 +113,27 @@ struct Iterator {
             Iterator(Graph* graph, size_t start) : graph(graph), start(start), end(getNearVertexIndex()) {}
 
             // Оператор разыменования
-            size_t operator *() {
-                return end != graph->getVertexAmount() ? end : static_cast<size_t>(-1);
-            }
+           bool operator *() {
+			if (end != -1) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 
             // Префиксный оператор инкремента для перехода к следующей смежной вершине
             void operator ++() {
                 end = getNearVertexIndex();
             }
+
+            size_t getIndex() const {
+			return end;
+		}
+
+		    int getStart() const {
+			return start;
+		}
         };
 
     Iterator getIterator(size_t start) {
@@ -144,7 +147,7 @@ size_t addVertex(Data vertex_data) {
 
     size_t vertex_amount = getVertexAmount();
 
-    Vector<Edge> buffMatrix;
+    Vector<Edge*> buffMatrix;
     buffMatrix.resize(vertex_amount * vertex_amount);
     for (size_t i = 0; i < vertex_amount; i++) {
         for (size_t j = 0; j < vertex_amount; j++) {
