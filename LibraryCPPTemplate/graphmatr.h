@@ -136,9 +136,9 @@ public:
 
         adjMatrix.resize(numVertices * numVertices);
 
-        for (long unsigned int i = vertex; i < numVertices; i++) {
-            vertices[i] = vertices[i + 1];
-        }
+        for (long unsigned int i = vertex; i < numVertices; i++)
+            vertices.set(i, vertices.get(i + 1));
+        
 
         vertices.resize(numVertices);
     }
