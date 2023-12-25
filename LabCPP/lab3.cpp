@@ -15,10 +15,10 @@ vector<int> bfs(vector<vector<int>>& graph, int start) {
     while (!queue_empty(q)) {
         int v = queue_get(q);
         queue_remove(q);
-        for (int to = 0; to < graph.size(); ++to) {
+        for (size_t to = 0; to < graph.size(); ++to) {
             if (graph[v][to] && dist[to] == INF) {
                 dist[to] = dist[v] + 1;
-                queue_insert(q, to);
+                queue_insert(q, static_cast<int>(to));
             }
         }
     }
