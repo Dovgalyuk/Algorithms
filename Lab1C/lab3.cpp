@@ -2,14 +2,38 @@
 #include <stdlib.h>
 #include "queue.h"
 #include <string>
+#include <fstream> 
 #include <iostream>
 using namespace std;
 
 int main() {
-	int stroki, dlstrok;
-	cout << "vveditecolvo strok";
-	cin >> stroki;
+	int stroki=0, dlstrok;
 	string lab[100];
+	string way,strbuf ;
+
+	cout << "Enter the way to the file: ";
+	getline(cin, way);
+	cout << "\n"; // C:\Users\iga\Desktop\test.txt
+	ifstream file(way);
+	if (!file.is_open())
+	{
+		cout << "\nMistake! The path  ( " << way << " )  is not found!\n";
+		return 0;
+	}
+	else
+	{
+		while (!file.eof())
+		{
+			
+			++stroki;
+			for(int i=0;i<strbuf.lenght();i++) {
+				getline(file, strbuf);
+				lab[i] += strbuf;
+							   }
+		}
+	}
+	file.close();
+	strbuf.clear();
 
 	for (int a = 0; a < stroki; a++)
 	{
