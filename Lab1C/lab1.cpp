@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include <ctime>
 #include "array.h"
-#include "array.cpp"
 using namespace std;
 
 void fillArrayWithRandomNumbers(Array* arr) {
@@ -11,28 +10,38 @@ void fillArrayWithRandomNumbers(Array* arr) {
         array_set(arr, i, rand() % 100 - 50);
     }
 }
+
 void printArray(const Array* arr) {
-    cout << "Массив: ";
+    cout << "Array: ";
     for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << " ";
     }
     cout << endl;
 }
+
 void task1(Array* arr, int k1, int k2) {
+    if (k1 < 0 || k1 >= array_size(arr) || k2 < 0 || k2 >= array_size(arr)) {
+        cout << "Invalid k1 or k2 index" << endl;
+        return;
+    }
+
+    int num_k1 = array_get(arr, k1);
+    int num_k2 = array_get(arr, k2);
+
     for (size_t i = 0; i < array_size(arr); i++) {
         int num = array_get(arr, i);
         if (num > 0) {
-            array_set(arr, i, num - k1); // Вычитаем k1 из положительных элементов
+            array_set(arr, i, num - num_k1);
         }
         else if (num < 0) {
-            array_set(arr, i, num - k2); // Вычитаем k2 из отрицательных элементов
+            array_set(arr, i, num - num_k2);
         }
     }
     printArray(arr);
 }
 
 void task2(Array* arr) {
-    cout << "Уникальные элементы: ";
+    cout << "Unique elements: ";
     for (size_t i = 0; i < array_size(arr); i++) {
         bool isUnique = true;
         for (size_t j = 0; j < array_size(arr); j++) {
@@ -47,7 +56,7 @@ void task2(Array* arr) {
     }
     cout << endl;
 
-    cout << "Массив: ";
+    cout << "Array: ";
     for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << " ";
     }
@@ -57,7 +66,7 @@ void task2(Array* arr) {
 int main() {
     setlocale(LC_ALL, "rus");
     size_t size;
-    cout << "Введите размер массива: ";
+    cout << "Enter the size of the array: ";
     cin >> size;
 
     Array* arr = array_create(size);
@@ -65,13 +74,12 @@ int main() {
     printArray(arr);
 
     int k1, k2;
-    cout << "Введите k1: ";
+    cout << "Enter k1: ";
     cin >> k1;
-    cout << "Введите k2: ";
+    cout << "Enter k2: ";
     cin >> k2;
 
     task1(arr, k1, k2);
-
     task2(arr);
 
     array_delete(arr);
