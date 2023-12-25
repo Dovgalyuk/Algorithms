@@ -13,11 +13,11 @@ int main() {
     }
 
     for (size_t i = 0; i < vertex_count; i++) {
-        graph.getVertex(i).setVertexData(static_cast<int>(i));
+        graph.getVertex(i)->setVertexData(static_cast<int>(i));
     }
 
     for (size_t i = 0; i < vertex_count; i++) {
-        if (graph.getVertex(i).getVertexData() != static_cast<int>(i)) {
+        if (graph.getVertex(i)->getVertexData() != static_cast<int>(i)) {
             std::cout << "Invalid vertex data\n";
             return 1;
         }
@@ -34,20 +34,20 @@ int main() {
 
     auto it = graph.getIterator(0);
     while (*it != static_cast<size_t>(-1)) {
-        if (graph.getVertex(*it).getVertexData() != 3) {
+        if (graph.getVertex(*it)->getVertexData() != 3) {
             std::cout << "Invalid iteration\n";
             return 1;
         }
         ++it;
     }
 
-    if (graph.getEdge(2, 1).getEdgeData() != 3) {
+    if (graph.getEdge(2, 1)->getEdgeData() != 3) {
         std::cout << "Invalid edge data\n";
         return 1;
     }
 
-    graph.getEdge(0, 3).setEdgeData(30);
-    if (graph.getEdge(0, 3).getEdgeData() != 30) {
+    graph.getEdge(0, 3)->setEdgeData(30);
+    if (graph.getEdge(0, 3)->getEdgeData() != 30) {
         std::cout << "Invalid edge data setting\n";
         return 1;
     }
