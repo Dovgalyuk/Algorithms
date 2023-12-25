@@ -198,7 +198,7 @@ void removeVertex(size_t index) {
 
 }
 
-    Vertex* getVertex(size_t index) {
+    Vertex getVertex(size_t index) {
         return vertexes.get(index);
     }
 

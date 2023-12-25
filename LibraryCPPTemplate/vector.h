@@ -53,9 +53,9 @@ public:
         delete[] data;  
     }
 
-    Data* get(size_t index) const {
-    if (index < vector_size)
-        return &data[index];
+    Data get(size_t index) const {
+    if (index <= vector_size)
+        return data[index];
     else
         throw std::out_of_range("Index out of range");
 }
@@ -68,22 +68,6 @@ public:
             throw std::out_of_range("Index out of range");  
     }
 
-    void set(size_t index, std::nullptr_t)  
-        {
-            if constexpr (std::is_pointer<Data>::value) {
-                // Если Data - указатель, просто присвоим nullptr
-                if (index < vector_size)
-                    data[index] = nullptr;
-                else
-                    throw std::out_of_range("Index out of range");
-            } else {
-                // В противном случае вызываем конструктор по умолчанию (предполагая, что Data имеет конструктор по умолчанию)
-                if (index < vector_size)
-                    data[index] = Data();
-                else
-                    throw std::out_of_range("Index out of range");
-            }
-        }
 
     size_t size() const  
     {
