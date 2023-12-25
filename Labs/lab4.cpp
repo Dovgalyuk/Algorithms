@@ -21,16 +21,16 @@ void modifiedFloydWarshall(const Graph<Data>& graph, size_t vertex_amount) {
 
                     if (mutableGraph.getEdge(i, j) == nullptr ||
                         (weightIK != INF && weightKJ != INF &&
-                        mutableGraph->getVertex(i)->getVertexData() != INF &&
-                        mutableGraph->getVertex(k)->getVertexData() != INF &&
-                        mutableGraph->getVertex(j)->getVertexData() != INF &&
+                        mutableGraph.getVertex(i).getVertexData() != INF &&
+                        mutableGraph.getVertex(k).getVertexData() != INF &&
+                        mutableGraph.getVertex(j).getVertexData() != INF &&
                         mutableGraph.getEdge(i, j)->getEdgeData() != INF &&
-                        mutableGraph->getVertex(i)->getVertexData() + weightIK + weightKJ >
-                        mutableGraph->getVertex(j)->getVertexData())) {
+                        mutableGraph.getVertex(i).getVertexData() + weightIK + weightKJ >
+                        mutableGraph.getVertex(j).getVertexData())) {
                         if (mutableGraph.getEdge(i, j) == nullptr) {
-                            mutableGraph.addEdge(i, j, mutableGraph->getVertex(i)->getVertexData() + weightIK + weightKJ);
+                            mutableGraph.addEdge(i, j, mutableGraph.getVertex(i).getVertexData() + weightIK + weightKJ);
                         } else {
-                            mutableGraph.getEdge(i, j)->setEdgeData(mutableGraph->getVertex(i)->getVertexData() + weightIK + weightKJ);
+                            mutableGraph.getEdge(i, j).setEdgeData(mutableGraph.getVertex(i).getVertexData() + weightIK + weightKJ);
                         }
                     }
                 }
