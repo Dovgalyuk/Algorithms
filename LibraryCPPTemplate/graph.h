@@ -11,7 +11,7 @@ public:
 		int start;
 		int end;
 		Data weight;
-		size_t index = 0;
+		size_t index;
 		Edge() {
 			this->start = -1;
 			this->end = -1;
@@ -101,7 +101,7 @@ public:
 		}
 		for (size_t i = 0; i < edgeAmount; i++) {
 			typename List<Edge>::Item* edgeItem = newMatrix[i];
-			if (edgeItem->data().start!=index || edgeItem->data().end != index) {
+			if (edgeItem->data().start!=static_cast<int>(index) || edgeItem->data().end != static_cast<int>(index)) {
 				typename List<Edge>::Item* edgeItem = newMatrix[i];
 				matrix.insert_after(matrix.last(), Edge(edgeItem->data().start, edgeItem->data().end, edgeItem->data().weight, i));
 			}
@@ -129,7 +129,7 @@ public:
 	Edge getEdge(size_t start, size_t end) {
 		for (size_t i = 0; i < edgeAmount; i++) {
 			typename List<Edge>::Item* edgeItem = matrix[i];
-			if (edgeItem->data().start == start && edgeItem->data().end == end) {
+			if (edgeItem->data().start == static_cast<int>(start) && edgeItem->data().end == static_cast<int>(end)) {
 				return Edge(edgeItem->data().start, edgeItem->data().end, edgeItem->data().weight, edgeItem->data().index);
 			}
 		}
@@ -138,7 +138,7 @@ public:
 
 	bool isEdgeExist(size_t start, size_t end) {
 		Edge edge = getEdge(start, end);
-		return edge.index !=-1;
+		return static_cast<int>(edge.index) !=-1;
 	}
 
 	void addEdge(size_t start, size_t end, Data edgeData) {
