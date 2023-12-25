@@ -62,6 +62,8 @@ private:
 public:
     Vertex() : vertex_data(Data()) {}
 
+    Vertex(Data vertex_data) : vertex_data(vertex_data) {}
+
     void setVertexData(Data data) {
         this->vertex_data = data;
     }
@@ -79,6 +81,8 @@ private:
 
 public:
     Edge() : edge_data() {}
+
+    Edge(Data data) : edge_data(data) {}
 
     void setEdgeData(Data data) {
         this->edge_data = data;
