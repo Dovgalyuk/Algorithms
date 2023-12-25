@@ -13,7 +13,7 @@ int main(){
         input >> size;
         Stack *plus = stack_create();
 
-        for ( int i = 0; i < size; i++){
+        for ( size_t i = 0; i < size; i++){
             int index;
             char sign;
             input >> index >> sign;
@@ -31,8 +31,6 @@ int main(){
     } else {
         cerr << "Unable to open file";
     }
-    int n;
-    cin >> n;
     return 0;
     
 }
