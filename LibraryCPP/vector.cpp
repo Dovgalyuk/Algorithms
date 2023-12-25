@@ -29,15 +29,15 @@ void vector_delete(Vector *vector)
 
 Data vector_get(const Vector *vector, size_t index)
 {
-    if (index <= vector->size) {
-        return 0;
+    if (index >= vector->size) {
+        return Data();
     }
     return vector->data[index];
 }
 
 void vector_set(Vector *vector, size_t index, Data value)
 {
-    if (index <= vector->size) {
+    if (index >= vector->size) {
         return;
     }
     vector->data[index] = value;

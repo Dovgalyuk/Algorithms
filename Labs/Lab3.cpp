@@ -25,6 +25,7 @@ vector<bool> makeUsed(vector<vector<int>> &graph,char Inital,Queue* queue) {
 			}
 		}
 	}
+	used[Init] = false;
 	return used;
 }
 int main() {
@@ -58,14 +59,6 @@ int main() {
 	for (int i = 0; i < used.size(); i++) {
 		if (used[i]) {
 			cout << char(i) << " ";
-		}
-	}
-
-	for (int i = 0; i < graph.size(); i++) {
-		for (int j = 0; j < graph[i].size(); j++) {
-			if (graph[i][j] != 0) {
-				//cout << char(graph[i][j]);
-			}
 		}
 	}
 }
