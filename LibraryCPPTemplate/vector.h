@@ -62,7 +62,7 @@ public:
 
     void set(size_t index, Data value)  
     {
-        if (index < vector_size)  
+        if (index <= vector_size)  
             data[index] = value;  
         else
             throw std::out_of_range("Index out of range");  

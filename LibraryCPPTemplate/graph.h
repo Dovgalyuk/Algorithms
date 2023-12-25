@@ -209,7 +209,7 @@ void removeVertex(size_t index) {
 
     if (existingEdge == nullptr) {
         Edge* newEdge = new Edge(edge_data);
-        edgeMatrix.set(start_vertex_index * vertex_amount + end_vertex_index, *newEdge);
+        edgeMatrix.set(start_vertex_index * vertex_amount + end_vertex_index, newEdge);
     }
     else {
         existingEdge->setEdgeData(edge_data);
