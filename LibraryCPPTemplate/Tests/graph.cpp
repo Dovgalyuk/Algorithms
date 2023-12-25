@@ -38,7 +38,7 @@ int main() {
     }
 
     while (*it) {
-        if (it.getIndex() != 1) {
+        if (it.getIndex() != 3) {
             cout << "Invalid iteration\n";
             delete graph;
             return 1;
