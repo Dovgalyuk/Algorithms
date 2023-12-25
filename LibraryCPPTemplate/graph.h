@@ -101,17 +101,20 @@ struct Iterator {
             // метод для поиска индекса ближайшей вершины, смежной с текущей
             size_t getNearVertexIndex() {
                 for (size_t i = end + 1; i < graph->getVertexAmount(); i++) {
-                    if (graph->isEdgeExist(start, i)) {
-                        return i;
-                    }
-                }
-                return graph->getVertexAmount();  // Return invalid index
-            }
+				if (graph->isEdgeExist(start, i)) {
+					return static_cast<int>(i);
+				}
+			}
+			return -1;
+		}
 
         public:
             // Конструктор итератора
-            Iterator(Graph* graph, size_t start) : graph(graph), start(start), end(getNearVertexIndex()) {}
-
+            Iterator(Graph* graph, size_t start) {
+			this->graph = graph;
+			this->start = start;
+			this->end = getNearVertex();
+		}
             // Оператор разыменования
            bool operator *() {
 			if (end != -1) {
