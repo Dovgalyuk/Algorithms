@@ -11,121 +11,112 @@ int main() {
     int operand;
 
     while (cin >> command) {
-        switch (command) {
-            case '0': case '1': case '2': case '3': case '4':
-            case '5': case '6': case '7': case '8': case '9':
-                operand = command - '0';
-                stack_push(stack, operand);
-                break;
-            case '+':
-                if (!stack_empty(stack)) {
-                    int b = stack_get(stack);
-                    stack_pop(stack);
-                    if (!stack_empty(stack)) {
-                        int a = stack_get(stack);
-                        stack_pop(stack);
-                        stack_push(stack, a + b);
-                    }
-                }
-                break;
-            case '-':
-                if (!stack_empty(stack)) {
-                    int b = stack_get(stack);
-                    stack_pop(stack);
-                    if (!stack_empty(stack)) {
-                        int a = stack_get(stack);
-                        stack_pop(stack);
-                        stack_push(stack, a - b);
-                    }
-                }
-                break;
-            case '*':
-                if (!stack_empty(stack)) {
-                    int b = stack_get(stack);
-                    stack_pop(stack);
-                    if (!stack_empty(stack)) {
-                        int a = stack_get(stack);
-                        stack_pop(stack);
-                        stack_push(stack, a * b);
-                    }
-                }
-                break;
-            case '/':
-                if (!stack_empty(stack)) {
-                    int b = stack_get(stack);
-                    stack_pop(stack);
-                    if (b != 0 && !stack_empty(stack)) {
-                        int a = stack_get(stack);
-                        stack_pop(stack);
-                        stack_push(stack, a / b);
-                    }
-                }
-                break;
-            case '%':
-                if (!stack_empty(stack)) {
-                    int b = stack_get(stack);
-                    stack_pop(stack);
-                    if (b != 0 && !stack_empty(stack)) {
-                        int a = stack_get(stack);
-                        stack_pop(stack);
-                        stack_push(stack, a % b);
-                    }
-                }
-                break;
-            case 'dup':
-                if (!stack_empty(stack)) {
-                    int top = stack_get(stack);
-                    stack_push(stack, top);
-                }
-                break;
-            case 'drop':
+        if (isdigit(command)) {
+            operand = command - '0';
+            stack_push(stack, operand);
+        } else if (command == '+') {
+            if (!stack_empty(stack)) {
+                int b = stack_get(stack);
                 stack_pop(stack);
-                break;
-            case 'swap':
                 if (!stack_empty(stack)) {
                     int a = stack_get(stack);
                     stack_pop(stack);
-                    if (!stack_empty(stack)) {
-                        int b = stack_get(stack);
-                        stack_pop(stack);
-                        stack_push(stack, a);
-                        stack_push(stack, b);
-                    }
+                    stack_push(stack, a + b);
                 }
-                break;
-            case 'over':
+            }
+        } else if (command == '-') {
+            if (!stack_empty(stack)) {
+                int b = stack_get(stack);
+                stack_pop(stack);
                 if (!stack_empty(stack)) {
-                    int top = stack_get(stack);
+                    int a = stack_get(stack);
+                    stack_pop(stack);
+                    stack_push(stack, a - b);
+                }
+            }
+        } else if (command == '*') {
+            if (!stack_empty(stack)) {
+                int b = stack_get(stack);
+                stack_pop(stack);
+                if (!stack_empty(stack)) {
+                    int a = stack_get(stack);
+                    stack_pop(stack);
+                    stack_push(stack, a * b);
+                }
+            }
+        } else if (command == '/') {
+            if (!stack_empty(stack)) {
+                int b = stack_get(stack);
+                stack_pop(stack);
+                if (b != 0 && !stack_empty(stack)) {
+                    int a = stack_get(stack);
+                    stack_pop(stack);
+                    stack_push(stack, a / b);
+                }
+            }
+        } else if (command == '%') {
+            if (!stack_empty(stack)) {
+                int b = stack_get(stack);
+                stack_pop(stack);
+                if (b != 0 && !stack_empty(stack)) {
+                    int a = stack_get(stack);
+                    stack_pop(stack);
+                    stack_push(stack, a % b);
+                }
+            }
+        } else if (command == 'd' && cin >> command && command == 'u' && cin >> command && command == 'p') {
+            if (!stack_empty(stack)) {
+                int top = stack_get(stack);
+                stack_push(stack, top);
+            }
+        } else if (command == 'd' && cin >> command && command == 'r' && cin >> command && command == 'o' && cin >> command && command == 'p') {
+            stack_pop(stack);
+        } else if (command == 's' && cin >> command && command == 'w' && cin >> command && command == 'a' && cin >> command && command == 'p') {
+            if (!stack_empty(stack)) {
+                int a = stack_get(stack);
+                stack_pop(stack);
+                if (!stack_empty(stack)) {
+                    int b = stack_get(stack);
+                    stack_pop(stack);
+                    stack_push(stack, a);
+                    stack_push(stack, b);
+                }
+            }
+        } else if (command == 'o' && cin >> command && command == 'v' && cin >> command && command == 'e' && cin >> command && command == 'r') {
+            if (!stack_empty(stack)) {
+                int top = stack_get(stack);
+                stack_pop(stack);
+                if (!stack_empty(stack)) {
+                    int second = stack_get(stack);
+                    stack_pop(stack);
+                    stack_push(stack, second);
                     stack_push(stack, top);
+                    stack_push(stack, second);
                 }
-                break;
-            case 'rot':
+            }
+        } else if (command == 'r' && cin >> command && command == 'o' && cin >> command && command == 't') {
+            if (!stack_empty(stack)) {
+                int c = stack_get(stack);
+                stack_pop(stack);
                 if (!stack_empty(stack)) {
-                    int c = stack_get(stack);
+                    int b = stack_get(stack);
                     stack_pop(stack);
                     if (!stack_empty(stack)) {
-                        int b = stack_get(stack);
+                        int a = stack_get(stack);
                         stack_pop(stack);
-                        if (!stack_empty(stack)) {
-                            int a = stack_get(stack);
-                            stack_pop(stack);
-                            stack_push(stack, b);
-                            stack_push(stack, c);
-                            stack_push(stack, a);
-                        }
+                        stack_push(stack, b);
+                        stack_push(stack, c);
+                        stack_push(stack, a);
                     }
                 }
-                break;
-            case '.':
-                if (!stack_empty(stack)) {
-                    int top = stack_get(stack);
-                    cout << top << endl;
-                    stack_pop(stack);
-                }
-                break;
-            default:
-                // Неизвестная команда
-                break;
+            }
+        } else if (command == '.') {
+            if (!stack_empty(stack)) {
+                cout << stack_get(stack) << endl;
+                stack_pop(stack);
+            }
+        } else {
+            // Неизвестная команда
         }
     }
 
