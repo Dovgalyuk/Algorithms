@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <algorithm>
+
 template <typename Data>
 class Vector
 {
@@ -39,26 +40,25 @@ public:
         return *this;
     } 
     
-void swap(Vector& other)
+    void swap(Vector& other)
     {
         // используйте std::swap для обмена указателями на данные, размерами и максимальными размерами
         std::swap(data, other.data);
         std::swap(vector_size, other.vector_size);
         std::swap(max_size, other.max_size);
     }
-    
+
     ~Vector()  
     {
         delete[] data;  
     }
 
-    Data get(size_t index) const  
-    {
-        if (index < vector_size)  
-            return data[index];  
-        else
-            throw std::out_of_range("Index out of range");  
-    }
+    Data* get(size_t index) const {
+    if (index < vector_size)
+        return &data[index];
+    else
+        throw std::out_of_range("Index out of range");
+}
 
     void set(size_t index, Data value)  
     {
@@ -67,6 +67,23 @@ void swap(Vector& other)
         else
             throw std::out_of_range("Index out of range");  
     }
+
+    void set(size_t index, std::nullptr_t)  
+        {
+            if constexpr (std::is_pointer<Data>::value) {
+                // Если Data - указатель, просто присвоим nullptr
+                if (index < vector_size)
+                    data[index] = nullptr;
+                else
+                    throw std::out_of_range("Index out of range");
+            } else {
+                // В противном случае вызываем конструктор по умолчанию (предполагая, что Data имеет конструктор по умолчанию)
+                if (index < vector_size)
+                    data[index] = Data();
+                else
+                    throw std::out_of_range("Index out of range");
+            }
+        }
 
     size_t size() const  
     {
