@@ -60,9 +60,7 @@ private:
     Data vertex_data;
 
 public:
-    Vertex() : vertex_data() {}
-
-    Vertex(Data vertex_data) : vertex_data(vertex_data) {}
+    Vertex() : vertex_data(Data()) {}
 
     void setVertexData(Data data) {
         this->vertex_data = data;
@@ -81,8 +79,6 @@ private:
 
 public:
     Edge() : edge_data() {}
-
-    Edge(Data data) : edge_data(data) {}
 
     void setEdgeData(Data data) {
         this->edge_data = data;
@@ -158,37 +154,37 @@ size_t addVertex(Data vertex_data) {
     return index;
 }
 void removeVertex(size_t index) {
-    size_t _vertex_amount = getVertexAmount();
+		size_t _vertexAmount = getVertexAmount();
 
-    if (index >= _vertex_amount) {
-        return;
-    }
+		if (index >= _vertexAmount) {
+			return;
+		}
 
-    Vertex vertex = vertexes.get(index);  
+		for (size_t i = index; i < _vertexAmount - 1; i++) {
+			vertexes.set(i, vertexes.get(i + 1));
+		}
+		vertexes.resize(_vertexAmount - 1);
 
+		for (size_t i = 0; i < _vertexAmount; i++) {
+			Edge* edge = edgeMatrix.get(index * _vertexAmount + i);
+			if (edge) {
+				delete edge;
+			}
+			edge = edgeMatrix.get(i * _vertexAmount + index);
+			if (edge) {
+				delete edge;
+			}
+		}
 
-    for (size_t i = index; i < _vertex_amount - 1; i++) {
-        vertexes.set(i, vertexes.get(i + 1));
-    }
-    vertexes.resize(_vertex_amount - 1);
-
-    for (size_t i = 0; i < _vertex_amount; i++) {
-    edgeMatrix.get(index * _vertex_amount + i)->destroy();
-    edgeMatrix.get(i * _vertex_amount + index)->destroy();
-    }
-
-    size_t vertex_amount = getVertexAmount();
-
-    Vector<Edge> buffMatrix;  
-
-    buffMatrix.resize(vertex_amount * vertex_amount);
-
-    for (size_t i = 0; i < vertex_amount; i++) {
-        for (size_t j = 0; j < vertex_amount; j++) {
-            Edge edge = edgeMatrix.get(((i + (i >= index)) * _vertex_amount) + (j + (j >= index)));
-            buffMatrix.set((i * vertex_amount) + j, edge);
-        }
-    }
+		size_t vertex_amount = getVertexAmount();
+		Vector<Edge*> buffMatrix;
+		buffMatrix.resize(vertex_amount * vertex_amount);
+		for (size_t i = 0; i < vertex_amount; i++) {
+			for (size_t j = 0; j < vertex_amount; j++) {
+				Edge* edge = edgeMatrix.get(((i + (i >= index)) * _vertexAmount) + (j + (j >= index)));
+				buffMatrix.set((i * vertex_amount) + j, edge);
+			}
+		}
 
 
     edgeMatrix.swap(buffMatrix);
@@ -231,7 +227,7 @@ void removeVertex(size_t index) {
     }
 private:
     Vector<Vertex> vertexes;
-    Vector<Edge> edgeMatrix;
+    Vector<Edge*> edgeMatrix;
 };
 
 #endif
