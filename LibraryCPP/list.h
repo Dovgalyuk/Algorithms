@@ -17,6 +17,8 @@ void list_delete(List *list);
 // Retrieves the first item from the list
 ListItem *list_first(List *list);
 
+ListItem* list_tail(List* list);
+
 // Extracts data from the list item
 Data list_item_data(const ListItem *item);
 
@@ -25,7 +27,7 @@ ListItem *list_item_next(ListItem *item);
 
 // Returns previous element for the specified item.
 // Not applicable for the singly linked lists.
-ListItem *list_item_prev(ListItem *item);
+//ListItem *list_item_prev(ListItem *item);
 
 // Inserts new list item into the beginning
 ListItem *list_insert(List *list, Data data);
@@ -36,6 +38,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data);
 // Deletes the first list item.
 // Returns pointer to the item next to the deleted one.
 ListItem *list_erase_first(List *list);
+ListItem* list_erase_tail(List* list);
 
 // Deletes the list item following the specified one.
 // Returns pointer to the item next to the deleted one.
