@@ -14,12 +14,12 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector.size() ; ++i)
-        vector.set(i, i);
+    for (size_t i = 0; i < vector.size(); ++i)
+        vector.set(i, static_cast<int>(i));  // Ensure the value is of type int
 
-    for (size_t i = 0 ; i < vector.size() ; ++i)
+    for (size_t i = 0; i < vector.size(); ++i)
     {
-        if (vector.get(i) != (int)i)
+        if (*vector.get(i) != static_cast<int>(i))  // Dereference the pointer
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -34,8 +34,8 @@ int main()
     }
 
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector.size() ; ++i)
-        std::cout << vector.get(i) << " ";
+    for (size_t i = 0; i < vector.size(); ++i)
+        std::cout << *vector.get(i) << " ";  // Dereference the pointer
     std::cout << "\n";
 
     vector.resize(3);
@@ -45,9 +45,9 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector.size() ; ++i)
+    for (size_t i = 0; i < vector.size(); ++i)
     {
-        if (vector.get(i) != (int)i)
+        if (*vector.get(i) != static_cast<int>(i))  // Dereference the pointer
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -55,12 +55,12 @@ int main()
     }
 
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector.size() ; ++i)
-        std::cout << vector.get(i) << " ";
+    for (size_t i = 0; i < vector.size(); ++i)
+        std::cout << *vector.get(i) << " ";  // Dereference the pointer
     std::cout << "\n";
 
     // Performance test
-    for (int i = 1 ; i <= 10000000 ; ++i)
+    for (int i = 1; i <= 10000000; ++i)
     {
         vector.resize(i);
         vector.set(i - 1, i);
@@ -69,8 +69,10 @@ int main()
     MyVector copy = vector;
 
     long long sum = 0;
-    for (int i = 0 ; i < 10000000 ; ++i)
-        sum += vector.get(i);
+    for (int i = 0; i < 10000000; ++i)
+        sum += *vector.get(i);  // Dereference the pointer
 
     std::cout << sum << "\n";
+
+    return 0;  // Ensure the main function returns an integer
 }
