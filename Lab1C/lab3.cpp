@@ -24,12 +24,9 @@ int main() {
 	{
 		while (!file.eof())
 		{
-			
-			++stroki;
-			for(int i=0;i<strbuf.length();i++) {
-				getline(file, strbuf);
-				lab[i] += strbuf;
-							   }
+			getline(file, strbuf);
+			lab[stroki] += strbuf;
+			stroki +=1;				
 		}
 	}
 	file.close();
