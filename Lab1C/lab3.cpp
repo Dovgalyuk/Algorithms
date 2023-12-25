@@ -26,7 +26,7 @@ int main() {
 		{
 			
 			++stroki;
-			for(int i=0;i<strbuf.lenght();i++) {
+			for(int i=0;i<strbuf.length();i++) {
 				getline(file, strbuf);
 				lab[i] += strbuf;
 							   }
