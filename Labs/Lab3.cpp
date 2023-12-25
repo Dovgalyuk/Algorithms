@@ -7,7 +7,7 @@
 
 using namespace std;
 
-vector<bool> makeUsed(vector<vector<int>> graph,char Inital,Queue* queue) {
+vector<bool> makeUsed(vector<vector<int>> &graph,char Inital,Queue* queue) {
 	vector<bool> used(1000);
 
 	int Init = static_cast<int>(Inital);
@@ -18,7 +18,6 @@ vector<bool> makeUsed(vector<vector<int>> graph,char Inital,Queue* queue) {
 		int cur = queue_get(queue);
 		queue_remove(queue);
 
-		cout<<cur<<"\n";
 		for (int neighboor : graph[cur]) {
 			if (!used[neighboor]) {
 				queue_insert(queue, neighboor);
@@ -34,9 +33,9 @@ int main() {
 	size_t n;
 	char Inital;
 	string input;
-	vector<bool> used(1000);
+	vector<bool> used(500);
 
-	vector<vector<int>> graph(1000, vector<int>());
+	vector<vector<int>> graph(500, vector<int>(1));
 	cout << "¬ведите кол-во химических элементов\n";
 	cin >> n;
 	cout << "¬ведите исходный химический элемент\n";
@@ -47,6 +46,9 @@ int main() {
 		int indexV = static_cast<int>(input[0]);
 		int indexS = static_cast<int>(input[3]);
 
+		if (graph[indexV][0] != indexV) {
+			graph[indexV][0] = indexV;
+		}
 		graph[indexV].push_back(indexS);
 	}
 
@@ -55,7 +57,15 @@ int main() {
 	cout << "Ёлементы, которые мы можем получить из исходного\n";
 	for (int i = 0; i < used.size(); i++) {
 		if (used[i]) {
-			cout << char(i) << "\n";
+			cout << char(i) << " ";
+		}
+	}
+
+	for (int i = 0; i < graph.size(); i++) {
+		for (int j = 0; j < graph[i].size(); j++) {
+			if (graph[i][j] != 0) {
+				//cout << char(graph[i][j]);
+			}
 		}
 	}
 }
