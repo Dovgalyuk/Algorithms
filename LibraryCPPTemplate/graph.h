@@ -238,8 +238,8 @@ public:
 	}
 private:
 	List<Edge> matrix;
-	int edgeAmount;
-	int vertexAmount;
+	size_t edgeAmount;
+	size_t vertexAmount;
 	Data* vertexes;
 };
 
