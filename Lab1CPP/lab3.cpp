@@ -187,7 +187,7 @@ Data reverse_output(ListItem* item, ofstream& fout) {
     return list_item_data(item);
 }
 
-void output(List* road, Data start, Data finish) {
+void output(List* road) {
     ofstream fout;
     fout.open(("..\\..\\..\\Lab1CPP\\output.txt"));
     if (road) {
@@ -196,7 +196,6 @@ void output(List* road, Data start, Data finish) {
         fout << "IMPOSSIBLE";
     }
     fout.close();
-    start = finish;
 }
 
 int main()
@@ -213,7 +212,7 @@ int main()
         }
         delete[] adj_list;        
     }
-    output(road, start, finish);
+    output(road);
     if (road) {
         list_delete(road);
     }
