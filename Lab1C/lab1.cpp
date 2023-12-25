@@ -12,7 +12,7 @@ void fillArrayWithRandomNumbers(Array* arr) {
 }
 
 void printArray(const Array* arr) {
-    cout << "Array: ";
+    cout << "Массив: ";
     for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << " ";
     }
@@ -41,7 +41,7 @@ void task1(Array* arr, int k1, int k2) {
 }
 
 void task2(Array* arr) {
-    cout << "Unique elements: ";
+    cout << "Уникальные элементы: ";
     for (size_t i = 0; i < array_size(arr); i++) {
         bool isUnique = true;
         for (size_t j = 0; j < array_size(arr); j++) {
@@ -56,7 +56,7 @@ void task2(Array* arr) {
     }
     cout << endl;
 
-    cout << "Array: ";
+    cout << "Массив: ";
     for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << " ";
     }
@@ -66,7 +66,7 @@ void task2(Array* arr) {
 int main() {
     setlocale(LC_ALL, "rus");
     size_t size;
-    cout << "Enter the size of the array: ";
+    cout << "Введите размер массива: ";
     cin >> size;
 
     Array* arr = array_create(size);
@@ -74,9 +74,9 @@ int main() {
     printArray(arr);
 
     int k1, k2;
-    cout << "Enter k1: ";
+    cout << "Введите k1: ";
     cin >> k1;
-    cout << "Enter k2: ";
+    cout << "Введите k2: ";
     cin >> k2;
 
     task1(arr, k1, k2);
