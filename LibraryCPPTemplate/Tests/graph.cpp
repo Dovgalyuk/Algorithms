@@ -6,19 +6,15 @@ using namespace std;
 typedef Graph<int> MyGraph;
 
 int main() {
-    MyGraph* graph = new MyGraph(5);
+    MyGraph* graph = new MyGraph(6);
 
-    if (graph->getVertexAmount() != 5) {
+    if (graph->getVertexAmount() != 6) {
         cout << "Invalid  vertex amount\n";
         return 1;
     }
 
-    if (graph->getVertexAmount() != 9) {
-        std::cout << "Invalid vertex amount\n";
-        return 1;
-    }
 
-    for (size_t i = 0; i < 5; i++) {
+    for (size_t i = 0; i < 6; i++) {
         if (graph->getVertex(i).getVertexData() != (int)i) {
             cout << "Invalid vertex data\n";
             return 1;
@@ -68,7 +64,7 @@ int main() {
     }
 
     graph->removeVertex(3);
-    if (graph->getVertexAmount() != 8) {
+    if (graph->getVertexAmount() != 5) {
         std::cout << "Invalid vertex deletion\n";
         return 1;
     }
