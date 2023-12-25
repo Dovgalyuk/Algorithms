@@ -4,7 +4,7 @@
 #include "list.h"
 
 using namespace std;
-
+a
 template <typename Data> class Graph {
 public:
 	struct Edge {
