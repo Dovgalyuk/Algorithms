@@ -103,52 +103,39 @@ size_t getVertexAmount() const {
 
     // Вложенная структура Iterator для обхода вершин графа(не используется)
 struct Iterator {
-private:
-    Graph* graph;  // Указатель на граф
-    size_t start;  // Индекс начальной вершины
-    int end = -1;  // Индекс следующей смежной вершины
+        private:
+            Graph* graph;  // Указатель на граф
+            size_t start;  // Индекс начальной вершины
+            size_t end;  // Индекс следующей смежной вершины
 
-    // метод для поиска индекса ближайшей вершины, смежной с текущей
-    int getNearVertexIndex() {
-        
-        for (size_t i = end + 1; i < graph->getVertexAmount(); i++) {
-            if (graph->isEdgeExist(start, i)) {
-                return static_cast<int>(i);
+            // метод для поиска индекса ближайшей вершины, смежной с текущей
+            size_t getNearVertexIndex() {
+                for (size_t i = end + 1; i < graph->getVertexAmount(); i++) {
+                    if (graph->isEdgeExist(start, i)) {
+                        return i;
+                    }
+                }
+                return graph->getVertexAmount();  // Return invalid index
             }
-        }
-        return -1;  
-    }
-public:
-    // Конструктор итератора
-    Iterator(Graph* graph, size_t start) {
-        this->graph = graph;  // Установка указателя на граф
-        this->start = start;  // Установка начальной вершины для итерации
-        this->end = getNearVertexIndex();  // Поиск первой смежной вершины
-    }
 
-    
-    Vertex operator *() {
-        if (end != -1) {
-            return graph->getVertex(end);
-        }
-        else {
-            return nullptr;
-        }
-    }
+        public:
+            // Конструктор итератора
+            Iterator(Graph* graph, size_t start) : graph(graph), start(start), end(getNearVertexIndex()) {}
 
-    // Префиксный оператор инкремента для перехода к следующей смежной вершине
-    void operator ++() {
-        end = getNearVertexIndex();  
-    }
+            // Оператор разыменования
+            size_t operator *() {
+                return end != graph->getVertexAmount() ? end : static_cast<size_t>(-1);
+            }
 
-    size_t getEnd() const {
-        return end;
-    }
-};
+            // Префиксный оператор инкремента для перехода к следующей смежной вершине
+            void operator ++() {
+                end = getNearVertexIndex();
+            }
+        };
 
-Iterator getIterator(size_t start) {
-    return Iterator(this, start);
-}
+    Iterator getIterator(size_t start) {
+        return Iterator(this, start);
+    }
 
 size_t addVertex(Data vertex_data) {
     size_t index = vertexes.size();
