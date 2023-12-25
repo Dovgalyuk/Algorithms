@@ -30,7 +30,7 @@ void modifiedFloydWarshall(const Graph<Data>& graph, size_t vertex_amount) {
                         if (mutableGraph.getEdge(i, j) == nullptr) {
                             mutableGraph.addEdge(i, j, mutableGraph.getVertex(i).getVertexData() + weightIK + weightKJ);
                         } else {
-                            mutableGraph.getEdge(i, j).setEdgeData(mutableGraph.getVertex(i).getVertexData() + weightIK + weightKJ);
+                            mutableGraph.getEdge(i, j)->setEdgeData(mutableGraph.getVertex(i).getVertexData() + weightIK + weightKJ);
                         }
                     }
                 }
