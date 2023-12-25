@@ -173,8 +173,8 @@ void removeVertex(size_t index) {
     vertexes.resize(_vertex_amount - 1);
 
     for (size_t i = 0; i < _vertex_amount; i++) {
-    edgeMatrix.get(index * _vertex_amount + i).destroy();
-    edgeMatrix.get(i * _vertex_amount + index).destroy();
+    edgeMatrix.get(index * _vertex_amount + i)->destroy();
+    edgeMatrix.get(i * _vertex_amount + index)->destroy();
     }
 
     size_t vertex_amount = getVertexAmount();
