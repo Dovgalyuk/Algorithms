@@ -113,7 +113,7 @@ struct Iterator {
             Iterator(Graph* graph, size_t start) {
 			this->graph = graph;
 			this->start = start;
-			this->end = getNearVertex();
+			this->end = getNearVertexIndex();
 		}
             // Оператор разыменования
            bool operator *() {
