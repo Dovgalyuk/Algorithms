@@ -56,7 +56,7 @@ int main() {
 	Queue* queue = queue_create();
 	used = makeUsed(graph, Inital, queue);
 	cout << "Элементы, которые мы можем получить из исходного\n";
-	for (int i = 0; i < used.size(); i++) {
+	for (int i = 0; i < (int)used.size(); i++) {
 		if (used[i]) {
 			cout << char(i) << " ";
 		}
