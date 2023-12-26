@@ -61,5 +61,7 @@ int main() {
 			cout << char(i) << " ";
 		}
 	}
-	used.resize(0);
+	while(used.size()>0) {
+		used.pop_back();
+	}
 }
