@@ -80,11 +80,14 @@ void task2(Array *arr)
 
 int main()
 {
-    Array *arr = NULL;
+    Array* arr=NULL;
     /* Create array here */
     task1(arr);
     array_delete(arr);
+    arr=NULL;
     /* Create another array here */
     task2(arr);
     array_delete(arr);
+
+    return 0;
 }
