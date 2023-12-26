@@ -11,13 +11,14 @@ using namespace std;
 
             int vichislenie(string InputString, Stack *newstack)
             {
+                size_t StringSize = InputString.size();
+                int result;
 
-                for (int i = 0; i < InputString.size(); i++)
+                for (size_t i = 0; i < StringSize; i++)
                 {
                     
-                    int operand1, operand2, result;
+                    int operand1, operand2;
                     string tmpValue;
-                    char LastSymb = InputString[InputString.size()-1];
 
                     if (isdigit(InputString[i]))
                     { 
@@ -30,7 +31,7 @@ using namespace std;
                         tmpValue = "";
                     }
                     
-                    else if(InputString[i] == '+' || InputString[i] == '-' || InputString[i] == '*' || InputString[i] == '/' && stack_empty(newstack) != true)
+                    else if((InputString[i] == '+' || InputString[i] == '-' || InputString[i] == '*' || InputString[i] == '/') && (stack_empty(newstack) != true))
                     {
                         operand2 = stack_get(newstack);
                         stack_pop(newstack);
@@ -59,11 +60,11 @@ using namespace std;
                         }  
                     
                     }
-                    
+         
+                }
+
                 int answer = stack_get(newstack);
                 return answer;
-                    
-                }
 
             }
 
