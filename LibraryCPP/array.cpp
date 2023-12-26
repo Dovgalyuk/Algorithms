@@ -27,7 +27,7 @@ Data array_get(const Array* arr, size_t index)
 {
 	if (index < arr->size)
 		return arr->data[index];
-	return 0
+	return 0;
 }
 
 // sets the specified array element to the value
