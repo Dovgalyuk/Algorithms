@@ -45,6 +45,11 @@ void queue_insert(Queue* queue, Data data)
             vector_set(buff, ch, vector_get(queue->vector, i));
             ch++;
         }
+        for (int i = 0; i < queue->first; i++) {
+            vector_set(buff, ch, vector_get(queue->vector, i));
+            ch++;
+        }
+
         vector_delete(queue->vector);
         queue->vector = buff;
         queue->first = 0;
