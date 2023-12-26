@@ -66,7 +66,7 @@ void queue_insert(Queue* queue, Data data)
 Data queue_get(const Queue *queue)
 {
     if (queue_empty(queue)) {
-        return NULL;
+        return Data();
     }
     return vector_get(queue->vector, queue->first);
 }

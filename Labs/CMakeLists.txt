@@ -7,7 +7,7 @@ target_include_directories(Lab2C PUBLIC ../LibraryCPP)
 target_link_libraries(Lab2C LibraryCPP)
 
 
-add_executable(Lab3C "lab3.cpp")
+add_executable(Lab3C "Lab3.cpp")
 target_include_directories(Lab3C PUBLIC ../LibraryCPP)
 target_link_libraries(Lab3C LibraryCPP)
 

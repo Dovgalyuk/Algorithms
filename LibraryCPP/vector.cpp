@@ -29,15 +29,15 @@ void vector_delete(Vector *vector)
 
 Data vector_get(const Vector *vector, size_t index)
 {
-    if (index <= vector->size) {
-        return 0;
+    if (index >= vector->size) {
+        return Data();
     }
     return vector->data[index];
 }
 
 void vector_set(Vector *vector, size_t index, Data value)
 {
-    if (index <= vector->size) {
+    if (index >= vector->size) {
         return;
     }
     vector->data[index] = value;
@@ -56,7 +56,7 @@ void vector_resize(Vector *vector, size_t size)
     }
     size_t size_new_max = size * 2;
     Data* current = new Data[size_new_max];
-    for (int i = 0; i < vector->size; i++) {
+    for (int i = 0; i < (int)vector->size; i++) {
         current[i] = vector->data[i];
     }
 
