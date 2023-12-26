@@ -15,13 +15,19 @@ int random_number(int min, int max)
 void task2(Array* arr)
 {
     int max_sum = INT_MIN;
-    int current_sum = 0;
+    // Calculate the initial sum of the first five elements
+    int current_sum = array_get(arr, 0) + array_get(arr, 1) + array_get(arr, 2) + array_get(arr, 3) + array_get(arr, 4);
     size_t start_index = 0;
 
     for (size_t i = 0; i <= array_size(arr) - 5; ++i)
     {
-        current_sum = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) + array_get(arr, i + 3) + array_get(arr, i + 4);
+        // Update the current sum by subtracting the first element of the previous sum and adding the next element in the array
+        if (i != 0)
+        {
+            current_sum = current_sum - array_get(arr, i - 1) + array_get(arr, i + 4);
+        }
 
+        // If the current sum is greater than the max sum, update the max sum and start index
         if (current_sum > max_sum)
         {
             max_sum = current_sum;
@@ -36,6 +42,7 @@ void task2(Array* arr)
     }
     std::cout << std::endl;
 }
+
 void task1(Array* arr)
 {
     // вывод исходного массива
