@@ -38,7 +38,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data);
 // Deletes the first list item.
 // Returns pointer to the item next to the deleted one.
 ListItem *list_erase_first(List *list);
-ListItem* list_erase_tail(List* list);
 
 // Deletes the list item following the specified one.
 // Returns pointer to the item next to the deleted one.

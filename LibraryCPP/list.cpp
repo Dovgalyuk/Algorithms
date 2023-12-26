@@ -99,29 +99,6 @@ ListItem *list_erase_first(List *list)
     return list->head;
 }
 
-ListItem* list_erase_tail(List* list)
-{
-    ListItem* item = list->head;
-    if (item == NULL) {
-        return NULL;
-    }
-
-    if (list->head == list->tail) {
-        list->head = NULL;
-        list->tail = NULL;
-        delete item;
-        return NULL;
-    }
-    while (item->next != list->tail) {
-        item = item->next;
-    }
-
-    item->next = NULL;
-    delete list->tail;
-    list->tail = item;
-    return item;
-}
-
 ListItem *list_erase_next(List* list, ListItem *item)
 {
     if (item == NULL || item->next == NULL) {

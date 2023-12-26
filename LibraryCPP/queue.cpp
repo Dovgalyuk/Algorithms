@@ -22,17 +22,17 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue *queue, Data data)
 {
-    list_insert(queue->list, data);
+	list_insert_after(queue->list, list_tail(queue->list), data);
 }
 
 Data queue_get(const Queue *queue)
 {
-    return list_item_data(list_tail(queue->list));
+    return list_item_data(list_first(queue->list));
 }
 
 void queue_remove(Queue *queue)
 {
-    list_erase_tail(queue->list);
+    list_erase_first(queue->list);
 }
 
 bool queue_empty(const Queue *queue)
