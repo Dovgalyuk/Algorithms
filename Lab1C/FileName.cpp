@@ -6,7 +6,7 @@
 using namespace std;
 
 
-string checkbox(const std::string& sequence) {
+string checkbox(const string& sequence) {
     Stack* stack = stack_create();
     for (char c : sequence) {
         if (c == '(' || c == '[' || c == '{' || c == '\"' || c == '\'') {
@@ -32,10 +32,10 @@ string checkbox(const std::string& sequence) {
         }
         else if (c == '\"' || c == '\'') {
             if (stack_empty(stack) || stack_get(stack) != c) {
-                stack_push(stack, c); // ≈сли кавычка открывающа€с€, то кладем ее в стек
+                stack_push(stack, c);
             }
             else {
-                stack_pop(stack); // ≈сли кавычка закрывающа€с€, то убираем ее из стека
+                stack_pop(stack);
             }
         }
     }
