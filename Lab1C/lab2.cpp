@@ -1,20 +1,20 @@
 #include <iostream>
+#include <sstream>
+#include <cctype>
 #include "list.h"
 #include "stack.h"
 
 using namespace std;
 
-int main() {
-    Stack* stack = stack_create();
+void processCommand(Stack* stack, const string& command) {
+    stringstream ss(command);
+    string op;
 
-    char command;
-    int operand;
-
-    while (cin >> command) {
-        if (isdigit(command)) {
-            operand = command - '0';
+    while (ss >> op) {
+        if (op.length() == 1 && isdigit(op[0])) {
+            int operand = stoi(op);
             stack_push(stack, operand);
-        } else if (command == '+') {
+        } else if (op == "+") {
             if (!stack_empty(stack)) {
                 int b = stack_get(stack);
                 stack_pop(stack);
@@ -24,7 +24,7 @@ int main() {
                     stack_push(stack, a + b);
                 }
             }
-        } else if (command == '-') {
+        } else if (op == "-") {
             if (!stack_empty(stack)) {
                 int b = stack_get(stack);
                 stack_pop(stack);
@@ -34,7 +34,7 @@ int main() {
                     stack_push(stack, a - b);
                 }
             }
-        } else if (command == '*') {
+        } else if (op == "*") {
             if (!stack_empty(stack)) {
                 int b = stack_get(stack);
                 stack_pop(stack);
@@ -44,7 +44,7 @@ int main() {
                     stack_push(stack, a * b);
                 }
             }
-        } else if (command == '/') {
+        } else if (op == "/") {
             if (!stack_empty(stack)) {
                 int b = stack_get(stack);
                 stack_pop(stack);
@@ -54,7 +54,7 @@ int main() {
                     stack_push(stack, a / b);
                 }
             }
-        } else if (command == '%') {
+        } else if (op == "%") {
             if (!stack_empty(stack)) {
                 int b = stack_get(stack);
                 stack_pop(stack);
@@ -64,14 +64,16 @@ int main() {
                     stack_push(stack, a % b);
                 }
             }
-        } else if (command == 'd' && cin >> command && command == 'u' && cin >> command && command == 'p') {
+        } else if (op == "dup") {
             if (!stack_empty(stack)) {
                 int top = stack_get(stack);
                 stack_push(stack, top);
             }
-        } else if (command == 'd' && cin >> command && command == 'r' && cin >> command && command == 'o' && cin >> command && command == 'p') {
-            stack_pop(stack);
-        } else if (command == 's' && cin >> command && command == 'w' && cin >> command && command == 'a' && cin >> command && command == 'p') {
+        } else if (op == "drop") {
+            if (!stack_empty(stack)) {
+                stack_pop(stack);
+            }
+        } else if (op == "swap") {
             if (!stack_empty(stack)) {
                 int a = stack_get(stack);
                 stack_pop(stack);
@@ -82,19 +84,17 @@ int main() {
                     stack_push(stack, b);
                 }
             }
-        } else if (command == 'o' && cin >> command && command == 'v' && cin >> command && command == 'e' && cin >> command && command == 'r') {
+        } else if (op == "over") {
             if (!stack_empty(stack)) {
                 int top = stack_get(stack);
                 stack_pop(stack);
                 if (!stack_empty(stack)) {
                     int second = stack_get(stack);
-                    stack_pop(stack);
                     stack_push(stack, second);
                     stack_push(stack, top);
-                    stack_push(stack, second);
                 }
             }
-        } else if (command == 'r' && cin >> command && command == 'o' && cin >> command && command == 't') {
+        } else if (op == "rot") {
             if (!stack_empty(stack)) {
                 int c = stack_get(stack);
                 stack_pop(stack);
@@ -110,14 +110,23 @@ int main() {
                     }
                 }
             }
-        } else if (command == '.') {
+        } else if (op == ".") {
             if (!stack_empty(stack)) {
                 cout << stack_get(stack) << endl;
                 stack_pop(stack);
             }
         } else {
-            // Неизвестная команда
+
         }
+    }
+}
+
+int main() {
+    Stack* stack = stack_create();
+
+    string input;
+    while (getline(cin, input)) {
+        processCommand(stack, input);
     }
 
     stack_delete(stack);
