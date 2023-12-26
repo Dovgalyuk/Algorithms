@@ -124,14 +124,14 @@ List* find_shortest_road(const Data n, Data start, Data finish, List** adj_list)
             Data child_element = list_item_data(item);
             if (parent_element == start || check_value(n, child_element, visited_nodes, parents)) 
             {
-                dead_end_node = false;
+                if ( !(start == finish && parent_element != child_element)) dead_end_node = false;
                 if (parents[child_element - 1] == 0) {
                     parents[child_element - 1] = parent_element;
                 }
                 queue_insert(queue, child_element);
             }
         }
-        if (dead_end_node && start != finish) {
+        if (dead_end_node) {
             list_erase_first(road);
         }
 
