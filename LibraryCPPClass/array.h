@@ -31,6 +31,8 @@ public:
 
 private:
     // private data should be here
+    int* arr = nullptr;
+    size_t sizet;
 };
 
 #endif
