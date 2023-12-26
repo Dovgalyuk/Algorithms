@@ -36,7 +36,6 @@ void task2(Array* arr)
     }
     std::cout << std::endl;
 }
-
 void task1(Array* arr)
 {
     // вывод исходного массива
@@ -49,30 +48,29 @@ void task1(Array* arr)
 
     // ввод чисел k1 и k2
     size_t k1, k2;
-    while (true) {
+    do {
         std::cout << "Введите индекс k1: ";
         std::cin >> k1;
-        if (std::cin.fail() || k1 < 0 || k1 >= array_size(arr)) {
+        if(std::cin.fail() || k1 >= array_size(arr)) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Недействительный индекс. Повторите попытку.\n";
-        }
-        else {
+            std::cout << "Неверный индекс. Попробуйте еще раз.\n";
+        } else {
             break;
         }
-    }
-    while (true) {
+    } while(true);
+
+    do {
         std::cout << "Введите индекс k2: ";
         std::cin >> k2;
-        if (std::cin.fail() || k2 < 0 || k2 >= array_size(arr)) {
+        if(std::cin.fail() || k2 >= array_size(arr)) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Недействительный индекс. Повторите попытку.\n";
-        }
-        else {
+            std::cout << "Неверный индекс. Попробуйте еще раз.\n";
+        } else {
             break;
         }
-    }
+    } while(true);
 
     // вычитание элементов массива
     for (size_t i = 0; i < array_size(arr); ++i)
