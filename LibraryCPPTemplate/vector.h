@@ -12,14 +12,12 @@ public:
     }
 
     // copy constructor
-    template <typename T>
-    Vector(const Vector<T> &a)
+    Vector(const Vector &a)
     {
     }
 
     // assignment operator
-    template <typename T>
-    Vector &operator=(const Vector<T> &a)
+    Vector &operator=(const Vector &a)
     {
         return *this;
     }
