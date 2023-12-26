@@ -76,7 +76,7 @@ List** input (Data &n, Data &start, Data &finish, List** list)
     return list;
 }
 
-bool check_value(const Data n, Data child_element, bool* visited_nodes, Data* parents) 
+bool check_value(const Data n, Data child_element, const bool* visited_nodes, const Data* parents) 
 {
     bool flag = true;
     // проверка вершины на пройденность
@@ -98,7 +98,7 @@ bool check_value(const Data n, Data child_element, bool* visited_nodes, Data* pa
     return flag;
 }
 
-List* find_shortest_road(const Data n, Data start, Data finish, List** adj_list) 
+List* find_shortest_road(const Data n, const Data start, const Data finish, List** adj_list) 
 {
     Queue* queue = queue_create();
     List* road = list_create();
@@ -124,6 +124,7 @@ List* find_shortest_road(const Data n, Data start, Data finish, List** adj_list)
             Data child_element = list_item_data(item);
             if (parent_element == start || check_value(n, child_element, visited_nodes, parents)) 
             {
+
                 if ( !(start == finish && parent_element != child_element)) dead_end_node = false;
                 if (parents[child_element - 1] == 0) {
                     parents[child_element - 1] = parent_element;
