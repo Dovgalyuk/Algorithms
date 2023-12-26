@@ -200,33 +200,27 @@ public:
 	private:
 		Graph* graph;
 		size_t start;
-		int end = -1;
+		size_t end;
 
-		int getNearVertex() {
+		size_t getNearVertex() {
 			for (size_t i = end + 1; i < graph->getVertexAmount(); i++) {
 				if (graph->isEdgeExist(start, i)) {
-					return static_cast<int>(i);
+					return i;
 				}
 			}
-			return -1;
+			return graph->getVertexAmount();
 		}
+
 	public:
-		Iterator(Graph* graph, size_t start) {
-			this->graph = graph;
-			this->start = start;
-			this->end = getNearVertex();
+		Iterator(Graph* graph, size_t start) : graph(graph), start(start), end(start - 1) {
+			end = getNearVertex();
 		}
 
-		bool operator *() {
-			if (end != -1) {
-				return true;
-			}
-			else {
-				return false;
-			}
+		bool operator*() {
+			return end != graph->getVertexAmount();
 		}
 
-		void operator ++() {
+		void operator++() {
 			end = getNearVertex();
 		}
 
@@ -234,7 +228,7 @@ public:
 			return end;
 		}
 
-		int getStart() const {
+		size_t getStart() const {
 			return start;
 		}
 	};
@@ -242,6 +236,7 @@ public:
 	Iterator getIterator(size_t start) {
 		return Iterator(this, start);
 	}
+
 private:
 	Vector<Vertex> vertexes;
 	Vector<Edge*> edgeMatrix;

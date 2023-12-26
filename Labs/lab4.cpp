@@ -18,7 +18,16 @@ void floydWarshall(MyGraph& graph) {
                 dist[i][j] = 0;
             }
             else {
-                MyGraph::Edge* edge = graph.getEdge(i, j);
+                MyGraph::Edge* edge = nullptr;
+                MyGraph::Iterator it = graph.getIterator(i);
+                while (*it) {
+                    if (it.getIndex() == j) {
+                        edge = graph.getEdge(i, j);
+                        break;
+                    }
+                    ++it;
+                }
+
                 if (edge) {
                     dist[i][j] = edge->getEdgeData();
                 }
