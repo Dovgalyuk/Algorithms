@@ -3,7 +3,7 @@
 
 using namespace std;
 
-typedef Graph<int> MyGraph;
+typedef Graph<int,int> MyGraph;
 
 int main() {
 

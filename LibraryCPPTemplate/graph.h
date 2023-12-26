@@ -3,38 +3,38 @@
 
 #include "vector.h"
 
-template<typename Info>
+template<typename VertexInfo, typename EdgeInfo>
 class Graph {
 public:
 	
 	struct Vertex {
 	private:
-		Info vertexData;
+		VertexInfo vertexData;
 	public:
-		Vertex() : vertexData(Info()) {}
+		Vertex() : vertexData(VertexInfo()) {}
 
-		Vertex(Info vertexData) {
+		Vertex(VertexInfo vertexData) {
 			this->vertexData = vertexData;
 		}
-		void setVertexData(Info vertexData) {
+		void setVertexData(VertexInfo vertexData) {
 			this->vertexData = vertexData;
 		}
-		Info getVertexData() {
+		VertexInfo getVertexData() {
 			return this->vertexData;
 		}
 	};
 	
 	struct Edge {
 	private:
-		Info edgeData;
+		EdgeInfo edgeData;
 	public:
-		Edge(Info data) {
+		Edge(EdgeInfo data) {
 			this->edgeData = data;
 		}
-		void setEdgeData(Info data) {
+		void setEdgeData(EdgeInfo data) {
 			this->edgeData = data;
 		}
-		Info getEdgeData() {
+		EdgeInfo getEdgeData() {
 			return edgeData;
 		}
 	};
@@ -97,7 +97,7 @@ public:
 		return vertexes.size();
 	}
 
-	size_t addVertex(Info vertexData) {
+	size_t addVertex(VertexInfo vertexData) {
 		size_t index = vertexes.size();
 		vertexes.resize(index + 1);
 		vertexes.set(index, Vertex(vertexData));
@@ -170,7 +170,7 @@ public:
 		return getEdge(startVertexIndex, endVertexIndex) != nullptr;
 	}
 
-	void addEdge(size_t startVertexIndex, size_t endVertexIndex, Info edgeData) {
+	void addEdge(size_t startVertexIndex, size_t endVertexIndex, EdgeInfo edgeData) {
 		size_t vertexAmount = getVertexAmount();
 
 		Edge* edge = edgeMatrix.get(startVertexIndex * vertexAmount + endVertexIndex);
