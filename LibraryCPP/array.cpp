@@ -2,11 +2,18 @@
 
 struct Array
 {
+    int ArrSize;
+    int ArrData;
 };
 
 // create array
 Array *array_create(size_t size)
 {
+    Array* NewArray = new Array;
+    NewArray->ArrSize = size;
+
+
+    
     return new Array;
 }
 
