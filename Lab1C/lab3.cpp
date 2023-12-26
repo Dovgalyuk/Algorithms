@@ -2,8 +2,7 @@
 #include <fstream>
 #include "queue.h"
 #include "vector.h"
-#include "queue.cpp"
-#include "vector.cpp"
+
 
 using namespace std;
 
