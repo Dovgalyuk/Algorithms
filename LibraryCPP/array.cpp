@@ -1,10 +1,9 @@
-#//include <iostream>
-//#include <ctime>
+#include <iostream>
+
+using namespace std;
+#include <ctime>
 
 #include "array.h"
-
-
-//using namespace std;
 
 struct Array
 {
@@ -26,7 +25,7 @@ struct Array
 
 
 // create array
-Array* array_create(size_t size)
+Array* array_create(size_t size,const Array* arr)
 {
 	/*arr->size = size; 
 	arr->data = new int[arr->size];*/ 
@@ -38,7 +37,6 @@ void array_delete(Array* arr)
 {
 	delete arr;
 }
-
 
 // returns specified array element
 Data array_get(const Array* arr, size_t index)
@@ -57,17 +55,7 @@ void array_set(Array* arr, size_t index, Data value)
 }
 
 // returns array size
- size_t array_size(const Array* arr)
+size_t array_size(const Array* arr)
 {
-	if (arr != nullptr) {
-		return arr->size;
-	}
-	else {
-		// обработка случая, когда arr равен nullptr
-		return 0; // или другое подходящее значение по умолчанию
-	}
+	return arr->size;
 }
-//size_t array_size(const Array* arr)
-//{
-//	return arr->size;
-//}
