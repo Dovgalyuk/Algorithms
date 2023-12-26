@@ -12,3 +12,4 @@ Debug/*
 Release/*
 .vs/*
 build/*
+out/*
