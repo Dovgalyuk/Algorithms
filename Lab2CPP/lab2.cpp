@@ -74,7 +74,7 @@ using namespace std;
 int main()
 {
     string InputString;
-    Computing *newSolution = new Computing;
+    Computing *newSolution;
     Stack* newstack = stack_create();
     int answer;
 
@@ -84,7 +84,11 @@ int main()
     {
         getline(cin, InputString);
 
-        if (InputString == "Exit" || InputString == "exit") break;
+        if (InputString == "Exit" || InputString == "exit")
+        {
+            stack_delete(newstack);
+            break;
+        } 
         
         else
         {
