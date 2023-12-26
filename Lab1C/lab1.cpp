@@ -81,7 +81,7 @@ int main()
 	srand((int)time(NULL));
 
 	size_t size;
-	Array* arr = NULL;
+	Array* arr;
 	cout << "¬ведите размер массива: ";
 	cin >> size;
 
