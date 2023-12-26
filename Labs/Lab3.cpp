@@ -61,4 +61,5 @@ int main() {
 			cout << char(i) << " ";
 		}
 	}
+	used.resize(0);
 }
