@@ -49,7 +49,7 @@ ListItem *list_item_prev(ListItem *item)
 
 ListItem *list_insert(List *list, Data data)
 {
-    ListItem *newListItem = new ListItem{data, list->head};
+    ListItem *newListItem = new ListItem{data, list->head, nullptr};
 
     if (list->head)
     {
