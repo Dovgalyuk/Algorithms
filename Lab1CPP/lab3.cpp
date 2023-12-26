@@ -76,68 +76,38 @@ List** input (Data &n, Data &start, Data &finish, List** list)
     return list;
 }
 
-void upd_parent(List* parents, Data n, Data upd_iter, Data upd_value) 
-{
-    ListItem* temp = list_first(parents);
-    if(upd_iter == 1 && list_item_data(temp) == 0) {
-        list_insert_after(parents, temp, upd_value);
-        list_erase_first(parents);
-    }
-    else {
-        for (Data i = 2; i <= n; i++) {
-            Data num = list_item_data(temp);
-            if (i == upd_iter && num == 0) {
-                list_insert_after(parents, temp, upd_value);  
-                list_erase_next(parents, list_item_next(temp));
-                break;       
-            }
-            temp = list_item_next(temp);
-        }
-    }
-}
-
-bool check_value(Data n, Data child_element, List* list, List* parents) 
+bool check_value(const Data n, Data child_element, bool* visited_nodes, Data* parents) 
 {
     bool flag = true;
     // проверка вершины на пройденность
-    for (ListItem* item = list_first(list); item; item = list_item_next(item)) 
-    {
-        if (child_element == list_item_data(item)) {
-            flag = false;
-            break;
-        }
+    if (visited_nodes[--child_element] == true) {
+        flag = false;
     }     
     if (flag) {
         //проверка на одинакового родителя двух вершин
-        Data data = 0;
-        ListItem* temp = list_first(parents);
-        for (Data i = 1; i <= n; i++) 
+        Data data = parents[child_element];
+        for (Data i = 0; i < n; i++) 
         {
-            Data num = list_item_data(temp);
-            if (num != 0 && data == num) {
+            Data num = parents[i];
+            if (num != 0 && data == num && i != child_element) {
                 flag = false;
                 break;
             }
-            
-            if (i == child_element) {
-                data = num;
-            } 
-            temp = list_item_next(temp);
         }
     }
     return flag;
 }
 
-List* find_shortest_road(Data n, Data start, Data finish, List** adj_list) 
+List* find_shortest_road(const Data n, Data start, Data finish, List** adj_list) 
 {
     Queue* queue = queue_create();
-    List* parents = list_create();
-    List* visited_nodes = list_create();
     List* road = list_create();
-    //инициализация списка родителей
-    for (Data i = 1; i <= n; i++)
+    Data* parents = new Data[n];
+    bool* visited_nodes = new bool[n];
+    //инициализация массива родителей
+    for (Data i = 0; i < n; i++)
     {
-        list_insert(parents, 0);
+        parents[i] = 0;
     }
     queue_insert(queue, start);
     //обход графа
@@ -145,8 +115,8 @@ List* find_shortest_road(Data n, Data start, Data finish, List** adj_list)
     {    
         Data parent_element = queue_get(queue);
         queue_remove(queue);
-        list_insert(visited_nodes, parent_element);
         list_insert(road, parent_element);
+        visited_nodes[parent_element-1] = 1;
         bool dead_end_node = true;
         List* neightbours = adj_list[parent_element - 1]; 
         for (ListItem* item = list_first(neightbours); item; item = list_item_next(item)) 
@@ -155,7 +125,9 @@ List* find_shortest_road(Data n, Data start, Data finish, List** adj_list)
             if (parent_element == start || check_value(n, child_element, visited_nodes, parents)) 
             {
                 dead_end_node = false;
-                upd_parent(parents, n, child_element, parent_element);
+                if (parents[child_element - 1] == 0) {
+                    parents[child_element - 1] = parent_element;
+                }
                 queue_insert(queue, child_element);
             }
         }
@@ -170,9 +142,13 @@ List* find_shortest_road(Data n, Data start, Data finish, List** adj_list)
             break;
         } 
     }
+    for (Data i = 0; i < n; i++)
+    {
+        cout << parents[i] << endl;
+    }
     queue_delete(queue);
-    list_delete(parents);
-    list_delete(visited_nodes);
+    delete[] parents;
+    delete[] visited_nodes;
     if (list_first(road) == nullptr) {
         list_delete(road);
         road = nullptr;
@@ -216,5 +192,6 @@ int main()
     if (road) {
         list_delete(road);
     }
+    // system("pause");
     return 0;
 }
