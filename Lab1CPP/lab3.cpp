@@ -83,7 +83,7 @@ bool check_value(const Data n, Data child_element, const bool* visited_nodes, co
     if (visited_nodes[--child_element] == true) {
         flag = false;
     }     
-    if (flag) {
+    if (flag) {        
         //проверка на одинакового родителя двух вершин
         Data data = parents[child_element];
         for (Data i = 0; i < n; i++) 
@@ -114,39 +114,42 @@ List* find_shortest_road(const Data n, const Data start, const Data finish, List
     while (!queue_empty(queue))
     {    
         Data parent_element = queue_get(queue);
+        Data child_element = 0;
+        List* neightbours = adj_list[parent_element - 1];
+        visited_nodes[parent_element-1] = 1; 
+
         queue_remove(queue);
-        list_insert(road, parent_element);
-        visited_nodes[parent_element-1] = 1;
-        bool dead_end_node = true;
-        List* neightbours = adj_list[parent_element - 1]; 
+
         for (ListItem* item = list_first(neightbours); item; item = list_item_next(item)) 
         {
-            Data child_element = list_item_data(item);
+            child_element = list_item_data(item);
             if (parent_element == start || check_value(n, child_element, visited_nodes, parents)) 
             {
-
-                if ( !(start == finish && parent_element != child_element)) dead_end_node = false;
                 if (parents[child_element - 1] == 0) {
                     parents[child_element - 1] = parent_element;
                 }
                 queue_insert(queue, child_element);
             }
         }
-        if (dead_end_node) {
-            list_erase_first(road);
-        }
-
         if (parent_element == finish) {
-            if (list_first(road) && list_item_data(list_first(road)) != finish) {
-                list_insert(road, finish);
-            }
             break;
-        } 
+        }
     }
-    for (Data i = 0; i < n; i++)
-    {
-        cout << parents[i] << endl;
+
+    if (start == finish) {
+        if (parents[start - 1] != 0) {
+            list_insert(road, parents[start - 1]);
+            list_insert(road, parents[start - 1]);
+        }
     }
+    else {
+        Data iter = finish;
+        do {
+            list_insert(road, iter);
+            iter = parents[iter - 1];
+        } while (iter > 0);
+    } 
+    
     queue_delete(queue);
     delete[] parents;
     delete[] visited_nodes;
@@ -157,18 +160,14 @@ List* find_shortest_road(const Data n, const Data start, const Data finish, List
     return road;
 }
 
-Data reverse_output(ListItem* item, ofstream& fout) {
-    if (list_item_next(item)) {
-        fout << reverse_output(list_item_next(item), fout) << ' ';
-    }
-    return list_item_data(item);
-}
-
 void output(List* road) {
     ofstream fout;
     fout.open(("..\\..\\..\\Lab1CPP\\output.txt"));
     if (road) {
-        fout << reverse_output(list_first(road), fout);
+        for (ListItem* item = list_first(road); item; item = list_item_next(item)){
+            fout << list_item_data(item) << " ";
+        }
+
     } else {
         fout << "IMPOSSIBLE";
     }
