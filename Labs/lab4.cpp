@@ -13,28 +13,17 @@ void floydWarshall(MyGraph& graph) {
     int** dist = new int* [vertex_count];
     for (size_t i = 0; i < vertex_count; ++i) {
         dist[i] = new int[vertex_count];
-        for (size_t j = 0; j < vertex_count; ++j) {
-            if (i == j) {
-                dist[i][j] = 0;
+        MyGraph::Iterator it = graph.getIterator(i);
+        while (*it) {
+            size_t current_index = it.getIndex();
+            MyGraph::Edge* edge = graph.getEdge(i, current_index);
+            if (edge) {
+                dist[i][current_index] = edge->getEdgeData();
             }
             else {
-                MyGraph::Edge* edge = nullptr;
-                MyGraph::Iterator it = graph.getIterator(i);
-                while (*it) {
-                    if (it.getIndex() == j) {
-                        edge = graph.getEdge(i, j);
-                        break;
-                    }
-                    ++it;
-                }
-
-                if (edge) {
-                    dist[i][j] = edge->getEdgeData();
-                }
-                else {
-                    dist[i][j] = INF;
-                }
+                dist[i][current_index] = (i == current_index) ? 0 : INF;
             }
+            ++it;
         }
     }
 
