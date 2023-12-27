@@ -4,14 +4,14 @@
 #include "vector.h"
 #include <cstddef>
 
-typedef int Data;
+typedef char Data;
 
 struct Queue;
 Queue* queue_create();
 
 void queue_delete(Queue* queue);
 
-void queue_insert(Queue* queue, Data data);
+void queue_insert(Queue* queue, char data);
 
 Data queue_get(const Queue* queue);
 
