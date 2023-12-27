@@ -1,7 +1,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 #include <cstddef>
-typedef int Data;
+typedef char Data;
 
 struct Vector;
 
