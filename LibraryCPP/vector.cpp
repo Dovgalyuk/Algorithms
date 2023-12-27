@@ -1,100 +1,138 @@
 #include "vector.h"
+#include <vector>
 
+//struct Vector
+//{
+//	Data* data;
+//	size_t size;
+//	size_t capacity;
+//	
+//};
+//
+//Vector* vector_create()
+//{
+//	Vector* vector = new Vector;
+//	vector->data = nullptr;
+//	vector->size = 0;
+//	vector->capacity = 0;
+//	return vector;
+//}
+//
+//void vector_delete(Vector *vector)
+//{
+//    // TODO: free vector internals
+//	delete[] vector->data;
+//    delete vector; 
+//}
+//
+//Data vector_get(const Vector *vector, size_t index)
+//{
+//	if (index < vector->size)
+//	{
+//		return vector->data[index];
+//	}
+//	return (Data)0;
+//}
+//
+//void vector_set(Vector *vector, size_t index, Data value)
+//{
+//	if (index < vector->size)
+//		vector->data[index] = value;
+//}
+//
+//size_t vector_size(const Vector *vector)
+//{
+//	return vector->size;
+//}
+//
+//void vector_resize(Vector* vector, size_t size)
+//{
+//
+//	/*if (size <= vector->capacity)
+//
+//	{
+//		vector->size = size;
+//	}
+//	else
+//	{
+//		Data* new_data = new Data[size];
+//		for (size_t i = 0; i < vector->size; i++)
+//		{
+//			new_data[i] = vector->data[i];
+//		}
+//		delete[] vector->data;
+//		vector->data = new_data;
+//		vector->size = size;
+//		vector->capacity = size;
+//
+//	}*/
+//	
+//}
 struct Vector
 {
-	Data* data;
-	size_t size;
-	size_t capacity;
-	size_t size_max = 2;
+    Data* data;
+    size_t size;
+    size_t capacity;
+  // const size_t size_max = 2;
 
-	/*Vector() {
-		size = 1;
-		size_max = 2;
-		data = new Data[size_max];
-	}*/
+    //  онструктор
+    Vector() : data(nullptr), size(0), capacity(0) {}
 
-
+    // ƒеструктор
+    ~Vector()
+    {
+        delete[] data;
+    }
 };
 
 Vector* vector_create()
 {
-	Vector* vector = new Vector;
-	vector->data = nullptr;
-	vector->size = 0;
-	vector->capacity = 0;
-	return vector;
-   // return new Vector(size);
+    return new Vector;
 }
 
-void vector_delete(Vector *vector)
+void vector_delete(Vector* vector)
 {
-    // TODO: free vector internals
-	delete[] vector->data;
-    delete vector; 
+    delete vector;
 }
 
-Data vector_get(const Vector *vector, size_t index)
+Data vector_get(const Vector* vector, size_t index)
 {
-	if (index < vector->size)
-	{
-		return vector->data[index];
-	}
-	return (Data)0;
+    if (index < vector->size)
+    {
+        return vector->data[index];
+    }
+    return Data(); // ¬озвращаем значение по умолчанию, если индекс неверный
 }
 
-void vector_set(Vector *vector, size_t index, Data value)
+void vector_set(Vector* vector, size_t index, Data value)
 {
-	//size_t size = vector_size(vector);
-	if (index < vector->size)
-		vector->data[index] = value;
+    if (index < vector->size)
+    {
+        vector->data[index] = value;
+    }
 }
 
-size_t vector_size(const Vector *vector)
+size_t vector_size(const Vector* vector)
 {
-
-	//if (vector != nullptr) {
-	//	return vector->size;
-	//}
-	//else {
-	//	// обработка случа€, когда arr равен nullptr
-	//	return 0; // или другое подход€щее значение по умолчанию
-	//}
-	return vector->size;
-
+    return vector->size;
 }
 
 void vector_resize(Vector* vector, size_t size)
 {
-
-	/*if (size <= vector->capacity)
-=======
-	if (size <= vector->capacity)
->>>>>>> bb1e10eb9abddb25511f9a04c3089c9f434848ee
-	{
-		vector->size = size;
-	}
-	else
-	{
-		Data* new_data = new Data[size];
-		for (size_t i = 0; i < vector->size; i++)
-		{
-			new_data[i] = vector->data[i];
-		}
-		delete[] vector->data;
-		vector->data = new_data;
-		vector->size = size;
-		vector->capacity = size;
-<<<<<<< HEAD
-	}*/
-	if (size <= vector->size_max) {
-		vector->size = size;
-		return;
-	}
-	size_t size_new_max = size * 2;
-	Data* current = new Data[size_new_max];
-	for (int i = 0; i < (int)vector->size; i++) {
-		current[i] = vector->data[i];
-
-
-	}
+    if (size <= vector->capacity)
+    {
+        vector->size = size;
+    }
+    else
+    {
+        Data* new_data = new Data[size];
+        for (size_t i = 0; i < vector->size; i++)
+        {
+            new_data[i] = vector->data[i];
+        }
+        delete[] vector->data;
+        vector->data = new_data;
+        vector->size = size;
+        vector->capacity = size;
+    }
 }
