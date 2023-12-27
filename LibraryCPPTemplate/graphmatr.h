@@ -89,7 +89,7 @@ public:
         return adjMatrix.get(src * numVertices + dest) != 0;
     }
 
-    int getEdgeWeight(long unsigned int src, long unsigned int dest)const {
+    T2 getEdgeWeight(long unsigned int src, long unsigned int dest)const {
         if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
@@ -103,7 +103,7 @@ public:
         vertices.set(vertex, data);
     }
 
-    int getVertexMark(long unsigned int vertex) {
+    T getVertexMark(long unsigned int vertex) {
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
