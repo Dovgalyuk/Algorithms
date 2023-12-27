@@ -74,7 +74,7 @@ using namespace std;
 int main()
 {
     string InputString;
-    Computing *newSolution;
+    Computing newSolution;
     Stack* newstack = stack_create();
     int answer;
 
@@ -92,7 +92,7 @@ int main()
         
         else
         {
-            answer = newSolution->vichislenie(InputString, newstack);
+            answer = newSolution.vichislenie(InputString, newstack);
             cout << "The answer = " << answer << endl;
             cout << endl;
         }
