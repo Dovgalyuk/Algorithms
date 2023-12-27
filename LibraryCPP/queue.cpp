@@ -16,7 +16,6 @@ void queue_delete(Queue* queue) {
     vector_delete(queue->vector);
     delete queue;
 }
-
 void queue_insert(Queue* queue, Data data) {
     size_t currentSize = vector_size(queue->vector);
     if (currentSize == vector_size(queue->vector)) {
