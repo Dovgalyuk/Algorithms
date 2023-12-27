@@ -27,8 +27,9 @@ void queue_insert(Queue* queue, Data data) {
     vector_set(queue->vector, back, data);
     vector_resize(queue->vector, size + 1);
 }
+
 Data queue_get(const Queue* queue) {
-   return vector_get(queue->vector, queue->front);
+    return vector_get(queue->vector, queue->front);
 }
 
 void queue_remove(Queue* queue) {
