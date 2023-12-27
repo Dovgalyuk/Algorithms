@@ -63,19 +63,7 @@ bool findPath(Vector* maze) {
     queue_insert(queue, static_cast<Data>(PATH));
 
      while (!queue_empty(queue)) {
-        size_t current_index = static_cast<size_t>(queue_get(queue));
         queue_remove(queue);
-
-        if (vector_get(maze, current_index) == FINISH) {
-            for (size_t i = 0; i < vector_size(maze); ++i) {
-                if (vector_get(maze, i) == EMPTY) {
-                    vector_set(maze, i, PATH);
-                }
-            }
-
-            queue_delete(queue);
-            return true;
-        }
      }
 
     queue_delete(queue);
