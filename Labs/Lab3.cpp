@@ -8,7 +8,7 @@
 using namespace std;
 
 vector<bool> makeUsed(vector<vector<int>> &graph,char Inital,Queue* queue) {
-	vector<bool> used(1000);
+	vector<bool> used(256);
 
 	int Init = static_cast<int>(Inital);
 	queue_insert(queue, Init);
@@ -34,9 +34,9 @@ int main() {
 	size_t n;
 	char Inital;
 	string input;
-	vector<bool> used(500);
+	vector<bool> used(256);
 
-	vector<vector<int>> graph(500, vector<int>(1));
+	vector<vector<int>> graph(256, vector<int>(1));
 	cout << "¬ведите кол-во химических элементов\n";
 	cin >> n;
 	cout << "¬ведите исходный химический элемент\n";
