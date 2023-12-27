@@ -52,6 +52,7 @@ int main()
             else
             {
                 cout << "Error" << endl;
+                stack_delete(stack);
                 return 1;
             }
         }
@@ -68,6 +69,7 @@ int main()
             else
             {
                 cout << "Error" << endl;
+                stack_delete(stack);
                 return 1;
             }
         }
