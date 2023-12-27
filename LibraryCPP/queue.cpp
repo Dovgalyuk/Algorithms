@@ -32,9 +32,7 @@ void queue_remove(Queue* queue) {
     if (!queue_empty(queue)) {
         size_t size = vector_size(queue->vector);
         queue->front = (queue->front + 1) % size;
-        if (size > 1 && size - 1 <= vector_size(queue->vector) / 4) {
-            vector_resize(queue->vector, size - 1);
-        }
+        vector_resize(queue->vector, size - 1);
     }
 }
 
