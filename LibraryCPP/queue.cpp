@@ -1,4 +1,3 @@
-#include "vector.h"
 #include "queue.h"
 
 struct Queue {
@@ -16,36 +15,24 @@ Queue* queue_create() {
 }
 
 void queue_delete(Queue* queue) {
-    if (queue != nullptr) {
-        vector_delete(queue->vector);
-        delete queue;
-    }
+    vector_delete(queue->vector);
+    delete queue;
 }
 
 void queue_insert(Queue* queue, Data data) {
-    if (queue == nullptr) {
-        return;
-    }
-    size_t vectorSize = vector_size(queue->vector);
-    if (vectorSize == 0) {
-        return;
-    }
-    vector_resize(queue->vector, vectorSize + 1);
-    size_t back = (queue->front + queue->size) % vectorSize;
+    size_t size = vector_size(queue->vector);
+    vector_resize(queue->vector, size + 1);
+    size_t back = (queue->front + queue->size) % vector_size(queue->vector);
     vector_set(queue->vector, back, data);
     queue->size++;
 }
 
 Data queue_get(const Queue* queue) {
-    if (queue != nullptr && !queue_empty(queue)) {
-        return vector_get(queue->vector, queue->front);
-    } else {
-        return 0;
-    }
+    return vector_get(queue->vector, queue->front);
 }
 
 void queue_remove(Queue* queue) {
-    if (queue != nullptr && !queue_empty(queue)) {
+    if (!queue_empty(queue)) {
         queue->front = (queue->front + 1) % vector_size(queue->vector);
         queue->size--;
         vector_resize(queue->vector, queue->size);
@@ -53,5 +40,5 @@ void queue_remove(Queue* queue) {
 }
 
 bool queue_empty(const Queue* queue) {
-    return queue != nullptr && queue->size == 0;
+    return queue->size == 0;
 }
