@@ -114,7 +114,6 @@ List* find_shortest_road(const Data n, const Data start, const Data finish, List
     while (!queue_empty(queue))
     {    
         Data parent_element = queue_get(queue);
-        Data child_element = 0;
         List* neightbours = adj_list[parent_element - 1];
         visited_nodes[parent_element-1] = 1; 
 
@@ -122,7 +121,7 @@ List* find_shortest_road(const Data n, const Data start, const Data finish, List
 
         for (ListItem* item = list_first(neightbours); item; item = list_item_next(item)) 
         {
-            child_element = list_item_data(item);
+            Data child_element = list_item_data(item);
             if (parent_element == start || check_value(n, child_element, visited_nodes, parents)) 
             {
                 if (parents[child_element - 1] == 0) {
