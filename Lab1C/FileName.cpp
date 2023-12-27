@@ -52,7 +52,7 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 
-    string sequence = "{"; //vvod
+    string sequence = "([]"")"; //vvod
 
 	string result = checkbox(sequence);
 	cout << result << endl;
