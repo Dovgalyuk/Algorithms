@@ -102,13 +102,8 @@ List* find_shortest_road(const Data n, const Data start, const Data finish, List
 {
     Queue* queue = queue_create();
     List* road = list_create();
-    Data* parents = new Data[n];
-    bool* visited_nodes = new bool[n];
-    //инициализация массива родителей
-    for (Data i = 0; i < n; i++)
-    {
-        parents[i] = 0;
-    }
+    Data* parents = new Data[n] {};
+    bool* visited_nodes = new bool[n] {};
     queue_insert(queue, start);
     //обход графа
     while (!queue_empty(queue))
@@ -188,7 +183,7 @@ int main()
         adj_list = nullptr;        
     }
     output(road);
-    if (road != nullptr) {
+    if (road) {
         list_delete(road);
         road = nullptr;
     }
