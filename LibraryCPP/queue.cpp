@@ -19,7 +19,7 @@ void queue_delete(Queue* queue) {
 
 void queue_insert(Queue* queue, Data data) {
     vector_resize(queue->vector, vector_size(queue->vector) + 1);
-    size_t back = (queue->front + vector_size(queue->vector) - 1) % vector_size(queue->vector);
+     size_t back = (queue->front + vector_size(queue->vector) - 1) % vector_size(queue->vector);
     vector_set(queue->vector, back, data);
 }
 
@@ -34,6 +34,7 @@ void queue_remove(Queue* queue) {
         vector_resize(queue->vector, size - 1);
     }
 }
+
 bool queue_empty(const Queue* queue) {
     return vector_size(queue->vector) == 0;
 }
