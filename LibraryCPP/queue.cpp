@@ -18,14 +18,12 @@ void queue_delete(Queue* queue) {
 }
 
 void queue_insert(Queue* queue, Data data) {
-    size_t size = vector_size(queue->vector);
-    if (size == 0) {
-        queue->front = 0;
+    size_t currentSize = vector_size(queue->vector);
+    if (currentSize == vector_capacity(queue->vector)) {
+        vector_resize(queue->vector, currentSize * 2);  
     }
-    size_t back = (queue->front + size) % (size + 1);
-
+    size_t back = (queue->front + currentSize) % vector_capacity(queue->vector);
     vector_set(queue->vector, back, data);
-    vector_resize(queue->vector, size + 1);
 }
 
 Data queue_get(const Queue* queue) {
