@@ -24,7 +24,10 @@ void queue_insert(Queue* queue, Data data) {
     vector_set(queue->vector, back, data);
 }
 Data queue_get(const Queue* queue) {
-    return vector_get(queue->vector, queue->front);
+    if (!queue_empty(queue)) {
+        return vector_get(queue->vector, queue->front);
+    }
+    return 0;
 }
 
 void queue_remove(Queue* queue) {
