@@ -5,13 +5,15 @@ struct Vector
 	Data* data;
 	size_t size;
 	size_t capacity;
-	size_t size_max;
+	size_t size_max = 2;
 
-	Vector() {
+	/*Vector() {
 		size = 1;
 		size_max = 2;
 		data = new Data[size_max];
-	}
+	}*/
+
+
 };
 
 Vector* vector_create()
@@ -49,6 +51,7 @@ void vector_set(Vector *vector, size_t index, Data value)
 
 size_t vector_size(const Vector *vector)
 {
+
 	//if (vector != nullptr) {
 	//	return vector->size;
 	//}
@@ -57,11 +60,16 @@ size_t vector_size(const Vector *vector)
 	//	return 0; // или другое подходящее значение по умолчанию
 	//}
 	return vector->size;
+
 }
 
 void vector_resize(Vector* vector, size_t size)
 {
+
 	/*if (size <= vector->capacity)
+=======
+	if (size <= vector->capacity)
+>>>>>>> bb1e10eb9abddb25511f9a04c3089c9f434848ee
 	{
 		vector->size = size;
 	}
@@ -76,6 +84,7 @@ void vector_resize(Vector* vector, size_t size)
 		vector->data = new_data;
 		vector->size = size;
 		vector->capacity = size;
+<<<<<<< HEAD
 	}*/
 	if (size <= vector->size_max) {
 		vector->size = size;
@@ -85,5 +94,7 @@ void vector_resize(Vector* vector, size_t size)
 	Data* current = new Data[size_new_max];
 	for (int i = 0; i < (int)vector->size; i++) {
 		current[i] = vector->data[i];
+
+
 	}
 }

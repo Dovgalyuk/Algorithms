@@ -30,12 +30,17 @@ string checkbox(const string& sequence) {
             }
             stack_pop(stack);
         }
-        else if (c == '\"' || c == '\'') {
-            if (stack_empty(stack) || stack_get(stack) != c) {
+        else if (c == '\"' || c == '\'') 
+        {
+            if (stack_empty(stack) || stack_get(stack) != c)
+            {
+
                 stack_push(stack, c); // ≈сли кавычка открывающа€с€, то кладем ее в стек
             }
             else {
                 stack_pop(stack); // ≈сли кавычка закрывающа€с€, то убираем ее из стека
+
+                stack_push(stack, c);
             }
         }
     }
@@ -46,7 +51,9 @@ string checkbox(const string& sequence) {
 int main()
 {
 	setlocale(LC_ALL, "Russian");
+
     string sequence = "{"; //vvod
+
 	string result = checkbox(sequence);
 	cout << result << endl;
 
