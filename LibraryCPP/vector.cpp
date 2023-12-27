@@ -34,7 +34,6 @@ void vector_set(Vector* vector, size_t index, Data value) {
     if (index < vector->size) {
         vector->data[index] = value;
     } else {
-        // Handle error, e.g., resize the vector
         vector_resize(vector, index + 1);
         vector->data[index] = value;
     }
