@@ -1,13 +1,14 @@
 #include "array.h"
 
-Array::Array(size_t size)
+Array::Array(int size)
 {
     this->arr = new int[size];
     this->sizet = size;
 }
 
 Array::Array(const Array &a)
-{
+{ 
+    this->sizet = a.sizet; 
     this->arr = new int[a.sizet];
     for (int i = 0; i < a.sizet; i++)
     {
@@ -17,6 +18,20 @@ Array::Array(const Array &a)
 
 Array &Array::operator=(const Array &a)
 {
+    this->sizet = a.sizet;
+
+    if (this->arr != nullptr)
+    {
+        delete[] arr;
+    }
+
+    this->arr = new int[a.sizet];
+
+    for (int i = 0; i < a.sizet; i++)
+    {
+        this->arr[i] = a.arr[i];
+    }
+
     return *this;
 }
 

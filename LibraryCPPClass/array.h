@@ -9,7 +9,7 @@ class Array
 {
 public:
     // create array
-    explicit Array(size_t size);
+    explicit Array(int size);
 
     // copy constructor
     Array(const Array &a);
@@ -32,7 +32,7 @@ public:
 private:
     // private data should be here
     int* arr = nullptr;
-    size_t sizet;
+    int sizet;
 };
 
 #endif
