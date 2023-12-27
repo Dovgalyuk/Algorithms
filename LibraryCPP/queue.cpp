@@ -3,14 +3,14 @@
 struct Queue {
     Vector* vector;
     size_t front;
-    size_t size; 
+    size_t size;
 };
 
 Queue* queue_create() {
     Queue* queue = new Queue;
     queue->vector = vector_create();
     queue->front = 0;
-    queue->size = 0; 
+    queue->size = 0;
     return queue;
 }
 
@@ -35,7 +35,7 @@ void queue_remove(Queue* queue) {
     if (!queue_empty(queue)) {
         queue->front = (queue->front + 1) % vector_size(queue->vector);
         queue->size--;
-        vector_resize(queue->vector, queue->size); 
+        vector_resize(queue->vector, queue->size);
     }
 }
 
