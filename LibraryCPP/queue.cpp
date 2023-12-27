@@ -23,13 +23,17 @@ void queue_delete(Queue* queue) {
 }
 
 void queue_insert(Queue* queue, Data data) {
-    if (queue != nullptr) {
-        size_t vectorSize = vector_size(queue->vector);
-        vector_resize(queue->vector, vectorSize + 1);
-        size_t back = (queue->front + queue->size) % vectorSize;
-        vector_set(queue->vector, back, data);
-        queue->size++;
+    if (queue == nullptr) {
+        return;
     }
+    size_t vectorSize = vector_size(queue->vector);
+    if (vectorSize == 0) {
+        return;
+    }
+    vector_resize(queue->vector, vectorSize + 1);
+    size_t back = (queue->front + queue->size) % vectorSize;
+    vector_set(queue->vector, back, data);
+    queue->size++;
 }
 
 Data queue_get(const Queue* queue) {
