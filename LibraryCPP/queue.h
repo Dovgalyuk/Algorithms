@@ -4,7 +4,7 @@
 #include "vector.h"
 #include <cstddef>
 
-typedef char Data;
+typedef int Data;
 
 struct Queue;
 Queue* queue_create();
