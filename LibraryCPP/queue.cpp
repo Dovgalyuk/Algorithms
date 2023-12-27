@@ -29,6 +29,7 @@ Data queue_get(const Queue* queue) {
         size_t index = (queue->front + 2) % size;  
         return vector_get(queue->vector, index);
     }
+	return '\0';
 }
 
 void queue_remove(Queue* queue) {
