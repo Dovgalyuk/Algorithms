@@ -34,7 +34,6 @@ void queue_remove(Queue* queue) {
         vector_resize(queue->vector, size - 1);
     }
 }
-
 bool queue_empty(const Queue* queue) {
     return vector_size(queue->vector) == 0;
 }
