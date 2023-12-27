@@ -49,7 +49,7 @@ ListItem *list_item_prev(ListItem *item)
 
 ListItem *list_insert(List *list, Data data)
 {
-    ListItem *newListItem = new ListItem{data, list->head, nullptr};
+    ListItem *newListItem = new ListItem{data, list->head};
 
     if (list->head)
     {
@@ -72,7 +72,7 @@ ListItem *list_erase_first(List *list)
 {
     if (list->head)
     {
-        ListItem* temp = list->head;
+        ListItem *temp = list->head;
         list->head = list->head->next;
         delete temp;
         return list->head;
