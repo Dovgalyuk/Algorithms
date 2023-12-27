@@ -153,7 +153,6 @@ List* find_shortest_road(const Data n, const Data start, const Data finish, List
     delete[] parents;
     delete[] visited_nodes;
     if (list_first(road) == nullptr) {
-        list_delete(road);
         road = nullptr;
     }
     return road;
@@ -185,11 +184,13 @@ int main()
         for (int i = 0; i < n; i++) {
             list_delete(adj_list[i]);
         }
-        delete[] adj_list;        
+        delete[] adj_list;
+        adj_list = nullptr;        
     }
     output(road);
-    if (road) {
+    if (road != nullptr) {
         list_delete(road);
+        road = nullptr;
     }
     // system("pause");
     return 0;
