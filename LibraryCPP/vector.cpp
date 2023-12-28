@@ -58,7 +58,7 @@ void vector_resize(Vector* vector, size_t size)
         return;
     }
     size_t _max_size = size * 2;
-    Data* tmp = new Data[max_size];
+    Data* tmp = new Data[_max_size];
     for (size_t i = 0; i < vector->size; i++) {
         tmp[i] = vector->data[i];
     }
