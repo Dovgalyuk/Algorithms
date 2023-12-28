@@ -13,3 +13,4 @@ endif()
 
 add_subdirectory(LibraryCPP)
 add_subdirectory(Lab1C)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Lab1C)
