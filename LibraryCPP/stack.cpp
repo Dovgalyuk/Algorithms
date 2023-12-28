@@ -2,7 +2,7 @@
 #include "list.h"
 
 struct Stack{
-    ListItem* last_item = nullptr;
+    List* list = nullptr;
 };
 
 Stack *stack_create(){
