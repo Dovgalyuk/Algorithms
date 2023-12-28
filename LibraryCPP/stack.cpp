@@ -2,7 +2,6 @@
 #include "list.h"
 
 struct Stack{
-    List* list = nullptr;
     ListItem* last_item = nullptr;
 };
 
