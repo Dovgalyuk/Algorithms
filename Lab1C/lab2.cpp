@@ -21,8 +21,9 @@ int Calc(const std::string& str) {
         }
         else stack_push(st, (std::stoi(token)));
     }
-
-    return stack_get(st);
+    int result = stack_get(st);
+    stack_delete(st);
+    return result;
 }
 
 int main() {
