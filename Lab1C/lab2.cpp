@@ -13,7 +13,7 @@ int main()
 {
     setlocale(LC_ALL, "ru");
 
-    string filename = "input.txt";
+    string filename = "C:\\Users\\PC\\Documents\\GitHub\\Algorithms\\Lab1C\\imput.txt";
 
 	ifstream inputFile(filename);
     if (!inputFile) {
