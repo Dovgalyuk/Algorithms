@@ -33,7 +33,7 @@ void queue_insert(Queue* queue, Data data)
 {    
     size_t size = vector_size(queue->vector); 
         
-    if (queue_empty(queue)) 
+    if (queue_empty(queue)) { 
         queue->rear = 0;
         queue->head = 0;
     }
@@ -55,14 +55,19 @@ void queue_insert(Queue* queue, Data data)
             counter++;
         }
         
-        vector_delete(queue->vector);
+        vector_delete(queue->vector); 
         queue->vector = buff;
+        
         queue->head = 0; 
         queue->rear = static_cast<int>(size);
+
         size = vector_size(queue->vector); 
     }
+    
     auto rear = queue->rear % size; 
-    vector_set(queue->vector, rear, data);
+    
+    vector_set(queue->vector, rear, data); 
+    
     queue->rear = rear + 1; 
 }
 
@@ -88,7 +93,7 @@ void queue_remove(Queue* queue)
             queue->rear = -1;
         }
         else {
-            queue->head = head % size; 
+            queue->head = head % size;     
         }
     }
 }
