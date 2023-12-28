@@ -18,7 +18,6 @@ void stack_delete(Stack *stack){
         list_delete(stack->list);
 
     stack->list = nullptr;
-    stack->last_item = nullptr;
 
     delete stack;
 }
@@ -37,11 +36,11 @@ Data stack_get(const Stack *stack){
 }
 
 void stack_pop(Stack *stack){
-    stack->last_item = list_erase_first(stack->list);
+    list_erase_first(stack->list);
 }
 
 bool stack_empty(const Stack *stack){
-    if (stack->last_item == nullptr)
+    if (list_first(stack->list) == nullptr)
         return true;
     else
         return false;
