@@ -23,7 +23,7 @@ void stack_delete(Stack *stack){
 }
 
 void stack_push(Stack *stack, Data data){
-    stack->last_item = list_insert(stack->list, data);
+    list_insert(stack->list, data);
 }
 
 Data stack_get(const Stack *stack){
