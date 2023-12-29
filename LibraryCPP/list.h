@@ -5,8 +5,15 @@
 // Stores integer values inside
 typedef int Data;
 
-struct List;
-struct ListItem;
+struct ListItem {
+    Data data;
+    ListItem* next;
+    ListItem* prev;
+};
+
+struct List {
+    ListItem* head;
+};
 
 // Creates new list
 List* list_create();
