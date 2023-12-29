@@ -35,7 +35,7 @@ int main()
 			stack_push(stack, ch);
 			size += 1;
 		}
-		if (!stack_empty(stack) && ((stack_get(stack) == ch) )) {
+		if (!stack_empty(stack) && ((stack_get(stack) == ch) ) && flag != 0) {
 			stack_pop(stack);
 			size -= 1;
 			wrongsize -= 1;
