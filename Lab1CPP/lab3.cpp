@@ -109,7 +109,7 @@ List* find_shortest_road(const Data n, const Data start, const Data finish, List
         for (ListItem* item = list_first(neightbours); item; item = list_item_next(item)) 
         {
             Data child_element = list_item_data(item) - 1;
-            if (parent_element == start || !visited_nodes[child_element] && check_different_parents(n, child_element, parents)) 
+            if (parent_element == start || (!visited_nodes[child_element] && check_different_parents(n, child_element, parents))) 
             {
                 if (parents[child_element] == 0) {
                     parents[child_element] = parent_element;
