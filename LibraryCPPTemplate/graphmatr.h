@@ -2,17 +2,15 @@
 #include "vector.h" 
 
 using namespace std;
-template <typename T2>
+template <typename T3>
 class AdjacentVertexIterator {
 private:
-    Vector<T2>* adjMatrix;
+    const Vector<T3>* adjMatrix;
     long unsigned int numVertices;
     long unsigned int currentVertex;
-    const Vector<T2>* getAdjMatrix() const {
-        return &adjMatrix;
-    }
+    
 public:
-    AdjacentVertexIterator(const Vector<T2>* adjMatrix, long unsigned int startVertex, long unsigned int numVertices)
+    AdjacentVertexIterator(const Vector<T3>* adjMatrix, long unsigned int startVertex, long unsigned int numVertices)
         : adjMatrix(adjMatrix), numVertices(numVertices), currentVertex(startVertex) {}
 
     bool hasNext() {
