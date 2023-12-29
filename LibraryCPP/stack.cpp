@@ -1,5 +1,9 @@
 #include "stack.h"
 
+struct Stack {
+    List* list;
+};
+
 Stack* stack_create()
 {
     Stack* stack = new Stack;

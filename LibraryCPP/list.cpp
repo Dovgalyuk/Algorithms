@@ -1,6 +1,16 @@
 #include <cstddef>
 #include "list.h"
 
+struct List {
+    ListItem* head;
+};
+
+struct ListItem {
+    Data data;
+    ListItem* next;
+    ListItem* prev;
+};
+
 List* list_create()
 {
     List* list = new List;
