@@ -76,12 +76,8 @@ List** input (Data &n, Data &start, Data &finish, List** list)
     return list;
 }
 
-bool check_value(const Data n, Data child_element, const bool* visited_nodes, const Data* parents) 
-{
-    // проверка вершины на пройденность
-    if (visited_nodes[--child_element] == true) {
-        return false;
-    }           
+bool check_different_parents(const Data n, const Data child_element, const Data* parents) 
+{         
     //проверка на одинакового родителя двух вершин
     Data data = parents[child_element];
     for (Data i = 0; i < n; i++) 
@@ -112,13 +108,13 @@ List* find_shortest_road(const Data n, const Data start, const Data finish, List
 
         for (ListItem* item = list_first(neightbours); item; item = list_item_next(item)) 
         {
-            Data child_element = list_item_data(item);
-            if (parent_element == start || check_value(n, child_element, visited_nodes, parents)) 
+            Data child_element = list_item_data(item) - 1;
+            if (parent_element == start || !visited_nodes[child_element] && check_different_parents(n, child_element, parents)) 
             {
-                if (parents[child_element - 1] == 0) {
-                    parents[child_element - 1] = parent_element;
+                if (parents[child_element] == 0) {
+                    parents[child_element] = parent_element;
                 }
-                if (parent_element != child_element) { 
+                if (parent_element != (++child_element) ) { 
                     queue_insert(queue, child_element);
                 }
             }
