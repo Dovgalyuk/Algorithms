@@ -3,12 +3,22 @@
 
 using namespace std;
 
-class AdjacentVertexIterator {
+
+
+template <typename T, typename T2>
+class Graph {
 private:
-    const Vector<int>* adjMatrix;
+    Vector<T> vertices;
+    Vector<T2> adjMatrix;
     long unsigned int numVertices;
     long unsigned int currentVertex;
+    const Vector<T>* getVertices() const {
+        return &vertices;
+    }
 
+    const Vector<T2>* getAdjMatrix() const {
+        return &adjMatrix;
+    }
 public:
     AdjacentVertexIterator(const Vector<int>* adjMatrix, long unsigned int startVertex, long unsigned int numVertices)
         : adjMatrix(adjMatrix), numVertices(numVertices), currentVertex(startVertex) {}
@@ -31,23 +41,6 @@ public:
         }
         return numVertices;
     }
-};
-
-template <typename T, typename T2>
-class Graph {
-private:
-    Vector<T> vertices;
-    Vector<T2> adjMatrix;
-    long unsigned int numVertices;
-    const Vector<T>* getVertices() const {
-        return &vertices;
-    }
-
-    const Vector<T2>* getAdjMatrix() const {
-        return &adjMatrix;
-    }
-public:
-
     Graph(int numVertices) : numVertices(numVertices) {
         vertices.resize(numVertices);
         adjMatrix.resize(numVertices * numVertices);
