@@ -89,7 +89,6 @@ bool check_value(const Data n, Data child_element, const bool* visited_nodes, co
         Data num = parents[i];
         if (num != 0 && data == num && i != child_element) {
             return false;
-            break;
         }
     }
     return true;
