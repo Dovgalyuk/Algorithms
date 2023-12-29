@@ -4,8 +4,8 @@
 struct ListItem
 {
     Data data;
-    ListItem *next;
-    ListItem *prev;
+    ListItem *next = nullptr;
+    ListItem *prev = nullptr;
 };
 
 struct List
