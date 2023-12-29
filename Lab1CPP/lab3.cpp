@@ -78,24 +78,21 @@ List** input (Data &n, Data &start, Data &finish, List** list)
 
 bool check_value(const Data n, Data child_element, const bool* visited_nodes, const Data* parents) 
 {
-    bool flag = true;
     // проверка вершины на пройденность
     if (visited_nodes[--child_element] == true) {
-        flag = false;
-    }     
-    if (flag) {        
-        //проверка на одинакового родителя двух вершин
-        Data data = parents[child_element];
-        for (Data i = 0; i < n; i++) 
-        {
-            Data num = parents[i];
-            if (num != 0 && data == num && i != child_element) {
-                flag = false;
-                break;
-            }
+        return false;
+    }           
+    //проверка на одинакового родителя двух вершин
+    Data data = parents[child_element];
+    for (Data i = 0; i < n; i++) 
+    {
+        Data num = parents[i];
+        if (num != 0 && data == num && i != child_element) {
+            return false;
+            break;
         }
     }
-    return flag;
+    return true;
 }
 
 List* find_shortest_road(const Data n, const Data start, const Data finish, List** adj_list) 
@@ -122,7 +119,9 @@ List* find_shortest_road(const Data n, const Data start, const Data finish, List
                 if (parents[child_element - 1] == 0) {
                     parents[child_element - 1] = parent_element;
                 }
-                queue_insert(queue, child_element);
+                if (parent_element != child_element) { 
+                    queue_insert(queue, child_element);
+                }
             }
         }
         if (parent_element == finish) {
@@ -138,25 +137,26 @@ List* find_shortest_road(const Data n, const Data start, const Data finish, List
     }
     else {
         Data iter = finish;
-        do {
+        // если существует путь до точки
+        if (parents[iter - 1] != 0) {
             list_insert(road, iter);
-            iter = parents[iter - 1];
-        } while (iter > 0);
+            while (iter != 0 && iter != start) {
+                iter = parents[iter - 1];
+                list_insert(road, iter);  
+            }
+        }
     } 
     
     queue_delete(queue);
     delete[] parents;
     delete[] visited_nodes;
-    if (list_first(road) == nullptr) {
-        road = nullptr;
-    }
     return road;
 }
 
 void output(List* road) {
     ofstream fout;
     fout.open(("..\\..\\..\\Lab1CPP\\output.txt"));
-    if (road) {
+    if (road && list_first(road)) {
         for (ListItem* item = list_first(road); item; item = list_item_next(item)){
             fout << list_item_data(item) << " ";
         }
@@ -179,14 +179,11 @@ int main()
         for (int i = 0; i < n; i++) {
             list_delete(adj_list[i]);
         }
-        delete[] adj_list;
-        adj_list = nullptr;        
+        delete[] adj_list;      
     }
     output(road);
     if (road) {
         list_delete(road);
-        road = nullptr;
     }
-    // system("pause");
     return 0;
 }
