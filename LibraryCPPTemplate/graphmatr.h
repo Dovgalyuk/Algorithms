@@ -2,10 +2,10 @@
 #include "vector.h" 
 
 using namespace std;
-template <typename T2>
+
 class AdjacentVertexIterator {
 private:
-    const Vector<T2>* adjMatrix;
+    const Vector<int>* adjMatrix;
     long unsigned int numVertices;
     long unsigned int currentVertex;
     
