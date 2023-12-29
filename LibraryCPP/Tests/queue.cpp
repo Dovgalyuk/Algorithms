@@ -46,10 +46,11 @@ int main()
     {
         queue_insert(queue, i);
     }
-    for (int i = 10000000; i > 1; --i)
+   /* for (int i = 10000000; i > 1; --i)
     {
         queue_remove(queue);
     }
+    */
 
     queue_delete(queue);
 }
