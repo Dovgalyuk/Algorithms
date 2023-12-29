@@ -3,22 +3,12 @@
 
 using namespace std;
 
-
-
-template <typename T, typename T2>
-class Graph {
+class AdjacentVertexIterator {
 private:
-    Vector<T> vertices;
-    Vector<T2> adjMatrix;
+    const Vector<int>* adjMatrix;
     long unsigned int numVertices;
     long unsigned int currentVertex;
-    const Vector<T>* getVertices() const {
-        return &vertices;
-    }
 
-    const Vector<T2>* getAdjMatrix() const {
-        return &adjMatrix;
-    }
 public:
     AdjacentVertexIterator(const Vector<int>* adjMatrix, long unsigned int startVertex, long unsigned int numVertices)
         : adjMatrix(adjMatrix), numVertices(numVertices), currentVertex(startVertex) {}
@@ -41,20 +31,37 @@ public:
         }
         return numVertices;
     }
+};
+
+template <typename T, typename T2>
+class Graph {
+private:
+    Vector<T> vertices;
+    Vector<T2> adjMatrix;
+    long unsigned int numVertices;
+    const Vector<T>* getVertices() const {
+        return &vertices;
+    }
+
+    const Vector<T2>* getAdjMatrix() const {
+        return &adjMatrix;
+    }
+public:
+
     Graph(int numVertices) : numVertices(numVertices) {
         vertices.resize(numVertices);
         adjMatrix.resize(numVertices * numVertices);
     }
 
     void addEdge(long unsigned int src, long unsigned int dest, int weight) {
-        if (src >= numVertices || dest >= numVertices) {
+        if (src >= numVertices  dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
         adjMatrix.set(src * numVertices + dest, weight);
     }
 
     void setEdgeMark(long unsigned int src, long unsigned int dest, int weight) {
-        if (src >= numVertices || dest >= numVertices) {
+        if (src >= numVertices  dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
         adjMatrix.set(src * numVertices + dest, weight);
@@ -68,7 +75,7 @@ public:
     }
 
     void removeEdge(long unsigned int src, long unsigned int dest) {
-        if (src >= numVertices || dest >= numVertices) {
+        if (src >= numVertices  dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
         adjMatrix.set(src * numVertices + dest, 0);
@@ -76,7 +83,7 @@ public:
     }
 
     bool EdgeExists(long unsigned int src, long unsigned int dest) const {
-        if (src >= numVertices || dest >= numVertices) {
+        if (src >= numVertices  dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
         return adjMatrix.get(src * numVertices + dest) != 0;
@@ -114,10 +121,7 @@ public:
             for (long unsigned int j = 0; j < numVertices; j++) {
                 adjMatrix.set(i * numVertices + j, adjMatrix.get((i + 1) * numVertices + j));
             }
-        }
-
-
-        for (long unsigned int i = 0; i < numVertices; i++) {
+        }for (long unsigned int i = 0; i < numVertices; i++) {
             for (long unsigned int j = vertex; j < numVertices - 1; j++) {
                 adjMatrix.set(i * numVertices + j, adjMatrix.get(i * numVertices + j + 1));
             }
@@ -131,7 +135,7 @@ public:
 
         for (long unsigned int i = vertex; i < numVertices; i++)
             vertices.set(i, vertices.get(i + 1));
-        
+
 
         vertices.resize(numVertices);
     }
