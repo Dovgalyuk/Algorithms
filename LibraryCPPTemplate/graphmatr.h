@@ -54,14 +54,14 @@ public:
     }
 
     void addEdge(long unsigned int src, long unsigned int dest, int weight) {
-        if (src >= numVertices  dest >= numVertices) {
+        if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
         adjMatrix.set(src * numVertices + dest, weight);
     }
 
     void setEdgeMark(long unsigned int src, long unsigned int dest, int weight) {
-        if (src >= numVertices  dest >= numVertices) {
+        if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
         adjMatrix.set(src * numVertices + dest, weight);
@@ -75,7 +75,7 @@ public:
     }
 
     void removeEdge(long unsigned int src, long unsigned int dest) {
-        if (src >= numVertices  dest >= numVertices) {
+        if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
         adjMatrix.set(src * numVertices + dest, 0);
@@ -83,7 +83,7 @@ public:
     }
 
     bool EdgeExists(long unsigned int src, long unsigned int dest) const {
-        if (src >= numVertices  dest >= numVertices) {
+        if (src >= numVertices || dest >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
         return adjMatrix.get(src * numVertices + dest) != 0;
