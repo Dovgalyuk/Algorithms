@@ -2,15 +2,16 @@
 #include "vector.h" 
 
 using namespace std;
+template <typename T2>
 
 class AdjacentVertexIterator {
 private:
-    const Vector<int>* adjMatrix;
+    const Vector<T2>* adjMatrix;
     long unsigned int numVertices;
     long unsigned int currentVertex;
     
 public:
-    AdjacentVertexIterator(const Vector<int>* adjMatrix, long unsigned int startVertex, long unsigned int numVertices)
+    AdjacentVertexIterator(const Vector<T2>* adjMatrix, long unsigned int startVertex, long unsigned int numVertices)
         : adjMatrix(adjMatrix), numVertices(numVertices), currentVertex(startVertex) {}
 
     bool hasNext() {
@@ -141,10 +142,10 @@ public:
     }
 
 
-    AdjacentVertexIterator getAdjacentVertices(long unsigned int vertex) {
+    AdjacentVertexIterator <T2> getAdjacentVertices(long unsigned int vertex) {
         if (vertex >= numVertices) {
             throw std::out_of_range("Vertex does not exist");
         }
-        return AdjacentVertexIterator(getAdjMatrix(), vertex, numVertices);
+        return AdjacentVertexIterator <T2> (getAdjMatrix(), vertex, numVertices);
     }
 };
