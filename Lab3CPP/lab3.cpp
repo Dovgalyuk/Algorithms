@@ -20,8 +20,6 @@ int main()
     radixSort(numbers);
     printQueue(numbers);
 
-    int n;
-    cin >> n;
     return 0;
 
 
