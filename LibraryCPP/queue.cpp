@@ -71,12 +71,22 @@ Data queue_get(const Queue *queue)
     return vector_get(queue->vector, queue->first);
 }
 
-void queue_remove(Queue *queue)
+void queue_remove(Queue* queue)
 {
-    if (queue_empty(queue)) {
-        return;
+    size_t size = vector_size(queue->vector);
+    size_t first = queue->first;
+
+    if (!queue_empty(queue)) {
+        first++;
+
+        if (queue->last == first) {
+            queue->first = 0;
+            queue->last = 0;
+        }
+        else {
+            queue->first = first % size;
+        }
     }
-    queue->first++;
 }
 
 bool queue_empty(const Queue *queue)

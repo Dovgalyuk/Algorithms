@@ -44,13 +44,11 @@ int main() {
 	cout << "Вводите химические реакции (через enter) по примеру:'A->B'\n";
 	for (size_t i = 0; i < n - 1; i++) {
 		cin >> input;
-		int indexV = static_cast<int>(input[0]);
-		int indexS = static_cast<int>(input[3]);
 
-		if (graph[indexV][0] != indexV) {
-			graph[indexV][0] = indexV;
+		if (graph[static_cast<int>(input[0])][0] != static_cast<int>(input[0])) {
+			graph[static_cast<int>(input[0])][0] = static_cast<int>(input[0]);
 		}
-		graph[indexV].push_back(indexS);
+		graph[static_cast<int>(input[0])].push_back(static_cast<int>(input[3]));
 	}
 
 	Queue* queue = queue_create();
