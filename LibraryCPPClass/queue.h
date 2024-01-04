@@ -12,10 +12,10 @@ public:
     Queue();
 
     // copy constructor
-    Queue(const Queue &a);
+    Queue(const Queue& a);
 
     // assignment operator
-    Queue &operator=(const Queue &a);
+    Queue& operator=(const Queue& a);
 
     // Deletes queue
     ~Queue();
@@ -35,7 +35,9 @@ public:
     bool empty() const;
 
 private:
-    // private data should be here
+    Vector* vector_; 
+    ptrdiff_t head_; 
+    ptrdiff_t rear_; 
 };
 
 #endif
