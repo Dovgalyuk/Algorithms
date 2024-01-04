@@ -27,7 +27,7 @@ void Queue::insert(Data data) {
         rear_ = 0;
         head_ = 0;
     }
-    else if (rear_ % size == head_) {
+    else if (static_cast<size_t>(rear_) % size == static_cast<size_t>(head_)) {
         Vector* buff = new Vector;
         buff->resize(size * 2);
 
