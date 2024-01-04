@@ -4,18 +4,18 @@
 Vector::Vector() : data_(new Data[1]), size_(0), max_size_(1) {}
 
 Vector::Vector(const Vector& a) : data_(new Data[a.max_size_]), size_(a.size_), max_size_(a.max_size_) {
-   std::copy(a.data_, a.data_ + a.size_, data_);
+  std::copy(a.data_, a.data_ + a.size_, data_);
 }
 
 Vector& Vector::operator=(const Vector& a) {
-   if (this != &a) {
-       delete[] data_;
-       data_ = new Data[a.max_size_];
-       size_ = a.size_;
-       max_size_ = a.max_size_;
-       std::copy(a.data_, a.data_ + a.size_, data_);
-   }
-   return *this;
+  if (this != &a) {
+      delete[] data_;
+      data_ = new Data[a.max_size_];
+      size_ = a.size_;
+      max_size_ = a.max_size_;
+      std::copy(a.data_, a.data_ + a.size_, data_);
+  }
+  return *this;
 }
 
 Vector::~Vector() { delete[] data_; }
