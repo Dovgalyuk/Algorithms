@@ -1,77 +1,48 @@
 #include "vector.h"
-#include <stdexcept>
 
-template <typename T>
-class Vector
-{
-public:
-    Vector() : elements(nullptr), count(0), capacity(0) {}
+Vector::Vector() : size_(0), max_size_(1), data_(new Data[max_size_]) {}
 
-    Vector(const Vector& a) : elements(nullptr), count(a.count), capacity(a.capacity)
-    {
-        if (capacity > 0)
-        {
-            elements = new Data[capacity];
-            for (size_t i = 0; i < count; ++i)
-                elements[i] = a.elements[i];
-        }
+Vector::Vector(const Vector& a) : size_(a.size_), max_size_(a.max_size_), data_(new Data[a.max_size_]) {
+    std::copy(a.data_, a.data_ + a.size_, data_);
+}
+
+Vector& Vector::operator=(const Vector& a) {
+    if (this != &a) {
+        delete[] data_;
+        size_ = a.size_;
+        max_size_ = a.max_size_;
+        data_ = new Data[a.max_size_];
+        std::copy(a.data_, a.data_ + a.size_, data_);
     }
+    return *this;
+}
 
-    Vector& operator=(const Vector& a)
-    {
-        if (this != &a)
-        {
-            delete[] elements;
+Vector::~Vector() { delete[] data_; }
 
-            count = a.count;
-            capacity = a.capacity;
-            elements = new Data[capacity];
-            for (size_t i = 0; i < count; ++i)
-                elements[i] = a.elements[i];
-        }
-        return *this;
+Data Vector::get(size_t index) const {
+    if (size_ <= index) throw "Error";
+    return data_[index];
+}
+
+void Vector::set(size_t index, Data value) {
+    if (size_ <= index) throw "Error";
+    data_[index] = value;
+}
+
+size_t Vector::size() const { return size_; }
+
+void Vector::resize(size_t size) {
+    if (size <= max_size_) {
+        size_ = size;
+        return;
     }
-
-    ~Vector()
-    {
-        delete[] elements;
+    size_t max_max_size = size * 2;
+    Data* tmp = new Data[max_max_size];
+    for (size_t i = 0; i < size_; i++) {
+        tmp[i] = data_[i];
     }
-
-    Data get(size_t index) const
-    {
-        if (index >= count)
-            throw std::out_of_range("Index out of range");
-        return elements[index];
-    }
-
-    void set(size_t index, Data value)
-    {
-        if (index >= count)
-            throw std::out_of_range("Index out of range");
-        elements[index] = value;
-    }
-
-    size_t size() const
-    {
-        return count;
-    }
-
-    void resize(size_t size)
-    {
-        if (size > capacity)
-        {
-            capacity = size * 2;
-            Data* newElements = new Data[capacity];
-            for (size_t i = 0; i < count; ++i)
-                newElements[i] = elements[i];
-            delete[] elements;
-            elements = newElements;
-        }
-        count = size;
-    }
-
-private:
-    Data* elements;
-    size_t count;
-    size_t capacity;
-};
+    delete[] data_;
+    data_ = tmp;
+    max_size_ = max_max_size;
+    size_ = size;
+}
