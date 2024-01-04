@@ -1,7 +1,7 @@
 #include "queue.h"
 #include "vector.h"
 
-
+template <typename T>
 class Queue
 {
 public:
