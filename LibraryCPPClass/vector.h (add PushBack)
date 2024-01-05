@@ -33,6 +33,7 @@ public:
     // Should be O(1) on average
     void resize(size_t size);
 
+
 private:
     Data* data_; 
     size_t size_; 
