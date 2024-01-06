@@ -34,10 +34,10 @@ Data queue_get(const Queue* queue) {
 
 void queue_remove(Queue* queue) {
     if (!queue_empty(queue)) {
-        queue->front = (queue->front + 1) % vector_size(queue->vector);
-        vector_resize(queue->vector, vector_size(queue->vector) - 1);
-
-        if (vector_size(queue->vector) == 0) {
+        size_t currentSize = vector_size(queue->vector);
+        queue->front = (queue->front + 1) % currentSize;
+        vector_resize(queue->vector, currentSize - 1);
+        if (currentSize == 1) {
             queue->front = 0;
         }
     }
