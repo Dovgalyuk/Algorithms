@@ -10,7 +10,7 @@ const char EMPTY = '.';
 const char START = 'X';
 const char FINISH = 'Y';
 const char PATH = 'x';
-const char Nol = NULL;
+
 Vector* readMaze(const char* filename) {
 	ifstream file(filename);
 	if (!file.is_open()) {
