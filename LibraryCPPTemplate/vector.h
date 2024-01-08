@@ -62,7 +62,7 @@ public:
          size_ = size;
     }
 
-    void push_back(Data value) {
+    /*void push_back(Data value) {
         while (size_ >= max_size_) {
             size_t new_max_size = max_size_ * 2;
             Data* new_data = new Data[new_max_size];
@@ -75,7 +75,7 @@ public:
         }
         data_[size_] = value;
         size_++;
-    }
+    }*/
 
 
 private:
