@@ -10,12 +10,12 @@ class Vector
 public:
     Vector() : data_(new Data[1]), size_(0), max_size_(1) {}
 
-    template <typename T>
+
     Vector(const Vector<T>& a) : data_(new Data[a.max_size_]), size_(a.size_), max_size_(a.max_size_) {
         std::copy(a.data_, a.data_ + a.size_, data_);
     }
 
-    template <typename T>
+
     Vector& operator=(const Vector<T>& a) {
         if (this != &a) {
             if (data_ != nullptr) {
@@ -26,12 +26,14 @@ public:
             max_size_ = a.max_size_;
             std::copy(a.data_, a.data_ + a.size_, data_);
         }
+        return *this;
     }
 
 
     ~Vector() {
-        delete[] data_;
-        data_ = nullptr;
+        if (data_ != nullptr) {
+            delete[] data_;
+        }
     }
 
     Data get(size_t index) const {
