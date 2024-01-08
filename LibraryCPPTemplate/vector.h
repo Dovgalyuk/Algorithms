@@ -17,15 +17,15 @@ public:
 
     template <typename T>
     Vector& operator=(const Vector<T>& a) {
-        if (this != &a) {
-            delete[] data_;
-            data_ = new Data[a.max_size_];
-            size_ = a.size_;
-            max_size_ = a.max_size_;
-            std::copy(a.data_, a.data_ + a.size_, data_);
-        }
-
+    if ((void*)this != (void*)&a) {
+        delete[] data_;
+        data_ = new Data[a.max_size_];
+        size_ = a.size_;
+        max_size_ = a.max_size_;
+        std::copy(a.data_, a.data_ + a.size_, data_);
     }
+    return *this;
+}
 
 
     ~Vector() {
