@@ -5,12 +5,12 @@
 
 
 struct Position {
-    unsigned long long x=0, y=0, dist=0;
+    unsigned long long x = 0, y = 0, dist = 0;
     int check;
 };
 
 bool isValid(unsigned long long x, unsigned long long y, Vector<std::string>& maze) {
-    if (x < 0 || y < 0 || x >= maze.size() || y >= maze.get(0).size())
+    if (x >= maze.size() || y >= maze.get(0).size())
         return false;
     if (maze.get(x)[y] == '#')
         return false;
@@ -27,9 +27,9 @@ int findNearestNumber(Position start, Vector<std::string>& maze) {
     }
     q.insert(start);
     int fullRoundCounter = 0;
-    int biggest = 0;
-    for (int i = 0; i < maze.size();i++) {
-        int size = maze.get(i).size();
+    size_t biggest = 0;
+    for (size_t i = 0; i < maze.size(); i++) { 
+        size_t size = maze.get(i).size(); 
         if (size > biggest) {
             biggest = size;
         }
@@ -46,13 +46,11 @@ int findNearestNumber(Position start, Vector<std::string>& maze) {
                 return -1; 
             }
         }
-        Position moves[] = { {0, 1, p.dist + 1}, {0, -1, p.dist + 1}, {1, 0, p.dist + 1}, {-1, 0, p.dist + 1} };
-        for (auto move : moves) {
-            unsigned long long newX = p.x + move.x;
-            unsigned long long newY = p.y + move.y;
-            if (isValid(newX, newY, maze)) {
-                maze.get(newX)[newY] = '#';
-                q.insert({ newX, newY, move.dist });
+        Position moves[] = { {p.x + 0, p.y + 1, p.dist + 1, 1}, {p.x + 0, p.y - 1, p.dist + 1, 1}, {p.x + 1, p.y + 0, p.dist + 1, 1}, {p.x - 1, p.y + 0, p.dist + 1, 1} };
+        for (auto& move : moves) {
+            if (isValid(move.x, move.y, maze)) {
+                maze.get(move.x)[move.y] = '#';
+                q.insert({ move.x, move.y, move.dist, 1 });
             }
         }
     }
@@ -66,7 +64,6 @@ int main() {
     Position start;
     char c;
     int check=0;
-    bool isNeed=true;
 
     while (file.get(c)) {
         std::string row;
@@ -82,13 +79,13 @@ int main() {
     }
     file.close();
 
-    for (int i = 0; i < maze.size(); i++) {
-        		std::cout << "[ ";
-        		for (int j = 0; j < maze.get(i).size(); j++) {
-        			std::cout << maze.get(i)[j] << " ";
-        		}
-        		std::cout << "]" << std::endl;
-        	}
+    for (size_t i = 0; i < maze.size(); i++) { 
+        std::cout << "[ ";
+        for (size_t j = 0; j < maze.get(i).size(); j++) {
+            std::cout << maze.get(i)[j] << " ";
+        }
+        std::cout << "]" << std::endl;
+    }
 
     int nearestNumber = findNearestNumber(start, maze);
     if (nearestNumber == -1) {
@@ -108,3 +105,4 @@ int main() {
     }
     return 0;
 }
+
