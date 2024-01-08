@@ -18,14 +18,13 @@ public:
     template <typename T>
     Vector& operator=(const Vector<T>& a) {
         if (this != &a) {
-            if (data_ != nullptr) {
-                delete[] data_;
-            }
+            delete[] data_;
             data_ = new Data[a.max_size_];
             size_ = a.size_;
             max_size_ = a.max_size_;
             std::copy(a.data_, a.data_ + a.size_, data_);
         }
+
     }
 
 
@@ -46,22 +45,21 @@ public:
 
     size_t size() const { return size_; }
 
-    void Vector::resize(size_t size) {
-        if (size > max_size_) {
-            size_t new_max_size = size * 2;
-            Data* tmp = new Data[new_max_size];
-            for (size_t i = 0; i < size_; i++) {
-                tmp[i] = data_[i];
-            }
-            if (data_ != nullptr) {
-                delete[] data_;
-            }
-            data_ = tmp;
-            max_size_ = new_max_size;
+    void resize(size_t size) {
+        if (size <= max_size_) {
+            size_ = size;
+            return;
         }
+        size_t max_max_size = size * 2;
+        Data* tmp = new Data[max_max_size];
+        for (size_t i = 0; i < size_; i++) {
+            tmp[i] = data_[i];
+        }
+        delete[] data_;
+        data_ = tmp;
+        max_size_ = max_max_size;
         size_ = size;
     }
-
 
     void push_back(Data value) {
         while (size_ >= max_size_) {
@@ -70,9 +68,7 @@ public:
             for (size_t i = 0; i < size_; i++) {
                 new_data[i] = data_[i];
             }
-            if (data_ != nullptr) {
-                delete[] data_;
-            }
+            delete[] data_;
             data_ = new_data;
             max_size_ = new_max_size;
         }
