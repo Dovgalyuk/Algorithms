@@ -58,6 +58,20 @@ public:
         size_ = size;
     }
 
+    void push_back(Data value) {
+        while (size_ >= max_size_) {
+            size_t new_max_size = max_size_ * 2;
+            Data* new_data = new Data[new_max_size];
+            for (size_t i = 0; i < size_; i++) {
+                new_data[i] = data_[i];
+            }
+            delete[] data_;
+            data_ = new_data;
+            max_size_ = new_max_size;
+        }
+        data_[size_] = value;
+        size_++;
+    }
 private:
     Data* data_;
     size_t size_;
