@@ -17,15 +17,15 @@ public:
 
     template <typename T>
     Vector& operator=(const Vector<T>& a) {
-        if (this != dynamic_cast<const void*>(&a)) {
-            delete[] data_;
-            data_ = nullptr;
+        if (this != &a) {
+            if (data_ != nullptr) {
+                delete[] data_;
+            }
             data_ = new Data[a.max_size_];
             size_ = a.size_;
             max_size_ = a.max_size_;
             std::copy(a.data_, a.data_ + a.size_, data_);
         }
-        return *this;
     }
 
 
@@ -69,7 +69,9 @@ public:
             for (size_t i = 0; i < size_; i++) {
                 new_data[i] = data_[i];
             }
-            delete[] data_;
+            if (data_ != nullptr) {
+                delete[] data_;
+            }
             data_ = new_data;
             max_size_ = new_max_size;
         }
