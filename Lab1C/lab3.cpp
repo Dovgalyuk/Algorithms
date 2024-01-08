@@ -10,16 +10,16 @@ int main()
     size_t count_nodes, start_nodes, finish_nodes, start_edge, finish_edge;
     std::cin >> count_nodes >> start_nodes >> finish_nodes;
 
-    bool distance_found = 0; 
+    bool path_found = false;
 
-    std::vector<int> distance; 
-    distance.resize(count_nodes, -1);
+    std::vector<std::vector<int>> path;
+    path.resize(count_nodes);
 
-    std::vector<bool> visited_nodess; 
-    visited_nodess.resize(count_nodes, false);
-    visited_nodess[start_nodes - 1] = true;
+    std::vector<bool> visited_nodes;
+    visited_nodes.resize(count_nodes, false);
+    visited_nodes[start_nodes - 1] = true;
 
-    Queue* nodes_for_visit = queue_create(); 
+    Queue* nodes_for_visit = queue_create();
     queue_insert(nodes_for_visit, start_nodes);
 
     std::cout << "count_nodes: " << count_nodes << " start_nodes: " << start_nodes << " finish_nodes: " << finish_nodes << endl;
@@ -67,22 +67,24 @@ int main()
         std::cout << endl;
     }
 
-    while (!queue_empty(nodes_for_visit) || !distance_found)
+    while (!queue_empty(nodes_for_visit) && !path_found)
     {
         int current_node = queue_get(nodes_for_visit);
         queue_remove(nodes_for_visit);
+
         for (size_t i = 0; i < correspondence_matrix[current_node - 1].size(); i++)
         {
-            if (correspondence_matrix[current_node - 1][i] == 1 && !visited_nodess[i])
-            {   
-                visited_nodess[i] = true;
-                distance[i] = distance[current_node - 1] + 1;
+            if (correspondence_matrix[current_node - 1][i] == 1 && !visited_nodes[i])
+            {
+                visited_nodes[i] = true;
+                path[i] = path[current_node - 1]; // Copy the path
+                path[i].push_back(i + 1); // Add the current node to the path
 
                 queue_insert(nodes_for_visit, i + 1);
 
                 if (i + 1 == finish_nodes)
                 {
-                    distance_found = 1;
+                    path_found = true;
                     break;
                 }
             }
@@ -91,13 +93,21 @@ int main()
 
     queue_delete(nodes_for_visit);
 
-    if (distance_found)
+    if (path_found)
     {
-        std::cout << distance[finish_nodes - 1] + 1 << endl;
+        std::cout << "Path: " << start_nodes <<" -> ";
+        for (size_t i = 0; i < path[finish_nodes - 1].size(); i++)
+        {
+            std::cout << path[finish_nodes - 1][i];
+            if (i < path[finish_nodes - 1].size() - 1)
+                std::cout << " -> ";
+        }
+        std::cout << endl;
     }
     else
     {
         std::cout << "IMPOSSIBLE" << endl;
     }
+
     return 0;
 }
