@@ -19,7 +19,7 @@ bool isValid(unsigned long long x, unsigned long long y, Vector<std::string>& ma
 
 int findNearestNumber(Position start, Vector<std::string>& maze) {
     Queue<Position> q;
-    if (start.check == 0) {
+    if (start.check <1) {
         return -2;
     }
     if (start.check >1) {
