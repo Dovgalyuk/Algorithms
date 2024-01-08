@@ -26,7 +26,7 @@ int findNearestNumber(Position start, Vector<std::string>& maze) {
         return -3;
     }
     q.insert(start);
-    int fullRoundCounter = 0;
+    size_t fullRoundCounter = 0;
     size_t biggest = 0;
     for (size_t i = 0; i < maze.size(); i++) { 
         size_t size = maze.get(i).size(); 
