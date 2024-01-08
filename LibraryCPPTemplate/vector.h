@@ -2,58 +2,81 @@
 #define VECTOR_TEMPLATE_H
 
 #include <cstddef>
+#include <algorithm>
 
-template <typename Data> class Vector
+template <typename Data>
+class Vector
 {
 public:
-    // Creates vector
-    Vector()
-    {
+    Vector() : data_(new Data[1]), size_(0), max_size_(1) {}
+
+    template <typename T>
+    Vector(const Vector<T>& a) : data_(new Data[a.max_size_]), size_(a.size_), max_size_(a.max_size_) {
+        std::copy(a.data_, a.data_ + a.size_, data_);
     }
 
-    // copy constructor
     template <typename T>
-    Vector(const Vector<T> &a)
-    {
-    }
-
-    // assignment operator
-    template <typename T>
-    Vector &operator=(const Vector<T> &a)
-    {
+    Vector& operator=(const Vector<T>& a) {
+        if (this != &a) {
+            delete[] data_;
+            data_ = new Data[a.max_size_];
+            size_ = a.size_;
+            max_size_ = a.max_size_;
+            std::copy(a.data_, a.data_ + a.size_, data_);
+        }
         return *this;
     }
 
-    // Deletes vector structure and internal data
-    ~Vector()
-    {
+    ~Vector() { delete[] data_; }
+
+    Data get(size_t index) const {
+        if (size_ <= index) throw "Error";
+        return data_[index];
     }
 
-    // Retrieves vector element with the specified index
-    Data get(size_t index) const
-    {
-        return Data();
+    void set(size_t index, Data value) {
+        if (size_ <= index) throw "Error";
+        data_[index] = value;
     }
 
-    // Sets vector element with the specified index
-    void set(size_t index, Data value)
-    {
+    size_t size() const { return size_; }
+
+    void resize(size_t size) {
+        if (size <= max_size_) {
+            size_ = size;
+            return;
+        }
+        size_t max_max_size = size * 2;
+        Data* tmp = new Data[max_max_size];
+        for (size_t i = 0; i < size_; i++) {
+            tmp[i] = data_[i];
+        }
+        delete[] data_;
+        data_ = tmp;
+        max_size_ = max_max_size;
+        size_ = size;
     }
 
-    // Retrieves current vector size
-    size_t size() const
-    {
-        return 0;
+    void push_back(Data value) {
+        while (size_ >= max_size_) {
+            size_t new_max_size = max_size_ * 2;
+            Data* new_data = new Data[new_max_size];
+            for (size_t i = 0; i < size_; i++) {
+                new_data[i] = data_[i];
+            }
+            delete[] data_;
+            data_ = new_data;
+            max_size_ = new_max_size;
+        }
+        data_[size_] = value;
+        size_++;
     }
 
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
-    void resize(size_t size)
-    {
-    }
 
 private:
-    // private data should be here
+    Data* data_;
+    size_t size_;
+    size_t max_size_;
 };
 
 #endif
