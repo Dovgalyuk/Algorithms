@@ -17,8 +17,9 @@ public:
 
     template <typename T>
     Vector& operator=(const Vector<T>& a) {
-        if (this != &a) {
+        if (this != dynamic_cast<const void*>(&a)) {
             delete[] data_;
+            data_ = nullptr;
             data_ = new Data[a.max_size_];
             size_ = a.size_;
             max_size_ = a.max_size_;
@@ -27,7 +28,11 @@ public:
         return *this;
     }
 
-    ~Vector() { delete[] data_; }
+
+    ~Vector() {
+        delete[] data_;
+        data_ = nullptr;
+    }
 
     Data get(size_t index) const {
         if (size_ <= index) throw "Error";
