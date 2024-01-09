@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream> //для работы с файлами
-
+#include "list.h"
 #include "stack.h"
 
 using namespace std;
