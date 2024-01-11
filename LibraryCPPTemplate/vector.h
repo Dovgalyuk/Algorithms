@@ -15,14 +15,6 @@ public:
     }
 
     Vector &operator=(const Vector &a) {
-        if (this != &a) {
-            Data* new_data = new Data[a.max_size_];
-            std::copy(a.data_, a.data_ + a.size_, new_data);
-            delete[] data_;
-            data_ = new_data;
-            size_ = a.size_;
-            max_size_ = a.max_size_;
-        }
         return *this;
     }
 
