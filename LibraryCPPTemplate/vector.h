@@ -14,7 +14,7 @@ public:
         std::copy(a.data_, a.data_ + a.size_, data_);
     }
 
-    Vector& operator=(const Vector& a) {
+    Vector &operator=(const Vector &a) {
         if (this != &a) {
             Data* new_data = new Data[a.max_size_];
             std::copy(a.data_, a.data_ + a.size_, new_data);
