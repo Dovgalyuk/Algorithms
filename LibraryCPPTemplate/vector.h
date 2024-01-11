@@ -13,7 +13,6 @@ public:
     Vector(const Vector& a) : data_(new Data[a.max_size_]), size_(a.size_), max_size_(a.max_size_) {
         std::copy(a.data_, a.data_ + a.size_, data_);
     }
-
     Vector &operator=(const Vector &a)
     {
         if (this != &a) {
