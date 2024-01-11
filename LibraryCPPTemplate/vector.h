@@ -10,11 +10,6 @@ class Vector
 public:
     Vector() : data_(new Data[1]), size_(0), max_size_(1) {}
 
-    Vector &operator=(const Vector &a) {
-        
-        return *this;
-    }
-
     Vector(const Vector& a) : data_(new Data[a.max_size_]), size_(a.size_), max_size_(a.max_size_) {
         std::copy(a.data_, a.data_ + a.size_, data_);
     }
