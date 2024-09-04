@@ -68,6 +68,15 @@ int main()
 
     MyVector copy = vector;
 
+    for (int i = 0 ; i < 10000000 ; ++i)
+    {
+        if (vector.get(i) != copy.get(i))
+        {
+            std::cout << "Invalid copy element " << i << "\n";
+            return 1;
+        }
+    }
+
     long long sum = 0;
     for (int i = 0 ; i < 10000000 ; ++i)
         sum += vector.get(i);

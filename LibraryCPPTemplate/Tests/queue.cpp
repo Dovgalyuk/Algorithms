@@ -49,5 +49,18 @@ int main()
         queue->insert(i);
     }
 
+    MyQueue copy(*queue);
+    for (int i = 1 ; i <= 10000000 ; ++i)
+    {
+        if (copy.empty())
+            return 1;
+        if (copy.get() != i)
+        {
+            std::cout << "Get error: " << i << " " << queue->get() << "\n";
+            return 1;
+        }
+        copy.remove();
+    }
+
     delete queue;
 }
