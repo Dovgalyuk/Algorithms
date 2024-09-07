@@ -45,11 +45,11 @@ Array *array_create_and_read(FILE *input)
     return arr;
 }
 
-void task1(void)
+void task1(FILE *input)
 {
     size_t n;
     Array *arr = NULL;
-    if (scanf("%lu", &n) < 1) throw std::runtime_error("Failed to read size");
+    if (fscanf(input, "%lu", &n) < 1) throw std::runtime_error("Failed to read size");
     arr = array_create(n);
     for (size_t index{0}; index < n; ++index) array_set(arr, index, rand() % 100);
 
@@ -62,11 +62,11 @@ void task1(void)
     array_delete(arr);
 }
 
-void task2(void)
+void task2(FILE *input)
 {
     size_t size_arr;
     Array *arr = NULL;
-    if (scanf("%lu", &size_arr) < 1) throw std::runtime_error("Failed to read size");
+    if (fscanf(input, "%lu", &size_arr) < 1) throw std::runtime_error("Failed to read size");
     arr = array_create(size_arr);
     for (size_t index{0}; index < size_arr; ++index) array_set(arr, index, rand() % 100);
     qsort(arr, 0, size_arr - 1);
@@ -100,19 +100,21 @@ void task2(void)
 
 int main(int argc, char **argv)
 {
-    if (argc > 1){
-        Array *arr = NULL;
-        FILE *input = fopen(argv[1], "r");
-        arr = array_create_and_read(input);
-        array_delete(arr);
-        /* Create another array here */
-        arr = array_create_and_read(input);
-        array_delete(arr);
-        fclose(input);
-    }
+    /*
+    Не совсем понял откуда берётся с клавиатуры или из файла. В задание сказано из файла, но если запускать тесты, то будет 
+    вызвано исключение runtime_error (в случае если мы ждем числа с клавиатуры)
+    */
+    Array *arr = NULL;
+    FILE *input = fopen(argv[1], "r");
+    arr = array_create_and_read(input);
+    array_delete(arr);
+    /* Create another array here */
+    arr = array_create_and_read(input);
+    array_delete(arr);
+    
+    task1(input);
+    task2(input);
 
-    task1();
-    task2();
-
+    fclose(input);
     return 0;
 }
