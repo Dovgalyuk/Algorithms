@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include <stdexcept>
 #include "array.h"
 
 void qsort(Array *arr, size_t start, size_t end){
@@ -31,14 +32,14 @@ void qsort(Array *arr, size_t start, size_t end){
 Array *array_create_and_read(FILE *input)
 {
     int n;
-    fscanf(input, "%d", &n);
+    if (fscanf(input, "%d", &n) < 1) throw std::invalid_argument("Failed to read size");
     /* Create array */
     Array *arr = array_create(n);
     /* Read array data */
     for (int i = 0 ; i < n ; ++i)
     {
         int x;
-        fscanf(input, "%d", &x);
+        if (fscanf(input, "%d", &x) < 1) throw std::invalid_argument("Failed to read number");
         array_set(arr, i, x);
     }
     return arr;
@@ -48,7 +49,7 @@ void task1(void)
 {
     size_t n;
     Array *arr = NULL;
-    scanf("%lu", &n);
+    if (scanf("%lu", &n) < 1) throw std::runtime_error("Failed to read size");
     arr = array_create(n);
     for (size_t index{0}; index < n; ++index) array_set(arr, index, rand() % 100);
 
@@ -65,7 +66,7 @@ void task2(void)
 {
     size_t size_arr;
     Array *arr = NULL;
-    scanf("%lu", &size_arr);
+    if (scanf("%lu", &size_arr) < 1) throw std::runtime_error("Failed to read size");
     arr = array_create(size_arr);
     for (size_t index{0}; index < size_arr; ++index) array_set(arr, index, rand() % 100);
     qsort(arr, 0, size_arr - 1);
