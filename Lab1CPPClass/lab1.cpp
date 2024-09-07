@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <bits/stdc++.h>
-#include "array.h"
+#include "../LibraryCPPClass/array.h"
 
 Array& array_create_and_read(std::ifstream& input)
 {
