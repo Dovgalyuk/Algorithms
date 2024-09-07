@@ -26,5 +26,27 @@ int main()
         }
     }
 
+    try
+    {
+        arr->set(20, 5);  // error index
+        std::cout << "set() set() does not handle invalid index\n";
+        return 1;
+    }
+    catch (const std::out_of_range& e)
+    {
+        std::cout << "Caught expected out_of_range exception for set() with invalid index\n";
+    }
+
+    try
+    {
+        arr->get(20);  // error index
+        std::cout << "set() set() does not handle invalid index\n";
+        return 1;
+    }
+    catch (const std::out_of_range& e)
+    {
+        std::cout << "Caught expected out_of_range exception for get() with invalid index\n";
+    }
+
     delete arr;
 }
