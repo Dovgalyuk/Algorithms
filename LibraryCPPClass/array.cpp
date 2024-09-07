@@ -2,6 +2,9 @@
 
 Array::Array(size_t size) : m_size(size), m_data(new Data[size]())
 {
+    for(int i = 0; i < m_size; i++) {
+        m_data[i] = 0;
+    }
 }
 
 Array::Array(const Array &a) : m_size(a.m_size), m_data(new Data[a.m_size])
