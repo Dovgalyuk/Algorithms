@@ -2,7 +2,7 @@
 
 Array::Array(size_t size) : m_size(size), m_data(new Data[size]())
 {
-    for(int i = 0; i < m_size; i++) {
+    for(size_t i = 0; i < m_size; i++) {
         m_data[i] = 0;
     }
 }
