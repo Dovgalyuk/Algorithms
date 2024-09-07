@@ -1,4 +1,5 @@
 #include "array.h"
+#include <stdexcept>
 
 struct Array
 {
@@ -37,9 +38,9 @@ void array_delete(Array *arr)
 Data array_get(const Array *arr, size_t index)
 {
     if (!arr)
-        throw "Array pointer is null";
+        throw std::invalid_argument("Array pointer is null");
     if (index >= arr->size)
-        throw "Index out of range";
+        throw std::out_of_range("Index out of range");
 
     return *(arr->first + index);
 }
@@ -48,9 +49,9 @@ Data array_get(const Array *arr, size_t index)
 void array_set(Array *arr, size_t index, Data value)
 {
     if (!arr)
-        throw "Array pointer is null";
+        throw std::invalid_argument("Array pointer is null");
     if (index >= arr->size)
-        throw "Index out of range";
+        throw std::out_of_range("Index out of range");
 
     *(arr->first + index) = value; 
 }
@@ -58,6 +59,6 @@ void array_set(Array *arr, size_t index, Data value)
 // returns array size
 size_t array_size(const Array *arr)
 {
-    if (!arr) throw "Array pointer is null";
+    if (!arr) throw std::invalid_argument("Array pointer is null");
     return arr->size;
 }
