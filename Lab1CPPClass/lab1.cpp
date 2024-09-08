@@ -124,14 +124,12 @@ int main(int argc, char **argv)
     if(check_output(output, arr)) {
         return 1;
     }
-    arr.~Array(); // if we want to explicit call to destructor 
 
     arr = array_create_and_read(input);
     task2(arr);
     if(check_output(output, arr)) {
         return 1;
     }
-    arr.~Array();
 
     input.close();
 
@@ -144,11 +142,9 @@ int main(int argc, char **argv)
 
     arr = array_create_and_random_input(randomInput, 2, 5);
     task1(arr);
-    arr.~Array();
 
     arr = array_create_and_random_input(randomInput, -100, 100);
     task2(arr);
-    arr.~Array();
 
     randomInput.close();
 
