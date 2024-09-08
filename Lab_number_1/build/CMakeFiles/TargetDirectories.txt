@@ -1,4 +1,0 @@
-/home/g0d/Algorithms/Lab_number_1/build/CMakeFiles/program.dir
-/home/g0d/Algorithms/Lab_number_1/build/CMakeFiles/test.dir
-/home/g0d/Algorithms/Lab_number_1/build/CMakeFiles/edit_cache.dir
-/home/g0d/Algorithms/Lab_number_1/build/CMakeFiles/rebuild_cache.dir

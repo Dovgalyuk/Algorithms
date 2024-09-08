@@ -1,7 +1,0 @@
-TestLab1_1C 0 0
-TestLab1_2C 0 0
-TestLab1_3C 0 0
----
-TestLab1_1C
-TestLab1_2C
-TestLab1_3C
