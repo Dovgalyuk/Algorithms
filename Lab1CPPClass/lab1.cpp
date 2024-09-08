@@ -5,14 +5,14 @@
 #include <bits/stdc++.h>
 #include "array.h"
 
-Array& array_create_and_read(std::ifstream& input)
+Array array_create_and_read(std::ifstream& input) // Compiler using Return Value Optimization with C++ 17
 {
-    int n;
+    size_t n;
     input >> n;
 
     Array arr(n);
 
-    for (int i = 0; i < n; ++i)
+    for (size_t i = 0; i < n; ++i)
     {
         int x;
         input >> x;
@@ -21,13 +21,14 @@ Array& array_create_and_read(std::ifstream& input)
     return arr;
 }
 
-Array& array_create_and_random_input(std::ifstream& input, int left, int right) {
-    int n;
+Array array_create_and_random_input(std::ifstream& input, int left, int right) // Compiler using Return Value Optimization with C++ 17
+{
+    size_t n;
     input >> n;
 
     Array arr(n);
 
-    for(int i = 0; i < n; i++) {
+    for(size_t i = 0; i < n; i++) {
         int random_num =  left + rand() % (right - left + 1);
         arr.set(i, random_num);
     }
@@ -51,14 +52,14 @@ void task2(Array& arr)
 {
     Array frequency(201);
 
-    for (int i = 0; i < arr.size(); ++i) {
+    for (size_t i = 0; i < arr.size(); ++i) {
         frequency.set(arr.get(i) - 1 + 100, frequency.get(arr.get(i) - 1 + 100) + 1); // frequency[arr[i] - 1 + 100]++;
     }
 
     int max_frequency = 0;
     int most_frequent_number = INT_MIN;
 
-    for(int i = 0; i < 201; i++) {
+    for(size_t i = 0; i < 201; i++) {
         if(frequency.get(i) > max_frequency) {
             max_frequency = frequency.get(i);
             most_frequent_number = i - 100;
@@ -73,7 +74,7 @@ void task2(Array& arr)
 void task2_v2(Array& arr) {
     std::unordered_map<int, int> mp;
 
-    for(int i = 0; i < arr.size(); i++) {
+    for(size_t i = 0; i < arr.size(); i++) {
         int num = arr.get(i);
         if(mp.find(num) == mp.end()) {
             mp[num] = 0;
@@ -95,7 +96,7 @@ void task2_v2(Array& arr) {
 }
 
 bool check_output(std::ifstream& output, Array& arr) {
-    for(int i = 0; i < arr.size(); i++) {
+    for(size_t i = 0; i < arr.size(); i++) {
         int num; 
         output >> num;
         if(num != arr.get(i)) {
@@ -135,21 +136,21 @@ int main(int argc, char **argv)
     input.close();
 
     // With random
-    std::ifstream input(argv[3]);
-    if (!input.is_open()) {
+    std::ifstream randomInput(argv[3]);
+    if (!randomInput.is_open()) {
         std::cerr << "Failed to open file: " << argv[3] << "\n";
         return 1;
     }
 
-    Array arr = array_create_and_random_input(input, 2, 5);
+    arr = array_create_and_random_input(randomInput, 2, 5);
     task1(arr);
     arr.~Array();
 
-    arr = array_create_and_random_input(input, -100, 100);
+    arr = array_create_and_random_input(randomInput, -100, 100);
     task2(arr);
     arr.~Array();
 
-    input.close();
+    randomInput.close();
 
     
     return 0;
