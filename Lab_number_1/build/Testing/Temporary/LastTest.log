@@ -1,0 +1,48 @@
+Start testing: Sep 08 12:33 MSK
+----------------------------------------------------------
+1/3 Testing: TestLab1_1C
+1/3 Test: TestLab1_1C
+Command: "/home/g0d/Algorithms/Lab_number_1/build/program" "/home/g0d/Algorithms/Lab_number_1/input_1.txt"
+Directory: /home/g0d/Algorithms/Lab_number_1/build
+"TestLab1_1C" start time: Sep 08 12:33 MSK
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.08 sec
+----------------------------------------------------------
+Test Failed.
+"TestLab1_1C" end time: Sep 08 12:33 MSK
+"TestLab1_1C" time elapsed: 00:00:01
+----------------------------------------------------------
+
+2/3 Testing: TestLab1_2C
+2/3 Test: TestLab1_2C
+Command: "/home/g0d/Algorithms/Lab_number_1/build/program" "/home/g0d/Algorithms/Lab_number_1/input_2.txt"
+Directory: /home/g0d/Algorithms/Lab_number_1/build
+"TestLab1_2C" start time: Sep 08 12:33 MSK
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.08 sec
+----------------------------------------------------------
+Test Failed.
+"TestLab1_2C" end time: Sep 08 12:33 MSK
+"TestLab1_2C" time elapsed: 00:00:01
+----------------------------------------------------------
+
+3/3 Testing: TestLab1_3C
+3/3 Test: TestLab1_3C
+Command: "/home/g0d/Algorithms/Lab_number_1/build/program" "/home/g0d/Algorithms/Lab_number_1/input_3.txt"
+Directory: /home/g0d/Algorithms/Lab_number_1/build
+"TestLab1_3C" start time: Sep 08 12:33 MSK
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.08 sec
+----------------------------------------------------------
+Test Failed.
+"TestLab1_3C" end time: Sep 08 12:33 MSK
+"TestLab1_3C" time elapsed: 00:00:01
+----------------------------------------------------------
+
+End testing: Sep 08 12:33 MSK
