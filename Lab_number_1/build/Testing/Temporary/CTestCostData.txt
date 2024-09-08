@@ -1,6 +1,0 @@
-TestLab1_1C 0 0
-TestLab1_2C 0 0
-TestLab1_3C 0 0
-MyTest 0 0
-Lab_number_1 6 0.000199121
----
