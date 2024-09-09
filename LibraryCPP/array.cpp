@@ -12,13 +12,13 @@ Array *array_create(size_t size)
 {
     if (size == 0) return nullptr;
 
-    Array *arr = new Array;
+    Array *arr = (Array*) malloc(sizeof(Array));
     if (!arr) return nullptr;
 
     arr->size = size;
-    arr->first = new Data[size];
+    arr->first = (Data*) malloc(size * sizeof(Data));
     if (!(arr->first)){
-        delete arr;
+        free(arr);
         return nullptr;
     } 
 
@@ -30,8 +30,8 @@ void array_delete(Array *arr)
 {
     if (!arr) return;
 
-    delete[] arr->first;
-    delete arr;
+    free(arr->first);
+    free(arr);
 }
 
 // returns specified array element

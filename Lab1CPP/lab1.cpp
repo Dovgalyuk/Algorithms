@@ -1,6 +1,4 @@
 #include <cstdio>
-#include <cstdlib>
-#include <ctime>
 #include <stdexcept>
 #include "array.h"
 
@@ -29,6 +27,11 @@ void qsort(Array *arr, size_t start, size_t end){
     qsort(arr, left, end);
 }
 
+void qsort(Array *arr)
+{
+    qsort(arr, 0, array_size(arr) - 1);
+}
+
 Array *array_create_and_read(FILE *input)
 {
     int n;
@@ -42,78 +45,55 @@ Array *array_create_and_read(FILE *input)
         if (fscanf(input, "%d", &x) < 1) throw std::invalid_argument("Failed to read number");
         array_set(arr, i, x);
     }
+
     return arr;
 }
 
-void task1(FILE *input)
+void task1(Array *arr)
 {
-    size_t n;
-    Array *arr = NULL;
-    if (fscanf(input, "%lu", &n) < 1) throw std::runtime_error("Failed to read size");
-    arr = array_create(n);
-    for (size_t index{0}; index < n; ++index) array_set(arr, index, rand() % 100);
+    size_t size = array_size(arr);
 
-    for (size_t index{0}; index < array_size(arr); ++index){
+    for (size_t index{0}; index < size; ++index){
         if (array_get(arr, index) % 2 == 0) 
             array_set(arr, index, array_get(arr, index) * array_get(arr, index));
         else array_set(arr, index, 2 * array_get(arr, index));
     }
-
-    array_delete(arr);
 }
 
-void task2(FILE *input)
+void task2(Array *arr)
 {
-    size_t size_arr;
-    Array *arr = NULL;
-    if (fscanf(input, "%lu", &size_arr) < 1) throw std::runtime_error("Failed to read size");
-    arr = array_create(size_arr);
-    for (size_t index{0}; index < size_arr; ++index) array_set(arr, index, rand() % 100);
-    qsort(arr, 0, size_arr - 1);
+    if (!arr) std::invalid_argument("Array pointer is null");
+    if (array_size(arr) < 2) return;
+    qsort(arr);
+
+    unsigned cnt = 1;
+    size_t size_arr = array_size(arr);
+    Data item = array_get(arr, 0);
 
     for (size_t index{1}; index < size_arr; ++index){
-        if (index == (size_arr - 1)){
-            if (index == 1){
-                if (array_get(arr, 0) == array_get(arr, 1)) printf("%d ", array_get(arr, 0));
-                continue;
-            }
-            if ((array_get(arr, index - 1) == array_get(arr, index)) && (array_get(arr, index - 2) != array_get(arr, index)))
-                printf("%d ", array_get(arr, index));
-            continue;
-        };
-
-        if (array_get(arr, index) != array_get(arr, index + 1)){
-            if (index == 1) {
-                if (array_get(arr, 0) == array_get(arr, 1))
-                    printf("%d ", array_get(arr, 1));
-                continue;
-            }
-
-            if ((array_get(arr, index - 1) == array_get(arr, index)) && (array_get(arr, index - 2) != array_get(arr, index)))
-                printf("%d ", array_get(arr, index));
+        if (array_get(arr, index) == item) cnt++;
+        else {
+            if (cnt == 2) printf("%d ", item);
+            cnt = 1;
+            item = array_get(arr, index);
         }
     }
 
-    array_delete(arr);
+    if (cnt == 2) printf("%d", item);
     printf("\n");
 }
 
 int main(int argc, char **argv)
 {
-    /*
-    Не совсем понял откуда берётся с клавиатуры или из файла. В задание сказано из файла, но если запускать тесты, то будет 
-    вызвано исключение runtime_error (в случае если мы ждем числа с клавиатуры)
-    */
     Array *arr = NULL;
     FILE *input = fopen(argv[1], "r");
     arr = array_create_and_read(input);
+    task1(arr);
     array_delete(arr);
     /* Create another array here */
     arr = array_create_and_read(input);
+    task2(arr);
     array_delete(arr);
-    
-    task1(input);
-    task2(input);
 
     fclose(input);
     return 0;
