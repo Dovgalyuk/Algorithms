@@ -5,42 +5,42 @@
 #include <bits/stdc++.h>
 #include "array.h"
 
-Array array_create_and_read(std::ifstream& input) // Compiler using Return Value Optimization with C++ 17
+Array* array_create_and_read(std::ifstream& input)
 {
     size_t n;
     input >> n;
 
-    Array arr(n);
+    Array* arr = new Array(n); 
 
     for (size_t i = 0; i < n; ++i)
     {
         int x;
         input >> x;
-        arr.set(i, x);
+        arr->set(i, x); 
     }
     return arr;
 }
 
-Array array_create_and_random_input(std::ifstream& input, int left, int right) // Compiler using Return Value Optimization with C++ 17
-{
+
+Array* array_create_and_random_input(std::ifstream& input, int left, int right) {
     size_t n;
     input >> n;
 
-    Array arr(n);
+    Array* arr = new Array(n);
 
-    for(size_t i = 0; i < n; i++) {
-        int random_num =  left + rand() % (right - left + 1);
-        arr.set(i, random_num);
+    for (size_t i = 0; i < n; ++i) {
+        int random_num = left + rand() % (right - left + 1);
+        arr->set(i, random_num);
     }
     return arr;
-
 }
 
-void task1(Array& arr)
+
+void task1(const Array& arr)
 {
     Array marks(4); 
     for(size_t i = 0; i < arr.size(); i++) {
-        marks.set(arr.get(i)-2, marks.get(arr.get(i)-2) + 1);
+        marks.set(arr.get(i)-2, marks.get(arr.get(i)-2) + 1); // marks[arr[i] - 2]++;
     }
     for(size_t i = 0; i < 4; i++) {
         std::cout << "Mark " << i+2 << " : " << marks.get(i) << '\t';
@@ -48,21 +48,32 @@ void task1(Array& arr)
     std::cout << '\n';
 }
 
-void task2(Array& arr)
+void task2(const Array& arr)
 {
-    Array frequency(201);
+    int min_value = INT_MAX;
+    int max_value = INT_MIN;
 
     for (size_t i = 0; i < arr.size(); ++i) {
-        frequency.set(arr.get(i) - 1 + 100, frequency.get(arr.get(i) - 1 + 100) + 1); // frequency[arr[i] - 1 + 100]++;
+        int current = arr.get(i);
+        if (current < min_value) min_value = current;
+        if (current > max_value) max_value = current;
+    }
+
+    size_t frequency_size = max_value - min_value + 1;
+    Array frequency(frequency_size);
+
+    for (size_t i = 0; i < arr.size(); ++i) {
+        int index = arr.get(i) - min_value; 
+        frequency.set(index, frequency.get(index) + 1);
     }
 
     int max_frequency = 0;
-    int most_frequent_number = INT_MIN;
+    int most_frequent_number = min_value;
 
-    for(size_t i = 0; i < 201; i++) {
-        if(frequency.get(i) > max_frequency) {
+    for (size_t i = 0; i < frequency_size; ++i) {
+        if (frequency.get(i) > max_frequency) {
             max_frequency = frequency.get(i);
-            most_frequent_number = i - 100;
+            most_frequent_number = i + min_value; 
         }
     }
 
@@ -70,8 +81,9 @@ void task2(Array& arr)
 }
 
 
+
 //be work for any nums, not only for the segment [-100, 100]
-void task2_v2(Array& arr) {
+void task2_v2(const Array& arr) {
     std::unordered_map<int, int> mp;
 
     for(size_t i = 0; i < arr.size(); i++) {
@@ -95,7 +107,7 @@ void task2_v2(Array& arr) {
     std::cout << most_frequent_number << '\n';
 }
 
-bool check_output(std::ifstream& output, Array& arr) {
+bool check_output(std::ifstream& output, const Array& arr) {
     for(size_t i = 0; i < arr.size(); i++) {
         int num; 
         output >> num;
@@ -119,15 +131,15 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    Array arr = array_create_and_read(input);
-    task1(arr);
-    if(check_output(output, arr)) {
+    Array* arr = array_create_and_read(input);
+    task1(*arr);
+    if(check_output(output, *arr)) {
         return 1;
     }
 
     arr = array_create_and_read(input);
-    task2(arr);
-    if(check_output(output, arr)) {
+    task2(*arr);
+    if(check_output(output, *arr)) {
         return 1;
     }
 
@@ -141,10 +153,10 @@ int main(int argc, char **argv)
     }
 
     arr = array_create_and_random_input(randomInput, 2, 5);
-    task1(arr);
+    task1(*arr);
 
     arr = array_create_and_random_input(randomInput, -100, 100);
-    task2(arr);
+    task2(*arr);
 
     randomInput.close();
 
