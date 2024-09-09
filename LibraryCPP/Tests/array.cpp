@@ -7,7 +7,7 @@ int main()
 
     if (array_size(arr) != 10)
     {
-        std::cout << "Invalid array size\n";
+        std::cout << "Invalid array size: " << array_size(arr) << "\n";
         array_delete(arr);
         return 1;
     }
