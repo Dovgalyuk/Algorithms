@@ -13,3 +13,5 @@ Release/*
 .vs/*
 build/*
 .vscode/*
+clang/*
+lab5.png
