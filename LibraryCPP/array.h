@@ -1,11 +1,14 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
+#include <iostream>
 #include <cstddef>
+#include <cstdlib>
 
 // Non-resizeable array
 // Stores integer values inside
 typedef int Data;
+typedef unsigned int size_t;
 
 struct Array;
 
