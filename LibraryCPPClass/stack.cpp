@@ -1,11 +1,11 @@
 #include "stack.h"
 #include <stdexcept>
 
-Stack::Stack() : list_() 
+Stack::Stack() : list_(new List()) 
 {
 }
 
-Stack::Stack(const Stack &a) : list_(a.list_)
+Stack::Stack(const Stack &a) : list_(new List(*a.list_)) 
 {
     // implement or disable this function
 }
