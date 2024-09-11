@@ -1,38 +1,51 @@
 #include "stack.h"
+#include <stdexcept>
 
-Stack::Stack()
+Stack::Stack() : list_() 
 {
 }
 
-Stack::Stack(const Stack &a)
+Stack::Stack(const Stack &a) : list_(a.list_)
 {
     // implement or disable this function
 }
 
 Stack &Stack::operator=(const Stack &a)
 {
-    // implement or disable this function
+    if (this != &a) {
+        delete list_;
+        list_ = new List(*a.list_);
+    }
     return *this;
 }
 
 Stack::~Stack()
 {
+    delete list_;
 }
 
 void Stack::push(Data data)
 {
+    list_->insert(data);
 }
 
 Data Stack::get() const
 {
-    return Data();
+    if (empty()) {
+        throw std::runtime_error("Stack is empty");
+    }
+    return list_->first()->data();
 }
 
 void Stack::pop()
 {
+    if (empty()) {
+        throw std::runtime_error("Stack is empty");
+    }
+    list_->erase_first();
 }
 
 bool Stack::empty() const
 {
-    return true;
+    return (list_->first() == nullptr);
 }

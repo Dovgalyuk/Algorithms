@@ -11,11 +11,19 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        // Constructor to initialize the item with data
+        Item(Data data);
+        Item *next();
+        Item *prev();
+        Data data() const;
     private:
         // internal data here
+        Data data_;       // Holds the data of the item
+        Item *next_;      // Pointer to the next item
+        Item *prev_;      // Pointer to the previous item
+
+        // The List class is a friend for accessing private data
+        friend class List;
     };
 
     // Creates new list
@@ -48,7 +56,8 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
-    // private data should be here
+    Item *head_;  // Pointer to the first item in the list
+    Item *tail_;  // Pointer to the last item in the list
 };
 
 #endif
