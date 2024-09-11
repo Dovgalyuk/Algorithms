@@ -2,7 +2,7 @@
 #define STACK_H
 
 #include <cstddef>
-#include <list.h>
+#include "list.h"
 
 typedef int Data;
 
