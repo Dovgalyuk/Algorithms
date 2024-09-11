@@ -87,13 +87,11 @@ void array_erase(Array* arr, size_t index)
 
 Array* create_random_array(Data size)
 {
-	srand(time(NULL));
-
 	Array* arr = array_create(size);
 
 	for (int i = 0; i < size; i++)
 	{
-		Data value = rand() % (3 - 3 + 1) + 3;
+		Data value = i*5;
 		array_set(arr, i, value);
 	}
 	return arr;
