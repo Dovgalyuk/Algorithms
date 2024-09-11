@@ -64,7 +64,7 @@ size_t array_size(const Array* arr)
 
 void array_erase(Array* arr, size_t index)
 {
-	if (index >= 0 && index < arr->size)
+	if (index < arr->size)
 	{
 		if (index == arr->size - 1)
 		{
