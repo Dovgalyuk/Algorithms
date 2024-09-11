@@ -2,6 +2,7 @@
 #define ARRAY_H
 
 #include <cstddef>
+#include <fstream>
 
 // Non-resizeable array
 // Stores integer values inside
