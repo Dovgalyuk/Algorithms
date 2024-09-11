@@ -2,6 +2,7 @@
 #include "time.h"
 
 typedef int Data;
+typedef unsigned int size_t;
 
 struct Array
 {
