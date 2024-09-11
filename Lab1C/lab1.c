@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "array.h"
 
 Array *array_create_and_read(FILE *input)
@@ -19,6 +18,16 @@ Array *array_create_and_read(FILE *input)
 
 void task1(Array *arr)
 {
+    int i, *a;
+    size_t n = array_size;
+    a = malloc(n*sizeof(int));
+    printf("Massive: \n");
+    for (i = 0; i<n;i++){
+        a[i] = rand() % 100;
+        printf("%d", a[i]);
+    }
+
+    free(a);
 }
 
 void task2(Array *arr)
