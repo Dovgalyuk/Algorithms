@@ -1,4 +1,5 @@
 #include "array.h"
+#include "time.h"
 
 typedef int Data;
 
