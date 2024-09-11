@@ -24,4 +24,8 @@ void array_set(Array *arr, size_t index, Data value);
 // returns array size
 size_t array_size(const Array *arr);
 
+Array* create_random_array(Data size);
+
+void array_erase(Array* arr, size_t index);
+
 #endif
