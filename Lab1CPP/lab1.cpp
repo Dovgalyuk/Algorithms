@@ -1,6 +1,3 @@
-#include <iostream>
-#include <random>
-#include <fstream>
 #include "array.h"
 
 Data task_1(Array* array, size_t size)
@@ -9,7 +6,7 @@ Data task_1(Array* array, size_t size)
 
 	array = create_random_array(size);
 
-	for (int i = 1; i < array_size(array); i += 2)
+	for (size_t i = 1; i < array_size(array); i += 2)
 	{
 		if (array_get(array, i) > 0)
 		{
@@ -23,7 +20,7 @@ void task_2(Array* array, size_t size, Data a, Data b)
 {
 	array = create_random_array(size);
 
-	for (int i = 0; i < array_size(array); i++)
+	for (size_t i = 0; i < array_size(array); i++)
 	{
 		if (array_get(array, i) >= a && array_get(array, i) <= b)
 		{
