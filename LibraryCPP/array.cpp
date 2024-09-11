@@ -1,8 +1,4 @@
 #include "array.h"
-#include "time.h"
-
-typedef int Data;
-typedef unsigned int size_t;
 
 struct Array
 {
@@ -76,7 +72,7 @@ void array_erase(Array* arr, size_t index)
 		}
 		else
 		{
-			for (int i = index; i < array_size(arr) - 1; i++)
+			for (size_t i = index; i < array_size(arr) - 1; i++)
 			{
 				arr->array[i] = arr->array[i + 1];
 			}
@@ -87,13 +83,11 @@ void array_erase(Array* arr, size_t index)
 
 Array* create_random_array(Data size)
 {
-	srand(time(NULL));
-
 	Array* arr = array_create(size);
 
-	for (int i = 0; i < size; i++)
+	for (Data i = 0; i < size; i++)
 	{
-		Data value = rand() % (3 - 3 + 1) + 3;
+		Data value = i*15;
 		array_set(arr, i, value);
 	}
 	return arr;
