@@ -6,89 +6,88 @@
 // Function to return the precedence of an operator
 int precedence(char op) {
     if (op == '+') {
-        return 1; // Precedence for addition
+        return 1;
     }
     if (op == '*') {
-        return 2; // Precedence for multiplication
+        return 2;
     }
     return 0;
 }
 
-// Function to perform operation using custom Stack
 void performOperation(Stack &values, int op, std::ofstream &output) {
-    int val1 = values.get(); // Get top value (equivalent to "POP A")
-    values.pop();            // Remove top value from stack
-    int val2 = values.get();  // Get the second top value (equivalent to "POP B")
-    values.pop();             // Remove the second top value from stack
+    int val1 = values.get();
+    values.pop();            
+    int val2 = values.get();  
+    values.pop();             
 
     output << "POP A" << std::endl;
     output << "POP B" << std::endl;
 
     if (op == 1) { // '+' operation
         output << "ADD A, B" << std::endl;
-        values.push(val1 + val2); // Push result onto the stack
+        values.push(val1 + val2);
     } else if (op == 2) { // '*' operation
         output << "MUL A, B" << std::endl;
-        values.push(val1 * val2); // Push result onto the stack
+        values.push(val1 * val2);
     }
 
     output << "PUSH A" << std::endl;
 }
 
-// Main function to translate expression into assembly-like stack operations
+// Main function 
 void translateToAssembly(const std::string &expr, std::ofstream &output) {
-    Stack values; // Custom Stack for values
-    Stack ops;    // Custom Stack for operators
+    Stack values;
+    Stack ops;
+    /* 
+    I'm using:
+    0 - '('
+    1 - '+'
+    2 - '*'
+    */
 
     for (size_t i = 0; i < expr.size(); ++i) {
         char token = expr[i];
 
-        // If token is a space, skip it
         if (token == ' ') {
             continue;
         }
 
-        // Handle multi-digit numbers
+        // Multi-digit numbers
         if (isdigit(token)) {
             int value = 0;
-            // Collect the full number
             while (i < expr.size() && isdigit(expr[i])) {
                 value = value * 10 + (expr[i] - '0');
                 ++i;
             }
-            --i; // Move back one character
+            --i;
 
             output << "PUSH " << value << std::endl;
-            values.push(value); // Push the number onto the stack
-        }
-
-        // Handle opening parenthesis
+            values.push(value);
+        } 
         else if (token == '(') {
-            ops.push(0); // Use '0' to represent '(' in the operators stack
-        }
-
-        // Handle closing parenthesis
+            ops.push(0); // 0 - '('
+        } 
         else if (token == ')') {
-            // Process until we encounter '('
-            while (!ops.empty() && ops.get() != 0) {
+            // Searching '(' on stack
+            while (ops.get() != 0) // 0 - '('
+            {
                 performOperation(values, ops.get(), output);
                 ops.pop();
             }
-            ops.pop(); // Remove the '(' from the operators stack
-        }
-
-        // Handle operators '+' and '*'
+            ops.pop();
+        } 
         else if (token == '+' || token == '*') {
-            // Perform operations with higher or equal precedence
-            while (!ops.empty() && precedence(ops.get()) >= precedence(token)) {
+
+            while (!ops.empty() 
+                    && precedence(ops.get()) >= precedence(token)) {
                 performOperation(values, ops.get(), output);
                 ops.pop();
             }
-            ops.push(precedence(token)); // Push the current operator onto the stack
+            ops.push(precedence(token));
         }
     }
 
-    // Complete remaining operations in the stack
+    // Last Operating in stack
     while (!ops.empty()) {
         performOperation(values, ops.get(), output);
         ops.pop();
@@ -112,10 +111,11 @@ int main(int argc, char **argv) {
     size_t t;
     input >> t;
 
-    while (t-- > 0) {
+    while (t --> 0) // t-- > 0 cool vector)
+    {
         std::string s;
         input >> s;
-        translateToAssembly(s, output); // Process each expression and write to output file
+        translateToAssembly(s, output); 
     }
 
     input.close();
