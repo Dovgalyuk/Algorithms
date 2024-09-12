@@ -63,7 +63,7 @@ Array* fill_array(std::ifstream &in)
 	Data value;
 	in >> size;
 	Array* array = array_create(size);
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		in >> value; 
 		array_set(array, i, value);
