@@ -2,6 +2,7 @@
 #define ARRAY_H
 
 #include <cstddef>
+#include <cstdlib>
 #include <fstream>
 
 // Non-resizeable array
@@ -25,8 +26,7 @@ void array_set(Array* arr, size_t index, Data value);
 // returns array size
 size_t array_size(const Array* arr);
 
-Array* create_random_array(Data size);
-
-void array_erase(Array* arr, size_t index);
+// fill array from file
+Array* fill_array(std::ifstream &in);
 
 #endif
