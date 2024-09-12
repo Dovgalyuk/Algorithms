@@ -1,8 +1,6 @@
 #include <iostream>
 #include "stack.h"
 
-#define stack_push(stack, s) stack_push((stack), ((Data)(s)))
-#define stack_get(stack) ((char)(stack_get((stack))))
 
 bool is_operand(const char symbol)
 {
@@ -19,16 +17,15 @@ bool is_operand(const char symbol)
 
 int main(int argc, char **argv)
 {
-    size_t index = 0;
     char current_symbol;
+    char *p = argv[1];
     Stack *stack = stack_create();
 
-    while (argv[1][index] != '\0'){
-        current_symbol = argv[1][index];
+    while (*p != '\0'){
+        current_symbol = *(p++);
 
         if (is_operand(current_symbol)) {
             std::cout << current_symbol;
-            index++;
             continue;
         }
 
@@ -76,8 +73,6 @@ int main(int argc, char **argv)
             
             stack_pop(stack);
         }
-
-        index++;
     }
 
     while (!stack_empty(stack)){

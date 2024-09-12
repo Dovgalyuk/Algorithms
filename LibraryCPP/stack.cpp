@@ -42,7 +42,7 @@ void stack_pop(Stack *stack)
     if (!stack) throw std::invalid_argument("The stack pointer is nullptr");
     if (stack_empty(stack)) throw std::invalid_argument("The stack is empty");
     
-    if (list_erase_first(stack->list)) return; //This construction is necessary to prevent the compiler from issuing an error about an ignored return value
+    (void)list_erase_first(stack->list);
 }
 
 bool stack_empty(const Stack *stack)

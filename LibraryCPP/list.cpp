@@ -97,6 +97,7 @@ ListItem *list_erase_first(List *list)
     if (!(list->first)) throw std::invalid_argument("The list is empty");
 
     temp_ptr = list->first->next_item;
+    if (temp_ptr) temp_ptr->previous_item = nullptr;
     delete list->first;
     list->first = temp_ptr;
 
