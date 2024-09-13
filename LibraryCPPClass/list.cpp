@@ -20,8 +20,14 @@ List::List() : head_(nullptr)
 
 // Copy constructor
 List::List(const List &a) : head_(nullptr) {
-    for (Item *curr = a.head_; curr != nullptr; curr = curr->next()) {
-        insert(curr->data());
+    if (!a.head_) return;
+
+    head_ = new Item(a.head_->data());
+    Item *p = head_;
+
+    for (Item *curr = a.head_->next(); curr != nullptr; curr = curr->next()) {
+        p->next_ = new Item(curr->data());
+        p = p->next_; 
     }
 }
 
@@ -30,7 +36,19 @@ List &List::operator=(const List &a)
     if (this == &a) return *this;
     while (head_) {
         erase_first();
-    }                        
+    }   
+
+    if (!a.head_) return *this;
+
+    head_ = new Item(a.head_->data()); 
+    Item *p = head_; 
+
+    for (Item *curr = a.head_->next(); curr != nullptr; curr = curr->next()) {
+        p->next_ = new Item(curr->data());
+        p = p->next_;
+    }
+
+
     for (Item *curr = a.head_; curr != nullptr; curr = curr->next()) {
         insert(curr->data());
     }
