@@ -14,7 +14,9 @@ Array *array_create_and_read(FILE *input)
         int* x = malloc(sizeof(int));
         fscanf(input, "%d", x);
         array_set(arr, i, (Data)x);
+        free(x);
     }
+    
     return arr;
 }
 
@@ -33,15 +35,15 @@ void task1(Array *arr)
     }
     if (sum_of_1h > sum_of_2h)
     {
-        printf("More precipitation fell in the first half of the month/n");
+        printf("More precipitation fell in the first half of the month\n");
     }
     else if (sum_of_1h < sum_of_2h)
     {
-        printf("More precipitation fell in the second half of the month/n");
+        printf("More precipitation fell in the second half of the month\n");
     }
     else
     {
-        printf("equal amounts of precipitation fell in both halves of the month/n");
+        printf("equal amounts of precipitation fell in both halves of the month\n");
     }
 
     int first_decade = 0;
