@@ -1,32 +1,53 @@
 #include "array.h"
 
-Array::Array(size_t size)
+using namespace std;
+
+Array::Array(size_t size) : arrSize(size), arrData(new Data[size)
 {
 }
 
-Array::Array(const Array &a)
+Array::Array(const Array &a) : arrSize(a.arrSize), arrData(new Data[a.arrSize])
 {
+    for(size_t i = 0; i < arrSize; ++i){
+        arrData[i] = a.arrData[i];
+    }
 }
 
 Array &Array::operator=(const Array &a)
 {
+    if(this != &a){
+        delete[] arrData;
+        arrSize = a.arrSize;
+        arrData = new Data[arrSize];
+        for(size_i i = 0; i < arrSize; ++i){
+            arrData[i] = a.arrData[i];
+        }
+    }
     return *this;
 }
 
 Array::~Array()
 {
+    delete[] arrData;
 }
 
 Data Array::get(size_t index) const
 {
-    return Data(0);
+    if(index >= arrSize){
+        cout throw out_of_range("Index out of bounds\n")
+    }
+    return arrData[index];
 }
 
 void Array::set(size_t index, Data value)
 {
+    if(index >= arrSize){
+        cout throw out_of_range("Index out of bounds\n")
+    }
+    arrData[index] = value; 
 }
 
 size_t Array::size() const
 {
-    return 0;
+    return arrSize;
 }
