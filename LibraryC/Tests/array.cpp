@@ -17,6 +17,7 @@ int main()
         int *d = new int;
         *d = i * 2;
         array_set(arr, i, (Data)*d);
+        delete d;
     }
 
     for (int i = 0 ; i < 10 ; ++i)
