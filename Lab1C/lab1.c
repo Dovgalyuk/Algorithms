@@ -6,15 +6,15 @@ Array *array_create_and_read(FILE *input)
 {
     int n;
     fscanf(input, "%d", &n);
+
     /* Create array */
     Array *arr = array_create(n, NULL);
     /* Read array data */
     for (size_t i = 0 ; i < (size_t)n ; ++i)
     {
-        int* x = malloc(sizeof(int));
-        fscanf(input, "%d", x);
+        int x;
+        fscanf(input, "%d", &x);
         array_set(arr, i, (Data)x);
-        free(x);
     }
     
     return arr;
@@ -88,8 +88,9 @@ void task2(Array *arr, FILE *input)
         {
             for (size_t j = i; j < end_of_arr-1; j++)
             {
-                array_set(arr, j, array_get(arr, j+1));
+                array_set(arr, j, *(array_get(arr, j+1)));
             }
+            array_set(arr, end_of_arr-1, (Data)0);
             end_of_arr--;
             i--;
         }
