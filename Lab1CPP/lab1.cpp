@@ -6,21 +6,14 @@
 
 Array* array_create_and_read(std::ifstream& input) {
     size_t n;
-    if (!(input >> n)) { 
-        throw std::invalid_argument("Failed to read size");
-    }
-
+    input >> n;
+    Data x;
     Array* arr = array_create(n); 
 
     
     for (size_t i = 0; i < n; ++i) {
-        int x;
-        if (!(input >> x)) { 
-            array_delete(arr); 
-            throw std::invalid_argument("Failed to read number");
-        }
-        Data data = { x }; 
-        array_set(arr, i, data); 
+        input >> x;
+        array_set(arr, i, x);
     }
 
     return arr; 
@@ -77,19 +70,16 @@ void task2(std::ifstream& input) {
 int main() {
    
     std::ifstream input("input.txt");
-    if (!input) {
-        std::cerr << "Error opening file: input.txt" << std::endl;
-        return 1;
+    if (input.is_open()) {
+        task1(input);
+
+        input.clear();
+        input.seekg(0);
+
+        task2(input);
+
+       
     }
-
-    
-    task1(input);
-
-    input.clear(); 
-    input.seekg(0); 
-
-    task2(input);
-
     input.close();
     return 0;
 }
