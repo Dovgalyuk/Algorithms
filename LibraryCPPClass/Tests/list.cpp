@@ -38,9 +38,7 @@ int main() {
     List copy(*list);
 
     std::cout << "List: ";
-    // for (auto item = list->first() ; item ; item = item->next())
-    // error: 'auto' type specifier is a C++11 extension [-Werror,-Wc++11-extensions]
-    for (List::Item *item = list->first() ; item != nullptr ; item = item->next()) {
+    for (auto item = list->first() ; item ; item = item->next()) {
         std::cout << item->data() << " ";
     }
     std::cout << "\n";

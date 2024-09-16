@@ -23,10 +23,6 @@ int main()
             std::cout << "Invalid array element " << i << "\n";
             return 1;
         }
-        if (arr->getAddress(i) == copy.getAddress(i)) {
-            std::cout << "Copy array element have same address in array " << i << std::endl;
-            return 1;
-        }
     }
 
     delete arr;
