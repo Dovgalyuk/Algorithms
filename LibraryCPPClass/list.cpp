@@ -37,19 +37,9 @@ List &List::operator=(const List &a) {
 }
 
 List::~List() {
-    for (size_t i = 0; i < _size; i++){
-        // save Item
-        Item *deleteItem = _firstItem;
-
-        _firstItem = _firstItem->next();
-        if (_firstItem == nullptr){
-            break;
-        }
-
-        // free Item object
-        delete deleteItem;
-    }
-    _size = -1;
+    _size = 0;
+    _firstItem = nullptr;
+    _lastItem = nullptr;
 }
 
 List::Item *List::first() {
@@ -60,12 +50,12 @@ List::Item *List::insert(Data data) {
     Item *newItem;
     if (_firstItem == nullptr) {
         newItem = new Item(nullptr, nullptr, data);
-        _firstItem = newItem;
+        _lastItem = newItem;
     } else {
-        newItem = new Item(_lastItem, nullptr, data);
-        _lastItem->_setNext(newItem);
+        newItem = new Item(nullptr, _firstItem, data);
+        _firstItem->_setPrev(newItem);
     }
-    _lastItem = newItem;
+    _firstItem = newItem;
     _size++;
 
     return newItem;
@@ -88,15 +78,9 @@ List::Item *List::insert_after(Item *item, Data data) {
 }
 
 List::Item *List::erase_first() {
-    // Save item pointer to element
-    Item *deletedItem = _firstItem;
-
     // Create new first item
     _firstItem = _firstItem->next();
     _firstItem->_setPrev(nullptr);
-
-    // free Item object
-    delete deletedItem;
 
     return _firstItem;
 }

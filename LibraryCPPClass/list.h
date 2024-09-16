@@ -26,7 +26,7 @@ public:
 
         Item *next() { return _next; }
         Item *prev() { return _prev; }
-        Data data() const { return Data(); }
+        Data data() const { return _data; }
     private:
         Item *_next;
         Item *_prev;

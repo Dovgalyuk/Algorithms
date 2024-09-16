@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include <cstddef>
+#include <queue>
 
 typedef int Data;
 
@@ -35,7 +36,7 @@ public:
     bool empty() const;
 
 private:
-    // private data should be here
+    std::queue<Data> _queue;
 };
 
 #endif

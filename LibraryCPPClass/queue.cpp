@@ -1,38 +1,36 @@
 #include "queue.h"
+#include <queue>
 
-Queue::Queue()
-{
+Queue::Queue(){
 }
 
-Queue::Queue(const Queue &a)
-{
-    // implement or disable this function
+Queue::Queue(const Queue &a){
+    _queue = a._queue;
 }
 
 Queue &Queue::operator=(const Queue &a)
 {
-    // implement or disable this function
     return *this;
 }
 
-Queue::~Queue()
-{
+Queue::~Queue(){
+    while (!_queue.empty()) {
+        _queue.pop();
+    }
 }
 
-void Queue::insert(Data data)
-{
+void Queue::insert(Data data){
+    _queue.push(data);
 }
 
-Data Queue::get() const
-{
-    return Data();
+Data Queue::get() const {
+    return _queue.front();
 }
 
-void Queue::remove()
-{
+void Queue::remove(){
+    _queue.pop();
 }
 
-bool Queue::empty() const
-{
-    return true;
+bool Queue::empty() const {
+    return _queue.empty();
 }
