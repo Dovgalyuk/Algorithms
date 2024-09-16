@@ -15,13 +15,13 @@ Array *array_create(size_t size)
 {
     if (size == 0) return nullptr;
 
-    // Выделение памяти для объекта Array
+    // Allocating memory for an Array object
     Array* newArray = (Array*)malloc(sizeof(Array));
 
     if (!newArray)
         throw runtime_error("Failed to create an array");
 
-    // Инициализация свойств и выделение памяти для массива, который будет хранить данные
+    // Initialize properties and allocate memory for the array that will store the data
     newArray->size = size;
     newArray->array = (Data*)malloc(size * sizeof(Data));
 

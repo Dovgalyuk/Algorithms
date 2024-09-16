@@ -54,7 +54,7 @@ void task2(Array *arr)
     size_t maxIndex = 0, minIndex = 0; 
     int sum = 0;
 
-    // Поиска максимального и минимального числа
+    // Finding the maximum and minimum number
     for (size_t i = 0; i < size; i++) {
         if (array_get(arr, i) > array_get(arr, maxIndex))
             maxIndex = i;
@@ -62,7 +62,7 @@ void task2(Array *arr)
             minIndex = i;
     }
 
-    // Подсчет суммы
+    // Calculating the amount
     for (size_t i = minIndex + 1; i < maxIndex; i++) {
         sum += array_get(arr, i);
     }
