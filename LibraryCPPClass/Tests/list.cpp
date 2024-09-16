@@ -5,8 +5,7 @@ int main()
 {
     List *list = new List;
 
-    if (!list)
-    {
+    if (!list) {
         std::cout << "List creation error\n";
         return 1;
     }
@@ -40,7 +39,9 @@ int main()
     List copy(*list);
 
     std::cout << "List: ";
-    for (auto item = list->first() ; item ; item = item->next())
+    // for (auto item = list->first() ; item ; item =ss item->next())
+    // error: 'auto' type specifier is a C++11 extension [-Werror,-Wc++11-extensions]
+    for (List::Item *item = list->first() ; item != nullptr ; item = item->next()) {
     {
         std::cout << item->data() << " ";
     }

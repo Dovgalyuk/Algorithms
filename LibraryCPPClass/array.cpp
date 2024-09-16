@@ -1,11 +1,20 @@
+#include <iostream>
 #include "array.h"
 
-Array::Array(size_t size)
-{
+Array::Array(size_t size) {
+    _size = size;
+    _array = (Data*) new Data[size];
 }
 
-Array::Array(const Array &a)
-{
+Array::~Array() {
+//    delete[] _array;
+}
+
+Array::Array(const Array &a){
+    _size = a._size;
+    for (size_t i = 0; i < _size; i++) {
+        set(i, a._array[i]);
+    }
 }
 
 Array &Array::operator=(const Array &a)
@@ -13,20 +22,18 @@ Array &Array::operator=(const Array &a)
     return *this;
 }
 
-Array::~Array()
-{
+Data Array::get(size_t index) const {
+    return (Data) _array[index];
 }
 
-Data Array::get(size_t index) const
-{
-    return Data(0);
+Data *Array::getAddress(size_t index) const {
+    return (Data*) &_array[index];
 }
 
-void Array::set(size_t index, Data value)
-{
+void Array::set(size_t index, Data value) {
+    _array[index] = value;
 }
 
-size_t Array::size() const
-{
-    return 0;
+size_t Array::size() const {
+    return _size;
 }
