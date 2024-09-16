@@ -1,34 +1,80 @@
 #include "array.h"
+#include <cstdlib>
+#include <stdexcept>
+
+using namespace std;
 
 struct Array
 {
+    size_t size;
+    Data* array;
 };
 
 // create array
 Array *array_create(size_t size)
 {
-    return new Array;
+    if (size == 0) return nullptr;
+
+    // Выделение памяти для объекта Array
+    Array* newArray = (Array*)malloc(sizeof(Array));
+
+    if (!newArray)
+        throw runtime_error("Failed to create an array");
+
+    // Инициализация свойств и выделение памяти для массива, который будет хранить данные
+    newArray->size = size;
+    newArray->array = (Data*)malloc(size * sizeof(Data));
+
+    if (!(newArray->array)) {
+        free(newArray);
+        throw runtime_error("Failed to create an array");
+    }
+
+    return newArray;
+}
+
+// argument validation
+void argument_validation(const Array* arr, size_t index = 0)
+{
+    if (!arr)
+        throw invalid_argument("Array pointer is null");
+    if (index)
+    {
+        if (index >= arr->size)
+            throw out_of_range("Out of range");
+    }
+
 }
 
 // delete array, free memory
 void array_delete(Array *arr)
 {
-    delete arr;
+    argument_validation(arr);
+
+    free(arr->array);
+    free(arr);
 }
 
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    return (Data)0;
+    argument_validation(arr, index);
+
+    return arr->array[index];
 }
 
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
+    argument_validation(arr, index);
+
+    arr->array[index] = value;
 }
 
 // returns array size
 size_t array_size(const Array *arr)
 {
-    return 0;
+    argument_validation(arr);
+
+    return arr->size;
 }
