@@ -8,7 +8,7 @@ Array *array_create_and_read(FILE *input)
 {
     int n;
 
-    if (fscanf_s(input, "%d", &n) < 1) 
+    if (fscanf(input, "%d", &n) < 1) 
         throw invalid_argument("Failed to read the size");
 
     /* Create array */
@@ -17,7 +17,7 @@ Array *array_create_and_read(FILE *input)
     for (int i = 0 ; i < n ; ++i)
     {
         int x;
-        if(fscanf_s(input, "%d", &x) < 1)
+        if(fscanf(input, "%d", &x) < 1)
             throw invalid_argument("Failed to read the number");
         array_set(arr, i, x);
     }
@@ -73,8 +73,7 @@ void task2(Array *arr)
 int main(int argc, char **argv)
 {
     Array *arr = NULL;
-    FILE* input;
-    fopen_s(&input, argv[1], "r");
+    FILE* input = fopen( argv[1], "r");
     arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
