@@ -4,7 +4,7 @@ using namespace std;
 
 Array::Array(size_t size) : arrSize(size), arrData(new Data[size]())
 {
-    for(size_t i = 0; i < m_size; i++) {
+    for(size_t i = 0; i < arrSize; i++) {
         arrData[i] = 0;
     }
 }

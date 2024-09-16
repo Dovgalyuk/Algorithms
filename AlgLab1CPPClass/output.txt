@@ -1,0 +1,13 @@
+[ EX_1 ] - Indices of even numbers
+
+[-RESULT-]
+Original array: 56 98 72 83 75 34 57 80 39 59 
+Indices of even numbers: 0 1 2 5 7 
+
+-----------------------------------
+
+[ EX_2 ] - Unique elements
+
+[-RESULT-]
+Original array: 56 98 72 83 75 
+Unique elements: 56 98 72 83 75 

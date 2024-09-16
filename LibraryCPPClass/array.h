@@ -32,8 +32,8 @@ public:
 
 private:
     // private data should be here
-    Data* arrData;
     size_t arrSize;
+    Data* arrData;
 };
 
 #endif
