@@ -2,6 +2,7 @@
 #define STACK_H
 
 #include <cstddef>
+#include "stack"
 
 typedef int Data;
 
@@ -35,7 +36,7 @@ public:
     bool empty() const;
 
 private:
-    // private data should be here
+    std::stack<Data> _stack;
 };
 
 #endif
