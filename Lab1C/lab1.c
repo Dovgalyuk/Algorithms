@@ -84,10 +84,8 @@ void task2(Array *arr, FILE *input)
     {
         if (*(int*)array_get(arr, i) >= a && *(int*)array_get(arr, i) <= b)
         {
-            int* zero = malloc(sizeof(int));
-            *zero = 0;
             array_set(arr, i, (array_get(arr, end_of_arr - 1)));
-            array_set(arr, end_of_arr-1, (Data)zero);
+            *(int*)array_get(arr, end_of_arr - 1) = 0;
             end_of_arr--;
         }
     }

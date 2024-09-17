@@ -22,9 +22,9 @@ void array_delete(Array *arr)
 {
     for (size_t i = 0; i < array_size(arr); i++)
     {
-        free((int*)array_get(arr, i));
+        free((void*)array_get(arr, i));
     }
-    free((int**)arr->elem_ptr);
+    free((void**)arr->elem_ptr);
     free(arr);
 }
 
