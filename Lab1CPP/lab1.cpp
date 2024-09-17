@@ -92,7 +92,7 @@ void task2(std::ifstream& input) {
 int main() {
 	std::ifstream input("input.txt");
 	if (!input) {
-		std::cerr << "File is not found\n";
+		std::cerr << "Error: File is not found\n";
 		return 1;
 	}
 
