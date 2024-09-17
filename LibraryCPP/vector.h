@@ -7,7 +7,12 @@
 // Stores integer values inside
 typedef int Data;
 
-struct Vector;
+struct Vector {
+    Data* data;
+    size_t size;
+    size_t volume;
+};
+
 
 // Creates vector
 Vector *vector_create();
