@@ -1,4 +1,4 @@
-#include "../LibraryCPPClass/array.h"
+#include "array.h"
 #include <iostream>
 #include <fstream>
 #include <ctime>

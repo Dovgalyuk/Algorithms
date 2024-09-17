@@ -1,5 +1,5 @@
 add_executable(AlgLab1CPPClass alg_lab1.cpp)
 target_include_directories(AlgLab1CPPClass PUBLIC ../LibraryCPPClass)
 target_link_libraries(AlgLab1CPPClass LibraryCPPClass)
-add_test(NAME TestAlgLab1CPPClass COMMAND AlgLab1CPPClass ${CMAKE_CURRENT_SOURCE_DIR}/input.txt ${CMAKE_CURRENT_SOURCE_DIR}/output.txt)
+add_test(NAME TestAlgLab1CPPClass COMMAND AlgLab1CPPClass ${CMAKE_CURRENT_SOURCE_DIR}/input.txt ${CMAKE_CURRENT_SOURCE_DIR}/Tests/output.txt)
 set_tests_properties(TestAlgLab1CPPClass PROPERTIES TIMEOUT 10)
