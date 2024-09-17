@@ -77,16 +77,21 @@ void task1(Array *arr)
 
 void task2(Array *arr, FILE *input)
 {
-    int a, b;
+    int a, b, zero;
+    zero = 0;
     fscanf(input, "%d %d", &a, &b);
     size_t end_of_arr = array_size(arr);
     for (size_t i = 0; i < end_of_arr; i++)
     {
         if (*(int*)array_get(arr, i) >= a && *(int*)array_get(arr, i) <= b)
         {
+            int* ptr = malloc(sizeof(int));
+            ptr = &zero;
             array_set(arr, i, (array_get(arr, end_of_arr - 1)));
-            *(int*)array_get(arr, end_of_arr - 1) = 0;
+            free((void*)array_get(arr, end_of_arr - 1));
+            array_set(arr, end_of_arr - 1, (Data)ptr);
             end_of_arr--;
+            i--;
         }
     }
     for (size_t i = 0; i < array_size(arr); i++)
