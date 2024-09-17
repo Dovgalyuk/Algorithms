@@ -31,7 +31,7 @@ void array_delete(Array *arr)
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    return (Data) ((int**)arr->elem_ptr)[index];
+    return (Data) (((int**)arr->elem_ptr)[index]);
 }
 
 // sets the specified array element to the value

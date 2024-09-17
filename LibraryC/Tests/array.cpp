@@ -14,7 +14,7 @@ int main()
 
     for (int i = 0 ; i < 10 ; ++i)
     {
-        int *d = new int;
+        int *d = (int*) malloc(sizeof(int));
         *d = i * 2;
         array_set(arr, i, (Data)d);
     }
