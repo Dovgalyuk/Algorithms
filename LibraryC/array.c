@@ -20,11 +20,8 @@ Array *array_create(size_t size, FFree f)
 // delete array, free memory
 void array_delete(Array *arr)
 {
-    for (size_t i = 0; i < array_size(arr); i++)
-    {
-        free((void*)array_get(arr, i));
-    }
-    free((void*)arr->elem_ptr);
+    
+    free((void**)arr->elem_ptr);
     free(arr);
 }
 
