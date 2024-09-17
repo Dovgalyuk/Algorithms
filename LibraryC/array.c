@@ -24,7 +24,7 @@ void array_delete(Array *arr)
     {
         free((void*)array_get(arr, i));
     }
-    free((void**)arr->elem_ptr);
+    free((void*)arr->elem_ptr);
     free(arr);
 }
 
