@@ -102,20 +102,12 @@ void task2(std::ifstream& input)
 int main()
 {
     std::ifstream input("input.txt");
-    if (!input)
+    if (input.is_open())
     {
-        std::cout << "Failed to open file: input.txt" << std::endl;
-        return 1;
+        task1(input);
+
+        task2(input);
     }
-
-    task1(input);
-    input.clear();
-
-    input.seekg(0);
-
-    task2(input);
-
     input.close();
-
     return 0;
 }
