@@ -62,6 +62,13 @@ void task2(Array *arr)
             minIndex = i;
     }
 
+    // Swap using addition-substraction method
+    if (maxIndex < minIndex) {
+        maxIndex = maxIndex + minIndex;
+        minIndex = maxIndex - minIndex;
+        maxIndex = maxIndex - minIndex;
+    }
+
     // Calculating the amount
     for (size_t i = minIndex + 1; i < maxIndex; i++) {
         sum += array_get(arr, i);

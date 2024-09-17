@@ -6,6 +6,11 @@ using namespace std;
 
 struct Array
 {
+    Array(size_t size, Data* array) {
+        Array::size = size;
+        Array::array = array;
+    }
+
     size_t size;
     Data* array;
 };
@@ -13,28 +18,11 @@ struct Array
 // create array
 Array *array_create(size_t size)
 {
-    if (size == 0) return nullptr;
-
-    // Allocating memory for an Array object
-    Array* newArray = (Array*)malloc(sizeof(Array));
-
-    if (!newArray)
-        throw runtime_error("Failed to create an array");
-
-    // Initialize properties and allocate memory for the array that will store the data
-    newArray->size = size;
-    newArray->array = (Data*)malloc(size * sizeof(Data));
-
-    if (!(newArray->array)) {
-        free(newArray);
-        throw runtime_error("Failed to create an array");
-    }
-
-    return newArray;
+    return new Array(size, new Data[size]);
 }
 
 // argument validation
-void argument_validation(const Array* arr, size_t index = 0)
+static void argument_validation(const Array* arr, size_t index = 0)
 {
     if (!arr)
         throw invalid_argument("Array pointer is null");
@@ -51,8 +39,8 @@ void array_delete(Array *arr)
 {
     argument_validation(arr);
 
-    free(arr->array);
-    free(arr);
+    delete[] arr->array;
+    delete arr;
 }
 
 // returns specified array element
