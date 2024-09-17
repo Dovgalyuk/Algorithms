@@ -91,14 +91,10 @@ void task2(std::ifstream& input) {
 
 int main() {
 	std::ifstream input("input.txt");
-	if (!input) {
-		std::cerr << "Error: File is not found\n";
-		return 1;
-	}
-
+	if (input.is_open()) {
 	task1(input);
 	task2(input);
-
+    }
 	input.close();
 
 }
