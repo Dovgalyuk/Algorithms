@@ -6,17 +6,15 @@ Array *array_create_and_read(FILE *input)
 {
     int n;
     fscanf(input, "%d", &n);
-
     /* Create array */
     Array *arr = array_create(n, NULL);
     /* Read array data */
     for (size_t i = 0 ; i < (size_t)n ; ++i)
     {
-        int x;
-        fscanf(input, "%d", &x);
+        int* x = malloc(sizeof(int));
+        fscanf(input, "%d", x);
         array_set(arr, i, (Data)x);
     }
-    
     return arr;
 }
 
@@ -79,20 +77,17 @@ void task1(Array *arr)
 
 void task2(Array *arr, FILE *input)
 {
-    int a, b;
+    int a, b, zero;
+    zero = 0;
     fscanf(input, "%d %d", &a, &b);
     size_t end_of_arr = array_size(arr);
     for (size_t i = 0; i < end_of_arr; i++)
     {
         if (*(int*)array_get(arr, i) >= a && *(int*)array_get(arr, i) <= b)
         {
-            for (size_t j = i; j < end_of_arr-1; j++)
-            {
-                array_set(arr, j, *(array_get(arr, j+1)));
-            }
-            array_set(arr, end_of_arr-1, (Data)0);
+            array_set(arr, i, (array_get(arr, end_of_arr - 1)));
+            array_set(arr, end_of_arr-1, (Data)&zero);
             end_of_arr--;
-            i--;
         }
     }
     for (size_t i = 0; i < array_size(arr); i++)
@@ -100,7 +95,6 @@ void task2(Array *arr, FILE *input)
         printf("%d ", *(int*)array_get(arr, i));
     }
     printf("\n");
-    
 }
 
 int main(int argc, char **argv)
