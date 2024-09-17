@@ -2,7 +2,7 @@
 #include "array.h"
 #include <fstream> // для работы с файлами
 #include <string> // для работы с std::string
-
+#include <unordered_map>
 
 Array* createArray(std::ifstream& inputFile)
 {
