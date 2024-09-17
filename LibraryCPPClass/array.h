@@ -2,13 +2,14 @@
 #define ARRAY_H
 
 #include <cstddef>
+#include <stdexcept>
+#include <iostream>
 
 typedef int Data;
 
 class Array
 {
 public:
-    // create array
     explicit Array(size_t size);
 
     // copy constructor
@@ -30,7 +31,8 @@ public:
     size_t size() const;
 
 private:
-    // private data should be here
+    size_t m_size;
+    Data* m_data;
 };
 
 #endif
