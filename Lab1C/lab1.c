@@ -90,7 +90,7 @@ void task2(Array *arr, FILE *input)
         {
             array_set(arr, index++, (array_get(arr, i)));
         }
-        else {index++}
+        else {index++;}
     }
     for (size_t i = index; i < array_size(arr); i++)
     {
