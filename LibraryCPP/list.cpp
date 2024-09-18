@@ -15,7 +15,7 @@ struct List
 
 List *list_create()
 {
-    List* newList = new List(nullptr);
+    List* newList = new List;
     return newList;
 }
 
@@ -38,12 +38,14 @@ ListItem *list_first(List *list)
 {
     if (list != nullptr)
         return list->node;
+    return nullptr;
 }
 
 Data list_item_data(const ListItem *item)
 {
     if (item != nullptr)
         return item->value;
+    return nullptr;
 }
 
 ListItem *list_item_next(ListItem *item)
@@ -117,6 +119,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
         ListItem* temp = item->next->next;
         delete item->next;
         item->next = temp;
+        return temp;
     }
-    return temp;
 }
