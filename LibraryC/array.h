@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
 // create array
-Array *array_create(size_t size, FFree f);
+Array *array_create(size_t size, FFree *f);
 
 // delete array, free memory
 void array_delete(Array *arr);

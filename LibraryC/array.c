@@ -5,24 +5,36 @@ typedef struct Array
 {
     size_t size;
     Data* elem_ptr;
+    FFree* destruct;
 
 } Array;
 
 // create array
-Array *array_create(size_t size, FFree f)
+Array *array_create(size_t size, FFree *f)
 {
     Array* ptr = malloc(sizeof(Array));
     ptr->size = size;
     ptr->elem_ptr = (Data*) malloc(sizeof(Data) * size);
+    ptr->destruct = f;
     return ptr;
 }
 
 // delete array, free memory
 void array_delete(Array *arr)
 {
-    for (size_t i = 0; i < array_size(arr); i++)
+    if (arr->destruct != NULL)
     {
-        free((void*)arr->elem_ptr[i]);
+        for (size_t i = 0; i < array_size(arr); i++)
+        {
+            arr->destruct((void*)arr->elem_ptr[i]);
+        }
+    }
+    else
+    {
+        for (size_t i = 0; i < array_size(arr); i++)
+        {
+            free((void*)arr->elem_ptr[i]);
+        }
     }
     free(arr->elem_ptr);
     free(arr);

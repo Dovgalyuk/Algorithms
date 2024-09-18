@@ -79,20 +79,25 @@ void task2(Array *arr, FILE *input)
 {
     int a, b;
     fscanf(input, "%d %d", &a, &b);
-    size_t end_of_arr = array_size(arr);
-    for (size_t i = 0; i < end_of_arr; i++)
+    size_t index = 0;
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         if (*(int*)array_get(arr, i) >= a && *(int*)array_get(arr, i) <= b)
         {
-            int* zero = malloc(sizeof(int));
-            *zero = 0;
             free((void*)array_get(arr, i));
-            array_set(arr, i, (array_get(arr, end_of_arr - 1)));
-            array_set(arr, end_of_arr - 1, (Data)zero);
-            end_of_arr--;
-            i--;
+        }
+        else
+        {
+            array_set(arr, index++, (array_get(arr, i)));
         }
     }
+    for (size_t i = index; i < array_size(arr); i++)
+    {
+        int* zero = malloc(sizeof(int));
+        *zero = 0;
+        array_set(arr, i, (Data)zero);
+    }
+    
     for (size_t i = 0; i < array_size(arr); i++)
     {
         printf("%d ", *(int*)array_get(arr, i));
