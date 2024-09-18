@@ -122,5 +122,5 @@ ListItem *list_erase_next(List *list, ListItem *item)
         return temp;
     }
 
-    return temp;
+    return nullptr;
 }
