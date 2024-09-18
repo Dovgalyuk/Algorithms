@@ -19,20 +19,21 @@ List *list_create()
     return newList;
 }
 
-void list_delete(List *list)
+void list_delete(List* list)
 {
     if (list != nullptr)
     {
-        while (list->node != nullptr)
+        ListItem* current = list->node;
+        while (current != nullptr)
         {
-            ListItem* curr = list->node->next;
-            list->node = list->node->next;
-            delete curr;
+            ListItem* next = current->next;
+            delete current;
+            current = next;
         }
-
         delete list;
     }
 }
+
 
 ListItem *list_first(List *list)
 {
