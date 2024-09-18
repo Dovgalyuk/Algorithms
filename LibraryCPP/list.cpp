@@ -45,7 +45,7 @@ Data list_item_data(const ListItem *item)
 {
     if (item != nullptr)
         return item->value;
-    return nullptr;
+    return (Data)0;
 }
 
 ListItem *list_item_next(ListItem *item)
@@ -121,4 +121,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
         item->next = temp;
         return temp;
     }
+
+    return temp;
 }
