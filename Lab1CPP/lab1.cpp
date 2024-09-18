@@ -30,7 +30,7 @@ void task1(std::ifstream& input)
 	}
 	std::cout << "Does the sum of the elements (>20) exceed 100?:\n";
 	if (sum == 0) {
-		std::cout << "There in no such elements in array\n";
+		std::cout << "There is no such elements in array\n";
 	}
 	else if (sum > 100) {
 		std::cout << "Yes\n";
@@ -38,13 +38,17 @@ void task1(std::ifstream& input)
 	else std::cout << "No\n";
 
 	sum = 0;
+    int count = 0;
 	for (size_t i = 0; i < array_size(arr); ++i) {
 		int val = array_get(arr, i);
-		if (val < 50) sum += val;
+		if (val < 50){
+            sum += val;
+            count++;
+        }
 	}
 	std::cout << "Is the sum of the elements (<50) a multiple of 2?:\n";
-	if (sum == 0) {
-		std::cout << "There in no such elements in array\n";
+	if (count == 0) {
+		std::cout << "There is no such elements in array\n";
 	}
 	else if (sum % 2 == 0) {
 		std::cout << "Yes\n";
