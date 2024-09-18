@@ -31,7 +31,7 @@ void sdvig(Array*& arr, std::ifstream& vh) {
         }
     }
     else {
-        for (int i = 0; i < colsh; i++) {
+        for (size_t i = 0; i < colsh; i++) {
             for (size_t j = 0; j < array_size(arr) - 1; j++) {
                 array_set(arr, j, array_get(arr, j + 1));
             }
