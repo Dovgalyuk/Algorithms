@@ -29,6 +29,7 @@ Data stack_get(const Stack *stack)
 {
     if(stack != nullptr)
         return list_item_data(list_first(stack->list));
+    return (Data)0;
 }
 
 void stack_pop(Stack *stack)
@@ -45,4 +46,5 @@ bool stack_empty(const Stack *stack)
             return true;
         return false;
     }
+    return true;
 }
