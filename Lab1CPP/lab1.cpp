@@ -20,7 +20,7 @@ void sdvig(Array*& arr, std::ifstream& vh) {
     arr = array_rand(vh);
 
     bool dir;
-    int colsh;
+    size_t colsh;
     vh >> dir >> colsh;
     if (dir) {
         for (size_t i = 0; i < colsh; i++) {
