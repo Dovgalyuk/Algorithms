@@ -1,4 +1,7 @@
 #include "stack.h"
+#include "vector.h"
+#include <stdexcept>
+using namespace std;
 
 Stack* stack_create() {
     Stack* stack = new Stack;
