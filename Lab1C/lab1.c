@@ -86,10 +86,11 @@ void task2(Array *arr, FILE *input)
         {
             free((void*)array_get(arr, i));
         }
-        else
+        else if (index != i)
         {
             array_set(arr, index++, (array_get(arr, i)));
         }
+        else {index++}
     }
     for (size_t i = index; i < array_size(arr); i++)
     {
