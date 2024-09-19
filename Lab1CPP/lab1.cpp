@@ -52,9 +52,9 @@ void sdvig(Array*& arr, std::ifstream& vh) {
 int main() {
 
 	ifstream v("input.txt");
-    Array* arr = NULL;
-    Array* arr1 = NULL;
     if (v.is_open()) {
+        Array* arr = NULL;
+        Array* arr1 = NULL;
         z1(arr, v);
         array_delete(arr);
         sdvig(arr1, v);
