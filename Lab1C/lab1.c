@@ -7,7 +7,7 @@ Array *array_create_and_read(FILE *input)
     int n;
     fscanf(input, "%d", &n);
     /* Create array */
-    Array *arr = array_create(n, NULL);
+    Array *arr = array_create(n, free);
     /* Read array data */
     for (size_t i = 0 ; i < (size_t)n ; ++i)
     {

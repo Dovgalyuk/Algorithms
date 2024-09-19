@@ -29,13 +29,6 @@ void array_delete(Array *arr)
             arr->destruct((void*)arr->elem_ptr[i]);
         }
     }
-    else
-    {
-        for (size_t i = 0; i < array_size(arr); i++)
-        {
-            free((void*)arr->elem_ptr[i]);
-        }
-    }
     free(arr->elem_ptr);
     free(arr);
 }
