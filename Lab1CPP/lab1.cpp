@@ -28,6 +28,10 @@ void sdvig(Array*& arr, std::ifstream& vh) {
                 array_set(arr, j, array_get(arr,j-1));
             }
             array_set(arr, i, 0);
+            for(size_t f = 0;f<array_size(arr);f++){
+                cout << array_get(arr,f)  <<  " ";
+            }
+            cout << endl;
         }
     }
     else {
@@ -36,6 +40,10 @@ void sdvig(Array*& arr, std::ifstream& vh) {
                 array_set(arr, j, array_get(arr, j + 1));
             }
             array_set(arr, array_size(arr) - 1, 0);
+            for(size_t f = 0;f<array_size(arr);f++){
+                cout << array_get(arr,f)  << " ";
+            }
+            cout << endl;
         }
     }
 }
@@ -44,15 +52,11 @@ void sdvig(Array*& arr, std::ifstream& vh) {
 int main() {
 
 	ifstream v("input.txt");
-	if (v.is_open()) {
-		Array* arr = NULL;
-		if (z1(arr, v) != 0.8) {
-			cerr << "oshibka";
-		}
-        array_delete(arr);
-        Array* arr1 = NULL;
-        sdvig(arr1,v);
-        array_delete(arr1);
-	}
+    Array* arr = NULL;
+    Array* arr1 = NULL;
+    z1(arr, v);
+    array_delete(arr);
+    sdvig(arr1, v);
+    array_delete(arr1);
 	v.close();
 }
