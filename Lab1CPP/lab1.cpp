@@ -54,9 +54,12 @@ int main() {
 	ifstream v("input.txt");
     Array* arr = NULL;
     Array* arr1 = NULL;
-    z1(arr, v);
-    array_delete(arr);
-    sdvig(arr1, v);
-    array_delete(arr1);
-	v.close();
+    if (v.is_open()) {
+        z1(arr, v);
+        array_delete(arr);
+        sdvig(arr1, v);
+        array_delete(arr1);
+        cin.get();
+        v.close();
+    }
 }

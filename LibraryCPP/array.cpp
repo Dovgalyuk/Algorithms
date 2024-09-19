@@ -1,5 +1,5 @@
 #include "array.h"
-
+#include <stdexcept>
 
 struct Array
 {
@@ -10,6 +10,10 @@ struct Array
 // create array
 Array *array_create(size_t size)
 {
+    size_t ms = 1000000;  
+    if (size > ms) {
+        throw std::overflow_error("sloshkom bolshoy razmer");
+    }
     Array* arr = new Array;
     arr->data = new Data[size];
     arr->size = size;
