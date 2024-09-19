@@ -59,7 +59,6 @@ int main() {
         array_delete(arr);
         sdvig(arr1, v);
         array_delete(arr1);
-        cin.get();
         v.close();
     }
 }
