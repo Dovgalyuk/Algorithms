@@ -19,7 +19,10 @@ int apply_operator(int a, int b, char op) {
     case '/':
         if (b == 0) throw std::runtime_error("Division by zero");
         return a / b;
+    default:
+        throw std::invalid_argument("Invalid operator");
     }
+
 
 }
 

@@ -2,7 +2,7 @@
 #define VECTOR_H
 
 #include <cstddef>
-
+#include <stdexcept>
 // Vector (dynamic array)
 // Stores integer values inside
 typedef int Data;
