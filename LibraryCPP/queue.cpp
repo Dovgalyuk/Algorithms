@@ -4,7 +4,7 @@
 #include <cmath>
 
 #define max(a, b) (((a) > (b)) ? (a) : (b))
-#define RESIZE_FACTOR 1.2
+#define RESIZE_FACTOR 2
 
 struct Queue
 {
