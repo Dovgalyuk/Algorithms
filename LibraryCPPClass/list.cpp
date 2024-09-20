@@ -38,12 +38,13 @@ List &List::operator=(const List &a) {
 }
 
 List::~List() {
-    _size = 0;
-    for (Item *data = _firstItem->next(); data->next() != nullptr; data = data->next()) {
-        delete data->prev();
+    if (_firstItem != nullptr) {
+        for (Item *data = _lastItem->prev(); data != nullptr; data = data->prev()) {
+            delete data->next();
+        }
+        delete _firstItem;
     }
-    delete _firstItem;
-    delete _lastItem;
+    _size = 0;
 }
 
 List::Item *List::first() {
@@ -52,6 +53,11 @@ List::Item *List::first() {
 
 List::Item *List::insert(Data data) {
     _firstItem = new Item(nullptr, _firstItem, data);
+    if (_firstItem->next() == nullptr) {
+        _lastItem = _firstItem;
+    } else {
+        _firstItem->next()->_setPrev(_firstItem);
+    }
     _size++;
     return _firstItem;
 }
