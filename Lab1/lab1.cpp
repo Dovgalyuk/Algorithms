@@ -56,6 +56,9 @@ void task1(Array *arr) {
         cout << sumRainfallInMonth->get(i) << " ";
     }
     cout << '\n';
+    // Delete array
+    delete sumRainfallInMonth;
+    delete dayInMonth;
 }
 
 void task2(Array *arr) {
