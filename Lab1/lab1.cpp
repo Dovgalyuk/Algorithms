@@ -104,4 +104,5 @@ int main(int argc, char **argv) {
     delete arrTask1;
     delete arrTask2;
     input.close();
+    return 0;
 }
