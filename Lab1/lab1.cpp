@@ -4,21 +4,6 @@
 #include "array.h"
 using namespace std;
 
-Array *array_create_and_read(FILE *input) {
-    int n;
-    fscanf(input, "%d", &n);
-    /* Create array */
-    Array *arr = new Array(10);
-    /* Read array data */
-    for (int i = 0 ; i < n ; ++i)
-    {
-        int x;
-        fscanf(input, "%d", &x);
-        arr->set(i, x);
-    }
-    return arr;
-}
-
 Array *arrayCreateFromInput(std::ifstream& input) {
     size_t size;
     input >> size;
