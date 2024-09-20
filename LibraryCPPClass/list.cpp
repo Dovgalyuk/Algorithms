@@ -9,26 +9,27 @@ List::List() {
 }
 
 List::List(const List &a) {
-    // Copy size list
+    // Copy size List
     _size = a._size;
 
-    // Copy Item in list
-    Item *itemIt = _firstItem;
-    for (size_t i = 0; i < _size; i++){
-        Item *copyItem = itemIt->_iterator();
-        if (copyItem == nullptr){
-            break;
-        } else {
-            if (i == 0) {
-                _firstItem = new Item(nullptr, nullptr, copyItem->data());
-                _lastItem = _firstItem;
-            }
-            Item *nextItem = new Item(_lastItem, nullptr, copyItem->data());
-            _lastItem->_setNext(nextItem);
-            _lastItem = nextItem;
-        }
+    // Copy Items in List
+    if (_size == 0) {
+        _firstItem = nullptr;
+        _lastItem = nullptr;
+    } else {
+        _firstItem = new Item(nullptr, nullptr, a._firstItem->data());
 
-        // Copy Item
+        if (a._firstItem->next() == nullptr) {
+            _lastItem = _firstItem;
+        } else {
+            Item *nextItem = a._firstItem->next();
+            Item *nextNewItem = new Item(_firstItem, nullptr, a._firstItem->next()->data());
+            for (; nextItem->next() != nullptr; nextItem = nextItem->next()) {
+                nextNewItem = new Item(nextNewItem, nullptr, nextItem->next()->data());
+                nextNewItem->prev()->_setNext(nextNewItem);
+            }
+            _lastItem = nextNewItem;
+        }
     }
 }
 

@@ -11,7 +11,7 @@ public:
     {
     public:
         // Creator for crate new Item
-        Item(Item *prev, Item *next, int data) {
+        Item(Item *prev, Item *next, Data data) {
             _prev = prev;
             _next = next;
             _data = data;
@@ -30,7 +30,7 @@ public:
     private:
         Item *_next;
         Item *_prev;
-        int _data;
+        Data _data;
     };
 
     // Creates new list
