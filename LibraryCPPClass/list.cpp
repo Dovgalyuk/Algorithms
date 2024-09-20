@@ -19,17 +19,12 @@ List::List(const List &a) {
     } else {
         _firstItem = new Item(nullptr, nullptr, a._firstItem->data());
 
-        if (a._firstItem->next() == nullptr) {
-            _lastItem = _firstItem;
-        } else {
-            Item *nextItem = a._firstItem->next();
-            Item *nextNewItem = new Item(_firstItem, nullptr, a._firstItem->next()->data());
-            for (; nextItem->next() != nullptr; nextItem = nextItem->next()) {
-                nextNewItem = new Item(nextNewItem, nullptr, nextItem->next()->data());
-                nextNewItem->prev()->_setNext(nextNewItem);
-            }
-            _lastItem = nextNewItem;
+        Item *nextNewItem = _firstItem;
+        for (Item *nextItem = a._firstItem; nextItem->next() != nullptr; nextItem = nextItem->next()) {
+            nextNewItem = new Item(nextNewItem, nullptr, nextItem->next()->data());
+            nextNewItem->prev()->_setNext(nextNewItem);
         }
+        _lastItem = nextNewItem;
     }
 }
 
