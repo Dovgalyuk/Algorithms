@@ -1,11 +1,17 @@
 #include "vector.h"
 #include <new>
+#include <cmath>
 #include <stdexcept>
 
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+#ifndef RESIZE_FACTOR
+#define RESIZE_FACTOR 2
+#endif
 
 struct Vector
 {
     size_t size = 0;
+    size_t real_size = 0;
     Data *pointer = nullptr;
 };
 
@@ -51,10 +57,18 @@ void vector_resize(Vector *vector, size_t size)
 
     if (!vector) throw std::invalid_argument("The vector pointer is null");
 
-    if (vector->pointer)
-        ptr = (Data*)realloc(vector->pointer, sizeof(Data) * size);
-    else
+    if (vector->pointer){
+        if (size > vector->real_size){
+            size_t new_size = max(sizeof(Data)*size, sizeof(Data) * std::ceil(vector->real_size * RESIZE_FACTOR));
+            ptr = (Data*)realloc(vector->pointer, new_size);
+            vector->real_size = new_size / sizeof(Data);
+        } else {
+            ptr = vector->pointer;
+        }
+    } else {
         ptr = (Data*)malloc(sizeof(Data) * size);
+        vector->real_size = size;
+    }
         
     if (!ptr) throw std::bad_alloc();
     vector->pointer = ptr;
