@@ -44,7 +44,6 @@ List::~List() {
             delete data->prev();
         }
     }
-    delete _firstItem;
     delete _lastItem;
 }
 
