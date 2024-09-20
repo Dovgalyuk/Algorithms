@@ -5,23 +5,32 @@
 
 typedef int Data;
 
-class List
-{
+class List {
 public:
     class Item
     {
     public:
-        // Constructor to initialize the item with data
-        Item(Data data);
-        Item *next();
-        Data data() const;
-    private:
-        // internal data here
-        Data data_;       // Holds the data of the item
-        Item *next_;      // Pointer to the next item
+        // Creator for crate new Item
+        Item(Item *prev, Item *next, Data data) {
+            _prev = prev;
+            _next = next;
+            _data = data;
+        };
 
-        // The List class is a friend for accessing private data
-        friend class List;
+        // Setter for set value in object
+        void _setNext(Item *next) { _next = next; };
+        void _setPrev(Item *prev) { _prev = prev; };
+        void _setData(int data) { _data = data; };
+        // iterator
+        Item *_iterator() { return _next; };
+
+        Item *next() { return _next; }
+        Item *prev() { return _prev; }
+        Data data() const { return _data; }
+    private:
+        Item *_next;
+        Item *_prev;
+        Data _data;
     };
 
     // Creates new list
@@ -54,7 +63,9 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
-    Item *head_;  // Pointer to the first item in the list
+    size_t _size;
+    Item *_lastItem;
+    Item *_firstItem;
 };
 
 #endif
