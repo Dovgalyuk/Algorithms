@@ -29,6 +29,8 @@ public:
     // Retrieves current vector size
     size_t size() const;
 
+    size_t capacity() const;
+
     void resize(size_t new_size);
 
 private:
@@ -88,16 +90,16 @@ Vector<Data>::~Vector() {
 
 template<typename Data>
 Data& Vector<Data>::get(size_t index) const {
-    if (index >= m_size) {
-        throw std::out_of_range("Index out of range");
+    if (index >= size()) {
+        std::out_of_range("Index out of range");
     }
     return data[index];
 }
 
 template<typename Data>
 void Vector<Data>::set(size_t index, Data value) {
-    if (index >= m_size) {
-        throw std::out_of_range("Index out of range");
+    if (index >= size()) {
+        std::out_of_range("Index out of range set");
     }
     data[index] = value;
 }
@@ -107,22 +109,28 @@ size_t Vector<Data>::size() const{
     return m_size;
 }
 
+template<typename Data>
+size_t Vector<Data>::capacity() const{
+    return m_capacity;
+}
+
 // Change m_capacity
 template<typename Data>
 void Vector<Data>::resize(size_t new_size) {
-    if (new_size <= m_capacity) {
-        m_size = new_size;
-    } else {
-        m_capacity = new_size * 2;
-        Data* newData = new Data[m_capacity];
+    if (new_size > m_capacity) {
+        size_t new_capacity = (new_size == 0 ? 1 : new_size * 2);
+        Data* newData = new Data[new_capacity];
         for (size_t i = 0; i < m_size; ++i) {
             newData[i] = data[i];
         }
+
         delete[] data;
         data = newData;
-        m_size = new_size;
+        m_capacity = new_capacity;
     }
+    m_size = new_size;
 }
+
 
 
 #endif
