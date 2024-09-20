@@ -66,6 +66,7 @@ List::~List() {
         erase_first();
     }
     _size = 0;
+    delete this;
 }
 
 List::Item *List::first() {
