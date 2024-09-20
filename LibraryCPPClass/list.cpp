@@ -82,7 +82,7 @@ List::Item *List::insert(Data data) {
     }
     _firstItem = newItem;
     _size++;
-    return newItem
+    return newItem;
 }
 
 List::Item *List::insert_after(Item *item, Data data) {
