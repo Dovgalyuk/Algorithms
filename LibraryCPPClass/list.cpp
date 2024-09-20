@@ -9,24 +9,20 @@ List::List() {
 }
 
 List::List(const List &a) {
-    std::cout << "copy constructor called";
     // Copy size List
     _size = a._size;
 
     // Copy Items in List
-    if (_size == 0) {
-        _firstItem = nullptr;
-        _lastItem = nullptr;
-    } else {
-        _firstItem = new Item(nullptr, nullptr, a._firstItem->data());
+    if (a._firstItem == nullptr) return;
 
-        Item *nextNewItem = _firstItem;
-        for (Item *nextItem = a._firstItem; nextItem->next() != nullptr; nextItem = nextItem->next()) {
-            nextNewItem = new Item(nextNewItem, nullptr, nextItem->next()->data());
-            nextNewItem->prev()->_setNext(nextNewItem);
-        }
-        _lastItem = nextNewItem;
+    _firstItem = new Item(nullptr, nullptr, a._firstItem->data());
+    Item *nextNewItem = _firstItem;
+    for (Item *nextItem = a._firstItem->next(); nextItem != nullptr; nextItem = nextItem->next()) {
+        Item *newItem = new Item(nextNewItem, nullptr, nextItem->data());
+        nextNewItem->_setNext(nextNewItem);
+        nextNewItem = newItem;
     }
+    _lastItem = nextNewItem;
 }
 
 List &List::operator=(const List &a) {
