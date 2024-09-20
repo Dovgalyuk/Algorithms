@@ -42,7 +42,7 @@ List::~List() {
     _firstItem = nullptr;
     _lastItem = nullptr;
     for (; _firstItem->next() != nullptr; _firstItem = _firstItem->next()) {
-        delete _firstItem
+        delete _firstItem;
     }
 }
 
