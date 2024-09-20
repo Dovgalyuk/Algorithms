@@ -39,11 +39,10 @@ List &List::operator=(const List &a) {
 
 List::~List() {
     _size = 0;
-    for (Item *data = _firstItem; data->next() != nullptr; data = data->next()) {
-        if (data->prev() != nullptr){
-            delete data->prev();
-        }
+    for (Item *data = _firstItem->next(); data->next() != nullptr; data = data->next()) {
+        delete data->prev();
     }
+    delete _firstItem;
     delete _lastItem;
 }
 
