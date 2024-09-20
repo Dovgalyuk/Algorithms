@@ -1,4 +1,4 @@
-#include <cstddef>
+#include <iostream>
 #include "list.h"
 
 
@@ -9,6 +9,7 @@ List::List() {
 }
 
 List::List(const List &a) {
+    std::cout << "copy constructor called";
     // Copy size List
     _size = a._size;
 
@@ -33,11 +34,8 @@ List &List::operator=(const List &a) {
 }
 
 List::~List() {
-    if (_firstItem != nullptr) {
-        for (Item *data = _lastItem->prev(); data != nullptr; data = data->prev()) {
-            delete data->next();
-        }
-        delete _firstItem;
+    while (_firstItem != nullptr) {
+        erase_first();
     }
     _size = 0;
 }
@@ -58,13 +56,14 @@ List::Item *List::insert(Data data) {
 }
 
 List::Item *List::insert_after(Item *item, Data data) {
-    Item *newItem = new Item(item, item->next(), data);;
-    if (item->next() == nullptr) {
-        item->_setNext(newItem);
+    Item *newItem = new Item(item, item->next(), data);
+    Item *leftItem = item;
+    Item *rightItem = item->next();
+
+    if (rightItem == nullptr) {
+        leftItem->_setNext(newItem);
         _lastItem = newItem;
     } else {
-        Item *leftItem = item;
-        Item *rightItem = item->next();
         leftItem->_setNext(newItem);
         rightItem->_setPrev(newItem);
     }
@@ -74,22 +73,36 @@ List::Item *List::insert_after(Item *item, Data data) {
 }
 
 List::Item *List::erase_first() {
-    // Create new first item
+    if (_firstItem->next() == nullptr) {
+        _size--;
+        _firstItem = nullptr;
+        _lastItem = nullptr;
+        return nullptr;
+    }
+
     _firstItem = _firstItem->next();
+    delete _firstItem->prev();
     _firstItem->_setPrev(nullptr);
+    _size--;
 
     return _firstItem;
 }
 
 List::Item *List::erase_next(Item *item) {
-    Item *leftItem = item->prev();
-    Item *rightItem = item->next();
-
-    // If it Item is first
-    if (leftItem != nullptr) {
-        leftItem->_setNext(rightItem);
+    if (item->prev() == nullptr) {
+        _size--;
+        return erase_first();
     }
 
-    rightItem->_setPrev(leftItem);
+    Item *rightItem = nullptr;
+    if (item->next() == nullptr) {
+        item->prev()->_setNext(nullptr);
+    } else {
+        rightItem = item->next();
+        item->prev()->_setNext(item->next()); // set left part
+        item->next()->_setPrev(item->prev()); // set right part
+    }
+    delete item;
+    _size--;
     return rightItem;
 }
