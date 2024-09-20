@@ -14,13 +14,17 @@ List::List(const List &a) {
     _size = a._size;
 
     // Copy Items in List
-    if (a._firstItem == nullptr) return;
+    if (a._firstItem == nullptr) {
+        _firstItem = nullptr;
+        _lastItem = nullptr;
+        return;
+    };
 
     _firstItem = new Item(nullptr, nullptr, a._firstItem->data());
     Item *nextNewItem = _firstItem;
-    for (Item *nextItem = a._firstItem->next(); nextItem != nullptr; nextItem = nextItem->next()) {
-        nextNewItem->_setNext(new Item(nextNewItem, nullptr, nextItem->data()));
-        nextNewItem = nextNewItem->next();
+    for (Item *nextItem = a._firstItem; nextItem->next() != nullptr; nextItem = nextItem->next()) {
+        nextNewItem = new Item(nextNewItem, nullptr, nextItem->next()->data());
+        nextNewItem->prev()->_setNext(nextNewItem);
     }
     _lastItem = nextNewItem;
 }
@@ -69,21 +73,23 @@ List::Item *List::first() {
 }
 
 List::Item *List::insert(Data data) {
-    _firstItem = new Item(nullptr, _firstItem, data);
-    if (_firstItem->next() == nullptr) {
-        _lastItem = _firstItem;
+    Item *newItem = new Item(nullptr, nullptr, data);
+    if (_firstItem != nullptr) {
+        newItem->_setNext(_firstItem);
+        _firstItem->_setPrev(newItem);
     } else {
-        _firstItem->next()->_setPrev(_firstItem);
+        _lastItem = newItem;
     }
+    _firstItem = newItem;
     _size++;
-    return _firstItem;
+    return newItem
 }
 
 List::Item *List::insert_after(Item *item, Data data) {
-    Item *newItem = new Item(item, item->next(), data);
     Item *leftItem = item;
     Item *rightItem = item->next();
 
+    Item *newItem = new Item(leftItem, rightItem, data);
     if (rightItem == nullptr) {
         leftItem->_setNext(newItem);
         _lastItem = newItem;
@@ -98,17 +104,16 @@ List::Item *List::insert_after(Item *item, Data data) {
 
 List::Item *List::erase_first() {
     if (_firstItem->next() == nullptr) {
-        _size--;
+        _size = 0;
         _firstItem = nullptr;
         _lastItem = nullptr;
         return nullptr;
     }
-
     _firstItem = _firstItem->next();
-    delete _firstItem->prev();
     _firstItem->_setPrev(nullptr);
     _size--;
 
+    delete _firstItem->prev();
     return _firstItem;
 }
 
