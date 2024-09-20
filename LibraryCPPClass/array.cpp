@@ -7,7 +7,7 @@ Array::Array(size_t size) {
 }
 
 Array::~Array() {
-//    delete[] _array;
+    delete[] _array;
 }
 
 Array::Array(const Array &a){
