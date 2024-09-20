@@ -9,6 +9,7 @@ List::List() {
 }
 
 List::List(const List &a) {
+    std::cout << "test";
     // Copy size List
     _size = a._size;
 
@@ -18,9 +19,8 @@ List::List(const List &a) {
     _firstItem = new Item(nullptr, nullptr, a._firstItem->data());
     Item *nextNewItem = _firstItem;
     for (Item *nextItem = a._firstItem->next(); nextItem != nullptr; nextItem = nextItem->next()) {
-        Item *newItem = new Item(nextNewItem, nullptr, nextItem->data());
-        nextNewItem->_setNext(nextNewItem);
-        nextNewItem = newItem;
+        nextNewItem->_setNext(new Item(nextNewItem, nullptr, nextItem->data()));
+        nextNewItem = nextNewItem->next();
     }
     _lastItem = nextNewItem;
 }
