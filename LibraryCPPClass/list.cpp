@@ -41,6 +41,9 @@ List::~List() {
     _size = 0;
     _firstItem = nullptr;
     _lastItem = nullptr;
+    for (; _firstItem->next() != nullptr; _firstItem = _firstItem->next()) {
+        delete _firstItem
+    }
 }
 
 List::Item *List::first() {
@@ -48,18 +51,9 @@ List::Item *List::first() {
 }
 
 List::Item *List::insert(Data data) {
-    Item *newItem;
-    if (_firstItem == nullptr) {
-        newItem = new Item(nullptr, nullptr, data);
-        _lastItem = newItem;
-    } else {
-        newItem = new Item(nullptr, _firstItem, data);
-        _firstItem->_setPrev(newItem);
-    }
-    _firstItem = newItem;
+    _firstItem = new Item(nullptr, _firstItem, data);
     _size++;
-
-    return newItem;
+    return _firstItem;
 }
 
 List::Item *List::insert_after(Item *item, Data data) {
