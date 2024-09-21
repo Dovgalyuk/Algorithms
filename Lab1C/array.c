@@ -23,7 +23,7 @@ Array *array_create(size_t size, FFree f)
   }
 
   arr -> size = size; // Присваиваем полю size  значение переменной size
-  return arr; // возвращаем указатель на созданный массив 
+  return arr;// возвращаем указатель на созданный массив 
 }
 
 // delete array, free memory
@@ -43,12 +43,13 @@ Data array_get(const Array *arr, size_t index) // тип const указывае�
 }
 
 // sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value) 
+int array_set(Array *arr, size_t index, Data value) 
 {
   if (arr == NULL || index >= arr->size) { // Если  массив пуст или размер меньше указанного индекса мы все плохо
-    return;
+    return -1;
   }
-  arr -> data[index] = value; // а иначе присваиваем указанному индексу указанное значение
+  arr -> data[index] = value;// а иначе присваиваем указанному индексу указанное значение
+  return 0;
 }
 
 // returns array size

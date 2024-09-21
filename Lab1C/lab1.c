@@ -12,33 +12,49 @@
 #include <stdio.h>
 #include "array.h"
 
-Array *array_create_and_read(FILE *input) {
+void array_create_and_read(FILE *input) {
     int n;
     fscanf(input, "%d", &n);
     
     /* Create array */
-    Array *arr = array_create(n, NULL);
+    Array *arr = array_create(n,NULL);
     
     /* Read array data */
     for (int i = 0; i < n; ++i) {
-        int *x = malloc(sizeof(int)); 
-        fscanf(input, "%d", x);
-        array_set(arr, i, x); 
+        int *val = malloc(sizeof(int)); 
+        *val = rand() % 10 + 1; 
+        array_set(arr, i, val); 
     }
-    return arr;
+   
+    for (int i = 0; i < n; ++i) {
+        int *value = array_get(arr, i); 
+        if (value != NULL) {
+            printf("%d ", *value); 
+        }
+    }
+    printf("\n");
+    
+    for (int i = 0; i < n; ++i) {
+        free(array_get(arr, i));
+    }
+  
+    array_delete(arr);//
 }
 
 
+
 void array_random_sum(FILE *input_2) {
+    
+    srand(time(NULL));
     int n;
     fscanf(input_2, "%d", &n);
 
     Array *arr = array_create(n, NULL);
-
+    
     for (int i = 0; i < n; ++i) {
-        int *x = malloc(sizeof(int)); 
-        *x = rand() % 10 + 1;
-        array_set(arr, i, x); 
+        int *val = malloc(sizeof(int)); 
+        *val = rand() % 10 + 1; 
+        array_set(arr, i, val); 
     }
 
     int max = *(int *)array_get(arr, 0);
@@ -65,18 +81,17 @@ void array_random_sum(FILE *input_2) {
             printf("a[%d] - %d\n", i, (*(int *)array_get(arr, i)));
         }
     }
-    printf("количество - %d\n", count);
-    
-    
-    for (int i = 0; i < n; i++) {
-        free(array_get(arr, i)); 
-    }
-    
+    printf("количество - %d\n", count);  
+     for (int i = 0; i < n; ++i) {
+        free(array_get(arr, i));
+    }//
+    array_delete(arr);
 }
 
 
 void array_neighboring_sum(FILE *input_3)
 {
+    srand(time(NULL));
     int n;
     fscanf(input_3, "%d", &n);
     
@@ -86,11 +101,11 @@ void array_neighboring_sum(FILE *input_3)
     }
 
     Array *arr = array_create(n, NULL);
-
+     
     for (int i = 0; i < n; i++) {
-        int *x = malloc(sizeof(int)); 
-        *x = rand() % 10 + 1;
-        array_set(arr, i, x); 
+        int *val = malloc(sizeof(int)); 
+        *val = rand() % 10 + 1; 
+        array_set(arr, i, val); 
     }
     
     for (int i = 0; i < n; i++) {
@@ -99,7 +114,7 @@ void array_neighboring_sum(FILE *input_3)
     
     int max_sum = 0;
     
-/*  было так := for (int i = 0; i <= n - 5; i ++){ int sum = (*(int *)array_get(arr, i) + 
+/* было так := for (int i = 0; i <= n - 5; i ++){ int sum = (*(int *)array_get(arr, i) + 
 (*(int *)array_get(arr, i + 1) +(*(int *)array_get(arr, i + 2) + (*(int *)array_get(arr, i + 3) + 
 (*(int *)array_get(arr, i + 4)))))); но читаемость данного блока вызывала сомнения */
       
@@ -115,57 +130,45 @@ void array_neighboring_sum(FILE *input_3)
     
     printf("Максимальная сумма пяти соседних элементов - %d",max_sum);
     
-     for (int i = 0; i < n; i++) {
-        free(array_get(arr, i));    
+    for (int i = 0; i < n; ++i) {
+        free(array_get(arr, i));
     }
+    array_delete(arr);
 }
 
 
 int main(/*int argc, char **argv*/) 
-{
-    srand(time(NULL));
-    
-    
-    FILE *input = fopen("../Lab1C/input.txt", "r");
+{   
+    FILE *input = fopen("input.txt", "r");
     if (input == NULL) {
         perror("Ошибка открытия файла input.txt");
         return 1; 
     }
 
-    Array *arr = array_create_and_read(input);
-    if (arr == NULL) {
-        fprintf(stderr, "Ошибка при чтении массива\n");
-        fclose(input); 
-        return 1;
-    }
+    array_create_and_read(input);
     
-   
-    FILE *input_2 = fopen("../Lab1C/input_2.txt", "r");
+    FILE *input_2 = fopen("input_2.txt", "r");
     if (input_2 == NULL) {
-        perror("Ошибка открытия файла input.txt");
+        perror("Ошибка открытия файла input_2.txt");
         return 1; 
     }
     
     array_random_sum(input_2); 
     
-    
-    FILE *input_3 = fopen("../Lab1C/input_3.txt", "r");
+    FILE *input_3 = fopen("input_3.txt", "r");
     if (input_3 == NULL) {
-        perror("Ошибка открытия файла input.txt");
+        perror("Ошибка открытия файла input_3.txt");
         return 1; 
     }
     
     array_neighboring_sum(input_3);
-    
 
     fclose(input); 
     fclose(input_2);
     fclose(input_3);
-
-    array_delete(arr); 
-
+    
+    
+    
     return 0;
-}
-
-   
+} 
 
