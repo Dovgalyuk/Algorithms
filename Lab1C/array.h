@@ -25,4 +25,3 @@ size_t array_size(const Array *arr);
 #endif
 
 #endif
-

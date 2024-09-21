@@ -1,3 +1,4 @@
+
 /*
     Реализовать контейнер - динамический массив array с неизменяемым размером (на любом из языков)
     Проверить работу соответствующей тестовой программы
@@ -137,27 +138,30 @@ void array_neighboring_sum(FILE *input_3)
 }
 
 
-int main(/*int argc, char **argv*/) 
+int main(int argc, char **argv) 
 {   
-    FILE *input = fopen("input.txt", "r");
+     FILE *input = fopen(argv[1], "r");
     if (input == NULL) {
-        perror("Ошибка открытия файла input.txt");
+        perror("Ошибка открытия файла");
         return 1; 
     }
 
     array_create_and_read(input);
     
-    FILE *input_2 = fopen("input_2.txt", "r");
+    FILE *input_2 = fopen(argv[2], "r");
     if (input_2 == NULL) {
-        perror("Ошибка открытия файла input_2.txt");
+        perror("Ошибка открытия файла");
+        fclose(input); 
         return 1; 
     }
     
     array_random_sum(input_2); 
     
-    FILE *input_3 = fopen("input_3.txt", "r");
+    FILE *input_3 = fopen(argv[3], "r");
     if (input_3 == NULL) {
-        perror("Ошибка открытия файла input_3.txt");
+        perror("Ошибка открытия файла");
+        fclose(input); 
+        fclose(input_2); 
         return 1; 
     }
     
@@ -167,8 +171,5 @@ int main(/*int argc, char **argv*/)
     fclose(input_2);
     fclose(input_3);
     
-    
-    
     return 0;
-} 
-
+}
