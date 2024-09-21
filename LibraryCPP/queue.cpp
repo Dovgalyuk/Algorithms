@@ -28,20 +28,27 @@ void queue_delete(Queue *queue)
     delete queue;
 }
 
+void queue_order(Queue *queue, size_t old_size)
+{
+    if (!(queue->current_index)) return;
+
+    size_t bias = vector_size(queue->vector) - old_size;
+    for (size_t index{old_size - 1}; index >= queue->current_index; --index)
+        vector_set(queue->vector, index + bias, vector_get(queue->vector, index));
+    queue->current_index += bias;
+}
+
 void queue_insert(Queue *queue, Data data)
 {
     if (!queue) throw std::invalid_argument("The queue pointer is null");
 
-    if ((queue->size + 1) > vector_size(queue->vector))
+    if ((queue->size + 1) > vector_size(queue->vector)){
+        size_t old_size = vector_size(queue->vector);
         vector_resize(queue->vector, max(1, std::ceil(queue->size * RESIZE_FACTOR)));
-    
-    if ((queue->size + queue->current_index) >= vector_size(queue->vector)){
-        for (size_t ind{queue->current_index}; ind < (queue->size + queue->current_index); ++ind)
-            vector_set(queue->vector, ind - queue->current_index, vector_get(queue->vector, ind));
-        queue->current_index = 0;
+        queue_order(queue, old_size);
     }
 
-    vector_set(queue->vector, queue->current_index + queue->size, data);
+    vector_set(queue->vector, (queue->current_index + queue->size) % vector_size(queue->vector), data);
     queue->size++;
 }
 
@@ -59,6 +66,7 @@ void queue_remove(Queue *queue)
     if (queue_empty(queue)) throw std::invalid_argument("The queue is empty");
 
     queue->current_index++;
+    queue->current_index %= vector_size(queue->vector);
     queue->size--;
 }
 

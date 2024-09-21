@@ -4,9 +4,7 @@
 #include <stdexcept>
 
 #define max(a, b) (((a) > (b)) ? (a) : (b))
-#ifndef RESIZE_FACTOR
 #define RESIZE_FACTOR 2
-#endif
 
 struct Vector
 {
@@ -59,9 +57,9 @@ void vector_resize(Vector *vector, size_t size)
 
     if (vector->pointer){
         if (size > vector->real_size){
-            size_t new_size = max(sizeof(Data)*size, sizeof(Data) * std::ceil(vector->real_size * RESIZE_FACTOR));
-            ptr = (Data*)realloc(vector->pointer, new_size);
-            vector->real_size = new_size / sizeof(Data);
+            size_t new_size = max(size, std::ceil(vector->real_size * RESIZE_FACTOR));
+            ptr = (Data*)realloc(vector->pointer, sizeof(Data) * new_size);
+            vector->real_size = new_size;
         } else {
             ptr = vector->pointer;
         }

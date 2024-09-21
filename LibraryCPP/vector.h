@@ -7,6 +7,7 @@
 // Stores integer values inside
 typedef size_t Data;
 
+
 struct Vector;
 
 // Creates vector
