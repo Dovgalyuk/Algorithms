@@ -10,9 +10,12 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic -Wno-gnu-empty-struct -Wno-unused-parameter)
 endif()
 
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+
 # add_subdirectory(LibraryC)
 # add_subdirectory(LibraryCPP)
 # add_subdirectory(LibraryCPPClass)
 add_subdirectory(LibraryCPPTemplate)
 
 # add_subdirectory(Lab1C)
+add_subdirectory(Lab3CPPTemplate)
