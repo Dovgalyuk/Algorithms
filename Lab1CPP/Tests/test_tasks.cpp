@@ -7,16 +7,22 @@ bool check_result(int test_num, Array *arr, FILE *input)
 {
     auto res = test_num == 1 ? task1(arr) : task2(arr);
     size_t size1;
-    (void)fscanf(input, "%lu", &size1);
+    if (fscanf(input, "%lu", &size1) < 0)
+    {
+        return false;
+    }
     if (res.size() != size1)
     {
-        printf("TASK %d result.size()!=expected.size() (%lu!=%lu)\n",test_num,res.size(),size1);
+        printf("TASK %d result.size()!=expected.size() (%lu!=%lu)\n", test_num, res.size(), size1);
         return false;
     }
     for (size_t i = 0; i < size1; i++)
     {
         int num = 0;
-        (void)fscanf(input, "%d", &num);
+        if (fscanf(input, "%d", &num) < 0)
+        {
+            return false;
+        }
         auto it = std::find(res.begin(), res.end(), num);
         if (it != res.end())
         {
@@ -25,7 +31,7 @@ bool check_result(int test_num, Array *arr, FILE *input)
     }
     if (res.size() != 0)
     {
-        printf("TASK %d result != expected\n",test_num);
+        printf("TASK %d result != expected\n", test_num);
         return false;
     }
     return true;
@@ -47,7 +53,9 @@ int main(int argc, char **argv)
         if (!check_result(i, arr, input))
         {
             printf("TASK %d test failed\n", i);
-        }else{
+        }
+        else
+        {
             printf("TASK %d test success\n", i);
         }
     }

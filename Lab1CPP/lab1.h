@@ -5,12 +5,18 @@
 Array *array_create_and_read(FILE *input)
 {
     int n;
-    (void)fscanf(input, "%d", &n);
+    if (fscanf(input, "%d", &n) < 0)
+    {
+        return nullptr;
+    }
     Array *arr = new Array(n);
     for (int i = 0; i < n; ++i)
     {
         int x;
-        (void)fscanf(input, "%d", &x);
+        if (fscanf(input, "%d", &x) < 0)
+        {
+            return nullptr;
+        }
         arr->set(i, x);
     }
     return arr;
@@ -60,7 +66,7 @@ std::vector<Data> task2(Array *arr)
             {
                 int max = subEl > current ? subEl : current;
                 int min = subEl < current ? subEl : current;
-                if (min!=0 && max % min == 0)//TODO division by zero?
+                if (min != 0 && max % min == 0) // TODO division by zero?
                 {
                     m[max] = Wrong;
                 }
