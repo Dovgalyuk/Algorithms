@@ -1,4 +1,5 @@
 #include "lab1.h"
+#include <cstdio>
 #include <stdio.h>
 
 
@@ -17,6 +18,8 @@ int main(int argc, char **argv)
     Array *arr = array_create_and_read(input);
     task1(arr);
     task2(arr);
-
+    
+    delete arr;
+    fclose(input);
     return 0;
 }
