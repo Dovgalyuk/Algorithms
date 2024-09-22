@@ -1,19 +1,18 @@
 #include <iostream>
 #include <unordered_map>
+#include <fstream>
 #include "array.h"
 
-Array *array_create_and_read(FILE* input)
+Array *array_create_and_read(std::ifstream &input)
 {
-    int n;
-    fscanf(input, "%d", &n);
+    size_t n;
+    input >> n;
     /* Create array */
     Array *arr = array_create(n);
     /* Read array data */
-    for (int i = 0 ; i < n ; ++i)
-    {
+    for (size_t i = 0 ; i < n ; ++i){
         int x;
-        fscanf(input, "%d", &x);
-
+        input>>x;
         array_set(arr, i, x);
     }
     return arr;
@@ -57,6 +56,8 @@ std::pair<Array *, Array *> task1(Array *arr)
     for (size_t i = 0; i < cPos; i++) {
         std::cout << array_get(arrPos, i) << " ";
     }
+    array_delete(_arrNeg);
+    array_delete(_arrPos);
     return std::make_pair(arrNeg, arrPos);
 }
 
@@ -89,30 +90,31 @@ Array *task2(Array *arr)
     if (!found) {
         std::cout << "Нет таких элементов." << std::endl;
     }
+    array_delete(_arrRep);
     return arrRep;
 }
 
-bool testTask1(FILE* output,Array *arrNeg, Array *arrPos) {
+bool testTask1(std::ifstream &output,Array *arrNeg, Array *arrPos) {
     for(size_t i=0; i<array_size(arrNeg); i++) {
         int x;
-        fscanf(output, "%d", &x);
+        output>>x;
         if(array_get(arrNeg,i) != x) {
             return false;
         }
     }
     for(size_t i=0; i<array_size(arrPos); i++) {
         int x;
-        fscanf(output, "%d", &x);
+        output>>x;
         if(array_get(arrPos,i) != x) {
             return false;
         }
     }
     return true;
 }
-bool testTask2(FILE *output, Array *arrRep) {
+bool testTask2(std::ifstream &output, Array *arrRep) {
     for(size_t i=0; i<array_size(arrRep); i++) {
         int x;
-        fscanf(output, "%d", &x);
+        output>>x;
         if(array_get(arrRep,i) != x) {
             return false;
         }
@@ -123,13 +125,14 @@ bool testTask2(FILE *output, Array *arrRep) {
 int main(int argc, char **argv)
 {
     Array *arr;
-    FILE *input=fopen(argv[1],"r");
-    FILE *output=fopen(argv[2],"r");
-    if (!input) {
+    std::ifstream input, output;
+    input.open(argv[1]);
+    output.open(argv[2]);
+    if (!input.is_open()) {
         std::cerr << "Error opening file!" << std::endl;
         return EXIT_FAILURE;
     }
-    if (!output) {
+    if (!output.is_open()) {
         std::cerr << "Error opening file!" << std::endl;
         return EXIT_FAILURE;
     }
@@ -140,6 +143,8 @@ int main(int argc, char **argv)
     if(!testTask1(output, arrNeg, arrPos)) {
         return 1;
     }
+    array_delete(arrNeg);
+    array_delete(arrPos);
     array_delete(arr);
     /* Create another array here */
     arr = array_create_and_read(input);
@@ -148,5 +153,7 @@ int main(int argc, char **argv)
         return 1;
     }
     array_delete(arr);
-    fclose(input);
+    array_delete(arrRep);
+    input.close();
+    output.close();
 }
