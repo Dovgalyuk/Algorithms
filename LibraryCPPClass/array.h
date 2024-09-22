@@ -1,6 +1,8 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
+#include <iostream>
+#include <memory>
 #include <cstddef>
 
 typedef int Data;
@@ -30,6 +32,8 @@ public:
     size_t size() const;
 
 private:
+    size_t m_size;
+    Data* m_data;
     // private data should be here
 };
 

@@ -13,3 +13,11 @@ Release/*
 .vs/*
 build/*
 .vscode/*
+__*
+_*
+build*
+*.idx
+cmake-build-debug/*
+CMakeFiles/*
+.cmake
+.DS_Store
