@@ -5,12 +5,12 @@
 Array *array_create_and_read(FILE *input)
 {
     int n;
-    fscanf(input, "%d", &n);
+    (void)fscanf(input, "%d", &n);
     Array *arr = new Array(n);
     for (int i = 0; i < n; ++i)
     {
         int x;
-        fscanf(input, "%d", &x);
+        (void)fscanf(input, "%d", &x);
         arr->set(i, x);
     }
     return arr;

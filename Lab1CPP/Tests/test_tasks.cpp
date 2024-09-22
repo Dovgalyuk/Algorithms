@@ -7,7 +7,7 @@ bool check_result(int test_num, Array *arr, FILE *input)
 {
     auto res = test_num == 1 ? task1(arr) : task2(arr);
     size_t size1;
-    fscanf(input, "%lu", &size1);
+    (void)fscanf(input, "%lu", &size1);
     if (res.size() != size1)
     {
         printf("TASK %d result.size()!=expected.size() (%lu!=%lu)\n",test_num,res.size(),size1);
@@ -16,7 +16,7 @@ bool check_result(int test_num, Array *arr, FILE *input)
     for (size_t i = 0; i < size1; i++)
     {
         int num = 0;
-        fscanf(input, "%d", &num);
+        (void)fscanf(input, "%d", &num);
         auto it = std::find(res.begin(), res.end(), num);
         if (it != res.end())
         {
