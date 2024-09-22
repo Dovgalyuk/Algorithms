@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <cstdio>
 #include <iostream>
+#include <algorithm>
 
 bool check_result(int test_num, Array *arr, FILE *input)
 {
