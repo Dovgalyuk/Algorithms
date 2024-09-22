@@ -23,13 +23,11 @@ Array::~Array()
 
 Data Array::get(size_t index) const
 {
-    std::cout<<"GET"<<index<<" "<<*(m_data + index)<<" ptr="<<(m_data + index)<<std::endl;
     return *(m_data + index);
 }
 
 void Array::set(size_t index, Data value)
 {
-    std::cout<<"SET"<<index<<" "<<value<<" ptr="<<(m_data + index)<<std::endl;
     *(m_data + index) = value;
 }
 
