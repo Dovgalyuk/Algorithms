@@ -1,5 +1,7 @@
 #include "array.h"
 #include <unordered_map>
+#include <vector>
+
 Array *array_create_and_read(FILE *input)
 {
     int n;
