@@ -1,5 +1,5 @@
 #include "array.h"
-
+#include <cstring>
 Array::Array(size_t size) : m_size(size), m_data(new Data[size])
 {
 }
