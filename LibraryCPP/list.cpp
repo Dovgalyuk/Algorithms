@@ -3,7 +3,7 @@
 
 struct ListItem
 {
-    Data value = NULL;
+    Data value;
     ListItem* next = nullptr;
     ListItem* prev = nullptr;
 };
