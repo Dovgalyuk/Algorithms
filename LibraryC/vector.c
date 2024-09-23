@@ -61,8 +61,6 @@ void vector_resize(Vector *vector, size_t size)
     if (vector->capacity < size)
     {
         size_t new_capacity = vector->capacity;
-        if (new_capacity == 0)
-                new_capacity = 4;
         while (new_capacity < size)
             new_capacity *= 2;
         
@@ -78,11 +76,12 @@ void vector_resize(Vector *vector, size_t size)
             for (size_t i = size; i < vector->size; i++)
             {
                 if (vector->array[i] != vector->filler)
+                {
                     vector->destruct((void*) vector->array[i]);
+                    vector->array[i] = vector->filler;
+                }
             }
         }
-        vector->array = (Data*) realloc(vector->array, size * sizeof(Data));
-        vector->capacity = size;
     } 
     vector->size = size;
 }

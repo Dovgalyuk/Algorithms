@@ -3,9 +3,9 @@
 #include <string.h>
 #include <ctype.h>
 #include "stack.h"
+#include "vector.h"
 
 char filler = ' ';
-int int_filler = 0;
 
 int priority(char op)
 {
@@ -17,29 +17,43 @@ int priority(char op)
         return 0;
 }
 
-void parser(Stack* stack_ops, FILE* input, char* rpn_buf)
+void parser(Stack* stack_ops, FILE* input, Vector* rpn_buf, char filler)
 {
-    char buffer[20];
-    fgets(buffer, 20, input);
-    printf("%s \n",buffer);
-    size_t out_i = 0;
-    for (size_t i = 0; i < strlen(buffer); i++)
+    Vector* buffer = vector_create(NULL, &filler);
+    int c;
+    while ((c = fgetc(input)) != EOF)
     {
-        if (isdigit(buffer[i]))
+        if (c == '\n')
+            break;
+        char *ptr = malloc(sizeof(char));
+        *ptr = (char) c;
+        vector_set(buffer, vector_size(buffer), ptr);
+    } 
+    for (size_t i = 0; i < vector_size(buffer); i++)
+    {
+        printf("%c",*(char*)vector_get(buffer, i));
+    }
+    printf("\n");
+    size_t out_i = 0;
+    for (size_t i = 0; i < vector_size(buffer); i++)
+    {
+        if (isdigit(*(char*)vector_get(buffer, i)))
         {
-            while (isdigit(buffer[i]))
-                rpn_buf[out_i++] = buffer[i++];
-            rpn_buf[out_i++] = ' ';
+            while (isdigit(*(char*)vector_get(buffer, i)))
+            {
+                vector_set(rpn_buf, out_i++, vector_get(buffer, i));
+                i++;
+            }   
+            vector_set(rpn_buf, out_i++, &filler);
             i -= 1;
         }
-        else if (buffer[i] == '(')
+        else if (*(char*)vector_get(buffer, i) == '(')
         {
-            char* data = malloc(sizeof(char));
-            *data = buffer[i];
-            stack_push(stack_ops, data);
+            stack_push(stack_ops, vector_get(buffer, i));
         }
-        else if (buffer[i] == ')')
+        else if (*(char*)vector_get(buffer, i) == ')')
         {
+            free(vector_get(buffer, i));
             if (stack_empty(stack_ops))
                 {   
                     printf("ERROR: except ')' before '(' \n");
@@ -47,125 +61,98 @@ void parser(Stack* stack_ops, FILE* input, char* rpn_buf)
                 }
             while (((char*)stack_get(stack_ops))[0] != '(')
             {
-                rpn_buf[out_i++] = *(char*)stack_get(stack_ops);
-                rpn_buf[out_i++] = ' ';
+                vector_set(rpn_buf, out_i++, stack_get(stack_ops));
+                vector_set(rpn_buf, out_i++, &filler);
                 stack_pop(stack_ops);
             }
+            free(stack_get(stack_ops));
             stack_pop(stack_ops);
         }
-        else if (buffer[i] == '+' || buffer[i] == '-' || buffer[i] == '*')
+        else if (*(char*)vector_get(buffer, i) == '+' || *(char*)vector_get(buffer, i) == '-' || *(char*)vector_get(buffer, i) == '*')
         {
             if (!stack_empty(stack_ops))
             {
-                if (priority(*(char*)stack_get(stack_ops)) >= priority(buffer[i]))
+                if (priority(*(char*)stack_get(stack_ops)) >= priority(*(char*)vector_get(buffer, i)))
                 {
-                    rpn_buf[out_i++] = *(char*)stack_get(stack_ops);
-                    rpn_buf[out_i++] = ' ';
+                    vector_set(rpn_buf, out_i++, stack_get(stack_ops));
+                    vector_set(rpn_buf, out_i++, &filler);
                     stack_pop(stack_ops);
                 }
                 else
-                {
-                    char* data = malloc(sizeof(char));
-                    *data = buffer[i];
-                    stack_push(stack_ops, data);
-                }
+                    stack_push(stack_ops, vector_get(buffer, i));
             }
             else
-            {
-                char* data = malloc(sizeof(char));
-                *data = buffer[i];
-                stack_push(stack_ops, data);
-            }
+                stack_push(stack_ops, vector_get(buffer, i));
         }
+        else
+            free(vector_get(buffer, i));
     }
     while (!stack_empty(stack_ops))
     {
-        rpn_buf[out_i++] = *(char*) stack_get(stack_ops);
-        rpn_buf[out_i++] = ' ';
+        vector_set(rpn_buf, out_i++, stack_get(stack_ops));
+        vector_set(rpn_buf, out_i++, &filler);
         stack_pop(stack_ops);
     }
-    rpn_buf[out_i-1] = '\0';
+    vector_delete(buffer);
+    for (size_t i = 0; i < vector_size(rpn_buf); i++)
+    {
+        printf("%c",*(char*)vector_get(rpn_buf, i));
+    }
+    printf("\n");
+    
 }
 
-void asm_commands(Stack* stack_asm, char* rpn_string)
+void asm_commands(Vector* rpn_string)
 {
-    long a, b;
-    char* token = strtok(rpn_string, " ");
-    while (token != NULL)
+    for (size_t i = 0; i < vector_size(rpn_string); i++)
     {
-        if (isdigit(token[0]))
+        if (isdigit(*(char*)vector_get(rpn_string, i)))
         {
-            long* data = malloc(sizeof(long));
-            *data = strtol(token, NULL, 10);
-            stack_push(stack_asm, data);
+            char token[20];
+            size_t j = 0;
+            while (*(char*)vector_get(rpn_string, i) != filler)
+            {
+                token[j++] = *(char*)vector_get(rpn_string, i++);
+            }
+            token[j+1] = '\0';
             printf("PUSH %s \n", token);
         }
-        else if (token[0] == '+')
+        else if (*(char*)vector_get(rpn_string, i) == '+')
         {
-            b = *(long*) stack_get(stack_asm);
-            printf("POP B \n");
-            stack_pop(stack_asm);
-            a = *(long*) stack_get(stack_asm);
             printf("POP A \n");
-            stack_pop(stack_asm);
-            a += b;
+            printf("POP B \n");
             printf("ADD A, B \n");
-            long* data = malloc(sizeof(long));
-            *data = a;
-            stack_push(stack_asm, data);
             printf("PUSH A \n");
         }
-        else if (token[0] == '-')
+        else if (*(char*)vector_get(rpn_string, i) == '-')
         {
-            b = *(long*)stack_get(stack_asm);
-            printf("POP B \n");
-            stack_pop(stack_asm);
-            a = *(long*)stack_get(stack_asm);
             printf("POP A \n");
-            stack_pop(stack_asm);
-            a -= b;
+            printf("POP B \n");
             printf("SUB A, B \n");
-            long* data = malloc(sizeof(long));
-            *data = a;
-            stack_push(stack_asm, data);
             printf("PUSH A \n");
         }
-        else if (token[0] == '*')
+        else if (*(char*)vector_get(rpn_string, i) == '*')
         {
-            b = *(long*)stack_get(stack_asm);
-            printf("POP B \n");
-            stack_pop(stack_asm);
-            a = *(long*)stack_get(stack_asm);
             printf("POP A \n");
-            stack_pop(stack_asm);
-            a *= b;
+            printf("POP B \n");
             printf("MUL A, B \n");
-            long* data = malloc(sizeof(long));
-            *data = a;
-            stack_push(stack_asm, data);
             printf("PUSH A \n");
         }
-        token = strtok(NULL, " ");
     }
+    
     printf("\n");
 }
 
 int main(int argc, char **argv)
 {
-    Stack *stack = stack_create(free, &filler);
-    Stack *stack_asm = stack_create(free, &int_filler);
+    Stack *stack = stack_create(NULL, &filler);
     FILE *input = fopen(argv[1], "r");
-    char rpn_string[20];
-    parser(stack, input, rpn_string);
-    asm_commands(stack_asm, rpn_string);
-    while (!stack_empty(stack_asm))
-    {
-        stack_pop(stack_asm);
-    }
-    parser(stack, input, rpn_string);
-    asm_commands(stack_asm, rpn_string);
-
-    stack_delete(stack_asm);
+    Vector* rpn_string = vector_create(free, &filler);
+    parser(stack, input, rpn_string, filler);
+    asm_commands(rpn_string);
+    parser(stack, input, rpn_string, filler);
+    asm_commands(rpn_string);
+    vector_delete(rpn_string);
     stack_delete(stack);
     fclose(input);
 }
