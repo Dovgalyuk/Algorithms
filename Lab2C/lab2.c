@@ -17,9 +17,9 @@ int priority(char op)
         return 0;
 }
 
-void parser(Stack* stack_ops, FILE* input, Vector* rpn_buf, char filler)
+void parser(Stack* stack_ops, FILE* input, Vector* rpn_buf, Data filler)
 {
-    Vector* buffer = vector_create(NULL, &filler);
+    Vector* buffer = vector_create(NULL, filler);
     int c;
     while ((c = fgetc(input)) != EOF)
     {
@@ -44,7 +44,7 @@ void parser(Stack* stack_ops, FILE* input, Vector* rpn_buf, char filler)
                 vector_set(rpn_buf, out_i++, vector_get(buffer, i));
                 i++;
             }   
-            vector_set(rpn_buf, out_i++, &filler);
+            vector_set(rpn_buf, out_i++, filler);
             i -= 1;
         }
         else if (*(char*)vector_get(buffer, i) == '(')
@@ -62,7 +62,7 @@ void parser(Stack* stack_ops, FILE* input, Vector* rpn_buf, char filler)
             while (((char*)stack_get(stack_ops))[0] != '(')
             {
                 vector_set(rpn_buf, out_i++, stack_get(stack_ops));
-                vector_set(rpn_buf, out_i++, &filler);
+                vector_set(rpn_buf, out_i++, filler);
                 stack_pop(stack_ops);
             }
             free(stack_get(stack_ops));
@@ -75,7 +75,7 @@ void parser(Stack* stack_ops, FILE* input, Vector* rpn_buf, char filler)
                 if (priority(*(char*)stack_get(stack_ops)) >= priority(*(char*)vector_get(buffer, i)))
                 {
                     vector_set(rpn_buf, out_i++, stack_get(stack_ops));
-                    vector_set(rpn_buf, out_i++, &filler);
+                    vector_set(rpn_buf, out_i++, filler);
                     stack_pop(stack_ops);
                 }
                 else
@@ -90,7 +90,7 @@ void parser(Stack* stack_ops, FILE* input, Vector* rpn_buf, char filler)
     while (!stack_empty(stack_ops))
     {
         vector_set(rpn_buf, out_i++, stack_get(stack_ops));
-        vector_set(rpn_buf, out_i++, &filler);
+        vector_set(rpn_buf, out_i++, filler);
         stack_pop(stack_ops);
     }
     vector_delete(buffer);
@@ -148,9 +148,9 @@ int main(int argc, char **argv)
     Stack *stack = stack_create(NULL, &filler);
     FILE *input = fopen(argv[1], "r");
     Vector* rpn_string = vector_create(free, &filler);
-    parser(stack, input, rpn_string, filler);
+    parser(stack, input, rpn_string, &filler);
     asm_commands(rpn_string);
-    parser(stack, input, rpn_string, filler);
+    parser(stack, input, rpn_string, &filler);
     asm_commands(rpn_string);
     vector_delete(rpn_string);
     stack_delete(stack);

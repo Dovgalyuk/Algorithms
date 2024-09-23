@@ -26,7 +26,8 @@ void vector_delete(Vector *vector)
 {
     if (vector->destruct != NULL)
         for (size_t i = 0; i < vector_size(vector); i++)
-            vector->destruct((void*) vector->array[i]);
+            if (vector->array[i] != vector->filler)
+                vector->destruct((void*) vector->array[i]);
     
     free(vector->array);
     free(vector);
