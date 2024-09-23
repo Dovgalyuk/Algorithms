@@ -3,7 +3,7 @@
 
 struct ListItem
 {
-    Data value;
+    Data value = NULL;
     ListItem* next = nullptr;
     ListItem* prev = nullptr;
 };
@@ -103,7 +103,8 @@ ListItem *list_erase_first(List *list)
     if (list != nullptr && list->node != nullptr)
     {
         ListItem* temp = list->node->next;
-        temp->prev = nullptr;
+        if(temp != nullptr)
+            temp->prev = nullptr;
         delete list->node;
         list->node = temp;
 
