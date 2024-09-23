@@ -43,7 +43,12 @@ Data vector_get(const Vector *vector, size_t index)
 void vector_set(Vector *vector, size_t index, Data value)
 {
     if (index < vector_size(vector))
+    {
+        if (vector->array[index] != vector->filler)
+            if (vector->destruct != NULL)
+                vector->destruct((void*)vector->array[index]);
         vector->array[index] = value;
+    }
     else
     {
         vector_resize(vector, index + 1);
