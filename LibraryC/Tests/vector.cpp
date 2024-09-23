@@ -11,9 +11,11 @@ int vector_get_int(Vector *v, size_t i)
     return *(int*)vector_get(v, i);
 }
 
+int zero{0};
+
 int main()
 {
-    Vector *vector = vector_create(myfree);
+    Vector *vector = vector_create(myfree, &zero);
 
     vector_resize(vector, 5);
     if (vector_size(vector) != 5)
@@ -24,12 +26,11 @@ int main()
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
         vector_set(vector, i, new int(i));
-
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)
         {
-            std::cout << "Invalid vector element " << i << "\n";
+            std::cout << "Invalid vector element  " << " " << i << "\n";
             return 1;
         }
     }

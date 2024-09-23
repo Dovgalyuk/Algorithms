@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 // Creates empty stack
-Stack *stack_create(FFree f);
+Stack *stack_create(FFree f, Data filler);
 
 // Deletes the stack
 void stack_delete(Stack *stack);
