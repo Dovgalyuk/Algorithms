@@ -27,6 +27,10 @@ struct Point {
     }
 };
 
+typedef Vector<Point> VP;
+typedef Vector<char> Vc;
+typedef Vector<int> Vi;
+
 const Point dPoints[] = {
     {2, 1},
     {2, -1},
@@ -38,8 +42,7 @@ const Point dPoints[] = {
     {-1, -2}
 };
 
-
-bool isValid(const Point& p, Vector<char>& board) {
+bool isValid(const Point& p, const Vc& board) {
     if(p.x >= 0 
         && p.x < 8
         && p.y >= 0
@@ -50,11 +53,10 @@ bool isValid(const Point& p, Vector<char>& board) {
     return false;
 }
 
-Vector<char> init_board(std::ifstream& input, Point& start) {
-    Vector<char> board(64);
+Vc init_board(std::ifstream& input, Point& start) {
+    Vc board(64);
 
     for (size_t i = 0; i < 8; ++i) {
-        Vector<char> row(8);
         std::string str; input >> str;
         for(size_t j = 0; j < 8; ++j) {
             board.set(i * 8 + j, str[j]);
@@ -69,12 +71,11 @@ Vector<char> init_board(std::ifstream& input, Point& start) {
 
 
 
-void bfs(Vector<char>& board, Point start, std::ofstream& output) {
-    Vector<int> dist(64);
-    Vector<Point> prev(64); // for prev point
+void bfs(Vc& board, Point start, std::ofstream& output) {
+    Vi dist(64);
+    VP prev(64); // for prev point
     
     for (size_t i = 0; i < 8; i++) {
-        Vector<int> curr(8);
         for (size_t j = 0; j < 8; j++) {
             dist.set(i * 8 + j, -1);
             prev.set(i * 8 + j, {-1, -1});
@@ -102,7 +103,7 @@ void bfs(Vector<char>& board, Point start, std::ofstream& output) {
                 q.insert(np);
                 if (board.get(np.x * 8 + np.y) == 'E') {
                     found = true;
-                    end.x = np.x; end.y = np.y;
+                    end = np;
                     break;
                 }
             }
@@ -116,6 +117,7 @@ void bfs(Vector<char>& board, Point start, std::ofstream& output) {
             board.set(curr.x * 8 + curr.y, '*'); 
             curr = prev.get(curr.x * 8 + curr.y); // marking the path we have taken
         }
+        board.set(curr.x * 8 + curr.y, '*'); // for start
     }
 
     // Output
@@ -123,10 +125,10 @@ void bfs(Vector<char>& board, Point start, std::ofstream& output) {
         for (int j = 0; j < 8; ++j) {
             if (board.get(i * 8 + j) == '#') {
                 output << board.get(i * 8 + j);
-            } else if (board.get(i * 8 + j) != '*' && board.get(i * 8 + j) != 'K' && board.get(i * 8 + j) != 'E') {
-                output << ".";
-            } else {
+            } else if (board.get(i * 8 + j) == '*') {
                 output << dist.get(i * 8 + j);
+            } else {
+                output << ".";
             }
         }
         output << '\n';
@@ -137,7 +139,7 @@ void bfs(Vector<char>& board, Point start, std::ofstream& output) {
 
 void solve(std::ifstream& input, std::ofstream& output) {
     Point start(0, 0);
-    Vector<char> board(init_board(input, start));
+    Vc board(init_board(input, start));
 
     bfs(board, start, output);
 }

@@ -40,9 +40,6 @@ private:
     size_t m_size;  
 };
 
-#include <stdexcept>
-#include "vector.h"
-
 //Constructors
 
 template<typename Data>
@@ -118,7 +115,7 @@ size_t Vector<Data>::capacity() const{
 template<typename Data>
 void Vector<Data>::resize(size_t new_size) {
     if (new_size > m_capacity) {
-        size_t new_capacity = (new_size == 0 ? 1 : new_size * 2);
+        size_t new_capacity = new_size * 2;
         Data* newData = new Data[new_capacity];
         for (size_t i = 0; i < m_size; ++i) {
             newData[i] = data[i];

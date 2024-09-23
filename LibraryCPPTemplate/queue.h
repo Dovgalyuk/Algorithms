@@ -33,7 +33,7 @@ public:
     // Returns true if the queue is empty
     bool empty() const;
 
-public:
+private:
     // private data should be here
     Vector<Data> data;
     size_t frontIndex;
