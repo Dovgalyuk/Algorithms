@@ -39,6 +39,9 @@ public:
     // Retrieves the first item from the list
     Item *first();
 
+    // Retrieves the last item from the list
+    Item *last();
+
     // Inserts new list item into the beginning
     Item *insert(Data data);
 
@@ -56,6 +59,7 @@ public:
 private:
     size_t _size;
     Item *_list;
+    Item *_listLast;
 };
 
 #endif

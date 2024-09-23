@@ -26,6 +26,7 @@ List::List(const List &a) : _size(0), _list(nullptr) {
     _size = a._size;
     _list = new Item(a._list->data());
     Item *newItem = _list;
+    _listLast = newItem;
 
     for (Item *curr = a._list->next(); curr != nullptr; curr = curr->next()) {
         newItem->_next = new Item(curr->data());
@@ -44,6 +45,7 @@ List &List::operator=(const List &a) {
     _size = a._size;
     _list = new Item(a._list->data());
     Item *newItem = _list;
+    _listLast = newItem;
 
     for (Item *curr = a._list->next(); curr != nullptr; curr = curr->next()) {
         newItem->_next = new Item(curr->data());
@@ -65,11 +67,19 @@ List::Item *List::first() {
     return _list;
 }
 
+// Retrieves the last item from the list
+List::Item *List::last() {
+    return _listLast;
+}
+
 // Inserts new list item into the beginning
 List::Item *List::insert(Data data) {
     Item *newItem = new Item(data);
     if (_list != nullptr) {
+        _list->_prev = newItem;
         newItem->_next = _list;
+    } else {
+        _listLast = newItem;
     }
     _list = newItem;
 
@@ -86,7 +96,11 @@ List::Item *List::insert_after(Item *item, Data data) {
     newItem->_prev = item;
 
     newItem->prev()->_next = newItem;
-    newItem->next()->_prev = newItem;
+    if (newItem->next() == nullptr) {
+        _listLast = newItem;
+    } else {
+        newItem->next()->_prev = newItem;
+    }
 
     _size++;
     return newItem;
@@ -96,6 +110,7 @@ List::Item *List::insert_after(Item *item, Data data) {
 // Returns pointer to the item next to the deleted one.
 List::Item *List::erase_first() {
     if (_list == nullptr) return nullptr;
+
     Item *nextItem = _list->next();
     if (nextItem != nullptr) {
         nextItem->_prev = nullptr;
@@ -111,12 +126,12 @@ List::Item *List::erase_first() {
 // Returns pointer to the item next to the deleted one.
 // Should be O(1)
 List::Item *List::erase_next(Item *item) {
-    if (item == nullptr || item->next() == nullptr) {
-        _size--;
-        return nullptr;
-    }
+    if (item == nullptr || item->next() == nullptr) return nullptr;
 
     Item *itemDelete = item->next();
+    if (itemDelete->next() == nullptr) {
+        _listLast = item;
+    }
     item->_next = itemDelete->next();
 
     delete itemDelete;

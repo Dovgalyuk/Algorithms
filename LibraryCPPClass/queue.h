@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <queue>
+#include "list.h"
 
 typedef int Data;
 
@@ -36,7 +37,7 @@ public:
     bool empty() const;
 
 private:
-    std::queue<Data> _queue;
+    List *_queue;
 };
 
 #endif

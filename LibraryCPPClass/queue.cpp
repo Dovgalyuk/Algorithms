@@ -1,11 +1,10 @@
 #include "queue.h"
 #include <queue>
 
-Queue::Queue(){
+Queue::Queue() : _queue(new List) {
 }
 
-Queue::Queue(const Queue &a){
-    _queue = a._queue;
+Queue::Queue(const Queue &a) : _queue(new List(*a._queue)) {
 }
 
 Queue &Queue::operator=(const Queue &a)
@@ -14,23 +13,25 @@ Queue &Queue::operator=(const Queue &a)
 }
 
 Queue::~Queue(){
-    while (!_queue.empty()) {
-        _queue.pop();
-    }
+    delete _queue;
 }
 
 void Queue::insert(Data data){
-    _queue.push(data);
+    _queue->insert(data);
 }
 
 Data Queue::get() const {
-    return _queue.front();
+    return _queue->last()->data();
 }
 
 void Queue::remove(){
-    _queue.pop();
+    if (_queue->last()->prev() == nullptr) {
+        _queue->erase_first();
+    } else {
+        _queue->erase_next(_queue->last()->prev());
+    }
 }
 
 bool Queue::empty() const {
-    return _queue.empty();
+    return _queue->first() == nullptr;
 }

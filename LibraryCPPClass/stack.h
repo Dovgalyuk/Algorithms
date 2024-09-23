@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include "stack"
+#include "list.h"
 
 typedef int Data;
 
@@ -36,7 +37,7 @@ public:
     bool empty() const;
 
 private:
-    std::stack<Data> _stack;
+    List *_stack;
 };
 
 #endif
