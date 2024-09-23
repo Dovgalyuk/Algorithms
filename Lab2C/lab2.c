@@ -53,7 +53,7 @@ void parser(Stack* stack_ops, FILE* input, Vector* rpn_buf, Data filler)
         }
         else if (*(char*)vector_get(buffer, i) == ')')
         {
-            free(vector_get(buffer, i));
+            free((void*)vector_get(buffer, i));
             if (stack_empty(stack_ops))
                 {   
                     printf("ERROR: except ')' before '(' \n");
@@ -65,7 +65,7 @@ void parser(Stack* stack_ops, FILE* input, Vector* rpn_buf, Data filler)
                 vector_set(rpn_buf, out_i++, filler);
                 stack_pop(stack_ops);
             }
-            free(stack_get(stack_ops));
+            free((void*)stack_get(stack_ops));
             stack_pop(stack_ops);
         }
         else if (*(char*)vector_get(buffer, i) == '+' || *(char*)vector_get(buffer, i) == '-' || *(char*)vector_get(buffer, i) == '*')
@@ -85,7 +85,7 @@ void parser(Stack* stack_ops, FILE* input, Vector* rpn_buf, Data filler)
                 stack_push(stack_ops, vector_get(buffer, i));
         }
         else
-            free(vector_get(buffer, i));
+            free((void*)vector_get(buffer, i));
     }
     while (!stack_empty(stack_ops))
     {
