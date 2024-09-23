@@ -1,5 +1,5 @@
 #include "queue.h"
-#include <queue>
+#include <stdexcept>
 
 Queue::Queue() : _queue(new List) {
 }
@@ -21,10 +21,16 @@ void Queue::insert(Data data){
 }
 
 Data Queue::get() const {
+    if (empty()) {
+        throw std::runtime_error("Queue is empty");
+    }
     return _queue->last()->data();
 }
 
 void Queue::remove(){
+    if (empty()) {
+        throw std::runtime_error("Stack is empty");
+    }
     if (_queue->last()->prev() == nullptr) {
         _queue->erase_first();
     } else {

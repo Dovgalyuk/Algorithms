@@ -1,4 +1,5 @@
 #include "stack.h"
+#include <stdexcept>
 
 Stack::Stack() : _stack(new List()) {
 }
