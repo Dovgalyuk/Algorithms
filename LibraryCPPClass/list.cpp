@@ -1,138 +1,125 @@
-#include <iostream>
+#include <cstddef>
 #include "list.h"
 
-
-List::List() {
-    _size = 0;
-    _firstItem = nullptr;
-    _lastItem = nullptr;
+List::Item::Item(Data data) : _prev(nullptr), _next(nullptr), _data(data) {
 }
 
-List::List(const List &a) {
-    std::cout << "test";
-    // Copy size List
+List::Item *List::Item::prev(){
+    return _prev;
+}
+List::Item *List::Item::next() {
+    return _next;
+}
+Data List::Item::data() const {
+    return _data;
+}
+
+// List
+// List constructor
+List::List() : _size(0), _list(nullptr) {
+}
+
+// Copy constructor
+List::List(const List &a) : _size(0), _list(nullptr) {
+    if (a._list == nullptr) return;
+
     _size = a._size;
+    _list = new Item(a._list->data());
+    Item *newItem = _list;
 
-    // Copy Items in List
-    if (a._firstItem == nullptr) {
-        _firstItem = nullptr;
-        _lastItem = nullptr;
-        return;
-    };
-
-    _firstItem = new Item(nullptr, nullptr, a._firstItem->data());
-    Item *nextNewItem = _firstItem;
-    for (Item *nextItem = a._firstItem; nextItem->next() != nullptr; nextItem = nextItem->next()) {
-        nextNewItem = new Item(nextNewItem, nullptr, nextItem->next()->data());
-        nextNewItem->prev()->_setNext(nextNewItem);
+    for (Item *curr = a._list->next(); curr != nullptr; curr = curr->next()) {
+        newItem->_next = new Item(curr->data());
+        newItem->_next->_prev = newItem;
+        newItem = newItem->_next;
     }
-    _lastItem = nextNewItem;
 }
 
 List &List::operator=(const List &a) {
     if (this == &a) return *this;
-    while (_firstItem != nullptr) {
+    while (_list != nullptr) {
         erase_first();
     }
+    if (!a._list) return *this;
 
-    if (a._firstItem != nullptr) return *this;
-    // Copy size List
     _size = a._size;
+    _list = new Item(a._list->data());
+    Item *newItem = _list;
 
-    // Copy Items in List
-    if (_size == 0) {
-        _firstItem = nullptr;
-        _lastItem = nullptr;
-    } else {
-        _firstItem = new Item(nullptr, nullptr, a._firstItem->data());
-
-        Item *nextNewItem = _firstItem;
-        for (Item *nextItem = a._firstItem; nextItem->next() != nullptr; nextItem = nextItem->next()) {
-            nextNewItem = new Item(nextNewItem, nullptr, nextItem->next()->data());
-            nextNewItem->prev()->_setNext(nextNewItem);
-        }
-        _lastItem = nextNewItem;
-    }
-
-    for (Item *item = a._firstItem; item != nullptr; item = item->next()) {
-        insert(item->data());
+    for (Item *curr = a._list->next(); curr != nullptr; curr = curr->next()) {
+        newItem->_next = new Item(curr->data());
+        newItem->_next->_prev = newItem;
+        newItem = newItem->_next;
     }
 
     return *this;
 }
 
 List::~List() {
-    while (_firstItem != nullptr) {
+    while (_list != nullptr) {
         erase_first();
     }
-    _size = 0;
-    delete this;
 }
 
+// Retrieves the first item from the list
 List::Item *List::first() {
-    return _firstItem;
+    return _list;
 }
 
+// Inserts new list item into the beginning
 List::Item *List::insert(Data data) {
-    Item *newItem = new Item(nullptr, nullptr, data);
-    if (_firstItem != nullptr) {
-        newItem->_setNext(_firstItem);
-        _firstItem->_setPrev(newItem);
-    } else {
-        _lastItem = newItem;
+    Item *newItem = new Item(data);
+    if (_list != nullptr) {
+        newItem->_next = _list;
     }
-    _firstItem = newItem;
+    _list = newItem;
+
     _size++;
     return newItem;
 }
 
+// Inserts new list item after the specified item
 List::Item *List::insert_after(Item *item, Data data) {
-    Item *leftItem = item;
-    Item *rightItem = item->next();
+    if (item == nullptr) return nullptr;
 
-    Item *newItem = new Item(leftItem, rightItem, data);
-    if (rightItem == nullptr) {
-        leftItem->_setNext(newItem);
-        _lastItem = newItem;
-    } else {
-        leftItem->_setNext(newItem);
-        rightItem->_setPrev(newItem);
-    }
+    Item *newItem = new Item(data);
+    newItem->_next = item->next();
+    newItem->_prev = item;
+
+    newItem->prev()->_next = newItem;
+    newItem->next()->_prev = newItem;
+
     _size++;
-
     return newItem;
 }
 
+// Deletes the first list item.
+// Returns pointer to the item next to the deleted one.
 List::Item *List::erase_first() {
-    if (_firstItem->next() == nullptr) {
-        _size = 0;
-        _firstItem = nullptr;
-        _lastItem = nullptr;
+    if (_list == nullptr) return nullptr;
+    Item *nextItem = _list->next();
+    if (nextItem != nullptr) {
+        nextItem->_prev = nullptr;
+    }
+
+    delete _list;
+    _list = nextItem;
+    _size--;
+    return _list;
+}
+
+// Deletes the list item following the specified one.
+// Returns pointer to the item next to the deleted one.
+// Should be O(1)
+List::Item *List::erase_next(Item *item) {
+    if (item == nullptr || item->next() == nullptr) {
+        _size--;
         return nullptr;
     }
-    _firstItem = _firstItem->next();
-    _firstItem->_setPrev(nullptr);
+
+    Item *itemDelete = item->next();
+    item->_next = itemDelete->next();
+
+    delete itemDelete;
     _size--;
-
-    delete _firstItem->prev();
-    return _firstItem;
-}
-
-List::Item *List::erase_next(Item *item) {
-    if (item->prev() == nullptr) {
-        _size--;
-        return erase_first();
-    }
-
-    Item *rightItem = nullptr;
-    if (item->next() == nullptr) {
-        item->prev()->_setNext(nullptr);
-    } else {
-        rightItem = item->next();
-        item->prev()->_setNext(item->next()); // set left part
-        item->next()->_setPrev(item->prev()); // set right part
-    }
-    delete item;
-    _size--;
-    return rightItem;
+    return item->next();
 }

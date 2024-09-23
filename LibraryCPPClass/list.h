@@ -11,26 +11,17 @@ public:
     {
     public:
         // Creator for crate new Item
-        Item(Item *prev, Item *next, Data data) {
-            _prev = prev;
-            _next = next;
-            _data = data;
-        };
+        Item(Data data);
 
-        // Setter for set value in object
-        void _setNext(Item *next) { _next = next; };
-        void _setPrev(Item *prev) { _prev = prev; };
-        void _setData(int data) { _data = data; };
-        // iterator
-        Item *_iterator() { return _next; };
-
-        Item *next() { return _next; }
-        Item *prev() { return _prev; }
-        Data data() const { return _data; }
+        Item *prev();
+        Item *next();
+        Data data() const;
     private:
-        Item *_next;
         Item *_prev;
+        Item *_next;
         Data _data;
+
+        friend class List;
     };
 
     // Creates new list
@@ -64,8 +55,7 @@ public:
     Item *erase_next(Item *item);
 private:
     size_t _size;
-    Item *_lastItem;
-    Item *_firstItem;
+    Item *_list;
 };
 
 #endif

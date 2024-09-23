@@ -6,9 +6,6 @@
 typedef int Data;
 
 class Array{
-private:
-    size_t _size;
-    Data *_array;
 public:
     // create array
     explicit Array(size_t size);
@@ -25,14 +22,15 @@ public:
     // returns specified array element
     Data get(size_t index) const;
 
-    // returns specified array pointer on element
-    Data* getAddress(size_t index) const;
-
     // sets the specified array element to the value
     void set(size_t index, Data value);
 
     // returns array size
     size_t size() const;
+
+private:
+    size_t _size;
+    Data *_array;
 };
 
 #endif
