@@ -21,9 +21,11 @@ void stack_push(Stack* stack, Data data) {
 
 Data stack_get(const Stack* stack) {
     if (stack_empty(stack)) {
-        throw std::out_of_range("Stack is empty");
+        return {};
+        
     }
     return stack->vector->data[stack->vector->size - 1];
+    
 }
 
 void stack_pop(Stack* stack) {
