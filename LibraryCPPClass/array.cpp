@@ -6,13 +6,19 @@ Array::Array(size_t size) : m_size(size), m_data(new Data[size])
 
 Array::Array(const Array &a) : Array(a.m_size)
 {
-    std::memcpy(this->m_data,a.m_data, sizeof(Data) * a.m_size);
+    if (&a != this)
+    {
+        std::memcpy(this->m_data, a.m_data, sizeof(Data) * a.m_size);
+    }
 }
 
 Array &Array::operator=(const Array &a)
 {
-    this->m_size=a.m_size;
-    std::memcpy(a.m_data, this->m_data, sizeof(Data) * m_size);
+    if (&a != this)
+    {
+        this->m_size = a.m_size;
+        std::memcpy(a.m_data, this->m_data, sizeof(Data) * m_size);
+    }
     return *this;
 }
 
