@@ -112,9 +112,15 @@ void asm_commands(Vector* rpn_string)
             size_t j = 0;
             while (*(char*)vector_get(rpn_string, i) != filler)
             {
+                if (j >= 19)
+                {
+                    printf("BUFFER OVERFLOW");
+                    break;
+                }
+                
                 token[j++] = *(char*)vector_get(rpn_string, i++);
             }
-            token[j+1] = '\0';
+            token[j] = '\0';
             printf("PUSH %s \n", token);
         }
         else if (*(char*)vector_get(rpn_string, i) == '+')
@@ -148,10 +154,15 @@ int main(int argc, char **argv)
     Stack *stack = stack_create(NULL, &filler);
     FILE *input = fopen(argv[1], "r");
     Vector* rpn_string = vector_create(free, &filler);
+
     parser(stack, input, rpn_string, &filler);
     asm_commands(rpn_string);
+
+    vector_resize(rpn_string, 0);
+
     parser(stack, input, rpn_string, &filler);
     asm_commands(rpn_string);
+    
     vector_delete(rpn_string);
     stack_delete(stack);
     fclose(input);
