@@ -82,6 +82,7 @@ void vector_resize(Vector *vector, size_t size)
             }
         }
         vector->array = (Data*) realloc(vector->array, size+1 * sizeof(Data));
+        vector->array[size+1] = vector->filler;
         vector->capacity = size;
     } 
     vector->size = size;
