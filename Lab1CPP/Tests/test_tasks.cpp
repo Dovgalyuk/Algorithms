@@ -24,16 +24,10 @@ bool check_result(int test_num, Array *arr, FILE *input)
         {
             return false;
         }
-        auto it = std::find(res.begin(), res.end(), num);
-        if (it != res.end())
-        {
-            res.erase(std::remove(res.begin(), res.end(), num), res.end());
+        if(res[i]!=num){
+             printf("TASK %d result != expected, index = %lu (%d!=%d)\n", test_num,i,res[i],num);
+            return false;
         }
-    }
-    if (res.size() != 0)
-    {
-        printf("TASK %d result != expected\n", test_num);
-        return false;
     }
     return true;
 }
