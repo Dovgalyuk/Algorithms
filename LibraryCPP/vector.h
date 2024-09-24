@@ -1,6 +1,5 @@
 #ifndef VECTOR_H
 #define VECTOR_H
-
 #include <cstddef>
 #include <stdexcept>
 // Vector (dynamic array)

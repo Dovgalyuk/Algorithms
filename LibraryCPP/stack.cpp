@@ -1,7 +1,12 @@
-#include "stack.h"
 #include "vector.h"
+#include "stack.h"
 #include <stdexcept>
 using namespace std;
+
+
+struct Stack {
+    Vector* vector;
+};
 
 Stack* stack_create() {
     Stack* stack = new Stack;

@@ -1,13 +1,11 @@
 #ifndef STACK_H
 #define STACK_H
-#include "vector.h"
+
 // Stack
 // Stores integer values inside
 typedef int Data;
 
-typedef struct Stack {
-    Vector* vector;
-} Stack;
+struct Stack;
 
 // Creates empty stack
 Stack *stack_create();

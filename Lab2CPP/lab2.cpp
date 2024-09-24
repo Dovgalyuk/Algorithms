@@ -50,24 +50,19 @@ int evaluate_example(const std::string& example) {
        
         else if (example[i] == ')') {
             while (!stack_empty(operators) && stack_get(operators) != '(') {
-                if (stack_empty(values)) throw std::runtime_error("Invalid expression");
+               
                 int val2 = stack_get(values);
                 stack_pop(values);
-                if (stack_empty(values)) throw std::runtime_error("Invalid expression");
+                
                 int val1 = stack_get(values);
                 stack_pop(values);
-                if (stack_empty(operators)) {
-                    throw std::runtime_error("Invalid expression: not enough operators");
-                }
+                
                 char op = (char)stack_get(operators);
                 stack_pop(operators);
                 stack_push(values, apply_operator(val1, val2, op));
             }
            
             if (!stack_empty(operators)) {
-                if (stack_empty(operators)) {
-                    throw std::runtime_error("Invalid expression: not enough operators");
-                }
                 stack_pop(operators);
             }
 
@@ -75,15 +70,13 @@ int evaluate_example(const std::string& example) {
         
         else if (example[i] == '+' || example[i] == '-' || example[i] == '*' || example[i] == '/') {
             while (!stack_empty(operators) && precedence((char)stack_get(operators)) >= precedence(example[i])) {
-                if (stack_empty(values)) throw std::runtime_error("Invalid expression");
+ 
                 int val2 = stack_get(values);
                 stack_pop(values);
-                if (stack_empty(values)) throw std::runtime_error("Invalid expression");
+               
                 int val1 = stack_get(values);
                 stack_pop(values);
-                if (stack_empty(operators)) {
-                    throw std::runtime_error("Invalid expression: not enough operators");
-                }
+                
                 char op = (char)stack_get(operators);
                 stack_pop(operators);
                 stack_push(values, apply_operator(val1, val2, op));
@@ -94,21 +87,15 @@ int evaluate_example(const std::string& example) {
 
     
     while (!stack_empty(operators)) {
-        if (stack_empty(values)) {
-            throw std::runtime_error("Invalid expression: not enough values");
-        }
+        
         int val2 = stack_get(values);
         stack_pop(values);
 
-        if (stack_empty(values)) {
-            throw std::runtime_error("Invalid expression: not enough values");
-        }
+        
         int val1 = stack_get(values);
         stack_pop(values);
 
-        if (stack_empty(operators)) {
-            throw std::runtime_error("Invalid expression: not enough operators");
-        }
+        
         char op = (char)stack_get(operators);
         stack_pop(operators);
 
