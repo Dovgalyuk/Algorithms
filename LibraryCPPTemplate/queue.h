@@ -69,19 +69,17 @@ Queue<Data>::~Queue() {
 
 template <typename Data>
 void Queue<Data>::insert(Data value) {
-    if (queueSize == data.capacity()) {
-        size_t old_capacity = data.capacity();
-        size_t new_capacity = (data.capacity() == 0) ? 1 : data.capacity() * 2;
+    if (queueSize == data.size()) {
+        size_t old_size = data.size();
+        size_t new_size = (old_size == 0) ? 1 : old_size * 2;
         Vector<Data> temp(data);
-        data.resize(new_capacity);
+        data.resize(new_size);
         for (size_t i = 0; i < queueSize; i++) {
-            data.set(i, temp.get((frontIndex + i) % old_capacity));
+            data.set(i, temp.get((frontIndex + i) % old_size));
         }
         frontIndex = 0;
     }
-    data.resize(queueSize + 1);
-
-    data.set((frontIndex + queueSize) % data.capacity(), value);
+    data.set((frontIndex + queueSize) % data.size(), value);
     queueSize++;
 }
 
@@ -102,7 +100,7 @@ void Queue<Data>::remove() {
     }
 
     
-    frontIndex = (frontIndex + 1) % data.capacity();
+    frontIndex = (frontIndex + 1) % data.size();
     queueSize--;
 }
 

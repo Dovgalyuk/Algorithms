@@ -28,9 +28,7 @@ public:
 
     // Retrieves current vector size
     size_t size() const;
-
-    size_t capacity() const;
-
+    
     void resize(size_t new_size);
 
 private:
@@ -104,11 +102,6 @@ void Vector<Data>::set(size_t index, Data value) {
 template<typename Data>
 size_t Vector<Data>::size() const{
     return m_size;
-}
-
-template<typename Data>
-size_t Vector<Data>::capacity() const{
-    return m_capacity;
 }
 
 // Change m_capacity
