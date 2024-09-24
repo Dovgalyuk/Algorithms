@@ -130,6 +130,6 @@ int main()
 	{
 		std::cout << "Test2. Incorrect answer!" << std::endl;
 	}
-
+	in.close();
     return 0;
 }
