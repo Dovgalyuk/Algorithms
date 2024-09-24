@@ -17,6 +17,7 @@ void stack_delete(Stack *stack)
 {
     if(stack != nullptr)
         list_delete(stack->list);
+    delete stack;
 }
 
 void stack_push(Stack *stack, Data data)
