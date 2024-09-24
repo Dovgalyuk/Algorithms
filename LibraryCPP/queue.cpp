@@ -28,7 +28,7 @@ void queue_delete(Queue *queue)
     delete queue;
 }
 
-void queue_order(Queue *queue, size_t old_size)
+static void queue_order(Queue *queue, size_t old_size)
 {
     if (!(queue->current_index)) return;
 
@@ -44,7 +44,8 @@ void queue_insert(Queue *queue, Data data)
 
     if ((queue->size + 1) > vector_size(queue->vector)){
         size_t old_size = vector_size(queue->vector);
-        vector_resize(queue->vector, max(1, std::ceil(queue->size * RESIZE_FACTOR)));
+        size_t size2 = std::ceil(queue->size * RESIZE_FACTOR);
+        vector_resize(queue->vector, max(1, size2));
         queue_order(queue, old_size);
     }
 
