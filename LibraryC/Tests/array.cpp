@@ -1,6 +1,7 @@
 #include <iostream>
 #include "array.h"
 
+
 int main()
 {
     Array *arr = array_create(10, [](void *p) { delete (int*)p; });
@@ -28,5 +29,5 @@ int main()
             return 1;
         }
     }
-    array_delete(arr);
+    arr_delete_cplusplus(arr);
 }

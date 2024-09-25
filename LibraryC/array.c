@@ -67,7 +67,6 @@ size_t array_size(const Array *arr)
     return arr -> size; // просто  возвращаем размер 
 }
 
-
 /*void array_free_elements(Array* arr) {
     if (arr == NULL) {
         return;
@@ -77,3 +76,13 @@ size_t array_size(const Array *arr)
         free(array_get(arr, i));
     }
 }*/
+
+void arr_delete_cplusplus(Array *arr) // для array.cpp
+{
+    if (arr == NULL) {
+        return;
+    }
+
+    free(arr -> data);
+    free(arr);
+}

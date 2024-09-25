@@ -20,6 +20,7 @@ Data array_get(const Array *arr, size_t index);
 int array_set(Array *arr, size_t index, Data value);
 size_t array_size(const Array *arr);
 //void array_free_elements(Array* arr);
+void arr_delete_cplusplus(Array *arr); // для array.cpp
 
 #ifdef __cplusplus
 }
