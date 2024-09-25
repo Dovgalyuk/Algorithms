@@ -46,52 +46,19 @@ std::vector<Data> task2(Array *arr)
 // найти в массиве элементы, которые не делятся ни на какие другие элементы этого массива
 {
     std::vector<Data> ans;
-    enum Status
-    {
-        NotExist = 0, // число еще не внесено
-        Wrong = 1,    // число не войдет в ответ
-        Pass = 2      // число войдет в ответ
-    };
-    std::unordered_map<Data, Status> m;
     for (size_t i = 0; i < arr->size(); i++)
-    /*проходясь по каждому элементу, проверяем его с каждым числом до него.
-    таким образом, после каждой итерации цикла в m будет лежать ответ для отрезка массива
-    arr[0:i], соответственно, после окончания цикла мы получим ответ для всего массива*/
     {
         auto current = arr->get(i);
-        if (m[current] == Pass) // если элемент в массиве "парный", то он всегда не входит в ответ, т.к. эти два
-                                // элемента делятся друг на друга
-        {
-            m[current] = Wrong;
-        }
-        for (size_t j = 0; j < i; j++)
+        auto passing = true;
+        for (size_t j = 0; j < arr->size(); j++)
         {
             auto subEl = arr->get(j);
-            if (subEl != current)
-            {
-                /*выбираем большее и меньшее для двух сравниваемых чисел. Если большее не делится на меньшее, то вносим
-                 его в ответ, при условии, что оно в статусе NotExist
-                 Если же оно делится, то ставим большему числу статус Wrong, в ответ не попадет*/
-                int max = subEl > current ? subEl : current;
-                int min = subEl < current ? subEl : current;
-                if (min != 0 &&
-                    max % min == 0) // TODO тут вопрос, что делать, при делении на 0. Сейчас решил, что 0 мы игнорируем
-                {
-                    m[max] = Wrong;
-                }
-                else if (m[max] == NotExist)
-                {
-                    m[max] = Pass;
-                }
+            if(subEl!=0&&current%subEl==0){
+                passing = false;
             }
         }
-    }
-
-    for (auto const &val : m) // фильтруем ответ, оставляя только те числа, которые ни на что не делятся
-    {
-        if (val.second == Pass)
-        {
-            ans.push_back(val.first);
+        if(passing){
+            ans.push_back(current);
         }
     }
     return ans;
