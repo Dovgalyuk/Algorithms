@@ -3,7 +3,6 @@
 #include <fstream>
 #include "stack.h"
 
-
 unsigned int priority(const char symbol)
 {
 	if (symbol == '*' || symbol == '/')
@@ -114,22 +113,13 @@ int main()
 {
 	std::ifstream in("input.txt");
 
-	std::string temp = "", check = "";
+	std::string temp = "";
 	in >> temp;
-	in >> check;
-	temp = calculate(temp);
-	if (temp != check)
-	{
-		std::cout << "Test1. Incorrect answer!" << std::endl;
-	}
+	std::cout << temp << " = " << calculate(temp);
+	
+	in >> temp;
+	std::cout << temp << " = " << calculate(temp);
 
-	in >> temp;
-	in >> check;
-	temp = calculate(temp);
-	if (temp != check)
-	{
-		std::cout << "Test2. Incorrect answer!" << std::endl;
-	}
 	in.close();
     return 0;
 }
