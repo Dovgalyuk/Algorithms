@@ -77,12 +77,11 @@ size_t array_size(const Array *arr)
     }
 }*/
 
-void arr_delete_cplusplus(Array *arr) // для array.cpp
+/*void arr_delete_cplusplus(Array *arr) // для array.cpp
 {
     if (arr == NULL) {
         return;
     }
-
     free(arr -> data);
     free(arr);
-}
+}*/
