@@ -1,5 +1,10 @@
 #include "vector.h"
 #include <stdexcept>
+struct Vector {
+    Data* data;
+    size_t size;
+    size_t volume;
+};
 
 Vector* vector_create() {
     Vector* vector = new Vector;

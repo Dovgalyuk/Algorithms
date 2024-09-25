@@ -7,6 +7,11 @@ using namespace std;
 struct Stack {
     Vector* vector;
 };
+struct Vector {
+    Data* data;
+    size_t size;
+    size_t volume;
+};
 
 Stack* stack_create() {
     Stack* stack = new Stack;
