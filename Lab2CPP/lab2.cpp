@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "list.h"
 #include "stack.h"
 
 unsigned int priority(const char symbol)
