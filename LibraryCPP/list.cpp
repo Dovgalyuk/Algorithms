@@ -51,7 +51,7 @@ Data list_item_data(const ListItem *item)
 
 ListItem *list_item_next(ListItem *item)
 {
-    if(item != nullptr && item->next != nullptr)
+    if(item != nullptr)
         return item->next;
     return nullptr;
 }
@@ -70,7 +70,10 @@ ListItem* list_insert(List* list, Data data)
     newEl->prev = nullptr;
 
     if (list->node != nullptr)
+    {
         newEl->next = list->node;
+        list->node->prev = newEl;
+    }
     else
         newEl->next = nullptr;
 
@@ -119,6 +122,8 @@ ListItem *list_erase_next(List *list, ListItem *item)
     {
         item->next->next->prev = item;
         ListItem* temp = item->next->next;
+        if (temp != nullptr)
+            temp->prev = item;
         delete item->next;
         item->next = temp;
         return temp;
