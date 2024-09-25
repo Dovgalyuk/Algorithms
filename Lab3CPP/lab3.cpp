@@ -51,7 +51,7 @@ size_t get_states(size_t current_state, size_t *states)
     return index;
 }
 
-void show_answer(size_t first_state, size_t state, std::unordered_map<size_t, size_t> &all_states)
+void show_answer(size_t state, std::unordered_map<size_t, size_t> &all_states)
 {
     size_t index = 0;
     Vector *vec = vector_create();
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
     } else {
         ans = search_solution(queue, target_state, all_states);
         if (ans)
-            show_answer(first_state, target_state, all_states);
+            show_answer(target_state, all_states);
     }
 
     queue_delete(queue);
