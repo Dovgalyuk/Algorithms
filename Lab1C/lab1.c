@@ -1,4 +1,3 @@
-
 /*
     Реализовать контейнер - динамический массив array с неизменяемым размером (на любом из языков)
     Проверить работу соответствующей тестовой программы
@@ -18,13 +17,13 @@ void array_create_and_read(FILE *input) {
     fscanf(input, "%d", &n);
     
     /* Create array */
-    Array *arr = array_create(n,NULL);
+    Array *arr = array_create(n,free);
     
     /* Read array data */
     for (int i = 0; i < n; ++i) {
         int *val = malloc(sizeof(int)); 
         *val = rand() % 10 + 1; 
-        array_set(arr, i, val); 
+        array_set(arr, i, (Data)val); 
     }
    
     for (int i = 0; i < n; ++i) {
@@ -34,14 +33,9 @@ void array_create_and_read(FILE *input) {
         }
     }
     printf("\n");
-    
-    for (int i = 0; i < n; ++i) {
-        free(array_get(arr, i));
-    }
   
-    array_delete(arr);//
+    array_delete(arr);
 }
-
 
 
 void array_random_sum(FILE *input_2) {
@@ -50,7 +44,7 @@ void array_random_sum(FILE *input_2) {
     int n;
     fscanf(input_2, "%d", &n);
 
-    Array *arr = array_create(n, NULL);
+    Array *arr = array_create(n,free);
     
     for (int i = 0; i < n; ++i) {
         int *val = malloc(sizeof(int)); 
@@ -83,9 +77,7 @@ void array_random_sum(FILE *input_2) {
         }
     }
     printf("количество - %d\n", count);  
-     for (int i = 0; i < n; ++i) {
-        free(array_get(arr, i));
-    }//
+    
     array_delete(arr);
 }
 
@@ -101,7 +93,7 @@ void array_neighboring_sum(FILE *input_3)
         return;
     }
 
-    Array *arr = array_create(n, NULL);
+    Array *arr = array_create(n,free);
      
     for (int i = 0; i < n; i++) {
         int *val = malloc(sizeof(int)); 
@@ -114,16 +106,22 @@ void array_neighboring_sum(FILE *input_3)
     }
     
     int max_sum = 0;
+    int sum = 0;
     
 /* было так := for (int i = 0; i <= n - 5; i ++){ int sum = (*(int *)array_get(arr, i) + 
 (*(int *)array_get(arr, i + 1) +(*(int *)array_get(arr, i + 2) + (*(int *)array_get(arr, i + 3) + 
 (*(int *)array_get(arr, i + 4)))))); но читаемость данного блока вызывала сомнения */
       
-    for (int i = 0; i < n - 5; i ++){
-       int sum = 0;
+  
        for (int j = 0; j < 5; j ++){
-          sum += *(int *)array_get(arr,i + j);
+          sum += *(int *)array_get(arr,j);
         }
+        
+      for (int i = 1; i < n - 5; i ++){
+          sum -= *(int *)array_get(arr,i - 1);
+          sum += *(int *)array_get(arr,i + 4);
+    
+     
     if (max_sum < sum ){
         max_sum = sum;
     }
@@ -131,9 +129,6 @@ void array_neighboring_sum(FILE *input_3)
     
     printf("Максимальная сумма пяти соседних элементов - %d",max_sum);
     
-    for (int i = 0; i < n; ++i) {
-        free(array_get(arr, i));
-    }
     array_delete(arr);
 }
 
