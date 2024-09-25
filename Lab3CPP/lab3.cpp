@@ -13,7 +13,7 @@ constexpr size_t pow10(size_t n)
     return ans;
 }
 
-size_t get_digit(size_t num, size_t ind)
+unsigned int get_digit(size_t num, size_t ind)
 {
     constexpr size_t data[] {pow10(0), pow10(1), pow10(2),
                              pow10(3), pow10(4), pow10(5),
@@ -42,7 +42,7 @@ size_t get_states(size_t current_state, size_t *states)
             new_index = new_row * 3 + new_col;
             if ((new_row < 3) && (new_col < 3)){
                 digit = get_digit(current_state, new_index);
-                new_state = current_state + digit * std::pow(10, zero_index) - digit * std::pow(10, new_index);
+                new_state = current_state + digit * pow10(zero_index) - digit * pow10(new_index);
                 states[index++] = new_state;
             }
         }
@@ -51,47 +51,18 @@ size_t get_states(size_t current_state, size_t *states)
     return index;
 }
 
-size_t search_prev_state(size_t state, size_t count, std::unordered_map<size_t, size_t> &all_states)
-{
-    size_t cnt = 0;
-    size_t states[4];
-
-    cnt = get_states(state, states);
-    for (size_t ind{0}; ind < cnt; ++ind){
-        /*
-         * We go through all the states from which we could come to this state
-         * And we check:
-         * 1) If we have ever visited such a state
-         * 2) If the number of this record equals count
-         * If these checks pass, then we found the desired state
-         */
-        if (all_states.count(states[ind])){
-            if (all_states[states[ind]] == count) {
-                state = states[ind];
-                break;
-            }
-        }
-    }
-
-    return state;
-}
-
 void show_answer(size_t first_state, size_t state, std::unordered_map<size_t, size_t> &all_states)
 {
     size_t index = 0;
-    size_t count = all_states[state];
     Vector *vec = vector_create();
-    vector_resize(vec, count);
+    vector_resize(vec, 32);  // The God number for the 3x3 sliding puzzle is 31
 
-    // Count is responsible for "Which record by number we need to insert"
-    // If it is one, we are at the starting position, so there is no need to search further - we exit the loop
-    while (count > 1) {
+    while (state) {
         vector_set(vec, index++, state);
-        state = search_prev_state(state, --count, all_states);
+        state = all_states[state];
     }
-    vector_set(vec, index, state); // Insert the first state
 
-    for (size_t ind{vector_size(vec)}; ind > 0; --ind)
+    for (size_t ind{index}; ind > 0; --ind)
         std::cout << std::setw(9) << std::setfill('0') << vector_get(vec, ind - 1) << std::endl;
     vector_delete(vec);
 }
@@ -101,23 +72,19 @@ int search_solution(Queue *queue, size_t target_state, std::unordered_map<size_t
     size_t states[4];
     size_t cnt;
     size_t state;
-    size_t level = 1;
 
     while (!queue_empty(queue)){
         state = queue_get(queue);
-        level = all_states[state] + 1;
         cnt = get_states(state, states);
         queue_remove(queue);
 
         for (size_t ind{0}; ind < cnt; ++ind){
-            state = states[ind];
-
-            if (state == target_state){
-                all_states.emplace(state, level);
+            if (states[ind] == target_state){
+                all_states.emplace(states[ind], state);
                 return 1;
-            } else if (!all_states.count(state)) {
-                all_states.emplace(state, level);
-                queue_insert(queue, state);
+            } else if (!all_states.count(states[ind])) {
+                all_states.emplace(states[ind], state);
+                queue_insert(queue, states[ind]);
             }
         }
     }
@@ -137,7 +104,7 @@ int main(int argc, char **argv)
     Queue *queue = queue_create();
     std::unordered_map<size_t, size_t> all_states;
     queue_insert(queue, first_state);
-    all_states.emplace(first_state, 1);
+    all_states.emplace(first_state, 0);
     
     if (first_state == target_state){
         std::cout << target_state;
