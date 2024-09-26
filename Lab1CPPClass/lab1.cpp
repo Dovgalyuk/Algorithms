@@ -52,7 +52,7 @@ void task2(const Array& arr, int a, int b)
 {
     for (int i = 0;i < arr.size(); ++i) {
         if ((*arr)[i]>= a && (*arr)[i] <= b) {
-            arr[i] = 0;
+            (*arr)[i] = 0;
         }
     }
     for (int i = 0;i <arr.size();++i) {
