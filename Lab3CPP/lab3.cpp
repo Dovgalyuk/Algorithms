@@ -32,7 +32,8 @@ size_t get_states(size_t current_state, size_t *states)
 
     size_t row = zero_index / 3;
     size_t col = zero_index % 3;
-    size_t new_row, new_col, new_index, new_state, digit;
+    size_t new_state;
+    int new_row, new_col, new_index;
 
     for (int x = -1; x < 2; ++x){
         for (int y = -1; y < 2; ++y){
@@ -40,9 +41,8 @@ size_t get_states(size_t current_state, size_t *states)
 
             new_row = row + y; new_col = col + x;
             new_index = new_row * 3 + new_col;
-            if ((new_row < 3) && (new_col < 3)){
-                digit = get_digit(current_state, new_index);
-                new_state = current_state + digit * pow10(zero_index) - digit * pow10(new_index);
+            if ((0 <= new_row) && (new_row < 3) && (0 <= new_col) && (new_col < 3)) {
+                new_state = current_state + get_digit(current_state, new_index) * (pow10(zero_index) - pow10(new_index));
                 states[index++] = new_state;
             }
         }
