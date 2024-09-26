@@ -3,11 +3,12 @@
 #include <fstream>
 #include <string>
 #include <map>
-#include "stack.h"
+#include <stack>
 
 const int NUM_REGISTERS = 4;
 std::map<std::string, int> registers;
-Stack* stack;
+std::stack<int> processorStack;
+bool inSubroutine = false;
 
 void initialize_registers() {
     registers["A"] = 0;
@@ -17,50 +18,53 @@ void initialize_registers() {
 }
 
 void push_value(const std::string& value) {
-    stack_push(stack, static_cast<Data>(std::stoi(value))); // Приведение к Data
+    if (std::isdigit(value[0]) || (value[0] == '-' && value.size() > 1)) {
+        processorStack.push(std::stoi(value));
+    } else {
+        processorStack.push(registers[value]);
+    }
 }
 
 void pop_value(const std::string& reg) {
-    if (stack_empty(stack)) {
-        std::cout << "Stack empty\n";
+    if (processorStack.empty()) {
+        std::cout << "BAD POP\n";
         return;
     }
 
-    Data top_value = stack_get(stack);
+    int top_value = processorStack.top();
 
-    // Здесь мы проверяем на специальное значение -1
-    if (top_value == static_cast<Data>(-1)) {
-        std::cout << "Stack empty\n";
+    if (inSubroutine) {
+        std::cout << "BAD POP\n";
         return;
     }
 
-    registers[reg] = static_cast<int>(top_value); // Явное преобразование
-    stack_pop(stack);
+    registers[reg] = top_value;
+    processorStack.pop();
 }
 
 void call() {
-    stack_push(stack, static_cast<Data>(-1)); // Приведение к Data
+    processorStack.push(-1);
+    inSubroutine = true;
 }
 
 void ret() {
-    if (stack_empty(stack)) {
-        std::cout << "Stack empty\n";
+    if (processorStack.empty()) {
+        std::cout << "BAD RET\n";
         return;
     }
 
-    Data top_value = stack_get(stack);
+    int top_value = processorStack.top();
 
-    // Проверка на специальное значение -1
-    if (top_value == static_cast<Data>(-1)) {
-        std::cout << "Stack empty\n";
+    if (top_value != -1) {
+        std::cout << "BAD RET\n";
         return;
     }
 
-    stack_pop(stack);
+    processorStack.pop(); 
+    inSubroutine = false; 
 }
 
 int main() {
-    stack = stack_create();
     initialize_registers();
 
     std::ifstream input("input2.txt");
@@ -88,8 +92,6 @@ int main() {
     for (const auto& reg : registers) {
         std::cout << reg.first << " = " << reg.second << std::endl;
     }
-
-    stack_delete(stack);
 
     return 0;
 }
