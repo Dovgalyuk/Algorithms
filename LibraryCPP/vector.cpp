@@ -1,6 +1,7 @@
 #include "vector.h"
 #include <cstdlib>
 
+
 // Structure to represent the vector
 struct Vector {
     Data* data;      // Dynamic array to store the elements
@@ -17,7 +18,7 @@ Vector* vector_create() {
     return vector;
 }
 
-// Deletes a vector, freeing the memory
+// Deletes a vector, freeing the memoryф
 void vector_delete(Vector* vector) {
     delete[] vector->data;
     delete vector;

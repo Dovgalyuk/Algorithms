@@ -17,7 +17,7 @@ void initialize_registers() {
 }
 
 void push_value(const std::string& value) {
-    stack_push(stack, std::stoi(value));
+    stack_push(stack, static_cast<Data>(std::stoi(value))); // Приведение к Data
 }
 
 void pop_value(const std::string& reg) {
@@ -27,18 +27,19 @@ void pop_value(const std::string& reg) {
     }
 
     Data top_value = stack_get(stack);
-    
-    if (top_value < 0) {
+
+    // Здесь мы проверяем на специальное значение -1
+    if (top_value == static_cast<Data>(-1)) {
         std::cout << "Stack empty\n";
         return;
     }
 
-    registers[reg] = top_value;
+    registers[reg] = static_cast<int>(top_value); // Явное преобразование
     stack_pop(stack);
 }
 
 void call() {
-        stack_push(stack, -1);
+    stack_push(stack, static_cast<Data>(-1)); // Приведение к Data
 }
 
 void ret() {
@@ -48,8 +49,9 @@ void ret() {
     }
 
     Data top_value = stack_get(stack);
-    
-    if (top_value >= 0) {
+
+    // Проверка на специальное значение -1
+    if (top_value == static_cast<Data>(-1)) {
         std::cout << "Stack empty\n";
         return;
     }
@@ -58,13 +60,12 @@ void ret() {
 }
 
 int main() {
-    
     stack = stack_create();
     initialize_registers();
 
     std::ifstream input("input2.txt");
     std::string command;
-    
+
     while (std::getline(input, command)) {
         std::istringstream iss(command);
         std::string operation;
