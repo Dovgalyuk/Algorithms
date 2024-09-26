@@ -3,14 +3,8 @@
 #include <stdexcept>
 using namespace std;
 
-
 struct Stack {
     Vector* vector;
-};
-struct Vector {
-    Data* data;
-    size_t size;
-    size_t volume;
 };
 
 Stack* stack_create() {
@@ -26,26 +20,25 @@ void stack_delete(Stack* stack) {
 
 void stack_push(Stack* stack, Data data) {
     vector_resize(stack->vector, vector_size(stack->vector) + 1);
-    stack->vector->data[stack->vector->size - 1] = data;
+    vector_set(stack->vector, vector_size(stack->vector) - 1, data);
 }
 
 Data stack_get(const Stack* stack) {
     if (stack_empty(stack)) {
         return {};
-        
+
     }
-    return stack->vector->data[stack->vector->size - 1];
-    
+    return vector_get(stack->vector, vector_size(stack->vector) - 1);
+
 }
 
 void stack_pop(Stack* stack) {
     if (stack_empty(stack)) {
         throw std::out_of_range("Stack is empty");
     }
-    stack->vector->size--;
+    vector_resize(stack->vector, vector_size(stack->vector) - 1);
 }
 
 bool stack_empty(const Stack* stack) {
     return vector_size(stack->vector) == 0;
-
 }

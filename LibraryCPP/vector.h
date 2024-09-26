@@ -8,7 +8,6 @@ typedef int Data;
 
 struct Vector;
 
-
 // Creates vector
 Vector *vector_create();
 
