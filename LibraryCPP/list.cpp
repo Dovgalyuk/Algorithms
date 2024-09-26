@@ -91,7 +91,10 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
         newEl->prev = item;
 
         if(item->next != nullptr)
+        {
             newEl->next = item->next;
+            item->next->prev = newEl;
+        }
 
         item->next = newEl;
 
@@ -120,7 +123,8 @@ ListItem *list_erase_next(List *list, ListItem *item)
 {
     if (list != nullptr && item != nullptr && item->next != nullptr)
     {
-        item->next->next->prev = item;
+        if(item->next->next != nullptr)
+            item->next->next->prev = item;
         ListItem* temp = item->next->next;
         if (temp != nullptr)
             temp->prev = item;
