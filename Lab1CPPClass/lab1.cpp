@@ -51,7 +51,7 @@ void task1(const Array& arr)
 void task2(const Array& arr, int a, int b)
 {
     for (int i = 0;i < arr.size(); ++i) {
-        if (arr[i]>= a && arr[i] <= b) {
+        if ((*arr)[i]>= a && (*arr)[i] <= b) {
             arr[i] = 0;
         }
     }
