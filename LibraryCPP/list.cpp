@@ -79,22 +79,22 @@ ListItem* list_insert(List* list, Data data)
     return newEl;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
+ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
-    if (list != nullptr && item != nullptr)
+    if (list != nullptr && item != nulltpr)
     {
         ListItem* newEl = new ListItem;
-        newEl->value = data;
+
         newEl->prev = item;
+        newEl ->next = item->next;
+        newEl->value = data;
 
-        if(item->next != nullptr)
-            newEl->next = item->next;
-
+        if (item->next != nullptr)
+            item->next->previous = newEl;
         item->next = newEl;
 
         return newEl;
     }
-
     return nullptr;
 }
 
