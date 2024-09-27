@@ -49,7 +49,7 @@ int evaluate_example(const std::string& example) {
         }
        
         else if (example[i] == ')') {
-            while (!stack_empty(operators) && stack_get(operators) != '(') {
+            while (stack_get(operators) != '(') {
                 if (stack_empty(values)) throw std::runtime_error("Invalid expression");
                 int val2 = stack_get(values);
                 stack_pop(values);
@@ -69,7 +69,7 @@ int evaluate_example(const std::string& example) {
         }
         
         else if (example[i] == '+' || example[i] == '-' || example[i] == '*' || example[i] == '/') {
-            while (!stack_empty(operators) && precedence((char)stack_get(operators)) >= precedence(example[i])) {
+            while (precedence((char)stack_get(operators)) >= precedence(example[i])) {
                 if (stack_empty(values)) throw std::runtime_error("Invalid expression");
                 int val2 = stack_get(values);
                 stack_pop(values);
