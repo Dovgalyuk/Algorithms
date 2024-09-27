@@ -48,7 +48,7 @@ void task1(const Array& arr)
     std::cout << "Number of divisidle numbers from 2 to 9:" << counter << std::endl;
 }
 
-void task2(const Array& arr, int a, int b)
+void task2(std::ifstream& input, Array& arr, int a, int b)
 {
     for (int i = 0;i < arr.size(); ++i) {
         if (arr.get(i)>= a && arr.get(i) <= b) {
