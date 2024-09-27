@@ -7,11 +7,11 @@ unsigned int priority(const char symbol)
 {
 	if (symbol == '*' || symbol == '/')
 		return 3;
-    if (symbol == '+' || symbol == '-')
+	if (symbol == '+' || symbol == '-')
 		return 2;
-    if (symbol == '(') 
+	if (symbol == '(')
 		return 1;
-	
+
 	return 0;
 }
 
@@ -96,7 +96,7 @@ Data solve(std::string data)
 		}
 	}
 
-	Data res =  stack_get(stack);
+	Data res = stack_get(stack);
 	stack_delete(stack);
 	return res;
 }
@@ -111,15 +111,8 @@ std::string calculate(std::string expr)
 
 int main()
 {
-	std::ifstream in("input.txt");
-
-	std::string temp = "";
-	in >> temp;
-	std::cout << temp << " = " << calculate(temp);
-	
-	in >> temp;
-	std::cout << temp << " = " << calculate(temp);
-
-	in.close();
-    return 0;
+	std::string input = "";
+	std::cin >> input;
+	std::cout << calculate(input);
+	return 0;
 }
