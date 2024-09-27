@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "../LibraryCPP/list.h"
-#include "../LibraryCPP/stack.h"
+#include "list.h"
+#include "stack.h"
 
 unsigned int priority(const char symbol)
 {
@@ -110,10 +110,15 @@ std::string calculate(std::string expr)
 	return expr;
 }
 
-int main()
+int main(int argc, char** argv)
 {
 	std::string data = "";
-	std::cin >> data;
+	char* ch = argv[1];
+	while (*ch != '\0')
+	{
+		data += *(ch);
+		ch++;
+	}
 	std::cout << calculate(data);
 	return 0;
 }
