@@ -161,6 +161,7 @@ int main(int argc, char **argv) {
     printStack(stack);
     printVariables(i0, i2, i3, i4);
 
+    stack_delete(stack);
     file.close();
 
     return 0;
