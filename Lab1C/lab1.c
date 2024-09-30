@@ -25,7 +25,8 @@ Array *array_create_and_read(FILE *input) {
       array_delete(arr);
       return NULL;
     }
-    array_set(arr, i, x);
+    array_set(arr, i, (Data)(intptr_t)x);
+
   }
   return arr;
 }
@@ -46,14 +47,14 @@ void task1(Array *arr) {
 
   for (int i = 0; i < n; i++) {
     int random_height = rand() % 51 + 150;
-    array_set(arr, i, random_height);
+    array_set(arr, i, (Data)(intptr_t)random_height);
     sum += random_height;
   }
 
   double average = (double)sum / n;
   int count = 0;
   for (int i = 0; i < n; i++) {
-    int height = array_get(arr, i);
+    int height = (int)(intptr_t)array_get(arr, i);
     if (height > average) {
       count++;
     }
@@ -70,35 +71,36 @@ void task2(Array *arr, int a, int b) {
 
   for (int i = 0; i < n; i++) {
     int random_number = rand() % 100 + 1;
-    array_set(arr, i, random_number);
+    array_set(arr, i, (Data)(intptr_t)random_number);
   }
 
   printf("Массив перед сжатием: ");
   for (int i = 0; i < n; i++) {
-    int value = array_get(arr, i);
+    int value = (int)(intptr_t)array_get(arr, i);
     printf("%d ", value);
   }
   printf("\n");
 
   for (int i = 0; i < n; i++) {
-    int value = array_get(arr, i);
+    int value = (int)(intptr_t)array_get(arr, i);
     if (value < a || value > b) {
-      array_set(arr, valid_elements, value);
+      array_set(arr, valid_elements, (Data)(intptr_t)value);
       valid_elements++;
     }
   }
 
   for (int i = valid_elements; i < n; i++) {
-    array_set(arr, i, 0);
+    array_set(arr, i, (Data)(intptr_t)0);
   }
 
   printf("Массив после сжатия: ");
   for (int i = 0; i < n; i++) {
-    int value = array_get(arr, i);
+    int value = (int)(intptr_t)array_get(arr, i);
     printf("%d ", value);
   }
   printf("\n");
 }
+
 
 int main(int argc, char **argv) {
   if (argc < 2) {
