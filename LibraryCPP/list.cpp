@@ -123,7 +123,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
         if(item->next->next != nullptr)
             item->next->next->prev = item;
         ListItem* temp = item->next->next;
-        temp->prev = item;
         delete item->next;
         item->next = temp;
         return temp;
