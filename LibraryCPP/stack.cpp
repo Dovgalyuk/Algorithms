@@ -24,10 +24,6 @@ void stack_push(Stack* stack, Data data) {
 }
 
 Data stack_get(const Stack* stack) {
-    if (stack_empty(stack)) {
-        return {};
-
-    }
     return vector_get(stack->vector, vector_size(stack->vector) - 1);
 
 }

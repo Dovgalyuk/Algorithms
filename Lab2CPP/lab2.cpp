@@ -69,14 +69,14 @@ int evaluate_example(const std::string& example) {
         }
         
         else if (example[i] == '+' || example[i] == '-' || example[i] == '*' || example[i] == '/') {
-            while (precedence((char)stack_get(operators)) >= precedence(example[i])) {
+            while (!stack_empty(operators)&&precedence((char)stack_get(operators)) >= precedence(example[i])) {
                 if (stack_empty(values)) throw std::runtime_error("Invalid expression");
                 int val2 = stack_get(values);
                 stack_pop(values);
                 if (stack_empty(values)) throw std::runtime_error("Invalid expression");
                 int val1 = stack_get(values);
                 stack_pop(values);
-                
+               
                 char op = (char)stack_get(operators);
                 stack_pop(operators);
                 stack_push(values, apply_operator(val1, val2, op));
@@ -101,11 +101,17 @@ int evaluate_example(const std::string& example) {
 
         stack_push(values, apply_operator(val1, val2, op));
     }
-   
-    int result = stack_get(values);
-    stack_delete(values);
-    stack_delete(operators);
-    return result;
+    if (stack_empty(values)) {
+        std::cout << "An error occurred while retrieving the result" << std::endl;
+        return 0;
+        
+    }
+    else {
+        int result = stack_get(values);
+        stack_delete(values);
+        stack_delete(operators);
+        return result;
+    }
 }
 
 int main() {
