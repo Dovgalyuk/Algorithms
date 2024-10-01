@@ -121,15 +121,10 @@ int main() {
     if (inputFile.is_open()) {
         
      std::getline(inputFile, example);
+     int result = evaluate_example(example);
+     std::cout << "result: " << result << std::endl;
        
     }
-    else {
-        example = "0";
-    }
     inputFile.close();
-    int result = evaluate_example(example);
-    std::cout << "result: " << result << std::endl;
-
-
     return 0;
 }
