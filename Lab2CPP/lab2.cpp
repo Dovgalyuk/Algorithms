@@ -102,7 +102,7 @@ int evaluate_example(const std::string& example) {
         stack_push(values, apply_operator(val1, val2, op));
     }
     if (stack_empty(values)) {
-        std::cout << "An error occurred while retrieving the result" << std::endl;
+       
         return 0;
         
     }
