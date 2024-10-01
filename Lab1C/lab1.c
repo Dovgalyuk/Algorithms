@@ -1,4 +1,4 @@
-#include "../LibraryC/array.h"
+#include "array.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

@@ -8,7 +8,7 @@
 
 // Non-resizeable array
 // Stores pointer to custom user data
-typedef void* Data;
+typedef uintptr_t Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
 
