@@ -123,6 +123,9 @@ int main() {
      std::getline(inputFile, example);
        
     }
+    else {
+        example = "0";
+    }
     inputFile.close();
     int result = evaluate_example(example);
     std::cout << "result: " << result << std::endl;
