@@ -49,7 +49,7 @@ int evaluate_example(const std::string& example) {
         }
        
         else if (example[i] == ')') {
-            while (stack_get(operators) != '(') {
+            while (!stack_empty(operators)&&stack_get(operators) != '(') {
                 if (stack_empty(values)) throw std::runtime_error("Invalid expression");
                 int val2 = stack_get(values);
                 stack_pop(values);
