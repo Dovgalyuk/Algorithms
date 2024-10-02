@@ -5,7 +5,7 @@
 
 // Vector (dynamic array)
 // Stores integer values inside
-typedef int Data;
+typedef size_t Data;
 
 struct Vector;
 

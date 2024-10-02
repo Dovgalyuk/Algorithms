@@ -1,34 +1,49 @@
 #include "stack.h"
+#include "vector.h"
 
-struct Stack
-{
+// Structure to represent the stack
+struct Stack {
+    Vector* vector; // Internal vector for storing stack elements
 };
 
-Stack *stack_create()
-{
-    return new Stack;
+// Creates a new stack
+Stack* stack_create() {
+    Stack* stack = new Stack;
+    stack->vector = vector_create();
+    return stack;
 }
 
-void stack_delete(Stack *stack)
-{
-    // TODO: free stack elements
+// Deletes the stack, freeing the memory
+void stack_delete(Stack* stack) {
+    vector_delete(stack->vector);
     delete stack;
 }
 
-void stack_push(Stack *stack, Data data)
-{
+// Pushes data onto the top of the stack
+void stack_push(Stack* stack, Data data) {
+    size_t size = vector_size(stack->vector);
+    vector_resize(stack->vector, size + 1);
+    vector_set(stack->vector, size, data);
 }
 
-Data stack_get(const Stack *stack)
-{
-    return (Data)0;
+// Retrieves the last element from the stack
+Data stack_get(const Stack* stack) {
+    size_t size = vector_size(stack->vector);
+    if (size > 0) {
+        return vector_get(stack->vector, size - 1);
+    }
+    return 0;
 }
 
-void stack_pop(Stack *stack)
-{
+// Removes the last element from the stack
+void stack_pop(Stack* stack) {
+    size_t size = vector_size(stack->vector);
+    if (size > 0) {
+        vector_resize(stack->vector, size - 1);
+    }
 }
 
-bool stack_empty(const Stack *stack)
-{
-    return true;
+// Returns true if the stack is empty
+bool stack_empty(const Stack* stack) {
+    return vector_size(stack->vector) == 0;
 }
