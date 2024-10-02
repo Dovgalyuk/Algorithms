@@ -9,26 +9,34 @@ struct Stack
 
 Stack *stack_create()
 {
-    Stack* stack = new Stack;
-    stack->list = list_create();
+    Stack *stack = (Stack *)malloc(sizeof(Stack));
+    if (stack != NULL) {
+        stack->list = list_create();  // Предполагается, что list_create также выделяет память
+    }
     return stack;
 }
 
 void stack_delete(Stack *stack)
 {
-    // TODO: free stack elements
-    list_delete(stack->list);
+    if (stack != NULL) {
+        list_delete(stack->list);
+        free(stack);
+    }
 }
 
 void stack_push(Stack *stack, Data data)
 {
-    list_insert(stack->list, data);
+    if (stack != NULL) {
+        list_insert(stack->list, data);
+    }
 }
 
 Data stack_get(const Stack *stack)
 {
-    if(stack == NULL)
+    if (stack == NULL || stack->list == NULL || list_first(stack->list) == NULL) {
+        // Ошибка: стек пуст или стек не существует
         return (Data)0;
+    }
     return list_item_data(list_first(stack->list));
 }
 
@@ -40,11 +48,8 @@ void stack_pop(Stack *stack)
 
 bool stack_empty(const Stack *stack)
 {
-    if (stack != NULL)
-    {
-        if (list_first(stack->list) ==NULL)
-            return true;
-        return false;
+    if (stack != NULL && stack->list != NULL) {
+        return list_first(stack->list) == NULL;
     }
     return true;
 }
