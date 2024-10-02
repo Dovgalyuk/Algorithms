@@ -34,29 +34,34 @@ Array* array_with_random(std::ifstream& input, int start, int end) {
     return arr;
 }
 
-void task1(const Array& arr)
+void task1(const Array& arr, std::ofstream& output)
 {
     int counter = 0;
     for (size_t i = 0; i < arr.size(); ++i) {
         int divisibility_test = arr.get(i);
-        for (int j = 1; j < 10; j+=1) {
+        for (int j = 2; j < 10; j+=1) {
             if (divisibility_test%j==0) {
             counter +=1;
             }
         }
     }
-    std::cout << "Number of divisidle numbers from 2 to 9:" << counter << std::endl;
+    output << "Number of divisidle numbers from 2 to 9:" << counter << std::endl;
 }
 
-void task2(Array& arr, int a, int b)
+void task2(Array& arr, int a, int b, std::ofstream& output)
 {
+    int counter = 0;
     for (size_t i = 0;i < arr.size(); ++i) {
         if (arr.get(i)>= a && arr.get(i) <= b) {
-            arr.set(i, 0);
+            for (size_t j = i; j <arr.size()-1; ++j) {
+                arr.set(j,arr.get(i+1));
+            }
+            arr.set(arr.size()-counter-1,0);
+            counter+=1;
         }
     }
     for (size_t i = 0;i <arr.size();++i) {
-        std::cout << arr.get(i) << std::endl;
+        output << arr.get(i) << std::endl;
     }
 }
 
@@ -64,19 +69,20 @@ int main(int argc, char **argv)
 {
     //No random
     std::ifstream input(argv[1]);
-    std::ifstream output(argv[2]);
+    std::ofstream output(argv[2]);
     if (!input.is_open()) {
         std::cerr << "The file couldn't be opened: " << argv[1] << std::endl;
         return 1;
     }
     Array* arr = new_array(input);
 
-    task1(*arr);
+    task1(*arr, output);
+
     delete arr;
 
     int a,b; input >> a >> b;
     arr = new_array(input);
-    task2(*arr, a, b);
+    task2(*arr, a, b, output);
     delete arr;
 
     input.close();
@@ -90,11 +96,11 @@ int main(int argc, char **argv)
     }
 
     arr = array_with_random(random, -100, 100);
-    task1(*arr);
+    task1(*arr, output);
     delete arr;
 
     arr = array_with_random(random, -100, 100);
-    task2(*arr, a, b);
+    task2(*arr, a, b, output);
     delete arr;
 
     random.close();
