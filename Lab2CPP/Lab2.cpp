@@ -3,11 +3,11 @@
 #include <fstream>
 #include <string>
 #include <map>
-#include <stack>
+#include "stack.h"
 
 const int NUM_REGISTERS = 4;
-std::map<std::string, int> registers;
-std::stack<int> processorStack;
+std::map<std::string, size_t> registers;
+Stack* processorStack;  // Используем ваш самописный стек
 bool inSubroutine = false;
 
 void initialize_registers() {
@@ -19,19 +19,19 @@ void initialize_registers() {
 
 void push_value(const std::string& value) {
     if (std::isdigit(value[0]) || (value[0] == '-' && value.size() > 1)) {
-        processorStack.push(std::stoi(value));
+        stack_push(processorStack, std::stoi(value));
     } else {
-        processorStack.push(registers[value]);
+        stack_push(processorStack, registers[value]);
     }
 }
 
 void pop_value(const std::string& reg) {
-    if (processorStack.empty()) {
+    if (stack_empty(processorStack)) {
         std::cout << "BAD POP\n";
         return;
     }
 
-    int top_value = processorStack.top();
+    size_t top_value = stack_get(processorStack);
 
     if (inSubroutine) {
         std::cout << "BAD POP\n";
@@ -39,33 +39,36 @@ void pop_value(const std::string& reg) {
     }
 
     registers[reg] = top_value;
-    processorStack.pop();
+    stack_pop(processorStack);
 }
 
 void call() {
-    processorStack.push(-1);
+    stack_push(processorStack, SIZE_MAX);
     inSubroutine = true;
 }
 
 void ret() {
-    if (processorStack.empty()) {
+    if (stack_empty(processorStack)) {
         std::cout << "BAD RET\n";
         return;
     }
 
-    int top_value = processorStack.top();
+    size_t top_value = stack_get(processorStack);
 
     if (top_value != -1) {
         std::cout << "BAD RET\n";
         return;
     }
 
-    processorStack.pop(); 
+    stack_pop(processorStack); 
     inSubroutine = false; 
 }
 
 int main() {
     initialize_registers();
+
+    // Инициализация стека
+    processorStack = stack_create();
 
     std::ifstream input("input2.txt");
     std::string command;
@@ -92,6 +95,9 @@ int main() {
     for (const auto& reg : registers) {
         std::cout << reg.first << " = " << reg.second << std::endl;
     }
+
+    // Освобождение памяти стека
+    stack_delete(processorStack);
 
     return 0;
 }
