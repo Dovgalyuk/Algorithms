@@ -55,7 +55,7 @@ void ret() {
 
     size_t top_value = stack_get(processorStack);
 
-    if (top_value != -1) {
+    if (top_value != SIZE_MAX) {
         std::cout << "BAD RET\n";
         return;
     }
