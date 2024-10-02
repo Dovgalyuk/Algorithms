@@ -67,7 +67,7 @@ void ret() {
 int main() {
     initialize_registers();
 
-    // Инициализация стека
+    // Stack Initialization
     processorStack = stack_create();
 
     std::ifstream input("input2.txt");
@@ -96,7 +96,7 @@ int main() {
         std::cout << reg.first << " = " << reg.second << std::endl;
     }
 
-    // Освобождение памяти стека
+    // Freeing up stack memory
     stack_delete(processorStack);
 
     return 0;
