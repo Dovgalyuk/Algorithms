@@ -18,7 +18,9 @@ struct List
 
 List *list_create()
 {
-    return new List;
+    List *list = new List();
+    list->head = NULL;
+    return list;
 }
 
 void list_delete(List *list)

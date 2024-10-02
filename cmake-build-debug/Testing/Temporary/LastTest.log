@@ -1,0 +1,19 @@
+Start testing: Oct 02 07:22 RTZ 2 (çèìà)
+----------------------------------------------------------
+3/3 Testing: TestLab1CPP
+3/3 Test: TestLab1CPP
+Command: "C:/Users/Katya/CLionProjects/Lab2/cmake-build-debug/Lab2CPP/Lab2CPP.exe" "C:/Users/Katya/CLionProjects/Lab2/Lab2CPP/input.txt" "C:/Users/Katya/CLionProjects/Lab2/Lab2CPP/output.txt"
+Directory: C:/Users/Katya/CLionProjects/Lab2/cmake-build-debug/Lab2CPP
+"TestLab1CPP" start time: Oct 02 07:22 RTZ 2 (çèìà)
+Output:
+----------------------------------------------------------
+12
+<end of output>
+Test time =   0.13 sec
+----------------------------------------------------------
+Test Passed.
+"TestLab1CPP" end time: Oct 02 07:22 RTZ 2 (çèìà)
+"TestLab1CPP" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 02 07:22 RTZ 2 (çèìà)
