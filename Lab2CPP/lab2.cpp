@@ -6,7 +6,7 @@
 
 using namespace std;
 
-string stack_create_and_read(ifstream& input)
+string read_line(ifstream& input)
 {
     string line;
     getline(input, line);
@@ -19,7 +19,7 @@ int prec(char op) {
     return 0;
 }
 
-void appOp(Stack* vals,char op) {
+void appOp(Stack* vals, char op) {
     int right= stack_get(vals);
     stack_pop(vals);
     int left= stack_get(vals);
@@ -57,7 +57,7 @@ vector<string> infixToPostfix(const string& ex) {
                     postfix.push_back(string(1, stack_get(ops)));
                     stack_pop(ops);
                 }
-                stack_pop(ops); // Remove '('
+                stack_pop(ops);
             } else {
                 while (!stack_empty(ops) && prec(stack_get(ops)) >= prec(c)) {
                     postfix.push_back(string(1, stack_get(ops)));
@@ -114,7 +114,7 @@ int main(int argc, char **argv)
         cerr << "Failed to open the file." << endl;
         return 1;
     }
-    string ex = stack_create_and_read(input);
+    string ex = read_line(input);
     int res=task1(ex);
 
     if(!testTask(res)) {
