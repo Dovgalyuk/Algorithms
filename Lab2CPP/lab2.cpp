@@ -53,18 +53,25 @@ int evaluate_example(const std::string& example) {
                 if (stack_empty(values)) throw std::runtime_error("Invalid expression");
                 int val2 = stack_get(values);
                 stack_pop(values);
+
                 if (stack_empty(values)) throw std::runtime_error("Invalid expression");
                 int val1 = stack_get(values);
                 stack_pop(values);
+
                 if (stack_empty(operators)) throw std::runtime_error("Invalid expression");
                 char op = (char)stack_get(operators);
                 stack_pop(operators);
+
                 stack_push(values, apply_operator(val1, val2, op));
             }
            
             if (!stack_empty(operators)) {
                 stack_pop(operators);
             }
+            else {
+                throw std::runtime_error("Mismatched parentheses: no matching '(' found");
+            }
+
 
         }
         
@@ -73,12 +80,15 @@ int evaluate_example(const std::string& example) {
                 if (stack_empty(values)) throw std::runtime_error("Invalid expression");
                 int val2 = stack_get(values);
                 stack_pop(values);
+
                 if (stack_empty(values)) throw std::runtime_error("Invalid expression");
                 int val1 = stack_get(values);
                 stack_pop(values);
+
                 if (stack_empty(operators)) throw std::runtime_error("Invalid expression");
                 char op = (char)stack_get(operators);
                 stack_pop(operators);
+
                 stack_push(values, apply_operator(val1, val2, op));
             }
             stack_push(operators, example[i]);
@@ -95,12 +105,12 @@ int evaluate_example(const std::string& example) {
         int val1 = stack_get(values);
         stack_pop(values);
 
-        
+        if (stack_empty(operators)) throw std::runtime_error("Invalid expression");
         char op = (char)stack_get(operators);
         stack_pop(operators);
-
         stack_push(values, apply_operator(val1, val2, op));
     }
+
     if (stack_empty(values)) {
        
         return 0;
