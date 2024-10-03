@@ -6,7 +6,7 @@ struct ListItem
     Data data;
     ListItem *next;
 
-    ListItem(int value): data(value), next(nullptr) {}
+    ListItem(Data value): data(value), next(nullptr) {}
 };
 
 struct List

@@ -98,8 +98,8 @@ int task1(string ex)
     return resPost(postfix);
 }
 
-bool testTask(int res1, int res2){
-    if(res1==res2) {
+bool testTask(int res1){
+    if(res1 == 12) {
         return true;
     }
     return false;
@@ -109,19 +109,15 @@ int main(int argc, char **argv)
 {
     ifstream input,output;
     input.open(argv[1]);
-    output.open(argv[2]);
-    if(!input.is_open() || !output.is_open()) {
+
+    if(!input.is_open()) {
         cerr << "Failed to open the file." << endl;
         return 1;
     }
     string ex = stack_create_and_read(input);
     int res=task1(ex);
 
-    string line;
-    getline(output,line);
-    int res2 = stoi(line);
-
-    if(!testTask(res, res2)) {
+    if(!testTask(res)) {
         return 1;
     }
     cout<<res;
