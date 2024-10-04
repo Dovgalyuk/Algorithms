@@ -77,11 +77,48 @@ void task2(Array *arr) {
     cout << '\n';
 }
 
-bool test(ifstream& output, const Array& arr){
-    for(size_t i = 0; i < arr.size(); i++) {
-        int num;
-        output >> num;
-        if(num != arr.get(i)) {
+
+bool testTask1(const Array& arr){
+    Array *testArr = new Array(12);
+    testArr->set(0, 1504);
+    testArr->set(1, 1249);
+    testArr->set(2, 1709);
+    testArr->set(3, 1464);
+    testArr->set(4, 1777);
+    testArr->set(5, 1381);
+    testArr->set(6, 1497);
+    testArr->set(7, 1573);
+    testArr->set(8, 1523);
+    testArr->set(9, 1549);
+    testArr->set(10, 1410);
+    testArr->set(11, 1498);
+    if (arr.size() == 12) {
+        cout << "Size array is not true";
+        return false;
+    }
+
+    for(size_t i = 0; i < 12; i++) {
+        if(testArr->get(i) != arr.get(i)) {
+            cout << "Element on index " << i << " not correct";
+            return false;
+        }
+    }
+    return true;
+}
+
+bool testTask2(const Array& arr){
+    Array *testArr = new Array(3);
+    testArr->set(0, 1);
+    testArr->set(1, 3);
+    testArr->set(2, 4);
+    if (arr.size() == 3) {
+        cout << "Size array is not true";
+        return false;
+    }
+
+    for(size_t i = 0; i < 12; i++) {
+        if(testArr->get(i) != arr.get(i)) {
+            cout << "Element on index " << i << " not correct";
             return false;
         }
     }
@@ -93,13 +130,15 @@ int main(int argc, char **argv) {
     ifstream output(argv[2]);
     Array *arrTask1 = arrayCreateFromInput(input);
     task1(arrTask1);
-    if(test(output, *arrTask1)) {
+    // Test output task 1
+    if(testTask1(*arrTask1)) {
         return 1;
     }
 
     Array *arrTask2 = arrayCreateFromInput(input);
     task2(arrTask2);
-    if(test(output, *arrTask2)) {
+    // Test output task 2
+    if(testTask2(*arrTask2)) {
         return 1;
     }
 
