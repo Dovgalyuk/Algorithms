@@ -2,6 +2,7 @@
 #define ARRAY_H
 
 #include <cstddef>
+#include <stdexcept>
 
 typedef int Data;
 
@@ -30,7 +31,8 @@ public:
     size_t size() const;
 
 private:
-    // private data should be here
+    Data* m_arrData;
+    size_t m_arrSize;
 };
 
 #endif
