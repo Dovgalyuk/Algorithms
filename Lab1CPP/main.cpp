@@ -7,9 +7,6 @@ int main(int argc, char **argv)
 
     Array *arr = array_create_and_read(input);
 
-
-    int sum = task1(arr, input);  
-
     array_delete(arr);
 
     arr = array_create_and_read(input);
