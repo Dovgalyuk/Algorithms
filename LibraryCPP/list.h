@@ -18,14 +18,10 @@ void list_delete(List *list);
 ListItem *list_first(List *list);
 
 // Extracts data from the list item
-Data list_item_data(const ListItem *item);
+Data list_item_data(ListItem *item);
 
 // Returns list item following after the specified one
 ListItem *list_item_next(ListItem *item);
-
-// Returns previous element for the specified item.
-// Not applicable for the singly linked lists.
-ListItem *list_item_prev(ListItem *item);
 
 // Inserts new list item into the beginning
 ListItem *list_insert(List *list, Data data);
