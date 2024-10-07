@@ -6,7 +6,7 @@
 void test_task(FILE* input) {
     InputData inputArrAB = array_create_and_read(input);
     int expectedTask1Result;
-    fscanf(input, "%d", &expectedTask1Result);
+    if (fscanf(input, "%d", &expectedTask1Result) < 1) throw std::invalid_argument("Wrong num");
 
     int resultTask1 = task1(inputArrAB);
     if (resultTask1 == expectedTask1Result) {
@@ -18,7 +18,7 @@ void test_task(FILE* input) {
 
     inputArrAB = array_create_and_read(input);
     int expectedTask2Result;
-    fscanf(input, "%d", &expectedTask2Result);
+    if (fscanf(input, "%d", &expectedTask2Result) < 1) throw std::invalid_argument("Wrong num");
 
     int resultTask2 = task2(inputArrAB.array);
     if (resultTask2 == expectedTask2Result) {

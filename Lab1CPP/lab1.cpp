@@ -20,8 +20,8 @@ InputData array_create_and_read(FILE *input)
     }
 
     int a = 0,b = 0;
-    if (fscanf(input, "%d", &a) < 1) throw std::invalid_argument("Wrong num a"); ;
-    if (fscanf(input, "%d", &b) < 1) throw std::invalid_argument("Wrong num b");;
+    if (fscanf(input, "%d", &a) < 1) throw std::invalid_argument("Wrong num a");
+    if (fscanf(input, "%d", &b) < 1) throw std::invalid_argument("Wrong num b");
     
     return InputData{arr, a, b};
 }
