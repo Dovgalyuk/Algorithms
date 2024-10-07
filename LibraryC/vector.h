@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 // Creates vector
-Vector *vector_create(FFree f);
+Vector *vector_create(FFree* f, Data user_filler);
 
 // Deletes vector structure and internal data
 void vector_delete(Vector *vector);

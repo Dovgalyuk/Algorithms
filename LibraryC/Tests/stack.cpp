@@ -18,9 +18,11 @@ int stack_get_int(Stack *s)
     return *(int*)v;
 }
 
+int zero{0};
+
 int main()
 {
-    Stack *stack = stack_create(myfree);
+    Stack *stack = stack_create(myfree, &zero);
 
     stack_push(stack, new int(1));
     stack_push(stack, new int(2));
