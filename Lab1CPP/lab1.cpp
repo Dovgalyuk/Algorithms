@@ -9,16 +9,14 @@ void total_resistance(Array* arr);
 void most_number(Array* arr);
 
 int main(int argc, char **argv) {
-	setlocale(LC_ALL, "RU");
-
 	if (argc < 2) {
-		std::cerr << "Ошибка, укажите путь к файлу" << std::endl;
+		std::cerr << "Error specify the path to the file" << std::endl;
 		return 1;
 	}
 
 	std::ifstream input(argv[1]);
 	if (!input.is_open()) {
-		std::cerr << "Ошибка открытия файла: " << argv[1] << "\n";
+		std::cerr << "Error file opening: " << argv[1] << "\n";
 		return 1;
 	}
 
@@ -55,7 +53,7 @@ void total_resistance(Array* arr) {
 		resistance += (1.0 / array_get(arr, i));
 	}
 	double result = 1.0 / resistance;
-	std::cout << "Общее сопротивление: " << result << std::endl;
+	std::cout << "Total resistance: " << result << std::endl;
 }
 
 void most_number(Array* arr) {
@@ -72,5 +70,5 @@ void most_number(Array* arr) {
 			result = array_get(arr, i);
 		}
 	}
-	std::cout << "Чаще всего встречает: " << result << std::endl;
+	std::cout << "Most number: " << result << std::endl;
 }
