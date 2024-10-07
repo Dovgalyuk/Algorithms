@@ -12,10 +12,6 @@ Array *array_create(size_t size)
     Array* arr = new Array;
     arr->m_size = size;
     arr-> m_data = new Data[size];
-    if (!arr->m_data){
-        delete arr;
-        return nullptr;
-    }
     return arr;
 }
 
