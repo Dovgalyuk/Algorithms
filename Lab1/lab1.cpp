@@ -100,9 +100,11 @@ bool testTask1(const Array& arr){
     for(size_t i = 0; i < 12; i++) {
         if(testArr->get(i) != arr.get(i)) {
             cout << "Element on index " << i << " not correct";
+            delete testArr;
             return false;
         }
     }
+    delete testArr;
     return true;
 }
 
@@ -113,21 +115,23 @@ bool testTask2(const Array& arr){
     testArr->set(2, 4);
     if (arr.size() == 3) {
         cout << "Size array is not true";
+        delete testArr;
         return false;
     }
 
     for(size_t i = 0; i < 12; i++) {
         if(testArr->get(i) != arr.get(i)) {
             cout << "Element on index " << i << " not correct";
+            delete testArr;
             return false;
         }
     }
+    delete testArr;
     return true;
 }
 
 int main(int argc, char **argv) {
     ifstream input(argv[1]);
-    ifstream output(argv[2]);
     Array *arrTask1 = arrayCreateFromInput(input);
     task1(arrTask1);
     // Test output task 1
