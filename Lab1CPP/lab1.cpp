@@ -54,8 +54,8 @@ void total_resistance(Array* arr) {
 	for (size_t i = 0; i < array_size(arr); ++i) {
 		resistance += (1.0 / array_get(arr, i));
 	}
-	
-	std::cout << "Общее сопротивление: " << resistance << std::endl;
+	double result = 1.0 / resistance;
+	std::cout << "Общее сопротивление: " << result << std::endl;
 }
 
 void most_number(Array* arr) {
