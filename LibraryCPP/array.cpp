@@ -35,7 +35,6 @@ static void argument_validation(const Array* arr, size_t index = 0)
 void array_delete(Array *arr)
 {
     argument_validation(arr);
-
     delete[] arr->array;
     delete arr;
 }

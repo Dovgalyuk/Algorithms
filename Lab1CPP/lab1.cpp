@@ -2,10 +2,13 @@
 #include <stdexcept>
 #include "array.h"
 
-Array *array_create_and_read(FILE *input)
+InputData array_create_and_read(FILE *input)
 {
     int n;
-    if (fscanf(input, "%d", &n) < 1) throw std::invalid_argument("Wrong size");
+    if (fscanf(input, "%d", &n) < 1) {
+        fclose(input);
+        throw std::invalid_argument("Wrong size");
+    }
     /* Create array */
     Array *arr = array_create(n);
     /* Read array data */
@@ -15,36 +18,43 @@ Array *array_create_and_read(FILE *input)
         if (fscanf(input, "%d", &x) < 1) throw std::invalid_argument("Wrong num");
         array_set(arr, i, x);
     }
-    return arr;
+
+    int a = 0,b = 0;
+    fscanf(input, "%d", &a);
+    fscanf(input, "%d", &b);
+    
+    return InputData{arr, a, b};
 }
 
-void task1(Array *arr)
+int task1(InputData inputArrAB)
 {
-    if (!arr) throw std::invalid_argument("Array pointer is null");
-
-    size_t size = array_size(arr);
-    double  num1 = 0, num2 = 0, sum = 0;
-
-    for(size_t i = 0; i < size; i++) {
-        
+    int summ = 0;
+    int size = array_size(inputArrAB.array);
+    for (int i = 0; i < size; i++) {
+        int num = array_get(inputArrAB.array, i);
+        if (num % inputArrAB.a == 0 || num % inputArrAB.b == 0) {
+            summ += num;
+        }
     }
 
+    return summ;
 }
 
-void task2(Array *arr)
+int task2(Array *arr)
 {
-}
+    int minMinus = __INT_MAX__;
+    int size = array_size(arr);
 
-int main(int argc, char **argv)
-{
-    Array *arr = NULL;
-    FILE *input = fopen(argv[1], "r");
-    arr = array_create_and_read(input);
-    task1(arr);
-    array_delete(arr);
-    /* Create another array here */
-    arr = array_create_and_read(input);
-    task2(arr);
-    array_delete(arr);
-    fclose(input);
+    for(int i = 1; i < size; i++) {
+        for(int j = i; j > 0 && array_get(arr, j - 1) > array_get(arr, j); j--)
+			array_set(arr, j - 1, array_get(arr, j));
+    }
+
+    for (int i = 1; i < size; i++) {
+        if (array_get(arr, i) % 2 == 0 && array_get(arr, i - 1) % 2 == 0) {
+            minMinus = (array_get(arr, i) - array_get(arr, i - 1)) < minMinus ? (array_get(arr, i) - array_get(arr, i - 1)) : minMinus;
+        }
+    }
+
+    return minMinus;
 }
