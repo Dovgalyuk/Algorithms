@@ -114,7 +114,7 @@ int evaluate_example(const std::string& example) {
 }
 
 int main() {
-    std::ifstream inputFile("D:/лабы/Algorithms/Lab2CPP/input.txt");
+    std::ifstream inputFile("input.txt");
     std::string example;
 
     while (std::getline(inputFile, example)) {
