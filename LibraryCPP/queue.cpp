@@ -33,6 +33,7 @@ void queue_insert(Queue* queue, Data data)
             vector_set(queue->vector, i, vector_get(temp, (queue->current_index + i) % old_size));
         }
         queue->current_index = 0;
+        vector_delete(temp);
     }
     vector_set(queue->vector, (queue->current_index + queue->size) % vector_size(queue->vector), data);
     queue->size++;
