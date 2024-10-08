@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 {
     char In[100];
     FILE* input = fopen(argv[1], "r");
-    if (fscanf(input, "%s", &In) == 0)
+    if (fscanf(input, "%s", In) == 0)
         throw invalid_argument("Failed to read the input file");
 
     string line(In); // construct a std::string from the input
