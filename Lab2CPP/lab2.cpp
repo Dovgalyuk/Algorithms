@@ -193,7 +193,6 @@ void ilo(Stack* stack, int ind, int si) {
 
 void oper(Stack*& st, std::ifstream& v) {
     string o;
-    int arr[] = { 0,0,0,0 };
     int ili = 0;
     while (v >> o) {   
         if (o == "bipush") {
