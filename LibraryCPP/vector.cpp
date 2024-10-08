@@ -17,7 +17,7 @@ void vector_delete(Vector *vector)
     if (vector != nullptr)
     {
         if (vector->ptr) 
-            delete vector->ptr;
+            delete[] vector->ptr;
         delete vector;
     }
 }
