@@ -28,4 +28,7 @@ size_t vector_size(const Vector *vector);
 // Should be O(1) on average
 void vector_resize(Vector *vector, size_t size);
 
+//
+Vector* vector_copy(const Vector* vector);
+
 #endif
