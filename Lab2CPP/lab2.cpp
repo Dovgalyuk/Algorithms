@@ -149,6 +149,48 @@ bool ixor(Stack* stack) {
     }
 }
 
+void ilo(Stack* stack, int ind, int si) {
+    int is0 = 0;
+    int is1 = 0;
+    int is2 = 0;
+    for (int i = 0; i < si-1 - ind; i++) {
+        switch (i) {
+        case 0:
+            is0 = stack_get(stack);
+            break;
+        case 1:
+            is1 = stack_get(stack);
+            break;
+        case 2:
+            is2 = stack_get(stack);
+            break;
+        case 3:
+            is0 = stack_get(stack);
+            break;
+        }
+        stack_pop(stack);
+        
+    }
+    int czn = stack_get(stack);
+    for (int i = si - 1 - ind; i > 0; i--) {
+        switch (i) {
+        case 0:
+            stack_push(stack,is2);
+            break;
+        case 1:
+            stack_push(stack, is0);
+            break;
+        case 2:
+            stack_push(stack, is1);
+            break;
+        case 3:
+
+            break;
+        }
+    }
+    stack_push(stack, czn);
+}
+
 void oper(Stack*& st, std::ifstream& v) {
     string o;
     int arr[] = { 0,0,0,0 };
@@ -157,22 +199,8 @@ void oper(Stack*& st, std::ifstream& v) {
         if (o == "bipush") {
             int n;
             v >> n;
-            switch (ili) {
-            case 0:
-                arr[0] = n;
-                break;
-            case 1:
-                arr[1] = n;
-                break;
-            case 2:
-                arr[2] = n;
-                break;
-            case 3:
-                arr[3] = n;
-                break;
-            }
-            stack_push(st, n);
             ili++;
+            stack_push(st, n);
         }
         if (o == "pop") {
             stack_pop(st);
@@ -194,40 +222,12 @@ void oper(Stack*& st, std::ifstream& v) {
         if (o == "iload_0" || o == "iload_1" || o == "iload_2" || o == "iload_3") {
             char z = o[o.size()-1];
             int preobr = z - '0';
-            switch (preobr) {
-            case 0:
-                stack_push(st, arr[0]);
-                break;
-            case 1:
-                stack_push(st, arr[1]);
-                break;
-            case 2:
-                stack_push(st, arr[2]);
-                break;
-            case 3:
-                stack_push(st, arr[3]);
-                break;
-            }
-            ili++;
+            ilo(st, preobr, ili);
         }
         if (o == "istore_0" || o == "istore_1" || o == "istore_2" || o == "istore_3") {
             char z = o[o.size() - 1];  
             int preobr = z - '0';
-            switch (preobr) {
-            case 0:
-                
-                ist(st, 0, ili);
-                break;
-            case 1:
-                ist(st, 1, ili);
-                break;
-            case 2:
-                ist(st, 2, ili);
-                break;
-            case 3:
-                ist(st, 3, ili);
-                break;
-            }
+            ist(st, preobr,ili);
         }
         if(o == "swap") {
             swap(st);
