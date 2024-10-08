@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Array::Array(size_t size) : m_arrData(new Data[size]()), m_arrSize // initialization list: 1. dynamic array with "size" allocating memory with "new" 2. array size 
+Array::Array(size_t size) : m_arrData(new Data[size]()), m_arrSize(size) // initialization list: 1. dynamic array with "size" allocating memory with "new" 2. array size 
 {
     for(size_t i = 0; i < m_arrSize; i++) // initialization array by 0
     {
