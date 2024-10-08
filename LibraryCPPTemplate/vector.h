@@ -53,7 +53,7 @@ public:
     // Retrieves vector element with the specified index
     Data get(size_t index) const
     {
-        if (index >= len || index < 0)
+        if (index >= len)
             throw out_of_range("Out of Range");
 
         return data[index];
