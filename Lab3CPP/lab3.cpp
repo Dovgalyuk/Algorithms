@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../LibraryCPP/queue.h"
-#include "../LibraryCPP/vector.h"
+#include "queue.h"
+#include "vector.h"
 
 int main()
 {
