@@ -1,12 +1,12 @@
 #include <iostream>
 #include <stdexcept>
 #include "array.h"
+#include "lab1.h"
 
 InputData array_create_and_read(FILE *input)
 {
     int n;
     if (fscanf(input, "%d", &n) < 1) {
-        fclose(input);
         throw std::invalid_argument("Wrong size");
     }
     /* Create array */
@@ -46,13 +46,24 @@ int task2(Array *arr)
     int size = array_size(arr);
 
     for(int i = 1; i < size; i++) {
-        for(int j = i; j > 0 && array_get(arr, j - 1) > array_get(arr, j); j--)
-			array_set(arr, j - 1, array_get(arr, j));
+        for(int j = i; j > 0 && array_get(arr, j - 1) > array_get(arr, j); j--) {
+            int temp = array_get(arr, j - 1);
+            array_set(arr, j - 1, array_get(arr, j));
+            array_set(arr, j, temp);
+        }
     }
 
-    for (int i = 1; i < size; i++) {
-        if (array_get(arr, i) % 2 == 0 && array_get(arr, i - 1) % 2 == 0) {
-            minMinus = (array_get(arr, i) - array_get(arr, i - 1)) < minMinus ? (array_get(arr, i) - array_get(arr, i - 1)) : minMinus;
+    int evenNum = -1;
+    for (int i = 0; i < size; i++) {
+        int current = array_get(arr, i);
+        if (current % 2 == 0) {
+            if (evenNum != -1) {
+                int diff = current - evenNum;
+                if (diff < minMinus) {
+                    minMinus = diff;
+                }
+            }
+            evenNum = current;
         }
     }
 

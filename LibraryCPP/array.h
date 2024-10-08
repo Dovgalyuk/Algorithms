@@ -8,16 +8,6 @@
 typedef int Data;
 
 struct Array;
-struct InputData{
-    InputData(Array * arr,int a,int b){
-        this->a=a;
-        this->b=b;
-        this->array=arr;
-    }
-    Array* array;
-    int a;
-    int b;
-};
 
 // create array
 Array *array_create(size_t size);
