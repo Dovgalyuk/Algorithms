@@ -93,6 +93,7 @@ public:
 
         // rezise if there are too many empty elements
         if (len != 0 && capacity / len > 2) {
+            capacity = len;
             resize(len);
         }
     }
