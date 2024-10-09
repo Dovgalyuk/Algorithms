@@ -75,10 +75,7 @@ public:
     void push(Data value)
     {
         if (len == capacity) {
-            // increase capacity by 2 and resize the vector
-            size_t new_capacity = (size_t)ceil(double(len) * 2);
-
-            resize(new_capacity);
+            resize(len + 1);
         }
 
         // set the value
@@ -95,7 +92,7 @@ public:
         len--;
 
         // rezise if there are too many empty elements
-        if (float(capacity) / float(len) > 2) {
+        if (capacity / len > 2) {
             resize(len);
         }
     }
@@ -111,6 +108,7 @@ public:
     void resize(size_t new_size)
     {
         if (new_size > capacity) {
+            // memory allocation for a larger size
             size_t new_capacity = new_size * 2;
             Data* new_data = new Data[new_capacity];
             for (size_t i = 0; i < len; i++) {
@@ -121,6 +119,10 @@ public:
 
             data = new_data;
             capacity = new_capacity;
+        }
+        else {
+            // change capacity with decreasing vector size
+            capacity = new_size;
         }
 
         len = new_size;
