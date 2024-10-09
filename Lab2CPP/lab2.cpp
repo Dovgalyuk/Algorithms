@@ -6,7 +6,6 @@ using namespace std;
 
 
 
-
 void imul(Stack* stack) {
     int mul = 1;
     int element = 0;
@@ -50,23 +49,11 @@ void isub(Stack* stack) {
 }
 
 
-void ist(Stack* stack, int ind, int si, int* arr) {
+void ist(Stack* stack, int ind, int* arr) {
 
-    int znach = stack_get(stack);
-    for (int i = 0; i < si - ind; i++) {
-        arr[i] = stack_get(stack);
-
-
-        stack_pop(stack);
-    }
-    
-    stack_push(stack, znach);
-    for (int i = si - ind-2; i > 0; i--) {
-        stack_push(stack, arr[i]);
-
-    }
+    arr[ind] = stack_get(stack);
+    stack_pop(stack);
 }
-
 
 
 void swap(Stack* stack) {
@@ -130,30 +117,29 @@ void ilo(Stack* stack, int ind,int arr[]) {
 
 void oper(Stack*& st, std::ifstream& v,int* arr) {
     string o;
-    int ili = 0;
     
-    while (v >> o) {   
+    while (v >> o) {  
         if (o == "bipush") {
             int n;
             v >> n;
-            ili++;
+
             stack_push(st, n);
         }
         if (o == "pop") {
             stack_pop(st);
-            ili--;
+
         }
         if (o == "imul") {
             imul(st);
-            ili--;
+
         }
         if (o == "iadd") {
             iadd(st);
-            ili--;
+
         }
         if (o == "isub") {
             isub(st);
-            ili--;
+
         }
         
         if (o == "iload_0" || o == "iload_1" || o == "iload_2" || o == "iload_3") {
@@ -164,7 +150,9 @@ void oper(Stack*& st, std::ifstream& v,int* arr) {
         if (o == "istore_0" || o == "istore_1" || o == "istore_2" || o == "istore_3") {
             char z = o[o.size() - 1];  
             int preobr = z - '0';
-            ist(st, preobr,ili, arr);
+            ist(st, preobr, arr);
+
+
         }
         if(o == "swap") {
             swap(st);
@@ -189,12 +177,19 @@ void vivod_stack(Stack* st) {
         stack_push(stviv, stack_get(st));
         stack_pop(st);
     }
-    cout << "stack \n1 \nvars:\n" << endl;
+    cout << "stack" << endl;
     while (true) {
         if (stack_empty(stviv) == true)
             break;
         cout << stack_get(stviv) << endl;
         stack_pop(stviv);
+    }
+}
+
+void vivod_peremennih(int arr[]) {
+    cout << "vars" << endl;
+    for (int i = 0; i != 4; i++) {
+        cout << arr[i] << endl;
     }
 }
 
@@ -210,6 +205,7 @@ int main()
         Stack* st = stack_create();     
         oper(st, v, arr);
         vivod_stack(st);
+        vivod_peremennih(arr);
         stack_delete(st);
         cin.get();
     }
