@@ -92,7 +92,8 @@ public:
         len--;
 
         // rezise if there are too many empty elements
-        if (capacity / len > 2) {
+        if (len != 0 && capacity / len > 2) {
+            capacity = len;
             resize(len);
         }
     }
@@ -107,6 +108,7 @@ public:
     // Should be O(1) on average
     void resize(size_t new_size)
     {
+
         if (new_size > capacity) {
             // memory allocation for a larger size
             size_t new_capacity = new_size * 2;
@@ -119,10 +121,6 @@ public:
 
             data = new_data;
             capacity = new_capacity;
-        }
-        else {
-            // change capacity with decreasing vector size
-            capacity = new_size;
         }
 
         len = new_size;
