@@ -5,11 +5,8 @@
 using namespace std;
 
 
-int is0 = 0;
-int is1 = 0;
-int is2 = 0;
-int is3 = 0;
-int arr[4] = { is0,is1,is2,is3 };
+
+
 void imul(Stack* stack) {
     int mul = 1;
     int element = 0;
@@ -52,44 +49,25 @@ void isub(Stack* stack) {
     stack_push(stack, vich);
 }
 
-void ist(Stack* stack, int ind, int si, int& is0, int& is1, int& is2, int& is3) {
+
+void ist(Stack* stack, int ind, int si, int* arr) {
 
     int znach = stack_get(stack);
     for (int i = 0; i < si - ind; i++) {
-        switch (i) {
-        case 0:
-            is0 = stack_get(stack);
-            break;
-        case 1:
-            is1 = stack_get(stack);
-            break;
-        case 2:
-            is2 = stack_get(stack);
-            break;
-        case 3:
-            is3 = stack_get(stack);
-            break;
-        }
+        arr[i] = stack_get(stack);
+
+
         stack_pop(stack);
     }
+    
     stack_push(stack, znach);
     for (int i = si - ind-2; i > 0; i--) {
-        switch (i) {
-        case 0:
-            stack_push(stack, is0);
-            break;
-        case 1:
-            stack_push(stack, is1);
-            break;
-        case 2:
-            stack_push(stack, is2);
-            break;
-        case 3:
-            stack_push(stack, is3);
-            break;
-        }
+        stack_push(stack, arr[i]);
+
     }
 }
+
+
 
 void swap(Stack* stack) {
     int pz = stack_get(stack);
@@ -146,11 +124,11 @@ bool ixor(Stack* stack) {
     }
 }
 
-void ilo(Stack* stack, int ind) {
+void ilo(Stack* stack, int ind,int arr[]) {
     stack_push(stack, arr[ind]);
 }
 
-void oper(Stack*& st, std::ifstream& v) {
+void oper(Stack*& st, std::ifstream& v,int* arr) {
     string o;
     int ili = 0;
     
@@ -181,12 +159,12 @@ void oper(Stack*& st, std::ifstream& v) {
         if (o == "iload_0" || o == "iload_1" || o == "iload_2" || o == "iload_3") {
             char z = o[o.size()-1];
             int preobr = z - '0';
-            ilo(st, preobr);
+            ilo(st, preobr,arr);
         }
         if (o == "istore_0" || o == "istore_1" || o == "istore_2" || o == "istore_3") {
             char z = o[o.size() - 1];  
             int preobr = z - '0';
-            ist(st, preobr,ili, is0, is1, is2, is3);
+            ist(st, preobr,ili, arr);
         }
         if(o == "swap") {
             swap(st);
@@ -230,9 +208,10 @@ int main()
     std::ifstream v("input.txt");  
     if (v.is_open()) {            
         Stack* st = stack_create();     
-        oper(st, v);
+        oper(st, v, arr);
         vivod_stack(st);
         stack_delete(st);
         cin.get();
     }
+    
 }
