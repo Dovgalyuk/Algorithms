@@ -64,7 +64,7 @@ public:
     // Returns true if the stack is empty
     bool empty() const
     {
-        return vector->size() ? false : true;
+        return vector->size() == 0;
     }
 
 private:
