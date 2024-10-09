@@ -4,6 +4,12 @@
 #include <string>
 using namespace std;
 
+
+int is0 = 0;
+int is1 = 0;
+int is2 = 0;
+int is3 = 0;
+int arr[4] = { is0,is1,is2,is3 };
 void imul(Stack* stack) {
     int mul = 1;
     int element = 0;
@@ -15,8 +21,6 @@ void imul(Stack* stack) {
         mul *= element;
         stack_pop(stack);
     }
-    for (int j = 0; j != i; j++)
-        stack_push(stack, 0);
     stack_push(stack, mul);
 }
 
@@ -31,8 +35,6 @@ void iadd(Stack* stack) {
         slo += element;
         stack_pop(stack);
     }
-    for (int j = 0; j != i; j++)
-        stack_push(stack, 0);
     stack_push(stack, slo);
 }
 
@@ -47,15 +49,11 @@ void isub(Stack* stack) {
         vich -= element;
         stack_pop(stack);
     }
-    for (int j = 0; j != i; j++)
-        stack_push(stack, 0);
     stack_push(stack, vich);
 }
 
-void ist(Stack* stack, int ind, int si) {
-    int is0 = 0;
-    int is1 = 0;
-    int is2 = 0;
+void ist(Stack* stack, int ind, int si, int& is0, int& is1, int& is2, int& is3) {
+
     int znach = stack_get(stack);
     for (int i = 0; i < si - ind; i++) {
         switch (i) {
@@ -69,13 +67,13 @@ void ist(Stack* stack, int ind, int si) {
             is2 = stack_get(stack);
             break;
         case 3:
-            is0 = stack_get(stack);
+            is3 = stack_get(stack);
             break;
         }
         stack_pop(stack);
     }
     stack_push(stack, znach);
-    for (int i = si - ind - 2; i > 0; i--) {
+    for (int i = si - ind-2; i > 0; i--) {
         switch (i) {
         case 0:
             stack_push(stack, is0);
@@ -87,11 +85,10 @@ void ist(Stack* stack, int ind, int si) {
             stack_push(stack, is2);
             break;
         case 3:
-
+            stack_push(stack, is3);
             break;
         }
     }
-    stack_push(stack, 0);
 }
 
 void swap(Stack* stack) {
@@ -149,51 +146,14 @@ bool ixor(Stack* stack) {
     }
 }
 
-void ilo(Stack* stack, int ind, int si) {
-    int is0 = 0;
-    int is1 = 0;
-    int is2 = 0;
-    for (int i = 0; i < si-1 - ind; i++) {
-        switch (i) {
-        case 0:
-            is0 = stack_get(stack);
-            break;
-        case 1:
-            is1 = stack_get(stack);
-            break;
-        case 2:
-            is2 = stack_get(stack);
-            break;
-        case 3:
-            is0 = stack_get(stack);
-            break;
-        }
-        stack_pop(stack);
-        
-    }
-    int czn = stack_get(stack);
-    for (int i = si - 1 - ind; i > 0; i--) {
-        switch (i) {
-        case 0:
-            stack_push(stack,is2);
-            break;
-        case 1:
-            stack_push(stack, is0);
-            break;
-        case 2:
-            stack_push(stack, is1);
-            break;
-        case 3:
-
-            break;
-        }
-    }
-    stack_push(stack, czn);
+void ilo(Stack* stack, int ind) {
+    stack_push(stack, arr[ind]);
 }
 
 void oper(Stack*& st, std::ifstream& v) {
     string o;
     int ili = 0;
+    
     while (v >> o) {   
         if (o == "bipush") {
             int n;
@@ -207,26 +167,26 @@ void oper(Stack*& st, std::ifstream& v) {
         }
         if (o == "imul") {
             imul(st);
-            ili++;
+            ili--;
         }
         if (o == "iadd") {
             iadd(st);
-            ili++;
+            ili--;
         }
         if (o == "isub") {
             isub(st);
-            ili++;
+            ili--;
         }
         
         if (o == "iload_0" || o == "iload_1" || o == "iload_2" || o == "iload_3") {
             char z = o[o.size()-1];
             int preobr = z - '0';
-            ilo(st, preobr, ili);
+            ilo(st, preobr);
         }
         if (o == "istore_0" || o == "istore_1" || o == "istore_2" || o == "istore_3") {
             char z = o[o.size() - 1];  
             int preobr = z - '0';
-            ist(st, preobr,ili);
+            ist(st, preobr,ili, is0, is1, is2, is3);
         }
         if(o == "swap") {
             swap(st);
