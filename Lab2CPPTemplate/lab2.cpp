@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdexcept>
 #include <string>
+#include <fstream>
 #include "stack.h"
 
 using namespace std;
@@ -11,13 +12,16 @@ bool isLatinLetter(char c);
 
 int main(int argc, char** argv)
 {
-    char In[100];
-    FILE* input = fopen(argv[1], "r");
-    if (fscanf(input, "%s", In) == 0)
-        throw invalid_argument("Failed to read the input file");
+    string In;
+    ifstream in(argv[1]); 
 
-    string line(In); // construct a std::string from the input
-    string out = polish_notation(line);
+    if (in.is_open())
+    {
+        getline(in, In);
+    }
+    in.close();
+
+    string out = polish_notation(In);
 
     printf("%s", out.c_str());
     
