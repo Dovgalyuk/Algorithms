@@ -222,6 +222,11 @@ void vivod_stack(Stack* st) {
 
 int main()
 {
+    int is0 = 0;
+    int is1 = 0;
+    int is2 = 0;
+    int is3 = 0;
+    int arr[4] = { is0,is1,is2,is3 };
     std::ifstream v("input.txt");  
     if (v.is_open()) {            
         Stack* st = stack_create();     
