@@ -35,14 +35,15 @@ void iadd(Stack* stack) {
 }
 
 void isub(Stack* stack) {
-    int vich = 0;
+    int vich = stack_get(stack);
     int element = 0;
-    int i = 0;
-    for (; i != 2; i++) {
+    for (int i = 0; i != 2; i++) {
         if (stack_empty(stack) == true)
             break;
-        element = stack_get(stack);
-        vich -= element;
+        if (i == 1) {
+            element = stack_get(stack);
+            vich -= element;
+        }
         stack_pop(stack);
     }
     stack_push(stack, vich);
@@ -66,53 +67,35 @@ void swap(Stack* stack) {
     stack_push(stack, vz);
 }
 
-bool iand(Stack* stack) {
+void iand(Stack* stack) {
     int pz = stack_get(stack);
     stack_pop(stack);
     int vz = stack_get(stack);
-    stack_push(stack, pz);
-    if (pz >= 1 && vz >= 1) {
-        stack_push(stack, 1);
-        return true;
-    }
-    else {
-        stack_push(stack, 0);
-        return false;
-    }
+    stack_pop(stack);
+    stack_push(stack, pz & vz);
+    
 }
 
-bool ior(Stack* stack) {
+void ior(Stack* stack) {
     int pz = stack_get(stack);
     stack_pop(stack);
     int vz = stack_get(stack);
-    stack_push(stack, pz);
-    if (pz >= 1 || vz >= 1) {
-        stack_push(stack, 1);
-        return true;
-    }
-    else {
-        stack_push(stack, 0);
-        return false;
-    }
+    stack_pop(stack);
+    stack_push(stack, vz | pz);
+    
 }
 
-bool ixor(Stack* stack) {
+void ixor(Stack* stack) {
     int pz = stack_get(stack);
     stack_pop(stack);
     int vz = stack_get(stack);
-    stack_push(stack, pz);
-    if ((pz == 0 && vz >= 1) || (pz >= 1 && vz == 0)) {
-        stack_push(stack, 1);
-        return true;
-    }
-    else {
-        stack_push(stack, 0);
-        return false;
-    }
+    stack_pop(stack);
+    stack_push(stack, pz ^ vz);
+    
 }
 
 void ilo(Stack* stack, int ind,int arr[]) {
-    stack_push(stack, arr[ind]);
+    stack_push(stack, arr[ind]);            
 }
 
 void oper(Stack*& st, std::ifstream& v,int* arr) {
@@ -171,16 +154,12 @@ void oper(Stack*& st, std::ifstream& v,int* arr) {
 
 void vivod_stack(Stack* st) {
     Stack* stviv = stack_create();
-    while (true) {
-        if (stack_empty(st) == true)
-            break;
+    while (!stack_empty(st)) {
         stack_push(stviv, stack_get(st));
         stack_pop(st);
     }
     cout << "stack" << endl;
-    while (true) {
-        if (stack_empty(stviv) == true)
-            break;
+    while (!stack_empty(st)) {
         cout << stack_get(stviv) << endl;
         stack_pop(stviv);
     }

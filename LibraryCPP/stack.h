@@ -27,22 +27,5 @@ void stack_pop(Stack *stack);
 // Returns true if the stack is empty
 bool stack_empty(const Stack *stack);
 
-void imul(Stack* stack);
-
-void iadd(Stack* stack);
-
-void isub(Stack* stack);
-
-void il(Stack* stack, int ind);
-
-void ist(Stack* stack, int ind, int si);
-
-void swap(Stack* stack);
-
-bool iand(Stack* stack);
-
-bool ior(Stack* stack);
-
-bool ixor(Stack* stack);
 
 #endif
