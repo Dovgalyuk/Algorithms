@@ -1,7 +1,6 @@
 #include <cstdio>
 #include <stdexcept>
 #include "array.h"
-#include <errno.h>
 
 Array* array_create_and_read(FILE* input);
 void task1(const Array* arr);
@@ -11,37 +10,22 @@ void task2(const Array* arr);
 int main(int argc, char* argv[])
 {
     Array* arr = NULL;
-    FILE* input;
-    errno_t error;
-    if (argc > 1)
-    {
-        error = fopen_s(&input, argv[1], "r");
-        if (error != 0)
-        {
-            throw std::invalid_argument("Failed to read file");
-        }
-        else {
-            arr = array_create_and_read(input);
-            task1(arr);
-            array_delete(arr);
-            /* Create another array here */
-            arr = array_create_and_read(input);
-            task2(arr);
-            array_delete(arr);
-            fclose(input);
-            return 0;
-        }
-    }
-    else
-    {
-        throw std::runtime_error("Invalid arguments");
-    }
+    FILE* input = fopen(argv[1], "r");
+    arr = array_create_and_read(input);
+    task1(arr);
+    array_delete(arr);
+    /* Create another array here */
+    arr = array_create_and_read(input);
+    task2(arr);
+    array_delete(arr);
+    fclose(input);
+    return 0;
 }
 
 Array* array_create_and_read(FILE* input)
 {
     int n;
-    if (!(fscanf_s(input, "%d", &n))) throw std::invalid_argument("Failed to read size");
+    if (!fscanf(input, "%d", &n)) throw std::invalid_argument("Failed to read size");
     if (n < 0) throw std::invalid_argument("Size out of range");
     /* Create array */
     Array* arr = array_create(n);
@@ -49,7 +33,7 @@ Array* array_create_and_read(FILE* input)
     for (int i = 0; i < n; ++i)
     {
         int x;
-        if (!(fscanf_s(input, "%d", &x))) throw std::invalid_argument("Failed to read number");
+        if (!(fscanf(input, "%d", &x))) throw std::invalid_argument("Failed to read number");
         array_set(arr, i, x);
     }
 
@@ -88,7 +72,7 @@ void task2(const Array* arr)
         }
         if (flag == 1)
         {
-            printf_s("%d ", array_get(arr, index));
+            printf("%d ", array_get(arr, index));
         }
     }
 }
