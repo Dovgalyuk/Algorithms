@@ -66,9 +66,6 @@ public:
             throw out_of_range("Out of Range");
 
         data[index] = value;
-
-        if (index == len)
-            len++;
     }
 
     // Inserts element at the end
@@ -78,8 +75,10 @@ public:
             resize(len + 1);
         }
 
+        len++;
+
         // set the value
-        set(len, value);
+        set(len - 1, value);
     }
 
     // Deletes element at the end
