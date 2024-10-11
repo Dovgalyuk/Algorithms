@@ -9,24 +9,14 @@ struct Array
 // create array
 Array *array_create(size_t size)
 {
-    Array* arr = nullptr;
-    try
-    {
-        arr = new Array;
-        arr->data = new Data[size];
-        arr->size = size;
+    std::unique_ptr<Array> arr(new Array);
+    arr->data = new Data[size];
+    arr->size = size;
 
-        for(size_t i = 0; i < size; i++)
-            arr->data[i] = 0;
-    }
-    catch(...)
-    {
-        delete[] arr->data;
-        delete arr;
-        throw;
-    }
+    for(size_t i = 0; i < size; i++)
+        arr->data[i] = 0;
 
-    return arr;
+    return arr.release();
 }
 
 // delete array, free memory
