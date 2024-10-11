@@ -1,0 +1,3 @@
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/CMakeFiles/ALL_BUILD.dir
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/CMakeFiles/ZERO_CHECK.dir
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/CMakeProject2/CMakeFiles/CMakeProject2.dir

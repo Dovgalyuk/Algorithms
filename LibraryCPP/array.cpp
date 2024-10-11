@@ -18,7 +18,7 @@ Array* array_create(size_t size)
     arr->size = size;
     arr->first = (Data*)malloc(size * sizeof(Data));
     if (!(arr->first)) {
-        free(arr);
+        delete arr;
         return nullptr;
     }
 
@@ -31,7 +31,7 @@ void array_delete(Array* arr)
     if (!arr) return;
 
     free(arr->first);
-    free(arr);
+    delete arr;
 }
 
 // returns specified array element
