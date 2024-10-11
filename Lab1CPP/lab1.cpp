@@ -38,7 +38,8 @@ Array* task1(Array *arr, FILE *input)
         else
             array_set(ans,i,(x - k2));
     }
-
+    
+    array_delete(arr);
     return ans;
 }
 
