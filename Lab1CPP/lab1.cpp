@@ -3,14 +3,19 @@
 Array *array_create_and_read(FILE *input)
 {
     int n;
-    fscanf(input, "%d", &n);
+    if(fscanf(input, "%d", &n) != 1)
+        return nullptr;
     /* Create array */
     Array *arr = array_create(n);
     /* Read array data */
     for (int i = 0 ; i < n ; ++i)
     {
         int x;
-        fscanf(input, "%d", &x);
+        if(fscanf(input, "%d", &x) != 1)
+        {
+            array_delete(arr);
+            return nullptr;
+        }
         array_set(arr, i, x);
     }
     return arr;
@@ -21,7 +26,8 @@ Array *array_create_and_read(FILE *input)
 Array* task1(Array *arr, FILE *input)
 {
     int k1, k2;
-    fscanf(input, "%d %d", &k1, &k2);
+    if(fscanf(input, "%d %d", &k1, &k2) != 2)
+        return nullptr;
 
     Array* ans = array_create(array_size(arr));
     for(size_t i = 0; i < array_size(ans); i++)
