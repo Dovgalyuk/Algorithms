@@ -1,34 +1,64 @@
 #include "array.h"
+#include <stdexcept>
 
 struct Array
 {
+    size_t size;
+    Data* first;
 };
 
 // create array
-Array *array_create(size_t size)
+Array* array_create(size_t size)
 {
-    return new Array;
+    if (size == 0) return nullptr;
+
+    Array* arr = new Array();
+    if (!arr) return nullptr;
+
+    arr->size = size;
+    arr->first = (Data*)malloc(size * sizeof(Data));
+    if (!(arr->first)) {
+        free(arr);
+        return nullptr;
+    }
+
+    return arr;
 }
 
 // delete array, free memory
-void array_delete(Array *arr)
+void array_delete(Array* arr)
 {
-    delete arr;
+    if (!arr) return;
+
+    free(arr->first);
+    free(arr);
 }
 
 // returns specified array element
-Data array_get(const Array *arr, size_t index)
+Data array_get(const Array* arr, size_t index)
 {
-    return (Data)0;
+    if (!arr)
+        throw std::invalid_argument("Array pointer is null");
+    if (index >= arr->size)
+        throw std::out_of_range("Index out of range");
+
+    return *(arr->first + index);
 }
 
 // sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value)
+void array_set(Array* arr, size_t index, Data value)
 {
+    if (!arr)
+        throw std::invalid_argument("Array pointer is null");
+    if (index >= arr->size)
+        throw std::out_of_range("Index out of range");
+
+    *(arr->first + index) = value;
 }
 
 // returns array size
-size_t array_size(const Array *arr)
+size_t array_size(const Array* arr)
 {
-    return 0;
+    if (!arr) throw std::invalid_argument("Array pointer is null");
+    return arr->size;
 }
