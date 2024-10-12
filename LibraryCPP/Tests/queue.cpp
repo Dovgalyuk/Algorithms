@@ -37,6 +37,7 @@ int main()
     queue_insert(queue, 4);
     while (!queue_empty(queue))
     {
+        std::cin.get();
         std::cout << "Get: " << queue_get(queue) << "\n";
         queue_remove(queue);
     }

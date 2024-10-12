@@ -4,17 +4,22 @@
 int main()
 {
     Vector *vector = vector_create();
-
+    
     vector_resize(vector, 5);
+    
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
+    for (size_t i = 0; i < vector_size(vector); ++i) {
+        
+        int inti = (int)i;
+        vector_set(vector, i, inti);
 
+    }
+   
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get(vector, i) != (int)i)
@@ -69,6 +74,6 @@ int main()
         sum += vector_get(vector, i);
 
     std::cout << sum << "\n";
-
     vector_delete(vector);
+
 }
