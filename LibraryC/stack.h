@@ -2,6 +2,7 @@
 #define STACK_H
 
 #include <stdbool.h>
+#include <stdio.h>  // Добавлен заголовочный файл для работы с файлами
 
 // Stack
 // Stores pointer to custom user data
@@ -18,6 +19,9 @@ extern "C" {
 // Creates empty stack
 Stack *stack_create(FFree f);
 
+// Creates stack from file
+Stack *stack_create_from_file(FILE *input);
+
 // Deletes the stack
 void stack_delete(Stack *stack);
 
@@ -25,7 +29,7 @@ void stack_delete(Stack *stack);
 // Should be O(1) on average
 void stack_push(Stack *stack, Data data);
 
-// Retrives the last element from the stack
+// Retrieves the last element from the stack
 Data stack_get(const Stack *stack);
 
 // Removes the last element from the stack

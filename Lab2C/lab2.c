@@ -1,4 +1,4 @@
-#include "../LibraryC/stack.h"
+#include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -80,32 +80,33 @@ void execute_command(Stack *stack, char command) {
                 stack_push(stack, (Data)(intptr_t)input);
                 break;
             }
-            
         }
     }
 }
 
-int main() {
-    Stack *stack = stack_create(NULL);
-    if (!stack) {
-        printf("Ошибка создания стека.\n");
-        return 1;
-    }
+int main(int argc, char **argv) {
+    FILE *input = fopen(argv[1], "r");
 
-    FILE *input = fopen("input.txt", "r");
     if (!input) {
-        printf("Ошибка открытия файла input.txt.\n");
-        stack_delete(stack);
+        printf("Ошибка: Не удалось открыть файл input.txt.\n");
         return 1;
     }
 
-    char command;
-    while ((command = fgetc(input)) != EOF) {
-        if (command == '\n') continue;
-        execute_command(stack, command);
+    Stack *stack = stack_create_from_file(input);
+    if (!stack) {
+        fclose(input);
+        return 1;
     }
 
     fclose(input);
+
+    // Выполнение команд из стека
+    while (!stack_empty(stack)) {
+        char command = (char)(intptr_t)stack_get(stack);
+        stack_pop(stack);
+        execute_command(stack, command);
+    }
+
     stack_delete(stack);
     return 0;
 }
