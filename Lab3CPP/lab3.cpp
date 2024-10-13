@@ -1,8 +1,7 @@
-#include <iostream>
-#include "../LibraryCPP/vector.h"
 #include "../LibraryCPP/queue.h"
+#include "../LibraryCPP/vector.h"
+#include <iostream>
 
-int main()
-{
-    
+int main() {
+	return 0;
 }
