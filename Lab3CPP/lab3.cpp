@@ -20,13 +20,13 @@ bool is_valid(int x, int y, int width, int height, const Vector* lab, bool* visi
         return true;
 }
 
-Point find_clothest(const Vector* lab, int start_x, int start_y, int width, int height) {
+Point find_clothest(const Vector* lab, Point start, int width, int height) {
     Queue* queue = queue_create();
     bool* visited = new bool[width * height]();
     Point dir[4] = { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
 
-    queue_insert(queue, start_y * width + start_x);
-    visited[start_y * width + start_x] = true;
+    queue_insert(queue, start.y * width + start.x);
+    visited[start.y * width + start.x] = true;
 
     while (!queue_empty(queue)) 
     {
@@ -62,71 +62,95 @@ Point find_clothest(const Vector* lab, int start_x, int start_y, int width, int 
     return { -1, -1 };
 }
 
-int main() {
-    std::string filepath = "";
-    getline(std::cin, filepath);
-    std::ifstream in(filepath);
-    if (in)
+void input(std::ifstream& in, int* width, int* height, Vector* vector)
+{
+    char temp;
+    int counter = 0;
+    bool first_line = true;
+
+    while (in.get(temp))
     {
-        Vector* lab = vector_create();
-        int width = 0;
-        char temp;
-        int counter = 0;
-        while (in.get(temp))
+        if (temp != '\n')
         {
-            if (temp != '\n')
-            {
-                vector_push(lab, temp);
-                if (!width)
-                    counter++;
-            }
-            if (temp == '\n' && !width)
-            {
-                width = counter;
-            }
+            vector_push(vector, temp);
+            if (first_line)
+                counter++;
         }
-
-        in.close();
-
-        int height = vector_size(lab) / width;
-
-        int start_x = -1, start_y = -1;
-        for (int y = 0; y < height; y++)
+        if (temp == '\n')
         {
-            for (int x = 0; x < width; x++)
+            if (first_line)
             {
-                if ((char)vector_get(lab, y * width + x) == 'X')
-                {
-                    start_x = x;
-                    start_y = y;
-                    break;
-                }
+                *width = counter;
+                first_line = false;
             }
-            if (start_x != -1)
-                break;
+            counter = 0;
         }
+    }
 
-        if (start_x != -1)
+    *height = vector_size(vector) / *width;
+
+    in.close();
+}
+
+void output(Point start, int width, int height, Vector *vector)
+{
+    if (start.x != -1)
+    {
+        Point result = find_clothest(vector, start, width, height);
+        if (result.x != -1)
         {
-            Point result = find_clothest(lab, start_x, start_y, width, height);
-            if (result.x != -1)
-            {
-                std::cout << (char)vector_get(lab, result.y * width + result.x);
-            }
-            else
-            {
-                std::cout << "End point was not founded\n";
-            }
+            std::cout << (char)vector_get(vector, result.y * width + result.x);
         }
         else
         {
-            std::cout << "Start point was not founded\n";
+            std::cout << "End point was not founded\n";
         }
-        vector_delete(lab);
     }
     else
     {
-        std::cout << "File could not be opened\n";
+        std::cout << "Start point was not founded\n";
     }
+}
+
+Point find_start(int width, int height, Vector* vector)
+{
+    int start_x = -1, start_y = -1;
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            if ((char)vector_get(vector, y * width + x) == 'X')
+            {
+                start_x = x;
+                start_y = y;
+                break;
+            }
+        }
+        if (start_x != -1)
+            break;
+    }
+
+    return { start_x, start_y };
+}
+
+int main(int argc, char** argv) 
+{
+    std::string filepath = argv[1];
+    std::ifstream in(filepath);
+
+    if (!in)
+    {
+        std::cout << "File could not be opened\n";
+        return 1;
+    }
+
+    Vector* vector = vector_create();
+    int width = 0, height = 0;
+    input(in, &width, &height, vector);
+
+    Point start = find_start(width, height, vector);
+
+    output(start, width, height, vector);
+    vector_delete(vector);
     return 0;
 }
