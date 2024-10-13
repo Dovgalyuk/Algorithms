@@ -4,6 +4,7 @@ struct Vector
 {
     size_t size = 0;
     size_t capacity = 0;
+    size_t curr_index = 0;
     Data* ptr = nullptr;
 };
 
@@ -48,11 +49,11 @@ size_t vector_size(const Vector* vector)
     return (size_t)0;
 }
 
-void vector_resize(Vector* vector, size_t new_capacity)
+void vector_resize(Vector* vector, size_t new_size)
 {
-    if (new_capacity > vector->capacity)
+    if (new_size > vector->capacity)
     {
-        size_t ncap = new_capacity * 2;
+        size_t ncap = new_size * 2;
         Data* new_ptr = new Data[ncap];
         for (size_t i = 0; i < vector->size; ++i)
         {
@@ -63,7 +64,7 @@ void vector_resize(Vector* vector, size_t new_capacity)
         vector->ptr = new_ptr;
         vector->capacity = ncap;
     }
-    //vector->size = new_size;
+    vector->size = new_size;
 }
 
 Vector* vector_copy(const Vector* vector)
@@ -92,6 +93,7 @@ void vector_push(Vector* vector, Data value) {
             vector_resize(vector, vector->size + 1);
         }
 
-        vector_set(vector, vector->size++, value);
+        vector_set(vector, vector->curr_index++, value);
+        vector->size++;
     }
 }
