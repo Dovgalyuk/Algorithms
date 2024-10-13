@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <fstream>
 #include "../LibraryCPP/queue.h"
 #include "../LibraryCPP/vector.h"
@@ -62,64 +63,70 @@ Point find_clothest(const Vector* lab, int start_x, int start_y, int width, int 
 }
 
 int main() {
-    std::ifstream in("input.txt");
-    Vector* lab = vector_create();
-    int width = 0;
-    if (in) 
+    std::string filepath = "";
+    getline(std::cin, filepath);
+    std::ifstream in(filepath);
+    if (in)
     {
+        Vector* lab = vector_create();
+        int width = 0;
         char temp;
         int counter = 0;
-        while (in.get(temp)) 
+        while (in.get(temp))
         {
-            if (temp != '\n') 
+            if (temp != '\n')
             {
                 vector_push(lab, temp);
-                if(!width)
+                if (!width)
                     counter++;
             }
-            if (temp == '\n' && !width) 
+            if (temp == '\n' && !width)
             {
                 width = counter;
             }
         }
-    }
-    in.close();
 
-    int height = vector_size(lab) / width;
+        in.close();
 
-    int start_x = -1, start_y = -1;
-    for (int y = 0; y < height; y++) 
-    {
-        for (int x = 0; x < width; x++) 
+        int height = vector_size(lab) / width;
+
+        int start_x = -1, start_y = -1;
+        for (int y = 0; y < height; y++)
         {
-            if ((char)vector_get(lab, y * width + x) == 'X') 
+            for (int x = 0; x < width; x++)
             {
-                start_x = x;
-                start_y = y;
+                if ((char)vector_get(lab, y * width + x) == 'X')
+                {
+                    start_x = x;
+                    start_y = y;
+                    break;
+                }
+            }
+            if (start_x != -1)
                 break;
+        }
+
+        if (start_x != -1)
+        {
+            Point result = find_clothest(lab, start_x, start_y, width, height);
+            if (result.x != -1)
+            {
+                std::cout << (char)vector_get(lab, result.y * width + result.x);
+            }
+            else
+            {
+                std::cout << "End point was not founded\n";
             }
         }
-        if (start_x != -1) 
-            break;
-    }
-
-    if (start_x != -1) 
-    {
-        Point result = find_clothest(lab, start_x, start_y, width, height);
-        if (result.x != -1) 
+        else
         {
-            std::cout << (char)vector_get(lab, result.y * width + result.x);
-        } 
-        else 
-        {
-            std::cout << "End point was not founded\n";
+            std::cout << "Start point was not founded\n";
         }
-    } 
-    else 
-    {
-        std::cout << "Start point was not founded\n";
+        vector_delete(lab);
     }
-
-    vector_delete(lab);
+    else
+    {
+        std::cout << "File could not be opened\n";
+    }
     return 0;
 }
