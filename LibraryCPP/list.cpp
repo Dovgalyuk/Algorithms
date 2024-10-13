@@ -84,7 +84,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
 {
     if (item == nullptr || item->next == nullptr)
         return nullptr; // Если элемент null или нет следующего элемента
-
     ListItem* toErase = item->next;
     item->next = toErase->next;
     delete toErase;
@@ -94,3 +93,40 @@ ListItem *list_erase_next(List *list, ListItem *item)
 bool list_empty(List *list) {
     return list->head == NULL;
 }
+ListItem *list_second_to_last(List *list)
+{
+    // Если список пуст или содержит только один элемент, возвращаем nullptr
+    if (list->head == nullptr || list->head->next == nullptr)
+    {
+        return nullptr;
+    }
+
+    ListItem *current = list->head;
+
+    // Ищем предпоследний элемент
+    while (current->next->next != nullptr)
+    {
+        current = current->next; // Переходим к следующему элементу
+    }
+
+    // Возвращаем предпоследний элемент
+    return current;
+}
+ListItem *list_last(List *list)
+{
+    if (list->head == nullptr) // Если список пуст, возвращаем nullptr
+        return nullptr;
+
+    ListItem *current = list->head; // Начинаем с головы списка
+
+    // Проходим до конца списка
+    while (current->next != nullptr)
+    {
+        current = current->next; // Переходим к следующему элементу
+    }
+
+    // Возвращаем последний элемент
+    return current;
+}
+
+
