@@ -49,6 +49,15 @@ size_t vector_size(const Vector* vector)
     return (size_t)0;
 }
 
+size_t vector_used_size(const Vector* vector) 
+{ 
+    if (vector != nullptr) 
+    {
+        return vector->curr_index;
+    }
+    return (size_t)0;
+}
+
 void vector_resize(Vector* vector, size_t new_size)
 {
     if (new_size > vector->capacity)
@@ -94,6 +103,7 @@ void vector_push(Vector* vector, Data value) {
         }
 
         vector_set(vector, vector->curr_index++, value);
+
         vector->size++;
     }
 }
