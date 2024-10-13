@@ -1,9 +1,8 @@
 #include <iostream>
-#include "vector.h"
-#include "queue.h"
+#include "../LibraryCPP/vector.h"
+#include "../LibraryCPP/queue.h"
 
 int main()
 {
-
-    return 0;
+    
 }
