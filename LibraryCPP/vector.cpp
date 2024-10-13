@@ -7,16 +7,16 @@ struct Vector
     Data* ptr = nullptr;
 };
 
-Vector *vector_create()
+Vector* vector_create()
 {
     return new Vector;
 }
 
-void vector_delete(Vector *vector)
+void vector_delete(Vector* vector)
 {
     if (vector != nullptr)
     {
-        if (vector->ptr) 
+        if (vector->ptr)
             delete[] vector->ptr;
         delete vector;
     }
@@ -31,7 +31,7 @@ Data vector_get(const Vector* vector, size_t index)
     return (Data)0;
 }
 
-void vector_set(Vector *vector, size_t index, Data value) 
+void vector_set(Vector* vector, size_t index, Data value)
 {
     if (vector != nullptr && index <= vector->size)
     {
@@ -39,7 +39,7 @@ void vector_set(Vector *vector, size_t index, Data value)
     }
 }
 
-size_t vector_size(const Vector *vector)
+size_t vector_size(const Vector* vector)
 {
     if (vector != nullptr)
     {
@@ -48,13 +48,13 @@ size_t vector_size(const Vector *vector)
     return (size_t)0;
 }
 
-void vector_resize(Vector* vector, size_t new_size) 
+void vector_resize(Vector* vector, size_t new_capacity)
 {
-    if (new_size > vector->capacity) 
+    if (new_capacity > vector->capacity)
     {
-        size_t ncap = new_size * 2;
+        size_t ncap = new_capacity * 2;
         Data* new_ptr = new Data[ncap];
-        for (size_t i = 0; i < vector->size; ++i) 
+        for (size_t i = 0; i < vector->size; ++i)
         {
             new_ptr[i] = vector->ptr[i];
         }
@@ -63,7 +63,7 @@ void vector_resize(Vector* vector, size_t new_size)
         vector->ptr = new_ptr;
         vector->capacity = ncap;
     }
-    vector->size = new_size;
+    //vector->size = new_size;
 }
 
 Vector* vector_copy(const Vector* vector)
@@ -83,4 +83,15 @@ Vector* vector_copy(const Vector* vector)
         return copy;
     }
     return nullptr;
+}
+
+void vector_push(Vector* vector, Data value) {
+    if (vector != nullptr) {
+
+        if (vector->size >= vector->capacity) {
+            vector_resize(vector, vector->size + 1);
+        }
+
+        vector_set(vector, vector->size++, value);
+    }
 }
