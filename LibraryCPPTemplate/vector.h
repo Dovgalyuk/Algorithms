@@ -71,11 +71,8 @@ public:
     // Inserts element at the end
     void push(Data value)
     {
-        if (len == capacity) {
-            resize(len + 1);
-        }
-
-        len++;
+        // increase the len
+        resize(len + 1);
 
         // set the value
         set(len - 1, value);
