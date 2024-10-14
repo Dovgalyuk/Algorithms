@@ -50,18 +50,18 @@ void task1(const Array& arr, std::ofstream& output)
 
 void task2(Array& arr, int a, int b, std::ofstream& output)
 {
-    int counter = 0;
-    for (size_t i = 0;i < arr.size(); ++i) {
-        if (arr.get(i)>= a && arr.get(i) <= b) {
-            for (size_t j = i; j <arr.size()-1; ++j) {
-                arr.set(j,arr.get(i+1));
-            }
-            arr.set(arr.size()-counter-1,0);
-            counter+=1;
+    size_t counter = 0;
+    for (size_t i = 0; i < arr.size(); i++)
+    {
+        if (arr.get(i) < a || arr.get(i) > b)
+        {
+            arr.set(counter++, arr.get(i));
         }
     }
-    for (size_t i = 0;i <arr.size();++i) {
-        output << arr.get(i) << std::endl;
+
+    while (counter < arr.size())
+    {
+        arr.set(counter++, 0);
     }
 }
 
