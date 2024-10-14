@@ -39,7 +39,8 @@ ListItem *list_erase_first(List *list);
 ListItem *list_erase_next(List *list, ListItem *item);
 
 bool list_empty(List *list);
-ListItem *list_second_to_last(List *list);
+
 ListItem *list_last(List *list);
+ListItem *list_second_to_last(List *list);
 
 #endif

@@ -4,19 +4,24 @@
 #include "stack.h"
 #include "list.h"
 
+const int sum = -1;
+const int sub = -2;
+const int mult = -3;
+const int sep = -4;
+const int blabla = -5;
 using namespace std;
 
 int opToNums(char op) {
     switch (op) {
-        case '+': return -1;
+        case '+': return sum;
             break;
-        case '-': return -2;
+        case '-': return sub;
             break;
-        case '*': return -3;
+        case '*': return mult;
             break;
-        case '/': return -4;
+        case '/': return sep;
             break;
-        default: return -5;
+        default: return blabla;
     }
 }
 
@@ -50,7 +55,7 @@ void appOp(Stack* vals, int op) {
     }
 }
 
-List* infixToPostfix(const string& ex, int* count) {
+List* infixToPostfix(const string& ex) {
     Stack* ops = stack_create();
     List* postfix = list_create();
     string number;
@@ -115,8 +120,7 @@ int resPost(List* postfix) {
 
 int task1(string ex)
 {
-    int c = 0;
-    List* postfix = infixToPostfix(ex, &c);
+    List* postfix = infixToPostfix(ex);
     return resPost(postfix);
 }
 
