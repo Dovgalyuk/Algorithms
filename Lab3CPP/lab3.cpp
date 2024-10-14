@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "../LibraryCPP/queue.h"
-#include "../LibraryCPP/vector.h"
+#include "queue.h"
+#include "vector.h"
 
 struct Point {
     int x, y;
