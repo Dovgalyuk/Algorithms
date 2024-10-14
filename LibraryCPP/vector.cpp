@@ -89,6 +89,7 @@ void vector_push(Vector* vector, Data value) {
     if (vector != nullptr) {
 
         vector_resize(vector, vector->size + 1);
-        vector_set(vector, vector->size++, value);
+        vector_set(vector, vector->size - 1, value);
+        //vector->size++;
     }
 }
