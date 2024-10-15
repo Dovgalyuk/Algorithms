@@ -62,7 +62,7 @@ public:
     // Sets vector element with the specified index
     void set(size_t index, Data value)
     {
-        if (index > len)
+        if (index >= len)
             throw out_of_range("Out of Range");
 
         data[index] = value;
@@ -84,14 +84,9 @@ public:
             throw "Empty container\n";
         }
 
-        // decrease current length
-        len--;
-
-        // rezise if there are too many empty elements
-        if (len != 0 && capacity / len > 2) {
-            capacity = len;
-            resize(len);
-        }
+        // decrease the len
+        resize(len - 1);
+        
     }
 
     // Retrieves current vector size
@@ -117,6 +112,10 @@ public:
 
             data = new_data;
             capacity = new_capacity;
+        }
+        else if (new_size && capacity / new_size >= 2) {
+            // decrease the capacity if there are too many empty elements
+            capacity = new_size;
         }
 
         len = new_size;
