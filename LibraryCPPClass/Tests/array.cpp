@@ -1,5 +1,7 @@
 #include <iostream>
-#include "array.h"
+#include "../LibraryCPPClass/array.h"
+
+using namespace std;
 
 int main()
 {
@@ -7,7 +9,7 @@ int main()
 
     if (arr->size() != 10)
     {
-        std::cout << "Invalid array size\n";
+        cout << "Invalid array size\n";
         return 1;
     }
 
@@ -21,10 +23,30 @@ int main()
         if (arr->get(i) != i * 2
             || copy.get(i) != i * 2)
         {
-            std::cout << "Invalid array element " << i << "\n";
+            cout << "Invalid array element " << i << "\n";
             return 1;
         }
     }
 
+
+    try {
+        arr->set(32, 8);
+        cout << "[TEST #1] - set() check for invalid index\t\nResult: set() doesn't handle invalid index\n";
+        return 1;
+    }
+    catch (const out_of_range&) {
+        cout << "[TEST #1] - set() check for invalid index\t\nResult: Caught expected out_of_range exception for set() with invalid index\n";
+    }
+
+    try {
+        arr->get(16);
+        cout << "[TEST #2] - get() check for invalid index\t\nResult: set() doesn't handle invalid index\n";
+        return 1;
+    }
+    catch (const out_of_range&) {
+        cout << "[TEST #2] - get() check for invalid index\t\nResult: Caught expected out_of_range exception for get() with invalid index\n";
+    }
+
     delete arr;
 }
+
