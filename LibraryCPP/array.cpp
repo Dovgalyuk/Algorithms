@@ -16,7 +16,7 @@ void array_delete(Array *arr)
     delete arr;
 }
 
-// returns specified array elementы
+// returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
     return (Data)0;
