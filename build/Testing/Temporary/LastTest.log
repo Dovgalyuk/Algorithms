@@ -1,17 +1,17 @@
-Start testing: Oct 14 19:29 RTZ 2 (зима)
+Start testing: Oct 14 21:03 RTZ 2 (зима)
 ----------------------------------------------------------
 1/2 Testing: TestArrayCPP
 1/2 Test: TestArrayCPP
 Command: "D:/РќРѕРІР“РЈ. Р”РѕРІРіР°Р»СЋРє/Algorithms/build/LibraryCPP/Tests/Debug/TestArrayCPP.exe"
 Directory: D:/РќРѕРІР“РЈ. Р”РѕРІРіР°Р»СЋРє/Algorithms/build/LibraryCPP/Tests
-"TestArrayCPP" start time: Oct 14 19:29 RTZ 2 (зима)
+"TestArrayCPP" start time: Oct 14 21:03 RTZ 2 (зима)
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.02 sec
 ----------------------------------------------------------
 Test Passed.
-"TestArrayCPP" end time: Oct 14 19:29 RTZ 2 (зима)
+"TestArrayCPP" end time: Oct 14 21:03 RTZ 2 (зима)
 "TestArrayCPP" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -19,7 +19,7 @@ Test Passed.
 2/2 Test: TestLab1CPP
 Command: "D:/РќРѕРІР“РЈ. Р”РѕРІРіР°Р»СЋРє/Algorithms/build/Lab1CPP/Debug/Lab1CPP.exe" "D:/РќРѕРІР“РЈ. Р”РѕРІРіР°Р»СЋРє/Algorithms/Lab1CPP/input.txt"
 Directory: D:/РќРѕРІР“РЈ. Р”РѕРІРіР°Р»СЋРє/Algorithms/build/Lab1CPP
-"TestLab1CPP" start time: Oct 14 19:29 RTZ 2 (зима)
+"TestLab1CPP" start time: Oct 14 21:03 RTZ 2 (зима)
 Output:
 ----------------------------------------------------------
 Task 1
@@ -28,11 +28,11 @@ Task 1
 Task 2
 Массив после сжатия: 12 86 67 97 17 81 77 66 26 4 95 19 72 100 71 90 85 0 3 94 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 <end of output>
-Test time =   0.04 sec
+Test time =   0.22 sec
 ----------------------------------------------------------
 Test Passed.
-"TestLab1CPP" end time: Oct 14 19:29 RTZ 2 (зима)
+"TestLab1CPP" end time: Oct 14 21:03 RTZ 2 (зима)
 "TestLab1CPP" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Oct 14 19:29 RTZ 2 (зима)
+End testing: Oct 14 21:03 RTZ 2 (зима)
