@@ -1,20 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "array.h"
 
-
-
-
-Array* array_create_and_read(FILE* input) {
+Array *array_create_and_read(FILE *input) {
     size_t n;
 
     // Read array size
-    if (fscanf_s(input, "%zu", &n) != 1 || n <= 0){
+    if (fscanf_s(input, "%zu", &n) != 1 || n <= 0) {
         return NULL;
     }
-    
+
     /* Create array */
-    Array* arr = array_create(n, NULL);
+    Array *arr = array_create(n, NULL);
 
     /* Read array data */
     for (int i = 0; i < n; ++i) {
@@ -28,7 +26,7 @@ Array* array_create_and_read(FILE* input) {
     return arr;
 }
 
-void task1(Array* arr) {
+void task1(Array *arr) {
     if (!arr) return;
 
     size_t maxElement = array_get(arr, 0);
@@ -45,15 +43,15 @@ void task1(Array* arr) {
         }
     }
 
-
     printf("%d %d", firstMaxElement, lastMaxElement);
 }
 
-void task2(Array* arr) {
+void task2(Array *arr) {
     if (!arr) return;
     size_t maxSum = 0;
     for (int i = 0; i <= array_size(arr) - 5; i++) {
-        size_t sum = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) + array_get(arr, i + 3) + array_get(arr, i + 4);
+        size_t sum = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) +
+                     array_get(arr, i + 3) + array_get(arr, i + 4);
         if (sum > maxSum) {
             maxSum = sum;
         }
@@ -62,21 +60,19 @@ void task2(Array* arr) {
     printf("%zu", maxSum);
 }
 
-
-
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     if (argc != 2) {
         return 1;
     }
 
-    Array* arr = NULL;
+    Array *arr = NULL;
     FILE *input = fopen(argv[1], "r");
     if (!input) {
         return 1;
     }
-    
+
     arr = array_create_and_read(input);
-    if (arr){
+    if (arr) {
         task1(arr);
         array_delete(arr);
     } else {
@@ -85,14 +81,14 @@ int main(int argc, char** argv) {
     }
 
     arr = array_create_and_read(input);
-    if (arr){
+    if (arr) {
         task2(arr);
         array_delete(arr);
-    } else{
+    } else {
         fclose(input);
         return 1;
     }
-    
+
     fclose(input);
     return 0;
 }

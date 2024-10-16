@@ -1,13 +1,14 @@
 #include <stdlib.h>
+
 #include "array.h"
 
 // create array
 Array *array_create(size_t size, FFree f) {
     (void)f;
-    Array *arr = (Array*)malloc(sizeof(Array));
+    Array *arr = (Array *)malloc(sizeof(Array));
     if (!arr) return NULL;
-    
-    arr->data = (Data*)malloc(size * sizeof(Data));
+
+    arr->data = (Data *)malloc(size * sizeof(Data));
     if (!arr->data) {
         free(arr);
         return NULL;
@@ -21,7 +22,7 @@ Array *array_create(size_t size, FFree f) {
 
 // delete array, free memory
 void array_delete(Array *arr) {
-    if (arr){
+    if (arr) {
         free(arr->data);
         free(arr);
     }
@@ -39,6 +40,4 @@ void array_set(Array *arr, size_t index, Data value) {
 }
 
 // returns array size
-size_t array_size(const Array *arr){
-    return arr->size;
-}
+size_t array_size(const Array *arr) { return arr->size; }
