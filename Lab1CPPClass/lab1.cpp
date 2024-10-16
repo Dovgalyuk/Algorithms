@@ -41,7 +41,8 @@ void task1(const Array& arr, std::ofstream& output)
         int divisibility_test = arr.get(i);
         for (int j = 2; j < 10; j+=1) {
             if (divisibility_test%j==0) {
-            counter +=1;
+                counter +=1;
+                break;
             }
         }
     }
