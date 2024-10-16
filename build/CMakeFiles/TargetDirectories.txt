@@ -1,9 +1,0 @@
-D:/НовГУ. Довгалюк/Algorithms/build/CMakeFiles/RUN_TESTS.dir
-D:/НовГУ. Довгалюк/Algorithms/build/CMakeFiles/ALL_BUILD.dir
-D:/НовГУ. Довгалюк/Algorithms/build/CMakeFiles/ZERO_CHECK.dir
-D:/НовГУ. Довгалюк/Algorithms/build/LibraryCPP/CMakeFiles/LibraryCPP.dir
-D:/НовГУ. Довгалюк/Algorithms/build/LibraryCPP/CMakeFiles/RUN_TESTS.dir
-D:/НовГУ. Довгалюк/Algorithms/build/LibraryCPP/Tests/CMakeFiles/TestArrayCPP.dir
-D:/НовГУ. Довгалюк/Algorithms/build/LibraryCPP/Tests/CMakeFiles/RUN_TESTS.dir
-D:/НовГУ. Довгалюк/Algorithms/build/Lab1CPP/CMakeFiles/Lab1CPP.dir
-D:/НовГУ. Довгалюк/Algorithms/build/Lab1CPP/CMakeFiles/RUN_TESTS.dir
