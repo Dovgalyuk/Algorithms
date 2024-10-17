@@ -6,19 +6,16 @@
 
 using namespace std;
 
-
 Array* array_create_and_read(ifstream &input) {
     int n;
     input >> n;  
 
-    
     Array *arr = array_create(n); 
     if (arr == nullptr) {
         cout << "Ошибка при создании массива.\n";
         return nullptr;
     }
 
-    
     for (int i = 0; i < n; ++i) {
         int x;
         input >> x;  
@@ -73,36 +70,34 @@ void task2(Array *arr) {
     cout << "Введите направление сдвига (1 - влево, 2 - вправо): ";
     cin >> direction;
 
-    size_t shift = 1; 
-    Array *temp = array_create(array_size(arr)); // Создаем временный массив
-    if (temp == nullptr) {
-        cout << "Не удалось создать временный массив.\n";
-        return;
-    }
+    size_t size = array_size(arr);
 
     if (direction == 1) {  // Сдвиг влево
-        for (size_t i = 0; i < array_size(arr) - shift; ++i) {
-            array_set(temp, i, array_get(arr, i + shift));
-        }
-        for (size_t i = array_size(arr) - shift; i < array_size(arr); ++i) {
-            array_set(temp, i, 0);  
+        for (size_t step = 0; step < size; ++step) {
+            for (size_t i = 0; i < size - 1; ++i) {
+                array_set(arr, i, array_get(arr, i + 1));
+            }
+            array_set(arr, size - 1, 0); 
+            cout << "Массив после сдвига вдево, шаг " << step + 1 << ":\n";
+            for (size_t i = 0; i < size; ++i) {
+                cout << array_get(arr, i) << " ";
+            }
+            cout << '\n';
         }
     } else if (direction == 2) {  // Сдвиг вправо
-        for (size_t i = shift; i < array_size(arr); ++i) {
-            array_set(temp, i, array_get(arr, i - shift));
-        }
-        for (size_t i = 0; i < shift; ++i) {
-            array_set(temp, i, 0);  
+        for (size_t step = 0; step < size; ++step) {
+            int last = array_get(arr, size - 1);
+            for (size_t i = size - 1; i > 0; --i) {
+                array_set(arr, i, array_get(arr, i - 1));
+            }
+            array_set(arr, 0, last);  
+            cout << "Массив после сдвига вправо, шаг " << step + 1 << ":\n";
+            for (size_t i = 0; i < size; ++i) {
+                cout << array_get(arr, i) << " ";
+            }
+            cout << '\n';
         }
     }
-
-    // Вывод массива после сдвига
-    cout << "Массив после сдвига:\n";
-    for (size_t i = 0; i < array_size(temp); ++i) {
-        cout << array_get(temp, i) << " ";
-    }
-    cout << "\n";
-    array_delete(temp); 
 }
 
 // Основная функция
@@ -114,7 +109,7 @@ int main(int argc, char **argv){
 
     ifstream input(argv[1]);
     if (!input.is_open()) {
-        cout << "Не удалось открыть файл: " << argv[1] << "\n";
+        cout << "Не удалось открыть файл: " << argv[1] << '\n';
         return 1; 
     }
 
