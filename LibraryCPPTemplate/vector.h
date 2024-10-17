@@ -113,10 +113,6 @@ public:
             data = new_data;
             capacity = new_capacity;
         }
-        else if (new_size && capacity / new_size >= 2) {
-            // decrease the capacity if there are too many empty elements
-            capacity = new_size;
-        }
 
         len = new_size;
     }
