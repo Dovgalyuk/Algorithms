@@ -16,21 +16,6 @@ Stack *stack_create(FFree f)
     return stack;
 }
 
-Stack *stack_create_from_file(FILE *input)
-{
-    Stack *stack = malloc(sizeof(Stack));
-    if (stack == NULL) return NULL;
-    stack->list = list_create(NULL);
-
-    char command;
-    while ((command = fgetc(input)) != EOF) {
-        if (command == '\n') continue;
-        stack_push(stack, (Data)(intptr_t)command);
-    }
-
-    return stack;
-}
-
 void stack_delete(Stack *stack)
 {
     list_delete(stack->list);

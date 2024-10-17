@@ -1,11 +1,10 @@
-#include "stack.h"
+#include "../LibraryC/stack.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdint.h>
 
-// Функция для выполнения арифметических операций
 void perform_operation(Stack *stack, char op) {
     int a = (int)(intptr_t)stack_get(stack);
     stack_pop(stack);
@@ -25,7 +24,6 @@ void perform_operation(Stack *stack, char op) {
     stack_push(stack, (Data)(intptr_t)result);
 }
 
-// Функция для выполнения логических операций
 void perform_logical_operation(Stack *stack, char op) {
     int a = (int)(intptr_t)stack_get(stack);
     stack_pop(stack);
@@ -45,7 +43,6 @@ void perform_logical_operation(Stack *stack, char op) {
     stack_push(stack, (Data)(intptr_t)result);
 }
 
-// Функция для выполнения команд интерпретатора
 void execute_command(Stack *stack, char command) {
     if (isdigit(command)) {
         stack_push(stack, (Data)(intptr_t)(command - '0'));
@@ -92,21 +89,19 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    Stack *stack = stack_create_from_file(input);
+    Stack *stack = stack_create(NULL);
     if (!stack) {
         fclose(input);
         return 1;
     }
 
-    fclose(input);
-
-    // Выполнение команд из стека
-    while (!stack_empty(stack)) {
-        char command = (char)(intptr_t)stack_get(stack);
-        stack_pop(stack);
+    char command;
+    while ((command = fgetc(input)) != EOF) {
+        if (command == '\n') continue;
         execute_command(stack, command);
     }
 
+    fclose(input);
     stack_delete(stack);
     return 0;
 }

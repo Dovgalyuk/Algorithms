@@ -19,9 +19,6 @@ extern "C" {
 // Creates empty stack
 Stack *stack_create(FFree f);
 
-// Creates stack from file
-Stack *stack_create_from_file(FILE *input);
-
 // Deletes the stack
 void stack_delete(Stack *stack);
 
