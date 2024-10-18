@@ -5,14 +5,14 @@
 Array* array_create_and_read(FILE* input)
 {
     int n;
-    if (fscanf_s(input, "%d", &n) < 1) throw std::invalid_argument("Failed to read size");
+    if (fscanf(input, "%d", &n) < 1) throw std::invalid_argument("Failed to read size");
     /* Create array */
     Array* arr = array_create(n);
     /* Read array data */
     for (int i = 0; i < n; ++i)
     {
         int x;
-        if (fscanf_s(input, "%d", &x) < 1) throw std::invalid_argument("Failed to read number");
+        if (fscanf(input, "%d", &x) < 1) throw std::invalid_argument("Failed to read number");
         array_set(arr, i, x);
     }
 
@@ -66,12 +66,10 @@ void task2(Array* arr)
     }
 }
 
-int main(int argc, char** argv)
+int main(__attribute__((unused)) int argc, char** argv)
 {
     Array* arr = NULL;
-    FILE* input;
-    fopen_s(&input, argv[1], "r");
-    argc = 0;
+    FILE* input = fopen(argv[1], "r");
     arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
