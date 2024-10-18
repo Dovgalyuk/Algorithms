@@ -65,35 +65,35 @@ void task1(Array *arr) {
 }
 
 // Функция для задачи 2
-void task2(Array *arr) {
+void task2(Array *arr, int kolvo_sdviga) {
     int direction;
     cout << "Введите направление сдвига (1 - влево, 2 - вправо): ";
     cin >> direction;
 
-    size_t size = array_size(arr);
+    size_t size = array_size(arr);  
 
     if (direction == 1) {  // Сдвиг влево
-        for (size_t step = 0; step < size; ++step) {
+        for (int step = 0; step < kolvo_sdviga; ++step) {  
             for (size_t i = 0; i < size - 1; ++i) {
-                array_set(arr, i, array_get(arr, i + 1));
+                array_set(arr, i, array_get(arr, i + 1));  
             }
-            array_set(arr, size - 1, 0); 
-            cout << "Массив после сдвига вдево, шаг " << step + 1 << ":\n";
+            array_set(arr, size - 1, 0);  
+            cout << "Массив после сдвига влево, шаг " << step + 1 << ":\n";
             for (size_t i = 0; i < size; ++i) {
-                cout << array_get(arr, i) << " ";
+                cout << array_get(arr, i) << " ";  
             }
             cout << '\n';
         }
     } else if (direction == 2) {  // Сдвиг вправо
-        for (size_t step = 0; step < size; ++step) {
-            int last = array_get(arr, size - 1);
+        for (int step = 0; step < kolvo_sdviga; ++step) {  
+            int last = array_get(arr, size - 1);  
             for (size_t i = size - 1; i > 0; --i) {
-                array_set(arr, i, array_get(arr, i - 1));
+                array_set(arr, i, array_get(arr, i - 1));  
             }
             array_set(arr, 0, last);  
             cout << "Массив после сдвига вправо, шаг " << step + 1 << ":\n";
             for (size_t i = 0; i < size; ++i) {
-                cout << array_get(arr, i) << " ";
+                cout << array_get(arr, i) << " ";  
             }
             cout << '\n';
         }
@@ -113,15 +113,19 @@ int main(int argc, char **argv){
         return 1; 
     }
 
+    // Выполняем задачу 1
     Array *arr = array_create_and_read(input); 
     if (arr) {
         task1(arr);  
-        array_delete(arr); 
+        array_delete(arr);  
     }
 
+    // Выполняем задачу 2
     arr = array_create_and_read(input); 
     if (arr) {
-        task2(arr);  
+        int kolvo_sdviga;
+        input >> kolvo_sdviga;  // Считываем количество шагов из файла
+        task2(arr, kolvo_sdviga);  
         array_delete(arr);  
     }
 
