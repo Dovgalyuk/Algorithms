@@ -38,6 +38,42 @@
 			"value" : "C:/Users/\u0434\u043d\u0441/source/repos/Algorithms"
 		},
 		{
+			"name" : "Algorithms_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/Users/\u0434\u043d\u0441/source/repos/Algorithms/out/build/x64-Debug"
+		},
+		{
+			"name" : "Algorithms_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
+			"name" : "Algorithms_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/Users/\u0434\u043d\u0441/source/repos/Algorithms"
+		},
+		{
 			"name" : "CMAKE_AR",
 			"properties" : 
 			[
@@ -759,7 +795,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "Algorithms-1"
+			"value" : "Algorithms"
 		},
 		{
 			"name" : "CMAKE_RANLIB",

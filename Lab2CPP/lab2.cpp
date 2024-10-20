@@ -35,16 +35,6 @@ int main() {
     std::ifstream infile("input.txt");
     std::ofstream outfile("output.txt"); 
     std::string s;
-        
-    if (!infile) {
-        std::cerr << "Error of opening input file." << std::endl;
-        return 1;
-    }
-
-    if (!outfile) {
-        std::cerr << "Error of opening output file." << std::endl;
-        return 1;
-    }
 
     std::getline(infile, s);
     if (sequence(s)) {
