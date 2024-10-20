@@ -9,6 +9,8 @@ const int sub = -2;
 const int mult = -3;
 const int sep = -4;
 const int blabla = -5;
+const int blabla2 = -6;
+const int bla = 0;
 using namespace std;
 
 int opToNums(char op) {
@@ -33,9 +35,9 @@ string read_line(ifstream& input)
 }
 
 int prec(int op) {
-    if(op==-3 || op==-4) return 2;
-    if(op==-1 || op == -2) return 1;
-    return 0;
+    if(op==-3 || op==-4) return blabla;
+    if(op==-1 || op == -2) return blabla2;
+    return bla;
 }
 
 void appOp(Stack* vals, int op) {
@@ -67,20 +69,20 @@ List* infixToPostfix(const string& ex) {
         } else {
             if (!number.empty()) {
                 int num = atoi(number.c_str());
-                list_insert(postfix, num);
+                list_last(postfix) == nullptr ? list_insert(postfix, num) : (list_insert_after(postfix, list_last(postfix), num));
                 number.clear();
             }
             if (c == '(') {
                 stack_push(ops, opToNums(c));
             } else if (c == ')') {
                 while (!stack_empty(ops) && stack_get(ops) != -5) {
-                    list_insert(postfix, stack_get(ops));
+                    list_last(postfix) == nullptr ? list_insert(postfix, stack_get(ops)) : (list_insert_after(postfix, list_last(postfix), stack_get(ops)));
                     stack_pop(ops);
                 }
                 stack_pop(ops);
             } else {
-                while (!stack_empty(ops) && prec(stack_get(ops)) >= prec(opToNums(c))) {
-                    list_insert(postfix, stack_get(ops));
+                while (!stack_empty(ops) && prec(stack_get(ops)) >= prec(opToNums(c)) && stack_get(ops) != -5) {
+                    list_last(postfix) == nullptr ? list_insert(postfix, stack_get(ops)) : (list_insert_after(postfix, list_last(postfix), stack_get(ops)));
                     stack_pop(ops);
                 }
                 stack_push(ops, opToNums(c));
@@ -89,10 +91,10 @@ List* infixToPostfix(const string& ex) {
     }
     if (!number.empty()) {
         int num = atoi(number.c_str());
-        list_insert(postfix, num);
+        list_last(postfix) == nullptr ? list_insert(postfix, num) : (list_insert_after(postfix, list_last(postfix), num));
     }
     while (!stack_empty(ops)) {
-        list_insert(postfix, stack_get(ops));
+        list_last(postfix) == nullptr ? list_insert(postfix, stack_get(ops)) : (list_insert_after(postfix, list_last(postfix), stack_get(ops)));
         stack_pop(ops);
     }
     stack_delete(ops);
@@ -101,26 +103,28 @@ List* infixToPostfix(const string& ex) {
 
 int resPost(List* postfix) {
     Stack *val = stack_create();
-    while(!list_empty(postfix)) {
-        if(list_item_data(list_last(postfix)) >= 0) {
-            stack_push(val,list_item_data(list_last(postfix)));
+    cerr << "Test 0.1.0" << endl;
+    for (ListItem *i = list_first(postfix); i != NULL; i = list_item_next(i)) {
+        if(list_item_data(i) >= 0) {
+            stack_push(val,list_item_data(i));
         }else {
-            appOp(val,list_item_data(list_last(postfix)));
+            if (list_item_data(i) != -5)
+                appOp(val, list_item_data(i));
         }
-        if (list_second_to_last(postfix) == nullptr) {
-            list_erase_first(postfix);
-        }
-        list_erase_next(postfix, list_second_to_last(postfix));
     }
+    cerr << "Test 0.1.1" << endl;
     int result = stack_get(val);
     stack_delete(val);
     list_delete(postfix);
+    cerr << "Test 0.1.2" << endl;
     return result;
 }
 
 int task1(string ex)
 {
+    cerr << "Test 0.1" << endl;
     List* postfix = infixToPostfix(ex);
+    cerr << "Test 0.2" << endl;
     return resPost(postfix);
 }
 
@@ -140,12 +144,16 @@ int main(int argc, char **argv)
         cerr << "Failed to open the file." << endl;
         return 1;
     }
+    cerr << "Test -1" << endl;
     string ex = read_line(input);
+    cerr << "Test 0" << endl;
     int res=task1(ex);
 
+    cerr << "Test 1" << endl;
     if(!testTask(res)) {
         return 1;
     }
+    cerr << "Test 2" << endl;
     cout<<res;
     output.close();
     input.close();
