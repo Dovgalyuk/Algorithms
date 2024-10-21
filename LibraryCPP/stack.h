@@ -11,23 +11,23 @@ struct Stack;
 Stack* stack_create();
 
 // Deletes the stack
-void stack_delete(Stack* stack);
+void stack_delete(Stack *stack);
 
 // Pushes data on top of the stack
 // Should be O(1) on average
-void stack_push(Stack* stack, Data data);
+void stack_push(Stack *stack, Data data);
 
 // Retrieves the last element from the stack
-Data stack_get(const Stack* stack);
+Data stack_get(const Stack *stack);
 
 // Removes the last element from the stack
 // Should be O(1)
-void stack_pop(Stack* stack);
+void stack_pop(Stack *stack);
 
 // Returns true if the stack is empty
-bool stack_empty(const Stack* stack);
+bool stack_empty(const Stack *stack);
 
 // Returns size of stack
-size_t stack_size(const Stack* stack);
+size_t stack_size(const Stack *stack);
 
 #endif
