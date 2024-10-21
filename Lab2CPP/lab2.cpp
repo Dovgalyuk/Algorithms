@@ -35,8 +35,8 @@ string read_line(ifstream& input)
 }
 
 int prec(int op) {
-    if(op==-3 || op==-4) return blabla;
-    if(op==-1 || op == -2) return blabla2;
+    if(op == mult || op == sep) return blabla;
+    if(op == sum || op == sub) return blabla2;
     return bla;
 }
 
@@ -46,14 +46,18 @@ void appOp(Stack* vals, int op) {
     int left= stack_get(vals);
     stack_pop(vals);
     switch(op) {
-        case -1:
-            stack_push(vals,left+right); break;
-        case -2:
-            stack_push(vals,left-right); break;
-        case -3:
-            stack_push(vals,left*right); break;
-        case -4:
-            stack_push(vals,left/right); break;
+        case sum:
+            stack_push(vals,left+right);
+            break;
+        case sub:
+            stack_push(vals,left-right);
+            break;
+        case mult:
+            stack_push(vals,left*right);
+            break;
+        case sep:
+            stack_push(vals,left/right);
+        break;
     }
 }
 
@@ -75,14 +79,14 @@ List* infixToPostfix(const string& ex) {
             if (c == '(') {
                 stack_push(ops, opToNums(c));
             } else if (c == ')') {
-                while (!stack_empty(ops) && stack_get(ops) != -5) {
-                    list_last(postfix) == nullptr ? list_insert(postfix, stack_get(ops)) : (list_insert_after(postfix, list_last(postfix), stack_get(ops)));
+                while (!stack_empty(ops) && stack_get(ops) != blabla) {
+                    list_insert_after(postfix, list_last(postfix), stack_get(ops));
                     stack_pop(ops);
                 }
                 stack_pop(ops);
             } else {
                 while (!stack_empty(ops) && prec(stack_get(ops)) >= prec(opToNums(c)) && stack_get(ops) != -5) {
-                    list_last(postfix) == nullptr ? list_insert(postfix, stack_get(ops)) : (list_insert_after(postfix, list_last(postfix), stack_get(ops)));
+                    list_insert_after(postfix, list_last(postfix), stack_get(ops));
                     stack_pop(ops);
                 }
                 stack_push(ops, opToNums(c));
@@ -91,7 +95,7 @@ List* infixToPostfix(const string& ex) {
     }
     if (!number.empty()) {
         int num = atoi(number.c_str());
-        list_last(postfix) == nullptr ? list_insert(postfix, num) : (list_insert_after(postfix, list_last(postfix), num));
+        list_insert_after(postfix, list_last(postfix), num);
     }
     while (!stack_empty(ops)) {
         list_last(postfix) == nullptr ? list_insert(postfix, stack_get(ops)) : (list_insert_after(postfix, list_last(postfix), stack_get(ops)));

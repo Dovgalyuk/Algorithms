@@ -61,7 +61,7 @@ ListItem *list_insert(List *list, Data data)
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
     if (item == nullptr)
-        return nullptr; // Если элемент null, ничего не делаем
+        return list_insert(list, data);
 
     ListItem* newItem = new ListItem(data); // Создаем новый элемент
     newItem->next = item->next; // Указываем на следующий элемент после текущего
