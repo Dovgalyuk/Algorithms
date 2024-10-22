@@ -85,7 +85,7 @@ List* infixToPostfix(const string& ex) {
                 }
                 stack_pop(ops);
             } else {
-                while (!stack_empty(ops) && prec(stack_get(ops)) >= prec(opToNums(c)) && stack_get(ops) != -5) {
+                while (!stack_empty(ops) && prec(stack_get(ops)) >= prec(opToNums(c)) && stack_get(ops) != blabla) {
                     list_insert_after(postfix, list_last(postfix), stack_get(ops));
                     stack_pop(ops);
                 }
@@ -107,28 +107,23 @@ List* infixToPostfix(const string& ex) {
 
 int resPost(List* postfix) {
     Stack *val = stack_create();
-    cerr << "Test 0.1.0" << endl;
     for (ListItem *i = list_first(postfix); i != NULL; i = list_item_next(i)) {
-        if(list_item_data(i) >= 0) {
+        if(list_item_data(i) >= bla) {
             stack_push(val,list_item_data(i));
         }else {
-            if (list_item_data(i) != -5)
+            if (list_item_data(i) != blabla)
                 appOp(val, list_item_data(i));
         }
     }
-    cerr << "Test 0.1.1" << endl;
     int result = stack_get(val);
     stack_delete(val);
     list_delete(postfix);
-    cerr << "Test 0.1.2" << endl;
     return result;
 }
 
 int task1(string ex)
 {
-    cerr << "Test 0.1" << endl;
     List* postfix = infixToPostfix(ex);
-    cerr << "Test 0.2" << endl;
     return resPost(postfix);
 }
 
@@ -148,16 +143,11 @@ int main(int argc, char **argv)
         cerr << "Failed to open the file." << endl;
         return 1;
     }
-    cerr << "Test -1" << endl;
     string ex = read_line(input);
-    cerr << "Test 0" << endl;
     int res=task1(ex);
-
-    cerr << "Test 1" << endl;
     if(!testTask(res)) {
         return 1;
     }
-    cerr << "Test 2" << endl;
     cout<<res;
     output.close();
     input.close();
