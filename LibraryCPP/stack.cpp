@@ -1,6 +1,5 @@
 #include "vector.h"
 #include "stack.h"
-#include <stdexcept>
 
 struct Stack {
     Vector* vector;

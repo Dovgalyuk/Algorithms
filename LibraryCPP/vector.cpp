@@ -1,5 +1,4 @@
 #include "vector.h"
-#include <stdexcept>
 
 struct Vector {
     Data* data;
