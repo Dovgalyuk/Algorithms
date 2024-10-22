@@ -7,7 +7,7 @@
 using namespace std;
 
 void handler_numbers(const string& stroka, size_t& i, Stack* numbers);
-int handler_operators(const string& stroka, size_t& i, Stack* numbers);
+int handler_operators(char symbol, Stack* numbers);
 int handler_command(const string& stroka, size_t& i, Stack* numbers);
 void print_stack(Stack* values);
 
@@ -22,7 +22,7 @@ int realization(const string& stroka) {
             handler_numbers(stroka, i, numbers);
         }
         else if (stroka[i] == '+' || stroka[i] == '-' || stroka[i] == '*' || stroka[i] == '/' || stroka[i] == '%') {
-            if (handler_operators(stroka, i, numbers) != 0) {
+            if (handler_operators(stroka[i], numbers) != 0) {
                 print = false;
             }
         }
@@ -51,7 +51,7 @@ void handler_numbers(const string& stroka, size_t& i, Stack* numbers) {
     stack_push(numbers, number);
 }
 
-int handler_operators(const string& stroka, size_t& i, Stack* numbers) {
+int handler_operators(char symbol, Stack* numbers) {
     if (stack_size(numbers) < 2) {
         return -1;
     }
@@ -62,7 +62,7 @@ int handler_operators(const string& stroka, size_t& i, Stack* numbers) {
     stack_pop(numbers);
     int result = 0;
 
-    switch (stroka[i]) {
+    switch (symbol) {
     case '+': result = a + b; break;
     case '-': result = a - b; break;
     case '*': result = a * b; break;
