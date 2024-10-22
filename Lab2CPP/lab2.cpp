@@ -73,7 +73,7 @@ List* infixToPostfix(const string& ex) {
         } else {
             if (!number.empty()) {
                 int num = atoi(number.c_str());
-                list_last(postfix) == nullptr ? list_insert(postfix, num) : (list_insert_after(postfix, list_last(postfix), num));
+                list_insert_after(postfix, list_last(postfix), num);
                 number.clear();
             }
             if (c == '(') {
@@ -98,7 +98,7 @@ List* infixToPostfix(const string& ex) {
         list_insert_after(postfix, list_last(postfix), num);
     }
     while (!stack_empty(ops)) {
-        list_last(postfix) == nullptr ? list_insert(postfix, stack_get(ops)) : (list_insert_after(postfix, list_last(postfix), stack_get(ops)));
+        list_insert_after(postfix, list_last(postfix), stack_get(ops));
         stack_pop(ops);
     }
     stack_delete(ops);
