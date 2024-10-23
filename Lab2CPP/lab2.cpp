@@ -112,7 +112,7 @@ int evaluate_example(const std::string& example) {
 int main() {
     std::ifstream inputFile("input.txt");
     std::string example;
-
+    
     while (std::getline(inputFile, example)) {
         try {
             int result = evaluate_example(example);

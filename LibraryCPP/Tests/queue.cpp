@@ -16,7 +16,7 @@ int main()
     }
 
     std::cout << "Get: " << queue_get(queue) << "\n";
-    queue_remove(queue);
+    queue_remove_one(queue);
 
     if (queue_get(queue) != 2)
     {
@@ -25,7 +25,7 @@ int main()
     }
 
     std::cout << "Get: " << queue_get(queue) << "\n";
-    queue_remove(queue);
+    queue_remove_one(queue);
 
     if (queue_get(queue) != 3)
     {
@@ -38,7 +38,7 @@ int main()
     while (!queue_empty(queue))
     {
         std::cout << "Get: " << queue_get(queue) << "\n";
-        queue_remove(queue);
+        queue_remove_one(queue);
     }
 
     // Performance test
