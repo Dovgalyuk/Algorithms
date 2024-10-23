@@ -53,17 +53,19 @@ void Output_labyrinth(List* list, int w, int h) {
 Point Start_search(int w, int h, List* list) {
     int startX = -1;
     int startY = -1;
-    bool found = false;
+    
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
             ListItem* item = list_get(list, y * w + x);
             if ((char)list_item_data(item) == 'X') {
                 startX = x;
                 startY = y;
-                found = true;
+               
                 break;
             }
         }
+        if (startX != -1)
+            break;
 
     }
     return { startX, startY };
