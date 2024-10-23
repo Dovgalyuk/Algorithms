@@ -123,9 +123,9 @@ Point Number_closest_to_the_starting_position(List* list, Point start, int w, in
 }
 
 int main() {
+    List* list = list_create();
     try {
         std::ifstream file("input.txt");
-        List* list = list_create();
         int w = 0, h = 0;
         Readout(file, list, &w, &h);
         Output_labyrinth(list, w, h); 
@@ -143,13 +143,13 @@ int main() {
         else {
             std::cout << "The starting point was not found" << std::endl;
         }
-
-        list_delete(list);
+        
+       
     }
     catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
       
     }
-
+    list_delete(list);
     return 0;
 }
