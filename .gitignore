@@ -13,3 +13,6 @@ Release/*
 .vs/*
 build/*
 .vscode/*
+*.clang-format
+*.png
+SDIA_LAB4/*

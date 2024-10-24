@@ -1,3 +1,5 @@
+// Файл с шаблонным вектором
+
 #ifndef VECTOR_TEMPLATE_H
 #define VECTOR_TEMPLATE_H
 
@@ -8,7 +10,8 @@ template <typename Data> class Vector
 public:
     // Creates vector
     Vector()
-    {
+    { 
+        arr = new Data();
     }
 
     // copy constructor
@@ -24,24 +27,33 @@ public:
 
     // Deletes vector structure and internal data
     ~Vector()
-    {
+    { 
+        if (arr != nullptr) delete[] arr;
     }
 
     // Retrieves vector element with the specified index
     Data get(size_t index) const
     {
-        return Data();
+        if (arr != nullptr) return arr[index];
+        return (Data)0;
     }
 
     // Sets vector element with the specified index
     void set(size_t index, Data value)
-    {
+    { 
+        if (arr != nullptr) {
+            if (index <= size_v)
+                arr[index] = value;
+            else
+                resize(index);
+        }
     }
 
     // Retrieves current vector size
     size_t size() const
     {
-        return 0;
+        if (arr != nullptr) return size_v;
+        return (size_t)0;
     }
 
     // Changes the vector size (may increase or decrease)
@@ -52,6 +64,9 @@ public:
 
 private:
     // private data should be here
+    Data *arr = nullptr;
+    size_t size_v = 0;
+    size_t capacity = 0;
 };
 
 #endif
