@@ -16,3 +16,5 @@ build/*
 *.clang-format
 *.png
 SDIA_LAB4/*
+*.gch
+*.out
