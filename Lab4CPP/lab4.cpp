@@ -2,25 +2,26 @@
 
 #include <iostream>
 #include <queue>
+
+typedef unsigned int uint;
+typedef struct Vertex {
+    uint degree = 0;
+    uint mark = 0;
+} Vertex;
+
 #include "../LibraryCPPTemplate/vector.h"
 #include "../LibraryCPPTemplate/graph.h"
 
-void output(Vector<int>& vector);
-
 int main() {
     setlocale(0, "");
-    Vector<int> vector;
-
-    vector.push(10);
-    vector.push(15);
-    std::cout << vector.pop();
-    std::cout << vector.pop();
-	return 0;
-}
-
-void output(Vector<int>& vector) {
-    for (size_t i = 0; i < vector.size(); i++) {
-        std::cout << i << ": " << vector.get(i) << std::endl;
+    Graph<Vertex> graph;
+    graph.add_vertex(0);
+    graph.add_vertex(1);
+    graph.add_vertex(2);
+    Vector<int> res = graph.get_marks();
+    for (size_t i = 0; i < res.size(); i++) {
+        std::cout << res[i] << " ";
     }
     std::cout << std::endl;
+	return 0;
 }

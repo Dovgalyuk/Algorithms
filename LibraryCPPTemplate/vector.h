@@ -1,127 +1,102 @@
-// Файл с шаблонным вектором
-
 #ifndef VECTOR_TEMPLATE_H
 #define VECTOR_TEMPLATE_H
 
 #include <cstddef>
 
-template <typename Data> class Vector
-{
+template <typename Data>
+class Vector {
 public:
-    // Creates vector
-    Vector()
-    { 
-        arr = new Data[0];
-    }
     
-    // copy constructor
-    Vector(const Vector &a) {
-        if (a.arr != nullptr) {
-            size_v = a.size_v;
-            capacity = a.capacity;
-            arr = new Data[capacity];
+    Vector() : arr(new Data[1]), size_v(0), capacity(1) {}
 
-            for (size_t i = 0; i < a.size(); ++i) {
-                set(i, a.get(i));
-            }
+    Vector(size_t q) : arr(new Data[q]), size_v(0), capacity(q) {
+        for (size_t i = 0; i < q; i++)
+            arr[i] = Data();
+    }
+
+    Vector(const Vector& a) : size_v(a.size_v), capacity(a.capacity) {
+        arr = new Data[capacity];
+        for (size_t i = 0; i < size_v; ++i) {
+            arr[i] = a.arr[i];
         }
     }
 
-    // assignment operator
-    Vector &operator=(const Vector &a)
-    {
+    Vector& operator=(const Vector& a) {
         if (this == &a) return *this;
-        if (a.arr != nullptr) {
-            if (arr != nullptr) {
-                delete[] arr;
-            }
 
-            size_v = a.size_v;
-            capacity = a.capacity;
-            arr = new Data[capacity];
+        delete[] arr;
+        size_v = a.size_v;
+        capacity = a.capacity;
+        arr = new Data[capacity];
 
-            for (size_t i = 0; i < a.size(); ++i) {
-                set(i, a.get(i));
-            }
+        for (size_t i = 0; i < size_v; ++i) {
+            arr[i] = a.arr[i];
         }
         return *this;
     }
 
-    Data &operator[](size_t index){
-        if (sizeof(arr) == 0) return arr[index];
-        Data default_data;
-        return default_data;
+    Data& operator[](size_t index) {
+        if (index >= size_v) {
+            return arr[0];
+        }
+        return arr[index];
     }
 
-    // Deletes vector structure and internal data
-    ~Vector()
-    { 
-        if (arr != nullptr) delete[] arr;
+    ~Vector() {
+        delete[] arr;
+        arr = nullptr;
     }
 
-    // Retrieves vector element with the specified index
-    Data get(size_t index) const
-    {
-        if (sizeof(arr) != 0) return arr[index];
-        return Data();
+    Data get(size_t index) const {
+        if (index >= size_v) {
+            return Data();
+        }
+        return arr[index];
     }
 
-    // Sets vector element with the specified index
-    void set(size_t index, Data value)
-    { 
-        if (arr != nullptr && index <= size_v) arr[index] = value;
+    void set(size_t index, Data value) {
+        if (index < size_v) {
+            arr[index] = value;
+        }
     }
 
-    // Retrieves current vector size
-    size_t size() const
-    {
-        if (arr != nullptr) return size_v;
-        return (size_t)0;
+    size_t size() const {
+        return size_v;
     }
 
     void push(Data value) {
-        if (sizeof(arr) == 0 || size_v >= capacity) {
-            size_t new_cap = 0;
-            if (capacity == 0)
-                new_cap = 1;
-            else
-                new_cap = capacity * 2;
-        
-            resize(new_cap);
+        if (size_v >= capacity) {
+            resize(capacity * 2);
         }
-        set(size_v, value);
-        size_v++;
+        arr[size_v++] = value;
     }
 
     Data pop() {
         if (size_v > 0) {
-            return get(--size_v);
+            return arr[--size_v];
         }
         return Data();
     }
 
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
-    void resize(size_t size) {
-        if (size > capacity) {
-            size_t ncap = size * 2;
-            Data* new_ptr = new Data[ncap];
+    void resize(size_t new_size) {
+        if (new_size < size_v) {
+            size_v = new_size;
+        }
+        if (new_size > capacity) {
+            Data* new_ptr = new Data[new_size];
             for (size_t i = 0; i < size_v; ++i) {
                 new_ptr[i] = arr[i];
             }
-
             delete[] arr;
             arr = new_ptr;
-            capacity = ncap;
+            capacity = new_size;
         }
-        //size_v = size;
     }
 
 private:
-    // private data should be here
-    Data *arr = nullptr;
-    size_t size_v = 0;
-    size_t capacity = 0;
+    Data* arr;
+    size_t size_v;
+    size_t capacity;
 };
 
 #endif
