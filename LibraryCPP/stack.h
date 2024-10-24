@@ -1,6 +1,8 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include <cstddef> // Для size_t
+
 // Stack
 // Stores integer values inside
 typedef int Data;
@@ -26,5 +28,8 @@ void stack_pop(Stack *stack);
 
 // Returns true if the stack is empty
 bool stack_empty(const Stack *stack);
+
+// Returns the size of the stack
+size_t stack_size(const Stack *stack);
 
 #endif
