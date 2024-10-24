@@ -34,7 +34,7 @@ void task1(std::ifstream& input) {
 	Array* arr1 = array_create_and_read(input);
 
 	size_t count = 0;
-	for (int i = 0; i < array_size(arr1); i++) {
+	for (size_t i = 0; i < array_size(arr1); i++) {
 		if (array_get(arr1, i) % 2 == 0) {
 			count++;
 		}
