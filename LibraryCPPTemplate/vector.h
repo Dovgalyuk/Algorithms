@@ -9,9 +9,12 @@ public:
     
     Vector() : arr(new Data[1]), size_v(0), capacity(1) {}
 
-    Vector(size_t q) : arr(new Data[q]), size_v(0), capacity(q) {
+    Vector(size_t q){
+        arr = new Data[q];
+        size_v = 0;
+        capacity = q;
         for (size_t i = 0; i < q; i++)
-            arr[i] = Data();
+            push(Data());
     }
 
     Vector(const Vector& a) : size_v(a.size_v), capacity(a.capacity) {

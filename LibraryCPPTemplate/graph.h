@@ -3,6 +3,11 @@
 
 #include <iostream>
 
+struct Vertex {
+    int mark;
+    unsigned int degree;
+};
+
 template <typename Data>
 class Graph {
 public:
@@ -10,22 +15,23 @@ public:
 
     ~Graph() {}
 
-    void add_vertex(uint mark) {
-        Vertex vertex_v = { quantity, mark };
+    void add_vertex(Data vertex_v) {
         vertex.push(vertex_v);
 
-        for (size_t i = 0; i < relations.size(); i++) {
-            relations[i].push(0);
-        }
-
-        Vector<int> new_v(quantity + 1);
-        relations.push(new_v);
         quantity++;
+        Vector<int> new_v;
+        relations.push(new_v);
+
+        for (size_t i = 0; i < relations.size(); i++) {
+            while(relations[i].size() != quantity)
+                relations[i].push(0);
+        }
     }
 
     void add_edge(Vertex a, Vertex b) {
         if (a.mark < quantity && b.mark < quantity) {
             relations[a.mark][b.mark] = 1;
+            a.degree++;
         }
     }
 
@@ -71,6 +77,15 @@ public:
             marks.push(vertex[i].mark);
         }
         return marks;
+    }
+
+    void print_matrix() {
+        for (size_t i = 0; i < relations.size(); i++) {
+            for (size_t j = 0; j < relations[i].size(); j++) {
+                std::cout << relations[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
     }
 
 private:

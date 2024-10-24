@@ -4,10 +4,6 @@
 #include <queue>
 
 typedef unsigned int uint;
-typedef struct Vertex {
-    uint degree = 0;
-    uint mark = 0;
-} Vertex;
 
 #include "../LibraryCPPTemplate/vector.h"
 #include "../LibraryCPPTemplate/graph.h"
@@ -15,13 +11,31 @@ typedef struct Vertex {
 int main() {
     setlocale(0, "");
     Graph<Vertex> graph;
-    graph.add_vertex(0);
-    graph.add_vertex(1);
-    graph.add_vertex(2);
-    Vector<int> res = graph.get_marks();
-    for (size_t i = 0; i < res.size(); i++) {
-        std::cout << res[i] << " ";
+    Vector<Vertex> vertex(3);
+    for (size_t i = 0; i < vertex.size(); i++) {
+        vertex[i] = { (int)i, 0 };
     }
+
+    graph.add_vertex(vertex[0]);
+    graph.add_vertex(vertex[1]);
+    graph.add_vertex(vertex[2]);
+
+    std::cout << "Граф из 3 вершин" << std::endl << std::endl;
+    graph.print_matrix();
     std::cout << std::endl;
+
+    std::cout << "Соединим 1 и 2, 2 и 3, 3 и 1" << std::endl << std::endl;
+    graph.add_edge(vertex[0], vertex[1]);
+    graph.add_edge(vertex[1], vertex[2]);
+    graph.add_edge(vertex[2], vertex[0]);
+
+    std::cout << "Граф из 3 соединенных вершин" << std::endl << std::endl;
+    graph.print_matrix();
+    std::cout << std::endl;
+
+    std::cout << "Добавим в граф еще одну вершину" << std::endl << std::endl;
+    vertex.push({3, 0});
+    graph.add_vertex(vertex[3]);
+    graph.print_matrix();
 	return 0;
 }
