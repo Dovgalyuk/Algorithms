@@ -11,7 +11,7 @@ typedef unsigned int uint;
 int main() {
     setlocale(0, "");
     Graph<Vertex> graph;
-    Vector<Vertex> vertex(3);
+    Vector<Vertex> vertex(3, {0, 0});
     for (size_t i = 0; i < vertex.size(); i++) {
         vertex[i] = { (int)i, 0 };
     }
@@ -35,7 +35,7 @@ int main() {
 
     std::cout << "Вершины 1 и 2 связаны: " << graph.is_bounded(vertex[0], vertex[1]) << std::endl;
     std::cout << "Вершины 1 и 3 связаны: " << graph.is_bounded(vertex[1], vertex[2]) << std::endl;
-    std::cout << "Вершины 3 и 1 связаны: " << graph.is_bounded(vertex[2], vertex[0]) << std::endl << std::endl;
+    std::cout << "Вершины 2 и 1 связаны: " << graph.is_bounded(vertex[1], vertex[0]) << std::endl << std::endl;
     
     std::cout << "Добавим в граф еще одну вершину" << std::endl << std::endl;
     vertex.push({3, 0});

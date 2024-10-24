@@ -19,7 +19,7 @@ public:
         vertex.push(vertex_v);
 
         quantity++;
-        Vector<int> new_v;
+        Vector<int> new_v(quantity, 0);
         relations.push(new_v);
 
         for (size_t i = 0; i < relations.size(); i++) {
