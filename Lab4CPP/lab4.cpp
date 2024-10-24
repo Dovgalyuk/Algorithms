@@ -33,6 +33,10 @@ int main() {
     graph.print_matrix();
     std::cout << std::endl;
 
+    std::cout << "Вершины 1 и 2 связаны: " << graph.is_bounded(vertex[0], vertex[1]) << std::endl;
+    std::cout << "Вершины 1 и 3 связаны: " << graph.is_bounded(vertex[1], vertex[2]) << std::endl;
+    std::cout << "Вершины 3 и 1 связаны: " << graph.is_bounded(vertex[2], vertex[0]) << std::endl << std::endl;
+    
     std::cout << "Добавим в граф еще одну вершину" << std::endl << std::endl;
     vertex.push({3, 0});
     graph.add_vertex(vertex[3]);

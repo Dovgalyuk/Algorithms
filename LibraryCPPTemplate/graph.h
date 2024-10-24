@@ -60,7 +60,8 @@ public:
 
     bool is_bounded(Vertex a, Vertex b) {
         if (a.mark < quantity && b.mark < quantity) {
-            return relations[a.mark][b.mark] == 1;
+            if (relations[a.mark][b.mark] == 1)
+                return true;
         }
         return false;
     }
