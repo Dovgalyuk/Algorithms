@@ -62,7 +62,7 @@ bool handle_command(const string& token, Stack* stack) {
         int second = stack_get(stack);
         stack_push(stack, first);
         stack_push(stack, second);
-        stack_push(stack, first); // Добавляем второй элемент обратно на вершину айсберга
+        stack_push(stack, first); // Добавляем второй элемент обратно на вершину
     } else if (token == "rot") {
         if (stack_size(stack) < 3) return false;
         int first = stack_get(stack);
@@ -117,5 +117,4 @@ int main() {
     }
 
     return 0;
-
 }
