@@ -46,8 +46,8 @@ void Readout(std::ifstream& file, std::vector<char>& labyrinth, size_t* w, size_
 
 
 void Output_labyrinth(const std::vector<char>& labyrinth, size_t w, size_t h) {
-    for (int y = 0; y < h; ++y) {
-        for (int x = 0; x < w; ++x) {
+    for (size_t y = 0; y < h; ++y) {
+        for (size_t x = 0; x < w; ++x) {
             std::cout << labyrinth[y * w + x];
         }
         std::cout << std::endl;
@@ -56,10 +56,10 @@ void Output_labyrinth(const std::vector<char>& labyrinth, size_t w, size_t h) {
 
 
 Point Start_search(size_t w, size_t h, const std::vector<char>& labyrinth) {
-    for (int y = 0; y < h; y++) {
-        for (int x = 0; x < w; x++) {
+    for (size_t y = 0; y < h; y++) {
+        for (size_t x = 0; x < w; x++) {
             if (labyrinth[y * w + x] == 'X') {
-                return { x, y };
+                return {(int) x,(int) y };
             }
         }
     }
@@ -68,7 +68,7 @@ Point Start_search(size_t w, size_t h, const std::vector<char>& labyrinth) {
 
 
 bool Range_and_Wall(int x, int y, size_t w, size_t h, const std::vector<char>& labyrinth, bool* flag_was_here) {
-    if (x < 0 || y < 0 || x >= w || y >= h) {
+    if (x < 0 || y < 0 || (size_t)x >= w ||(size_t) y >= h) {
         return false;
     }
     if (flag_was_here[y * w + x]) {
