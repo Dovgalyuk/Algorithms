@@ -1,53 +1,54 @@
 #include "stack.h"
-#include "vector.h"
+#include "list.h"
 
 struct Stack {
-    Vector* vector;
+    List* list; // Внутренний односвязный список для хранения элементов стека
 };
 
 // Создание нового стека
 Stack* stack_create() {
     Stack* stack = new Stack;
-    stack->vector = vector_create(); 
+    stack->list = list_create(); // Инициализация списка
     return stack;
 }
 
 // Удаление стека и освобождение памяти
 void stack_delete(Stack* stack) {
-    vector_delete(stack->vector);
-    delete stack; 
+    list_delete(stack->list); // Удаление списка
+    delete stack; // Удаление структуры стека
 }
 
 // Добавление элемента в стек
 void stack_push(Stack* stack, Data data) {
-    size_t size = vector_size(stack->vector); // Получение текущего размера вектора
-    vector_resize(stack->vector, size + 1);   // Увеличение размера вектора
-    vector_set(stack->vector, size, data);    // Установка нового элемента на вершину стека
+    list_insert(stack->list, data); // Вставляем элемент в начало списка (как вершину стека)
 }
 
 // Получение элемента с вершины стека (без удаления)
 Data stack_get(const Stack* stack) {
-    size_t size = vector_size(stack->vector); // Получение текущего размера вектора
-    if (size > 0) {
-        return vector_get(stack->vector, size - 1); // Возвращаем последний элемен т
+    ListItem* first = list_first(stack->list); // Получаем первый элемент списка (вершину стека)
+    if (first != nullptr) {
+        return list_item_data(first); // Возвращаем данные из первого элемента
     }
-    return 0; // Если стек пуст, возвращаем 0 
+    return 0; // Если стек пуст, возвращаем 0 (или другое значение по умолчанию)
 }
 
 // Удаление элемента с вершины стека
 void stack_pop(Stack* stack) {
-    size_t size = vector_size(stack->vector); // Получение текущего размера вектора
-    if (size > 0) {
-        vector_resize(stack->vector, size - 1); // Уменьшить размер масива
+    if (list_first(stack->list) != nullptr) {
+        list_erase_first(stack->list); // Удаляем первый элемент списка (вершину стека)
     }
 }
 
 // Проверка, пуст ли стек
 bool stack_empty(const Stack* stack) {
-    return vector_size(stack->vector) == 0; // Если размер вектора 0, то значит стек пуст
+    return list_first(stack->list) == nullptr; // Если нет первого элемента, значит стек пуст
 }
 
 // Получение размера стека
 size_t stack_size(const Stack* stack) {
-    return vector_size(stack->vector); // Возвращаем размер вектора
+    size_t size = 0;
+    for (ListItem* item = list_first(stack->list); item != nullptr; item = list_item_next(item)) {
+        size++; // Подсчитываем количество элементов в списке (размер стека)
+    }
+    return size;
 }
