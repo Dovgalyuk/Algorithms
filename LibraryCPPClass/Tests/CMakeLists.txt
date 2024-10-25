@@ -1,0 +1,26 @@
+# add_executable(TestArrayCPPClass array.cpp)
+# target_include_directories(TestArrayCPPClass PUBLIC ..)
+# target_link_libraries(TestArrayCPPClass LibraryCPPClass)
+# add_test(TestArrayCPPClass TestArrayCPPClass)
+
+# add_executable(TestListCPPClass list.cpp)
+# target_include_directories(TestListCPPClass PUBLIC ..)
+# target_link_libraries(TestListCPPClass LibraryCPPClass)
+# add_test(TestListCPPClass TestListCPPClass)
+
+# add_executable(TestQueueCPPClass queue.cpp)
+# target_include_directories(TestQueueCPPClass PUBLIC ..)
+# target_link_libraries(TestQueueCPPClass LibraryCPPClass)
+# add_test(TestQueueCPPClass TestQueueCPPClass)
+# set_tests_properties(TestQueueCPPClass PROPERTIES TIMEOUT 10)
+
+# add_executable(TestStackCPPClass stack.cpp)
+# target_include_directories(TestStackCPPClass PUBLIC ..)
+# target_link_libraries(TestStackCPPClass LibraryCPPClass)
+# add_test(TestStackCPPClass TestStackCPPClass)
+
+# add_executable(TestVectorCPPClass vector.cpp)
+# target_include_directories(TestVectorCPPClass PUBLIC ..)
+# target_link_libraries(TestVectorCPPClass LibraryCPPClass)
+# add_test(TestVectorCPPClass TestVectorCPPClass)
+# set_tests_properties(TestVectorCPPClass PROPERTIES TIMEOUT 10)
