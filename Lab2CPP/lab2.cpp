@@ -38,7 +38,7 @@ bool handle_operator(char op, Stack* stack) {
     return true;
 }
 
-// Функция для обработки (dup, drop, swap, over, rot, .)
+// Функция для обработки команд
 bool handle_command(const string& token, Stack* stack) {
     if (token == "dup") {
         if (stack_empty(stack)) return false;
@@ -60,9 +60,9 @@ bool handle_command(const string& token, Stack* stack) {
         int first = stack_get(stack);
         stack_pop(stack);
         int second = stack_get(stack);
-        stack_push(stack, first);
-        stack_push(stack, second);
-        stack_push(stack, first); // Добавляем второй элемент обратно на вершину
+        stack_push(stack, second); // Положим второй элемент на вершину
+        stack_push(stack, first); // Вернем первый элемент
+        stack_push(stack, second); // Положим второй элемент как копию
     } else if (token == "rot") {
         if (stack_size(stack) < 3) return false;
         int first = stack_get(stack);
