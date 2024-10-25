@@ -95,10 +95,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
     NewItem->next = item->next; 
     NewItem->prev = item; 
 
-    if (item->next) {
-        item->next->prev = NewItem;
-    }
-
+    item->next->prev = NewItem;
     item->next = NewItem;
 
     if (item == list->head->prev) {
@@ -144,10 +141,9 @@ ListItem* list_erase_next(List* list, ListItem* item) {
 
     item->next = to_delete->next;
 
-    if (to_delete->next) {
-        to_delete->next->prev = item;
-    }
-    else if (to_delete == list->head) {
+    to_delete->next->prev = item;
+    
+    if (to_delete == list->head) {
         list->head = item;
     }
 
@@ -168,45 +164,4 @@ ListItem* list_insert_end(List* list, Data data) {
     return list_insert_after(list, tail, data);
 }
 
-int list_size(const List* list) {
-    if (!list) {
-        throw std::runtime_error("List pointer is null");
-    }
-    if (list_empty(list)) {
-        throw std::runtime_error("List empty");
-    }
 
-    int size = 0;
-    ListItem* current = list->head;
-
-    do {
-        size++;
-        current = current->next;
-    } while (current != list->head);
-
-    return size;
-}
-
-
-
-ListItem* list_get(List* list, int index) {
-    if (!list) {
-        throw std::invalid_argument("List is null");
-    }
-    if (index < 0) {
-        throw std::out_of_range("Index cannot be negative");
-    }
-    ListItem* current = list->head;
-    for (int i = 0; i < index; ++i) {
-        if (current == nullptr) {
-            throw std::out_of_range("Index is out of range");
-        }
-        current = current->next;
-
-        if (current == list->head) {
-            throw std::out_of_range("Index is out of range");
-        }
-    }
-
-    return current;
-}

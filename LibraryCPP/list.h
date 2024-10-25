@@ -46,9 +46,5 @@ bool list_empty(const List* list);
 
 ListItem* list_insert_end(List* list, Data data);
 
-int list_size(const List* list);
-
-ListItem* list_get(List* list, int index);
-
 void list_clear(List* list);
 #endif

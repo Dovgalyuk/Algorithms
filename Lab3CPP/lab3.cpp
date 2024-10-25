@@ -1,29 +1,29 @@
 #include <iostream>
-#include <string>
 #include <fstream>
+#include <stdexcept>
+#include <string>
 #include "queue.h"
-#include "list.h"
+#include <vector>
 
 
 struct Point {
     int x, y;
 };
+void Readout(std::ifstream& file, std::vector<char>& labyrinth, size_t* w, size_t* h);
+void Output_labyrinth(const std::vector<char>& labyrinth, size_t w, size_t h);
+Point Start_search(size_t w, size_t h, const std::vector<char>& labyrinth);
+bool Range_and_Wall(int x, int y, size_t w, size_t h, const std::vector<char>& labyrinth, bool* flag_was_here);
+Point Number_closest_to_the_starting_position(const std::vector<char>& labyrinth, Point start, size_t w, size_t h);
 
-void Readout(std::ifstream& file, List* list, int* w, int* h);
-void Output_labyrinth(List* list, int w, int h);
-Point Start_search(int w, int h, List* list);
-Point Number_closest_to_the_starting_position(List* list, Point start, int w, int h);
-bool Range_and_Wall(int x, int y, int w, int h, List* list, bool* flag_was_here);
 
-
-void Readout(std::ifstream& file, List* list, int* w, int* h) {
+void Readout(std::ifstream& file, std::vector<char>& labyrinth, size_t* w, size_t* h) {
     char simvol;
     bool first = true;
     int character_counter = 0;
 
     while (file.read(&simvol, 1)) {
         if (simvol != '\n') {
-            list_insert_end(list, simvol);
+            labyrinth.push_back(simvol);
             character_counter++;
         }
         if (simvol == '\n') {
@@ -35,86 +35,80 @@ void Readout(std::ifstream& file, List* list, int* w, int* h) {
         }
     }
     file.close();
+    if (*w == 0) {
+        throw std::runtime_error("The width of the maze is zero");
 
-    *h = list_size(list) / *w;
-
+    }
+    else {
+        *h = static_cast<int>(labyrinth.size() / *w);
+    }
 }
 
-void Output_labyrinth(List* list, int w, int h) {
+
+void Output_labyrinth(const std::vector<char>& labyrinth, size_t w, size_t h) {
     for (int y = 0; y < h; ++y) {
         for (int x = 0; x < w; ++x) {
-            ListItem* item = list_get(list, y * w + x);
-            std::cout << (char)list_item_data(item);
+            std::cout << labyrinth[y * w + x];
         }
         std::cout << std::endl;
     }
 }
 
-Point Start_search(int w, int h, List* list) {
-    int startX = -1;
-    int startY = -1;
-    
+
+Point Start_search(size_t w, size_t h, const std::vector<char>& labyrinth) {
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
-            ListItem* item = list_get(list, y * w + x);
-            if ((char)list_item_data(item) == 'X') {
-                startX = x;
-                startY = y;
-               
-                break;
+            if (labyrinth[y * w + x] == 'X') {
+                return { x, y };
             }
         }
-        if (startX != -1)
-            break;
-
     }
-    return { startX, startY };
+    return { -1, -1 };
 }
-bool Range_and_Wall(int x, int y, int w, int h, List* list, bool* flag_was_here) {
+
+
+bool Range_and_Wall(int x, int y, size_t w, size_t h, const std::vector<char>& labyrinth, bool* flag_was_here) {
     if (x < 0 || y < 0 || x >= w || y >= h) {
         return false;
     }
     if (flag_was_here[y * w + x]) {
         return false;
     }
-    ListItem* item = list_get(list, y * w + x);
-    if ((char)list_item_data(item) == '#') {
+    if (labyrinth[y * w + x] == '#') {
         return false;
     }
 
     return true;
 }
 
-Point Number_closest_to_the_starting_position(List* list, Point start, int w, int h) {
+Point Number_closest_to_the_starting_position(const std::vector<char>& labyrinth, Point start, size_t w, size_t h) {
     Queue* queue = queue_create();
     bool* flag_was_here = new bool[w * h]();
     Point four_directions[4] = { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
-    queue_insert(queue, start.y * w + start.x);
+    queue_insert(queue, Data(start.y * w + start.x));
     flag_was_here[start.y * w + start.x] = true;
 
     while (!queue_empty(queue)) {
         int current = queue_get(queue);
         queue_remove_one(queue);
-        int currentX = current % w;
-        int currentY = current / w;
-        ListItem* item = list_get(list, currentY * w + currentX);
-        char simvol = (char)list_item_data(item);
+        int currentX = int(current % w);
+        int currentY = int(current / w);
+        char simvol = labyrinth[currentY * w + currentX];
 
         if (simvol >= '0' && simvol <= '9') {
-
             delete[]flag_was_here;
             return { currentX, currentY };
         }
-        
-         for (int i = 0; i < 4; ++i) {
-                int newX = currentX + four_directions[i].x;
-                int newY = currentY + four_directions[i].y;
-                if (Range_and_Wall(newX, newY, w, h, list, flag_was_here)) {
-                    flag_was_here[newY * w + newX] = true;
-                    queue_insert(queue, newY * w + newX);
-                }
-         }
-        
+
+        for (int i = 0; i < 4; ++i) {
+            int newX = currentX + four_directions[i].x;
+            int newY = currentY + four_directions[i].y;
+            if (Range_and_Wall(newX, newY, w, h, labyrinth, flag_was_here)) {
+                flag_was_here[newY * w + newX] = true;
+                queue_insert(queue, Data(newY * w + newX));
+            }
+        }
+
     }
 
     queue_delete(queue);
@@ -122,34 +116,36 @@ Point Number_closest_to_the_starting_position(List* list, Point start, int w, in
     return { -1, -1 };
 }
 
+
 int main() {
-    List* list = list_create();
+    std::vector<char> labyrinth;
     try {
         std::ifstream file("input.txt");
-        int w = 0, h = 0;
-        Readout(file, list, &w, &h);
-        Output_labyrinth(list, w, h); 
-        Point start = Start_search(w, h, list);
+
+        size_t w = 0, h = 0;
+        Readout(file, labyrinth, &w, &h);
+        Output_labyrinth(labyrinth, w, h);
+
+        Point start = Start_search(w, h, labyrinth);
         if (start.x != -1) {
-            Point result = Number_closest_to_the_starting_position(list, start, w, h);
+            Point result = Number_closest_to_the_starting_position(labyrinth, start, w, h);
             if (result.x != -1) {
-                ListItem* item = list_get(list, result.y * w + result.x);
-                std::cout <<"closest point:"<<(char)list_item_data(item);
+                std::cout << "Closest point: " << labyrinth[result.y * w + result.x] << std::endl;
             }
             else {
-               std::cout<<"The endpoint was not found"<<std::endl; 
+                std::cout << "The endpoint was not found." << std::endl;
             }
         }
         else {
-            std::cout << "The starting point was not found" << std::endl;
+            std::cout << "The starting point was not found." << std::endl;
         }
-        
-       
+
     }
     catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
-      
     }
-    list_delete(list);
+
     return 0;
 }
+
+
