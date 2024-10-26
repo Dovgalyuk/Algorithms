@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
-#include <vector>
 #include <unordered_map>
 
 using namespace std;
