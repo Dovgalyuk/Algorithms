@@ -37,7 +37,7 @@ Array* fillArrayRandom(size_t num)
 }
 
 // Positive and even numbers amount
-int task1(const Array &arr/*, ofstream &output*/)
+int task1(const Array &arr)
 {
     int sum = 0;
     
@@ -54,7 +54,7 @@ int task1(const Array &arr/*, ofstream &output*/)
 }
 
 // Most frequent element
-int task2(const Array &arr/*, ofstream &output*/)
+int task2(const Array &arr)
 {
     unordered_map<int, int> freq;
     
@@ -81,8 +81,35 @@ int task2(const Array &arr/*, ofstream &output*/)
 
 int main(int argc, char *argv[]) 
 {   
-    //istream* input = &cin;
-    ifstream fileInput(argv[1]);
+    istream* input = &cin;
+    ifstream fileInput;
+    ostream* output = &cout;
+    ofstream fileOutput;
 
+    if (argc == 3)
+    {
+        fileInput(argv[1]);
+        fileOutput(argv[2]);
+
+        if (!input.is_open())
+        {
+            cerr << "Error! Opening input file is failed!" << endl;
+            return 1;
+        }
+        if (!output.is_open())
+        {
+            cerr << "Error! Opening output file is failed!" << endl;
+            return 1;
+        }
+
+        input = &fileInput;
+        output = &fileOutput;
+    }
+
+    // task 1
+    *output << "Task 1: The sum of positive and even numbers\n";
+
+    // task 2
+    *output <<  "Task 2: Most frequent element";
     return 0;
 }
