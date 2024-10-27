@@ -23,7 +23,7 @@ Array* createArray(ifstream &input)
     return arr;
 }
 
-Array* fillArrayRandom(size_t num)
+Array* arrayRandom(size_t num)
 {
     Array* arr = new Array(num);
 
@@ -106,10 +106,48 @@ int main(int argc, char *argv[])
         output = &fileOutput;
     }
 
+    size_t sizeF, sizeS;
+
     // task 1
     *output << "Task 1: The sum of positive and even numbers\n";
+    cout << "Array size: ";
 
+    *input >> sizeF;
+    Array* arrF = arrayRandom(sizeF);
+
+    *output << "Original array: ";
+    for (size_t i = 0; i < arrF->size(); ++i)
+    {
+        *output << arrF->get(i) << " ";
+    }
+    *output << endl;
+
+    int pena = task1(*arrF);
+    *output << "Amount of positive and even: " << pena;
+    
+    *output << endl;
+
+    delete arrF;
     // task 2
-    *output <<  "Task 2: Most frequent element";
+    *output << "Task 2: Most frequent element\n";
+    cout << "Array size: ";
+
+    *input >> sizeS;
+    Array* arrS = arrayRandom(sizeS);
+
+    *output << "Original array: ";
+    for (size_t i = 0; i < arrS->size(); ++i)
+    {
+        *output << arrS->get(i) << " ";
+    }
+    *output << endl;
+
+    int mfe = task2(*arrS);
+    *output << "Most frequent element: " << mfe;
+
+    *output << endl;
+
+    delete arrS;
+
     return 0;
 }
