@@ -36,6 +36,15 @@ Array* arrayRandom(size_t num)
     return arr;
 }
 
+void printArray(Array* arrN, ostream* output)
+{
+    for (size_t i = 0; i < arrN->size(); ++i) 
+    {
+        *output << arrN->get(i) << " ";
+    }
+        *output << endl;
+}
+
 // Positive and even numbers amount
 int task1(const Array &arr)
 {
@@ -116,11 +125,7 @@ int main(int argc, char *argv[])
     Array* arrF = arrayRandom(sizeF);
 
     *output << "Original array: ";
-    for (size_t i = 0; i < arrF->size(); ++i)
-    {
-        *output << arrF->get(i) << " ";
-    }
-    *output << endl;
+    printArray(arrF, output);
 
     int pena = task1(*arrF);
     *output << "Amount of positive and even: " << pena;
@@ -128,6 +133,7 @@ int main(int argc, char *argv[])
     *output << endl;
 
     delete arrF;
+
     // task 2
     *output << "Task 2: Most frequent element\n";
     cout << "Array size: ";
@@ -136,11 +142,7 @@ int main(int argc, char *argv[])
     Array* arrS = arrayRandom(sizeS);
 
     *output << "Original array: ";
-    for (size_t i = 0; i < arrS->size(); ++i)
-    {
-        *output << arrS->get(i) << " ";
-    }
-    *output << endl;
+    printArray(arrS, output);
 
     int mfe = task2(*arrS);
     *output << "Most frequent element: " << mfe;
