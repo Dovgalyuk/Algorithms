@@ -84,12 +84,17 @@ void task2(Array *arr)
     printf("\n");
 }
 
-int main(/*int argc, char **argv*/)
+int main(int argc, char **argv)
 {
     int n, m;
-    FILE *input = fopen(/*argv[1]*/"input.txt", "r");
+    if (argc < 2) {
+        printf("Использование: %s <имя_файла>\n", argv[0]);
+        return 1;
+    }
+
+    FILE *input = fopen(argv[1], "r");
     if (input == NULL) {
-        printf("Ошибка открытия файла");
+        perror("Ошибка открытия файла");
         return 1;
     }
     fscanf(input, "%d%d", &n, &m);
@@ -101,9 +106,13 @@ int main(/*int argc, char **argv*/)
     array_delete(arr);
     fclose(input);
 
-    FILE *input_2 = fopen(/*argv[1]*/"input.txt", "r");
+    if (argc < 2) {
+        printf("Использование: %s <имя_файла>\n", argv[0]);
+        return 1;
+    }
+    FILE *input_2 = fopen(argv[1], "r");
     if (input_2 == NULL) {
-        printf("Ошибка открытия файла");
+        perror("Ошибка открытия файла");
         return 1;
     }
     /* Create another array here */
