@@ -26,7 +26,7 @@ void array_delete(Array *arr);
 Data array_get(const Array *arr, size_t index);
 
 // sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value);
+int array_set(Array *arr, size_t index, Data value);
 
 // returns array size
 size_t array_size(const Array *arr);
