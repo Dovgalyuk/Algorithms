@@ -88,15 +88,15 @@ int main(int argc, char *argv[])
 
     if (argc == 3)
     {
-        fileInput(argv[1]);
-        fileOutput(argv[2]);
+        fileInput.open(argv[1]);
+        fileOutput.open(argv[2]);
 
-        if (!input.is_open())
+        if (!fileInput)
         {
             cerr << "Error! Opening input file is failed!" << endl;
             return 1;
         }
-        if (!output.is_open())
+        if (!fileOutput)
         {
             cerr << "Error! Opening output file is failed!" << endl;
             return 1;
