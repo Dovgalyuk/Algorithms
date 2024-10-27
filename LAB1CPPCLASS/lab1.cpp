@@ -120,8 +120,8 @@ int main(int argc, char *argv[])
     // task 1
     *output << "Task 1: The sum of positive and even numbers\n";
     cout << "Array size: ";
-
     *input >> sizeF;
+
     Array* arrF = arrayRandom(sizeF);
 
     *output << "Original array: ";
@@ -129,7 +129,6 @@ int main(int argc, char *argv[])
 
     int pena = task1(*arrF);
     *output << "Amount of positive and even: " << pena;
-    
     *output << endl;
 
     delete arrF;
@@ -137,8 +136,8 @@ int main(int argc, char *argv[])
     // task 2
     *output << "Task 2: Most frequent element\n";
     cout << "Array size: ";
-
     *input >> sizeS;
+
     Array* arrS = arrayRandom(sizeS);
 
     *output << "Original array: ";
@@ -146,7 +145,6 @@ int main(int argc, char *argv[])
 
     int mfe = task2(*arrS);
     *output << "Most frequent element: " << mfe;
-
     *output << endl;
 
     delete arrS;
