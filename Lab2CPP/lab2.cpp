@@ -34,7 +34,11 @@ std::string task(std::ifstream& input)
         }
         else
         {
-            if(stack_empty(stack)) return "NO";
+            if(stack_empty(stack))
+            {
+                stack_delete(stack);
+                return "NO";
+            }
 
             if(str[i] != stack_get(stack))
             {
