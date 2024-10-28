@@ -1,35 +1,14 @@
-// Основной файл проекта, здесь main()
-
 #include <iostream>
-#include <queue>
-#include <string>
-
+#include <stdexcept>
+#include <cassert>
 #include "../LibraryCPPTemplate/Vertex.h"
 #include "../LibraryCPPTemplate/vector.h"
 #include "../LibraryCPPTemplate/graph.h"
 
-void output_vertices(Graph<std::string> graph) {
-    Vector<Vector<bool>> rel = graph.get_matrix();
-    for (size_t i = 0; i < rel.size(); i++) {
-        for (size_t j = 0; j < rel.size(); j++) {
-            std::cout << rel[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
-}
-
-void output_marks(Graph<std::string> graph) {
-    Vector<std::string> marks = graph.get_marks();
-    for (size_t i = 0; i < marks.size(); i++) {
-        std::cout << marks[i] << " ";
-    }
-}
-
-void output_edges(Graph<std::string> graph) {
-    Vector<Vector<int>> edges = graph.get_edges();
-    for (size_t i = 0; i < edges.size(); i++) {
-        for (size_t j = 0; j < edges[i].size(); j++) {
-            std::cout << edges[i][j] << " ";
+void print_matrix(const Vector<Vector<int>>& matrix) {
+    for (size_t i = 0; i < matrix.size(); i++) {
+        for (size_t j = 0; j < matrix[i].size(); j++) {
+            std::cout << matrix[i][j] << " ";
         }
         std::cout << std::endl;
     }
@@ -37,63 +16,60 @@ void output_edges(Graph<std::string> graph) {
 
 int main() {
     setlocale(0, "");
-    Graph<std::string> graph(5);
-   
+    Graph<std::string> graph;
+
+    // Тест 1: Добавление вершин
+    graph.add_vertex("A");
+    graph.add_vertex("B");
+    graph.add_vertex("C");
+
+    // Проверка меток вершин
+    Vector<std::string> marks = graph.get_marks();
+    assert(marks.size() == 3);
+    assert(marks[0] == "A");
+    assert(marks[1] == "B");
+    assert(marks[2] == "C");
+    std::cout << "Тест 1 пройден: Добавление вершин." << std::endl;
+
+    // Тест 2: Добавление рёбер
+    graph.add_edge("A", "B", 1);
+    graph.add_edge("A", "C", 2);
+    graph.add_edge("B", "C", 3);
+
+    // Проверка матрицы рёбер
+    Vector<Vector<int>> edges = graph.get_edges();
+    assert(edges.size() == 3);
+    assert(edges[0][0] == 1); // A-B
+    assert(edges[0][1] == 2); // A-C
+    assert(edges[1][2] == 3); // B-C
+    std::cout << "Тест 2 пройден: Добавление рёбер." << std::endl;
+
+    // Тест 3: Проверка связности
+    assert(graph.is_bounded("A", "B") == true);
+    assert(graph.is_bounded("B", "C") == true);
+    assert(graph.is_bounded("A", "C") == true);
+    std::cout << "Тест 3 пройден: Проверка связности." << std::endl;
+
+    // Тест 4: Удаление рёбер
+    graph.delete_edge("A", "B");
+    edges = graph.get_edges();
+    assert(edges[0][1] == 0); // A-B должно быть удалено
+    std::cout << "Тест 4 пройден: Удаление рёбер." << std::endl;
+
+    // Тест 5: Удаление вершин
+    graph.delete_vertex("B");
+    marks = graph.get_marks();
+    assert(marks.size() == 2);
+    assert(marks[0] == "A");
+    assert(marks[1] == "C");
+    std::cout << "Тест 5 пройден: Удаление вершины B." << std::endl;
+
+    graph.delete_vertex("A");
+    graph.delete_vertex("C");
+    marks = graph.get_marks();
+    assert(marks.size() == 0);
+    std::cout << "Тест 6 пройден: Удаление оставшихся вершин." << std::endl;
+
+    std::cout << "Все тесты пройдены успешно!" << std::endl;
     return 0;
 }
-
-//// Основной файл проекта, здесь main()
-//
-//#include <iostream>
-//#include <queue>
-//
-//#include "../LibraryCPPTemplate/Vertex.h"
-//#include "../LibraryCPPTemplate/vector.h"
-//#include "../LibraryCPPTemplate/graph.h"
-//
-//int main() {
-//    setlocale(0, "");
-//    Graph<int> graph;
-//    Vector<Vertex<int>> vertex;
-//    for (size_t i = 0; i < vertex.size(); i++) {
-//        vertex[i] = { (uint)i, 0 };
-//    }
-//
-//    graph.add_vertex(vertex[0]);
-//    graph.add_vertex(vertex[1]);
-//    graph.add_vertex(vertex[2]);
-//
-//    std::cout << "Граф из 3 вершин" << std::endl << std::endl;
-//    graph.print_matrix();
-//    std::cout << std::endl;
-//
-//    std::cout << "Соединим 1 и 2, 2 и 3, 3 и 1" << std::endl << std::endl;
-//    graph.add_edge(vertex[0], vertex[1]);
-//    graph.add_edge(vertex[1], vertex[2]);
-//    graph.add_edge(vertex[2], vertex[0]);
-//
-//    std::cout << "Граф из 3 соединенных вершин" << std::endl << std::endl;
-//    graph.print_matrix();
-//    std::cout << std::endl;
-//
-//    std::cout << "Вершины 1 и 2 связаны: " << graph.is_bounded(vertex[0], vertex[1]) << std::endl;
-//    std::cout << "Вершины 1 и 3 связаны: " << graph.is_bounded(vertex[1], vertex[2]) << std::endl;
-//    std::cout << "Вершины 2 и 1 связаны: " << graph.is_bounded(vertex[1], vertex[0]) << std::endl << std::endl;
-//    
-//    std::cout << "Добавим в граф еще одну вершину" << std::endl << std::endl;
-//    vertex.push({3, 0});
-//    graph.add_vertex(vertex[3]);
-//    graph.print_matrix();
-//    std::cout << std::endl;
-//
-//    std::cout << "Удалим из графа вершину 1" << std::endl << std::endl;
-//    graph.delete_vertex(vertex[0]);
-//    graph.print_matrix();
-//    std::cout << std::endl;
-//
-//    std::cout << "Вершины 1 и 2 связаны: " << graph.is_bounded(vertex[0], vertex[1]) << std::endl;
-//    std::cout << "Вершины 1 и 3 связаны: " << graph.is_bounded(vertex[1], vertex[2]) << std::endl;
-//    std::cout << "Вершины 2 и 1 связаны: " << graph.is_bounded(vertex[1], vertex[0]) << std::endl << std::endl;
-//
-//	return 0;
-//}
