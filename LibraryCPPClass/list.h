@@ -1,8 +1,6 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include <cstddef>
-
 typedef int Data;
 
 class List
@@ -11,11 +9,17 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item(Data value, Item* next = nullptr) : data_(value), next_(next) {};
+
+        Item* next() const { return next_; }
+        Item* prev() { return nullptr; }
+        Data data() const { return data_; }
+
+        void set_next(Item* next) { next_ = next; }
+
     private:
-        // internal data here
+        Data data_;
+        Item* next_;
     };
 
     // Creates new list
@@ -31,7 +35,7 @@ public:
     ~List();
 
     // Retrieves the first item from the list
-    Item *first();
+    Item *first() const;
 
     // Inserts new list item into the beginning
     Item *insert(Data data);
@@ -49,6 +53,10 @@ public:
     Item *erase_next(Item *item);
 private:
     // private data should be here
+    Item* head_;
+
+    void clear();
+    void copy_from(const List& a);
 };
 
 #endif

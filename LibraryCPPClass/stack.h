@@ -2,6 +2,7 @@
 #define STACK_H
 
 #include <cstddef>
+#include "list.h"
 
 typedef int Data;
 
@@ -24,7 +25,7 @@ public:
     // Should be O(1) on average
     void push(Data data);
 
-    // Retrives the last element from the stack
+    // Retrieves the last element from the stack
     Data get() const;
 
     // Removes the last element from the stack
@@ -36,6 +37,7 @@ public:
 
 private:
     // private data should be here
+    List list_;
 };
 
 #endif
