@@ -98,9 +98,9 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
     item->next->prev = NewItem;
     item->next = NewItem;
 
-    if (item == list->head->prev) {
-        list->head->prev = NewItem; 
-    }
+   
+
+    
     
     return NewItem;
 }

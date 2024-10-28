@@ -120,8 +120,8 @@ Point Number_closest_to_the_starting_position(const std::vector<char>& labyrinth
 int main() {
     std::vector<char> labyrinth;
     try {
+        
         std::ifstream file("input.txt");
-
         size_t w = 0, h = 0;
         Readout(file, labyrinth, &w, &h);
         Output_labyrinth(labyrinth, w, h);
@@ -143,8 +143,9 @@ int main() {
     }
     catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
     }
-
+    
     return 0;
 }
 
