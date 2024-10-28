@@ -88,6 +88,7 @@ Point Number_closest_to_the_starting_position(const std::vector<char>& labyrinth
 
         if (simvol >= '0' && simvol <= '9') {
             delete[]flag_was_here;
+            queue_delete(queue);
             return { currentX, currentY };
         }
 
