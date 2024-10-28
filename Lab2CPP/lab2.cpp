@@ -12,13 +12,9 @@ char opposite(char c)
 {
     if(c == '(')
         return c + 1;
-    else if(c == ')')
-        return c - 1;
 
     if(c == '[' || c == '{' || c == '<')
         return c + 2;
-    else if(c == ']' || c == '}' || c == '>')
-        return c - 2;
 
     return 1;
 }
@@ -29,8 +25,6 @@ std::string task(std::ifstream& input)
     if(input.is_open())
         input >> str;
         
-    if(!is_open(str[0])) return "NO";
-
     Stack *stack = stack_create();
     for(size_t i = 0; i < str.size(); i++)
     {
@@ -40,6 +34,8 @@ std::string task(std::ifstream& input)
         }
         else
         {
+            if(stack_empty(stack)) return "NO";
+
             if(str[i] != stack_get(stack))
             {
                 stack_delete(stack);
