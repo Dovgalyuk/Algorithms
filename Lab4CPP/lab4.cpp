@@ -37,16 +37,8 @@ void output_edges(Graph<std::string> graph) {
 
 int main() {
     setlocale(0, "");
-    Graph<std::string> graph;
-    graph.add_vertex("a");
-    graph.add_vertex("b");
-    graph.add_edge("a", "b", 5);
-    graph.add_vertex("c");
-    output_vertices(graph);
-    std::cout << std::endl;
-    output_edges(graph);
-    std::cout << std::endl;
-    output_marks(graph);
+    Graph<std::string> graph(5);
+   
     return 0;
 }
 
