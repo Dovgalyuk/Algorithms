@@ -10,7 +10,6 @@ struct Point {
     int x, y;
 };
 void Readout(std::ifstream& file, std::vector<char>& labyrinth, size_t* w, size_t* h);
-void Output_labyrinth(const std::vector<char>& labyrinth, size_t w, size_t h);
 Point Start_search(size_t w, size_t h, const std::vector<char>& labyrinth);
 bool Range_and_Wall(int x, int y, size_t w, size_t h, const std::vector<char>& labyrinth, bool* flag_was_here);
 Point Number_closest_to_the_starting_position(const std::vector<char>& labyrinth, Point start, size_t w, size_t h);
@@ -45,14 +44,6 @@ void Readout(std::ifstream& file, std::vector<char>& labyrinth, size_t* w, size_
 }
 
 
-void Output_labyrinth(const std::vector<char>& labyrinth, size_t w, size_t h) {
-    for (size_t y = 0; y < h; ++y) {
-        for (size_t x = 0; x < w; ++x) {
-            std::cout << labyrinth[y * w + x];
-        }
-        std::cout << std::endl;
-    }
-}
 
 
 Point Start_search(size_t w, size_t h, const std::vector<char>& labyrinth) {
@@ -124,7 +115,6 @@ int main() {
         std::ifstream file("input.txt");
         size_t w = 0, h = 0;
         Readout(file, labyrinth, &w, &h);
-        Output_labyrinth(labyrinth, w, h);
 
         Point start = Start_search(w, h, labyrinth);
         if (start.x != -1) {
