@@ -50,7 +50,3 @@ bool stack_empty(const Stack *stack)
 {
     return vector_size(stack->vector) == 0;
 }
-
-Data stack_size(const Stack* stack) {
-    return vector_size(stack->vector);
-}
