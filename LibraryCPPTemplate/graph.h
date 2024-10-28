@@ -4,8 +4,8 @@
 #include <iostream>
 
 struct Vertex {
-    int mark;
-    unsigned int degree;
+    uint mark;
+    uint degree;
 };
 
 template <typename Data>

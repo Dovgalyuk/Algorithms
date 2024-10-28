@@ -13,7 +13,7 @@ int main() {
     Graph<Vertex> graph;
     Vector<Vertex> vertex(3, {0, 0});
     for (size_t i = 0; i < vertex.size(); i++) {
-        vertex[i] = { (int)i, 0 };
+        vertex[i] = { (uint)i, 0 };
     }
 
     graph.add_vertex(vertex[0]);
@@ -41,5 +41,16 @@ int main() {
     vertex.push({3, 0});
     graph.add_vertex(vertex[3]);
     graph.print_matrix();
+    std::cout << std::endl;
+
+    std::cout << "Удалим из графа вершину 1" << std::endl << std::endl;
+    graph.delete_vertex(vertex[0]);
+    graph.print_matrix();
+    std::cout << std::endl;
+
+    std::cout << "Вершины 1 и 2 связаны: " << graph.is_bounded(vertex[0], vertex[1]) << std::endl;
+    std::cout << "Вершины 1 и 3 связаны: " << graph.is_bounded(vertex[1], vertex[2]) << std::endl;
+    std::cout << "Вершины 2 и 1 связаны: " << graph.is_bounded(vertex[1], vertex[0]) << std::endl << std::endl;
+
 	return 0;
 }
