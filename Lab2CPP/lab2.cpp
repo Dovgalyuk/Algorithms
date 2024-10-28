@@ -30,45 +30,46 @@ void task1(FILE *input, Stack* stack, FILE* out) {
 }
 
 void arithmetic_stack(Stack* stack, char symbol) {
-    if (stack_size(stack) >= 2) {
-        int num1 = stack_get(stack);
-        stack_pop(stack);
-        int num2 = stack_get(stack);
-        stack_pop(stack);
-        int res = 0;
-        switch (symbol)
-        {
-        case '+':
-            res = num1 + num2;
+    if (stack_empty(stack))
+        throw std::out_of_range("out of rage");
+
+    int num1 = stack_get(stack);
+    stack_pop(stack);
+    if (stack_empty(stack))
+        throw std::out_of_range("out of rage");
+
+    int num2 = stack_get(stack);
+    stack_pop(stack);
+    int res = 0;
+    switch (symbol)
+    {
+    case '+':
+        res = num1 + num2;
+        stack_push(stack, res);
+        break;
+    case '-':
+        res = num1 - num2;
+        stack_push(stack, res);
+        break;
+    case '*':
+        res = num1 * num2;
+        stack_push(stack, res);
+        break;
+    case '/':
+        if (num2 != 0) {
+            int res = num1 / num2;
             stack_push(stack, res);
-            break;
-        case '-':
-            res = num1 - num2;
-            stack_push(stack, res);
-            break;
-        case '*':
-            res = num1 * num2;
-            stack_push(stack, res);
-            break;
-        case '/':
-            if (num2 != 0) {
-                int res = num1 / num2;
-                stack_push(stack, res);
-            } else {
-                throw std::invalid_argument("num2 == 0");
-            }
-            break;
-        case '%':
-            res = num1 % num2;
-            stack_push(stack, res);
-            break;
-        default:
-            break;
+        } else {
+            throw std::invalid_argument("num2 == 0");
         }
-    } else {
-        throw std::out_of_range("out of range");
+        break;
+    case '%':
+        res = num1 % num2;
+        stack_push(stack, res);
+        break;
+    default:
+        break;
     }
-    
 }
 
 void inverse_stack(Stack* stack) {
@@ -86,18 +87,18 @@ void inverse_stack(Stack* stack) {
 }
 
 void comparison_stack(Stack* stack) {
-    if (stack_size(stack) >= 2) {
-        int num1 = stack_get(stack);
-        stack_pop(stack);
-        int num2 = stack_get(stack);
-        stack_pop(stack);
-        if (num1 > num2) {
-            stack_push(stack, 1);
-        } else {
-            stack_push(stack, 0);
-        }
-    } else {
+    if (stack_empty(stack))
         throw std::out_of_range("out of rage");
+    int num1 = stack_get(stack);
+    stack_pop(stack);
+    if (stack_empty(stack))
+        throw std::out_of_range("out of rage");
+    int num2 = stack_get(stack);
+    stack_pop(stack);
+    if (num1 > num2) {
+        stack_push(stack, 1);
+    } else {
+        stack_push(stack, 0);
     }
 }
 
