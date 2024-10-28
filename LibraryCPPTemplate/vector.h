@@ -7,7 +7,11 @@ template <typename Data>
 class Vector {
 public:
     
-    Vector() : arr(new Data[1]), size_v(0), capacity(1) {}
+    Vector() {
+        arr = new Data[1];
+        size_v = 0;
+        capacity = 1;
+    }
 
     Vector(size_t q, Data value){
         arr = new Data[q];
@@ -17,7 +21,9 @@ public:
             push(value);
     }
 
-    Vector(const Vector& a) : size_v(a.size_v), capacity(a.capacity) {
+    Vector(const Vector& a) {
+        size_v = a.size_v; 
+        capacity = a.capacity;
         arr = new Data[capacity];
         for (size_t i = 0; i < size_v; ++i) {
             arr[i] = a.arr[i];
@@ -39,6 +45,13 @@ public:
     }
 
     Data& operator[](size_t index) {
+        if (index >= size_v) {
+            return arr[0];
+        }
+        return arr[index];
+    }
+
+    const Data& operator[](size_t index) const {
         if (index >= size_v) {
             return arr[0];
         }

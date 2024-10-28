@@ -8,12 +8,47 @@
 #include "../LibraryCPPTemplate/vector.h"
 #include "../LibraryCPPTemplate/graph.h"
 
+void output_matrix(Graph<std::string> graph);
+void output_marks(Graph<std::string> graph);
+
 int main() {
     setlocale(0, "");
-    Graph<int> graph;
-    graph.add_vertex();
-
+    Graph<std::string> graph(5);
+    output_matrix(graph);
+    std::cout << std::endl;
+    for (int i = 0; i < 5; i++) {
+        graph.add_edge(i, i);
+    }
+    output_matrix(graph);
+    std::cout << std::endl;
+    for (int i = 0; i < 5; i++) {
+        graph.add_edge(i, (size_t)4 - i);
+    }
+    output_matrix(graph);
+    std::cout << std::endl;
+    for (int i = 0; i < 5; i++) {
+        std::string str(1, 'a' + i);
+        graph.add_mark(i, str);
+    }
+    output_marks(graph);
     return 0;
+}
+
+void output_matrix(Graph<std::string> graph) {
+    Vector<Vector<bool>> rel = graph.get_matrix();
+    for (size_t i = 0; i < rel.size(); i++) {
+        for (size_t j = 0; j < rel.size(); j++) {
+            std::cout << rel[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+void output_marks(Graph<std::string> graph) {
+    Vector<std::string> marks = graph.get_marks();
+    for (size_t i = 0; i < marks.size(); i++) {
+        std::cout << marks[i] << " ";
+    }
 }
 
 //// Основной файл проекта, здесь main()
