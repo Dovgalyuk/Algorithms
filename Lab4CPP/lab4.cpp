@@ -8,33 +8,7 @@
 #include "../LibraryCPPTemplate/vector.h"
 #include "../LibraryCPPTemplate/graph.h"
 
-void output_matrix(Graph<std::string> graph);
-void output_marks(Graph<std::string> graph);
-
-int main() {
-    setlocale(0, "");
-    Graph<std::string> graph(5);
-    output_matrix(graph);
-    std::cout << std::endl;
-    for (int i = 0; i < 5; i++) {
-        graph.add_edge(i, i);
-    }
-    output_matrix(graph);
-    std::cout << std::endl;
-    for (int i = 0; i < 5; i++) {
-        graph.add_edge(i, (size_t)4 - i);
-    }
-    output_matrix(graph);
-    std::cout << std::endl;
-    for (int i = 0; i < 5; i++) {
-        std::string str(1, 'a' + i);
-        graph.add_mark(i, str);
-    }
-    output_marks(graph);
-    return 0;
-}
-
-void output_matrix(Graph<std::string> graph) {
+void output_vertices(Graph<std::string> graph) {
     Vector<Vector<bool>> rel = graph.get_matrix();
     for (size_t i = 0; i < rel.size(); i++) {
         for (size_t j = 0; j < rel.size(); j++) {
@@ -49,6 +23,31 @@ void output_marks(Graph<std::string> graph) {
     for (size_t i = 0; i < marks.size(); i++) {
         std::cout << marks[i] << " ";
     }
+}
+
+void output_edges(Graph<std::string> graph) {
+    Vector<Vector<int>> edges = graph.get_edges();
+    for (size_t i = 0; i < edges.size(); i++) {
+        for (size_t j = 0; j < edges[i].size(); j++) {
+            std::cout << edges[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+int main() {
+    setlocale(0, "");
+    Graph<std::string> graph;
+    graph.add_vertex("a");
+    graph.add_vertex("b");
+    graph.add_edge("a", "b", 5);
+    graph.add_vertex("c");
+    output_vertices(graph);
+    std::cout << std::endl;
+    output_edges(graph);
+    std::cout << std::endl;
+    output_marks(graph);
+    return 0;
 }
 
 //// Основной файл проекта, здесь main()

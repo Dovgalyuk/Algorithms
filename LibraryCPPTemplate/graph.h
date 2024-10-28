@@ -16,61 +16,103 @@ public:
     ~Graph() {}
 
     void add_vertex() {
-        vertex.push({ vertex.size() + 1, Data() });
+        vertex.push({ vertex.size(), Data() });
 
-        quantity++;
-        Vector<bool> new_v(quantity, 0);
+        v_quantity++;
+        Vector<bool> new_v(v_quantity, 0);
         relations.push(new_v);
 
         for (size_t i = 0; i < relations.size(); i++) {
-            while (relations[i].size() != quantity)
+            while (relations[i].size() != v_quantity)
                 relations[i].push(0);
+        }
+
+        if (e_quantity > 0) {
+            Vector<int> new_e(e_quantity, 0);
+            edges.push(new_e);
+            for (size_t i = 0; i < edges.size(); i++) {
+                while (edges[i].size() != e_quantity)
+                    edges[i].push(0);
+            }
         }
     }
 
     void add_vertex(Data vertex_mark) {
-        Vertex<Data> new_vertex = { vertex.size() + 1, vertex_mark };
-        vertex.push(new_vertex);
+        vertex.push({ vertex.size(), vertex_mark });
 
-        quantity++;
-        Vector<bool> new_v(quantity, 0);
+        v_quantity++;
+        Vector<bool> new_v(v_quantity, 0);
         relations.push(new_v);
 
         for (size_t i = 0; i < relations.size(); i++) {
-            while(relations[i].size() != quantity)
+            while(relations[i].size() != v_quantity)
                 relations[i].push(0);
+        }
+
+        if (e_quantity > 0) {
+            Vector<int> new_e(e_quantity, 0);
+            edges.push(new_e);
+            for (size_t i = 0; i < edges.size(); i++) {
+                while (edges[i].size() != e_quantity)
+                    edges[i].push(0);
+            }
         }
     }
 
     void delete_vertex(Data a) {
         int a_num = number_by_mark(a);
         if (a_num != -1) {
-            for (size_t i = a_num; i < quantity - 1; i++) {
+            for (size_t i = a_num; i < v_quantity - 1; i++) {
                 vertex[i] = vertex[i + 1];
-                for (size_t j = 0; j < quantity; j++) {
+                for (size_t j = 0; j < v_quantity; j++) {
                     relations[i][j] = relations[i + 1][j];
                 }
             }
-            quantity--;
+            v_quantity--;
 
-            relations.resize(quantity);
-            for (size_t i = 0; i < quantity; i++) {
-                relations[i].resize(quantity);
+            relations.resize(v_quantity);
+            for (size_t i = 0; i < v_quantity; i++) {
+                relations[i].resize(v_quantity);
+            }
+
+            for (size_t i = a_num; i < e_quantity - 1; i++) {
+                for (size_t j = 0; j < e_quantity; j++) {
+                    edges[i][j] = edges[i + 1][j];
+                }
+            }
+            e_quantity--;
+
+            edges.resize(e_quantity);
+            for (size_t i = 0; i < e_quantity; i++) {
+                edges[i].resize(e_quantity);
             }
         }
     }
 
-    void add_edge(Data a, Data b) {
+    void add_edge(Data a, Data b, int edge_mark) {
         int a_num = number_by_mark(a);
         int b_num = number_by_mark(b);
         if (a_num != -1 && b_num != -1) {
-                relations[a_num][b_num] = 1;
+            relations[a_num][b_num] = 1;
+
+            e_quantity++;
+            while (edges.size() != v_quantity) {
+                Vector<int> temp(1, 0);
+                edges.push(temp);
+            }
+            edges[a_num][edges[0].size() - 1] = edge_mark;
+            edges[b_num][edges[0].size() - 1] = (-1) * edge_mark;
         }
     }
 
-    void add_edge(size_t a, size_t b) {
-        if (a < quantity && b < quantity) {
+    void add_edge(size_t a, size_t b, int edge_mark) {
+        if (a < v_quantity && b < v_quantity) {
             relations[a][b] = 1;
+            for (size_t i = 0; i < edges.size(); i++) {
+                edges[i].push(0);
+            }
+            edges[a][edges.size() - 1] = edge_mark;
+            edges[b][edges.size() - 1] = (-1) * edge_mark;
         }
     }
 
@@ -102,19 +144,22 @@ public:
             vertex[a].mark = mark;
     }
 
+    Vector<Vector<bool>> get_matrix() {
+        return relations;
+    }
+
     Vector<Data> get_marks() {
         Vector<Data> marks;
-        for (size_t i = 0; i < quantity; i++) {
+        for (size_t i = 0; i < v_quantity; i++) {
             marks.push(vertex[i].mark);
         }
         return marks;
     }
 
-    Vector<Vector<bool>> get_matrix() {
-        return relations;
+    Vector<Vector<int>> get_edges() {
+        return edges;
     }
 
-private:
     size_t number_by_mark(Data mark) {
         for (size_t i = 0; i < vertex.size(); i++) {
             if (vertex[i].mark == mark)
@@ -123,9 +168,12 @@ private:
         return -1;
     }
 
-    Vector<Vector<bool>> relations;
+private:
+    uint v_quantity = 0;
+    uint e_quantity = 0;
+    Vector<Vector<int>> edges;
     Vector<Vertex<Data>> vertex;
-    uint quantity = 0;
+    Vector<Vector<bool>> relations;
 };
 
 #endif
