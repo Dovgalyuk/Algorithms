@@ -3,11 +3,6 @@
 
 #include <iostream>
 
-struct Vertex {
-    uint mark;
-    uint degree;
-};
-
 template <typename Data>
 class Graph {
 public:
@@ -15,7 +10,20 @@ public:
 
     ~Graph() {}
 
-    void add_vertex(Data vertex_v) {
+    void add_vertex() {
+        vertex.push({ vertex.size() + 1, Data() });
+
+        quantity++;
+        Vector<int> new_v(quantity, 0);
+        relations.push(new_v);
+
+        for (size_t i = 0; i < relations.size(); i++) {
+            while (relations[i].size() != quantity)
+                relations[i].push(0);
+        }
+    }
+
+    void add_vertex(Vertex<Data> vertex_v) {
         vertex.push(vertex_v);
 
         quantity++;
@@ -28,14 +36,15 @@ public:
         }
     }
 
-    void add_edge(Vertex a, Vertex b) {
+    void add_edge(Data a, Data b) {
+
         if (a.mark < quantity && b.mark < quantity) {
             relations[a.mark][b.mark] = 1;
             a.degree++;
         }
     }
 
-    void delete_vertex(Vertex a) {
+    void delete_vertex(Data a) {
         if (a.mark < quantity) {
             for (size_t i = a.mark; i < quantity - 1; i++) {
                 vertex[i] = vertex[i + 1];
@@ -52,13 +61,13 @@ public:
         }
     }
 
-    void delete_edge(Vertex a, Vertex b) {
+    void delete_edge(Data a, Data b) {
         if (a.mark < quantity && b.mark < quantity) {
             relations[a.mark][b.mark] = 0;
         }
     }
 
-    bool is_bounded(Vertex a, Vertex b) {
+    bool is_bounded(Data a, Data b) {
         if (a.mark < quantity && b.mark < quantity) {
             if (relations[a.mark][b.mark] == 1)
                 return true;
@@ -66,14 +75,14 @@ public:
         return false;
     }
 
-    void add_mark(Vertex a, uint mark) {
+    void add_mark(uint a, Data mark) {
         if (a.mark < quantity) {
             vertex[a.mark].mark = mark;
         }
     }
 
-    Vector<int> get_marks() {
-        Vector<int> marks;
+    Vector<Data> get_marks() {
+        Vector<Data> marks;
         for (size_t i = 0; i < quantity; i++) {
             marks.push(vertex[i].mark);
         }
@@ -90,8 +99,16 @@ public:
     }
 
 private:
+    size_t number_by_mark(Data mark) {
+        for (size_t i = 0; i < vertex.size(); i++) {
+            if (vertex[i].mark == mark)
+                return vertex[i].number;
+        }
+        return -1;
+    }
+
     Vector<Vector<int>> relations;
-    Vector<Vertex> vertex;
+    Vector<Vertex<Data>> vertex;
     uint quantity = 0;
 };
 
