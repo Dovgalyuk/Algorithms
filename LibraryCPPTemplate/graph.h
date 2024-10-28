@@ -7,6 +7,7 @@ template <typename Data>
 class Graph {
 public:
     Graph() {}
+
     Graph(size_t q) {
         for (size_t i = 0; i < q; i++) {
             add_vertex();
@@ -77,12 +78,14 @@ public:
                 relations[i].resize(v_quantity);
             }
 
-            for (size_t i = a_num; i < e_quantity - 1; i++) {
-                for (size_t j = 0; j < e_quantity; j++) {
-                    edges[i][j] = edges[i + 1][j];
+            if (a_num < edges.size()) {
+                for (size_t i = a_num; i < e_quantity; i++) {
+                    for (size_t j = 0; j < e_quantity; j++) {
+                        edges[i][j] = edges[i + 1][j];
+                    }
                 }
+                e_quantity--;
             }
-            e_quantity--;
         }
     }
 
@@ -211,8 +214,8 @@ private:
         return false;
     }
 
-    uint v_quantity = 0;
-    uint e_quantity = 0;
+    size_t v_quantity = 0;
+    size_t e_quantity = 0;
     Vector<Vector<int>> edges;
     Vector<Vertex<Data>> vertex;
     Vector<Vector<bool>> relations;
