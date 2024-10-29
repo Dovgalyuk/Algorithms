@@ -2,7 +2,10 @@
 #define GRAPH_H
 
 #include <iostream>
-#include "../LibraryCPPTemplate/iterator.h"
+#include "../LibraryCPPTemplate/vector.h"
+
+template <typename Data>
+class Iterator;
 
 template <typename Data>
 class Graph {
@@ -206,7 +209,42 @@ public:
         return -1;
     }
 
-    Iterator<Data> begin(Data mark) {
+    Vertex<Data> get_vertex_by_index(size_t index) {
+        return vertex[index];
+    }
+
+    class Iterator {
+    public:
+        Iterator(Graph<Data>* graph, Data v_mark, size_t neib)
+            : graph(graph), mark(v_mark), neib_index(neib) {}
+
+        Iterator& operator++() {
+            Vector<bool> v_neib = graph->get_matrix()[graph->number_by_mark(mark)];
+            for (size_t i = neib_index + 1; i < v_neib.size(); i++) {
+                if (v_neib[i]) {
+                    neib_index = i;
+                    return *this;
+                }
+            }
+            neib_index = v_neib.size();
+            return *this;
+        }
+
+        bool operator!=(const Iterator& iterator) const {
+            return neib_index != iterator.neib_index;
+        }
+
+        Vertex<Data> operator*() const {
+            return graph->get_vertex_by_index(neib_index);
+        }
+
+    private:
+        Graph<Data>* graph;
+        Data mark;
+        size_t neib_index;
+    };
+
+    Iterator begin(Data mark) {
         size_t v_num = number_by_mark(mark);
         size_t first_neib = 0;
         for (size_t i = 0; i < relations[v_num].size() && !first_neib; i++) {
@@ -214,18 +252,12 @@ public:
                 first_neib = i;
         }
 
-        return Iterator<Data>(this, mark, first_neib);
+        return Iterator(this, mark, first_neib);
     }
 
-    Iterator<Data> end(Data mark) {
+    Iterator end(Data mark) {
         size_t v_num = number_by_mark(mark);
-        size_t last_neib = 0;
-        for (size_t i = relations[v_num].size() - 1; i > -1 && !last_neib; i--) {
-            if (relations[v_num][i] == 1)
-                last_neib = i;
-        }
-
-        return Iterator<Data>(this, mark, last_neib);
+        return Iterator(this, mark, relations[v_num].size());
     }
 
 private:

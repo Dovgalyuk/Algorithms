@@ -1,3 +1,7 @@
+add_executable(TestGraphCPPTemplate graph.cpp)
+target_include_directories(TestGraphCPPTemplate PUBLIC ..)
+add_test(TestGraphCPPTemplate TestGraphCPPTemplate)
+
 # add_executable(TestArrayCPPTemplate array.cpp)
 # target_include_directories(TestArrayCPPTemplate PUBLIC ..)
 # add_test(TestArrayCPPTemplate TestArrayCPPTemplate)

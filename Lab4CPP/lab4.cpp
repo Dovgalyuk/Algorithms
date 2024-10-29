@@ -1,19 +1,9 @@
+#include <cassert>
 #include <iostream>
 #include <stdexcept>
-#include <cassert>
 #include "../LibraryCPPTemplate/Vertex.h"
-#include "../LibraryCPPTemplate/vector.h"
 #include "../LibraryCPPTemplate/graph.h"
-#include "../LibraryCPPTemplate/iterator.h"
-
-void print_matrix(const Vector<Vector<int>>& matrix) {
-    for (size_t i = 0; i < matrix.size(); i++) {
-        for (size_t j = 0; j < matrix[i].size(); j++) {
-            std::cout << matrix[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
-}
+#include "../LibraryCPPTemplate/vector.h"
 
 int main() {
     setlocale(0, "");
@@ -51,26 +41,56 @@ int main() {
     assert(graph.is_bounded("A", "C") == true);
     std::cout << "Тест 3 пройден: Проверка связности." << std::endl;
 
-    // Тест 4: Удаление рёбер
+    // Тест 4: Проверка работы итератора
+    Vector<Vertex<std::string>> test;
+    for (auto it = graph.begin("A"); it != graph.end("A"); ++it) {
+        test.push(*it);
+    }
+    assert(test[0].mark == "B");
+    assert(test[1].mark == "C");
+    std::cout << "Тест 4 пройден: Проверка работы итератора." << std::endl;
+
+    // Тест 5: Удаление рёбер
     graph.delete_edge("A", "B");
     edges = graph.get_edges();
     assert(edges[0][1] == 0); // A-B должно быть удалено
-    std::cout << "Тест 4 пройден: Удаление рёбер." << std::endl;
+    std::cout << "Тест 5 пройден: Удаление рёбер." << std::endl;
 
-    // Тест 5: Удаление вершин
+    // Тест 6: Удаление вершины
     graph.delete_vertex("B");
     marks = graph.get_marks();
     assert(marks.size() == 2);
     assert(marks[0] == "A");
     assert(marks[1] == "C");
-    std::cout << "Тест 5 пройден: Удаление вершины B." << std::endl;
+    std::cout << "Тест 6 пройден: Удаление вершины B." << std::endl;
 
+    // Тест 7: Удаление оставшихся вершин
     graph.delete_vertex("A");
     graph.delete_vertex("C");
     marks = graph.get_marks();
     assert(marks.size() == 0);
-    std::cout << "Тест 6 пройден: Удаление оставшихся вершин." << std::endl;
+    std::cout << "Тест 7 пройден: Удаление оставшихся вершин." << std::endl;
 
     std::cout << "Все тесты пройдены успешно!" << std::endl;
     return 0;
 }
+
+//int main() {
+//	Graph<char> graph(5);
+//	graph.add_mark(0, 'a');
+//	graph.add_mark(1, 'b');
+//	graph.add_mark(2, 'c');
+//	graph.add_mark(3, 'd');
+//	graph.add_mark(4, 'e');
+//	for (int i = 0; i < graph.get_marks().size(); i++) {
+//		std::cout << graph.get_marks()[i] << std::endl;
+//	}
+//	std::cout << std::endl;
+//	graph.add_edge((size_t)0, 1, 1);
+//	graph.add_edge((size_t)0, 2, 1);
+//	graph.add_edge((size_t)0, 3, 1);
+//	graph.add_edge((size_t)0, 4, 1);
+//	for (auto it = graph.begin('a'); it != graph.end('a'); ++it) {
+//		std::cout << *it << std::endl;
+//	}
+//}

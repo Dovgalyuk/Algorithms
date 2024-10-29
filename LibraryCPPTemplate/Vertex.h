@@ -7,6 +7,12 @@ template <typename Data>
 struct Vertex {
     size_t number = 0;
     Data mark = Data();
+
+    friend std::ostream& operator<<(std::ostream& out, Vertex<Data> vertex) {
+        out << vertex.mark;
+
+        return out;
+    }
 };
 
 #endif
