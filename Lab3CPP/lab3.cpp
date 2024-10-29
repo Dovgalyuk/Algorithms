@@ -5,7 +5,6 @@
 #include "queue.h"
 #include <vector>
 
-
 struct Point {
     int x, y;
 };
@@ -109,11 +108,17 @@ Point Number_closest_to_the_starting_position(const std::vector<char>& labyrinth
 }
 
 
-int main() {
+int main(int argc,char** argv) {
     std::vector<char> labyrinth;
+    std::string filepath = argv[1];
+    std::ifstream file(filepath);
+
+    if (!file)
+    {
+        std::cout << "the file did not open\n";
+        return 1;
+    }
     try {
-        
-        std::ifstream file("input.txt");
         size_t w = 0, h = 0;
         Readout(file, labyrinth, &w, &h);
 
@@ -121,7 +126,7 @@ int main() {
         if (start.x != -1) {
             Point result = Number_closest_to_the_starting_position(labyrinth, start, w, h);
             if (result.x != -1) {
-                std::cout << "Closest point: " << labyrinth[result.y * w + result.x] << std::endl;
+                std::cout << labyrinth[result.y * w + result.x] << std::endl;
             }
             else {
                 std::cout << "The endpoint was not found." << std::endl;
