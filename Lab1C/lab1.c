@@ -15,7 +15,7 @@ Array *array_create_and_read(FILE *input) {
     Array *arr = array_create(n, NULL);
 
     /* Read array data */
-    for (int i = 0; i < n; ++i) {
+    for (size_t i = 0; i < n; ++i) {
         int x;
         if (fscanf_s(input, "%d", &x) != 1) {
             array_delete(arr);
@@ -30,10 +30,10 @@ void task1(Array *arr) {
     if (!arr) return;
 
     size_t maxElement = array_get(arr, 0);
-    int firstMaxElement = 0;
-    int lastMaxElement = 0;
+    size_t firstMaxElement = 0;
+    size_t lastMaxElement = 0;
 
-    for (int i = 0; i < array_size(arr); i++) {
+    for (size_t i = 0; i < array_size(arr); i++) {
         if (array_get(arr, i) > maxElement) {
             maxElement = array_get(arr, i);
             firstMaxElement = i;

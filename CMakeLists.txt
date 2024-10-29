@@ -7,7 +7,7 @@ if (MSVC)
     # needs at least cmake 3.15
     add_compile_options(/W4 /WX /Wv:18)
 else()
-    add_compile_options(-Wall -Wextra -Wpedantic -Wno-gnu-empty-struct -Wno-unused-parameter)
+    add_compile_options(-Wall -Werror -Wextra -Wpedantic -Wno-gnu-empty-struct -Wno-unused-parameter)
 endif()
 
 add_subdirectory(LibraryC)
