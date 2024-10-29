@@ -4,11 +4,11 @@
 
 Array* array_create_and_read(FILE* input) {
     int n;
-    fscanf_s(input, "%d", &n);
+    fscanf(input, "%d", &n);
     Array* arr = array_create(n, NULL);
     for (int i = 0; i < n; ++i) {
         int x;
-        fscanf_s(input, "%d", &x);
+        fscanf(input, "%d", &x);
         array_set(arr, i, x);
     }
     return arr;
@@ -49,7 +49,7 @@ void task2(Array* arr, size_t size) {
         int max_count = 0;
         for (size_t i = 0; i < size; i++) {
             int current = (int)array_get(arr, i);
-            if (current >= 0 && current < size) {
+            if (current >= 0 && current < (int)size) {
                 frequency[current]++;
                 if (frequency[current] > max_count) {
                     max_count = frequency[current];
@@ -76,7 +76,7 @@ int main()
     size_t size = array_size(arr);
     if (arr == NULL) {
         printf("Array is NULL");
-        return;
+        return 1;
     }
     if (size == 0) {
         printf("Array is empty");
