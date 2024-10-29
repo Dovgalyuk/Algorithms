@@ -8,10 +8,6 @@ struct Queue {
 Queue* queue_create() {
     Queue* queue = new Queue();
     queue->list = list_create();
-    if (!queue->list) {
-        delete queue; 
-        return nullptr; 
-    }
     return queue;
 }
 
