@@ -4,6 +4,7 @@
 #include "../LibraryCPPTemplate/Vertex.h"
 #include "../LibraryCPPTemplate/vector.h"
 #include "../LibraryCPPTemplate/graph.h"
+#include "../LibraryCPPTemplate/iterator.h"
 
 void print_matrix(const Vector<Vector<int>>& matrix) {
     for (size_t i = 0; i < matrix.size(); i++) {

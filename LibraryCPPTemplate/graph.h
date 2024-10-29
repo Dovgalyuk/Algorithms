@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include <iostream>
+#include "../LibraryCPPTemplate/iterator.h"
 
 template <typename Data>
 class Graph {
@@ -203,6 +204,28 @@ public:
                 return vertex[i].number;
         }
         return -1;
+    }
+
+    Iterator<Data> begin(Data mark) {
+        size_t v_num = number_by_mark(mark);
+        size_t first_neib = 0;
+        for (size_t i = 0; i < relations[v_num].size() && !first_neib; i++) {
+            if (relations[v_num][i] == 1)
+                first_neib = i;
+        }
+
+        return Iterator<Data>(this, mark, first_neib);
+    }
+
+    Iterator<Data> end(Data mark) {
+        size_t v_num = number_by_mark(mark);
+        size_t last_neib = 0;
+        for (size_t i = relations[v_num].size() - 1; i > -1 && !last_neib; i--) {
+            if (relations[v_num][i] == 1)
+                last_neib = i;
+        }
+
+        return Iterator<Data>(this, mark, last_neib);
     }
 
 private:
