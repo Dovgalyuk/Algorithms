@@ -50,20 +50,40 @@ void task1(Array* arr)
 void task2(Array* arr)
 {
     size_t size = array_size(arr);
-    int koll = 0;
+    Array* printed = array_create(size);
+    size_t printed_count = 0;
+
     for (size_t index{ 0 }; index < size; ++index) {
+        int currentValue = (int)array_get(arr, index);
+        int count = 0;
+
+
         for (size_t index1{ 0 }; index1 < size; ++index1) {
-            if (index == index1) {
-                continue;
-            }
-            else if (array_get(arr, index1) == array_get(arr, index)) {
-                koll++;
+            if (array_get(arr, index1) == currentValue) {
+                count++;
             }
         }
-        if (koll == 2) {
-            printf("%d", (int)array_get(arr, index));
+
+
+        if (count == 2) {
+
+            bool already_printed = false;
+            for (size_t j = 0; j < printed_count; ++j) {
+                if (array_get(printed, j) == currentValue) {
+                    already_printed = true;
+                    break;
+                }
+            }
+
+
+            if (!already_printed) {
+                printf("%d\n", currentValue);
+                array_set(printed, printed_count++, currentValue);
+            }
         }
     }
+
+    array_delete(printed);
 }
 
 int main(__attribute__((unused)) int argc, char** argv)
