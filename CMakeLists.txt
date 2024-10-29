@@ -17,4 +17,4 @@ add_subdirectory(LibraryCPP)
 
 add_subdirectory(Lab2CPP)
 
-add_test(NAME TestLab2CPP COMMAND Lab2CPP ${CMAKE_SOURCE_DIR}/Lab2CPP/input2.txt)
+add_test(NAME TestLab2CPP COMMAND Lab2CPP ${CMAKE_SOURCE_DIR}/tests/input2.txt)
