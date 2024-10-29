@@ -7,7 +7,7 @@ Array *array_create_and_read(FILE *input) {
     size_t n;
 
     // Read array size
-    if (fscanf_s(input, "%zu", &n) != 1 || n <= 0) {
+    if (fscanf(input, "%zu", &n) != 1 || n <= 0) {
         return NULL;
     }
 
@@ -17,7 +17,7 @@ Array *array_create_and_read(FILE *input) {
     /* Read array data */
     for (size_t i = 0; i < n; ++i) {
         int x;
-        if (fscanf_s(input, "%d", &x) != 1) {
+        if (fscanf(input, "%d", &x) != 1) {
             array_delete(arr);
             return NULL;
         }
@@ -43,13 +43,13 @@ void task1(Array *arr) {
         }
     }
 
-    printf("%d %d", firstMaxElement, lastMaxElement);
+    printf("%zu %zu", firstMaxElement, lastMaxElement);
 }
 
 void task2(Array *arr) {
     if (!arr) return;
     size_t maxSum = 0;
-    for (int i = 0; i <= array_size(arr) - 5; i++) {
+    for (size_t i = 0; i <= array_size(arr) - 5; i++) {
         size_t sum = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) +
                      array_get(arr, i + 3) + array_get(arr, i + 4);
         if (sum > maxSum) {
