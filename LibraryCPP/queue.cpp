@@ -3,7 +3,7 @@
 
 struct Queue
 {
-    Vector* q = nullptr;
+    Vector* q;
 };
 
 
@@ -52,3 +52,5 @@ bool queue_empty(const Queue* queue)
 {
     return vector_size(queue->q) == 0;  
 }
+
+
