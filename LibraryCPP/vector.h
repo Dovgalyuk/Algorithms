@@ -2,6 +2,7 @@
 #define VECTOR_H
 
 #include <cstddef>
+#include <cstdlib>
 
 // Vector (dynamic array)
 // Stores integer values inside
