@@ -82,7 +82,7 @@ public:
                 relations[i].resize(v_quantity);
             }
 
-            if (a_num < edges.size()) {
+            if (a_num < (int)edges.size()) {
                 for (size_t i = a_num; i < e_quantity; i++) {
                     for (size_t j = 0; j < e_quantity; j++) {
                         edges[i][j] = edges[i + 1][j];
@@ -142,7 +142,7 @@ public:
             relations[a_num][b_num] = 0;
         }
 
-        size_t index = edge_index(a, b);
+        int index = edge_index(a, b);
         if (index != -1) {
             e_quantity--;
             for (size_t i = 0; i < edges.size(); i++) {
