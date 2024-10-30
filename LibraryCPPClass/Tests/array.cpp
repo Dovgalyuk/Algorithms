@@ -26,5 +26,25 @@ int main()
         }
     }
 
+    try 
+    {
+        arr->set(13, 4);
+        //std::cout << "set() - Check for index"
+    }
+    catch (const out_of_range&)
+    {
+        //std::cout << "set() - Check for index"
+    }
+
+    try 
+    {
+        arr->get(21);
+        //std::cout << "get() - Check for index"
+    }
+    catch (const out_of_range&)
+    {
+        //std::cout << "get() - Check for index"
+    }
+
     delete arr;
 }
