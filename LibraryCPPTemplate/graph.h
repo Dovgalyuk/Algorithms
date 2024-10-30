@@ -2,7 +2,7 @@
 #define GRAPH_H
 
 #include <iostream>
-#include "../LibraryCPPTemplate/vector.h"
+#include "vector.h"
 
 template <typename Data>
 class Iterator;
