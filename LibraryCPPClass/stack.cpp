@@ -1,38 +1,40 @@
 #include "stack.h"
+#include <stdexcept>
 
-Stack::Stack()
-{
-}
+// Конструктор по умолчанию
+Stack::Stack() : list_() {}
 
-Stack::Stack(const Stack &a)
-{
-    // implement or disable this function
-}
+// Копирующий конструктор
+Stack::Stack(const Stack &a) : list_(a.list_) {}
 
-Stack &Stack::operator=(const Stack &a)
-{
-    // implement or disable this function
+// Оператор присваивания
+Stack &Stack::operator=(const Stack &a) {
+    if (this != &a) {
+        list_ = a.list_; // Убеждаемся, что не присваиваем самому себе
+    }
     return *this;
 }
 
-Stack::~Stack()
-{
+// Деструктор — автоматически удалит элементы списка
+Stack::~Stack() {}
+
+// Метод добавления элемента на вершину стека
+void Stack::push(Data data) {
+    list_.insert(data); // вставляем элемент в начало списка
 }
 
-void Stack::push(Data data)
-{
+// Метод для получения элемента с вершины стека
+Data Stack::get() const {
+    if (empty()) {
+        throw std::out_of_range("Stack is empty"); // выбрасываем исключение, если стек пуст
+    }
+    return list_.first()->data();
 }
 
-Data Stack::get() const
-{
-    return Data();
-}
-
-void Stack::pop()
-{
-}
-
-bool Stack::empty() const
-{
-    return true;
+// Метод для удаления элемента с вершины стека
+void Stack::pop() {
+    if (empty()) {
+        throw std::out_of_range("Stack is empty"); // выбрасываем исключение, если стек пуст
+    }
+    list_.erase_first();
 }

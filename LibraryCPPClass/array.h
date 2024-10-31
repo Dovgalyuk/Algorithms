@@ -2,6 +2,7 @@
 #define ARRAY_H
 
 #include <cstddef>
+#include <stdexcept>
 
 typedef int Data;
 
@@ -31,6 +32,8 @@ public:
 
 private:
     // private data should be here
+    size_t arrSize;
+    Data* arrData;
 };
 
 #endif

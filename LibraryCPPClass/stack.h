@@ -1,41 +1,37 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include <cstddef>
-
-typedef int Data;
+#include "list.h"
 
 class Stack
 {
 public:
-    // Creates empty stack
+    // Создает пустой стек
     Stack();
 
-    // copy constructor
+    // Копирующий конструктор
     Stack(const Stack &a);
 
-    // assignment operator
+    // Оператор присваивания
     Stack &operator=(const Stack &a);
 
-    // Deletes the stack
+    // Деструктор очищает стек
     ~Stack();
 
-    // Pushes data on top of the stack
-    // Should be O(1) on average
+    // Добавляет элемент на вершину стека
     void push(Data data);
 
-    // Retrieves the last element from the stack
+    // Возвращает последний элемент (на вершине стека)
     Data get() const;
 
-    // Removes the last element from the stack
-    // Should be O(1)
+    // Удаляет последний элемент с вершины стека
     void pop();
 
-    // Returns true if the stack is empty
-    bool empty() const;
+    // Проверяет, пуст ли стек
+    bool empty() const { return list_.first() == nullptr; }
 
 private:
-    // private data should be here
+    List list_; // Внутренний список для хранения данных стека
 };
 
 #endif
