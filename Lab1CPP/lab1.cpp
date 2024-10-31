@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <cmath>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 
 using namespace std;
 
@@ -33,7 +33,7 @@ Array* array_create_and_read_from_file(const string& filename) {
     return arr;
 }
 
-void test_task1(int result){
+void test_task1(size_t result){
     if (result == 10){
         cout << "the test 1 is completed\n";
     }
@@ -57,7 +57,7 @@ void task1(Array* arr) {
     cout << "the number of multiples 2-9: " << count << endl;
 }
 
-void test_task2(int result){
+void test_task2(size_t result){
     if (result == 6){
         cout << "the test 2 is completed\n";
     }
@@ -77,10 +77,11 @@ void task2(Array* arr) {
             flag = true;
             for (size_t j = 0; j < array_size(arr); ++j) {
                 if (i != j && (array_get(arr, j)) % 2 == 0) {
-                    int diff = fabs(num - (array_get(arr, j)));
+                    int diff = (num - (array_get(arr, j)));
+                    int diff_abs = abs(diff);
 
-                    if (min_diff == -1 || diff < min_diff) {
-                        min_diff = diff;
+                    if (min_diff == -1 || diff_abs < min_diff) {
+                        min_diff = diff_abs;
                     }
                 }
             }
