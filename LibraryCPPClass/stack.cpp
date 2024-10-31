@@ -1,38 +1,16 @@
 #include "stack.h"
-
-Stack::Stack()
-{
-}
-
-Stack::Stack(const Stack &a)
-{
-    // implement or disable this function
-}
-
-Stack &Stack::operator=(const Stack &a)
-{
-    // implement or disable this function
-    return *this;
-}
-
-Stack::~Stack()
-{
-}
-
-void Stack::push(Data data)
-{
-}
+#include <stdexcept>
 
 Data Stack::get() const
 {
-    return Data();
+    if (empty())
+        throw std::out_of_range("Stack is empty");
+    return list_.first()->data();
 }
 
 void Stack::pop()
 {
-}
-
-bool Stack::empty() const
-{
-    return true;
+    if (empty())
+        throw std::out_of_range("Stack is empty");
+    list_.erase_first();
 }

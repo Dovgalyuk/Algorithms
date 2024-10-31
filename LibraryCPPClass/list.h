@@ -2,6 +2,7 @@
 #define LIST_H
 
 #include <cstddef>
+#include <stdexcept>
 
 typedef int Data;
 
@@ -11,44 +12,33 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item(Data data, Item* next = nullptr)
+            : data_(data), next_(next) {}
+
+        Item* next() const { return next_; }
+        void set_next(Item* next) { next_ = next; } // Устанавливаем значение next_
+        Data data() const { return data_; }
+
     private:
-        // internal data here
+        Data data_;
+        Item* next_;
     };
 
-    // Creates new list
-    List();
+    List() : head_(nullptr) {}
 
-    // copy constructor
-    List(const List &a);
+    List(const List& a);
+    List& operator=(const List& a);
 
-    // assignment operator
-    List &operator=(const List &a);
-
-    // Destroys the list and frees the memory
     ~List();
 
-    // Retrieves the first item from the list
-    Item *first();
+    Item* first() const { return head_; }
+    Item* insert(Data data);
+    Item* insert_after(Item* item, Data data);
+    Item* erase_first();
+    Item* erase_next(Item* item);
 
-    // Inserts new list item into the beginning
-    Item *insert(Data data);
-
-    // Inserts new list item after the specified item
-    Item *insert_after(Item *item, Data data);
-
-    // Deletes the first list item.
-    // Returns pointer to the item next to the deleted one.
-    Item *erase_first();
-
-    // Deletes the list item following the specified one.
-    // Returns pointer to the item next to the deleted one.
-    // Should be O(1)
-    Item *erase_next(Item *item);
 private:
-    // private data should be here
+    Item* head_;
 };
 
 #endif
