@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <cmath>
-#include "array.h"
+#include "../LibraryCPP/array.h"
 
 using namespace std;
 
@@ -33,7 +33,17 @@ Array* array_create_and_read_from_file(const string& filename) {
     return arr;
 }
 
+void test_task1(int result){
+    if (result == 10){
+        cout << "the test 1 is completed\n";
+    }
+    else {
+        cout << "the test 1 was not completed\n";
+    }
+}
+
 void task1(Array* arr) {
+    test_task1(array_size(arr));
     int count = 0;
     for (size_t i  = 0; i < array_size(arr); ++i){
         int num = array_get(arr, i);
@@ -44,10 +54,20 @@ void task1(Array* arr) {
             }
         }
     }
-    cout << "count numbers 2-9: " << count << endl;
+    cout << "the number of multiples 2-9: " << count << endl;
+}
+
+void test_task2(int result){
+    if (result == 6){
+        cout << "the test 2 is completed\n";
+    }
+    else {
+        cout << "the test 2 was not completed\n";
+    }
 }
 
 void task2(Array* arr) {
+    test_task2(array_size(arr));
     int min_diff = -1;
     bool flag = false;
 
@@ -69,23 +89,23 @@ void task2(Array* arr) {
 
     if (flag) {
         if (min_diff == -1) {
-            cout << "no min_diff\n";
+            cout << "no minimum difference\n";
         } else {
-            cout << "min_diff: " << min_diff << endl;
+            cout << "the minimum difference: " << min_diff << endl;
         }
     } else {
-        cout << "no\n";
+        cout << "there are no pairs of even numbers\n";
     }
 }
 
 int main() {
-    Array* arr1 = array_create_and_read_from_file("input.txt");
+    Array* arr1 = array_create_and_read_from_file("input_1.txt");
     if (arr1) {
         task1(arr1);
         array_delete(arr1);
     }
 
-    Array* arr2 = array_create_and_read_from_file("input.txt");
+    Array* arr2 = array_create_and_read_from_file("input_2.txt");
     if (arr2) {
         task2(arr2);
         array_delete(arr2);
