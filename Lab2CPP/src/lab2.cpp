@@ -21,16 +21,18 @@ int main(int argc, char* argv[]) {
     }
 
     string line;
-    while (getline(input, line)) {
+    while (getline(input, line)) { // Чтение каждой строки с выражением в обратной польской записи
         Stack stack;
-        istringstream tokens(line);
+        istringstream tokens(line); // Поток для разбора строки на токены
         string token;
-        bool error = false;
+        bool error = false; // Флаг для отслеживания ошибок в выражении
 
-        while (tokens >> token) {
+        while (tokens >> token) { // Чтение каждого токена
             if (isdigit(token[0]) || (token[0] == '-' && token.size() > 1)) {
+                // Если токен — число, преобразуем его в int и добавляем в стек
                 stack.push(stoi(token));
             } else if (token == "+" || token == "-" || token == "*" || token == "/") {
+                // Если токен — оператор, проверяем наличие хотя бы двух элементов в стеке
                 if (stack.empty()) {
                     output << "UNDERFLOW" << endl;
                     error = true;
@@ -47,10 +49,12 @@ int main(int argc, char* argv[]) {
                 int a = stack.get();
                 stack.pop();
 
+                // Выполнение соответствующей операции и добавление результата в стек
                 if (token == "+") stack.push(a + b);
                 else if (token == "-") stack.push(a - b);
                 else if (token == "*") stack.push(a * b);
                 else if (token == "/") {
+                    // Проверка деления на ноль
                     if (b == 0) {
                         output << "ZERO" << endl;
                         error = true;
@@ -59,6 +63,7 @@ int main(int argc, char* argv[]) {
                     stack.push(a / b);
                 }
             } else {
+                // Если токен не распознан как число или оператор
                 output << "Invalid token: " << token << endl;
                 error = true;
                 break;
@@ -66,9 +71,10 @@ int main(int argc, char* argv[]) {
         }
 
         if (!error) {
+            // Проверка конечного состояния стека: один элемент — корректный результат, больше — OVERFLOW, нет — UNDERFLOW
             if (stack.empty()) {
                 output << "UNDERFLOW" << endl;
-            } else if (stack.get() == 0 || !stack.empty()) {
+            } else if (!stack.empty() && stack.get() != 0) {
                 output << "OVERFLOW" << endl;
             } else {
                 output << stack.get() << endl;
