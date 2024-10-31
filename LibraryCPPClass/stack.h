@@ -6,12 +6,23 @@
 class Stack
 {
 public:
-    Stack() {}
-    Stack(const Stack& a) = delete;
-    Stack& operator=(const Stack& a) = delete;
-    ~Stack() {}
+    // Creates empty stack
+    Stack();
 
-    void push(Data data) { list_.insert(data); }
+    // copy constructor
+    Stack(const Stack &a);
+
+    // assignment operator
+    Stack &operator=(const Stack &a);
+
+    // Deletes the stack
+    ~Stack();
+
+    // Pushes data on top of the stack
+    // Should be O(1) on average
+    void push(Data data);
+
+    // Retrieves the last element from the stack
     Data get() const;
     void pop();
     bool empty() const { return list_.first() == nullptr; }
