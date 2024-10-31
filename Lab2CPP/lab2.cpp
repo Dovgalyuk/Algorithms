@@ -106,10 +106,21 @@ void process_input(const string& input, Stack* stack) {
     }
 }
 
-int main() {
-    ifstream inputFile("input.txt");
-    string line;
+int main(int argc, char* argv[]) {
+    // Проверяем, передано ли имя файла в аргументах
+    if (argc < 2) {
+        cerr << "Ошибка: укажите имя файла с входными данными." << endl;
+        return 1;
+    }
 
+    // Используем argv[1] как имя файла
+    ifstream inputFile(argv[1]);
+    if (!inputFile) {
+        cerr << "Ошибка: не удалось открыть файл " << argv[1] << endl;
+        return 1;
+    }
+
+    string line;
     while (getline(inputFile, line)) {
         Stack* stack = stack_create();
         process_input(line, stack);
