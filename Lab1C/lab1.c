@@ -68,10 +68,8 @@ int main()
 {
     FILE* input = fopen("input.txt", "r");
     if (!input) {
-        fprintf(stderr, "Could not open file\n");
         return 1;
     }
-
     Array* arr = array_create_and_read(input);
     size_t size = array_size(arr);
     if (arr == NULL) {
@@ -82,11 +80,11 @@ int main()
         printf("Array is empty");
         return 1;
     }
-    fclose(input);
+    
 
     task1(arr, size);
     task2(arr, size);
     array_delete(arr);
-
+    fclose(input);
     return 0;
 } 
