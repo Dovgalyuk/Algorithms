@@ -106,4 +106,5 @@ int main(int argc, char* argv[])
     *output << "-------------------------" << endl;
     arr = array_create_and_read(output, size);
     task2(output, arr);
+    array_delete(arr);
 }
