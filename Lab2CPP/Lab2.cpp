@@ -4,6 +4,7 @@
 #include <sstream>
 #include <map>
 #include "stack.h"
+#include <windows.h>
 
 enum class CommandType { PUSH, POP, CALL, RET, INVALID };
 
@@ -43,16 +44,11 @@ int main() {
     Stack* stack = stack_create();
     std::map<char, size_t> registers = { {'A', 0}, {'B', 0}, {'C', 0}, {'D', 0} };
     std::string input;
-
-     //использование относительного пути у меня не работает, поэтому использую абсолютный путь
-    //но также оставил строку для использования относительного пути
-    //файл с входными данными находится: LibraryCPP -> "input2.txt"
-    //std::ifstream inputFile("D:\\Algorithms-1\\LibraryCPP\\input2.txt");
-    std::ifstream inputFile("../LibraryCPP/input2.txt");
+    std::ifstream inputFile("../../../LibraryCPP/input2.txt");
 
     if (!inputFile.is_open()) {
         std::cerr << "Error opening file" << std::endl;
-        stack_delete(stack);  // Освобождение памяти при ошибке открытия файла
+        stack_delete(stack);
         return 1;
     }
 
@@ -69,7 +65,7 @@ int main() {
                 if (stack_empty(stack) || stack_get(stack) == 0 || !isValidRegister(static_cast<char>(cmd.value))) {
                     std::cout << "BAD POP" << std::endl;
                     inputFile.close();
-                    stack_delete(stack);  // Освобождение памяти при ошибке
+                    stack_delete(stack);
                     return 1;
                 }
                 size_t value = stack_get(stack);
@@ -87,7 +83,7 @@ int main() {
                 if (stack_empty(stack) || stack_get(stack) != 0) {
                     std::cout << "BAD RET" << std::endl;
                     inputFile.close();
-                    stack_delete(stack);  // Освобождение памяти при ошибке
+                    stack_delete(stack);
                     return 1;
                 }
                 stack_pop(stack);
@@ -97,7 +93,7 @@ int main() {
             case CommandType::INVALID: {
                 std::cout << "Invalid command!" << std::endl;
                 inputFile.close();
-                stack_delete(stack);  // Освобождение памяти при ошибке
+                stack_delete(stack);
                 return 1;
             }
         }
