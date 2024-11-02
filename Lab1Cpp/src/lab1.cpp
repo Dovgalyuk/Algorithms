@@ -37,7 +37,7 @@ void task1(ostream* output, Array *arr)
     int array_element;
     int result = 0;
 
-    for (int i = 0; i < array_size(arr); i++) {
+    for (int i = 0; i < static_cast<int>(array_size(arr)); i++) {
         array_element = array_get(arr, i);
         if (array_element <= 20) {
             result += array_element;
@@ -54,19 +54,19 @@ void task2(ostream* output, Array *arr)
     int result_value = 0;
     map<int, int> count_nums;
     
-    for (int i = 0; i < array_size(arr); i++) {
+    for (int i = 0; i < static_cast<int>(array_size(arr)); i++) {
         array_element = array_get(arr, i);
         if (count_nums.count(array_element) == 0) {
             count_nums[array_element] = 0;
         }
     }
 
-    for (int i = 0; i < array_size(arr); i++) {
+    for (int i = 0; i < static_cast<int>(array_size(arr)); i++) {
         array_element = array_get(arr, i);
         count_nums[array_element]++;
     }
 
-    for (int i = 0; i < array_size(arr); i++) {
+    for (int i = 0; i < static_cast<int>(array_size(arr)); i++) {
         array_element = array_get(arr, i);
         if (result_value < count_nums[array_element]) {
             result = array_element;
