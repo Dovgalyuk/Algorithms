@@ -21,19 +21,16 @@ int main(int argc, char* argv[]) {
     }
 
     string line;
-    while (getline(input, line)) { // Чтение каждой строки с выражением в обратной польской записи
+    while (getline(input, line)) {
         Stack stack;
-        istringstream tokens(line); // Поток для разбора строки на токены
+        istringstream tokens(line);
         string token;
-        bool error = false; // Флаг для отслеживания ошибок в выражении
+        bool error = false;
 
-        while (tokens >> token) { // Чтение каждого токена
+        while (tokens >> token) {
             if (isdigit(token[0]) || (token[0] == '-' && token.size() > 1)) {
-                // Если токен — число, преобразуем его в int и добавляем в стек
                 stack.push(stoi(token));
-            }
-            else if (token == "+" || token == "-" || token == "*" || token == "/") {
-                // Если токен — оператор, проверяем наличие хотя бы двух элементов в стеке
+            } else if (token == "+" || token == "-" || token == "*" || token == "/") {
                 if (stack.empty()) {
                     output << "UNDERFLOW" << endl;
                     error = true;
@@ -50,12 +47,10 @@ int main(int argc, char* argv[]) {
                 int a = stack.get();
                 stack.pop();
 
-                // Выполнение соответствующей операции и добавление результата в стек
                 if (token == "+") stack.push(a + b);
                 else if (token == "-") stack.push(a - b);
                 else if (token == "*") stack.push(a * b);
                 else if (token == "/") {
-                    // Проверка деления на ноль
                     if (b == 0) {
                         output << "ZERO" << endl;
                         error = true;
@@ -63,9 +58,7 @@ int main(int argc, char* argv[]) {
                     }
                     stack.push(a / b);
                 }
-            }
-            else {
-                // Если токен не распознан как число или оператор
+            } else {
                 output << "Invalid token: " << token << endl;
                 error = true;
                 break;
@@ -73,15 +66,19 @@ int main(int argc, char* argv[]) {
         }
 
         if (!error) {
-            // Проверка конечного состояния стека: один элемент — корректный результат, больше — OVERFLOW, нет — UNDERFLOW
             if (stack.empty()) {
                 output << "UNDERFLOW" << endl;
-            }
-            else if (!stack.empty() && stack.get() != 0) {
-                output << "OVERFLOW" << endl;
-            }
-            else {
-                output << stack.get() << endl;
+            } else if (stack.get() == 0) {
+                output << stack.get() << endl; // Р•СЃР»Рё СЂРµР·СѓР»СЊС‚Р°С‚ СЂР°РІРµРЅ РЅСѓР»СЋ, РІС‹РІРѕРґРёРј РµРіРѕ
+            } else if (!stack.empty()) {
+                int result = stack.get();
+                stack.pop();
+                
+                if (!stack.empty()) {
+                    output << "OVERFLOW" << endl; // Р•СЃР»Рё РїРѕСЃР»Рµ РёР·РІР»РµС‡РµРЅРёСЏ РѕСЃС‚Р°РµС‚СЃСЏ СЌР»РµРјРµРЅС‚
+                } else {
+                    output << result << endl; // Р•СЃР»Рё РѕСЃС‚Р°Р»СЃСЏ РµРґРёРЅСЃС‚РІРµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚, РІС‹РІРѕРґРёРј РµРіРѕ
+                }
             }
         }
     }

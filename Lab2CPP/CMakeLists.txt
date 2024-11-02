@@ -3,7 +3,7 @@ add_executable(Lab2CPP src/lab2.cpp)
 target_include_directories(Lab2CPP PUBLIC ../LibraryCPPClass)
 target_link_libraries(Lab2CPP LibraryCPPClass)
 
-set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/input.txt")
+set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/input1.txt")
 
 set(OUTPUT_FILE "${CMAKE_BINARY_DIR}/output/output.txt")
 
