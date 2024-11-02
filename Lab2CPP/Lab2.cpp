@@ -44,7 +44,7 @@ int main() {
     std::map<char, size_t> registers = { {'A', 0}, {'B', 0}, {'C', 0}, {'D', 0} };
     std::string input;
 
-    //использование относительного пути у меня не работает, поэтому использую абсолютный путь
+     //использование относительного пути у меня не работает, поэтому использую абсолютный путь
     //но также оставил строку для использования относительного пути
     //файл с входными данными находится: LibraryCPP -> "input2.txt"
     std::ifstream inputFile("D:\\Algorithms-1\\LibraryCPP\\input2.txt");
@@ -52,6 +52,7 @@ int main() {
     
     if (!inputFile.is_open()) {
         std::cerr << "Error opening file!" << std::endl;
+        stack_delete(stack);  // Освобождение памяти при ошибке открытия файла
         return 1;
     }
 
@@ -65,19 +66,10 @@ int main() {
             }
 
             case CommandType::POP: {
-                if (stack_empty(stack)) {
+                if (stack_empty(stack) || stack_get(stack) == 0 || !isValidRegister(static_cast<char>(cmd.value))) {
                     std::cout << "BAD POP" << std::endl;
-                    stack_delete(stack);
-                    return 1;
-                }
-                if (stack_get(stack) == 0) {
-                    std::cout << "BAD POP" << std::endl;
-                    stack_delete(stack);
-                    return 1;
-                }
-                if (!isValidRegister(static_cast<char>(cmd.value))) {
-                    std::cout << "BAD POP" << std::endl;
-                    stack_delete(stack);
+                    inputFile.close();
+                    stack_delete(stack);  // Освобождение памяти при ошибке
                     return 1;
                 }
                 size_t value = stack_get(stack);
@@ -92,14 +84,10 @@ int main() {
             }
 
             case CommandType::RET: {
-                if (stack_empty(stack)) {
+                if (stack_empty(stack) || stack_get(stack) != 0) {
                     std::cout << "BAD RET" << std::endl;
-                    stack_delete(stack);
-                    return 1;
-                }
-                if (stack_get(stack) != 0) {
-                    std::cout << "BAD RET" << std::endl;
-                    stack_delete(stack);
+                    inputFile.close();
+                    stack_delete(stack);  // Освобождение памяти при ошибке
                     return 1;
                 }
                 stack_pop(stack);
@@ -108,7 +96,9 @@ int main() {
 
             case CommandType::INVALID: {
                 std::cout << "Invalid command!" << std::endl;
-                break;
+                inputFile.close();
+                stack_delete(stack);  // Освобождение памяти при ошибке
+                return 1;
             }
         }
     }
