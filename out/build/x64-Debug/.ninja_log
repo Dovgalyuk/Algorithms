@@ -1,0 +1,18 @@
+# ninja log v5
+28	110	7522542056486500	LibraryCPP/CMakeFiles/LibraryCPP.dir/queue.cpp.obj	ccbb237383a31604
+34	111	7522542056498481	LibraryCPP/CMakeFiles/LibraryCPP.dir/stack.cpp.obj	f976e4bbb87f2bab
+640	806	7522578184727775	Lab1Cpp/Lab1Cpp.exe	aecbc636e6d4dbf5
+15	117	7522542056569906	LibraryCPP/CMakeFiles/LibraryCPP.dir/array.cpp.obj	f727cd615b940464
+43	116	7522542056559828	LibraryCPP/CMakeFiles/LibraryCPP.dir/vector.cpp.obj	584cef4bcb01f953
+22	113	7522542056524603	LibraryCPP/CMakeFiles/LibraryCPP.dir/list.cpp.obj	ad8c512d425e141c
+117	158	7522542056955877	LibraryCPP/LibraryCPP.lib	7961c2306dfab8c6
+16	639	7522578183377112	Lab1Cpp/CMakeFiles/Lab1Cpp.dir/src/lab1.cpp.obj	110931ac7a0c2690
+50	350	7522542058889141	LibraryCPP/Tests/CMakeFiles/TestArrayCPP.dir/array.cpp.obj	70d947b3aa99048f
+351	519	7522542060235772	LibraryCPP/Tests/TestArrayCPP.exe	59d8100cbb5a00d5
+14	27	0	clean	50df5bec429335b4
+17	299	7522588050953864	build.ninja	c54b97f9d50a6d0b
+1	177	7522588050953864	build.ninja	c54b97f9d50a6d0b
+15	610	7522588057781080	Lab1Cpp/CMakeFiles/Lab1Cpp.dir/src/lab1.cpp.obj	110931ac7a0c2690
+611	806	7522588059430867	Lab1Cpp/Lab1Cpp.exe	aecbc636e6d4dbf5
+23	357	7522588260703917	Lab1Cpp/CMakeFiles/Lab1Cpp.dir/src/lab1.cpp.obj	110931ac7a0c2690
+358	483	7522588261663342	Lab1Cpp/Lab1Cpp.exe	aecbc636e6d4dbf5

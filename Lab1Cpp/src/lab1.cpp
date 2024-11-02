@@ -1,10 +1,10 @@
+#include "array.h"
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <cstdlib>
 #include <ctime>
-#include "array.h"
 
 using namespace std;
 
@@ -12,37 +12,27 @@ int random(int start, int end) {
     return rand() % (end - start + 1) + start;
 }
 
-Array* array_create_and_read()
-{
-    ifstream file("input.txt");
-
-    if (!file.is_open()) {
-        cerr << "Error: Could not open file 'input.txt'" << endl;
-        return nullptr;
-    }
-
-    int num;
+Array* array_create_and_read(ostream *output, int size) {
     int random_result;
-    file >> num;
 
-    Array *arr = array_create(num);
+    Array *arr = array_create(size);
 
-    cout << "Array: [";
+    *output << "Array: [";
 
-    for (int i = 0; i < num; i++) {
+    for (int i = 0; i < size; i++) {
         random_result = random(1, 100);
         array_set(arr, i, random_result);
-        cout << random_result;
-        if (i != num - 1) {
-            cout << ", ";
+        *output << random_result;
+        if (i != size - 1) {
+            *output << ", ";
         }
     }
-    cout << ']' << endl;
+    *output << ']' << endl;
 
     return arr;
 }
 
-void task1(Array *arr)
+void task1(ostream* output, Array *arr)
 {
     int array_element;
     int result = 0;
@@ -54,10 +44,10 @@ void task1(Array *arr)
         }
     }
 
-    cout << "Task1: " << result << endl;
+    *output << "Task1: " << result << endl;
 }
 
-void task2(Array *arr)
+void task2(ostream* output, Array *arr)
 {
     int array_element;
     int result = -1;
@@ -84,14 +74,36 @@ void task2(Array *arr)
         }
     }
 
-    cout << "Task2: " << result;
+    *output << "Task2: " << result;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char* argv[])
 {
+    istream* input = &cin;
+    ostream* output = &cout;
+    ifstream inputFile;
+    ofstream outputFile;
+    int size;
+
+    if (argc == 3) {
+        inputFile.open(argv[1]);
+        outputFile.open(argv[2]);
+
+        if (!inputFile || !outputFile) {
+            cerr << "Error opening file!\n";
+            return 1;
+        }
+
+        input = &inputFile;
+        output = &outputFile;
+    }
+
+    *input >> size;
+
     srand(static_cast<unsigned int>(time(NULL)));
-    Array *arr = array_create_and_read();
-    task1(arr);
-    arr = array_create_and_read();
-    task2(arr);
+    Array *arr = array_create_and_read(output, size);
+    task1(output, arr);
+    *output << "-------------------------" << endl;
+    arr = array_create_and_read(output, size);
+    task2(output, arr);
 }
