@@ -104,6 +104,7 @@ int main(int argc, char* argv[])
     Array *arr = array_create_and_read(output, size);
     task1(output, arr);
     *output << "-------------------------" << endl;
+    array_delete(arr);
     arr = array_create_and_read(output, size);
     task2(output, arr);
     array_delete(arr);
