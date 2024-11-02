@@ -47,11 +47,11 @@ int main() {
      //использование относительного пути у меня не работает, поэтому использую абсолютный путь
     //но также оставил строку для использования относительного пути
     //файл с входными данными находится: LibraryCPP -> "input2.txt"
-    std::ifstream inputFile("D:\\Algorithms-1\\LibraryCPP\\input2.txt");
-    //std::ifstream inputFile("../LibraryCPP/input2.txt");
-    
+    //std::ifstream inputFile("D:\\Algorithms-1\\LibraryCPP\\input2.txt");
+    std::ifstream inputFile("../LibraryCPP/input2.txt");
+
     if (!inputFile.is_open()) {
-        std::cerr << "Error opening file!" << std::endl;
+        std::cerr << "Error opening file" << std::endl;
         stack_delete(stack);  // Освобождение памяти при ошибке открытия файла
         return 1;
     }
