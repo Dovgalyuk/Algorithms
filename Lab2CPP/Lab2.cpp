@@ -4,7 +4,6 @@
 #include <sstream>
 #include <map>
 #include "stack.h"
-#include <windows.h>
 
 enum class CommandType { PUSH, POP, CALL, RET, INVALID };
 
