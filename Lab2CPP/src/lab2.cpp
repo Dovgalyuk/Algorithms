@@ -6,17 +6,16 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
-    if (argc < 3) {
-        cerr << "Usage: " << argv[0] << " <input_file> <output_file>" << endl;
+int main() {
+    ifstream input(INPUT_FILE);  // Используем путь к input.txt
+    ofstream output(OUTPUT_FILE);  // Используем путь к output.txt
+    
+    if (!input.is_open()) {
+        cerr << "Error opening input file!" << endl;
         return 1;
     }
-
-    ifstream input(argv[1]);
-    ofstream output(argv[2]);
-
-    if (!input.is_open() || !output.is_open()) {
-        cerr << "Error opening input or output file!" << endl;
+    if (!output.is_open()) {
+        cerr << "Error opening output file!" << endl;
         return 1;
     }
 
