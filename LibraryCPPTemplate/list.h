@@ -24,11 +24,11 @@ public:
     List &operator=(const List &a);
     
     ~List();
-    Item *creat_func();
-    Item *insert_func(Data data);
-    Item *insert_func_after(Item *item, Data data);
-    Item *clean_first_func();
-    Item *clean_func(Item *item);
+    Item *first();
+    Item *insert(Data data);
+    Item *insert_after(Item *item, Data data);
+    Item *erase_first();
+    Item *erase_next(Item *item);
 private:
     Item *_head;
     Item *_tail;
@@ -43,7 +43,7 @@ List<Data>::List(const List &a)
     _size = 0;
     for (Item *current = a._head; current != nullptr; current = current->next_item)
     {
-        insert_func(current->data_item);
+        insert(current->data_item);
     }
 }
 
@@ -54,12 +54,12 @@ List<Data> &List<Data>::operator=(const List &a)
     {
         while (_head)
         {
-            clean_first_func();
+            erase_first();
         }
 
         for (Item *current = a._head; current != nullptr; current = current->next_item)
         {
-            insert_func(current->data_item);
+            insert(current->data_item);
         }
     }
     return *this;
@@ -70,17 +70,17 @@ List<Data>::~List()
 {
     while (_head)
     {
-        clean_first_func();
+        erase_first();
     }
 }
 template <typename Data>
-typename List<Data>::Item *List<Data>::creat_func()
+typename List<Data>::Item *List<Data>::first()
 {
     return _head;
 }
 
 template <typename Data>
-typename List<Data>::Item *List<Data>::insert_func(Data data)
+typename List<Data>::Item *List<Data>::insert(Data data)
 {
     Item *new_item = new Item(data);
     if (_head == nullptr)
@@ -98,7 +98,7 @@ typename List<Data>::Item *List<Data>::insert_func(Data data)
 }
 
 template <typename Data>
-typename List<Data>::Item *List<Data>::insert_func_after(Item *item, Data data)
+typename List<Data>::Item *List<Data>::insert_after(Item *item, Data data)
 {
     if (item == nullptr)
         return nullptr;
@@ -122,7 +122,7 @@ typename List<Data>::Item *List<Data>::insert_func_after(Item *item, Data data)
 }
 
 template <typename Data>
-typename List<Data>::Item *List<Data>::clean_first_func()
+typename List<Data>::Item *List<Data>::erase_first()
 {
     if (_head == nullptr)
         return nullptr;
@@ -145,7 +145,7 @@ typename List<Data>::Item *List<Data>::clean_first_func()
 }
 
 template <typename Data>
-typename List<Data>::Item *List<Data>::clean_func(Item *item)
+typename List<Data>::Item *List<Data>::erase_next(Item *item)
 {
     if (item == nullptr || item->next_item == nullptr)
         return nullptr;

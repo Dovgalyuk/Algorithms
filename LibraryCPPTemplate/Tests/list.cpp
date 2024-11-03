@@ -7,12 +7,12 @@ typedef List<int> MyList;
 int main()
 {
     // Создаем новый объект типа MyList
-    MyList* list = new MyList();
+    MyList* list = new MyList;
 
     // Проверяем, был ли создан объект успешно
     if (!list)
     {
-        std::cout << "Ошибка при создании списка\n";
+        std::cout << "List creation error\n";
         return 1;
     }
 
@@ -24,7 +24,7 @@ int main()
     // Проверяем первый элемент
     if (list->first()->data() != 3)
     {
-        std::cout << "Ошибка при добавлении элементов\n";
+        std::cout << "list_insert error\n";
         delete list;
         return 1;
     }
@@ -35,7 +35,7 @@ int main()
     // Проверяем второй элемент
     if (list->first()->next()->data() != 4)
     {
-        std::cout << "Ошибка при вставке элемента\n";
+        std::cout << "list_insert_after error\n";
         delete list;
         return 1;
     }
@@ -46,7 +46,7 @@ int main()
     // Проверяем после удаления первого элемента
     if (list->first()->data() != 4)
     {
-        std::cout << "Ошибка при удалении элемента\n";
+        std::cout << "list_erase error\n";
         delete list;
         return 1;
     }
@@ -55,7 +55,7 @@ int main()
     MyList copy(*list);
 
     // Выводим содержимое списка
-    std::cout << "Список: ";
+    std::cout << "List: ";
     for (auto item = list->first(); item != nullptr; item = item->next())
     {
         std::cout << item->data() << " ";
