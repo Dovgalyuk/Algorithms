@@ -1,61 +1,75 @@
-#include <stdlib.h>
 #include "list.h"
+#include <stdlib.h>
 
-typedef struct ListItem
-{
-} ListItem;
 
-typedef struct List
-{
-} List;
+struct List_element {
 
-List *list_create(FFree f)
-{
-    return malloc(sizeof(List));
+    Data element;
+    struct List_element *next;
+    FFree *distruct;
+};
+
+
+struct List_operation {
+
+    Data operation;
+    struct List_operation *next;
+    FFree *distruct;
+};
+
+
+List_element *create_list_element (List_element **head, FFree f) {
+
+    *head = (List_element *)malloc(sizeof(List_element));
+    if(*head == NULL){
+        return NULL;
+    } else {
+        (*head) -> distruct = f;
+        (*head) -> next = NULL;
+        return *head;
+    }
 }
 
-void list_delete(List *list)
-{
-    // TODO: free items
-    free(list);
+
+List_operation *create_list_operation (List_operation **head, FFree f) {
+
+    *head = (List_operation *)malloc(sizeof(List_operation));
+    if (*head == NULL){
+        return NULL;
+    } else {
+        (*head) -> distruct = f;
+        (*head) -> next = NULL;
+        return *head;
+    }
 }
 
-ListItem *list_first(List *list)
-{
-    return NULL;
+
+void delete_list_memory_element (List_element **head){
+
+    List_element *temp = *head;
+    List_element *next;
+    if(*head != NULL && (*head) -> distruct != NULL){
+        while (temp !=  NULL){
+            next = temp -> next;
+            free(temp);
+            temp = next;
+        }
+    }
+    *head = NULL;
 }
 
-Data list_item_data(const ListItem *item)
-{
-    return (Data)0;
-}
 
-ListItem *list_item_next(ListItem *item)
-{
-    return NULL;
-}
+void delete_list_memory_opearation (List_operation **head){
 
-ListItem *list_item_prev(ListItem *item)
-{
-    return NULL;
-}
+    List_operation *temp = *head;
+    List_operation *next;
 
-ListItem *list_insert(List *list, Data data)
-{
-    return NULL;
-}
-
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    return NULL;
-}
-
-ListItem *list_erase_first(List *list)
-{
-    return NULL;
-}
-
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    return NULL;
+    if(*head != NULL && (*head) -> distruct != NULL){
+        while (temp != NULL){
+            next = temp -> next;
+            free(temp);
+            temp = next;
+        }
+    }
+    *head = NULL;
 }

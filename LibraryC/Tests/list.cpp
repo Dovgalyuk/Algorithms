@@ -1,72 +1,94 @@
 #include <iostream>
-#include "list.h"
+#include "../list.h"
 
-void myfree(void *p)
-{
-    delete (int*)p;
+struct List_element {
+
+    Data element;
+    struct List_element *next;
+    FFree *distruct;
+};
+
+
+struct List_operation {
+
+    Data operation;
+    struct List_operation *next;
+    FFree *distruct;
+};
+
+void add_element(List_element **head, Data x);
+void add_operation(List_operation **head, Data x);
+
+void  print_list_element(List_element **head);
+void  print_list_operation(List_operation **head);
+
+int main(void){
+
+    List_element *head_1 = NULL;
+    List_operation *head_2 = NULL;
+
+    create_list_element(&head_1,free);
+    create_list_operation(&head_2,free);
+
+    add_element(&head_1, Data('A'));
+    add_element(&head_1, Data('B'));
+    add_operation(&head_2,Data('1'));
+    add_operation(&head_2,Data('2'));
+
+
+    std::cout << "List_elements:";
+    print_list_element(&head_1);
+    std::cout << "List_operation";
+    print_list_operation(&head_2);
+
+    delete_list_memory_element(&head_1);
+    delete_list_memory_opearation(&head_2);
+
+    return 0;
 }
 
-int main()
-{
-    List *list = list_create(myfree);
 
-    if (!list)
-    {
-        std::cout << "List creation error\n";
-        return 1;
+void add_element(List_element **head, Data x){
+
+    List_element *new_element = new List_element;
+    if(new_element != nullptr){
+        new_element -> element = x;
+        new_element -> next = *head;
+        *head = new_element;
     }
+}
 
-    list_insert(list, new int(1));
-    list_insert(list, new int(2));
-    list_insert(list, new int(3));
 
-    ListItem *item = list_first(list);
-    if (!item)
-    {
-        std::cout << "list_insert error\n";
-        list_delete(list);
-        return 1;
+void add_operation(List_operation **head, Data x){
+
+    List_operation *new_operation = new List_operation;
+    if(new_operation != nullptr){
+        new_operation -> operation = x;
+        new_operation -> next = *head;
+        *head = new_operation;
     }
+}
 
-    if (*(int*)list_item_data(item) != 3)
-    {
-        std::cout << "list_insert error\n";
-        list_delete(list);
-        return 1;
+
+void  print_list_element(List_element **head){
+
+    List_element *temp = *head;
+
+    while(temp != NULL){
+        std::cout << temp -> element << " ";
+        temp = temp -> next;
     }
+    std::cout << std::endl;
+}
 
-    list_insert_after(list, list_first(list), new int(4));
 
-    item = list_item_next(list_first(list));
-    if (!item)
-    {
-        std::cout << "list_insert_after error\n";
-        list_delete(list);
-        return 1;
+void  print_list_operation(List_operation **head){
+
+    List_operation *temp = *head;
+
+    while(temp != NULL){
+        std::cout << temp -> operation << " ";
+        temp = temp -> next;
     }
-
-    if (*(int*)list_item_data(item) != 4)
-    {
-        std::cout << "list_insert_after error\n";
-        list_delete(list);
-        return 1;
-    }
-
-    list_erase_first(list);
-
-    if (*(int*)list_item_data(list_first(list)) != 4)
-    {
-        std::cout << "list_erase error\n";
-        list_delete(list);
-        return 1;
-    }
-
-    std::cout << "List: ";
-    for (ListItem *it = list_first(list) ; it ; it = list_item_next(it))
-    {
-        std::cout << *(int*)list_item_data(it) << " ";
-    }
-    std::cout << "\n";
-
-    list_delete(list);
+    std::cout << std::endl;
 }

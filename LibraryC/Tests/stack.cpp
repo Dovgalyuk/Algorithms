@@ -1,74 +1,56 @@
 #include <iostream>
-#include "stack.h"
+#include "../stack.h"
+#include "../list.h"
 
-void myfree(void *p)
-{
-    delete (int*)p;
+void free_func(void* data) {
+    free(data);
 }
 
-int stack_get_int(Stack *s)
-{
-    void *v = stack_get(s);
-    if (!v)
-    {
-        std::cout << "Invalid stack_get\n";
-        stack_delete(s);
-        exit(1);
-    }
-    return *(int*)v;
-}
+int main() {
 
-int main()
-{
-    Stack *stack = stack_create(myfree);
+    /* Тест стека элементов*/
+    Stack_element* stack_element_head = NULL;
+    List_element* list_element_head = NULL;
 
-    stack_push(stack, new int(1));
-    stack_push(stack, new int(2));
-    stack_push(stack, new int(3));
-
-    if (stack_get_int(stack) != 3)
-    {
-        std::cout << "Invalid stack top after push\n";
-        stack_delete(stack);
+    Stack_element* new_stack_element = create_stack_element(&list_element_head, free_func);
+    if (new_stack_element == NULL) {
+        std::cerr << "Error: Failed to create stack element." << std::endl;
         return 1;
     }
 
-    std::cout << "Get: " << stack_get_int(stack) << "\n";
-    stack_pop(stack);
+    stack_push_element(&stack_element_head, 'A');
+    stack_push_element(&stack_element_head, 'B');
+    stack_push_element(&stack_element_head, 'C');
 
-    if (stack_get_int(stack) != 2)
-    {
-        std::cout << "Invalid stack top after pop\n";
-        stack_delete(stack);
+    std::cout << "Stack elements: ";
+    while (stack_element_head != NULL) {
+        std::cout << stack_pop_element(&stack_element_head) << " ";
+    }
+    std::cout << std::endl;
+
+    free_stack_element(&stack_element_head);
+
+    /*Тест стека операций*/
+    Stack_operation* stack_operation_head = NULL;
+    List_operation* list_operation_head = NULL;
+
+    Stack_operation* new_stack_operation = create_stack_operation(&list_operation_head, free_func);
+    if (new_stack_operation == NULL) {
+        std::cerr << "Error: Failed to create stack operation." << std::endl;
         return 1;
     }
 
-    std::cout << "Get: " << stack_get_int(stack) << "\n";
-    stack_pop(stack);
+    stack_push_operation(&stack_operation_head, '+');
+    stack_push_operation(&stack_operation_head, '-');
+    stack_push_operation(&stack_operation_head, '*');
 
-    if (stack_get_int(stack) != 1)
-    {
-        std::cout << "Invalid stack top after pop\n";
-        stack_delete(stack);
-        return 1;
+    std::cout << "Stack operations: ";
+    while (stack_operation_head != NULL) {
+        std::cout << stack_pop_operation(&stack_operation_head) << " ";
     }
+    std::cout << std::endl;
 
-    std::cout << "Get: " << stack_get_int(stack) << "\n";
-    stack_push(stack, new int(4));
-    stack_push(stack, new int(5));
+    free_stack_operation(&stack_operation_head);
 
-    if (stack_get_int(stack) != 5)
-    {
-        std::cout << "Invalid stack top after push\n";
-        stack_delete(stack);
-        return 1;
-    }
-
-    while (!stack_empty(stack))
-    {
-        std::cout << "Get: " << stack_get_int(stack) << "\n";
-        stack_pop(stack);
-    }
-
-    stack_delete(stack);
+    return 0;
 }
