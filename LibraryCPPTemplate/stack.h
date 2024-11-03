@@ -1,24 +1,29 @@
 #ifndef STACK_TEMPLATE_H
 #define STACK_TEMPLATE_H
 
-template <typename Data> class Stack
+#include "list.h"
+
+template <typename Data>
+class Stack
 {
 public:
     // Creates empty stack
-    Stack()
+    Stack() : mList()
     {
     }
 
     // copy constructor
-    Stack(const Stack &a)
+    Stack(const Stack &a) : Stack()
     {
         // implement or disable this function
+        mList = a.mList;
     }
 
     // assignment operator
     Stack &operator=(const Stack &a)
     {
         // implement or disable this function
+        mList = a.mList;
         return *this;
     }
 
@@ -31,28 +36,31 @@ public:
     // Should be O(1) on average
     void push(Data data)
     {
+        mList.insert(data);
     }
 
     // Retrives the last element from the stack
     Data get() const
     {
-        return Data();
+        return mList.first()->data();
     }
 
     // Removes the last element from the stack
     // Should be O(1)
     void pop()
     {
+        mList.erase_first();
     }
 
     // Returns true if the stack is empty
     bool empty() const
     {
-        return true;
+        return mList.empty();
     }
 
 private:
     // private data should be here
+    List<Data> mList;
 };
 
 #endif
