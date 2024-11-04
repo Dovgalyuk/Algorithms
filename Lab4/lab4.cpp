@@ -5,16 +5,16 @@
 Graph<int, int> prime(Graph<int, int> in_graph, int size) {
     Graph<int, int> out_graph(size);
 
-    std::vector<int> minEdgeWeight(size + 1, INT_MAX);
-    std::vector<int> parent(size + 1, -1);
-    std::vector<bool> inMST(size + 1, false);
+    std::vector<int> minEdgeWeight(size, INT_MAX);
+    std::vector<int> parent(size, -1);
+    std::vector<bool> inMST(size, false);
 
-    minEdgeWeight[1] = 0;
+    minEdgeWeight[0] = 0;
 
-    for (int i = 1; i <= size; ++i) {
+    for (int i = 0; i < size; ++i) {
         int u = -1;
         
-        for (int v = 1; v <= size; ++v) {
+        for (int v = 0; v < size; ++v) {
             if (!inMST[v] && (u == -1 || minEdgeWeight[v] < minEdgeWeight[u])) {
                 u = v;
             }
@@ -44,8 +44,8 @@ Graph<int, int> prime(Graph<int, int> in_graph, int size) {
 void out(Graph<int, int> graph, std::ofstream& output) {
     std::vector<int> verts = graph.get_all_vertex_marks();
     for(size_t i = 0; i < verts.size(); i++) {
-        output << verts[i] << std::endl;
-        for (auto it(graph.begin(verts[i])); it != graph.end(verts[i]); ++it) {
+        output << i << std::endl;
+        for (auto it(graph.begin(i)); it != graph.end(i); ++it) {
             output << (*it).to << " ";
         }
         output << "\n\n";
@@ -57,6 +57,9 @@ void solve(std::ifstream& input, std::ofstream& output) {
     int n, k; input >> n >> k;
 
     Graph<int, int> graph(n);
+    for(int i = 0; i < n; i++) {
+        graph.set_vertex_mark(i, i);
+    }
     for(int i = 0; i < k; i++) {
         int from, to, mark; 
         input >> from >> to >> mark;
