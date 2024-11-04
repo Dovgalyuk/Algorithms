@@ -56,7 +56,7 @@ int bfs(vector<string>& labirint, Pos start) {
 }
 
 int main() {
-    std::ifstream input("/Users/antonnikanorov/Desktop/lab3/Algorithms/Lab3CPP/input.txt");
+    std::ifstream input("input.txt");
     if (!input.is_open()) {
         cerr << "ne otkrit file\n";
         return 1;
