@@ -4,96 +4,96 @@
 #include "queue.h"
 #include "vector.h"
 
-struct Position {
-    int row;
-    int col;
+using namespace std;
+
+struct Pos {
+    int strok;
+    int stolb;
 };
 
-// Используем size_t для работы с большими числами
-size_t encode_position(int row, int col, size_t num_cols) {
-    return static_cast<size_t>(row) * num_cols + col;
+size_t privedenieint(int strok, int stolb, size_t num_stolbi) {
+    return (size_t)(strok) * num_stolbi + stolb;
 }
 
-Position decode_position(size_t encoded, size_t num_cols) {
-    Position pos;
-    pos.row = static_cast<int>(encoded / num_cols);
-    pos.col = static_cast<int>(encoded % num_cols);
+Pos privedeniepos(size_t encoded, size_t num_stolbi) {
+    Pos pos;
+    pos.strok = int(encoded / num_stolbi);
+    pos.stolb = int(encoded % num_stolbi);
     return pos;
 }
 
-bool is_valid_move(const std::vector<std::string>& maze, int row, int col) {
-    return row >= 0 && static_cast<size_t>(row) < maze.size() &&
-           col >= 0 && static_cast<size_t>(col) < maze[0].size() && maze[row][col] == '.';
+bool poiskpos(vector<string>& labirint, int strok, int stolb) {
+    return strok >= 0 && size_t(strok) < labirint.size() &&
+           stolb >= 0 && size_t(stolb) < labirint[0].size() && labirint[strok][stolb] == '.';
 }
 
-int bfs(std::vector<std::string>& maze, Position start) {
-    int reachable_cells = 0;
+int bfs(vector<string>& labirint, Pos start) {
+    int vsegopos = 0;
     Queue* queue = queue_create();
-    size_t num_cols = maze[0].size();
+    size_t num_stolbi = labirint[0].size();
 
     // Приводим к int перед вставкой в очередь
-    queue_insert(queue, static_cast<int>(encode_position(start.row, start.col, num_cols)));
-    maze[start.row][start.col] = 'x';
+    queue_insert(queue, int(privedenieint(start.strok, start.stolb, num_stolbi)));
+    labirint[start.strok][start.stolb] = 'x';
 
     while (!queue_empty(queue)) {
-        Position current = decode_position(queue_get(queue), num_cols);
+        Pos tek = privedeniepos(queue_get(queue), num_stolbi);
         queue_remove(queue);
-        reachable_cells++;
+        vsegopos++;
 
-        Position directions[4] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        Pos napravlen[4] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
         for (int i = 0; i < 4; ++i) {
-            int new_row = current.row + directions[i].row;
-            int new_col = current.col + directions[i].col;
-            if (is_valid_move(maze, new_row, new_col)) {
-                maze[new_row][new_col] = 'x';
-                // Приводим к int перед вставкой в очередь
-                queue_insert(queue, static_cast<int>(encode_position(new_row, new_col, num_cols)));
+            int new_strok = tek.strok + napravlen[i].strok;
+            int new_stolb = tek.stolb + napravlen[i].stolb;
+            if (poiskpos(labirint, new_strok, new_stolb)) {
+                labirint[new_strok][new_stolb] = 'x';
+                queue_insert(queue, int(privedenieint(new_strok, new_stolb, num_stolbi)));
             }
         }
     }
     queue_delete(queue);
-    return reachable_cells;
+    return vsegopos;
 }
 
 int main() {
-    std::ifstream input("input.txt");
+    std::ifstream input("/Users/antonnikanorov/Desktop/lab3/Algorithms/Lab3CPP/input.txt");
     if (!input.is_open()) {
-        std::cerr << "Ошибка: не удалось открыть файл input.txt\n";
+        cerr << "ne otkrit file\n";
         return 1;
     }
 
-    std::vector<std::string> maze;
-    std::string line;
-    Position start = {-1, -1};
+    vector<string> labirint;
+    string line;
+    Pos start = {-1, -1};
 
-    while (std::getline(input, line)) {
-        maze.push_back(line);
+    while (getline(input, line)) {
+        labirint.push_back(line);
     }
     input.close();
 
     // Поиск стартовой позиции
-    bool start_found = false;
-    for (size_t i = 0; i < maze.size(); ++i) {
-        for (size_t j = 0; j < maze[i].size(); ++j) {
-            if (maze[i][j] == 'X') {
-                start.row = static_cast<int>(i);  // Приведение к int
-                start.col = static_cast<int>(j);  // Приведение к int
-                start_found = true;
+    bool start_nahod = false;
+    for (size_t i = 0; i < labirint.size(); ++i) {
+        for (size_t j = 0; j < labirint[i].size(); ++j) {
+            if (labirint[i][j] == 'X') {
+                start.strok = int(i);  // Приведение к int
+                start.stolb = int(j);  // Приведение к int
+                start_nahod = true;
                 break;
             }
         }
-        if (start_found) break;
+        if (start_nahod) break;
     }
 
-    if (!start_found) {
-        std::cerr << "Ошибка: стартовая позиция 'X' не найдена в лабиринте\n";
+    if (!start_nahod) {
+        cerr << "x otsutstvuet\n";
         return 1;
     }
 
-    int reachable_cells = bfs(maze, start);
-    std::cout << reachable_cells << "\n";
+    int vsegopos = bfs(labirint, start);
+    cout << vsegopos << "\n";
 
-    for (size_t i = 0; i < maze.size(); ++i) {
-        std::cout << maze[i] << "\n";
+    for (size_t i = 0; i < labirint.size(); ++i) {
+        cout << labirint[i] << "\n";
     }
 }
