@@ -1,5 +1,5 @@
 #include <iostream>
-#include "array.h"
+#include "../LibraryCPPClass/array.h"
 
 int main()
 {
@@ -28,22 +28,24 @@ int main()
 
     try 
     {
-        arr->set(13, 4);
-        //std::cout << "set() - Check for index"
+        arr->set(32, 8);
+        std::cout << "set() - Check for index. Doesn't handle invalid index.";
+        return 1;
     }
-    catch (const out_of_range&)
+    catch (const std::out_of_range&)
     {
-        //std::cout << "set() - Check for index"
+        std::cout << "set() - Check for index. Expected out of range with invalid index.";
     }
 
     try 
     {
-        arr->get(21);
-        //std::cout << "get() - Check for index"
+        arr->get(16);
+        std::cout << "get() - Check for index. Doesn't handle invalid index";
+        return 1;
     }
-    catch (const out_of_range&)
+    catch (const std::out_of_range&)
     {
-        //std::cout << "get() - Check for index"
+        std::cout << "get() - Check for index. Expected out of range with invalid index.";
     }
 
     delete arr;
