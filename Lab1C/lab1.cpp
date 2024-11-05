@@ -41,9 +41,9 @@ void task2(Array *arr) {
     }
 }
 
-int main() {
+int main(int argc, char **argv) {
     Array *arr = NULL;
-    FILE *input = fopen("input.txt", "r");
+    FILE *input = fopen(argv[1], "r");
     arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
