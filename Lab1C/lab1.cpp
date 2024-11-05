@@ -20,7 +20,7 @@ void task1(Array *arr) {
     int firstMaxElement = 0;
     int lastMaxElement = 0;
 
-    for (int i = 0 ; i < array_size(arr) ; ++i) {
+    for (int i = 0 ; i < (int)array_size(arr) ; ++i) {
         if ((int)array_get(arr, i) > max) {
             max = (int)array_get(arr, i);
             firstMaxElement = i;
