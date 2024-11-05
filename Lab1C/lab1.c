@@ -20,40 +20,54 @@ Array *array_create_and_read(FILE *input) {
     return arr;
 }
 
-void task1(Array *arr, size_t size) {
-    if (!arr) return;
+void task1(Array* arr, size_t size) {
+    int min = (int)array_get(arr, 0);
+    int max = (int)array_get(arr, 0);
 
-    int maxElement = array_get(arr, 0);
-    int firstMaxElement = 0;
-    int lastMaxElement = 0;
-
-
-    for (int i = 0; i < (int)size; i++) {
-        if ((int)array_get(arr, i) > maxElement) {
-            maxElement = (int)array_get(arr, i);
-            firstMaxElement = i;
-            lastMaxElement = i;
-        } else if ((int)array_get(arr, i) == maxElement) {
-            lastMaxElement = i;
-        }
+    for (size_t i = 0; i < size; i++) {
+        int value = (int)array_get(arr, i);
+        if (value < min) min = value;
+        if (value > max) max = value;
     }
 
-    printf("%d %d", firstMaxElement, lastMaxElement);
+    double threshold = (min + max) / 2;
+
+    for (size_t i = 0; i < size; i++) {
+        if ((int)array_get(arr, i) > threshold) {
+            printf("%zu\n", i);
+        }
+    }
 }
 
-
-void task2(Array *arr, size_t size) {
-    if (!arr) return;
-    int maxSum = 0;
-    for (size_t i = 0; (size >= 5) && (i <= size - 5); i++) {
-        int sum = (int)(array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) +
-                     array_get(arr, i + 3) + array_get(arr, i + 4));
-        if (sum > maxSum) {
-            maxSum = sum;
-        }
+void task2(Array* arr, size_t size) {
+    int* frequency = (int*)calloc(size, sizeof(int));
+    if (frequency == NULL) {
+        printf("Memory allocation failed for frequency array");
+        return;
     }
 
-    printf("%d", maxSum);
+
+    if (arr != NULL) {
+        int most_frequent = (int)array_get(arr, 0);
+        int max_count = 0;
+        for (size_t i = 0; i < size; i++) {
+            int current = (int)array_get(arr, i);
+            if (current >= 0 && current < (int)size) {
+                frequency[current]++;
+                if (frequency[current] > max_count) {
+                    max_count = frequency[current];
+                    most_frequent = current;
+                }
+
+            }
+            else {
+                printf("Value is out of bounds for frequency array");
+            }
+
+        }
+        printf("%d", most_frequent);
+    }
+    free(frequency);
 }
 
 int main() {
