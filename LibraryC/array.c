@@ -4,10 +4,10 @@
 
 // create array
 Array *array_create(size_t size, FFree f) {
-    (void)f;
     Array *arr = (Array *)malloc(sizeof(Array));
     if (!arr) return NULL;
 
+    arr->f = f;
     arr->data = (Data *)malloc(size * sizeof(Data));
     if (!arr->data) {
         free(arr);
@@ -23,6 +23,9 @@ Array *array_create(size_t size, FFree f) {
 // delete array, free memory
 void array_delete(Array *arr) {
     if (arr) {
+        for (size_t i = 0; i < arr->size; i++) {
+            if (arr->f) arr->f(arr->data[i]);
+        }
         free(arr->data);
         free(arr);
     }

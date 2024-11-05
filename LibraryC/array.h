@@ -13,6 +13,7 @@ typedef void(FFree)(void *);
 typedef struct {
     Data *data;
     size_t size;
+    FFree *f;
 } Array;
 
 #ifdef __cplusplus
