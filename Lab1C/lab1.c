@@ -27,12 +27,12 @@ void task1(Array *arr) {
     int firstMaxElement = 0;
     int lastMaxElement = 0;
 
-    for (int i = 0; i < array_size(arr); i++) {
-        if (array_get(arr, i) > maxElement) {
-            maxElement = array_get(arr, i);
+    for (int i = 0; i < (int)array_size(arr); i++) {
+        if ((int)array_get(arr, i) > maxElement) {
+            maxElement = (int)array_get(arr, i);
             firstMaxElement = i;
             lastMaxElement = i;
-        } else if (array_get(arr, i) == maxElement) {
+        } else if ((int)array_get(arr, i) == maxElement) {
             lastMaxElement = i;
         }
     }
@@ -44,7 +44,7 @@ void task1(Array *arr) {
 void task2(Array *arr) {
     if (!arr) return;
     int maxSum = 0;
-    for (int i = 0; (array_size(arr) >= 5) && (i <= array_size(arr) - 5); i++) {
+    for (int i = 0; ((int)array_size(arr) >= 5) && (i <= (int)array_size(arr) - 5); i++) {
         int sum = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) +
                      array_get(arr, i + 3) + array_get(arr, i + 4);
         if (sum > maxSum) {
