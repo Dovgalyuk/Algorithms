@@ -10,7 +10,7 @@ typedef uintptr_t Data;
 // Custom function to free user pointers on delete
 typedef void(*FFree)(void *);
 
-typedef struct Array Array;;
+typedef struct Array Array;
 
 #ifdef __cplusplus
 extern "C" {
