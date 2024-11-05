@@ -1,17 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "array.h"
 
-Array *array_create_and_read(FILE *input) {
+Array* array_create_and_read(FILE* input) {
     int n;
-
     fscanf(input, "%d", &n);
-
-    /* Create array */
-    Array *arr = array_create(n, NULL);
-
-    /* Read array data */
+    Array* arr = array_create(n, NULL);
     for (int i = 0; i < n; ++i) {
         int x;
         fscanf(input, "%d", &x);
@@ -70,19 +64,27 @@ void task2(Array* arr, size_t size) {
     free(frequency);
 }
 
-int main() {
-    FILE *input = fopen("input.txt", "r");
+int main()
+{
+    FILE* input = fopen("input.txt", "r");
     if (!input) {
         return 1;
     }
-
-    Array *arr = array_create_and_read(input);
+    Array* arr = array_create_and_read(input);
     size_t size = array_size(arr);
+    if (arr == NULL) {
+        printf("Array is NULL");
+        return 1;
+    }
+    if (size == 0) {
+        printf("Array is empty");
+        return 1;
+    }
+    
+
     task1(arr, size);
     task2(arr, size);
-
     array_delete(arr);
-
     fclose(input);
     return 0;
-}
+} 
