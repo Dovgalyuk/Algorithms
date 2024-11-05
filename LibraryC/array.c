@@ -1,5 +1,5 @@
 #include <stdlib.h>
-
+#include <string.h>
 #include "array.h"
 
 typedef struct Array {
@@ -21,7 +21,7 @@ Array *array_create(size_t size, FFree f) {
     }
 
     arr->freeFunc = f;
-    for (size_t i = 0; i < size; i++) arr->data[i] = (Data)0;
+    memset(arr->data, 0, size * sizeof(Data));
 
     return arr;
 }
