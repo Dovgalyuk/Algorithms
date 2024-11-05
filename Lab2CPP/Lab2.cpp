@@ -43,7 +43,7 @@ int main() {
     Stack* stack = stack_create();
     std::map<char, size_t> registers = { {'A', 0}, {'B', 0}, {'C', 0}, {'D', 0} };
     std::string input;
-    std::ifstream inputFile("../../../LibraryCPP/input2.txt");
+    std::ifstream inputFile("../../LibraryCPP/input2.txt");
 
     if (!inputFile.is_open()) {
         std::cerr << "Error opening file" << std::endl;
