@@ -127,3 +127,21 @@ void free_stack_operation(Stack_operation **head) {
     *head = NULL;
 
 }
+
+
+Data stack_get_element(const Stack_element *stack){
+
+    if(stack == NULL){
+        return (Data){0};
+    }
+    return stack -> element;
+}
+
+
+Data stack_get_operation(const Stack_operation *stack){
+
+    if(stack == NULL){
+        return (Data){0};
+    }
+    return stack -> operation;
+}

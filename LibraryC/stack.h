@@ -36,6 +36,9 @@ char stack_pop_operation (Stack_operation **head);
 char stack_pop_element (Stack_element **head);
 
 
+Data stack_get_element(const Stack_element *stack);
+Data stack_get_operation(const Stack_operation *stack);
+
 void free_stack_element(Stack_element **head);
 void free_stack_operation(Stack_operation **head);
 
