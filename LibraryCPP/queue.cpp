@@ -4,6 +4,7 @@
 struct Queue
 {
     Vector* q;
+    size_t nach;
 };
 
 
@@ -11,6 +12,7 @@ Queue* queue_create()
 {
     Queue* queue = new Queue;
     queue->q = vector_create();
+    queue->nach = 0;
     return queue;
 }
 
@@ -31,25 +33,25 @@ void queue_insert(Queue* queue, Data data)
 
 Data queue_get(const Queue* queue)
 {
-
-    return vector_get(queue->q, 0);
+    return vector_get(queue->q, queue->nach);
 }
 
 
 void queue_remove(Queue* queue)
 {
-    if (!queue_empty(queue)) {
-
-        int vih = 0;
-        vih = (vih+1)%vector_size(queue->q);
-        vector_resize(queue->q, vector_size(queue->q) - 1);
+    if (!queue_empty(queue)){
+        queue->nach++;
+        if(queue->nach == vector_size(queue->q)){
+            queue->nach = 0;
+            vector_resize(queue->q,0);
+        }
     }
 }
 
 
 bool queue_empty(const Queue* queue)
 {
-    return vector_size(queue->q) == 0;  
+    return queue->nach == vector_size(queue->q);
 }
 
 
