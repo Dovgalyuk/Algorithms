@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "array.h"
+#include "../LibraryC/array.h"
 
 Array* array_create_and_read(FILE* input) {
     int n;
@@ -39,7 +39,6 @@ void task2(Array* arr, size_t size) {
         printf("Memory allocation failed for frequency array");
         return;
     }
-
 
     if (arr != NULL) {
         int most_frequent = (int)array_get(arr, 0);
