@@ -9,10 +9,10 @@ void free_func(void* data) {
 int main() {
 
     /* Тест стека элементов*/
-    Stack_element* stack_element_head = NULL;
+    Stack* stack_element_head = NULL;
     List_element* list_element_head = NULL;
 
-    Stack_element* new_stack_element = create_stack_element(&list_element_head, free_func);
+    Stack* new_stack_element = create_stack_element(&list_element_head, free_func);
     if (new_stack_element == NULL) {
         std::cerr << "Error: Failed to create stack element." << std::endl;
         return 1;

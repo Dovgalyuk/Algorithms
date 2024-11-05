@@ -11,8 +11,8 @@
 
 void stdin_string (char *string);
 int priority_operation(char operand);
-void parcing_string_algoritm(char *string ,Stack_operation **stack_operations, Stack_element **stack_elements);
-void print_rpn(Stack_element **StackElement);
+void parcing_string_algoritm(char *string ,Stack_operation **stack_operations, Stack **stack_elements);
+void print_rpn(Stack **StackElement);
 
 
 int main(int argc, char **argv) {
@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
     List_element *head_1;
     List_operation *head_2;
 
-    Stack_element *StackElement = create_stack_element(&head_1, free);
+    Stack *StackElement = create_stack_element(&head_1, free);
     Stack_operation *StackOperation = create_stack_operation(&head_2, free);
     
     List_element *list_1; 
@@ -102,7 +102,7 @@ int priority_operation(char operand){
 }
 
 
-void parcing_string_algoritm(char *string ,Stack_operation **stack_operations, Stack_element **stack_elements){
+void parcing_string_algoritm(char *string ,Stack_operation **stack_operations, Stack **stack_elements){
     int i = 0;
     for(i = 0; string[i] != '\0'; i ++){
         if(isalpha(string[i])){
@@ -133,8 +133,8 @@ void parcing_string_algoritm(char *string ,Stack_operation **stack_operations, S
 }
 
 
-void print_rpn(Stack_element **StackElement) {
-    Stack_element *temp_stack = NULL;
+void print_rpn(Stack **StackElement) {
+    Stack *temp_stack = NULL;
     while (*StackElement != NULL) {
         char element = stack_pop_element(StackElement);
         stack_push_element(&temp_stack, element);

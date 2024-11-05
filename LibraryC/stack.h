@@ -3,11 +3,11 @@
 
 #include "list.h"
 
-typedef struct Stack_element {
+typedef struct Stack {
 
    Data element;
-   struct Stack_element *next;
-} Stack_element;
+   struct Stack *next;
+} Stack;
 
 
 typedef struct Stack_operation {
@@ -21,11 +21,11 @@ extern "C" {
 #endif
 
 
-Stack_element *create_stack_element(List_element **head ,FFree f);
+Stack *create_stack_element(List_element **head ,FFree f);
 Stack_operation *create_stack_operation(List_operation **head ,FFree f);
 
 
-void stack_push_element (Stack_element **head, char elements);
+void stack_push_element (Stack **head, char elements);
 void stack_push_operation (Stack_operation **head, char operations);
 
 
@@ -33,12 +33,12 @@ int stack_empty_operation(Stack_operation **head);
 Stack_operation *stack_peek_operation(Stack_operation **head);
 
 char stack_pop_operation (Stack_operation **head);
-char stack_pop_element (Stack_element **head);
+char stack_pop_element (Stack **head);
 
 
-Data stack_get(const Stack_element *stack);
+Data stack_get(const Stack *stack);
 
-void free_stack_element(Stack_element **head);
+void free_stack_element(Stack **head);
 void free_stack_operation(Stack_operation **head);
 
 #ifdef __cplusplus

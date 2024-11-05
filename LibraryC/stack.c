@@ -5,9 +5,9 @@
 
 
 
-Stack_element *create_stack_element(List_element **head ,FFree f) {
+Stack *create_stack_element(List_element **head ,FFree f) {
     
-    Stack_element *stack =(Stack_element *)malloc(sizeof(Stack_element));
+    Stack *stack =(Stack *)malloc(sizeof(Stack));
     if(stack == NULL){
         return NULL;
     } else {
@@ -31,9 +31,9 @@ Stack_operation *create_stack_operation(List_operation **head ,FFree f) {
 }
 
 
-void stack_push_element (Stack_element **head, char elements) {
+void stack_push_element (Stack **head, char elements) {
 
-    Stack_element *value = (Stack_element *)malloc(sizeof(Stack_element));
+    Stack *value = (Stack *)malloc(sizeof(Stack));
     if (value == NULL){
         return;
     } else {
@@ -85,12 +85,12 @@ char stack_pop_operation (Stack_operation **head) {
 }
 
 
-char stack_pop_element (Stack_element **head) {
+char stack_pop_element (Stack **head) {
 
     if(*head == NULL){
         return '\0';
     } else {
-        Stack_element *temp  = *head;
+        Stack *temp  = *head;
         char element = temp -> element;
         *head = (*head) -> next;
         free(temp);
@@ -99,12 +99,12 @@ char stack_pop_element (Stack_element **head) {
 }
 
 
-void free_stack_element(Stack_element **head) {
+void free_stack_element(Stack **head) {
 
-    Stack_element *temp = *head;
+    Stack *temp = *head;
 
     while(temp != NULL){
-        Stack_element *next = temp -> next;
+        Stack *next = temp -> next;
         free(temp);
         temp = next;
     }
@@ -129,7 +129,7 @@ void free_stack_operation(Stack_operation **head) {
 }
 
 /*Что бы избежать конфликта*/
-Data stack_get(const Stack_element *stack){
+Data stack_get(const Stack *stack){
 
     if(stack == NULL){
         return (Data){0};
