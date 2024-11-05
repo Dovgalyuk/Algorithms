@@ -3,7 +3,7 @@
 
 Array *array_create_and_read(FILE *input) {
     int n;
-    if(!fscanf(input, "%d", &n)!=1) {
+    if(fscanf(input, "%d", &n)!=1) {
         return NULL;
     };
     /* Create array */
