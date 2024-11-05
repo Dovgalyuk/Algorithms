@@ -24,7 +24,7 @@ Array *array_create(size_t size, FFree f) {
 void array_delete(Array *arr) {
     if (arr) {
         for (size_t i = 0; i < arr->size; i++) {
-            if (arr->f) arr->f(arr->data[i]);
+            if (arr->f) (*(arr->f))(arr->data[i]);
         }
         free(arr->data);
         free(arr);
