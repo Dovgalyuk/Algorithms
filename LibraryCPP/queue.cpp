@@ -40,10 +40,9 @@ void queue_remove(Queue* queue)
 {
     if (!queue_empty(queue)) {
 
-        for (size_t i = 1; i < vector_size(queue->q); ++i) {
-            vector_set(queue->q, i - 1, vector_get(queue->q, i));
-        }
-        vector_resize(queue->q, vector_size(queue->q) - 1);  
+        int vih = 0;
+        vih = (vih+1)%vector_size(queue->q);
+        vector_resize(queue->q, vector_size(queue->q) - 1);
     }
 }
 

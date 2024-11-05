@@ -30,9 +30,9 @@ bool poiskpos(vector<string>& labirint, int strok, int stolb) {
 int bfs(vector<string>& labirint, Pos start) {
     int vsegopos = 0;
     Queue* queue = queue_create();
-    size_t num_stolbi = labirint[0].size();
+    int num_stolbi = labirint[0].size();
 
-    // Приводим к int перед вставкой в очередь
+
     queue_insert(queue, int(privedenieint(start.strok, start.stolb, num_stolbi)));
     labirint[start.strok][start.stolb] = 'x';
 
@@ -56,7 +56,7 @@ int bfs(vector<string>& labirint, Pos start) {
 }
 
 int main() {
-    std::ifstream input("input.txt");
+    ifstream input("input.txt");
     if (!input.is_open()) {
         cerr << "ne otkrit file\n";
         return 1;
@@ -71,13 +71,13 @@ int main() {
     }
     input.close();
 
-    // Поиск стартовой позиции
+
     bool start_nahod = false;
     for (size_t i = 0; i < labirint.size(); ++i) {
         for (size_t j = 0; j < labirint[i].size(); ++j) {
             if (labirint[i][j] == 'X') {
-                start.strok = int(i);  // Приведение к int
-                start.stolb = int(j);  // Приведение к int
+                start.strok = int(i);
+                start.stolb = int(j);
                 start_nahod = true;
                 break;
             }
