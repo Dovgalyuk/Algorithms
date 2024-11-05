@@ -1,8 +1,5 @@
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/input.txt
-     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
-add_executable(Lab1C lab1.c)
-target_include_directories(Lab1C PUBLIC ../LibraryC)
-target_link_libraries(Lab1C LibraryC)
+add_executable(Lab1C lab1.cpp)
+target_include_directories(Lab1C PUBLIC ../LibraryCPP)
+target_link_libraries(Lab1C LibraryCPP)
 
 add_test(NAME TestLab1C COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
