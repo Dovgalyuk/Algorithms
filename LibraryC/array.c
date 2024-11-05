@@ -2,19 +2,25 @@
 
 #include "array.h"
 
+typedef struct Array {
+    size_t size;
+    Data *data;
+    FFree freeFunc;
+} Array;
+
 // create array
 Array *array_create(size_t size, FFree f) {
-    Array *arr = (Array *)malloc(sizeof(Array));
+    Array *arr = malloc(sizeof(Array));
     if (!arr) return NULL;
 
-    arr->f = f;
-    arr->data = (Data *)malloc(size * sizeof(Data));
+    arr->size = size;
+    arr->data = malloc(size * sizeof(Data));
     if (!arr->data) {
         free(arr);
         return NULL;
     }
 
-    arr->size = size;
+    arr->freeFunc = f;
     for (size_t i = 0; i < size; i++) arr->data[i] = (Data)0;
 
     return arr;
@@ -23,11 +29,14 @@ Array *array_create(size_t size, FFree f) {
 // delete array, free memory
 void array_delete(Array *arr) {
     if (arr) {
-        for (size_t i = 0; i < arr->size; i++) {
-            if (arr->f) (*(arr->f))(arr->data[i]);
-        }
+        if (arr->freeFunc){
+            for (size_t i = 0; i < arr->size; i++) {
+                if (arr->data[i]) 
+                    arr->freeFunc((void*)arr->data[i]);
+            }
         free(arr->data);
         free(arr);
+        }
     }
 }
 
@@ -43,4 +52,7 @@ void array_set(Array *arr, size_t index, Data value) {
 }
 
 // returns array size
-size_t array_size(const Array *arr) { return arr->size; }
+size_t array_size(const Array *arr) {
+    if (!arr) return 0;
+    return arr->size; 
+}

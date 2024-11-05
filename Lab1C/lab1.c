@@ -6,10 +6,7 @@
 Array *array_create_and_read(FILE *input) {
     size_t n;
 
-    // Read array size
-    if (fscanf(input, "%zu", &n) != 1 || n <= 0) {
-        return NULL;
-    }
+    fscanf(input, "%zu", &n);
 
     /* Create array */
     Array *arr = array_create(n, NULL);
