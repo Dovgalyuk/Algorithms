@@ -49,7 +49,7 @@ void task1(Array *arr) {
 void task2(Array *arr) {
     if (!arr) return;
     size_t maxSum = 0;
-    for (size_t i = 0; i <= array_size(arr) - 5; i++) {
+    for (size_t i = 0; (array_size(arr) >= 5) && (i <= array_size(arr) - 5); i++) {
         size_t sum = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) +
                      array_get(arr, i + 3) + array_get(arr, i + 4);
         if (sum > maxSum) {
