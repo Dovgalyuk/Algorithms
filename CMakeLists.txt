@@ -12,5 +12,3 @@ endif()
 
 add_subdirectory(LibraryC)
 add_subdirectory(Lab1C)
-
-set_target_properties(Lab1C PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
