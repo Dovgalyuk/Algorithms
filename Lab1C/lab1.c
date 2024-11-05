@@ -4,11 +4,11 @@
 
 Array* array_create_and_read(FILE* input) {
     int n;
-    fscanf(input, "%d", &n);
+    fscanf_s(input, "%d", &n);
     Array* arr = array_create(n, NULL);
     for (int i = 0; i < n; ++i) {
         int x;
-        fscanf(input, "%d", &x);
+        fscanf_s(input, "%d", &x);
         array_set(arr, i, x);
     }
     return arr;
@@ -17,17 +17,14 @@ Array* array_create_and_read(FILE* input) {
 void task1(Array* arr, size_t size) {
     int min = (int)array_get(arr, 0);
     int max = (int)array_get(arr, 0);
-    int sum = 0;
 
     for (size_t i = 0; i < size; i++) {
         int value = (int)array_get(arr, i);
         if (value < min) min = value;
         if (value > max) max = value;
-        sum += value;
     }
 
-    double average = (double)sum / size;
-    double threshold = (average + min + max) / 3;
+    double threshold = (min + max) / 2;
 
     for (size_t i = 0; i < size; i++) {
         if ((int)array_get(arr, i) > threshold) {
@@ -56,6 +53,9 @@ void task2(Array* arr, size_t size) {
                     most_frequent = current;
                 }
 
+            }
+            else {
+                printf("Value is out of bounds for frequency array");
             }
 
         }
