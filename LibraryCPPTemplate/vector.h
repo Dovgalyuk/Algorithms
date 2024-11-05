@@ -2,56 +2,119 @@
 #define VECTOR_TEMPLATE_H
 
 #include <cstddef>
+#include <stdexcept>
+#include <cmath>
 
-template <typename Data> class Vector
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+#define RESIZE_FACTOR 2
+
+template <typename Data>
+class Vector
 {
 public:
-    // Creates vector
-    Vector()
+    Vector() : current_size(0), real_size(0), pointer(nullptr) {}
+
+    Vector(const Vector &a) : current_size(a.current_size), real_size(a.real_size)
     {
+        pointer = new Data[real_size];
+        if (!pointer) throw std::bad_alloc();
+        for (size_t i = 0; i < current_size; ++i) {
+            pointer[i] = a.pointer[i];
+        }
     }
 
-    // copy constructor
-    Vector(const Vector &a)
-    {
-    }
-
-    // assignment operator
     Vector &operator=(const Vector &a)
     {
+        if (this != &a) {
+            delete[] pointer;
+            current_size = a.current_size;
+            real_size = a.real_size;
+            pointer = new Data[real_size];
+            if (!pointer) throw std::bad_alloc();
+
+            for (size_t i = 0; i < current_size; ++i)
+                pointer[i] = a.pointer[i];
+        }
+
         return *this;
     }
 
-    // Deletes vector structure and internal data
     ~Vector()
     {
+        delete[] pointer;
     }
 
-    // Retrieves vector element with the specified index
     Data get(size_t index) const
     {
-        return Data();
+        if (current_size <= index) throw std::out_of_range("The index is out of range");
+        return pointer[index];
     }
 
-    // Sets vector element with the specified index
     void set(size_t index, Data value)
     {
+        if (current_size <= index) throw std::out_of_range("The index is out of range");
+        pointer[index] = value;
     }
 
-    // Retrieves current vector size
     size_t size() const
     {
-        return 0;
+        return current_size;
     }
 
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
-    void resize(size_t size)
+    void resize(size_t new_size)
     {
+        if (new_size > real_size) {
+            size_t new_capacity = max(new_size, static_cast<size_t>(std::ceil(RESIZE_FACTOR * real_size)));
+
+            Data *ptr = new Data[new_capacity];
+            if (!ptr) throw std::bad_alloc();
+
+            for (size_t i = 0; i < current_size; ++i) {
+                ptr[i] = pointer[i]; 
+            }
+
+            delete[] pointer;
+
+            pointer = ptr;
+            real_size = new_capacity;
+        }
+        
+        current_size = new_size; 
     }
+
+    void resize(size_t new_size, Data value)
+    {
+        size_t old_size = current_size;
+        resize(new_size);
+
+        for (size_t i = old_size; i < current_size; ++i) {
+            pointer[i] = value; 
+        }
+    }
+
+    void push_back(Data value)
+    {
+        resize(current_size + 1);
+        set(current_size - 1, value);
+    }
+
+    void pop_back()
+    {
+        if (current_size == 0) throw std::out_of_range("Cannot pop from an empty vector");
+        current_size--;
+    }
+
+    Data &operator[](size_t index)
+    {
+        if (current_size <= index) throw std::out_of_range("The index is out of range");
+        return pointer[index];
+    }
+
 
 private:
-    // private data should be here
+    size_t current_size;
+    size_t real_size;
+    Data *pointer;
 };
 
 #endif

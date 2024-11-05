@@ -1,100 +1,163 @@
-#include <cstdio>
-#include <stdexcept>
-#include "array.h"
+#include <iostream>
+#include <cassert>
+#include "graph.h" // Assuming the Graph class is in graph.h
 
-void qsort(Array *arr, size_t start, size_t end){
-    if (start >= end) return;
+void testGraphIterator() {
+    // Create a graph with 5 vertices
+    Graph<int, int> g(5);
 
-    size_t left = start;
-    size_t right = end;
-    Data pivot = array_get(arr, start + (end - start) / 2); 
-
-    while (left <= right){
-        while (array_get(arr, left) < pivot) left++;
-        while (array_get(arr, right) > pivot) right--;
-
-        if (left <= right){
-            Data temp = array_get(arr, right);
-            array_set(arr, right, array_get(arr, left));
-            array_set(arr, left, temp);
-            left++; right--;
-            if (right > end) right++;
-
-        }
+    // Set initial vertex marks
+    for (int i = 0; i < 5; ++i) {
+        g.set_vertex_mark(i, i);
     }
 
-    qsort(arr, start, right);
-    qsort(arr, left, end);
-}
+    // Add edges
+    g.add_edge(0, 1, 10); // Edge from vertex 0 to vertex 1
+    g.add_edge(1, 2, 20); // Edge from vertex 1 to vertex 2
+    g.add_edge(2, 0, 30); // Edge from vertex 2 to vertex 0 (creating a cycle)
+    g.add_edge(1, 3, 40); // Edge from vertex 1 to vertex 3
+    g.add_edge(3, 4, 50); // Edge from vertex 3 to vertex 4
+    g.add_edge(4, 1, 60); // Edge from vertex 4 to vertex 1 (creating another cycle)
 
-void qsort(Array *arr)
-{
-    qsort(arr, 0, array_size(arr) - 1);
-}
+    // Test iterator for vertex 1
+    typename Graph<int, int>::iterator it = g.get_vertex(1)->begin();
+    int edgeCount = 0;
 
-Array *array_create_and_read(FILE *input)
-{
-    int n;
-    if (fscanf(input, "%d", &n) < 1) throw std::invalid_argument("Failed to read size");
-    /* Create array */
-    Array *arr = array_create(n);
-    /* Read array data */
-    for (int i = 0 ; i < n ; ++i)
-    {
-        int x;
-        if (fscanf(input, "%d", &x) < 1) throw std::invalid_argument("Failed to read number");
-        array_set(arr, i, x);
+    // Iterate through edges connected to vertex 1
+    while (it.ptr != nullptr) {
+        edgeCount++;
+        it++; // Move to the next edge
     }
 
-    return arr;
-}
+    assert(edgeCount == 4); // Vertex 1 should have 3 edges (to vertex 0, 2, and 3)
 
-void task1(Array *arr)
-{
-    size_t size = array_size(arr);
+    // Test iterator for vertex 3
+    it = g.get_vertex(3)->begin();
+    edgeCount = 0;
 
-    for (size_t index{0}; index < size; ++index){
-        if (array_get(arr, index) % 2 == 0) 
-            array_set(arr, index, array_get(arr, index) * array_get(arr, index));
-        else array_set(arr, index, 2 * array_get(arr, index));
-    }
-}
-
-void task2(Array *arr)
-{
-    if (!arr) std::invalid_argument("Array pointer is null");
-    if (array_size(arr) < 2) return;
-    qsort(arr);
-
-    unsigned cnt = 1;
-    size_t size_arr = array_size(arr);
-    Data item = array_get(arr, 0);
-
-    for (size_t index{1}; index < size_arr; ++index){
-        if (array_get(arr, index) == item) cnt++;
-        else {
-            if (cnt == 2) printf("%d ", item);
-            cnt = 1;
-            item = array_get(arr, index);
-        }
+    // Iterate through edges connected to vertex 3
+    while (it.ptr != nullptr) {
+        edgeCount++;
+        it++; // Move to the next edge
     }
 
-    if (cnt == 2) printf("%d", item);
-    printf("\n");
+    assert(edgeCount == 2); // Vertex 3 should have 1 edge (to vertex 4)
+
+    // Test iterator for vertex 4
+    it = g.get_vertex(4)->begin();
+    edgeCount = 0;
+
+    // Iterate through edges connected to vertex 4
+    while (it.ptr != nullptr) {
+        edgeCount++;
+        it++; // Move to the next edge
+    }
+
+    assert(edgeCount == 2); // Vertex 4 should have 1 edge (to vertex 1)
+
+    // Remove an edge and test iterator again
+    g.delete_edge(1); // Remove edge from vertex 1 to vertex 2
+    it = g.get_vertex(1)->begin();
+    edgeCount = 0;
+
+    // Iterate through edges connected to vertex 1 after deletion
+    while (it.ptr != nullptr) {
+        edgeCount++;
+        it++; // Move to the next edge
+    }
+
+    assert(edgeCount == 3); // Vertex 1 should now have 2 edges (to vertex 0 and 3)
+
+    // Remove a vertex and test iterator
+    g.delete_vertex(3); // Remove vertex 3
+    it = g.get_vertex(1)->begin();
+    edgeCount = 0;
+
+    // Iterate through edges connected to vertex 1 after deleting vertex 3
+    while (it.ptr != nullptr) {
+        edgeCount++;
+        it++; // Move to the next edge
+    }
+
+    assert(edgeCount == 3); // Vertex 1 should still have 2 edges (to vertex 0 and 2)
+
+    // Test iterator for a vertex with no edges
+    g.delete_edge((size_t)0); // Remove edge from vertex 0 to vertex 1
+    g.delete_edge((size_t)0); // Remove edge from vertex 2 to vertex 0
+    it = g.get_vertex(0)->begin();
+    edgeCount = 0;
+
+    // Iterate through edges connected to vertex 0
+    while (it.ptr != nullptr) {
+        edgeCount++;
+        it++; // Move to the next edge
+    }
+
+    assert(edgeCount == 0); // Vertex 0 should have no edges
+
+    std::cout << "All iterator tests passed!" << std::endl;
 }
 
-int main(int argc, char **argv)
-{
-    Array *arr = NULL;
-    FILE *input = fopen(argv[1], "r");
-    arr = array_create_and_read(input);
-    task1(arr);
-    array_delete(arr);
-    /* Create another array here */
-    arr = array_create_and_read(input);
-    task2(arr);
-    array_delete(arr);
+void testGraph() {
+    // Create a graph with 3 vertices
+    Graph<int, int> g(3);
 
-    fclose(input);
+    // Test initial vertex marks
+    g.set_vertex_mark(0, 0);
+    g.set_vertex_mark(1, 1);
+    g.set_vertex_mark(2, 2);
+    assert(g.get_vertex_mark(0) == 0);
+    assert(g.get_vertex_mark(1) == 1);
+    assert(g.get_vertex_mark(2) == 2);
+
+    // Add a new vertex
+    g.add_vertex(3);
+    assert(g.get_vertex_mark(3) == 3);
+    
+    // Add edges
+    g.add_edge(0, 1, 10); // Edge from vertex 0 to vertex 1
+    g.add_edge(1, 2, 20); // Edge from vertex 1 to vertex 2
+    g.add_edge(2, 0, 30); // Edge from vertex 2 to vertex 0
+
+    // Test edge marks
+    assert(g.get_edge_mark(0) == 10);
+    assert(g.get_edge_mark(1) == 20);
+    assert(g.get_edge_mark(2) == 30);
+
+    // Test if edges exist
+    assert(g.has_edge(0, 1) == true);
+    assert(g.has_edge(1, 2) == true);
+    assert(g.has_edge(2, 0) == true);
+    assert(g.has_edge(0, 2) == false); // No direct edge from 0 to 2
+
+    // Delete an edge
+    g.delete_edge(1); // Delete edge from vertex 1 to vertex 2
+    assert(g.has_edge(1, 2) == false); // Edge should no longer exist
+
+    // Delete a vertex
+    g.delete_vertex(0); // Delete vertex 0
+    assert(g.has_edge(0, 1) == false); // Edge should no longer exist
+    assert(g.has_edge(2, 0) == false); // Edge should no longer exist
+
+    // Check remaining vertices
+    assert(g.get_vertex(0)->get_mark() == 3); // Vertex 1 should still exist
+    assert(g.get_vertex(1)->get_mark() == 1); // Vertex 2 should still exist
+    assert(g.get_vertex(2)->get_mark() == 2); // Vertex 3 should still exist
+
+    // Additional tests
+    // Test deleting a vertex with edges
+    g.add_edge(2, 1, 40); // Add edge from vertex 3 to vertex 1
+    g.delete_vertex(1); // Delete vertex 1
+
+    // Test getting edge and vertex marks after deletions
+    assert(g.get_vertex_mark(0) == 3); // Vertex 3 should still exist
+    assert(g.get_vertex_mark(1) == 2); // Vertex 2 should still exist
+
+    std::cout << "All tests passed!" << std::endl;
+}
+
+int main() {
+    testGraph();
+    testGraphIterator();
     return 0;
 }
