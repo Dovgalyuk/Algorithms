@@ -75,11 +75,13 @@ int main(int argc, char **argv) {
     if (arr) {
         task1(arr);
         array_delete(arr);
+        arr = NULL;
     } else {
         fclose(input);
         return 1;
     }
 
+    rewind(input);
     arr = array_create_and_read(input);
     if (arr) {
         task2(arr);
