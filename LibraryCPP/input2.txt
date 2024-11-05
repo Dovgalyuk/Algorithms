@@ -1,4 +1,4 @@
-push 1
+call
 call
 ret
-pop A
+ret

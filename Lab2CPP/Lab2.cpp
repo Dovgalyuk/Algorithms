@@ -43,13 +43,15 @@ int main() {
     Stack* stack = stack_create();
     std::map<char, size_t> registers = { {'A', 0}, {'B', 0}, {'C', 0}, {'D', 0} };
     std::string input;
-    std::ifstream inputFile("../../LibraryCPP/input2.txt");
+    std::ifstream inputFile("../../../LibraryCPP/input2.txt");
 
     if (!inputFile.is_open()) {
         std::cerr << "Error opening file" << std::endl;
         stack_delete(stack);
         return 1;
     }
+
+    const size_t CALL_MARKER = static_cast<size_t>(-1); // Используем -1 как маркер вызова
 
     while (std::getline(inputFile, input)) {
         Command cmd = parseCommand(input);
@@ -61,25 +63,34 @@ int main() {
             }
 
             case CommandType::POP: {
-                if (stack_empty(stack) || stack_get(stack) == 0 || !isValidRegister(static_cast<char>(cmd.value))) {
+                if (stack_empty(stack)) {
                     std::cout << "BAD POP" << std::endl;
                     inputFile.close();
                     stack_delete(stack);
                     return 1;
                 }
+
                 size_t value = stack_get(stack);
+                
+                if (value == CALL_MARKER || !isValidRegister(static_cast<char>(cmd.value))) {
+                    std::cout << "BAD POP" << std::endl;
+                    inputFile.close();
+                    stack_delete(stack);
+                    return 1;
+                }
+
                 registers[static_cast<char>(cmd.value)] = value;
                 stack_pop(stack);
                 break;
             }
 
             case CommandType::CALL: {
-                stack_push(stack, 0);
+                stack_push(stack, CALL_MARKER);
                 break;
             }
 
             case CommandType::RET: {
-                if (stack_empty(stack) || stack_get(stack) != 0) {
+                if (stack_empty(stack) || stack_get(stack) != CALL_MARKER) {
                     std::cout << "BAD RET" << std::endl;
                     inputFile.close();
                     stack_delete(stack);
@@ -97,7 +108,7 @@ int main() {
             }
         }
     }
-    
+
     for (const auto& reg : registers) {
         std::cout << reg.first << " = " << reg.second << std::endl;
     }
