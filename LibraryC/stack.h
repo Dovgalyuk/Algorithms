@@ -21,6 +21,9 @@ extern "C" {
 #endif
 
 
+Data stack_get(const Stack *stack);
+
+
 Stack *create_stack_element(List_element **head ,FFree f);
 Stack_operation *create_stack_operation(List_operation **head ,FFree f);
 
@@ -35,8 +38,6 @@ Stack_operation *stack_peek_operation(Stack_operation **head);
 char stack_pop_operation (Stack_operation **head);
 char stack_pop_element (Stack **head);
 
-
-Data stack_get(const Stack *stack);
 
 void free_stack_element(Stack **head);
 void free_stack_operation(Stack_operation **head);
