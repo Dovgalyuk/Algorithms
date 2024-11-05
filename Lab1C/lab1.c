@@ -56,34 +56,17 @@ void task2(Array *arr) {
     printf("%d", maxSum);
 }
 
-int main(int argc, char **argv) {
-    if (argc != 2) {
-        return 1;
-    }
-
-    Array *arr = NULL;
-    FILE *input = fopen(argv[1], "r");
+int main() {
+    FILE *input = fopen("input.txt", "r");
     if (!input) {
         return 1;
     }
 
-    arr = array_create_and_read(input);
-    if (arr) {
-        task1(arr);
-        array_delete(arr);
-    } else {
-        fclose(input);
-        return 1;
-    }
+    Array *arr = array_create_and_read(input);
+    task1(arr);
+    task2(arr);
 
-    arr = array_create_and_read(input);
-    if (arr) {
-        task2(arr);
-        array_delete(arr);
-    } else {
-        fclose(input);
-        return 1;
-    }
+    array_delete(arr);
 
     fclose(input);
     return 0;
