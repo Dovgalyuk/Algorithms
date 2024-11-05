@@ -20,7 +20,7 @@ Array *array_create_and_read(FILE *input) {
     return arr;
 }
 
-void task1(Array *arr) {
+void task1(Array *arr, size_t size) {
     if (!arr) return;
 
     int maxElement = array_get(arr, 0);
@@ -28,7 +28,7 @@ void task1(Array *arr) {
     int lastMaxElement = 0;
 
 
-    for (int i = 0; i < (int)array_size(arr); i++) {
+    for (size_t i = 0; i < size; i++) {
         if ((int)array_get(arr, i) > maxElement) {
             maxElement = (int)array_get(arr, i);
             firstMaxElement = i;
@@ -42,10 +42,10 @@ void task1(Array *arr) {
 }
 
 
-void task2(Array *arr) {
+void task2(Array *arr, size_t size) {
     if (!arr) return;
     int maxSum = 0;
-    for (int i = 0; ((int)array_size(arr) >= 5) && (i <= (int)array_size(arr) - 5); i++) {
+    for (size_t i = 0; (size >= 5) && (i <= size - 5); i++) {
         int sum = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) +
                      array_get(arr, i + 3) + array_get(arr, i + 4);
         if (sum > maxSum) {
@@ -63,8 +63,9 @@ int main() {
     }
 
     Array *arr = array_create_and_read(input);
-    task1(arr);
-    task2(arr);
+    size_t size = array_size(arr);
+    task1(arr, size);
+    task2(arr, size);
 
     array_delete(arr);
 
