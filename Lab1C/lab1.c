@@ -12,7 +12,7 @@ Array *array_create_and_read(FILE *input) {
     Array *arr = array_create(n, NULL);
 
     /* Read array data */
-    for (size_t i = 0; i < n; ++i) {
+    for (int i = 0; i < n; ++i) {
         int x;
         fscanf(input, "%d", &x);
         array_set(arr, i, x);
@@ -23,11 +23,11 @@ Array *array_create_and_read(FILE *input) {
 void task1(Array *arr) {
     if (!arr) return;
 
-    size_t maxElement = array_get(arr, 0);
-    size_t firstMaxElement = 0;
-    size_t lastMaxElement = 0;
+    int maxElement = array_get(arr, 0);
+    int firstMaxElement = 0;
+    int lastMaxElement = 0;
 
-    for (size_t i = 0; i < array_size(arr); i++) {
+    for (int i = 0; i < array_size(arr); i++) {
         if (array_get(arr, i) > maxElement) {
             maxElement = array_get(arr, i);
             firstMaxElement = i;
@@ -37,21 +37,22 @@ void task1(Array *arr) {
         }
     }
 
-    printf("%zu %zu", firstMaxElement, lastMaxElement);
+    printf("%d %d", firstMaxElement, lastMaxElement);
 }
+
 
 void task2(Array *arr) {
     if (!arr) return;
-    size_t maxSum = 0;
-    for (size_t i = 0; (array_size(arr) >= 5) && (i <= array_size(arr) - 5); i++) {
-        size_t sum = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) +
+    int maxSum = 0;
+    for (int i = 0; (array_size(arr) >= 5) && (i <= array_size(arr) - 5); i++) {
+        int sum = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) +
                      array_get(arr, i + 3) + array_get(arr, i + 4);
         if (sum > maxSum) {
             maxSum = sum;
         }
     }
 
-    printf("%zu", maxSum);
+    printf("%d", maxSum);
 }
 
 int main(int argc, char **argv) {
