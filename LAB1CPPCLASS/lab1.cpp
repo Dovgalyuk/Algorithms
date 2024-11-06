@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
         output = &fileOutput;
     }
 
-    size_t sizeF, sizeS;
+    int sizeF, sizeS;
 
     // task 1
     *output << "Task 1: The sum of positive and even numbers\n";
