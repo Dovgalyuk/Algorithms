@@ -1,0 +1,10 @@
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/CMakeFiles/RUN_TESTS.dir
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/CMakeFiles/ALL_BUILD.dir
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/CMakeFiles/ZERO_CHECK.dir
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/LibraryCPP/CMakeFiles/LibraryCPP.dir
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/LibraryCPP/CMakeFiles/RUN_TESTS.dir
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/LibraryCPP/Tests/CMakeFiles/TestListCPP.dir
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/LibraryCPP/Tests/CMakeFiles/TestStackCPP.dir
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/LibraryCPP/Tests/CMakeFiles/RUN_TESTS.dir
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/Lab2CPP/CMakeFiles/Lab2CPP.dir
+C:/Users/KreyZ/source/repos/CMakeProject2/Algorithms/Lab2CPP/CMakeFiles/RUN_TESTS.dir

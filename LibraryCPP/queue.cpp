@@ -2,6 +2,7 @@
 
 struct Queue
 {
+    List* list = nullptr;
 };
 
 Queue *queue_create()
