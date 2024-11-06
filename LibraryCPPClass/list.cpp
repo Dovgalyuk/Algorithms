@@ -5,6 +5,8 @@ List::List() : head_(nullptr)
 }
 
 void List::copy_from(const List &a) {
+    clear();
+
     head_ = nullptr;
     Item* src = a.head_;
     Item* dst = nullptr;

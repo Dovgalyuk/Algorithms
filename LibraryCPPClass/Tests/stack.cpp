@@ -63,4 +63,47 @@ int main()
         return 1;
     }
 
+    try {
+        stack.get();
+        std::cout << "Error: stack should be empty\n";
+        return 1;
+    }
+    catch (const std::exception& e) {
+        std::cout << "Expected exception on get from empty stack: " << e.what() << "\n";
+    }
+
+    try {
+        stack.pop();
+        std::cout << "Error: stack should be empty\n";
+        return 1;
+    }
+    catch (const std::exception& e) {
+        std::cout << "Expected exception on pop from empty stack: " << e.what() << "\n";
+    }
+
+    stack.push(8);
+    stack.push(9);
+    stack.push(10);
+    if (stack.get() != 10)
+    {
+        std::cout << "Invalid stack top after multiple pushes\n";
+        return 1;
+    }
+
+    stack.pop();
+    if (stack.get() != 9)
+    {
+        std::cout << "Invalid stack top after pop\n";
+        return 1;
+    }
+
+    stack.pop();
+    stack.pop();
+    if (!stack.empty())
+    {
+        std::cout << "Error: stack should be empty after pops\n";
+        return 1;
+    }
+
+    return 0;
 }
