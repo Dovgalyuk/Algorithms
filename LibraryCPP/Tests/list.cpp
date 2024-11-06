@@ -38,9 +38,15 @@ int main()
     }
 
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
+    ListItem *start = list_first(list);
+    if (start != nullptr)
     {
-        std::cout << list_item_data(item) << " ";
+        ListItem *item = start;
+        do
+        {
+            std::cout << list_item_data(item) << " ";
+            item = list_item_next(item);
+        } while (item != start);
     }
     std::cout << "\n";
 
