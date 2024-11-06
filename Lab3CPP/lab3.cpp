@@ -33,7 +33,7 @@ int bfs(vector<string>& labirint, Pos start) {
     int num_stolbi = labirint[0].size();
 
 
-    queue_insert(queue, int(privedenieint(start.strok, start.stolb, num_stolbi)));
+    queue_insert(queue, privedenieint(start.strok, start.stolb, num_stolbi));
     labirint[start.strok][start.stolb] = 'x';
 
     while (!queue_empty(queue)) {
@@ -55,8 +55,9 @@ int bfs(vector<string>& labirint, Pos start) {
     return vsegopos;
 }
 
-int main() {
-    ifstream input("input.txt");
+int main(int argc, char* argv[]) {
+    
+    ifstream input(argv[1]);
     if (!input.is_open()) {
         cerr << "ne otkrit file\n";
         return 1;
