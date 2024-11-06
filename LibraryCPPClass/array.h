@@ -31,8 +31,8 @@ public:
     size_t size() const;
 
 private:
-    Data* m_arrData;
     size_t m_arrSize;
+    Data* m_arrData;
 };
 
 #endif

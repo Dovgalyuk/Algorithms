@@ -78,7 +78,7 @@ int task2(const Array &arr)
 
     for (const auto &pair : freq)
     {
-        if (pair.second < maxCount)
+        if (pair.second > maxCount)
         {
             maxCount = pair.second;
             mostFreq = pair.first;
