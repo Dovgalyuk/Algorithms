@@ -14,6 +14,16 @@ public:
 		vertex *ver;
 		typename List<edge*>::Item *ptr;
 
+		bool operator==(iterator &other)
+		{
+			return other.ptr == this->ptr;
+		}
+
+		bool operator!=(iterator &other)
+		{
+			return !((*this) == other);
+		}
+
 		iterator(vertex *ver) : ver(ver)
 		{
 			if (ver) 
@@ -200,9 +210,9 @@ public:
 		if (ind + 1 != count_edges) {
 			edges[ind] = edges[count_edges - 1];
 			(edges[ind])->index = ind;
-			edges.pop_back();
 		}
 
+		edges.pop_back();
 		count_edges--;
 		delete e;
 	}
@@ -228,9 +238,9 @@ public:
 		if (ind + 1 != count_vertices) {
 			vertices[ind] = vertices[count_vertices - 1];
 			(vertices[ind])->index = ind;
-			vertices.pop_back();
-		}
-
+		} 
+		
+		vertices.pop_back();
 		count_vertices--;
 		delete ver;
 	}

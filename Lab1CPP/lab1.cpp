@@ -21,78 +21,67 @@ void testGraphIterator() {
 
     // Test iterator for vertex 1
     typename Graph<int, int>::iterator it = g.get_vertex(1)->begin();
+    typename Graph<int, int>::iterator it_end = g.get_vertex(1)->end();
     int edgeCount = 0;
-
     // Iterate through edges connected to vertex 1
-    while (it.ptr != nullptr) {
+    while (it != it_end) {
         edgeCount++;
         it++; // Move to the next edge
     }
-
     assert(edgeCount == 4); // Vertex 1 should have 3 edges (to vertex 0, 2, and 3)
 
     // Test iterator for vertex 3
     it = g.get_vertex(3)->begin();
     edgeCount = 0;
-
     // Iterate through edges connected to vertex 3
     while (it.ptr != nullptr) {
         edgeCount++;
         it++; // Move to the next edge
     }
-
     assert(edgeCount == 2); // Vertex 3 should have 1 edge (to vertex 4)
 
     // Test iterator for vertex 4
     it = g.get_vertex(4)->begin();
     edgeCount = 0;
-
     // Iterate through edges connected to vertex 4
     while (it.ptr != nullptr) {
         edgeCount++;
         it++; // Move to the next edge
     }
-
     assert(edgeCount == 2); // Vertex 4 should have 1 edge (to vertex 1)
 
     // Remove an edge and test iterator again
     g.delete_edge(1); // Remove edge from vertex 1 to vertex 2
     it = g.get_vertex(1)->begin();
     edgeCount = 0;
-
     // Iterate through edges connected to vertex 1 after deletion
     while (it.ptr != nullptr) {
         edgeCount++;
         it++; // Move to the next edge
     }
-
     assert(edgeCount == 3); // Vertex 1 should now have 2 edges (to vertex 0 and 3)
 
     // Remove a vertex and test iterator
     g.delete_vertex(3); // Remove vertex 3
     it = g.get_vertex(1)->begin();
     edgeCount = 0;
-
     // Iterate through edges connected to vertex 1 after deleting vertex 3
     while (it.ptr != nullptr) {
         edgeCount++;
         it++; // Move to the next edge
     }
-
-    assert(edgeCount == 3); // Vertex 1 should still have 2 edges (to vertex 0 and 2)
+    assert(edgeCount == 2); // Vertex 1 should still have 2 edges (to vertex 0 and 2)
 
     // Test iterator for a vertex with no edges
     g.delete_edge((size_t)0); // Remove edge from vertex 0 to vertex 1
     g.delete_edge((size_t)0); // Remove edge from vertex 2 to vertex 0
     it = g.get_vertex(0)->begin();
     edgeCount = 0;
-
     // Iterate through edges connected to vertex 0
     while (it.ptr != nullptr) {
         edgeCount++;
         it++; // Move to the next edge
     }
-
     assert(edgeCount == 0); // Vertex 0 should have no edges
 
     std::cout << "All iterator tests passed!" << std::endl;
@@ -157,7 +146,7 @@ void testGraph() {
 }
 
 int main() {
-    testGraph();
     testGraphIterator();
+    testGraph();
     return 0;
 }
