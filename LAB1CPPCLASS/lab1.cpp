@@ -73,7 +73,7 @@ int task2(const Array &arr)
         freq[element]++;
     }
 
-    int mostFreq = arr.get(0);
+    int mostFreq = 0;
     int maxCount = 0;
 
     for (const auto &pair : freq)
