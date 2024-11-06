@@ -43,10 +43,15 @@ int main() {
     Stack* stack = stack_create();
     std::map<char, size_t> registers = { {'A', 0}, {'B', 0}, {'C', 0}, {'D', 0} };
     std::string input;
-    std::ifstream inputFile("../../LibraryCPP/input2.txt");
+    std::string filePath;
+
+    std::cout << "Enter the file path: ";
+    std::getline(std::cin, filePath);
+    
+    std::ifstream inputFile(filePath);
 
     if (!inputFile.is_open()) {
-        std::cerr << "Error opening file" << std::endl;
+        std::cerr << "Error opening file: " << filePath << std::endl;
         stack_delete(stack);
         return 1;
     }
