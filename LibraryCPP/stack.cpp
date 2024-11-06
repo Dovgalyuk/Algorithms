@@ -50,3 +50,4 @@ bool stack_empty(const Stack *stack)
     if (!stack) throw std::invalid_argument("The stack pointer is nullptr");
     return (list_first(stack->list) == nullptr);
 }
+    

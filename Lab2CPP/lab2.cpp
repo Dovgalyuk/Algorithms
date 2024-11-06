@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include "stack.h"
-
 using namespace std;
 
 int main(__attribute__((unused)) int argc, char** argv){
@@ -9,31 +8,37 @@ int main(__attribute__((unused)) int argc, char** argv){
     Stack *stack = stack_create();
     string line;
     int flag = 0;
-    while(getline(input, line)) {
+    while(input.eof() == 0){
+        input >> line;
         if(line[1] == '/'){
-            string a = stack_get(stack);
-            int i = 2;
-            while(line[i]!='\0'){
-                if(a[i-1] != line[i]){
+            int i = 0;
+            while(1){
+                char c = stack_get(stack);
+                stack_pop(stack);
+                if(c == 60){
+                    break;
+                } else if (line[line.size()-1-i] == '/'){
+                    i++;
+                } else if(c != line[line.size()-1-i]){
                     flag++;
                     break;
+                } else {
+                    i++;
                 }
-                i++;
             }
-            if(flag){
-                cout << "NO";
-                break;
-            } else {
-                flag = 0;
-                stack_pop(stack);   
-            }
+            i = 0;
         } else {
-            stack_push(stack, line);
+            for(char c: line){
+                stack_push(stack, c);
+            }
         }
     }
-    if(!flag){
-        cout << "YES";
+    if(flag){
+        cout << "NO";
+    } else {
+        cout << "YES";                      
     }
-    stack_delete(stack);
-    return 0;           
+    
+stack_delete(stack);
+return 0;           
 }
