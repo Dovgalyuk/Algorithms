@@ -1,5 +1,5 @@
-#include "stack.h"
 #include <stdexcept>
+#include "stack.h"
 
 using namespace std;
 

@@ -1,17 +1,17 @@
-#include "befunge_interpreter.h"
 #include <iostream>
 #include <stdexcept>
 #include <cctype>
+#include "befunge_interpreter.h"
 
 Interpreter::Interpreter() : stack_() {}
 
-void Interpreter::run(const std::string &program) {
+void Interpreter::run(const std::string &program, std::ostream& output) {
     for (char command : program) {
-        execute(command);
+        execute(command, output);
     }
 }
 
-void Interpreter::execute(char command) {
+void Interpreter::execute(char command, std::ostream& output) {
     if (isdigit(command)) {
         stack_.push(command - '0');
     } else {
@@ -19,13 +19,13 @@ void Interpreter::execute(char command) {
             case '+': performBinaryOp([](int a, int b) { return a + b; }); break;
             case '-': performBinaryOp([](int a, int b) { return a - b; }); break;
             case '*': performBinaryOp([](int a, int b) { return a * b; }); break;
-            case '/': performBinaryOp([](int a, int b) { 
+            case '/': performBinaryOp([](int a, int b) {
                 if (b == 0) throw std::runtime_error("Division by zero");
-                return a / b; 
+                return a / b;
             }); break;
-            case '%': performBinaryOp([](int a, int b) { 
+            case '%': performBinaryOp([](int a, int b) {
                 if (b == 0) throw std::runtime_error("Modulo by zero");
-                return a % b; 
+                return a % b;
             }); break;
             case '!': {
                 int value = pop();
@@ -45,12 +45,12 @@ void Interpreter::execute(char command) {
             }
             case '.': {
                 int value = pop();
-                std::cout << value << std::endl;
+                output << value << std::endl;
                 break;
             }
             case '&': {
                 int input;
-                std::cout << "Enter a number: ";
+                output << "Enter a number:";
                 std::cin >> input;
                 stack_.push(input);
                 break;
