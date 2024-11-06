@@ -86,6 +86,8 @@ void translate(const std::string& expr) {
         Operation(stack_get(ops));
         stack_pop(ops);
     }
+
+    stack_delete(ops);
 }
 
 int main(int argc, char** argv) {
