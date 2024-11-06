@@ -89,23 +89,28 @@ void translate(const std::string& expr) {
 }
 
 int main(int argc, char** argv) {
-    std::ifstream input(argv[1]);
-    if (!input.is_open()) {
-        std::cerr << "Failed to open input file: "<< "\n";
-        return 1;
-    }
-
-    size_t n;
-    input >> n;
-
-    while (n-- > 0)
+    if (argc > 1)
     {
-        std::string s;
-        input >> s;
-        translate(s);
-    }
+        std::ifstream input(argv[1]);
+        if (!input.is_open()) {
+            std::cerr << "Failed to open input file: " << "\n";
+            return 1;
+        }
 
-    input.close();
-    argc = 0;
-    return 0;
+        size_t n;
+        input >> n;
+
+        while (n-- > 0)
+        {
+            std::string s;
+            input >> s;
+            translate(s);
+        }
+
+        input.close();
+        return 0;
+    }
+    else {
+        throw std::runtime_error("Invalid arguments");
+    }
 }
