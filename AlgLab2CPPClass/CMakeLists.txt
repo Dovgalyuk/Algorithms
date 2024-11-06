@@ -1,4 +1,8 @@
-add_executable(AlgLab2CPPClass src/alg_lab2.cpp)
+add_executable(AlgLab2CPPClass
+        src/alg_lab2.cpp
+        src/befunge_interpreter.cpp
+        src/alg_lab2.h
+        src/befunge_interpreter.h)
 
 target_include_directories(AlgLab2CPPClass PUBLIC ../LibraryCPPClass)
 target_link_libraries(AlgLab2CPPClass LibraryCPPClass)

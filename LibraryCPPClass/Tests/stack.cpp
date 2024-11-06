@@ -48,4 +48,19 @@ int main()
         std::cout << "Get: " << stack.get() << "\n";
         stack.pop();
     }
+
+    stack.push(7);
+    if (stack.get() != 7)
+    {
+        std::cout << "Error: push after empty stack\n";
+        return 1;
+    }
+
+    stack.pop();
+    if (!stack.empty())
+    {
+        std::cout << "Error: stack should be empty\n";
+        return 1;
+    }
+
 }

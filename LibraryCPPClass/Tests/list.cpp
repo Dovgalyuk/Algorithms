@@ -46,5 +46,22 @@ int main()
     }
     std::cout << "\n";
 
+    list->insert(5);
+    list->insert_after(list->first()->next(), 6);
+
+    if (list->first()->next()->next()->data() != 6)
+    {
+        std::cout << "list_insert_after multiple error\n";
+        return 1;
+    }
+
+    list->clear();
+
+    if (list->first() != nullptr)
+    {
+        std::cout << "list_clear error\n";
+        return 1;
+    }
+
     delete list;
 }

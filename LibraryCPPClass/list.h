@@ -51,12 +51,13 @@ public:
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
     Item *erase_next(Item *item);
-private:
-    // private data should be here
-    Item* head_;
 
     void clear();
     void copy_from(const List& a);
+
+private:
+    // private data should be here
+    Item* head_;
 };
 
 #endif
