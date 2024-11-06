@@ -3,7 +3,7 @@
 
 int main()
 {
-    Array* arr = new Array(10);
+    Array *arr = new Array(10);
 
     if (arr->size() != 10)
     {
@@ -11,12 +11,12 @@ int main()
         return 1;
     }
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0 ; i < 10 ; ++i)
         arr->set(i, i * 2);
 
     Array copy(*arr);
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0 ; i < 10 ; ++i)
     {
         if (arr->get(i) != i * 2
             || copy.get(i) != i * 2)
