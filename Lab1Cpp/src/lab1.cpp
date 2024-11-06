@@ -53,24 +53,16 @@ void task2(ostream* output, Array *arr)
     int result = -1;
     int result_value = 0;
     map<int, int> count_nums;
-    
-    for (int i = 0; i < static_cast<int>(array_size(arr)); i++) {
-        array_element = array_get(arr, i);
-        if (count_nums.count(array_element) == 0) {
-            count_nums[array_element] = 0;
-        }
-    }
 
     for (int i = 0; i < static_cast<int>(array_size(arr)); i++) {
         array_element = array_get(arr, i);
         count_nums[array_element]++;
     }
 
-    for (int i = 0; i < static_cast<int>(array_size(arr)); i++) {
-        array_element = array_get(arr, i);
-        if (result_value < count_nums[array_element]) {
-            result = array_element;
-            result_value = count_nums[array_element];
+    for (const auto& pair : count_nums) {
+        if (pair.second > result_value) {
+            result = pair.first;
+            result_value = pair.second;
         }
     }
 
