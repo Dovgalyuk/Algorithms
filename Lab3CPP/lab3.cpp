@@ -67,23 +67,56 @@ void search(vector<vector<char>>& lbr, size_t rows, size_t cols, Point start, os
     queue_delete(queue);
 }
 
-int main(int argc, char* argv[]) {
+//int main(int argc, char* argv[]) {
+//    vector<vector<char>> lbr;
+//    Point start = { -1, -1 };
+//    size_t rows = 0;
+//
+//    if (argc < 3) {
+//        cerr << "Usage: " << argv[0] << " <input_file> <output_file>" << endl;
+//        return 1;
+//    }
+//
+//    ifstream input_file(argv[1]);
+//    ofstream output_file(argv[2]);
+//
+//    if (!input_file) {
+//        cerr << "Error: could not open input file " << argv[1] << endl;
+//        return 1;
+//    }
+//
+//    string line;
+//    while (getline(input_file, line)) {
+//        vector<char> row(line.begin(), line.end());
+//        lbr.push_back(row);
+//
+//        for (size_t i = 0; i < row.size(); i++) {
+//            if (row[i] == 'X') {
+//                start = { static_cast<int>(rows), static_cast<int>(i) };
+//                lbr[rows][i] = '.';
+//            }
+//        }
+//        rows++;
+//    }
+//
+//    if (start.x == -1 && start.y == -1) {
+//        cerr << "Error: start point not found" << endl;
+//        return 1;
+//    }
+//
+//    search(lbr, rows, lbr[0].size(), start, output_file);
+//
+//    return 0;
+//}
+//
+
+int main() {
     vector<vector<char>> lbr;
     Point start = { -1, -1 };
     size_t rows = 0;
 
-    if (argc < 3) {
-        cerr << "Usage: " << argv[0] << " <input_file> <output_file>" << endl;
-        return 1;
-    }
-
-    ifstream input_file(argv[1]);
-    ofstream output_file(argv[2]);
-
-    if (!input_file) {
-        cerr << "Error: could not open input file " << argv[1] << endl;
-        return 1;
-    }
+    ifstream input_file("input.txt");
+    ofstream output_file("output.txt");
 
     string line;
     while (getline(input_file, line)) {
