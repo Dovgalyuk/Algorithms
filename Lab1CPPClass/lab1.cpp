@@ -21,21 +21,6 @@ Array* array_create_and_read(std::ifstream& input)
     return arr;
 }
 
-
-Array* array_create_and_random_input(std::ifstream& input, int left, int right) {
-    size_t n;
-    input >> n;
-
-    Array* arr = new Array(n);
-
-    for (size_t i = 0; i < n; ++i) {
-        int random_num = left + rand() % (right - left + 1);
-        arr->set(i, random_num);
-    }
-    return arr;
-}
-
-
 void task1(const Array& arr) {
     double reciprocal_sum = 0.0;
     for (size_t i = 0; i < arr.size(); i++) {
