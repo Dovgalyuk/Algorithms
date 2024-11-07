@@ -1,8 +1,10 @@
 #include <bits/stdc++.h>
 #include <fstream>
 #include "graph.h"
+#include "vector.h"
 
-Graph<int, int> prime(Graph<int, int> in_graph, int size) {
+Graph<int, int> prime(Graph<int, int> in_graph) {
+    size_t size = in_graph.get_size();
     Graph<int, int> out_graph(size);
 
     std::vector<int> minEdgeWeight(size, INT_MAX);
@@ -11,10 +13,10 @@ Graph<int, int> prime(Graph<int, int> in_graph, int size) {
 
     minEdgeWeight[0] = 0;
 
-    for (int i = 0; i < size; ++i) {
+    for (size_t i = 0; i < size; ++i) {
         int u = -1;
         
-        for (int v = 0; v < size; ++v) {
+        for (size_t v = 0; v < size; ++v) {
             if (!inMST[v] && (u == -1 || minEdgeWeight[v] < minEdgeWeight[u])) {
                 u = v;
             }
@@ -42,8 +44,7 @@ Graph<int, int> prime(Graph<int, int> in_graph, int size) {
 }
 
 void out(Graph<int, int> graph, std::ofstream& output) {
-    std::vector<int> verts = graph.get_all_vertex_marks();
-    for(size_t i = 0; i < verts.size(); i++) {
+    for(size_t i = 0; i < graph.get_size(); i++) {
         output << i << std::endl;
         for (auto it(graph.begin(i)); it != graph.end(i); ++it) {
             output << (*it).to << " ";
@@ -67,7 +68,7 @@ void solve(std::ifstream& input, std::ofstream& output) {
         graph.add_edge(from, to, mark);
     }
 
-    Graph<int, int> out_graph = prime(graph, n);
+    Graph<int, int> out_graph = prime(graph);
 
     out(out_graph, output);
 

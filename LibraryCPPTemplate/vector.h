@@ -3,6 +3,7 @@
 
 #include <cstddef>
 
+
 template <typename Data> class Vector
 {
 public:

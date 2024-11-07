@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include "list.h"
+#include "vector.h"
 #include <unordered_map>
 #include <vector>
 #include <stdexcept>
@@ -10,39 +11,39 @@ template <typename V, typename E>
 class Graph {
 public:
     struct Edge {
-        int to;      
+        size_t to;      
         E mark;
 
         Edge(int edgeTo, E edgeMark) : to(edgeTo), mark(edgeMark) {}
     };
 
-    Graph(int vertices) : vertex_count(vertices){
+    Graph(size_t vertices) : vertex_count(vertices){
         adjacency_list.resize(vertices);
         vertices_marks.resize(vertices);
-        for (int i = 0; i < vertices; ++i) {
-            adjacency_list[i] = List<Edge>();
+        for (size_t i = 0; i < vertices; ++i) {
+            adjacency_list.set(i, List<Edge>());
         }
     }
 
-    void add_edge(int from, int to, E mark) {
-        if (from >= vertex_count || from < 0) {
+    void add_edge(size_t from, size_t to, E mark) {
+        if (from >= vertex_count) {
             throw std::invalid_argument("[add_edge] Graph does not have specified vertex.");
         }
         if(!has_edge(from, to)) {
-            adjacency_list[from].insert(Edge(to, mark));
+            adjacency_list.get(from).insert(Edge(to, mark));
         } else {
             throw std::invalid_argument("[add_edge] Graph already have this edge.");
         }
         
     }
 
-    void remove_edge(int from, int to) {
-        if (from >= vertex_count || from < 0
-            || to >= vertex_count || to < 0) {
+    void remove_edge(size_t from, size_t to) {
+        if (from >= vertex_count
+            || to >= vertex_count) {
             throw std::invalid_argument("[remove_edge] Graph does not have specified vertex.");
         }
 
-        auto& edges = adjacency_list[from];
+        auto& edges = adjacency_list.get(from);
         auto* current = edges.first();
         typename List<Edge>::Item* prev = nullptr;
 
@@ -61,19 +62,22 @@ public:
     }
 
     void add_vertex() {
-        adjacency_list.push_back(List<Edge>());
-        vertices_marks.push_back(0);
+        adjacency_list.resize(vertex_count+1);
+        vertices_marks.resize(vertex_count+1);
+        adjacency_list.set(vertex_count, List<Edge>());
+        vertices_marks.set(vertex_count, 0);
         vertex_count++;
     }
 
-    void remove_vertex(int vertex) {
-        if (vertex >= vertex_count || vertex < 0) {
+    void remove_vertex(size_t vertex) {
+        if (vertex >= vertex_count) {
             throw std::invalid_argument("[remove_vertex] Graph does not have specified vertex.");
         }
 
-        adjacency_list.erase(adjacency_list.begin() + vertex);
-        vertices_marks.erase(vertices_marks.begin() + vertex);
-        for (auto& adj_list : adjacency_list) {
+        adjacency_list.set(vertex, List<Edge>());
+        vertices_marks.set(vertex, 0);
+        for (size_t i = 0; i < vertex_count; i++) {
+            auto& adj_list = adjacency_list.get(i);
             auto* current = adj_list.first();
             typename List<Edge>::Item* prev = nullptr;
             while (current) {
@@ -88,17 +92,16 @@ public:
                 } 
             }
         }
-        //vertex_count--;
-
+        vertex_count--;
     }
 
-    bool has_edge(int from, int to) {
-        if (from >= vertex_count || from < 0
-            || to >= vertex_count || to < 0) {
+    bool has_edge(size_t from, size_t to) {
+        if (from >= vertex_count
+            || to >= vertex_count) {
             return false;
         }
 
-        auto& edges = adjacency_list[from];
+        auto& edges = adjacency_list.get(from);
         auto* current = edges.first();
         while (current) {
             if (current->data().to == to) {
@@ -109,13 +112,13 @@ public:
         return false;
     }
 
-    E get_edge_mark(int from, int to) {
-        if (from >= vertex_count || from < 0
-            || to >= vertex_count || to < 0) {
+    E get_edge_mark(size_t from, size_t to) {
+        if (from >= vertex_count
+            || to >= vertex_count) {
             throw std::invalid_argument("[get_edge_mark] Graph does not have specified vertex.");
         }
 
-        auto& edges = adjacency_list[from];
+        auto& edges = adjacency_list.get(from);
         auto* current = edges.first();
         while (current) {
             if (current->data().to == to) {
@@ -126,50 +129,46 @@ public:
         throw std::invalid_argument("[get_edge_mark] Edge does not exist.");
     }
 
-    void set_edge_mark(int from, int to, E mark) {
-        if (from >= vertex_count || from < 0
-            || to >= vertex_count || to < 0) {
+    void set_edge_mark(size_t from, size_t to, E mark) {
+        if (from >= vertex_count
+            || to >= vertex_count) {
             throw std::invalid_argument("[set_edge_mark] Graph does not have specified vertex.");
         }
 
-        auto& edges = adjacency_list[from];
+        auto& edges = adjacency_list.get(from);
         auto* current = edges.first();
-        typename List<Edge>::Item* prev = nullptr;
 
         while (current) {
             if (current->data().to == to) {
-                if (prev) {
-                    edges.erase_next(prev);
-                    edges.insert_after(prev, Edge(to, mark));
-                } else {
-                    edges.erase_first();
-                    edges.insert(Edge(to, mark));
-                }
+                current->data() = Edge(to, mark);
                 return;
             }
-            prev = current;
             current = current->next();
         }
     }
 
-    V get_vertex_mark(int vertex) {
-        if (vertex >= vertex_count || vertex < 0) {
+    V get_vertex_mark(size_t vertex) {
+        if (vertex >= vertex_count) {
             throw std::invalid_argument("[get_vertex_mark] Graph does not have specified vertex.");
         }
         
-        return vertices_marks[vertex];
+        return vertices_marks.get(vertex);
     }
 
-    void set_vertex_mark(int vertex, V new_mark) {
-        if (vertex >= vertex_count || vertex < 0) {
+    void set_vertex_mark(size_t vertex, V new_mark) {
+        if (vertex >= vertex_count) {
             throw std::invalid_argument("[set_vertex_mark] Graph does not have specified vertex.");
         }
 
-        vertices_marks[vertex] = new_mark;
+        vertices_marks.set(vertex, new_mark);
     }
 
-    std::vector<V> get_all_vertex_marks() const {
+    Vector<V> get_all_vertex_marks() const {
         return vertices_marks;
+    }
+
+    size_t get_size() {
+        return vertex_count;
     }
 
     class Iterator {
@@ -194,21 +193,21 @@ public:
         typename List<Edge>::Item* currentItem_;
     };
 
-    Iterator begin(int vertex) {
-        if (vertex >= vertex_count || vertex < 0) {
+    Iterator begin(size_t vertex) {
+        if (vertex >= vertex_count) {
             throw std::invalid_argument("[begin] Graph does not have specified vertex.");
         }
-        return Iterator(adjacency_list[vertex].first());
+        return Iterator(adjacency_list.get(vertex).first());
     }
 
-    Iterator end(int vertex) {
+    Iterator end(size_t vertex) {
         return Iterator(nullptr);
     }
 
 private:
-    int vertex_count;
-    std::vector<List<Edge>> adjacency_list;
-    std::vector<V> vertices_marks;
+    size_t vertex_count;
+    Vector<List<Edge>> adjacency_list;
+    Vector<V> vertices_marks;
 };
 
 #endif

@@ -12,7 +12,7 @@ public:
 
         Item *next() { return _next; }
         Item *prev() { return _prev; }
-        Data data() const { return _data; }
+        Data data() { return _data; }
 
     private:
         Data _data;
