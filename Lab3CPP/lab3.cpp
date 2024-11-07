@@ -34,7 +34,10 @@ vector<int> naidit_rasstoianie_ot_vershiny(const vector<vector<int>>& smieznost,
 }
 
 int main() {
-    ifstream inputFile("input.txt");  
+    ifstream inputFile("input.txt");  // Открываем файл для чтения
+
+    // Проверяем, что файл открылся
+    if (!inputFile) {
         cerr << "Ошибка: не удалось открыть файл input.txt" << endl;
         return 1;
     }
