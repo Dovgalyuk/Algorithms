@@ -67,13 +67,26 @@ void search(vector<vector<char>>& lbr, size_t rows, size_t cols, Point start, os
     queue_delete(queue);
 }
 
-int main() {
+int main(int argc, char** argv) {
+
+    ifstream input_file(argv[1]);
+    if (!input_file.is_open()) {
+        std::cerr << "Failed to open input file: " << argv[1] << "\n";
+        return 1;
+    }
+
+    ofstream output_file(argv[2]);
+    if (!output_file.is_open()) {
+        std::cerr << "Failed to open output file: " << argv[2] << "\n";
+        return 1;
+    }
+
     vector<vector<char>> lbr;
     Point start = { -1, -1 };
     size_t rows = 0;
 
-    ifstream input_file("input.txt");
-    ofstream output_file("output.txt");
+    /*ifstream input_file("input.txt");
+    ofstream output_file("output.txt");*/
 
     string line;
     while (getline(input_file, line)) {
