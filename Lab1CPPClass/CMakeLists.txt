@@ -1,5 +1,10 @@
-add_executable(Lab1CPPClass lab1.cpp)
-target_include_directories(Lab1CPPClass PUBLIC ../LibraryCPPClass)
-target_link_libraries(Lab1CPPClass LibraryCPPClass)
+cmake_minimum_required(VERSION 3.10)
+project(ParallelResistance)
 
-add_test(NAME TestLab1CPPClass COMMAND Lab1CPPClass ${CMAKE_CURRENT_SOURCE_DIR}/input.txt ${CMAKE_CURRENT_SOURCE_DIR}/output.txt)
+set(CMAKE_CXX_STANDARD 17)
+
+add_executable(ParallelResistance lab1.cpp)
+
+enable_testing()
+add_test(NAME TestParallelResistance
+         COMMAND ParallelResistance ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
