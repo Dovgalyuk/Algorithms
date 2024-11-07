@@ -1,3 +1,6 @@
+#ifndef GRAPH_TEMPLATE_H
+#define GRAPH_TEMPLATE_H
+
 #include "vector.h"
 #include "list.h"
 
@@ -300,3 +303,5 @@ private:
 	Vector<vertex*> vertices;
 	Vector<edge*> edges;
 };
+
+#endif
