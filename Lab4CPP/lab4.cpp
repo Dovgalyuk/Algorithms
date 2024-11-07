@@ -64,8 +64,12 @@ void qsort(Vector<int> &vec, Graph<int, int> &g, int start, int end)
 
 int main(int argc, char **argv)
 {
-	if (argc > 1)
-		std::freopen(argv[1], "r", stdin);
+	if (argc > 1) {
+		if (!std::freopen(argv[1], "r", stdin)) {
+			std::cout << "Could not open the file\n";
+			return 1;
+		}
+	}
 
 	int n, m;
 	int a, b, c;
