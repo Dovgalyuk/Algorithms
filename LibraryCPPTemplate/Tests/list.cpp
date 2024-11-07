@@ -42,11 +42,20 @@ int main()
     MyList copy(*list);
 
     std::cout << "List: ";
-    for (auto item = list->first() ; item ; item = item->next())
+    // This loop will be executed infinitely for a ring list
+    /*for (auto item = list->first() ; item ; item = item->next())
     {
         std::cout << item->data() << " ";
+    }*/
+
+    // This is a similar loop to iterate through all the values of the ring list
+    List<int>::Item* item = list->first();
+    if (item) {
+        do {
+            std::cout << item->data() << " ";
+            item = item->next();
+        } while (item != list->first());
     }
-    std::cout << "\n";
 
     delete list;
 }
