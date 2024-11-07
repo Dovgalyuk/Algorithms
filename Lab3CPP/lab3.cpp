@@ -34,13 +34,15 @@ vector<int> naidit_rasstoianie_ot_vershiny(const vector<vector<int>>& smieznost,
 }
 
 int main() {
-    ifstream inputFile("input1.txt");  // Открываем файл для чтения
+        ifstream inputFile("input1.txt");
+        if (!inputFile) {
+            cerr << "Ошибка: не удалось открыть файл input1.txt" << endl;
+            return 1;
+        }
+        else {
+            cout << "Файл открыт успешно!" << endl; // Debug message
+        }
 
-    // Проверяем, что файл открылся
-    if (!inputFile) {
-        cerr << "Ошибка: не удалось открыть файл input.txt" << endl;
-        return 1;
-    }
 
     int kolichestvo_vershin;
     inputFile >> kolichestvo_vershin;  // Считываем количество вершин
