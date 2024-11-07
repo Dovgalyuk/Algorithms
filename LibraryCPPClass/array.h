@@ -2,6 +2,8 @@
 #define ARRAY_H
 
 #include <cstddef>
+#include <stdexcept>
+#include <iostream>
 
 typedef int Data;
 
@@ -31,6 +33,8 @@ public:
 
 private:
     // private data should be here
+    size_t m_size; //size of array
+    Data* m_data; // pointer
 };
 
 #endif
