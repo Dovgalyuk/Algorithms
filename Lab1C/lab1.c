@@ -8,6 +8,7 @@ typedef struct {
     int size;
 } Array;
 
+
 // Создание массива фиксированного размера и заполнение данными
 Array* array_create(int size) {
     if (size <= 0) {
