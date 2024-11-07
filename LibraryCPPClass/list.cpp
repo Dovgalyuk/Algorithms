@@ -2,20 +2,32 @@
 #include "list.h"
 
 // Конструктор копирования
-List::List(const List& a) : head_(nullptr) {
-    for (Item* item = a.first(); item != nullptr; item = item->next()) {
-        append(item->data()); // Используем append для добавления в конец
+List::List(const List& a) {
+    head_ = nullptr;
+
+    if (!a.head_) return;
+
+    // Создаём первый элемент
+    head_ = new Item(a.head_->data());
+    Item* current = head_;
+    Item* a_current = a.head_->next(); 
+
+    // Копируем оставшиеся элементы
+    while (a_current) {
+        current->set_next(new Item(a_current->data()));
+        current = current->next();
+        a_current = a_current->next();
     }
 }
+
 
 // Оператор присваивания
 List& List::operator=(const List& a) {
     if (this != &a) {
-        // Очищаем текущий список
         while (head_) {
             erase_first();
         }
-        // Копируем элементы из списка a
+        // Копируем элементы из списка
         for (Item* item = a.first(); item != nullptr; item = item->next()) {
             append(item->data()); // Добавляем элементы в конец
         }

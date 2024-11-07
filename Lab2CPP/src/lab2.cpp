@@ -7,8 +7,8 @@
 using namespace std;
 
 int main() {
-    ifstream input(INPUT_FILE);  // Используем путь к input.txt
-    ofstream output(OUTPUT_FILE);  // Используем путь к output.txt
+    ifstream input(INPUT_FILE);
+    ofstream output(OUTPUT_FILE);
     
     if (!input.is_open()) {
         cerr << "Error opening input file!" << endl;
@@ -67,16 +67,14 @@ int main() {
         if (!error) {
             if (stack.empty()) {
                 output << "UNDERFLOW" << endl;
-            } else if (stack.get() == 0) {
-                output << stack.get() << endl; // Если результат равен нулю, выводим его
             } else if (!stack.empty()) {
                 int result = stack.get();
                 stack.pop();
                 
                 if (!stack.empty()) {
-                    output << "OVERFLOW" << endl; // Если после извлечения остается элемент
+                    output << "OVERFLOW" << endl;
                 } else {
-                    output << result << endl; // Если остался единственный элемент, выводим его
+                    output << result << endl;
                 }
             }
         }
