@@ -13,4 +13,6 @@ Release/*
 .vs/*
 build/*
 .vscode/*
+
+Lab1CPP/*
 CMakeSettings.json
