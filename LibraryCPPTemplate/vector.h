@@ -14,6 +14,11 @@ class Vector
 public:
     Vector() : current_size(0), real_size(0), pointer(nullptr) {}
 
+    Vector(int vector_size) : Vector() 
+    {
+        this->resize(vector_size);
+    }
+
     Vector(const Vector &a) : current_size(a.current_size), real_size(a.real_size)
     {
         pointer = new Data[real_size];
