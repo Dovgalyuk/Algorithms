@@ -41,7 +41,7 @@ int main() {
     //Test 3: Adding vertex
     graph.add_vertex();
     Vector<int> vertices3 = graph.get_all_vertex_marks();
-    if(vertices3.size() != 10) flag = 1;
+    if(vertices3.size() != 11) flag = 1;
     if(flag) {
         for (size_t i = 0; i < vertices3.size(); ++i) {
             std::cout << vertices3.get(i) << " ";

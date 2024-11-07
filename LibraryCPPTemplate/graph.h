@@ -92,7 +92,6 @@ public:
                 } 
             }
         }
-        vertex_count--;
     }
 
     bool has_edge(size_t from, size_t to) {
