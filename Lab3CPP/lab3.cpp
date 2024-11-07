@@ -72,6 +72,11 @@ int main(int argc, char* argv[]) {
     Point start = { -1, -1 };
     size_t rows = 0;
 
+    if (argc < 3) {
+        cerr << "Usage: " << argv[0] << " <input_file> <output_file>" << endl;
+        return 1;
+    }
+
     ifstream input_file(argv[1]);
     ofstream output_file(argv[2]);
 
