@@ -1,4 +1,4 @@
-<HTML>
+<html>
 <body>
 </body>
-</HTML>
+</html>

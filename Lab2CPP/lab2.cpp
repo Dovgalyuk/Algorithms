@@ -15,10 +15,16 @@ int main(__attribute__((unused)) int argc, char** argv){
             while(1){
                 char c = stack_get(stack);
                 stack_pop(stack);
-                if(c == 60){
+                if(c == '<'){
                     break;
                 } else if (line[line.size()-1-i] == '/'){
                     i++;
+                    if(c == line[line.size()-1-i]){
+                        break;  
+                    } else {
+                        flag++;
+                        break;
+                    }
                 } else if(c != line[line.size()-1-i]){
                     flag++;
                     break;
