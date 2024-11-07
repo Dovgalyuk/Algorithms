@@ -40,24 +40,16 @@ void task2(Array* arr, size_t size) {
         return;
     }
 
-
     if (arr != NULL) {
         int most_frequent = (int)array_get(arr, 0);
         int max_count = 0;
         for (size_t i = 0; i < size; i++) {
             int current = (int)array_get(arr, i);
-            if (current >= 0 && current < (int)size) {
-                frequency[current]++;
-                if (frequency[current] > max_count) {
-                    max_count = frequency[current];
-                    most_frequent = current;
-                }
-
+            frequency[current]++;
+            if (frequency[current] > max_count) {
+                  max_count = frequency[current];
+                  most_frequent = current;
             }
-            else {
-                printf("Value is out of bounds for frequency array");
-            }
-
         }
         printf("%d", most_frequent);
     }
@@ -72,15 +64,10 @@ int main()
     }
     Array* arr = array_create_and_read(input);
     size_t size = array_size(arr);
-    if (arr == NULL) {
-        printf("Array is NULL");
+    if (arr == NULL || size == 0) {
+        printf("Array is NULL or empty");
         return 1;
     }
-    if (size == 0) {
-        printf("Array is empty");
-        return 1;
-    }
-    
 
     task1(arr, size);
     task2(arr, size);
