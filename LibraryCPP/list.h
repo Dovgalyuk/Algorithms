@@ -30,6 +30,8 @@ ListItem *list_item_prev(ListItem *item);
 // Inserts new list item into the beginning
 ListItem *list_insert(List *list, Data data);
 
+ListItem* list_insert_end(List* list, Data data);
+
 // Inserts new list item after the specified item
 ListItem *list_insert_after(List *list, ListItem *item, Data data);
 
