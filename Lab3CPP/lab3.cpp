@@ -11,45 +11,41 @@ vector<int> naidit_rasstoianie_ot_vershiny(const vector<vector<int>>& smieznost,
     vector<int> rasstoianie(kolichestvo_vershin, INT_MAX);  
     queue<int> ochened;  
 
-    // Начальная вершина
-    rasstoianie[start_vershina] = 0;  // Расстояние до самой себя = 0
-    ochened.push(start_vershina);  // Помещаем стартовую вершину в очередь
+    rasstoianie[start_vershina] = 0;  
+    ochened.push(start_vershina);  
 
-    // Выполняем BFS
     while (!ochened.empty()) {
-        int tekushchaya_vershina = ochened.front();  // Извлекаем текущую вершину из очереди
+        int tekushchaya_vershina = ochened.front();  
         ochened.pop();
 
-        // Проходим по всем соседям текущей вершины
         for (int i = 0; i < kolichestvo_vershin; ++i) {
             if (smieznost[tekushchaya_vershina][i] == 1 && rasstoianie[i] == INT_MAX) {
-                // Если есть путь к соседу и мы ещё не посетили эту вершину
-                rasstoianie[i] = rasstoianie[tekushchaya_vershina] + 1;  // Обновляем расстояние
-                ochened.push(i);  // Добавляем соседнюю вершину в очередь
+                rasstoianie[i] = rasstoianie[tekushchaya_vershina] + 1;  
+                ochened.push(i);  
             }
         }
     }
 
-    return rasstoianie;  // Возвращаем массив с расстояниями
+    return rasstoianie;  
 }
 
-int main() {
-        ifstream inputFile("input1.txt");
-        if (!inputFile) {
-            cerr << "Ошибка: не удалось открыть файл input1.txt" << endl;
-            return 1;
-        }
-        else {
-            cout << "Файл открыт успешно!" << endl; // Debug message
-        }
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        cerr << "Ошибка: не указан файл для чтения!" << endl;
+        return 1;
+    }
 
+    ifstream inputFile(argv[1]);  // Используем имя файла, переданное как аргумент
+    if (!inputFile) {
+        cerr << "Ошибка: не удалось открыть файл " << argv[1] << endl;
+        return 1;
+    }
 
     int kolichestvo_vershin;
-    inputFile >> kolichestvo_vershin;  // Считываем количество вершин
+    inputFile >> kolichestvo_vershin;
 
     vector<vector<int>> smieznost(kolichestvo_vershin, vector<int>(kolichestvo_vershin));
 
-    // Вводим матрицу смежности
     for (int i = 0; i < kolichestvo_vershin; ++i) {
         for (int j = 0; j < kolichestvo_vershin; ++j) {
             inputFile >> smieznost[i][j];
@@ -58,7 +54,6 @@ int main() {
 
     vector<int> rasstoianie = naidit_rasstoianie_ot_vershiny(smieznost, 0);
 
-    // Выводим результаты на экран
     for (int i = 0; i < kolichestvo_vershin; ++i) {
         cout << rasstoianie[i] << endl;
     }
