@@ -47,7 +47,7 @@ int bfs(vector<string>& labirint, Pos start) {
             int new_stolb = tek.stolb + napravlen[i].stolb;
             if (poiskpos(labirint, new_strok, new_stolb)) {
                 labirint[new_strok][new_stolb] = 'x';
-                queue_insert(queue, int(privedenieint(new_strok, new_stolb, num_stolbi)));
+                queue_insert(queue, privedenieint(new_strok, new_stolb, num_stolbi));
             }
         }
     }
