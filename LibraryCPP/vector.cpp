@@ -1,34 +1,42 @@
 #include "vector.h"
+#include <iostream>
+#include <vector>
 
-struct Vector
-{
+using namespace std;
+
+struct Vector {
+    vector<int> data;  // Стандартный вектор для хранения данных
 };
 
-Vector *vector_create()
-{
+Vector* vector_create() {
     return new Vector;
 }
 
-void vector_delete(Vector *vector)
-{
-    // TODO: free vector internals
-    delete vector; 
+void vector_delete(Vector* vector) {
+    delete vector;
 }
 
-Data vector_get(const Vector *vector, size_t index)
-{
-    return (Data)0;
+int vector_get(const Vector* vector, size_t index) {
+    if (index < vector->data.size()) {
+        return vector->data[index];  // Возвращаем элемент по индексу
+    } else {
+        cerr << "Ошибка: индекс за пределами!" << endl;
+        return -1;  // Ошибка
+    }
 }
 
-void vector_set(Vector *vector, size_t index, Data value)
-{
+void vector_set(Vector* vector, size_t index, int value) {
+    if (index < vector->data.size()) {
+        vector->data[index] = value;  // Устанавливаем значение по индексу
+    } else {
+        cerr << "Ошибка: индекс за пределами!" << endl;
+    }
 }
 
-size_t vector_size(const Vector *vector)
-{
-    return 0;
+size_t vector_size(const Vector* vector) {
+    return vector->data.size();  // Возвращаем размер вектора
 }
 
-void vector_resize(Vector *vector, size_t size)
-{
+void vector_resize(Vector* vector, size_t size) {
+    vector->data.resize(size);  // Изменяем размер вектора
 }
