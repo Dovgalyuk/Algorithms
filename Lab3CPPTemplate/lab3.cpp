@@ -108,6 +108,8 @@ bool is_valid(int x, int y, const vector<vector<char>>& grid) {
 
 void find_shortest_path(vector<vector<char>>& grid, int start_x, int start_y, int end_x, int end_y) {
     vector<vector<int>> board(M, vector<int>(N, 0));
+    vector<Position*> positions;
+    bool is_found = false;
 
     init_board(grid, board);
 
@@ -116,7 +118,7 @@ void find_shortest_path(vector<vector<char>>& grid, int start_x, int start_y, in
     q.insert(start_position);
     board[start_y][start_x] = 0;
 
-    while (!q.empty()) {
+    while (!q.empty() && !is_found) {
         Position* current = q.get();
         q.remove();
 
@@ -132,7 +134,8 @@ void find_shortest_path(vector<vector<char>>& grid, int start_x, int start_y, in
 
             print_grid(grid);
 
-            return;
+            is_found = true;
+            break;
         }
 
         // Check all possible knight moves
@@ -144,9 +147,22 @@ void find_shortest_path(vector<vector<char>>& grid, int start_x, int start_y, in
                 board[new_y][new_x] = current->step + 1; // Numbering the cell
                 Position* new_position = new Position({ new_x, new_y, current->step + 1, current });
                 q.insert(new_position);
+                positions.push_back(new_position); // Save the pointer to the new position to delete this structure later 
             }
         }
     }
 
-    cout << "No path found!" << endl; // If the path is not found
+    // Free the memory for all found positions
+    for (Position* pos : positions) {
+        delete pos;
+    }
+
+    // Clear the queue
+    while (!q.empty()) {
+        q.remove();
+    }
+
+    delete start_position;
+
+    if(!is_found) cout << "No path found!" << endl; // If the path is not found
 }
