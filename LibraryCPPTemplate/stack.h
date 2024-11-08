@@ -33,7 +33,7 @@ public:
     {
     }
 
-    // Retrieves the last element from the stack
+    // Retrives the last element from the stack
     Data get() const
     {
         return Data();
