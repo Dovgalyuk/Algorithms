@@ -38,9 +38,11 @@ void task1(Array *arr) {
 
 void task2(Array *arr) {
     int maxSum = 0;
-    for (int i = 0 ; i < (int)array_size(arr) - 1 ; ++i) {
-        if ((int)(array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) + array_get(arr, i + 3) + array_get(arr, i + 4)) > maxSum) {
-            maxSum = (int)(array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) + array_get(arr, i + 3) + array_get(arr, i + 4));
+    int size = (int)array_size(arr);
+    for (int i = 0 ; i < size - 5 ; ++i) {
+        int curSum = (int)(array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) + array_get(arr, i + 3) + array_get(arr, i + 4));
+        if (curSum > maxSum) {
+            maxSum = curSum;
         }
     }
 }
