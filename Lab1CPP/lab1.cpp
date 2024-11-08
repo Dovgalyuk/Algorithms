@@ -59,14 +59,7 @@ int quest_one(const Array* arr) {
     }
     return count;
 }
-/*
-for(int j = 2; j <= 9; j++) {
-            if(num % j == 0) {
-                count++;
-                break;
-            }
-        }
- */
+
 int quest_two(const Array* arr) {
     size_t size = array_size(arr);
     if(size < 5) {
@@ -74,11 +67,13 @@ int quest_two(const Array* arr) {
         return 0;
     }
     int max_sum = INT_MIN;
-    for (size_t i = 0; i < size - 5; i++) {
-        int sum = 0;
-        for (size_t j = 0; j < 5; j++) {
-            sum += array_get(arr, i + j);
-        }
+    int sum = 0;
+    for (size_t i = 0; i < 5; i++) {
+        sum += array_get(arr, i);
+    }
+    max_sum = sum;
+    for (size_t i = 5; i < size; i++) {
+        sum += array_get(arr, i) - array_get(arr, i-5);
         if(sum > max_sum) {
             max_sum = sum;
         }
@@ -96,7 +91,7 @@ bool test_quest_one(int a) {
 }
 
 bool test_quest_two(int a) {
-    if(a != 35) {
+    if(a != 40) {
         cout << "Test two NOT completed" << endl;
         return false;
     }
