@@ -13,9 +13,10 @@ void make_set(Vector<int> &vec, Vector<int> &ranks)
 
 int find(Vector<int> &vec, int ind)
 {
-	while (vec[ind] != ind)
-		ind = vec[ind];
-	return ind;
+	if (vec[ind] == ind)
+		return ind;
+	else 
+		return (vec[ind] = find(vec, vec[ind])); 
 }
 
 void Union(Vector<int> &vec, Vector<int> &ranks, int x, int y)
@@ -94,7 +95,7 @@ int main(int argc, char **argv)
 
 	make_set(vertices, ranks);
 	while ((cnt < n - 1) and (ind_edge < m)){
-		typename Graph<int, int>::edge *e = g.get_edge(edges[ind_edge]);
+		typename Graph<int, int>::edge *e = g.find_edge(edges[ind_edge]);
 		a = e->from->index;
 		b = e->to->index;
 
@@ -109,7 +110,7 @@ int main(int argc, char **argv)
 
 	if (cnt == n - 1){
 		for (int ind = 0; ind < n - 1; ind++) {
-			typename Graph<int, int>::edge *e = g.get_edge(ans[ind]);
+			typename Graph<int, int>::edge *e = g.find_edge(ans[ind]);
 			std::cout << '(' << e->from->get_mark() << ", " << e->to->get_mark() << ", " << e->get_mark() << ")\n";
 		}
 	} else {

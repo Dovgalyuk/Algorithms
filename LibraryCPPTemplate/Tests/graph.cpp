@@ -16,8 +16,8 @@ void testGraphIterator() {
     g.add_edge(3, 4, 50); 
     g.add_edge(4, 1, 60); // Edge from vertex 4 to vertex 1 (creating another cycle)
 
-    typename Graph<int, int>::iterator it = g.get_vertex(1)->begin();
-    typename Graph<int, int>::iterator it_end = g.get_vertex(1)->end();
+    typename Graph<int, int>::iterator it = g.begin(1);
+    typename Graph<int, int>::iterator it_end = g.end(1);
     int edgeCount = 0;
     while (it != it_end) {
         edgeCount++;
@@ -25,8 +25,8 @@ void testGraphIterator() {
     }
     assert(edgeCount == 4);
 
-    it = g.get_vertex(3)->begin();
-    it_end = g.get_vertex(3)->end();
+    it = g.begin(3);
+    it_end = g.end(3);
     edgeCount = 0;
     while (it != it_end) {
         edgeCount++;
@@ -34,8 +34,8 @@ void testGraphIterator() {
     }
     assert(edgeCount == 2);
 
-    it = g.get_vertex(4)->begin();
-    it_end = g.get_vertex(4)->end();
+    it = g.begin(4);
+    it_end = g.end(4);
     edgeCount = 0;
     while (it != it_end) {
         edgeCount++;
@@ -44,8 +44,8 @@ void testGraphIterator() {
     assert(edgeCount == 2);
 
     g.delete_edge(1);
-    it = g.get_vertex(1)->begin();
-    it_end = g.get_vertex(1)->end();
+    it = g.begin(1);
+    it_end = g.end(1);
     edgeCount = 0;
     while (it != it_end) {
         edgeCount++;
@@ -54,8 +54,8 @@ void testGraphIterator() {
     assert(edgeCount == 3); 
 
     g.delete_vertex(3); 
-    it = g.get_vertex(1)->begin();
-    it_end = g.get_vertex(1)->end();
+    it = g.begin(1);
+    it_end = g.end(1);
     edgeCount = 0;
     while (it != it_end) {
         edgeCount++;
@@ -64,15 +64,18 @@ void testGraphIterator() {
     assert(edgeCount == 2);
 
     g.delete_edge((size_t)0); 
-    g.delete_edge((size_t)0);
-    it = g.get_vertex(0)->begin();
-    it_end = g.get_vertex(0)->end();
+    g.delete_edge((size_t)2);
+    it = g.begin(0);
+    it_end = g.end(0);
     edgeCount = 0;
     while (it != it_end) {
         edgeCount++;
         it++;
     }
     assert(edgeCount == 0);
+
+    assert(g.has_edge(1, 3) == false);
+    assert(g.has_edge(3, 1) == true);
 
     std::cout << "All iterator tests passed!" << std::endl;
 }

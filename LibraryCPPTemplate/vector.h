@@ -51,13 +51,13 @@ public:
 
     Data get(size_t index) const
     {
-        if (current_size <= index) throw std::out_of_range("The index is out of range");
+        if (current_size <= index) throw std::out_of_range("[vector get] The index is out of range");
         return pointer[index];
     }
 
     void set(size_t index, Data value)
     {
-        if (current_size <= index) throw std::out_of_range("The index is out of range");
+        if (current_size <= index) throw std::out_of_range("[vector set] The index is out of range");
         pointer[index] = value;
     }
 
@@ -111,7 +111,7 @@ public:
 
     Data &operator[](size_t index)
     {
-        if (current_size <= index) throw std::out_of_range("The index is out of range");
+        if (current_size <= index) throw std::out_of_range("[vector &operator[]] The index is out of range");
         return pointer[index];
     }
 
