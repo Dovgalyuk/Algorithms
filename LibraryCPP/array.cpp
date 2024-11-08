@@ -1,42 +1,37 @@
 #include "array.h"
 
 
-// Структура массива
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 struct Array {
     Data* elements;
     size_t size;
 };
 
-// Создание массива
-Array* array_create(size_t size)
-{
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+Array* array_create(size_t size) {
     Array* arr = new Array;
     arr->elements = new Data[size];
     arr->size = size;
-    if (size == 0) {
-        return nullptr;
-    }
-    return new Array;
+    return arr;
 }
 
-// Удалить массив, освободить память
 void array_delete(Array* arr)
 {
     delete[] arr->elements;
     delete arr;
 }
 
-// Возвращение указанного элемента массива
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Data array_get(const Array* arr, size_t index) {
     return arr->elements[index];
 }
 
-// Установить значение указанного элемента в массиве
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 void array_set(Array* arr, size_t index, Data value) {
     arr->elements[index] = value;
 }
 
-// Вернуть размер массива
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 size_t array_size(const Array* arr)
 {
     return arr->size;
