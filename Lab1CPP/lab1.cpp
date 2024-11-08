@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <climits>
-#include "array.h"
+#include "../LibraryCPP/array.h"
 
 using namespace std;
 
