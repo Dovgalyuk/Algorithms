@@ -1,12 +1,16 @@
 #include <cstddef>
 #include "list.h"
+#include <stdexcept>
 
 struct ListItem
 {
+    ListItem *next_item = nullptr; // Удаляем указатель на предыдущий элемент
+    Data value;
 };
 
 struct List
 {
+    ListItem *first = nullptr;
 };
 
 List *list_create()
@@ -16,46 +20,81 @@ List *list_create()
 
 void list_delete(List *list)
 {
-    // TODO: free items
+    if (!list) throw std::invalid_argument("The list pointer is nullptr");
+
+    while (list->first)
+        list_erase_first(list);
+
     delete list;
 }
 
 ListItem *list_first(List *list)
 {
-    return NULL;
+    if (!list) throw std::invalid_argument("The list pointer is nullptr");
+    return list->first;
 }
 
-Data list_item_data(const ListItem *item)
+Data list_item_data(ListItem *item)
 {
-    return (Data)0;
+    if (!item) throw std::invalid_argument("The item pointer is nullptr");
+    return item->value;
 }
 
 ListItem *list_item_next(ListItem *item)
 {
-    return NULL;
-}
-
-ListItem *list_item_prev(ListItem *item)
-{
-    return NULL;
+    if (!item) throw std::invalid_argument("The item pointer is nullptr");
+    return item->next_item;
 }
 
 ListItem *list_insert(List *list, Data data)
 {
-    return NULL;
+    ListItem *ptr = new ListItem;
+
+    if (!list) throw std::invalid_argument("The list pointer is nullptr");
+
+    ptr->next_item = list->first; // Указываем на текущий первый элемент
+    ptr->value = data;
+
+    list->first = ptr; // Обновляем указатель на первый элемент
+
+    return ptr;
 }
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
-    return NULL;
+    if (!list) throw std::invalid_argument("The list pointer is nullptr");
+    if (!item) throw std::invalid_argument("The item pointer is nullptr");
+
+    ListItem *ptr = new ListItem;
+    ptr->value = data;
+    ptr->next_item = item->next_item; // Указываем на следующий элемент
+
+    item->next_item = ptr; // Вставляем новый элемент после текущего
+
+    return ptr;
 }
 
 ListItem *list_erase_first(List *list)
 {
-    return NULL;
+    if (!list) throw std::invalid_argument("The list pointer is nullptr");
+    if (!(list->first)) throw std::invalid_argument("The list is empty");
+
+    ListItem *temp_ptr = list->first->next_item; // Сохраняем указатель на следующий элемент
+    delete list->first; // Удаляем первый элемент
+    list->first = temp_ptr; // Обновляем указатель на первый элемент
+
+    return list->first;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    return NULL;
+    if (!list) throw std::invalid_argument("The list pointer is nullptr");
+    if (!item) throw std::invalid_argument("The item pointer is nullptr");
+    if (!(item->next_item)) throw std::invalid_argument("The item doesn't have a next item");
+
+    ListItem *temp_ptr = item->next_item->next_item; // Сохраняем указатель на следующий элемент
+    delete item->next_item; // Удаляем следующий элемент
+    item->next_item = temp_ptr; // Обновляем указатель на следующий элемент
+
+    return temp_ptr;
 }
