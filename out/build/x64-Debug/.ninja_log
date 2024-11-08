@@ -1,0 +1,6 @@
+# ninja log v5
+5	87	7528041699609974	LibraryCPP/CMakeFiles/LibraryCPP.dir/list.cpp.obj	d8d9b9c6da7f6b1d
+9	92	7528041699672433	LibraryCPP/CMakeFiles/LibraryCPP.dir/queue.cpp.obj	7fb009867993ac67
+92	139	7528041700105807	LibraryCPP/LibraryCPP.lib	696fe1d187583dc
+13	589	7528041704543566	Lab3CPP/CMakeFiles/Lab3CPP.dir/lab3.cpp.obj	705baaa43e0a1751
+589	863	7528041707163071	Lab3CPP/Lab3CPP.exe	1679438a536f2952
