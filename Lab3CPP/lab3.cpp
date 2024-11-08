@@ -20,6 +20,7 @@ int bfs(vector<vector<int>> graph, int start, int end) {
         queue_remove(q);
 
         if (current == end) {
+            queue_delete(q);
             return distance[current];
         }
 
@@ -31,6 +32,7 @@ int bfs(vector<vector<int>> graph, int start, int end) {
             }
         }
     }
+    queue_delete(q);
     return -1;
 }
 bool testTask(int res) {

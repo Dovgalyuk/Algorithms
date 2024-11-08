@@ -19,7 +19,9 @@ Vector *vector_create()
 
 void vector_delete(Vector *vector)
 {
-    if (vector->element) free(vector->element);
+    if (vector->element != nullptr) {
+        delete[] vector->element;
+    }
     delete vector;
 }
 
