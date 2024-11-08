@@ -6,7 +6,7 @@ typedef struct Array
 } Array;
 
 // create array
-Array* array_create(size_t size, FFree f)
+Array *array_create(size_t size, FFree f)
 {
     return malloc(sizeof(Array));
 }
