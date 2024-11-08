@@ -12,12 +12,12 @@ public:
     }
 
     // copy constructor
-    Vector(const Vector& a)
+    Vector(const Vector &a)
     {
     }
 
     // assignment operator
-    Vector& operator=(const Vector& a)
+    Vector &operator=(const Vector &a)
     {
         return *this;
     }
