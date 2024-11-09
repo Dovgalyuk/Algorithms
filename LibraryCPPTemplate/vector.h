@@ -94,18 +94,21 @@ public:
         return Data();
     }
 
-    void erase(size_t index) {
+    Data erase(size_t index) {
         if (size_v == 0)
-            return;
+            return Data();
         if (index > size_v || index < 0)
-            return;
+            return Data();
 
+        Data temp = arr[index];
         for (size_t i = index; i < size_v - 1; i++) {
             arr[i] = arr[i + 1];
         }
 
         if(size_v - 1 < capacity)
             resize(size_v - 1);
+
+        return temp;
     }
 
     void resize(size_t new_size) {
