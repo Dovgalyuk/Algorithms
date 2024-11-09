@@ -51,5 +51,5 @@ void queue_remove(Queue *queue)
 
 bool queue_empty(const Queue *queue)
 {
-    return list_first(queue->list) == nullptrs;
+    return list_first(queue->list) == nullptr;
 }

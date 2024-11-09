@@ -15,6 +15,6 @@ add_subdirectory(LibraryCPP)
 #add_subdirectory(LibraryCPPClass)
 #add_subdirectory(LibraryCPPTemplate)
 
-add_subdirectory(Lab2CPP)
+add_subdirectory(Lab3CPP)
 
-add_test(NAME TestLab2CPP COMMAND Lab2CPP ${CMAKE_SOURCE_DIR}/tests/input2.txt)
+add_test(NAME TestLab3CPP COMMAND Lab3CPP ${CMAKE_SOURCE_DIR}/tests/input3.txt)

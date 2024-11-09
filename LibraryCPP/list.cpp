@@ -106,7 +106,7 @@ ListItem *list_erase_first(List *list)
     ListItem* delItem = list->head;
 
     if (delItem->next == delItem) {
-        list->head == nullptr;
+        list->head = nullptr;
     } else {
         ListItem* newHead = delItem->next;
         delItem->prev->next = newHead;
