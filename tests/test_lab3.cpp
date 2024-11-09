@@ -16,13 +16,14 @@ int main(int argc, char **argv)
     
     FILE* ans = fopen("out.txt", "r");
 
-    char str[10];
+    char str[11];
+    char str2[11] = "IMPOSSIBLE";
 
     if (fscanf(ans, "%s", str) < 0) {
         return -1;
     }
 
-    if (std::strcmp(str, "IMPOSSIBLE") == 0) {
+    if (std::strcmp(str, str2) == 0) {
         std::cout << "Test passed\n";
     } else {
         std::cout << "Test failed\n";
