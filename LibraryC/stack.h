@@ -40,7 +40,7 @@ void free_stack_element(Stack **head);
 void free_stack_operation(Stack_operation **head);
 
 
-Data stack_get(const Stack *stack);
+//Data stack_get(const Stack *stack);
 
 #ifdef __cplusplus
 }
