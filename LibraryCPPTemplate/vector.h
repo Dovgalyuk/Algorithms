@@ -51,7 +51,7 @@ public:
         return arr[index];
     }
 
-    const Data& operator[](size_t index) const {
+    const Data* operator[](size_t index) const {
         if (index >= size_v) {
             return arr[0];
         }
@@ -124,6 +124,13 @@ public:
             arr = new_ptr;
             capacity = new_size;
         }
+    }
+
+    void clear() {
+        size_t size_v = 0;
+        size_t capacity = 0;
+        delete[] arr;
+        arr = nullptr;
     }
 
 private:
