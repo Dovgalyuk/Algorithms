@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/Lab2C.dir/lab2.c.o -o Lab2C  ../LibraryC/libLibraryC.a

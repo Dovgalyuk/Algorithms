@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/TestStackC.dir/stack.cpp.o -o TestStackC  ../libLibraryC.a
