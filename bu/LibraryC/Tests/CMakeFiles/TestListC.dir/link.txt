@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/TestListC.dir/list.cpp.o -o TestListC  ../libLibraryC.a

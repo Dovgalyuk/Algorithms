@@ -1,0 +1,16 @@
+/home/g0d/Algorithms/bu/CMakeFiles/test.dir
+/home/g0d/Algorithms/bu/CMakeFiles/edit_cache.dir
+/home/g0d/Algorithms/bu/CMakeFiles/rebuild_cache.dir
+/home/g0d/Algorithms/bu/LibraryC/CMakeFiles/LibraryC.dir
+/home/g0d/Algorithms/bu/LibraryC/CMakeFiles/test.dir
+/home/g0d/Algorithms/bu/LibraryC/CMakeFiles/edit_cache.dir
+/home/g0d/Algorithms/bu/LibraryC/CMakeFiles/rebuild_cache.dir
+/home/g0d/Algorithms/bu/LibraryC/Tests/CMakeFiles/TestListC.dir
+/home/g0d/Algorithms/bu/LibraryC/Tests/CMakeFiles/TestStackC.dir
+/home/g0d/Algorithms/bu/LibraryC/Tests/CMakeFiles/test.dir
+/home/g0d/Algorithms/bu/LibraryC/Tests/CMakeFiles/edit_cache.dir
+/home/g0d/Algorithms/bu/LibraryC/Tests/CMakeFiles/rebuild_cache.dir
+/home/g0d/Algorithms/bu/Lab2C/CMakeFiles/Lab2C.dir
+/home/g0d/Algorithms/bu/Lab2C/CMakeFiles/test.dir
+/home/g0d/Algorithms/bu/Lab2C/CMakeFiles/edit_cache.dir
+/home/g0d/Algorithms/bu/Lab2C/CMakeFiles/rebuild_cache.dir
