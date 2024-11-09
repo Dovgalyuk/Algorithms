@@ -37,9 +37,9 @@ extern "C" {
     // Pushes data on top of the stack
     // Should be O(1) on average
     void stack_push(Stack *stack, Data data);
-
-    // Retrieves the last element from the stack
-    Data stack_get(const Stack *stack);
+  
+// Retrieves the last element from the stack
+Data stack_get(const Stack *stack);
 
     // Removes the last element from the stack
     // Should be O(1)
