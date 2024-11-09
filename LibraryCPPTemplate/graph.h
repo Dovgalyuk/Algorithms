@@ -5,6 +5,7 @@
 #include "vector.h"
 #include "Vertex.h"
 #include "Edge.h"
+#include "GRAPH_EXIT_CODE.h"
 
 template <typename V_type>
 class Iterator;
@@ -22,7 +23,7 @@ public:
 
     ~Graph() {}
 
-    void add_vertex() {
+    Vertex<V_type> add_vertex() {
         vertex.push({ vertex.size(), V_type() });
 
         vertex_q++;
@@ -32,9 +33,11 @@ public:
             while (relations[i].size() != vertex_q)
                 relations[i].push(0);
         }
+
+        return vertex[vertex.size() - 1];
     }
 
-    void add_vertex(V_type vertex_mark) {
+    Vertex<V_type> add_vertex(V_type vertex_mark) {
         vertex.push({ vertex.size(), vertex_mark });
 
         vertex_q++;
@@ -44,11 +47,13 @@ public:
             while (relations[i].size() != vertex_q)
                 relations[i].push(0);
         }
+
+        return vertex[vertex.size() - 1];
     }
 
-    void delete_vertex(size_t a) {
+    Vertex<V_type> delete_vertex(size_t a) {
         if (a >= vertex_q)
-            return;
+            Vertex<V_type>();
 
         relations.erase(a);
         for (size_t i = 0; i < relations.size(); i++) {
@@ -63,16 +68,22 @@ public:
         }
     }
 
-    void add_edge(size_t a, size_t b, E_type edge_mark) {
+    Edge<E_type> add_edge(size_t a, size_t b, E_type edge_mark) {
         if (a < vertex_q && b < vertex_q) {
             edges.push(Edge<E_type>(a, b, edge_mark));
+            relations[a][b]++;
+            return Edge<E_type>(a, b, edge_mark);
         }
+        return Edge<E_type>();
     }
 
-    void delete_edge(size_t a, size_t b) {
+    Edge<E_type> delete_edge(size_t a, size_t b) {
         if (a < vertex_q && b < vertex_q) {
+            Edge<E_type> temp = edges[edge_index(a, b)];
             edges.erase(edge_index(a, b));
+            return temp;
         }
+        return Edge<E_type>();
     }
 
     int edge_index(size_t a, size_t b) {
@@ -85,15 +96,18 @@ public:
         return -1;
     }
 
-    void set_mark(size_t a, V_type mark) {
-        vertex[a].mark = mark;
+    Vertex<V_type> set_mark(size_t a, V_type mark) {
+        if (a < vertex_q) {
+            vertex[a].mark = mark;
+        }
+        return vertex[a];
     }
 
     Vector<Vector<unsigned int>> get_matrix() {
         return relations;
     }
 
-    Vector<V_type> get_marks() {
+    Vector<V_type> get_vertices_marks() {
         Vector<V_type> marks;
         for (size_t i = 0; i < vertex_q; i++) {
             marks.push(vertex[i].mark);
@@ -101,7 +115,7 @@ public:
         return marks;
     }
 
-    Vector<Vertex<V_type>> get_vertex() {
+    Vector<Vertex<V_type>> get_vertices() {
         return vertex;
     }
 
@@ -140,8 +154,8 @@ public:
 
     private:
         Graph<V_type, E_type>* graph;
-        size_t start_index;
-        size_t next_index;
+        size_t start_index = 0;
+        size_t next_index = 0;
     };
 
     Iterator begin(size_t index) {
@@ -160,15 +174,31 @@ public:
         return Iterator(this, index, relations[index].size());
     }
 
-private:
-    bool mark_exist(V_type mark) {
+    friend std::ostream& operator<<(std::ostream& out, Graph<V_type, E_type> graph) {
+        Vector<Vertex<V_type>> vertex = graph.get_vertices();
+        Vector<Edge<E_type>> edges = graph.get_edges();
+        Vector<Vector<unsigned int>> relations = graph.get_matrix();
+
         for (size_t i = 0; i < vertex.size(); i++) {
-            if (vertex[i].mark == mark)
-                return true;
+            out << "Index: " << vertex[i].number << ", mark: " << vertex[i].mark << std::endl;
+            int count = 0;
+            for (size_t k = 0; k < relations[i].size(); k++)
+                relations[i][k] != 0 ? count += relations[i][k] : count;
+            out << "\tRelations: " << count << "\n";
+            auto it = graph.begin(vertex[i].number);
+            if (it != graph.end(vertex[i].number)) {
+                out << "\tNeighbours:\n";
+                for (; it != graph.end(vertex[i].number); ++it) {
+                    out << "\t\tIndex: " << (*it).number << ", mark: " << (*it).mark << std::endl;
+                }
+            }
+            out << std::endl;
         }
-        return false;
+
+        return out;
     }
 
+private:
     size_t vertex_q = 0;
     size_t edge_q = 0;
     Vector<Edge<E_type>> edges;
