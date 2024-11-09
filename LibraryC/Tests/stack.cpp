@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../stack.h"
-#include "../list.h"
+#include "stack.h"
+#include "list.h"
 
 void free_func(void* data) {
     free(data);
