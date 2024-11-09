@@ -3,25 +3,8 @@
 
 #include <iostream>
 #include "vector.h"
-
-template <typename V_type>
-struct Vertex {
-    size_t number = 0;
-    V_type mark = V_type();
-};
-
-template <typename E_type>
-struct Edge {
-    Edge(size_t a, size_t b, E_type edge_mark) {
-        start = a;
-        destination = b;
-        mark = edge_mark;
-    }
-
-    size_t start = 0;
-    size_t destination = 0;
-    E_type mark = E_type();
-};
+#include "Vertex.h"
+#include "Edge.h"
 
 template <typename V_type>
 class Iterator;
@@ -63,6 +46,23 @@ public:
         }
     }
 
+    void delete_vertex(size_t a) {
+        if (a >= vertex_q)
+            return;
+
+        relations.erase(a);
+        for (size_t i = 0; i < relations.size(); i++) {
+            relations[i].erase(a);
+        }
+
+        for (size_t i = 0; i < edges.size(); i++) {
+            if (edges[i].start == a || edges[i].destination == a) {
+                edges.erase(i);
+                i--;
+            }
+        }
+    }
+
     void add_edge(size_t a, size_t b, E_type edge_mark) {
         if (a < vertex_q && b < vertex_q) {
             edges.push(Edge<E_type>(a, b, edge_mark));
@@ -86,7 +86,7 @@ public:
     }
 
     void set_mark(size_t a, V_type mark) {
-            vertex[a].mark = mark;
+        vertex[a].mark = mark;
     }
 
     Vector<Vector<unsigned int>> get_matrix() {
@@ -99,6 +99,10 @@ public:
             marks.push(vertex[i].mark);
         }
         return marks;
+    }
+
+    Vector<Vertex<V_type>> get_vertex() {
+        return vertex;
     }
 
     Vector<Edge<E_type>> get_edges() {
@@ -130,7 +134,7 @@ public:
             return next_index != iterator.next_index;
         }
 
-        const Vertex<V_type> operator*(){
+        const Vertex<V_type> operator*() {
             return graph->get_vertex_by_index(next_index);
         }
 
@@ -141,10 +145,12 @@ public:
     };
 
     Iterator begin(size_t index) {
-        size_t neib = 0;
-        for (size_t i = 0; i < relations[index].size() && !neib; i++) {
-            if (relations[index][i] != 0)
+        size_t neib = relations[index].size();
+        for (size_t i = 0; i < relations[index].size(); i++) {
+            if (relations[index][i] != 0) {
                 neib = i;
+                break;
+            }
         }
 
         return Iterator(this, index, neib);

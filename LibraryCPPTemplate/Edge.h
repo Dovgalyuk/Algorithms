@@ -2,13 +2,11 @@
 
 template <typename E_type>
 struct Edge {
-    Edge(size_t a, size_t b, E_type edge_mark) {
-        start = a;
-        destination = b;
-        mark = edge_mark;
-    }
+    Edge() {}
 
-    size_t start = 0;
-    size_t destination = 0;
+    Edge(size_t a, size_t b, E_type edge_mark) : start(a), destination(b), mark(mark) {}
+
+    size_t start = std::numeric_limits<size_t>::max();
+    size_t destination = std::numeric_limits<size_t>::max();
     E_type mark = E_type();
 };
