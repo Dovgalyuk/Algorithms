@@ -63,7 +63,7 @@ public:
         arr = nullptr;
     }
 
-    Data get(size_t index) const {
+    Data get(size_t index) {
         if (index >= size_v) {
             return Data();
         }
@@ -80,9 +80,23 @@ public:
         return size_v;
     }
 
+    void resize(size_t new_size) {
+        if (new_size > capacity) {
+            capacity = new_size * 2;
+            Data* new_ptr = new Data[capacity];
+            for (size_t i = 0; i < size_v; ++i) {
+                new_ptr[i] = arr[i];
+            }
+            delete[] arr;
+            arr = new_ptr;
+        }
+        size_v = new_size;
+    }
+
     void push(Data value) {
         if (size_v >= capacity) {
-            resize(capacity * 2);
+            resize(size_v + 1);
+            size_v--;
         }
         arr[size_v++] = value;
     }
@@ -95,9 +109,7 @@ public:
     }
 
     Data erase(size_t index) {
-        if (size_v == 0)
-            return Data();
-        if (index > size_v || index < 0)
+        if (size_v == 0 || index > size_v)
             return Data();
 
         Data temp = arr[index];
@@ -111,24 +123,9 @@ public:
         return temp;
     }
 
-    void resize(size_t new_size) {
-        if (new_size < size_v) {
-            size_v = new_size;
-        }
-        if (new_size > capacity) {
-            Data* new_ptr = new Data[new_size];
-            for (size_t i = 0; i < size_v; ++i) {
-                new_ptr[i] = arr[i];
-            }
-            delete[] arr;
-            arr = new_ptr;
-            capacity = new_size;
-        }
-    }
-
     void clear() {
-        size_t size_v = 0;
-        size_t capacity = 0;
+        size_v = 0;
+        capacity = 0;
         delete[] arr;
         arr = nullptr;
     }

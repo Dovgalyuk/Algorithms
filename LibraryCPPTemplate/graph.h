@@ -75,6 +75,7 @@ public:
     Iterator end(size_t index);
     
     // Вывод информации и графе (вершина и ее соседи)
+    template <typename T1, typename T2>
     friend std::ostream& operator<<(std::ostream& out, Graph<V_type, E_type> graph);
 
 private:
@@ -111,8 +112,9 @@ Vertex<V_type> Graph<V_type, E_type>::add_vertex(V_type vertex_mark) {
     matrix.push(Vector<unsigned int>(vertices.size(), 0));
 
     for (size_t i = 0; i < matrix.size(); i++) {
-        while (matrix[i].size() != vertices.size())
+        while (matrix[i].size() != vertices.size()) {
             matrix[i].push(0);
+        }
     }
 
     return vertices[vertices.size() - 1];
@@ -203,13 +205,13 @@ bool Graph<V_type, E_type>::is_bounded(size_t a, size_t b) {
 
 template <typename V_type, typename E_type>
 int Graph<V_type, E_type>::edge_index(size_t a, size_t b) {
-    if (a >= vertices.size() && b >= vertices.size())
-        return -1;
-
-    for (size_t i = 0; i < edges.size(); i++) {
-        if (edges[i].start->number == a && edges[i].destination->number == b)
-            return i;
+    if (a < vertices.size() && b < vertices.size()) {
+        for (size_t i = 0; i < edges.size(); i++) {
+            if (edges[i].start->number == a && edges[i].destination->number == b)
+                return i;
+        }
     }
+    return -1;
 }
 
 template <typename V_type, typename E_type>
@@ -221,7 +223,7 @@ template <typename V_type, typename E_type>
 class Graph<V_type, E_type>::Iterator {
 public:
     Iterator(Graph<V_type, E_type>* graph, size_t index, size_t neib)
-        : graph(graph), start_index(start_index), next_index(neib) {}
+        : graph(graph), start_index(index), next_index(neib) {}
 
     Iterator& operator++() {
         Vector<unsigned int> v_neib = graph->get_matrix()[start_index];
@@ -235,8 +237,8 @@ public:
         return *this;
     }
 
-    const bool operator!=(const Iterator iterator) {
-        return next_index != iterator.next_index;
+    bool operator!=(const Iterator iterator) {
+        return next_index != iterator.next_index ? true : false;
     }
 
     const Vertex<V_type> operator*() {
@@ -270,7 +272,7 @@ typename Graph<V_type, E_type>::Iterator Graph<V_type, E_type>::end(size_t index
 template <typename V_type, typename E_type>
 std::ostream& operator<<(std::ostream& out, Graph<V_type, E_type> graph) {
     Vector<Vertex<V_type>> vertex = graph.get_vertices();
-    Vector<Edge<E_type>> edges = graph.get_edges();
+    Vector<Edge<V_type, E_type>> edges = graph.get_edges();
     Vector<Vector<unsigned int>> matrix = graph.get_matrix();
 
     for (size_t i = 0; i < vertex.size(); i++) {

@@ -1,4 +1,5 @@
 #pragma once
+#include <limits>
 
 template <typename V_type>
 struct Vertex {
