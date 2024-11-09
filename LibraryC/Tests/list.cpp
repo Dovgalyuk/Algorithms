@@ -16,6 +16,9 @@ struct List_operation {
     FFree *distruct;
 };
 
+void delete_element_test(List_element **head);
+void delete_operation_test(List_operation **head);
+
 void add_element(List_element **head, Data x);
 void add_operation(List_operation **head, Data x);
 
@@ -41,8 +44,8 @@ int main(void){
     std::cout << "List_operation";
     print_list_operation(&head_2);
 
-    delete_list_memory_element(&head_1);
-    delete_list_memory_opearation(&head_2);
+    delete_element_test(&head_1);
+    delete_operation_test(&head_2);
 
     return 0;
 }
@@ -91,4 +94,21 @@ void  print_list_operation(List_operation **head){
         temp = temp -> next;
     }
     std::cout << std::endl;
+}
+
+
+void delete_element_test(List_element **head){
+    while(*head != NULL){
+        List_element *temp = *head;
+        *head = (*head) -> next;
+        delete temp;
+    }
+}
+
+void delete_operation_test(List_operation **head){
+    while(*head != NULL){
+        List_operation *temp = *head;
+        *head = (*head) -> next;
+        delete temp;
+    }
 }
