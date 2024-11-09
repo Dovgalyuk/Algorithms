@@ -62,8 +62,11 @@ Lab2C/CMakeFiles/Lab2C.dir/lab2.c.o: /home/g0d/Algorithms/Lab2C/lab2.c \
   /usr/include/sys/select.h \
   /usr/include/sys/types.h \
   /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/include/stdarg.h \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/include/stdbool.h \
   /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/include/stddef.h
 
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/include/stdbool.h:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/include/stdarg.h:
 
