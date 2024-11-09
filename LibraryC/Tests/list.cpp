@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../list.h"
+#include "list.h"
 
 struct List_element {
 
