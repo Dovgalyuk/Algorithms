@@ -21,7 +21,7 @@ List* list_create()
 
 ListItem* list_erase(List* list, ListItem* item)
 {
-    if (!item || !list->head) return nullptr;
+    if (!item || !list || !list->head) return nullptr;
 
     if (item->next == item) {
         list->head = nullptr;
@@ -40,6 +40,9 @@ ListItem* list_erase(List* list, ListItem* item)
 
 void list_delete(List* list)
 {
+
+    if (!list) return;
+
     if (!list->head) {
         delete list;
         return;
@@ -50,7 +53,7 @@ void list_delete(List* list)
         ListItem* next = current->next;
         delete current;
         current = next;
-    } while (current != list->head);
+    } while (current != list->head && current);
 
     delete list;
 }
@@ -62,6 +65,7 @@ ListItem* list_first(List* list)
 
 Data list_item_data(const ListItem* item)
 {
+    if (!item) return Data();
     return item->data;
 }
 
@@ -77,6 +81,8 @@ ListItem* list_item_prev(ListItem* item)
 
 ListItem* list_insert(List* list, Data data)
 {
+    if (!list) return nullptr;
+
     ListItem* item = new ListItem;
     item->data = data;
 
@@ -98,6 +104,8 @@ ListItem* list_insert(List* list, Data data)
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
+    if (!list || !item) return nullptr;
+
     ListItem* new_item = new ListItem;
     new_item->data = data;
 
@@ -117,7 +125,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
 
 ListItem* list_erase_first(List* list)
 {
-    if (!list->head) return nullptr;
+    if (!list || !list->head) return nullptr;
 
     ListItem* delete_item = list->head;
     if (delete_item->next == delete_item) {
@@ -136,6 +144,6 @@ ListItem* list_erase_first(List* list)
 
 ListItem* list_erase_next(List* list, ListItem* item)
 {
-    if (!item || !list->head) return nullptr;
+    if (!list || !item || !list->head) return nullptr;
     return list_erase(list, item->next);
 }
