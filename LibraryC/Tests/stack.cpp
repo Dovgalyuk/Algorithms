@@ -6,6 +6,9 @@ void free_func(void* data) {
     free(data);
 }
 
+void free_stack_element_test(Stack** stack_head);
+void free_stack_operation_test(Stack_operation** stack_head);
+
 int main() {
 
     /* Тест стека элементов*/
@@ -28,7 +31,8 @@ int main() {
     }
     std::cout << std::endl;
 
-    free_stack_element(&stack_element_head);
+    free_stack_element_test(&stack_element_head);
+    //free_stack_element(&stack_element_head);
 
     /*Тест стека операций*/
     Stack_operation* stack_operation_head = NULL;
@@ -50,7 +54,24 @@ int main() {
     }
     std::cout << std::endl;
 
-    free_stack_operation(&stack_operation_head);
+    free_stack_operation_test(&stack_operation_head);
+    //free_stack_operation(&stack_operation_head);
 
     return 0;
+}
+
+void free_stack_element_test(Stack** stack_head){
+    while(*stack_head != NULL){
+        Stack* temp = *stack_head;
+        *stack_head = (*stack_head) -> next;
+        delete temp;
+    }
+}
+
+void free_stack_operation_test(Stack_operation** stack_head){
+    while(*stack_head != NULL){
+        Stack_operation* temp = *stack_head;
+        *stack_head = (*stack_head) -> next;
+        delete temp;
+    }
 }
