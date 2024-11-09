@@ -1,6 +1,7 @@
 Lab2C/CMakeFiles/Lab2C.dir/lab2.c.o: /home/g0d/Algorithms/Lab2C/lab2.c \
  /usr/include/stdc-predef.h /home/g0d/Algorithms/Lab2C/../LibraryC/list.h \
  /home/g0d/Algorithms/Lab2C/../LibraryC/stack.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/include/stdbool.h \
  /home/g0d/Algorithms/Lab2C/../LibraryC/list.h /usr/include/stdio.h \
  /usr/include/bits/libc-header-start.h /usr/include/features.h \
  /usr/include/features-time64.h /usr/include/bits/wordsize.h \

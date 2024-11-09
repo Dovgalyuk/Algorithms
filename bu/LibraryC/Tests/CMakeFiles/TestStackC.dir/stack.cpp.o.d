@@ -139,5 +139,6 @@ LibraryC/Tests/CMakeFiles/TestStackC.dir/stack.cpp.o: \
  /usr/include/c++/14.2.1/bits/ostream.tcc /usr/include/c++/14.2.1/istream \
  /usr/include/c++/14.2.1/bits/istream.tcc \
  /home/g0d/Algorithms/LibraryC/Tests/../stack.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/include/stdbool.h \
  /home/g0d/Algorithms/LibraryC/Tests/../list.h \
  /home/g0d/Algorithms/LibraryC/Tests/../list.h
