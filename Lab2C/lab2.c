@@ -1,5 +1,5 @@
-#include "../LibraryC/list.h"
-#include "../LibraryC/stack.h"
+#include "list.h"
+#include "stack.h"
 
 #include <stdio.h>
 #include <stdlib.h>
