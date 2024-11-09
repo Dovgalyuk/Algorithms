@@ -1,7 +1,6 @@
 #include <cassert>
 #include <iostream>
 #include <stdexcept>
-#include "../LibraryCPPTemplate/Vertex.h"
 #include "../LibraryCPPTemplate/graph.h"
 #include "../LibraryCPPTemplate/vector.h"
 
@@ -75,22 +74,41 @@
 //    return 0;
 //}
 
-int main() {
-	Graph<char> graph(5);
-	graph.add_mark(0, 'a');
-	graph.add_mark(1, 'b');
-	graph.add_mark(2, 'c');
-	graph.add_mark(3, 'd');
-	graph.add_mark(4, 'e');
-	for (int i = 0; i < graph.get_marks().size(); i++) {
-		std::cout << graph.get_marks()[i] << std::endl;
+//Graph<char, std::string> graph(2);
+//
+//graph.add_edge(0, 1, "a");
+//graph.add_edge(0, 1, "b");
+//graph.add_vertex();
+//graph.add_edge(0, 2, "b");
+//
+//output(graph);
+//
+//for (auto it = graph.begin(0); it != graph.end(0); ++it) {
+//	std::cout << (*it).number << std::endl;
+//}
+//
+//graph.delete_edge(0, 1);
+//graph.delete_edge(0, 1);
+//graph.delete_edge(0, 2);
+//std::cout << std::endl;
+//output(graph);
+
+void output(Graph<char, std::string> graph) {
+	Vector<Vector<unsigned int>> matrix = graph.get_matrix();
+	for (int i = 0; i < matrix.size(); i++) {
+		for (int j = 0; j < matrix[i].size(); j++)
+			std::cout << matrix[i][j] << " ";
+		std::cout << std::endl;
 	}
 	std::cout << std::endl;
-	graph.add_edge((size_t)0, 1, 1);
-	graph.add_edge((size_t)0, 2, 1);
-	graph.add_edge((size_t)0, 3, 1);
-	graph.add_edge((size_t)0, 4, 1);
-	for (auto it = graph.begin('a'); it != graph.end('a'); ++it) {
-		std::cout << *it << std::endl;
+	Vector<Edge<std::string>> edges = graph.get_edges();
+	for (int i = 0; i < edges.size(); i++) {
+		std::cout << edges[i].mark << " ";
 	}
+	std::cout <<std::endl;
+}
+
+int main() {
+	Graph<std::string, int> graph(5);
+	std::cout << graph << std::endl;
 }
