@@ -1,13 +1,10 @@
 #ifndef STACK_H
 #define STACK_H
 
-// Stack
-// Stores integer values inside
 typedef int Data;
 
 struct Stack;
 
-// Creates empty stack
 Stack *stack_create();
 
 // Deletes the stack
