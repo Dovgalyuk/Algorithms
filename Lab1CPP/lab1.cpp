@@ -44,13 +44,10 @@
         {
             unordered_map<int, int> frequency_map;
             size_t size = array_size(arr);
-            // Подсчет частоты появления каждого числа
             for (size_t i = 0; i < size; ++i) {
                 int value = array_get(arr, i);
                 frequency_map[value]++;
             }
-
-            // Определение числа с максимальной частотой
             int most_frequent_number = 0;
             int max_frequency = 0;
 
