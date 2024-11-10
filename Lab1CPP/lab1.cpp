@@ -27,7 +27,7 @@
             size_t size = array_size(arr);
             int k1, k2;
             if (scanf("%d %d", &k1, &k2) != 2) {
-                printf(stderr, "Error input\n");
+                printf("Error input\n");
             }
             for (size_t index{ 0 }; index < size; ++index) {
                 if(array_get(arr, index) >= 0){
