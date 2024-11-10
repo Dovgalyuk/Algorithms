@@ -31,8 +31,6 @@ void array_delete(Array *arr){
 
 // returns specified array element
 Data array_get(const Array *arr, size_t index) {
-    if (!arr) return; // Проверка на наличия массива
-    if (index >= arr->size) return; //Проверка на индекс
     return arr->data[index];
 };
 
