@@ -74,8 +74,14 @@ public:
             throw std::invalid_argument("[remove_vertex] Graph does not have specified vertex.");
         }
 
-        adjacency_list.set(vertex, List<Edge>());
-        vertices_marks.set(vertex, 0);
+        for(size_t i = vertex; i < vertex_count - 1; i++) {
+            adjacency_list.set(i, adjacency_list.get(i+1));
+            vertices_marks.set(i, vertices_marks.get(i+1));
+        }
+        vertex_count--;
+        adjacency_list.resize(vertex_count);
+        vertices_marks.resize(vertex_count);
+
         for (size_t i = 0; i < vertex_count; i++) {
             auto& adj_list = adjacency_list.get(i);
             auto* current = adj_list.first();
@@ -92,6 +98,7 @@ public:
                 } 
             }
         }
+
     }
 
     bool has_edge(size_t from, size_t to) {
