@@ -11,7 +11,6 @@ struct List
 {
     ListItem* head;
     ListItem* tail;
-    size_t size;
 };
 
 List *list_create()
@@ -19,7 +18,6 @@ List *list_create()
     List* list = new List;
     list->head = nullptr;
     list->tail = nullptr;
-    list->size = 0;
     return list;
 }
 
@@ -57,7 +55,6 @@ ListItem *list_insert(List *list, Data data)
     new_item->data = data;
     new_item->next = list->head;
     list->head = new_item;
-    list->size++;
     return new_item;
 }
 
@@ -77,19 +74,22 @@ ListItem* list_insert_end(List* list, Data data)
         list->tail->next = new_item;
         list->tail = new_item; 
     }
-    list->size++;
     return new_item;
 }
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
+    if (list == nullptr) return nullptr; 
     if (item == nullptr) return nullptr;
 
     ListItem* new_item = new ListItem;
     new_item->data = data;
     new_item->next = item->next;
     item->next = new_item;
-    list->size++;
+
+    if (item == list->tail) {
+        list->tail = new_item;
+    }
 
     return new_item;
 }
@@ -97,17 +97,14 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 ListItem *list_erase_first(List *list)
 {
     if (!list) {
-        return nullptr; 
+        return nullptr;
     }
-    if (list->head == nullptr) { 
-        return nullptr; 
+    ListItem* to_delete = list->head;
+    if (to_delete == nullptr) {
+        return nullptr;
     }
 
-    ListItem* to_delete = list->head; 
-
-    list->head = to_delete->next;
-
-    list->size--;
+    list->head = to_delete->next; 
 
     delete to_delete;
 
@@ -116,12 +113,17 @@ ListItem *list_erase_first(List *list)
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    if (item == nullptr || item->next == nullptr) return nullptr;
+    if (list == nullptr) return nullptr; 
+    if (item == nullptr || item->next == nullptr) return nullptr; 
 
     ListItem* to_delete = item->next;
     item->next = to_delete->next;
-    list->size--;
 
-    delete to_delete;
+    delete to_delete; 
+
+    if (to_delete == list->tail) {
+        list->tail = item; 
+    }
+
     return item->next;
 }
