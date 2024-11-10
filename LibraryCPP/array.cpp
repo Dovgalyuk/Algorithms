@@ -38,8 +38,6 @@ Data array_get(const Array *arr, size_t index) {
 
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value) {
-    if (!arr) return; // Проверка на наличия массива
-    if (index >= arr->size) return; //Проверка на индекс
     arr->data[index] = value;
 };
 
