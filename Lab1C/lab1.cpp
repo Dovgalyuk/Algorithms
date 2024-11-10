@@ -7,12 +7,18 @@ Array *array_create_and_read(FILE *input) {
     if(fscanf(input, "%d", &n)!=1) {
         return NULL;
     };
+
     /* Create array */
     Array *arr = array_create(n);
     /* Read array data */
+    if (arr == NULL) { // проверка на успешное создание массива
+        return NULL;
+    }
+
     for (int i = 0 ; i < n ; ++i) {
         int x;
         if(fscanf(input, "%d", &x)!=1){
+            array_delete(arr);
             return NULL;
         };
         array_set(arr, i, x);
@@ -49,14 +55,30 @@ void task2(Array *arr) {
 }
 
 int main(int argc, char **argv) {
+    if (argc != 2) {
+        return 1;
+    }
     Array *arr = NULL;
     FILE *input = fopen(argv[1], "r");
+    if (!input) {
+        return 1;
+    }
     arr = array_create_and_read(input);
-    task1(arr);
-    array_delete(arr);
+    if (arr){
+        task1(arr);
+        array_delete(arr);
+    } else {
+        return 1;
+    }
     /* Create another array here */
     arr = array_create_and_read(input);
-    task2(arr);
-    array_delete(arr);
+    if (arr){
+        task2(arr);
+        array_delete(arr);
+    } else {
+        return 1;
+    }
+    
     fclose(input);
+    return 0;
 }
