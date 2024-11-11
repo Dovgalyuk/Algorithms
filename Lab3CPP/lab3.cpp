@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int bfs(vector<vector<int>> graph, int start, int end) {
+int bfs(const vector<vector<int>>& graph, int start, int end) {
     int n = graph.size();
     vector<bool> visited(n, false);
     vector<int> distance(n, -1);

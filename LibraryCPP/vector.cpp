@@ -1,5 +1,6 @@
 #include "vector.h"
 #include <stdexcept>
+#include <vector>
 
 struct Vector
 {
@@ -59,4 +60,7 @@ void vector_resize(Vector *vector, size_t size)
         vector->element = new_data;
     }
     vector->size = size;
+}
+void capacity_vector(Vector *vector, size_t capac) {
+    vector->capacity = capac;
 }

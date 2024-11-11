@@ -28,4 +28,6 @@ size_t vector_size(const Vector *vector);
 // Should be O(1) on average
 void vector_resize(Vector *vector, size_t size);
 
+void capacity_vector(Vector *vector, size_t capac);
+
 #endif
