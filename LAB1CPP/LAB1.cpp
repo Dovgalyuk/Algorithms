@@ -74,7 +74,6 @@ int main(int argc, char* argv[])
     ofstream outputFile;
     int size;
 
-
     if (argc == 3) {
         inputFile.open(argv[1]);
         outputFile.open(argv[2]);
@@ -88,16 +87,15 @@ int main(int argc, char* argv[])
         output = &outputFile;
     }
 
-    *input >> size;
     if (*input >> size) {
-    if (size <= 0 || size > 10000) { // Ограничьте максимальный размер, например, 10,000
-        cerr << "Invalid or too large array size!" << endl;
+        if (size <= 0 || size > 10000) {
+            cerr << "Invalid or too large array size!" << endl;
+            return 1;
+        }
+    } else {
+        cerr << "Failed to read size! Please check the input file format." << endl;
         return 1;
     }
-} else {
-    cerr << "Failed to read size!" << endl;
-    return 1;
-}
 
     srand(static_cast<unsigned int>(time(NULL)));
     Array *arr = array_create_and_read(output, size);
@@ -107,4 +105,6 @@ int main(int argc, char* argv[])
     arr = array_create_and_read(output, size);
     task2(output, arr);
     array_delete(arr);
+
+    return 0;
 }
