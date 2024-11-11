@@ -4,61 +4,37 @@
 #include <fstream>
 #include "array.h"
 
-Array* array_create_and_read(std::ifstream& input) {
-    size_t n;
-    input >> n;
-
-    Array* arr = array_create(n);
-
-    for (size_t i = 0; i < n; ++i) {
-        int x;
-        input >> x; 
-        array_set(arr, i, x); 
-    }
-    return arr;
-}
-
-Array* array_create_and_fill_random(int size) {
-    Array* arr = array_create(size);  
-
-    for (int i = 0; i < size; ++i) {
-        int random_value = rand() % 100;
-        array_set(arr, i, random_value); 
-    }
-
-    return arr;
-}
-
-
-void task1(Array* arr) {
-    size_t size = array_size(arr); 
-
-    Array* even_indices = array_create(size); 
-    int even_count = 0;
+// Создание массива и заполнение случайными числами
+Array* array_create_and_fill(size_t size) {
+    Array* arr = array_create(size);
 
     for (size_t i = 0; i < size; ++i) {
-        int value = array_get(arr, i); 
+        int random_value = rand() % 100;
+        array_set(arr, i, random_value);
+    }
+
+    return arr;
+}
+
+// Задание 1: Найти индексы четных элементов
+void task1(Array* arr) {
+    size_t size = array_size(arr);
+    std::cout << "Indexes of even elements: ";
+    for (size_t i = 0; i < size; ++i) {
+        int value = array_get(arr, i);
         if (value % 2 == 0) {
-            array_set(even_indices,i, even_count);
-            even_count++;
+            std::cout << i << " ";
         }
     }
-
-    std::cout << "Индексы четных элементов: ";
-    for (int i = 0; i < even_count; ++i) {
-        std::cout << array_get(even_indices, i) << " ";
-    }
     std::cout << std::endl;
-
-    array_delete(even_indices);
 }
 
 // Задание 2: Найти элементы, не делящиеся ни на один другой элемент массива
 void task2(Array* arr) {
-    size_t size = array_size(arr); 
-    std::cout << "Элементы, не делящиеся ни на какой другой элемент: ";
+    size_t size = array_size(arr);
+    std::cout << "Elements that are not divisible by any other element: ";
     for (size_t i = 0; i < size; ++i) {
-        int current_value = array_get(arr, i); 
+        int current_value = array_get(arr, i);
         bool is_divisible = false;
         for (size_t j = 0; j < size; ++j) {
             if (i != j) {
@@ -76,34 +52,38 @@ void task2(Array* arr) {
     std::cout << std::endl;
 }
 
-int main() {
-    srand(static_cast<unsigned int>(time(0))); 
+int main(int argc, char **argv) {
+    setlocale(LC_ALL, "Rus");
+    srand(static_cast<unsigned int>(time(0)));
 
-    std::ifstream input("input.txt");
-    if (!input.is_open()) {
-        std::cerr << "Не удалось открыть файл." << std::endl;
+    size_t size;
+    if (argc > 1) {
+        // Чтение размера из файла, если передан аргумент
+        std::ifstream input(argv[1]);
+        if (!input.is_open()) {
+            std::cerr << "cant open file: " << argv[1] << '\n';
+            return 1;
+        }
+        input >> size;
+    }
+    else {
+        // Ввод размера с клавиатуры
+        std::cout << "enter array size: ";
+        std::cin >> size;
+    }
+
+    // Создаем массив и заполняем случайными числами
+    Array* arr = array_create_and_fill(size);
+    if (!arr) {
+        std::cout << "error with array read.\n";
         return 1;
     }
 
-    Array* arr = array_create_and_read(input); 
-    input.close();
+    // Выполняем задачи
+    task1(arr);
+    task2(arr);
 
-    // Задача 1
-    std::cout << "Введите размер массива для задачи 1: ";
-    int size1;
-    std::cin >> size1;
-    Array* arr1 = array_create_and_fill_random(size1);
-    task1(arr1);
-    array_delete(arr1);
-
-    // Задача 2
-    std::cout << "Введите размер массива для задачи 2: ";
-    int size2;
-    std::cin >> size2;
-    Array* arr2 = array_create_and_fill_random(size2);
-    task2(arr2); 
-    array_delete(arr2);
-
+    // Удаляем массив
     array_delete(arr);
 
     return 0;

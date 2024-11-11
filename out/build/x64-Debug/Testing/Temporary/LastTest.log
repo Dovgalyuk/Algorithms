@@ -1,3 +1,35 @@
-Start testing: Oct 16 16:08 RTZ 2 (����)
+Start testing: Nov 11 10:35 RTZ 2 (����)
 ----------------------------------------------------------
-End testing: Oct 16 16:08 RTZ 2 (����)
+1/2 Testing: TestArrayCPP
+1/2 Test: TestArrayCPP
+Command: "D:/алгортитмы довгалюк/Algorithms/out/build/x64-Debug/LibraryCPP/Tests/TestArrayCPP.exe"
+Directory: D:/алгортитмы довгалюк/Algorithms/out/build/x64-Debug/LibraryCPP/Tests
+"TestArrayCPP" start time: Nov 11 10:35 RTZ 2 (����)
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"TestArrayCPP" end time: Nov 11 10:35 RTZ 2 (����)
+"TestArrayCPP" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/2 Testing: TestLab1
+2/2 Test: TestLab1
+Command: "D:/алгортитмы довгалюк/Algorithms/out/build/x64-Debug/lab1/Lab1.exe" "D:/алгортитмы довгалюк/Algorithms/lab1/input.txt"
+Directory: D:/алгортитмы довгалюк/Algorithms/out/build/x64-Debug/lab1
+"TestLab1" start time: Nov 11 10:35 RTZ 2 (����)
+Output:
+----------------------------------------------------------
+Indexes of even elements: 7 9 
+Elements that are not divisible by any other element: 29 43 69 49 67 83 35 88 19 
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"TestLab1" end time: Nov 11 10:35 RTZ 2 (����)
+"TestLab1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 11 10:35 RTZ 2 (����)

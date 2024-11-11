@@ -1,19 +1,19 @@
 #include "array.h"
 #include <cstddef> 
-#include <stdexcept>  // для выбрасывания исключений
+#include <stdexcept> 
 
 struct Array
 {
     Data* data;
-    size_t size; 
+    size_t size;
 };
 
 // create array
 Array* array_create(size_t size)
 {
     Array* arr = new Array;
-    arr->size = size;
     arr->data = new Data[size];
+    arr->size = size;
     return arr;
 }
 
@@ -27,19 +27,20 @@ void array_delete(Array* arr)
 // returns specified array element
 Data array_get(const Array* arr, size_t index)
 {
-    if (index >= arr->size) {
-        throw std::out_of_range("Index out of bounds");
+    if (index < arr->size)
+    {
+        return arr->data[index];
     }
-    return arr->data[index];
+    return (Data)0;
 }
 
 // sets the specified array element to the value
 void array_set(Array* arr, size_t index, Data value)
 {
-    if (index >= arr->size) {
-        throw std::out_of_range("Index out of bounds");
+    if (index < arr->size)
+    {
+        arr->data[index] = value;
     }
-    arr->data[index] = value;
 }
 
 // returns array size
