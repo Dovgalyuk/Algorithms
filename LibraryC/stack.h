@@ -9,12 +9,12 @@
 typedef char Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
+
 typedef struct Stack {
     Data element;
     struct Stack *next;
 } Stack;
 
-typedef struct Stack Stack;
 
 typedef struct Stack_operation {
     Data operation;

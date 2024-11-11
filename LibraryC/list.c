@@ -3,7 +3,6 @@
 
 
 struct List_element {
-
     Data element;
     struct List_element *next;
     FFree *distruct;
@@ -12,7 +11,6 @@ struct List_element {
 
 
 List_element *create_list_element (List_element **head, FFree f) {
-
     *head = (List_element *)malloc(sizeof(List_element));
     if(*head == NULL){
         return NULL;
@@ -25,7 +23,6 @@ List_element *create_list_element (List_element **head, FFree f) {
 
 
 void delete_list_memory_element (List_element **head){
-
     List_element *temp = *head;
     List_element *next;
     if(*head != NULL && (*head) -> distruct != NULL){
