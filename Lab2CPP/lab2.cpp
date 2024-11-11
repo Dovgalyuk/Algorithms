@@ -2,23 +2,26 @@
 #include <fstream>
 #include <string>
 #include "stack.h"
+#define first_op 1
+#define second_op 2
+#define staple 0
 
 int abs(int n){
     if (n < 0){
-        return n * (-1);
+        return -n;
     }
     return n;
 }
 
 int precedence(char op) {
     if (op == '+') {
-        return 1;
+        return first_op;
     }
     if (op == '-') {
-        return -1;
+        return -first_op;
     }
     if (op == '*') {
-        return 2;
+        return second_op;
     }
     return 0;
 }
@@ -27,13 +30,13 @@ void Operation(int op) {
     std::cout << "POP A" << std::endl;
     std::cout << "POP B" << std::endl;
 
-    if (op == 1) {
+    if (op == first_op) {
         std::cout << "ADD A, B" << std::endl;
     }
-    else if (op == -1) {
+    else if (op == -first_op) {
         std::cout << "SUB A, B" << std::endl;
     }
-    else if (op == 2) {
+    else if (op == second_op) {
         std::cout << "MUL A, B" << std::endl;
     }
 
@@ -60,11 +63,11 @@ void translate(const std::string& expr) {
             std::cout << "PUSH " << value << std::endl;
         }
         else if (token == '(') {
-            stack_push(ops, 0);
+            stack_push(ops, staple);
         }
         else if (token == ')') {
             if (!stack_empty(ops)) {
-                while (stack_get(ops) != 0) 
+                while (stack_get(ops) != staple)
                 {
                     Operation(stack_get(ops));
                     stack_pop(ops);
