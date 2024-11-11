@@ -1,4 +1,5 @@
 #include "stack.h"
+#include <array>
 #include <fstream>
 #include <vector>
 
