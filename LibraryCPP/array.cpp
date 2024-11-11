@@ -12,8 +12,6 @@ Array *array_create(size_t size) {
     if (size == 0) //Проверка на размер
         return nullptr;
     Array *arr = new Array;
-    if (!arr) //Проверка на создание массива
-        return nullptr;
     arr->data = new Data[size];
     arr->size = size;
     if (!arr->data) { //Проверка на создание даты

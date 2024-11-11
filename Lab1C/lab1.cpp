@@ -46,12 +46,19 @@ void task1(Array *arr) {
 void task2(Array *arr) {
     int maxSum = 0;
     int size = (int)array_size(arr);
-    for (int i = 0 ; i < size - 5 ; ++i) {
-        int curSum = (int)(array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) + array_get(arr, i + 3) + array_get(arr, i + 4));
+    int curSum = 0;
+    for (int i = 0; i < 4; i++){
+        curSum += array_get(arr, i);
+    }
+    maxSum = curSum;
+    for (int i = 4 ; i < size; i++) {
+        curSum = curSum - array_get(arr, i - 5) + array_get(arr, i);
+        
         if (curSum > maxSum) {
             maxSum = curSum;
         }
     }
+    printf("%d\n", maxSum);
 }
 
 int main(int argc, char **argv) {
