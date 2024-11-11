@@ -22,7 +22,7 @@ Array* array_create_and_read(FILE* input){
 void task1(Array* arr) {
         size_t size = array_size(arr);
         int k1, k2;
-        if(scanf("%d %d", &k1, &k2) != 2) {
+        if(fscanf("%d %d", &k1, &k2) != 2) {
            printf("error");
         }
         k1 = array_get(arr, k1);
