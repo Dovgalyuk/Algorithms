@@ -1,21 +1,22 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include "list.h"
 #include <cstddef>
 
 typedef int Data;
 
 class Stack
 {
-public:
+  public:
     // Creates empty stack
     Stack();
 
     // copy constructor
-    Stack(const Stack &a);
+    Stack(const Stack &a) = delete;
 
     // assignment operator
-    Stack &operator=(const Stack &a);
+    Stack &operator=(const Stack &a) = delete;
 
     // Deletes the stack
     ~Stack();
@@ -34,8 +35,9 @@ public:
     // Returns true if the stack is empty
     bool empty() const;
 
-private:
+  private:
     // private data should be here
+    List m_data;
 };
 
 #endif
