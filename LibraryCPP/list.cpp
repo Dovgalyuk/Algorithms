@@ -67,13 +67,13 @@ ListItem* list_insert_end(List* list, Data data)
     if (list->head == nullptr)
     {
         list->head = new_item;
-        list->tail = new_item;
     }
     else
     {
         list->tail->next = new_item;
-        list->tail = new_item; 
     }
+
+    list->tail = new_item;
     return new_item;
 }
 

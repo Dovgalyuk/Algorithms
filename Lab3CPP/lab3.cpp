@@ -48,7 +48,7 @@ void search(vector<vector<char>>& lbr, size_t rows, size_t cols, Point start, os
             int new_y = current.y + moves[i][1];
 
             if (new_x >= 0 && static_cast<size_t>(new_x) < rows && new_y >= 0 && static_cast<size_t>(new_y) < cols &&
-                (lbr[new_x][new_y] == '.' || lbr[new_x][new_y] == 'X')) {
+                lbr[new_x][new_y] == '.') {
 
                 lbr[new_x][new_y] = 'x';
                 Data new_data = pointToData({ new_x, new_y }, cols);
