@@ -129,6 +129,8 @@ void find_shortest_path(vector<vector<char>>& grid, int start_x, int start_y, in
     Queue<Position*> q;
     Position* current = new Position({ start_x, start_y, 0, nullptr });
     q.insert(current);
+    positions.push_back(current);
+
     board[start_y][start_x] = 0;
 
     while (!q.empty() && !is_found) {
