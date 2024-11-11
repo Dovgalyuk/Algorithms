@@ -89,6 +89,16 @@ int main(int argc, char* argv[])
     }
 
     *input >> size;
+    if (*input >> size) {
+    if (size <= 0 || size > 10000) { // Ограничьте максимальный размер, например, 10,000
+        cerr << "Invalid or too large array size!" << endl;
+        return 1;
+    }
+} else {
+    cerr << "Failed to read size!" << endl;
+    return 1;
+}
+
     srand(static_cast<unsigned int>(time(NULL)));
     Array *arr = array_create_and_read(output, size);
     task1(output, arr);
