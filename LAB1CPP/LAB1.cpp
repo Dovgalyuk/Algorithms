@@ -74,6 +74,7 @@ int main(int argc, char* argv[])
     ofstream outputFile;
     int size;
 
+
     if (argc == 3) {
         inputFile.open(argv[1]);
         outputFile.open(argv[2]);
@@ -88,7 +89,6 @@ int main(int argc, char* argv[])
     }
 
     *input >> size;
-
     srand(static_cast<unsigned int>(time(NULL)));
     Array *arr = array_create_and_read(output, size);
     task1(output, arr);
