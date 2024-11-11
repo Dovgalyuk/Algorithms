@@ -19,12 +19,8 @@ Array* array_create_and_read(FILE* input){
         return arr;
 }
 
-void task1(Array* arr) {
+void task1(Array* arr, int k1, int k2) {
         size_t size = array_size(arr);
-        int k1, k2;
-        if(fscanf("%d %d", &k1, &k2) != 2) {
-           printf("error");
-        }
         k1 = array_get(arr, k1);
         k2 = array_get(arr, k2);
         for (size_t index{ 0 }; index < size; ++index) {
@@ -65,7 +61,10 @@ int main(__attribute__((unused)) int argc, char** argv){
         Array* arr = NULL;
         FILE* input = fopen(argv[1], "r");
         arr = array_create_and_read(input);
-        task1(arr);
+        if(fscanf("%d %d", &k1, &k2) != 2) {
+           printf("error");
+        }
+        task1(arr, k1, k2);
         array_delete(arr);
         /* Create another array here */
         arr = array_create_and_read(input);
