@@ -9,6 +9,6 @@ set(OUTPUT_FILE "${CMAKE_BINARY_DIR}/output/output.txt")
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/output)
 
-add_test(NAME TestLab1CPP
-    COMMAND Lab1Cpp ${INPUT_FILE} ${OUTPUT_FILE}
+add_test(NAME TestLAB1CPP
+    COMMAND LAB1CPP ${INPUT_FILE} ${OUTPUT_FILE}
 )
