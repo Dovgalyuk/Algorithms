@@ -61,7 +61,8 @@ int main(__attribute__((unused)) int argc, char** argv){
         Array* arr = NULL;
         FILE* input = fopen(argv[1], "r");
         arr = array_create_and_read(input);
-        if(fscanf("%d %d", &k1, &k2) != 2) {
+        int k1, k2;
+        if(fscanf(input, "%d %d", &k1, &k2) != 2) {
            printf("error");
         }
         task1(arr, k1, k2);
