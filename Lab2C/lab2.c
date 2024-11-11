@@ -17,41 +17,33 @@ void print_rpn(Stack **StackElement);
 
 int main(int argc, char **argv) {
 
-    List_element *head_1;
-    List_operation *head_2;
+    List_element *head_1, *head_2;
 
     Stack *StackElement = create_stack_element(&head_1, free);
     Stack_operation *StackOperation = create_stack_operation(&head_2, free);
-    
-    List_element *list_1; 
-    List_operation *list_2;
+
+    List_element *list_1;
 
     char *string = malloc(SIZE * sizeof(char));
-    
+
 
     FILE *input = fopen(argv[1], "r");
     if (input == NULL) {
         perror("Ошибка открытия файла");
         return 1; 
     }
-   
+
     list_1 = create_list_element(&head_1,free);
     if(list_1 == NULL){
         return -1;
     }
 
 
-   
-    list_2 = create_list_operation(&head_2,free);
-    if(list_2 == NULL){
-        return -1;
-    } 
-    
     if(fgets(string, SIZE, input) != NULL){
         /*Вызов функций*/ 
         /*stdin_string (string);*/
         parcing_string_algoritm(string , &StackOperation , &StackElement);
-    
+
         print_rpn(&StackElement);
     } else {
         printf("Error open file?");
@@ -59,15 +51,14 @@ int main(int argc, char **argv) {
 
     /* Очищение*/
     free(string);
-    
+
     free_stack_element(&StackElement);
     free_stack_operation(&StackOperation);
 
     delete_list_memory_element(&head_1);
-    delete_list_memory_opearation(&head_2);
 
     fclose(input);
-    
+
     return 0;
 }
 

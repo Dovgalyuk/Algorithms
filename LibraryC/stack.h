@@ -15,6 +15,7 @@ typedef struct Stack {
 } Stack;
 
 typedef struct Stack Stack;
+
 typedef struct Stack_operation {
     Data operation;
     struct Stack_operation *next;
@@ -25,7 +26,7 @@ extern "C" {
     #endif
 
     Stack *create_stack_element(List_element **head, FFree f);
-    Stack_operation *create_stack_operation(List_operation **head, FFree f);
+    Stack_operation *create_stack_operation(List_element **head, FFree f);
 
     void stack_push_element(Stack **head, char elements);
     void stack_push_operation(Stack_operation **head, char operations);

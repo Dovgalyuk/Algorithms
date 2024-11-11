@@ -18,7 +18,7 @@ Stack *create_stack_element(List_element **head ,FFree f) {
 }
 
 
-Stack_operation *create_stack_operation(List_operation **head ,FFree f) {
+Stack_operation *create_stack_operation(List_element **head ,FFree f) {
 
     Stack_operation *stack = (Stack_operation *)malloc(sizeof(Stack_operation));
     if(stack == NULL){

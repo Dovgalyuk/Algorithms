@@ -7,37 +7,27 @@ struct List_element {
     FFree *distruct;
 };
 
-struct List_operation {
-    Data operation;
-    struct List_operation *next;
-    FFree *distruct;
-};
 
 void delete_element_test(List_element **head);
-void delete_operation_test(List_operation **head);
+
 
 void add_element(List_element **head, Data x);
-void add_operation(List_operation **head, Data x);
+
 
 void print_list_element(List_element **head);
-void print_list_operation(List_operation **head);
+
 
 int main(void){
     List_element *head_1 = nullptr;
-    List_operation *head_2 = nullptr;
+
 
     add_element(&head_1, Data('A'));
     add_element(&head_1, Data('B'));
-    add_operation(&head_2, Data('1'));
-    add_operation(&head_2, Data('2'));
 
     std::cout << "List_elements: ";
     print_list_element(&head_1);
-    std::cout << "List_operation: ";
-    print_list_operation(&head_2);
 
     delete_element_test(&head_1);
-    delete_operation_test(&head_2);
 
     return 0;
 }
@@ -51,14 +41,6 @@ void add_element(List_element **head, Data x){
     }
 }
 
-void add_operation(List_operation **head, Data x){
-    List_operation *new_operation = new List_operation;
-    if(new_operation != nullptr){
-        new_operation -> operation = x;
-        new_operation -> next = *head;
-        *head = new_operation;
-    }
-}
 
 void print_list_element(List_element **head){
     List_element *temp = *head;
@@ -69,14 +51,6 @@ void print_list_element(List_element **head){
     std::cout << '\n';
 }
 
-void print_list_operation(List_operation **head){
-    List_operation *temp = *head;
-    while(temp != nullptr){
-        std::cout << temp->operation << " ";
-        temp = temp -> next;
-    }
-    std::cout << '\n';
-}
 
 void delete_element_test(List_element **head){
     while(*head != nullptr){
@@ -86,11 +60,5 @@ void delete_element_test(List_element **head){
     }
 }
 
-void delete_operation_test(List_operation **head){
-    while(*head != nullptr){
-        List_operation *temp = *head;
-        *head = (*head) -> next;
-        delete temp;
-    }
-}
+
 
