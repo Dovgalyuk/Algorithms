@@ -60,21 +60,16 @@ string infix_to_rpn(const string& expression) {
 }
 
 void generate_stack_instructions(const string& rpn_expression) {
-    Stack* values = stack_create();
     stringstream tokens(rpn_expression);
     string token;
-    int temp_value = 0;
 
     while (tokens >> token) {
-        if (isdigit(token[0]) || (token.size() > 1 && token[0] == '-')) {
-            temp_value = stoi(token);
+        if (isdigit(token[0])) {
+            int temp_value = stoi(token);
             cout << "PUSH " << temp_value << endl;
-            stack_push(values, temp_value);
         } else {
             cout << "POP A" << endl;
-            stack_pop(values);
             cout << "POP B" << endl;
-            stack_pop(values);
 
             if (token[0] == '+') {
                 cout << "ADD A, B" << endl;
@@ -85,12 +80,10 @@ void generate_stack_instructions(const string& rpn_expression) {
             }
 
             cout << "PUSH A" << endl;
-            stack_push(values, temp_value);
         }
     }
-
-    stack_delete(values);
 }
+
 
 int main(int argc, char** argv) {
     if (argc < 2) {
