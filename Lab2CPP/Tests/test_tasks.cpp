@@ -1,6 +1,8 @@
 #include "lab2.h"
 #include <fstream>
+#include <iostream>
 #include <string>
+
 
 bool check_result(int test_num, std::ifstream &input, std::ifstream &output)
 {
@@ -14,10 +16,12 @@ bool check_result(int test_num, std::ifstream &input, std::ifstream &output)
         line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
         if (lineNum >= res.size())
         {
+            std::cout << "TEST FAIL: lineNum(" << lineNum << ") >= res.size()(" << res.size() << ")" << std::endl;
             return false;
         }
         if (res.at(lineNum) != line)
         {
+            std::cout << "TEST FAIL: expected = " << line << "\nresult = " << res.at(lineNum) << std::endl;
             return false;
         }
         lineNum++;
@@ -39,6 +43,7 @@ int main(int argc, char **argv)
     }
     if (!check_result(1, input, output))
     {
+        std::cout << "TEST 1 FAILED";
         return -2;
     }
     else
