@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(Algorithms)
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 23)
 
 enable_testing()
 set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
