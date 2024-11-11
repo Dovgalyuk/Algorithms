@@ -51,12 +51,12 @@ public:
         return arr[index];
     }
 
-    const Data* operator[](size_t index) const {
+    /*const Data* operator[](size_t index) const {
         if (index >= size_v) {
             return arr[0];
         }
-        return arr[index];
-    }
+        return &arr[index];
+    }*/
 
     ~Vector() {
         delete[] arr;
@@ -128,6 +128,16 @@ public:
         capacity = 0;
         delete[] arr;
         arr = nullptr;
+    }
+
+    Vector<Data> reverse(size_t start, size_t end) {
+        while (start < end) {
+            std::swap(arr[start], arr[end]);
+            ++start;
+            --end;
+        }
+
+        return *this;
     }
 
 private:

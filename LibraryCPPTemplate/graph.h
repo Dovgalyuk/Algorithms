@@ -56,6 +56,9 @@ public:
     // ѕолучение массива ребер
     Vector<Edge<V_type, E_type>> get_edges();
 
+    // ѕолучение пометки ребра по индексам вершин
+    E_type get_edge_mark(size_t a, size_t b);
+
     // ѕроверка св€зи вершин
     bool is_bounded(size_t a, size_t b);
 
@@ -107,8 +110,6 @@ Vertex<V_type> Graph<V_type, E_type>::add_vertex() {
 template <typename V_type, typename E_type>
 Vertex<V_type> Graph<V_type, E_type>::add_vertex(V_type vertex_mark) {
     vertices.push({ vertices.size(), vertex_mark });
-
-    //vertices_q++;
     matrix.push(Vector<unsigned int>(vertices.size(), 0));
 
     for (size_t i = 0; i < matrix.size(); i++) {
@@ -122,8 +123,10 @@ Vertex<V_type> Graph<V_type, E_type>::add_vertex(V_type vertex_mark) {
 
 template <typename V_type, typename E_type>
 Vertex<V_type> Graph<V_type, E_type>::delete_vertex(size_t a) {
-    if (a >= vertices.size())
+    if (a >= vertices.size()) {
+        std::out_of_range("Ќеверный индекс при удалении вершины");
         return Vertex<V_type>();
+    }
 
     matrix.erase(a);
     for (size_t i = 0; i < matrix.size(); i++) {
@@ -138,7 +141,6 @@ Vertex<V_type> Graph<V_type, E_type>::delete_vertex(size_t a) {
     }
 
     Vertex<V_type> temp = vertices.erase(a);
-    //vertices_q--;
     for (size_t i = 0; i < vertices.size(); i++) {
         vertices[i].number = i;
     }
@@ -148,7 +150,7 @@ Vertex<V_type> Graph<V_type, E_type>::delete_vertex(size_t a) {
 template <typename V_type, typename E_type>
 Edge<V_type, E_type> Graph<V_type, E_type>::add_edge(size_t a, size_t b, E_type edge_mark) {
     if (a >= vertices.size() || b >= vertices.size()) {
-        throw std::invalid_argument("Ќеверные индексы при добавлении ребра");
+        throw std::out_of_range("Ќеверные индексы при добавлении ребра");
         return Edge<V_type, E_type>();
     }
 
@@ -159,8 +161,10 @@ Edge<V_type, E_type> Graph<V_type, E_type>::add_edge(size_t a, size_t b, E_type 
 
 template <typename V_type, typename E_type>
 Edge<V_type, E_type> Graph<V_type, E_type>::delete_edge(size_t a, size_t b) {
-    if ((a >= vertices.size() || b >= vertices.size()) || matrix[a][b] <= 0)
+    if ((a >= vertices.size() || b >= vertices.size()) || matrix[a][b] <= 0) {
+        throw std::out_of_range("Ќеверные индексы при удалении ребра или ребра не существует");
         return Edge<V_type, E_type>();
+    }
 
     matrix[a][b]--;
     return edges.erase(edge_index(a, b));
@@ -170,11 +174,16 @@ template <typename V_type, typename E_type>
 Vertex<V_type> Graph<V_type, E_type>::set_mark(size_t a, V_type mark) {
     if (a < vertices.size())
         vertices[a].mark = mark;
+    else
+        throw std::out_of_range("Ќеверный индекс при добавлении пометки вершины");
     return vertices[a];
 }
 
 template <typename V_type, typename E_type>
 Vertex<V_type>& Graph<V_type, E_type>::get_vertex_by_index(size_t index) {
+    if(index >= vertices.size()) {
+        throw std::out_of_range("Ќеверный индекс при получении вершины");
+    }
     return vertices[index];
 }
 
@@ -198,7 +207,23 @@ Vector<Edge<V_type, E_type>> Graph<V_type, E_type>::get_edges() {
 }
 
 template <typename V_type, typename E_type>
+E_type Graph<V_type, E_type>::get_edge_mark(size_t a, size_t b) {
+    if (a >= vertices.size() || b >= vertices.size()) {
+        std::out_of_range("Ќеверные индексы при получении пометки ребра");
+        return E_type();
+    }
+    if (!is_bounded(a, b)) {
+        std::out_of_range("¬ершины не св€зан");
+        return E_type();
+    }
+    return edges[edge_index(a, b)].mark;
+}
+
+template <typename V_type, typename E_type>
 bool Graph<V_type, E_type>::is_bounded(size_t a, size_t b) {
+    if (a >= vertices.size() || b >= vertices.size()) {
+        throw std::out_of_range("Ќеверные индексы при проверки св€занности");
+    }
     for (size_t i = 0; i < edges.size(); i++)
         if (edges[i].start->number == a && edges[i].destination->number == b)
             return true;
@@ -213,6 +238,8 @@ int Graph<V_type, E_type>::edge_index(size_t a, size_t b) {
                 return i;
         }
     }
+    else
+        std::out_of_range("Ќеверные индесы при получении индекса ребра");
     return -1;
 }
 
@@ -259,6 +286,9 @@ private:
 
 template <typename V_type, typename E_type>
 typename Graph<V_type, E_type>::Iterator Graph<V_type, E_type>::begin(size_t index) {
+    if (index >= vertices.size())
+        std::out_of_range("Ќеверный индекс при инициализации итератора");
+
     for (size_t i = 0; i < edges.size(); i++) {
         if (edges[i].start->number == index) {
             return Iterator(this, index, i);
@@ -270,6 +300,9 @@ typename Graph<V_type, E_type>::Iterator Graph<V_type, E_type>::begin(size_t ind
 
 template <typename V_type, typename E_type>
 typename Graph<V_type, E_type>::Iterator Graph<V_type, E_type>::end(size_t index) {
+    if (index >= vertices.size())
+        std::out_of_range("Ќеверный индекс при инициализации итератора");
+
     return Iterator(this, index, edges.size());
 }
 
