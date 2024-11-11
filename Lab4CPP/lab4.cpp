@@ -6,6 +6,7 @@
 #include "graph.h"
 #include "vector.h"
 
+//#define output_path
 #define ERROR_VALUE std::numeric_limits<size_t>::max()
 
 std::pair<unsigned int, Vector<std::string>> find_min_path(Graph<std::string, unsigned int> graph, size_t a, size_t b);
@@ -67,10 +68,9 @@ std::pair<unsigned int, Vector<std::string>> find_min_path(Graph<std::string, un
         }
     }
 
-    // Восстановление пути
     Vector<std::string> path;
     for (size_t at = end; at != ERROR_VALUE; at = previous[at]) {
-        path.push(graph.get_vertex_by_index(at).mark); // Предполагается, что есть метод get_mark
+        path.push(graph.get_vertex_by_index(at).mark);
     }
 
     return { distances[end], path.reverse(0, path.size() - 1)};
@@ -103,14 +103,12 @@ int init(Graph<std::string, unsigned int>& graph, std::ifstream &in) {
     }
 
     while (k) {
-        if (a != -1) {
-            in >> a >> b >> edge_mark;
-            if (a == ERROR_VALUE || b == ERROR_VALUE || edge_mark == ERROR_VALUE) {
-                std::cout << "Некорректный индекс или пометка ребра\n";
-                return 1;
-            }
-            graph.add_edge(a, b, edge_mark);
+        in >> a >> b >> edge_mark;
+        if (a == ERROR_VALUE || b == ERROR_VALUE || edge_mark == ERROR_VALUE) {
+            std::cout << "Некорректный индекс или пометка ребра\n";
+            return 1;
         }
+        graph.add_edge(a, b, edge_mark);
         k--;
     }
 
@@ -118,16 +116,23 @@ int init(Graph<std::string, unsigned int>& graph, std::ifstream &in) {
 }
 
 void output(std::pair<unsigned int, Vector<std::string>> data, std::string a, std::string b) {
+#ifndef output_path
+    if (data.first != std::numeric_limits<unsigned int>::max())
+        std::cout << data.first << '\n';
+    else
+        std::cout << "n/a" << '\n';
+#endif
+#ifdef output_path
     std::cout << "Минимальное расстояние от " << a << " до " << b << " : ";
     if(data.first != std::numeric_limits<unsigned int>::max())
         std::cout << data.first << '\n';
     else
-        std::cout << "не определено" << '\n';
+        std::cout << "n/a" << '\n';
 
     std::cout << "Путь: ";
 
     if (data.first == std::numeric_limits<unsigned int>::max()) {
-        std::cout << "не определен" << '\n';
+        std::cout << "n/a" << '\n';
         return;
     }
 
@@ -137,4 +142,5 @@ void output(std::pair<unsigned int, Vector<std::string>> data, std::string a, st
         else
             std::cout << data.second[i] << '\n';
     }
+#endif
 }
