@@ -1,7 +1,10 @@
-add_executable(Lab4 lab4.cpp)
-#add_executable(Test test.cpp)
-
+add_executable(Lab4CPP lab4.cpp)
 include_directories(${CMAKE_SOURCE_DIR}/LibraryCPPTemplate)
 
-add_test(NAME Test4Lab4CPP COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-set_tests_properties(Test4Lab3CPP PROPERTIES PASS_REGULAR_EXPRESSION "4")
+add_test(NAME Test1Lab4CPP COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/input1.txt)
+add_test(NAME Test2Lab4CPP COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
+add_test(NAME Test3Lab4CPP COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/input3.txt)
+
+set_tests_properties(Test1Lab4CPP PROPERTIES PASS_REGULAR_EXPRESSION "3")
+set_tests_properties(Test2Lab4CPP PROPERTIES PASS_REGULAR_EXPRESSION "n/a")
+set_tests_properties(Test3Lab4CPP PROPERTIES PASS_REGULAR_EXPRESSION "3")
