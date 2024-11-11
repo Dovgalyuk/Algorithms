@@ -8,7 +8,7 @@
 // Stores pointer to custom user data
 typedef void *Data;
 // Custom function to free user pointers on delete
-typedef void (*FFree)(void *);
+typedef void(FFree)(void *);
 
 typedef struct Queue Queue;
 
