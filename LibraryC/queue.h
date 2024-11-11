@@ -1,13 +1,14 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include "vector.h"
 #include <stdbool.h>
 
 // Queue
 // Stores pointer to custom user data
-typedef void* Data;
+typedef void *Data;
 // Custom function to free user pointers on delete
-typedef void (FFree)(void*);
+typedef void (*FFree)(void *);
 
 typedef struct Queue Queue;
 
