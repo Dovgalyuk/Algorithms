@@ -40,8 +40,8 @@ public:
     // Should be O(1) on average
     void insert(Data data)
     {
-        if (_list.last())
-            _list.insert_after(_list.last(), data);
+        if (_list.first())
+            _list.insert_after(_list.first()->prev(), data);
         else
             _list.insert(data);
     }

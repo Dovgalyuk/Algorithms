@@ -22,20 +22,20 @@ public:
     };
 
     // Creates new list
-    List() : _head(nullptr), _tail(nullptr)
+    List() : _head(nullptr)
     {
     }
 
     // copy constructor
-    List(const List& a) : _head(nullptr), _tail(nullptr) {
+    List(const List& a) : _head(nullptr) {
         if (a._head) {
-            Item* current = a._tail;
+            Item* current = a.first()->prev();
 
             do {
                 // copy in reverse order to save the original order
                 insert(current->data());
                 current = current->prev();
-            } while (current != a._tail);
+            } while (current != a.first()->prev());
         }
     }
 
@@ -65,26 +65,20 @@ public:
         return _head;
     }
 
-    Item* last() const
-    {
-        return _tail;
-    }
-
     // Inserts new list item into the beginning
     Item* insert(Data data)
     {
         Item* new_item = new Item(data);
 
         if (_head) {
-            new_item->_next = _head; // Новый элемент указывает на старую голову
-            new_item->_prev = _tail; // Новый элемент указывает на старый хвост
-            _head->_prev = new_item;  // Старая голова теперь указывает на новый элемент 
-            _tail->_next = new_item;   // Старый хвост теперь указывает на новый элемент 
+            new_item->_next = _head; // The new item points to the old head
+            new_item->_prev = _head->_prev; // The new item points to the last item
+            _head->_prev->_next = new_item;   // The last item points to the new head
+            _head->_prev = new_item;  // The old head points to the new item
         }
         else {
-            new_item->_next = new_item; // Указываем на себя
-            new_item->_prev = new_item; // Указываем на себя
-            _tail = new_item;           // Устанавливаем хвост
+            new_item->_next = new_item; //  Pointing to himself
+            new_item->_prev = new_item; //  Pointing to himself
         }
 
         _head = new_item;
@@ -99,14 +93,10 @@ public:
 
         Item* new_item = new Item(data);
 
-        if (_head) {
-            new_item->_next = item->_next;
-            new_item->_prev = item;
-            item->_next->_prev = new_item;
-            item->_next = new_item;
-
-            if (item == _tail) _tail = new_item;
-        }
+        new_item->_next = item->_next;
+        new_item->_prev = item;
+        item->_next->_prev = new_item;
+        item->_next = new_item;
 
         return new_item;
     }
@@ -120,12 +110,11 @@ public:
         Item* to_delete = _head;
         if (_head->_next == _head) { // Only one item in the list
             _head = nullptr;
-            _tail = nullptr;
         }
         else {
+            _head->_prev->_next = _head->_next;
+            _head->_next->_prev = _head->_prev;
             _head = _head->_next;
-            _tail->_next = _head;
-            _head->_prev = _tail;
         }
 
         delete to_delete;
@@ -139,10 +128,9 @@ public:
     {
         if (!item || item->_next == item) return nullptr; // No next item or only one item
 
-        if (item->next == _tail) _tail = item;
-
-        Item* to_delete = item->next();
-        item->next_ = to_delete->next();
+        Item* to_delete = item->_next;
+        item->_next = to_delete->_next;
+        to_delete->_next->_prev = item;
 
         delete to_delete;
         return item->next();
@@ -150,6 +138,5 @@ public:
 private:
     // private data should be here
     Item* _head; // Pointer to the first item in the list
-    Item* _tail;
 };
 #endif

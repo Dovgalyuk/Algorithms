@@ -28,6 +28,7 @@ int* read_grid(const char* file, vector<vector<char>>& grid);
 void init_board(const vector<vector<char>>& grid, vector<vector<int>>& board);
 void print_grid(const vector<vector<char>>& grid);
 bool is_valid(int x, int y, const vector<vector<char>>& grid);
+void retrace_path(vector<vector<char>>& grid, Position* current);
 void find_shortest_path(vector<vector<char>>& grid, int start_x, int start_y, int end_x, int end_y);
 
 int main(int argc, char** argv) {
@@ -67,7 +68,7 @@ int* read_grid(const char* file, vector<vector<char>>& grid) {
 
                 grid[i][j] = ch;
             }
-            // reading the '/n' symbol
+            // reading the '\n' symbol
             in.get(ch);
         }
     }
@@ -106,6 +107,18 @@ bool is_valid(int x, int y, const vector<vector<char>>& grid) {
     return (x >= 0 && x < N && y >= 0 && y < M && grid[y][x] != '#');
 }
 
+void retrace_path(vector<vector<char>>& grid, Position* current) {
+    Position* position = current;
+
+    // Drawing the shortest path on the original grid
+    while (position != nullptr) {
+        grid[position->y][position->x] = (char)(position->step + '0');
+        position = position->prev;
+    }
+
+    print_grid(grid);
+}
+
 void find_shortest_path(vector<vector<char>>& grid, int start_x, int start_y, int end_x, int end_y) {
     vector<vector<int>> board(M, vector<int>(N, 0));
     vector<Position*> positions;
@@ -114,26 +127,16 @@ void find_shortest_path(vector<vector<char>>& grid, int start_x, int start_y, in
     init_board(grid, board);
 
     Queue<Position*> q;
-    Position* start_position = new Position({ start_x, start_y, 0, nullptr });
-    q.insert(start_position);
+    Position* current = new Position({ start_x, start_y, 0, nullptr });
+    q.insert(current);
     board[start_y][start_x] = 0;
 
     while (!q.empty() && !is_found) {
-        Position* current = q.get();
+        current = q.get();
         q.remove();
 
         // If we have reached the target position
         if (current->x == end_x && current->y == end_y) {
-            Position* position = current;
-
-            // Drawing the shortest path on the original grid
-            while (position != nullptr) {
-                grid[position->y][position->x] = (char)(position->step + '0');
-                position = position->prev;
-            }
-
-            print_grid(grid);
-
             is_found = true;
             break;
         }
@@ -152,6 +155,9 @@ void find_shortest_path(vector<vector<char>>& grid, int start_x, int start_y, in
         }
     }
 
+    if (is_found) retrace_path(grid, current);
+    else cout << "No path found!" << endl; // If the path is not found
+
     // Free the memory for all found positions
     for (Position* pos : positions) {
         delete pos;
@@ -161,8 +167,4 @@ void find_shortest_path(vector<vector<char>>& grid, int start_x, int start_y, in
     while (!q.empty()) {
         q.remove();
     }
-
-    delete start_position;
-
-    if(!is_found) cout << "No path found!" << endl; // If the path is not found
 }
