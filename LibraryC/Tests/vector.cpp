@@ -58,7 +58,7 @@ int main() {
         return 1;
     }
 
-    std::cout << "Vector: ";
+    std::cout << "Vector123: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
         std::cout << vector_get_int(vector, i) << " ";
     std::cout << "\n";
