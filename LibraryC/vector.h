@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 // Creates vector
-Vector *vector_create(FFree f);
+Vector *vector_create(size_t capacity, FFree f);
 
 // Deletes vector structure and internal data
 void vector_delete(Vector *vector);
@@ -32,7 +32,11 @@ size_t vector_size(const Vector *vector);
 
 // Changes the vector size (may increase or decrease)
 // Should be O(1) on average
-void vector_resize(Vector *vector, size_t size);
+void vector_resize(Vector *vector, size_t new_size);
+
+void push_back(Vector *vector, Data value);
+
+Data pop_back(Vector *vector);
 
 #ifdef __cplusplus
 }

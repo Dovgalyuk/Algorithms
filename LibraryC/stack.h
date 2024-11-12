@@ -2,6 +2,7 @@
 #define STACK_H
 
 #include <stdbool.h>
+#include "vector.h"
 
 // Stack
 // Stores pointer to custom user data
@@ -16,7 +17,9 @@ extern "C" {
 #endif
 
 // Creates empty stack
-Stack *stack_create(FFree f);
+Stack *stack_create();
+
+Vector *stack_get_vector(Stack *stack);
 
 // Deletes the stack
 void stack_delete(Stack *stack);
@@ -26,11 +29,11 @@ void stack_delete(Stack *stack);
 void stack_push(Stack *stack, Data data);
 
 // Retrives the last element from the stack
-Data stack_get(const Stack *stack);
+Data stack_get(const Stack *stack, size_t index);
 
 // Removes the last element from the stack
 // Should be O(1)
-void stack_pop(Stack *stack);
+Data stack_pop(Stack *stack);
 
 // Returns true if the stack is empty
 bool stack_empty(const Stack *stack);
