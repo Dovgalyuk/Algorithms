@@ -90,7 +90,7 @@ int main()
 {
     Array *arr = NULL;
     FILE* input = NULL;
-    fopen_s(&input, "D:\\Ó÷åáà\\ÍîâÃÓ\\Êóğñ 2\\ÑÄÈÀ\\Algorithms\\Lab1C\\input.txt", "r");
+    fopen_s(&input, "input.txt", "r");
     arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
