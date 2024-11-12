@@ -3,20 +3,21 @@
 #include <string>
 #include "stack.h"
 
-bool isMatchingPair(char opening, char closing) {
+bool isMatchingPair(unsigned char opening, unsigned char closing) {
     return (opening == '(' && closing == ')') ||
            (opening == '[' && closing == ']') ||
            (opening == '{' && closing == '}') ||
-           (opening == '\"' && closing == '\"') ||
-           (opening == '\'' && closing == '\'');
+           (opening == '\u201Cu201D' && closing == '\u201D\u201D') ||
+           (opening == '\u201Bu2019' && closing == '\u201B\u2019');
 }
+
 
 bool isValidSequence(const std::string& sequence) {
     Stack *stack = stack_create(); // Создаём стек
     for (char ch : sequence) {
-        if (ch == '(' || ch == '[' || ch == '{' || ch == '\"' || ch == '\'') {
+        if (ch == '(' || ch == '[' || ch == '{' || ch == '\u201Cu201D' || ch == '\u201D\u201D') {
             stack_push(stack, static_cast<Data>(ch)); // Передаем корректный тип данных
-        } else if (ch == ')' || ch == ']' || ch == '}' || ch == '\"' || ch == '\'') {
+        } else if (ch == ')' || ch == ']' || ch == '}' || ch == '\u201Bu2019' || ch == '\u201B\u2019') {
             if (stack_empty(stack)) {
                 stack_delete(stack); // Освобождаем память перед выходом
                 return false; // Неправильная последовательность
