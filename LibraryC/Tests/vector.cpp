@@ -23,7 +23,7 @@ int vector_get_int(Vector *v, size_t i) {
     Data data = vector_get(v, i);
     if (data == NULL) {
         std::cerr << "Ошибка: данные по индексу " << i << " являются NULL!\n";
-        return -1;
+        return NULL;
     }
     
     return *(int *)data;
