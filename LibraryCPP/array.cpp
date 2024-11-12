@@ -9,8 +9,6 @@ struct Array{
 
 // create array
 Array *array_create(size_t size) {
-    if (size == 0) //Проверка на размер
-        return nullptr;
     Array *arr = new Array;
     arr->data = new Data[size];
     arr->size = size;
