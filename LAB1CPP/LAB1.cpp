@@ -38,11 +38,16 @@ void task1(ostream* output, Array *arr)
 
     for (int i = 0; i < static_cast<int>(array_size(arr)); i++) {
         int array_element = array_get(arr, i);
-        result += array_element;
+        
+        while (array_element > 0) {
+            result += array_element % 10;
+            array_element /= 10;          
+        }
     }
 
     *output << "Task1: " << result << endl;
 }
+
 
 void task2(ostream* output, Array *arr)
 {
