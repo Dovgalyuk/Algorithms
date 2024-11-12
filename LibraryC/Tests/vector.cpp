@@ -13,14 +13,19 @@ int vector_get_int(Vector *v, size_t i) {
         return -1;
     }
 
-    size_t current_size = vector_size(v);
+    //size_t current_size = vector_size(v);
     
-    if (i >= current_size) {
+    if (i >= /*current_size*/ v->size) {
         std::cerr << "Ошибка: индекс " << i << " вне границ вектора (текущий размер: " << vector_size(v) << ")!\n";
         return -1;
     }
 
     Data data = vector_get(v, i);
+    // if (data == NULL) {
+    //     std::cerr << "Ошибка: данные по индексу " << i << " являются NULL!\n";
+    //     return -1;
+    // }
+    
     return *(int *)data;
 }
 
