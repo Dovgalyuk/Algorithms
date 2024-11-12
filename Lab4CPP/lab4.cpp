@@ -96,8 +96,8 @@ int main(int argc, char **argv)
 	make_set(vertices, ranks);
 	while ((cnt < n - 1) and (ind_edge < m)){
 		typename Graph<int, int>::edge *e = g.find_edge(edges[ind_edge]);
-		a = e->from->index;
-		b = e->to->index;
+		a = e->from->get_mark();
+		b = e->to->get_mark();
 
 		if (find(vertices, a) != find(vertices, b)) {
 			ans[cnt++] = edges[ind_edge];

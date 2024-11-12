@@ -18,10 +18,10 @@ public:
 		vertex *ver;
 		typename List<edge*>::Item *ptr;
 
-		iterator(Graph *g, vertex *ver) : ver(ver)
+		iterator(vertex *ver) : ver(ver)
 		{
-			if (ver) {
-				ptr = g->adjacency_list[ver->index]->first();
+			if (ver and ver->edges) {
+				ptr = ver->edges->first();
 			} else {
 				ptr = nullptr;
 			}
@@ -58,7 +58,7 @@ public:
 				throw std::runtime_error("Dereferencing a null iterator");
 
 			edge *e = ptr->data();
-			if (e->from->index == ver->index)
+			if (e->from == ver)
 				return *(e->to);
 			else
 				return *(e->from);
@@ -67,15 +67,22 @@ public:
 
 	struct vertex {
 		vertex_mark_type mark;
-		size_t index;
+		List<edge*> *edges; 
 
-		vertex(vertex_mark_type mark, size_t ind) : mark(mark), index(ind) {};
-		vertex(size_t ind) : index(ind) {};
+		vertex(vertex_mark_type mark, List<edge*> *edges) : mark(mark), edges(edges) {};
+		vertex(vertex_mark_type mark) : mark(mark), edges(nullptr) {};
+		vertex(List<edge*> *edges) : edges(edges) {};
+		vertex() : edges(nullptr) {};
 
 		void set_mark(vertex_mark_type mark)
 		{
 			this->mark = mark;
 		} 
+
+		void set_list_edges(List<edge*> *ptr) 
+		{
+			edges = ptr;
+		}
 
 		vertex_mark_type get_mark()
 		{
@@ -109,7 +116,7 @@ public:
 		vertices.resize(num_vertices);
 		for (size_t ind = 0; ind < num_vertices; ind++) {
 			adjacency_list[ind] = new List<edge*>;
-			vertices[ind] = new vertex(ind);
+			vertices[ind] = new vertex(adjacency_list[ind]);
 		}
 	}
 
@@ -155,8 +162,8 @@ public:
 
 	void add_vertex(vertex_mark_type mark) 
 	{
-		vertices.push_back(new vertex(mark, count_vertices++));
 		adjacency_list.push_back(new List<edge*>);
+		vertices.push_back(new vertex(mark, adjacency_list[count_vertices++]));
 	}
 
 	size_t add_edge(size_t from_vertex_ind, size_t to_vertex_ind, edge_mark_type mark) 
@@ -181,7 +188,7 @@ public:
 		typename List<edge*>::Item *item = adjacency_list[from_index]->first();
 		while (item) {
 			if (item->data()) {
-				if (item->data()->to->index == to_index)
+				if (item->data()->to == vertices[to_index])
 					return true;
 			}
 			item = item->next();
@@ -213,45 +220,6 @@ public:
 		return ans;
 	}
 
-	void remove_edge(size_t vertex_index, size_t id)
-	{
-		typename List<edge*>::Item *item = adjacency_list[vertex_index]->first();
-		while (item) {
-			if ((item->data()) and (item->data()->id == id))
-				break;
-			item = item->next();
-		}
-
-		if (item) {
-			if (item->prev())
-				adjacency_list[vertex_index]->erase_next(item->prev());
-			else
-				adjacency_list[vertex_index]->erase_first();
-		}
-	}
-
-	void delete_edge(edge *e)
-	{
-		if (!e)
-			throw std::invalid_argument("[delete_edge] The pointer is nullptr");
-
-		remove_edge(e->from->index, e->id);
-		remove_edge(e->to->index, e->id);
-
-		delete e;
-	}
-
-	void delete_edge(size_t vertex_ind, size_t id)
-	{
-		if (vertex_ind >= count_vertices)
-			throw std::out_of_range("[delete_edge] Incorrect index");
-
-		edge *e = find_edge(vertex_ind, id);
-		if (!e)
-			throw std::invalid_argument("[delete_edge] The edge was not found");
-		delete_edge(e);
-	}
-
 	void delete_edge(size_t id)
 	{
 		edge *e = find_edge(id);
@@ -274,7 +242,6 @@ public:
 		if (ind + 1 != count_vertices) {
 			adjacency_list[ind] = adjacency_list[count_vertices - 1];
 			vertices[ind] = vertices[count_vertices - 1];
-			vertices[ind]->index = ind;
 		} 
 		
 		vertices.pop_back();
@@ -305,7 +272,7 @@ public:
 		if (ver_ind >= count_vertices)
 			throw std::out_of_range("[iterator begin] Incorrect index");
 
-		return iterator(this, vertices[ver_ind]);
+		return iterator(vertices[ver_ind]);
 	}
 
 	iterator end(size_t ver_ind)
@@ -313,7 +280,7 @@ public:
 		if (ver_ind >= count_vertices)
 			throw std::out_of_range("[iterator end] Incorrect index");
 		
-		return iterator(this, nullptr);
+		return iterator(nullptr);
 	}
 
 private:
@@ -321,6 +288,34 @@ private:
 	size_t next_edge_id;
 	Vector<vertex*> vertices;
 	Vector<List<edge*>*> adjacency_list;
+
+	void remove_edge(vertex *ver, size_t id)
+	{
+		typename List<edge*>::Item *item = ver->edges->first();
+		while (item) {
+			if ((item->data()) and (item->data()->id == id))
+				break;
+			item = item->next();
+		}
+
+		if (item) {
+			if (item->prev())
+				ver->edges->erase_next(item->prev());
+			else
+				ver->edges->erase_first();
+		}
+	}
+
+	void delete_edge(edge *e)
+	{
+		if (!e)
+			throw std::invalid_argument("[delete_edge] The pointer is nullptr");
+
+		remove_edge(e->from, e->id);
+		remove_edge(e->to, e->id);
+
+		delete e;
+	}
 };
 
 #endif
