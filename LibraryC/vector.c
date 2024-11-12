@@ -65,6 +65,15 @@ size_t vector_size(const Vector *vector) {
 }
 
 void vector_resize(Vector *vector, size_t new_size) {
+    if (new_size < 0) {
+        printf("Ошибка: новый размер не может быть отрицательным\n");
+        return;
+    }
+
+    if (new_size == vector->size) {
+        return;
+    }
+
     if (new_size > vector->capacity) {
         Data *new_data = realloc(vector->data, new_size * sizeof(Data));
         if (new_data == NULL) {
@@ -74,6 +83,14 @@ void vector_resize(Vector *vector, size_t new_size) {
         vector->data = new_data;
         vector->capacity = new_size;
     }
+
+    else {
+        for (size_t i = new_size; i < vector->size; i++) {
+            free(vector->data[i]);
+        }
+    }
+
+    vector->size = new_size;
 }
 
 void push_back(Vector *vector, Data value) {
