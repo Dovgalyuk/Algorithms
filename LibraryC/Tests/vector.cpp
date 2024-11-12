@@ -52,18 +52,18 @@ int main() {
     }
 
     vector_resize(vector, 10);
-    std::cout << "Vector10: ";
     if (vector_size(vector) != 10)
     {
         std::cout << "Invalid resize\n";
         return 1;
     }
 
-    std::cout << "Vector10: ";
+    std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) 
         std::cout << vector_get_int(vector, i) << " ";
     std::cout << "\n";
 
+    std::cout << "Complite: ";
     vector_resize(vector, 3);
     std::cout << "Vector3: ";
     if (vector_size(vector) != 3)
