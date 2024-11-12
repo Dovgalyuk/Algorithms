@@ -43,7 +43,7 @@ void vector_delete(Vector *vector) {
 Data vector_get(const Vector *vector, size_t index) {
     if (vector == NULL || index >= vector->size) {
         printf("Ошибка: массив пуст или индекс выходит за пределы");
-        return 0;
+        return NULL;
     }
 
     return vector->data[index];
@@ -80,13 +80,16 @@ void vector_resize(Vector *vector, size_t new_size) {
         vector->data = new_data;
         vector->capacity = new_size;
     }
-    else {
-        for (size_t i = new_size; i < vector->size; i++) {
-            free(vector->data[i]);
-        }
-    }
-    vector->size = new_size;
-
+    if (new_size < vector->size) {
+       for (size_t i = new_size; i < vector->size; i++) {
+           if (vector->data[i] != NULL) {
+               if (vector->distruct != NULL) {
+                   vector->distruct(vector->data[i]);
+               }
+           }
+       }
+   }
+   vector->size = new_size;
     for (size_t j = vector->size; j < new_size; ++j) {
         vector->data[j] = NULL;
     }
