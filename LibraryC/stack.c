@@ -48,7 +48,15 @@ Data stack_get(const Stack *stack, size_t index)
 
 Data stack_pop(Stack *stack)
 {
-    return pop_back(stack->vector);
+    if (stack_empty(stack)) {
+        fprintf(stderr, "Ошибка: попытка извлечь элемент из пустого стека.\n");
+        exit(1);
+    }
+    
+    Data item = pop_back(stack->vector);
+
+    free(item);
+    return item;
 }
 
 bool stack_empty(const Stack *stack)
