@@ -26,7 +26,11 @@ void machine_operations(const string& filename){
             stack_push(stack, number);
         }
         else if (operation == "pop"){
-            stack_pop(stack);
+            if (!stack_empty(stack)) {
+                stack_pop(stack);
+            } else {
+                cerr << "error: stack is empty" << endl;
+            }
         }
         else if (operation == "imul"){
             int a = stack_get(stack);
@@ -123,8 +127,13 @@ void machine_operations(const string& filename){
     file.close();
 }
 
-int main(){
-    string filename = "input.txt";
+int main(int argc, char* argv[]){
+    if (argc != 2) {
+        cerr << "usage: " << argv[0] << " <file_path>" << endl;
+        return 1;
+    }
+
+    string filename = argv[1];
     machine_operations(filename);
     
     return 0;

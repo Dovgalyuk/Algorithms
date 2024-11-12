@@ -55,6 +55,7 @@ ListItem *list_insert(List *list, Data data)
     return item_insert;
 }
 
+/*
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
     if (item == nullptr) return nullptr;
@@ -66,6 +67,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
     return insert_after;
 }
+*/
 
 ListItem *list_erase_first(List *list)
 {
@@ -78,7 +80,7 @@ ListItem *list_erase_first(List *list)
     return list->head;
 }
 
-ListItem *list_erase_next(List *list, ListItem *item)
+/*ListItem *list_erase_next(List *list, ListItem *item)
 {
     if (item == nullptr || item->next == nullptr) return nullptr;
 
@@ -88,3 +90,4 @@ ListItem *list_erase_next(List *list, ListItem *item)
     delete item_delete;
     return item->next;
 }
+*/
