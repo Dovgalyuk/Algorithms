@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 #include "vector.h"
 
 void myfree(void *p)
@@ -8,6 +9,10 @@ void myfree(void *p)
 
 int vector_get_int(Vector *v, size_t i)
 {
+    if (i >= vector_size(v)) {
+           printf("Ошибка: индекс %zu вне границ в vector_get_int\n", i);
+           return 0;
+       }
     return *(int*)vector_get(v, i);
 }
 
