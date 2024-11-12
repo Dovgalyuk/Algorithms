@@ -83,14 +83,16 @@ void vector_resize(Vector *vector, size_t new_size) {
         vector->data = new_data;
         vector->capacity = new_size;
     }
-
     else {
         for (size_t i = new_size; i < vector->size; i++) {
             free(vector->data[i]);
         }
     }
-
     vector->size = new_size;
+
+    for (size_t j = vector->size; j < new_size; ++j) {
+        vector->data[j] = NULL;
+    }
 }
 
 void push_back(Vector *vector, Data value) {
