@@ -8,7 +8,7 @@ void myfree(void *p)
 
 int stack_get_int(Stack *s)
 {
-    void *v = stack_get(s, 0);
+    void *v = stack_get(s);
     if (!v)
     {
         std::cout << "Invalid stack_get\n";
