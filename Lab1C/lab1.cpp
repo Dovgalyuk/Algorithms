@@ -6,7 +6,7 @@
 Array* array_create_and_read(FILE* input)
 {
     size_t n;
-    fscanf(input, "%d", &n);
+    fscanf(input, "%zu", &n);
     /* Create array */
     Array* arr = array_create(n);
     /* Read array data */
