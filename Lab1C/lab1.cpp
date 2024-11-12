@@ -5,16 +5,16 @@
 
 Array* array_create_and_read(FILE* input)
 {
-    size_t n;
-    fscanf(input, "%zu", &n);
+    int n;
+    fscanf(input, "%d", &n);
     /* Create array */
-    Array* arr = array_create(n);
+    Array* arr = array_create((size_t)n);
     /* Read array data */
-    for (size_t i = 0; i < n; ++i)
+    for (int i = 0; i < n; ++i)
     {
         int x;
         fscanf(input, "%d", &x);
-        array_set(arr, i, x);
+        array_set(arr, (size_t)i, x);
     }
     return arr;
 }
