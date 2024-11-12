@@ -2,14 +2,6 @@
 #include <stdlib.h>
 
 
-struct List_element {
-    Data element;
-    struct List_element *next;
-    FFree *distruct;
-};
-
-
-
 List_element *create_list_element (List_element **head, FFree f) {
     *head = (List_element *)malloc(sizeof(List_element));
     if(*head == NULL){
@@ -25,14 +17,20 @@ List_element *create_list_element (List_element **head, FFree f) {
 void delete_list_memory_element (List_element **head){
     List_element *temp = *head;
     List_element *next;
-    if(*head != NULL && (*head) -> distruct != NULL){
-        while (temp !=  NULL){
-            next = temp -> next;
-            free(temp);
-            temp = next;
-        }
+    while (temp !=  NULL){
+        next = temp -> next;
+        free(temp);
+        temp = next;
     }
     *head = NULL;
 }
 
 
+void add_list_element(List_element** head, char x) {
+    List_element *new_element = (List_element *)malloc(sizeof(List_element));
+    if (new_element != NULL) {
+        new_element->element = x;
+        new_element->next = *head;
+        *head = new_element;
+    }
+}

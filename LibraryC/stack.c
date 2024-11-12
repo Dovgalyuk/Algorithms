@@ -5,134 +5,65 @@
 
 
 
-Stack *create_stack_element(List_element **head ,FFree f) {
-    
-    Stack *stack =(Stack *)malloc(sizeof(Stack));
-    if(stack == NULL){
+Stack *create_stack(List_element **head ,FFree f) {
+
+    Stack *new_element = (Stack *)malloc(sizeof(Stack));
+    if(NULL == new_element){
         return NULL;
     } else {
-        stack -> element = '\0';
-        stack -> next = NULL;
-        return stack;
+        new_element -> top = NULL;
+        new_element -> distruct = f;
+        return new_element;
     }
 }
 
 
-Stack_operation *create_stack_operation(List_element **head ,FFree f) {
+void stack_push(Stack *stack, Data elements) {
 
-    Stack_operation *stack = (Stack_operation *)malloc(sizeof(Stack_operation));
-    if(stack == NULL){
-        return NULL;
-    } else {
-        stack -> operation = '\0' ;
-        stack -> next = NULL;
-        return stack;
-    }
-}
-
-
-void stack_push_element (Stack **head, char elements) {
-
-    Stack *value = (Stack *)malloc(sizeof(Stack));
-    if (value == NULL){
+    List_element *new_element = (List_element *)malloc(sizeof(List_element));
+    if(NULL == new_element){
         return;
     } else {
-        value -> next = *head;
-        value -> element = elements;
-        *head = value;
+        new_element -> element = elements;
+        new_element -> next = stack -> top;
+        stack -> top = new_element;
     }
 }
 
+Data stack_pop(Stack *stack) {
 
-void stack_push_operation (Stack_operation **head, char operations) {
-
-    Stack_operation *value = (Stack_operation *)malloc(sizeof(Stack_operation));
-    if(value == NULL){
-        return;
-    } else {
-        value -> next = *head;
-        value -> operation = operations;
-        *head = value;
-    }
-}
-
-
-int stack_empty_operation(Stack_operation **head) {
-    return (*head == NULL) ? 1 : 0;
-}
-
-Stack_operation *stack_peek_operation(Stack_operation **head) {
-
-    if(*head != NULL){
-        return *head;
-    } else {
-        return NULL;
-    }
-}
-
-
-char stack_pop_operation (Stack_operation **head) {
-
-    if(*head == NULL){
+    if(NULL == stack -> top){
         return '\0';
     } else {
-        Stack_operation *temp = *head;
-        char operation = temp -> operation;
-        *head = (*head) -> next;
-        free(temp);
-        return operation;
-    }
-}
-
-
-char stack_pop_element (Stack **head) {
-
-    if(*head == NULL){
-        return '\0';
-    } else {
-        Stack *temp  = *head;
-        char element = temp -> element;
-        *head = (*head) -> next;
-        free(temp);
+        List_element *top_element = stack -> top;
+        Data element = top_element -> element;
+        stack -> top = top_element -> next;
+        free(top_element);
         return element;
     }
 }
 
+int stack_is_empty (Stack *stack) {
 
-void free_stack_element(Stack **head) {
+    return (stack -> top == NULL) ? 1:0;
+}
 
-    Stack *temp = *head;
+void free_stack (Stack *stack) {
 
-    while(temp != NULL){
-        Stack *next = temp -> next;
-        free(temp);
-        temp = next;
+    while(!stack_is_empty(stack)){
+        List_element *top_element = stack -> top;
+        stack -> top = top_element -> next;
+        free(top_element);
     }
-
-    *head = NULL;
+    free(stack);
 }
 
 
+Data stack_get(const Stack *stack) {
 
-void free_stack_operation(Stack_operation **head) {
-
-    Stack_operation *temp = *head;
-
-    while(temp != NULL){
-        Stack_operation *next = temp -> next;
-        free(temp);
-        temp = next;
+    if(NULL == stack || NULL == stack -> top){
+        return '\0';
+    } else {
+        return stack -> top -> element;
     }
-
-    *head = NULL;
-
-}
-
-/*Что бы избежать конфликта*/
-Data stack_get(const Stack *stack){
-
-    if(stack == NULL){
-        return (Data){0};
-    }
-    return stack -> element;
 }

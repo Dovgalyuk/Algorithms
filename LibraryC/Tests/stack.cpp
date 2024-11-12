@@ -1,72 +1,33 @@
 #include <iostream>
 #include "stack.h"
-#include "list.h"
 
-void free_func(void* data) {
-    free(data);
+// Функция для освобождения памяти, если это необходимо
+void dummy_free(void* ptr) {
+
 }
-
-
-void free_stack_element_test(Stack** stack_head);
-void free_stack_operation_test(Stack_operation** stack_head);
-
 
 int main() {
-    /* Тест стека элементов*/
-    Stack* stack_element_head = NULL;
+    // Создаем стек
+    Stack* stack = create_stack(nullptr, dummy_free);
+    if (!stack) {
+        std::cerr << "Failed to create stack" << std::endl;
+        return 1;
+    }
 
-    stack_push_element(&stack_element_head, 'A');
-    stack_push_element(&stack_element_head, 'B');
-    stack_push_element(&stack_element_head, 'C');
+    // Добавляем элементы в стек
+    stack_push(stack, 'A');
+    stack_push(stack, 'B');
+    stack_push(stack, 'C');
 
+    // Выводим элементы стека
     std::cout << "Stack elements: ";
-    while (stack_element_head != NULL) {
-        std::cout << stack_pop_element(&stack_element_head) << " ";
+    while (!stack_is_empty(stack)) {
+        Data element = stack_pop(stack);
+        std::cout << element << " ";
     }
     std::cout << std::endl;
 
-    while (stack_element_head != NULL) {
-        Stack* temp = stack_element_head;
-        stack_element_head = stack_element_head->next;
-        free(temp);
-    }
-
-    /*Тест стека операций*/
-    Stack_operation* stack_operation_head = NULL;
-
-    stack_push_operation(&stack_operation_head, '+');
-    stack_push_operation(&stack_operation_head, '-');
-    stack_push_operation(&stack_operation_head, '*');
-
-    std::cout << "Stack operations: ";
-    while (stack_operation_head != NULL) {
-        std::cout << stack_pop_operation(&stack_operation_head) << " ";
-    }
-    std::cout << std::endl;
-
-    while (stack_operation_head != NULL) {
-        Stack_operation* temp = stack_operation_head;
-        stack_operation_head = stack_operation_head->next;
-        free(temp);
-    }
+    free_stack(stack);
 
     return 0;
-}
-
-
-void free_stack_element_test(Stack** stack_head){
-    while(*stack_head != NULL){
-        Stack* temp = *stack_head;
-        *stack_head = (*stack_head) -> next;
-        delete temp;
-    }
-}
-
-
-void free_stack_operation_test(Stack_operation** stack_head){
-    while(*stack_head != NULL){
-        Stack_operation* temp = *stack_head;
-        *stack_head = (*stack_head) -> next;
-        delete temp;
-    }
 }
