@@ -7,18 +7,32 @@ void myfree(void *p)
     delete (int*)p;
 }
 
-int vector_get_int(Vector *v, size_t i)
-{
+int vector_get_int(Vector *v, size_t i) {
+    // Проверка на NULL вектора
+    if (v == NULL) {
+        printf("Ошибка: вектор пуст!\n");
+        return -1; // Вы можете выбрать другое значение для ошибок
+    }
+    
+    // Проверка индекса на корректность
     if (i >= vector_size(v)) {
-           printf("Ошибка: индекс %zu вне границ в vector_get_int\n", i);
-           return 0;
-       }
-    return *(int*)vector_get(v, i);
+        printf("Ошибка: индекс %zu вне границ вектора (текущий размер: %zu)!\n", i, vector_size(v));
+        return -1; // Выберите подходящее значение для ошибки
+    }
+
+    // Получение данных и приведение к int
+    Data data = vector_get(v, i);
+    if (data == NULL) {
+        printf("Ошибка: данные по индексу %zu являются NULL!\n", i);
+        return -1;
+    }
+    
+    return *(int *)data; // Возвращаем значение
 }
 
 int main()
 {
-    Vector *vector = vector_create(0, myfree);
+    Vector *vector = vector_create(2, myfree);
 
     vector_resize(vector, 5);
     if (vector_size(vector) != 5)
