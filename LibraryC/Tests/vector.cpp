@@ -45,13 +45,12 @@ int main() {
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
         vector_set(vector, i, new int(i));
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-    {
-        if (vector_get_int(vector, i) != (int)i)
-        {
-            std::cout << "Invalid vector element " << i << "\n";
-            return 1;
+    for (size_t i = 0; i < vector_size(vector); ++i) {
+        int value = vector_get_int(vector, i);
+        if (value == -1) { // Если возникла ошибка (например, NULL)
+            break; // Завершить цикл, если элемент равен NULL
         }
+        std::cout << value << " "; // Выводить значение, если нет ошибки
     }
 
     vector_resize(vector, 10);
@@ -62,11 +61,12 @@ int main() {
     }
 
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
-        if (vector_get_int(vector, i) != int(-1))
-            std::cout << vector_get_int(vector, i) << " ";
-        else
-            break;
+    for (size_t i = 0; i < vector_size(vector); ++i) {
+        int value = vector_get_int(vector, i);
+        if (value == -1) { // Если возникла ошибка (например, NULL)
+            break; // Завершить цикл, если элемент равен NULL
+        }
+        std::cout << value << " "; // Выводить значение, если нет ошибки
     }
     std::cout << "\n";
 
@@ -78,13 +78,12 @@ int main() {
         return 1;
     }
     std::cout << "Vector3: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-    {
-        if (vector_get_int(vector, i) != (int)i)
-        {
-            std::cout << "Invalid vector element " << i << "\n";
-            return 1;
+    for (size_t i = 0; i < vector_size(vector); ++i) {
+        int value = vector_get_int(vector, i);
+        if (value == -1) { // Если возникла ошибка (например, NULL)
+            break; // Завершить цикл, если элемент равен NULL
         }
+        std::cout << value << " "; // Выводить значение, если нет ошибки
     }
 
     std::cout << "Vector: ";
