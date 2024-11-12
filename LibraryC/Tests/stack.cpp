@@ -1,10 +1,10 @@
 #include <iostream>
 #include "stack.h"
 
-// void myfree(void *p)
-// {
-//     delete (int*)p;
-// }
+void myfree(void *p)
+{
+    delete (int*)p;
+}
 
 int stack_get_int(Stack *s)
 {
