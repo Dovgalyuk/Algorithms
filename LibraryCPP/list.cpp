@@ -14,7 +14,6 @@ struct List {
 List *list_create() {
     List *list = new List;
     list->head = nullptr;
-    list->tail = nullptr;
     return list;
 }
 
