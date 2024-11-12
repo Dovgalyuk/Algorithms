@@ -6,9 +6,13 @@ void myfree(void *p)
     delete (int*)p;
 }
 
-int vector_get_int(Vector *v, size_t i)
-{
-    return *(int*)vector_get(v, i);
+int vector_get_int(Vector *v, size_t i) {
+    Data data = vector_get(v, i);
+    if (data == NULL) {
+        // Обработка ошибки
+        return -1;  // Или какое-то другое значение по умолчанию
+    }
+    return *(int *)data; // Приведите к нужному типу
 }
 
 int main()

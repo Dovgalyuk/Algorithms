@@ -4,12 +4,16 @@
 
 typedef struct Vector {
     size_t size;
-    Data* data;
+    Data *data;
     size_t capacity;
-    FFree* distruct;
+    FFree *distruct;
 } Vector;
 
 Vector *vector_create(size_t initial_capacity, FFree f) {
+    if (initial_capacity == 0) {
+        initial_capacity = 1;
+    }
+
     Vector* vec = malloc(sizeof(Vector));
     if (vec == NULL) {
         printf("Ошибка выделения памяти для структуры");
