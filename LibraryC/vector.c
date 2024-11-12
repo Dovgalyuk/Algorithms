@@ -41,33 +41,34 @@ void vector_delete(Vector *vector) {
 }
 
 Data vector_get(const Vector *vector, size_t index) {
-    // Проверка на NULL
     if (vector == NULL) {
-        printf("Ошибка: вектор пуст!\n");
+        fprintf(stderr, "Ошибка: вектор пуст!\n");
         return NULL;
     }
 
-    // Проверка корректности индекса
     if (index >= vector->size) {
-        printf("Ошибка: индекс %zu вне границ (size: %zu)!\n", index, vector->size);
+        fprintf(stderr, "Ошибка: индекс %zu вне границ (size: %zu)!\n", index, vector->size);
         return NULL;
     }
 
-    return vector->data[index]; // Предполагаем, что вы правильно реализовали `data`
+    return vector->data[index];
 }
+
 
 void vector_set(Vector *vector, size_t index, Data value) {
     if (vector == NULL) {
-        printf("Ошибка: вектор пуст!\n");
+        fprintf(stderr, "Ошибка: вектор пуст!\n");
         return;
     }
 
     if (index >= vector->capacity) {
-        // Если индекс больше текущей емкости вектора, выполните resize
         vector_resize(vector, index + 1);
     }
 
-    // Устанавливаем значение
+    if (index >= vector->size) {
+        vector->size = index + 1; // Убедитесь, что представленный размер увеличен
+    }
+
     vector->data[index] = value;
 }
 

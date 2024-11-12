@@ -6,34 +6,35 @@
 
 // Stack
 // Stores pointer to custom user data
-typedef void* Data;
-// Custom function to free user pointers on delete
-typedef void (FFree)(void*);
+// typedef void* Data;
+// // Custom function to free user pointers on delete
+// typedef void (FFree)(void*);
 
-typedef struct Stack Stack;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+typedef struct Stack Stack;
+
 // Creates empty stack
 Stack *stack_create();
 
-Vector *stack_get_vector(Stack *stack);
+//Vector *stack_get_vector(Stack *stack);
 
 // Deletes the stack
 void stack_delete(Stack *stack);
 
 // Pushes data on top of the stack
 // Should be O(1) on average
-void stack_push(Stack *stack, Data data);
+void stack_push(Stack *stack, void *data);
 
 // Retrives the last element from the stack
-Data stack_get(const Stack *stack, size_t index);
+void *stack_get(const Stack *stack);
 
 // Removes the last element from the stack
 // Should be O(1)
-Data stack_pop(Stack *stack);
+void *stack_pop(Stack *stack);
 
 // Returns true if the stack is empty
 bool stack_empty(const Stack *stack);

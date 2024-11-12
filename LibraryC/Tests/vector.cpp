@@ -8,7 +8,7 @@ void myfree(void *p)
 }
 
 int vector_get_int(Vector *v, size_t i) {
-    if (v == NULL) {
+    if (v == nullptr) {
         std::cerr << "Ошибка: вектор пуст!\n";
         return -1;
     }
@@ -16,21 +16,25 @@ int vector_get_int(Vector *v, size_t i) {
     size_t current_size = vector_size(v);
     
     if (i >= current_size) {
-        std::cerr << "Ошибка: индекс " << i << " вне границ вектора (текущий размер: " << vector_size(v) << ")!\n";
+        std::cerr << "Ошибка: индекс " << i << " вне границ вектора (текущий размер: " << current_size << ")!\n";
         return -1;
     }
 
     Data data = vector_get(v, i);
-    if (data == NULL) {
+    if (data == nullptr) {
         std::cerr << "Ошибка: данные по индексу " << i << " являются NULL!\n";
         return -1;
     }
-    
-    return *(int *)data;
+
+    return *(int *)data; // Убедитесь, что это безопасно
 }
 
 int main() {
     Vector *vector = vector_create(2, myfree);
+    if (!vector) {
+        std::cerr << "Ошибка: не удалось создать вектор.\n";
+        return 1;
+    }
 
     vector_resize(vector, 5);
     if (vector_size(vector) != 5)

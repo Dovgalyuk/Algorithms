@@ -2,22 +2,22 @@
 #include <stdio.h>
 #include "stack.h"
 
-typedef struct Stack
+struct Stack
 {
     Vector *vector;
-} Stack;
+};
 
 Stack *stack_create()
 {
     Stack *stack = malloc(sizeof(Stack));
-    if (stack == NULL) {
-        printf("Ошибка выделения памяти для стека\n");
+    if (!stack) {
+        fprintf(stderr, "Ошибка выделения памяти для стека\n");
         return NULL;
     }
     stack->vector = vector_create(4, NULL);
-    if (stack->vector == NULL) {
+    if (!stack->vector) {
         free(stack);
-        printf("Ошибка выделения памяти для вектора в стеке\n");
+        fprintf(stderr, "Ошибка выделения памяти для вектора в стеке\n");
         return NULL;
     }
     return stack;
@@ -25,27 +25,35 @@ Stack *stack_create()
 
 void stack_delete(Stack *stack)
 {
-    if (stack == NULL) {
+    if (!stack) {
         return;
     }
     vector_delete(stack->vector);
     free(stack);
 }
 
-void stack_push(Stack *stack, Data data)
+void stack_push(Stack *stack, void *data)
 {
+    if (!stack) {
+        fprintf(stderr, "Ошибка: стек не инициализирован\n");
+        return;
+    }
     push_back(stack->vector, data);
 }
 
-Data stack_get(const Stack *stack, size_t index)
-{
-    return vector_get(stack->vector, index);
-}
-
-Data stack_pop(Stack *stack)
+void *stack_get(const Stack *stack)
 {
     if (stack_empty(stack)) {
-        printf("Stack underflow!\n");
+        fprintf(stderr, "Stack is empty!\n");
+        return NULL;
+    }
+    return vector_get(stack->vector, vector_size(stack->vector) - 1);
+}
+
+void *stack_pop(Stack *stack)
+{
+    if (stack_empty(stack)) {
+        fprintf(stderr, "Stack underflow!\n");
         return NULL;
     }
     return pop_back(stack->vector);
