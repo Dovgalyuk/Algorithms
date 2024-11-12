@@ -94,7 +94,7 @@ void vector_resize(Vector *vector, size_t new_size) {
         // Инициализация новых элементов
         if (new_size > vector->size) {
             for (size_t i = vector->size; i < new_size; ++i) {
-                vector->data[i] = NULL;  // или инициализируйте значением по умолчанию
+                vector->data[i] = 0;  // или инициализируйте значением по умолчанию
             }
         }
 
