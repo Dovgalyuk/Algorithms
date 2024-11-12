@@ -13,7 +13,7 @@ Vector *vector_create(size_t initial_capacity, FFree f) {
         return NULL;
     }
 
-    vec->data = malloc(initial_capacity * sizeof(Data));
+    vec->data = (Data *)malloc(initial_capacity * sizeof(Data));
     if (vec->data == NULL) {
         printf("Ошибка выделения памяти для массива");
         free(vec);
@@ -41,19 +41,33 @@ void vector_delete(Vector *vector) {
 }
 
 Data vector_get(const Vector *vector, size_t index) {
-    if (vector == NULL || index >= vector->size) {
-        printf("Ошибка: массив пуст или индекс выходит за пределы");
+    // Проверка на NULL
+    if (vector == NULL) {
+        printf("Ошибка: вектор пуст!\n");
         return NULL;
     }
 
-    return vector->data[index];
+    // Проверка корректности индекса
+    if (index >= vector->size) {
+        printf("Ошибка: индекс %zu вне границ (size: %zu)!\n", index, vector->size);
+        return NULL;
+    }
+
+    return vector->data[index]; // Предполагаем, что вы правильно реализовали `data`
 }
 
 void vector_set(Vector *vector, size_t index, Data value) {
-    if (vector == NULL || index >= vector->size) {
-        printf("Ошибка: массив пуст или индекс вышел за пределы размера");
+    if (vector == NULL) {
+        printf("Ошибка: вектор пуст!\n");
         return;
     }
+
+    if (index >= vector->capacity) {
+        // Если индекс больше текущей емкости вектора, выполните resize
+        vector_resize(vector, index + 1);
+    }
+
+    // Устанавливаем значение
     vector->data[index] = value;
 }
 
@@ -62,35 +76,36 @@ size_t vector_size(const Vector *vector) {
 }
 
 void vector_resize(Vector *vector, size_t new_size) {
-    if (new_size < 0) {
-        printf("Ошибка: новый размер не может быть отрицательным\n");
+    // Проверка на NULL
+    if (vector == NULL) {
+        printf("Ошибка: вектор пуст для resize!\n");
         return;
     }
 
-    if (new_size == vector->size) {
-        return;
-    }
-
-    if (new_size > vector->capacity) {
-        Data *new_data = realloc(vector->data, new_size * sizeof(Data));
-        if (new_data == NULL) {
-            printf("Ошибка при выделении памяти в vector_resize\n");
-            return;
-        }
-        vector->data = new_data;
-        vector->capacity = new_size;
-    }
+    // Если new_size меньше текущего размера, логика должна правильно освобождать память
     if (new_size < vector->size) {
         for (size_t i = new_size; i < vector->size; i++) {
             if (vector->distruct != NULL && vector->data[i] != NULL) {
-                   vector->distruct(vector->data[i]);
+                vector->distruct(vector->data[i]);
             }
         }
+    } 
+
+    // Выделите новую память
+    Data *new_data = (Data *)realloc(vector->data, new_size * sizeof(Data));
+    if (new_data == NULL) {
+        printf("Ошибка: память не выделена!\n");
+        return;
+    }
+
+    vector->data = new_data;
+    vector->capacity = new_size;
+
+    // Если new_size больше размера, возможно, инициализируйте новые элементы как NULL
+    for (size_t i = vector->size; i < new_size; i++) {
+        vector->data[i] = NULL;
     }
     vector->size = new_size;
-    for (size_t j = vector->size; j < new_size; ++j) {
-        vector->data[j] = NULL;
-    }
 }
 
 void push_back(Vector *vector, Data value) {
