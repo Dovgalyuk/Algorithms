@@ -60,7 +60,7 @@ int main() {
 
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
-        if (vector_get_int(vector, i) != NULL)
+        if (vector_get_int(vector, i) != int(-1))
             std::cout << vector_get_int(vector, i) << " ";
         else
             break;
