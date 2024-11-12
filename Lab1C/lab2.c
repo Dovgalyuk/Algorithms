@@ -118,7 +118,6 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    int n, m;
     if (argc < 2) {
         printf("Использование: %s <имя_файла>\n", argv[0]);
         return 1;
