@@ -86,11 +86,11 @@ void task2(Array *arr)
     std::cout << "task_2: " << sum;
 }
 
-int main()
+int main(int argc, char** argv)
 {
     Array *arr = NULL;
     FILE* input = NULL;
-    fopen_s(&input, "input.txt", "r");
+    fopen_s(&input, argv[1], "r");
     arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
