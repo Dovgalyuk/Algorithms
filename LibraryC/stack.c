@@ -23,10 +23,16 @@ Stack *stack_create()
     return stack;
 }
 
+
 void stack_delete(Stack *stack)
 {
     if (!stack) {
         return;
+    }
+    // Удаляем каждый элемент вектора перед удалением вектора
+    while (!stack_empty(stack)) {
+        void *data = stack_pop(stack);
+        free(data); // Освобождаем память для данных
     }
     vector_delete(stack->vector);
     free(stack);
