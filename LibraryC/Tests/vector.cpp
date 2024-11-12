@@ -13,8 +13,7 @@ int vector_get_int(Vector *v, size_t i) {
         return -1;
     }
 
-    size_t current_size = vector_size(v);
-    
+
     if (i >= vector_size(v)) {
         std::cerr << "Ошибка: индекс " << i << " вне границ вектора.\n";
         return -1;
