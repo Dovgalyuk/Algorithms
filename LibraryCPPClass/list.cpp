@@ -55,7 +55,7 @@ List::~List()
     }
 }
 
-List::Item const *List::first() const
+List::Item *List::first() const
 {
     return this->m_head;
 }

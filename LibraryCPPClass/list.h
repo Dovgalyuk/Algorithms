@@ -12,7 +12,7 @@ public:
     {
     public:
         Item(Item* prev,Item * next,Data const & data):m_data(data),m_prev(prev),m_next(next){}
-        Item *next() { return m_next; }
+        Item *next()const{ return m_next; }
         void set_next(Item * next){
             m_next = next;
         }
@@ -44,7 +44,7 @@ public:
     ~List();
 
     // Retrieves the first item from the list
-    Item const *first() const;
+    Item *first() const;
 
     // Inserts new list item into the beginning
     Item *insert(Data data);
