@@ -2,8 +2,9 @@
 #include <fstream>
 #include <string>
 #include "stack.h"
-#define first_op 1
-#define second_op 2
+#define plus 1
+#define minus -1
+#define mult 2
 #define staple 0
 
 int abs(int n){
@@ -15,13 +16,13 @@ int abs(int n){
 
 int precedence(char op) {
     if (op == '+') {
-        return first_op;
+        return plus;
     }
     if (op == '-') {
-        return -first_op;
+        return minus;
     }
     if (op == '*') {
-        return second_op;
+        return mult;
     }
     return 0;
 }
@@ -30,13 +31,13 @@ void Operation(int op) {
     std::cout << "POP A" << std::endl;
     std::cout << "POP B" << std::endl;
 
-    if (op == first_op) {
+    if (op == plus) {
         std::cout << "ADD A, B" << std::endl;
     }
-    else if (op == -first_op) {
+    else if (op == minus) {
         std::cout << "SUB A, B" << std::endl;
     }
-    else if (op == second_op) {
+    else if (op == mult) {
         std::cout << "MUL A, B" << std::endl;
     }
 
