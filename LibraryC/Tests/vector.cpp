@@ -59,11 +59,14 @@ int main() {
     }
 
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i) 
-        std::cout << vector_get_int(vector, i) << " ";
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
+        if (vector_get_int(vector, i) != NULL)
+            std::cout << vector_get_int(vector, i) << " ";
+        else
+            break;
+    }
     std::cout << "\n";
 
-    std::cout << "Complite: ";
     vector_resize(vector, 3);
     std::cout << "Vector3: ";
     if (vector_size(vector) != 3)
