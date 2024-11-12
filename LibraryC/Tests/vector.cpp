@@ -8,30 +8,26 @@ void myfree(void *p)
 }
 
 int vector_get_int(Vector *v, size_t i) {
-    // Проверка на NULL вектора
     if (v == NULL) {
-        printf("Ошибка: вектор пуст!\n");
-        return -1; // Вы можете выбрать другое значение для ошибок
-    }
-    
-    // Проверка индекса на корректность
-    if (i >= vector_size(v)) {
-        printf("Ошибка: индекс %zu вне границ вектора (текущий размер: %zu)!\n", i, vector_size(v));
-        return -1; // Выберите подходящее значение для ошибки
-    }
-
-    // Получение данных и приведение к int
-    Data data = vector_get(v, i);
-    if (data == NULL) {
-        printf("Ошибка: данные по индексу %zu являются NULL!\n", i);
+        std::cerr << "Ошибка: вектор пуст!\n";
         return -1;
     }
     
-    return *(int *)data; // Возвращаем значение
+    if (i >= vector_size(v)) {
+        std::cerr << "Ошибка: индекс " << i << " вне границ вектора (текущий размер: " << vector_size(v) << ")!\n";
+        return -1;
+    }
+
+    Data data = vector_get(v, i);
+    if (data == NULL) {
+        std::cerr << "Ошибка: данные по индексу " << i << " являются NULL!\n";
+        return -1;
+    }
+    
+    return *(int *)data;
 }
 
-int main()
-{
+int main() {
     Vector *vector = vector_create(2, myfree);
 
     vector_resize(vector, 5);
@@ -100,4 +96,5 @@ int main()
     std::cout << sum << "\n";
 
     vector_delete(vector);
+    return 0;
 }

@@ -81,15 +81,13 @@ void vector_resize(Vector *vector, size_t new_size) {
         vector->capacity = new_size;
     }
     if (new_size < vector->size) {
-       for (size_t i = new_size; i < vector->size; i++) {
-           if (vector->data[i] != NULL) {
-               if (vector->distruct != NULL) {
+        for (size_t i = new_size; i < vector->size; i++) {
+            if (vector->distruct != NULL && vector->data[i] != NULL) {
                    vector->distruct(vector->data[i]);
-               }
-           }
-       }
-   }
-   vector->size = new_size;
+            }
+        }
+    }
+    vector->size = new_size;
     for (size_t j = vector->size; j < new_size; ++j) {
         vector->data[j] = NULL;
     }
