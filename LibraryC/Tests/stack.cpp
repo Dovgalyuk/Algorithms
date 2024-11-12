@@ -1,14 +1,14 @@
 #include <iostream>
 #include "stack.h"
 
-void myfree(void *p)
-{
-    delete (int*)p;
-}
+// void myfree(void *p)
+// {
+//     delete (int*)p;
+// }
 
 int stack_get_int(Stack *s)
 {
-    void *v = stack_get(s);
+    void *v = stack_get(s, 0);
     if (!v)
     {
         std::cout << "Invalid stack_get\n";
@@ -20,7 +20,7 @@ int stack_get_int(Stack *s)
 
 int main()
 {
-    Stack *stack = stack_create(myfree);
+    Stack *stack = stack_create();
 
     stack_push(stack, new int(1));
     stack_push(stack, new int(2));
