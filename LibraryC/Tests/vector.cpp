@@ -15,11 +15,11 @@ int vector_get_int(Vector *v, size_t i) {
 
     size_t current_size = vector_size(v);
     
-    if (i >= current_size) {
-        std::cerr << "Ошибка: индекс " << i << " вне границ вектора (текущий размер: " << current_size << ")!\n";
+    if (i >= vector_size(v)) {
+        std::cerr << "Ошибка: индекс " << i << " вне границ вектора.\n";
         return -1;
     }
-
+       
     Data data = vector_get(v, i);
     if (data == nullptr) {
         std::cerr << "Ошибка: данные по индексу " << i << " являются NULL!\n";
@@ -37,7 +37,6 @@ int main() {
     }
 
     vector_resize(vector, 5);
-    std::cout << "Vector size after resize: " << vector_size(vector) << std::endl;
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
@@ -47,10 +46,13 @@ int main() {
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
         vector_set(vector, i, new int(i));
 
-    for (size_t i = 0; i < vector_size(vector); ++i) {
-        std::cout << "Trying to access index: " << i << std::endl;
-        int value = vector_get_int(vector, i);
-        std::cout << "Value at index " << i << ": " << value << std::endl;
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    {
+        if (vector_get_int(vector, i) != (int)i)
+        {
+            std::cout << "Invalid vector element " << i << "\n";
+            return 1;
+        }
     }
 
     vector_resize(vector, 10);

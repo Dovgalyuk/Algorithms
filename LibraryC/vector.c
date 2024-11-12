@@ -76,29 +76,30 @@ size_t vector_size(const Vector *vector) {
     return vector->size;
 }
 
-void vector_resize(Vector *vector, size_t new_size) {
-    // Проверка на NULL
-    if (vector == NULL) {
-        printf("Ошибка: вектор пуст для resize!\n");
-        return;
-    }
+void vector_resize(Vector *v, size_t new_size) {
+       if (new_size == v->size) return; // Нет изменений размера
 
-    // Выделение новой памяти
-    Data *new_data = (Data *)realloc(vector->data, new_size * sizeof(Data));
-    if (new_data == NULL) {
-        printf("Ошибка: память не выделена!\n");
-        return;
-    }
-    
-    vector->data = new_data;
+       Data *new_data = (Data *)malloc(new_size * sizeof(Data));
+       if (new_data == NULL) {
+           fprintf(stderr, "Ошибка выделения памяти\n");
+           return;
+       }
+       
+       // Копирование существующих данных
+       size_t copy_size = (new_size < v->size) ? new_size : v->size;
+       for (size_t i = 0; i < copy_size; i++) {
+           new_data[i] = v->data[i];
+       }
 
-    // Инициализация новых элементов значением по умолчанию
-    for (size_t i = vector->size; i < new_size; ++i) {
-        vector->data[i] = NULL;  // Или любое другое значение по умолчанию, например, -1, если это имеет смысл
-    }
+       // Инициализация новых данных
+       for (size_t i = copy_size; i < new_size; i++) {
+           new_data[i] = NULL; // или какое-либо значение по умолчанию
+       }
 
-    vector->size = new_size;  // Убедитесь, что размер вектора обновлен
-}
+       free(v->data);
+       v->data = new_data;
+       v->size = new_size;
+   }
 
 void push_back(Vector *vector, Data value) {
     if (vector->size == vector->capacity) {
