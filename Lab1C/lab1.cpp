@@ -3,17 +3,17 @@
 
 #include "array.h"
 
-Array *array_create_and_read(FILE *input)
+Array* array_create_and_read(FILE* input)
 {
     int n;
-    fscanf_s(input, "%d", &n);
+    fscanf(input, "%d", &n);
     /* Create array */
-    Array *arr = array_create(n);
+    Array* arr = array_create(n, NULL);
     /* Read array data */
-    for (int i = 0 ; i < n ; ++i)
+    for (int i = 0; i < n; ++i)
     {
         int x;
-        fscanf_s(input, "%d", &x);
+        fscanf(input, "%d", &x);
         array_set(arr, i, x);
     }
     return arr;
@@ -25,7 +25,7 @@ void task1(Array *arr)
     int sum_of_number_digits = 0;
     int sum_of_numbers_digits = 0;
 
-    for (int i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         current_number = array_get(arr, i);
 
@@ -49,7 +49,7 @@ void task2(Array *arr)
     int left_index = 0;
     int right_index = 0;
 
-    for (int i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         if (array_get(arr, i) < array_get(arr, min_index))
         {
@@ -88,8 +88,8 @@ void task2(Array *arr)
 
 int main(int argc, char** argv)
 {
-    Array* arr = NULL;
-    FILE* input = fopen(argv[1], "r");
+    Array *arr = NULL;
+    FILE *input = fopen(argv[1], "r");
     arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
