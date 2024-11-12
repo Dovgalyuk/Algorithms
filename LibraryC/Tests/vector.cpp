@@ -23,7 +23,7 @@ int vector_get_int(Vector *v, size_t i) {
     Data data = vector_get(v, i);
     if (data == NULL) {
         std::cerr << "Ошибка: данные по индексу " << i << " являются NULL!\n";
-        return NULL;
+        return -1;
     }
     
     return *(int *)data;
@@ -59,8 +59,12 @@ int main() {
     }
 
     std::cout << "Vector123: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        std::cout << vector_get_int(vector, i) << " ";
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
+        if (vector_get_int(vector, i) == -1)
+            std::cout << "NULL ";
+        else
+            std::cout << vector_get_int(vector, i) << " ";
+    }
     std::cout << "\n";
 
     vector_resize(vector, 3);
