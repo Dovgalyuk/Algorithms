@@ -1,12 +1,15 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include "vector.h"
+
 // Stack
 // Stores integer values inside
-typedef int Data;
-
-struct Stack;
-
+typedef std::string Data;
+struct Stack
+{
+    Vector *data;  
+};
 // Creates empty stack
 Stack *stack_create();
 
@@ -17,7 +20,7 @@ void stack_delete(Stack *stack);
 // Should be O(1) on average
 void stack_push(Stack *stack, Data data);
 
-// Retrives the last element from the stack
+// Retrieves the last element from the stack
 Data stack_get(const Stack *stack);
 
 // Removes the last element from the stack

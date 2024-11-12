@@ -2,15 +2,21 @@
 #define VECTOR_H
 
 #include <cstddef>
+#include <string>
 
 // Vector (dynamic array)
 // Stores integer values inside
-typedef int Data;
+typedef std::string Data;
 
-struct Vector;
+struct Vector
+{
+    Data *data;      
+    size_t size;      
+    size_t capacity;  
+};
 
 // Creates vector
-Vector *vector_create();
+Vector *vector_create(size_t capacity=0);
 
 // Deletes vector structure and internal data
 void vector_delete(Vector *vector);
