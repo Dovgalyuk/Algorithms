@@ -107,19 +107,20 @@ ListItem* list_insert(List* list, Data data)
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
-    if (!list) return nullptr;
-    ListItem* new_item = new ListItem;
-    new_item->data = data;
-    if(!item){
+    if (!list || !item) return nullptr;
+    if(!list->head){
         return list_insert(list, data);
     }else{
+        ListItem* new_item = new ListItem;
+        new_item->data = data;
+
         new_item->next = item->next;
         new_item->prev = item;
         item->next->prev = new_item;
         item->next = new_item;
+        return new_item;
     }
 
-    return new_item;
 }
 
 ListItem* list_erase_first(List* list)
