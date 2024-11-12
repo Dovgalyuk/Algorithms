@@ -5,12 +5,12 @@
 
 Array* array_create_and_read(FILE* input)
 {
-    int n;
+    size_t n;
     fscanf(input, "%d", &n);
     /* Create array */
-    Array* arr = array_create(n, NULL);
+    Array* arr = array_create(n);
     /* Read array data */
-    for (int i = 0; i < n; ++i)
+    for (size_t i = 0; i < n; ++i)
     {
         int x;
         fscanf(input, "%d", &x);
@@ -44,10 +44,10 @@ void task1(Array *arr)
 void task2(Array *arr)
 {
     int sum = 0;
-    int min_index = 0;
-    int max_index = 0;
-    int left_index = 0;
-    int right_index = 0;
+    size_t min_index = 0;
+    size_t max_index = 0;
+    size_t left_index = 0;
+    size_t right_index = 0;
 
     for (size_t i = 0; i < array_size(arr); i++)
     {
