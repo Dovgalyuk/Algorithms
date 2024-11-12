@@ -9,7 +9,12 @@ typedef void* Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
 
-typedef struct Vector Vector;
+typedef struct Vector {
+    size_t size;
+    Data* data;
+    size_t capacity;
+    FFree* distruct;
+} Vector;
 
 #ifdef __cplusplus
 extern "C" {

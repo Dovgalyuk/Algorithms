@@ -2,13 +2,6 @@
 #include <stdio.h>
 #include "vector.h"
 
-typedef struct Vector {
-    size_t size;
-    Data* data;
-    size_t capacity;
-    FFree* distruct;
-} Vector;
-
 Vector *vector_create(size_t initial_capacity, FFree f) {
     if (initial_capacity == 0) {
         initial_capacity = 1;
