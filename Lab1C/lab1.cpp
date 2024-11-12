@@ -88,9 +88,8 @@ void task2(Array *arr)
 
 int main(int argc, char** argv)
 {
-    Array *arr = NULL;
-    FILE* input = NULL;
-    fopen_s(&input, argv[1], "r");
+    Array* arr = NULL;
+    FILE* input = fopen(argv[1], "r");
     arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
@@ -98,10 +97,5 @@ int main(int argc, char** argv)
     arr = array_create_and_read(input);
     task2(arr);
     array_delete(arr);
-    if (input != 0)
-    {
-        fclose(input);
-    }
-
-    return 0;
+    fclose(input);
 }
