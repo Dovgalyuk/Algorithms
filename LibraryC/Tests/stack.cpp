@@ -34,8 +34,7 @@ int main()
     }
 
     std::cout << "Get: " << stack_get_int(stack) << "\n";
-    stack_pop(stack);
-
+    delete (int*)stack_pop(stack);
     if (stack_get_int(stack) != 2)
     {
         std::cout << "Invalid stack top after pop\n";
@@ -44,8 +43,7 @@ int main()
     }
 
     std::cout << "Get: " << stack_get_int(stack) << "\n";
-    stack_pop(stack);
-
+    delete (int*)stack_pop(stack);
     if (stack_get_int(stack) != 1)
     {
         std::cout << "Invalid stack top after pop\n";
@@ -67,7 +65,7 @@ int main()
     while (!stack_empty(stack))
     {
         std::cout << "Get: " << stack_get_int(stack) << "\n";
-        stack_pop(stack);
+        delete (int*)stack_pop(stack);
     }
 
     stack_delete(stack);
