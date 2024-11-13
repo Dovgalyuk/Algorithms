@@ -35,6 +35,8 @@ int main(int argc, char* argv[])
     Stack* stack = stack_create();
     
     catchCommands(input, output, stack);
+
+    stack_delete(stack);
 }
 
 void catchCommands(istream* input, ostream* output, Stack* stack) {
