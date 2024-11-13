@@ -49,35 +49,43 @@ Data vector_get(const Vector *vector, size_t index) {
     return NULL;
   return vector->data[index];
 }
-
 void vector_set(Vector *vector, size_t index, Data value) {
   if (!vector || index >= vector->size)
     return;
+
   if (vector->data[index] && vector->free_func) {
     vector->free_func(vector->data[index]);
   }
+
   vector->data[index] = value;
 }
 
 size_t vector_size(const Vector *vector) { return vector ? vector->size : 0; }
 
 void vector_resize(Vector *vector, size_t new_size) {
+  if (!vector)
+    return;
+
+  if (new_size < vector->size) {
+    if (vector->free_func) {
+      for (size_t i = new_size; i < vector->size; i++) {
+        if (vector->data[i]) {
+          vector->free_func(vector->data[i]);
+          vector->data[i] = NULL;
+        }
+      }
+    }
+  }
+
   if (new_size > vector->capacity) {
     size_t new_capacity =
         new_size > vector->capacity * 2 ? new_size : vector->capacity * 2;
-    Data *new_data = (Data *)calloc(new_capacity, sizeof(Data));
+    void **new_data = (void **)calloc(new_capacity, sizeof(void *));
     if (!new_data) {
       return;
     }
     for (size_t i = 0; i < vector->size; ++i) {
       new_data[i] = vector->data[i];
-    }
-    if (vector->free_func) {
-      for (size_t i = vector->size; i < vector->capacity; ++i) {
-        if (vector->data[i]) {
-          vector->free_func(vector->data[i]);
-        }
-      }
     }
     free(vector->data);
     vector->data = new_data;
@@ -89,4 +97,8 @@ void vector_resize(Vector *vector, size_t new_size) {
   }
 
   vector->size = new_size;
+}
+
+FFree *vector_get_free_func(const Vector *vector) {
+  return vector ? vector->free_func : NULL;
 }

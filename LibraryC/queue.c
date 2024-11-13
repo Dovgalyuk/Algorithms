@@ -42,13 +42,18 @@ Data queue_get(const Queue *queue) {
 }
 
 void queue_remove(Queue *queue) {
-  if (!queue_empty(queue)) {
-    queue->front++;
-    if (queue->front == queue->back) {
-      queue->front = 0;
-      queue->back = 0;
-      vector_resize(queue->vector, 0);
-    }
+  if (!queue || queue_empty(queue)) {
+    return;
+  }
+
+  vector_set(queue->vector, queue->front, NULL);
+
+  queue->front++;
+
+  if (queue->front == queue->back) {
+    queue->front = 0;
+    queue->back = 0;
+    vector_resize(queue->vector, 0);
   }
 }
 

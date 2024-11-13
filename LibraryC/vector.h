@@ -34,6 +34,9 @@ size_t vector_size(const Vector *vector);
 // Should be O(1) on average
 void vector_resize(Vector *vector, size_t size);
 
+// Custom function by Dethord-hub
+FFree *vector_get_free_func(const Vector *vector);
+
 #ifdef __cplusplus
 }
 #endif
