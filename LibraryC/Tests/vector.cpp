@@ -18,7 +18,7 @@ int vector_get_int(Vector *v, size_t i) {
     //     return -1; 
     // }
     
-    // Data data = vector_get(v, i); // Получаем данные по индексу
+    Data data = vector_get(v, i); // Получаем данные по индексу
     // if (data == nullptr) { // Проверяем, не является ли полученное значение NULL
     //     std::cerr << "Ошибка: данные по индексу " << i << " являются NULL!\n"; 
     //     return -1; 
