@@ -130,13 +130,30 @@ int main() {
         std::cout << "Invalid resize\n";
         return 1;
     }
-    
+
     // Заполняем вектор значениями от 0 до initialVectorSize-1
     for (size_t i = 0; i < vector_size(vector); ++i) {
         vector_set(vector, i, new int(i)); // Создаем новый int и сохраняем его в вектор
     }
 
     // Выводим значения из вектора на экран
+    std::cout << "Vector: ";
+    for (size_t i = 0; i < vector_size(vector); ++i) {
+        int value = vector_get_int(vector, i); // Получаем значение из вектора
+        if (value == -1) { // Если возникла ошибка, прерываем цикл
+            break; 
+        }
+        std::cout << value << " "; // Выводим значение
+    }
+    std::cout << "\n";
+
+    vector_resize(vector, 5);
+    if (vector_size(vector) != 5)
+    {
+        std::cout << "Invalid resize\n";
+        return 1;
+    }
+
     std::cout << "Vector: ";
     for (size_t i = 0; i < vector_size(vector); ++i) {
         int value = vector_get_int(vector, i); // Получаем значение из вектора
