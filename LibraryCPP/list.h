@@ -5,8 +5,16 @@
 // Stores integer values inside
 typedef int Data;
 
-struct List;
-struct ListItem;
+struct List {
+    ListItem *head;
+    ListItem *tail;
+};
+
+struct ListItem {
+    Data data;
+    ListItem *next;
+    ListItem *prev;
+};
 
 // Creates new list
 List *list_create();
@@ -41,5 +49,7 @@ ListItem *list_erase_first(List *list);
 // Returns pointer to the item next to the deleted one.
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);
+
+void list_print(const List *list);
 
 #endif
