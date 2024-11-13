@@ -43,9 +43,11 @@ void vector_delete(Vector *vector) {
     // Если задана функция distruct, вызываем её для каждого элемента вектора
     if (vector->distruct != NULL) {
         for (size_t i = 0; i < vector->size; i++) {
-            if (vector->data[i] != NULL) {
-                vector->distruct(vector->data[i]);  // А освобождайте только, если указатель корректный
-            }
+            // if (vector->data[i] != NULL) {
+            //     vector->distruct(vector->data[i]);  // А освобождайте только, если указатель корректный
+            // }
+            void* ptr = (void*)vector->data[i];
+            vector->distruct(ptr);
         }
     }
     // Освобождаем память под массив данных и сам вектор
@@ -62,14 +64,14 @@ Data vector_get(const Vector *vector, size_t index) {
     return vector->data[index];
 }
 
-int vector_get_int(const Vector *vector, size_t index) {
-    if (vector == NULL || index >= vector->size) {
-        return -1; // Ошибка, возвращаем -1
-    }
+// int vector_get_int(const Vector *vector, size_t index) {
+//     if (vector == NULL || index >= vector->size) {
+//         return -1; // Ошибка, возвращаем -1
+//     }
     
-    int *value = (int *)vector_get(vector, index);
-    return (value != NULL) ? *value : -1;
-}
+//     int *value = (int *)vector_get(vector, index);
+//     return (value != NULL) ? *value : -1;
+// }
 
 // Функция для установки значения элемента вектора по индексу
 void vector_set(Vector *vector, size_t index, Data value) {
@@ -79,13 +81,10 @@ void vector_set(Vector *vector, size_t index, Data value) {
         return;
     }
 
-    if (index >= vector->capacity) {
-        vector_resize(vector, index + 1);
-    }
     // Увеличиваем размер только если индекс больше текущего размера
     if (index >= vector->size) {
         // Увеличение размера вектора
-        vector->size = index + 1; 
+        vector_resize(vector, index + 1);
     }
 
     // Устанавливаем значение элемента по индексу
