@@ -1,46 +1,29 @@
-#ifndef STACK_H
+#ifndef STACK_H  // Защита от повторного определения заголовка
 #define STACK_H
 
-#include <stdbool.h>
-#include "vector.h"
-
-// Stack
-// Stores pointer to custom user data
-// typedef void* Data;
-// // Custom function to free user pointers on delete
-// typedef void (FFree)(void*);
-
+#include <stdbool.h>  
+#include "vector.h"   
 
 #ifdef __cplusplus
-extern "C" {
+extern "C" {  // Если используется C++, оборачиваем в код C
 #endif
 
-typedef struct Stack Stack;
+typedef struct Stack Stack;  // Определяем тип Stack как указатель на структуру Stack
 
-// Creates empty stack
-Stack *stack_create();
+Stack *stack_create();  // Объявление функции для создания нового стека
 
-//Vector *stack_get_vector(Stack *stack);
+void stack_delete(Stack *stack);  // Объявление функции для удаления стека и освобождения памяти
 
-// Deletes the stack
-void stack_delete(Stack *stack);
+void stack_push(Stack *stack, void *data);  // Объявление функции для добавления элемента в стек
 
-// Pushes data on top of the stack
-// Should be O(1) on average
-void stack_push(Stack *stack, void *data);
+void *stack_get(const Stack *stack);  // Объявление функции для получения верхнего элемента стека
 
-// Retrives the last element from the stack
-void *stack_get(const Stack *stack);
+void *stack_pop(Stack *stack);  // Объявление функции для удаления верхнего элемента стека
 
-// Removes the last element from the stack
-// Should be O(1)
-void *stack_pop(Stack *stack);
-
-// Returns true if the stack is empty
-bool stack_empty(const Stack *stack);
+bool stack_empty(const Stack *stack);  // Объявление функции для проверки, пуст ли стек
 
 #ifdef __cplusplus
-}
+}  // Закрываем блок C для C++
 #endif
 
 #endif

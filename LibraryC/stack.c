@@ -1,71 +1,70 @@
 #include <stdlib.h>
-#include <stdio.h>
-#include "stack.h"
+#include <stdio.h>  
+#include "stack.h"   
 
-struct Stack
+struct Stack  // Определение структуры Stack
 {
-    Vector *vector;
+    Vector *vector;  // Указатель на вектор, который будет использоваться для хранения элементов стека
 };
 
-Stack *stack_create()
+Stack *stack_create()  // Функция для создания нового стека
 {
-    Stack *stack = malloc(sizeof(Stack));
-    if (!stack) {
-        fprintf(stderr, "Ошибка выделения памяти для стека\n");
+    Stack *stack = malloc(sizeof(Stack));  // Выделяем память под структуру стека
+    if (!stack) {  // Проверяем, успешно ли выделена память
+        fprintf(stderr, "Ошибка выделения памяти для стека\n");  
         return NULL;
     }
-    stack->vector = vector_create(4, NULL);
-    if (!stack->vector) {
-        free(stack);
-        fprintf(stderr, "Ошибка выделения памяти для вектора в стеке\n");
+    stack->vector = vector_create(4, NULL);  // Создаем вектор с начальным размером 4 для стека
+    if (!stack->vector) {  // Проверяем, успешно ли создан вектор
+        free(stack);  // Освобождаем память под стек, если вектор не создан
+        fprintf(stderr, "Ошибка выделения памяти для вектора в стеке\n");  
         return NULL;
     }
-    return stack;
+    return stack;  // Возвращаем указатель на созданный стек
 }
 
-
-void stack_delete(Stack *stack)
+void stack_delete(Stack *stack)  // Функция для удаления стека и освобождения памяти
 {
-    if (!stack) {
-        return;
+    if (!stack) {  // Проверяем, не равен ли указатель NULL
+        return;  // Выход из функции, если стек пустой
     }
-    // Удаляем каждый элемент вектора перед удалением вектора
-    while (!stack_empty(stack)) {
-        void *data = stack_pop(stack);
-        free(data); // Освобождаем память для данных
+
+    while (!stack_empty(stack)) {  // Пока стек не пустой
+        void *data = stack_pop(stack);  // Извлекаем верхний элемент стека
+        free(data);  // Освобождаем память, занятую данными
     }
-    vector_delete(stack->vector);
-    free(stack);
+    vector_delete(stack->vector);  // Удаляем вектор, связанный со стеком
+    free(stack);  // Освобождаем память, занятую самим стеком
 }
 
-void stack_push(Stack *stack, void *data)
+void stack_push(Stack *stack, void *data)  // Функция для добавления элемента в стек
 {
-    if (!stack) {
-        fprintf(stderr, "Ошибка: стек не инициализирован\n");
-        return;
+    if (!stack) {  // Проверяем, не равен ли указатель NULL
+        fprintf(stderr, "Ошибка: стек не инициализирован\n");  
+        return;  
     }
-    push_back(stack->vector, data);
+    push_back(stack->vector, data);  // Добавляем элемент в вектор, связанный со стеком
 }
 
-void *stack_get(const Stack *stack)
+void *stack_get(const Stack *stack)  // Функция для получения верхнего элемента стека
 {
-    if (stack_empty(stack)) {
-        fprintf(stderr, "Stack is empty!\n");
+    if (stack_empty(stack)) {  // Проверяем, не пуст ли стек
+        fprintf(stderr, "Stack is empty!\n");  
+        return NULL;  
+    }
+    return vector_get(stack->vector, vector_size(stack->vector) - 1);  // Возвращаем верхний элемент стека, используя вектор
+}
+
+void *stack_pop(Stack *stack)  // Функция для удаления верхнего элемента из стека
+{
+    if (stack_empty(stack)) {  // Проверяем, не пуст ли стек
+        fprintf(stderr, "Stack underflow!\n");  
         return NULL;
     }
-    return vector_get(stack->vector, vector_size(stack->vector) - 1);
+    return pop_back(stack->vector);  // Удаляем верхний элемент из вектора, связанного со стеком
 }
 
-void *stack_pop(Stack *stack)
+bool stack_empty(const Stack *stack)  // Функция для проверки, пуст ли стек
 {
-    if (stack_empty(stack)) {
-        fprintf(stderr, "Stack underflow!\n");
-        return NULL;
-    }
-    return pop_back(stack->vector);
-}
-
-bool stack_empty(const Stack *stack)
-{
-    return vector_size(stack->vector) == 0;
+    return vector_size(stack->vector) == 0;  // Возвращаем true, если размер вектора равен 0
 }
