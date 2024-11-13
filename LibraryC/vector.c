@@ -131,9 +131,9 @@ void vector_resize(Vector *v, size_t new_size) {
         v->data = NULL;
     } else {
         if (new_size > v->capacity) {
-            size_t new_capacity = v->capacity > 0 ? v->capacity * 2 : 1; 
+            int new_capacity = v->capacity > 0 ? v->capacity * 2 : 1; 
             while (new_capacity < new_size) { // Увеличиваем емкость до ближайшего размера
-                *(int*)new_capacity *= 2;
+                new_capacity *= 2;
             }
             Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
             if (!new_data) {
