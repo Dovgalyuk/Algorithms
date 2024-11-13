@@ -4,6 +4,12 @@
 void free_element(void* ptr) {
 }
 
+struct List_element {
+    Data element;
+    struct List_element *next;
+    FFree *distruct;
+};
+
 int main(void) {
     List_element *head_1 = nullptr;
 
