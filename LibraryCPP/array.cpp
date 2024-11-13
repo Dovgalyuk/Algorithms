@@ -46,6 +46,7 @@ void array_set(Array *arr, size_t index, Data value)
     {
         arr->array[index] = value;
 }
+}
 
 // returns array size
 size_t array_size(const Array *arr)
@@ -53,6 +54,7 @@ size_t array_size(const Array *arr)
     if (arr->array != nullptr) {
         return arr->size;
     }
+    return 0;
 }
 Array* fill_array(std::ifstream &input)
 {
