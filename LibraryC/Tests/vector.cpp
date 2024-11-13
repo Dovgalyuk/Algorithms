@@ -52,14 +52,18 @@ int main() {
     }
     std::cout << "\n";
 
-    // Считаем сумму значений вектора
-    long long sum = 0;
-    for (size_t i = 0; i < initialVectorSize; ++i) {
-        sum += vector_get_int(vector, i); // Получаем значения и добавляем их к сумме
+    // Performance test
+    for (int i = 1 ; i <= 10000000 ; ++i)
+    {
+        vector_resize(vector, i);
+        vector_set(vector, i - 1, new int(i));
     }
 
-    std::cout << "Sum: " << sum << "\n"; // Выводим сумму значений
+    long long sum = 0;
+    for (int i = 0 ; i < 10000000 ; ++i)
+        sum += vector_get_int(vector, i);
 
-    vector_delete(vector); // Освобождаем память, занятую вектором
-    return 0; // Завершаем программу с кодом 0
+    std::cout << sum << "\n";
+
+    vector_delete(vector);
 }

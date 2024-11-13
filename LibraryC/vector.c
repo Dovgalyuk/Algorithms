@@ -77,14 +77,10 @@ void vector_set(Vector *vector, size_t index, Data value) {
         return;
     }
 
-    // Если индекс превышает ёмкость, изменяем размер вектора
-    if (index >= vector->capacity) {
-        vector_resize(vector, index + 1);
-    }
-
-    // Обновляем размер вектора, если индекс больше текущего размера
-    if (index >= vector->size) {
-        vector->size = index + 1; 
+    // Если индекс превышает ёмкость, изменяем размер вектора и обновляем размер
+    if (index >= vector->capacity || index >= vector->size) {
+        vector_resize(vector, index + 1);  // Увеличиваем размер, если это необходимо
+        vector->size = index + 1; // Обновляем размер вектора
     }
 
     // Устанавливаем значение элемента по индексу
@@ -98,33 +94,37 @@ size_t vector_size(const Vector *vector) {
 
 // Функция для изменения размера вектора
 void vector_resize(Vector *v, size_t new_size) {
-       // Если новый размер равен текущему, ничего не делаем
-       if (new_size == v->size) return; 
+    // Если новый размер равен текущему, ничего не делаем
+    if (new_size == v->size) return;
 
-       // Выделяем память для нового массива данных
-       Data *new_data = (Data *)malloc(new_size * sizeof(Data));
-       // Проверяем успешность выделения памяти
-       if (new_data == NULL) {
-           fprintf(stderr, "Ошибка выделения памяти\n");
-           return;
-       }
-       
-       // Определяем размер копируемых данных (минимум между новым и текущим размером)
-       size_t copy_size = (new_size < v->size) ? new_size : v->size;
-       for (size_t i = 0; i < copy_size; i++) {
-           new_data[i] = v->data[i]; // Копируем данные
-       }
+    // Если новый размер больше текущего, выделяем память для нового массива данных
+    if (new_size > v->size) {
+        Data *new_data = (Data *)malloc(new_size * sizeof(Data));
+        // Проверяем успешность выделения памяти
+        if (new_data == NULL) {
+            fprintf(stderr, "Ошибка выделения памяти\n");
+            return;
+        }
 
-       // Инициализируем новые элементы NULL в новом массиве
-       for (size_t i = copy_size; i < new_size; i++) {
-           new_data[i] = NULL;
-       }
+        // Определяем размер копируемых данных (минимум между новым и текущим размером)
+        size_t copy_size = v->size; // Копируем старые данные
+        for (size_t i = 0; i < copy_size; i++) {
+            new_data[i] = v->data[i]; // Копируем данные
+        }
 
-       // Освобождаем старый массив данных и обновляем указатель на новый массив
-       free(v->data);
-       v->data = new_data;
-       v->size = new_size; // Обновляем размер вектора
-   }
+        // Инициализируем новые элементы NULL в новом массиве
+        for (size_t i = copy_size; i < new_size; i++) {
+            new_data[i] = NULL; // Инициализация только при увеличении
+        }
+
+        // Освобождаем старый массив данных и обновляем указатель на новый массив
+        free(v->data);
+        v->data = new_data;
+    }
+
+    // Обновляем размер вектора
+    v->size = new_size;
+}
 
 // Функция для добавления элемента в конец вектора
 void push_back(Vector *vector, Data value) {
