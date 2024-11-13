@@ -24,6 +24,7 @@ double task_1(Array*& array, std::ifstream& input) {
         }
     }
 
+ 
     double avg = count > 0 ? static_cast<double>(sum) / count : 0;
 
     std::cout << "Average of elements > 10: " << avg << std::endl;
