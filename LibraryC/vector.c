@@ -11,7 +11,7 @@ Vector *vector_create(size_t initial_capacity, FFree f) {
     }
 
     // Выделяем память под структуру вектора
-    Vector* vec = malloc(sizeof(Vector));
+    Vector* vec = (Vector*)malloc(sizeof(Vector));
     // Проверяем, успешно ли выделена память
     if (vec == NULL) {
         printf("Ошибка выделения памяти для структуры");
@@ -43,7 +43,7 @@ void vector_delete(Vector *vector) {
     // Если задана функция distruct, вызываем её для каждого элемента вектора
     if (vector->distruct != NULL) {
         for (size_t i = 0; i < vector->size; i++) {
-            void* ptr = (void*)vector->data[i];
+            void* ptr = /*(void*)*/vector->data[i];
             vector->distruct(ptr);
         }
     }
@@ -94,7 +94,7 @@ void vector_set(Vector *vector, size_t index, Data value) {
 
 // Функция для получения текущего размера вектора
 size_t vector_size(const Vector *vector) {
-    return vector->size;
+    return vector ? vector->size : 0;
 }
 
 // Функция для изменения размера вектора
@@ -124,11 +124,14 @@ size_t vector_size(const Vector *vector) {
 //     v->size = new_size;
 // }
 void vector_resize(Vector *v, size_t new_size) {
+    if (v == NULL) return; 
     if (new_size == v->size) return;
 
     if (new_size == 0) { // Если новый размер 0, освобождаем память
-        free(v->data);
-        v->data = NULL;
+        if (v->data) {
+            free(v->data);
+            v->data = NULL;
+        }
         v->size = 0;
         v->capacity = 0;
     } else if (new_size < v->size) {
@@ -159,6 +162,11 @@ void vector_resize(Vector *v, size_t new_size) {
 // Функция для добавления элемента в конец вектора
 void push_back(Vector *vector, Data value) {
     // Если вектор заполнен, увеличиваем его ёмкость
+    if (vector == NULL) {
+        printf("Ошибка: вектор пуст при добавлении элемента\n");
+        return;
+    }
+
     if (vector->size == vector->capacity) {
         vector_resize(vector, vector->capacity * 2);
         // Проверяем, выделена ли память успешно
@@ -174,9 +182,9 @@ void push_back(Vector *vector, Data value) {
 // Функция для удаления последнего элемента из вектора
 Data pop_back(Vector *vector) {
     // Проверяем, не пуст ли вектор
-    if (vector->size == 0) {
+    if (vector == NULL || vector->size == 0) {
         printf("Ошибка: стек пуст!\n");
-        return 0;
+        return NULL;
     }
     // Возвращаем последний элемент и уменьшаем размер вектора
     return vector->data[--vector->size];
