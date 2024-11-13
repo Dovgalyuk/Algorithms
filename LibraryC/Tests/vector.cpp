@@ -140,12 +140,12 @@ int main() {
     }
     std::cout << "\n";
 
-    // Считаем сумму значений вектора
-    long long sum = 0;
-    for (size_t i = 0; i < initialVectorSize; ++i) {
-        sum += vector_get_int(vector, i); // Получаем значения и добавляем их к сумме
-    }
-    std::cout << "Sum: " << sum << "\n"; // Выводим сумму значений
+    // // Считаем сумму значений вектора
+    // long long sum = 0;
+    // for (size_t i = 0; i < initialVectorSize; ++i) {
+    //     sum += vector_get_int(vector, i); // Получаем значения и добавляем их к сумме
+    // }
+    // std::cout << "Sum: " << sum << "\n"; // Выводим сумму значений
     vector_delete(vector); // Освобождаем память, занятую вектором
     return 0; // Завершаем программу с кодом 0
 }
