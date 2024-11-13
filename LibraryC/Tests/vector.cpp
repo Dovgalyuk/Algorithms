@@ -4,7 +4,7 @@
 
 // Функция освобождения памяти, выделенной под данные в векторе
 void myfree(void *p) {
-    delete (int*)p; // Приводим указатель к типу int и освобождаем память
+     delete static_cast<int*>(p); // Приводим указатель к типу int и освобождаем память
 }
 
 // Функция для получения значения типа int из вектора по индексу
@@ -24,7 +24,7 @@ int vector_get_int(Vector *v, size_t i) {
         return -1; 
     }
 
-    return *(int*)data; // Возвращаем значение по указателю, приводя его к типу int
+     return *(static_cast<int*>(data)); // Возвращаем значение по указателю, приводя его к типу int
 }
 
 int main()
@@ -43,10 +43,8 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
-        int* newInt = new int(i);
-        vector_set(vector, i, newInt);
-    }
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+        vector_set(vector, i, new int(i));
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
@@ -110,8 +108,7 @@ int main()
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector_resize(vector, i);
-        int* newInt = new int(i);
-        vector_set(vector, i-1, newInt);
+        vector_set(vector, i - 1, new int(i));
     }
 
     long long sum = 0;
