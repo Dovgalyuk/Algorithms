@@ -102,15 +102,20 @@ void vector_resize(Vector *v, size_t new_size) {
     if (new_size == v->size) return;
 
     if (new_size == 0) {
+        // Если новый размер 0, освобождаем память
         free(v->data);
         v->data = NULL;
+        v->size = 0;  // Явно устанавливаем размер в 0
+        v->capacity = 0; // Опционально, чистим емкость
     } else if (new_size < v->size) {
-        // Уменьшаем размер без перераспределения памяти.
+        // Уменьшаем размер без перераспределения памяти
         v->size = new_size;
     } else {
+        // new_size > v->size: увеличиваем размер
         if (new_size > v->capacity) {
-            size_t new_capacity = v->capacity > 0 ? v->capacity * 2 : 1; 
-            while (new_capacity < new_size) { // Увеличиваем емкость до ближайшего размера
+            // Увеличиваем емкость
+            size_t new_capacity = v->capacity > 0 ? v->capacity * 2 : 1;
+            while (new_capacity < new_size) {
                 new_capacity *= 2;
             }
             Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
@@ -118,18 +123,20 @@ void vector_resize(Vector *v, size_t new_size) {
                 fprintf(stderr, "Ошибка выделения памяти\n");
                 return;
             }
-            // Копируем данные и инициализируем новые элементы
+            // Копируем данные
             memcpy(new_data, v->data, v->size * sizeof(Data));
-            memset(new_data + v->size, 0, (new_capacity - v->size) * sizeof(Data)); // Инициализируем новые элементы
+            // Инициализируем новые элементы, если есть
+            memset(new_data + v->size, 0, (new_capacity - v->size) * sizeof(Data));
 
+            // Освобождаем старую память
             free(v->data);
+            // Обновляем указатели
             v->data = new_data;
             v->capacity = new_capacity;  // Обновляем емкость
         }
-        free(v->data);
+        // Обновляем размер
         v->size = new_size; 
     }
-    free(v->data);
 }
 
 // Функция для добавления элемента в конец вектора
