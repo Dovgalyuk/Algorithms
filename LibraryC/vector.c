@@ -11,7 +11,7 @@ Vector *vector_create(size_t initial_capacity, FFree f) {
     }
 
     // Выделяем память под структуру вектора
-    Vector* vec = malloc(sizeof(Vector));
+    Vector* vec = (Vector *)malloc(sizeof(Vector));
     // Проверяем, успешно ли выделена память
     if (vec == NULL) {
         printf("Ошибка выделения памяти для структуры");
@@ -64,10 +64,7 @@ Data vector_get(const Vector *vector, size_t index) {
 
 int vector_get_int(const Vector *vector, size_t index) {
     int *value = (int *)vector_get(vector, index);
-    if (value != NULL) {
-        return value;
-    }
-    return -1; // Вернуть -1 в случае ошибки
+    return value != NULL ? *value : -1; // Вернуть -1 в случае ошибки
 }
 
 // Функция для установки значения элемента вектора по индексу
