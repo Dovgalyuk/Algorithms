@@ -31,12 +31,14 @@ int main()
 {
     Vector *vector = vector_create(0, myfree);
 
+    std::cout << "Resize 5 start:\n";
     vector_resize(vector, 5);
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
         return 1;
     }
+    std::cout << "Resize 5 done:\n";
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
         vector_set(vector, i, new int(i));
@@ -51,12 +53,14 @@ int main()
         }
     }
 
+    std::cout << "Resize 10 start:\n";
     vector_resize(vector, 10);
     if (vector_size(vector) != 10)
     {
         std::cout << "Invalid resize\n";
         return 1;
     }
+    std::cout << "Resize 10 done:\n";
 
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
@@ -68,12 +72,14 @@ int main()
     }
     std::cout << "\n";
 
+    std::cout << "Resize 3 start:\n";
     vector_resize(vector, 3);
     if (vector_size(vector) != 3)
     {
         std::cout << "Invalid resize\n";
         return 1;
     }
+    std::cout << "Resize 3 done:\n";
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
@@ -109,3 +115,37 @@ int main()
 
     vector_delete(vector);
 }
+
+
+// if (!vector) { // Проверяем, была ли успешна работа функции создания вектора
+//     std::cerr << "Ошибка: не удалось создать вектор.\n"; 
+//     return 1;
+// }
+
+//     // Заполняем вектор значениями от 0 до initialVectorSize-1
+//     for (size_t i = 0; i < initialVectorSize; ++i) {
+//         vector_set(vector, i, new int(i)); // Создаем новый int и сохраняем его в вектор
+//     }
+
+//     // Выводим значения из вектора на экран
+//     std::cout << "Vector: ";
+//     for (size_t i = 0; i < initialVectorSize; ++i) {
+//         int value = vector_get_int(vector, i); // Получаем значение из вектора
+//         if (value == -1) { // Если возникла ошибка, прерываем цикл
+//             break; 
+//         }
+//         std::cout << value << " "; // Выводим значение
+//     }
+//     std::cout << "\n"; 
+
+//     // Считаем сумму значений вектора
+//     long long sum = 0;
+//     for (size_t i = 0; i < initialVectorSize; ++i) {
+//         sum += vector_get_int(vector, i); // Получаем значения и добавляем их к сумме
+//     }
+
+//     std::cout << "Sum: " << sum << "\n"; // Выводим сумму значений
+
+//     vector_delete(vector); // Освобождаем память, занятую вектором
+//     return 0;
+// }
