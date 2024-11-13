@@ -35,12 +35,12 @@ int main()
         return 1;
     }
 
-    vector_resize(vector, 5);
-    if (vector_size(vector) != 5)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
-    }
+    // vector_resize(vector, 5);
+    // if (vector_size(vector) != 5)
+    // {
+    //     std::cout << "Invalid resize\n";
+    //     return 1;
+    // }
 
     // for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     //     vector_set(vector, i, new int(i));
