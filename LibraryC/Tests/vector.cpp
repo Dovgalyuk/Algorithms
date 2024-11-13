@@ -42,8 +42,8 @@ int main()
     //     return 1;
     // }
 
-    // for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-    //     vector_set(vector, i, new int(i));
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+        vector_set(vector, i, new int(i));
 
     // for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     // {
@@ -54,12 +54,12 @@ int main()
     //     }
     // }
 
-    // vector_resize(vector, 10);
-    // if (vector_size(vector) != 10)
-    // {
-    //     std::cout << "Invalid resize\n";
-    //     return 1;
-    // }
+    vector_resize(vector, 10);
+    if (vector_size(vector) != 10)
+    {
+        std::cout << "Invalid resize\n";
+        return 1;
+    }
 
     // // Выводим значения из вектора на экран
     // std::cout << "Vector: ";
