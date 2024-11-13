@@ -9,20 +9,20 @@ void myfree(void *p) {
 
 // Функция для получения значения типа int из вектора по индексу
 int vector_get_int(Vector *v, size_t i) {
-    if (v == nullptr) { // Проверяем, является ли вектор пустым
-        std::cerr << "Ошибка: вектор пуст!\n"; 
-        return -1; 
-    }
-    if (i >= vector_size(v)) { // Проверяем, находится ли индекс в границах вектора
-        std::cerr << "Ошибка: индекс " << i << " вне границ вектора.\n"; 
-        return -1; 
-    }
+    // if (v == nullptr) { // Проверяем, является ли вектор пустым
+    //     std::cerr << "Ошибка: вектор пуст!\n"; 
+    //     return -1; 
+    // }
+    // if (i >= vector_size(v)) { // Проверяем, находится ли индекс в границах вектора
+    //     std::cerr << "Ошибка: индекс " << i << " вне границ вектора.\n"; 
+    //     return -1; 
+    // }
     
-    Data data = vector_get(v, i); // Получаем данные по индексу
-    if (data == nullptr) { // Проверяем, не является ли полученное значение NULL
-        std::cerr << "Ошибка: данные по индексу " << i << " являются NULL!\n"; 
-        return -1; 
-    }
+    // Data data = vector_get(v, i); // Получаем данные по индексу
+    // if (data == nullptr) { // Проверяем, не является ли полученное значение NULL
+    //     std::cerr << "Ошибка: данные по индексу " << i << " являются NULL!\n"; 
+    //     return -1; 
+    // }
 
     return *(int*)data; // Возвращаем значение по указателю, приводя его к типу int
 }
@@ -100,14 +100,14 @@ int main()
     // std::cout << "\n";
 
     // Performance test
-    for (int i = 1 ; i <= 1000 ; ++i)
+    for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector_resize(vector, i);
         vector_set(vector, i - 1, new int(i));
     }
 
     long long sum = 0;
-    for (int i = 0 ; i < 1000 ; ++i)
+    for (int i = 0 ; i < 10000000 ; ++i)
         sum += vector_get_int(vector, i);
 
     std::cout << sum << "\n";
