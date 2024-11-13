@@ -63,8 +63,12 @@ Data vector_get(const Vector *vector, size_t index) {
 }
 
 int vector_get_int(const Vector *vector, size_t index) {
+    if (vector == NULL || index >= vector->size) {
+        return -1; // Ошибка, возвращаем -1
+    }
+    
     int *value = (int *)vector_get(vector, index);
-    return value != NULL ? *value : -1; // Вернуть -1 в случае ошибки
+    return (value != NULL) ? *value : -1;
 }
 
 // Функция для установки значения элемента вектора по индексу
