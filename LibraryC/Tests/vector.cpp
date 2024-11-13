@@ -67,11 +67,11 @@ int main()
     // Выводим значения из вектора на экран
     std::cout << "Vector: ";
     for (size_t i = 0; i < vector_size(vector); ++i) {
-        // value = vector_get_int(vector, i); // Получаем значение из вектора
-        if (vector_get_int(vector, i) == -1) { // Если возникла ошибка, прерываем цикл
-            break; 
-        }
-        std::cout << vector_get_int(vector, i) << " "; // Выводим значение
+        int value = vector_get_int(vector, i); // Получаем значение из вектора
+        // if (value == -1) { // Если возникла ошибка, прерываем цикл
+        //     break; 
+        // }
+        std::cout << value << " "; // Выводим значение
     }
     std::cout << "\n";
 
