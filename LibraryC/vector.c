@@ -63,7 +63,7 @@ Data vector_get(const Vector *vector, size_t index) {
 }
 
 int vector_get_int(const Vector *vector, size_t index) {
-    int value = (int *)vector_get(vector, index);
+    int *value = (int *)vector_get(vector, index);
     if (value != NULL) {
         return value;
     }
