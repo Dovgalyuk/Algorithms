@@ -1,25 +1,28 @@
 #include <iostream>
-#include "../LibraryCPP/list.h"
-#include "../LibraryCPP/stack.h"
+#include <fstream>
+#include "list.h"
+#include "stack.h"
 
-void list_print(const List *list);
+struct Registers {
+    int A = 0;
+    int B = 0;
+    int C = 0;
+    int D = 0;
+};
 
-int main () {
-    List* list = list_create();
-    Stack* stack = stack_create();
-    stack->list->tail;
-
-    int n;
-    std::cin >> n;
-    for (int i = 0; i < n; ++i) {
-        int num;
-        std::cin >> num;
-        list_insert(list, num);
+int main (int argc, char* argv[]) {
+    if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " input_file" << std::endl;
+        return 1;
     }
 
-    list_print(list);
+    std::ifstream input(argv[1]);
+    if (!input) {
+        std::cerr << "Fail to open file" << std::endl;
+        return -1;
+    }
 
-    list_delete(list);
+    Stack* stack = stack_create();
 
     return 0;
 }
