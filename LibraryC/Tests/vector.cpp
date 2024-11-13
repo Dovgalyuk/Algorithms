@@ -43,8 +43,10 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, new int(i));
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
+        int* newInt = new int(i);
+        vector_set(vector, i, newInt);
+    }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
@@ -108,7 +110,8 @@ int main()
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector_resize(vector, i);
-        vector_set(vector, i - 1, new int(i));
+        int* newInt = new int(i);
+        vector_set(vector, i-1, newInt);
     }
 
     long long sum = 0;
