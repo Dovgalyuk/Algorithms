@@ -3,6 +3,16 @@
 
 #include <stdlib.h>
 
+struct List_element {
+    Data element;
+    struct List_element *next;
+    FFree *distruct;
+};
+
+struct Stack {
+    List_element *top;
+    FFree *distruct;
+};
 
 
 Stack *create_stack(List_element **head ,FFree f) {
