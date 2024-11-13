@@ -107,7 +107,7 @@ ListItem* list_insert(List* list, Data data)
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
-    if (!list || !item) return nullptr;
+    if (!list) return nullptr;
     if(!list->head){
         return list_insert(list, data);
     }else{
