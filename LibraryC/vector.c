@@ -98,6 +98,31 @@ size_t vector_size(const Vector *vector) {
 }
 
 // Функция для изменения размера вектора
+// void vector_resize(Vector *v, size_t new_size) {
+//     if (new_size == v->size) return;
+
+//     if (new_size == 0) { // Если новый размер 0, освобождаем память
+//         free(v->data);
+//         v->data = NULL;
+//     } else {
+//         Data *new_data = (Data *)malloc(new_size * sizeof(Data));
+//         if (!new_data) {
+//             fprintf(stderr, "Ошибка выделения памяти\n");
+//             return;
+//         }
+
+//         size_t copy_size = (new_size < v->size) ? new_size : v->size;
+//         memcpy(new_data, v->data, copy_size * sizeof(Data));
+
+//         if (new_size > v->size) { // Инициализация новых элементов NULL
+//             memset(new_data + copy_size, 0, (new_size - copy_size) * sizeof(Data));
+//         }
+
+//         free(v->data);
+//         v->data = new_data;
+//     }
+//     v->size = new_size;
+// }
 void vector_resize(Vector *v, size_t new_size) {
     if (new_size == v->size) return;
 
@@ -108,7 +133,7 @@ void vector_resize(Vector *v, size_t new_size) {
         if (new_size > v->capacity) {
             size_t new_capacity = v->capacity > 0 ? v->capacity * 2 : 1; 
             while (new_capacity < new_size) { // Увеличиваем емкость до ближайшего размера
-                new_capacity *= 2;
+                *(int*)new_capacity *= 2;
             }
             Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
             if (!new_data) {
