@@ -99,11 +99,8 @@ void vector_resize(Vector *v, size_t new_size) {
 
     // Если новый размер меньше или равен текущему, ничего не делаем
     if (new_size <= v->size) {
-        for (size_t i = new_size; i < v->size; ++i) {
-            if (v->data[i] != NULL) {
-                v->distruct(v->data[i]); // Освобождаем память для каждого удаляемого элемента
-            }
-        }
+        v->size = new_size;
+        return;
     }
 
     // Увеличиваем емкость
