@@ -43,8 +43,9 @@ void vector_delete(Vector *vector) {
     // Если задана функция distruct, вызываем её для каждого элемента вектора
     if (vector->distruct != NULL) {
         for (size_t i = 0; i < vector->size; i++) {
-            void* ptr = /*(void*)*/vector->data[i];
-            vector->distruct(ptr);
+            if (vector->data[i] != NULL) {
+                vector->distruct(vector->data[i]);  // А освобождайте только, если указатель корректный
+            }
         }
     }
     // Освобождаем память под массив данных и сам вектор
@@ -128,34 +129,30 @@ void vector_resize(Vector *v, size_t new_size) {
     if (new_size == v->size) return;
 
     if (new_size == 0) { // Если новый размер 0, освобождаем память
-        if (v->data) {
-            free(v->data);
-            v->data = NULL;
-        }
-        v->size = 0;
+        free(v->data);
+        v->data = NULL; 
+        v->size = 0; 
         v->capacity = 0;
     } else if (new_size < v->size) {
         v->size = new_size;
     } else {
-        if (new_size > v->capacity) {
-            size_t new_capacity = v->capacity > 0 ? v->capacity * 2 : 1; 
-            while (new_capacity < new_size) { // Увеличиваем емкость до ближайшего размера
-                new_capacity *= 2;
-            }
-            Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
-            if (!new_data) {
-                fprintf(stderr, "Ошибка выделения памяти\n");
-                return;
-            }
-            // Копируем данные и инициализируем новые элементы
-            if (v->data) {
-                memcpy(new_data, v->data, v->size * sizeof(Data));
-                free(v->data);
-            }
-            v->data = new_data;
-            v->capacity = new_capacity;  // Обновляем емкость
+        size_t new_capacity = (new_size > v->capacity) ? (v->capacity * 2) : v->capacity; 
+        while (new_capacity < new_size) {
+            new_capacity *= 2;
         }
-        v->size = new_size;
+
+        Data *new_data = (Data*)malloc(new_capacity * sizeof(Data));
+        if (!new_data) {
+            fprintf(stderr, "Ошибка выделения памяти\n");
+            return;
+        }
+
+        if (v->data) {
+            memcpy(new_data, v->data, v->size * sizeof(Data));
+            free(v->data);
+        }
+        v->data = new_data;
+        v->capacity = new_capacity;
     }
 }
 
