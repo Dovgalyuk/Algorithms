@@ -8,6 +8,7 @@ D:/Учеба/НовГУ/Курс 2/СДИА/Algorithms/out/build/x64-Debug/Libr
 D:/Учеба/НовГУ/Курс 2/СДИА/Algorithms/out/build/x64-Debug/LibraryCPP/CMakeFiles/test.dir
 D:/Учеба/НовГУ/Курс 2/СДИА/Algorithms/out/build/x64-Debug/LibraryCPP/CMakeFiles/edit_cache.dir
 D:/Учеба/НовГУ/Курс 2/СДИА/Algorithms/out/build/x64-Debug/LibraryCPP/CMakeFiles/rebuild_cache.dir
+D:/Учеба/НовГУ/Курс 2/СДИА/Algorithms/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/TestArrayCPP.dir
 D:/Учеба/НовГУ/Курс 2/СДИА/Algorithms/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/test.dir
 D:/Учеба/НовГУ/Курс 2/СДИА/Algorithms/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/edit_cache.dir
 D:/Учеба/НовГУ/Курс 2/СДИА/Algorithms/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/rebuild_cache.dir
