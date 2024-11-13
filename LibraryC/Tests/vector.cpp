@@ -71,7 +71,8 @@ int main()
         // if (value == -1) { // Если возникла ошибка, прерываем цикл
         //     break; 
         // }
-        std::cout << vector_get_int(vector, i) << " "; // Выводим значение
+        // std::cout << value << " "; // Выводим значение
+        std::cout << "+";
     }
     std::cout << "\n";
 
