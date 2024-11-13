@@ -1,41 +1,48 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cwchar>
 #include "stack.h"
-bool isMatchingPair(wchar_t opening, wchar_t closing) {
-    return (opening == L'(' && closing == L')') ||
-           (opening == L'[' && closing == L']') ||
-           (opening == L'{' && closing == L'}') ||
-           (opening == L'\u201C' && closing == L'\u201D') ||
-           (opening == L'\u2018' && closing == L'\u2019');
+bool isMatchingPair(char opening, char closing) {
+    return (opening == '(' && closing == ')') ||
+           (opening == '[' && closing == ']') ||
+           (opening == '{' && closing == '}') ||
+           (opening == '"' && closing == '"') ||
+           (opening == '\'' && closing == '\'');
 }
 
-
-
 bool isValidSequence(const std::string& sequence) {
-    Stack *stack = stack_create(); // Создаём стек
-    for (wchar_t ch : sequence) {
-        if (ch == L'(' || ch == L'[' || ch == L'{' || ch == L'\u201C' || ch == L'\u201D') {
-            stack_push(stack, static_cast<Data>(ch)); // Передаем корректный тип данных
-        } else if (ch == L')' || ch == L']' || ch == L'}' || ch == L'\u2018' || ch == L'\u2019') {
+    Stack *stack = stack_create(); // Создаем стек
+    bool inQuotes = false; // Флаг для отслеживания кавычек
+
+    for (char ch : sequence) {
+        if ((ch == '"' && !inQuotes)||(ch == '\'' && !inQuotes)) {
+            inQuotes = true; // Открываем кавычки
+            stack_push(stack, static_cast<Data>(ch)); // Добавляем в стек
+        }
+        else if ((ch == '"' && inQuotes)||(ch == '\'' && !inQuotes)) {
+            inQuotes = false; // Закрываем кавычки
+            stack_push(stack, static_cast<Data>(ch)); // Добавляем в стек
+        }
+        else if (ch == '(' || ch == '[' || ch == '{') {
+            stack_push(stack, static_cast<Data>(ch));
+        }
+        else if (ch == ')' || ch == ']' || ch == '}') {
             if (stack_empty(stack)) {
                 stack_delete(stack); // Освобождаем память перед выходом
-                return false; // Неправильная последовательность
-            }
-
-            wchar_t data = stack_get(stack);
-            stack_pop(stack);
-            if (!isMatchingPair(data, ch)) { // Разыменовываем указатель
-                stack_delete(stack); // Освобождаем память перед выходом
-                return false; // Неправильная последовательность
+                char data = stack_get(stack);
+                stack_pop(stack);
+                if (!isMatchingPair(data, ch)) { // Разыменовываем указатель
+                    stack_delete(stack); // Освобождаем память перед выходом
+                    return false; // Неправильная последовательность
+                }
             }
         }
     }
 
-    bool result = stack_empty(stack); // Проверяем, пуст ли стек
+    // Проверяем, пуст ли стек и закрыты ли кавычки
+    bool result = stack_empty(stack) && !inQuotes; 
     stack_delete(stack); // Освобождаем память
-    return result; // Если стек пуст, последовательность правильная
+    return result; // Если стек пуст и кавычки закрыты, последовательность правильная
 }
 
 int main(int argc, char **argv) {
