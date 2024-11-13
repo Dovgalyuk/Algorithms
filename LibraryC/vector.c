@@ -40,14 +40,19 @@ void vector_delete(Vector *vector) {
     if (vector == NULL) {
         return;
     }
-    // Если задана функция distruct, вызываем её для каждого элемента вектора
-    if (vector->distruct != NULL) {
-        for (size_t i = 0; i < vector->size; i++) {
-            // if (vector->data[i] != NULL) {
-            //     vector->distruct(vector->data[i]);  // А освобождайте только, если указатель корректный
-            // }
-            void* ptr = (void*)vector->data[i];
-            vector->distruct(ptr);
+    // // Если задана функция distruct, вызываем её для каждого элемента вектора
+    // if (vector->distruct != NULL) {
+    //     for (size_t i = 0; i < vector->size; i++) {
+    //         // if (vector->data[i] != NULL) {
+    //         //     vector->distruct(vector->data[i]);  // А освобождайте только, если указатель корректный
+    //         // }
+    //         void* ptr = (void*)vector->data[i];
+    //         vector->distruct(ptr);
+    //     }
+    // }
+    for (size_t i = 0; i < vector->size; i++) {
+        if (vector->distruct != NULL && vector->data[i] != NULL) {
+            vector->distruct(vector->data[i]);
         }
     }
     // Освобождаем память под массив данных и сам вектор
@@ -73,6 +78,7 @@ int vector_get_int(const Vector *vector, size_t index) {
     return (value != NULL) ? *value : -1;
 }
 
+// Функция для установки значения элемента вектора по индексу
 void vector_set(Vector *vector, size_t index, Data value) {
     // Проверяем, не равен ли вектор NULL
     if (vector == NULL) {
@@ -86,12 +92,7 @@ void vector_set(Vector *vector, size_t index, Data value) {
         vector_resize(vector, index + 1);
     }
 
-    // Если требуется, освобождаем старое значение, если оно существует и не NULL
-    if (vector->distruct != NULL && vector->data[index] != NULL) {
-        vector->distruct(vector->data[index]); // Освобождение старых данных
-    }
-
-    // Устанавливаем новое значение элемента по индексу
+    // Устанавливаем значение элемента по индексу
     vector->data[index] = value;
 }
 
