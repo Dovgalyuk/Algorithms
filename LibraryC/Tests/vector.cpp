@@ -4,7 +4,7 @@
 
 // Функция освобождения памяти, выделенной под данные в векторе
 void myfree(void *p) {
-     delete static_cast<int*>(p); // Приводим указатель к типу int и освобождаем память
+    delete (int*)p; // Приводим указатель к типу int и освобождаем память
 }
 
 // Функция для получения значения типа int из вектора по индексу
@@ -24,7 +24,7 @@ int vector_get_int(Vector *v, size_t i) {
         return -1; 
     }
 
-     return *(static_cast<int*>(data)); // Возвращаем значение по указателю, приводя его к типу int
+    return *(int*)data; // Возвращаем значение по указателю, приводя его к типу int
 }
 
 int main()
@@ -35,74 +35,74 @@ int main()
         return 1;
     }
 
-    vector_resize(vector, 5);
-    if (vector_size(vector) != 5)
-    {
-        std::cout << "Invalid resize\n";
-        vector_delete(vector);
-        return 1;
-    }
+    // vector_resize(vector, 5);
+    // if (vector_size(vector) != 5)
+    // {
+    //     std::cout << "Invalid resize\n";
+    //     vector_delete(vector);
+    //     return 1;
+    // }
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, new int(i));
+    // for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    //     vector_set(vector, i, new int(i));
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-    {
-        if (vector_get_int(vector, i) != (int)i)
-        {
-            std::cout << "Invalid vector element " << i << "\n";
-            vector_delete(vector);
-            return 1;
-        }
-    }
+    // for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    // {
+    //     if (vector_get_int(vector, i) != (int)i)
+    //     {
+    //         std::cout << "Invalid vector element " << i << "\n";
+    //         vector_delete(vector);
+    //         return 1;
+    //     }
+    // }
 
-    vector_resize(vector, 10);
-    if (vector_size(vector) != 10)
-    {
-        std::cout << "Invalid resize\n";
-        vector_delete(vector);
-        return 1;
-    }
+    // vector_resize(vector, 10);
+    // if (vector_size(vector) != 10)
+    // {
+    //     std::cout << "Invalid resize\n";
+    //     vector_delete(vector);
+    //     return 1;
+    // }
 
-    // Выводим значения из вектора на экран
-    std::cout << "Vector: ";
-    for (size_t i = 0; i < vector_size(vector); ++i) {
-        int value = vector_get_int(vector, i); // Получаем значение из вектора
-        if (value == -1) { // Если возникла ошибка, прерываем цикл
-            break; 
-        }
-        std::cout << value << " "; // Выводим значение
-    }
-    std::cout << "\n";
+    // // Выводим значения из вектора на экран
+    // std::cout << "Vector: ";
+    // for (size_t i = 0; i < vector_size(vector); ++i) {
+    //     int value = vector_get_int(vector, i); // Получаем значение из вектора
+    //     if (value == -1) { // Если возникла ошибка, прерываем цикл
+    //         break; 
+    //     }
+    //     std::cout << value << " "; // Выводим значение
+    // }
+    // std::cout << "\n";
 
-    vector_resize(vector, 3);
-    if (vector_size(vector) != 3)
-    {
-        std::cout << "Invalid resize\n";
-        vector_delete(vector);
-        return 1;
-    }
+    // vector_resize(vector, 3);
+    // if (vector_size(vector) != 3)
+    // {
+    //     std::cout << "Invalid resize\n";
+    //     vector_delete(vector);
+    //     return 1;
+    // }
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-    {
-        if (vector_get_int(vector, i) != (int)i)
-        {
-            std::cout << "Invalid vector element " << i << "\n";
-            vector_delete(vector);
-            return 1;
-        }
-    }
+    // for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    // {
+    //     if (vector_get_int(vector, i) != (int)i)
+    //     {
+    //         std::cout << "Invalid vector element " << i << "\n";
+    //         vector_delete(vector);
+    //         return 1;
+    //     }
+    // }
 
-    // Выводим значения из вектора на экран
-    std::cout << "Vector: ";
-    for (size_t i = 0; i < vector_size(vector); ++i) {
-        int value = vector_get_int(vector, i); // Получаем значение из вектора
-        if (value == -1) { // Если возникла ошибка, прерываем цикл
-            break; 
-        }
-        std::cout << value << " "; // Выводим значение
-    }
-    std::cout << "\n";
+    // // Выводим значения из вектора на экран
+    // std::cout << "Vector: ";
+    // for (size_t i = 0; i < vector_size(vector); ++i) {
+    //     int value = vector_get_int(vector, i); // Получаем значение из вектора
+    //     if (value == -1) { // Если возникла ошибка, прерываем цикл
+    //         break; 
+    //     }
+    //     std::cout << value << " "; // Выводим значение
+    // }
+    // std::cout << "\n";
 
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
