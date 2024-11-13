@@ -98,7 +98,7 @@ void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; 
 
     // Если новый размер меньше или равен текущему, ничего не делаем
-    if (new_size < v->size && v->distruct != NULL) { // (new_size <= v->size && v->distruct != NULL)
+    if (new_size <= v->size && v->distruct != NULL) { // (new_size < v->size && v->distruct != NULL)
         for (size_t i = new_size; i < v->size; ++i) {
             if (v->data[i] != NULL) {
                 v->distruct(v->data[i]); // Освобождаем память для каждого удаляемого элемента
@@ -106,8 +106,8 @@ void vector_resize(Vector *v, size_t new_size) {
         }
     }
 
-    // Устанавливаем новый размер
-    v->size = new_size;
+    // // Устанавливаем новый размер
+    // v->size = new_size;
     
     // Увеличиваем емкость
     if (new_size > v->capacity) {
@@ -130,7 +130,7 @@ void vector_resize(Vector *v, size_t new_size) {
         v->data = new_data;
         v->capacity = new_capacity;
     }
-    //v->size = new_size;
+    v->size = new_size;
 }
 
 // Функция для добавления элемента в конец вектора
