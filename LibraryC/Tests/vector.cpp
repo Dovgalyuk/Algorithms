@@ -29,7 +29,7 @@ int vector_get_int(Vector *v, size_t i) {
 
 int main()
 {
-    Vector *vector = vector_create(1, myfree);
+    Vector *vector = vector_create(10000000, myfree);
     if (!vector) { // Проверяем, была ли успешна работа функции создания вектора
         std::cerr << "Ошибка: не удалось создать вектор.\n"; 
         return 1;
@@ -102,15 +102,15 @@ int main()
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
-        vector_resize(vector, i);
+        //vector_resize(vector, i);
         vector_set(vector, i - 1, new int(i));
     }
 
-    // long long sum = 0;
-    // for (int i = 0 ; i < 10000000 ; ++i)
-    //     sum += vector_get_int(vector, i);
+    long long sum = 0;
+    for (int i = 0 ; i < 10000000 ; ++i)
+        sum += vector_get_int(vector, i);
 
-    // std::cout << sum << "\n";
+    std::cout << sum << "\n";
 
     vector_delete(vector);
     return 0;
