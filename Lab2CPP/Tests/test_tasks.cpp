@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-
+#include <vector>
 
 bool check_result(int test_num, std::ifstream &input, std::ifstream &output)
 {
@@ -21,7 +21,8 @@ bool check_result(int test_num, std::ifstream &input, std::ifstream &output)
         }
         if (res.at(lineNum) != line)
         {
-            std::cout << "TEST FAIL: expected = " << line << "\nresult = " << res.at(lineNum) << std::endl;
+            std::cout << "TEST FAIL at line num = " << lineNum << ": expected = " << line
+                      << "\nresult = " << res.at(lineNum) << std::endl;
             return false;
         }
         lineNum++;

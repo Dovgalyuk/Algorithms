@@ -20,6 +20,7 @@ List::List(const List &a)
     while (next)
     {
         this->insert_after(prev, next->data());
+        prev = next;
         next = next->next();
     }
 }
