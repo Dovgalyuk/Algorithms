@@ -73,7 +73,6 @@ int vector_get_int(const Vector *vector, size_t index) {
     return (value != NULL) ? *value : -1;
 }
 
-// Функция для установки значения элемента вектора по индексу
 void vector_set(Vector *vector, size_t index, Data value) {
     // Проверяем, не равен ли вектор NULL
     if (vector == NULL) {
@@ -87,7 +86,12 @@ void vector_set(Vector *vector, size_t index, Data value) {
         vector_resize(vector, index + 1);
     }
 
-    // Устанавливаем значение элемента по индексу
+    // Если требуется, освобождаем старое значение, если оно существует и не NULL
+    if (vector->distruct != NULL && vector->data[index] != NULL) {
+        vector->distruct(vector->data[index]); // Освобождение старых данных
+    }
+
+    // Устанавливаем новое значение элемента по индексу
     vector->data[index] = value;
 }
 
