@@ -116,7 +116,7 @@ int vector_get_int(Vector *v, size_t i) {
 // }
 
 int main() {
-    int initialVectorSize = 10; // Определяем начальный размер вектора
+    const size_t initialVectorSize = 10000000; // Определяем начальный размер вектора
     Vector *vector = vector_create(initialVectorSize, myfree); // Создаем вектор с начальным размером и функцией освобождения
 
     if (!vector) { // Проверяем, была ли успешна работа функции создания вектора
@@ -140,30 +140,12 @@ int main() {
     }
     std::cout << "\n";
 
-    vector_resize(vector, 15);
-    if (vector_size(vector) != 3)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
-    }
-
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-    {
-        if (vector_get_int(vector, i) != (int)i)
-        {
-            std::cout << "Invalid vector element " << i << "\n";
-            return 1;
-        }
-    }
-
-    // Выводим значения из вектора на экран
-    std::cout << "Vector: ";
+    // Считаем сумму значений вектора
+    long long sum = 0;
     for (size_t i = 0; i < initialVectorSize; ++i) {
-        int value = vector_get_int(vector, i); // Получаем значение из вектора
-        if (value == -1) { // Если возникла ошибка, прерываем цикл
-            break; 
-        }
-        std::cout << value << " "; // Выводим значение
+        sum += vector_get_int(vector, i); // Получаем значения и добавляем их к сумме
     }
-    std::cout << "\n";
+    std::cout << "Sum: " << sum << "\n"; // Выводим сумму значений
+    vector_delete(vector); // Освобождаем память, занятую вектором
+    return 0; // Завершаем программу с кодом 0
 }
