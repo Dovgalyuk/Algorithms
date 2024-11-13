@@ -105,23 +105,28 @@ void vector_resize(Vector *v, size_t new_size) {
         free(v->data);
         v->data = NULL;
     } else if (new_size < v->size) {
-        // Если уменьшаем, просто обновляем размер
+        // Уменьшаем размер без перераспределения памяти.
         v->size = new_size;
     } else {
-        // Выделяем память для нового массива данных
-        Data *new_data = (Data *)malloc(new_size * sizeof(Data));
-        if (!new_data) {
-            fprintf(stderr, "Ошибка выделения памяти\n");
-            return;
-        }
-        
-        // Копируем данные и инициализируем новые элементы
-        memcpy(new_data, v->data, v->size * sizeof(Data));
-        memset(new_data + v->size, 0, (new_size - v->size) * sizeof(Data)); // Инициализируем новые элементы
+        if (new_size > v->capacity) {
+            size_t new_capacity = v->capacity > 0 ? v->capacity * 2 : 1; 
+            while (new_capacity < new_size) { // Увеличиваем емкость до ближайшего размера
+                new_capacity *= 2;
+            }
+            Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
+            if (!new_data) {
+                fprintf(stderr, "Ошибка выделения памяти\n");
+                return;
+            }
+            // Копируем данные и инициализируем новые элементы
+            memcpy(new_data, v->data, v->size * sizeof(Data));
+            memset(new_data + v->size, 0, (new_capacity - v->size) * sizeof(Data)); // Инициализируем новые элементы
 
-        free(v->data);
-        v->data = new_data;
-        v->size = new_size;
+            free(v->data);
+            v->data = new_data;
+            v->capacity = new_capacity;  // Обновляем емкость
+        }
+        v->size = new_size; 
     }
 }
 
