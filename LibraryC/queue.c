@@ -1,4 +1,3 @@
-// queue.c
 #include "queue.h"
 #include "vector.h"
 #include <stdlib.h>

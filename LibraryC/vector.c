@@ -1,10 +1,10 @@
-// vector.c
 #include "vector.h"
 #include <stdlib.h>
 #include <string.h>
 
 typedef struct Vector {
   Data *data;
+  Data fill;
   size_t size;
   size_t capacity;
   FFree *free_func;
@@ -59,16 +59,25 @@ void vector_set(Vector *vector, size_t index, Data value) {
 size_t vector_size(const Vector *vector) { return vector->size; }
 
 void vector_resize(Vector *vector, size_t new_size) {
-  if (new_size > vector->capacity) {
+  if (vector->capacity < new_size) {
     size_t new_capacity = vector->capacity;
-    while (new_capacity < new_size) {
+    while (new_capacity < new_size)
       new_capacity *= 2;
-    }
-    Data *new_data = realloc(vector->data, new_capacity * sizeof(Data));
-    if (!new_data)
-      return;
-    vector->data = new_data;
+
+    vector->data = (Data *)realloc(vector->data, new_capacity * sizeof(Data));
     vector->capacity = new_capacity;
+    for (size_t i = vector->size; i < new_size; i++)
+      vector->data[i] = vector->fill;
+
+  } else if (new_size < vector->size) {
+    if (vector->free_func != NULL) {
+      for (size_t i = new_size; i < vector->size; i++) {
+        if (vector->data[i] != vector->fill) {
+          vector->free_func((void *)vector->data[i]);
+          vector->data[i] = vector->fill;
+        }
+      }
+    }
   }
   vector->size = new_size;
 }
