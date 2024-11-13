@@ -106,11 +106,11 @@ int main()
         vector_set(vector, i - 1, new int(i));
     }
 
-    long long sum = 0;
-    for (int i = 0 ; i < 10000000 ; ++i)
-        sum += vector_get_int(vector, i);
+    // long long sum = 0;
+    // for (int i = 0 ; i < 10000000 ; ++i)
+    //     sum += vector_get_int(vector, i);
 
-    std::cout << sum << "\n";
+    // std::cout << sum << "\n";
 
     vector_delete(vector);
     return 0;
