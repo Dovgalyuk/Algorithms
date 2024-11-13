@@ -23,10 +23,12 @@ void queue_delete(Queue* queue) {
 void queue_insert(Queue* queue, Data data) {
     if (queue) {
         if (queue->list) {
-            list_delete(queue->list);
+            list_insert_end(queue->list, data);
         }
-        queue->list = list_create();
-        list_insert_end(queue->list, data);
+        else {
+            queue->list = list_create();
+            list_insert_end(queue->list, data);
+        }
     }
 }
 
