@@ -69,10 +69,12 @@ int main()
     for (size_t i = 0; i < vector_size(vector); ++i) {
         int value = vector_get_int(vector, i); // Получаем значение из вектора
         
-        if (value)  // Если возникла ошибка, прерываем цикл
+        if (!value) { // Если возникла ошибка, прерываем цикл
+            break; 
+        }
+        else
             std::cout << value << " "; // Выводим значение
 
-        std::cout << value << " "; // Выводим значение
     }
     std::cout << "\n";
 
@@ -97,9 +99,13 @@ int main()
     // Выводим значения из вектора на экран
     std::cout << "Vector: ";
     for (size_t i = 0; i < vector_size(vector); ++i) {
-        int value = vector_get_int(vector, i); // Получаем значение из вектора     
-        if (value)  // Если возникла ошибка, прерываем цикл
-            std::cout << value << " "; // Выводим значение  
+        int value = vector_get_int(vector, i); // Получаем значение из вектора
+        
+        if (!value) { // Если возникла ошибка, прерываем цикл
+            break; 
+        }
+        else
+            std::cout << value << " "; // Выводим значение
     }
     std::cout << "\n";
 
