@@ -29,7 +29,8 @@ int vector_get_int(Vector *v, size_t i) {
 
 int main()
 {
-    Vector *vector = vector_create(1, myfree);
+    const size_t initialVectorSize = 1; // Определяем начальный размер вектора
+    Vector *vector = vector_create(initialVectorSize, myfree); // Создаем вектор с начальным размером и функцией освобождения
     if (!vector) { // Проверяем, была ли успешна работа функции создания вектора
         std::cerr << "Ошибка: не удалось создать вектор.\n"; 
         return 1;
