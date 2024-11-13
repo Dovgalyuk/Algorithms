@@ -104,16 +104,17 @@ void vector_resize(Vector *v, size_t new_size) {
        // Выделяем память для нового массива данных
        Data *new_data = (Data *)malloc(new_size * sizeof(Data));
        // Проверяем успешность выделения памяти
-       if (new_data == NULL) {
+       if (!new_data) {
            fprintf(stderr, "Ошибка выделения памяти\n");
            return;
        }
        
        // Определяем размер копируемых данных (минимум между новым и текущим размером)
        size_t copy_size = (new_size < v->size) ? new_size : v->size;
-       for (size_t i = 0; i < copy_size; i++) {
-           new_data[i] = v->data[i]; // Копируем данные
-       }
+       memcpy(new_data, v->data, copy_size * sizeof(Data));
+    //    for (size_t i = 0; i < copy_size; i++) {
+    //        new_data[i] = v->data[i]; // Копируем данные
+    //    }
 
        // Инициализируем новые элементы NULL в новом массиве
        for (size_t i = copy_size; i < new_size; i++) {
