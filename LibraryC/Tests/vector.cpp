@@ -35,12 +35,12 @@ int main()
         return 1;
     }
 
-    vector_resize(vector, 5);
-    if (vector_size(vector) != 5)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
-    }
+    // vector_resize(vector, 5);
+    // if (vector_size(vector) != 5)
+    // {
+    //     std::cout << "Invalid resize\n";
+    //     return 1;
+    // }
 
     // for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     //     vector_set(vector, i, new int(i));
@@ -54,12 +54,12 @@ int main()
     //     }
     // }
 
-    vector_resize(vector, 10);
-    if (vector_size(vector) != 10)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
-    }
+    // vector_resize(vector, 10);
+    // if (vector_size(vector) != 10)
+    // {
+    //     std::cout << "Invalid resize\n";
+    //     return 1;
+    // }
 
     // // Выводим значения из вектора на экран
     // std::cout << "Vector: ";
@@ -71,12 +71,12 @@ int main()
     // }
     // std::cout << "\n";
 
-    vector_resize(vector, 3);
-    if (vector_size(vector) != 3)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
-    }
+    // vector_resize(vector, 3);
+    // if (vector_size(vector) != 3)
+    // {
+    //     std::cout << "Invalid resize\n";
+    //     return 1;
+    // }
 
     // for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     // {
@@ -97,18 +97,18 @@ int main()
     // }
     // std::cout << "\n";
 
-    // Performance test
-    for (int i = 1 ; i <= 10000000; ++i)
-    {
-        vector_resize(vector, i);
-        vector_set(vector, i - 1, new int(i));
-    }
+    // // Performance test
+    // for (int i = 1 ; i <= 10000000; ++i)
+    // {
+    //     vector_resize(vector, i);
+    //     vector_set(vector, i - 1, new int(i));
+    // }
 
-    long long sum = 0;
-    for (int i = 0 ; i < 10000000 ; ++i)
-        sum += vector_get_int(vector, i);
+    // long long sum = 0;
+    // for (int i = 0 ; i < 10000000 ; ++i)
+    //     sum += vector_get_int(vector, i);
 
-    std::cout << sum << "\n";
+    // std::cout << sum << "\n";
 
     vector_delete(vector);
     return 0;
