@@ -116,7 +116,7 @@ int vector_get_int(Vector *v, size_t i) {
 // }
 
 int main() {
-    const size_t initialVectorSize = 10; // Определяем начальный размер вектора
+    size_t initialVectorSize = 10; // Определяем начальный размер вектора
     Vector *vector = vector_create(initialVectorSize, myfree); // Создаем вектор с начальным размером и функцией освобождения
 
     if (!vector) { // Проверяем, была ли успешна работа функции создания вектора
