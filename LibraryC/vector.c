@@ -62,6 +62,14 @@ Data vector_get(const Vector *vector, size_t index) {
     return vector->data[index];
 }
 
+int vector_get_int(const Vector *vector, size_t index) {
+    int value = (int *)vector_get(vector, index);
+    if (value != NULL) {
+        return value;
+    }
+    return -1; // Вернуть -1 в случае ошибки
+}
+
 // Функция для установки значения элемента вектора по индексу
 void vector_set(Vector *vector, size_t index, Data value) {
     // Проверяем, не равен ли вектор NULL
@@ -115,6 +123,7 @@ void vector_resize(Vector *v, size_t new_size) {
         v->data = new_data;
         v->capacity = new_capacity;
     }
+    v->size = new_size;
 }
 
 // Функция для добавления элемента в конец вектора

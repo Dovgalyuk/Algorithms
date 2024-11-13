@@ -26,6 +26,8 @@ void vector_delete(Vector *vector); // Удаление вектора и осв
 
 Data vector_get(const Vector *vector, size_t index); // Получение элемента вектора по индексу
 
+int vector_get_int(const Vector *vector, size_t index);
+
 void vector_set(Vector *vector, size_t index, Data value); // Установка значения элемента вектора
 
 size_t vector_size(const Vector *vector); // Получение текущего размера вектора
