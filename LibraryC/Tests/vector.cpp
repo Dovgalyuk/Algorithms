@@ -30,6 +30,10 @@ int vector_get_int(Vector *v, size_t i) {
 int main()
 {
     Vector *vector = vector_create(1, myfree);
+    if (!vector) { // Проверяем, была ли успешна работа функции создания вектора
+        std::cerr << "Ошибка: не удалось создать вектор.\n"; 
+        return 1;
+    }
 
     vector_resize(vector, 5);
     if (vector_size(vector) != 5)
@@ -57,9 +61,15 @@ int main()
         return 1;
     }
 
+    // Выводим значения из вектора на экран
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        std::cout << vector_get_int(vector, i) << " ";
+    for (size_t i = 0; i < vector_size(vector); ++i) {
+        int value = vector_get_int(vector, i); // Получаем значение из вектора
+        if (value == -1) { // Если возникла ошибка, прерываем цикл
+            break; 
+        }
+        std::cout << value << " "; // Выводим значение
+    }
     std::cout << "\n";
 
     vector_resize(vector, 3);
@@ -78,9 +88,15 @@ int main()
         }
     }
 
+    // Выводим значения из вектора на экран
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        std::cout << vector_get_int(vector, i) << " ";
+    for (size_t i = 0; i < vector_size(vector); ++i) {
+        int value = vector_get_int(vector, i); // Получаем значение из вектора
+        if (value == -1) { // Если возникла ошибка, прерываем цикл
+            break; 
+        }
+        std::cout << value << " "; // Выводим значение
+    }
     std::cout << "\n";
 
     // Performance test
