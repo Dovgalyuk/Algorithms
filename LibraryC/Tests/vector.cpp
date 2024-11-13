@@ -116,8 +116,8 @@ int vector_get_int(Vector *v, size_t i) {
 // }
 
 int main() {
-    const size_t initialVectorSize = 10000000; // Определяем начальный размер вектора
-    Vector *vector = vector_create(initialVectorSize, myfree); // Создаем вектор с начальным размером и функцией освобождения
+    // const size_t initialVectorSize = 10000000; // Определяем начальный размер вектора
+    Vector *vector = vector_create(10, myfree); // Создаем вектор с начальным размером и функцией освобождения
 
     if (!vector) { // Проверяем, была ли успешна работа функции создания вектора
         std::cerr << "Ошибка: не удалось создать вектор.\n"; 
@@ -125,13 +125,13 @@ int main() {
     }
 
     // Заполняем вектор значениями от 0 до initialVectorSize-1
-    for (size_t i = 0; i < initialVectorSize; ++i) {
+    for (size_t i = 0; i < vector_size(vector); ++i) {
         vector_set(vector, i, new int(i)); // Создаем новый int и сохраняем его в вектор
     }
 
     // Выводим значения из вектора на экран
     std::cout << "Vector: ";
-    for (size_t i = 0; i < initialVectorSize; ++i) {
+    for (size_t i = 0; i < vector_size(vector); ++i) {
         int value = vector_get_int(vector, i); // Получаем значение из вектора
         if (value == -1) { // Если возникла ошибка, прерываем цикл
             break; 
@@ -146,6 +146,7 @@ int main() {
     //     sum += vector_get_int(vector, i); // Получаем значения и добавляем их к сумме
     // }
     // std::cout << "Sum: " << sum << "\n"; // Выводим сумму значений
+    
     vector_delete(vector); // Освобождаем память, занятую вектором
     return 0; // Завершаем программу с кодом 0
 }
