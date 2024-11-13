@@ -5,11 +5,7 @@ typedef char Data;
 typedef void (FFree)(void*);
 
 
-typedef struct List_element {
-    Data element;
-    struct List_element *next;
-    FFree *distruct;
-} List_element;
+typedef struct List_element List_element;
 
 
 #ifdef __cplusplus
