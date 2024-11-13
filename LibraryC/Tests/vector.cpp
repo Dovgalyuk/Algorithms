@@ -117,13 +117,20 @@ int vector_get_int(Vector *v, size_t i) {
 
 int main() {
     // const size_t initialVectorSize = 10000000; // Определяем начальный размер вектора
-    Vector *vector = vector_create(10, myfree); // Создаем вектор с начальным размером и функцией освобождения
+    Vector *vector = vector_create(1, myfree); // Создаем вектор с начальным размером и функцией освобождения
 
     if (!vector) { // Проверяем, была ли успешна работа функции создания вектора
         std::cerr << "Ошибка: не удалось создать вектор.\n"; 
         return 1;
     }
 
+    vector_resize(vector, 10);
+    if (vector_size(vector) != 10)
+    {
+        std::cout << "Invalid resize\n";
+        return 1;
+    }
+    
     // Заполняем вектор значениями от 0 до initialVectorSize-1
     for (size_t i = 0; i < vector_size(vector); ++i) {
         vector_set(vector, i, new int(i)); // Создаем новый int и сохраняем его в вектор
