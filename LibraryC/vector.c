@@ -129,10 +129,14 @@ void vector_resize(Vector *v, size_t new_size) {
     if (new_size == 0) { // Если новый размер 0, освобождаем память
         free(v->data);
         v->data = NULL;
+        v->size = 0;
+        v->capacity = 0;
+    } else if (new_size < v->size) {
+        v->size = new_size;
     } else {
         if (new_size > v->capacity) {
-            int new_capacity = v->capacity > 0 ? v->capacity * 2 : 1; 
-            while (new_capacity < *(int*)new_size) { // Увеличиваем емкость до ближайшего размера
+            size_t new_capacity = v->capacity > 0 ? v->capacity * 2 : 1; 
+            while (new_capacity < new_size) { // Увеличиваем емкость до ближайшего размера
                 new_capacity *= 2;
             }
             Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
@@ -141,10 +145,10 @@ void vector_resize(Vector *v, size_t new_size) {
                 return;
             }
             // Копируем данные и инициализируем новые элементы
-            memcpy(new_data, v->data, v->size * sizeof(Data));
-            memset(new_data + v->size, 0, (new_capacity - v->size) * sizeof(Data)); // Инициализируем новые элементы
-
-            free(v->data);
+            if (v->data) {
+                memcpy(new_data, v->data, v->size * sizeof(Data));
+                free(v->data);
+            }
             v->data = new_data;
             v->capacity = new_capacity;  // Обновляем емкость
         }
