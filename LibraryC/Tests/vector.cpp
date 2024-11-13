@@ -8,7 +8,7 @@ void myfree(void *p) {
 }
 
 // Функция для получения значения типа int из вектора по индексу
-int vector_get_int(Vector *v, int i) {
+int vector_get_int(Vector *v, size_t i) {
     if (v == nullptr) { // Проверяем, является ли вектор пустым
         std::cerr << "Ошибка: вектор пуст!\n"; 
         return -1; 
@@ -45,7 +45,7 @@ int main()
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
         vector_set(vector, i, new int(i));
 
-    for (int i = 0 ; i < vector_size(vector) ; ++i)
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)
         {
@@ -63,7 +63,7 @@ int main()
 
     // Выводим значения из вектора на экран
     std::cout << "Vector: ";
-    for (int i = 0; i < vector_size(vector); ++i) {
+    for (size_t i = 0; i < vector_size(vector); ++i) {
         int value = vector_get_int(vector, i); // Получаем значение из вектора
         if (value == -1) { // Если возникла ошибка, прерываем цикл
             break; 
@@ -79,7 +79,7 @@ int main()
         return 1;
     }
 
-    for (int i = 0 ; i < vector_size(vector) ; ++i)
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)
         {
@@ -90,7 +90,7 @@ int main()
 
     // Выводим значения из вектора на экран
     std::cout << "Vector: ";
-    for (int i = 0; i < vector_size(vector); ++i) {
+    for (size_t i = 0; i < vector_size(vector); ++i) {
         int value = vector_get_int(vector, i); // Получаем значение из вектора
         if (value == -1) { // Если возникла ошибка, прерываем цикл
             break; 
