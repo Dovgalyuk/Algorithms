@@ -10,10 +10,7 @@ typedef char Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
 
-typedef struct Stack {
-    List_element *top;
-    FFree *distruct;
-} Stack;
+typedef struct Stack Stack;
 
 
 #ifdef __cplusplus
