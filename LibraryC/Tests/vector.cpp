@@ -147,8 +147,8 @@ int main() {
     }
     std::cout << "\n";
 
-    vector_resize(vector, 5);
-    if (vector_size(vector) != 5)
+    vector_resize(vector, 15);
+    if (vector_size(vector) != 15)
     {
         std::cout << "Invalid resize\n";
         return 1;
