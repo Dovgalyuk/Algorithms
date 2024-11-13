@@ -79,10 +79,13 @@ void vector_set(Vector *vector, size_t index, Data value) {
         return;
     }
 
+    if (index >= vector->capacity) {
+        vector_resize(vector, index + 1);
+    }
     // Увеличиваем размер только если индекс больше текущего размера
     if (index >= vector->size) {
         // Увеличение размера вектора
-        vector_resize(vector, index + 1);
+        vector->size = index + 1; 
     }
 
     // Устанавливаем значение элемента по индексу
