@@ -36,20 +36,56 @@ int main() {
         return 1;
     }
 
-    // Заполняем вектор значениями от 0 до initialVectorSize-1
-    for (size_t i = 0; i < initialVectorSize; ++i) {
-        vector_set(vector, i, new int(i)); // Создаем новый int и сохраняем его в вектор
+    vector_resize(vector, 5);
+    if (vector_size(vector) != 5)
+    {
+        std::cout << "Invalid resize\n";
+        return 1;
     }
 
-    // Выводим значения из вектора на экран
-    std::cout << "Vector: ";
-    for (size_t i = 0; i < initialVectorSize; ++i) {
-        int value = vector_get_int(vector, i); // Получаем значение из вектора
-        if (value == -1) { // Если возникла ошибка, прерываем цикл
-            break; 
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+        vector_set(vector, i, new int(i));
+
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    {
+        if (vector_get_int(vector, i) != (int)i)
+        {
+            std::cout << "Invalid vector element " << i << "\n";
+            return 1;
         }
-        std::cout << value << " "; // Выводим значение
     }
+
+    vector_resize(vector, 10);
+    if (vector_size(vector) != 10)
+    {
+        std::cout << "Invalid resize\n";
+        return 1;
+    }
+
+    std::cout << "Vector: ";
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+        std::cout << vector_get_int(vector, i) << " ";
+    std::cout << "\n";
+
+    vector_resize(vector, 3);
+    if (vector_size(vector) != 3)
+    {
+        std::cout << "Invalid resize\n";
+        return 1;
+    }
+
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    {
+        if (vector_get_int(vector, i) != (int)i)
+        {
+            std::cout << "Invalid vector element " << i << "\n";
+            return 1;
+        }
+    }
+
+    std::cout << "Vector: ";
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+        std::cout << vector_get_int(vector, i) << " ";
     std::cout << "\n";
 
     // Performance test
