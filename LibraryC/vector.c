@@ -11,7 +11,7 @@ Vector *vector_create(size_t initial_capacity, FFree f) {
     }
 
     // Выделяем память под структуру вектора
-    Vector* vec = (Vector*)malloc(sizeof(Vector));
+    Vector* vec = malloc(sizeof(Vector));
     // Проверяем, успешно ли выделена память
     if (vec == NULL) {
         printf("Ошибка выделения памяти для структуры");
@@ -43,9 +43,8 @@ void vector_delete(Vector *vector) {
     // Если задана функция distruct, вызываем её для каждого элемента вектора
     if (vector->distruct != NULL) {
         for (size_t i = 0; i < vector->size; i++) {
-            if (vector->data[i] != NULL) {
-                vector->distruct(vector->data[i]);  // А освобождайте только, если указатель корректный
-            }
+            void* ptr = (void*)vector->data[i];
+            vector->distruct(ptr);
         }
     }
     // Освобождаем память под массив данных и сам вектор
@@ -55,18 +54,9 @@ void vector_delete(Vector *vector) {
 
 // Функция для получения элемента вектора по индексу
 Data vector_get(const Vector *vector, size_t index) {
-    // Проверяем, не равен ли вектор NULL
-    if (vector == NULL) {
-        fprintf(stderr, "Ошибка: вектор пуст!\n");
+    if (vector == NULL || index >= vector->size) {
         return NULL;
     }
-
-    // Проверяем, не превышает ли индекс размер вектора
-    if (index >= vector->size) {
-        fprintf(stderr, "Ошибка: индекс %zu вне границ (size: %zu)!\n", index, vector->size);
-        return NULL;
-    }
-
     // Возвращаем элемент по индексу
     return vector->data[index];
 }
@@ -79,14 +69,10 @@ void vector_set(Vector *vector, size_t index, Data value) {
         return;
     }
 
-    // Если индекс превышает ёмкость, изменяем размер вектора
-    if (index >= vector->capacity) {
-        vector_resize(vector, index + 1);
-    }
-
-    // Обновляем размер вектора, если индекс больше текущего размера
+    // Увеличиваем размер только если индекс больше текущего размера
     if (index >= vector->size) {
-        vector->size = index + 1; 
+        // Увеличение размера вектора
+        vector_resize(vector, index + 1);
     }
 
     // Устанавливаем значение элемента по индексу
@@ -126,53 +112,49 @@ size_t vector_size(const Vector *vector) {
 // }
 void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; 
-    if (new_size == v->size) return;
 
-    if (new_size == 0) { // Если новый размер 0, освобождаем память
-        free(v->data);
-        v->data = NULL; 
-        v->size = 0; 
-        v->capacity = 0;
-    } else if (new_size < v->size) {
+    // Если новый размер меньше или равен текущему, ничего не делаем
+    if (new_size <= v->size) {
         v->size = new_size;
-    } else {
-        size_t new_capacity = (new_size > v->capacity) ? (v->capacity * 2) : v->capacity; 
+        return;
+    }
+
+    // Увеличиваем емкость
+    if (new_size > v->capacity) {
+        size_t new_capacity = v->capacity > 0 ? v->capacity * 2 : 1; 
         while (new_capacity < new_size) {
             new_capacity *= 2;
         }
 
-        Data *new_data = (Data*)malloc(new_capacity * sizeof(Data));
+        Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
         if (!new_data) {
             fprintf(stderr, "Ошибка выделения памяти\n");
-            return;
+            return; // Не удается изменить размер
         }
 
         if (v->data) {
             memcpy(new_data, v->data, v->size * sizeof(Data));
             free(v->data);
         }
+
         v->data = new_data;
         v->capacity = new_capacity;
     }
+
+    // Увеличиваем размер
+    v->size = new_size;
 }
 
 // Функция для добавления элемента в конец вектора
 void push_back(Vector *vector, Data value) {
     // Если вектор заполнен, увеличиваем его ёмкость
     if (vector == NULL) {
-        printf("Ошибка: вектор пуст при добавлении элемента\n");
         return;
     }
 
     if (vector->size == vector->capacity) {
         vector_resize(vector, vector->capacity * 2);
-        // Проверяем, выделена ли память успешно
-        if (vector->data == NULL) {
-            printf("Ошибка при выделении памяти в push_back\n");
-            return;
-        }
     }
-    // Добавляем значение в конец вектора
     vector->data[vector->size++] = value;
 }
 
