@@ -40,21 +40,21 @@ void vector_delete(Vector *vector) {
     if (vector == NULL) {
         return;
     }
-    // // Если задана функция distruct, вызываем её для каждого элемента вектора
-    // if (vector->distruct != NULL) {
-    //     for (size_t i = 0; i < vector->size; i++) {
-    //         // if (vector->data[i] != NULL) {
-    //         //     vector->distruct(vector->data[i]);  // А освобождайте только, если указатель корректный
-    //         // }
-    //         void* ptr = (void*)vector->data[i];
-    //         vector->distruct(ptr);
-    //     }
-    // }
-    for (size_t i = 0; i < vector->size; i++) {
-        if (vector->distruct != NULL && vector->data[i] != NULL) {
-            vector->distruct(vector->data[i]);
+    // Если задана функция distruct, вызываем её для каждого элемента вектора
+    if (vector->distruct != NULL) {
+        for (size_t i = 0; i < vector->size; i++) {
+            // if (vector->data[i] != NULL) {
+            //     vector->distruct(vector->data[i]);  // А освобождайте только, если указатель корректный
+            // }
+            void* ptr = (void*)vector->data[i];
+            vector->distruct(ptr);
         }
     }
+    // for (size_t i = 0; i < vector->size; i++) {
+    //     if (vector->distruct != NULL && vector->data[i] != NULL) {
+    //         vector->distruct(vector->data[i]);
+    //     }
+    // }
     // Освобождаем память под массив данных и сам вектор
     free(vector->data);
     free(vector);
