@@ -115,10 +115,10 @@ void vector_resize(Vector *v, size_t new_size) {
            new_data[i] = v->data[i]; // Копируем данные
        }
 
-    //    // Инициализируем новые элементы NULL в новом массиве
-    //    for (size_t i = copy_size; i < new_size; i++) {
-    //        new_data[i] = NULL;
-    //    }
+       // Инициализируем новые элементы NULL в новом массиве
+       for (size_t i = copy_size; i < new_size; i++) {
+           new_data[i] = NULL;
+       }
 
        // Освобождаем старый массив данных и обновляем указатель на новый массив
        free(v->data);
