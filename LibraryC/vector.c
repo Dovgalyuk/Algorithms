@@ -4,7 +4,6 @@
 
 typedef struct Vector {
   Data *data;
-  Data fill;
   size_t size;
   size_t capacity;
   FFree *free_func;
@@ -20,6 +19,10 @@ Vector *vector_create(FFree *f) {
   if (!vector->data) {
     free(vector);
     return NULL;
+  }
+  // Инициализируем все элементы NULL-ами
+  for (size_t i = 0; i < INITIAL_CAPACITY; i++) {
+    vector->data[i] = NULL;
   }
   vector->size = 0;
   vector->capacity = INITIAL_CAPACITY;
@@ -42,13 +45,13 @@ void vector_delete(Vector *vector) {
 }
 
 Data vector_get(const Vector *vector, size_t index) {
-  if (index >= vector->size)
+  if (!vector || index >= vector->size)
     return NULL;
   return vector->data[index];
 }
 
 void vector_set(Vector *vector, size_t index, Data value) {
-  if (index >= vector->size)
+  if (!vector || index >= vector->size)
     return;
   if (vector->data[index] && vector->free_func) {
     vector->free_func(vector->data[index]);
@@ -56,28 +59,27 @@ void vector_set(Vector *vector, size_t index, Data value) {
   vector->data[index] = value;
 }
 
-size_t vector_size(const Vector *vector) { return vector->size; }
+size_t vector_size(const Vector *vector) { return vector ? vector->size : 0; }
 
 void vector_resize(Vector *vector, size_t new_size) {
-  if (vector->capacity < new_size) {
-    size_t new_capacity = vector->capacity;
-    while (new_capacity < new_size)
-      new_capacity *= 2;
-
-    vector->data = (Data *)realloc(vector->data, new_capacity * sizeof(Data));
-    vector->capacity = new_capacity;
-    for (size_t i = vector->size; i < new_size; i++)
-      vector->data[i] = vector->fill;
-
-  } else if (new_size < vector->size) {
-    if (vector->free_func != NULL) {
-      for (size_t i = new_size; i < vector->size; i++) {
-        if (vector->data[i] != vector->fill) {
-          vector->free_func((void *)vector->data[i]);
-          vector->data[i] = vector->fill;
-        }
-      }
+  if (new_size > vector->capacity) {
+    size_t new_capacity =
+        new_size > vector->capacity * 2 ? new_size : vector->capacity * 2;
+    void **new_data = (void **)calloc(new_capacity, sizeof(void *));
+    if (!new_data) {
+      return;
     }
+    for (size_t i = 0; i < vector->size; ++i) {
+      new_data[i] = vector->data[i];
+    }
+    free(vector->data);
+    vector->data = new_data;
+    vector->capacity = new_capacity;
   }
+
+  for (size_t i = vector->size; i < new_size; ++i) {
+    vector->data[i] = NULL;
+  }
+
   vector->size = new_size;
 }
