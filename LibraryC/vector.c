@@ -102,40 +102,34 @@ void vector_resize(Vector *v, size_t new_size) {
     if (new_size == v->size) return;
 
     if (new_size == 0) {
-        // Если новый размер 0, освобождаем память
         free(v->data);
         v->data = NULL;
-        v->size = 0;  // Явно устанавливаем размер в 0
-        v->capacity = 0; // Опционально, чистим емкость
+        v->size = 0;
+        v->capacity = 0;  // Или установите его в значение, согласно вашему коду
     } else if (new_size < v->size) {
-        // Уменьшаем размер без перераспределения памяти
+        // Просто обновляем размер
         v->size = new_size;
-    } else {
-        // new_size > v->size: увеличиваем размер
+    } else {  // new_size > v->size
         if (new_size > v->capacity) {
-            // Увеличиваем емкость
-            size_t new_capacity = v->capacity > 0 ? v->capacity * 2 : 1;
+            // Увеличьте емкость
+            size_t new_capacity = (v->capacity > 0) ? v->capacity * 2 : 1;
             while (new_capacity < new_size) {
                 new_capacity *= 2;
             }
             Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
             if (!new_data) {
                 fprintf(stderr, "Ошибка выделения памяти\n");
-                return;
+                return;  // Можно обработать ошибку
             }
-            // Копируем данные
+            // Копируем старые данные
             memcpy(new_data, v->data, v->size * sizeof(Data));
-            // Инициализируем новые элементы, если есть
             memset(new_data + v->size, 0, (new_capacity - v->size) * sizeof(Data));
-
-            // Освобождаем старую память
+            
             free(v->data);
-            // Обновляем указатели
             v->data = new_data;
-            v->capacity = new_capacity;  // Обновляем емкость
+            v->capacity = new_capacity;
         }
-        // Обновляем размер
-        v->size = new_size; 
+        v->size = new_size; // Устанавливаем новый размер
     }
 }
 
