@@ -126,8 +126,10 @@ void vector_resize(Vector *v, size_t new_size) {
             v->data = new_data;
             v->capacity = new_capacity;  // Обновляем емкость
         }
+        free(v->data);
         v->size = new_size; 
     }
+    free(v->data);
 }
 
 // Функция для добавления элемента в конец вектора
