@@ -88,15 +88,10 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     ListItem* newItem = new ListItem;
     newItem->data = data;
 
-    if (!list->head) {
-        return list_insert(list, data);
-    } else {
-        newItem->next = item->next;
-        newItem->prev = item->prev;
-        item->next->prev = newItem;
-        item->next = newItem;
-    }
-
+    newItem->next = item->next;
+    newItem->prev = item->prev;
+    item->next->prev = newItem;
+    item->next = newItem;
 
     return newItem;
 }
