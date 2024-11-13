@@ -101,29 +101,30 @@ size_t vector_size(const Vector *vector) {
 void vector_resize(Vector *v, size_t new_size) {
     if (new_size == v->size) return;
 
-    if (new_size == 0) { // Если новый размер 0, освобождаем память
+    if (new_size == 0) {
         free(v->data);
         v->data = NULL;
+    } else if (new_size < v->size) {
+        // Если уменьшаем, просто обновляем размер
+        v->size = new_size;
     } else {
+        // Выделяем память для нового массива данных
         Data *new_data = (Data *)malloc(new_size * sizeof(Data));
         if (!new_data) {
             fprintf(stderr, "Ошибка выделения памяти\n");
             return;
         }
-
-        size_t copy_size = (new_size < v->size) ? new_size : v->size;
-        memcpy(new_data, v->data, copy_size * sizeof(Data));
-
-        if (new_size > v->size) { // Инициализация новых элементов NULL
-            memset(new_data + copy_size, 0, (new_size - copy_size) * sizeof(Data));
-        }
+        
+        // Копируем данные и инициализируем новые элементы
+        memcpy(new_data, v->data, v->size * sizeof(Data));
+        memset(new_data + v->size, 0, (new_size - v->size) * sizeof(Data)); // Инициализируем новые элементы
 
         free(v->data);
         v->data = new_data;
+        v->size = new_size;
     }
-
-    v->size = new_size;
 }
+
 // Функция для добавления элемента в конец вектора
 void push_back(Vector *vector, Data value) {
     // Если вектор заполнен, увеличиваем его ёмкость
