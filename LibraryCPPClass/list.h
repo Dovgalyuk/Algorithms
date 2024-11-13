@@ -11,10 +11,14 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
+        Item(Data value, Item* next = nullptr) : lData(value), lNext(next) {};
+
+        Item *next() const { return lNext; }
         Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Data data() const { return lData; }
     private:
+        Data lData;
+        Item* lNext;
         // internal data here
     };
 
@@ -48,6 +52,7 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
+    Item* lHead;
     // private data should be here
 };
 
