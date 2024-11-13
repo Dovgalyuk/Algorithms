@@ -1,12 +1,36 @@
-#ifndef GRAPH_H
-#define GRAPH_H
+#pragma once
+
+#define EMPTY_MATRIX_ROW Vector<Vector<Edge<V, E>>>(vertices.size(), Vector<Edge<V, E>>(0, Edge<V, E>()))
+#define EMPTY_EDGE_VECTOR Vector<Edge<V, E>>()
+#define TEMPLATE template <typename V, typename E>
+#define GRAPH Graph<V, E>
+#define MATRIX Vector<Vector<Vector<Edge<V, E>>>>
 
 #include <iostream>
 #include "vector.h"
-#include "Vertex.h"
-#include "Edge.h"
+#include <limits>
 
-template <typename V_type, typename E_type>
+template <typename V>
+struct Vertex {
+
+    Vertex() {}
+    Vertex(size_t number, V mark) : number(number), mark(mark) {}
+
+    size_t number = std::numeric_limits<size_t>::max();
+    V mark = V();
+};
+
+TEMPLATE
+struct Edge {
+
+    Edge() {}
+    Edge(Vertex<V>* destination, E mark) : destination(destination), mark(mark) {}
+
+    Vertex<V>* destination = nullptr;
+    E mark = E();
+};
+
+TEMPLATE
 class Graph {
 public:
     // Базовый конструктор
@@ -22,51 +46,48 @@ public:
     // Деструктор
     ~Graph() {
         vertices.clear();
-        edges.clear();
+        // edges.clear();
         matrix.clear();
     }
 
     // Добавление вершины без пометки
-    Vertex<V_type> add_vertex();
+    Vertex<V>& add_vertex();
 
     // Добаление вершины с пометкой
-    Vertex<V_type> add_vertex(V_type vertex_mark);
+    Vertex<V> add_vertex(V vertex_mark);
 
     // Удалние вершины
-    Vertex<V_type> delete_vertex(size_t a);
+    Vertex<V> delete_vertex(size_t a);
 
     // Получение массива вершин
-    Vector<Vertex<V_type>> get_vertices();
+    const Vector<Vertex<V>> get_vertices();
 
     // Получение вершины по индексу
-    Vertex<V_type>& get_vertex_by_index(size_t index);
+    Vertex<V>& get_vertex_by_index(size_t index);
 
     // Получение массива пометок вершин
-    Vector<V_type> get_vertices_marks();
+    Vector<V> get_vertices_marks();
 
     // Установка пометки для вершины
-    Vertex<V_type> set_mark(size_t a, V_type mark);
+    Vertex<V> set_mark(size_t a, V mark);
 
     // Добавление ребра
-    Edge<V_type, E_type> add_edge(size_t a, size_t b, E_type edge_mark);
+    Edge<V, E> &add_edge(size_t a, size_t b, E edge_mark);
 
     // Удаление ребра
-    Edge<V_type, E_type> delete_edge(size_t a, size_t b);
-
-    // Получение массива ребер
-    Vector<Edge<V_type, E_type>> get_edges();
+    Edge<V, E> delete_edge(size_t a, size_t b, E mark);
 
     // Получение пометки ребра по индексам вершин
-    E_type get_edge_mark(size_t a, size_t b);
+    E get_edge_mark(size_t a, size_t b, size_t edge_index);
 
     // Проверка связи вершин
     bool is_bounded(size_t a, size_t b);
 
     // Получение индекса ребра по начальной и конечной точкам
-    int edge_index(size_t a, size_t b);
+    size_t edge_index(size_t a, size_t b, E mark);
 
     // Получение матрицы смежности
-    Vector<Vector<unsigned int>> get_matrix();
+    const Vector<Vector<Vector<Edge<V, E>>>> &get_matrix();
 
     // Класс итератор
     class Iterator;
@@ -79,53 +100,52 @@ public:
     
     // Вывод информации и графе (вершина и ее соседи)
     template <typename T1, typename T2>
-    friend std::ostream& operator<<(std::ostream& out, Graph<V_type, E_type> graph);
+    friend std::ostream& operator<<(std::ostream& out, GRAPH graph);
 
 private:
     // Массив ребер
-    Vector<Edge<V_type, E_type>> edges;
+    // Vector<Edge<V, E>> edges;
 
     // Массив вершин
-    Vector<Vertex<V_type>> vertices;
+    Vector<Vertex<V>> vertices;
 
     // Матрица смежности
-    Vector<Vector<unsigned int>> matrix;
+    MATRIX matrix;
 };
 
-template <typename V_type, typename E_type>
-Vertex<V_type> Graph<V_type, E_type>::add_vertex() {
-    vertices.push({ vertices.size(), V_type() });
+TEMPLATE
+Vertex<V> &GRAPH::add_vertex() {
+    vertices.push({ vertices.size(), V() });
 
-    //vertices_q++;
-    matrix.push(Vector<unsigned int>(vertices.size(), 0));
+    matrix.push(EMPTY_MATRIX_ROW);
 
     for (size_t i = 0; i < matrix.size(); i++) {
         while (matrix[i].size() != vertices.size())
-            matrix[i].push(0);
+            matrix[i].push(EMPTY_EDGE_VECTOR);
     }
 
     return vertices[vertices.size() - 1];
 }
 
-template <typename V_type, typename E_type>
-Vertex<V_type> Graph<V_type, E_type>::add_vertex(V_type vertex_mark) {
+TEMPLATE
+Vertex<V> GRAPH::add_vertex(V vertex_mark) {
     vertices.push({ vertices.size(), vertex_mark });
-    matrix.push(Vector<unsigned int>(vertices.size(), 0));
+    matrix.push(EMPTY_MATRIX_ROW);
 
     for (size_t i = 0; i < matrix.size(); i++) {
         while (matrix[i].size() != vertices.size()) {
-            matrix[i].push(0);
+            matrix[i].push(EMPTY_EDGE_VECTOR);
         }
     }
 
     return vertices[vertices.size() - 1];
 }
 
-template <typename V_type, typename E_type>
-Vertex<V_type> Graph<V_type, E_type>::delete_vertex(size_t a) {
+TEMPLATE
+Vertex<V> GRAPH::delete_vertex(size_t a) {
     if (a >= vertices.size()) {
-        std::out_of_range("Неверный индекс при удалении вершины");
-        return Vertex<V_type>();
+        throw std::out_of_range("Неверный индекс при удалении вершины");
+        return Vertex<V>();
     }
 
     matrix.erase(a);
@@ -133,45 +153,35 @@ Vertex<V_type> Graph<V_type, E_type>::delete_vertex(size_t a) {
         matrix[i].erase(a);
     }
 
-    for (size_t i = 0; i < edges.size(); i++) {
-        if (edges[i].start->number == a || edges[i].destination->number == a) {
-            edges.erase(i);
-            i--;
-        }
-    }
-
-    Vertex<V_type> temp = vertices.erase(a);
+    Vertex<V> temp = vertices.erase(a);
     for (size_t i = 0; i < vertices.size(); i++) {
         vertices[i].number = i;
     }
     return temp;
 }
 
-template <typename V_type, typename E_type>
-Edge<V_type, E_type> Graph<V_type, E_type>::add_edge(size_t a, size_t b, E_type edge_mark) {
+TEMPLATE
+Edge<V, E> &GRAPH::add_edge(size_t a, size_t b, E edge_mark) {
     if (a >= vertices.size() || b >= vertices.size()) {
         throw std::out_of_range("Неверные индексы при добавлении ребра");
-        return Edge<V_type, E_type>();
     }
 
-    edges.push(Edge<V_type, E_type>(&get_vertex_by_index(a), &get_vertex_by_index(b), edge_mark));
-    matrix[a][b]++;
-    return edges[edges.size() - 1];
+    matrix[a][b].push(Edge<V, E>(&vertices[b], edge_mark));
+    return matrix[a][b][matrix[a][b].size() - 1];
 }
 
-template <typename V_type, typename E_type>
-Edge<V_type, E_type> Graph<V_type, E_type>::delete_edge(size_t a, size_t b) {
-    if ((a >= vertices.size() || b >= vertices.size()) || matrix[a][b] <= 0) {
+TEMPLATE
+Edge<V, E> GRAPH::delete_edge(size_t a, size_t b, E mark) {
+    if ((a >= vertices.size() || b >= vertices.size()) || matrix[a][b].size() <= 0) {
         throw std::out_of_range("Неверные индексы при удалении ребра или ребра не существует");
-        return Edge<V_type, E_type>();
+        return Edge<V, E>();
     }
 
-    matrix[a][b]--;
-    return edges.erase(edge_index(a, b));
+    return matrix[a][b].erase(edge_index(a, b, mark));
 }
 
-template <typename V_type, typename E_type>
-Vertex<V_type> Graph<V_type, E_type>::set_mark(size_t a, V_type mark) {
+TEMPLATE
+Vertex<V> GRAPH::set_mark(size_t a, V mark) {
     if (a < vertices.size())
         vertices[a].mark = mark;
     else
@@ -179,167 +189,157 @@ Vertex<V_type> Graph<V_type, E_type>::set_mark(size_t a, V_type mark) {
     return vertices[a];
 }
 
-template <typename V_type, typename E_type>
-Vertex<V_type>& Graph<V_type, E_type>::get_vertex_by_index(size_t index) {
+TEMPLATE
+Vertex<V>& GRAPH::get_vertex_by_index(size_t index) {
     if(index >= vertices.size()) {
         throw std::out_of_range("Неверный индекс при получении вершины");
     }
     return vertices[index];
 }
 
-template <typename V_type, typename E_type>
-Vector<V_type> Graph<V_type, E_type>::get_vertices_marks() {
-    Vector<V_type> marks;
+TEMPLATE
+Vector<V> GRAPH::get_vertices_marks() {
+    Vector<V> marks;
     for (size_t i = 0; i < vertices.size(); i++) {
         marks.push(vertices[i].mark);
     }
     return marks;
 }
 
-template <typename V_type, typename E_type>
-Vector<Vertex<V_type>> Graph<V_type, E_type>::get_vertices() {
+TEMPLATE
+const Vector<Vertex<V>> GRAPH::get_vertices() {
     return vertices;
 }
 
-template <typename V_type, typename E_type>
-Vector<Edge<V_type, E_type>> Graph<V_type, E_type>::get_edges() {
-    return edges;
-}
-
-template <typename V_type, typename E_type>
-E_type Graph<V_type, E_type>::get_edge_mark(size_t a, size_t b) {
+TEMPLATE
+E GRAPH::get_edge_mark(size_t a, size_t b, size_t edge_index) {
     if (a >= vertices.size() || b >= vertices.size()) {
         std::out_of_range("Неверные индексы при получении пометки ребра");
-        return E_type();
+        return E();
     }
     if (!is_bounded(a, b)) {
         std::out_of_range("Вершины не связан");
-        return E_type();
+        return E();
     }
-    return edges[edge_index(a, b)].mark;
+    return matrix[a][b][edge_index].mark;
 }
 
-template <typename V_type, typename E_type>
-bool Graph<V_type, E_type>::is_bounded(size_t a, size_t b) {
+TEMPLATE
+bool GRAPH::is_bounded(size_t a, size_t b) {
     if (a >= vertices.size() || b >= vertices.size()) {
         throw std::out_of_range("Неверные индексы при проверки связанности");
     }
-    for (size_t i = 0; i < edges.size(); i++)
-        if (edges[i].start->number == a && edges[i].destination->number == b)
-            return true;
-    return false;
+    return matrix[a][b].size();
 }
-
-template <typename V_type, typename E_type>
-int Graph<V_type, E_type>::edge_index(size_t a, size_t b) {
-    if (a < vertices.size() && b < vertices.size()) {
-        for (size_t i = 0; i < edges.size(); i++) {
-            if (edges[i].start->number == a && edges[i].destination->number == b)
-                return i;
-        }
-    }
-    else
+TEMPLATE
+size_t GRAPH::edge_index(size_t a, size_t b, E mark) {
+    if (a >= vertices.size() && b >= vertices.size())
         std::out_of_range("Неверные индесы при получении индекса ребра");
-    return -1;
+
+    for (size_t i = 0; i < matrix[a][b].size(); i++) {
+        E e_mark = matrix[a][b][i].mark;
+        if (matrix[a][b][i].mark == mark)
+            return i;
+    }
+
+    return std::numeric_limits<size_t>::max();
 }
 
-template <typename V_type, typename E_type>
-Vector<Vector<unsigned int>> Graph<V_type, E_type>::get_matrix() {
+TEMPLATE
+const Vector<Vector<Vector<Edge<V, E>>>> &GRAPH::get_matrix() {
     return matrix;
 }
 
-template <typename V_type, typename E_type>
-class Graph<V_type, E_type>::Iterator {
+TEMPLATE
+class GRAPH::Iterator {
 public:
-    Iterator(Graph<V_type, E_type>* graph, size_t index, size_t neib)
-        : graph(graph), start_index(index), next_edge_index(neib) {}
+    Iterator(GRAPH* graph, size_t start_index, size_t col, size_t index)
+        : graph(graph), start_index(start_index), col(col), index(index) {}
 
     Iterator& operator++() {
-        Vector<Edge<V_type, E_type>> edges = graph->get_edges();
-        Vector<unsigned int> matrix = graph->get_matrix()[start_index];
-        for (size_t i = next_edge_index + 1; i < edges.size(); i++) {
-            if(edges[i].start->number == start_index) {
-                next_edge_index = i;
-                return *this;
+        MATRIX matrix = graph->get_matrix();
+        if (index + 1 == matrix[start_index][col].size()) {
+            col++;
+            while (matrix[start_index][col].size() == 0 && col < matrix[start_index].size()) {
+                col++;
             }
+            index = 0;
         }
-        next_edge_index = edges.size();
+        else {
+            index++;
+        }
         return *this;
     }
 
     bool operator!=(const Iterator iterator) {
-        return next_edge_index != iterator.next_edge_index ? true : false;
+        return col != iterator.col;
     }
 
-    Vertex<V_type> operator*() {
-        return graph->get_vertex_by_index(graph->get_edges()[next_edge_index].destination->number);
+    Vertex<V> operator*() {
+        return *graph->matrix[start_index][col][index].destination;
     }
 
-    size_t edge_index() {
-        return next_edge_index;
-    }
 private:
-    Graph<V_type, E_type>* graph;
+    GRAPH* graph;
     size_t start_index = std::numeric_limits<size_t>::max();
-    size_t next_edge_index = std::numeric_limits<size_t>::max();
+    size_t col = std::numeric_limits<size_t>::max();
+    size_t index = std::numeric_limits<size_t>::max();
 };
 
-template <typename V_type, typename E_type>
-typename Graph<V_type, E_type>::Iterator Graph<V_type, E_type>::begin(size_t index) {
+TEMPLATE
+typename GRAPH::Iterator GRAPH::begin(size_t index) {
     if (index >= vertices.size())
         std::out_of_range("Неверный индекс при инициализации итератора");
 
-    for (size_t i = 0; i < edges.size(); i++) {
-        if (edges[i].start->number == index) {
-            return Iterator(this, index, i);
+    for (size_t j = 0; j < matrix[index].size(); j++) {
+        if (matrix[index][j].size() != 0) {
+            return Iterator(this, index, j, 0);
         }
     }
 
-    return Iterator(this, index, edges.size());
+    return Iterator(this, index, matrix[index].size(), 0);
 }
 
-template <typename V_type, typename E_type>
-typename Graph<V_type, E_type>::Iterator Graph<V_type, E_type>::end(size_t index) {
+TEMPLATE
+typename GRAPH::Iterator GRAPH::end(size_t index) {
     if (index >= vertices.size())
         std::out_of_range("Неверный индекс при инициализации итератора");
 
-    return Iterator(this, index, edges.size());
+    return Iterator(this, index, matrix[index].size(), 0);
 }
 
-template <typename V_type, typename E_type>
-std::ostream& operator<<(std::ostream& out, Graph<V_type, E_type> graph) {
-    Vector<Vertex<V_type>> vertex = graph.get_vertices();
-    Vector<Edge<V_type, E_type>> edges = graph.get_edges();
-    Vector<Vector<unsigned int>> matrix = graph.get_matrix();
-    out << "Adjacency matrix:\n\n";
-    for (size_t i = 0; i < matrix.size(); i++) {
-        for (size_t j = 0; j < matrix[i].size(); j++)
-            out << matrix[i][j] << " ";
-        out << std::endl;
-    }
-    out << std::endl;
-    for (size_t i = 0; i < vertex.size(); i++) {
-        out << "Index: " << vertex[i].number << ", mark: " << vertex[i].mark << std::endl;
-        int count = 0;
-        for (size_t k = 0; k < matrix[i].size(); k++)
-            matrix[i][k] != 0 ? count += matrix[i][k] : count;
-        if(count)
-            out << "   Edges: " << count << "\n";
-        for (size_t j = 0; j < edges.size(); j++) {
-            if (edges[j].start->number == i) {
-                out << "      " << edges[j].start->number << " (" << edges[j].start->mark << ") -> " << edges[j].destination->number << " (" << edges[j].destination->mark << "): " << edges[j].mark << '\n';
-            }
-        }
-        auto it = graph.begin(vertex[i].number);
-        if (it != graph.end(vertex[i].number)) {
-            out << "   Neighbours:\n";
-            for (; it != graph.end(vertex[i].number); ++it) {
-                out << "      Index: " << (*it).number << ", mark: " << (*it).mark << std::endl;
-            }
-            out << std::endl;
-        }
-    }
-    return out;
-}
-
-#endif
+//TEMPLATE
+//std::ostream& operator<<(std::ostream& out, GRAPH graph) {
+//    Vector<Vertex<V>> vertex = graph.get_vertices();
+//    Vector<Edge<V, E>> edges = graph.get_edges();
+//    Vector<Vector<unsigned int>> matrix = graph.get_matrix();
+//    out << "Adjacency matrix:\n\n";
+//    for (size_t i = 0; i < matrix.size(); i++) {
+//        for (size_t j = 0; j < matrix[i].size(); j++)
+//            out << matrix[i][j] << " ";
+//        out << std::endl;
+//    }
+//    out << std::endl;
+//    for (size_t i = 0; i < vertex.size(); i++) {
+//        out << "Index: " << vertex[i].number << ", mark: " << vertex[i].mark << std::endl;
+//        int count = 0;
+//        for (size_t k = 0; k < matrix[i].size(); k++)
+//            matrix[i][k] != 0 ? count += matrix[i][k] : count;
+//        if(count)
+//            out << "   Edges: " << count << "\n";
+//        for (size_t j = 0; j < edges.size(); j++) {
+//            if (edges[j].start->number == i) {
+//                out << "      " << edges[j].start->number << " (" << edges[j].start->mark << ") -> " << edges[j].destination->number << " (" << edges[j].destination->mark << "): " << edges[j].mark << '\n';
+//            }
+//        }
+//        auto it = graph.begin(vertex[i].number);
+//        if (it != graph.end(vertex[i].number)) {
+//            out << "   Neighbours:\n";
+//            for (; it != graph.end(vertex[i].number); ++it) {
+//                out << "      Index: " << (*it).number << ", mark: " << (*it).mark << std::endl;
+//            }
+//            out << std::endl;
+//        }
+//    }
+//    return out;
+//}
