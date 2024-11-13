@@ -105,24 +105,26 @@ void vector_resize(Vector *v, size_t new_size) {
         free(v->data);
         v->data = NULL;
     } else {
-        Data *new_data = (Data *)malloc(new_size * sizeof(Data));
-        if (!new_data) {
-            fprintf(stderr, "Ошибка выделения памяти\n");
-            return;
+        if (new_size > v->capacity) {
+            size_t new_capacity = v->capacity > 0 ? v->capacity * 2 : 1; 
+            while (new_capacity < new_size) { // Увеличиваем емкость до ближайшего размера
+                new_capacity *= 2;
+            }
+            Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
+            if (!new_data) {
+                fprintf(stderr, "Ошибка выделения памяти\n");
+                return;
+            }
+            // Копируем данные и инициализируем новые элементы
+            memcpy(new_data, v->data, v->size * sizeof(Data));
+            memset(new_data + v->size, 0, (new_capacity - v->size) * sizeof(Data)); // Инициализируем новые элементы
+
+            free(v->data);
+            v->data = new_data;
+            v->capacity = new_capacity;  // Обновляем емкость
         }
-
-        size_t copy_size = (new_size < v->size) ? new_size : v->size;
-        memcpy(new_data, v->data, copy_size * sizeof(Data));
-
-        if (new_size > v->size) { // Инициализация новых элементов NULL
-            memset(new_data + copy_size, 0, (new_size - copy_size) * sizeof(Data));
-        }
-
-        free(v->data);
-        v->data = new_data;
+        v->size = new_size;
     }
-
-    v->size = new_size;
 }
 
 // Функция для добавления элемента в конец вектора
