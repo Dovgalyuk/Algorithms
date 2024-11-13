@@ -2,7 +2,6 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <vector>
 
 bool check_result(int test_num, std::ifstream &input, std::ifstream &output)
 {
