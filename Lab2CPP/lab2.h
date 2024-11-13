@@ -1,6 +1,8 @@
 #include "stack.h"
 #include <array>
 #include <vector>
+#include <string>
+#include <fstream>
 
 struct JavaMachineData
 {

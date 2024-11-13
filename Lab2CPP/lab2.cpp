@@ -3,9 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <string>
-#include <fstream>
-#include <vector>
 
 static std::vector<std::string> COMMANDS_WITH_VARS = {"bipush", "iload", "istore"};
 static std::vector<std::string> COMMANDS_ARITHMETIC = {"imul", "iand", "ior", "ixor", "iadd", "isub"};
