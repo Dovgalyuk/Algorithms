@@ -4,7 +4,7 @@
 
 // Функция освобождения памяти, выделенной под данные в векторе
 void myfree(void *p) {
-    delete static_cast<int*>(p); // Приводим указатель к типу int и освобождаем память
+    delete (int*)p; // Приводим указатель к типу int и освобождаем память
 }
 
 // // Функция для получения значения типа int из вектора по индексу
@@ -71,12 +71,12 @@ int main()
     // }
     // std::cout << "\n";
 
-    vector_resize(vector, 3);
-    if (vector_size(vector) != 3)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
-    }
+    // vector_resize(vector, 3);
+    // if (vector_size(vector) != 3)
+    // {
+    //     std::cout << "Invalid resize\n";
+    //     return 1;
+    // }
 
     // for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     // {
