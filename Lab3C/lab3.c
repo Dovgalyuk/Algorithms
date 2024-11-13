@@ -1,5 +1,5 @@
-#include "queue.h"
-#include "vector.h"
+#include "../LibraryC/queue.h"
+#include "../LibraryC/vector.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>

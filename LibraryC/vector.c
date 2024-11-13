@@ -65,12 +65,19 @@ void vector_resize(Vector *vector, size_t new_size) {
   if (new_size > vector->capacity) {
     size_t new_capacity =
         new_size > vector->capacity * 2 ? new_size : vector->capacity * 2;
-    void **new_data = (void **)calloc(new_capacity, sizeof(void *));
+    Data *new_data = (Data *)calloc(new_capacity, sizeof(Data));
     if (!new_data) {
       return;
     }
     for (size_t i = 0; i < vector->size; ++i) {
       new_data[i] = vector->data[i];
+    }
+    if (vector->free_func) {
+      for (size_t i = vector->size; i < vector->capacity; ++i) {
+        if (vector->data[i]) {
+          vector->free_func(vector->data[i]);
+        }
+      }
     }
     free(vector->data);
     vector->data = new_data;
