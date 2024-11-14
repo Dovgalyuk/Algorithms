@@ -56,7 +56,7 @@ void vector_delete(Vector *vector) {
     }
     // Освобождаем память под массив данных и сам вектор
     vector->distruct(vector->data);
-    vector->distruct(vector);
+    free(vector);
 }
 
 // Функция для получения элемента вектора по индексу
