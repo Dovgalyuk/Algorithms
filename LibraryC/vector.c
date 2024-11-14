@@ -100,7 +100,7 @@ void vector_set(Vector *vector, size_t index, Data value) {
 
 // Функция для получения текущего размера вектора
 size_t vector_size(const Vector *vector) {
-    return vector ? vector->size : 0;
+    return (vector != NULL) ? vector->size : 0;
 }
 
 // void vector_resize(Vector *v, size_t new_size) {
