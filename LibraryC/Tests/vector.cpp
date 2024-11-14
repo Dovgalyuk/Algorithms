@@ -13,10 +13,8 @@ int vector_get_int(Vector *v, size_t i) {
         std::cerr << "Ошибка: вектор пуст!\n"; 
         return -1; 
     }
-
-    size_t size = vector_size(v); // Получаем размер вектора
-    if (i >= size) { // Проверяем, находится ли индекс в границах вектора
-        std::cerr << "Ошибка: индекс " << i << " вне границ вектора. Размер: " << size << ".\n"; 
+    if (i >= vector_size(v)) { // Проверяем, находится ли индекс в границах вектора
+        std::cerr << "Ошибка: индекс " << i << " вне границ вектора.\n"; 
         return -1; 
     }
     
@@ -26,12 +24,7 @@ int vector_get_int(Vector *v, size_t i) {
         return -1; 
     }
 
-    int* int_ptr = static_cast<int*>(data); 
-    if (int_ptr == nullptr) {
-        std::cerr << "Ошибка: указатель на int является NULL по индексу " << i << ".\n"; 
-        return -1; 
-    }
-    return *int_ptr; // Возвращаем значение по указателю, приводя его к типу int
+    return *(int*)data; // Возвращаем значение по указателю, приводя его к типу int
 }
 
 int main()
@@ -72,10 +65,11 @@ int main()
     // Выводим значения из вектора на экран
     std::cout << "Vector: ";
     for (size_t i = 0; i < vector_size(vector); ++i) {
-        if (vector_get_int(vector, i) == -1) { // Если возникла ошибка, прерываем цикл
+        int value = vector_get_int(vector, i);
+        if (value == -1) { // Если возникла ошибка, прерываем цикл
             break; 
         }
-        std::cout << vector_get_int(vector, i) << " "; // Выводим значение
+        std::cout << value << " "; // Выводим значение
     }
     std::cout << "\n";
 
