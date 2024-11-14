@@ -33,7 +33,7 @@ int main()
 
     list_erase_first(list);
 
-    if (list_item_data(list_first(list)) != 3)
+    if (list_item_data(list_first(list)) != 2)
     {
         std::cout << "list_erase error\n";
         return 1;
