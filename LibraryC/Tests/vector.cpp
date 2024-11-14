@@ -24,7 +24,14 @@ int vector_get_int(Vector *v, size_t i) {
         return -1; 
     }
 
-    int* int_ptr = reinterpret_cast<int*>(data);
+    int* int_ptr = static_cast<int*>(data);
+    
+    // Проверяем доступ к памяти
+    if (int_ptr == nullptr) {
+        std::cerr << "Ошибка: некорректный указатель на int по индексу " << i << ".\n";
+        return -1;
+    }
+
     return *int_ptr; // Возвращаем значение по указателю, приводя его к типу int
 }
 
