@@ -109,9 +109,12 @@ void vector_resize(Vector *v, size_t new_size) {
            fprintf(stderr, "Ошибка выделения памяти\n");
            return;
        }
-    if (v->data) {
-            memcpy(new_data, v->data, v->size * sizeof(Data));
-            free(v->data);
+    size_t copy_size = (new_size < v->size) ? new_size : v->size;
+        for (size_t i = 0; i < copy_size; i++) {
+            new_data[i] = v->data[i]; // Копируем данные
+        }
+        for (size_t i = copy_size; i < new_size; i++) {
+           new_data[i] = NULL;
         }
         free(v->data);
         v->data = new_data;
@@ -141,10 +144,10 @@ void vector_resize(Vector *v, size_t new_size) {
 //             return; // Не удается изменить размер
 //         }
 
-        // if (v->data) {
-        //     memcpy(new_data, v->data, v->size * sizeof(Data));
-        //     free(v->data);
-        // }
+//         if (v->data) {
+//             memcpy(new_data, v->data, v->size * sizeof(Data));
+//             free(v->data);
+//         }
 
 //         v->data = new_data;
 //         v->capacity = new_capacity;
