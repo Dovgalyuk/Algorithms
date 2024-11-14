@@ -10,6 +10,7 @@ typedef struct Vector {
     size_t capacity; // Общая ёмкость вектора
     FFree* distruct; // Указатель на функцию distruct для освобождения данных
 } Vector;
+
 // Функция для создания вектора с указанной начальной ёмкостью и функцией освобождения памяти
 Vector *vector_create(size_t initial_capacity, FFree f) {
     // Устанавливаем минимальную ёмкость вектора в 1, если передана 0
@@ -167,7 +168,7 @@ void push_back(Vector *vector, Data value) {
         return;
     }
 
-    if (vector->size == vector->capacity) {
+    if (vector->size >= vector->capacity) {
         vector_resize(vector, vector->capacity * 2);
     }
     vector->data[vector->size++] = value;
