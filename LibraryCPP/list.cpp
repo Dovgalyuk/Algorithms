@@ -55,7 +55,7 @@ ListItem *list_insert(List *list, Data data)
     return item_insert;
 }
 
-
+/*
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
     if (item == nullptr) return nullptr;
@@ -67,7 +67,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
     return insert_after;
 }
-
+*/
 
 ListItem *list_erase_first(List *list)
 {
