@@ -6,6 +6,7 @@ typedef struct Queue {
   Vector *vector;
   size_t front;
   size_t back;
+  size_t size;
 } Queue;
 
 Queue *queue_create(FFree *f) {
@@ -19,6 +20,7 @@ Queue *queue_create(FFree *f) {
   }
   queue->front = 0;
   queue->back = 0;
+  queue->size = 0;
   return queue;
 }
 
@@ -30,9 +32,28 @@ void queue_delete(Queue *queue) {
 }
 
 void queue_insert(Queue *queue, Data data) {
-  vector_resize(queue->vector, queue->back + 1);
+  if (!queue || !queue->vector)
+    return;
+
+  size_t capacity = vector_size(queue->vector);
+
+  if (queue->size == 0) {
+    queue->front = 0;
+    queue->back = 0;
+    vector_resize(queue->vector, 1);
+    vector_set(queue->vector, 0, data);
+    queue->size = 1;
+    return;
+  }
+
+  if (queue->size >= capacity) {
+    size_t new_capacity = (capacity == 0) ? 1 : capacity * 2;
+    vector_resize(queue->vector, new_capacity);
+  }
+
+  queue->back = (queue->back + 1) % vector_size(queue->vector);
   vector_set(queue->vector, queue->back, data);
-  queue->back++;
+  queue->size++;
 }
 
 Data queue_get(const Queue *queue) {
@@ -42,19 +63,19 @@ Data queue_get(const Queue *queue) {
 }
 
 void queue_remove(Queue *queue) {
-  if (!queue || queue_empty(queue)) {
+  if (!queue || queue_empty(queue))
     return;
-  }
 
   vector_set(queue->vector, queue->front, NULL);
+  queue->size--;
 
-  queue->front++;
-
-  if (queue->front == queue->back) {
+  if (queue->size == 0) {
     queue->front = 0;
     queue->back = 0;
     vector_resize(queue->vector, 0);
+  } else {
+    queue->front = (queue->front + 1) % vector_size(queue->vector);
   }
 }
 
-bool queue_empty(const Queue *queue) { return queue->front == queue->back; }
+bool queue_empty(const Queue *queue) { return queue->size == 0; }

@@ -20,7 +20,6 @@ Vector *vector_create(FFree *f) {
     free(vector);
     return NULL;
   }
-  // Инициализируем все элементы NULL-ами
   for (size_t i = 0; i < INITIAL_CAPACITY; i++) {
     vector->data[i] = NULL;
   }
