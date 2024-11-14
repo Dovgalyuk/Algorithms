@@ -111,22 +111,43 @@ void vector_resize(Vector *v, size_t new_size) {
         v->size = new_size;
         return;
     }
-    
-    Data *new_data = (Data *)malloc(new_size * sizeof(Data));
-    if (new_data == NULL) {
-           fprintf(stderr, "Ошибка выделения памяти\n");
-           return;
-       }
-    size_t copy_size = (new_size < v->size) ? new_size : v->size;
-        for (size_t i = 0; i < copy_size; i++) {
-            new_data[i] = v->data[i]; // Копируем данные
+    // Увеличиваем емкость
+    if (new_size > v->capacity) {
+        //size_t new_capacity = (new_size > v->capacity) ? (v->capacity * 2) : v->capacity;  
+        size_t new_capacity = v->capacity;
+        while (new_capacity < new_size) {
+            new_capacity *= 2;
         }
-        for (size_t i = copy_size; i < new_size; i++) {
-           new_data[i] = NULL;
+        Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
+        if (!new_data) {
+            fprintf(stderr, "Ошибка выделения памяти\n");
+            return; // Не удается изменить размер
         }
-        free(v->data);
+
+        if (v->data) {
+            memcpy(new_data, v->data, v->size * sizeof(Data));
+            free(v->data);
+        }
+
         v->data = new_data;
+        v->capacity = new_capacity;
         v->size = new_size;
+    // Data *new_data = (Data *)malloc(new_size * sizeof(Data));
+    // if (new_data == NULL) {
+    //        fprintf(stderr, "Ошибка выделения памяти\n");
+    //        return;
+    //    }
+        // size_t copy_size = (new_size < v->size) ? new_size : v->size;
+        // for (size_t i = 0; i < copy_size; i++) {
+        //     new_data[i] = v->data[i]; // Копируем данные
+        // }
+
+        // for (size_t i = copy_size; i < new_size; i++) {
+        //    new_data[i] = NULL;
+        // }
+
+        free(v->data);
+    }
 }
 
 // void vector_resize(Vector *v, size_t new_size) {
@@ -138,27 +159,27 @@ void vector_resize(Vector *v, size_t new_size) {
     //     return;
     // }
 
-//     // Увеличиваем емкость
-//     if (new_size > v->capacity) {
-//         //size_t new_capacity = (new_size > v->capacity) ? (v->capacity * 2) : v->capacity;  
-//         size_t new_capacity = v->capacity;
-//         while (new_capacity < new_size) {
-//             new_capacity *= 2;
-//         }
+    // // Увеличиваем емкость
+    // if (new_size > v->capacity) {
+    //     //size_t new_capacity = (new_size > v->capacity) ? (v->capacity * 2) : v->capacity;  
+    //     size_t new_capacity = v->capacity;
+    //     while (new_capacity < new_size) {
+    //         new_capacity *= 2;
+    //     }
 
-//         Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
-//         if (!new_data) {
-//             fprintf(stderr, "Ошибка выделения памяти\n");
-//             return; // Не удается изменить размер
-//         }
+        // Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
+        // if (!new_data) {
+        //     fprintf(stderr, "Ошибка выделения памяти\n");
+        //     return; // Не удается изменить размер
+        // }
 
-//         if (v->data) {
-//             memcpy(new_data, v->data, v->size * sizeof(Data));
-//             free(v->data);
-//         }
+        // if (v->data) {
+        //     memcpy(new_data, v->data, v->size * sizeof(Data));
+        //     free(v->data);
+        // }
 
-//         v->data = new_data;
-//         v->capacity = new_capacity;
+        // v->data = new_data;
+        // v->capacity = new_capacity;
 //     }
 //     v->size = new_size;
 // }
