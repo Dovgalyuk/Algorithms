@@ -41,13 +41,17 @@ void vector_delete(Vector *vector) {
         return;
     }
     // Если задана функция distruct, вызываем её для каждого элемента вектора
-    if (vector->distruct != NULL) {
+    //if (vector->distruct != NULL) {
         for (size_t i = 0; i < vector->size; i++) {
             // if (vector->data[i] != NULL) {
             //     vector->distruct(vector->data[i]);  // А освобождайте только, если указатель корректный
             // }
-            void* ptr = (void*)vector->data[i];
-            vector->distruct(ptr);
+
+            if (vector->distruct != NULL && vector->data[i] != NULL) {
+            vector->distruct(vector->data[i]);
+
+            // void* ptr = (void*)vector->data[i];
+            // vector->distruct(ptr);
         }
     }
     // for (size_t i = 0; i < vector->size; i++) {
