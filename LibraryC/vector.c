@@ -121,23 +121,23 @@ size_t vector_size(const Vector *vector) {
 //         v->size = new_size;
 // }
 
-void vector_resize(Vector *v, size_t new_size) {
+void vector_resize(Vector *v, /*size_t new_size*/ size_t new_capacity) {
     if (v == NULL) return; 
 
     // Если новый размер меньше или равен текущему, ничего не делаем
-    if (new_size <= v->size) {
-        v->size = new_size;
+    if (new_capacity <= v->capacity) {
+        //v->size = new_size;
         return;
     }
 
     // Увеличиваем емкость
-    if (new_size > v->capacity) {
-        size_t new_capacity = (new_size > v->capacity) ? (v->capacity * 2) : v->capacity;  
-        while (new_capacity < new_size) {
-            new_capacity *= 2;
+    if (new_capacity > v->capacity) {
+        //size_t new_capacity = (new_size > v->capacity) ? (v->capacity * 2) : v->capacity;  
+        while (v->capacity < new_capacity) {
+            v->capacity *= 2;
         }
 
-        Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
+        Data *new_data = (Data *)malloc(v->capacity * sizeof(Data));
         if (!new_data) {
             fprintf(stderr, "Ошибка выделения памяти\n");
             return; // Не удается изменить размер
@@ -149,9 +149,9 @@ void vector_resize(Vector *v, size_t new_size) {
         }
 
         v->data = new_data;
-        v->capacity = new_capacity;
+        //v->capacity = new_capacity;
     }
-    v->size = new_size;
+    //v->size = new_size;
 }
 
 // Функция для добавления элемента в конец вектора

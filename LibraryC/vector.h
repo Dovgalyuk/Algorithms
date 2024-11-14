@@ -32,7 +32,7 @@ void vector_set(Vector *vector, size_t index, Data value); // Установка
 
 size_t vector_size(const Vector *vector); // Получение текущего размера вектора
 
-void vector_resize(Vector *vector, size_t new_size); // Изменение размера вектора
+void vector_resize(Vector *vector, /*size_t new_size*/ size_t new_capacity); // Изменение размера вектора
 
 void push_back(Vector *vector, Data value); // Добавление элемента в конец вектора
 
