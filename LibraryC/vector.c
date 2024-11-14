@@ -127,7 +127,7 @@ void vector_resize(Vector *v, size_t new_size) {
 
     // Если новый размер меньше или равен текущему, ничего не делаем
     if (new_size <= v->size) {
-        v->size = new_size;
+        ////v->size = new_size;
         return;
     }
 
@@ -139,12 +139,12 @@ void vector_resize(Vector *v, size_t new_size) {
         }
 
         Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
-        if (!new_data) {
+        if (new_data == NULL) {
             fprintf(stderr, "Ошибка выделения памяти\n");
             return; // Не удается изменить размер
         }
 
-        if (v->data) {
+        if (v->data != NULL) {
             memcpy(new_data, v->data, v->size * sizeof(Data));
             free(v->data);
         }
