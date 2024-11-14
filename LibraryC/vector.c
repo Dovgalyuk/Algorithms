@@ -3,7 +3,6 @@
 #include <string.h>
 #include "vector.h"
 
-
 typedef struct Vector {
     size_t size; // Текущий размер вектора
     Data* data; // Указатель на массив данных
@@ -55,12 +54,6 @@ void vector_delete(Vector *vector) {
             vector->distruct(ptr);
         }
     }
-    // for (size_t i = 0; i < vector->size; i++) {
-    //     if (vector->distruct != NULL && vector->data[i] != NULL) {
-    //         vector->distruct(vector->data[i]);
-    //     }
-    // }
-
     // Освобождаем память под массив данных и сам вектор
     free(vector->data);
     free(vector);
@@ -157,7 +150,6 @@ void vector_resize(Vector *v, size_t new_size) {
         }
         v->data = new_data;
         v->capacity = new_capacity;
-        v->size = new_size;
     //}
 }
 
