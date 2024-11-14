@@ -26,9 +26,6 @@ void array_set(Array *arr, size_t index, Data value);
 
 // returns array size
 size_t array_size(const Array *arr);
-size_t array_size(const Array* arr);
 
-// fill array from file
-Array* fill_array(std::ifstream &input);
 
 #endif
