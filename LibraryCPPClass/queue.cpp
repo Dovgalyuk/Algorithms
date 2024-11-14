@@ -3,20 +3,20 @@
 #include <stdexcept>
 
 // Конструктор по умолчанию
-Queue::Queue() : front_(0), back_(0), size_(0), vector_() {
+Queue::Queue() : vector_(), front_(0), back_(0), size_(0) {
     vector_.resize(4); // Изначально задаём вместимость вектора
 }
 
 // Копирующий конструктор
-Queue::Queue(const Queue &a) : front_(a.front_), back_(a.back_), size_(a.size_), vector_(a.vector_) {}
+Queue::Queue(const Queue &a) : vector_(a.vector_), front_(a.front_), back_(a.back_), size_(a.size_) {}
 
 // Оператор присваивания
 Queue &Queue::operator=(const Queue &a) {
     if (this != &a) {
+        vector_ = a.vector_;
         front_ = a.front_;
         back_ = a.back_;
         size_ = a.size_;
-        vector_ = a.vector_;
     }
     return *this;
 }
