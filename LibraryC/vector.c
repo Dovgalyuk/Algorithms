@@ -144,8 +144,7 @@ void vector_resize(Vector *v, size_t new_size) {
         }
 
         if (v->data) {
-            size_t copy_size = (new_size < v->size) ? new_size : v->size;
-            memcpy(new_data, v->data, copy_size * sizeof(Data));
+            memcpy(new_data, v->data, v->size * sizeof(Data));
             free(v->data);
         }
 
