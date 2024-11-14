@@ -1,5 +1,5 @@
 #include <iostream> 
-#include <stdio.h> 
+#include <cstdlib>
 #include "vector.h" 
 
 // Функция освобождения памяти, выделенной под данные в векторе
@@ -65,11 +65,10 @@ int main()
     // Выводим значения из вектора на экран
     std::cout << "Vector: ";
     for (size_t i = 0; i < vector_size(vector); ++i) {
-        int value = vector_get_int(vector, *(int*)i);
-        if (value == -1) { // Если возникла ошибка, прерываем цикл
+        if (vector_get_int(vector, i) == -1) { // Если возникла ошибка, прерываем цикл
             break; 
         }
-        std::cout << value << " "; // Выводим значение
+        std::cout << vector_get_int(vector, i) << " "; // Выводим значение
     }
     std::cout << "\n";
 
@@ -113,7 +112,7 @@ int main()
 
     // std::cout << sum << "\n";
 
-    // vector_delete(vector);
+    vector_delete(vector);
     return 0;
 }
 
