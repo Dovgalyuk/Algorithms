@@ -62,23 +62,23 @@ int main()
     }
 
 
-    // // Выводим значения из вектора на экран
-    // std::cout << "Vector: ";
-    // for (size_t i = 0; i < vector_size(vector); ++i) {
-    //     if (vector_get_int(vector, i) == -1) { // Если возникла ошибка, прерываем цикл
-    //         break; 
-    //     }
-    //     std::cout << vector_get_int(vector, i) << " "; // Выводим значение
-    // }
-    // std::cout << "\n";
+    // Выводим значения из вектора на экран
+    std::cout << "Vector: ";
+    for (size_t i = 0; i < vector_size(vector); ++i) {
+        if (vector_get_int(vector, i) == -1) { // Если возникла ошибка, прерываем цикл
+            break; 
+        }
+        std::cout << vector_get_int(vector, i) << " "; // Выводим значение
+    }
+    std::cout << "\n";
 
 
-    // vector_resize(vector, 3);
-    // if (vector_size(vector) != 3)
-    // {
-    //     std::cout << "Invalid resize\n";
-    //     return 1;
-    // }
+    vector_resize(vector, 3);
+    if (vector_size(vector) != 3)
+    {
+        std::cout << "Invalid resize\n";
+        return 1;
+    }
 
     // for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     // {
