@@ -4,6 +4,7 @@
 #include <cstddef>
 
 typedef int Data;
+#include "vector.h"
 
 class Queue
 {
@@ -35,7 +36,10 @@ public:
     bool empty() const;
 
 private:
-    // private data should be here
+    Vector vector_;  // внутренний массив, на основе которого построена очередь
+    size_t front_;   // индекс начала очереди
+    size_t back_;    // индекс конца очереди
+    size_t size_;    // текущий размер очереди
 };
 
 #endif

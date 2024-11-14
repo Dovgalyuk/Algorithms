@@ -34,7 +34,9 @@ public:
     void resize(size_t size);
 
 private:
-    // private data should be here
+    Data *data_;        // указатель на массив данных
+    size_t capacity_;   // текущая вместимость массива
+    size_t size_;       // текущий размер (количество элементов)
 };
 
 #endif

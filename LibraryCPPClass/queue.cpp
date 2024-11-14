@@ -1,38 +1,61 @@
 #include "queue.h"
+#include "vector.h"
+#include <stdexcept>
 
-Queue::Queue()
-{
+// Конструктор по умолчанию
+Queue::Queue() : front_(0), back_(0), size_(0), vector_() {
+    vector_.resize(4); // Изначально задаём вместимость вектора
 }
 
-Queue::Queue(const Queue &a)
-{
-    // implement or disable this function
-}
+// Копирующий конструктор
+Queue::Queue(const Queue &a) : front_(a.front_), back_(a.back_), size_(a.size_), vector_(a.vector_) {}
 
-Queue &Queue::operator=(const Queue &a)
-{
-    // implement or disable this function
+// Оператор присваивания
+Queue &Queue::operator=(const Queue &a) {
+    if (this != &a) {
+        front_ = a.front_;
+        back_ = a.back_;
+        size_ = a.size_;
+        vector_ = a.vector_;
+    }
     return *this;
 }
 
-Queue::~Queue()
-{
+// Деструктор
+Queue::~Queue() {}
+
+// Вставка элемента в очередь
+void Queue::insert(Data data) {
+    if (size_ == vector_.size()) { // Увеличиваем массив, если он заполнен
+        size_t new_capacity = vector_.size() * 2;
+        Vector new_vector;
+        new_vector.resize(new_capacity);
+        for (size_t i = 0; i < size_; ++i) {
+            new_vector.set(i, vector_.get((front_ + i) % vector_.size()));
+        }
+        front_ = 0;
+        back_ = size_;
+        vector_ = new_vector;
+    }
+    vector_.set(back_, data);
+    back_ = (back_ + 1) % vector_.size();
+    ++size_;
 }
 
-void Queue::insert(Data data)
-{
+// Получение элемента из начала очереди
+Data Queue::get() const {
+    if (empty()) throw std::out_of_range("Queue is empty");
+    return vector_.get(front_);
 }
 
-Data Queue::get() const
-{
-    return Data();
+// Удаление элемента из начала очереди
+void Queue::remove() {
+    if (empty()) throw std::out_of_range("Queue is empty");
+    front_ = (front_ + 1) % vector_.size();
+    --size_;
 }
 
-void Queue::remove()
-{
-}
-
-bool Queue::empty() const
-{
-    return true;
+// Проверка, пуста ли очередь
+bool Queue::empty() const {
+    return size_ == 0;
 }
