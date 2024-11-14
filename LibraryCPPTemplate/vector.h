@@ -51,12 +51,12 @@ public:
         return arr[index];
     }
 
-    /*const Data* operator[](size_t index) const {
+    const Data& operator[](size_t index) const {
         if (index >= size_v) {
             return arr[0];
         }
-        return &arr[index];
-    }*/
+        return arr[index];
+    }
 
     ~Vector() {
         delete[] arr;

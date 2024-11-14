@@ -103,9 +103,6 @@ public:
     friend std::ostream& operator<<(std::ostream& out, GRAPH graph);
 
 private:
-    // Массив ребер
-    // Vector<Edge<V, E>> edges;
-
     // Массив вершин
     Vector<Vertex<V>> vertices;
 
@@ -275,9 +272,13 @@ public:
         return col != iterator.col;
     }
 
-    Vertex<V> operator*() {
-        return *graph->matrix[start_index][col][index].destination;
+    Edge<V, E> operator*() {
+        return graph->matrix[start_index][col][index];
     }
+
+    /*Vertex<V> operator*() {
+        return *graph->matrix[start_index][col][index].destination;
+    }*/
 
 private:
     GRAPH* graph;
@@ -311,12 +312,11 @@ typename GRAPH::Iterator GRAPH::end(size_t index) {
 //TEMPLATE
 //std::ostream& operator<<(std::ostream& out, GRAPH graph) {
 //    Vector<Vertex<V>> vertex = graph.get_vertices();
-//    Vector<Edge<V, E>> edges = graph.get_edges();
-//    Vector<Vector<unsigned int>> matrix = graph.get_matrix();
+//    MATRIX matrix = graph.get_matrix();
 //    out << "Adjacency matrix:\n\n";
 //    for (size_t i = 0; i < matrix.size(); i++) {
 //        for (size_t j = 0; j < matrix[i].size(); j++)
-//            out << matrix[i][j] << " ";
+//            out << matrix[i][j].size() << " ";
 //        out << std::endl;
 //    }
 //    out << std::endl;
@@ -324,7 +324,7 @@ typename GRAPH::Iterator GRAPH::end(size_t index) {
 //        out << "Index: " << vertex[i].number << ", mark: " << vertex[i].mark << std::endl;
 //        int count = 0;
 //        for (size_t k = 0; k < matrix[i].size(); k++)
-//            matrix[i][k] != 0 ? count += matrix[i][k] : count;
+//            matrix[i][k].size() != 0 ? count += matrix[i][k].size() : count;
 //        if(count)
 //            out << "   Edges: " << count << "\n";
 //        for (size_t j = 0; j < edges.size(); j++) {

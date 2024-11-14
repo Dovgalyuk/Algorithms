@@ -28,12 +28,12 @@ int main() {
     graph.add_edge(2, 0, "am");
     graph.add_edge(2, 2, "II");
 
-    Vector<Edge<std::string, std::string>> edges = graph.get_edges();
+    Vector<Vector<Vector<Edge<std::string, std::string>>>> edges = graph.get_matrix();
 
-    assert(edges.size() == 4);
-    assert(edges[0].destination->number == 2 && edges[0].mark == "m");
-    assert(edges[1].start->number == 0 && edges[1].destination->number == 2);
-    assert(edges[2].start->number == 2 && edges[2].mark == "am");
+    assert(edges.size() == 3);
+    assert(edges[0][1].size() == 0);
+    assert(edges[1][2].size() == 1);
+    assert(edges[2][2].size() == 1);
     std::cout << "Тест 2 пройден: Добавление рёбер." << std::endl;
 
     // Тест 3: Проверка связности
@@ -45,14 +45,14 @@ int main() {
     // Тест 4: Проверка работы итератора
     Vector<Vertex<std::string>> test;
     for (auto it = graph.begin(2); it != graph.end(2); ++it) {
-        test.push(*it);
+        test.push(*(*it).destination);
     }
     assert(test[0].mark == "A");
     assert(test[1].mark == "C");
     std::cout << "Тест 4 пройден: Проверка работы итератора." << std::endl;
 
     // Тест 5: Удаление рёбер
-    graph.delete_edge(0, 2);
+    graph.delete_edge(0, 2, "a");
     assert(graph.is_bounded(0, 2) == false); // A-B должно быть удалено
     std::cout << "Тест 5 пройден: Удаление рёбер." << std::endl;
 
