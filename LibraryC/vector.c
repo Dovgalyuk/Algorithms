@@ -67,15 +67,6 @@ Data vector_get(const Vector *vector, size_t index) {
     return vector->data[index];
 }
 
-// int vector_get_int(const Vector *vector, size_t index) {
-//     if (vector == NULL || index >= vector->size) {
-//         return -1; // Ошибка, возвращаем -1
-//     }
-    
-//     int *value = (int *)vector_get(vector, index);
-//     return (value != NULL) ? *value : -1;
-// }
-
 // Функция для установки значения элемента вектора по индексу
 void vector_set(Vector *vector, size_t index, Data value) {
     // Проверяем, не равен ли вектор NULL
@@ -102,25 +93,6 @@ size_t vector_size(const Vector *vector) {
     //return vector->size;
     return vector ? vector->size : 0;
 }
-
-// void vector_resize(Vector *v, size_t new_size) {
-//     if (new_size == v->size) return; 
-//     Data *new_data = (Data *)malloc(new_size * sizeof(Data));
-//     if (new_data == NULL) {
-//            fprintf(stderr, "Ошибка выделения памяти\n");
-//            return;
-//        }
-    // size_t copy_size = (new_size < v->size) ? new_size : v->size;
-    //     for (size_t i = 0; i < copy_size; i++) {
-    //         new_data[i] = v->data[i]; // Копируем данные
-    //     }
-    //     for (size_t i = copy_size; i < new_size; i++) {
-    //        new_data[i] = NULL;
-    //     }
-//         free(v->data);
-//         v->data = new_data;
-//         v->size = new_size;
-// }
 
 void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; 
@@ -151,7 +123,7 @@ void vector_resize(Vector *v, size_t new_size) {
         } 
         v->data = new_data;
         v->capacity = new_capacity;
-        v->size = new_size;    
+        //v->size = new_size;    
     //}
 }
 
