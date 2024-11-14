@@ -25,7 +25,7 @@ Vector *vector_create(size_t initial_capacity, FFree f); // Создание в�
 
 void vector_delete(Vector *vector); // Удаление вектора и освобождение памяти
 
-Data vector_get(const Vector *vector, int index); // Получение элемента вектора по индексу
+Data vector_get(const Vector *vector, size_t index); // Получение элемента вектора по индексу
 
 // int vector_get_int(const Vector *vector, size_t index);
 
