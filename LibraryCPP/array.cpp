@@ -14,7 +14,6 @@ Array *array_create(size_t size) {
     arr->size = size;
     if (!arr->data) { //Проверка на создание даты
         delete arr;
-        return nullptr;
     }
     return arr;
 };
