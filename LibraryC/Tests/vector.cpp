@@ -66,7 +66,7 @@ int main()
     // Выводим значения из вектора на экран
     std::cout << "Vector: ";
     for (size_t i = 0; i < vector_size(vector); ++i) {
-        int value = vector_get_int(vector, static_cast<unsigned long int>(i));
+        int value = vector_get_int(vector, static_cast<unsigned long>(i));
         // if (vector_get_int(vector, i) == -1) { // Если возникла ошибка, прерываем цикл
         //     break; 
         // }
