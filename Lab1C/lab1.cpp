@@ -95,6 +95,7 @@ int main(int argc, char *argv[])
         std::cerr << "read file error " << argv[1] << std::endl;
         return 1;
     }
+    
 
     arr = array_create_and_read(input);
     task1(arr);
