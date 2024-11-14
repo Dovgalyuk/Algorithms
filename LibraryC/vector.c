@@ -20,7 +20,7 @@ Vector *vector_create(size_t initial_capacity, FFree f) {
     // Выделяем память под структуру вектора
     Vector* vec = (Vector *)malloc(sizeof(Vector));
     // Проверяем, успешно ли выделена память
-    if (vec == NULL) {
+    if (!vec) {
         fprintf(stderr, "Ошибка выделения памяти для структуры");
         return NULL;
     }
@@ -28,7 +28,7 @@ Vector *vector_create(size_t initial_capacity, FFree f) {
     // Выделяем память под массив данных вектора
     vec->data = (Data *)malloc(initial_capacity * sizeof(Data));
     // Проверяем успешность выделения памяти под массив
-    if (vec->data == NULL) {
+    if (!vec->data) {
         free(vec);
         fprintf(stderr, "Ошибка выделения памяти для массива");
         return NULL;
