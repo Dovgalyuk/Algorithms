@@ -39,6 +39,7 @@ int main()
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
+        vector_delete(vector);
         return 1;
     }
 
