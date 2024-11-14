@@ -136,9 +136,10 @@ void vector_resize(Vector *v, size_t new_size) {
         size_t new_capacity = /*(new_size > v->capacity) ? (v->capacity * 2) :*/ v->capacity;  
         while (new_capacity < new_size) {
             new_capacity *= 2;
+            v->capacity = new_capacity;
         }
-        v->capacity = new_capacity;
         
+
         Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
         if (new_data == NULL) {
             fprintf(stderr, "Ошибка выделения памяти\n");
@@ -147,7 +148,7 @@ void vector_resize(Vector *v, size_t new_size) {
 
         if (v->data != NULL) {
             memcpy(new_data, v->data, v->size * sizeof(Data));
-            free(v->data);
+            v->distruct(v->data);
             v->data = new_data;
         } 
         
