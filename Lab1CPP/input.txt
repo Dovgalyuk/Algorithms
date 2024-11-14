@@ -1,1 +1,2 @@
-push A
+push 1
+ret

@@ -42,18 +42,18 @@ ListItem *list_item_prev(ListItem *item)
 
 ListItem *list_insert(List *list, Data data)
 {
-    
     ListItem* new_item = new ListItem;
     new_item->data = data;
     new_item->next = list->head;
     new_item->prev = nullptr;
+
     if (list->head != nullptr) {
         list->head->prev = new_item;
-    }
-    list->head = new_item;
-    if (list->tail == nullptr) {
+    } else {
         list->tail = new_item;
     }
+
+    list->head = new_item;
     return new_item;
 }
 

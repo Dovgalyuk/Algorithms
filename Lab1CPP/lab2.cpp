@@ -1,13 +1,16 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "list.h"
 #include "stack.h"
 
-struct Registers {
-    int A = 0;
-    int B = 0;
-    int C = 0;
-    int D = 0;
+struct Register {
+    int A;
+    int B;
+    int C;
+    int D;
+
+    Register() : A(0), B(0), C(0), D(0) {}
 };
 
 int main (int argc, char* argv[]) {
@@ -23,6 +26,57 @@ int main (int argc, char* argv[]) {
     }
 
     Stack* stack = stack_create();
+    Register registers;
+    std::string line;
 
+    bool error = 0;
+
+    while (std::getline(input, line)) {
+        std::istringstream iss(line);
+        std::string command;
+        iss >> command;
+
+        if (command == "push") {
+            int value;
+            iss >> value;
+            stack_push(stack, value);
+        } else if (command == "pop") {
+            std::string reg;
+            iss >> reg;
+            if (stack_empty(stack) || stack_get(stack) == -1) {
+                std::cout << "BAD POP" << std::endl;
+                error = 1;
+                break;
+            }
+            if (reg == "A") registers.A = stack_get(stack);
+            else if (reg == "B") registers.B = stack_get(stack);
+            else if (reg == "C") registers.C = stack_get(stack);
+            else if (reg == "D") registers.D = stack_get(stack);
+            stack_pop(stack);
+        } else if (command == "call") {
+            stack_push(stack, -1);
+        } else if (command == "ret") {
+            if (stack_empty(stack) || stack_get(stack) != -1) {
+                std::cout << "BAD RET" << std::endl;
+                error = 1;
+                break;
+            }
+            stack_pop(stack);
+        } else {
+            std::cerr << "Unknown command: " << command << std::endl;
+            error = 1;
+            break;
+        }
+    }
+
+    if (!error) {
+        std::cout << "A = " << registers.A << std::endl;
+        std::cout << "B = " << registers.B << std::endl;
+        std::cout << "C = " << registers.C << std::endl;
+        std::cout << "D = " << registers.D << std::endl;
+    }
+
+    stack_delete(stack);
+    
     return 0;
 }

@@ -32,4 +32,6 @@ void stack_pop(Stack *stack);
 // Returns true if the stack is empty
 bool stack_empty(const Stack *stack);
 
+void stack_print(const Stack *stack);
+
 #endif
