@@ -152,7 +152,7 @@ void vector_resize(Vector *v, /*size_t new_size*/ size_t new_capacity) {
         v->data = new_data;
         //v->capacity = new_capacity;
     }
-    //v->size = new_size;
+    v->size = new_capacity;
 }
 
 // Функция для добавления элемента в конец вектора
