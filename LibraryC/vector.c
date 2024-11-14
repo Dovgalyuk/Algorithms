@@ -50,7 +50,7 @@ void vector_delete(Vector *vector) {
     // Если задана функция distruct, вызываем её для каждого элемента вектора
     if (vector->distruct != NULL) {
         for (size_t i = 0; i < vector->size; i++) {
-            void* ptr = vector->data[i];
+            void* ptr = (void*)vector->data[i];
             vector->distruct(ptr);
         }
     }
@@ -136,6 +136,7 @@ void vector_resize(Vector *v, size_t new_size) {
         size_t new_capacity = /*(new_size > v->capacity) ? (v->capacity * 2) :*/ v->capacity;  
         while (new_capacity < new_size) {
             new_capacity *= 2;
+            v->capacity = new_capacity;
         }
 
         Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
@@ -148,9 +149,7 @@ void vector_resize(Vector *v, size_t new_size) {
             memcpy(new_data, v->data, v->size * sizeof(Data));
             free(v->data);
             v->data = new_data;
-        }
-        
-        v->capacity = new_capacity;
+        }     
         v->size = new_size;
     //}
 }
