@@ -9,9 +9,8 @@
 //#define output_path
 #define ERROR_VALUE std::numeric_limits<size_t>::max()
 
-std::pair<unsigned int, Vector<std::string>> find_min_path(Graph<std::string, size_t> &graph, size_t start, size_t end);
+size_t find_min_path(Graph<std::string, size_t> &graph, size_t start, size_t end);
 int init(Graph<std::string, size_t>& graph, std::ifstream& in);
-void output(std::pair<unsigned int, Vector<std::string>> data, std::string a, std::string b);
 
 int main(int argc, char** argv) {
     setlocale(0, "");
@@ -34,14 +33,13 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    output(find_min_path(graph, a, b), graph.get_vertices()[a].mark, graph.get_vertices()[b].mark);
+    std::cout << find_min_path(graph, a, b);
 
     return 0;
 }
 
-std::pair<unsigned int, Vector<std::string>> find_min_path(Graph<std::string, size_t>& graph, size_t start, size_t end) {
+size_t find_min_path(Graph<std::string, size_t>& graph, size_t start, size_t end) {
     Vector<unsigned int> distances(graph.get_vertices().size(), std::numeric_limits<unsigned int>::max());
-    Vector<size_t> previous(graph.get_vertices().size(), ERROR_VALUE);
     Vector<bool> visited(graph.get_vertices().size(), false); 
 
     using P = std::pair<unsigned int, size_t>;
@@ -69,18 +67,12 @@ std::pair<unsigned int, Vector<std::string>> find_min_path(Graph<std::string, si
             unsigned int new_distance = distances[current] + weight;
             if (new_distance < distances[neighbor_i]) {
                 distances[neighbor_i] = new_distance;
-                previous[neighbor_i] = current;
                 queue.push({ new_distance, neighbor_i });
             }
         }
     }
 
-    Vector<std::string> path;
-    for (size_t at = end; at != ERROR_VALUE; at = previous[at]) {
-        path.push(graph.get_vertex_by_index(at).mark);
-    }
-
-    return { distances[end], path.reverse(0, path.size() - 1) };
+    return distances[end];
 }
 
 int init(Graph<std::string, size_t>& graph, std::ifstream &in) {
@@ -120,33 +112,4 @@ int init(Graph<std::string, size_t>& graph, std::ifstream &in) {
     }
 
     return 0;
-}
-
-void output(std::pair<unsigned int, Vector<std::string>> data, std::string a, std::string b) {
-#ifndef output_path
-    if (data.first != std::numeric_limits<unsigned int>::max())
-        std::cout << data.first << '\n';
-    else
-        std::cout << "n/a" << '\n';
-#else
-    std::cout << "Минимальное расстояние от " << a << " до " << b << " : ";
-    if(data.first != std::numeric_limits<unsigned int>::max())
-        std::cout << data.first << '\n';
-    else
-        std::cout << "n/a" << '\n';
-
-    std::cout << "Путь: ";
-
-    if (data.first == std::numeric_limits<unsigned int>::max()) {
-        std::cout << "n/a" << '\n';
-        return;
-    }
-
-    for (size_t i = 0; i < data.second.size(); i++) {
-        if(i != data.second.size() - 1)
-            std::cout << data.second[i] << " -> ";
-        else
-            std::cout << data.second[i] << '\n';
-    }
-#endif
 }
