@@ -19,15 +19,28 @@ int main() {
     stack_push(stack, 'B');
     stack_push(stack, 'C');
 
+    char expected_elements[] = {'C', 'B', 'A'};
+    int is_correct = 1;
+
     // Выводим элементы стека
     std::cout << "Stack elements: ";
-    while (!stack_is_empty(stack)) {
+      for (int i = 0; i < 3; i++) {
+        if (stack_is_empty(stack)) {
+            std::cerr << "Error: Elements" << std::endl;
+            is_correct = 0;
+            break;
+        }
         Data element = stack_pop(stack);
         std::cout << element << " ";
+        if (element != expected_elements[i]) {
+            std::cerr << "\nError: Expected " << expected_elements[i]  << element << std::endl;
+            is_correct = 0;
+        }
     }
     std::cout << std::endl;
 
     free_stack(stack);
 
-    return 0;
+    return is_correct ? 0 : 1;
 }
+
