@@ -28,12 +28,12 @@ int main() {
     graph.add_edge(2, 0, "am");
     graph.add_edge(2, 2, "II");
 
-    Vector<Vector<Vector<Edge<std::string>>>> edges = graph.get_matrix();
+    Vector<Vector<Edge<std::string>>> edges = graph.get_matrix();
 
     assert(edges.size() == 3);
-    assert(edges[0][1].size() == 0);
-    assert(edges[1][2].size() == 1);
-    assert(edges[2][2].size() == 1);
+    assert(edges[0][1].empty() == 1);
+    assert(edges[1][2].empty() == 0);
+    assert(edges[2][2].empty() == 0);
     std::cout << "Тест 2 пройден: Добавление рёбер." << std::endl;
 
     // Тест 3: Проверка связности

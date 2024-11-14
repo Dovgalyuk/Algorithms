@@ -33,6 +33,7 @@ int main(int argc, char** argv) {
         std::cout << "Некорректные индексы для нахождения расстония\n";
         return 1;
     }
+
     output(find_min_path(graph, a, b), graph.get_vertices()[a].mark, graph.get_vertices()[b].mark);
 
     return 0;
