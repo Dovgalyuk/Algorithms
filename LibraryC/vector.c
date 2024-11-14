@@ -148,6 +148,8 @@ void vector_resize(Vector *v, size_t new_size) {
 
         free(v->data);
     }
+    v->size = new_size;
+    free(v->data);
 }
 
 // void vector_resize(Vector *v, size_t new_size) {
