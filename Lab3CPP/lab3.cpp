@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
     ifstream input;
     input.open(argv[1]);
     if(!input.is_open()) {
-        cerr << "Failed to open the file." << endl;
+        cerr << "ERROE OPEN FILE!" << endl;
         return 1;
     }
 
@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
     int result = breadth_search(graph, start, end);
 
     if (result == -1) {
-        cout << "IMPOSSIBLE" << endl;
+        cout << "ERROR" << endl;
     } else {
         if (!test(result)) {
             return 1;
