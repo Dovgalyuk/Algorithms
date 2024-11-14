@@ -103,7 +103,15 @@ size_t vector_size(const Vector *vector) {
 }
 
 void vector_resize(Vector *v, size_t new_size) {
-    if (new_size == v->size) return; 
+    
+    if (v == NULL) return; 
+
+    // Если новый размер меньше или равен текущему, ничего не делаем
+    if (new_size <= v->size) {
+        v->size = new_size;
+        return;
+    }
+    
     Data *new_data = (Data *)malloc(new_size * sizeof(Data));
     if (new_data == NULL) {
            fprintf(stderr, "Ошибка выделения памяти\n");
@@ -122,13 +130,13 @@ void vector_resize(Vector *v, size_t new_size) {
 }
 
 // void vector_resize(Vector *v, size_t new_size) {
-//     if (v == NULL) return; 
+    // if (v == NULL) return; 
 
-//     // Если новый размер меньше или равен текущему, ничего не делаем
-//     if (new_size <= v->size) {
-//         v->size = new_size;
-//         return;
-//     }
+    // // Если новый размер меньше или равен текущему, ничего не делаем
+    // if (new_size <= v->size) {
+    //     v->size = new_size;
+    //     return;
+    // }
 
 //     // Увеличиваем емкость
 //     if (new_size > v->capacity) {
