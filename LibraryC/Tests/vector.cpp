@@ -115,7 +115,7 @@ int main()
 
     // std::cout << sum << "\n";
 
-    //vector_delete(vector);
+    vector_delete(vector);
     return 0;
 }
 
