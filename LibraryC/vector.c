@@ -21,7 +21,7 @@ Vector *vector_create(size_t initial_capacity, FFree f) {
     Vector* vec = (Vector *)malloc(sizeof(Vector));
     // Проверяем, успешно ли выделена память
     if (vec == NULL) {
-        printf("Ошибка выделения памяти для структуры");
+        fprintf(stderr, "Ошибка выделения памяти для структуры");
         return NULL;
     }
 
@@ -29,7 +29,7 @@ Vector *vector_create(size_t initial_capacity, FFree f) {
     vec->data = (Data *)malloc(initial_capacity * sizeof(Data));
     // Проверяем успешность выделения памяти под массив
     if (vec->data == NULL) {
-        printf("Ошибка выделения памяти для массива");
+        fprintf(stderr, "Ошибка выделения памяти для массива");
         free(vec);
         return NULL;
     }
@@ -50,8 +50,7 @@ void vector_delete(Vector *vector) {
     // Если задана функция distruct, вызываем её для каждого элемента вектора
     if (vector->distruct != NULL) {
         for (size_t i = 0; i < vector->size; i++) {
-            void* ptr = (void*)vector->data[i];
-            vector->distruct(ptr);
+            vector->distruct(&vector->data[i]);
         }
     }
     // Освобождаем память под массив данных и сам вектор
@@ -100,7 +99,8 @@ void vector_set(Vector *vector, size_t index, Data value) {
 
 // Функция для получения текущего размера вектора
 size_t vector_size(const Vector *vector) {
-    return vector->size;
+    //return vector->size;
+    return vector ? vector->size : 0;
 }
 
 // void vector_resize(Vector *v, size_t new_size) {
@@ -127,7 +127,7 @@ void vector_resize(Vector *v, size_t new_size) {
 
     // Если новый размер меньше или равен текущему, ничего не делаем
     if (new_size <= v->size) {
-        ////v->size = new_size;
+        v->size = new_size;
         return;
     }
 
@@ -136,10 +136,9 @@ void vector_resize(Vector *v, size_t new_size) {
         size_t new_capacity = /*(new_size > v->capacity) ? (v->capacity * 2) :*/ v->capacity;  
         while (new_capacity < new_size) {
             new_capacity *= 2;
-            v->capacity = new_capacity;
         }
         
-
+        
         Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
         if (new_data == NULL) {
             fprintf(stderr, "Ошибка выделения памяти\n");
@@ -148,11 +147,11 @@ void vector_resize(Vector *v, size_t new_size) {
 
         if (v->data != NULL) {
             memcpy(new_data, v->data, v->size * sizeof(Data));
-            v->distruct(v->data);
-            v->data = new_data;
+            free(v->data);
         } 
-        
-        v->size = new_size;
+        v->data = new_data;
+        v->capacity = new_capacity;
+        v->size = new_size;    
     //}
 }
 
@@ -164,7 +163,7 @@ void push_back(Vector *vector, Data value) {
     }
 
     if (vector->size >= vector->capacity) {
-        vector_resize(vector, vector->capacity * 2);
+        vector_resize(vector, vector->size + 1);
     }
     vector->data[vector->size++] = value;
 }
