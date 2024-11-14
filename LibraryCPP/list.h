@@ -31,7 +31,7 @@ ListItem *list_item_next(ListItem *item);
 ListItem *list_insert(List *list, Data data);
 
 // Inserts new list item after the specified item
-//ListItem *list_insert_after(List *list, ListItem *item, Data data);
+ListItem *list_insert_after(List *list, ListItem *item, Data data);
 
 // Deletes the first list item.
 // Returns pointer to the item next to the deleted one.
