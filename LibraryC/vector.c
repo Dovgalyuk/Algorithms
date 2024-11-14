@@ -7,7 +7,7 @@ typedef struct Vector {
     size_t size; // Текущий размер вектора
     Data* data; // Указатель на массив данных
     size_t capacity; // Общая ёмкость вектора
-    FFree distruct; // Указатель на функцию distruct для освобождения данных
+    FFree* distruct; // Указатель на функцию distruct для освобождения данных
 } Vector;
 
 // Функция для создания вектора с указанной начальной ёмкостью и функцией освобождения памяти
@@ -29,8 +29,8 @@ Vector *vector_create(size_t initial_capacity, FFree f) {
     vec->data = (Data *)malloc(initial_capacity * sizeof(Data));
     // Проверяем успешность выделения памяти под массив
     if (vec->data == NULL) {
-        fprintf(stderr, "Ошибка выделения памяти для массива");
         free(vec);
+        fprintf(stderr, "Ошибка выделения памяти для массива");
         return NULL;
     }
 
