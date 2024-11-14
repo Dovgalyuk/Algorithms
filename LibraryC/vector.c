@@ -61,7 +61,7 @@ void vector_delete(Vector *vector) {
 
 // Функция для получения элемента вектора по индексу
 Data vector_get(const Vector *vector, int index) {
-    if (vector == NULL || (uintptr_t)index >= vector->size) {
+    if (vector == NULL || (intptr_t)index >= vector->size) {
         return NULL;
     }
     // Возвращаем элемент по индексу
