@@ -8,7 +8,7 @@ void myfree(void *p) {
 }
 
 // Функция для получения значения типа int из вектора по индексу
-int vector_get_int(Vector *v, size_t i) {
+int vector_get_int(Vector *v, int i) {
     if (v == nullptr) { // Проверяем, является ли вектор пустым
         std::cerr << "Ошибка: вектор пуст!\n"; 
         return -1; 
