@@ -39,7 +39,6 @@ int main()
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
-        vector_delete(vector);
         return 1;
     }
 
@@ -113,7 +112,7 @@ int main()
 
     // std::cout << sum << "\n";
 
-    vector_delete(vector);
+    //vector_delete(vector);
     return 0;
 }
 
