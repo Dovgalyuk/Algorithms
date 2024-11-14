@@ -38,9 +38,10 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-std::pair<unsigned int, Vector<std::string>> find_min_path(Graph<std::string, size_t> &graph, size_t start, size_t end) {
+std::pair<unsigned int, Vector<std::string>> find_min_path(Graph<std::string, size_t>& graph, size_t start, size_t end) {
     Vector<unsigned int> distances(graph.get_vertices().size(), std::numeric_limits<unsigned int>::max());
     Vector<size_t> previous(graph.get_vertices().size(), ERROR_VALUE);
+    Vector<bool> visited(graph.get_vertices().size(), false); 
 
     using P = std::pair<unsigned int, size_t>;
     std::priority_queue<P, std::vector<P>, std::greater<P>> queue;
@@ -52,11 +53,16 @@ std::pair<unsigned int, Vector<std::string>> find_min_path(Graph<std::string, si
         size_t current = queue.top().second;
         queue.pop();
 
+        if (visited[current]) {
+            continue;
+        }
+        visited[current] = true;
+
         if (current == end)
             break;
 
         for (auto it = graph.begin(current); it != graph.end(current); ++it) {
-            size_t neighbor_i = (*it).destination->number;
+            size_t neighbor_i = it.get_neib_index();
             unsigned int weight = (*it).mark;
 
             unsigned int new_distance = distances[current] + weight;
@@ -73,7 +79,7 @@ std::pair<unsigned int, Vector<std::string>> find_min_path(Graph<std::string, si
         path.push(graph.get_vertex_by_index(at).mark);
     }
 
-    return { distances[end], path.reverse(0, path.size() - 1)};
+    return { distances[end], path.reverse(0, path.size() - 1) };
 }
 
 int init(Graph<std::string, size_t>& graph, std::ifstream &in) {

@@ -1,10 +1,10 @@
 #pragma once
 
-#define EMPTY_MATRIX_ROW Vector<Vector<Edge<V, E>>>(vertices.size(), Vector<Edge<V, E>>(0, Edge<V, E>()))
-#define EMPTY_EDGE_VECTOR Vector<Edge<V, E>>()
+#define EMPTY_MATRIX_ROW Vector<Vector<Edge<E>>>(vertices.size(), Vector<Edge<E>>(0, Edge<E>()))
+#define EMPTY_EDGE_VECTOR Vector<Edge<E>>()
 #define TEMPLATE template <typename V, typename E>
 #define GRAPH Graph<V, E>
-#define MATRIX Vector<Vector<Vector<Edge<V, E>>>>
+#define MATRIX Vector<Vector<Vector<Edge<E>>>>
 
 #include <iostream>
 #include "vector.h"
@@ -20,13 +20,12 @@ struct Vertex {
     V mark = V();
 };
 
-TEMPLATE
+template <typename E>
 struct Edge {
 
     Edge() {}
-    Edge(Vertex<V>* destination, E mark) : destination(destination), mark(mark) {}
+    Edge(E mark) : mark(mark) {}
 
-    Vertex<V>* destination = nullptr;
     E mark = E();
 };
 
@@ -72,10 +71,10 @@ public:
     Vertex<V> set_mark(size_t a, V mark);
 
     // Добавление ребра
-    Edge<V, E> &add_edge(size_t a, size_t b, E edge_mark);
+    Edge<E> &add_edge(size_t a, size_t b, E edge_mark);
 
     // Удаление ребра
-    Edge<V, E> delete_edge(size_t a, size_t b, E mark);
+    Edge<E> delete_edge(size_t a, size_t b, E mark);
 
     // Получение пометки ребра по индексам вершин
     E get_edge_mark(size_t a, size_t b, size_t edge_index);
@@ -87,7 +86,7 @@ public:
     size_t edge_index(size_t a, size_t b, E mark);
 
     // Получение матрицы смежности
-    const Vector<Vector<Vector<Edge<V, E>>>> &get_matrix();
+    const Vector<Vector<Vector<Edge<E>>>> &get_matrix();
 
     // Класс итератор
     class Iterator;
@@ -158,20 +157,20 @@ Vertex<V> GRAPH::delete_vertex(size_t a) {
 }
 
 TEMPLATE
-Edge<V, E> &GRAPH::add_edge(size_t a, size_t b, E edge_mark) {
+Edge<E> &GRAPH::add_edge(size_t a, size_t b, E edge_mark) {
     if (a >= vertices.size() || b >= vertices.size()) {
         throw std::out_of_range("Неверные индексы при добавлении ребра");
     }
 
-    matrix[a][b].push(Edge<V, E>(&vertices[b], edge_mark));
+    matrix[a][b].push(edge_mark);
     return matrix[a][b][matrix[a][b].size() - 1];
 }
 
 TEMPLATE
-Edge<V, E> GRAPH::delete_edge(size_t a, size_t b, E mark) {
+Edge<E> GRAPH::delete_edge(size_t a, size_t b, E mark) {
     if ((a >= vertices.size() || b >= vertices.size()) || matrix[a][b].size() <= 0) {
         throw std::out_of_range("Неверные индексы при удалении ребра или ребра не существует");
-        return Edge<V, E>();
+        return Edge<E>();
     }
 
     return matrix[a][b].erase(edge_index(a, b, mark));
@@ -243,7 +242,7 @@ size_t GRAPH::edge_index(size_t a, size_t b, E mark) {
 }
 
 TEMPLATE
-const Vector<Vector<Vector<Edge<V, E>>>> &GRAPH::get_matrix() {
+const Vector<Vector<Vector<Edge<E>>>> &GRAPH::get_matrix() {
     return matrix;
 }
 
@@ -272,13 +271,13 @@ public:
         return col != iterator.col;
     }
 
-    Edge<V, E> operator*() {
+    Edge<E> operator*() {
         return graph->matrix[start_index][col][index];
     }
 
-    /*Vertex<V> operator*() {
-        return *graph->matrix[start_index][col][index].destination;
-    }*/
+    size_t get_neib_index() {
+        return col;
+    }
 
 private:
     GRAPH* graph;

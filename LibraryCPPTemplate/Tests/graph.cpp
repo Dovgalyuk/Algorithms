@@ -28,7 +28,7 @@ int main() {
     graph.add_edge(2, 0, "am");
     graph.add_edge(2, 2, "II");
 
-    Vector<Vector<Vector<Edge<std::string, std::string>>>> edges = graph.get_matrix();
+    Vector<Vector<Vector<Edge<std::string>>>> edges = graph.get_matrix();
 
     assert(edges.size() == 3);
     assert(edges[0][1].size() == 0);
@@ -43,9 +43,10 @@ int main() {
     std::cout << "Тест 3 пройден: Проверка связности." << std::endl;
 
     // Тест 4: Проверка работы итератора
+    Vector<Vertex<std::string>> vertices = graph.get_vertices();
     Vector<Vertex<std::string>> test;
     for (auto it = graph.begin(2); it != graph.end(2); ++it) {
-        test.push(*(*it).destination);
+        test.push(vertices[it.get_neib_index()]);
     }
     assert(test[0].mark == "A");
     assert(test[1].mark == "C");
