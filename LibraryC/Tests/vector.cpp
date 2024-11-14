@@ -64,7 +64,7 @@ int main()
 
     // Выводим значения из вектора на экран
     std::cout << "Vector: ";
-    for (size_t i = 0; i < vector_size(vector); ++i) {
+    for (int i = 0; i < vector_size(vector); ++i) {
         int value = vector_get_int(vector, i);
         if (value == -1) { // Если возникла ошибка, прерываем цикл
             break; 
