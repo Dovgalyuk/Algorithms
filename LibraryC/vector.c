@@ -55,7 +55,7 @@ void vector_delete(Vector *vector) {
         }
     }
     // Освобождаем память под массив данных и сам вектор
-    vector->distruct(vector->data);
+    free(vector->data);
     free(vector);
 }
 
