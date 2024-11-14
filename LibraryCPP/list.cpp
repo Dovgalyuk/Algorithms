@@ -17,7 +17,8 @@ List *list_create() {
 }
 
 void list_delete(List *list) {
-    if (list == nullptr || list->head == nullptr) {
+    if (!list->head) {
+        delete list;
         return;
     }
 
