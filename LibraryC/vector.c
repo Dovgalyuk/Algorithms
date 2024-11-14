@@ -8,7 +8,7 @@ typedef struct Vector {
     size_t size; // Текущий размер вектора
     Data* data; // Указатель на массив данных
     size_t capacity; // Общая ёмкость вектора
-    FFree* distruct; // Указатель на функцию distruct для освобождения данных
+    FFree distruct; // Указатель на функцию distruct для освобождения данных
 } Vector;
 
 // Функция для создания вектора с указанной начальной ёмкостью и функцией освобождения памяти
@@ -51,7 +51,7 @@ void vector_delete(Vector *vector) {
     // Если задана функция distruct, вызываем её для каждого элемента вектора
     if (vector->distruct != NULL) {
         for (size_t i = 0; i < vector->size; i++) {
-            void* ptr = (void*)vector->data[i];
+            void* ptr = vector->data[i];
             vector->distruct(ptr);
         }
     }
