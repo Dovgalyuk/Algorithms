@@ -3,12 +3,12 @@
 #include <string.h>
 #include "vector.h"
 
-typedef struct Vector {
-    size_t size; // Текущий размер вектора
-    Data* data; // Указатель на массив данных
-    size_t capacity; // Общая ёмкость вектора
-    FFree* distruct; // Указатель на функцию distruct для освобождения данных
-} Vector;
+// typedef struct Vector {
+//     size_t size; // Текущий размер вектора
+//     Data* data; // Указатель на массив данных
+//     size_t capacity; // Общая ёмкость вектора
+//     FFree* distruct; // Указатель на функцию distruct для освобождения данных
+// } Vector;
 
 // Функция для создания вектора с указанной начальной ёмкостью и функцией освобождения памяти
 Vector *vector_create(size_t initial_capacity, FFree f) {
