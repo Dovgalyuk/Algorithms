@@ -16,10 +16,12 @@ public:
         Item *next() const { return lNext; }
         Item *prev() { return nullptr; }
         Data data() const { return lData; }
+
+        void set_next(Item* next) { lNext = next; }
     private:
+        // internal data here
         Data lData;
         Item* lNext;
-        // internal data here
     };
 
     // Creates new list
@@ -35,7 +37,7 @@ public:
     ~List();
 
     // Retrieves the first item from the list
-    Item *first();
+    Item *first() const;
 
     // Inserts new list item into the beginning
     Item *insert(Data data);

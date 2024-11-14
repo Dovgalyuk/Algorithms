@@ -48,4 +48,66 @@ int main()
         std::cout << "Get: " << stack.get() << "\n";
         stack.pop();
     }
+
+    
+    stack.push(3);
+    if (stack.get() != 3)
+    {
+        std::cout << "Invalid stack push after empty\n";
+        return 1;
+    }
+
+    stack.pop();
+    if (!stack.empty())
+    {
+        std::cout << "Invalid stack empty\n";
+        return 1;
+    }
+
+    try 
+    {
+        stack.get();
+        std::cout << "Invalid stack empty\n";
+        return 1;
+    }
+    catch (const std::exception& e) 
+    {
+        std::cout << "Exception from empty stack on get : " << e.what() << "\n";
+    }
+
+    try 
+    {
+        stack.pop();
+        std::cout << "Invalid stack empty\n";
+        return 1;
+    }
+    catch (const std::exception& e) 
+    {
+        std::cout << "Exception from empty stack on pop: " << e.what() << "\n";
+    }
+
+    stack.push(5);
+    stack.push(7);
+    stack.push(8);
+    if (stack.get() != 8)
+    {
+        std::cout << "Invalid stack top after multiple pushes\n";
+        return 1;
+    }
+
+    stack.pop();
+    if (stack.get() != 7)
+    {
+        std::cout << "Invalid stack top after pop\n";
+        return 1;
+    }
+
+    stack.pop();
+    stack.pop();
+    if (!stack.empty())
+    {
+        std::cout << "Invalid stack empty after pops\n";
+        return 1;
+    }
+
 }

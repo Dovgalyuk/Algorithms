@@ -1,7 +1,9 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include <stdexcept>
 #include <cstddef>
+#include "list.h"
 
 typedef int Data;
 
@@ -36,6 +38,7 @@ public:
 
 private:
     // private data should be here
+    List sList;
 };
 
 #endif
