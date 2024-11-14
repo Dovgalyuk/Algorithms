@@ -12,18 +12,19 @@ bool isMatchingPair(char opening, char closing) {
 
 bool isValidSequence(const std::string& sequence) {
     Stack *stack = stack_create(); // Создаем стек
-    bool inQuotes = false; // Флаг для отслеживания кавычек
-
     for (char ch : sequence) {
-        if ((ch == '"' && !inQuotes)||(ch == '\'' && !inQuotes)) {
-            inQuotes = true; // Открываем кавычки
-            stack_push(stack, static_cast<Data>(ch)); // Добавляем в стек
-        }
-        else if ((ch == '"' && inQuotes)||(ch == '\'' && !inQuotes)) {
-            inQuotes = false; // Закрываем кавычки
-            stack_push(stack, static_cast<Data>(ch)); // Добавляем в стек
-        }
-        else if (ch == '(' || ch == '[' || ch == '{') {
+        if (ch == '(' || ch == '[' || ch == '{' || ch == '"' || ch == '\'') {
+            if (!stack_empty(stack) && (stack_get(stack) == '"' || stack_get(stack) == '\'')) {
+                if (stack_empty(stack)) {
+                    stack_delete(stack); // Освобождаем память перед выходом
+                    char data = stack_get(stack);
+                    stack_pop(stack);
+                    if (!isMatchingPair(data, ch)) { // Разыменовываем указатель
+                        stack_delete(stack); // Освобождаем память перед выходом
+                        return false; // Неправильная последовательность
+                    }
+                }
+            }
             stack_push(stack, static_cast<Data>(ch));
         }
         else if (ch == ')' || ch == ']' || ch == '}') {
@@ -40,7 +41,7 @@ bool isValidSequence(const std::string& sequence) {
     }
 
     // Проверяем, пуст ли стек и закрыты ли кавычки
-    bool result = stack_empty(stack) && !inQuotes; 
+    bool result = stack_empty(stack); 
     stack_delete(stack); // Освобождаем память
     return result; // Если стек пуст и кавычки закрыты, последовательность правильная
 }
