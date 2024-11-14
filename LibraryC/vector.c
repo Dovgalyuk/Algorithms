@@ -100,7 +100,7 @@ void vector_set(Vector *vector, size_t index, Data value) {
 
 // Функция для получения текущего размера вектора
 size_t vector_size(const Vector *vector) {
-    return vector ? vector->size : 0;
+    return vector->size;
 }
 
 // void vector_resize(Vector *v, size_t new_size) {
@@ -146,7 +146,7 @@ void vector_resize(Vector *v, size_t new_size) {
 
         if (v->data) {
             memcpy(new_data, v->data, v->size * sizeof(Data));
-            v->distruct(v->data);
+            free(v->data);
         }
         v->data = new_data;
         v->capacity = new_capacity;
