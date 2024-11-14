@@ -55,8 +55,8 @@ void vector_delete(Vector *vector) {
         }
     }
     // Освобождаем память под массив данных и сам вектор
-    free(vector->data);
-    free(vector);
+    vector->distruct(vector->data);
+    vector->distruct(vector);
 }
 
 // Функция для получения элемента вектора по индексу
@@ -146,7 +146,7 @@ void vector_resize(Vector *v, size_t new_size) {
 
         if (v->data) {
             memcpy(new_data, v->data, v->size * sizeof(Data));
-            free(v->data);
+            v->distruct(v->data);
         }
         v->data = new_data;
         v->capacity = new_capacity;
