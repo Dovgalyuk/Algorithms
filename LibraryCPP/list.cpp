@@ -79,7 +79,7 @@ ListItem *list_erase_first(List *list)
     delete item_delete;
     return list->head;
 }
-
+/*
 ListItem *list_erase_next(List *list, ListItem *item)
 {
     if (item == nullptr || item->next == nullptr) return nullptr;
@@ -90,3 +90,4 @@ ListItem *list_erase_next(List *list, ListItem *item)
     delete item_delete;
     return item->next;
 }
+*/
