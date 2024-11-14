@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
 }
 
 
-int bfs(const vector<vector<int>>& graph, int start, int end) {
+int breadth_search(const vector<vector<int>>& graph, int start, int end) {
     int n = graph.size();
     vector<bool> visited(n, false);
     vector<int> distance(n, -1);
