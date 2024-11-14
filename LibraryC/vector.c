@@ -136,6 +136,7 @@ void vector_resize(Vector *v, /*size_t new_size*/ size_t new_capacity) {
         while (v->capacity < new_capacity) {
             v->capacity *= 2;
         }
+        fprintf(stderr, "Емкость вектора: %zu\n", v->capacity);
 
         Data *new_data = (Data *)malloc(v->capacity * sizeof(Data));
         if (!new_data) {
