@@ -10,7 +10,6 @@ struct ListItem {
 
 struct List {
     ListItem *head;
-    ListItem *tail;
 };
 
 List *list_create()
