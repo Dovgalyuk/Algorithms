@@ -109,8 +109,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-ltpqip"
-      binary: "D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-ltpqip"
+      source: "D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-b79h5b"
+      binary: "D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-b79h5b"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -119,10 +119,10 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-ltpqip
+        Change Dir: D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-b79h5b
         
-        Run Build Command(s):D:/программы/vision studio/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe -v cmTC_4facc && [1/2] "D:\\56ED~1\\vision studio\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe"  /nologo   /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_4facc.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_4facc.dir\\ /FS -c "D:\\программы\\vision studio\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
-        [2/2] cmd.exe /C "cd . && "D:\\программы\\vision studio\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_4facc.dir --rc="C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.22621.0\\x64\\rc.exe" --mt="C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.22621.0\\x64\\mt.exe" --manifests  -- "D:\\56ED~1\\vision studio\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\link.exe" /nologo CMakeFiles\\cmTC_4facc.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_4facc.exe /implib:cmTC_4facc.lib /pdb:cmTC_4facc.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s):D:/программы/vision studio/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe -v cmTC_9ece5 && [1/2] "D:\\56ED~1\\vision studio\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe"  /nologo   /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_9ece5.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_9ece5.dir\\ /FS -c "D:\\программы\\vision studio\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
+        [2/2] cmd.exe /C "cd . && "D:\\программы\\vision studio\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_9ece5.dir --rc="C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.22621.0\\x64\\rc.exe" --mt="C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.22621.0\\x64\\mt.exe" --manifests  -- "D:\\56ED~1\\vision studio\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\link.exe" /nologo CMakeFiles\\cmTC_9ece5.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_9ece5.exe /implib:cmTC_9ece5.lib /pdb:cmTC_9ece5.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -134,8 +134,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-xee8ux"
-      binary: "D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-xee8ux"
+      source: "D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-65pmwq"
+      binary: "D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-65pmwq"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -144,10 +144,10 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-xee8ux
+        Change Dir: D:/Dz/Algorithms/Algorithms/out/build/x64-Debug/CMakeFiles/CMakeScratch/TryCompile-65pmwq
         
-        Run Build Command(s):D:/программы/vision studio/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe -v cmTC_f6ddf && [1/2] "D:\\56ED~1\\vision studio\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe"  /nologo /TP   /DWIN32 /D_WINDOWS /GR /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_f6ddf.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_f6ddf.dir\\ /FS -c "D:\\программы\\vision studio\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
-        [2/2] cmd.exe /C "cd . && "D:\\программы\\vision studio\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_f6ddf.dir --rc="C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.22621.0\\x64\\rc.exe" --mt="C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.22621.0\\x64\\mt.exe" --manifests  -- "D:\\56ED~1\\vision studio\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\link.exe" /nologo CMakeFiles\\cmTC_f6ddf.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_f6ddf.exe /implib:cmTC_f6ddf.lib /pdb:cmTC_f6ddf.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s):D:/программы/vision studio/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe -v cmTC_cd0d8 && [1/2] "D:\\56ED~1\\vision studio\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe"  /nologo /TP   /DWIN32 /D_WINDOWS /GR /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_cd0d8.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_cd0d8.dir\\ /FS -c "D:\\программы\\vision studio\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
+        [2/2] cmd.exe /C "cd . && "D:\\программы\\vision studio\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_cd0d8.dir --rc="C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.22621.0\\x64\\rc.exe" --mt="C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.22621.0\\x64\\mt.exe" --manifests  -- "D:\\56ED~1\\vision studio\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\link.exe" /nologo CMakeFiles\\cmTC_cd0d8.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_cd0d8.exe /implib:cmTC_cd0d8.lib /pdb:cmTC_cd0d8.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
 ...
