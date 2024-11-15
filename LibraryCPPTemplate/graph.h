@@ -149,10 +149,17 @@ Vertex<V> GRAPH::delete_vertex(size_t a) {
         return Vertex<V>();
     }
 
-    matrix.erase(a);
+    for (size_t i = 0; i < matrix[a].size(); i++) {
+        delete matrix[a][i];
+        matrix[a][i] = nullptr;
+    }
+
     for (size_t i = 0; i < matrix.size(); i++) {
+        delete matrix[i][a];
+        matrix[i][a] = nullptr;
         matrix[i].erase(a);
     }
+    matrix.erase(a);
 
     Vertex<V> temp = vertices.erase(a);
     for (size_t i = 0; i < vertices.size(); i++) {
