@@ -44,6 +44,11 @@ public:
     // Деструктор
     ~Graph() {
         vertices.clear();
+        for (size_t i = 0; i < matrix.size(); i++) {
+            for (auto it = begin(i); it != end(i); ++it) {
+                delete (*it);
+            }
+        }
         matrix.clear();
     }
 
@@ -251,7 +256,7 @@ public:
         return col != iterator.col;
     }
 
-    const Edge<E>* operator*() {
+    Edge<E>* operator*() {
         return graph->matrix[start_index][col];
     }
 
