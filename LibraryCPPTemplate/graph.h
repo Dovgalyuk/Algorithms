@@ -45,8 +45,11 @@ public:
     ~Graph() {
         vertices.clear();
         for (size_t i = 0; i < matrix.size(); i++) {
-            for (auto it = begin(i); it != end(i); ++it) {
-                delete (*it);
+            for (size_t j = 0; j < matrix[i].size(); i++) {
+                if (matrix[i][j] != nullptr) {
+                    delete matrix[i][j];
+                    matrix[i][j] = nullptr;
+                }
             }
         }
         matrix.clear();

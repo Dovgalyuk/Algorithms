@@ -3,8 +3,8 @@
 #include <limits>
 #include <queue>
 
-#include "graph.h"
-#include "vector.h"
+#include "../LibraryCPPTemplate/graph.h"
+#include "../LibraryCPPTemplate/vector.h"
 
 //#define output_path
 #define ERROR_VALUE std::numeric_limits<size_t>::max()
@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
     std::ifstream in(filepath);
 
     if (!in.is_open()) {
-        std::cout << "Не удалось открыть файл\n";
+        std::cout << "File was not opened\n";
         return 1;
     }
 
@@ -29,12 +29,12 @@ int main(int argc, char** argv) {
     size_t a = 0, b = 0;
     in >> a >> b;
     if (a >= graph.get_vertices().size() || b >= graph.get_vertices().size()) {
-        std::cout << "Некорректные индексы для нахождения расстония\n";
+        std::cout << "Invalid indexes\n";
         return 1;
     }
 
     std::cout << find_min_path(graph, a, b);
-
+    //graph.~Graph();
     return 0;
 }
 
@@ -62,7 +62,7 @@ size_t find_min_path(Graph<std::string, size_t>& graph, size_t start, size_t end
 
         for (auto it = graph.begin(current); it != graph.end(current); ++it) {
             size_t neighbor_i = it.get_neib_index();
-            unsigned int weight = (*it)->mark;
+            size_t weight = (*it)->mark;
 
             unsigned int new_distance = distances[current] + weight;
             if (new_distance < distances[neighbor_i]) {
@@ -80,14 +80,14 @@ int init(Graph<std::string, size_t>& graph, std::ifstream &in) {
     std::string temp = "";
     in >> k;
     if (k <= 0 || k > std::numeric_limits<int>::max()) {
-        std::cout << "Некорректный количество вершин\n";
+        std::cout << "Invalid vertices quantity\n";
         return 1;
     }
 
     while (k) {
         in >> temp;
         if (temp == "") {
-            std::cout << "Некорректное значение пометки вершины\n";
+            std::cout << "Invalid vertex mark value\n";
             return 1;
         }
         graph.add_vertex(temp);
@@ -97,14 +97,14 @@ int init(Graph<std::string, size_t>& graph, std::ifstream &in) {
     size_t edge_mark = 0, a = 0, b = 0;
     in >> k;
     if (k <= 0 || k > std::numeric_limits<int>::max()) {
-        std::cout << "Некорректный количество ребер\n";
+        std::cout << "Invalid edges quantity\n";
         return 1;
     }
 
     while (k) {
         in >> a >> b >> edge_mark;
         if (a == ERROR_VALUE || b == ERROR_VALUE || edge_mark == ERROR_VALUE) {
-            std::cout << "Некорректный индекс или пометка ребра\n";
+            std::cout << "Invalid indes or edge mark\n";
             return 1;
         }
         graph.add_edge(a, b, edge_mark);
