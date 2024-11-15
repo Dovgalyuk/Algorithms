@@ -61,3 +61,9 @@ void Vector::resize(size_t new_size) {
     }
     size_ = new_size;
 }
+
+void Vector::swap(Vector &other) {
+    std::swap(data_, other.data_);
+    std::swap(capacity_, other.capacity_);
+    std::swap(size_, other.size_);
+}

@@ -30,17 +30,23 @@ void Queue::insert(Data data) {
         size_t new_capacity = vector_.size() * 2;
         Vector new_vector;
         new_vector.resize(new_capacity);
+
+        // Переносим существующие элементы в новый массив
         for (size_t i = 0; i < size_; ++i) {
             new_vector.set(i, vector_.get((front_ + i) % vector_.size()));
         }
+
+        // Используем swap для быстрого обмена
+        vector_.swap(new_vector);
         front_ = 0;
         back_ = size_;
-        vector_ = new_vector;
     }
+
     vector_.set(back_, data);
     back_ = (back_ + 1) % vector_.size();
     ++size_;
 }
+
 
 // Получение элемента из начала очереди
 Data Queue::get() const {

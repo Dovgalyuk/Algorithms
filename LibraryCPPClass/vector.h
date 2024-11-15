@@ -33,6 +33,9 @@ public:
     // Should be O(1) on average
     void resize(size_t size);
 
+    // Функция для обмена содержимым с другим вектором
+    void swap(Vector &other);
+
 private:
     Data *data_;        // указатель на массив данных
     size_t capacity_;   // текущая вместимость массива
