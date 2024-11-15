@@ -34,21 +34,22 @@ void queue_delete(Queue *queue) {
 void queue_insert(Queue *queue, Data data) {
   if (!queue || !queue->vector)
     return;
-
   size_t capacity = vector_size(queue->vector);
 
-  if (queue->size == 0) {
-    queue->front = 0;
-    queue->back = 0;
-    vector_resize(queue->vector, 1);
-    vector_set(queue->vector, 0, data);
-    queue->size = 1;
-    return;
-  }
-
-  if (queue->size >= capacity) {
+  if (queue->size == capacity) {
     size_t new_capacity = (capacity == 0) ? 1 : capacity * 2;
-    vector_resize(queue->vector, new_capacity);
+    Vector *temp_vector = vector_create(queue->vector->free_func);
+    vector_resize(temp_vector, new_capacity);
+
+    for (size_t i = 0; i < queue->size; i++) {
+      size_t index = (queue->front + i) % capacity;
+      vector_set(temp_vector, i, vector_get(queue->vector, index));
+    }
+
+    vector_delete(queue->vector);
+    queue->vector = temp_vector;
+    queue->front = 0;
+    queue->back = queue->size - 1;
   }
 
   queue->back = (queue->back + 1) % vector_size(queue->vector);

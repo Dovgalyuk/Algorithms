@@ -2,13 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct Vector {
-  Data *data;
-  size_t size;
-  size_t capacity;
-  FFree *free_func;
-} Vector;
-
 #define INITIAL_CAPACITY 4
 
 Vector *vector_create(FFree *f) {
