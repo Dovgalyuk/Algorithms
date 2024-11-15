@@ -28,12 +28,12 @@ int main() {
     graph.add_edge(2, 0, "am");
     graph.add_edge(2, 2, "II");
 
-    Vector<Vector<Edge<std::string>>> edges = graph.get_matrix();
+    Vector<Vector<Edge<std::string>*>> edges = graph.get_matrix();
 
     assert(edges.size() == 3);
-    assert(edges[0][1].empty() == 1);
-    assert(edges[1][2].empty() == 0);
-    assert(edges[2][2].empty() == 0);
+    assert(edges[0][1] == nullptr);
+    assert(edges[1][2] != nullptr);
+    assert(edges[2][2] != nullptr);
     std::cout << "Тест 2 пройден: Добавление рёбер." << std::endl;
 
     // Тест 3: Проверка связности
@@ -53,7 +53,7 @@ int main() {
     std::cout << "Тест 4 пройден: Проверка работы итератора." << std::endl;
 
     // Тест 5: Удаление рёбер
-    graph.delete_edge(0, 2, "a");
+    graph.delete_edge(0, 2);
     assert(graph.is_bounded(0, 2) == false); // A-B должно быть удалено
     std::cout << "Тест 5 пройден: Удаление рёбер." << std::endl;
 

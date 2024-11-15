@@ -1,9 +1,9 @@
 #pragma once
 
-#define EMPTY_MATRIX_ROW Vector<Edge<E>>(vertices.size(), Edge<E>())
+#define EMPTY_MATRIX_ROW Vector<Edge<E>*>(vertices.size(), nullptr)
 #define TEMPLATE template <typename V, typename E>
 #define GRAPH Graph<V, E>
-#define MATRIX Vector<Vector<Edge<E>>>
+#define MATRIX Vector<Vector<Edge<E>*>>
 
 #include <iostream>
 #include "vector.h"
@@ -25,10 +25,6 @@ struct Edge {
     Edge() {}
     Edge(E mark) : mark(mark) {}
 
-    bool empty() {
-        return mark == E();
-    }
-
     E mark = E();
 };
 
@@ -48,7 +44,6 @@ public:
     // Деструктор
     ~Graph() {
         vertices.clear();
-        // edges.clear();
         matrix.clear();
     }
 
@@ -74,10 +69,10 @@ public:
     Vertex<V> set_mark(size_t a, V mark);
 
     // Добавление ребра
-    Edge<E> &add_edge(size_t a, size_t b, E edge_mark);
+    Edge<E>* add_edge(size_t a, size_t b, E edge_mark);
 
     // Удаление ребра
-    Edge<E> delete_edge(size_t a, size_t b, E mark);
+    Edge<E>* delete_edge(size_t a, size_t b);
 
     // Получение пометки ребра по индексам вершин
     E get_edge_mark(size_t a, size_t b);
@@ -89,7 +84,7 @@ public:
     size_t edge_index(size_t a, size_t b, E mark);
 
     // Получение матрицы смежности
-    const Vector<Vector<Edge<E>>> &get_matrix();
+    const Vector<Vector<Edge<E>*>> get_matrix();
 
     // Класс итератор
     class Iterator;
@@ -120,7 +115,7 @@ Vertex<V> &GRAPH::add_vertex() {
 
     for (size_t i = 0; i < matrix.size(); i++) {
         while (matrix[i].size() != vertices.size())
-            matrix[i].push(Edge<E>());
+            matrix[i].push(nullptr);
     }
 
     return vertices[vertices.size() - 1];
@@ -133,7 +128,7 @@ Vertex<V> GRAPH::add_vertex(V vertex_mark) {
 
     for (size_t i = 0; i < matrix.size(); i++) {
         while (matrix[i].size() != vertices.size()) {
-            matrix[i].push(Edge<E>());
+            matrix[i].push(nullptr);
         }
     }
 
@@ -160,23 +155,23 @@ Vertex<V> GRAPH::delete_vertex(size_t a) {
 }
 
 TEMPLATE
-Edge<E> &GRAPH::add_edge(size_t a, size_t b, E edge_mark) {
+Edge<E>* GRAPH::add_edge(size_t a, size_t b, E edge_mark) {
     if (a >= vertices.size() || b >= vertices.size()) {
         throw std::out_of_range("Неверные индексы при добавлении ребра");
     }
 
-    matrix[a][b] = (edge_mark);
+    matrix[a][b] = new Edge<E>(edge_mark);
     return matrix[a][b];
 }
 
 TEMPLATE
-Edge<E> GRAPH::delete_edge(size_t a, size_t b, E mark) {
-    if ((a >= vertices.size() || b >= vertices.size()) || matrix[a][b].empty()) {
+Edge<E>* GRAPH::delete_edge(size_t a, size_t b) {
+    if ((a >= vertices.size() || b >= vertices.size()) || matrix[a][b] == nullptr)
         throw std::out_of_range("Неверные индексы при удалении ребра или ребра не существует");
-        return Edge<E>();
-    }
 
-    return matrix[a][b] = Edge<E>();
+    delete matrix[a][b];
+    matrix[a][b] = nullptr;
+    return nullptr;
 }
 
 TEMPLATE
@@ -220,7 +215,7 @@ E GRAPH::get_edge_mark(size_t a, size_t b) {
         std::out_of_range("Вершины не связан");
         return E();
     }
-    return matrix[a][b].mark;
+    return matrix[a][b]->mark;
 }
 
 TEMPLATE
@@ -228,11 +223,11 @@ bool GRAPH::is_bounded(size_t a, size_t b) {
     if (a >= vertices.size() || b >= vertices.size()) {
         throw std::out_of_range("Неверные индексы при проверки связанности");
     }
-    return !matrix[a][b].empty();
+    return matrix[a][b] == nullptr ? false : true;
 }
 
 TEMPLATE
-const Vector<Vector<Edge<E>>> &GRAPH::get_matrix() {
+const Vector<Vector<Edge<E>*>> GRAPH::get_matrix() {
     return matrix;
 }
 
@@ -244,8 +239,8 @@ public:
 
     Iterator& operator++() {
         MATRIX matrix = graph->get_matrix();
-        if (matrix[start_index][++col].empty()) {
-            while (matrix[start_index][col].empty() && col < matrix.size()) {
+        if (matrix[start_index][++col] == nullptr) {
+            while (matrix[start_index][col] == nullptr && col < matrix.size()) {
                 ++col;
             }
         }
@@ -256,7 +251,7 @@ public:
         return col != iterator.col;
     }
 
-    Edge<E> operator*() {
+    const Edge<E>* operator*() {
         return graph->matrix[start_index][col];
     }
 
@@ -276,7 +271,7 @@ typename GRAPH::Iterator GRAPH::begin(size_t index) {
         std::out_of_range("Неверный индекс при инициализации итератора");
 
     for (size_t j = 0; j < matrix[index].size(); j++) {
-        if (!matrix[index][j].empty()) {
+        if (matrix[index][j] != nullptr) {
             return Iterator(this, index, j);
         }
     }

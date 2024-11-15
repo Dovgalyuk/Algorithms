@@ -9,7 +9,7 @@
 //#define output_path
 #define ERROR_VALUE std::numeric_limits<size_t>::max()
 
-size_t find_min_path(Graph<std::string, size_t> &graph, size_t start, size_t end);
+size_t find_min_path(Graph<std::string, size_t>& graph, size_t start, size_t end);
 int init(Graph<std::string, size_t>& graph, std::ifstream& in);
 
 int main(int argc, char** argv) {
@@ -62,7 +62,7 @@ size_t find_min_path(Graph<std::string, size_t>& graph, size_t start, size_t end
 
         for (auto it = graph.begin(current); it != graph.end(current); ++it) {
             size_t neighbor_i = it.get_neib_index();
-            unsigned int weight = (*it).mark;
+            unsigned int weight = (*it)->mark;
 
             unsigned int new_distance = distances[current] + weight;
             if (new_distance < distances[neighbor_i]) {
