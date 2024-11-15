@@ -6,8 +6,8 @@
 #define MATRIX Vector<Vector<Edge<E>*>>
 
 #include <iostream>
-#include "vector.h"
 #include <limits>
+#include "vector.h"
 
 template <typename V>
 struct Vertex {
@@ -44,68 +44,67 @@ public:
     // Деструктор
     ~Graph() {
         vertices.clear();
-        /*for (size_t i = 0; i < matrix.size(); i++) {
-            for (size_t j = 0; j < matrix[i].size(); i++) {
-                if (matrix[i][j] != nullptr) {
-                    delete matrix[i][j];
-                    matrix[i][j] = nullptr;
-                }
+        for (size_t i = 0; i < matrix.size(); ++i) {
+            for (size_t j = 0; j < matrix[i].size(); ++j) {
+                delete matrix[i][j];
+                matrix[i][j] = nullptr;
             }
-        }*/
+            matrix[i].clear();
+        }
         matrix.clear();
     }
 
-    // Добавление вершины без пометки
-    Vertex<V>& add_vertex();
+// Добавление вершины без пометки
+Vertex<V>& add_vertex();
 
-    // Добаление вершины с пометкой
-    Vertex<V> add_vertex(V vertex_mark);
+// Добаление вершины с пометкой
+Vertex<V> add_vertex(V vertex_mark);
 
-    // Удалние вершины
-    Vertex<V> delete_vertex(size_t a);
+// Удалние вершины
+Vertex<V> delete_vertex(size_t a);
 
-    // Получение массива вершин
-    const Vector<Vertex<V>> get_vertices();
+// Получение массива вершин
+const Vector<Vertex<V>> get_vertices();
 
-    // Получение вершины по индексу
-    Vertex<V>& get_vertex_by_index(size_t index);
+// Получение вершины по индексу
+Vertex<V>& get_vertex_by_index(size_t index);
 
-    // Получение массива пометок вершин
-    Vector<V> get_vertices_marks();
+// Получение массива пометок вершин
+Vector<V> get_vertices_marks();
 
-    // Установка пометки для вершины
-    Vertex<V> set_mark(size_t a, V mark);
+// Установка пометки для вершины
+Vertex<V> set_mark(size_t a, V mark);
 
-    // Добавление ребра
-    Edge<E>* add_edge(size_t a, size_t b, E edge_mark);
+// Добавление ребра
+Edge<E>* add_edge(size_t a, size_t b, E edge_mark);
 
-    // Удаление ребра
-    Edge<E>* delete_edge(size_t a, size_t b);
+// Удаление ребра
+Edge<E>* delete_edge(size_t a, size_t b);
 
-    // Получение пометки ребра по индексам вершин
-    E get_edge_mark(size_t a, size_t b);
+// Получение пометки ребра по индексам вершин
+E get_edge_mark(size_t a, size_t b);
 
-    // Проверка связи вершин
-    bool is_bounded(size_t a, size_t b);
+// Проверка связи вершин
+bool is_bounded(size_t a, size_t b);
 
-    // Получение индекса ребра по начальной и конечной точкам
-    size_t edge_index(size_t a, size_t b, E mark);
+// Получение индекса ребра по начальной и конечной точкам
+size_t edge_index(size_t a, size_t b, E mark);
 
-    // Получение матрицы смежности
-    const Vector<Vector<Edge<E>*>> get_matrix();
+// Получение матрицы смежности
+const Vector<Vector<Edge<E>*>> get_matrix();
 
-    // Класс итератор
-    class Iterator;
+// Класс итератор
+class Iterator;
 
-    // Получение начального состояния итератора
-    Iterator begin(size_t index);
+// Получение начального состояния итератора
+Iterator begin(size_t index);
 
-    // Получение конечного состояния итератора
-    Iterator end(size_t index);
-    
-    // Вывод информации и графе (вершина и ее соседи)
-    template <typename T1, typename T2>
-    friend std::ostream& operator<<(std::ostream& out, GRAPH graph);
+// Получение конечного состояния итератора
+Iterator end(size_t index);
+
+// Вывод информации и графе (вершина и ее соседи)
+template <typename T1, typename T2>
+friend std::ostream& operator<<(std::ostream& out, GRAPH graph);
 
 private:
     // Массив вершин
@@ -116,7 +115,7 @@ private:
 };
 
 TEMPLATE
-Vertex<V> &GRAPH::add_vertex() {
+Vertex<V>& GRAPH::add_vertex() {
     vertices.push({ vertices.size(), V() });
 
     matrix.push(EMPTY_MATRIX_ROW);
@@ -193,7 +192,7 @@ Vertex<V> GRAPH::set_mark(size_t a, V mark) {
 
 TEMPLATE
 Vertex<V>& GRAPH::get_vertex_by_index(size_t index) {
-    if(index >= vertices.size()) {
+    if (index >= vertices.size()) {
         throw std::out_of_range("Неверный индекс при получении вершины");
     }
     return vertices[index];

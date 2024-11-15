@@ -3,10 +3,9 @@
 #include <limits>
 #include <queue>
 
-#include "../LibraryCPPTemplate/graph.h"
-#include "../LibraryCPPTemplate/vector.h"
+#include "graph.h"
+#include "vector.h"
 
-//#define output_path
 #define ERROR_VALUE std::numeric_limits<size_t>::max()
 
 size_t find_min_path(Graph<std::string, size_t>& graph, size_t start, size_t end);
@@ -34,13 +33,12 @@ int main(int argc, char** argv) {
     }
 
     std::cout << find_min_path(graph, a, b);
-    //graph.~Graph();
     return 0;
 }
 
 size_t find_min_path(Graph<std::string, size_t>& graph, size_t start, size_t end) {
     Vector<unsigned int> distances(graph.get_vertices().size(), std::numeric_limits<unsigned int>::max());
-    Vector<bool> visited(graph.get_vertices().size(), false); 
+    Vector<bool> visited(graph.get_vertices().size(), false);
 
     using P = std::pair<unsigned int, size_t>;
     std::priority_queue<P, std::vector<P>, std::greater<P>> queue;
@@ -75,7 +73,7 @@ size_t find_min_path(Graph<std::string, size_t>& graph, size_t start, size_t end
     return distances[end];
 }
 
-int init(Graph<std::string, size_t>& graph, std::ifstream &in) {
+int init(Graph<std::string, size_t>& graph, std::ifstream& in) {
     int k = 0;
     std::string temp = "";
     in >> k;
