@@ -7,10 +7,7 @@
 // Stores integer values inside
 typedef int Data;
 
-struct Stack
-{
-    List* list;
-};
+struct Stack;
 
 // Creates empty stack
 Stack *stack_create();

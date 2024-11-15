@@ -2,6 +2,12 @@
 #include "list.h"
 #include <iostream>
 
+struct Stack {
+
+    List* list;
+
+};
+
 Stack *stack_create()
 {
     Stack* stack = new Stack;
@@ -37,10 +43,10 @@ bool stack_empty(const Stack *stack)
 }
 
 void stack_print(const Stack *stack) {
-    ListItem* current = stack->list->head;
+    ListItem* current = list_first(stack->list);
     while (current != nullptr) {
-        std::cout << current->data << " ";
-        current = current->next;
+        std::cout << list_item_data(current) << " ";
+        current = list_item_next(current);
     }
     std::cout << std::endl;
 }

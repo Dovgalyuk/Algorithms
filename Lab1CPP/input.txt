@@ -1,2 +1,8 @@
 push 1
+call
 ret
+pop A
+push A
+call
+ret
+pop B

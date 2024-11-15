@@ -37,9 +37,16 @@ int main (int argc, char* argv[]) {
         iss >> command;
 
         if (command == "push") {
-            int value;
+            std::string value;
             iss >> value;
-            stack_push(stack, value);
+            if (value == "A" || value == "B" || value == "C" || value == "D") {
+                if (value == "A") stack_push(stack, registers.A);
+                else if (value == "B") stack_push(stack, registers.B);
+                else if (value == "C") stack_push(stack, registers.C);
+                else if (value == "D") stack_push(stack, registers.D);
+            } else {
+                stack_push(stack, std::stoi(value));
+            }
         } else if (command == "pop") {
             std::string reg;
             iss >> reg;

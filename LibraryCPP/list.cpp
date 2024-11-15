@@ -2,20 +2,28 @@
 #include <iostream>
 #include "list.h"
 
+struct ListItem {
+    Data data;
+    ListItem *next;
+    ListItem *prev;
+};
+
+struct List {
+    ListItem *head;
+    ListItem *tail;
+};
+
 List *list_create()
 {
     List* list = new List;
-    list->head = list->tail = nullptr;
+    list->head = nullptr;
     return list;
 }
 
 void list_delete(List *list)
 {
-    ListItem* current = list->head;
-    while (current != nullptr) {
-        ListItem* next = current->next;
-        delete current;
-        current = next;
+    while (list->head != nullptr) {
+        list_erase_first(list);
     }
     delete list;
 }
@@ -49,8 +57,6 @@ ListItem *list_insert(List *list, Data data)
 
     if (list->head != nullptr) {
         list->head->prev = new_item;
-    } else {
-        list->tail = new_item;
     }
 
     list->head = new_item;
@@ -67,9 +73,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
         item->next->prev = new_item;
     }
     item->next = new_item;
-    if (list->tail == item) {
-        list->tail = new_item;
-    }
+    
     return new_item;
 
 }
@@ -84,9 +88,8 @@ ListItem *list_erase_first(List *list)
 
     if (list->head != nullptr) {
         list->head->prev = nullptr;
-    } else {
-        list->tail = nullptr;
     }
+
     return list->head;
 }
 
@@ -100,9 +103,8 @@ ListItem *list_erase_next(List *list, ListItem *item)
 
     if (item->next != nullptr) {
         item->next->prev = item;
-    } else {
-        list->tail = item;
     }
+
     return item->next;
 }
 
