@@ -2,6 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct Vector {
+  Data *data;
+  size_t size;
+  size_t capacity;
+  FFree *free_func;
+} Vector;
+
 #define INITIAL_CAPACITY 4
 
 Vector *vector_create(FFree *f) {
@@ -72,13 +79,15 @@ void vector_resize(Vector *vector, size_t new_size) {
   if (new_size > vector->capacity) {
     size_t new_capacity =
         new_size > vector->capacity * 2 ? new_size : vector->capacity * 2;
-    void **new_data = (void **)calloc(new_capacity, sizeof(void *));
+    Data *new_data = (Data *)calloc(new_capacity, sizeof(Data));
     if (!new_data) {
       return;
     }
+
     for (size_t i = 0; i < vector->size; ++i) {
       new_data[i] = vector->data[i];
     }
+
     free(vector->data);
     vector->data = new_data;
     vector->capacity = new_capacity;
