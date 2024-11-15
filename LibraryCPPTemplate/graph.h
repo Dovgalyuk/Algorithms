@@ -44,14 +44,14 @@ public:
     // Деструктор
     ~Graph() {
         vertices.clear();
-        for (size_t i = 0; i < matrix.size(); i++) {
+        /*for (size_t i = 0; i < matrix.size(); i++) {
             for (size_t j = 0; j < matrix[i].size(); i++) {
                 if (matrix[i][j] != nullptr) {
                     delete matrix[i][j];
                     matrix[i][j] = nullptr;
                 }
             }
-        }
+        }*/
         matrix.clear();
     }
 
