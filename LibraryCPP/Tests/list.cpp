@@ -38,11 +38,16 @@ int main()
     }
 
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
-    {
-        std::cout << list_item_data(item) << " ";
+    ListItem* start = list_first(list); 
+    if (start != nullptr) {
+        for (ListItem* item = start; item; item = list_item_next(item)) {
+            std::cout << list_item_data(item) << " ";
+            if (list_item_next(item) == start) break; 
+        }
     }
+
     std::cout << "\n";
+
 
     list_delete(list);
 }
