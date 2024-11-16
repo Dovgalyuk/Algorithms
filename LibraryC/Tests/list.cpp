@@ -25,6 +25,8 @@ int check_list(List_element *head, char expected_order[], int size) {
     return 0;
 }
 
+void print_element(List_element *head);
+
 int main(void) {
     List_element *head_1 = nullptr;
 
@@ -47,11 +49,7 @@ int main(void) {
     std::cout << std::endl;
 
     std::cout << "List elements: ";
-    List_element *temp = head_1;
-    while (temp != nullptr) {
-        std::cout << temp -> element << " ";
-        temp = temp -> next;
-    }
+    print_element(head_1);
     std::cout << std::endl;
 
     /*if(check_list(head_1, expected_order, size)){
@@ -64,3 +62,14 @@ int main(void) {
 
     return 0;
 }
+
+void print_element(List_element *head) {
+    if (head == NULL){
+      return;
+    } else {
+        print_element(head -> next);
+        printf("%c ", head -> element);
+    }
+}
+
+
