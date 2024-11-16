@@ -98,7 +98,7 @@ void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; 
 
     // Если новый размер меньше или равен текущему, ничего не делаем
-    if (new_size <= v->size) {
+    if (new_size <= v->capacity) {
         v->size = new_size;
         return;
     }
