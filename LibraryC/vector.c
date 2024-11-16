@@ -98,15 +98,14 @@ void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; 
 
     // Если новый размер меньше или равен текущему, ничего не делаем
-    if (new_size <= v->capacity) {
-        v->capacity = new_size;
+    if (new_size <= v->size) {
         v->size = new_size;
         return;
     }
 
     // Увеличиваем емкость
     if (new_size > v->capacity) {
-        size_t new_capacity = (new_size > v->capacity) ? (v->capacity * 2) : v->capacity;  
+        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2;  
         while (new_capacity < new_size) {
             new_capacity *= 2;
         }
@@ -123,9 +122,9 @@ void vector_resize(Vector *v, size_t new_size) {
             free(v->data);
         } 
         v->data = new_data;
-        v->capacity = new_capacity;
-        v->size = new_size;    
+        v->capacity = new_capacity;   
     }
+    v->size = new_size; 
 }
 
 // Функция для добавления элемента в конец вектора
