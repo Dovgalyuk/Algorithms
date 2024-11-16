@@ -8,7 +8,7 @@
 using namespace std;
 
 void catchCommands(istream& input, ostream& output, Stack* stack);
-int get_last_number(Stack* stack, int* error);
+int get_last_number(Stack* stack, bool* error);
 void inputNumber(Stack* stack, int num);
 void outputNumber(ostream& output, Stack* stack);
 void doubbleNumber(ostream& output, Stack* stack);
@@ -77,7 +77,7 @@ void catchCommands(istream& input, ostream& output, Stack* stack) {
 
 int get_last_number(Stack* stack, bool* error) {
     int result = 0;
-    if (!stack_empty(stack) && !error) {
+    if (!stack_empty(stack) && !(*error)) {
         result = stack_get(stack);
         stack_pop(stack);
     }
