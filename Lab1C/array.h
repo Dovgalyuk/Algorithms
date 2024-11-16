@@ -1,36 +1,38 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include <cstddef>
+#include <stddef.h>
+#include <stdint.h>
 
-typedef int Data;
+// Non-resizeable array
+// Stores pointer to custom user data
+typedef uintptr_t Data;
+// Custom function to free user pointers on delete
+typedef void (FFree)(void*);
 
-class Array
-{
-public:
-    // create array
-    explicit Array(size_t size);
+typedef struct Array Array;
 
-    // copy constructor
-    Array(const Array &a);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-    // assignment operator
-    Array &operator=(const Array &a);
+// create array
+Array *array_create(size_t size, FFree f);
 
-    // delete array, free memory
-    ~Array();
+// delete array, free memory
+void array_delete(Array *arr);
 
-    // returns specified array element
-    Data get(size_t index) const;
+// returns specified array element
+Data array_get(const Array *arr, size_t index);
 
-    // sets the specified array element to the value
-    void set(size_t index, Data value);
+// sets the specified array element to the value
+void array_set(Array *arr, size_t index, Data value);
 
-    // returns array size
-    size_t size() const;
+// returns array size
+size_t array_size(const Array *arr);
 
-private:
-    // private data should be here
-};
+#ifdef __cplusplus
+}
+#endif
 
 #endif
