@@ -7,15 +7,16 @@
 
 using namespace std;
 
-void catchCommands(istream* input, ostream* output, Stack* stack);
+void catchCommands(istream& input, ostream& output, Stack* stack);
+int get_last_number(Stack* stack, int* error);
 void inputNumber(Stack* stack, int num);
-void outputNumber(ostream* output, Stack* stack);
-void doubbleNumber(ostream* output, Stack* stack);
-void dropNumber(ostream* output, Stack* stack);
-void swapNumber(ostream* output, Stack* stack);
-void overNumber(ostream* output, Stack* stack);
-void rotNumber(ostream* output, Stack* stack);
-void operation(ostream* output, Stack* stack, char operation);
+void outputNumber(ostream& output, Stack* stack);
+void doubbleNumber(ostream& output, Stack* stack);
+void dropNumber(ostream& output, Stack* stack);
+void swapNumber(ostream& output, Stack* stack);
+void overNumber(ostream& output, Stack* stack);
+void rotNumber(ostream& output, Stack* stack);
+void operation(ostream& output, Stack* stack, char operation);
 
 int main(int argc, char* argv[])
 {
@@ -33,15 +34,15 @@ int main(int argc, char* argv[])
     }
 
     Stack* stack = stack_create();
-    
-    catchCommands(input, output, stack);
+
+    catchCommands(*input, *output, stack);
 
     stack_delete(stack);
 }
 
-void catchCommands(istream* input, ostream* output, Stack* stack) {
+void catchCommands(istream& input, ostream& output, Stack* stack) {
     string command;
-    while (*input >> command) {
+    while (input >> command) {
         if (command.size() == 1 && isdigit(command[0])) {
             inputNumber(stack, command[0] - '0');
         }
@@ -74,88 +75,74 @@ void catchCommands(istream* input, ostream* output, Stack* stack) {
     }
 }
 
+int get_last_number(Stack* stack, bool* error) {
+    int result = 0;
+    if (!stack_empty(stack) && !error) {
+        result = stack_get(stack);
+        stack_pop(stack);
+    }
+    else {
+        *error = true;
+    }
+    return result;
+}
+
 void inputNumber(Stack* stack, int num) {
     stack_push(stack, num);
 }
 
-void outputNumber(ostream* output, Stack* stack) {
+void outputNumber(ostream& output, Stack* stack) {
     if (stack_empty(stack)) {
-        *output << ".: " << UNDERFLOW_ERROR << endl;
+        output << ".: " << UNDERFLOW_ERROR << endl;
     }
     else {
-        *output << stack_get(stack) << endl;
+        output << stack_get(stack) << endl;
         dropNumber(output, stack);
     }
 }
 
-void doubbleNumber(ostream* output, Stack* stack) {
+void doubbleNumber(ostream& output, Stack* stack) {
     if (stack_empty(stack)) {
-        *output << "dup: " << UNDERFLOW_ERROR << endl;
+        output << "dup: " << UNDERFLOW_ERROR << endl;
     }
     else {
         inputNumber(stack, stack_get(stack));
     }
 }
 
-void dropNumber(ostream* output, Stack* stack) {
+void dropNumber(ostream& output, Stack* stack) {
     if (stack_empty(stack)) {
-        *output << "drop: " << UNDERFLOW_ERROR << endl;
+        output << "drop: " << UNDERFLOW_ERROR << endl;
     }
     else {
         stack_pop(stack);
     }
 }
 
-void swapNumber(ostream* output, Stack* stack) {
+void swapNumber(ostream& output, Stack* stack) {
     bool error = false;
     int num_1 = 0;
     int num_2 = 0;
 
-    if (!stack_empty(stack)) {
-        num_1 = stack_get(stack);
-        stack_pop(stack);
-    }
-    else {
-        error = true;
-    }
-
-    if (!stack_empty(stack) && !error) {
-        num_2 = stack_get(stack);
-        stack_pop(stack);
-    }
-    else {
-        error = true;
-    }
+    num_1 = get_last_number(stack, &error);
+    num_2 = get_last_number(stack, &error);
 
     if (!error) {
         inputNumber(stack, num_1);
         inputNumber(stack, num_2);
     }
     else {
-        *output << "swap: " << UNDERFLOW_ERROR << endl;
+        output << "swap: " << UNDERFLOW_ERROR << endl;
     }
 }
 
-void overNumber(ostream* output, Stack* stack) {
+void overNumber(ostream& output, Stack* stack) {
     bool error = false;
     int num_1 = 0;
     int num_2 = 0;
 
-    if (!stack_empty(stack)) {
-        num_1 = stack_get(stack);
-        stack_pop(stack);
-    }
-    else {
-        error = true;
-    }
-
-    if (!stack_empty(stack) && !error) {
-        num_2 = stack_get(stack);
-        stack_pop(stack);
-    }
-    else {
-        error = true;
-    }
+    num_1 = get_last_number(stack, &error);
+    num_2 = get_last_number(stack, &error);
 
     if (!error) {
         inputNumber(stack, num_2);
@@ -163,39 +150,19 @@ void overNumber(ostream* output, Stack* stack) {
         inputNumber(stack, num_2);
     }
     else {
-        *output << "over: " << UNDERFLOW_ERROR << endl;
+        output << "over: " << UNDERFLOW_ERROR << endl;
     }
 }
 
-void rotNumber(ostream* output, Stack* stack) {
+void rotNumber(ostream& output, Stack* stack) {
     bool error = false;
     int num_1 = 0;
     int num_2 = 0;
     int num_3 = 0;
 
-    if (!stack_empty(stack)) {
-        num_1 = stack_get(stack);
-        stack_pop(stack);
-    }
-    else {
-        error = true;
-    }
-
-    if (!stack_empty(stack) && !error) {
-        num_2 = stack_get(stack);
-        stack_pop(stack);
-    }
-    else {
-        error = true;
-    }
-
-    if (!stack_empty(stack) && !error) {
-        num_3 = stack_get(stack);
-        stack_pop(stack);
-    }
-    else {
-        error = true;
-    }
+    num_1 = get_last_number(stack, &error);
+    num_2 = get_last_number(stack, &error);
+    num_3 = get_last_number(stack, &error);
 
     if (!error) {
         inputNumber(stack, num_2);
@@ -203,30 +170,17 @@ void rotNumber(ostream* output, Stack* stack) {
         inputNumber(stack, num_3);
     }
     else {
-        *output << "over: " << UNDERFLOW_ERROR << endl;
+        output << "over: " << UNDERFLOW_ERROR << endl;
     }
 }
 
-void operation(ostream* output, Stack* stack, char operation) {
+void operation(ostream& output, Stack* stack, char operation) {
     bool error = false;
     int num_1 = 0;
     int num_2 = 0;
 
-    if (!stack_empty(stack)) {
-        num_1 = stack_get(stack);
-        stack_pop(stack);
-    }
-    else {
-        error = true;
-    }
-
-    if (!stack_empty(stack) && !error) {
-        num_2 = stack_get(stack);
-        stack_pop(stack);
-    }
-    else {
-        error = true;
-    }
+    num_1 = get_last_number(stack, &error);
+    num_2 = get_last_number(stack, &error);
 
     int result = 0;
 
@@ -259,13 +213,13 @@ void operation(ostream* output, Stack* stack, char operation) {
         }
 
         if (error) {
-            *output << "Osperation " << operation << ": " << "ZeroDivizion" << endl;
+            output << "Operation " << operation << ": " << "ZeroDivizion" << endl;
         }
         else {
             inputNumber(stack, result);
         }
     }
     else {
-        *output << "Operation " << operation << ": " << UNDERFLOW_ERROR << endl;
+        output << "Operation " << operation << ": " << UNDERFLOW_ERROR << endl;
     }
 }

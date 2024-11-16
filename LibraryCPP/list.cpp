@@ -5,7 +5,6 @@ struct ListItem
 {
     Data data;
     ListItem* next;
-    ListItem* prev;
 };
 
 struct List
@@ -49,23 +48,19 @@ ListItem* list_item_next(ListItem* item)
     return item->next;
 }
 
-ListItem* list_item_prev(ListItem* item)
-{
-    return item->prev;
-}
+//ListItem* list_item_prev(ListItem* item)
+//{
+//
+//}
 
 ListItem* list_insert(List* list, Data data)
 {
     ListItem* newItem = new ListItem;
     newItem->data = data;
     newItem->next = list->head;
-    newItem->prev = nullptr;
 
-    if (list->head != nullptr)
+    if (list->head == nullptr)
     {
-        list->head->prev = newItem;
-    }
-    else {
         list->tail = newItem;
     }
     list->head = newItem;
@@ -78,11 +73,9 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
     ListItem* newItem = new ListItem;
     newItem->data = data;
     newItem->next = item->next;
-    newItem->prev = item;
 
     if (item->next != nullptr)
     {
-        item->next->prev = newItem;
         item->next = newItem;
     }
     else {
@@ -102,11 +95,7 @@ ListItem* list_erase_first(List* list)
     ListItem* firstItem = list->head;
     list->head = firstItem->next;
 
-    if (list->head != nullptr)
-    {
-        list->head->prev = nullptr;
-    }
-    else
+    if (list->head == nullptr)
     {
         list->tail = nullptr;
     }
@@ -125,11 +114,7 @@ ListItem* list_erase_next(List* list, ListItem* item)
     ListItem* nextItem = item->next;
     item->next = nextItem->next;
 
-    if (item->next != nullptr)
-    {
-        item->next->prev = item;
-    }
-    else
+    if (item->next == nullptr)
     {
         list->tail = item;
     }
