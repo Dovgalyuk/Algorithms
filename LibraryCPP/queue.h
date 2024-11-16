@@ -22,7 +22,7 @@ Data queue_get(const Queue *queue);
 
 // Removes first element from the queue
 // Should be O(1) on average
-void queue_remove(Queue *queue);
+void queue_remove_one(Queue *queue);
 
 // Returns true if the queue is empty
 bool queue_empty(const Queue *queue);
