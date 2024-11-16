@@ -2,4 +2,4 @@ add_executable(Lab3CPP Lab3.cpp)
 target_include_directories(Lab3CPP PUBLIC ../LibraryCPP)
 target_link_libraries(Lab3CPP LibraryCPP)
 
-add_test(NAME TestLab3CPP COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input3.txt)
+add_test(NAME TestLab3CPP COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input3.txt ${CMAKE_BINARY_DIR}/output3.txt)

@@ -158,4 +158,3 @@ ListItem* list_insert_end(List* list, Data data) {
     ListItem* tail = list->head->prev;
     return list_insert_after(list, tail, data);
 }
-

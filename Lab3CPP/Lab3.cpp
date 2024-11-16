@@ -1,91 +1,68 @@
-#include "list.h"
-#include "queue.h"
 #include <iostream>
 #include <fstream>
-#include <stdexcept>
 #include <vector>
+#include "queue.h"
 
-struct Graph {
-    int vertices;
-    int** adjMatrix;
-};
+std::vector<int> bfs_distances(const std::vector<std::vector<int>>& graph, int start_vertex) {
+    size_t n = graph.size();
+    std::vector<int> distances(n, -1);
+    distances[start_vertex] = 0;
 
-// Function to perform BFS and calculate distances
-void bfs(const Graph& graph, int startVertex, std::vector<int>& distances) {
     Queue* queue = queue_create();
-    
-    // Initialize distances for all vertices as -1 (unreachable)
-    for (int i = 0; i < graph.vertices; ++i) {
-        distances[i] = -1;
-    }
-    distances[startVertex] = 0;
-    
-    // Insert the starting vertex into the queue
-    queue_insert(queue, startVertex);
-    
+    queue_insert(queue, start_vertex);
+
     while (!queue_empty(queue)) {
-        int current = queue_get(queue);  // Get the current vertex
-        queue_remove_one(queue);  // Remove it from the queue
-        
-        // Iterate over all adjacent vertices of the current vertex
-        for (int i = 0; i < graph.vertices; ++i) {
-            if (graph.adjMatrix[current][i] == 1 && distances[i] == -1) {
-                // If the vertex is reachable and hasn't been visited
-                distances[i] = distances[current] + 1;
-                queue_insert(queue, i);  // Add it to the queue for further exploration
+        int v = queue_get(queue);
+        queue_remove_one(queue);
+
+        for (int u = 0; u < n; ++u) {
+            if (graph[v][u] == 1 && distances[u] == -1) {
+                distances[u] = distances[v] + 1;
+                queue_insert(queue, u);
             }
         }
     }
-    
+
     queue_delete(queue);
+    return distances;
 }
 
 int main(int argc, char* argv[]) {
-    // Reading input from a file
-    if (argc != 3) {
-        std::cerr << "Usage: " << argv[0] << " <input_file> <output_file>" << std::endl;
+    if (argc < 3) {
+        std::cerr << "Usage: " << argv[0] << " <input file> <output file>\n";
         return 1;
     }
-    
-    std::ifstream inputFile(argv[1]);
-    std::ofstream outputFile(argv[2]);
-    
-    if (!inputFile.is_open() || !outputFile.is_open()) {
-        std::cerr << "Error opening files." << std::endl;
+
+    std::ifstream input(argv[1]);
+    if (!input) {
+        std::cerr << "Error opening input file\n";
         return 1;
     }
-    
-    int vertices;
-    inputFile >> vertices;
-    
-    // Create adjacency matrix
-    int** adjMatrix = new int*[vertices];
-    for (int i = 0; i < vertices; ++i) {
-        adjMatrix[i] = new int[vertices];
-        for (int j = 0; j < vertices; ++j) {
-            inputFile >> adjMatrix[i][j];
+
+    std::ofstream output(argv[2], std::ios::out | std::ios::trunc);
+    if (!output) {
+        std::cerr << "Error opening output file\n";
+        return 1;
+    }
+
+    int n;
+    input >> n;
+    std::vector<std::vector<int>> graph(n, std::vector<int>(n));
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            input >> graph[i][j];
         }
     }
-    
-    Graph graph = {vertices, adjMatrix};
-    
-    // Perform BFS from the first vertex (0)
-    std::vector<int> distances(vertices, -1);
-    bfs(graph, 0, distances);
-    
-    // Write output
-    for (int i = 0; i < vertices; ++i) {
-        outputFile << distances[i] << "\n";
+
+    std::vector<int> distances = bfs_distances(graph, 0);
+
+    for (int distance : distances) {
+        output << distance << "\n";
     }
-    
-    // Clean up
-    for (int i = 0; i < vertices; ++i) {
-        delete[] adjMatrix[i];
-    }
-    delete[] adjMatrix;
-    
-    inputFile.close();
-    outputFile.close();
-    
+
+    input.close();
+    output.close();
+
     return 0;
 }
