@@ -15,7 +15,7 @@ std::vector<int> bfs_distances(const std::vector<std::vector<int>>& graph, int s
         int v = queue_get(queue);
         queue_remove_one(queue);
 
-        for (int u = 0; u < n; ++u) {
+        for (size_t u = 0; u < n; ++u) {
             if (graph[v][u] == 1 && distances[u] == -1) {
                 distances[u] = distances[v] + 1;
                 queue_insert(queue, u);
