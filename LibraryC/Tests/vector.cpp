@@ -52,10 +52,10 @@ int main()
         if (vector_get(vector, i) == NULL) {
             break; // Выход из цикла, если элемент NULL
         } else {
-            std::cout << vector_get_int << " "; // Разыменовываем указатель и выводим значение
+            std::cout << vector_get_int(vector, i) << " "; // Разыменовываем указатель и выводим значение
+        }
     }
-}
-std::cout << "\n";
+    std::cout << "\n";
 
     std::cerr << "Resize 3: ";
     vector_resize(vector, 3);
