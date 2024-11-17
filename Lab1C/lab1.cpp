@@ -1,108 +1,88 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <map>
 
 #include "array.h"
 
-Array *array_create_and_read(std::ifstream &input)
-{
-    size_t array_size;
-    input >> array_size;
+// ... (array_create_and_read remains unchanged) ...
 
-    Array *arr = array_create((size_t)array_size);
-
-    int number = 0;
-    size_t index = 0;
-    while (input >> number)
-    {
-        array_set(arr, index, number);
-        index++;
-
-        if (index == array_size)
-            break;
+void task1(Array *arr, int m, int n) {
+    if (arr == nullptr) {
+        std::cerr << "Error: Array is nullptr" << std::endl;
+        return;
     }
 
-    return arr;
-}
-
-void task1(Array *arr)
-{
-    int current_number = 0;
-    int sum_of_number_digits = 0;
-    int sum_of_numbers_digits = 0;
-
-    for (size_t i = 0; i < array_size(arr); i++)
-    {
-        current_number = array_get(arr, i);
-
-        while (current_number > 0)
-        {
-            sum_of_number_digits += current_number % 10;
-            current_number /= 10;
-        }
-        sum_of_numbers_digits += sum_of_number_digits;
-        sum_of_number_digits = 0;
-    }
-
-    std::cout << "task_1: " << sum_of_numbers_digits << std::endl;
-}
-
-void task2(Array *arr)
-{
-    int sum = 0;
-    size_t min_index = 0;
-    size_t max_index = 0;
-
-   for (size_t index = 0; index < array_size(arr); index++)
-   {
-        if (array_get(arr, index) > array_get(arr, max_index))
-        {
-            max_index = index;
-        }
-
-        if (array_get(arr, index) < array_get(arr, min_index))
-        {
-            min_index = index;
+    for (size_t i = 0; i < array_size(arr); ++i) {
+        int num = array_get(arr, i);
+        if ((i + 1) % 2 != 0) { // Нечетный индекс
+            array_set(arr, i, num - m);
+        } else { // Четный индекс
+            array_set(arr, i, num + n);
         }
     }
 
-    if (min_index > max_index)
-    {
-        std::swap(min_index, max_index);
+    std::cout << "task_1: ";
+    for (size_t i = 0; i < array_size(arr); ++i) {
+        std::cout << array_get(arr, i) << (i == array_size(arr) - 1 ? "" : ", ");
     }
-
-    for (size_t index = min_index + 1; index < max_index; index++)
-    {
-        sum += array_get(arr, index);
-    }
-
-    std::cout << "task_2: " << sum;
+    std::cout << std::endl;
 }
 
-int main(int argc, char *argv[])
-{
-    if (argc < 2)
-    {
+void task2(Array *arr) {
+    if (arr == nullptr) {
+        std::cerr << "Error: Array is nullptr" << std::endl;
+        return;
+    }
+
+    std::map<int, int> counts; // Используем map для подсчета вхождений элементов
+    for (size_t i = 0; i < array_size(arr); ++i) {
+        counts[array_get(arr, i)]++;
+    }
+
+    std::cout << "task_2: ";
+    bool first = true;
+    for (const auto& pair : counts) {
+        if (pair.second == 1) { // Элемент встречается только один раз
+            if (!first) std::cout << ", ";
+            std::cout << pair.first;
+            first = false;
+        }
+    }
+    std::cout << std::endl;
+}
+
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
         std::cerr << "args error" << std::endl;
         return 1;
     }
 
     Array *arr = nullptr;
     std::ifstream input(argv[1]);
+    int m, n;
 
-    if (!input)
-    {
+    if (!input) {
         std::cerr << "read file error " << argv[1] << std::endl;
         return 1;
     }
-    
 
     arr = array_create_and_read(input);
-    task1(arr);
+    input >> m >> n; // Считываем m и n из файла после массива
+
+    if(input.fail()){
+        std::cerr << "Error reading m and n from file." << std::endl;
+        return 1;
+    }
+
+    task1(arr, m, n);
     array_delete(arr);
-    /* Create another array here */
+
+
     arr = array_create_and_read(input);
     task2(arr);
     array_delete(arr);
     input.close();
+
+    return 0;
 }
