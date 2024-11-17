@@ -1,12 +1,5 @@
-cmake_minimum_required(VERSION 3.10)
-project(array_tasks)
+add_executable(Lab1C "lab1.cpp")
+target_include_directories(Lab1C PUBLIC ../LibraryCPP)
+target_link_libraries(Lab1C LibraryCPP)
 
-set(CMAKE_C_STANDARD 11)
-
-add_executable(array_tasks main.c array.c)
-
-# Добавляем тест
-enable_testing()
-
-add_test(NAME array_test
-         COMMAND array_tasks ${CMAKE_SOURCE_DIR}/input.txt)
+add_test(NAME TestLab1C COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
