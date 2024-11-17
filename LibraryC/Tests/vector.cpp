@@ -38,8 +38,7 @@ int main()
             return 1;
         }
     }
-
-    std::cerr << "Resize 10: ";
+    
     vector_resize(vector, 10);
     if (vector_size(vector) != 10)
     {
@@ -57,7 +56,6 @@ int main()
     }
     std::cout << "\n";
 
-    std::cerr << "Resize 3: ";
     vector_resize(vector, 3);
     if (vector_size(vector) != 3)
     {
@@ -75,8 +73,13 @@ int main()
     }
 
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        std::cout << vector_get_int(vector, i) << " ";
+    for (size_t i = 0; i < vector_size(vector); ++i) {
+        if (vector_get(vector, i) == NULL) {
+            break; // Выход из цикла, если элемент NULL
+        } else {
+            std::cout << vector_get_int(vector, i) << " "; // Разыменовываем указатель и выводим значение
+        }
+    }
     std::cout << "\n";
 
     // Performance test
@@ -92,6 +95,5 @@ int main()
 
     std::cout << sum << "\n";
 
-    std::cerr << "Delete: ";
     vector_delete(vector);
 }
