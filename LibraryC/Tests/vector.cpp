@@ -36,13 +36,14 @@ int main()
     }
 
     vector_resize(vector, 5);
+    std::cout << "resize\n";
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
 
         return 1;
     }
-
+    std::cout << "resize Done\n";
     // for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     //     vector_set(vector, i, new int(i));
 
