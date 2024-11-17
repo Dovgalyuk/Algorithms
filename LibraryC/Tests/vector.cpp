@@ -70,7 +70,7 @@ int main()
             break; 
         }
         std::cout << value << " "; // Выводим значение
-        std::cout << "Done!\n "; // Выводим значение
+        //std::cout << "Done!\n "; // Выводим значение
     }
     std::cout << "\n";
 
