@@ -1,4 +1,20 @@
 #include "array.h"
+#include <stdexcept>
+
+Array* fill_array(std::ifstream &input)
+{
+	size_t size;
+	Data value;
+	input >> size;
+	Array* array = array_create(size);
+
+	for (size_t i = 0; i < size; i++) {
+		input >> value; 
+		array_set(array, i, value);
+	}
+
+	return array;
+}
 
 struct Array
 {
@@ -9,7 +25,7 @@ struct Array
 // create array
 Array *array_create(size_t size)
 {
-    return new Array;
+    
     if(size !=  0) {
         Array* array = new Array;
         array->size = size;
@@ -25,7 +41,7 @@ Array *array_create(size_t size)
 // delete array, free memory
 void array_delete(Array *arr)
 {
-    delete arr;
+    
      if(arr->array != nullptr)  {
         delete[] arr->array;
         delete arr;
@@ -35,7 +51,7 @@ void array_delete(Array *arr)
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    return (Data)0;
+    
         if (index < arr->size)
             return arr->array[index];
         else
@@ -54,22 +70,8 @@ void array_set(Array *arr, size_t index, Data value)
 // returns array size
 size_t array_size(const Array *arr)
 {
-    return 0;
+    
      if (arr->array != nullptr) {
 		return arr->size;
     }
-}
-Array* fill_array(std::ifstream &input)
-{
-	size_t size;
-	Data value;
-	input >> size;
-	Array* array = array_create(size);
-
-	for (size_t i = 0; i < size; i++) {
-		input >> value; 
-		array_set(array, i, value);
-	}
-
-	return array;
 }
