@@ -8,14 +8,13 @@ void myfree(void *p)
 
 int vector_get_int(Vector *v, size_t i)
 {
-    return *(int*)vector_get(v, i);
+    return *(int*)vector_get(v, i-1);
 }
 
 int main()
 {
     Vector *vector = vector_create(myfree);
 
-    std::cerr << "Resize 5: ";
     vector_resize(vector, 5);
     if (vector_size(vector) != 5)
     {
