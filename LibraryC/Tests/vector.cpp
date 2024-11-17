@@ -24,7 +24,7 @@ int vector_get_int(Vector *v, size_t i) {
         return -1; 
     }
 
-    return (int*)data; // Возвращаем значение по указателю, приводя его к типу int
+    return *(int*)data; // Возвращаем значение по указателю, приводя его к типу int
 }
 
 int main()
