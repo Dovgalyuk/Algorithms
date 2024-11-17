@@ -8,9 +8,12 @@ void myfree(void *p)
 
 int vector_get_int(Vector *v, size_t i)
 {
-    if (i <= v->size)
-        return *(int*)vector_get(v, i);
-    return;
+    if (i >= vector_size(v)) {
+        // Обработка ошибочной ситуации
+        fprintf(stderr, "Index out of bounds: %zu\n", i);
+        return -1; // Вернуть значение по умолчанию или использовать другую обработку
+    }
+    return *(int*)vector_get(v, i);
 }
 
 int main()
