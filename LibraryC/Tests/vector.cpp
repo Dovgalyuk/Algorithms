@@ -47,7 +47,8 @@ int main()
         return 1;
     }
 
-    std::cerr << vector->capacity, vector->size;
+    std::cerr << vector->size;
+    std::cerr << vector->capacity;
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
         if (i < vector->size)
