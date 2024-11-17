@@ -1,8 +1,25 @@
-#include "array.h"
+#include <fstream>
 #include <iostream>
-#include <limits>
 
-void task1(const std::string& input)
+
+Array* array_create_and_read(std::ifstream& input) {
+	size_t n;
+	if (!(input >> n)) {
+		throw std::invalid_argument("Failed");
+	}
+	Array* arr = array_create(n);
+	for (size_t i = 0; i < n; ++i) {
+		int x;
+		if (!(input >> x)) {
+			throw std::invalid_argument("Failed");
+		}
+		array_set(arr, i, x);
+	}
+	return arr;
+
+}
+
+void task1(std::ifstream& input)
 {
 	int a, b;
 	input >> a >> b;
@@ -19,14 +36,13 @@ void task1(const std::string& input)
 
     std::cout << "Сумму элементов массива, кратных a или b: " << sum << std::endl;
 
-    array_delete(arr);
+    array_delete(arr); 
 
 }
 
 
-void task2(const std::string& input) {
-
-	Array* arr = array_create_and_read(input);
+void task2(std::ifstream& input) {
+	 Array* arr = array_create_and_read(input);
 
     int max_sum = std::numeric_limits<int>::min();
     size_t best_start_index = 0;
@@ -52,15 +68,15 @@ void task2(const std::string& input) {
     std::cout << std::endl;
 
     array_delete(arr);
-
 }
 
+
 int main() {
-    const std::string file = "input.txt";
+    std::ifstream input("input.txt");
+	if (input.is_open()) {
+	task1(input);
+	task2(input);
+    }
+	input.close();
 
-	task1(file);
-	task2(file);
-
-
-	return 0;
 }
