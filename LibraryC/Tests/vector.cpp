@@ -48,8 +48,11 @@ int main()
     }
 
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
+        if (i > vector->size)
+            break;
         std::cerr << vector_get_int(vector, i) << " ";
+    }
     std::cout << "\n";
 
     std::cerr << "Resize 3: ";
