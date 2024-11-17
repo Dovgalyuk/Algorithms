@@ -88,6 +88,10 @@ void vector_set(Vector *vector, size_t index, Data value) {
     if (index >= vector->capacity) {
         // Увеличение размера вектора
         vector_resize(vector, index + 1);
+        if (vector->data == NULL) {
+            fprintf(stderr, "Ошибка: не удалось изменить размер вектора!\n");
+            return; // Не удалось изменить размер, выходим
+        }
     }
     if (index >= vector->size) {
         vector->size = index + 1;
