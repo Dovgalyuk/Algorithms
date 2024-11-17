@@ -15,28 +15,24 @@ bool isValidSequence(const std::string& sequence) {
     for (char ch : sequence) {
         if (ch == '(' || ch == '[' || ch == '{' || ch == '"' || ch == '\'') {
             if (!stack_empty(stack) && (stack_get(stack) == '"' || stack_get(stack) == '\'')) {
-                if (stack_empty(stack)) {
-                    stack_delete(stack); // Освобождаем память перед выходом
-                    char data = stack_get(stack);
-                    stack_pop(stack);
-                    if (!isMatchingPair(data, ch)) { // Разыменовываем указатель
-                        stack_delete(stack); // Освобождаем память перед выходом
-                        return false; // Неправильная последовательность
-                    }
+                char opening = stack_get(stack);
+                if (!isMatchingPair(opening, ch)) {
+                    return false;
                 }
+                stack_pop(stack);
             }
             stack_push(stack, static_cast<Data>(ch));
         }
         else if (ch == ')' || ch == ']' || ch == '}') {
             if (stack_empty(stack)) {
-                stack_delete(stack); // Освобождаем память перед выходом
-                char data = stack_get(stack);
-                stack_pop(stack);
-                if (!isMatchingPair(data, ch)) { // Разыменовываем указатель
-                    stack_delete(stack); // Освобождаем память перед выходом
-                    return false; // Неправильная последовательность
-                }
+                return false;
             }
+            char opening = stack_get(stack);
+            if (!isMatchingPair(opening, ch)) {
+                return false;
+            }
+            
+            stack_pop(stack);
         }
     }
 
