@@ -57,6 +57,9 @@ void vector_delete(Vector *vector) {
     }
     // Освобождаем память под массив данных и сам вектор
     free(vector->data);
+    vector->data = NULL; // Чтобы избежать двойного освобождения
+    vector->size = 0;    // Обнуляем размер
+    vector->capacity = 0; // Обнуляем емкость
     free(vector);
 }
 
@@ -88,10 +91,10 @@ void vector_set(Vector *vector, size_t index, Data value) {
     if (index >= vector->capacity) {
         // Увеличение размера вектора
         vector_resize(vector, index + 1);
-        if (vector->data == NULL) {
-            fprintf(stderr, "Ошибка: не удалось изменить размер вектора!\n");
-            return; // Не удалось изменить размер, выходим
-        }
+        // if (vector->data == NULL) {
+        //     fprintf(stderr, "Ошибка: не удалось изменить размер вектора!\n");
+        //     return; // Не удалось изменить размер, выходим
+        // }
     }
     if (index >= vector->size) {
         vector->size = index + 1;
