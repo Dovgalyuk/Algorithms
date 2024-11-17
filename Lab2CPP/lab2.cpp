@@ -18,6 +18,7 @@ bool isValidSequence(const std::string& sequence) {
                 if (stack_get(stack) == '"' || stack_get(stack) == '\'') {
                     char opening = stack_get(stack);
                     if (!isMatchingPair(opening, ch)) {
+                        stack_delete(stack);
                         return false;
                     }
                     stack_pop(stack);
@@ -27,10 +28,12 @@ bool isValidSequence(const std::string& sequence) {
         }
         else if (ch == ')' || ch == ']' || ch == '}') {
             if (stack_empty(stack)) {
+                stack_delete(stack);
                 return false;
             }
             char opening = stack_get(stack);
             if (!isMatchingPair(opening, ch)) {
+                stack_delete(stack);
                 return false;
             }
             
