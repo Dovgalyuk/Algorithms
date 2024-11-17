@@ -1,99 +1,147 @@
-#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h> 
 #include "vector.h"
 
-void myfree(void *p)
-{
-    delete (int*)p;
-}
+// Функция для создания вектора с заданной функцией освобождения памяти
+Vector *vector_create(FFree f) {
+    size_t initial_capacity = 4; // Начальная емкость вектора
 
-int vector_get_int(Vector *v, size_t i)
-{
-    if (i >= vector_size(v)) {
-        // Обработка ошибочной ситуации
-        fprintf(stderr, "Index out of bounds: %zu\n", i);
-        return -1; // Вернуть значение по умолчанию или использовать другую обработку
-    }
-    return *(int*)vector_get(v, i);
-}
+    Vector* vec = (Vector *)malloc(sizeof(Vector)); // Выделение памяти для структуры вектора
 
-int main()
-{
-    Vector *vector = vector_create(myfree);
-
-    vector_resize(vector, 5);
-    if (vector_size(vector) != 5)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
+    if (!vec) { // Проверка успешности выделения памяти
+        fprintf(stderr, "Ошибка выделения памяти для структуры"); 
+        return NULL; 
     }
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, new int(i));
+    vec->data = (Data *)malloc(initial_capacity * sizeof(Data)); // Выделение памяти для массива данных
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-    {
-        if (vector_get_int(vector, i) != (int)i)
-        {
-            std::cout << "Invalid vector element " << i << "\n";
-            return 1;
+    if (!vec->data) { // Проверка успешности выделения массива данных
+        free(vec); // Освобождение памяти структуры вектора
+        fprintf(stderr, "Ошибка выделения памяти для массива"); 
+        return NULL; 
+    }
+
+    vec->distruct = f; // Установка функции деструктора
+    vec->size = 0; // Инициализация размера вектора
+    vec->capacity = initial_capacity; // Установка емкости вектора
+    return vec; // Возврат указателя на созданный вектор
+}
+
+// Функция для удаления вектора
+void vector_delete(Vector *vector) {
+    if (vector == NULL) { // Проверка на NULL
+        fprintf(stderr, "Ошибка удаления");
+        return; 
+    }
+
+    if (vector->distruct != NULL) { // Проверка наличия функции деструктора
+        for (size_t i = 0; i < vector->size; i++) { // Цикл по всем элементам вектора
+            void* ptr = (void*)vector->data[i]; // Получение элемента
+            vector->distruct(ptr); // Вызов функции деструктора для элемента
         }
     }
     
-    vector_resize(vector, 10);
-    if (vector_size(vector) != 10)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
+    free(vector->data); // Освобождение памяти массива данных
+    vector->data = NULL; // Обнуление указателя на данные
+    vector->size = 0; 
+    vector->capacity = 0; 
+    free(vector); // Освобождение памяти структуры вектора
+}
+
+// Функция для получения элемента вектора по индексу
+Data vector_get(const Vector *vector, size_t index) {
+    if (vector == NULL || index >= vector->size) { // Проверка на NULL и выход за размер
+        return NULL; 
+    }
+    Data element = vector->data[index]; // Получение элемента по индексу
+
+    if (element == NULL) { // Проверка на NULL
+        return NULL;
     }
 
-    std::cout << "Vector: ";
-    for (size_t i = 0; i < vector_size(vector); ++i) {
-        if (vector_get(vector, i) == NULL) {
-            break; // Выход из цикла, если элемент NULL
-        } else {
-            std::cout << vector_get_int(vector, i) << " "; // Разыменовываем указатель и выводим значение
+    return element; // Возврат элемента
+}
+
+// Функция для установки значения элемента вектора по индексу
+void vector_set(Vector *vector, size_t index, Data value) {
+    if (vector == NULL) { // Проверка на NULL
+        fprintf(stderr, "Ошибка: вектор пуст!\n"); 
+        return; 
+    }
+
+    if (index >= vector->capacity) { // Проверка превышения емкости
+        vector_resize(vector, index + 1); // Увеличение размера вектора
+    }
+    if (index >= vector->size) { // Проверка необходимости изменения размера
+        vector->size = index + 1; // Установка нового размера
+    }
+
+    if (vector->data[index] != NULL) { // Проверка на существующий элемент
+        vector->distruct(vector->data[index]); // Вызов деструктора
+    }
+
+    vector->data[index] = value; // Установка нового значения
+}
+
+// Функция для получения текущего размера вектора
+size_t vector_size(const Vector *vector) {
+    return vector->size; // Возврат размера вектора
+}
+
+// Функция для изменения размера вектора
+void vector_resize(Vector *v, size_t new_size) {
+    if (v == NULL) return; // Проверка на NULL
+
+    if (new_size <= v->size) { // Если новый размер меньше или равен текущему
+        v->size = new_size; // Установка нового размера
+        return;
+    }
+
+    if (new_size > v->capacity) { // Если новый размер превышает емкость
+        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2; // Установка новой емкости
+        while (new_capacity < new_size) { // Увеличение емкости до нужного размера
+            new_capacity *= 2;
         }
-    }
-    std::cout << "\n";
-
-    vector_resize(vector, 3);
-    if (vector_size(vector) != 3)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
-    }
-
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-    {
-        if (vector_get_int(vector, i) != (int)i)
-        {
-            std::cout << "Invalid vector element " << i << "\n";
-            return 1;
+        
+        Data *new_data = (Data *)malloc(new_capacity * sizeof(Data)); // Выделение памяти для нового массива
+        if (new_data == NULL) { // Проверка успешности выделения памяти
+            return;
         }
-    }
-
-    std::cout << "Vector: ";
-    for (size_t i = 0; i < vector_size(vector); ++i) {
-        if (vector_get(vector, i) == NULL) {
-            break; // Выход из цикла, если элемент NULL
-        } else {
-            std::cout << vector_get_int(vector, i) << " "; // Разыменовываем указатель и выводим значение
+        if (v->data != NULL) { // Проверка наличия данных
+            memcpy(new_data, v->data, v->size * sizeof(Data)); // Копирование старых данных в новый массив
+            free(v->data); // Освобождение старого массива
+        } 
+        
+        for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
+            new_data[i] = NULL; 
         }
+        v->data = new_data; // Установка нового массива данных
+        v->capacity = new_capacity; // Обновление емкости
     }
-    std::cout << "\n";
+    v->size = new_size; // Установка нового размера
+}
 
-    // Performance test
-    for (int i = 1 ; i <= 10000000 ; ++i)
-    {
-        vector_resize(vector, i);
-        vector_set(vector, i - 1, new int(i));
+// Функция для добавления элемента в конец вектора
+void push_back(Vector *vector, Data value) {
+    
+    if (vector == NULL) { // Проверка на NULL
+        return; 
     }
 
-    long long sum = 0;
-    for (int i = 0 ; i < 10000000 ; ++i)
-        sum += vector_get_int(vector, i);
+    if (vector->size >= vector->capacity) { // Проверка на заполнение вектора
+        vector_resize(vector, vector->size + 1); // Увеличение размера
+    }
+    vector->data[vector->size++] = value; // Добавление элемента и увеличение размера
+}
 
-    std::cout << sum << "\n";
-
-    vector_delete(vector);
+// Функция для удаления элемента из конца вектора
+Data pop_back(Vector *vector) {
+    
+    if (vector == NULL || vector->size == 0) { // Проверка на NULL и пустоту вектора
+        printf("Ошибка: стек пуст!\n"); 
+        return NULL;
+    }
+    
+    return vector->data[--vector->size]; // Уменьшение размера и возврат последнего элемента
 }
