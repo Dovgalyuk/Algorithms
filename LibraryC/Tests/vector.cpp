@@ -48,13 +48,8 @@ int main()
     }
 
     std::cout << "Vector: ";
-    for (size_t i = 0; i < vector_size(vector); ++i) {
-        if (vector_get(vector, i) == NULL) {
-            break; // Выход из цикла, если элемент NULL
-        } else {
-            std::cerr << vector_get(vector, i) << " "; // Разыменовываем указатель и выводим значение
-        }
-    }
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+        std::cout << vector_get_int(vector, i) << " ";
     std::cout << "\n";
 
     std::cerr << "Resize 3: ";
