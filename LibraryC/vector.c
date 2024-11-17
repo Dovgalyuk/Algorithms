@@ -100,6 +100,10 @@ void vector_set(Vector *vector, size_t index, Data value) {
         vector->size = index + 1;
     }
 
+    if (vector->data[index] != NULL) {
+        vector->distruct(vector->data[index]); // Освобождаем ранее выделенную память для этого индекса
+    }
+
     // Устанавливаем значение элемента по индексу
     vector->data[index] = value;
 }
