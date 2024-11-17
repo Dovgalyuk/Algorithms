@@ -1,20 +1,13 @@
 #include "array.h"
+#include <stdexcept>
 
 struct Array
 {
-    Data* data;
     size_t size;
+    Data* data;
 
-    Array(size_t size)
-    {
-        this->size = size;
-        this->data = new Data[size];
-    }
-
-    ~Array()
-    {
-        delete[] this->data;
-    }
+    Array(size_t size) : size(size), data(new Data[size]()) {}
+    ~Array() { delete[] data; }
 };
 
 // create array
@@ -32,12 +25,18 @@ void array_delete(Array *arr)
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    return arr->data[index];                                 
+    if (index >= arr->size) {
+        throw std::out_of_range("Index out of range");
+    }
+    return arr->data[index];
 }
 
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
+    if (index >= arr->size) {
+        throw std::out_of_range("Index out of range");
+    }
     arr->data[index] = value;
 }
 
