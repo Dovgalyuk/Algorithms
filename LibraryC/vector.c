@@ -50,10 +50,11 @@ void vector_delete(Vector *vector) {
     // Если задана функция distruct, вызываем её для каждого элемента вектора
     if (vector->distruct != NULL) {
         for (size_t i = 0; i < vector->size; i++) {
-            vector->distruct(vector->data[i]);
+            void* ptr = (void*)vector->data[i];
+            vector->distruct(ptr);
         }
-        free(vector);
-        return;
+        // free(vector);
+        // return;
     }
     // Освобождаем память под массив данных и сам вектор
     free(vector->data);
