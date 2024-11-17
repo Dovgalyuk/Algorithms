@@ -47,10 +47,11 @@ int main()
         return 1;
     }
 
+    std::cerr << vector->capacity, vector->size, "\n";
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
         if (i < vector->size)
-            std::cerr << vector_get_int(vector, i) << " ";
+            std::cout << vector_get_int(vector, i) << " ";
         else
             break;
     }
