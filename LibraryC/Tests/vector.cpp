@@ -8,7 +8,9 @@ void myfree(void *p)
 
 int vector_get_int(Vector *v, size_t i)
 {
-    return *(int*)vector_get(v, i-1);
+    if (i <= v->size)
+        return *(int*)vector_get(v, i);
+    return NULL;
 }
 
 int main()
