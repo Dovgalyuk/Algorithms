@@ -14,12 +14,14 @@ bool isValidSequence(const std::string& sequence) {
     Stack *stack = stack_create(); // Создаем стек
     for (char ch : sequence) {
         if (ch == '(' || ch == '[' || ch == '{' || ch == '"' || ch == '\'') {
-            if (!stack_empty(stack) && (stack_get(stack) == '"' || stack_get(stack) == '\'')) {
-                char opening = stack_get(stack);
-                if (!isMatchingPair(opening, ch)) {
-                    return false;
+            if (!stack_empty(stack)) {
+                if (stack_get(stack) == '"' || stack_get(stack) == '\'') {
+                    char opening = stack_get(stack);
+                    if (!isMatchingPair(opening, ch)) {
+                        return false;
+                    }
+                    stack_pop(stack);
                 }
-                stack_pop(stack);
             }
             stack_push(stack, static_cast<Data>(ch));
         }
