@@ -66,7 +66,14 @@ Data vector_get(const Vector *vector, size_t index) {
         return NULL;
     }
     // Возвращаем элемент по индексу
-    return vector->data[index];
+    Data element = vector->data[index];
+
+    // Если данные - это указатель, и мы хотим проверять их на NULL
+    if (element == NULL) {
+        return NULL; // Если элемент == NULL, значит данных нет
+    }
+
+    return element;
 }
 
 // Функция для установки значения элемента вектора по индексу
