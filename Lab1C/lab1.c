@@ -1,89 +1,105 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "array.h"
+#include <iostream>
+#include <fstream>
+#include <cmath> // Для abs()
+using namespace std;
 
-Array *array_create_and_read(FILE *input) {
-    int n;
-    if(fscanf(input, "%d", &n)!=1) {
-        return NULL;
-    };
+// Объявляем функции
+void printTwoDigitNumbers(int* array, int size);
+void printThreeDigitNumbers(int* array, int size);
+int sumBetweenMinAndMax(int* array, int size);
 
-    /* Create array */
-    Array *arr = array_create(n);
-    /* Read array data */
-    if (arr == NULL) { // проверка на успешное создание массива
-        return NULL;
+int main() {
+    int size;
+    cout << "Введите размер массива: ";
+    cin >> size;
+
+    if (size <= 0) {
+        cout << "Ошибка: размер массива должен быть положительным!" << endl;
+        return 1;
     }
 
-    for (int i = 0 ; i < n ; ++i) {
-        int x;
-        if(fscanf(input, "%d", &x)!=1){
-            array_delete(arr);
-            return NULL;
-        };
-        array_set(arr, i, x);
+    int* array = new int[size];
+
+    string filename;
+    cout << "Введите имя файла: ";
+    cin >> filename;
+
+    ifstream file(filename);
+    if (!file) {
+        cout << "Ошибка: файл не найден!" << endl;
+        delete[] array; // Освобождаем память
+        return 1;
     }
-    return arr;
-}
 
-void task1(Array *arr) {
-    int max = 0;
-    int firstMaxElement = 0;
-    int lastMaxElement = 0;
-
-    for (int i = 0 ; i < (int)array_size(arr) ; ++i) {
-        if ((int)array_get(arr, i) > max) {
-            max = (int)array_get(arr, i);
-            firstMaxElement = i;
-            lastMaxElement = i;
-        } else if ((int)array_get(arr, i) == max) {
-            lastMaxElement = i;
+    for (int i = 0; i < size; i++) {
+        if (!(file >> array[i])) {
+            cout << "Ошибка: недостаточно данных в файле!" << endl;
+            delete[] array; // Освобождаем память
+            return 1;
         }
     }
-    printf("%d %d\n", firstMaxElement, lastMaxElement);
+    file.close();
+
+    // Печать двузначных и трёхзначных чисел
+    cout << "Двузначные числа: ";
+    printTwoDigitNumbers(array, size);
+    cout << endl;
+
+    cout << "Трёхзначные числа: ";
+    printThreeDigitNumbers(array, size);
+    cout << endl;
+
+    // Считаем сумму между минимальным и максимальным
+    int sum = sumBetweenMinAndMax(array, size);
+    cout << "Сумма между минимальным и максимальным: " << sum << endl;
+
+    delete[] array; // Освобождаем память
+    return 0;
 }
 
-void task2(Array *arr) {
-    int maxSum = 0;
-    int size = (int)array_size(arr);
-    int curSum = 0;
-    for (int i = 0; i < 4; i++){
-        curSum += array_get(arr, i);
-    }
-    maxSum = curSum;
-    for (int i = 4 ; i < size; i++) {
-        curSum = array_get(arr, i - 5) + array_get(arr, i);
-        
-        if (curSum > maxSum) {
-            maxSum = curSum;
+// Функция для вывода двузначных чисел
+void printTwoDigitNumbers(int* array, int size) {
+    for (int i = 0; i < size; i++) {
+        if (abs(array[i]) >= 10 && abs(array[i]) <= 99) {
+            cout << array[i] << " ";
         }
     }
-    printf("%d\n", maxSum);
 }
 
-int main(int argc, char **argv) {
-    if (argc != 2) {
-        return 1;
+// Функция для вывода трёхзначных чисел
+void printThreeDigitNumbers(int* array, int size) {
+    for (int i = 0; i < size; i++) {
+        if (abs(array[i]) >= 100 && abs(array[i]) <= 999) {
+            cout << array[i] << " ";
+        }
     }
-    Array *arr = NULL;
-    FILE *input = fopen(argv[1], "r");
-    if (!input) {
-        return 1;
+}
+
+// Функция для подсчёта суммы между минимальным и максимальным
+int sumBetweenMinAndMax(int* array, int size) {
+    int minIndex = 0, maxIndex = 0;
+
+    // Находим минимальный и максимальный элементы
+    for (int i = 1; i < size; i++) {
+        if (array[i] < array[minIndex]) minIndex = i;
+        if (array[i] > array[maxIndex]) maxIndex = i;
     }
-    arr = array_create_and_read(input);
-    if (arr){
-        task1(arr);
-        array_delete(arr);
+
+    // Если минимальный и максимальный рядом — возвращаем 0
+    if (abs(minIndex - maxIndex) <= 1) {
+        return 0;
+    }
+
+    // Считаем сумму между минимальным и максимальным
+    int sum = 0;
+    if (minIndex < maxIndex) {
+        for (int i = minIndex + 1; i < maxIndex; i++) {
+            sum += array[i];
+        }
     } else {
-        return 1;
+        for (int i = maxIndex + 1; i < minIndex; i++) {
+            sum += array[i];
+        }
     }
-    /* Create another array here */
-    arr = array_create_and_read(input);
-    if (arr){
-        task2(arr);
-        array_delete(arr);
-    } else {
-        return 1;
-    }
-    
-    fclose(input);
+    return sum;
+}
