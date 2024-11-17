@@ -15,7 +15,7 @@ int main()
 {
     Vector *vector = vector_create(myfree);
 
-    printf("resize\n");
+    std::cout << "Resize 5: ";
     vector_resize(vector, 5);
     if (vector_size(vector) != 5)
     {
