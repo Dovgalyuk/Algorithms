@@ -71,7 +71,7 @@ int main()
 
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        std::cout << vector_get_int(vector, i) << " ";
+        std::cerr << vector_get_int(vector, i) << " ";
     std::cout << "\n";
 
     // Performance test
