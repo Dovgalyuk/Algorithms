@@ -5,7 +5,26 @@
 
 #include "array.h"
 
-// ... (array_create_and_read remains unchanged) ...
+Array *array_create_and_read(std::ifstream &input)
+{
+    size_t array_size;
+    input >> array_size;
+
+    Array *arr = array_create((size_t)array_size);
+
+    int number = 0;
+    size_t index = 0;
+    while (input >> number)
+    {
+        array_set(arr, index, number);
+        index++;
+
+        if (index == array_size)
+            break;
+    }
+
+    return arr;
+}
 
 void task1(Array *arr, int m, int n) {
     if (arr == nullptr) {
