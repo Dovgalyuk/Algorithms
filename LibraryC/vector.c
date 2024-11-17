@@ -11,11 +11,9 @@
 // } Vector;
 
 // Функция для создания вектора с указанной начальной ёмкостью и функцией освобождения памяти
-Vector *vector_create(size_t initial_capacity, FFree f) {
-    // Устанавливаем минимальную ёмкость вектора в 1, если передана 0
-    if (initial_capacity == 0) {
-        initial_capacity = 1;
-    }
+Vector *vector_create(FFree f) {
+
+    size_t initial_capacity = 4;
 
     // Выделяем память под структуру вектора
     Vector* vec = (Vector *)malloc(sizeof(Vector));
