@@ -45,6 +45,7 @@ Vector *vector_create(size_t initial_capacity, FFree f) {
 void vector_delete(Vector *vector) {
     // Проверяем, передан ли NULL
     if (vector == NULL) {
+        fprintf(stderr, "Ошибка удаления");
         return;
     }
     // Если задана функция distruct, вызываем её для каждого элемента вектора
