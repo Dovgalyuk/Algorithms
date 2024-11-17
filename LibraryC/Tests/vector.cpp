@@ -52,7 +52,7 @@ int main()
         if (vector_get(vector, i) == NULL) {
             break; // Выход из цикла, если элемент NULL
         } else {
-            std::cout << vector_get_int(vector, i) << " "; // Разыменовываем указатель и выводим значение
+            std::cerr << vector_get(vector, i) << " "; // Разыменовываем указатель и выводим значение
         }
     }
     std::cout << "\n";
