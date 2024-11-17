@@ -1,77 +1,50 @@
 #include "array.h"
 #include <stdexcept>
 
-Array* fill_array(std::ifstream &input)
-{
-	size_t size;
-	Data value;
-	input >> size;
-	Array* array = array_create(size);
-
-	for (size_t i = 0; i < size; i++) {
-		input >> value; 
-		array_set(array, i, value);
-	}
-
-	return array;
-}
-
 struct Array
 {
-    Data* array;    
+     Data* values;
     size_t size;
 };
 
 // create array
 Array *array_create(size_t size)
 {
-    
-    if(size !=  0) {
-        Array* array = new Array;
-        array->size = size;
-        array->array = new Data[size];
-
-        return array;
+    if (size == 0) {
+    throw std::invalid_argument("Size can not be 0");
     }
-    else {
-        return nullptr;
-    }
+    Array* arr = new Array;
+    arr->size = size;
+    arr->values = new Data[size];
+    return arr;
 }
 
 // delete array, free memory
 void array_delete(Array *arr)
 {
-    
-     if(arr->array != nullptr)  {
-        delete[] arr->array;
-        delete arr;
-    }
+    delete[] arr->values; 
+    delete arr;
 }
 
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    
-        if (index < arr->size)
-            return arr->array[index];
-        else
-            return 0;
+    if (index < arr->size) {
+    return arr->values[index];
+    }
+    return (Data)0;
 }
 
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
-    if (index < arr->size)
-	{
-		arr->array[index] = value;
-	}
+     if (index < arr->size) {
+    arr->values[index] = value;
+    }
 }
 
 // returns array size
 size_t array_size(const Array *arr)
 {
-    
-     if (arr->array != nullptr) {
-		return arr->size;
-    }
+    return arr->size;
 }
