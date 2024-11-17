@@ -49,7 +49,7 @@ int main()
 
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
-        if (vector_get(vector, i) != NULL)
+        if (vector_get(vector, i) != nullptr)
             std::cout << vector_get_int(vector, i) << " ";
         else
             break;
