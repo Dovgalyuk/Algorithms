@@ -10,7 +10,7 @@ int vector_get_int(Vector *v, size_t i)
 {
     if (i <= v->size)
         return *(int*)vector_get(v, i);
-    return NULL;
+    return;
 }
 
 int main()
