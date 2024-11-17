@@ -97,39 +97,29 @@ size_t vector_size(const Vector *vector) {
 }
 
 void vector_resize(Vector *v, size_t new_size) {
-    fprintf(stderr,"Проверка: Пуст-ли вектор \n");
     if (v == NULL) return; 
 
-    fprintf(stderr,"Проверка: меньше размер или равен текущему \n");
     // Если новый размер меньше или равен текущему, ничего не делаем
     if (new_size <= v->size) {
         v->size = new_size;
         return;
     }
 
-    fprintf(stderr,"Увеличиваем емкость \n");
     // Увеличиваем емкость
     if (new_size > v->capacity) {
-        fprintf(stderr,"Непосредственно увеличение емкости\n");
         size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2;  
         while (new_capacity < new_size) {
             new_capacity *= 2;
         }
         
-        fprintf(stderr,"Создание копии элементов \n");
         Data *new_data = (Data *)malloc(new_capacity * sizeof(Data));
         if (new_data == NULL) {
-            fprintf(stderr, "Ошибка выделения памяти\n");
             return; // Не удается изменить размер
         }
-        fprintf(stderr,"Копирование элементов \n");
         if (v->data != NULL) {
-            fprintf(stderr,"Копирование...\n");
             memcpy(new_data, v->data, v->size * sizeof(Data));
-            fprintf(stderr,"Копирование Done! Освобождение памяти\n");
             free(v->data);
         } 
-        fprintf(stderr,"Присвоение новых значений");
         v->data = new_data;
         v->capacity = new_capacity;   
     }

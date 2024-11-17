@@ -15,7 +15,7 @@ int main()
 {
     Vector *vector = vector_create(myfree);
 
-    std::cout << "Resize 5: ";
+    std::cerr << "Resize 5: ";
     vector_resize(vector, 5);
     if (vector_size(vector) != 5)
     {
@@ -35,6 +35,7 @@ int main()
         }
     }
 
+    std::cerr << "Resize 10: ";
     vector_resize(vector, 10);
     if (vector_size(vector) != 10)
     {
@@ -47,6 +48,7 @@ int main()
         std::cout << vector_get_int(vector, i) << " ";
     std::cout << "\n";
 
+    std::cerr << "Resize 3: ";
     vector_resize(vector, 3);
     if (vector_size(vector) != 3)
     {
@@ -81,5 +83,6 @@ int main()
 
     std::cout << sum << "\n";
 
+    std::cerr << "Delete: ";
     vector_delete(vector);
 }
