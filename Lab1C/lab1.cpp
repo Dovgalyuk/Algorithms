@@ -1,103 +1,103 @@
 #include <iostream>
 #include <fstream>
-#include <cmath> // Для abs()
+#include "array.h"
 using namespace std;
 
-
-void printTwoDigitNumbers(int* array, int size);
-void printThreeDigitNumbers(int* array, int size);
-int sumBetweenMinAndMax(int* array, int size);
+void printTwoDigitNumbers(Array *array);
+void printThreeDigitNumbers(Array *array);
+int sumBetweenMinAndMax(Array *array);
 
 int main() {
-    string filename = "input.txt"; 
-    ifstream file(filename);
+    string filename;
+    cout << "Введите имя файла: ";
+    cin >> filename;
 
+    ifstream file(filename);
     if (!file) {
-        cout << "Ошибка: файл " << filename << " не найден!" << endl;
+        cout << "Ошибка: файл не найден!" << endl;
         return 1;
     }
 
-    int size;
-    while (file >> size) {
-        if (size <= 0) {
-            cout << "Ошибка: размер массива должен быть положительным!" << endl;
-            return 1;
-        }
+    size_t size;
+    file >> size;
 
-        int* array = new int[size];
-
-       
-        for (int i = 0; i < size; i++) {
-            if (!(file >> array[i])) {
-                cout << "Ошибка: недостаточно данных в файле!" << endl;
-                delete[] array; 
-                return 1;
-            }
-        }
-
-   
-        cout << "Двузначные числа: ";
-        printTwoDigitNumbers(array, size);
-        cout << endl;
-
-        cout << "Трёхзначные числа: ";
-        printThreeDigitNumbers(array, size);
-        cout << endl;
-
-   
-        int sum = sumBetweenMinAndMax(array, size);
-        cout << "Сумма между минимальным и максимальным: " << sum << endl;
-        cout << endl;
-
-        delete[] array; 
+    if (size <= 0) {
+        cout << "Ошибка: размер массива должен быть положительным!" << endl;
+        return 1;
     }
 
+    Array *array = array_create(size, NULL);
+    int value;
+
+    for (size_t i = 0; i < array_size(array); i++) {
+        if (file >> value) {
+            array_set(array, i, (Data)(intptr_t)value);
+        } else {
+            cout << "Ошибка: недостаточно данных в файле!" << endl;
+            array_delete(array);
+            return 1;
+        }
+    }
     file.close();
+
+    cout << "Двузначные числа: ";
+    printTwoDigitNumbers(array);
+    cout << endl;
+
+    cout << "Трёхзначные числа: ";
+    printThreeDigitNumbers(array);
+    cout << endl;
+
+    cout << "Сумма между минимальным и максимальным: ";
+    cout << sumBetweenMinAndMax(array) << endl;
+
+    array_delete(array);
     return 0;
 }
 
 
-void printTwoDigitNumbers(int* array, int size) {
-    for (int i = 0; i < size; i++) {
-        if (abs(array[i]) >= 10 && abs(array[i]) <= 99) {
-            cout << array[i] << " ";
+void printTwoDigitNumbers(Array *array) {
+    for (size_t i = 0; i < array_size(array); i++) {
+        int num = (int)(intptr_t)array_get(array, i);
+        if (abs(num) >= 10 && abs(num) <= 99) {
+            cout << num << " ";
         }
     }
 }
 
-
-void printThreeDigitNumbers(int* array, int size) {
-    for (int i = 0; i < size; i++) {
-        if (abs(array[i]) >= 100 && abs(array[i]) <= 999) {
-            cout << array[i] << " ";
+void printThreeDigitNumbers(Array *array) {
+    for (size_t i = 0; i < array_size(array); i++) {
+        int num = (int)(intptr_t)array_get(array, i);
+        if (abs(num) >= 100 && abs(num) <= 999) {
+            cout << num << " ";
         }
     }
 }
 
-
-int sumBetweenMinAndMax(int* array, int size) {
-    int minIndex = 0, maxIndex = 0;
-
-
-    for (int i = 1; i < size; i++) {
-        if (array[i] < array[minIndex]) minIndex = i;
-        if (array[i] > array[maxIndex]) maxIndex = i;
+int sumBetweenMinAndMax(Array *array) {
+    size_t minIndex = 0, maxIndex = 0;
+    for (size_t i = 1; i < array_size(array); i++) {
+        int num = (int)(intptr_t)array_get(array, i);
+        if (num < (int)(intptr_t)array_get(array, minIndex)) {
+            minIndex = i;
+        }
+        if (num > (int)(intptr_t)array_get(array, maxIndex)) {
+            maxIndex = i;
+        }
     }
 
-   
-    if (abs(minIndex - maxIndex) <= 1) {
+    if (abs((int)(minIndex - maxIndex)) <= 1) {
         return 0;
     }
 
-    
     int sum = 0;
     if (minIndex < maxIndex) {
-        for (int i = minIndex + 1; i < maxIndex; i++) {
-            sum += array[i];
+        for (size_t i = minIndex + 1; i < maxIndex; i++) {
+            sum += (int)(intptr_t)array_get(array, i);
         }
     } else {
-        for (int i = maxIndex + 1; i < minIndex; i++) {
-            sum += array[i];
+        for (size_t i = maxIndex + 1; i < minIndex; i++) {
+            sum += (int)(intptr_t)array_get(array, i);
         }
     }
     return sum;
