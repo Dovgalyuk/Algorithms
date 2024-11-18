@@ -55,7 +55,7 @@ public:
     }
 
 // Добаление вершины с пометкой
-Vertex<V> add_vertex(V vertex_mark);
+const Vertex<V>& add_vertex(V vertex_mark);
 
 // Удалние вершины
 void delete_vertex(size_t a);
@@ -112,7 +112,7 @@ private:
 };
 
 TEMPLATE
-Vertex<V> GRAPH::add_vertex(V vertex_mark) {
+const Vertex<V>& GRAPH::add_vertex(V vertex_mark) {
     vertices.push({ vertices.size(), vertex_mark });
     matrix.push(EMPTY_MATRIX_ROW);
 
