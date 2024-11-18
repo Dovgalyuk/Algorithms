@@ -10,7 +10,7 @@ Array *array_create_and_read(std::ifstream &input)
     size_t array_size;
     input >> array_size;
 
-    Array *arr = array_create((size_t)array_size);
+    Array *arr = array_create((size_t)array_size); // array create - создает массив указанного размера
 
     int number = 0;
     size_t index = 0;
@@ -27,34 +27,35 @@ Array *array_create_and_read(std::ifstream &input)
 }
 
 void task1(Array *arr, int m, int n) {
-    if (arr == nullptr) {
+    if (arr == nullptr) { // nullptr - ключевое слово, нужно для указания на отсутствие знач или нул указателя
         std::cerr << "Error: Array is nullptr" << std::endl;
         return;
     }
 
-    for (size_t i = 0; i < array_size(arr); ++i) {
-        int num = array_get(arr, i);
-        if ((i + 1) % 2 != 0) { // Нечетный индекс
-            array_set(arr, i, num - m);
-        } else { // Четный индекс
+    for (size_t i = 0; i < array_size(arr); ++i) { // array size - возвращает размер массива
+        int num = array_get(arr, i); // array get - возвращает элемент массива по индексу
+        if (i % 2 != 0) { //  Нечетный индекс
+            array_set(arr, i, num - m); // array set - записывает значение в массив по индексу
+        } 
+        else (num % 2 != 0) { // Нечетный элемент
             array_set(arr, i, num + n);
         }
     }
 
     std::cout << "task_1: ";
-    for (size_t i = 0; i < array_size(arr); ++i) {
-        std::cout << array_get(arr, i) << (i == array_size(arr) - 1 ? "" : ", ");
+    for (size_t i = 0; i < array_size(arr); ++i) { 
+        std::cout << array_get(arr, i) << (i == array_size(arr) - 1 ? "" : ", "); 
     }
     std::cout << std::endl;
 }
 
 void task2(Array *arr) {
-    if (arr == nullptr) {
+    if (arr == nullptr) { 
         std::cerr << "Error: Array is nullptr" << std::endl;
         return;
     }
 
-    std::map<int, int> counts; // Используем map для подсчета вхождений элементов
+    std::map<int, int> counts; // Используем map для подсчета кол-ва вхождений кажд элемента (n log n - худш случ)
     for (size_t i = 0; i < array_size(arr); ++i) {
         counts[array_get(arr, i)]++;
     }
@@ -95,7 +96,7 @@ int main(int argc, char *argv[]) {
     }
 
     task1(arr, m, n);
-    array_delete(arr);
+    array_delete(arr); // array delete - освобождает память, занимаемую массивом 
 
 
     arr = array_create_and_read(input);
