@@ -73,7 +73,7 @@ Vector<V> get_vertices_marks();
 Vertex<V> set_mark(size_t a, V mark);
 
 // Добавление ребра
-void add_edge(size_t a, size_t b, E edge_mark);
+Edge<E>* add_edge(size_t a, size_t b, E edge_mark);
 
 // Удаление ребра
 void delete_edge(size_t a, size_t b);
@@ -153,13 +153,14 @@ void GRAPH::delete_vertex(size_t a) {
 }
 
 TEMPLATE
-void GRAPH::add_edge(size_t a, size_t b, E edge_mark) {
+Edge<E>* GRAPH::add_edge(size_t a, size_t b, E edge_mark) {
     if (a >= vertices.size() || b >= vertices.size()) {
         throw std::out_of_range("Неверные индексы при добавлении ребра");
     }
     if(matrix[a][b] != nullptr)
         throw std::out_of_range("Ребра уже связаны");
     matrix[a][b] = new Edge<E>(edge_mark);
+    return matrix[a][b];
 }
 
 TEMPLATE
