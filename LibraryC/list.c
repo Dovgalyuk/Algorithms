@@ -55,14 +55,4 @@ Data pop_list (List_element **head) {
 }
 
 
-void add_list_element(List_element **head, char x) {
-    List_element *new_element = (List_element *)malloc(sizeof(List_element));
-    if (new_element != NULL) {
-        new_element -> element = x;
-        new_element -> next = *head;
-        *head = new_element;
-    }
-}
-
-
 
