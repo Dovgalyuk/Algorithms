@@ -35,11 +35,11 @@ public:
     Graph() {}
 
     // Конструктор по количеству вершин
-    Graph(int q) {
+    /*Graph(int q) {
         for (size_t i = 0; i < q && q > 0; i++) {
             add_vertex();
         }
-    }
+    }*/
 
     // Деструктор
     ~Graph() {
@@ -54,14 +54,11 @@ public:
         matrix.clear();
     }
 
-// Добавление вершины без пометки
-Vertex<V>& add_vertex();
-
 // Добаление вершины с пометкой
 Vertex<V> add_vertex(V vertex_mark);
 
 // Удалние вершины
-Vertex<V> delete_vertex(size_t a);
+void delete_vertex(size_t a);
 
 // Получение массива вершин
 const Vector<Vertex<V>> get_vertices();
@@ -76,10 +73,10 @@ Vector<V> get_vertices_marks();
 Vertex<V> set_mark(size_t a, V mark);
 
 // Добавление ребра
-Edge<E>* add_edge(size_t a, size_t b, E edge_mark);
+void add_edge(size_t a, size_t b, E edge_mark);
 
 // Удаление ребра
-Edge<E>* delete_edge(size_t a, size_t b);
+void delete_edge(size_t a, size_t b);
 
 // Получение пометки ребра по индексам вершин
 E get_edge_mark(size_t a, size_t b);
@@ -115,25 +112,15 @@ private:
 };
 
 TEMPLATE
-Vertex<V>& GRAPH::add_vertex() {
-    vertices.push({ vertices.size(), V() });
-
-    matrix.push(EMPTY_MATRIX_ROW);
-
-    for (size_t i = 0; i < matrix.size(); i++) {
-        while (matrix[i].size() != vertices.size())
-            matrix[i].push(nullptr);
-    }
-
-    return vertices[vertices.size() - 1];
-}
-
-TEMPLATE
 Vertex<V> GRAPH::add_vertex(V vertex_mark) {
     vertices.push({ vertices.size(), vertex_mark });
     matrix.push(EMPTY_MATRIX_ROW);
 
     for (size_t i = 0; i < matrix.size(); i++) {
+        /*if (matrix[i].size() != vertices.size()) {
+            matrix[i].resize(vertices.size());
+        }*/
+
         while (matrix[i].size() != vertices.size()) {
             matrix[i].push(nullptr);
         }
@@ -143,11 +130,9 @@ Vertex<V> GRAPH::add_vertex(V vertex_mark) {
 }
 
 TEMPLATE
-Vertex<V> GRAPH::delete_vertex(size_t a) {
-    if (a >= vertices.size()) {
+void GRAPH::delete_vertex(size_t a) {
+    if (a >= vertices.size())
         throw std::out_of_range("Неверный индекс при удалении вершины");
-        return Vertex<V>();
-    }
 
     for (size_t i = 0; i < matrix[a].size(); i++) {
         delete matrix[a][i];
@@ -165,27 +150,25 @@ Vertex<V> GRAPH::delete_vertex(size_t a) {
     for (size_t i = 0; i < vertices.size(); i++) {
         vertices[i].number = i;
     }
-    return temp;
 }
 
 TEMPLATE
-Edge<E>* GRAPH::add_edge(size_t a, size_t b, E edge_mark) {
+void GRAPH::add_edge(size_t a, size_t b, E edge_mark) {
     if (a >= vertices.size() || b >= vertices.size()) {
         throw std::out_of_range("Неверные индексы при добавлении ребра");
     }
-
+    if(matrix[a][b] != nullptr)
+        throw std::out_of_range("Ребра уже связаны");
     matrix[a][b] = new Edge<E>(edge_mark);
-    return matrix[a][b];
 }
 
 TEMPLATE
-Edge<E>* GRAPH::delete_edge(size_t a, size_t b) {
+void GRAPH::delete_edge(size_t a, size_t b) {
     if ((a >= vertices.size() || b >= vertices.size()) || matrix[a][b] == nullptr)
         throw std::out_of_range("Неверные индексы при удалении ребра или ребра не существует");
 
     delete matrix[a][b];
     matrix[a][b] = nullptr;
-    return nullptr;
 }
 
 TEMPLATE
