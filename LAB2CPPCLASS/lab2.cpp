@@ -28,19 +28,25 @@ command parse(const string& input)
 
     if (op == "push")
     {
+        cmd.type = typeCommand::PUSH;
         
+        iss >> cmd.value;
     }
     else if (op == "pop")
     {
-        
+        cmd.type = typeCommand::POP;
+        std::string reg;
+
+        iss >> reg;
+        cmd.value = reg[0];
     }
     else if (op == "call")
     {
-        
+        cmd.type = typeCommand::CALL;
     }
     else if (op == "ret")
     {
-        
+        cmd.type = typeCommand::RET;    
     }
 
     return cmd;
