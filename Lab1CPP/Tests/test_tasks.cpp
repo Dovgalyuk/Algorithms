@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 
+
 bool check_result(int test_num, Array *arr, FILE *input)
 {
     auto res = test_num == 1 ? task1(arr) : task2(arr);
@@ -42,7 +43,22 @@ int main(int argc, char **argv)
     {
         input = fopen(argv[1], "r");
     }
-    Array *arr = array_create_and_read(input);
+    Array *arr = array_create_and_read(input);//считываем вводный массив
+    auto result = task1(arr);//получаем ответ из таски
+    Array* expected = array_create_and_read(input);//считываем ожидаемый ответ
+    if(result.size()!=expected->size()){//сравниваем размеры
+        printf("TASK 1 FAILED: result.size()!=expected.size()\n");
+    }else{
+        for(size_t i=0;i<result.size();i++){
+            auto result_el = result.at(i);
+            auto expected_el = expected->get(i);
+            if(result_el!=expected_el){
+                printf("TASK 1 FAILED: result[%lu]!=expected[%lu]\n",i,i);
+            }
+        }
+    }
+    //не забыть удалить arr и expected
+    
     for (int i = 1; i <= 2; i++)
     {
         if (!check_result(i, arr, input))

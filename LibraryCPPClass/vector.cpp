@@ -60,7 +60,7 @@ void Vector::erase_first()
 
 Data Vector::get(size_t index) const
 {
-    if (index > m_size || index < 0)
+    if (index > m_size)
     {
         throw std::out_of_range("Incorrect index");
     }
@@ -69,7 +69,7 @@ Data Vector::get(size_t index) const
 
 void Vector::set(size_t index, Data value)
 {
-    if (index > m_size || index < 0)
+    if (index > m_size)
     {
         throw std::out_of_range("Incorrect index");
     }
