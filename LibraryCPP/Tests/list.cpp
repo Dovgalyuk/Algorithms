@@ -21,7 +21,6 @@ int main()
         return 1;
     }
 
-    /*
     list_insert_after(list, list_first(list), 4);
 
     if (list_item_data(list_item_next(list_first(list))) != 4)
@@ -29,11 +28,11 @@ int main()
         std::cout << "list_insert_after error\n";
         return 1;
     }
-    */
+
 
     list_erase_first(list);
 
-    if (list_item_data(list_first(list)) != 2)
+    if (list_item_data(list_first(list)) != 4)
     {
         std::cout << "list_erase error\n";
         return 1;
