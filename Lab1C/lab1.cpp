@@ -37,7 +37,7 @@ void task1(Array *arr, int m, int n) {
         if (i % 2 != 0) { //  Нечетный индекс
             array_set(arr, i, num - m); // array set - записывает значение в массив по индексу
         } 
-        else (num % 2 != 0); { // Нечетный элемент
+        else if (num % 2 != 0) { // Нечетный элемент
             array_set(arr, i, num + n);
         }
     }
