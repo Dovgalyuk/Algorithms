@@ -102,7 +102,7 @@ void parcing_string_algoritm(char *string, Stack **stack_operations, Stack **sta
 }
 
 void print_rpn(Stack *stack_elements) {
-    Stack *temp_stack = create_stack(NULL, free); // Инициализация temp_stack
+    Stack *temp_stack = create_stack(free); // Инициализация temp_stack
 
     if (temp_stack == NULL) {
         perror("Ошибка выделения памяти для временного стека");
