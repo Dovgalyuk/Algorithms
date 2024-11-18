@@ -17,12 +17,12 @@ typedef struct Stack Stack;
 extern "C" {
     #endif
 
-    Stack *create_stack(List_element **head, FFree f);
+    Stack *create_stack(FFree f);
     void stack_push(Stack *stack, Data elements);
     Data stack_pop(Stack *stack);
-    int stack_is_empty (Stack *stack);
+    int stack_is_empty(Stack *stack);
     Data stack_get(const Stack *stack);
-    void free_stack (Stack *stack);
+    void free_stack(Stack *stack);
 
     #ifdef __cplusplus
 }
