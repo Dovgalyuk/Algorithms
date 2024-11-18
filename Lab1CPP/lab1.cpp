@@ -1,86 +1,90 @@
-#include "array.h"
 #include <fstream>
 #include <iostream>
-#include <vector>
 
+#include "array.h"
 
-std::vector<int> readFile(const std::string& filename) {
+Array* readFile(const std::string& filename) {
     std::ifstream input(filename);
-    std::vector<int> arr;
     int size;
 
     if (input >> size) {
-        arr.resize(size);
+        Array* arr = array_create(size);
         for (int i = 0; i < size; ++i) {
-            input >> arr[i];
+            Data value;
+            input >> value;
+            array_set(arr, i, value);
         }
+        return arr;
     }
-    return arr;
+
+    return nullptr; // если не читается размер
 }
 
-void task1(const std::string& input)
-{
-	std::vector<int> heights = readFile(input);
-    if (heights.empty()) {
+void task1(const std::string& input) {
+    Array* heights = readFile(input);
+    if (heights == nullptr || array_size(heights) == 0) {
         std::cout << "array empty." << std::endl;
         return;
     }
 
     double sum = 0;
-    for (int heigh : heights) {
-        sum += heigh;
+    size_t size = array_size(heights);
+    for (size_t i = 0; i < size; ++i) {
+        sum += array_get(heights, i);
     }
-    double avg = sum / heights.size();
+    double avg = sum / size;
 
     int count = 0;
-    for (int heigh : heights) {
-        if (heigh > avg) {
+    for (size_t i = 0; i < size; ++i) {
+        if (array_get(heights, i) > avg) {
             count++;
         }
     }
 
     std::cout << "numb of highest then avg: " << count << std::endl;
 
+    array_delete(heights);
 }
 
-
 void task2(const std::string& input) {
-
-	std::vector<int> arr = readFile(input);
-    if (arr.empty()) {
+    Array* arr = readFile(input);
+    if (arr == nullptr || array_size(arr) == 0) {
         std::cout << "array is empty" << std::endl;
         return;
     }
 
-    std::vector<int> notDivide;
+    Array* notDivide = array_create(array_size(arr)); // не делящихся элементов не больше размера исх. массива
+    size_t notDivideCount = 0;
 
-    for (size_t i = 0; i < arr.size(); ++i) {
+    size_t size = array_size(arr);
+    for (size_t i = 0; i < size; ++i) {
         bool isDivide = false;
-        for (size_t j = 0; j < arr.size(); ++j) {
-            if (i != j && arr[i] % arr[j] == 0) {
+        for (size_t j = 0; j < size; ++j) {
+            if (i != j && array_get(arr, i) % array_get(arr, j) == 0) {
                 isDivide = true;
                 break;
             }
         }
         if (!isDivide) {
-            notDivide.push_back(arr[i]);
+            array_set(notDivide, notDivideCount++, array_get(arr, i));
         }
     }
 
     std::cout << "not devide by others: ";
-    for (int elem : notDivide) {
-        std::cout << elem << " ";
+    for (size_t i = 0; i < notDivideCount; ++i) {
+        std::cout << array_get(notDivide, i) << " ";
     }
     std::cout << std::endl;
 
+    array_delete(arr);        
+    array_delete(notDivide);  
 }
 
 int main() {
     const std::string file = "input.txt";
 
-	task1(file);
-	task2(file);
+    task1(file);
+    task2(file);
 
-
-	return 0;
+    return 0;
 }
