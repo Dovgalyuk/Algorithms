@@ -61,7 +61,7 @@ ListItem *list_insert(List *list, Data data) {
 
     ListItem* new_item = new ListItem{ data, nullptr, nullptr };
 
-    if (!list->head) {
+    if (list->head == nullptr) {
         new_item->next = new_item;
         new_item->prev = new_item;
         list->head = new_item;
@@ -135,10 +135,11 @@ ListItem *list_erase_next(List *list, ListItem *item) {
 }
 
 ListItem* list_insert_end(List* list, Data data) {
-    ListItem* new_item = new ListItem;
     if (!list) {
         return nullptr;
     }
+    
+    ListItem* new_item = new ListItem;
 
     new_item->data = data;
 
