@@ -81,9 +81,7 @@ void vector_set(Vector *vector, size_t index, Data value) {
     // Проверка необходимости изменения емкости или размера вектора
     if (index >= vector->size) {
         // Определяем новый размер, который будет необходим
-        //size_t new_size = index >= vector->capacity ? index + 1 : vector->size;
         vector_resize(vector, index+1); // Увеличиваем размер вектора до необходимого
-        //vector->size = index + 1; // Обновляем размер вектора, если это необходимо
     }
 
     // Если элемент на указанном индексе существует, вызываем деструктор для освобождения памяти
