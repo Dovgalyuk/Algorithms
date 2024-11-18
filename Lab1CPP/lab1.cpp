@@ -44,17 +44,19 @@ void task1(std::ifstream& input)
 
 
 void task2(std::ifstream& input) {
-	 Array* arr = array_create_and_read(input);
+    Array* arr = array_create_and_read(input);
 
     int max_sum = std::numeric_limits<int>::min();
     size_t best_start_index = 0;
 
-    for (size_t i = 0; i <= array_size(arr) - 5; ++i) {
-        int current_sum = 0;
+    int current_sum = 0;
+    for (size_t j = 0; j < 5; ++j) {
+        current_sum += array_get(arr, j);
+    }
+    max_sum = current_sum;
 
-        for (size_t j = 0; j < 5; ++j) {
-            current_sum += array_get(arr, i + j);
-        }
+    for (size_t i = 1; i <= array_size(arr) - 5; ++i) {
+        current_sum = current_sum - array_get(arr, i - 1) + array_get(arr, i + 4);
 
         if (current_sum > max_sum) {
             max_sum = current_sum;
@@ -62,8 +64,7 @@ void task2(std::ifstream& input) {
         }
     }
 
-    
-    std::cout << "Пять соседних элементов с максимальной суммой:" ;
+    std::cout << "Пять соседних элементов с максимальной суммой: ";
     for (size_t j = 0; j < 5; ++j) {
         std::cout << array_get(arr, best_start_index + j) << " ";
     }
