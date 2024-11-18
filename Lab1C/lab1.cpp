@@ -47,12 +47,12 @@ void task2(Array *arr) {
     int maxSum = 0;
     int size = (int)array_size(arr);
     int curSum = 0;
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < 5; i++){
         curSum += array_get(arr, i);
     }
     maxSum = curSum;
-    for (int i = 4 ; i < size; i++) {
-        curSum = array_get(arr, i - 5) + array_get(arr, i);
+    for (int i = 5 ; i < size; i++) {
+        curSum += array_get(arr, i) - array_get(arr, i - 5);
         
         if (curSum > maxSum) {
             maxSum = curSum;
