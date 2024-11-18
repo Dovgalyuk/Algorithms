@@ -16,6 +16,8 @@ struct command
     size_t value;
 };
 
+bool valid(char reg) { return reg >= 'A' && reg <= 'D'; }
+
 int main(int argc, char* argv[])
 {
     
