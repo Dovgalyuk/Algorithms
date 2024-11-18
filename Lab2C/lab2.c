@@ -20,8 +20,8 @@ int main(int argc, char **argv) {
     char *string = malloc(SIZE * sizeof(char));
 
     // Создание стека для операций и элементов
-    stack_operations = create_stack(&head, free);
-    stack_elements = create_stack(&head, free);
+    stack_operations = create_stack(NULL);
+    stack_elements = create_stack(NULL);
 
     FILE *input = fopen(argv[1], "r");
     if (input == NULL) {
