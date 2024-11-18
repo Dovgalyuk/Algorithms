@@ -1,5 +1,6 @@
 #include <iostream>
 #include "vector.h"
+#include <cctype>
 
 int main()
 {
@@ -13,7 +14,7 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
+        vector_set(vector, i, static_cast<int>(i));
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {

@@ -3,7 +3,6 @@
 #include <sstream>
 #include <string>
 #include <stdexcept>
-#include <limits>
 #include "queue.h"
 #include "vector.h"
 
@@ -12,27 +11,27 @@ using namespace std;
 struct Graph {
     Vector* cities;
     Vector** adjList;
-    size_t numCities;
+    int numCities;
 
-    Graph(size_t maxCities) {
+    Graph(int maxCities) {
         cities = vector_create();
         adjList = new Vector*[maxCities];
-        for (size_t i = 0; i < maxCities; ++i) {
+        for (int i = 0; i < maxCities; ++i) {
             adjList[i] = vector_create();
         }
         numCities = 0;
     }
 
     ~Graph() {
-        for (size_t i = 0; i < numCities; ++i) {
+        for (int i = 0; i < numCities; ++i) {
             vector_delete(adjList[i]);
         }
         delete[] adjList;
         vector_delete(cities);
     }
 
-    size_t getCityIndex(const string& city, string* cityNames, size_t& cityCount) {
-        for (size_t i = 0; i < cityCount; ++i) {
+    int getCityIndex(const string& city, string* cityNames, int& cityCount) {
+        for (int i = 0; i < cityCount; ++i) {
             if (cityNames[i] == city) {
                 return i;
             }
@@ -44,47 +43,44 @@ struct Graph {
         throw runtime_error("Превышено максимальное количество городов");
     }
 
-    void addEdge(const string& city1, const string& city2, string* cityNames, size_t& cityCount) {
-        size_t index1 = getCityIndex(city1, cityNames, cityCount);
-        size_t index2 = getCityIndex(city2, cityNames, cityCount);
-        vector_set(adjList[index1], vector_size(adjList[index1]), index2);
-        vector_set(adjList[index2], vector_size(adjList[index2]), index1);
+    void addEdge(const string& city1, const string& city2, string* cityNames, int& cityCount) {
+        int index1 = getCityIndex(city1, cityNames, cityCount);
+        int index2 = getCityIndex(city2, cityNames, cityCount);
+        vector_set(adjList[index1], vector_size(adjList[index1]), static_cast<int>(index2));
+        vector_set(adjList[index2], vector_size(adjList[index2]), static_cast<int>(index1));
     }
 };
 
-void bfs(Graph& graph, const string& start, const string& end, string* cityNames, size_t cityCount) {
-    size_t startIdx = graph.getCityIndex(start, cityNames, cityCount);
-    size_t endIdx = graph.getCityIndex(end, cityNames, cityCount);
+void bfs(Graph& graph, const string& start, const string& end, string* cityNames, int cityCount) {
+    int startIdx = graph.getCityIndex(start, cityNames, cityCount);
+    int endIdx = graph.getCityIndex(end, cityNames, cityCount);
 
     Vector* prev = vector_create();
     Vector* visited = vector_create();
     Queue* queue = queue_create();
 
-    const size_t NO_PREVIOUS = std::numeric_limits<size_t>::max();
-
-    for (size_t i = 0; i < cityCount; ++i) {
-        vector_set(prev, i, NO_PREVIOUS);
+    for (int i = 0; i < cityCount; ++i) {
+        vector_set(prev, i, -1);
         vector_set(visited, i, 0);
     }
 
-    vector_set(prev, startIdx, NO_PREVIOUS);
     vector_set(visited, startIdx, 1);
     queue_insert(queue, startIdx);
 
     while (!queue_empty(queue)) {
-        size_t currentIdx = queue_get(queue);
+        int currentIdx = static_cast<int>(queue_get(queue));
         queue_remove(queue);
 
         if (currentIdx == endIdx) {
             Vector* path = vector_create();
-            size_t city = endIdx;
-            while (city != NO_PREVIOUS) {
+            int city = endIdx;
+            while (city != -1) {
                 vector_set(path, vector_size(path), city);
                 city = vector_get(prev, city);
             }
 
-            for (size_t i = vector_size(path); i > 0; --i) {
-                cout << cityNames[vector_get(path, i - 1)] << " ";
+            for (int i = 0; i < static_cast<int>(vector_size(path)); i++) {
+                cout << cityNames[vector_get(path, i)] << " ";
             }
             cout << endl;
 
@@ -92,8 +88,8 @@ void bfs(Graph& graph, const string& start, const string& end, string* cityNames
             break;
         }
 
-        for (size_t i = 0; i < vector_size(graph.adjList[currentIdx]); ++i) {
-            size_t neighborIdx = vector_get(graph.adjList[currentIdx], i);
+        for (int i = 0; i < vector_size(graph.adjList[currentIdx]); ++i) {
+            int neighborIdx = vector_get(graph.adjList[currentIdx], i);
             if (vector_get(visited, neighborIdx) == 0) {
                 vector_set(visited, neighborIdx, 1);
                 vector_set(prev, neighborIdx, currentIdx);
@@ -102,7 +98,7 @@ void bfs(Graph& graph, const string& start, const string& end, string* cityNames
         }
     }
 
-    if (vector_get(prev, endIdx) == NO_PREVIOUS) {
+    if (vector_get(prev, endIdx) == -1) {
         cout << "Нет пути от " << start << " до " << end << endl;
     }
 
@@ -123,14 +119,14 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    size_t maxCities = 100;
+    int maxCities = 100;
     Graph graph(maxCities);
     string cityNames[100];
-    size_t cityCount = 0;
+    int cityCount = 0;
 
     string city1, city2;
     string cities[100];
-    size_t citiesCount = 0;
+    int citiesCount = 0;
 
     while (input >> city1 >> city2) {
         if (!input.eof()) {
@@ -140,7 +136,7 @@ int main(int argc, char** argv) {
             bool foundCity1 = false;
             bool foundCity2 = false;
 
-            for (size_t i = 0; i < citiesCount; ++i) {
+            for (int i = 0; i < citiesCount; ++i) {
                 if (cities[i] == city1) {
                     foundCity1 = true;
                 }
