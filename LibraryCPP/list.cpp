@@ -10,14 +10,12 @@ struct ListItem
 struct List
 {
     ListItem* head;
-    ListItem* tail;
 };
 
 List* list_create()
 {
     List* list = new List;
     list->head = nullptr;
-    list->tail = nullptr;
     return list;
 }
 
@@ -59,10 +57,6 @@ ListItem* list_insert(List* list, Data data)
     newItem->data = data;
     newItem->next = list->head;
 
-    if (list->head == nullptr)
-    {
-        list->tail = newItem;
-    }
     list->head = newItem;
 
     return newItem;
@@ -78,9 +72,6 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
     {
         item->next = newItem;
     }
-    else {
-        list->tail = newItem;
-    }
 
     return newItem;
 }
@@ -95,11 +86,6 @@ ListItem* list_erase_first(List* list)
     ListItem* firstItem = list->head;
     list->head = firstItem->next;
 
-    if (list->head == nullptr)
-    {
-        list->tail = nullptr;
-    }
-
     delete firstItem;
     return list->head;
 }
@@ -113,11 +99,6 @@ ListItem* list_erase_next(List* list, ListItem* item)
 
     ListItem* nextItem = item->next;
     item->next = nextItem->next;
-
-    if (item->next == nullptr)
-    {
-        list->tail = item;
-    }
 
     delete nextItem;
     return item->next;
