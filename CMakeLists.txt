@@ -18,3 +18,4 @@ add_subdirectory(LibraryCPPClass)
 #add_subdirectory(Lab1C)
 
 add_subdirectory(LAB1CPPCLASS)
+add_subdirectory(LAB2CPPCLASS)
