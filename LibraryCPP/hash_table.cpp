@@ -3,7 +3,7 @@
 #include "my_hash.h"
 #include "hash_table.h"
 
-HashTable::HashTable() : size(2), count(0), load_factor(0.75)
+HashTable::HashTable() : size(1024), count(0), load_factor(0.7)
 {
 	array = new HashTable::KeyValue[size];
 	fill(array, size);
@@ -15,12 +15,13 @@ HashTable::~HashTable()
 }
 
 void HashTable::insert(std::string key, std::string value)
-{
+{	
 	if (check_key(key))
 		throw std::invalid_argument("The key already exists");
 
-	if (((count+1)/size) >= load_factor)
+	if (((count+1)/size) >= load_factor) {
 		rehash(size * 2);
+	} 
 
 	insert(key, value, array, size);
 	count++;
@@ -28,31 +29,39 @@ void HashTable::insert(std::string key, std::string value)
 
 std::string HashTable::get(std::string key)
 {
-	if (!check_key(key)) 
+	size_t index = find_index(key, array, size, false);
+	if (!check_key(index)) 
 		throw std::invalid_argument("This key does not exist");
 
-	return array[find_index(key, array, size, false)].value;
+	return array[index].value;
 }
 
 void HashTable::set(std::string key, std::string value)
 {
-	if (check_key(key))
-		array[find_index(key, array, size, false)].value = value;
+	size_t index = find_index(key, array, size, false);
+	if (check_key(index))
+		array[index].value = value;
 	else
 		insert(key, value);
 }
 
 bool HashTable::check_key(std::string key)
 {
-	return array[find_index(key, array, size, false)].type == HashTable::Type::Value;
+	return check_key(find_index(key, array, size, false));
+}
+
+bool HashTable::check_key(size_t index)
+{
+	return array[index].type == HashTable::Type::Value;
 }
 
 void HashTable::remove(std::string key)
 {
-	if (!check_key(key))
+	size_t index = find_index(key, array, size, false);
+	if (!check_key(index))
 		throw std::invalid_argument("Cannot remove: the key does not exist");
 
-	array[find_index(key, array, size, false)].type = HashTable::Type::Delete;
+	array[index].type = HashTable::Type::Delete;
 	count--;
 }
 
@@ -71,9 +80,12 @@ void HashTable::rehash(size_t new_size)
 
 	HashTable::KeyValue *new_array = new HashTable::KeyValue[new_size];
 	fill(new_array, new_size);
-	for (size_t ind = 0; ind < size; ind++)
-		if (array[ind].type == HashTable::Type::Value)
+	size_t cnt = 0;
+	for (size_t ind = 0; (ind < size) && (cnt < count); ind++)
+		if (array[ind].type == HashTable::Type::Value) {
 			insert(array[ind].key, array[ind].value, new_array, new_size);
+			cnt++;
+		}
 
 	delete[] array;
 
@@ -127,5 +139,7 @@ size_t HashTable::find_index(std::string key, HashTable::KeyValue *array, size_t
 void HashTable::insert(std::string key, std::string value, HashTable::KeyValue *array, size_t size)
 {
 	size_t index = find_index(key, array, size, true);
-	array[index] = HashTable::KeyValue(key, value);
+	array[index].key = key;
+	array[index].value = value;
+	array[index].type = HashTable::Type::Value;
 }

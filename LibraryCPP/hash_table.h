@@ -45,6 +45,8 @@ private:
 
 	void rehash(size_t new_size);
 
+	bool check_key(size_t index);
+
 	size_t get_start_index(std::string key, size_t size);
 
 	size_t get_step(std::string key, size_t size);
