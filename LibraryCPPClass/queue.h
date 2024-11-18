@@ -1,21 +1,23 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include "vector.h"
 #include <cstddef>
+
 
 typedef int Data;
 
 class Queue
 {
-public:
+  public:
     // Create empty queue
     Queue();
 
     // copy constructor
-    Queue(const Queue &a);
+    Queue(const Queue &a) = delete;
 
     // assignment operator
-    Queue &operator=(const Queue &a);
+    Queue &operator=(const Queue &a) = delete;
 
     // Deletes queue
     ~Queue();
@@ -34,8 +36,9 @@ public:
     // Returns true if the queue is empty
     bool empty() const;
 
-private:
+  private:
     // private data should be here
+    Vector m_data;
 };
 
 #endif

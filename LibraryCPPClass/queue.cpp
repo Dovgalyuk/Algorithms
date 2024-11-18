@@ -4,35 +4,27 @@ Queue::Queue()
 {
 }
 
-Queue::Queue(const Queue &a)
-{
-    // implement or disable this function
-}
-
-Queue &Queue::operator=(const Queue &a)
-{
-    // implement or disable this function
-    return *this;
-}
-
 Queue::~Queue()
 {
 }
 
 void Queue::insert(Data data)
 {
+    m_data.resize(m_data.size() + 1);
+    m_data.set(m_data.size() - 1, data);
 }
 
 Data Queue::get() const
 {
-    return Data();
+    return m_data.get(0);
 }
 
 void Queue::remove()
 {
+    m_data.erase_first();
 }
 
 bool Queue::empty() const
 {
-    return true;
+    return m_data.size() == 0;
 }

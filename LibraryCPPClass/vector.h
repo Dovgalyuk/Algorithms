@@ -7,7 +7,7 @@ typedef int Data;
 
 class Vector
 {
-public:
+  public:
     // Creates vector
     Vector();
 
@@ -32,8 +32,15 @@ public:
     // Changes the vector size (may increase or decrease)
     // Should be O(1) on average
     void resize(size_t size);
+    
+    void erase_first();
 
-private:
+
+  private:
+    size_t m_size = 0;
+    size_t m_capacity = 0;
+    Data * m_dataStart = nullptr;//может быть сдвинуто, если удаляли первый элемент.
+    Data* m_dataAllocStart = nullptr;//настоящее начало массива
     // private data should be here
 };
 
