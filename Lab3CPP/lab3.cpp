@@ -23,12 +23,15 @@ struct Graph {
     }
 
     ~Graph() {
-        for (int i = 0; i < numCities; ++i) {
+    for (int i = 0; i < 100; ++i) {
+        if (adjList[i]) {
             vector_delete(adjList[i]);
         }
-        delete[] adjList;
-        vector_delete(cities);
     }
+    delete[] adjList;
+    vector_delete(cities);
+}
+
 
     int getCityIndex(const string& city, string* cityNames, int& cityCount) {
         for (int i = 0; i < cityCount; ++i) {
@@ -79,7 +82,7 @@ void bfs(Graph& graph, const string& start, const string& end, string* cityNames
                 city = vector_get(prev, city);
             }
 
-            for (int i = 0; i < static_cast<int>(vector_size(path)); i++) {
+            for (int i = 0; i < vector_size(path); i++) {
                 cout << cityNames[vector_get(path, i)] << " ";
             }
             cout << endl;
@@ -88,7 +91,7 @@ void bfs(Graph& graph, const string& start, const string& end, string* cityNames
             break;
         }
 
-        for (int i = 0; i < static_cast<int>(vector_size(graph.adjList[currentIdx])); ++i) {
+        for (int i = 0; i < vector_size(graph.adjList[currentIdx]); ++i) {
             int neighborIdx = vector_get(graph.adjList[currentIdx], i);
             if (vector_get(visited, neighborIdx) == 0) {
                 vector_set(visited, neighborIdx, 1);
@@ -98,14 +101,11 @@ void bfs(Graph& graph, const string& start, const string& end, string* cityNames
         }
     }
 
-    if (vector_get(prev, endIdx) == -1) {
-        cout << "Нет пути от " << start << " до " << end << endl;
-    }
-
     queue_delete(queue);
     vector_delete(prev);
     vector_delete(visited);
 }
+
 
 int main(int argc, char** argv) {
     if (argc < 2) {
