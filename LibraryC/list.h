@@ -7,8 +7,8 @@ typedef void* Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
 
-typedef struct List List;
 typedef struct ListItem ListItem;
+typedef struct List List;
 
 #ifdef __cplusplus
 extern "C" {

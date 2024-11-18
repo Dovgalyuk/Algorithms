@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 
+#include "list.h"
+
 // Queue
 // Stores pointer to custom user data
 typedef void* Data;
