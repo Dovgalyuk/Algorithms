@@ -8,7 +8,7 @@ void dummy_free(void* ptr) {
 
 int main() {
     // Создаем стек
-    Stack* stack = create_stack(nullptr, dummy_free);
+    Stack* stack = create_stack(dummy_free);
     if (!stack) {
         std::cerr << "Failed to create stack" << std::endl;
         return 1;
@@ -24,16 +24,16 @@ int main() {
 
     // Выводим элементы стека
     std::cout << "Stack elements: ";
-      for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++) {
         if (stack_is_empty(stack)) {
-            std::cerr << "Error: Elements" << std::endl;
+            std::cerr << "Error: Stack is empty" << std::endl;
             is_correct = 0;
             break;
         }
         Data element = stack_pop(stack);
         std::cout << element << " ";
         if (element != expected_elements[i]) {
-            std::cerr << "\nError: Expected " << expected_elements[i]  << element << std::endl;
+            std::cerr << "\nError: Expected " << expected_elements[i] << " but got " << element << std::endl;
             is_correct = 0;
         }
     }
