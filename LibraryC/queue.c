@@ -37,31 +37,34 @@ void queue_insert(Queue *queue, Data data) {
 
   size_t capacity = vector_size(queue->vector);
 
-  if (queue->size == 0) {
-    queue->front = 0;
-    queue->back = 0;
-    vector_resize(queue->vector, 1);
-    vector_set(queue->vector, 0, data);
-    queue->size = 1;
-    return;
-  }
-
   if (queue->size >= capacity) {
     if (queue->front > 0 && queue->back < queue->front) {
-      size_t new_front = 0;
-      size_t new_back = queue->size - 1;
+      Vector *temp = vector_create(NULL);
+      vector_resize(temp, queue->size);
+
+      size_t idx = 0;
       for (size_t i = queue->front; i < capacity; ++i) {
-        vector_set(queue->vector, new_front++, vector_get(queue->vector, i));
+        vector_set(temp, idx++, vector_get(queue->vector, i));
       }
       for (size_t i = 0; i <= queue->back; ++i) {
-        vector_set(queue->vector, new_front++, vector_get(queue->vector, i));
+        vector_set(temp, idx++, vector_get(queue->vector, i));
       }
-      queue->front = 0;
-      queue->back = new_back;
-    }
 
-    size_t new_capacity = (capacity == 0) ? 1 : capacity * 2;
-    vector_resize(queue->vector, new_capacity);
+      size_t new_capacity = capacity * 2;
+      vector_resize(queue->vector, new_capacity);
+
+      for (size_t i = 0; i < queue->size; ++i) {
+        vector_set(queue->vector, i, vector_get(temp, i));
+      }
+
+      queue->front = 0;
+      queue->back = queue->size - 1;
+
+      vector_delete(temp);
+    } else {
+      size_t new_capacity = (capacity == 0) ? 1 : capacity * 2;
+      vector_resize(queue->vector, new_capacity);
+    }
   }
 
   queue->back = (queue->back + 1) % vector_size(queue->vector);
