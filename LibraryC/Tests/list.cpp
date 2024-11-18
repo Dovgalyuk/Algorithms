@@ -62,10 +62,12 @@ int main()
     }
 
     std::cout << "List: ";
-    for (ListItem *it = list_first(list) ; it ; it = list_item_next(it))
-    {
+    ListItem *it = list_first(list);
+    ListItem *finish = it;
+    do {
         std::cout << *(int*)list_item_data(it) << " ";
-    }
+        it = list_item_next(it);
+    } while (it != finish);
     std::cout << "\n";
 
     list_delete(list);

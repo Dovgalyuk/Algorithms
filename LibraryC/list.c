@@ -24,7 +24,7 @@ List *list_create(FFree f)
 
 void list_delete(List *list)
 {
-    while(list->root != NULL) list_erase_first(list);
+    while(list->root) list_erase_first(list);
     free(list);
 }
 
@@ -45,15 +45,23 @@ ListItem *list_item_next(ListItem *item)
 
 ListItem *list_item_prev(ListItem *item)
 {
-    return item->prev;
+    if (item) return item->prev;
+    else return item;
 }
 
 ListItem *list_insert(List *list, Data data)
 {
     ListItem *new_item = malloc(sizeof(ListItem));
     new_item->value = data;
-    new_item->next = list->root;
-    new_item->prev = NULL;
+    if (list->root) {
+        new_item->next = list->root;
+        new_item->prev = list->root->prev;
+        new_item->prev->next = new_item;
+        list->root->prev = new_item;
+    } else {
+        new_item->next = new_item;
+        new_item->prev = new_item;
+    }
     list->root = new_item;
     return list->root;
 }
@@ -65,33 +73,38 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     new_item->next = item->next;
     new_item->prev = item;
     item->next = new_item;
+    new_item->next->prev = new_item;
     return item->next;
 }
 
 ListItem *list_erase_first(List *list)
 {
     ListItem *tmp = NULL;
-    if (list->root)
-    {
+    if (list->root) {
         tmp = list->root->next;
-        if (tmp)
-            tmp->prev = NULL;
+
+        tmp->prev = list->root->prev;
+        list->root->prev->next = tmp;
         if (list->destructor)
             list->destructor(list->root->value);
         free(list->root);
-        list->root = tmp;
+        if (tmp != list->root)
+            list->root = tmp;
+        else
+            list->root = NULL;
     }
-    return tmp;
+    return list->root;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
     ListItem *tmp = NULL;
-    if (item->next)
+    if (item)
     {
         tmp = item->next->next;
-        if (tmp) tmp->prev = item;
-        list->destructor(item->next->value);
+        tmp->prev = item;
+        if (list->destructor)
+            list->destructor(item->next->value);
         free(item->next);
         item->next = tmp;
     }

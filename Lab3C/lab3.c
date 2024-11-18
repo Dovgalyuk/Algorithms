@@ -8,21 +8,21 @@
 
 typedef struct Pair
 {
-    char* child;
+    char child[10];
     struct Pair* parent;
 } Pair;
 
-void pair_destructor(void* pair);
 void print_node(char* node);
 void get_children(Pair* node, Queue* queue, List* visited);
 void bfs(char* start_state,char* goal_state);
 bool compare(char* state, char* goal_state);
 bool find_state(List* visited, char* state);
 void print_path(Pair* node);
+void copy_node(char* buf, char* src);
 
 int main(int argc, char **argv) {
     FILE *input = fopen(argv[1], "r");
-    char* start_state = malloc(10);
+    char start_state[10];
     fgets(start_state, 10, input);
     fclose(input);
     bfs(start_state, GOAL_STATE);
@@ -38,7 +38,8 @@ void print_node(char* node) {
 
 void get_children(Pair* node, Queue* queue, List* visited) {
     int zero_index = 0;
-    while (node->child[zero_index] != '0') zero_index++;
+    char children[10];
+    while ((node->child)[zero_index] != '0') zero_index++;
     int moves[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
     int new_zero_index;
     int x = zero_index % 3;
@@ -47,28 +48,26 @@ void get_children(Pair* node, Queue* queue, List* visited) {
         int new_x = x + moves[i][0];
         int new_y = y + moves[i][1];
         if ((0 <= new_x && new_x < 3) && (0 <= new_y && new_y < 3)) {
-            char* children = (char*)malloc(10);
             new_zero_index = new_y * 3 + new_x;
-            for (int j = 0; j < 10; j++) 
-                children[j] = (node->child)[j];
+            copy_node(children, node->child);
             children[zero_index] = (node->child)[new_zero_index];
             children[new_zero_index] = '0';
             if (!find_state(visited, children)) {
                 Pair* pair = malloc(sizeof(Pair));
-                pair->child = children;
+                copy_node(pair->child, children);
                 pair->parent = node;
                 queue_insert(queue, pair);
                 list_insert(visited, pair);
-            } else free(children); 
+            }
         }
     }
 }
 
 void bfs(char* start_state,char* goal_state) {
     Queue* queue = queue_create(NULL);
-    List* visited = list_create(pair_destructor);
+    List* visited = list_create(free);
     Pair* pair = malloc(sizeof(Pair));
-    pair->child = start_state;
+    copy_node(pair->child, start_state);
     pair->parent = NULL;
     list_insert(visited, pair);
     queue_insert(queue, pair);
@@ -102,18 +101,14 @@ bool compare(char* state, char* goal_state) {
 bool find_state(List* visited, char* state) {
     bool result = false;
     ListItem* current = list_first(visited);
-    while (current) {
-        if (compare(((Pair*)list_item_data(current))->child, state)) {
+    ListItem* finish = current;
+    do {
+        if (compare(((Pair*)list_item_data(current))->child, state))
             result = true;
-            current = NULL;
-        } else current = list_item_next(current);  
-    }
+        else
+            current = list_item_next(current);  
+    } while (!result && current != finish);
     return result;
-}
-
-void pair_destructor(void* pair) {
-    free(((Pair*)pair)->child);
-    free(pair);
 }
 
 void print_path(Pair* node) {
@@ -127,4 +122,9 @@ void print_path(Pair* node) {
         stack_pop(stack);
     }
     stack_delete(stack);
+}
+
+void copy_node(char* buf, char* src) {
+    for (int i = 0; i < 10; i++)
+        buf[i] = src[i];
 }
