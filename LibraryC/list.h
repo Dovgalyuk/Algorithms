@@ -21,6 +21,7 @@ void add_list_element(List_element** head, char x);
 
 void add_list_element(List_element** head, char x);
 
+Data pop_list (List_element **head);
 
 #ifdef __cplusplus
 }
