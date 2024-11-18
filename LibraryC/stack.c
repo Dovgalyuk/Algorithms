@@ -15,7 +15,7 @@ struct Stack {
 };
 
 
-Stack *create_stack(List_element **head ,FFree f) {
+Stack *create_stack(FFree f) {
 
     Stack *new_element = (Stack *)malloc(sizeof(Stack));
     if(NULL == new_element){
@@ -30,27 +30,12 @@ Stack *create_stack(List_element **head ,FFree f) {
 
 void stack_push(Stack *stack, Data elements) {
 
-    List_element *new_element = (List_element *)malloc(sizeof(List_element));
-    if(NULL == new_element){
-        return;
-    } else {
-        new_element -> element = elements;
-        new_element -> next = stack -> top;
-        stack -> top = new_element;
-    }
+    add_list_element(&(stack -> top), elements);
 }
 
 Data stack_pop(Stack *stack) {
 
-    if(NULL == stack -> top){
-        return '\0';
-    } else {
-        List_element *top_element = stack -> top;
-        Data element = top_element -> element;
-        stack -> top = top_element -> next;
-        free(top_element);
-        return element;
-    }
+    return pop_list(&(stack -> top));
 }
 
 int stack_is_empty (Stack *stack) {
@@ -58,17 +43,11 @@ int stack_is_empty (Stack *stack) {
     return (stack -> top == NULL) ? 1:0;
 }
 
-void free_stack (Stack *stack) {
+void free_stack(Stack *stack) {
 
-    while(!stack_is_empty(stack)){
-        List_element *top_element = stack -> top;
-        stack -> top = top_element -> next;
-        free(top_element);
-    }
+    delete_list_memory_element(&(stack -> top));
     free(stack);
 }
-
-
 Data stack_get(const Stack *stack) {
 
     if(NULL == stack || NULL == stack -> top){
