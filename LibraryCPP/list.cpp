@@ -128,19 +128,19 @@ ListItem* list_erase_next(List* list, ListItem* item) {
     if (!list) {
         throw std::invalid_argument("List is null.");
     }
-    if (!item || !item->next || item->next == item) {
+    if (!item || item->next == item) {
         throw std::invalid_argument("Invalid item for erasure.");
     }
 
     ListItem* to_delete = item->next;
 
     item->next = to_delete->next;
-
-    to_delete->next->prev = item;
     
     if (to_delete == list->head) {
-        list->head = item;
+        list->head = to_delete->next;
     }
+
+    to_delete->next->prev = item;
 
     delete to_delete;
     return item->next;
