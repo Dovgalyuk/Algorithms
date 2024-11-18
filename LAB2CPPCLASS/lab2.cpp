@@ -10,6 +10,12 @@ using namespace std;
 
 enum class typeCommand { PUSH, POP, CALL, RET, INVALID };
 
+struct command 
+{
+    typeCommand type;
+    size_t value;
+};
+
 int main(int argc, char* argv[])
 {
     
