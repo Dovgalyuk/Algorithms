@@ -4,6 +4,7 @@
 #include <map>
 #include <sstream>
 #include <stack.h>
+#include <list.h>
 
 enum class Commands { PUSH, POP, CALL, RET, ERROR };
 
