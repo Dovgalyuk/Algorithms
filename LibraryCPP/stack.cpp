@@ -1,5 +1,8 @@
 #include "stack.h"
 #include "list.h"
+#include <stdexcept>
+
+using namespace std;
 
 struct Stack
 {
@@ -26,6 +29,9 @@ void stack_push(Stack *stack, Data data)
 
 Data stack_get(const Stack *stack)
 {
+    if (stack_empty(stack)) {
+        throw runtime_error("Stack is empty");
+    }
     ListItem* item = list_first(stack->list);
     Data data = list_item_data(item);
     return data;
@@ -33,6 +39,9 @@ Data stack_get(const Stack *stack)
 
 void stack_pop(Stack *stack)
 {
+    if (stack_empty(stack)) {
+        throw runtime_error("Stack is empty");
+    }
     list_erase_first(stack->list);
 }
 
