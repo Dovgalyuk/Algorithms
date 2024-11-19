@@ -34,8 +34,8 @@ int main(int argc, char **argv)
     std::ifstream output;
     if (argc <= 2)
     {
-        input = std::ifstream("/Users/user/Projects/Algorithms/Lab3CPP/input_test_tasks.txt");
-        output = std::ifstream("/Users/user/Projects/Algorithms/Lab3CPP/output_test_tasks.txt");
+        input = std::ifstream("input.txt");
+        output = std::ifstream("output.txt");
     }
     else
     {

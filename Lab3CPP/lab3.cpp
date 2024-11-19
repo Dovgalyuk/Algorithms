@@ -41,15 +41,14 @@ bool TaskData::checkIsPointAccessible(FieldPoint const &p)
 {
     return this->getPointValue(p) != '#';
 }
-std::vector<int> TaskData::findAndRegisterAllChildren(FieldPoint const &p)
+void TaskData::findAndRegisterAllChildren(FieldPoint const &p, std::function<void(Data)> insertToQueue)
 {
-    std::vector<int> ans;
     if (p.lineNum > 0)
     {
         FieldPoint newPoint = {p.lineNum - 1, p.charNum};
         if (checkIsPointAccessible(newPoint))
         {
-            ans.push_back(registerPoint(newPoint));
+            insertToQueue(registerPoint(newPoint));
         }
     }
     if (p.charNum > 0)
@@ -57,7 +56,7 @@ std::vector<int> TaskData::findAndRegisterAllChildren(FieldPoint const &p)
         FieldPoint newPoint = {p.lineNum, p.charNum - 1};
         if (checkIsPointAccessible(newPoint))
         {
-            ans.push_back(registerPoint(newPoint));
+            insertToQueue(registerPoint(newPoint));
         }
     }
     if (p.lineNum < field.size())
@@ -65,7 +64,7 @@ std::vector<int> TaskData::findAndRegisterAllChildren(FieldPoint const &p)
         FieldPoint newPoint = {p.lineNum + 1, p.charNum};
         if (checkIsPointAccessible(newPoint))
         {
-            ans.push_back(registerPoint(newPoint));
+            insertToQueue(registerPoint(newPoint));
         }
     }
     if (p.charNum < field.at(p.lineNum).size())
@@ -73,10 +72,9 @@ std::vector<int> TaskData::findAndRegisterAllChildren(FieldPoint const &p)
         FieldPoint newPoint = {p.lineNum, p.charNum + 1};
         if (checkIsPointAccessible(newPoint))
         {
-            ans.push_back(registerPoint(newPoint));
+            insertToQueue(registerPoint(newPoint));
         }
     }
-    return ans;
 }
 
 void TaskData::process()
@@ -94,10 +92,9 @@ void TaskData::process()
             answer = pointVal.value() - '0';
             return;
         }
-        for (auto const &i : findAndRegisterAllChildren(pointCoordinates))
-        {
-            q.insert(i);
-        }
+        findAndRegisterAllChildren(pointCoordinates, [&q](Data id) { 
+            q.insert(id);
+        });
     }
     answer = -1;
 }

@@ -38,7 +38,8 @@ class Queue
 
   private:
     // private data should be here
-    Vector m_data;
+    Vector* m_data;
+    size_t offset = 0;
 };
 
 #endif

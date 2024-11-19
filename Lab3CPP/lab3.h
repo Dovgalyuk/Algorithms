@@ -3,6 +3,7 @@
 #include <map>
 #include <optional>
 #include <vector>
+#include <functional>
 
 
 struct FieldPoint
@@ -27,7 +28,7 @@ struct TaskData
     Data registerPoint(FieldPoint p);
     bool checkIsPointAccessible(FieldPoint const &p);
     std::optional<char> getPointValue(FieldPoint const &p);
-    std::vector<int> findAndRegisterAllChildren(FieldPoint const &p);
+    void findAndRegisterAllChildren(FieldPoint const &p,std::function<void(Data)> insertToQueue);
 };
 
 std::vector<std::string> Task(std::ifstream &input);

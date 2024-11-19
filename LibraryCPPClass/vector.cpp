@@ -5,17 +5,16 @@ Vector::Vector() = default;
 
 Vector::Vector(const Vector &a)
 {
-    if (&a == this || !a.m_dataAllocStart)
+    if (&a == this || !a.m_data)
     {
         return;
     }
-    this->m_dataAllocStart = new Data[a.m_capacity];
-    this->m_dataStart=this->m_dataAllocStart;
+    this->m_data = new Data[a.m_capacity];
     this->m_capacity = a.m_capacity;
     this->m_size = a.m_size;
     for (size_t i = 0; i < a.m_capacity; i++)
     {
-        this->m_dataStart[i] = a.m_dataStart[i];
+        this->m_data[i] = a.m_data[i];
     }
 }
 
@@ -25,17 +24,16 @@ Vector &Vector::operator=(const Vector &a)
     {
         return *this;
     }
-    if (this->m_dataAllocStart)
+    if (this->m_data)
     {
-        delete[] m_dataAllocStart;
+        delete[] m_data;
     }
-    this->m_dataAllocStart = new Data[a.m_capacity];
-    this->m_dataStart = m_dataAllocStart;
+    this->m_data = new Data[a.m_capacity];
     this->m_capacity = a.m_capacity;
     this->m_size = a.m_size;
     for (size_t i = 0; i < a.m_capacity; i++)
     {
-        this->m_dataStart[i] = a.m_dataStart[i];
+        this->m_data[i] = a.m_data[i];
     }
 
     return *this;
@@ -43,20 +41,9 @@ Vector &Vector::operator=(const Vector &a)
 
 Vector::~Vector()
 {
-    delete[] m_dataAllocStart;
+    delete[] m_data;
 }
 
-void Vector::erase_first()
-{
-    if (m_size == 0)
-    {
-        throw std::out_of_range("Trying to delete out of range");
-    }
-    m_dataStart++;//двигаем указатель, сделано чтобы сохранить сложность О(1). 
-    //Данные удалятся при следующем resize или в деструкторе
-    m_size--;
-    m_capacity--;
-}
 
 Data Vector::get(size_t index) const
 {
@@ -64,7 +51,7 @@ Data Vector::get(size_t index) const
     {
         throw std::out_of_range("Incorrect index");
     }
-    return m_dataStart[index];
+    return m_data[index];
 }
 
 void Vector::set(size_t index, Data value)
@@ -74,7 +61,7 @@ void Vector::set(size_t index, Data value)
         throw std::out_of_range("Incorrect index");
     }
 
-    m_dataStart[index] = value;
+    m_data[index] = value;
 }
 
 size_t Vector::size() const
@@ -95,15 +82,14 @@ void Vector::resize(size_t size)
         auto newData = new Data[newCapacity];
         for (size_t i = 0; i < m_size; i++)
         {
-            newData[i] = m_dataStart[i];
+            newData[i] = m_data[i];
         }
-        if (m_dataAllocStart)
+        if (m_data)
         {
-            delete[] m_dataAllocStart;
+            delete[] m_data;
         }
         m_capacity = newCapacity;
-        m_dataAllocStart = newData;
-        m_dataStart=m_dataAllocStart;
+        m_data = newData;
     }
     m_size = size;
 }
