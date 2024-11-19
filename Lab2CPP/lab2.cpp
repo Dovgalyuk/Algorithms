@@ -65,7 +65,6 @@ int main() {
 		switch (command.type) {
 		case Commands::PUSH: {
 			char check = static_cast<char>(command.value);
-			std::cout << check << std::endl;
 			if (check == 'A' || check == 'B' || check == 'C' || check == 'D') {
 				if (check == 'A') stack_push(stack, registers['A']);
 				if (check == 'B') stack_push(stack, registers['B']);
