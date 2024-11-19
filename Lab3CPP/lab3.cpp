@@ -7,7 +7,7 @@ using namespace std;
 
 void bfs(int** graph, int num_vertices, int start, const string &filename) {
     int* distances = new int[num_vertices];
-    for (size_t i = 0; i < num_vertices; i++) distances[i] = -1;
+    for (int i = 0; i < num_vertices; i++) distances[i] = -1;
     distances[start] = 0;
 
     Queue* queue = queue_create();
@@ -17,16 +17,16 @@ void bfs(int** graph, int num_vertices, int start, const string &filename) {
         int current = queue_get(queue);
         queue_remove(queue);
 
-        for (size_t i = 0; i < num_vertices; i++) {
+        for (int i = 0; i < num_vertices; i++) {
             if (graph[current][i] == 1 && distances[i] == -1) {
                 distances[i] = distances[current] + 1;
-                queue_insert(queue, (Data)i);
+                queue_insert(queue, i);
             }
         }
     }
 
     ofstream output(filename);
-    for (size_t i = 0; i < num_vertices; i++) output << distances[i] << endl;
+    for (int i = 0; i < num_vertices; i++) output << distances[i] << endl;
     output.close();
 }
 
@@ -42,14 +42,14 @@ int main(int argc, char* argv[]){
     input >> num_vertices;
 
     int** graph = new int*[num_vertices];
-    for (size_t i = 0; i < num_vertices; i++) {
+    for (int i = 0; i < num_vertices; i++) {
         graph[i] = new int[num_vertices];
-        for (size_t j = 0; j < num_vertices; j++) input >> graph[i][j];
+        for (int j = 0; j < num_vertices; j++) input >> graph[i][j];
     }
 
     bfs(graph, num_vertices, 0, argv[2]);
 
-    for (size_t i = 0; i < num_vertices; i++) delete[] graph[i];
+    for (int i = 0; i < num_vertices; i++) delete[] graph[i];
     delete[] graph;
 
     input.close();
