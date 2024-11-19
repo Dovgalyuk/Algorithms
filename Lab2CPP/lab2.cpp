@@ -104,6 +104,8 @@ int main() {
 		}
 		case Commands::ERROR: {
 			std::cout << "BAD COMMAND" << std::endl;
+			inputFile.close();
+			stack_delete(stack);
 			break;
 		}
 		}
