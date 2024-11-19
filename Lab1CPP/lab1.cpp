@@ -36,14 +36,14 @@ void task1(ifstream& input) {
     Array* arr = array_create_and_read(input);
     int max = 0;
     int counter = 0;
-    for(int i = 0; i<array_size(arr); i++){
+    for(size_t i = 0; i<array_size(arr); i++){
         int num = array_get(arr, i);
         if(num>max){
             max = num;
         }
     }
 
-    for(int i = 0;i<array_size(arr);i++){
+    for(size_t i = 0;i<array_size(arr);i++){
         int abs_num = array_get(arr, i);
         if(abs(abs_num)>max){
             counter+=1;
@@ -63,7 +63,7 @@ void task2(ifstream& input) {
 
     size_t index = 0;
 
-    for (int i = 0; i < array_size(arr); ++i) {
+    for (size_t i = 0; i < array_size(arr); ++i) {
         int num = array_get(arr, i);
 
         if (num < a || num > b) {
@@ -77,7 +77,7 @@ void task2(ifstream& input) {
 
     cout << endl;
 
-    for (int i = 0; i < array_size(arr); i++){
+    for (size_t i = 0; i < array_size(arr); i++){
         cout << array_get(arr, i) << ' ';
     }
 }
