@@ -56,6 +56,10 @@ public:
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
     Item *erase_next(Item *item);
+
+    // Reverse list
+    Item *reverse();
+
 private:
     size_t _size;
     Item *_list;

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <map>
 #include "array.h"
+#include "stack.h"
 using namespace std;
 
 Array *arrayCreateFromInput(std::ifstream& input) {
@@ -90,7 +91,8 @@ bool test(ifstream& output, const Array& arr){
 
 int main(int argc, char **argv) {
     ifstream input(argv[1]);
-    ifstream output(argv[2]);
+    FILE *output = freopen(argv[2], "w", stdout);
+
     Array *arrTask1 = arrayCreateFromInput(input);
     task1(arrTask1);
     if(test(output, *arrTask1)) {
@@ -109,3 +111,13 @@ int main(int argc, char **argv) {
     input.close();
     return 0;
 }
+
+
+// Init main stack number & operation (string)
+// Read and append stack
+// Raed and use main stack
+// Init
+
+// Main stack with number
+// Main stack with number & operation
+// Hash table operation or switc case
