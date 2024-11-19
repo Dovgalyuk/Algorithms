@@ -13,7 +13,10 @@ bool isMatchingPair(char opening, char closing) {
 bool isValidSequence(const std::string& sequence) {
     Stack *stack = stack_create(); // Создаем стек
     for (char ch : sequence) {
-        if (ch == '(' || ch == '[' || ch == '{' || ch == '"' || ch == '\'') {
+        if (ch == '(' || ch == '[' || ch == '{') {
+            stack_push(stack, static_cast<Data>(ch));
+        }
+        else if (ch == '"' || ch == '\'') {
             if (!stack_empty(stack)) {
                 if (stack_get(stack) == '"' || stack_get(stack) == '\'') {
                     char opening = stack_get(stack);
@@ -23,8 +26,13 @@ bool isValidSequence(const std::string& sequence) {
                     }
                     stack_pop(stack);
                 }
+                else{
+                    stack_push(stack, static_cast<Data>(ch));
+                }
             }
-            stack_push(stack, static_cast<Data>(ch));
+            else {
+                stack_push(stack, static_cast<Data>(ch));
+            }
         }
         else if (ch == ')' || ch == ']' || ch == '}') {
             if (stack_empty(stack)) {
