@@ -105,7 +105,6 @@ void bfs(Graph& graph, const string& start, const string& end, string* cityNames
     queue_delete(queue);
 }
 
-
 void printGraph(const Graph& graph, string* cityNames, int cityCount) {
     cout << "Граф:" << endl;
     for (int i = 0; i < cityCount; ++i) {

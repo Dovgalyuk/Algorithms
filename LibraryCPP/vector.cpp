@@ -16,8 +16,10 @@ Vector *vector_create() {
 }
 
 void vector_delete(Vector *vector) {
-    delete[] vector->data;
-    delete vector; 
+    if (vector != nullptr) {  // Проверка на nullptr
+        delete[] vector->data;
+        delete vector;
+    }
 }
 
 Data vector_get(const Vector *vector, size_t index) {
@@ -32,6 +34,9 @@ void vector_set(Vector *vector, size_t index, Data value) {
         vector_resize(vector, index + 1);
     }
     vector->data[index] = value;
+    if (index >= vector->size) {
+        vector->size = index + 1;  // Обновление размера вектора
+    }
 }
 
 size_t vector_size(const Vector *vector) {
