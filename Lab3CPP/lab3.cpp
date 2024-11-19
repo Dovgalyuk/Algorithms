@@ -46,16 +46,13 @@ struct Graph {
 };
 
 void bfs(Graph& graph, const string& start, const string& end, string* cityNames, int cityCount) {
-    // Получаем индексы начального и конечного городов
     int startIdx = graph.getCityIndex(start, cityNames, cityCount);
     int endIdx = graph.getCityIndex(end, cityNames, cityCount);
 
-    // Создаем векторы для хранения предыдущих узлов и посещенных узлов
     Vector* prev = vector_create();
     Vector* visited = vector_create();
     Queue* queue = queue_create();
 
-    // Проверка на успешное создание
     if (!prev || !visited || !queue) {
         cerr << "Ошибка при создании структуры данных." << endl;
         vector_delete(prev);
@@ -64,61 +61,53 @@ void bfs(Graph& graph, const string& start, const string& end, string* cityNames
         return;
     }
 
-    // Инициализация векторов
     for (int i = 0; i < cityCount; ++i) {
-        vector_set(prev, i, -1); // Изначально нет предыдущих узлов
-        vector_set(visited, i, 0); // Все узлы не посещены
+        vector_set(prev, i, -1);
+        vector_set(visited, i, 0);
     }
 
-    // Начинаем с начального узла
     vector_set(visited, startIdx, 1);
     queue_insert(queue, startIdx);
 
     bool pathFound = false;
 
-    // Основной цикл BFS
     while (!queue_empty(queue)) {
         int currentIdx = static_cast<int>(queue_get(queue));
         queue_remove(queue);
 
-        // Если достигли конечного узла, выходим из цикла
         if (currentIdx == endIdx) {
             pathFound = true;
             break;
         }
 
-        // Проходим по всем соседям текущего узла
         for (size_t i = 0; i < vector_size(graph.adjList[currentIdx]); ++i) {
             int neighborIdx = vector_get(graph.adjList[currentIdx], i);
-            if (vector_get(visited, neighborIdx) == 0) { // Если сосед не посещен
-                vector_set(visited, neighborIdx, 1); // Помечаем как посещенный
-                vector_set(prev, neighborIdx, currentIdx); // Запоминаем предшественника
-                queue_insert(queue, neighborIdx); // Добавляем соседа в очередь
+            if (vector_get(visited, neighborIdx) == 0) {
+                vector_set(visited, neighborIdx, 1);
+                vector_set(prev, neighborIdx, currentIdx);
+                queue_insert(queue, neighborIdx);
             }
         }
     }
 
-    // Если путь найден, восстанавливаем его
     if (pathFound) {
         Vector* path = vector_create();
         int city = endIdx;
         while (city != -1) {
-            vector_set(path, vector_size(path), city); // Добавляем город в путь
-            city = vector_get(prev, city); // Переходим к предшественнику
+            vector_set(path, vector_size(path), city);
+            city = vector_get(prev, city);
         }
 
-        // Выводим путь в обратном порядке
         for (int i = static_cast<int>(vector_size(path)) - 1; i >= 0; --i) {
             cout << cityNames[vector_get(path, i)] << " ";
         }
         cout << endl;
 
-        vector_delete(path); // Освобождаем память для пути
+        vector_delete(path);
     } else {
         cout << "Нет пути от " << start << " до " << end << endl;
     }
 
-    // Освобождаем память
     vector_delete(prev);
     vector_delete(visited);
     queue_delete(queue);
