@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <cmath>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 
 using namespace std; 
 
@@ -67,7 +67,7 @@ void task2(ifstream& input) {
         int num = array_get(arr, i);
 
         if (num < a || num > b) {
-            array_set(arr, index++, array_get(arr, i));
+            array_set(arr, index++, array_get(arr,i));
         }
     }
 
