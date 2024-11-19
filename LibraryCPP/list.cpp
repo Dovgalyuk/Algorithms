@@ -64,15 +64,11 @@ ListItem* list_insert(List* list, Data data)
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
+    if (item == nullptr) return nullptr;
     ListItem* newItem = new ListItem;
     newItem->data = data;
     newItem->next = item->next;
-
-    if (item->next != nullptr)
-    {
-        item->next = newItem;
-    }
-
+    item->next = newItem;
     return newItem;
 }
 
