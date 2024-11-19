@@ -1,19 +1,20 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <limits.h>
 #include "vector.h"
 #include "queue.h"
 using namespace std;
 
 Vector* breadth_first_search(Vector** graph, size_t vertices_count, size_t start_vertex) {
 	Vector* distances = vector_create();
+	vector_resize(distances, vertices_count);
 	for (size_t i = 0; i <= vertices_count; i++) {
-		vector_resize(distances, vector_size(distances) + 1);
-		vector_set(distances, i, 2147483647);
+		vector_set(distances, i, INT_MAX);
 	}
 	Vector* vertex_from = vector_create();
+	vector_resize(vertex_from, vertices_count);
 	for (size_t i = 0; i <= vertices_count; i++) {
-		vector_resize(vertex_from, vector_size(vertex_from) + 1);
 		vector_set(vertex_from, i, -1);
 	}
 	vector_set(distances, start_vertex, 0);
@@ -24,7 +25,7 @@ Vector* breadth_first_search(Vector** graph, size_t vertices_count, size_t start
 		queue_remove(queue);
 		for (size_t i = 0; i < vector_size(graph[vertex]); i++) {
 			size_t neighbor = vector_get(graph[vertex], i);
-			if (vector_get(distances, neighbor) > vector_get(distances, (size_t)vertex) + 1) {
+			if (vector_get(distances, neighbor) == INT_MAX) {
 				vector_set(distances, neighbor, vector_get(distances, (size_t)vertex) + 1);
 				vector_set(vertex_from, neighbor, vertex);
 				queue_insert(queue, (int)neighbor);
@@ -47,21 +48,14 @@ Vector* vertices_in_shortest_path(Vector* vertex_from, int end_vertex) {
 	return shortest_path;
 }
 
-
-Vector** graph_create_and_read(ifstream& input, size_t& vertices_count, int& arcs_count, size_t& start_vertex, int& end_vertex) {
-	string line;
-	while (getline(input, line) && !line.empty()) {
-		arcs_count++;
-	}
-	input.clear();
-	input.seekg(0);
+Vector** graph_create_and_read(ifstream& input, size_t& vertices_count, size_t& start_vertex, int& end_vertex) {
 	input >> vertices_count >> start_vertex >> end_vertex;
 	Vector** graph = (Vector**)malloc((vertices_count + 1) * sizeof(Vector*));
 	if (graph != nullptr) {
 		for (size_t i = 0; i <= vertices_count; i++) {
 			graph[i] = vector_create();
 		}
-		for (int i = 0; i < arcs_count; i++) {
+		while (!input.eof()) {
 			int arc_start, arc_end;
 			input >> arc_start >> arc_end;
 			vector_resize(graph[arc_start], vector_size(graph[arc_start]) + 1);
@@ -78,7 +72,6 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 	setlocale(LC_ALL, "RUS");
-	int arcs_count = -1;
 	size_t vertices_count, start_vertex;
 	int end_vertex;
 	ifstream input(argv[1]);
@@ -86,16 +79,17 @@ int main(int argc, char** argv) {
 		cout << "Не удалось открыть файл.";
 		return 1;
 	}
-	Vector** graph = graph_create_and_read(input, vertices_count, arcs_count, start_vertex, end_vertex);
+	Vector** graph = graph_create_and_read(input, vertices_count, start_vertex, end_vertex);
 	Vector* vertex_from = breadth_first_search(graph, vertices_count, start_vertex);
 	Vector* shortest_path = vertices_in_shortest_path(vertex_from, end_vertex);
 	ofstream output("output.txt");
-	if (vector_size(shortest_path) == 1 && (int)start_vertex != end_vertex) {
+	size_t path_size = vector_size(shortest_path);
+	if (path_size == 1 && (int)start_vertex != end_vertex) {
 		output << "IMPOSSIBLE";
 	}
 	else {
-		for (size_t i = vector_size(shortest_path) - 1; i != SIZE_MAX; i--) {
-			output << vector_get(shortest_path, i) << " ";
+		for (size_t i = 0; i < path_size; i++) {
+			output << vector_get(shortest_path, path_size - 1 - i) << " ";
 		}
 	}
 	for (size_t i = 0; i <= vertices_count; i++) {
