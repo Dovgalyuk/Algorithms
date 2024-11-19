@@ -28,6 +28,8 @@ void bfs(int** graph, int num_vertices, int start, const string &filename) {
     ofstream output(filename);
     for (int i = 0; i < num_vertices; i++) output << distances[i] << endl;
     output.close();
+    delete[] distances;
+    queue_delete(queue);
 }
 
 int main(int argc, char* argv[]){
