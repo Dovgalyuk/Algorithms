@@ -1,0 +1,10 @@
+A
+A->B
+B->A
+B->C
+C->B
+B->D
+D->E
+E->X
+H->T
+G->H
