@@ -1,6 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+
 // Queue
 // Stores integer values inside
 typedef int Data;
