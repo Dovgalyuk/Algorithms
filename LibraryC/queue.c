@@ -40,7 +40,7 @@ void queue_insert(Queue *queue, Data data) {
   if (queue->size >= capacity) {
     if (queue->front > 0 && queue->back < queue->front) {
       Vector *temp = vector_create(NULL);
-      vector_resize(temp, queue->size);
+      vector_resize(temp, capacity * 2);
 
       size_t idx = 0;
       for (size_t i = queue->front; i < capacity; ++i) {
@@ -50,17 +50,12 @@ void queue_insert(Queue *queue, Data data) {
         vector_set(temp, idx++, vector_get(queue->vector, i));
       }
 
-      size_t new_capacity = capacity * 2;
-      vector_resize(queue->vector, new_capacity);
-
-      for (size_t i = 0; i < queue->size; ++i) {
-        vector_set(queue->vector, i, vector_get(temp, i));
-      }
+      Vector *old = queue->vector;
+      queue->vector = temp;
+      vector_delete(old);
 
       queue->front = 0;
       queue->back = queue->size - 1;
-
-      vector_delete(temp);
     } else {
       size_t new_capacity = (capacity == 0) ? 1 : capacity * 2;
       vector_resize(queue->vector, new_capacity);
