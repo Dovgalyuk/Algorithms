@@ -1,6 +1,5 @@
 #include <iostream>
 #include <chrono>
-#include <cassert>
 #include <fstream>
 #include <unordered_map>
 #include "hash_table.h"
@@ -15,26 +14,36 @@ struct Ans {
 Ans testCustomHashTable(size_t numEntries) {
     HashTable hashTable;
 
+    std::string *keys = new std::string[numEntries];
+    std::string *values = new std::string[numEntries];
+    for (size_t i = 0; i < numEntries; ++i) {
+        keys[i] = "key" + std::to_string(i);
+        values[i] = "value" + std::to_string(i);
+    }
+
     auto startInsert = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < numEntries; ++i) {
-        hashTable.insert("key" + std::to_string(i), "value" + std::to_string(i));
+        hashTable.insert(keys[i], values[i]);
     }
     auto endInsert = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> insertDuration = endInsert - startInsert;
 
     auto startGet = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < numEntries; ++i) {
-        assert(hashTable.get("key" + std::to_string(i)) == "value" + std::to_string(i));
+        (void) hashTable.get(keys[i]);
     }
     auto endGet = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> getDuration = endGet - startGet;
 
     auto startRemove = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < numEntries; ++i) {
-        hashTable.remove("key" + std::to_string(i));
+        hashTable.remove(keys[i]);
     }
     auto endRemove = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> removeDuration = endRemove - startRemove;
+
+    delete[] keys;
+    delete[] values;
 
     return Ans{insertDuration.count(), getDuration.count(), removeDuration.count(), numEntries};
 }
@@ -42,26 +51,36 @@ Ans testCustomHashTable(size_t numEntries) {
 Ans testUnorderedMap(size_t numEntries) {
     std::unordered_map<std::string, std::string> hashMap;
 
+    std::string *keys = new std::string[numEntries];
+    std::string *values = new std::string[numEntries];
+    for (size_t i = 0; i < numEntries; ++i) {
+        keys[i] = "key" + std::to_string(i);
+        values[i] = "value" + std::to_string(i);
+    }
+
     auto startInsert = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < numEntries; ++i) {
-        hashMap["key" + std::to_string(i)] = "value" + std::to_string(i);
+        hashMap[keys[i]] = values[i];
     }
     auto endInsert = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> insertDuration = endInsert - startInsert;
 
     auto startGet = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < numEntries; ++i) {
-        assert(hashMap["key" + std::to_string(i)] == "value" + std::to_string(i));
+        (void) hashMap[keys[i]];
     }
     auto endGet = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> getDuration = endGet - startGet;
 
     auto startRemove = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < numEntries; ++i) {
-        hashMap.erase("key" + std::to_string(i));
+        hashMap.erase(keys[i]);
     }
     auto endRemove = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> removeDuration = endRemove - startRemove;
+
+    delete[] keys;
+    delete[] values;
 
     return Ans{insertDuration.count(), getDuration.count(), removeDuration.count(), numEntries};
 }
@@ -74,8 +93,8 @@ int main(int argc, char **argv) {
         return 1;
     } 
 
-    std::ofstream customFile(argv[1]);
-    std::ofstream stdFile(argv[2]);
+    std::ofstream customFile(argv[1], std::ios::binary);
+    std::ofstream stdFile(argv[2], std::ios::binary);
     if (!customFile.is_open() || !stdFile.is_open()) {
         std::cout << "Could not open files for saving data\n";
         return 1;

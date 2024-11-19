@@ -61,14 +61,23 @@ void testRemoveKey() {
     assert(hashTable.get("key5") == "value5");
 }
 
-void testMultipleEntries() {
+void testInsertAndRemoveMillion() {
     HashTable hashTable;
-    for (int i = 1; i <= 17; ++i) {
+
+    for (int i = 1; i <= 1000000; ++i) {
         hashTable.insert("key" + std::to_string(i), "value" + std::to_string(i));
     }
 
-    for (int i = 1; i <= 17; ++i) {
+    for (int i = 1; i <= 1000000; ++i) {
         assert(hashTable.get("key" + std::to_string(i)) == "value" + std::to_string(i));
+    }
+
+    for (int i = 1; i <= 1000000; ++i) {
+        hashTable.remove("key" + std::to_string(i));
+    }
+
+    for (int i = 1; i <= 1000000; ++i) {
+        assert(hashTable.check_key("key" + std::to_string(i)) == false);
     }
 }
 
@@ -77,7 +86,7 @@ int main() {
     testUpdateValue();
     testCheckKeyExists();
     testRemoveKey();
-    testMultipleEntries();
+    testInsertAndRemoveMillion();
 
     std::cout << "All tests passed!" << std::endl;
     return 0;

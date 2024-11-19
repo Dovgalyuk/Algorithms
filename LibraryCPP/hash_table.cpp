@@ -80,12 +80,9 @@ void HashTable::rehash(size_t new_size)
 
 	HashTable::KeyValue *new_array = new HashTable::KeyValue[new_size];
 	fill(new_array, new_size);
-	size_t cnt = 0;
-	for (size_t ind = 0; (ind < size) && (cnt < count); ind++)
-		if (array[ind].type == HashTable::Type::Value) {
+	for (size_t ind = 0; ind < size; ind++)
+		if (array[ind].type == HashTable::Type::Value) 
 			insert(array[ind].key, array[ind].value, new_array, new_size);
-			cnt++;
-		}
 
 	delete[] array;
 
@@ -117,7 +114,7 @@ size_t HashTable::find_index(std::string key, HashTable::KeyValue *array, size_t
 				return current_index;
 		}
 		else {
-			if ((tmp.type == HashTable::Type::None) or ((tmp.type == HashTable::Type::Value) and ((tmp.key) == key)))
+			if ((tmp.type == HashTable::Type::None) or ((tmp.type == HashTable::Type::Value) and (tmp.key == key)))
 				return current_index;
 		}
 
