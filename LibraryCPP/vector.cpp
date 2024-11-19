@@ -30,14 +30,15 @@ Data vector_get(const Vector *vector, size_t index) {
 }
 
 void vector_set(Vector *vector, size_t index, Data value) {
-    if (index >= vector->size) {
+    if (index >= vector->capacity) {
         vector_resize(vector, index + 1);
     }
     vector->data[index] = value;
     if (index >= vector->size) {
-        vector->size = index + 1;  // Обновление размера вектора
+        vector->size = index + 1;
     }
 }
+
 
 size_t vector_size(const Vector *vector) {
     return vector->size;

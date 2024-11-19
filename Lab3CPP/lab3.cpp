@@ -50,8 +50,13 @@ void bfs(Graph& graph, const string& start, const string& end, string* cityNames
     int endIdx = graph.getCityIndex(end, cityNames, cityCount);
 
     Vector* prev = vector_create();
+    if (!prev) throw std::runtime_error("Не удалось создать вектор prev");
+
     Vector* visited = vector_create();
+    if (!visited) throw std::runtime_error("Не удалось создать вектор visited");
+
     Queue* queue = queue_create();
+    if (!queue) throw std::runtime_error("Не удалось создать очередь");
 
     for (int i = 0; i < cityCount; ++i) {
         vector_set(prev, i, -1);
