@@ -83,12 +83,12 @@ void task2(ifstream& input) {
 }
 
 int main() {
-    ifstream input_1("input_1.txt");
-    task1(input_1);
-    input_1.close();
-
-    ifstream input_2("input_2.txt");
-    task2(input_2);
-    input_2.close();
+    ifstream input("input.txt");
+    if(input.is_open()){
+        task1(input);
+        task2(input);
+    }
+    input.close();
     return 0;
+    
 }
