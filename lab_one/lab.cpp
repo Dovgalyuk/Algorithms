@@ -47,7 +47,7 @@ void task1(Array *arr, size_t size) {
 
 void task2(Array *arr, size_t size, ifstream &input) {
 
-    size_t a, b;
+    int a, b;
     size_t n = 0;
     input >> a;
     input >> b;
