@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 
 using namespace std;
 
@@ -48,20 +48,16 @@ void task1(Array *arr, size_t size) {
 void task2(Array *arr, size_t size, ifstream &input) {
 
     int a, b;
-    size_t n = 0;
+    size_t index = 0;
     input >> a;
     input >> b;
-    for (size_t i = 0; i < size-n; i++) {
-        if (array_get(arr, i) >= a && array_get(arr, i) <= b) {
-            n++;
-            for (size_t j = i; j < (size-n); j++) {
-                array_set(arr, j, array_get(arr, (j+1)));
-            }
-            i--;
-
+    for (size_t i = 0; i < size; i++) {
+        if (!(array_get(arr, i) >= a && array_get(arr, i) <= b)) {
+            array_set(arr, index, array_get(arr, i));
+            index++;
         }
     }
-    for (size_t i = size - n; i < size; i++) {
+    for (size_t i = size - (size - index); i < size; i++) {
         array_set(arr, i, 0);
     }
 
