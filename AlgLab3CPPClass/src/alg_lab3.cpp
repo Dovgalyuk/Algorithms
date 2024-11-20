@@ -1,6 +1,5 @@
 #include "alg_lab3.h"
 #include "queue.h"
-#include <iostream>
 
 bool is_valid(int x, int y, const std::vector<std::string>& maze, const std::vector<std::vector<bool>>& visited) {
     return x >= 0 && x < static_cast<int>(maze.size()) &&
