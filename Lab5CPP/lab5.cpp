@@ -30,7 +30,9 @@ Ans testCustomHashTable(size_t numEntries) {
 
     auto startGet = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < numEntries; ++i) {
-        (void) hashTable.get(keys[i]);
+        if (hashTable.get(keys[i]) != values[i]) {
+            std::cout << "Error\n";
+        }
     }
     auto endGet = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> getDuration = endGet - startGet;
@@ -67,7 +69,9 @@ Ans testUnorderedMap(size_t numEntries) {
 
     auto startGet = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < numEntries; ++i) {
-        (void) hashMap[keys[i]];
+        if (hashMap[keys[i]] != values[i]) {
+            std::cout << "Error\n";
+        }
     }
     auto endGet = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> getDuration = endGet - startGet;
