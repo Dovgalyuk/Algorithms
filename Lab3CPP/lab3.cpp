@@ -5,11 +5,15 @@
 #include <vector>
 #include <unordered_map>
 
-void BFS(char start, const std::unordered_map<char, std::vector<char>>& table) {
+using CharVectorMap = std::unordered_map<char, std::vector<char>>;
+
+using CharBoolMap = std::unordered_map<char, bool>;
+
+void BFS(char start, const CharVectorMap& table) {
     Queue* q = queue_create();
     queue_insert(q, start);
 
-    std::unordered_map<char, bool> visited;
+    CharBoolMap visited;
     visited[start] = true;
 
     while (!queue_empty(q)) {
@@ -46,7 +50,7 @@ int main(int argc, char** argv) {
 
         char start = start_line[0];
 
-        std::unordered_map<char, std::vector<char>> table;
+        CharVectorMap table;
         std::string reaction;
 
         while (std::getline(input, reaction)) {
