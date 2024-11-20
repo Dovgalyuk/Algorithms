@@ -84,10 +84,11 @@ int main(int argc, char* argv[]) {
     }
 
     ifstream input(argv[1]);
-    /*if (!input) {
+    
+    if (!input) {
         cout << "opening error" <<  endl;
         return 1;
-    }*/
+    }
 
     Array *arr = array_create_and_read(input);
     task1(arr, array_size(arr));
