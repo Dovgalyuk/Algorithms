@@ -1,6 +1,8 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include "vector.h"
+
 // Queue
 // Stores integer values inside
 typedef int Data;
