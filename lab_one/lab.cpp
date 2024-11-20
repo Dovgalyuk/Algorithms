@@ -1,7 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <cmath>
-#include <string>
 #include "../LibraryCPP/array.h"
 
 using namespace std;
@@ -84,7 +82,7 @@ int main(int argc, char* argv[]) {
     }
 
     ifstream input(argv[1]);
-    
+
     if (!input) {
         cout << "opening error" <<  endl;
         return 1;
