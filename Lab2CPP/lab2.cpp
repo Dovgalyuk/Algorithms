@@ -8,46 +8,39 @@ int main(__attribute__((unused)) int argc, char** argv){
     Stack *stack = stack_create();
     string line;
     int flag = 0;
-    int od_kav = 0;
-    int dv_kav = 0;
     char c;
-    while(input.get(c)) {
-        if(c == '('){
+    while (input.get(c)) {
+        if (c == ')') {
+            if (!stack_empty(stack) && stack_get(stack) == '(') {
+                stack_pop(stack);
+            } else {
+                flag = 1;
+                break;
+            }
+        } else if (c == '(') {
             stack_push(stack, c);
-        } else if(c == ')'){
-            if(stack_get(stack) != '('){
-                flag++;
-                break;
+        } else if (c == '\'') {
+            if (!stack_empty(stack) && stack_get(stack) == '\'') {
+                stack_pop(stack);
             } else {
-                stack_pop(stack);
-            }
-        } else if(c == '\''){
-            if(od_kav && stack_get(stack) == c){
-                stack_pop(stack);
-            } else if(!od_kav){
                 stack_push(stack, c);
-                od_kav++;
-            } else {
-                flag++;
-                break;
             }
-        } else if(c == '\"'){
-            if(dv_kav && stack_get(stack) == c){
+        } else if (c == '\"') {
+            if (!stack_empty(stack) && stack_get(stack) == '\"') {
                 stack_pop(stack);
-            } else if(!dv_kav){
-                stack_push(stack, c);
-                dv_kav++;
             } else {
-                flag++;
-                break;
+                stack_push(stack, c);
             }
         }
+
     }
-    if(flag){
+
+    if (flag || !stack_empty(stack)) {
         cout << "NO";
     } else {
         cout << "YES";
     }
 
+    stack_delete(stack);
     return 0;           
 }
