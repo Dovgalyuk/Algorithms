@@ -27,11 +27,9 @@ void queue_delete(Queue* queue) {
 void queue_insert(Queue* queue, Data data) {
 	if (queue->size == vector_size(queue->vector)) {
 		vector_resize(queue->vector, vector_size(queue->vector) * 2);
-		queue->front = 0;
-		queue->back = queue->size;
 	}
-	vector_set(queue->vector, queue->back, data);
 	queue->back = (queue->back + 1) % vector_size(queue->vector);
+	vector_set(queue->vector, queue->back, data);
 	queue->size++;
 }
 
