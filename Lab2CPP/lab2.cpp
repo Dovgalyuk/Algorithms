@@ -48,14 +48,20 @@ Command parseCommand(std::string& str) {
 
 
 
-int main() {
+int main(int argc, char* argv[]) {
+	if (argc < 2) {
+		std::cerr << "Usage: " << argv[0] << " <filename>" << std::endl;
+		return 1;
+	}
+
+	std::string filename = argv[1];
 	Stack* stack = stack_create();
 	std::map<char, int> registers = { {'A', 0}, {'B', 0}, {'C', 0}, {'D', 0} };
 	const int mark = -1;
 
 
 	std::string str;
-	std::ifstream inputFile("input.txt");
+	std::ifstream inputFile(filename);
 	if (!inputFile.is_open()) {
 		std::cout << "File not found" << std::endl;
 		stack_delete(stack);
