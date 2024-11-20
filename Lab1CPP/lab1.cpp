@@ -33,28 +33,24 @@ int task_2(const Array* arr) {
             index_max = i;
         }
     }
-    if (index_min < index_max) {
-        for (size_t i = index_min +1; i < index_max; ++i) {
-            sum += array_get(arr, i);
-        }
+    if (index_min > index_max) {
+        swap(index_min, index_max);
     }
-    else {
-        for (size_t i = index_max + 1; i < index_min; ++i) {
-            sum += array_get(arr, i);
-        }
+    for (size_t i = index_min + 1; i < index_max; ++i) {
+        sum += array_get(arr, i);
     }
     return sum;
 }
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        cerr << "Íåîáõîäèìî óêàçàòü èìÿ ôàéëà!" << endl;
+        cerr << "ÃÃ¥Ã®Ã¡ÃµÃ®Ã¤Ã¨Ã¬Ã® Ã³ÃªÃ Ã§Ã Ã²Ã¼ Ã¨Ã¬Ã¿ Ã´Ã Ã©Ã«Ã !" << endl;
         return 1;
     }
 
     ifstream file(argv[1]);
     if (!file.is_open()) {
-        cerr << "Îøèáêà îòêðûòèÿ ôàéëà: " << argv[1] << endl;
+        cerr << "ÃŽÃ¸Ã¨Ã¡ÃªÃ  Ã®Ã²ÃªÃ°Ã»Ã²Ã¨Ã¿ Ã´Ã Ã©Ã«Ã : " << argv[1] << endl;
         return 1;
     }
 
@@ -70,12 +66,12 @@ int main(int argc, char* argv[]) {
     file.close();
 
     int sum = task_1(arr);
-    cout << "Îòâåò 1: " << sum << endl;
+    cout << "ÃŽÃ²Ã¢Ã¥Ã² 1: " << sum << endl;
     sum = task_2(arr);
-    cout << "Îòâåò 2: " << sum << endl;
+    cout << "ÃŽÃ²Ã¢Ã¥Ã² 2: " << sum << endl;
     array_delete(arr);
 
-    file.open("argv[1]");
+    file.open(argv[1]);
     file >> n;
     arr = array_create(n);
 
@@ -87,9 +83,9 @@ int main(int argc, char* argv[]) {
     file.close();
 
     sum = task_1(arr);
-    cout << "Îòâåò 1: " << sum << endl;
+    cout << "ÃŽÃ²Ã¢Ã¥Ã² 1: " << sum << endl;
     sum = task_2(arr);
-    cout << "Îòâåò 2: " << sum << endl;
+    cout << "ÃŽÃ²Ã¢Ã¥Ã² 2: " << sum << endl;
     array_delete(arr);
     return 0;
 }
