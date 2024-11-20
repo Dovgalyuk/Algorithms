@@ -1,4 +1,3 @@
-#include <cstddef>
 #include <stdexcept>
 #include "list.h"
 #include "stack.h"

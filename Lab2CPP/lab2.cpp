@@ -58,6 +58,7 @@ int main() {
 	std::ifstream inputFile("input.txt");
 	if (!inputFile.is_open()) {
 		std::cout << "File not found" << std::endl;
+		stack_delete(stack);
 		return 1;
 	}
 	while (std::getline(inputFile, str)) {
