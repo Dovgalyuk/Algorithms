@@ -71,4 +71,37 @@ int main()
         sum += vector.get(i);
 
     std::cout << sum << "\n";
+
+    Vector vector_copy(vector);
+    for (size_t i = 0; i < vector_copy.size(); ++i)
+    {
+        if (vector_copy.get(i) != vector.get(i))
+        {
+            std::cout << "Copy constructor failed at element " << i << "\n";
+            return 1;
+        }
+    }
+
+    Vector assigned_vector;
+    assigned_vector = vector;
+    for (size_t i = 0; i < assigned_vector.size(); ++i)
+    {
+        if (assigned_vector.get(i) != vector.get(i))
+        {
+            std::cout << "Assignment operator failed at element " << i << "\n";
+            return 1;
+        }
+    }
+
+    try
+    {
+        vector.get(vector.size());
+        std::cout << "Failed to catch out-of-bounds access\n";
+        return 1;
+    }
+    catch (const std::out_of_range &)
+    {
+        std::cout << "Caught out-of-bounds access\n";
+    }
+
 }

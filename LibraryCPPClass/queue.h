@@ -1,6 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include "vector.h"
 #include <cstddef>
 
 typedef int Data;
@@ -36,6 +37,10 @@ public:
 
 private:
     // private data should be here
+    Vector data_;
+    size_t front_;
+    size_t rear_;
+    size_t count_;
 };
 
 #endif
