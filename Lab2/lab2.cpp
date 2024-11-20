@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <stack.h>
+#include <cstring>
 
 #include "array.h"
 using namespace std;
@@ -13,7 +14,7 @@ int stringToInt(const char* str, int* result) {
 
     long num = strtol(str, &endptr, 10);
 
-    if (errno == ERANGE || num < INT_MIN || num > INT_MAX) {
+    if (errno == 34 || num < -2147483647 || num > 2147483647) {
         return -1;
     }
 
