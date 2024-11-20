@@ -68,6 +68,11 @@ int main(__attribute__((unused)) int argc, char** argv){
             } 
         }                    
     }
+    for (int i = 0; i < y_matrix; ++i) {
+        delete[] arr[i];
+    }
+    delete[] arr;
+
     cout << max;
     return 0;           
 }
