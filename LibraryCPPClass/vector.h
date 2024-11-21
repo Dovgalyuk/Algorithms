@@ -26,15 +26,20 @@ public:
     // Sets vector element with the specified index
     void set(size_t index, Data value);
 
-    // Retrieves current vector size
+    // Retrieves current vector sizes
     size_t size() const;
 
     // Changes the vector size (may increase or decrease)
     // Should be O(1) on average
     void resize(size_t size);
 
+    // Функция для обмена содержимым с другим вектором
+    void swap(Vector &other);
+
 private:
-    // private data should be here
+    Data *data_;        // указатель на массив данных
+    size_t capacity_;   // текущая вместимость массива
+    size_t size_;       // текущий размер (количество элементов)
 };
 
 #endif

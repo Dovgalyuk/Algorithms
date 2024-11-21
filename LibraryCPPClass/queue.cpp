@@ -1,38 +1,67 @@
 #include "queue.h"
+#include "vector.h"
+#include <stdexcept>
 
-Queue::Queue()
-{
+// Конструктор по умолчанию
+Queue::Queue() : vector_(), front_(0), back_(0), size_(0) {
+    vector_.resize(4); // Изначально задаём вместимость вектора
 }
 
-Queue::Queue(const Queue &a)
-{
-    // implement or disable this function
-}
+// Копирующий конструктор
+Queue::Queue(const Queue &a) : vector_(a.vector_), front_(a.front_), back_(a.back_), size_(a.size_) {}
 
-Queue &Queue::operator=(const Queue &a)
-{
-    // implement or disable this function
+// Оператор присваивания
+Queue &Queue::operator=(const Queue &a) {
+    if (this != &a) {
+        vector_ = a.vector_;
+        front_ = a.front_;
+        back_ = a.back_;
+        size_ = a.size_;
+    }
     return *this;
 }
 
-Queue::~Queue()
-{
+// Деструктор
+Queue::~Queue() {}
+
+// Вставка элемента в очередь
+void Queue::insert(Data data) {
+    if (size_ == vector_.size()) { // Увеличиваем массив, если он заполнен
+        size_t new_capacity = vector_.size() * 2;
+        Vector new_vector;
+        new_vector.resize(new_capacity);
+
+        // Переносим существующие элементы в новый массив
+        for (size_t i = 0; i < size_; ++i) {
+            new_vector.set(i, vector_.get((front_ + i) % vector_.size()));
+        }
+
+        // Используем swap для быстрого обмена
+        vector_.swap(new_vector);
+        front_ = 0;
+        back_ = size_;
+    }
+
+    vector_.set(back_, data);
+    back_ = (back_ + 1) % vector_.size();
+    ++size_;
 }
 
-void Queue::insert(Data data)
-{
+
+// Получение элемента из начала очереди
+Data Queue::get() const {
+    if (empty()) throw std::out_of_range("Queue is empty");
+    return vector_.get(front_);
 }
 
-Data Queue::get() const
-{
-    return Data();
+// Удаление элемента из начала очереди
+void Queue::remove() {
+    if (empty()) throw std::out_of_range("Queue is empty");
+    front_ = (front_ + 1) % vector_.size();
+    --size_;
 }
 
-void Queue::remove()
-{
-}
-
-bool Queue::empty() const
-{
-    return true;
+// Проверка, пуста ли очередь
+bool Queue::empty() const {
+    return size_ == 0;
 }
