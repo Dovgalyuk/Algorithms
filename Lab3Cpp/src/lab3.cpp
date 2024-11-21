@@ -30,6 +30,10 @@ int main(int argc, char* argv[]) {
         graph[vertex2].push_back(vertex1);
     }
 
+    //if (start > n || finish > n) {
+    //    return 1;
+    //}
+
     vector<int> dist(n + 1, -1);
     dist[start] = 0;
 
