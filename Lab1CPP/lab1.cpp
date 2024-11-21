@@ -23,13 +23,6 @@ Array* array_create_and_read(std::ifstream& input) {
     return arr;
 }
 
-void array_print(const Array* arr) {
-    for (size_t i = 0; i < array_size(arr); ++i) {
-        std::cout << array_get(arr, i) << " ";
-    }
-    std::cout << std::endl;
-}
-
 void task1(std::ifstream& input) {
     Array* arr = array_create_and_read(input);
 
