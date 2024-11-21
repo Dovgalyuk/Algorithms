@@ -6,3 +6,7 @@ push A
 call
 ret
 pop C
+push 65
+call
+ret
+pop D

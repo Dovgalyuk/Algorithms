@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 #include <map>
 #include <sstream>
 #include <stack.h>
@@ -11,6 +12,7 @@ enum class Commands { PUSH, POP, CALL, RET, ERROR };
 struct Command {
 	Commands type;
 	int value;
+	std::string rg;
 };
 
 Command parseCommand(std::string& str) {
@@ -24,18 +26,27 @@ Command parseCommand(std::string& str) {
 		std::string typeValue;
 		iss >> typeValue;
 
-		if (isalpha(typeValue[0])) {
+		if (typeValue == "A" || typeValue == "B" || typeValue == "C" || typeValue == "D") {
+			command.rg = typeValue;
 			command.value = typeValue[0];
 		}
+		else if (std::all_of(typeValue.begin(), typeValue.end(), [](char c) { return std::isdigit(c) != 0; })) {
+				command.value = std::stoi(typeValue);
+		}
 		else {
-			command.value = std::stoi(typeValue);
+			command.type = Commands::ERROR;
 		}
 	}
 	else if (operation == "pop") {
 		command.type = Commands::POP;
 		std::string reg;
 		iss >> reg;
-		command.value = reg[0];
+		if (reg != "A" && reg != "B" && reg != "C" && reg != "D") {
+			command.type = Commands::ERROR;
+		}
+		else {
+			command.value = reg[0];
+		}
 	}
 	else if (operation == "call") {
 		command.type = Commands::CALL;
@@ -56,7 +67,7 @@ int main(int argc, char* argv[]) {
 
 	std::string filename = argv[1];
 	Stack* stack = stack_create();
-	std::map<char, int> registers = { {'A', 0}, {'B', 0}, {'C', 0}, {'D', 0} };
+	std::map<char, int> registers = { {'A', 0}, {'B', 0}, {'C', 0}, {'D', 0}};
 	const int mark = -1;
 
 
@@ -69,15 +80,16 @@ int main(int argc, char* argv[]) {
 	}
 	while (std::getline(inputFile, str)) {
 		Command command = parseCommand(str);
+		std::string rg;
 
 		switch (command.type) {
 		case Commands::PUSH: {
-			char check = static_cast<char>(command.value);
-			if (check == 'A' || check == 'B' || check == 'C' || check == 'D') {
-				if (check == 'A') stack_push(stack, registers['A']);
-				if (check == 'B') stack_push(stack, registers['B']);
-				if (check == 'C') stack_push(stack, registers['C']);
-				if (check == 'D') stack_push(stack, registers['D']);
+			//char check = static_cast<char>(command.value);
+			if (command.rg == "A" || command.rg == "B" || command.rg == "C" || command.rg == "D") {
+				if (command.rg == "A") stack_push(stack, registers['A']);
+				if (command.rg == "B") stack_push(stack, registers['B']);
+				if (command.rg == "C") stack_push(stack, registers['C']);
+				if (command.rg == "D") stack_push(stack, registers['D']);
 			}
 			else {
 				stack_push(stack, command.value);
@@ -111,9 +123,10 @@ int main(int argc, char* argv[]) {
 			break;
 		}
 		case Commands::ERROR: {
-			std::cout << "BAD COMMAND" << std::endl;
+			std::cout << "BAD COMMAND OR BAD DATA" << std::endl;
 			inputFile.close();
 			stack_delete(stack);
+			return 1;
 			break;
 		}
 		}
