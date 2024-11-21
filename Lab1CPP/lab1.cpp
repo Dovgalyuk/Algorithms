@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <cmath>
-#include "array.h"
+#include "../LibraryCPP/array.h"
 
 using namespace std; 
 
@@ -80,15 +80,35 @@ void task2(ifstream& input) {
     for (size_t i = 0; i < array_size(arr); i++){
         cout << array_get(arr, i) << ' ';
     }
+
 }
 
-int main() {
-    ifstream input("input.txt");
-    if(input.is_open()){
+int main(int argc, char *argv[]) {
+
+    // ifstream input("test.txt");
+    // if (input.is_open())
+    // {
+    //     task1(input);
+    //     task2(input);
+    // }
+    // input.close();
+    // return 0;
+
+
+    if (argc < 2) {
+        cerr << "Usage: " << argv[0] << "<input_file>" << endl;
+        return 1; 
+    }
+
+    ifstream input(argv[1]); 
+    if (input.is_open()) {
         task1(input);
         task2(input);
+    } else {
+        cerr << "Couldn't open this file." << endl;
+        return 1;
     }
+
     input.close();
     return 0;
-    
 }
