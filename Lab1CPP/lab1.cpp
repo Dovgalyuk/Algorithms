@@ -4,7 +4,7 @@
 #include "array.h"
 
 Array* array_create_and_read(std::ifstream& input) {
-    size_t num;
+    int num;
 
     if (!(input >> num)) {
         throw std::invalid_argument("Failed to read array size");
@@ -12,7 +12,7 @@ Array* array_create_and_read(std::ifstream& input) {
 
     Array* arr = array_create(num);
 
-    for (size_t i = 0; i < num; ++i) {
+    for (int i = 0; i < num; ++i) {
         int x;
         if (!(input >> x)) {
             array_delete(arr);
