@@ -2,8 +2,6 @@
 #define QUEUE_H
 
 #include <cstddef>
-#include <queue>
-#include "list.h"
 
 typedef int Data;
 
@@ -37,7 +35,7 @@ public:
     bool empty() const;
 
 private:
-    List *_queue;
+    // private data should be here
 };
 
 #endif

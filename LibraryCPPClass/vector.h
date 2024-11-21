@@ -2,7 +2,6 @@
 #define VECTOR_H
 
 #include <cstddef>
-#include <vector>
 
 typedef int Data;
 
@@ -35,7 +34,6 @@ public:
     void resize(size_t size);
 
 private:
-    std::vector<Data> _vector;
     // private data should be here
 };
 

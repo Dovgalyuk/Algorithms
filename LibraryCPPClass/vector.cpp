@@ -1,32 +1,36 @@
 #include "vector.h"
 
-Vector::Vector(){
+Vector::Vector()
+{
 }
 
-Vector::Vector(const Vector &a){
-    _vector = a._vector;
+Vector::Vector(const Vector &a)
+{
 }
 
-Vector &Vector::operator=(const Vector &a){
+Vector &Vector::operator=(const Vector &a)
+{
     return *this;
 }
 
-Vector::~Vector(){
-    _vector.clear();
+Vector::~Vector()
+{
 }
 
-Data Vector::get(size_t index) const {
-    return _vector[index];
+Data Vector::get(size_t index) const
+{
+    return Data();
 }
 
-void Vector::set(size_t index, Data value) {
-    _vector[index] = value;
+void Vector::set(size_t index, Data value)
+{
 }
 
-size_t Vector::size() const {
-    return _vector.size();
+size_t Vector::size() const
+{
+    return 0;
 }
 
-void Vector::resize(size_t size){
-    _vector.resize(size);
+void Vector::resize(size_t size)
+{
 }
