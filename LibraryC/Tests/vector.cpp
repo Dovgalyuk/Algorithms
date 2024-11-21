@@ -27,10 +27,11 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
+        std::cerr << "set stage " << i;
         vector_set(vector, i, new int(i));
+    }
 
-    std::cerr << "set end";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)
