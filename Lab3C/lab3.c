@@ -36,51 +36,51 @@ void swap(int *a, int *b) {
 }
 
 void generate_moves(Queue *queue, State *current) {
-    int zero_pos = current -> zero_pos;
+    int zero_pos = current->zero_pos;
     int row = zero_pos / BOARD_SIZE;
     int col = zero_pos % BOARD_SIZE;
 
     if (row > 0) {
         State *next = (State *)malloc(sizeof(State));
         memcpy(next, current, sizeof(State));
-        next -> zero_pos = zero_pos - BOARD_SIZE;
-        swap(&next->board[zero_pos], &next -> board[next -> zero_pos]);
-        next -> moves++;
-        next -> move_history[next->moves - 1] = 'U';
-        next -> move_history[next->moves] = '\0';
+        next->zero_pos = zero_pos - BOARD_SIZE;
+        swap(&next->board[zero_pos], &next->board[next->zero_pos]);
+        next->moves++;
+        next->move_history[next->moves - 1] = 'U';
+        next->move_history[next->moves] = '\0';
         queue_insert(queue, next);
     }
 
     if (row < BOARD_SIZE - 1) {
         State *next = (State *)malloc(sizeof(State));
         memcpy(next, current, sizeof(State));
-        next -> zero_pos = zero_pos + BOARD_SIZE;
-        swap(&next -> board[zero_pos], &next -> board[next -> zero_pos]);
-        next -> moves++;
-        next -> move_history[next -> moves - 1] = 'D';
-        next -> move_history[next -> moves] = '\0';
+        next->zero_pos = zero_pos + BOARD_SIZE;
+        swap(&next->board[zero_pos], &next->board[next->zero_pos]);
+        next->moves++;
+        next->move_history[next->moves - 1] = 'D';
+        next->move_history[next->moves] = '\0';
         queue_insert(queue, next);
     }
 
     if (col > 0) {
         State *next = (State *)malloc(sizeof(State));
         memcpy(next, current, sizeof(State));
-        next -> zero_pos = zero_pos - 1;
-        swap(&next -> board[zero_pos], &next -> board[next -> zero_pos]);
-        next -> moves++;
-        next -> move_history[next -> moves - 1] = 'L';
-        next -> move_history[next -> moves] = '\0';
+        next->zero_pos = zero_pos - 1;
+        swap(&next->board[zero_pos], &next->board[next->zero_pos]);
+        next->moves++;
+        next->move_history[next->moves - 1] = 'L';
+        next->move_history[next->moves] = '\0';
         queue_insert(queue, next);
     }
 
     if (col < BOARD_SIZE - 1) {
         State *next = (State *)malloc(sizeof(State));
         memcpy(next, current, sizeof(State));
-        next -> zero_pos = zero_pos + 1;
-        swap(&next -> board[zero_pos], &next -> board[next -> zero_pos]);
-        next -> moves++;
-        next -> move_history[next -> moves - 1] = 'R';
-        next -> move_history[next -> moves] = '\0';
+        next->zero_pos = zero_pos + 1;
+        swap(&next->board[zero_pos], &next->board[next->zero_pos]);
+        next->moves++;
+        next->move_history[next->moves - 1] = 'R';
+        next->move_history[next->moves] = '\0';
         queue_insert(queue, next);
     }
 }
@@ -93,12 +93,12 @@ void solve_puzzle(int initial_board[BOARD_CELLS]) {
     }
 
     State *initial_state = (State *)malloc(sizeof(State));
-    initial_state -> moves = 0;
-    initial_state -> move_history[0] = '\0';
-    memcpy(initial_state->board, initial_board, sizeof(initial_state -> board));
+    initial_state->moves = 0;
+    initial_state->move_history[0] = '\0';
+    memcpy(initial_state->board, initial_board, sizeof(initial_state->board));
     for (int i = 0; i < BOARD_CELLS; i++) {
-        if (initial_state -> board[i] == 0) {
-            initial_state -> zero_pos = i;
+        if (initial_state->board[i] == 0) {
+            initial_state->zero_pos = i;
             break;
         }
     }
@@ -114,16 +114,16 @@ void solve_puzzle(int initial_board[BOARD_CELLS]) {
         }
         queue_remove(queue);
 
-        if (is_goal(current -> board)) {
-            printf("Решение найдено за %d ходов: %s\n", current -> moves, current -> move_history);
-            print_board(current -> board);
+        if (is_goal(current->board)) {
+            printf("Решение найдено за %d ходов: %s\n", current->moves, current->move_history);
+            print_board(current->board);
             free(current);
             queue_delete(queue);
             return;
         }
 
         generate_moves(queue, current);
-        free(current);
+        free(current); // Освобождаем текущее состояние после обработки
     }
 
     printf("Решение не найдено.\n");
