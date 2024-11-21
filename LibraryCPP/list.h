@@ -1,9 +1,9 @@
 #ifndef LIST_H
 #define LIST_H
-
+#include <utility>
 // List
 // Stores integer values inside
-typedef int Data;
+typedef std::pair<int,int> Data;
 
 struct List;
 struct ListItem;
@@ -40,6 +40,7 @@ ListItem *list_erase_first(List *list);
 // Deletes the list item following the specified one.
 // Returns pointer to the item next to the deleted one.
 // Should be O(1)
+ListItem* list_earse(List *list, ListItem *item);
 ListItem *list_erase_next(List *list, ListItem *item);
 
 #endif

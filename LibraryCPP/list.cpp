@@ -1,61 +1,156 @@
-#include <cstddef>
-#include "list.h"
+// list.cpp
 
+#include "list.h"
+#include <cstddef>
+
+// Определение структур, скрытое от пользователя
 struct ListItem
 {
+    Data data;
+    ListItem* next;
 };
 
 struct List
 {
+    ListItem* head;
 };
 
-List *list_create()
+// Создаёт новый список
+List* list_create()
 {
-    return new List;
+    List* list = new List;
+    list->head = nullptr;
+    return list;
 }
 
-void list_delete(List *list)
+// Уничтожает список и освобождает память
+void list_delete(List* list)
 {
-    // TODO: free items
+    ListItem* current = list->head;
+    while (current != nullptr)
+    {
+        ListItem* next = current->next;
+        delete current;
+        current = next;
+    }
     delete list;
 }
 
-ListItem *list_first(List *list)
+// Возвращает первый элемент списка
+ListItem* list_first(List* list)
 {
-    return NULL;
+    return list->head;
 }
 
-Data list_item_data(const ListItem *item)
+// Извлекает данные из элемента списка
+Data list_item_data(const ListItem* item)
 {
-    return (Data)0;
+    return item->data;
 }
 
-ListItem *list_item_next(ListItem *item)
+// Возвращает следующий элемент списка
+ListItem* list_item_next(ListItem* item)
 {
-    return NULL;
+    return item->next;
 }
 
-ListItem *list_item_prev(ListItem *item)
+// Возвращает предыдущий элемент для указанного элемента.
+// Не применимо для односвязных списков
+ListItem* list_item_prev(ListItem* item)
 {
-    return NULL;
+    // Не поддерживается в односвязном списке
+    return nullptr;
 }
 
-ListItem *list_insert(List *list, Data data)
+// Вставляет новый элемент в начало списка
+ListItem* list_insert(List* list, Data data)
 {
-    return NULL;
+    ListItem* newItem = new ListItem;
+    newItem->data = data;
+    newItem->next = list->head;
+    list->head = newItem;
+    return newItem;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
+// Вставляет новый элемент после указанного
+ListItem* list_insert_after(List* list, ListItem* item, Data data)
 {
-    return NULL;
+    if (item == nullptr)
+    {
+        // Если item == nullptr, вставляем в начало списка
+        return list_insert(list, data);
+    }
+    else
+    {
+        ListItem* newItem = new ListItem;
+        newItem->data = data;
+        newItem->next = item->next;
+        item->next = newItem;
+        return newItem;
+    }
 }
 
-ListItem *list_erase_first(List *list)
+// Удаляет первый элемент списка.
+// Возвращает указатель на следующий элемент после удалённого.
+ListItem* list_erase_first(List* list)
 {
-    return NULL;
+    if (list->head == nullptr)
+        return nullptr;
+
+    ListItem* toDelete = list->head;
+    list->head = toDelete->next;
+    ListItem* nextItem = list->head;
+    delete toDelete;
+    return nextItem;
 }
 
-ListItem *list_erase_next(List *list, ListItem *item)
+// Удаляет элемент, следующий за указанным.
+// Возвращает указатель на следующий элемент после удалённого.
+// Должно работать за O(1)
+ListItem* list_erase_next(List* list, ListItem* item)
 {
-    return NULL;
+    if (item == nullptr)
+    {
+        // Если item == nullptr, удаляем первый элемент
+        return list_erase_first(list);
+    }
+    else if (item->next == nullptr)
+    {
+        // Нет следующего элемента для удаления
+        return nullptr;
+    }
+    else
+    {
+        ListItem* toDelete = item->next;
+        item->next = toDelete->next;
+        ListItem* nextItem = item->next;
+        delete toDelete;
+        return nextItem;
+    }
+}
+
+// Удаляет указанный элемент.
+// Возвращает указатель на следующий элемент после удалённого.
+// Должно работать за O(1)
+ListItem* list_erase(List* list, ListItem* item)
+{
+    if (item == nullptr)
+        return nullptr;
+
+    if (item->next != nullptr)
+    {
+        // Копируем данные из следующего узла и удаляем следующий узел
+        ListItem* nextItem = item->next;
+        item->data = nextItem->data;
+        item->next = nextItem->next;
+        delete nextItem;
+        return item->next;
+    }
+    else
+    {
+        // Если это последний элемент, нам нужно найти предыдущий элемент, что займёт O(n)
+        // Поскольку требование O(1), удаление последнего элемента невозможно в односвязном списке без предыдущего указателя
+        // Поэтому мы не можем удалить последний элемент за O(1)
+        return nullptr;
+    }
 }
