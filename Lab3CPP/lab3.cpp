@@ -12,7 +12,7 @@ void radix_sort(Vector& vec) {
     size_t max_bits = sizeof(int) * 8;
     size_t passes = (max_bits + BITS - 1) / BITS;
 
-    Queue queues[RAD];
+    Queue <Data> queues[RAD];
 
     for (size_t pass = 0; pass < passes; ++pass) {
         size_t shift = pass * BITS;
