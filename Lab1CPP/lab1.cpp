@@ -65,7 +65,6 @@ int main() {
     std::ifstream input("input.txt");
 
     task1(input);
-    input.clear();
 
     task2(input);
     input.close();
