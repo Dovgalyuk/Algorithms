@@ -63,10 +63,6 @@ void task2(std::ifstream& input) {
 
 int main() {
     std::ifstream input("input.txt");
-    if (!input.is_open()) {
-        std::cerr << "Error opening file!" << std::endl;
-        return 1;
-    }
 
     task1(input);
     input.clear();
