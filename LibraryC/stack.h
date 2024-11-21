@@ -2,27 +2,38 @@
 #define STACK_H
 
 #include <stdbool.h>
-#include "list.h"
 
 // Stack
 // Stores pointer to custom user data
-typedef char Data;
+typedef void* Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
 
 typedef struct Stack Stack;
 
-
 #ifdef __cplusplus
 extern "C" {
     #endif
 
-    Stack *create_stack(FFree f);
-    void stack_push(Stack *stack, Data elements);
-    Data stack_pop(Stack *stack);
-    int stack_is_empty(Stack *stack);
+    // Creates empty stack
+    Stack *stack_create(FFree free_func, Data init_filler);
+
+    // Deletes the stack
+    void stack_delete(Stack *stack);
+
+    // Pushes data on top of the stack
+    // Should be O(1) on average
+    void stack_push(Stack *stack, Data new_data);
+
+    // Retrieves the last element from the stack
     Data stack_get(const Stack *stack);
-    void free_stack(Stack *stack);
+
+    // Removes the last element from the stack
+    // Should be O(1)
+    void stack_pop(Stack *stack);
+
+    // Returns true if the stack is empty
+    bool stack_empty(const Stack *stack);
 
     #ifdef __cplusplus
 }

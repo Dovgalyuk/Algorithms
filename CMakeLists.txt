@@ -11,7 +11,7 @@ else()
 endif()
 
 configure_file(
-    ${CMAKE_SOURCE_DIR}/Lab2C/input.txt
+    ${CMAKE_SOURCE_DIR}/Lab3C/input.txt
     ${CMAKE_BINARY_DIR}/Testing/Temporary/input.txt
     COPYONLY
 )
@@ -20,4 +20,4 @@ add_subdirectory(LibraryC)
 # add_subdirectory(LibraryCPPClass)
 # add_subdirectory(LibraryCPPTemplate)
 
-add_subdirectory(Lab2C)
+add_subdirectory(Lab3C)

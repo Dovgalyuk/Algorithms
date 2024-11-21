@@ -1,58 +1,38 @@
-#include "list.h"
-#include "stack.h"
-
 #include <stdlib.h>
+#include "stack.h"
+#include "vector.h"
 
-struct List_element {
-    Data element;
-    struct List_element *next;
-    FFree *distruct;
-};
+typedef struct Stack {
+    Vector *data_vector;
+} Stack;
 
-struct Stack {
-    List_element *top;
-    FFree *distruct;
-};
-
-
-Stack *create_stack(FFree f) {
-
-    Stack *new_element = (Stack *)malloc(sizeof(Stack));
-    if(NULL == new_element){
-        return NULL;
-    } else {
-        new_element -> top = NULL;
-        new_element -> distruct = f;
-        return new_element;
-    }
+Stack *stack_create(FFree free_func, Data init_filler) {
+    Stack *new_stack = malloc(sizeof(Stack));
+    new_stack -> data_vector = vector_create(free_func, init_filler);
+    return new_stack;
 }
 
-
-void stack_push(Stack *stack, Data elements) {
-
-    add_list_element(&(stack -> top), elements);
-}
-
-Data stack_pop(Stack *stack) {
-
-    return pop_list(&(stack -> top));
-}
-
-int stack_is_empty (Stack *stack) {
-
-    return (stack -> top == NULL) ? 1:0;
-}
-
-void free_stack(Stack *stack) {
-
-    delete_list_memory_element(&(stack -> top));
+void stack_delete(Stack *stack) {
+    vector_delete(stack -> data_vector);
     free(stack);
 }
-Data stack_get(const Stack *stack) {
 
-    if(NULL == stack || NULL == stack -> top){
-        return '\0';
+void stack_push(Stack *stack, Data new_data) {
+    vector_set(stack -> data_vector, vector_size(stack -> data_vector), new_data);
+}
+
+Data stack_get(const Stack *stack) {
+    return vector_get(stack -> data_vector, vector_size(stack -> data_vector) - 1);
+}
+
+void stack_pop(Stack *stack) {
+    vector_resize(stack -> data_vector, vector_size(stack -> data_vector) - 1);
+}
+
+bool stack_empty(const Stack *stack) {
+    if (vector_size(stack -> data_vector) == 0) {
+        return true;
     } else {
-        return stack -> top -> element;
+        return false;
     }
 }

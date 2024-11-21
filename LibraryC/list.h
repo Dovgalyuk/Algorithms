@@ -1,29 +1,54 @@
 #ifndef LIST_H
 #define LIST_H
 
-typedef char Data;
+// List
+// Stores pointer to custom user data
+typedef void* Data;
+// Custom function to free user pointers on delete
 typedef void (FFree)(void*);
 
-
-typedef struct List_element List_element;
-
+typedef struct ListItem ListItem;
+typedef struct List List;
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+    #endif
 
+    // Creates new list
+    List *list_create(FFree destructor_func);
 
-List_element *create_list_element (List_element **head, FFree f);
+    // Destroys the list and frees the memory
+    void list_delete(List *list);
 
-void delete_list_memory_element (List_element **head);
+    // Retrieves the first item from the list
+    ListItem *list_first(List *list);
 
-void add_list_element(List_element** head, char x);
+    // Extracts data from the list item
+    Data list_item_data(const ListItem *item);
 
-void add_list_element(List_element** head, char x);
+    // Returns list item following after the specified one
+    ListItem *list_item_next(ListItem *item);
 
-Data pop_list (List_element **head);
+    // Returns previous element for the specified item.
+    // Not applicable for the singly linked lists.
+    ListItem *list_item_prev(ListItem *item);
 
-#ifdef __cplusplus
+    // Inserts new list item into the beginning
+    ListItem *list_insert(List *list, Data data);
+
+    // Inserts new list item after the specified item
+    ListItem *list_insert_after(List *list, ListItem *item, Data data);
+
+    // Deletes the first list item.
+    // Returns pointer to the item next to the deleted one.
+    ListItem *list_erase_first(List *list);
+
+    // Deletes the list item following the specified one.
+    // Returns pointer to the item next to the deleted one.
+    // Should be O(1)
+    ListItem *list_erase_next(List *list, ListItem *item);
+
+    #ifdef __cplusplus
 }
 #endif
 
