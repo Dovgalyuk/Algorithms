@@ -1,83 +1,14 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
-#include "array.h"
+#include "stack.h"
 
-Array *array_create_and_read(std::ifstream &input)
-{
-    size_t array_size;
-    input >> array_size;
-
-    Array *arr = array_create((size_t)array_size);
-
-    int number = 0;
-    size_t index = 0;
-    while (input >> number)
-    {
-        array_set(arr, index, number);
-        index++;
-
-        if (index == array_size)
-            break;
-    }
-
-    return arr;
-}
-
-void task1(Array *arr)
-{
-    int current_number = 0;
-    int sum_of_number_digits = 0;
-    int sum_of_numbers_digits = 0;
-
-    for (size_t i = 0; i < array_size(arr); i++)
-    {
-        current_number = array_get(arr, i);
-
-        while (current_number > 0)
-        {
-            sum_of_number_digits += current_number % 10;
-            current_number /= 10;
-        }
-        sum_of_numbers_digits += sum_of_number_digits;
-        sum_of_number_digits = 0;
-    }
-
-    std::cout << "task_1: " << sum_of_numbers_digits << std::endl;
-}
-
-void task2(Array *arr)
-{
-    int sum = 0;
-    size_t min_index = 0;
-    size_t max_index = 0;
-
-   for (size_t index = 0; index < array_size(arr); index++)
-   {
-        if (array_get(arr, index) > array_get(arr, max_index))
-        {
-            max_index = index;
-        }
-
-        if (array_get(arr, index) < array_get(arr, min_index))
-        {
-            min_index = index;
-        }
-    }
-
-    if (min_index > max_index)
-    {
-        std::swap(min_index, max_index);
-    }
-
-    for (size_t index = min_index + 1; index < max_index; index++)
-    {
-        sum += array_get(arr, index);
-    }
-
-    std::cout << "task_2: " << sum;
-}
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include "stack.h"
 
 int main(int argc, char *argv[])
 {
@@ -87,22 +18,63 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    Array *arr = nullptr;
-    std::ifstream input(argv[1]);
-
-    if (!input)
+    std::ifstream file_input(argv[1]);
+    if (!file_input)
     {
         std::cerr << "read file error " << argv[1] << std::endl;
         return 1;
     }
-    
 
-    arr = array_create_and_read(input);
-    task1(arr);
-    array_delete(arr);
-    /* Create another array here */
-    arr = array_create_and_read(input);
-    task2(arr);
-    array_delete(arr);
-    input.close();
+    Stack *particle_start_coordinate = stack_create();
+    Stack *particle_charge = stack_create();
+    std::vector<std::pair<int, int>> collisions;
+    int amount_of_points = 0;
+    int input_start_coordinates = 0;
+    char input_charge = ' ';
+
+    file_input >> amount_of_points;
+
+    for (int i = 0; i < amount_of_points; i++)
+    {
+        file_input >> input_start_coordinates;
+        file_input >> input_charge;
+
+        if (stack_empty(particle_start_coordinate) && stack_empty(particle_charge))
+        {
+            stack_push(particle_start_coordinate, input_start_coordinates);
+            stack_push(particle_charge, input_charge);
+        }
+        else if (stack_get(particle_start_coordinate) > input_start_coordinates &&
+                 stack_get(particle_charge) == '-' &&
+                 input_charge == '+')
+        {
+            collisions.push_back(std::make_pair(stack_get(particle_start_coordinate), input_start_coordinates));
+            stack_pop(particle_start_coordinate);
+            stack_pop(particle_charge);
+        }
+        else if (stack_get(particle_start_coordinate) < input_start_coordinates &&
+                 stack_get(particle_charge) == '+' &&
+                 input_charge == '-')
+        {
+            collisions.push_back(std::make_pair(stack_get(particle_start_coordinate), input_start_coordinates));
+            stack_pop(particle_start_coordinate);
+            stack_pop(particle_charge);
+        }
+        else
+        {
+            stack_push(particle_start_coordinate, input_start_coordinates);
+            stack_push(particle_charge, input_charge);
+        }
+    }
+
+    stack_delete(particle_start_coordinate);
+    stack_delete(particle_charge);
+
+    if(collisions.empty())
+        std::cout << "None" << std::endl;
+
+    for (const auto &particles_pair : collisions)
+        std::cout << particles_pair.first << " " << particles_pair.second << std::endl;
+
+    return 0;
 }
