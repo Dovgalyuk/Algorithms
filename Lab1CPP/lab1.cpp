@@ -66,7 +66,6 @@ int main() {
 
     task1(input);
     input.clear();
-    input.seekg(0);
 
     task2(input);
     input.close();
