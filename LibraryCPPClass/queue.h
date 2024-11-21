@@ -37,9 +37,11 @@ class Queue
     bool empty() const;
 
   private:
+    void resizeAndAlign();
     // private data should be here
-    Vector* m_data;
-    size_t offset = 0;
+    Vector* m_data = new Vector();
+    size_t m_head = 0;
+    size_t m_size = 0;
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "queue.h"
 #include <stdexcept>
 
-Queue::Queue():m_data(new Vector())
+Queue::Queue()
 {
 }
 
@@ -10,47 +10,46 @@ Queue::~Queue()
     delete m_data;
 }
 
+void Queue::resizeAndAlign()
+{
+    m_data->resize(m_data->size() + 1);
+    if (m_head == 0) // no need to align
+    {
+        return;
+    }
+    for (size_t i = m_data->size() - 1; i > m_head; i--)
+    {
+        m_data->set(i, m_data->get(i - 1));
+    }
+    m_head++;
+}
 void Queue::insert(Data data)
 {
-    if (offset*2 >= m_data->size()) // reallocate
+    if (m_size + 1 > m_data->size())
     {
-        auto newData = new Vector();
-        size_t newSize = m_data->size()-offset + 1;
-        newData->resize(newSize);
-        for (size_t i = offset; i < m_data->size(); i++)
-        {
-            newData->set(i-offset, m_data->get(i));
-        }
-        newData->set(newData->size() - 1 , data);//last element is new
-        delete m_data;
-        m_data = newData;
-        offset = 0;
+        resizeAndAlign();
     }
-    else
-    {
-        m_data->resize(m_data->size() + 1);
-        m_data->set(m_data->size() - 1, data);
-    }
+    auto lastElIndex = (m_head + m_size) % m_data->size();
+    m_data->set(lastElIndex, data);
+    m_size++;
 }
 
 Data Queue::get() const
 {
-    if(offset >= m_data->size()){
-        throw std::runtime_error("Incorrect offset");
-    }
-    auto data = m_data->get(offset);
-    return data;
+    return m_data->get(m_head);
 }
 
 void Queue::remove()
 {
-    if(offset >= m_data->size()){
+    if (empty())
+    {
         throw std::logic_error("remove() called on empty queue");
     }
-    offset++;
+    m_size--;
+    m_head = (m_head + 1) % m_data->size();
 }
 
 bool Queue::empty() const
 {
-    return m_data->size() == offset;
+    return m_size == 0;
 }
