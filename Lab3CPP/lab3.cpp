@@ -88,6 +88,7 @@ void process()
             }
         }
     }
+    queue_delete(queue);
 }
 
 void Algorithm(std::ifstream &input)
