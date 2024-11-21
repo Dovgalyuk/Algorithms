@@ -79,8 +79,7 @@ void vector_set(Vector *vector, size_t index, Data value) {
     }
 
 
-    vector_resize(vector, index + 1); // Увеличение размера при необходимости
-       
+    vector_resize(vector, vector->size+1); // Увеличиваем размер вектора до необходимого
 
     // Если элемент на указанном индексе существует, вызываем деструктор для освобождения памяти
     if (vector->data[index] != NULL) {
@@ -120,7 +119,7 @@ void vector_resize(Vector *v, size_t new_size) {
             free(v->data); // Освобождение старого массива
         } 
         
-        for (size_t i = v->size; i < new_size; ++i) { // Инициализация оставшихся элементов NULL
+        for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
             new_data[i] = NULL; 
         }
         v->data = new_data; // Установка нового массива данных
