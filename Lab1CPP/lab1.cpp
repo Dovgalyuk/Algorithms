@@ -37,7 +37,7 @@ void task1(std::ifstream& input)
     Array* arr = array_create_and_read(input);
     size_t c5 = 0, c4 = 0, c3= 0, c2 = 0;
 
-    for(int i =0 ; i < array_size(arr); i++) {
+    for(size_t i =0 ; i < array_size(arr); i++) {
         std::cout << array_get(arr, i) << " ";
        if(array_get(arr, i) == 5) {c5++;}
        else if(array_get(arr, i) == 4) {c4++;}
@@ -63,7 +63,7 @@ void task2(std::ifstream& input)
         return;
 	}
     
-    for(int i =0 ; i < array_size(arr); i++) {
+    for(size_t i =0 ; i < array_size(arr); i++) {
         std::cout << array_get(arr, i) << " ";
         int temp = array_get(arr, i);
         array_set(arr, i, 0);
@@ -73,7 +73,7 @@ void task2(std::ifstream& input)
         }
     }
     std::cout << "\n\n";
-    for(int i =0 ; i < array_size(arr); i++) {
+    for(size_t i =0 ; i < array_size(arr); i++) {
         std::cout << array_get(arr, i) << " ";
     }
 }
