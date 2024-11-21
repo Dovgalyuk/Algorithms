@@ -103,10 +103,10 @@ void vector_resize(Vector *v, size_t new_size) {
     if (new_size > v->capacity) { // Если новый размер превышает емкость
         size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2;
         while (new_capacity < new_size) {
-            new_capacity = 2; // Увеличиваем емкость до нужного размера
+            new_capacity *= 2; // Увеличиваем емкость до нужного размера
         }
 
-        Data new_data = (Data*)malloc(new_capacity * sizeof(Data)); // Выделение памяти для нового массива
+        Data *new_data = (Data*)malloc(new_capacity * sizeof(Data)); // Выделение памяти для нового массива
         if (new_data == NULL) { // Проверка успешности выделения памяти
             return;
     }
