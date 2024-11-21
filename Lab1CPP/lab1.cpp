@@ -65,24 +65,25 @@ void task2(std::ifstream& input)
     
     for(size_t i =0 ; i < array_size(arr); i++) {
         std::cout << array_get(arr, i) << " ";
-        int temp = array_get(arr, i);
-        array_set(arr, i, 0);
+        int temp = array_get(arr, i); //запоминаю значение
+        array_set(arr, i, 0); //а в массиве ячейке присаиваю значение 0. Так все ячейки которые не будут изменены дальше будут 0 как раз таки заполняя нулями хвост
         if( temp > end || temp < start) {
-            array_set(arr, counter, temp);
+            array_set(arr, counter, temp); 
             counter++;
         }
     }
     std::cout << "\n\n";
-    for(size_t i =0 ; i < array_size(arr); i++) {
+    for(size_t i =0 ; i < array_size(arr); i++) { //а тут я уже не меняю массив просто вывожу
         std::cout << array_get(arr, i) << " ";
     }
 }
 
-int main()
+int main(int argc, char **argv)
 {
     srand((unsigned int)time(NULL));
-    //std::cout << "Hello world";
-    std::ifstream input("input.txt");
+    //std::ifstream input("input.txt");
+    if(argc <= 1) return 0;
+    std::ifstream input(argv[1]);
 	if (input.is_open()) {
 
         std::cout << " task 1:\n";
