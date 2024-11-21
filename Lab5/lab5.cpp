@@ -49,7 +49,7 @@ void testBlumFilterTime(std::ofstream& output, size_t num) {
 
     // Removing
     start = std::chrono::high_resolution_clock::now();
-    for (size_t i = 0; i < num / 2; ++i) {
+    for (size_t i = 0; i < num; ++i) {
         filter.remove(data[i]);
     }
     end = std::chrono::high_resolution_clock::now();
@@ -92,7 +92,7 @@ void testSetTime(std::ofstream& output, size_t num) {
 
     // Removing
     start = std::chrono::high_resolution_clock::now();
-    for (size_t i = 0; i < num / 2; ++i) {
+    for (size_t i = 0; i < num; ++i) {
         set.erase(data[i]);
     }
     end = std::chrono::high_resolution_clock::now();
