@@ -38,7 +38,7 @@ int main()
             return 1;
         }
     }
-    
+    std::cerr << "resize 10";
     vector_resize(vector, 10);
     if (vector_size(vector) != 10)
     {
@@ -81,7 +81,7 @@ int main()
         }
     }
     std::cout << "\n";
-    std::cerr << "Perfomance test";
+
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
