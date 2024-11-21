@@ -20,9 +20,9 @@ int main()
 {
     Vector *vector = vector_create(myfree);
 
-    std::cerr << "resize 5 start";
+    std::cerr << "resize 5 start" << std::cout;
     vector_resize(vector, 5);
-    std::cerr << "resize 5 end";
+    std::cerr << "resize 5 end" << std::cout;
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
