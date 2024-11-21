@@ -83,17 +83,7 @@ void bfs(Graph& graph, const string& start, const string& end, vector<string>& c
     }
 }
 
-void printGraph(const Graph& graph, const vector<string>& cityNames) {
-    cout << "Граф:" << endl;
-    for (size_t i = 0; i < cityNames.size(); ++i) {
-        cout << cityNames[static_cast<int>(i)] << ": ";
-        for (int neighborIdx : graph.adjList[static_cast<int>(i)]) {
-            cout << cityNames[neighborIdx] << " ";
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
+
 
 int main(int argc, char** argv) {
     if (argc < 2) {
