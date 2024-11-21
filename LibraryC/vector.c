@@ -105,6 +105,10 @@ void vector_resize(Vector *v, size_t new_size) {
         v->size = new_size; // Обновляем размер
         return;
     }
+    if (new_size > v->size) {
+        v->size = new_size; // Обновляем размер
+        return;
+    }
     
     if (new_size > v->capacity) { // Если новый размер превышает емкость
         size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2;
@@ -127,8 +131,8 @@ void vector_resize(Vector *v, size_t new_size) {
 
         v->data = new_data; // Установка нового массива данных
         v->capacity = new_capacity; // Обновление емкости
-        v->size = new_size; // Обновляем размер
-        return;
+        // v->size = new_size; // Обновляем размер
+        // return;
     }
     v->size = new_size; // Обновляем размер
 }
