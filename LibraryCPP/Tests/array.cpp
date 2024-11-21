@@ -24,6 +24,7 @@ int main()
             return 1;
         }
     }
+    std::cout << "\nTest end\n";
 
     array_delete(arr);
 }
