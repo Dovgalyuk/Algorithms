@@ -5,12 +5,17 @@
 #include <string>
 
 struct Point {
-    int x, y;
+    int row;
+    int col;
+
     bool operator==(const Point& other) const {
-        return x == other.x && y == other.y;
+        return row == other.row && col == other.col;
     }
 };
 
-void bfs(std::vector<std::string>& maze, Point start, Point end, bool& solvable);
+using Maze = std::vector<std::string>;
+
+bool is_valid(int row, int col, const Maze& maze, const std::vector<std::vector<bool>>& visited);
+void bfs(Maze& maze, Point start, Point end, bool& solvable);
 
 #endif

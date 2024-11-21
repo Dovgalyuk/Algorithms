@@ -9,7 +9,7 @@ void process_maze(std::istream& input, std::ostream& output) {
 
     int row = 0;
     while (std::getline(input, line)) {
-        if (line == "") {
+        if (line.empty()) {
             break;
         }
 
@@ -25,7 +25,7 @@ void process_maze(std::istream& input, std::ostream& output) {
         ++row;
     }
 
-    if (start.x == -1 || end.x == -1) {
+    if (start.row == -1 || end.row == -1) {
         output << "Error: Start or end point missing in the input.\n";
         return;
     }
@@ -34,12 +34,11 @@ void process_maze(std::istream& input, std::ostream& output) {
     bfs(maze, start, end, solvable);
 
     if (!solvable) {
-        output << "IMPOSSIBLE\n\n";
+        output << "IMPOSSIBLE\n";
     } else {
         for (const auto& row : maze) {
             output << row << '\n';
         }
-        output << '\n';
     }
 }
 
@@ -56,7 +55,13 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
+        bool first_case = true;
         while (true) {
+            if (!first_case) {
+                outputFile << '\n';
+            }
+            first_case = false;
+
             process_maze(inputFile, outputFile);
             std::string next;
             std::getline(inputFile, next);
@@ -68,7 +73,13 @@ int main(int argc, char* argv[]) {
         inputFile.close();
         outputFile.close();
     } else {
+        bool first_case = true;
         while (true) {
+            if (!first_case) {
+                std::cout << '\n';
+            }
+            first_case = false;
+
             process_maze(std::cin, std::cout);
             std::string next;
             std::getline(std::cin, next);

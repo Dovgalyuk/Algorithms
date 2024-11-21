@@ -27,25 +27,36 @@ Queue::~Queue()
 {
 }
 
-void Queue::insert(Data data)
-{
+void Queue::insert(Data data) {
     if (count_ == data_.size()) {
         size_t new_capacity = data_.size() * 2;
         Vector new_data;
         new_data.resize(new_capacity);
 
-        for (size_t i = 0; i < count_; ++i) {
-            new_data.set(i, data_.get((front_ + i) % data_.size()));
+        if (front_ < rear_) {
+            for (size_t i = front_; i < rear_; ++i) {
+                new_data.set(i - front_, data_.get(i));
+            }
+        } else {
+            size_t first_part_size = data_.size() - front_;
+            for (size_t i = 0; i < first_part_size; ++i) {
+                new_data.set(i, data_.get(front_ + i));
+            }
+            for (size_t i = 0; i < rear_; ++i) {
+                new_data.set(first_part_size + i, data_.get(i));
+            }
         }
-        data_ = new_data;
-        front_ = 0;
+
         rear_ = count_;
+        front_ = 0;
+        data_ = new_data;
     }
 
     data_.set(rear_, data);
     rear_ = (rear_ + 1) % data_.size();
     ++count_;
 }
+
 
 Data Queue::get() const
 {
