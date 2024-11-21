@@ -42,6 +42,9 @@ Data queue_get(const Queue* queue) {
 
 void queue_remove(Queue* queue) {
 	if (!queue_empty(queue)) {
+		for (size_t i = queue->front; i < queue->back; i++) {
+			vector_set(queue->vector, i, vector_get(queue->vector, (i + 1) % vector_size(queue->vector)));
+		}
 		queue->front = (queue->front + 1) % vector_size(queue->vector);
 		queue->size--;
 	}
