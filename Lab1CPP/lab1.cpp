@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <cmath>
-#include "array.h"
+#include "../LibraryCPP/array.h"
 
 using namespace std; 
 
@@ -51,6 +51,7 @@ void task1(ifstream& input) {
     }
 
     cout << "Result: " << counter;
+    array_delete(arr);
 }
 
 void task2(ifstream& input) {
@@ -80,7 +81,7 @@ void task2(ifstream& input) {
     for (size_t i = 0; i < array_size(arr); i++){
         cout << array_get(arr, i) << ' ';
     }
-
+    array_delete(arr);
 }
 
 int main(int argc, char *argv[]) {
@@ -108,7 +109,6 @@ int main(int argc, char *argv[]) {
         cerr << "Couldn't open this file." << endl;
         return 1;
     }
-
     input.close();
     return 0;
 }
