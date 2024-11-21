@@ -18,11 +18,11 @@ int vector_get_int(Vector *v, size_t i)
 
 int main()
 {
+    std::cerr << "create start";
     Vector *vector = vector_create(myfree);
 
-    std::cerr << "resize 5 start" << std::cout;
     vector_resize(vector, 5);
-    std::cerr << "resize 5 end" << std::cout;
+
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
