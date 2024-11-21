@@ -4,4 +4,8 @@ target_link_libraries(Lab3CPP LibraryCPP)
 
 add_test(NAME Test1 COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 
-set_tests_properties(Test1 PROPERTIES PASS_REGULAR_EXPRESSION "1 4 5 6 8")
+set_tests_properties(Test1 PROPERTIES PASS_REGULAR_EXPRESSION "1
+4
+5
+6
+8")
