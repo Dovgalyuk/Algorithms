@@ -18,7 +18,6 @@ int vector_get_int(Vector *v, size_t i)
 
 int main()
 {
-    std::cerr << "create start";
     Vector *vector = vector_create(myfree);
 
     vector_resize(vector, 5);
