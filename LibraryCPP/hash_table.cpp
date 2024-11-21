@@ -14,12 +14,13 @@ HashTable::~HashTable()
 	delete[] array;
 }
 
-void HashTable::insert(std::string key, std::string value)
+void HashTable::insert(const std::string &key, const std::string &value)
 {	
 	if (check_key(key))
 		throw std::invalid_argument("The key already exists");
 
-	if (((count+1)/size) >= load_factor) {
+	float lf = static_cast<float>(count + 1) / size;
+	if (lf >= load_factor) {
 		rehash(size * 2);
 	} 
 
@@ -27,7 +28,7 @@ void HashTable::insert(std::string key, std::string value)
 	count++;
 }
 
-std::string HashTable::get(std::string key)
+std::string &HashTable::get(const std::string &key)
 {
 	size_t index = find_index(key, array, size, false);
 	if (!check_key(index)) 
@@ -36,7 +37,7 @@ std::string HashTable::get(std::string key)
 	return array[index].value;
 }
 
-void HashTable::set(std::string key, std::string value)
+void HashTable::set(const std::string &key, const std::string &value)
 {
 	size_t index = find_index(key, array, size, false);
 	if (check_key(index))
@@ -45,7 +46,7 @@ void HashTable::set(std::string key, std::string value)
 		insert(key, value);
 }
 
-bool HashTable::check_key(std::string key)
+bool HashTable::check_key(const std::string &key)
 {
 	return check_key(find_index(key, array, size, false));
 }
@@ -55,7 +56,7 @@ bool HashTable::check_key(size_t index)
 	return array[index].type == HashTable::Type::Value;
 }
 
-void HashTable::remove(std::string key)
+void HashTable::remove(const std::string &key)
 {
 	size_t index = find_index(key, array, size, false);
 	if (!check_key(index))
@@ -90,17 +91,17 @@ void HashTable::rehash(size_t new_size)
 	array = new_array;
 }
 
-size_t HashTable::get_start_index(std::string key, size_t size)
+size_t HashTable::get_start_index(const std::string &key, size_t size)
 {
 	return my_hash1(key) % size;
 }
 
-size_t HashTable::get_step(std::string key, size_t size)
+size_t HashTable::get_step(const std::string &key, size_t size)
 {
 	return 1 + 2 * (my_hash2(key) % (size / 2));
 }
 
-size_t HashTable::find_index(std::string key, HashTable::KeyValue *array, size_t size, bool insert_mode)
+size_t HashTable::find_index(const std::string &key, HashTable::KeyValue *array, size_t size, bool insert_mode)
 {
 	size_t index = get_start_index(key, size);
 	size_t step = get_step(key, size);
@@ -133,7 +134,7 @@ size_t HashTable::find_index(std::string key, HashTable::KeyValue *array, size_t
 	return index;	
 }
 	
-void HashTable::insert(std::string key, std::string value, HashTable::KeyValue *array, size_t size)
+void HashTable::insert(const std::string &key, const std::string &value, HashTable::KeyValue *array, size_t size)
 {
 	size_t index = find_index(key, array, size, true);
 	array[index].key = key;

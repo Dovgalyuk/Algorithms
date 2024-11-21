@@ -18,22 +18,22 @@ public:
 		std::string value;
 
 		KeyValue() : type(Type::None) {};
-		KeyValue(std::string key, std::string value) : type(Type::Value), key(key), value(value) {};
+		KeyValue(const std::string &key, const std::string &value) : type(Type::Value), key(key), value(value) {};
 	};
 
 	HashTable();
 
 	~HashTable();
 
-	void insert(std::string key, std::string value);
+	void insert(const std::string &key, const std::string &value);
 
-	std::string get(std::string key);
+	std::string &get(const std::string &key);
 
-	void set(std::string key, std::string value);
+	void set(const std::string &key, const std::string &value);
 
-	bool check_key(std::string key);
+	bool check_key(const std::string &key);
 
-	void remove(std::string key);
+	void remove(const std::string &key);
 
 private:
 	size_t size;
@@ -47,13 +47,13 @@ private:
 
 	bool check_key(size_t index);
 
-	size_t get_start_index(std::string key, size_t size);
+	size_t get_start_index(const std::string &key, size_t size);
 
-	size_t get_step(std::string key, size_t size);
+	size_t get_step(const std::string &key, size_t size);
 
-	size_t find_index(std::string key, KeyValue *array, size_t size, bool insert_mode);
+	size_t find_index(const std::string &key, KeyValue *array, size_t size, bool insert_mode);
 	
-	void insert(std::string key, std::string value, KeyValue *array, size_t size);
+	void insert(const std::string &key, const std::string &value, KeyValue *array, size_t size);
 };
 
 #endif

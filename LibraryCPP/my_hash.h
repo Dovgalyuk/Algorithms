@@ -5,7 +5,7 @@
 
 typedef uint64_t Hash;
 
-Hash my_hash1(std::string a);
-Hash my_hash2(std::string a);
+Hash my_hash1(const std::string &a);
+Hash my_hash2(const std::string &a);
 
 #endif
