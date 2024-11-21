@@ -22,8 +22,6 @@ int main(int argc, char* argv[]) {
     int n, start, finish;
     input >> n >> start >> finish;
 
-    cout << endl << n << endl;
-
     start--;
     finish--;
 
