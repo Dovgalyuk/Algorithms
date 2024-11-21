@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
         std::getline(input, board[i]);
     }
 
-    int startX, startY, endX, endY;
+    int startX = -1, startY = -1, endX = -1, endY = -1;
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < N; ++j) {
             if (board[i][j] == 'K') {
