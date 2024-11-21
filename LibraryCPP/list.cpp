@@ -1,10 +1,10 @@
-#include <cstddef>
 #include "list.h"
+#include <iostream>
 
 struct ListItem {
     Data data;
-    ListItem* prev;
     ListItem* next;
+    ListItem* prev;
 };
 
 struct List {
@@ -12,98 +12,66 @@ struct List {
     ListItem* tail;
 };
 
-// создание двусвязного списка
-List *list_create() {
+List* list_create() {
     List* list = new List;
     list->head = nullptr;
     list->tail = nullptr;
     return list;
 }
 
-
-void list_delete(List *list) {
-    ListItem* current = list->head;
-    while (current) {
-        ListItem* next = current->next;
-        delete current;
-        current = next;
+void list_delete(List* list) {
+    while (list->head) {
+        list_erase_first(list);
     }
     delete list;
 }
 
-
-ListItem *list_first(List *list) {
-    return list->head;
-}
-
-// данные элемента
-Data list_item_data(const ListItem *item) {
-    return item->data;
-}
-
-
-ListItem *list_item_next(ListItem *item) {
-    return item->next;
-}
-
-ListItem *list_item_prev(ListItem *item) {
-    return item->prev;
-}
-
-// в конец
-ListItem *list_insert(List *list, Data data) {
-    ListItem* newItem = new ListItem{data, nullptr, nullptr};
-    if (!list->head) {
-        list->head = newItem;
-        list->tail = newItem;
-    } else {
+void list_insert(List* list, Data data) {
+    ListItem* newItem = new ListItem{data, nullptr, list->tail};
+    if (list->tail) {
         list->tail->next = newItem;
-        newItem->prev = list->tail;
-        list->tail = newItem;
+    } else {
+        list->head = newItem;
     }
-    return newItem;
+    list->tail = newItem;
 }
 
-
-ListItem *list_insert_after(List *list, ListItem *item, Data data) {
-    if (!item) return list_insert(list, data);
-    
-    ListItem* newItem = new ListItem{data, item, item->next};
+void list_insert_after(List* list, ListItem* item, Data data) {
+    if (!item) return;
+    ListItem* newItem = new ListItem{data, item->next, item};
     if (item->next) {
         item->next->prev = newItem;
     } else {
         list->tail = newItem;
     }
     item->next = newItem;
-    return newItem;
 }
 
-
-ListItem *list_erase_first(List *list) {
-    if (!list->head) return nullptr;
-
-    ListItem* itemToDelete = list->head;
-    list->head = list->head->next;
+void list_erase_first(List* list) {
     if (list->head) {
-        list->head->prev = nullptr;
-    } else {
-        list->tail = nullptr; // list пуст
+        ListItem* toDelete = list->head;
+        list->head = list->head->next;
+        if (list->head) {
+            list->head->prev = nullptr;
+        } else {
+            list->tail = nullptr;
+        }
+        delete toDelete;
     }
-    delete itemToDelete;
+}
+
+ListItem* list_last(const List* list) {
+    return list->tail;
+}
+
+Data list_item_data(ListItem* item) {
+    return item->data;
+}
+
+ListItem* list_first(const List* list) {
     return list->head;
 }
 
-// удаление след. элемента
-ListItem *list_erase_next(List *list, ListItem *item) {
-    if (!item || !item->next) return nullptr;
-
-    ListItem* itemToDelete = item->next;
-    item->next = itemToDelete->next;
-    if (itemToDelete->next) {
-        itemToDelete->next->prev = item;
-    } else {
-        list->tail = item; // если удаляем ласт элемент
-    }
-    delete itemToDelete;
-    return item->next;
+ListItem* list_item_next(ListItem* item) {
+    return item ? item->next : nullptr;
 }
