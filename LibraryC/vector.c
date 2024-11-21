@@ -78,16 +78,12 @@ void vector_set(Vector *vector, size_t index, Data value) {
         return;
     }
 
-
-    vector_resize(vector, vector->size+1); // Увеличиваем размер вектора до необходимого
-
-    // Если элемент на указанном индексе существует, вызываем деструктор для освобождения памяти
-    if (vector->data[index] != NULL) {
-        vector->distruct(vector->data[index]); // Вызов деструктора
+    if(index < vector_size(vector)) { 
+        vector -> data[index] = value; 
+    } else {
+        vector_resize(vector, index + 1); 
+        vector -> data[index] = value; 
     }
-    
-    // Устанавливаем новое значение на указанном индексе
-    vector->data[index] = value; // Установка нового значения
 }
 
 // Функция для получения текущего размера вектора
