@@ -78,7 +78,7 @@ void vector_set(Vector *vector, size_t index, Data value) {
         return;
     }
 
-    vector_resize(vector, index+1); // Увеличиваем размер вектора до необходимого
+    vector_resize(vector, index); // Увеличиваем размер вектора до необходимого
 
     // Если элемент на указанном индексе существует, вызываем деструктор для освобождения памяти
     if (vector->data[index] != NULL) {
