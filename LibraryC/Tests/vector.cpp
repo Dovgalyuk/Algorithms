@@ -21,6 +21,7 @@ int main()
     Vector *vector = vector_create(myfree);
 
     vector_resize(vector, 5);
+    std::cerr << "resize 5 end";
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
@@ -28,7 +29,6 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
-        std::cerr << "set stage " << i;
         vector_set(vector, i, new int(i));
     }
 
