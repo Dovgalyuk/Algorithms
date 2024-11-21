@@ -18,13 +18,9 @@ int vector_get_int(Vector *v, size_t i)
 
 int main()
 {
-    std::cout << "vector create start\n" << std::endl;
     Vector *vector = vector_create(myfree);
-    std::cout << "vector create end\n" << std::endl;
 
-    std::cout << "vector resize 5 start\n" << std::endl;
     vector_resize(vector, 5);
-    std::cout << "vector resize 5 end\n" << std::endl;
 
     if (vector_size(vector) != 5)
     {
@@ -34,6 +30,7 @@ int main()
 
     std::cout << "vector set start\n" << std::endl;
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
+        std::cout << "vector set stage\n" << i << std::endl;
         vector_set(vector, i, new int(i));
     }
     std::cout << "vector set end\n" << std::endl;
