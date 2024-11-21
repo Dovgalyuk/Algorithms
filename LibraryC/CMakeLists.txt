@@ -1,3 +1,4 @@
-add_library(LibraryC STATIC array.c list.c queue.c stack.c vector.c)
-
-add_subdirectory(Tests)
+add_executable(TestArrayC array.cpp)
+target_include_directories(TestArrayC PUBLIC ..)
+target_link_libraries(TestArrayC LibraryC)
+add_test(TestArrayC TestArrayC)

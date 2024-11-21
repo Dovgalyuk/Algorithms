@@ -67,8 +67,8 @@ void task2(std::ifstream& input) {
     array_delete(arr);
 }
 
-int main() {
-    std::ifstream input("input.txt");
+int main(int argc, char *argv[]) {
+    std::ifstream input(argv[1]);
     if (!input.is_open()) {
         std::cerr << "Error opening file!" << std::endl;
         return 1;
