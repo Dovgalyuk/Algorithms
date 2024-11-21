@@ -124,8 +124,9 @@ void vector_resize(Vector *v, size_t new_size) {
     }
 
     // Устанавливаем новый размер вектора (если он больше текущего)
-    if (new_size > v->size) {
+    if (new_size <= v->size) {
         v->size = new_size; // Обновляем размер
+        return;
     }
 }
 
