@@ -106,7 +106,7 @@ void vector_resize(Vector *v, size_t new_size) {
     }
 
     if (new_size > v->capacity) { // Если новый размер превышает емкость
-        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity; // Установка новой емкости
+        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2; // Установка новой емкости
         while (new_capacity < new_size) { // Увеличение емкости до нужного размера
             new_capacity *= 2;
         }
@@ -120,7 +120,7 @@ void vector_resize(Vector *v, size_t new_size) {
             free(v->data); // Освобождение старого массива
         } 
         
-        for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
+        for (size_t i = v->size; i < new_size; ++i) { // Инициализация оставшихся элементов NULL
             new_data[i] = NULL; 
         }
         v->data = new_data; // Установка нового массива данных
