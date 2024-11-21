@@ -53,7 +53,6 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Результат
     if (dist[finish] == -1) {
         output << "IMPOSSIBLE" << endl;
     }
