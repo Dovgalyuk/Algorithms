@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 
 struct Array
 {
