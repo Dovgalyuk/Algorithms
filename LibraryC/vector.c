@@ -127,6 +127,8 @@ void vector_resize(Vector *v, size_t new_size) {
 
         v->data = new_data; // Установка нового массива данных
         v->capacity = new_capacity; // Обновление емкости
+        v->size = new_size; // Обновляем размер
+        return;
     }
     v->size = new_size; // Обновляем размер
 }
