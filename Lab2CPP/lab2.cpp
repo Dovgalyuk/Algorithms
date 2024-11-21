@@ -16,7 +16,7 @@ struct Command {
 };
 
 Command parseCommand(std::string& str) {
-	Command command = { Commands::ERROR, 0 };
+	Command command = { Commands::ERROR, 0, "default" };
 	std::istringstream iss(str);
 	std::string operation;
 	iss >> operation;
