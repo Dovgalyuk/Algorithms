@@ -104,23 +104,22 @@ void vector_resize(Vector *v, size_t new_size) {
         return; 
     }
 
-    if (new_size > v->capacity) { // Если новый размер превышает емкость
-        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2; // Установка новой емкости
-        while (new_capacity < new_size) { // Увеличение емкости до нужного размера
-            new_capacity *= 2;
-        }
-        
-        Data *new_data = (Data *)realloc(v->data, new_capacity * sizeof(Data)); // Выделение памяти для нового массива
-        if (new_data == NULL) { // Проверка успешности выделения памяти
-            return;
-        }
-        v->data = new_data; // Установка нового массива данных
-        // for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
-        //     v->data[i] = NULL; 
-        // }  
-        v->capacity = new_capacity; // Обновление емкости
+    size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity; // Установка новой емкости
+
+    while (new_capacity < new_size) { // Увеличение емкости до нужного размера
+        new_capacity *= 2;
     }
+        
+    Data *new_data = (Data *)realloc(v->data, new_capacity * sizeof(Data)); // Выделение памяти для нового массива
+    if (new_data == NULL) { // Проверка успешности выделения памяти
+        return;
+    }
+    v->data = new_data; // Установка нового массива данных
+    v->capacity = new_capacity; // Обновление емкости
     v->size = new_size; // Установка нового размера
+    for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
+            v->data[i] = NULL; 
+        }  
 }
 
 // Функция для добавления элемента в конец вектора
