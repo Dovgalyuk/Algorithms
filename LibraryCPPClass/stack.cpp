@@ -32,7 +32,7 @@ Data Stack::get() const
         throw std::out_of_range("Stack is empty");
     }
 
-    return top->data(   );
+    return top->data();
 }
 
 void Stack::pop()

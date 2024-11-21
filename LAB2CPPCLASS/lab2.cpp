@@ -16,7 +16,7 @@ struct command
     size_t value;
 };
 
-bool valid(char reg) { return reg >= 'A' && reg <= 'D'; }
+bool validReg(char reg) { return reg >= 'A' && reg <= 'D'; }
 
 command parse(const string& input)
 {
@@ -35,7 +35,7 @@ command parse(const string& input)
     else if (op == "pop")
     {
         cmd.type = typeCommand::POP;
-        std::string reg;
+        string reg;
 
         iss >> reg;
         cmd.value = reg[0];
@@ -54,6 +54,95 @@ command parse(const string& input)
 
 int main(int argc, char* argv[])
 {
+    ifstream inputFile(argv[1]);
+    if (!inputFile.is_open()) 
+    {
+        cerr << "Error opening input file" << endl;
+        return 1;
+    }
     
+    ofstream outputFile("output2.txt");
+    if (!outputFile.is_open()) 
+    {
+        cerr << "Error opening output file" << endl;
+        return 1;
+    }
+
+    Stack processorStack;
+
+    unordered_map<char, size_t> registers = { {'A', 0}, {'B', 0}, {'C', 0}, {'D', 0} };
+    const int CALL_MARKER = static_cast<int>(-1);
+
+    string input;
+
+    while (getline(inputFile, input))
+    {
+        command cmd = parse(input);
+
+        switch (cmd.type)
+        {
+            case typeCommand::PUSH: 
+            {
+                processorStack.push(cmd.value);
+                break;
+            }
+            case typeCommand::POP: 
+            {
+                if (processorStack.empty()) 
+                {
+                    cout << "BAD POP" << endl;
+                    inputFile.close();
+                    processorStack.~Stack();
+                    return 1;
+                }
+
+                int value = processorStack.get();
+                if (value == CALL_MARKER || !validReg(static_cast<char>(cmd.value))) 
+                {
+                    cout << "BAD POP" << endl;
+                    inputFile.close();
+                    processorStack.~Stack();
+                    return 1;
+                }
+
+                registers[static_cast<char>(cmd.value)] = value;
+                processorStack.pop();
+                break;
+            }
+            case typeCommand::CALL: 
+            {
+                processorStack.push(CALL_MARKER);
+                break;
+            }
+            case typeCommand::RET: 
+            {
+                if (processorStack.empty() || processorStack.get() != CALL_MARKER) 
+                {
+                    cout << "BAD RET" << endl;
+                    inputFile.close();
+                    processorStack.~Stack();
+                    return 1;
+                }
+                processorStack.pop();
+                break;
+            }
+            case typeCommand::INVALID: 
+            {
+                cout << "Invalid command!" << endl;
+                inputFile.close();
+                outputFile.close();
+                processorStack.~Stack();
+                return 1;
+            }
+            default:
+                break;
+        }
+    }
+
+    for (const auto& reg : registers) 
+    {
+        cout << reg.first << " = " << reg.second << endl;
+    }
+
     return 0;
 }
