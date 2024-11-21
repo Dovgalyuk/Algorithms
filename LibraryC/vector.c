@@ -78,7 +78,10 @@ void vector_set(Vector *vector, size_t index, Data value) {
         return;
     }
 
-    vector_resize(vector, index+1); // Увеличиваем размер вектора до необходимого
+    // Проверка необходимости изменения емкости или размера вектора
+    if (index >= vector->capacity) {
+           vector_resize(vector, index + 1); // Увеличение размера при необходимости
+       }
 
     // Если элемент на указанном индексе существует, вызываем деструктор для освобождения памяти
     if (vector->data[index] != NULL) {
@@ -98,12 +101,12 @@ size_t vector_size(const Vector *vector) {
 void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; // Проверка на NULL 
 
-    if (new_size < v->size) { // Если новый размер меньше или равен текущему
+    if (new_size <= v->size) { // Если новый размер меньше или равен текущему
         v->size = new_size; // Установка нового размера
         return; 
     }
 
-    if (new_size >= v->capacity) { // Если новый размер превышает емкость
+    if (new_size > v->capacity) { // Если новый размер превышает емкость
         size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2; // Установка новой емкости
         while (new_capacity < new_size) { // Увеличение емкости до нужного размера
             new_capacity *= 2;
