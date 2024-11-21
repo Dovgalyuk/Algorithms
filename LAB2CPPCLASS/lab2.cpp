@@ -60,12 +60,6 @@ int main(int argc, char* argv[])
         cerr << "Error opening input file" << endl;
         return 1;
     }
-    ofstream outputFile("output.txt");
-    if (!outputFile.is_open()) 
-    {
-        cerr << "Error opening output file" << endl;
-        return 1;
-    }
 
     Stack processorStack;
 
