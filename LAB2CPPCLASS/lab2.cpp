@@ -60,8 +60,7 @@ int main(int argc, char* argv[])
         cerr << "Error opening input file" << endl;
         return 1;
     }
-    
-    ofstream outputFile("output2.txt");
+    ofstream outputFile("output.txt");
     if (!outputFile.is_open()) 
     {
         cerr << "Error opening output file" << endl;
@@ -130,7 +129,6 @@ int main(int argc, char* argv[])
             {
                 cout << "Invalid command!" << endl;
                 inputFile.close();
-                outputFile.close();
                 processorStack.~Stack();
                 return 1;
             }
