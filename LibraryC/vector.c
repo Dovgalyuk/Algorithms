@@ -78,12 +78,16 @@ void vector_set(Vector *vector, size_t index, Data value) {
         return;
     }
 
-    if(index < vector_size(vector)) { 
-        vector -> data[index] = value; 
-    } else {
-        vector_resize(vector, index + 1); 
-        vector -> data[index] = value; 
+
+    vector_resize(vector, vector->size+1); // Увеличиваем размер вектора до необходимого
+
+    // Если элемент на указанном индексе существует, вызываем деструктор для освобождения памяти
+    if (vector->data[index] != NULL) {
+        vector->distruct(vector->data[index]); // Вызов деструктора
     }
+    
+    // Устанавливаем новое значение на указанном индексе
+    vector->data[index] = value; // Установка нового значения
 }
 
 // Функция для получения текущего размера вектора
@@ -95,35 +99,33 @@ size_t vector_size(const Vector *vector) {
 void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; // Проверка на NULL 
 
+    if (new_size <= v->capacity) { // Если новый размер меньше или равен текущему
+        v->size = new_size; // Установка нового размера
+        return; 
+    }
+
     if (new_size > v->capacity) { // Если новый размер превышает емкость
         size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2; // Установка новой емкости
         while (new_capacity < new_size) { // Увеличение емкости до нужного размера
             new_capacity *= 2;
         }
         
-        Data *new_data = (Data *)realloc(v->data, new_capacity * sizeof(Data)); // Выделение памяти для нового массива
+        Data *new_data = (Data *)malloc(new_capacity * sizeof(Data)); // Выделение памяти для нового массива
         if (new_data == NULL) { // Проверка успешности выделения памяти
             return;
+        }
+        if (v->data != NULL) { // Проверка наличия данных
+            memcpy(new_data, v->data, v->size * sizeof(Data)); // Копирование старых данных в новый массив
+            free(v->data); // Освобождение старого массива
+        } 
+        
+        for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
+            new_data[i] = NULL; 
         }
         v->data = new_data; // Установка нового массива данных
         v->capacity = new_capacity; // Обновление емкости
     }
-
-    // Если новый размер меньше текущего, освобождаем лишние элементы
-    if (new_size < v->size) {
-        if (v->distruct != NULL) {
-            for (size_t i = new_size; i < v->size; ++i) {
-                if (v->data[i] != NULL)
-                    v->distruct((void*)v->data[i]); // Деструктор для освобождения ресурсов               
-            }
-        }
-    }
     v->size = new_size; // Установка нового размера
-
-    // Инициализация новых элементов, если новый размер больше текущего
-    for (size_t i = v->size; i < new_size; ++i) { 
-        v->data[i] = NULL; // Инициализация оставшихся элементов NULL
-    }
 }
 
 // Функция для добавления элемента в конец вектора
