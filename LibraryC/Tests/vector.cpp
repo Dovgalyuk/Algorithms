@@ -18,25 +18,25 @@ int vector_get_int(Vector *v, size_t i)
 
 int main()
 {
-    std::cout << "vector create start\n";
+    std::cout << "vector create start\n" << std::endl;
     Vector *vector = vector_create(myfree);
-    std::cout << "vector create end\n";
+    std::cout << "vector create end\n" << std::endl;
 
-    std::cout << "vector resize 5 start\n";
+    std::cout << "vector resize 5 start\n" << std::endl;
     vector_resize(vector, 5);
-    std::cout << "vector resize 5 end\n";
+    std::cout << "vector resize 5 end\n" << std::endl;
 
     if (vector_size(vector) != 5)
     {
-        std::cout << "Invalid resize\n";
+        std::cout << "Invalid resize\n" << std::endl;
         return 1;
     }
 
-    std::cout << "vector set start\n";
+    std::cout << "vector set start\n" << std::endl;
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
         vector_set(vector, i, new int(i));
     }
-    std::cout << "vector set end\n";
+    std::cout << "vector set end\n" << std::endl;
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
@@ -47,9 +47,9 @@ int main()
         }
     }
 
-    std::cout << "vector resize 10 start\n";
+    std::cout << "vector resize 10 start\n" << std::endl;
     vector_resize(vector, 10);
-    std::cout << "vector resize 10 end\n";
+    std::cout << "vector resize 10 end\n" << std::endl;
     if (vector_size(vector) != 10)
     {
         std::cout << "Invalid resize\n";
