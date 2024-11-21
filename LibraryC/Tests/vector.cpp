@@ -30,6 +30,7 @@ int main()
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
         vector_set(vector, i, new int(i));
 
+    std::cerr << "set end";
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)
@@ -38,7 +39,7 @@ int main()
             return 1;
         }
     }
-    std::cerr << "resize 10";
+
     vector_resize(vector, 10);
     if (vector_size(vector) != 10)
     {
