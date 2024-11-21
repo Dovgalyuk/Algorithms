@@ -3,31 +3,30 @@
 #include <unordered_map>
 #include "array.h"
 
-Array* array_create_and_read(std::ifstream& input) {
-    int num;
+Array *array_create_and_read(std::ifstream& input)
+{
+    size_t n;
+    int start;
+    int end;
 
-    if (!(input >> num)) {
-        throw std::invalid_argument("Failed to read array size");
-    }
-
-    Array* arr = array_create(num);
-
-    for (int i = 0; i < num; ++i) {
-        int x;
-        if (!(input >> x)) {
-            array_delete(arr);
-            throw std::invalid_argument("Failed to read number");
-        }
-        array_set(arr, i, x);
-    }
-    return arr;
-}
-
-void array_print(const Array* arr) {
-    for (size_t i = 0; i < array_size(arr); ++i) {
-        std::cout << array_get(arr, i) << " ";
-    }
-    std::cout << std::endl;
+	if (!(input >> n) || n < 1) {
+		std::cout << "Failed";
+        return 0;
+	}
+    if (!(input >> start)) {
+		std::cout << "Failed";
+        return 0;
+	}
+    if (!(input >> end) || end < start) {
+		std::cout << "Failed";
+        return 0;
+	}
+	Array* arr = array_create(n);
+	for (size_t i = 0; i < n; ++i) {
+		int x = rand() % (end - start + 1) + start;
+		array_set(arr, i, x);
+	}
+	return arr;
 }
 
 void task1(std::ifstream& input) {
