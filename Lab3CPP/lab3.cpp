@@ -1,35 +1,44 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#include "vector.h" 
+#include "vector.h"
 #include "queue.h"  
 
 #define BITS 2
 #define RAD (1 << BITS)
 #define MASK (RAD - 1)
 
-void radix_sort(Vector& vec) {
+void radix_sort(int* arr, size_t size) {
     size_t max_bits = sizeof(int) * 8;
     size_t passes = (max_bits + BITS - 1) / BITS;
 
-    Queue <Data> queues[RAD];
+    Queue* queues[RAD];
+    for (size_t i = 0; i < RAD; ++i) {
+        queues[i] = queue_create(); 
+    }
 
     for (size_t pass = 0; pass < passes; ++pass) {
-        size_t shift = pass * BITS;
+        size_t shift = pass * BITS; 
 
-        for (size_t i = 0; i < vector_size(&vec); ++i) {
-            int value = vector_get(&vec, i);
-            size_t queue_index = (value >> shift) & MASK;
-            queues[queue_index].insert(value);
+        // Заполнение очередей
+        for (size_t i = 0; i < size; ++i) {
+            int value = arr[i];
+            size_t queue_index = (value >> shift) & MASK;    
+            queue_insert(queues[queue_index], value); 
         }
 
+        
         size_t index = 0;
         for (size_t i = 0; i < RAD; ++i) {
-            while (!queues[i].empty()) {
-                vector_set(&vec, index++, queues[i].get());
-                queues[i].remove();
+            while (!queue_empty(queues[i])) {
+                arr[index++] = queue_get(queues[i]); 
+                queue_remove(queues[i]); 
             }
         }
+    }
+
+    for (size_t i = 0; i < RAD; ++i) {
+        queue_delete(queues[i]); 
     }
 }
 
@@ -45,21 +54,26 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    Vector* vec = vector_create();
+    size_t size = 0;
     int value;
     while (input >> value) {
-        vector_resize(vec, vector_size(vec) + 1);
-        vector_set(vec, vector_size(vec) - 1, value);
+        size++;
+    }
+    input.clear(); 
+    input.seekg(0); 
+
+    int* arr = new int[size];
+    size_t index = 0;
+    while (input >> arr[index++]) {
+        
     }
     input.close();
+    
+    radix_sort(arr, size);  
 
-    radix_sort(*vec);
-
-    for (size_t i = 0; i < vector_size(vec); ++i) {
-        std::cout << vector_get(vec, i) << std::endl;
+    for (size_t i = 0; i < size; ++i) {
+        std::cout << arr[i] << std::endl;
     }
-
-    vector_delete(vec);
-
+    delete[] arr;
     return 0;
 }
