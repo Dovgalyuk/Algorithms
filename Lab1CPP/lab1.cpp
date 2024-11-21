@@ -23,6 +23,13 @@ Array* array_create_and_read(std::ifstream& input) {
     return arr;
 }
 
+void array_print(const Array* arr) {
+    for (size_t i = 0; i < array_size(arr); ++i) {
+        std::cout << array_get(arr, i) << " ";
+    }
+    std::cout << std::endl;
+}
+
 void task1(std::ifstream& input) {
     Array* arr = array_create_and_read(input);
 
@@ -63,8 +70,14 @@ void task2(std::ifstream& input) {
 
 int main() {
     std::ifstream input("input.txt");
+    if (!input.is_open()) {
+        std::cerr << "Error opening file!" << std::endl;
+        return 1;
+    }
 
     task1(input);
+    input.clear();
+    input.seekg(0);
 
     task2(input);
     input.close();
