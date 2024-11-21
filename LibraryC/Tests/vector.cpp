@@ -81,7 +81,7 @@ int main()
         }
     }
     std::cout << "\n";
-
+    std::cerr << "Perfomance test";
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
