@@ -22,19 +22,24 @@ int main(int argc, char* argv[]) {
     int n, start, finish;
     input >> n >> start >> finish;
 
-    vector<vector<int>> graph(n + 1);
+    start--;
+    finish--;
+
+    vector<vector<int>> graph(n);
 
     int vertex1, vertex2;
     while (input >> vertex1 >> vertex2) {
+        vertex1--;
+        vertex2--;
         graph[vertex1].push_back(vertex2);
         graph[vertex2].push_back(vertex1);
     }
 
-    //if (start > n || finish > n) {
-    //    return 1;
-    //}
+    if (start > n || finish > n) {
+        return 1;
+    }
 
-    vector<int> dist(n + 1, -1);
+    vector<int> dist(n, -1);
     dist[start] = 0;
 
     Queue queue;  
