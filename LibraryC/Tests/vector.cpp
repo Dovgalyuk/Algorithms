@@ -90,9 +90,9 @@ int main()
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         std::cout << "Current size: " << vector_size(vector) << ", Capacity: " << vector_capacity(vector) << ", i: " << i << "\n";
-        std::cout << "i = "<< i <<", element = " << vector_get_int(vector, i) << std::endl;
         vector_resize(vector, i);
         vector_set(vector, i - 1, new int(i));
+        std::cout << "i = "<< i <<", element = " << vector_get_int(vector, i) << std::endl;
     }
     
     long long sum = 0;
