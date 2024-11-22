@@ -120,8 +120,10 @@ void vector_resize(Vector *v, size_t new_size) {
     }
     
     if (new_size <= v->size) { // Если новый размер меньше или равен текущему
-        for(size_t i = new_size; i < v ->  size; i ++)
-                v -> distruct((void *) v -> data[i]);            
+        for(size_t i = new_size; i < v->size; i ++) {
+            void* ptr = (void*)v->data[i]; // Получение элемента
+            v->distruct(ptr); // Вызов функции деструктора для элемента   
+        }         
     }
     v->size = new_size; // Установка нового размера
 }
