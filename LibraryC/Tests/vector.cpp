@@ -59,14 +59,7 @@ int main()
     }
     std::cout << "\n";
 
-    std::cout << vector_size(vector) << std::endl;
-    std::cout << vector_get_int(vector, 0) << std::endl;
-    std::cout << vector_get(vector, 0) << std::endl;
-    std::cout << vector_get_int(vector, 1) << std::endl;
-    std::cout << vector_get(vector, 1) << std::endl;
-    std::cout << vector_get_int(vector, 2) << std::endl;
-    std::cout << vector_get(vector, 2) << std::endl;
-    
+    std::cout << "vector resize 3 starts\n" << std::endl;
     vector_resize(vector, 3);
     std::cout << "vector resize 3 end\n" << std::endl;
     if (vector_size(vector) != 3)
@@ -74,13 +67,6 @@ int main()
         std::cout << "Invalid resize\n";
         return 1;
     }
-    std::cout << vector_size(vector) << std::endl;
-    std::cout << vector_get_int(vector, 0) << std::endl;
-    std::cout << vector_get(vector, 0) << std::endl;
-    std::cout << vector_get_int(vector, 1) << std::endl;
-    std::cout << vector_get(vector, 1) << std::endl;
-    std::cout << vector_get_int(vector, 2) << std::endl;
-    std::cout << vector_get(vector, 2) << std::endl;
     
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
