@@ -33,7 +33,7 @@ int main()
         std::cout << vector_size(vector) << i << std::endl;
         vector_set(vector, i, new int(i));
     }
-/*
+
     // check status 
     std::cout << "Vector: " << std::endl;
     for (size_t i = 0; i < vector_size(vector); ++i) {
@@ -43,7 +43,7 @@ int main()
             std::cerr << vector_get_int(vector, i) << " " << std::endl; 
         }
     }
-
+/*
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)
