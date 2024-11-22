@@ -107,10 +107,10 @@ void vector_resize(Vector *v, size_t new_size) {
         return; 
     }
 
-    // if (new_size <= v->size) { // Если новый размер меньше или равен текущему
-    //     v->size = new_size; // Установка нового размера
-    //     return; 
-    // }
+    if (new_size <= v->size) { // Если новый размер меньше или равен текущему
+        v->size = new_size; // Установка нового размера
+        return; 
+    }
 
 
         size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity; // Установка новой емкости
