@@ -27,7 +27,6 @@ int main()
         std::cout << "Invalid resize\n";
         return 1;
     }
-    std::cout << vector_size(vector) << std::endl;
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
         vector_set(vector, i, new int(i));
@@ -81,11 +80,12 @@ int main()
         if (vector_get(vector, i) == NULL) {
             break; 
         } else {
-            std::cout << vector_get_int(vector, i) << " " << std::endl; 
+            std::cout << vector_get_int(vector, i) << " "; 
         }
     }
     std::cout << "\n";
 
+    std::cout << "Test starts" << std::endl;
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
