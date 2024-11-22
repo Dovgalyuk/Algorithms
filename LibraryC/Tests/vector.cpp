@@ -8,7 +8,6 @@ void myfree(void *p)
 
 int vector_get_int(Vector *v, size_t i)
 {
-    std::cout << "vector_get_int starts" << i << std::endl;
     // Проверка на выход за пределы вектора
     if (i >= vector_size(v)) {
         std::cout << "Index out of bounds: %zu\n" << i;
@@ -29,8 +28,8 @@ int main()
         return 1;
     }
     std::cout << vector_size(vector) << std::endl;
+
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
-        std::cout << vector_size(vector) << i << std::endl;
         vector_set(vector, i, new int(i));
     }
 
@@ -60,9 +59,7 @@ int main()
     }
     std::cout << "\n";
 
-    std::cout << "vector resize 3 starts\n" << std::endl;
     vector_resize(vector, 3);
-    std::cout << "vector resize 3 end\n" << std::endl;
     if (vector_size(vector) != 3)
     {
         std::cout << "Invalid resize\n";
@@ -101,6 +98,6 @@ int main()
         sum += vector_get_int(vector, i);
 
     std::cout << sum << "\n";
-    
+
     vector_delete(vector);
 }
