@@ -101,6 +101,6 @@ int main()
         sum += vector_get_int(vector, i);
 
     std::cout << sum << "\n";
-*/
+    
     vector_delete(vector);
 }
