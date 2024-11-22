@@ -28,8 +28,9 @@ int main()
         std::cout << "Invalid resize\n";
         return 1;
     }
-
+    std::cout << vector_size(vector) << std::endl;
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
+        std::cout << vector_size(vector) << i << std::endl;
         vector_set(vector, i, new int(i));
     }
 /*
