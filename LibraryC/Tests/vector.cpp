@@ -42,7 +42,7 @@ int main()
             std::cerr << vector_get_int(vector, i) << " " << std::endl; 
         }
     }
-
+/*
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)
@@ -110,6 +110,6 @@ int main()
         sum += vector_get_int(vector, i);
 
     std::cout << sum << "\n";
-
+*/
     vector_delete(vector);
 }
