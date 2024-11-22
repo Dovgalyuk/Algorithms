@@ -11,7 +11,8 @@ int vector_get_int(Vector *v, size_t i)
     // Проверка на выход за пределы вектора
     if (i >= vector_size(v)) {
         std::cout << "Index out of bounds: " << i << "\n";
-        return NULL; 
+        out_of_bounds = true;
+        return -1; 
     }
     return *(int*)vector_get(v, i); // Возвращает значение элемента
 }
@@ -19,7 +20,8 @@ int vector_get_int(Vector *v, size_t i)
 int main()
 {
     Vector *vector = vector_create(myfree);
-
+    bool out_of_bounds = false;
+    
     vector_resize(vector, 5);
 
     if (vector_size(vector) != 5)
@@ -96,6 +98,8 @@ int main()
     long long sum = 0;
     for (int i = 0 ; i < 10000000 ; ++i) {
         sum += vector_get_int(vector, i);
+        if (out_of_bounds) // Если флаг выхода за пределы установлен, выходим из цикла
+            break;
     }
     std::cout << sum << "\n";
 
