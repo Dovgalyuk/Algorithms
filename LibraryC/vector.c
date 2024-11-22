@@ -99,7 +99,7 @@ size_t vector_size(const Vector *vector) {
 void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; // Проверка на NULL 
 
-    if (new_size > v->size && new_size < v->capacity) { // Если новый размер меньше или равен текущему
+    if (new_size > v->size && new_size < v->capacity) {
         return; 
     }
 
@@ -109,7 +109,7 @@ void vector_resize(Vector *v, size_t new_size) {
     }
 
     if (new_size > v->capacity) { // Если новый размер превышает емкость
-        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2; // Установка новой емкости
+        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity; // Установка новой емкости
         while (new_capacity < new_size) { // Увеличение емкости до нужного размера
             new_capacity *= 2;
         }
