@@ -10,18 +10,16 @@ struct Vector {
 };
 
 Vector* vector_create() {
-	Vector* vector = (Vector*)malloc(sizeof(Vector));
-	if (vector != nullptr) {
-		vector->data = (Data*)malloc(10 * sizeof(Data));
-		vector->size = 0;
-		vector->capacity = 10;
-	}
+	Vector* vector = new Vector;
+	vector->data = new Data[10];
+	vector->size = 0;
+	vector->capacity = 10;
 	return vector;
 }
 
 void vector_delete(Vector* vector) {
-	free(vector->data);
-	free(vector);
+	delete[] vector->data;
+	delete vector;
 }
 
 Data vector_get(const Vector* vector, size_t index) {
@@ -39,7 +37,11 @@ size_t vector_size(const Vector* vector) {
 void vector_resize(Vector* vector, size_t size) {
 	if (size > vector->capacity) {
 		size_t new_capacity = max(size, vector->capacity * 2);
-		Data* new_data = (Data*)realloc(vector->data, new_capacity * sizeof(Data));
+		Data* new_data = new Data[new_capacity];
+		for (size_t i = 0; i < vector->size; i++) {
+			new_data[i] = vector->data[i];
+		}
+		delete[] vector->data;
 		vector->data = new_data;
 		vector->capacity = new_capacity;
 	}
