@@ -102,33 +102,33 @@ size_t vector_capacity(const Vector *vector) {
 void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; // Проверка на NULL 
 
-    if ((new_size > v->size && new_size < v->capacity) != 1) {
-        if (new_size <= v->size) { // Если новый размер меньше или равен текущему
+    if (new_size > v->size && new_size < v->capacity) {
+        return; 
+    }
+
+    if (new_size <= v->size) { // Если новый размер меньше или равен текущему
         v->size = new_size; // Установка нового размера
         return; 
-        }
+    }
 
-        if (new_size > v->capacity) { // Если новый размер превышает емкость
-            size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity*2; // Установка новой емкости
-            while (new_capacity < new_size) { // Увеличение емкости до нужного размера
-                new_capacity *= 2;
-            }
-        
-            Data *new_data = (Data *)malloc(new_capacity * sizeof(Data)); // Выделение памяти для нового массива
-            if (new_data == NULL) { // Проверка успешности выделения памяти
-                return;
-            }
-            if (v->data != NULL) { // Проверка наличия данных
-                memcpy(new_data, v->data, v->size * sizeof(Data)); // Копирование старых данных в новый массив
-                free(v->data); // Освобождение старого массива
-            } 
-        
-            for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
-                new_data[i] = NULL; 
-            }
-            v->data = new_data; // Установка нового массива данных
-            v->capacity = new_capacity; // Обновление емкости
+    if (new_size > v->capacity) { // Если новый размер превышает емкость
+        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity*2; // Установка новой емкости
+        while (new_capacity < new_size) { // Увеличение емкости до нужного размера
+            new_capacity *= 2;
         }
+        
+        Data *new_data = (Data *)malloc(new_capacity * sizeof(Data)); // Выделение памяти для нового массива
+        if (new_data == NULL) { // Проверка успешности выделения памяти
+            return;
+        }
+        if (v->data != NULL) { // Проверка наличия данных
+            memcpy(new_data, v->data, v->size * sizeof(Data)); // Копирование старых данных в новый массив
+            free(v->data); // Освобождение старого массива
+        } 
+        
+        memset(new_data + v->size, 0, (new_capacity - v->size) * sizeof(Data)); // Обнуляем новые элементы
+        v->data = new_data; // Установка нового массива данных
+        v->capacity = new_capacity; // Обновление емкости
     }
     v->size = new_size; // Установка нового размера
 }
