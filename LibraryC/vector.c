@@ -95,6 +95,10 @@ size_t vector_size(const Vector *vector) {
     return vector->size; // Возврат размера вектора
 }
 
+size_t vector_capacity(const Vector *vector) {
+    return vector->capacity;
+}
+
 // Функция для изменения размера вектора
 void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; // Проверка на NULL 

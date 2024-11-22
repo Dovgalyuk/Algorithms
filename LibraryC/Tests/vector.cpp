@@ -89,7 +89,7 @@ int main()
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
-        std::cout << "Current size: " << vector_size(vector) << ", Capacity: " << Vector *vector->capacity << i << "\n";
+        std::cout << "Current size: " << vector_size(vector) << ", Capacity: " << vector_capacity(vector) << ", i: " << i << "\n";
         vector_resize(vector, i);
         vector_set(vector, i - 1, new int(i));
     }
