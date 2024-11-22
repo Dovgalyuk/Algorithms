@@ -8,6 +8,7 @@ void myfree(void *p)
 
 int vector_get_int(Vector *v, size_t i)
 {
+    std::cout << "vector_get_int starts" << i << std::endl;
     // Проверка на выход за пределы вектора
     if (i >= vector_size(v)) {
         std::cout << "Index out of bounds: %zu\n" << i << std::endl;
