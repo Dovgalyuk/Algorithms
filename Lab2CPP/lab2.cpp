@@ -26,16 +26,14 @@ Command parseCommand(std::string& str) {
 		std::string typeValue;
 		iss >> typeValue;
 
-		if (typeValue == "A" || typeValue == "B" || typeValue == "C" || typeValue == "D") {
-			command.rg = typeValue;
-			command.value = typeValue[0];
-		}
-		else if (std::all_of(typeValue.begin(), typeValue.end(), [](char c) { return std::isdigit(c) != 0; })) {
+		command.rg = typeValue;
+
+		/*if (std::all_of(typeValue.begin(), typeValue.end(), [](char c) { return std::isdigit(c) != 0; })) {
 				command.value = std::stoi(typeValue);
 		}
 		else {
 			command.type = Commands::ERROR;
-		}
+		}*/
 	}
 	else if (operation == "pop") {
 		command.type = Commands::POP;
@@ -91,8 +89,15 @@ int main(int argc, char* argv[]) {
 				if (command.rg == "C") stack_push(stack, registers['C']);
 				if (command.rg == "D") stack_push(stack, registers['D']);
 			}
-			else {
+			else if (std::all_of(command.rg.begin(), command.rg.end(), [](char c) { return std::isdigit(c) != 0; })) {
+				command.value = std::stoi(command.rg);
 				stack_push(stack, command.value);
+			}
+			else {
+				std::cout << "BAD PUSH" << std::endl;
+				inputFile.close();
+				stack_delete(stack);
+				return 1;
 			}
 			break;
 		}
