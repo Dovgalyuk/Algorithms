@@ -69,10 +69,10 @@ int main()
     std::cout << "vector resize 3 end\n" << std::endl;
     if (vector_size(vector) != 3)
     {
-        std::cout << "Invalid resize\n";
+        std::cout << "Invalid resize\n" << std::endl;
         return 1;
     }
-
+    std::cout << vector_size(v) << std::endl;
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)

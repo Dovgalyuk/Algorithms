@@ -127,7 +127,7 @@ void vector_resize(Vector *v, size_t new_size) {
         return;
     } 
     if (new_size <= v->size) {
-        v->size = new_size+1; // Установка нового размера
+        v->size = new_size; // Установка нового размера
         return;
     }
 }
