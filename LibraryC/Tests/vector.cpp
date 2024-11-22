@@ -67,6 +67,13 @@ int main()
         return 1;
     }
     std::cout << vector_size(vector) << std::endl;
+    std::cout << vector_get_int(vector, 0) << std::endl;
+    std::cout << vector_get(vector, 0) << std::endl;
+    std::cout << vector_get_int(vector, 1) << std::endl;
+    std::cout << vector_get(vector, 1) << std::endl;
+    std::cout << vector_get_int(vector, 2) << std::endl;
+    std::cout << vector_get(vector, 2) << std::endl;
+    
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         std::cout << "check vec_size" << std::endl;
