@@ -63,7 +63,9 @@ int main()
     }
     std::cout << "\n";
 
+    std::cout << "vector resize 3 start\n" << std::endl;
     vector_resize(vector, 3);
+    std::cout << "vector resize 3 end\n" << std::endl;
     if (vector_size(vector) != 3)
     {
         std::cout << "Invalid resize\n";
@@ -74,7 +76,7 @@ int main()
     {
         if (vector_get_int(vector, i) != (int)i)
         {
-            std::cout << "Invalid vector element " << i << "\n";
+            std::cout << "Invalid vector element " << i << "\n" << std::endl;
             return 1;
         }
     }
