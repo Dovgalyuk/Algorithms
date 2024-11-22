@@ -25,16 +25,13 @@ int main()
 
     if (vector_size(vector) != 5)
     {
-        std::cout << "Invalid resize\n" << std::endl;
+        std::cout << "Invalid resize\n";
         return 1;
     }
 
-    std::cout << "vector set start\n" << std::endl;
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
-        std::cout << "vector set stage" << i << std::endl;
         vector_set(vector, i, new int(i));
     }
-    std::cout << "vector set end\n" << std::endl;
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
@@ -45,9 +42,7 @@ int main()
         }
     }
 
-    std::cout << "vector resize 10 start\n" << std::endl;
     vector_resize(vector, 10);
-    std::cout << "vector resize 10 end\n" << std::endl;
     if (vector_size(vector) != 10)
     {
         std::cout << "Invalid resize\n";
@@ -59,22 +54,22 @@ int main()
         if (vector_get(vector, i) == NULL) {
             break; 
         } else {
-            std::cout << vector_get_int(vector, i) << " " << std::endl; 
+            std::cout << vector_get_int(vector, i) << " "; 
         }
     }
     std::cout << "\n";
 
-    std::cout << "vector resize 3 start\n" << std::endl;
     vector_resize(vector, 3);
     std::cout << "vector resize 3 end\n" << std::endl;
     if (vector_size(vector) != 3)
     {
-        std::cout << "Invalid resize\n" << std::endl;
+        std::cout << "Invalid resize\n";
         return 1;
     }
     std::cout << vector_size(vector) << std::endl;
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
+        std::cout << "check vec_size" << std::endl;
         if (vector_get_int(vector, i) != (int)i)
         {
             std::cout << "Invalid vector element " << i << "\n" << std::endl;
