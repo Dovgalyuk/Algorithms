@@ -102,6 +102,10 @@ size_t vector_size(const Vector *vector) {
 void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; // Проверка на NULL 
 
+    if (new_size > v->size && new_size < v->capacity) { // Если новый размер меньше или равен текущему
+        return; 
+    }
+
     if (new_size <= v->size) { // Если новый размер меньше или равен текущему
         v->size = new_size; // Установка нового размера
         return; 
