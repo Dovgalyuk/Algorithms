@@ -67,7 +67,6 @@ int main()
     
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        std::cout << "check vec_size" << std::endl;
         if (vector_get_int(vector, i) != (int)i)
         {
             std::cout << "Invalid vector element " << i << "\n";
@@ -92,7 +91,7 @@ int main()
         std::cout << "Current size: " << vector_size(vector) << ", Capacity: " << vector_capacity(vector) << ", i: " << i << "\n";
         vector_resize(vector, i);
         vector_set(vector, i - 1, new int(i));
-        std::cout << "i = "<< i <<", element = " << vector_get(vector, i) << std::endl;
+        std::cout << "index = "<< i-1 <<", element = " << vector_get_int(vector, i-1) << std::endl;
     }
     
     long long sum = 0;
