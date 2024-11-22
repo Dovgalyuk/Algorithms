@@ -72,7 +72,7 @@ int main()
         std::cout << "check vec_size" << std::endl;
         if (vector_get_int(vector, i) != (int)i)
         {
-            std::cout << "Invalid vector element " << i << "\n" << std::endl;
+            std::cout << "Invalid vector element " << i << "\n";
             return 1;
         }
     }
