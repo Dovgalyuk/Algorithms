@@ -16,14 +16,13 @@ Data List::Item::data() const {
 
 // List
 // List constructor
-List::List() : _size(0), _list(nullptr) {
+List::List() : _list(nullptr) {
 }
 
 // Copy constructor
-List::List(const List &a) : _size(0), _list(nullptr) {
+List::List(const List &a) : _list(nullptr) {
     if (a._list == nullptr) return;
 
-    _size = a._size;
     _list = new Item(a._list->data());
     Item *newItem = _list;
     _listLast = newItem;
@@ -42,7 +41,6 @@ List &List::operator=(const List &a) {
     }
     if (!a._list) return *this;
 
-    _size = a._size;
     _list = new Item(a._list->data());
     Item *newItem = _list;
     _listLast = newItem;
@@ -83,7 +81,6 @@ List::Item *List::insert(Data data) {
     }
     _list = newItem;
 
-    _size++;
     return newItem;
 }
 
@@ -102,7 +99,6 @@ List::Item *List::insert_after(Item *item, Data data) {
         newItem->next()->_prev = newItem;
     }
 
-    _size++;
     return newItem;
 }
 
@@ -118,7 +114,6 @@ List::Item *List::erase_first() {
 
     delete _list;
     _list = nextItem;
-    _size--;
     return _list;
 }
 
@@ -135,6 +130,5 @@ List::Item *List::erase_next(Item *item) {
     item->_next = itemDelete->next();
 
     delete itemDelete;
-    _size--;
     return item->next();
 }

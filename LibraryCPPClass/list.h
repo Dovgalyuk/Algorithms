@@ -61,7 +61,6 @@ public:
     Item *reverse();
 
 private:
-    size_t _size;
     Item *_list;
     Item *_listLast;
 };
