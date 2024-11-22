@@ -110,11 +110,12 @@ void vector_resize(Vector *v, size_t new_size) {
         
         Data *new_data = (Data *)realloc(v->data, new_capacity * sizeof(Data)); // Выделение памяти для нового массива
         if (new_data == NULL) { // Проверка успешности выделения памяти
+            return;
         }
 
-        for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
-            new_data[i] = NULL; 
-        }
+        // for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
+        //     new_data[i] = NULL; 
+        // }
         v->data = new_data; // Установка нового массива данных
         v->capacity = new_capacity; // Обновление емкости
     }
