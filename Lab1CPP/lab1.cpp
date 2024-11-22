@@ -81,8 +81,8 @@ void task2(std::ifstream& input)
 int main(int argc, char **argv)
 {
     	srand((unsigned int)time(NULL));
-    	//std::ifstream input("input.txt");
-	std::ifstream input(argv[1]);
+    	std::ifstream input("input.txt");
+	//std::ifstream input(argv[1]);
 	if (input.is_open()) {
 
         	std::cout << " task 1:\n";
