@@ -94,10 +94,10 @@ int main()
     }
 
     long long sum = 0;
-    for (int i = 0 ; i < 10000000 ; ++i)
+    for (int i = 0 ; i < 10000000 ; ++i) {
         std::cout << sum << std::endl;
         sum += vector_get_int(vector, i);
-
+    }
     std::cout << sum << "\n";
 
     vector_delete(vector);
