@@ -53,12 +53,12 @@ int main()
         return 1;
     }
 
-    std::cout << "Vector: ";
+    std::cout << "Vector: " << std::endl;
     for (size_t i = 0; i < vector_size(vector); ++i) {
         if (vector_get(vector, i) == NULL) {
             break; 
         } else {
-            std::cout << vector_get_int(vector, i) << " "; 
+            std::cout << vector_get_int(vector, i) << " " << std::endl; 
         }
     }
     std::cout << "\n";
@@ -79,12 +79,12 @@ int main()
         }
     }
 
-    std::cout << "Vector: ";
+    std::cout << "Vector: " << std::endl;
     for (size_t i = 0; i < vector_size(vector); ++i) {
         if (vector_get(vector, i) == NULL) {
             break; 
         } else {
-            std::cout << vector_get_int(vector, i) << " "; 
+            std::cout << vector_get_int(vector, i) << " " << std::endl; 
         }
     }
     std::cout << "\n";
