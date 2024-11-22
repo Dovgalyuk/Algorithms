@@ -10,5 +10,5 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic -Wno-gnu-empty-struct -Wno-unused-parameter)
 endif()
 
-add_subdirectory(LibraryCPP)
-add_subdirectory(Lab2CPP)
+add_subdirectory(LibraryCPPClass)
+add_subdirectory(Lab5)
