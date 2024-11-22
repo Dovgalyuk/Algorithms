@@ -113,9 +113,9 @@ void vector_resize(Vector *v, size_t new_size) {
             return;
         }
 
-        // for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
-        //     new_data[i] = NULL; 
-        // }
+        for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
+            new_data[i] = NULL; 
+        }
         v->data = new_data; // Установка нового массива данных
         v->capacity = new_capacity; // Обновление емкости
     }
