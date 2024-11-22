@@ -78,8 +78,11 @@ void vector_set(Vector *vector, size_t index, Data value) {
         return;
     }
 
-    // Определяем новый размер, который будет необходим
-    vector_resize(vector, vector->size+1); // Увеличиваем размер вектора до необходимого
+    // Проверка необходимости изменения емкости или размера вектора
+    if (index >= vector->size) {
+        // Определяем новый размер, который будет необходим
+        vector_resize(vector, index+1); // Увеличиваем размер вектора до необходимого
+    }
 
     // Если элемент на указанном индексе существует, вызываем деструктор для освобождения памяти
     if (vector->data[index] != NULL) {
@@ -94,17 +97,10 @@ void vector_set(Vector *vector, size_t index, Data value) {
 size_t vector_size(const Vector *vector) {
     return vector->size; // Возврат размера вектора
 }
-size_t vector_capacity(const Vector *vector) {
-    return vector->capacity; // Возврат размера вектора
-}
 
 // Функция для изменения размера вектора
 void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; // Проверка на NULL 
-
-    if (new_size > v->size && new_size < v->capacity) {
-        return; 
-    }
 
     if (new_size <= v->size) { // Если новый размер меньше или равен текущему
         v->size = new_size; // Установка нового размера
@@ -112,7 +108,7 @@ void vector_resize(Vector *v, size_t new_size) {
     }
 
     if (new_size > v->capacity) { // Если новый размер превышает емкость
-        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity*2; // Установка новой емкости
+        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2; // Установка новой емкости
         while (new_capacity < new_size) { // Увеличение емкости до нужного размера
             new_capacity *= 2;
         }
@@ -126,7 +122,9 @@ void vector_resize(Vector *v, size_t new_size) {
             free(v->data); // Освобождение старого массива
         } 
         
-        memset(new_data + v->size, 0, (new_capacity - v->size) * sizeof(Data)); // Обнуляем новые элементы
+        for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
+            new_data[i] = NULL; 
+        }
         v->data = new_data; // Установка нового массива данных
         v->capacity = new_capacity; // Обновление емкости
     }
