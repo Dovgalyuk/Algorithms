@@ -113,25 +113,25 @@ void vector_resize(Vector *v, size_t new_size) {
     }
 
 
-        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity; // Установка новой емкости
-        while (new_capacity < new_size) { // Увеличение емкости до нужного размера
-            new_capacity *= 2;
-        }
+    size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity; // Установка новой емкости
+    while (new_capacity < new_size) { // Увеличение емкости до нужного размера
+        new_capacity *= 2;
+    }
         
-        Data *new_data = (Data *)malloc(new_capacity * sizeof(Data)); // Выделение памяти для нового массива
-        if (new_data == NULL) { // Проверка успешности выделения памяти
-            return;
-        }
-        if (v->data != NULL) { // Проверка наличия данных
-            memcpy(new_data, v->data, v->size * sizeof(Data)); // Копирование старых данных в новый массив
-            free(v->data); // Освобождение старого массива
-        } 
+    Data *new_data = (Data *)malloc(new_capacity * sizeof(Data)); // Выделение памяти для нового массива
+    if (new_data == NULL) { // Проверка успешности выделения памяти
+        return;
+    }
+    if (v->data != NULL) { // Проверка наличия данных
+        memcpy(new_data, v->data, v->size * sizeof(Data)); // Копирование старых данных в новый массив
+        free(v->data); // Освобождение старого массива
+    } 
         
-        for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
-            new_data[i] = NULL; 
-        }
-        v->data = new_data; // Установка нового массива данных
-        v->capacity = new_capacity; // Обновление емкости
+    for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
+        new_data[i] = NULL; 
+    }
+    v->data = new_data; // Установка нового массива данных
+    v->capacity = new_capacity; // Обновление емкости
     
     v->size = new_size; // Установка нового размера
 }
