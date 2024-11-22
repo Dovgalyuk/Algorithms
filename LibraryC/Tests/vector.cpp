@@ -92,7 +92,7 @@ int main()
         std::cout << "Current size: " << vector_size(vector) << ", Capacity: " << vector_capacity(vector) << ", i: " << i << "\n";
         vector_resize(vector, i);
         vector_set(vector, i - 1, new int(i));
-        std::cout << "i = "<< i <<", element = " << vector_get_int(vector, i) << std::endl;
+        std::cout << "i = "<< i <<", element = " << vector_get(vector, i) << std::endl;
     }
     
     long long sum = 0;
