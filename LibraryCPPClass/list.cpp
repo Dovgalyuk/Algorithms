@@ -23,26 +23,25 @@ List &List::operator=(const List &a)
 {
     if (this != &a)
     {
-        while (lHead)
-        {
-            erase_first();
-        }
+        return *this;
+    }
 
-        for (Item* item = a.first(); item != nullptr; item = item->next()) 
+    while (lHead)
+    {
+            erase_first();
+    }
+
+    if (a.lHead)
+    {
+        lHead = new Item(a.lHead->data());
+        Item* current = lHead;
+        Item* a_current = a.lHead->next();
+
+        while (a_current)
         {
-            if(!lHead)
-            {
-                lHead = new Item(item->data());
-            }
-            else
-            {
-                Item* current = lHead;
-                while (current->next())
-                {
-                    current = current->next();
-                }
-                current->set_next(new Item(item->data()));
-            }
+            current->set_next(new Item(a_current->data()));
+            current = current->next();
+            a_current = a_current->next();
         }
     }
 

@@ -28,8 +28,17 @@ command parse(const string& input)
     if (op == "push")
     {
         cmd.type = typeCommand::PUSH;
-        
-        iss >> cmd.value;
+        string value;
+        iss >> value;
+
+        if (validReg(value[0]) && value.size() == 1)
+        {
+            cmd.value = value[0];
+        }
+        else
+        {
+            cmd.value = stoi(value);
+        }
     }
     else if (op == "pop")
     {
@@ -75,7 +84,14 @@ int main(int argc, char* argv[])
         {
             case typeCommand::PUSH: 
             {
-                processorStack.push(cmd.value);
+                if (validReg(static_cast<char>(cmd.value)))
+                {
+                    processorStack.push(registers[static_cast<char>(cmd.value)]);
+                }
+                else
+                {
+                    processorStack.push(cmd.value);
+                }
                 break;
             }
             case typeCommand::POP: 
