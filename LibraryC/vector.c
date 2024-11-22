@@ -102,13 +102,13 @@ size_t vector_size(const Vector *vector) {
 void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; // Проверка на NULL 
 
-    // if (new_size <= v->size ) { // Если новый размер меньше или равен текущему
-    //     v->size = new_size; // Установка нового размера
-    //     return; 
-    // }
+    if (new_size <= v->size ) { // Если новый размер меньше или равен текущему
+        v->size = new_size; // Установка нового размера
+        return; 
+    }
 
     if (new_size > v->capacity) { // Если новый размер превышает емкость
-        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity; // Установка новой емкости
+        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2; // Установка новой емкости
         while (new_capacity < new_size) { // Увеличение емкости до нужного размера
             new_capacity *= 2;
         }
@@ -118,15 +118,11 @@ void vector_resize(Vector *v, size_t new_size) {
             return;
         }
 
-        for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
+        for (size_t i = v->size; i <= new_capacity; ++i) { // Инициализация оставшихся элементов NULL
             new_data[i] = NULL; 
         }
         v->data = new_data; // Установка нового массива данных
         v->capacity = new_capacity; // Обновление емкости
-        v->size = new_size; // Установка нового размера
-        return;
-    } 
-    if (new_size <= v->size) {
         v->size = new_size; // Установка нового размера
         return;
     }
