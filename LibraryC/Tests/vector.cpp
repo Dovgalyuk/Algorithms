@@ -11,7 +11,7 @@ int vector_get_int(Vector *v, size_t i)
     std::cout << "vector_get_int starts" << i << std::endl;
     // Проверка на выход за пределы вектора
     if (i >= vector_size(v)) {
-        std::cout << "Index out of bounds: %zu\n" << i << std::endl;
+        std::cout << "Index out of bounds: %zu\n" << i;
         return -1; 
     }
     return *(int*)vector_get(v, i); // Возвращает значение элемента
@@ -69,7 +69,7 @@ int main()
     std::cout << vector_size(vector) << std::endl;
     std::cout << vector_get_int(vector, 0) << std::endl;
     std::cout << vector_get(vector, 0) << std::endl;
-    std::cout << vector_get_int(vector, 1) << std::endl;
+    //std::cout << vector_get_int(vector, 1) << std::endl;
     std::cout << vector_get(vector, 1) << std::endl;
     std::cout << vector_get_int(vector, 2) << std::endl;
     std::cout << vector_get(vector, 2) << std::endl;
