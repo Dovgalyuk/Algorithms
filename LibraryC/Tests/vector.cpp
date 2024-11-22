@@ -39,7 +39,7 @@ int main()
         if (vector_get(vector, i) == NULL) {
             break; 
         } else {
-            std::cout << vector_get_int(vector, i) << " "; 
+            std::cerr << vector_get_int(vector, i) << " "; 
         }
     }
 
