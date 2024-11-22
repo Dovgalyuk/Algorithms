@@ -5,8 +5,8 @@
 #include "queue.h"
 
 #define N 8
-const int dx[N] = {1, 1, 2, 2, -1, -1, -2, -2};
-const int dy[N] = {2, -2, 1, -1, 2, -2, 1, -1};
+const int dx[8] = {1, 1, 2, 2, -1, -1, -2, -2};
+const int dy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
 
 bool is_valid(int x, int y, const std::string board[N]) {
     return x >= 0 && x < N && y >= 0 && y < N && board[x][y] != '#';
@@ -24,7 +24,7 @@ void bfs(const std::string board[N], int startX, int startY, int endX, int endY,
         int currentY = queue_get(queue);
         queue_remove(queue);
 
-        for (int i = 0; i < N; ++i) {
+        for (int i = 0; i < 8; ++i) {
             int nx = currentX + dx[i];
             int ny = currentY + dy[i];
 
@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
         std::getline(input, board[i]);
     }
 
-    int startX, startY, endX, endY;
+    int startX = -1, startY = -1, endX = -1, endY = -1;
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < N; ++j) {
             if (board[i][j] == 'K') {
