@@ -100,6 +100,7 @@ void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; // Проверка на NULL 
 
     if (new_size > v->size && new_size < v->capacity) {
+        v->size++;
         return; 
     }
 
