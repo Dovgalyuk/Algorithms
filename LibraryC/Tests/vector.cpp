@@ -72,7 +72,7 @@ int main()
         std::cout << "Invalid resize\n" << std::endl;
         return 1;
     }
-    std::cout << vector_size(v) << std::endl;
+    std::cout << vector_size(vector) << std::endl;
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)
