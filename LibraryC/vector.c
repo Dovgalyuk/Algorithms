@@ -117,7 +117,10 @@ void vector_resize(Vector *v, size_t new_size) {
         }
         v->data = new_data; // Установка нового массива данных
         v->capacity = new_capacity; // Обновление емкости
-    } else if (new_size <= v->size ) { // Если новый размер меньше или равен текущему
+        v->size = new_size; // Установка нового размера
+    }
+    
+    if (new_size <= v->size) { // Если новый размер меньше или равен текущему
         for(size_t i = new_size; i < v ->  size; i ++)
                 v -> distruct((void *) v -> data[i]);            
         v->size = new_size; // Установка нового размера
