@@ -30,7 +30,7 @@ int main()
 
     std::cout << "vector set start\n" << std::endl;
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
-        std::cout << "vector set stage\n" << i << std::endl;
+        std::cout << "vector set stage" << i << std::endl;
         vector_set(vector, i, new int(i));
     }
     std::cout << "vector set end\n" << std::endl;
