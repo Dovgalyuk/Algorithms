@@ -145,7 +145,8 @@ void push_back(Vector *vector, Data value) {
     if (vector->size >= vector->capacity) { // Проверка на заполнение вектора
         vector_resize(vector, vector->size + 1); // Увеличение размера
     }
-    vector->data[vector->size++] = value; // Добавление элемента и увеличение размера
+    vector->data[vector->size] = value; // Добавление элемента и увеличение размера
+    vector->size++;
 }
 
 // Функция для удаления элемента из конца вектора
