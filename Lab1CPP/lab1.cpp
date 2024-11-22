@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <cmath>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 
 using namespace std; 
 
