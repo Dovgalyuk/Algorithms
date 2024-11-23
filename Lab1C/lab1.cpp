@@ -9,7 +9,7 @@ int sumBetweenMinAndMax(Array *array);
 
 int main() {
     string filename;
-    filename = input.txt;
+    filename = "input.txt";
 
     ifstream file(filename);
     if (!file) {
