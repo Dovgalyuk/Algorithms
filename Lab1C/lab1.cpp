@@ -9,8 +9,7 @@ int sumBetweenMinAndMax(Array *array);
 
 int main() {
     string filename;
-    cout << "Введите имя файла: ";
-    cin >> filename;
+    filename = input.txt;
 
     ifstream file(filename);
     if (!file) {
