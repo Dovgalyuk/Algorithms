@@ -11,10 +11,8 @@ else()
 endif()
 
 #add_subdirectory(LibraryC)
-add_subdirectory(LibraryCPP)
+#add_subdirectory(LibraryCPP)
 #add_subdirectory(LibraryCPPClass)
-#add_subdirectory(LibraryCPPTemplate)
+add_subdirectory(LibraryCPPTemplate)
 
-add_subdirectory(Lab3CPP)
-
-add_test(NAME TestLab3CPP COMMAND Lab3CPP ${CMAKE_SOURCE_DIR}/tests/input3.txt)
+#add_subdirectory(Lab3CPP)
