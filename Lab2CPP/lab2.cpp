@@ -29,7 +29,7 @@ int evaluate_example(const std::string& example) {
     Stack* operators = stack_create();
 
     for (size_t i = 0; i < example.length(); i++) {
-        if (example[i] == ' ') continue;
+        if (example[i] == ' ') continue; 
 
         if (isdigit(example[i])) {
             int value = 0;

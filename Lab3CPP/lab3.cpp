@@ -29,7 +29,7 @@ void Readout(std::ifstream& file, std::vector<char>& labyrinth, size_t* w, size_
                 *w = character_counter;
                 first = false;
             }
-            character_counter = 0;
+            character_counter = 0; 
         }
     }
     file.close();
@@ -75,7 +75,7 @@ Point Number_closest_to_the_starting_position(const std::vector<char>& labyrinth
     Queue* queue = queue_create();
     bool* flag_was_here = new bool[w * h]();
     Point four_directions[4] = { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
-    queue_insert(queue, Data(start.y * w + start.x));
+    queue_insert(queue, Data(start.y * w + start.x)); 
     flag_was_here[start.y * w + start.x] = true;
 
     while (!queue_empty(queue)) {
@@ -108,11 +108,12 @@ Point Number_closest_to_the_starting_position(const std::vector<char>& labyrinth
 }
 
 
-int main(int argc,char** argv) {
+int main(int argc, char** argv) {
     std::vector<char> labyrinth;
     std::string filepath = argv[1];
     std::ifstream file(filepath);
 
+   
     if (!file)
     {
         std::cout << "the file did not open\n";

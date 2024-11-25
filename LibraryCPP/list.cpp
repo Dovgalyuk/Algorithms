@@ -3,17 +3,17 @@
 #include <stdexcept>
 
 struct ListItem {
-    Data data;
+    Data data; 
     ListItem* next;
     ListItem* prev;
 };
 
 struct List {
-    ListItem* head;
+    ListItem* head; 
 };
 
 List* list_create() {
-    List* list = new List;
+    List* list = new List; 
     list->head = nullptr;
     return list;
 }
@@ -93,7 +93,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
 
     ListItem* NewItem = new ListItem{ data, nullptr, nullptr };
     NewItem->next = item->next; 
-    NewItem->prev = item; 
+    NewItem->prev = item;
 
     item->next->prev = NewItem;
     item->next = NewItem;
@@ -158,5 +158,3 @@ ListItem* list_insert_end(List* list, Data data) {
     ListItem* tail = list->head->prev;
     return list_insert_after(list, tail, data);
 }
-
-
