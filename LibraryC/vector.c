@@ -79,10 +79,10 @@ void vector_set(Vector *vector, size_t index, Data value) {
     }
 
     // Проверка необходимости изменения емкости или размера вектора
-    if (index >= vector->size) {
+    //if (index >= vector->size) {
         // Определяем новый размер, который будет необходим
         vector_resize(vector, index+1); // Увеличиваем размер вектора до необходимого
-    }
+    //}
 
     // Если элемент на указанном индексе существует, вызываем деструктор для освобождения памяти
     if (vector->data[index] != NULL) {
@@ -121,14 +121,14 @@ void vector_resize(Vector *v, size_t new_size) {
             new_capacity *= 2;
         }
         
-        Data *new_data = (Data *)malloc(new_capacity * sizeof(Data)); // Выделение памяти для нового массива
+        Data *new_data = (Data *)realloc(v->data, new_capacity * sizeof(Data)); // Выделение памяти для нового массива
         if (new_data == NULL) { // Проверка успешности выделения памяти
             return;
         }
-        if (v->data != NULL) { // Проверка наличия данных
-            memcpy(new_data, v->data, v->size * sizeof(Data)); // Копирование старых данных в новый массив
-            free(v->data); // Освобождение старого массива
-        } 
+        // if (v->data != NULL) { // Проверка наличия данных
+        //     memcpy(new_data, v->data, v->size * sizeof(Data)); // Копирование старых данных в новый массив
+        //     free(v->data); // Освобождение старого массива
+        // } 
         
         for (size_t i = v->size; i < new_capacity; ++i) { // Инициализация оставшихся элементов NULL
             new_data[i] = NULL; 
