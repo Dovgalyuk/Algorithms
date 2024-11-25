@@ -85,12 +85,16 @@ public:
 		}
 
 		size_t index = startIv * get_VertexAmount() + endIv;
-		delete edgeMatrix[index];
+		if (edgeMatrix[index] != nullptr) {
+			delete edgeMatrix[index];
+		}
 		edgeMatrix[index] = new Edge(edge_data);
 
 		if (type == GraphType::Undirected) {
 			size_t reverse_Index = endIv * get_VertexAmount() + startIv;
-			delete edgeMatrix[reverse_Index];
+			if (edgeMatrix[reverse_Index] != nullptr) {
+				delete edgeMatrix[reverse_Index];
+			}
 			edgeMatrix[reverse_Index] = new Edge(edge_data);
 		}
 	}
