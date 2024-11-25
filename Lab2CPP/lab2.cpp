@@ -77,7 +77,7 @@ void translateToAssembly(const string& expr, ofstream& output) {
 int main() {
     string expression;
     cout << "Enter the arithmetic expression: ";
-    getline(std::cin, expression);
+    getline(cin, expression);
     
     ofstream output("output.txt"); 
     translateToAssembly(expression, output); 
