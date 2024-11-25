@@ -11,6 +11,7 @@ public:
         volume = 1;
         data = new Data[volume];
     }
+    
     ~Vector() {
         delete[] data;
     }
@@ -97,30 +98,24 @@ public:
     }
 
     void resize(size_t size) {
-        if (size == 0) {
-            delete[] data; 
-            data = nullptr; 
-            vectorSize = 0; 
-            volume = 0; 
+         if (size <= volume)
+        {
+            vectorSize = size;  
             return;
         }
 
-        if (size <= volume) {
-            vectorSize = size; 
-            return;
-        }
+        size_t volume1 = size * 2;
+        Data* new_data = new Data[volume1];
 
-        size_t Max_size = size * 2; 
-        Data* new_data = new Data[Max_size]; 
-
-        for (size_t i = 0; i < vectorSize; i++) {
+        for (size_t i = 0; i < vectorSize; i++)  
+        {
             new_data[i] = data[i];
         }
 
-        delete[] data; 
-        data = new_data; 
-        volume = Max_size; 
-        vectorSize = size; 
+        delete[] data;  
+        data = new_data;  
+        volume = volume1;
+        vectorSize = size;  
     }
 
 

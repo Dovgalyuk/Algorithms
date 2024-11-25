@@ -24,7 +24,7 @@ public:
 	}
 
 	~Graph() {
-		for (size_t i = 0; i < qty_vertex * qty_vertex; ++i) {
+		for (size_t i = 0; i < edgeMatrix.size(); ++i) {
 			delete edgeMatrix[i];
 		}
 	}
@@ -80,22 +80,26 @@ public:
 	};
 
 	void add_Edge(size_t startIv, size_t endIv, Data edge_data) {
-		if (startIv >= get_VertexAmount() || endIv >= get_VertexAmount()) {
-			throw std::out_of_range("Vertex index out of range.");
-		}
+		size_t qty_vertex = get_VertexAmount();
 
-		size_t index = startIv * get_VertexAmount() + endIv;
-		if (edgeMatrix[index] != nullptr) {
-			delete edgeMatrix[index];
-		}
-		edgeMatrix[index] = new Edge(edge_data);
+		Edge* exists_edge = edgeMatrix.get(startIv * qty_vertex + endIv);
 
+		if (exists_edge == nullptr) {
+			Edge* newEdge = new Edge(edge_data);
+			edgeMatrix.set(startIv * qty_vertex + endIv, newEdge);
+		}
+		else {
+			exists_edge->set_EdgeData(edge_data);
+		}
 		if (type == GraphType::Undirected) {
-			size_t reverse_Index = endIv * get_VertexAmount() + startIv;
-			if (edgeMatrix[reverse_Index] != nullptr) {
-				delete edgeMatrix[reverse_Index];
+			Edge* exists_ReverseEdge = edgeMatrix.get(endIv * qty_vertex + startIv);
+			if (exists_ReverseEdge == nullptr) {
+				Edge* newReverseEdge = new Edge(edge_data);
+				edgeMatrix.set(endIv * qty_vertex + startIv, newReverseEdge);
 			}
-			edgeMatrix[reverse_Index] = new Edge(edge_data);
+			else {
+				exists_ReverseEdge->set_EdgeData(edge_data);
+			}
 		}
 	}
 
