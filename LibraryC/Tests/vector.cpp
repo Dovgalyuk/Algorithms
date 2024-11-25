@@ -29,13 +29,8 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
-        std::cout << "Vector capacity: " << vector_capacity(vector) << "\n" << std::endl;
-        std::cout << "Size Vector: " << vector_size(vector) << "\n" << std::endl;
         vector_set(vector, i, new int(i));
     }
-
-    std::cout << "Vector capacity after set: " << vector_capacity(vector) << "\n" << std::endl;
-    std::cout << "Size Vector: " << vector_size(vector) << "\n" << std::endl;
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
@@ -93,12 +88,13 @@ int main()
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
-        std::cout << "Vector capacity: " << vector_capacity(vector) << "\n" << std::endl;
-        std::cout << "Size Vector: " << vector_size(vector) << "\n" << std::endl;
         vector_resize(vector, i);
         vector_set(vector, i - 1, new int(i));
     }
 
+        std::cout << "Vector capacity: " << vector_capacity(vector) << "\n" << std::endl;
+        std::cout << "Size Vector: " << vector_size(vector) << "\n" << std::endl;
+        
     long long sum = 0;
     for (int i = 0 ; i < 10000000 ; ++i)
         sum += vector_get_int(vector, i);
