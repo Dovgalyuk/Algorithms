@@ -85,6 +85,7 @@ public:
 		}
 
 		size_t index = startIv * get_VertexAmount() + endIv;
+		delete edgeMatrix[index];
 		edgeMatrix[index] = new Edge(edge_data);
 
 		if (type == GraphType::Undirected) {
