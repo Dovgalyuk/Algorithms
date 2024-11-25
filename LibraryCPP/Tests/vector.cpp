@@ -13,11 +13,11 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
+        vector_set(vector, i, Data(i));
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != (int)i)
+        if (vector_get(vector, i) != (Data)i)
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -45,7 +45,7 @@ int main()
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != (int)i)
+        if (vector_get(vector, i) != (Data)i)
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
