@@ -22,7 +22,7 @@ int main() {
 	}
 	bool allDataCorrect = true;
 
-	for (int i = 0; i < graph.get_VertexAmount(); ++i) {
+	for (int i = 0; i <(int) graph.get_VertexAmount(); ++i) {
 		int expectedData = i * 10;
 		int actualData = graph.get_Vertex(i).get_VertexData();
 
@@ -46,10 +46,10 @@ int main() {
 	std::cout << "Data for all vertices of the graph:\n" << std::endl;
 
 	bool outputDataCorrect = true;
-	for (int i = 0; i < graph.get_VertexAmount(); ++i) {
+	for (int i = 0; i < (int)graph.get_VertexAmount(); ++i) {
 		int expectedData = i * 10;
 
-		if (i < allData.size()) { 
+		if (i < (int)allData.size()) { 
 			int actualData = allData[i];
 			std::cout << actualData << std::endl; 
 
@@ -81,7 +81,7 @@ int main() {
 	graph.add_Edge(2, 4,5);
 
 	
-	for (int vertex = 0; vertex < graph.get_VertexAmount(); ++vertex) {
+	for (int vertex = 0; vertex < (int)graph.get_VertexAmount(); ++vertex) {
 		Graph<int>::Iterator it = graph.get_Iterator(vertex);
 		std::set<int> actual;
 
@@ -114,7 +114,7 @@ int main() {
 	////////////Edge removal check//////////////////////////////////////////
 	graph.remove_Edge(0, 1);
 	std::cout << "After deletion:" << std::endl;
-	for (size_t i = 0; i < graph.get_VertexAmount(); ++i) {
+	for (size_t i = 0; i <(int) graph.get_VertexAmount(); ++i) {
 		std::cout << "Vertex " << i << ": ";
 		Graph<int>::Iterator it = graph.get_Iterator(i);
 		while (it.hasNext()) {
