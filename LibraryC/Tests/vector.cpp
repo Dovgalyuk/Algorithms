@@ -19,12 +19,12 @@ int vector_get_int(Vector *v, size_t i)
 int main()
 {
     Vector *vector = vector_create(myfree);
-    std::cout << "Vector capacity: " << vector_capacity(vector) << "\n";
-    std::cout << "Size Vector: " << vector_size(vector) << "\n";
+    std::cout << "Vector capacity: " << vector_capacity(vector) << "\n" << std::endl;
+    std::cout << "Size Vector: " << vector_size(vector) << "\n" << std::endl;
 
     vector_resize(vector, 5);
-    std::cout << "Vector capacity: " << vector_capacity(vector) << "\n";
-    std::cout << "Size Vector: " << vector_size(vector) << "\n";
+    std::cout << "Vector capacity: " << vector_capacity(vector) << "\n" << std::endl;
+    std::cout << "Size Vector: " << vector_size(vector) << "\n" << std::endl;
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
@@ -32,8 +32,8 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
-        std::cout << "Vector capacity: " << vector_capacity(vector) << "\n";
-        std::cout << "Size Vector: " << vector_size(vector) << "\n";
+        std::cout << "Vector capacity: " << vector_capacity(vector) << "\n" << std::endl;
+        std::cout << "Size Vector: " << vector_size(vector) << "\n" << std::endl;
         vector_set(vector, i, new int(i));
     }
 
@@ -93,8 +93,8 @@ int main()
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
-        std::cout << "Vector capacity: " << vector_capacity(vector) << "\n";
-        std::cout << "Size Vector: " << vector_size(vector) << "\n";
+        std::cout << "Vector capacity: " << vector_capacity(vector) << "\n" << std::endl;
+        std::cout << "Size Vector: " << vector_size(vector) << "\n" << std::endl;
         vector_resize(vector, i);
         vector_set(vector, i - 1, new int(i));
     }
