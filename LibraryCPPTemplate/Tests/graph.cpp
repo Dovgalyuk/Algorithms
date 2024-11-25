@@ -141,7 +141,6 @@ int main() {
 	}
 	
 	//////////Vertex removal check//////////////////////////////////////////
-	graph.add_Edge(0, 1, 10);
 	graph.add_Edge(2, 3, 5);
 	graph.add_Edge(0, 4, 1);
 

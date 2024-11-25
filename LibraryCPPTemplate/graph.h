@@ -26,6 +26,7 @@ public:
 	~Graph() {
 		for (size_t i = 0; i < edgeMatrix.size(); ++i) {
 			delete edgeMatrix[i];
+			edgeMatrix[i] = nullptr;
 		}
 	}
 
