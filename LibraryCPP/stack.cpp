@@ -16,14 +16,14 @@ Stack *stack_create()
 }
 
 //deleting fully stack and also freeing up memory
-void stack_delete(Stack *stack)
+void stack_delete(Stack* stack)
 {
     vector_delete(stack->vector);
     delete stack;
 }
 
 //adding(pushing) elements on the top of the stack
-void stack_push(Stack *stack, Data data)
+void stack_push(Stack* stack, Data data)
 {
     size_t size = vector_size(stack->vector);
     vector_resize(stack->vector, size+1);
@@ -31,7 +31,7 @@ void stack_push(Stack *stack, Data data)
 }   
 
 //receiving the last element from stack 
-Data stack_get(const Stack *stack)
+Data stack_get(const Stack* stack)
 {
     size_t size = vector_size(stack->vector);
 
@@ -52,7 +52,7 @@ void stack_pop(Stack *stack)
     }
 }
 
-//returnin true if stack is empty
+//returning true if stack is empty
 bool stack_empty(const Stack *stack)
 {
     return vector_size(stack->vector) == 0;

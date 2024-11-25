@@ -20,36 +20,35 @@ Vector* vector_create()
 }
 
 //deleting vector fully and also freeing up memory 
-void vector_delete(Vector *vector)
+void vector_delete(Vector* vector)
 {
     delete [] vector->data;
     delete vector;
 }
 
 //receiving an element from vector with specific index 
-Data vector_get(const Vector *vector, size_t index)
+Data vector_get(const Vector* vector, size_t index)
 {
     if(index < vector->size){
         return vector->data[index];
     }
+    return 0;
 }
 
 //placing an element at a specific index 
-void vector_set(Vector *vector, size_t index, Data value)
+void vector_set(Vector* vector, size_t index, Data value)
 {
-    if(index < vector->size){
-        vector->data[index] = value;
-    }
+    vector->data[index] = value;
 }
 
 //receiving the size of the vector 
-size_t vector_size(const Vector *vector)
+size_t vector_size(const Vector* vector)
 {
     return vector->size;
 }
 
 //changing size of the vector 
-void vector_resize(Vector *vector, size_t size)
+void vector_resize(Vector* vector, size_t size)
 {
     if(size == vector->size){
         return;
