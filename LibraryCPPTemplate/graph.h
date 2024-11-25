@@ -29,12 +29,17 @@ public:
 		}
 	}
 
-	Graph(const Graph& a) {
+	Graph(const Graph& a) : type(a.type), vertices(a.vertices) {
+    edgeMatrix.resize(a.edgeMatrix.size());
+    for (size_t i = 0; i < a.edgeMatrix.size(); ++i) {
+        if (a.edgeMatrix[i] != nullptr) {
+            edgeMatrix[i] = new Edge(*a.edgeMatrix[i]); 
+        } else {
+            edgeMatrix[i] = nullptr;
+        }
+    }
+}
 
-		vertices = a.vertices;
-		Vector<Edge*> TimeEdgeMatrix = a.edgeMatrix;
-		edgeMatrix.swap_data(TimeEdgeMatrix);
-	}
 
 	Graph& operator=(const Graph& other) {
 		if (this == &other) {
@@ -43,11 +48,18 @@ public:
 		for (size_t i = 0; i < edgeMatrix.size(); i++) {
 			delete edgeMatrix.get(i);
 		}
-		Vector<Vertex> TimeVertices = other.vertexes;
-		Vector<Edge*> TimeEdgeMatrix = other.edgeMatrix;
 		vertices = other.vertices;
-		edgeMatrix = other.edgeMatrix;
+		edgeMatrix.resize(other.edgeMatrix.size());
+		for (size_t i = 0; i < other.edgeMatrix.size(); ++i) {
+			if (other.edgeMatrix[i] != nullptr) {
+				edgeMatrix[i] = new Edge(*other.edgeMatrix[i]); // Копируем объект Edge
+			}
+			else {
+				edgeMatrix[i] = nullptr;
+			}
+		}
 
+		type = other.type;
 		return *this;
 	}
 
