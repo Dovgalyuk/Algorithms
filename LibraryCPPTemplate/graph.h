@@ -89,23 +89,24 @@ public:
 
 		Edge*& exists_edge = edgeMatrix[startIv * qty_vertex + endIv];
 
-		if (exists_edge == nullptr) {
-			exists_edge = new Edge(edge_data);
+		/
+		if (exists_edge != nullptr) {
+			delete exists_edge; 
 		}
-		else {
-			exists_edge->set_EdgeData(edge_data);
-		}
+
+		exists_edge = new Edge(edge_data);
 
 		if (type == GraphType::Undirected) {
 			Edge*& exists_ReverseEdge = edgeMatrix[endIv * qty_vertex + startIv];
-			if (exists_ReverseEdge == nullptr) {
-				exists_ReverseEdge = new Edge(edge_data);
+			
+			if (exists_ReverseEdge != nullptr) {
+				delete exists_ReverseEdge; 
 			}
-			else {
-				exists_ReverseEdge->set_EdgeData(edge_data);
-			}
+
+			exists_ReverseEdge = new Edge(edge_data);
 		}
 	}
+
 
 
 	void remove_Edge(size_t startIv, size_t endIv) {
