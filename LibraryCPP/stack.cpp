@@ -43,7 +43,7 @@ Data stack_get(const Stack* stack)
 }
 
 //removing the last element from stack 
-void stack_pop(Stack *stack)
+void stack_pop(Stack* stack)
 {
     size_t size = vector_size(stack->vector);
     
@@ -53,7 +53,7 @@ void stack_pop(Stack *stack)
 }
 
 //returning true if stack is empty
-bool stack_empty(const Stack *stack)
+bool stack_empty(const Stack* stack)
 {
     return vector_size(stack->vector) == 0;
 }
