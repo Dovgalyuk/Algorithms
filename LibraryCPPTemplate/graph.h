@@ -46,7 +46,7 @@ public:
 			return *this;
 		}
 		for (size_t i = 0; i < edgeMatrix.size(); i++) {
-			delete edgeMatrix.get(i);
+			delete edgeMatrix[i];
 		}
 		vertices = other.vertices;
 		edgeMatrix.resize(other.edgeMatrix.size());
@@ -82,26 +82,26 @@ public:
 	void add_Edge(size_t startIv, size_t endIv, Data edge_data) {
 		size_t qty_vertex = get_VertexAmount();
 
-		Edge* exists_edge = edgeMatrix.get(startIv * qty_vertex + endIv);
+		Edge*& exists_edge = edgeMatrix[startIv * qty_vertex + endIv];
 
 		if (exists_edge == nullptr) {
-			Edge* newEdge = new Edge(edge_data);
-			edgeMatrix.set(startIv * qty_vertex + endIv, newEdge);
+			exists_edge = new Edge(edge_data);
 		}
 		else {
 			exists_edge->set_EdgeData(edge_data);
 		}
+
 		if (type == GraphType::Undirected) {
-			Edge* exists_ReverseEdge = edgeMatrix.get(endIv * qty_vertex + startIv);
+			Edge*& exists_ReverseEdge = edgeMatrix[endIv * qty_vertex + startIv];
 			if (exists_ReverseEdge == nullptr) {
-				Edge* newReverseEdge = new Edge(edge_data);
-				edgeMatrix.set(endIv * qty_vertex + startIv, newReverseEdge);
+				exists_ReverseEdge = new Edge(edge_data);
 			}
 			else {
 				exists_ReverseEdge->set_EdgeData(edge_data);
 			}
 		}
 	}
+
 
 	void remove_Edge(size_t startIv, size_t endIv) {
 		if (startIv >= get_VertexAmount() || endIv>= get_VertexAmount()) {
