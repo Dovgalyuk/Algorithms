@@ -23,18 +23,6 @@ char getPointValue(Data currentCell)
     return wall;  
 }  
   
-void appendLine(std::string currentLine)  
-{  
-    for (size_t colIndex = 0; colIndex < currentLine.size(); colIndex++)  
-    {  
-        if (currentLine[colIndex] == 'X')  
-        {  
-            startCell = {maze.size(), colIndex};  
-        }  
-    }  
-    maze.push_back(currentLine);  
-}  
-  
 bool checkIsPointAccessible(Data currentCell)  
 {  
     return getPointValue(currentCell) != '#' && !reachableCells[currentCell.first][currentCell.second];  
@@ -95,13 +83,19 @@ void process()
   
 void Algorithm(std::ifstream &input)  
 {  
-  
+    std::string currentLine; 
     while (!input.eof())  
     {  
-        maze.push_back(std::string());  
-        std::getline(input, maze.back());  
-        appendLine(maze.back());  
-        reachableCells.push_back(std::vector<bool>(maze.back().size(),false)); 
+        std::getline(input, currentLine);  
+        for (size_t colIndex = 0; colIndex < currentLine.size(); colIndex++)  
+        {  
+            if (currentLine[colIndex] == 'X')  
+            {  
+                startCell = {maze.size(), colIndex};  
+            }  
+        } 
+        maze.push_back(currentLine);  
+        reachableCells.push_back(std::vector<bool>(currentLine.size(),false)); 
     }  
   
     process();  
