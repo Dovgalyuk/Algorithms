@@ -24,7 +24,7 @@ public:
 	}
 
 	~Graph() {
-		for (size_t i = 0; i < edgeMatrix.size(); ++i) {
+		for (size_t i = 0; i < qty_vertex * qty_vertex; ++i) {
 			delete edgeMatrix[i];
 		}
 	}
