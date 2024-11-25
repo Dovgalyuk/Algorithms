@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "stack.h"
 
@@ -110,7 +111,17 @@ void execute_befunge(Stack *stack, string commands) {
     }
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+    if (argc != 2) {
+        cerr << "Usage: " << argv[0] << " <file>" << endl;
+        return 1;
+    }
+
+    ifstream input(argv[1]);
+    if (!input) {
+        cerr << "Cannot open file: " << argv[1] << endl;
+        return 1;
+    }
     Stack *stack = stack_create();
     string commands;
 
@@ -124,6 +135,6 @@ int main() {
     //     return 1;
     // }
     // stack = stack_create_and_read(input);
-    
+    input.close();
     return 0;
 }
