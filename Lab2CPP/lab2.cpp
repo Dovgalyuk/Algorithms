@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <cctype>
-#include "../LibraryCPP/stack.h"
+#include "stack.h"
 
 using namespace std;
 
