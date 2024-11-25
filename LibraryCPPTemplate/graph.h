@@ -24,11 +24,15 @@ public:
 	}
 
 	~Graph() {
-		for (size_t i = 0; i < edgeMatrix.size(); ++i) {
-			delete edgeMatrix[i];
-			edgeMatrix[i] = nullptr;
+		size_t qty_vertex = get_VertexAmount();
+		for (size_t i = 0; i < qty_vertex; ++i) {
+			for (size_t j = 0; j < qty_vertex; ++j) {
+				delete edgeMatrix[i * qty_vertex + j]; 
+				edgeMatrix[i * qty_vertex + j] = nullptr; 
+			}
 		}
 	}
+
 
 	Graph(const Graph& a) : type(a.type), vertices(a.vertices) {
     edgeMatrix.resize(a.edgeMatrix.size());
