@@ -1,5 +1,5 @@
 add_executable(Lab2CPP lab2.cpp)
-target_include_directories(Lab1C PUBLIC ../LibraryCPP)
-target_link_libraries(Lab1C LibraryCPP)
+target_include_directories(Lab2CPP PUBLIC ../LibraryCPP)
+target_link_libraries(Lab2CPP LibraryCPP)
 
-add_test(NAME TestLab1C COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
+add_test(NAME TestLab12PP COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
