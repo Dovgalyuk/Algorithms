@@ -140,21 +140,20 @@ int main() {
 	//	return 1;
 	//}
 	//
-	////////////Vertex removal check//////////////////////////////////////////
-	//graph.add_Edge(0, 1, 10);
-	//graph.add_Edge(2, 3, 5);
-	//graph.add_Edge(0, 4, 1);
+	//////////Vertex removal check//////////////////////////////////////////
+	graph.add_Edge(2, 3, 5);
+	graph.add_Edge(0, 4, 1);
 
-	//int index1 = 3; 
-	//std::cout << "Deleting a vertex with an index: " << index1 << std::endl;
-	//graph.remove_Vertex(index1);
-	//if (graph.get_VertexAmount() != 4) {
-	//	std::cout << "Invalid vertex deletion" << std::endl;
-	//	return 1;
-	//}
-	//else {
-	//	std::cout << "valid vertex removal" << std::endl;
-	//}
+	int index1 = 3; 
+	std::cout << "Deleting a vertex with an index: " << index1 << std::endl;
+	graph.remove_Vertex(index1);
+	if (graph.get_VertexAmount() != 4) {
+		std::cout << "Invalid vertex deletion" << std::endl;
+		return 1;
+	}
+	else {
+		std::cout << "valid vertex removal" << std::endl;
+	}
 
  
 return 0;
