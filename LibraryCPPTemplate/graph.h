@@ -77,6 +77,7 @@ public:
 
 		if (type == GraphType::Undirected) {
 			size_t reverse_Index = endIv * get_VertexAmount() + startIv;
+			delete edgeMatrix[reverse_Index];
 			edgeMatrix[reverse_Index] = new Edge(edge_data);
 		}
 	}
