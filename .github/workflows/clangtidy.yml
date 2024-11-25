@@ -2,9 +2,9 @@ name: cpp-linter
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, lab6 ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, lab6 ]
 
 jobs:
   cpp-linter:
