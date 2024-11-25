@@ -6,13 +6,13 @@
 
 using namespace std;
 
-int precedence(int op) {
+int precedence(size_t op) {
     if (op == '+') return 1;
     if (op == '*') return 2;
     return 0; 
 }
 
-void performOperation(int op, ofstream& output) {
+void performOperation(size_t op, ofstream& output) {
     output << "POP B" << endl; 
     output << "POP A" << endl; 
 
@@ -49,7 +49,7 @@ void translateToAssembly(const string& expr, ofstream& output) {
         } 
         else if (token == ')') {
             while (!stack_empty(stack) && stack_get(stack) != '(') {
-                int op = stack_get(stack); 
+                size_t op = stack_get(stack); 
                 performOperation(op, output);
                 stack_pop(stack); 
             }
@@ -57,7 +57,7 @@ void translateToAssembly(const string& expr, ofstream& output) {
         } 
         else if (token == '+' || token == '*') {
             while (!stack_empty(stack) && precedence(stack_get(stack)) >= precedence(token)) {
-                int op = stack_get(stack); 
+                size_t op = stack_get(stack); 
                 performOperation(op, output);
                 stack_pop(stack); 
             }
@@ -66,7 +66,7 @@ void translateToAssembly(const string& expr, ofstream& output) {
     }
 
     while (!stack_empty(stack)) {
-        int op = stack_get(stack);
+        size_t op = stack_get(stack);
         performOperation(op, output);
         stack_pop(stack);
     }
