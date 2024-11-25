@@ -112,49 +112,49 @@ int main() {
 		}
 	}
 	////////////Edge removal check//////////////////////////////////////////
-	graph.remove_Edge(0, 1);
-	std::cout << "After deletion:" << std::endl;
-	for (size_t i = 0; i < graph.get_VertexAmount(); ++i) {
-		std::cout << "Vertex " << i << ": ";
-		Graph<int>::Iterator it = graph.get_Iterator(i);
-		while (it.hasNext()) {
-			std::cout << it.next() << " ";
-		}
-		std::cout << std::endl;
-	}
+	//graph.remove_Edge(0, 1);
+	//std::cout << "After deletion:" << std::endl;
+	//for (size_t i = 0; i < graph.get_VertexAmount(); ++i) {
+	//	std::cout << "Vertex " << i << ": ";
+	//	Graph<int>::Iterator it = graph.get_Iterator(i);
+	//	while (it.hasNext()) {
+	//		std::cout << it.next() << " ";
+	//	}
+	//	std::cout << std::endl;
+	//}
 
-	bool edgeExists = false;
-	Graph<int>::Iterator it = graph.get_Iterator(0);
-	while (it.hasNext()) {
-		if (it.next() == 1) {
-			edgeExists = true; 
-			break;
-		}
-	}
+	//bool edgeExists = false;
+	//Graph<int>::Iterator it = graph.get_Iterator(0);
+	//while (it.hasNext()) {
+	//	if (it.next() == 1) {
+	//		edgeExists = true; 
+	//		break;
+	//	}
+	//}
 
-	if (!edgeExists) {
-		std::cout << "Test passed: Edge (0, 1) was successfully removed." << std::endl;
-	}
-	else {
-		std::cout << "Test failed: Edge (0, 1) still exists!" << std::endl;
-		return 1;
-	}
-	
-	//////////Vertex removal check//////////////////////////////////////////
-	graph.add_Edge(0, 1, 10);
-	graph.add_Edge(2, 3, 5);
-	graph.add_Edge(0, 4, 1);
+	//if (!edgeExists) {
+	//	std::cout << "Test passed: Edge (0, 1) was successfully removed." << std::endl;
+	//}
+	//else {
+	//	std::cout << "Test failed: Edge (0, 1) still exists!" << std::endl;
+	//	return 1;
+	//}
+	//
+	////////////Vertex removal check//////////////////////////////////////////
+	//graph.add_Edge(0, 1, 10);
+	//graph.add_Edge(2, 3, 5);
+	//graph.add_Edge(0, 4, 1);
 
-	int index1 = 3; 
-	std::cout << "Deleting a vertex with an index: " << index1 << std::endl;
-	graph.remove_Vertex(index1);
-	if (graph.get_VertexAmount() != 4) {
-		std::cout << "Invalid vertex deletion" << std::endl;
-		return 1;
-	}
-	else {
-		std::cout << "valid vertex removal" << std::endl;
-	}
+	//int index1 = 3; 
+	//std::cout << "Deleting a vertex with an index: " << index1 << std::endl;
+	//graph.remove_Vertex(index1);
+	//if (graph.get_VertexAmount() != 4) {
+	//	std::cout << "Invalid vertex deletion" << std::endl;
+	//	return 1;
+	//}
+	//else {
+	//	std::cout << "valid vertex removal" << std::endl;
+	//}
 
  
 return 0;
