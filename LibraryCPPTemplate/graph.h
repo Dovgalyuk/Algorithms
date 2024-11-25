@@ -24,35 +24,27 @@ public:
 	}
 
 	~Graph() {
-		size_t qty_vertex = get_VertexAmount();
-		for (size_t i = 0; i < qty_vertex; ++i) {
-			for (size_t j = 0; j < qty_vertex; ++j) {
-				delete edgeMatrix[i * qty_vertex + j]; 
-				edgeMatrix[i * qty_vertex + j] = nullptr; 
+		clearEdges();
+	}
+
+	Graph(const Graph& other) : type(other.type), vertices(other.vertices) {
+		edgeMatrix.resize(other.edgeMatrix.size());
+		for (size_t i = 0; i < other.edgeMatrix.size(); ++i) {
+			if (other.edgeMatrix[i] != nullptr) {
+				edgeMatrix[i] = new Edge(*other.edgeMatrix[i]);
+			}
+			else {
+				edgeMatrix[i] = nullptr;
 			}
 		}
 	}
-
-
-	Graph(const Graph& a) : type(a.type), vertices(a.vertices) {
-    edgeMatrix.resize(a.edgeMatrix.size());
-    for (size_t i = 0; i < a.edgeMatrix.size(); ++i) {
-        if (a.edgeMatrix[i] != nullptr) {
-            edgeMatrix[i] = new Edge(*a.edgeMatrix[i]); 
-        } else {
-            edgeMatrix[i] = nullptr;
-        }
-    }
-}
-
 
 	Graph& operator=(const Graph& other) {
 		if (this == &other) {
 			return *this;
 		}
-		for (size_t i = 0; i < edgeMatrix.size(); i++) {
-			delete edgeMatrix[i];
-		}
+		clearEdges();
+		
 		vertices = other.vertices;
 		edgeMatrix.resize(other.edgeMatrix.size());
 		for (size_t i = 0; i < other.edgeMatrix.size(); ++i) {
@@ -284,6 +276,12 @@ public:
 
 	
 private:
+	void clearEdges() {
+		for (size_t i = 0; i < edgeMatrix.size(); i++) {
+			delete edgeMatrix.get(i);
+			edgeMatrix.set(i, nullptr); 
+		}
+	}
 	Vector<Vertex> vertices;
 	Vector<Edge*> edgeMatrix;
 	GraphType type;
