@@ -4,7 +4,7 @@
 #include "stack.h"
 
 bool is_matching_tag(const char* opening, const char* closing) {
-    return strcmp(opening + 1, closing + 2) == 0; // Пропускаем < и >
+    return strcmp(opening + 1, closing + 2) == 0;
 }
 
 bool is_valid_html(FILE* input) {
@@ -15,11 +15,11 @@ bool is_valid_html(FILE* input) {
         char* tag = strtok(line, "\n");
         if (tag == NULL) continue;
 
-        if (tag[1] != '/') { // Открывающий тег
+        if (tag[1] != '/') {
             char* tag_copy = strdup(tag);
             stack_push(stack, tag_copy);
         }
-        else { // Закрывающий тег
+        else {
             if (stack_empty(stack) || !is_matching_tag(stack_get(stack), tag)) {
                 stack_delete(stack);
                 return false;
