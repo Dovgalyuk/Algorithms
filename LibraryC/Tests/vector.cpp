@@ -27,8 +27,10 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
+        std::cout << "Текущая размер вектора: " << vector_size(vector);
         vector_set(vector, i, new int(i));
+    }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
@@ -81,7 +83,8 @@ int main()
         }
     }
     std::cout << "\n";
-
+    std::cout << "Текущая емкость вектора: " << vector_capacity(vector);
+    
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {

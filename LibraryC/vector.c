@@ -97,10 +97,18 @@ void vector_set(Vector *vector, size_t index, Data value) {
 size_t vector_size(const Vector *vector) {
     return vector->size; // Возврат размера вектора
 }
+size_t vector_capacity(const Vector *vector) {
+    return vector->capacity; // Возврат размера вектора
+}
 
 // Функция для изменения размера вектора
 void vector_resize(Vector *v, size_t new_size) {
     if (v == NULL) return; // Проверка на NULL 
+
+    // if (new_size > v->size && new_size <= v->capacity) {
+    //     v->size = new_size; // Установка нового размера
+    //     return;
+    // }
 
     if (new_size <= v->size) { // Если новый размер меньше или равен текущему
         v->size = new_size; // Установка нового размера
@@ -127,8 +135,10 @@ void vector_resize(Vector *v, size_t new_size) {
         }
         v->data = new_data; // Установка нового массива данных
         v->capacity = new_capacity; // Обновление емкости
+        v->size = new_size; // Установка нового размера
+        return;
     }
-    v->size = new_size; // Установка нового размера
+    
 }
 
 // Функция для добавления элемента в конец вектора
