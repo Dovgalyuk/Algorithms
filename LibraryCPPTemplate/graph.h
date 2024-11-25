@@ -57,7 +57,7 @@ public:
 		edgeMatrix.resize(other.edgeMatrix.size());
 		for (size_t i = 0; i < other.edgeMatrix.size(); ++i) {
 			if (other.edgeMatrix[i] != nullptr) {
-				edgeMatrix[i] = new Edge(*other.edgeMatrix[i]); // Копируем объект Edge
+				edgeMatrix[i] = new Edge(*other.edgeMatrix[i]); 
 			}
 			else {
 				edgeMatrix[i] = nullptr;
@@ -89,7 +89,6 @@ public:
 
 		Edge*& exists_edge = edgeMatrix[startIv * qty_vertex + endIv];
 
-		/
 		if (exists_edge != nullptr) {
 			delete exists_edge; 
 		}
