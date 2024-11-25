@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdexcept>
 
+
 template<typename Data>
 class Graph {
 public:
@@ -44,12 +45,12 @@ public:
 			return *this;
 		}
 		clearEdges();
-		
+
 		vertices = other.vertices;
 		edgeMatrix.resize(other.edgeMatrix.size());
 		for (size_t i = 0; i < other.edgeMatrix.size(); ++i) {
 			if (other.edgeMatrix[i] != nullptr) {
-				edgeMatrix[i] = new Edge(*other.edgeMatrix[i]); 
+				edgeMatrix[i] = new Edge(*other.edgeMatrix[i]);
 			}
 			else {
 				edgeMatrix[i] = nullptr;
@@ -82,16 +83,16 @@ public:
 		Edge*& exists_edge = edgeMatrix[startIv * qty_vertex + endIv];
 
 		if (exists_edge != nullptr) {
-			delete exists_edge; 
+			delete exists_edge;
 		}
 
 		exists_edge = new Edge(edge_data);
 
 		if (type == GraphType::Undirected) {
 			Edge*& exists_ReverseEdge = edgeMatrix[endIv * qty_vertex + startIv];
-			
+
 			if (exists_ReverseEdge != nullptr) {
-				delete exists_ReverseEdge; 
+				delete exists_ReverseEdge;
 			}
 
 			exists_ReverseEdge = new Edge(edge_data);
@@ -100,8 +101,9 @@ public:
 
 
 
+
 	void remove_Edge(size_t startIv, size_t endIv) {
-		if (startIv >= get_VertexAmount() || endIv>= get_VertexAmount()) {
+		if (startIv >= get_VertexAmount() || endIv >= get_VertexAmount()) {
 			throw std::out_of_range("Vertex index out of range.");
 		}
 
@@ -109,7 +111,7 @@ public:
 		delete edgeMatrix[index];
 		edgeMatrix[index] = nullptr;
 
-		
+
 		if (type == GraphType::Undirected) {
 			size_t reverse_Index = endIv * get_VertexAmount() + startIv;
 			delete edgeMatrix[reverse_Index];
@@ -119,7 +121,7 @@ public:
 
 	Edge* get_Edge(size_t startIv, size_t endIv) const {
 		size_t qty_vertex = get_VertexAmount();
-		return edgeMatrix[startIv* qty_vertex + endIv];
+		return edgeMatrix[startIv * qty_vertex + endIv];
 	}
 
 	bool isEdgeExist(size_t startIv, size_t endIv) const {
@@ -147,13 +149,13 @@ public:
 	};
 
 	Vertex& get_Vertex(size_t index) {
-		return vertices[index]; 
+		return vertices[index];
 	}
 
 	size_t get_VertexAmount() const {
-		return vertices.size(); 
+		return vertices.size();
 	}
-	
+
 
 	size_t add_Vertex(Data vertex_data) {
 		size_t index = vertices.size();
@@ -181,7 +183,7 @@ public:
 			return;
 		}
 
-		
+
 		for (size_t i = 0; i < qty_vertex; ++i) {
 			Edge* edge = edgeMatrix.get(index * qty_vertex + i);
 			if (edge) {
@@ -193,7 +195,7 @@ public:
 			}
 		}
 
-		
+
 		Vector<Edge*> TimeMatrix;
 		TimeMatrix.resize((qty_vertex - 1) * (qty_vertex - 1));
 
@@ -230,7 +232,7 @@ public:
 		Graph* graph;
 		size_t start;
 		size_t end;
-		
+
 		size_t get_index_Vertex_near() {
 			for (size_t i = end + 1; i < graph->get_VertexAmount(); i++) {
 				if (graph->isEdgeExist(start, i)) {
@@ -274,12 +276,12 @@ public:
 
 
 
-	
+
 private:
 	void clearEdges() {
 		for (size_t i = 0; i < edgeMatrix.size(); i++) {
 			delete edgeMatrix.get(i);
-			edgeMatrix.set(i, nullptr); 
+			edgeMatrix.set(i, nullptr);
 		}
 	}
 	Vector<Vertex> vertices;
