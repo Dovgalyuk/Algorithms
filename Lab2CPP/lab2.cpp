@@ -83,12 +83,11 @@ int main(int argc, char* argv[]) {
 		switch (command.type) {
 		case Commands::PUSH: {
 			//char check = static_cast<char>(command.value);
-			if (command.rg == "A" || command.rg == "B" || command.rg == "C" || command.rg == "D") {
-				if (command.rg == "A") stack_push(stack, registers['A']);
-				if (command.rg == "B") stack_push(stack, registers['B']);
-				if (command.rg == "C") stack_push(stack, registers['C']);
-				if (command.rg == "D") stack_push(stack, registers['D']);
-			}
+			if (command.rg == "A") stack_push(stack, registers['A']);
+			else if (command.rg == "B") stack_push(stack, registers['B']);
+			else if (command.rg == "C") stack_push(stack, registers['C']);
+			else if (command.rg == "D") stack_push(stack, registers['D']);
+
 			else if (std::all_of(command.rg.begin(), command.rg.end(), [](char c) { return std::isdigit(c) != 0; })) {
 				command.value = std::stoi(command.rg);
 				stack_push(stack, command.value);
