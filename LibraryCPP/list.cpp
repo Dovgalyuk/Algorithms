@@ -79,15 +79,15 @@ ListItem *list_insert(List *list, Data data)
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
-    if (item->pointer_to_next == nullptr)
-        return list_insert(list, data);
-    else
-    {
-        ListItem *list_item_to_insert = new ListItem{data, item};
-        item->pointer_to_next = list_item_to_insert;
+    ListItem *list_item_to_insert = new ListItem{data, item->pointer_to_next};
+    item->pointer_to_next = list_item_to_insert;
 
-        return list_item_to_insert;
+    if (item == list->tail_of_list)
+    {
+        list->tail_of_list = list_item_to_insert;
     }
+
+    return list_item_to_insert;
 }
 
 ListItem *list_erase_first(List *list)
