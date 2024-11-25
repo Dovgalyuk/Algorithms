@@ -19,8 +19,12 @@ int vector_get_int(Vector *v, size_t i)
 int main()
 {
     Vector *vector = vector_create(myfree);
+    std::cout << "Vector capacity: " << vector_capacity(vector) << "\n";
+    std::cout << "Size Vector: " << vector_size(vector) << "\n";
 
     vector_resize(vector, 5);
+    std::cout << "Vector capacity: " << vector_capacity(vector) << "\n";
+    std::cout << "Size Vector: " << vector_size(vector) << "\n";
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
@@ -28,6 +32,8 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i) {
+        std::cout << "Vector capacity: " << vector_capacity(vector) << "\n";
+        std::cout << "Size Vector: " << vector_size(vector) << "\n";
         vector_set(vector, i, new int(i));
     }
 
