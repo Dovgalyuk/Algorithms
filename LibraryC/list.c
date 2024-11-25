@@ -3,59 +3,119 @@
 
 typedef struct ListItem
 {
+    struct ListItem* next;
+    Data data;
 } ListItem;
 
 typedef struct List
 {
+    ListItem* head;
+    FFree free_func; // Добавляем указатель на функцию освобождения памяти
 } List;
 
-List *list_create(FFree f)
+// Функция создания списка
+List* list_create(FFree f)
 {
-    return malloc(sizeof(List));
+    List* list = malloc(sizeof(List));
+    if (list) {
+        list->head = NULL;
+        list->free_func = f; // Инициализация функции освобождения
+    }
+    return list;
 }
 
-void list_delete(List *list)
+// Функция удаления списка
+void list_delete(List* list)
 {
-    // TODO: free items
+    ListItem* current = list->head;
+    while (current) {
+        ListItem* next = current->next;
+        if (list->free_func) { // Освобождаем данные, если функция задана
+            list->free_func(current->data);
+        }
+        free(current);
+        current = next;
+    }
     free(list);
 }
 
-ListItem *list_first(List *list)
+// Функция получения первого элемента списка
+ListItem* list_first(List* list)
 {
-    return NULL;
+    return list->head;
 }
 
-Data list_item_data(const ListItem *item)
+// Функция получения данных элемента списка
+Data list_item_data(const ListItem* item)
 {
-    return (Data)0;
+    return item->data;
 }
 
-ListItem *list_item_next(ListItem *item)
+// Функция получения следующего элемента списка
+ListItem* list_item_next(ListItem* item)
 {
-    return NULL;
+    return item->next;
 }
 
-ListItem *list_item_prev(ListItem *item)
+// Функция вставки элемента в начало списка
+ListItem* list_insert(List* list, Data data)
 {
-    return NULL;
+    ListItem* new_item = malloc(sizeof(ListItem));
+    if (!new_item) return NULL;
+
+    new_item->data = data;
+    new_item->next = list->head;
+    list->head = new_item;
+
+    return new_item;
 }
 
-ListItem *list_insert(List *list, Data data)
-{
-    return NULL;
+// Функция вставки элемента после указанного элемента
+ListItem* list_insert_after(List* list, ListItem* item, Data data) {
+    if (!list || !item) return NULL;
+    ListItem* newItem = (ListItem*)malloc(sizeof(ListItem));
+    if (newItem) {
+        newItem->data = data;
+        newItem->next = item->next;
+        item->next = newItem;
+    }
+    return newItem;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
+// Функция удаления первого элемента списка
+ListItem* list_erase_first(List* list)
 {
-    return NULL;
+    if (!list->head) return NULL;
+
+    ListItem* to_delete = list->head;
+    list->head = to_delete->next;
+
+    if (list->free_func) { // Освобождаем данные, если функция задана
+        list->free_func(to_delete->data);
+    }
+
+    free(to_delete);
+
+    return list->head;
 }
 
-ListItem *list_erase_first(List *list)
+// Функция удаления следующего элемента после указанного
+ListItem* list_erase_next(List* list, ListItem* item)
 {
-    return NULL;
-}
+    if (!item || !item->next) return NULL;
 
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    return NULL;
+    ListItem* to_delete = item->next;
+    item->next = to_delete->next;
+
+    if (list->free_func) { // Освобождаем данные, если функция задана
+        list->free_func(to_delete->data);
+    }
+
+    free(to_delete);
+
+    return item->next;
 }
+//ListItem *list_item_prev(ListItem *item)
+//{
+//   return NULL;
+//}
