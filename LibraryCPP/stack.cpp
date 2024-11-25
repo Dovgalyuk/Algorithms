@@ -6,6 +6,7 @@ struct Stack {
     ListItem *last = nullptr;
 };
 
+
 Stack *stack_create() {
     Stack *stack = new Stack;
     stack->list = list_create();
