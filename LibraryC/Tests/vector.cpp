@@ -34,7 +34,7 @@ int main()
         vector_set(vector, i, new int(i));
     }
 
-    std::cout << "Vector capacity: " << vector_capacity(vector) << "\n" << std::endl;
+    std::cout << "Vector capacity after set: " << vector_capacity(vector) << "\n" << std::endl;
     std::cout << "Size Vector: " << vector_size(vector) << "\n" << std::endl;
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
