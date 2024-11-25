@@ -176,15 +176,18 @@ public:
 		return index;
 	}
 
-
 	void remove_Vertex(size_t index) {
-		size_t qty_vertex = get_VertexAmount();
+		size_t  qty_vertex = get_VertexAmount();
 		if (index >= qty_vertex) {
 			return;
 		}
 
+		for (size_t i = index; i < qty_vertex - 1; i++) {
+			vertices.set(i, vertices.get(i + 1));
+		}
+		vertices.resize(qty_vertex - 1);
 
-		for (size_t i = 0; i < qty_vertex; ++i) {
+		for (size_t i = 0; i < qty_vertex; i++) {
 			Edge* edge = edgeMatrix.get(index * qty_vertex + i);
 			if (edge) {
 				delete edge;
@@ -195,29 +198,20 @@ public:
 			}
 		}
 
-
-		Vector<Edge*> TimeMatrix;
-		TimeMatrix.resize((qty_vertex - 1) * (qty_vertex - 1));
-
-		size_t newIndex = 0;
-		for (size_t i = 0; i < qty_vertex; ++i) {
-			if (i == index) continue;
-
-			size_t newInnerIndex = 0;
-			for (size_t j = 0; j < qty_vertex; ++j) {
-				if (j == index) continue;
-
-				Edge* edge = edgeMatrix.get(i * qty_vertex + j);
-				TimeMatrix.set(newIndex * (qty_vertex - 1) + newInnerIndex, edge ? new Edge(*edge) : nullptr);
-				newInnerIndex++;
+		Vector<Edge*> TimeEdgeMatrix;
+		size_t  qty_vertex1 = get_VertexAmount();
+		
+		TimeEdgeMatrix.resize(qty_vertex1 * qty_vertex1);
+		for (size_t i = 0; i < qty_vertex1; i++) {
+			for (size_t j = 0; j < qty_vertex1; j++) {
+				Edge* edge = edgeMatrix.get(((i + (i >= index)) * qty_vertex) + (j + (j >= index)));
+				TimeEdgeMatrix.set((i * qty_vertex1) + j, edge);
 			}
-			newIndex++;
 		}
 
-		edgeMatrix.swap_data(TimeMatrix);
-		vertices.resize(qty_vertex - 1);
-	}
+		edgeMatrix.swap_data(TimeEdgeMatrix);
 
+	}
 
 	std::vector<int> get_AllVertexData() const {
 		std::vector<int> allData;

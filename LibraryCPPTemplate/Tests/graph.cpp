@@ -141,7 +141,7 @@ int main() {
 	}
 	
 	//////////Vertex removal check//////////////////////////////////////////
-	/*graph.add_Edge(2, 3, 5);
+	graph.add_Edge(2, 3, 5);
 	graph.add_Edge(0, 4, 1);
 
 	int index1 = 3; 
@@ -153,7 +153,7 @@ int main() {
 	}
 	else {
 		std::cout << "valid vertex removal" << std::endl;
-	}*/
+	}
 
  
 return 0;
