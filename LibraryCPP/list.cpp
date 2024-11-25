@@ -5,7 +5,6 @@ struct ListItem
 {
     Data data;
 
-    ListItem *pointer_to_previous;
     ListItem *pointer_to_next;
 };
 
@@ -52,17 +51,17 @@ ListItem *list_item_next(ListItem *item)
     return item->pointer_to_next;
 }
 
-ListItem *list_item_prev(ListItem *item)
-{
-    if (item->pointer_to_previous != nullptr)
-        return item->pointer_to_previous;
-    else
-        return nullptr;
-}
+// ListItem *list_item_prev(ListItem *item)// d?
+// {
+//     if (item->pointer_to_previous != nullptr)
+//         return item->pointer_to_previous;
+//     else
+//         return nullptr;
+// }
 
 ListItem *list_insert(List *list, Data data)
 {
-    ListItem *new_item = new ListItem{data, nullptr, nullptr};
+    ListItem *new_item = new ListItem{data, nullptr};
 
     if (list->head_of_list == nullptr)
     {
@@ -72,7 +71,6 @@ ListItem *list_insert(List *list, Data data)
     else
     {
         new_item->pointer_to_next = list->head_of_list;
-        list->head_of_list->pointer_to_previous = new_item;
         list->head_of_list = new_item;
     }
 
@@ -85,9 +83,8 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
         return list_insert(list, data);
     else
     {
-        ListItem *list_item_to_insert = new ListItem{data, item, item->pointer_to_next};
+        ListItem *list_item_to_insert = new ListItem{data, item};
         item->pointer_to_next = list_item_to_insert;
-        list_item_to_insert->pointer_to_next->pointer_to_previous = list_item_to_insert;
 
         return list_item_to_insert;
     }
@@ -101,9 +98,7 @@ ListItem *list_erase_first(List *list)
     ListItem *item_to_delete = list->head_of_list;
     list->head_of_list = item_to_delete->pointer_to_next;
 
-    if (list->head_of_list != nullptr)
-        list->head_of_list->pointer_to_previous = nullptr;
-    else
+    if (list->head_of_list == nullptr)
         list->tail_of_list = nullptr;
 
     delete item_to_delete;
@@ -127,7 +122,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
     {
         ListItem *to_delete = item->pointer_to_next;
         item->pointer_to_next = item->pointer_to_next->pointer_to_next;
-        item->pointer_to_next->pointer_to_previous = item;
 
         delete to_delete;
 
