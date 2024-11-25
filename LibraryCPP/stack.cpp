@@ -1,32 +1,59 @@
-#ifndef STACK_H
-#define STACK_H
+#include "stack.h"
+#include "vector.h"
 
-#include <cstddef>
+//structure of the stack with module of vector 
+struct Stack
+{
+    Vector* vector;
+};
 
-// Stack
-// Stores integer values inside
-typedef size_t Data;
+//creating new stack
+Stack *stack_create()
+{
+    Stack* stack = new Stack;
+    stack->vector = vector_create();
+    return stack;
+}
 
-struct Stack;
+//deleting fully stack and also freeing up memory
+void stack_delete(Stack* stack)
+{
+    vector_delete(stack->vector);
+    delete stack;
+}
 
-// Creates empty stack
-Stack *stack_create();
+//adding(pushing) elements on the top of the stack
+void stack_push(Stack* stack, Data data)
+{
+    size_t size = vector_size(stack->vector);
+    vector_resize(stack->vector, size+1);
+    vector_set(stack->vector, size, data);
+}   
 
-// Deletes the stack
-void stack_delete(Stack *stack);
+//receiving the last element from stack 
+Data stack_get(const Stack* stack)
+{
+    size_t size = vector_size(stack->vector);
 
-// Pushes data on top of the stack
-// Should be O(1) on average
-void stack_push(Stack *stack, Data data);
+    if(size>0){
+        return vector_get(stack->vector, size-1);
+    }
 
-// Retrives the last element from the stack
-Data stack_get(const Stack *stack);
+    return 0;
+}
 
-// Removes the last element from the stack
-// Should be O(1)
-void stack_pop(Stack *stack);
+//removing the last element from stack 
+void stack_pop(Stack* stack)
+{
+    size_t size = vector_size(stack->vector);
+    
+    if(size>0){
+        vector_resize(stack->vector, size-1);
+    }
+}
 
-// Returns true if the stack is empty
-bool stack_empty(const Stack *stack);
-
-#endif
+//returning true if stack is empty
+bool stack_empty(const Stack* stack)
+{
+    return vector_size(stack->vector) == 0;
+}
