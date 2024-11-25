@@ -198,9 +198,9 @@ public:
 	}
 
 
-	std::vector<Data> get_AllVertexData() const {
-		std::vector<Data> allData;
-		for (int i = 0;i < vertices.size();i++) {
+	std::vector<int> get_AllVertexData() const {
+		std::vector<int> allData;
+		for (size_t i = 0;i < vertices.size();i++) {
 			allData.push_back(vertices[i].get_VertexData());
 		}
 		return allData;
