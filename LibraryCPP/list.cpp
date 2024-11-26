@@ -35,7 +35,7 @@ ListItem* list_first(List* list) {
 // Extracts data from the list item
 int list_item_data(const ListItem* item) {
 	if (item == nullptr) {
-		return NULL;
+		return 0;
 	}
 	return item->data;
 }
