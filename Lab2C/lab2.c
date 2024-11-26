@@ -1,10 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "stack.h"
 
+char* str_to_lower(const char* str) {
+    size_t len = strlen(str);
+    char* lower_str = malloc(len + 1);
+    if (lower_str) {
+        for (size_t i = 0; i < len; i++) {
+            lower_str[i] = (char)tolower((unsigned char)str[i]);
+        }
+        lower_str[len] = '\0';
+    }
+    return lower_str;
+}
+
+
 bool is_matching_tag(const char* opening, const char* closing) {
-    return strcmp(opening + 1, closing + 2) == 0;
+    char* opening_lower = str_to_lower(opening);
+    char* closing_lower = str_to_lower(closing);
+    bool match = (strcmp(opening_lower + 1, closing_lower + 2) == 0);
+    free(opening_lower);
+    free(closing_lower);
+    return match;
 }
 
 bool is_valid_html(FILE* input) {
@@ -33,10 +52,10 @@ bool is_valid_html(FILE* input) {
     return result;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
 
-    FILE* input_file = fopen("input.txt", "r");
-    FILE* output_file = fopen("output.txt", "w");
+    FILE* input_file = fopen(argv[1], "r");
+    FILE* output_file = fopen(argv[2], "w");
 
     if (!input_file || !output_file) {
         fprintf(stderr, "Error opening files.\n");
