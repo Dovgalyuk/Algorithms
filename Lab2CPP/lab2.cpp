@@ -74,14 +74,26 @@ void translateToAssembly(const string& expr, ofstream& output) {
     stack_delete(stack); 
 }
 
-int main() {
-    string expression;
-    cout << "Enter the arithmetic expression: ";
-    getline(cin, expression);
-    
-    ofstream output("output.txt"); 
-    translateToAssembly(expression, output); 
+int main(int argc, char *argv[]) {
+    if (argc < 3) {
+        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
+        return 1;
+    }
 
-    output.close(); 
+    ifstream input(argv[1]);
+    ofstream output(argv[2]);
+
+    if (input.is_open()) {
+        string expr;
+        while (getline(input, expr)) { 
+            translateToAssembly(expr, output);
+        }
+    } else {
+        cerr << "Couldn't open this file." << endl;
+        return 1;
+    }
+
+    input.close();
+    output.close();
     return 0;
 }
