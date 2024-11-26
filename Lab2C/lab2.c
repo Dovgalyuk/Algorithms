@@ -58,7 +58,6 @@ int main(int argc, char* argv[]) {
     FILE* output_file = fopen(argv[2], "w");
 
     if (!input_file || !output_file) {
-        fprintf(stderr, "Error opening files.\n");
         return 1;
     }
 
