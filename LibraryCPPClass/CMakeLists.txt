@@ -1,3 +1,3 @@
-add_library(LibraryCPPClass STATIC)
+#add_library(LibraryCPPClass STATIC)
 
-add_subdirectory(Tests)
+#add_subdirectory(Tests)

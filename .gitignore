@@ -11,5 +11,6 @@ ipch/*
 Debug/*
 Release/*
 .vs/*
-build/*
+build
 .vscode/*
+out

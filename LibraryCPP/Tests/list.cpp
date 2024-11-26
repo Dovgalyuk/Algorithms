@@ -3,7 +3,7 @@
 
 int main()
 {
-    List *list = list_create();
+    List* list = list_create();
 
     if (!list)
     {
@@ -21,7 +21,7 @@ int main()
         return 1;
     }
 
-    list_insert_after(list, list_first(list), 4);
+    list_insert_after(list_first(list), 4);
 
     if (list_item_data(list_item_next(list_first(list))) != 4)
     {
@@ -38,7 +38,7 @@ int main()
     }
 
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
+    for (ListItem* item = list_first(list); item; item = list_item_next(item))
     {
         std::cout << list_item_data(item) << " ";
     }
