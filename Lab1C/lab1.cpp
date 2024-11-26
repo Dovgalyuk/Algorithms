@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     Stack *particle_start_coordinates = stack_create();
     std::vector<std::pair<int, int>> collisions;
     int amount_of_points = 0;
-    int input_start_coordinate = 0, input_start_coordinate_rmd;
+    int input_start_coordinate = 0;
     char input_charge = ' ';
 
     file_input >> amount_of_points;
@@ -32,39 +32,14 @@ int main(int argc, char *argv[])
     {
         file_input >> input_start_coordinate >> input_charge;
 
-        while (stack_empty(particle_start_coordinates) && input_charge == '-')
-        {
-            i++;
-            input_start_coordinate_rmd = input_start_coordinate;
-            file_input >> input_start_coordinate >> input_charge;
-
-            if (input_charge == '+')
-            {
-                if (input_start_coordinate < input_start_coordinate_rmd)
-                {
-                    collisions.push_back(std::make_pair(input_start_coordinate, input_start_coordinate_rmd));
-
-                    i++;
-                    file_input >> input_start_coordinate >> input_charge;
-                }
-                else
-                {
-                    stack_push(particle_start_coordinates, input_start_coordinate);
-                }
-
-                i++;
-                file_input >> input_start_coordinate >> input_charge;
-            }
-        }
-
-        if (input_charge == '+')
-        {
-            stack_push(particle_start_coordinates, input_start_coordinate);
-        }
-        else if (input_charge == '-' && input_start_coordinate > stack_get(particle_start_coordinates))
+        if (input_charge == '-' && !stack_empty(particle_start_coordinates) && stack_get(particle_start_coordinates) < input_start_coordinate)
         {
             collisions.push_back(std::make_pair(stack_get(particle_start_coordinates), input_start_coordinate));
             stack_pop(particle_start_coordinates);
+        }
+        else if (input_charge == '+')
+        {
+            stack_push(particle_start_coordinates, input_start_coordinate);
         }
     }
 
