@@ -36,8 +36,9 @@ int main()
     // Проверяем, правильно ли работает получение верхнего элемента стека
     if (stack_get_int(stack) != 3)
     {
-        std::cout << "Invalid stack top after push\n"; 
+        std::cout << "Invalid stack top after push\n" << std::endl; 
         stack_delete(stack); // Освобождаем память, занятую стеком
+        std::cout << "Stack delete done!\n" << std::endl;
         return 1;
     }
     std::cout << "Stack get int done!\n" << std::endl;
