@@ -23,11 +23,13 @@ int stack_get_int(Stack *s)
 int main()
 {
     Stack *stack = stack_create(); // Создаем стек
+    std::cout << "Stack create done!\n" << std::endl;
 
     // Добавляем значения в стек
     stack_push(stack, new int(1));
     stack_push(stack, new int(2));
     stack_push(stack, new int(3));
+    std::cout << "Stack push done!\n" << std::endl;
 
     // Проверяем, правильно ли работает получение верхнего элемента стека
     if (stack_get_int(stack) != 3)
