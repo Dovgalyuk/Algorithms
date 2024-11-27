@@ -37,11 +37,12 @@ int main()
     if (stack_get_int(stack) != 3)
     {
         std::cout << "Invalid stack top after push\n" << std::endl; 
+        std::cout << "Stack create done!\n" << std::endl;
         stack_delete(stack); // Освобождаем память, занятую стеком
         std::cout << "Stack delete done!\n" << std::endl;
         return 1;
     }
-    std::cout << "Stack get int done!\n" << std::endl;
+    std::cout << stack_get_int(stack) << "\n" << std::endl;
     std::cout << "Get: " << stack_get_int(stack) << "\n" << std::endl; // Выводим значение верхнего элемента
     delete (int*)stack_pop(stack); // Удаляем верхний элемент стека
     // Проверяем, правильно ли обновился верхний элемент
