@@ -150,7 +150,10 @@ Data pop_back(Vector *vector) {
         return NULL;
     }
     Data element = vector->data[--vector->size];
-    while(element != NULL)
+    while(element != NULL) {
+        if (vector->size == 0)
+            return NULL;
         element = vector->data[--vector->size];
+    }
     return element; // Уменьшение размера и возврат последнего элемента
 }
