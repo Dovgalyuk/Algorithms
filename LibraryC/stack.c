@@ -53,7 +53,7 @@ void *stack_get(const Stack *stack)  // Функция для получения
         fprintf(stderr, "Stack is empty!\n");  
         return NULL;  
     }
-    return vector_get(stack->vector, vector_size(stack->vector) - 1);  // Возвращаем верхний элемент стека, используя вектор
+    return vector_get(stack->vector, vector_size(stack->vector));  // Возвращаем верхний элемент стека, используя вектор
 }
 
 void *stack_pop(Stack *stack)  // Функция для удаления верхнего элемента из стека
