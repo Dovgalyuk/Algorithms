@@ -1,0 +1,5 @@
+add_executable(Lab6CPP lab6.cpp)
+#target_include_directories(Lab6CPP PUBLIC ../LibraryCPP)
+#target_link_libraries(Lab6CPP LibraryCPP)
+
+add_test(NAME TestLab6CPP COMMAND Lab6CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
