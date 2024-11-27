@@ -11,20 +11,20 @@ void myfree(void *p)
 int stack_get_int(Stack *s)
 {
     void *v = stack_get(s); // Получаем верхний элемент стека
-    std::cout << "Stack get done!\n" << std::endl;
-    if (!v) // Проверяем, не равен ли указатель NULL
-    {
-        std::cout << "Invalid stack_get\n"; 
-        stack_delete(s); // Освобождаем память, занятую стеком
-        exit(1);
-    }
+    // std::cout << "Stack get done!\n" << std::endl;
+    // if (!v) // Проверяем, не равен ли указатель NULL
+    // {
+    //     std::cout << "Invalid stack_get\n"; 
+    //     stack_delete(s); // Освобождаем память, занятую стеком
+    //     exit(1);
+    // }
     std::cout << "Return element!\n" << std::endl;
     return *(int*)v; // Возвращаем значение по указателю, приводя его к типу int
 }
 
 int main()
 {
-    Stack *stack = stack_create(); // Создаем стек
+    Stack *stack = stack_create(myfree); // Создаем стек
     std::cout << "Stack create done!\n" << std::endl;
 
     // Добавляем значения в стек
