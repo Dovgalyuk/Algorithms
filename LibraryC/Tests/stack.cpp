@@ -38,7 +38,7 @@ int main()
         stack_delete(stack); // Освобождаем память, занятую стеком
         return 1;
     }
-
+    std::cout << "Stack get int done!\n" << std::endl;
     std::cout << "Get: " << stack_get_int(stack) << "\n" << std::endl; // Выводим значение верхнего элемента
     delete (int*)stack_pop(stack); // Удаляем верхний элемент стека
     // Проверяем, правильно ли обновился верхний элемент
