@@ -33,6 +33,8 @@ int main()
     stack_push(stack, new int(3));
     std::cout << "Stack push done!\n" << std::endl;
 
+    std::cout << "Get: " << stack_get_int(stack) << "\n" << std::endl;
+
     // Проверяем, правильно ли работает получение верхнего элемента стека
     if (stack_get_int(stack) != 3)
     {
