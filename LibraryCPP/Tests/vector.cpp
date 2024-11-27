@@ -12,8 +12,11 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
+    for (size_t i = 0; i < vector_size(vector); ++i) {
+
+        int inti = (int)i;
+        vector_set(vector, i, inti);
+    }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
@@ -64,7 +67,7 @@ int main()
         vector_set(vector, i - 1, i);
     }
 
-    long long sum = 0;
+    int sum = 0;
     for (int i = 0 ; i < 10000000 ; ++i)
         sum += vector_get(vector, i);
 
