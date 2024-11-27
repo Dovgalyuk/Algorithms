@@ -149,6 +149,6 @@ Data pop_back(Vector *vector) {
         printf("Ошибка: стек пуст!\n"); 
         return NULL;
     }
-    vector->size = vector->size - 1;
-    return vector->data[vector->size++]; // Уменьшение размера и возврат последнего элемента
+    
+    return vector->data[--vector->size]; // Уменьшение размера и возврат последнего элемента
 }

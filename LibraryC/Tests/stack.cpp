@@ -51,7 +51,8 @@ int main()
     }
 
     std::cout << "Get: " << stack_get_int(stack) << "\n" << std::endl; // Выводим значение верхнего элемента
-    delete (int*)stack_pop(stack); // Удаляем верхний элемент стека
+    myfree(stack_pop(stack)); // Удаляем верхний элемент стека
+    
     std::cout << "Stack delele last element done!\n" << std::endl;
     // Проверяем, правильно ли обновился верхний элемент
     if (stack_get_int(stack) != 1)
