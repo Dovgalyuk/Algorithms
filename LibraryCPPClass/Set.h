@@ -1,58 +1,58 @@
-#pragma once
-
+#include <iostream>
 #include <string>
 
-enum Colour { BLACK, RED };
+// Red-Bralck Tree Node color enumeration
+enum Color { RED, BLACK };
 
+// Struct Red-Black Tree Node
 struct Node {
-	Node(std::string str, Node* nullNode) : left(nullNode), right(nullNode), parent(nullptr), colour(RED), value(str) {};
-	Node() : left(nullptr), right(nullptr), parent(nullptr), colour(BLACK) {};
+    std::string data;
+    Color color;
+    Node* parent;
+    Node* left;
+    Node* right;
 
-	~Node() {
-		delete left;
-		delete right;
-	}
-
-	Node* left;
-	Node* right;
-	Node* parent;
-	Colour colour;
-	std::string value;
+    Node(std::string value) : data(value), color(RED), parent(nullptr), left(nullptr), right(nullptr) {}
 };
 
 class Set {
 public:
-	Set() : nullNode(new Node()), root(nullptr) {};
-	~Set() {}
+    // Initialize Red-Black Tree
+    Set() : root(nullptr) {}
 
-	// Interface of inserting a new node
-	void insert(std::string);
+    // Delete Red-Black Tree
+    ~Set() { deleteTree(root); }
 
-	// Interface of searching a new node with a specified value
-	const Node* find(std::string);
+    // Insert a value into Red-Black Tree
+    void insert(std::string key);
 
-	// Interface of removing a node with a specified value
-	void remove(std::string);
+    // Find a Node with specified value
+    const Node* find(std::string key);
 
-	// Getting const ref to the root
-	const Node* get_root();
-
-	// Retrieves nullNode pointer
-	Node* get_null();
+    // Remove a value from Red-Black Tree
+    void remove(std::string key);
 
 private:
-	Node* nullNode;
-	Node* root;
+    Node* root; // Root of the Red-Black Tree
 
-	// Inserting a new node
-	Node* insert_(Node*, Node*);
+    // Utility function: Left Rotation
+    void rotateLeft(Node*& node);
 
-	// Finds a node by value
-	const Node* find_(const Node*, std::string);
+    // Utility function: Right Rotation
+    void rotateRight(Node*& node);
 
-	// Removes a node by value
-	void remove_(Node*);
+    // Utility function: Fixing Insertion Violation
+    void balanceAfterInsert(Node*& node);
 
-	// Balances the red-black tree
-	void balance();
+    // Utility function: Fixing Deletion Violation
+    void balanceAfterDelete(Node*& node);
+
+    // Utility function: Find Node with Minimum Value
+    Node* minValueNode(Node*& node);
+
+    // Utility function: Transplant nodes in Red-Black Tree
+    void transplant(Node*& root, Node*& u, Node*& v);
+
+    // Utility function: Delete all nodes in the Red-Black Tree
+    void deleteTree(Node* node);
 };
