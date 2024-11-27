@@ -11,6 +11,7 @@ void myfree(void *p)
 int stack_get_int(Stack *s)
 {
     void *v = stack_get(s); // Получаем верхний элемент стека
+    std::cout << "Stack get done!\n" << std::endl;
     if (!v) // Проверяем, не равен ли указатель NULL
     {
         std::cout << "Invalid stack_get\n"; 
