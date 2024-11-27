@@ -151,8 +151,8 @@ Data pop_back(Vector *vector) {
     }
     Data element = vector->data[--vector->size];
     if (element == NULL) {
-        vector->size--;
-        return pop_back(vector)
+        vector->size = vector->size-1;
+        return pop_back(vector);
     }
     // while(element != NULL) {
     //     if (vector->size == 0)
