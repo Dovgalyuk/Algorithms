@@ -149,9 +149,8 @@ Data pop_back(Vector *vector) {
         printf("Ошибка: стек пуст!\n"); 
         return NULL;
     }
-    Data element = vector->data[vector->size];
+    Data element = vector->data[--vector->size];
     if (element == NULL) {
-        vector->size = vector->size-1;
         return pop_back(vector);
     }
     // while(element != NULL) {
