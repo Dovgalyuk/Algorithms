@@ -3,11 +3,11 @@
 #include <fstream>
 #include <vector>
 
-#include "stack.h"
+#include "queue.h"
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2)
+    if (argc < 3)
     {
         std::cerr << "args error" << std::endl;
         return 1;
@@ -20,36 +20,62 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    Stack *particle_start_coordinates = stack_create();
-    std::vector<std::pair<int, int>> collisions;
-    int amount_of_points = 0;
-    int input_start_coordinate = 0;
-    char input_charge = ' ';
+    Queue* number_1 = queue_create();
+    Queue* number_2 = queue_create();
+    Queue* adding_result = queue_create();
 
-    file_input >> amount_of_points;
+    int lenght_of_number = 0;
+    int carry = 0;
+    int temp_var_2_push = 0;
 
-    for (int i = 0; i < amount_of_points; i++)
+    file_input >> lenght_of_number;
+
+    for (int i = 0; i < lenght_of_number; i++)
     {
-        file_input >> input_start_coordinate >> input_charge;
-
-        if (input_charge == '-' && !stack_empty(particle_start_coordinates) && stack_get(particle_start_coordinates) < input_start_coordinate)
-        {
-            collisions.push_back(std::make_pair(stack_get(particle_start_coordinates), input_start_coordinate));
-            stack_pop(particle_start_coordinates);
-        }
-        else if (input_charge == '+')
-        {
-            stack_push(particle_start_coordinates, input_start_coordinate);
-        }
+        file_input >> temp_var_2_push;
+        queue_insert(number_1, temp_var_2_push);
     }
 
-    stack_delete(particle_start_coordinates);
+    for (int i = 0; i < lenght_of_number; i++)
+    {
+        file_input >> temp_var_2_push;
+        queue_insert(number_2, temp_var_2_push);
+    }
 
-    if(collisions.empty())
-        std::cout << "None" << std::endl;
+    file_input.close();
 
-    for (const auto &particles_pair : collisions)
-        std::cout << particles_pair.first << " " << particles_pair.second << std::endl;
+    while (!queue_empty(number_1) && !queue_empty(number_2))
+    {
+        temp_var_2_push = queue_get(number_1) + queue_get(number_2) + carry;
+        queue_remove(number_1);
+        queue_remove(number_2);
 
-    return 0;
+        queue_insert(adding_result, temp_var_2_push % 10);
+        carry = temp_var_2_push / 10;
+    }
+
+    queue_delete(number_1);
+    queue_delete(number_2);
+
+    if(carry > 0)
+    {
+        queue_insert(adding_result, carry);
+    }
+
+    std::ofstream file_output(argv[2]);
+
+    if (!file_output)
+    {
+        std::cerr << "output file error " << argv[2] << std::endl;
+        return 1;
+    }
+
+    while (!queue_empty(adding_result))
+    {
+        // std::cout << queue_get(adding_result) << std::endl;
+        file_output << queue_get(adding_result) << "\n";
+        queue_remove(adding_result);
+    }
+
+    queue_delete(adding_result);
 }
