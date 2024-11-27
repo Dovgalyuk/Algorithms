@@ -18,7 +18,6 @@ int stack_get_int(Stack *s)
         stack_delete(s); // Освобождаем память, занятую стеком
         exit(1);
     }
-    std::cout << "Return element!\n" << std::endl;
     return *(int*)v; // Возвращаем значение по указателю, приводя его к типу int
 }
 
@@ -33,8 +32,6 @@ int main()
     stack_push(stack, new int(3));
     std::cout << "Stack push done!\n" << std::endl;
 
-    std::cout << "Get: " << stack_get_int(stack) << "\n" << std::endl;
-
     // Проверяем, правильно ли работает получение верхнего элемента стека
     if (stack_get_int(stack) != 3)
     {
@@ -44,7 +41,7 @@ int main()
         std::cout << "Stack delete done!\n" << std::endl;
         return 1;
     }
-    std::cout << "Stack get int done!\n" << std::endl;
+
     std::cout << "Get: " << stack_get_int(stack) << "\n" << std::endl; // Выводим значение верхнего элемента
     delete (int*)stack_pop(stack); // Удаляем верхний элемент стека
     // Проверяем, правильно ли обновился верхний элемент
