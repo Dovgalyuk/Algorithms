@@ -82,8 +82,6 @@ int main() {
 
     auto start = std::chrono::high_resolution_clock::now();
     for (int i = 1; i < n; i += 100) {
-        system("cls");
-        std::cout << "Current n value: " << i << '\n';
         data res;
         res = mySet(i + 1);
         outMy.write(reinterpret_cast<char*>(&res), sizeof(data));
