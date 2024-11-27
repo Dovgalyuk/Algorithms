@@ -18,6 +18,7 @@ int stack_get_int(Stack *s)
         stack_delete(s); // Освобождаем память, занятую стеком
         exit(1);
     }
+    std::cout << "Return element!\n" << std::endl;
     return *(int*)v; // Возвращаем значение по указателю, приводя его к типу int
 }
 
