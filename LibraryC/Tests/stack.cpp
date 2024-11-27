@@ -23,19 +23,16 @@ int stack_get_int(Stack *s)
 int main()
 {
     Stack *stack = stack_create(myfree); // Создаем стек
-    std::cout << "Stack create done!\n" << std::endl;
 
     // Добавляем значения в стек
     stack_push(stack, new int(1));
     stack_push(stack, new int(2));
     stack_push(stack, new int(3));
-    std::cout << "Stack push done!\n" << std::endl;
 
     // Проверяем, правильно ли работает получение верхнего элемента стека
     if (stack_get_int(stack) != 3)
     {
-        std::cout << "Invalid stack top after push\n" << std::endl; 
-        
+        std::cout << "Invalid stack top after push\n" << std::endl;   
         stack_delete(stack); // Освобождаем память, занятую стеком
         return 1;
     }
@@ -53,7 +50,6 @@ int main()
     std::cout << "Get: " << stack_get_int(stack) << "\n" << std::endl; // Выводим значение верхнего элемента
     delete (int*)stack_pop(stack); // Удаляем верхний элемент стека
     
-    std::cout << "Stack delele last element done!\n" << std::endl;
     // Проверяем, правильно ли обновился верхний элемент
     if (stack_get_int(stack) != 1)
     {
@@ -66,7 +62,6 @@ int main()
     // Добавляем новые значения в стек
     stack_push(stack, new int(4));
     stack_push(stack, new int(5));
-    std::cout << "Stack push done!\n" << std::endl;
 
     // Проверяем, правильно ли работает получение верхнего элемента стека
     if (stack_get_int(stack) != 5)
