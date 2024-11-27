@@ -24,7 +24,7 @@ int stack_get_int(Stack *s)
 
 int main()
 {
-    Stack *stack = stack_create(myfree); // Создаем стек
+    Stack *stack = stack_create(); // Создаем стек
     std::cout << "Stack create done!\n" << std::endl;
 
     // Добавляем значения в стек
