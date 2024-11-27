@@ -39,7 +39,7 @@ int main()
         return 1;
     }
 
-    std::cout << "Get: " << stack_get_int(stack) << "\n"; // Выводим значение верхнего элемента
+    std::cout << "Get: " << stack_get_int(stack) << "\n" << std::endl; // Выводим значение верхнего элемента
     delete (int*)stack_pop(stack); // Удаляем верхний элемент стека
     // Проверяем, правильно ли обновился верхний элемент
     if (stack_get_int(stack) != 2)
@@ -49,8 +49,9 @@ int main()
         return 1;
     }
 
-    std::cout << "Get: " << stack_get_int(stack) << "\n"; // Выводим значение верхнего элемента
+    std::cout << "Get: " << stack_get_int(stack) << "\n" << std::endl; // Выводим значение верхнего элемента
     delete (int*)stack_pop(stack); // Удаляем верхний элемент стека
+    std::cout << "Stack delele last element done!\n" << std::endl;
     // Проверяем, правильно ли обновился верхний элемент
     if (stack_get_int(stack) != 1)
     {
@@ -59,10 +60,11 @@ int main()
         return 1; 
     }
 
-    std::cout << "Get: " << stack_get_int(stack) << "\n"; // Выводим значение верхнего элемента
+    std::cout << "Get: " << stack_get_int(stack) << "\n" << std::endl; // Выводим значение верхнего элемента
     // Добавляем новые значения в стек
     stack_push(stack, new int(4));
     stack_push(stack, new int(5));
+    std::cout << "Stack push done!\n" << std::endl;
 
     // Проверяем, правильно ли работает получение верхнего элемента стека
     if (stack_get_int(stack) != 5)
