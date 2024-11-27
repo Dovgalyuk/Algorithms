@@ -147,7 +147,7 @@ void push_back(Vector *vector, Data value) {
 Data pop_back(Vector *vector) {
     if (vector == NULL || vector->size == 0) { // Проверка на NULL и пустоту вектора
         printf("Ошибка: стек пуст!\n"); 
-        return;
+        return NULL;
     }
     vector->size--;
     Data element = vector->data[vector->size];
