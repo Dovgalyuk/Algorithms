@@ -1,6 +1,6 @@
 #include "Set.h"
 
-// Insert a value into Red-Black Tree
+// Insert value to Red-Black Tree
 void Set::insert(std::string key)
 {
     Node* node = new Node(key);
@@ -20,10 +20,10 @@ void Set::insert(std::string key)
         parent->left = node;
     else
         parent->right = node;
-    balanceAfterInsert(node);
+    balance_after_insert(node);
 }
 
-// Find a Node with specified value
+// Find Node with specified value
 const Node* Set::find(std::string key) {
     Node* current = root;
     while (current != nullptr && current->data != key) {
@@ -35,7 +35,7 @@ const Node* Set::find(std::string key) {
     return current;
 }
 
-// Remove a value from Red-Black Tree
+// Remove value from Red-Black Tree
 void Set::remove(std::string key)
 {
     Node* node = root;
@@ -56,12 +56,11 @@ void Set::remove(std::string key)
     }
 
     if (z == nullptr) {
-        std::cout << "Key not found in the tree" << std::endl;
-        return;
+        throw std::exception("Key node was not found");
     }
 
     y = z;
-    Color yOriginalColor = y->color;
+    Color y_color = y->color;
     if (z->left == nullptr) {
         x = z->right;
         transplant(root, z, z->right);
@@ -71,8 +70,8 @@ void Set::remove(std::string key)
         transplant(root, z, z->left);
     }
     else {
-        y = minValueNode(z->right);
-        yOriginalColor = y->color;
+        y = min_node(z->right);
+        y_color = y->color;
         x = y->right;
         if (y->parent == z) {
             if (x != nullptr)
@@ -89,93 +88,92 @@ void Set::remove(std::string key)
         y->color = z->color;
     }
     delete z;
-    if (yOriginalColor == BLACK) {
-        balanceAfterDelete(x);
+    if (y_color == BLACK) {
+        balance_after_delete(x);
     }
 }
 
-// Left Rotation
-void Set::rotateLeft(Node*& node)
+// Left Rotate
+void Set::rotate_left(Node*& node)
 {
-    Node* child = node->right;
-    node->right = child->left;
+    Node* son = node->right;
+    node->right = son->left;
     if (node->right != nullptr)
         node->right->parent = node;
-    child->parent = node->parent;
+    son->parent = node->parent;
     if (node->parent == nullptr)
-        root = child;
+        root = son;
     else if (node == node->parent->left)
-        node->parent->left = child;
+        node->parent->left = son;
     else
-        node->parent->right = child;
-    child->left = node;
-    node->parent = child;
+        node->parent->right = son;
+    son->left = node;
+    node->parent = son;
 }
 
-// Right Rotation
-void Set::rotateRight(Node*& node)
+// Right Rotate
+void Set::rotate_right(Node*& node)
 {
-    Node* child = node->left;
-    node->left = child->right;
+    Node* son = node->left;
+    node->left = son->right;
     if (node->left != nullptr)
         node->left->parent = node;
-    child->parent = node->parent;
+    son->parent = node->parent;
     if (node->parent == nullptr)
-        root = child;
+        root = son;
     else if (node == node->parent->left)
-        node->parent->left = child;
+        node->parent->left = son;
     else
-        node->parent->right = child;
-    child->right = node;
-    node->parent = child;
+        node->parent->right = son;
+    son->right = node;
+    node->parent = son;
 }
 
-// Fixing Insertion Violation
-void Set::balanceAfterInsert(Node*& node)
+// Balance after insertion
+void Set::balance_after_insert(Node*& node)
 {
     Node* parent = nullptr;
-    Node* grandparent = nullptr;
-    while (node != root && node->color == RED
-        && node->parent->color == RED) {
+    Node* granddad = nullptr;
+    while (node != root && node->color == RED && node->parent->color == RED) {
         parent = node->parent;
-        grandparent = parent->parent;
-        if (parent == grandparent->left) {
-            Node* uncle = grandparent->right;
+        granddad = parent->parent;
+        if (parent == granddad->left) {
+            Node* uncle = granddad->right;
             if (uncle != nullptr
                 && uncle->color == RED) {
-                grandparent->color = RED;
+                granddad->color = RED;
                 parent->color = BLACK;
                 uncle->color = BLACK;
-                node = grandparent;
+                node = granddad;
             }
             else {
                 if (node == parent->right) {
-                    rotateLeft(parent);
+                    rotate_left(parent);
                     node = parent;
                     parent = node->parent;
                 }
-                rotateRight(grandparent);
-                std::swap(parent->color, grandparent->color);
+                rotate_right(granddad);
+                std::swap(parent->color, granddad->color);
                 node = parent;
             }
         }
         else {
-            Node* uncle = grandparent->left;
+            Node* uncle = granddad->left;
             if (uncle != nullptr
                 && uncle->color == RED) {
-                grandparent->color = RED;
+                granddad->color = RED;
                 parent->color = BLACK;
                 uncle->color = BLACK;
-                node = grandparent;
+                node = granddad;
             }
             else {
                 if (node == parent->left) {
-                    rotateRight(parent);
+                    rotate_right(parent);
                     node = parent;
                     parent = node->parent;
                 }
-                rotateLeft(grandparent);
-                std::swap(parent->color, grandparent->color);
+                rotate_left(granddad);
+                std::swap(parent->color, granddad->color);
                 node = parent;
             }
         }
@@ -183,63 +181,63 @@ void Set::balanceAfterInsert(Node*& node)
     root->color = BLACK;
 }
 
-// Fixing Deletion Violation
-void Set::balanceAfterDelete(Node*& node)
+// Balance after removing
+void Set::balance_after_delete(Node*& node)
 {
     while (node != root && node != nullptr && node->color == BLACK) {
         if (node == node->parent->left) {
-            Node* sibling = node->parent->right;
-            if (sibling->color == RED) {
-                sibling->color = BLACK;
+            Node* brother = node->parent->right;
+            if (brother->color == RED) {
+                brother->color = BLACK;
                 node->parent->color = RED;
-                rotateLeft(node->parent);
-                sibling = node->parent->right;
+                rotate_left(node->parent);
+                brother = node->parent->right;
             }
-            if ((sibling->left == nullptr || sibling->left->color == BLACK) && (sibling->right == nullptr || sibling->right->color == BLACK)) {
-                sibling->color = RED;
+            if ((brother->left == nullptr || brother->left->color == BLACK) && (brother->right == nullptr || brother->right->color == BLACK)) {
+                brother->color = RED;
                 node = node->parent;
             }
             else {
-                if (sibling->right == nullptr || sibling->right->color == BLACK) {
-                    if (sibling->left != nullptr)
-                        sibling->left->color = BLACK;
-                    sibling->color = RED;
-                    rotateRight(sibling);
-                    sibling = node->parent->right;
+                if (brother->right == nullptr || brother->right->color == BLACK) {
+                    if (brother->left != nullptr)
+                        brother->left->color = BLACK;
+                    brother->color = RED;
+                    rotate_right(brother);
+                    brother = node->parent->right;
                 }
-                sibling->color = node->parent->color;
+                brother->color = node->parent->color;
                 node->parent->color = BLACK;
-                if (sibling->right != nullptr)
-                    sibling->right->color = BLACK;
-                rotateLeft(node->parent);
+                if (brother->right != nullptr)
+                    brother->right->color = BLACK;
+                rotate_left(node->parent);
                 node = root;
             }
         }
         else {
-            Node* sibling = node->parent->left;
-            if (sibling != nullptr && sibling->color == RED) {
-                sibling->color = BLACK;
+            Node* brother = node->parent->left;
+            if (brother != nullptr && brother->color == RED) {
+                brother->color = BLACK;
                 node->parent->color = RED;
-                rotateRight(node->parent);
-                sibling = node->parent->left;
+                rotate_right(node->parent);
+                brother = node->parent->left;
             }
-            if (sibling != nullptr && (sibling->left == nullptr || sibling->left->color == BLACK) && (sibling->right == nullptr || sibling->right->color == BLACK)) {
-                sibling->color = RED;
+            if (brother != nullptr && (brother->left == nullptr || brother->left->color == BLACK) && (brother->right == nullptr || brother->right->color == BLACK)) {
+                brother->color = RED;
                 node = node->parent;
             }
-            else if (sibling != nullptr) {
-                if (sibling->left == nullptr || sibling->left->color == BLACK) {
-                    if (sibling->right != nullptr)
-                        sibling->right->color = BLACK;
-                    sibling->color = RED;
-                    rotateLeft(sibling);
-                    sibling = node->parent->left;
+            else if (brother != nullptr) {
+                if (brother->left == nullptr || brother->left->color == BLACK) {
+                    if (brother->right != nullptr)
+                        brother->right->color = BLACK;
+                    brother->color = RED;
+                    rotate_left(brother);
+                    brother = node->parent->left;
                 }
-                sibling->color = node->parent->color;
+                brother->color = node->parent->color;
                 node->parent->color = BLACK;
-                if (sibling->left != nullptr)
-                    sibling->left->color = BLACK;
-                rotateRight(node->parent);
+                if (brother->left != nullptr)
+                    brother->left->color = BLACK;
+                rotate_right(node->parent);
                 node = root;
             }
         }
@@ -248,8 +246,8 @@ void Set::balanceAfterDelete(Node*& node)
         node->color = BLACK;
 }
 
-// Find Node with Minimum Value
-Node* Set::minValueNode(Node*& node)
+// Find Node with min value
+Node* Set::min_node(Node*& node)
 {
     Node* current = node;
     while (current->left != nullptr)
@@ -257,7 +255,6 @@ Node* Set::minValueNode(Node*& node)
     return current;
 }
 
-// Transplant nodes in Red-Black Tree
 void Set::transplant(Node*& root, Node*& u, Node*& v)
 {
     if (u->parent == nullptr)
@@ -270,12 +267,12 @@ void Set::transplant(Node*& root, Node*& u, Node*& v)
         v->parent = u->parent;
 }
 
-// Delete all nodes in the Red-Black Tree
-void Set::deleteTree(Node* node)
+// Remove all nodes from Red-Black Tree
+void Set::delete_tree(Node* node)
 {
     if (node != nullptr) {
-        deleteTree(node->left);
-        deleteTree(node->right);
+        delete_tree(node->left);
+        delete_tree(node->right);
         delete node;
     }
 }

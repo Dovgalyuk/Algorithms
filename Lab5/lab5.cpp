@@ -80,7 +80,6 @@ int main() {
     std::ofstream outMy("mySet", std::ios::binary);
     std::ofstream outStd("stdSet", std::ios::binary);
 
-    auto start = std::chrono::high_resolution_clock::now();
     for (int i = 1; i < n; i += 100) {
         data res;
         res = mySet(i + 1);
@@ -89,8 +88,6 @@ int main() {
         outStd.write(reinterpret_cast<char*>(&res), sizeof(data));
     }
     auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> res = end - start;
-    std::cout << "Time left: " << res.count() << " seconds" << std::endl;
 
     outMy.close();
     outStd.close();
