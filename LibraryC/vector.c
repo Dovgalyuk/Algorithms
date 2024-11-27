@@ -45,16 +45,15 @@ void vector_delete(Vector *vector) {
     if (vector->distruct != NULL) { // Проверка наличия функции деструктора
         for (size_t i = 0; i < vector->size; i++) { // Цикл по всем элементам вектора
             if (vector->data[i] != NULL) { // проверка на NULL
-                void* ptr = (void*)vector->data[i]; // Получение элемента
-                vector->distruct(ptr); // Вызов функции деструктора для элемента
+                vector->distruct(vector->data[i]); // Вызов функции деструктора для элемента
             }
         }
     }
     
     free(vector->data); // Освобождение памяти массива данных
-    vector->data = NULL; // Обнуление указателя на данные
-    vector->size = 0; // Обнуление размера
-    vector->capacity = 0; // Обнуление емкости
+    // vector->data = NULL; // Обнуление указателя на данные
+    // vector->size = 0; // Обнуление размера
+    // vector->capacity = 0; // Обнуление емкости
     free(vector); // Освобождение памяти структуры вектора
 }
 
