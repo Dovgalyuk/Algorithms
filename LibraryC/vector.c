@@ -44,8 +44,10 @@ void vector_delete(Vector *vector) {
 
     if (vector->distruct != NULL) { // Проверка наличия функции деструктора
         for (size_t i = 0; i < vector->size; i++) { // Цикл по всем элементам вектора
-            void* ptr = (void*)vector->data[i]; // Получение элемента
-            vector->distruct(ptr); // Вызов функции деструктора для элемента
+            if (vector->data[i] != NULL) { // проверка на NULL
+                void* ptr = (void*)vector->data[i]; // Получение элемента
+                vector->distruct(ptr); // Вызов функции деструктора для элемента
+            }
         }
     }
     
@@ -139,8 +141,9 @@ void push_back(Vector *vector, Data value) {
 
     //if (vector->size >= vector->capacity) { // Проверка на заполнение вектора
         vector_resize(vector, vector->size + 1); // Увеличение размера
-    //}
-    vector->data[vector->size++] = value; // Добавление элемента и увеличение размера
+    //} 
+    vector->data[vector->size - 1] = value; // Добавление элемента
+    //vector->size++ // Увеличение размера
 }
 
 // Функция для удаления элемента из конца вектора
@@ -152,10 +155,5 @@ Data pop_back(Vector *vector) {
     vector->size--;
     Data element = vector->data[vector->size];
 
-    // while(element != NULL) {
-    //     if (vector->size == 0)
-    //         return NULL;
-    //     element = vector->data[--vector->size];
-    // }
     return element; // Уменьшение размера и возврат последнего элемента
 }
