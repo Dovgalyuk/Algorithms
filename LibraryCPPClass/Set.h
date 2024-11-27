@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-// Red-Bralck Tree Node color enumeration
+// Red-Bralck Tree Node color enum
 enum Color { RED, BLACK };
 
 // Struct Red-Black Tree Node
@@ -17,42 +17,41 @@ struct Node {
 
 class Set {
 public:
-    // Initialize Red-Black Tree
+    // Init Red-Black Tree
     Set() : root(nullptr) {}
 
     // Delete Red-Black Tree
     ~Set() { deleteTree(root); }
 
-    // Insert a value into Red-Black Tree
+    // Insert value to Red-Black Tree
     void insert(std::string key);
 
-    // Find a Node with specified value
+    // Find Node with specified value
     const Node* find(std::string key);
 
-    // Remove a value from Red-Black Tree
+    // Remove value from Red-Black Tree
     void remove(std::string key);
 
 private:
     Node* root; // Root of the Red-Black Tree
 
-    // Utility function: Left Rotation
+    // Left Rotate
     void rotateLeft(Node*& node);
 
-    // Utility function: Right Rotation
+    // Right Rotate
     void rotateRight(Node*& node);
 
-    // Utility function: Fixing Insertion Violation
+    // Balance after insertion
     void balanceAfterInsert(Node*& node);
 
-    // Utility function: Fixing Deletion Violation
+    // Balance after removing
     void balanceAfterDelete(Node*& node);
 
-    // Utility function: Find Node with Minimum Value
+    // Find Node with min value
     Node* minValueNode(Node*& node);
 
-    // Utility function: Transplant nodes in Red-Black Tree
     void transplant(Node*& root, Node*& u, Node*& v);
 
-    // Utility function: Delete all nodes in the Red-Black Tree
+    // Remove all nodes from Red-Black Tree
     void deleteTree(Node* node);
 };
