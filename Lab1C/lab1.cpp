@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-    if (argc < 3)
+    if (argc < 2)
     {
         std::cerr << "args error" << std::endl;
         return 1;
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
         queue_insert(adding_result, carry);
     }
 
-    std::ofstream file_output(argv[2]);
+    std::ofstream file_output("output.txt");
 
     if (!file_output)
     {
