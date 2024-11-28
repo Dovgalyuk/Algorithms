@@ -7,30 +7,20 @@ bool is_balanced(const std::string& str) {
     Stack* stack = stack_create();
 
     for (char c : str) {
-        if (c == '(' || c == '"' || c == '\'') {
+        if (c == '(' || c == '“' || c == '‘') {
             stack_push(stack, static_cast<Data>(c));
-        } else if (c == ')') {
+        } else if (c == ')' || c == '”' || c == '’') {
             if (stack_empty(stack)) {
                 stack_delete(stack);
                 return false;
             }
             Data top = stack_get(stack);
             stack_pop(stack);
-            if (top != '(') {
+            if ((c == ')' && top != '(') ||
+                (c == '”' && top != '“') ||
+                (c == '’' && top != '‘')) {
                 stack_delete(stack);
                 return false;
-            }
-        } else if (c == '"') {
-            if (!stack_empty(stack) && stack_get(stack) == '"') {
-                stack_pop(stack);
-            } else {
-                stack_push(stack, static_cast<Data>(c));
-            }
-        } else if (c == '\'') {
-            if (!stack_empty(stack) && stack_get(stack) == '\'') {
-                stack_pop(stack);
-            } else {
-                stack_push(stack, static_cast<Data>(c));
             }
         }
     }

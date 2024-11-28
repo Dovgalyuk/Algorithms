@@ -1,42 +1,39 @@
+#include <stdlib.h>
 #include "stack.h"
-#include "list.h"
-#include <stdexcept>
-
 
 struct Stack {
-    List* list; 
+    List *list;
 };
 
-Stack* stack_create() {
-    Stack* stack = new Stack;
-    stack->list = list_create(); 
+// Creates empty stack
+Stack *stack_create() {
+    Stack *stack = (Stack *)malloc(sizeof(Stack));
+    stack->list = list_create();
     return stack;
 }
 
-void stack_delete(Stack* stack) {
-    list_delete(stack->list); 
-    delete stack; 
+// Deletes the stack
+void stack_delete(Stack *stack) {
+    list_delete(stack->list);
+    free(stack);
 }
 
-void stack_push(Stack* stack, Data data) {
-    list_insert(stack->list, data); 
+// Pushes data on top of the stack
+void stack_push(Stack *stack, Data data) {
+    list_insert(stack->list, data);
 }
 
-Data stack_get(const Stack* stack) {
-    if (stack_empty(stack)) {
-        throw std::runtime_error("Stack is empty");
-    }
-    ListItem* item = list_last(stack->list); // Получаем последний элемент списка
-    return list_item_data(item); // Возвращаем данные верхнего элемента
+// Retrieves the last element from the stack
+Data stack_get(const Stack *stack) {
+    return list_item_data(list_first(stack->list));
 }
 
-void stack_pop(Stack* stack) {
-    if (stack_empty(stack)) {
-        throw std::runtime_error("Stack is empty"); // Генерируем ошибку, если стек пуст
-    }
-    list_erase_last(stack->list); // Удаляем последний элемент списка
+// Removes the last element from the stack
+void stack_pop(Stack *stack) {
+    list_erase_first(stack->list);
 }
 
-bool stack_empty(const Stack* stack) {
-    return list_first(stack->list) == nullptr; // Проверяем, есть ли элементы в списке
+// Returns true if the stack is empty
+bool stack_empty(const Stack *stack) {
+    return list_first(stack->list) == NULL;
 }
