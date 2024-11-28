@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
         queue_insert(adding_result, carry);
     }
 
-    std::ofstream file_output("output.txt");
+    std::ofstream file_output(argv[2]);
 
     if (!file_output)
     {
