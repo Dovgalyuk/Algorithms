@@ -1,17 +1,28 @@
 cmake_minimum_required(VERSION 3.10)
-
-project(MyArrayProject VERSION 1.0)
-
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-include_directories(${CMAKE_SOURCE_DIR})
+project(ArrayProgram)
 
 
-set(SOURCES
+set(CMAKE_CXX_STANDARD 17)
+
+
+set(SOURCE_FILES
     labb.cpp
-    array.cpp # Добавьте сюда ваш файл реализации массива, если он есть
+    array.cpp
+    array.h
 )
 
+add_executable(ArrayProgram ${SOURCE_FILES})
 
-add_executable(MyArrayProgram ${SOURCES})
+
+enable_testing()
+
+add_test(
+    NAME ArrayProgramTest
+    COMMAND ArrayProgram
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}  
+)
+
+configure_file(input1.txt ${CMAKE_BINARY_DIR}/input1.txt COPYONLY)
+configure_file(input2.txt ${CMAKE_BINARY_DIR}/input2.txt COPYONLY)
+
+
