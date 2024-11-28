@@ -114,6 +114,10 @@ List::Item *List::erase_first() {
 
     delete _list;
     _list = nextItem;
+    if (nextItem == nullptr) {
+        _listLast = nullptr;
+        _list = nullptr;
+    }
     return _list;
 }
 
