@@ -1,47 +1,12 @@
 #include <string>
 #include <vector>
 #include <limits>
+
+#define COMBINE_ANSWER
 #include "solutions.h"
 
 #define max_ans(a, b) (((a).value > (b).value) ? (a) : (b))
 #define min_ans(a, b) (((a).value < (b).value) ? (a) : (b))
-
-static Ans combine_answer(Ans a, Ans b, char op)
-{
-    Ans ans;
-
-    if (a.is_number) {
-        if (b.is_number) {
-            ans.expression = a.expression + op + b.expression;
-        } else {
-            ans.expression = a.expression + op + '(' + b.expression + ')';
-        }
-    } else {
-        if (b.is_number) {
-            ans.expression = '(' + a.expression + ')' + op + b.expression;
-        } else {
-            ans.expression = '(' + a.expression + ')' + op + '(' + b.expression + ')';
-        }
-    }
-    ans.is_number = false;
-
-    switch (op) {
-        case '+': {
-            ans.value = a.value + b.value;
-            break;
-        }
-        case '-': {
-            ans.value = a.value - b.value;
-            break;
-        }
-        case '*': {
-            ans.value = a.value * b.value;
-            break;  
-        }
-    }
-
-    return ans;
-}
 
 Ans solve2(std::vector<int> &numbers, std::vector<char> &operations)
 {

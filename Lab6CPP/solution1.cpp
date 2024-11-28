@@ -1,51 +1,15 @@
 #include <string>
 #include <vector>
+
+#define COMBINE_ANSWER
 #include "solutions.h"
 
 #define max_ans(a, b) (((a).value > (b).value) ? (a) : (b))
 #define min_ans(a, b) (((a).value < (b).value) ? (a) : (b))
 
-static Ans combine_answer(Ans a, Ans b, char op);
 static Ans min_value(int l, int r, std::vector<int> &numbers, std::vector<char> &operations);
 static Ans max_value(int l, int r, std::vector<int> &numbers, std::vector<char> &operations);
 static Ans extremum_value(int l, int r, std::vector<int> &numbers, std::vector<char> &operations, bool is_maximum);
-
-static Ans combine_answer(Ans a, Ans b, char op)
-{
-    Ans ans;
-
-    if (a.is_number) {
-        if (b.is_number) {
-            ans.expression = a.expression + op + b.expression;
-        } else {
-            ans.expression = a.expression + op + '(' + b.expression + ')';
-        }
-    } else {
-        if (b.is_number) {
-            ans.expression = '(' + a.expression + ')' + op + b.expression;
-        } else {
-            ans.expression = '(' + a.expression + ')' + op + '(' + b.expression + ')';
-        }
-    }
-    ans.is_number = false;
-
-    switch (op) {
-        case '+': {
-            ans.value = a.value + b.value;
-            break;
-        }
-        case '-': {
-            ans.value = a.value - b.value;
-            break;
-        }
-        case '*': {
-            ans.value = a.value * b.value;
-            break;  
-        }
-    }
-
-    return ans;
-}
 
 static Ans extremum_value(int l, int r, std::vector<int> &numbers, std::vector<char> &operations, bool is_maximum)
 {
