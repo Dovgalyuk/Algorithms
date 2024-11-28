@@ -16,9 +16,8 @@ bool is_balanced(const std::string& str) {
             }
             Data top = stack_get(stack);
             stack_pop(stack);
-            if ((c == ')' && top != '(') ||
-                (c == '”' && top != '“') ||
-                (c == '’' && top != '‘')) {
+            if ((c == '"' && top != '"') || 
+            (c == '\'' && top != '\'')) {
                 stack_delete(stack);
                 return false;
             }
