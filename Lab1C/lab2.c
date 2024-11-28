@@ -16,6 +16,11 @@ void free_data(void *data) { // Функция для освобождения �
 }
 
 void execute_instruction(CPU *cpu, const char *instruction) { // Функция для выполнения инструкции CPU
+    if (instruction == NULL || instruction[0] == '\0') { // Проверка на пустую строку
+        fprintf(stderr, "Error: No instruction provided\n");
+        return;
+    }
+   
     char command[10];        // Строка для хранения команды
     char reg_char;           // Переменная для хранения символа регистра
     int value;               // Переменная для хранения значения
