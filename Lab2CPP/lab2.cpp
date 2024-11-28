@@ -5,11 +5,11 @@
 
 bool is_balanced(const std::string& str) {
     Stack* stack = stack_create();
-
+    char top;
     for (char c : str) {
-        if (c == '(' || c == '“' || c == '‘') {
+        if (c == '(' || c == '"') {
             stack_push(stack, static_cast<Data>(c));
-        } else if (c == ')' || c == '”' || c == '’') {
+        } else if (c == ')' || c == '"') {
             if (stack_empty(stack)) {
                 stack_delete(stack);
                 return false;
