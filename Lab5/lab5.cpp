@@ -87,7 +87,6 @@ int main() {
         res = stdSet(i + 1);
         outStd.write(reinterpret_cast<char*>(&res), sizeof(data));
     }
-    auto end = std::chrono::high_resolution_clock::now();
 
     outMy.close();
     outStd.close();

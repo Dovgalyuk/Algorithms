@@ -56,7 +56,7 @@ void Set::remove(std::string key)
     }
 
     if (z == nullptr) {
-        throw std::exception("Key node was not found");
+        throw std::out_of_range("Key node was not found");
     }
 
     y = z;

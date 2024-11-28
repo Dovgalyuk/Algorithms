@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdexcept>
 #include <string>
 
 // Red-Bralck Tree Node color enum
