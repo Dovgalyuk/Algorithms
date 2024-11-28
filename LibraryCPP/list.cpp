@@ -32,7 +32,7 @@ void list_delete(List *list) {
 }
 
 // Inserts data at the beginning
-void list_insert(List *list, Data data) {
+ListItem *list_insert(List *list, Data data) { // Изменено на ListItem*
     ListItem *item = (ListItem *)malloc(sizeof(ListItem));
     item->data = data;
     item->next = list->head;
@@ -44,10 +44,11 @@ void list_insert(List *list, Data data) {
     if (!list->tail) {
         list->tail = item;
     }
+    return item; // Возвращаем указатель на новый элемент
 }
 
 // Inserts data after a given item
-void list_insert_after(List *list, ListItem *item, Data data) {
+ListItem *list_insert_after(List *list, ListItem *item, Data data) { // Изменено на ListItem*
     ListItem *new_item = (ListItem *)malloc(sizeof(ListItem));
     new_item->data = data;
     new_item->next = item->next;
@@ -58,10 +59,11 @@ void list_insert_after(List *list, ListItem *item, Data data) {
     } else {
         list->tail = new_item;
     }
+    return new_item; // Возвращаем указатель на новый элемент
 }
 
 // Erases the first item
-void list_erase_first(List *list) {
+ListItem *list_erase_first(List *list) { // Изменено на ListItem*
     if (list->head) {
         ListItem *to_delete = list->head;
         list->head = list->head->next;
@@ -71,7 +73,9 @@ void list_erase_first(List *list) {
             list->tail = NULL;
         }
         free(to_delete);
+        return list->head; // Возвращаем новый первый элемент
     }
+    return NULL; // Если список пустой
 }
 
 // Returns the first item
