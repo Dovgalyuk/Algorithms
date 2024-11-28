@@ -45,7 +45,7 @@ void execute_befunge(Stack *stack, string commands) {
                         stack_push(stack, a / b);
                     } else {
                         cerr << "Division by zero" << endl;
-                        stack_push(stack, 0);
+
                     }
                     break;
                 }
@@ -58,7 +58,6 @@ void execute_befunge(Stack *stack, string commands) {
                         stack_push(stack, a % b);
                     } else {
                         cerr << "Division by zero" << endl;
-                        stack_push(stack, 0);
                     }
                     break;
                 }
@@ -113,28 +112,20 @@ void execute_befunge(Stack *stack, string commands) {
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        cerr << "Usage: " << argv[0] << " <file>" << endl;
         return 1;
     }
 
     ifstream input(argv[1]);
     if (!input) {
-        cerr << "Cannot open file: " << argv[1] << endl;
         return 1;
     }
     Stack *stack = stack_create();
     string commands;
 
-    cout << "Enter commands: ";
-    cin >> commands;
+    getline(input, commands);
 
     execute_befunge(stack, commands);
     stack_delete(stack);
-    // FILE *input = fopen("input.txt", "r");
-    // if (!input) {
-    //     return 1;
-    // }
-    // stack = stack_create_and_read(input);
     input.close();
     return 0;
 }

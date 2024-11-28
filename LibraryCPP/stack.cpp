@@ -36,10 +36,11 @@ Data stack_get(const Stack *stack) {
 }
 
 void stack_pop(Stack *stack) {
-    stack->last = list_erase_first(stack->list);
+    if (stack->last != nullptr) {
+        stack->last = list_erase_first(stack->list);
+    }
 }
 
 bool stack_empty(const Stack *stack) {
-    if (stack->last == nullptr) return true;
-    else return false;
+    return stack->last == nullptr;
 }
