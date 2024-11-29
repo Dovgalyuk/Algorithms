@@ -7,7 +7,7 @@ using namespace std;
 
 bool test (vector<char> &s, vector<char> &w);
 
-main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
 
     if (argc != 2) {
         cerr << "Usage: " << argv[0] << " <file_path>" << endl;
