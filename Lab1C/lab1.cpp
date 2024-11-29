@@ -72,7 +72,6 @@ int main(int argc, char *argv[])
 
     while (!queue_empty(adding_result))
     {
-        // std::cout << queue_get(adding_result) << std::endl;
         file_output << queue_get(adding_result) << "\n";
         queue_remove(adding_result);
     }
