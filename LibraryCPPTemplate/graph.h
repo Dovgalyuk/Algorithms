@@ -3,7 +3,7 @@
 #include "vector.h"
 #include <vector>
 #include <stdexcept>
-
+#include <limits> 
 template <typename V>
 struct Vertex {
 	Vertex() {}

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <set>
+#include <limits> 
 
 int main() {
 	Graph<std::string, std::string>::GraphType type = Graph<std::string, std::string>::GraphType::Directed;
