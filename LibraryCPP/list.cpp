@@ -108,5 +108,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
         item->next->previous = item;
     }
 
+    delete del_item;
     return item->next;
 }
