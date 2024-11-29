@@ -1,34 +1,39 @@
+#include <stdlib.h>
 #include "stack.h"
 
-struct Stack
-{
+struct Stack {
+    List *list;
 };
 
-Stack *stack_create()
-{
-    return new Stack;
+// Creates empty stack
+Stack *stack_create() {
+    Stack *stack = (Stack *)malloc(sizeof(Stack));
+    stack->list = list_create();
+    return stack;
 }
 
-void stack_delete(Stack *stack)
-{
-    // TODO: free stack elements
-    delete stack;
+// Deletes the stack
+void stack_delete(Stack *stack) {
+    list_delete(stack->list);
+    free(stack);
 }
 
-void stack_push(Stack *stack, Data data)
-{
+// Pushes data on top of the stack
+void stack_push(Stack *stack, Data data) {
+    list_insert(stack->list, data);
 }
 
-Data stack_get(const Stack *stack)
-{
-    return (Data)0;
+// Retrieves the last element from the stack
+Data stack_get(const Stack *stack) {
+    return list_item_data(list_first(stack->list));
 }
 
-void stack_pop(Stack *stack)
-{
+// Removes the last element from the stack
+void stack_pop(Stack *stack) {
+    list_erase_first(stack->list);
 }
 
-bool stack_empty(const Stack *stack)
-{
-    return true;
+// Returns true if the stack is empty
+bool stack_empty(const Stack *stack) {
+    return list_first(stack->list) == NULL;
 }
