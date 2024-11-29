@@ -15,7 +15,7 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
-        vector.set(i, i);
+        vector.set(i,(int) i);
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
     {
@@ -35,7 +35,7 @@ int main()
 
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector.size() ; ++i)
-        std::cout << vector.get(i) << " ";
+        std::cout << (int)vector.get(i) << " ";
     std::cout << "\n";
 
     vector.resize(3);
@@ -62,15 +62,15 @@ int main()
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
-        vector.resize(i);
-        vector.set(i - 1, i);
+        vector.resize(i);   
+        vector.set((size_t)(i) - 1, i);
     }
 
     MyVector copy = vector;
 
     for (int i = 0 ; i < 10000000 ; ++i)
     {
-        if (vector.get(i) != copy.get(i))
+        if (vector.get((size_t)i) != copy.get((size_t)i))
         {
             std::cout << "Invalid copy element " << i << "\n";
             return 1;
@@ -78,8 +78,9 @@ int main()
     }
 
     long long sum = 0;
-    for (int i = 0 ; i < 10000000 ; ++i)
-        sum += vector.get(i);
-
+    for (int i = 0; i < 10000000; ++i) {
+        sum += vector.get((size_t)i);
+    }
     std::cout << sum << "\n";
+    
 }

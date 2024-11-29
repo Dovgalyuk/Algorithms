@@ -14,6 +14,14 @@ public:
     
     ~Vector() {
         delete[] data;
+        data = nullptr;
+    }
+
+    Vector(const Vector& other) : vectorSize(other.vectorSize), volume(other.volume) {
+        data = new Data[volume];
+        for (size_t i = 0; i < vectorSize; i++) {
+            data[i] = other.data[i];
+        }
     }
 
     Vector& operator=(const Vector& other) {
@@ -98,27 +106,34 @@ public:
     }
 
     void resize(size_t size) {
-         if (size <= volume)
-        {
-            vectorSize = size;  
-            return;
+        if (size < vectorSize) {
+            vectorSize = size; 
+        }
+        if (size > volume) {
+            size_t newVolume = std::max(size, volume * 2); 
+            Data* new_data = new Data[newVolume];
+
+            for (size_t i = 0; i < vectorSize; i++) {
+                new_data[i] = data[i]; 
+            }
+
+            delete[] data; 
+            data = new_data; 
+            volume = newVolume; 
         }
 
-        size_t volume1 = size * 2;
-        Data* new_data = new Data[volume1];
-
-        for (size_t i = 0; i < vectorSize; i++)  
-        {
-            new_data[i] = data[i];
-        }
-
-        delete[] data;  
-        data = new_data;  
-        volume = volume1;
-        vectorSize = size;  
+       
+        vectorSize = size;
     }
 
-
+    void push(Data value) {
+        if (vectorSize >= volume) {
+            resize(vectorSize + 1);
+            vectorSize--;
+        }
+        data[vectorSize++] = value;
+    }
+    
 private:
     Data* data;
     size_t vectorSize;

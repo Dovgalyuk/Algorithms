@@ -4,8 +4,25 @@
 #include <vector>
 #include <stdexcept>
 
+template <typename V>
+struct Vertex {
+	Vertex() {}
+	Vertex(size_t number, V mark) : number(number), mark(mark) {}
 
-template<typename Data>
+	size_t number = std::numeric_limits<size_t>::max();
+	V mark = V();
+};
+
+template <typename E>
+struct Edge {
+	Edge() {}
+	Edge(E mark) : mark(mark) {}
+
+	E mark = E();
+};
+
+
+template<typename V, typename E>
 class Graph {
 public:
 	enum class GraphType {
@@ -13,33 +30,12 @@ public:
 		Undirected
 	};
 
-	Graph(size_t qty_vertex, GraphType type) : type(type) {
-		vertices.resize(qty_vertex);
-		for (size_t i = 0; i < qty_vertex; i++) {
-			vertices.set(i, Vertex(static_cast<int>(i)));
-		}
-		edgeMatrix.resize(qty_vertex * qty_vertex);
-		for (size_t i = 0;i < edgeMatrix.size();i++) {
-			edgeMatrix.set(i, nullptr);
-		}
-	}
-
+	Graph(GraphType type) : type(type) {}
 	~Graph() {
 		clearEdges();
 	}
 
-	Graph(const Graph& other) : type(other.type), vertices(other.vertices) {
-		edgeMatrix.resize(other.edgeMatrix.size());
-		for (size_t i = 0; i < other.edgeMatrix.size(); ++i) {
-			if (other.edgeMatrix[i] != nullptr) {
-				edgeMatrix[i] = new Edge(*other.edgeMatrix[i]);
-			}
-			else {
-				edgeMatrix[i] = nullptr;
-			}
-		}
-	}
-
+	
 	Graph& operator=(const Graph& other) {
 		if (this == &other) {
 			return *this;
@@ -61,41 +57,26 @@ public:
 		return *this;
 	}
 
-
-	struct Edge {
-	private:
-		Data edgeData;
-	public:
-		Edge(Data data) : edgeData(data) {}
-
-		void set_EdgeData(Data data) {
-			edgeData = data;
+	void add_Edge(size_t startIv, size_t endIv, E edge_mark) {
+		if (startIv >= get_VertexAmount() || endIv >= get_VertexAmount()) {
+			throw std::out_of_range("The index is out of range!");
 		}
 
-		Data get_EdgeData() const {
-			return edgeData;
-		}
-	};
-
-	void add_Edge(size_t startIv, size_t endIv, Data edge_data) {
-		size_t qty_vertex = get_VertexAmount();
-
-		Edge*& exists_edge = edgeMatrix[startIv * qty_vertex + endIv];
+		Edge<E>*& exists_edge = edgeMatrix[startIv * get_VertexAmount() + endIv];
 
 		if (exists_edge != nullptr) {
 			delete exists_edge;
 		}
 
-		exists_edge = new Edge(edge_data);
+		exists_edge = new Edge<E>(edge_mark);
 
 		if (type == GraphType::Undirected) {
-			Edge*& exists_ReverseEdge = edgeMatrix[endIv * qty_vertex + startIv];
+			Edge<E>*& exists_ReverseEdge = edgeMatrix[endIv * get_VertexAmount() + startIv];
 
 			if (exists_ReverseEdge != nullptr) {
 				delete exists_ReverseEdge;
 			}
-
-			exists_ReverseEdge = new Edge(edge_data);
+			exists_ReverseEdge = new Edge<E>(edge_mark);
 		}
 	}
 
@@ -111,15 +92,13 @@ public:
 		delete edgeMatrix[index];
 		edgeMatrix[index] = nullptr;
 
-
 		if (type == GraphType::Undirected) {
 			size_t reverse_Index = endIv * get_VertexAmount() + startIv;
 			delete edgeMatrix[reverse_Index];
 			edgeMatrix[reverse_Index] = nullptr;
 		}
 	}
-
-	Edge* get_Edge(size_t startIv, size_t endIv) const {
+	Edge<E>* get_Edge(size_t startIv, size_t endIv) const {
 		size_t qty_vertex = get_VertexAmount();
 		return edgeMatrix[startIv * qty_vertex + endIv];
 	}
@@ -128,28 +107,11 @@ public:
 		return get_Edge(startIv, endIv) != nullptr;
 	}
 
-
-	struct Vertex {
-	private:
-		Data vertexData;
-	public:
-		Vertex() : vertexData(Data()) {}
-
-		Vertex(Data vertexData) : vertexData(vertexData) {}
-
-		void set_VertexData(Data newVertexData) {
-			this->vertexData = newVertexData;
+	Vertex<V>& get_Vertex(size_t index) {
+		if (index >= vertices.size()) {
+			throw std::out_of_range("The index is out of range!");
 		}
-
-		Data get_VertexData() const {
-			return this->vertexData;
-		}
-
-
-	};
-
-	Vertex& get_Vertex(size_t index) {
-		return vertices[index];
+		return vertices[index]; 
 	}
 
 	size_t get_VertexAmount() const {
@@ -157,25 +119,23 @@ public:
 	}
 
 
-	size_t add_Vertex(Data vertex_data) {
+	size_t add_Vertex(V vertex_mark) {
 		size_t index = vertices.size();
-		vertices.resize(index + 1);
-		vertices.set(index, Vertex(vertex_data));
+		vertices.push(Vertex<V>(index, vertex_mark));
 
 		size_t qty_vertex = get_VertexAmount();
-		Vector<Edge*> TimeMatrix;
-		TimeMatrix.resize((qty_vertex + 1) * (qty_vertex + 1));
+		Vector<Edge<E>*> newEdgeMatrix;
 
-
-		for (size_t i = 0; i < qty_vertex; i++) {
-			for (size_t j = 0; j < qty_vertex; j++) {
-				TimeMatrix.set((i * (qty_vertex + 1)) + j, edgeMatrix.get(i * qty_vertex + j));
+		for (size_t i = 0; i < qty_vertex; ++i) {
+			for (size_t j = 0; j < qty_vertex; ++j) {
+				newEdgeMatrix.push(nullptr); 
 			}
 		}
-		edgeMatrix.swap_data(TimeMatrix);
+
+		edgeMatrix.swap_data(newEdgeMatrix);
+
 		return index;
 	}
-
 	void remove_Vertex(size_t index) {
 		size_t  qty_vertex = get_VertexAmount();
 		if (index >= qty_vertex) {
@@ -188,7 +148,7 @@ public:
 		vertices.resize(qty_vertex - 1);
 
 		for (size_t i = 0; i < qty_vertex; i++) {
-			Edge* edge = edgeMatrix.get(index * qty_vertex + i);
+			Edge<E>* edge = edgeMatrix.get(index * qty_vertex + i);
 			if (edge) {
 				delete edge;
 			}
@@ -198,13 +158,13 @@ public:
 			}
 		}
 
-		Vector<Edge*> TimeEdgeMatrix;
+		Vector<Edge<E>*> TimeEdgeMatrix;
 		size_t  qty_vertex1 = get_VertexAmount();
-		
+
 		TimeEdgeMatrix.resize(qty_vertex1 * qty_vertex1);
 		for (size_t i = 0; i < qty_vertex1; i++) {
 			for (size_t j = 0; j < qty_vertex1; j++) {
-				Edge* edge = edgeMatrix.get(((i + (i >= index)) * qty_vertex) + (j + (j >= index)));
+				Edge<E>* edge = edgeMatrix.get(((i + (i >= index)) * qty_vertex) + (j + (j >= index)));
 				TimeEdgeMatrix.set((i * qty_vertex1) + j, edge);
 			}
 		}
@@ -213,17 +173,18 @@ public:
 
 	}
 
-	std::vector<int> get_AllVertexData() const {
-		std::vector<int> allData;
+	std::vector<V> get_AllVertexData() const {
+		std::vector<V> allData;
 		for (size_t i = 0;i < vertices.size();i++) {
-			allData.push_back(vertices[i].get_VertexData());
+
+			allData.push_back(vertices[i].mark); // Извлекаем метку вершины
 		}
 		return allData;
 	}
 
 	struct Iterator {
 	private:
-		Graph* graph;
+		const Graph* graph; 
 		size_t start;
 		size_t end;
 
@@ -237,7 +198,7 @@ public:
 		}
 
 	public:
-		Iterator(Graph* graph, size_t start) : graph(graph), start(start), end(static_cast<size_t>(-1)) {
+		Iterator(const Graph* graph, size_t start) : graph(graph), start(start), end(static_cast<size_t>(-1)) {
 			end = get_index_Vertex_near();
 		}
 
@@ -264,10 +225,10 @@ public:
 	};
 
 
-	Iterator get_Iterator(size_t start) {
+
+	Iterator get_Iterator(size_t start)const {
 		return Iterator(this, start);
 	}
-
 
 
 
@@ -278,8 +239,9 @@ private:
 			edgeMatrix.set(i, nullptr);
 		}
 	}
-	Vector<Vertex> vertices;
-	Vector<Edge*> edgeMatrix;
+
+	Vector<Vertex<V>> vertices;
+	Vector<Edge<E>*> edgeMatrix;
 	GraphType type;
 };
 #endif
