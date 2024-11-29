@@ -46,7 +46,9 @@ void performanceTest() {
     }
 
     for (int i = 1; i <= 1e6; ++i) {
-        set.find(std::to_string(i));
+        if (set.find(std::to_string(i))->data != std::to_string(i)) {
+            std::cout << "ERROR!";
+        }
     }
 
     for (int i = 1; i <= 1e6; ++i) {

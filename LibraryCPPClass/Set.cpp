@@ -1,7 +1,7 @@
 #include "Set.h"
 
 // Insert value to Red-Black Tree
-void Set::insert(std::string key)
+void Set::insert(const std::string &key)
 {
     Node* node = new Node(key);
     Node* parent = nullptr;
@@ -94,7 +94,7 @@ void Set::remove(std::string key)
 }
 
 // Left Rotate
-void Set::rotate_left(Node*& node)
+void Set::rotate_left(Node* node)
 {
     Node* son = node->right;
     node->right = son->left;
@@ -112,7 +112,7 @@ void Set::rotate_left(Node*& node)
 }
 
 // Right Rotate
-void Set::rotate_right(Node*& node)
+void Set::rotate_right(Node* node)
 {
     Node* son = node->left;
     node->left = son->right;
@@ -130,7 +130,7 @@ void Set::rotate_right(Node*& node)
 }
 
 // Balance after insertion
-void Set::balance_after_insert(Node*& node)
+void Set::balance_after_insert(Node* node)
 {
     Node* parent = nullptr;
     Node* granddad = nullptr;
@@ -182,7 +182,7 @@ void Set::balance_after_insert(Node*& node)
 }
 
 // Balance after removing
-void Set::balance_after_delete(Node*& node)
+void Set::balance_after_delete(Node* node)
 {
     while (node != root && node != nullptr && node->color == BLACK) {
         if (node == node->parent->left) {
@@ -247,7 +247,7 @@ void Set::balance_after_delete(Node*& node)
 }
 
 // Find Node with min value
-Node* Set::min_node(Node*& node)
+Node* Set::min_node(Node* node)
 {
     Node* current = node;
     while (current->left != nullptr)

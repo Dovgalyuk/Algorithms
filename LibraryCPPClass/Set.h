@@ -24,7 +24,7 @@ public:
     ~Set() { delete_tree(root); }
 
     // Insert value to Red-Black Tree
-    void insert(std::string key);
+    void insert(const std::string &key);
 
     // Find Node with specified value
     const Node* find(std::string key);
@@ -36,19 +36,19 @@ private:
     Node* root; // Root of the Red-Black Tree
 
     // Left Rotate
-    void rotate_left(Node*& node);
+    void rotate_left(Node* node);
 
     // Right Rotate
-    void rotate_right(Node*& node);
+    void rotate_right(Node* node);
 
     // Balance after insertion
-    void balance_after_insert(Node*& node);
+    void balance_after_insert(Node* node);
 
     // Balance after removing
-    void balance_after_delete(Node*& node);
+    void balance_after_delete(Node* node);
 
     // Find Node with min value
-    Node* min_node(Node*& node);
+    Node* min_node(Node* node);
 
     void transplant(Node*& root, Node*& u, Node*& v);
 

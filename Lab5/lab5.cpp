@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <chrono>
+#include <string>
 #include <set>
 #include "Set.h"
 
@@ -14,17 +15,23 @@ data stdSet(int n) {
     std::set<std::string> set;
     data temp;
     temp.number = n;
+    std::string* values = new std::string[n];
+
+    for (int i = 0; i < n; i++) {
+        values[i] = std::to_string(i + 1);
+    }
+
     auto start = std::chrono::high_resolution_clock::now();
-    for (int i = 1; i < n; ++i) {
-        set.insert(std::to_string(i));
+    for (int i = 0; i < n; ++i) {
+        set.insert(values[i]);
     }
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> res = end - start;
     temp.insert = res.count();
 
     start = std::chrono::high_resolution_clock::now();
-    for (int i = 1; i < n; ++i) {
-        set.find(std::to_string(i));
+    for (int i = 0; i < n; ++i) {
+        set.find(values[i]);
     }
     end = std::chrono::high_resolution_clock::now();
     res = end - start;
@@ -32,12 +39,14 @@ data stdSet(int n) {
 
 
     start = std::chrono::high_resolution_clock::now();
-    for (int i = 1; i < n; ++i) {
-        set.erase(std::to_string(i));
+    for (int i = 0; i < n; ++i) {
+        set.erase(values[i]);
     }
     end = std::chrono::high_resolution_clock::now();
     res = end - start;
     temp.remove = res.count();
+
+    delete[] values;
 
     return temp;
 }
@@ -46,17 +55,23 @@ data mySet(int n) {
     Set set;
     data temp;
     temp.number = n;
+    std::string* values = new std::string[n];
+
+    for (int i = 0; i < n; i++) {
+        values[i] = std::to_string(i + 1);
+    }
+
     auto start = std::chrono::high_resolution_clock::now();
-    for (int i = 1; i < n; ++i) {
-        set.insert(std::to_string(i));
+    for (int i = 0; i < n; ++i) {
+        set.insert(values[i]);
     }
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> res = end - start;
     temp.insert = res.count();
 
     start = std::chrono::high_resolution_clock::now();
-    for (int i = 1; i < n; ++i) {
-        set.find(std::to_string(i));
+    for (int i = 0; i < n; ++i) {
+        set.find(values[i]);
     }
     end = std::chrono::high_resolution_clock::now();
     res = end - start;
@@ -64,12 +79,14 @@ data mySet(int n) {
 
 
     start = std::chrono::high_resolution_clock::now();
-    for (int i = 1; i < n; ++i) {
-        set.remove(std::to_string(i));
+    for (int i = 0; i < n; ++i) {
+        set.remove(values[i]);
     }
     end = std::chrono::high_resolution_clock::now();
     res = end - start;
     temp.remove = res.count();
+
+    delete[] values;
 
     return temp;
 }
