@@ -67,7 +67,7 @@ ListItem *list_insert(List *list, Data data)
     return new_item;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
+ListItem *list_insert_after(ListItem *item, Data data)
 {
     ListItem* new_item = new ListItem;
     new_item->data = data;
