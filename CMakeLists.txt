@@ -12,7 +12,7 @@ endif()
 
 
 add_subdirectory(LibraryCPP)
-#add_subdirectory(LibraryCPPClass)
+
 
 
 add_subdirectory(lab_1)
