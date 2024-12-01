@@ -25,7 +25,8 @@ ListItem *list_item_next(ListItem *item);
 
 // Returns previous element for the specified item.
 // Not applicable for the singly linked lists.
-ListItem *list_item_prev(ListItem *item);
+// ListItem *list_item_prev(ListItem *item);
+// В задачи реализовать односвязный список, поэтому эта функция не нужна
 
 // Inserts new list item into the beginning
 ListItem *list_insert(List *list, Data data);
