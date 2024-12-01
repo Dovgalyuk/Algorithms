@@ -1,6 +1,9 @@
 #include "array.h" // Подключаем заголовочный файл, где описаны функции работы с массивом
 #include <stdexcept> // Подключаем библиотеку для работы с исключениями, такими как std::out_of_range
 
+// Определение типа Data (например, int или структура)
+typedef int Data; // Пример использования типа int
+
 // Определение структуры Array
 struct Array {
     Data* array; // Указатель на массив элементов типа Data
@@ -45,7 +48,7 @@ void array_set(Array* arr, size_t index, Data value) {
 // Функция для получения размера массива
 size_t array_size(const Array* arr) {
     if (!arr) { // Проверяем, что массив существует
-        return 0; // Если массив null, возвращаем размер 0
+        throw std::invalid_argument("Array is null"); // Если массив пуст, выбрасываем исключение
     }
     return arr->size; // Возвращаем размер массива
 }
