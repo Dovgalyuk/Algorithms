@@ -2,13 +2,10 @@
 #include <vector>
 #include <limits>
 
-#define COMBINE_ANSWER
+#define SOLUTION_FILE
 #include "solutions.h"
 
-#define max_ans(a, b) (((a).value > (b).value) ? (a) : (b))
-#define min_ans(a, b) (((a).value < (b).value) ? (a) : (b))
-
-Ans solve2(std::vector<int> &numbers, std::vector<char> &operations)
+Ans solve2(IntVector &numbers, CharVector &operations)
 {
     std::vector<std::vector<Ans>> min_value, max_value;
     min_value.resize(numbers.size());

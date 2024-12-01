@@ -7,7 +7,26 @@ struct Ans{
     int value;
 };
 
-#ifdef COMBINE_ANSWER
+#ifdef SOLUTION_FILE
+
+typedef std::vector<int> IntVector;
+typedef std::vector<char> CharVector;
+
+static Ans min_ans(Ans a, Ans b)
+{
+    if (a.value < b.value)
+        return a;
+    else
+        return b;
+}
+
+static Ans max_ans(Ans a, Ans b)
+{
+    if (a.value > b.value)
+        return a;
+    else
+        return b;
+}
 
 static Ans combine_answer(Ans a, Ans b, char op)
 {

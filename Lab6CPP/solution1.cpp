@@ -1,17 +1,14 @@
 #include <string>
 #include <vector>
 
-#define COMBINE_ANSWER
+#define SOLUTION_FILE
 #include "solutions.h"
 
-#define max_ans(a, b) (((a).value > (b).value) ? (a) : (b))
-#define min_ans(a, b) (((a).value < (b).value) ? (a) : (b))
+static Ans min_value(int l, int r, IntVector &numbers, CharVector &operations);
+static Ans max_value(int l, int r, IntVector &numbers, CharVector &operations);
+static Ans extremum_value(int l, int r, IntVector &numbers, CharVector &operations, bool is_maximum);
 
-static Ans min_value(int l, int r, std::vector<int> &numbers, std::vector<char> &operations);
-static Ans max_value(int l, int r, std::vector<int> &numbers, std::vector<char> &operations);
-static Ans extremum_value(int l, int r, std::vector<int> &numbers, std::vector<char> &operations, bool is_maximum);
-
-static Ans extremum_value(int l, int r, std::vector<int> &numbers, std::vector<char> &operations, bool is_maximum)
+static Ans extremum_value(int l, int r, IntVector &numbers, CharVector &operations, bool is_maximum)
 {
     Ans ans;
 
@@ -58,17 +55,17 @@ static Ans extremum_value(int l, int r, std::vector<int> &numbers, std::vector<c
     return ans;
 }
 
-static Ans min_value(int l, int r, std::vector<int> &numbers, std::vector<char> &operations)
+static Ans min_value(int l, int r, IntVector &numbers, CharVector &operations)
 {
     return extremum_value(l, r, numbers, operations, false);
 }
 
-static Ans max_value(int l, int r, std::vector<int> &numbers, std::vector<char> &operations)
+static Ans max_value(int l, int r, IntVector &numbers, CharVector &operations)
 {
     return extremum_value(l, r, numbers, operations, true);
 }
 
-Ans solve1(std::vector<int> &numbers, std::vector<char> &operations)
+Ans solve1(IntVector &numbers, CharVector &operations)
 {
     return max_value(0, numbers.size() - 1, numbers, operations);
 }

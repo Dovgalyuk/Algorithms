@@ -16,7 +16,8 @@ int main(int argc, char **argv)
     std::vector<int> numbers;
     std::vector<char> operations;
 
-    std::cout << "Enter expression: ";
+    if (argc == 1)
+        std::cout << "Enter expression: ";
     std::cin >> expression;
 
     int num = 0;
