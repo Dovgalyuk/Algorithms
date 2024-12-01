@@ -1,4 +1,3 @@
-#pragma once
 #ifndef ARRAY_H
 #define ARRAY_H
 
@@ -26,4 +25,4 @@ void array_set(Array* arr, size_t index, Data value);
 size_t array_size(const Array* arr);
 
 #endif
-#pragma once
+
