@@ -6,8 +6,8 @@
 #include <stdexcept>
 using namespace std;
 
-template<typename V, typename E>
-void Prime(const Graph<V, E>& graph) {
+
+void Prime(const Graph<std::string, int>& graph) {
 	size_t vertexCount = graph.get_VertexAmount();
 	vector<bool> inMST(vertexCount, false);
 	vector<int> minEdge(vertexCount, numeric_limits<int>::max());
@@ -32,7 +32,7 @@ void Prime(const Graph<V, E>& graph) {
 		Graph<std::string,int>::Iterator it = graph.get_Iterator(u);
 		while (it.hasNext()) {
 			size_t v = it.next(); 
-			E weight = graph.get_Edge(u, v)->mark;
+			int  weight = graph.get_Edge(u, v)->mark;
 
 			if (!inMST[v] && weight < minEdge[v]) {
 				parent[v] = u;
