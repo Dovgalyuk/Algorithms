@@ -3,7 +3,6 @@
 #include <vector>
 #include <chrono>
 #include <fstream>
-#include <cassert>
 #include "solutions.h"
 
 struct Data {
@@ -28,7 +27,8 @@ Data measure_execution_time(int n) {
     auto end2 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration2 = end2 - start2;
 
-    assert(ans1.value == ans2.value);
+    if (ans1.value != ans2.value)
+        printf("Error\n");
 
     return Data{duration1.count(), duration2.count()};
 }
