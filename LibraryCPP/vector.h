@@ -1,11 +1,12 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <utility>
 #include <cstddef>
 
 // Vector (dynamic array)
 // Stores integer values inside
-typedef int Data;
+typedef std::pair<int, int> Data;
 
 struct Vector;
 
