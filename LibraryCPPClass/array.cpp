@@ -1,58 +1,32 @@
-#include "array.h" // Подключаем заголовочный файл, где описаны функции работы с массивом
-#include <stdexcept> // Подключаем библиотеку для работы с исключениями, такими как std::out_of_range
+#include "array.h"
 
-// Определение типа Data (например, int или структура)
-typedef int Data; // Пример использования типа int
-
-// Определение структуры Array с конструктором
-struct Array {
-    Data* array; // Указатель на массив элементов типа Data
-    size_t size; // Размер массива
-
-    // Конструктор для инициализации массива
-    Array(size_t size) : size(size), array(new Data[size]) {}
-    
-    // Деструктор для освобождения памяти
-    ~Array() {
-        delete[] array;
-    }
-};
-
-// Функция для создания массива
-Array* array_create(size_t size) {
-    if (size == 0) { // Проверяем, что размер массива больше 0
-        return nullptr; // Если размер 0, возвращаем null-указатель
-    }
-    return new Array(size); // Создаем объект структуры Array с заданным размером
+Array::Array(size_t size)
+{
 }
 
-// Функция для удаления массива и освобождения памяти
-void array_delete(Array* arr) {
-    if (arr) { // Проверяем, что указатель на массив не null
-        delete arr; // Освобождаем память, выделенную под структуру Array и её массив
-    }
+Array::Array(const Array &a)
+{
 }
 
-// Функция для получения элемента массива по индексу
-Data array_get(const Array* arr, size_t index) {
-    if (!arr || index >= arr->size) { // Проверяем, что массив существует и индекс в пределах допустимого
-        throw std::out_of_range("Index out of bounds"); // Если условие нарушено, выбрасываем исключение
-    }
-    return arr->array[index]; // Возвращаем элемент массива по указанному индексу
+Array &Array::operator=(const Array &a)
+{
+    return *this;
 }
 
-// Функция для установки значения элемента массива по индексу
-void array_set(Array* arr, size_t index, Data value) {
-    if (!arr || index >= arr->size) { // Проверяем, что массив существует и индекс в пределах допустимого
-        throw std::out_of_range("Index out of bounds"); // Если условие нарушено, выбрасываем исключение
-    }
-    arr->array[index] = value; // Устанавливаем значение элемента массива
+Array::~Array()
+{
 }
 
-// Функция для получения размера массива
-size_t array_size(const Array* arr) {
-    if (!arr) { // Проверяем, что массив существует
-        throw std::invalid_argument("Array is null"); // Если массив пуст, выбрасываем исключение
-    }
-    return arr->size; // Возвращаем размер массива
+Data Array::get(size_t index) const
+{
+    return Data(0);
+}
+
+void Array::set(size_t index, Data value)
+{
+}
+
+size_t Array::size() const
+{
+    return 0;
 }
