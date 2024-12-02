@@ -1,4 +1,4 @@
 ABC#D
 ABC
-ABC##EFG
-AEFG
+ABC###EFG
+EFG
