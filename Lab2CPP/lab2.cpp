@@ -9,7 +9,7 @@ using namespace std;
 
 string lab_2(const string &inputstr){
     Stack * stack = stack_create();
-    for (int i=0; i<inputstr.size();i++){
+    for (int i=0; i<(int)(inputstr.size());i++){
         if (inputstr[i] == '#'){
             stack_pop(stack);
         }
