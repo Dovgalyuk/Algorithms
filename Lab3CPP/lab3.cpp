@@ -38,13 +38,17 @@ Pos privedeniepos(size_t queue, size_t num_stolbiki) {
 bool poiskpos(vec_str labirint, int stroka, int stolbik) {
     return stroka >= 0 && size_t(stroka) < labirint.size() &&
            stolbik >= 0 && size_t(stolbik) < labirint[0].size() && 
-           labirint[stroka][stolbik] != '#';
+           labirint[stroka][stolbik] != '#' && labirint[stroka][stolbik] != 'x';
 }
 
 vector<Pos> bfs(vec_str labirint, Pos start, Pos end) {
     Queue* queue = queue_create();
+    if (!queue) {
+        cerr << "Error: could not create queue." << endl;
+        return {}; // Возвращаем пустой вектор, если не удалось создать очередь
+    }
+
     int num_stolbiki = labirint[0].size();
-    
     queue_insert(queue, privedenieint(start.stroka, start.stolbik, num_stolbiki));
     labirint[start.stroka][start.stolbik] = 'x'; // Помечаем как посещённую
 
@@ -98,32 +102,21 @@ int main(int argc, char* argv[]) {
     Pos start = {-1, -1};
     Pos end = {-1, -1};
 
+    // Чтение лабиринта из файла
     while (getline(input, line)) {
         labirint.push_back(line);
-    }
-    
-    input.close();
-
-    bool start_nahod = false;
-    bool end_nahod = false;
-
-    for (size_t i = 0; i < labirint.size(); ++i) {
-        for (size_t j = 0; j < labirint[i].size(); ++j) {
-            if (labirint[i][j] == 'X') {
-                start.stroka = static_cast<int>(i);
-                start.stolbik = static_cast<int>(j);
-                start_nahod = true;
-            } else if (labirint[i][j] == 'Y') {
-                end.stroka = static_cast<int>(i);
-                end.stolbik = static_cast<int>(j);
-                end_nahod = true;
-                            }
+        for (size_t i = 0; i < line.size(); ++i) {
+            if (line[i] == 'X') { 
+                start = {static_cast<int>(labirint.size()) - 1, static_cast<int>(i)};
+            } else if (line[i] == 'Y') { 
+                end = {static_cast<int>(labirint.size()) - 1, static_cast<int>(i)};
+            }
         }
-        if (start_nahod && end_nahod) break;
     }
+    input.close(); // Закрываем файл после чтения
 
-    if (!start_nahod || !end_nahod) {
-        cerr << "Start or End position not found\n";
+    if (start == Pos{-1, -1} || end == Pos{-1, -1}) {
+        cerr << "Error: start or end position not found." << endl;
         return 1;
     }
 
