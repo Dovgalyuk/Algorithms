@@ -255,7 +255,7 @@ Node* Set::min_node(Node* node)
     return current;
 }
 
-void Set::transplant(Node*& root, Node*& u, Node*& v)
+void Set::transplant(Node*& root, Node* u, Node* v)
 {
     if (u->parent == nullptr)
         root = v;
