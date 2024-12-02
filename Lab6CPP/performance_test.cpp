@@ -28,7 +28,7 @@ Data measure_execution_time(int n) {
     std::chrono::duration<double> duration2 = end2 - start2;
 
     if (ans1.value != ans2.value)
-        printf("Error\n");
+        std::cout << "Error\n";
 
     return Data{duration1.count(), duration2.count()};
 }
