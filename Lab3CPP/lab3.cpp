@@ -10,7 +10,7 @@
 const int dx[4] = { -1, 1, 0, 0 };
 const int dy[4] = { 0, 0, -1, 1 };
 
-bool is_valid(int x, int y, const std::vector<std::vector<std::string>>& desk, const std::vector<std::vector<bool>>& visited) {
+bool is_valid(size_t x, size_t y, const std::vector<std::vector<std::string>>& desk, const std::vector<std::vector<bool>>& visited) {
     return x >= 0 && x < desk.size() && y >= 0 && y < desk[0].size() && desk[x][y] != "#" && !visited[x][y];
 }
 
@@ -52,8 +52,8 @@ int bfs(std::vector<std::vector<std::string>>& desk, int start_x, int start_y) {
     }
     queue_delete(queue);
 
-    for (int i = 0; i < desk.size(); i++) {
-        for (int j = 0; j < desk[i].size(); j++) {
+    for (size_t i = 0; i < desk.size(); i++) {
+        for (size_t j = 0; j < desk[i].size(); j++) {
             if (visited[i][j] && desk[i][j] == "." || visited[i][j] && desk[i][j] == "X") {
                 desk[i][j] = "x";
             }
@@ -90,8 +90,8 @@ int main(int argc, char* argv[]) {
         desk.push_back(row);
     }
     int start_x = -1, start_y = -1;
-    for (int i = 0; i < desk.size(); i++) {
-        for (int j = 0; j < desk[i].size(); j++) {
+    for (size_t i = 0; i < desk.size(); i++) {
+        for (size_t j = 0; j < desk[i].size(); j++) {
             if (desk[i][j] == "X") {
                 start_x = i;
                 start_y = j;
