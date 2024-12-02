@@ -54,7 +54,7 @@ ListItem *list_item_next(ListItem *item)
 
 ListItem *list_item_prev(ListItem *item)
 {
-    return NULL;
+    return nullptr;
 }
 
 ListItem *list_insert(List *list, Data data)
