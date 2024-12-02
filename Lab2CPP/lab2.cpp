@@ -17,6 +17,7 @@ string lab_2(const string &inputstr){
             stack_push(stack, inputstr[i]);
         }
     }
+    stack_delete(stack);
     return "";
     stringstream ss;
     while (!stack_empty(stack)){
