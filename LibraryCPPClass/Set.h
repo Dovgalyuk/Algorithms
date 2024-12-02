@@ -50,7 +50,7 @@ private:
     // Find Node with min value
     Node* min_node(Node* node);
 
-    void transplant(Node*& root, Node*& u, Node*& v);
+    void transplant(Node*& root, Node* u, Node* v);
 
     // Remove all nodes from Red-Black Tree
     void delete_tree(Node* node);
