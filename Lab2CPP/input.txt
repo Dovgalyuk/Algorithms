@@ -1,0 +1,4 @@
+ABC#D
+ABC
+ABC###EFG
+EFG
