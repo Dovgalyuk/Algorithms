@@ -11,7 +11,7 @@ const int dx[4] = { -1, 1, 0, 0 };
 const int dy[4] = { 0, 0, -1, 1 };
 
 bool is_valid(int x, int y, const std::vector<std::vector<std::string>>& desk, const std::vector<std::vector<bool>>& visited) {
-    return x >= 0 && x < static_cast<size_t>(desk.size()) && y >= 0 && y < static_cast<size_t>(desk[0].size()) && desk[x][y] != "#" && !visited[x][y];
+    return x >= 0 && x < static_cast<int>(desk.size()) && y >= 0 && y < static_cast<int>(desk[0].size()) && desk[x][y] != "#" && !visited[x][y];
 }
 
 int bfs(std::vector<std::vector<std::string>>& desk, int start_x, int start_y) {
