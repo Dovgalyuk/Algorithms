@@ -1,5 +1,4 @@
 #include "./stack.h"
-#include "./list.h"
 
 struct Stack
 {
@@ -36,7 +35,7 @@ void stack_pop(Stack *stack)
 
 bool stack_empty(const Stack *stack)
 {
-    if (stack->list->first == nullptr){
+    if (stack->list == nullptr){
         return true;
     }
     else return false;
