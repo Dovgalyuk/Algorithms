@@ -1,5 +1,5 @@
-#include "stack.h"
-#include "list.h"
+#include "./stack.h"
+#include "./list.h"
 
 struct Stack
 {
