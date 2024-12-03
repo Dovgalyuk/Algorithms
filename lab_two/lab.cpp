@@ -5,7 +5,7 @@
 
 using namespace std;
 
-bool test (vector<char> &s, vector<char> &w);
+bool test (Stack *stack, vector<char> &w, size_t &count);
 
 int main(int argc, char* argv[]) {
 
@@ -22,44 +22,38 @@ int main(int argc, char* argv[]) {
     }
 
     char c;
-    vector<char> s;
+    size_t count = 0;
     vector<char> w;
+
+    Stack* stack = stack_create();
 
     while (input.get(c)) {
         if (c == '*') { 
             break;
         }
-        s.push_back(c);
+        stack_push(stack, c);
+        count++;
     }
 
     while (input.get(c)) w.push_back(c);
 
-    if (test(s, w)) cout << "YES";
+    if (test(stack, w, count)) cout << "YES";
     else cout << "NO";
+
+    stack_delete(stack);
 
     input.close();
 }
 
-bool test (vector<char> &s, vector<char> &w) {
-    if (s.size() != w.size()) {
+bool test (Stack *stack, vector<char> &w, size_t &count) {
+    if (count != w.size()) {
         return false;
     }
 
-    Stack* stack = stack_create();
-
-    for (char c : s) {
-        stack_push(stack, c);
-    }
-
     for (char c : w) {
-        if (stack_empty(stack) || stack_get(stack) != c) {
-            stack_delete(stack);
-            return false;
-        }
+        if (stack_empty(stack) || stack_get(stack) != c) return false;
         stack_pop(stack);
     }
-
-    stack_delete(stack);
 
     return true;
 }
