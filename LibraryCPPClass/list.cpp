@@ -108,6 +108,7 @@ List::Item *List::erase_first() {
     if (_list == nullptr) return nullptr;
 
     Item *nextItem = _list->next();
+    delete _list;
     if (nextItem != nullptr) {
         nextItem->_prev = nullptr;
     } else {
@@ -115,7 +116,6 @@ List::Item *List::erase_first() {
         _list = nullptr;
     }
 
-    delete _list;
     _list = nextItem;
     return _list;
 }
