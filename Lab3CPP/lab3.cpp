@@ -29,7 +29,6 @@ int main() {
     board[x - 1][y - 1] = 1;
     q.insert({x - 1, y - 1});
 
-    // Обход всех клеток и покраска
     while (!q.empty()) {
         Point curr = q.get();
         q.remove();
