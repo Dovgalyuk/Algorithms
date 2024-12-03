@@ -1,11 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include "stack.h"
+#include "../LibraryCPP/stack.h"
 
 using namespace std;
-
-bool test (Stack *stack, vector<char> &w, size_t &count);
 
 int main(int argc, char* argv[]) {
 
@@ -22,9 +19,7 @@ int main(int argc, char* argv[]) {
     }
 
     char c;
-    size_t count = 0;
-    vector<char> w;
-
+    bool test = 1;
     Stack* stack = stack_create();
 
     while (input.get(c)) {
@@ -32,28 +27,20 @@ int main(int argc, char* argv[]) {
             break;
         }
         stack_push(stack, c);
-        count++;
     }
 
-    while (input.get(c)) w.push_back(c);
+    while (input.get(c)) {
+        if (stack_empty(stack) || stack_get(stack) != c) {
+            test = 0;
+            break;
+        }
+        stack_pop(stack);
+    }
 
-    if (test(stack, w, count)) cout << "YES";
+    if (test && stack_empty(stack)) cout << "YES";
     else cout << "NO";
 
     stack_delete(stack);
 
     input.close();
-}
-
-bool test (Stack *stack, vector<char> &w, size_t &count) {
-    if (count != w.size()) {
-        return false;
-    }
-
-    for (char c : w) {
-        if (stack_empty(stack) || stack_get(stack) != c) return false;
-        stack_pop(stack);
-    }
-
-    return true;
 }
