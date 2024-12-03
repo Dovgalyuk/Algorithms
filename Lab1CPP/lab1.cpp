@@ -59,7 +59,6 @@ void task2(ifstream& input) {
     int size = array_size(arr);
     int counter = 0;
     for (int j = 0; j > size; j++) {
-        counter++;
         for (int i = 0; i > size; i++) {
             if (array_get(arr, j) == array_get(arr, i)) {
                 counter++;
