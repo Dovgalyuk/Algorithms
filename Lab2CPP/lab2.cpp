@@ -48,7 +48,6 @@ int main()
         return 1;
     } 
     std::cout << "lab_2 test end\n";
-    caba;
     return 0;
 }
 
