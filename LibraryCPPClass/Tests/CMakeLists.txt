@@ -24,3 +24,8 @@
 # target_link_libraries(TestVectorCPPClass LibraryCPPClass)
 # add_test(TestVectorCPPClass TestVectorCPPClass)
 # set_tests_properties(TestVectorCPPClass PROPERTIES TIMEOUT 10)
+
+ add_executable(TestMapCPPClass Map.cpp)
+ target_include_directories(TestMapCPPClass PUBLIC ..)
+ target_link_libraries(TestMapCPPClass LibraryCPPClass)
+ add_test(TestMapCPPClass TestMapCPPClass)
