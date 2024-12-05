@@ -165,6 +165,19 @@ int AssociativeArray::countNodes(Node* node) const {
 
 AssociativeArray::AssociativeArray() : root(nullptr) {}
 
+AssociativeArray::~AssociativeArray() {
+    clear(root); 
+}
+
+
+void AssociativeArray::clear(Node* node) {
+    if (node) {
+        clear(node->left);
+        clear(node->right);
+        delete node; 
+    }
+}
+
 void AssociativeArray::insert(const std::string& key, const std::string& value) {
     root = insert(root, key, value);
 }

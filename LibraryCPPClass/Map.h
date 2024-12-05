@@ -30,9 +30,11 @@ private:
     Node* find(Node* node, const std::string& key) const;
     Node* remove(Node* node, const std::string& key);
     int countNodes(Node* node) const;
+    void clear(Node* node);
 
 public:
     AssociativeArray();
+    ~AssociativeArray();
     void insert(const std::string& key, const std::string& value);
     std::string find(const std::string& key) const;
     void remove(const std::string& key);
