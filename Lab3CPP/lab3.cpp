@@ -93,8 +93,8 @@ int main(int argc, char* argv[]) {
         desk.push_back(row);
     }
     int start_x = -1, start_y = -1;
-    for (int i = 0; i < desk.size(); i++) {
-        for (int j = 0; j < desk[i].size(); j++) {
+    for (int i = 0; i < static_cast<int>(desk.size()); i++) {
+        for (int j = 0; j < static_cast<int>(desk[i].size()); j++) {
             if (desk[i][j] == "X") {
                 start_x = i;
                 start_y = j;
