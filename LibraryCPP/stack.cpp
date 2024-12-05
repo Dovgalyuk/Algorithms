@@ -1,4 +1,6 @@
-#include "./stack.h"
+#include "stack.h"
+
+#include "list.h"
 
 struct Stack
 {
@@ -9,7 +11,7 @@ Stack *stack_create()
 {
     Stack * stack = new Stack();
     stack->list = list_create();
-    return new Stack;
+    return stack;
 }
 
 void stack_delete(Stack *stack)
@@ -35,7 +37,7 @@ void stack_pop(Stack *stack)
 
 bool stack_empty(const Stack *stack)
 {
-    if (stack->list == nullptr){
+    if (list_first(stack->list) == nullptr) {
         return true;
     }
     else return false;

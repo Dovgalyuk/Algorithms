@@ -4,7 +4,7 @@
 #include <sstream>
 #include <algorithm>
 
-#include "./stack.h"
+#include "stack.h"
 using namespace std;
 
 string lab_2(const string &inputstr){

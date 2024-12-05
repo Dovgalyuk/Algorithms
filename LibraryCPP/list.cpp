@@ -1,5 +1,5 @@
 #include <cstddef>
-#include "./list.h"
+#include "list.h"
 
 struct ListItem
 {
@@ -52,10 +52,10 @@ ListItem *list_item_next(ListItem *item)
     return item->next;
 }
 
-ListItem *list_item_prev(ListItem *item)
+/*ListItem* list_item_prev(ListItem* item)
 {
     return nullptr;
-}
+}*/
 
 ListItem *list_insert(List *list, Data data)
 {
