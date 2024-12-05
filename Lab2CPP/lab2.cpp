@@ -32,6 +32,7 @@ string lab_2(const string &inputstr){
 
 int main()
 {
+    std::cout << "lab_2 test start\n";
     ifstream file;
     file.open("input.txt");
     string arr[4];
@@ -46,6 +47,7 @@ int main()
         std::cout << "Invalid lab_2 test2 execution\n";
         return 1;
     } 
+    std::cout << "lab_2 test end\n";
     return 0;
 }
 
