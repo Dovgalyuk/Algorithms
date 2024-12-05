@@ -115,7 +115,7 @@ AssociativeArray::Node* AssociativeArray::find(Node* node, const std::string& ke
 
 AssociativeArray::Node* AssociativeArray::remove(Node* node, const std::string& key) {
     if (node == nullptr) {
-        return nullptr; 
+        return nullptr;
     }
 
     if (key < node->key) {
@@ -129,6 +129,8 @@ AssociativeArray::Node* AssociativeArray::remove(Node* node, const std::string& 
         Node* leftChild = node->left;
         Node* rightChild = node->right;
 
+        delete node; 
+
         if (rightChild == nullptr) {
             return leftChild;
         }
@@ -137,24 +139,21 @@ AssociativeArray::Node* AssociativeArray::remove(Node* node, const std::string& 
             return rightChild;
         }
 
-     
         Node* minNode = rightChild;
         while (minNode->left != nullptr) {
             minNode = minNode->left;
         }
 
-       
         node->key = minNode->key;
         node->value = minNode->value;
 
         node->right = remove(node->right, minNode->key);
     }
 
-   
     fixHeight(node);
-
     return balance(node);
 }
+
 
 int AssociativeArray::countNodes(Node* node) const {
     if (node == nullptr) {
