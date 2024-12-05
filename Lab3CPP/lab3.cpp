@@ -10,11 +10,14 @@
 const int dx[4] = { -1, 1, 0, 0 };
 const int dy[4] = { 0, 0, -1, 1 };
 
-bool is_valid(int x, int y, const std::vector<std::vector<std::string>>& desk, const std::vector<std::vector<bool>>& visited) {
+typedef std::vector<std::vector<std::string>> Desk;
+typedef std::vector<std::vector<bool>> Visited;
+
+bool is_valid(int x, int y, const Desk& desk, const Visited& visited) {
     return x >= 0 && x < static_cast<int>(desk.size()) && y >= 0 && y < static_cast<int>(desk[0].size()) && desk[x][y] != "#" && !visited[x][y];
 }
 
-int bfs(std::vector<std::vector<std::string>>& desk, int start_x, int start_y) {
+int bfs(Desk& desk, int start_x, int start_y) {
     size_t rows = desk.size();
     size_t cols = desk[0].size();
     //std::cout << "Check0" << std::endl;
@@ -90,8 +93,8 @@ int main(int argc, char* argv[]) {
         desk.push_back(row);
     }
     int start_x = -1, start_y = -1;
-    for (size_t i = 0; i < desk.size(); i++) {
-        for (size_t j =     0; j < desk[i].size(); j++) {
+    for (int i = 0; i < desk.size(); i++) {
+        for (int j = 0; j < desk[i].size(); j++) {
             if (desk[i][j] == "X") {
                 start_x = i;
                 start_y = j;

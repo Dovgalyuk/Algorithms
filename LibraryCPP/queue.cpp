@@ -39,11 +39,11 @@ void queue_insert(Queue* queue, Data data)
         vector_delete(queue->vector);
         queue->vector = new_vector;
         queue->head = 0;
-        queue->rear = queue->size;
     }
 
-    vector_set(queue->vector, queue->rear, data);
-    queue->rear = (queue->rear + 1) % vector_size(queue->vector);
+    size_t rear = (queue->head + queue->size) % vector_size(queue->vector);
+
+    vector_set(queue->vector, rear, data);
     queue->size++;
 }
 
