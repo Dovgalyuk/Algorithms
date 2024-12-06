@@ -61,18 +61,23 @@ void process_array_min_max_sum(const Array* arr) {
 }
 
 // Главная функция программы
-int main() {
+int main(int argc, char* argv[]) {
     try { // Начинаем блок обработки исключений
+        if (argc != 3) { // Проверяем, что количество аргументов командной строки равно 3
+            throw runtime_error("Please provide two file names as arguments.");
+        }
+
+        string filename1 = argv[1]; // Имя файла для первой задачи (первый аргумент)
+        string filename2 = argv[2]; // Имя файла для второй задачи (второй аргумент)
+
         int size; // Переменная для хранения размера массива
-        string filename1 = "input1.txt"; // Имя файла для первой задачи
-        string filename2 = "input2.txt"; // Имя файла для второй задачи
 
         // Первая задача
         cout << "Enter size of array for first task: "; // Запрашиваем размер массива у пользователя
         cin >> size; // Считываем размер массива
 
         Array* arr1 = array_create(size); // Создаем массив заданного размера
-        fill_array_from_file(arr1, filename1); // Заполняем массив данными из файла input1.txt
+        fill_array_from_file(arr1, filename1); // Заполняем массив данными из файла, переданного в аргументах
         cout << "First task:\n"; // Заголовок для вывода результатов первой задачи
         process_array_sum_and_product(arr1); // Вызываем функцию для обработки массива
         array_delete(arr1); // Удаляем массив и освобождаем память
@@ -82,7 +87,7 @@ int main() {
         cin >> size; // Считываем размер массива
 
         Array* arr2 = array_create(size); // Создаем массив заданного размера
-        fill_array_from_file(arr2, filename2); // Заполняем массив данными из файла input2.txt
+        fill_array_from_file(arr2, filename2); // Заполняем массив данными из файла, переданного в аргументах
         cout << "Second task:\n"; // Заголовок для вывода результатов второй задачи
         process_array_min_max_sum(arr2); // Вызываем функцию для обработки массива
         array_delete(arr2); // Удаляем массив и освобождаем память
@@ -94,7 +99,3 @@ int main() {
 
     return 0; // Возвращаем 0, что означает успешное завершение программы
 }
-
-
-
-
