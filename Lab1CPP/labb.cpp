@@ -80,7 +80,7 @@ int main(int argc, char* argv[]) {
         fill_array_from_file(arr1, filename1); // Заполняем массив данными из файла, переданного в аргументах
         cout << "First task:\n"; // Заголовок для вывода результатов первой задачи
         process_array_sum_and_product(arr1); // Вызываем функцию для обработки массива
-        array_delete(arr1); // Удаляем массив и освобождаем память
+        array_delete(arr1); // Удаляем массив и освобождаем память после первой задачи
 
         // Вторая задача
         cout << "\nEnter size of array for second task: "; // Запрашиваем размер массива для второй задачи
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
         fill_array_from_file(arr2, filename2); // Заполняем массив данными из файла, переданного в аргументах
         cout << "Second task:\n"; // Заголовок для вывода результатов второй задачи
         process_array_min_max_sum(arr2); // Вызываем функцию для обработки массива
-        array_delete(arr2); // Удаляем массив и освобождаем память
+        array_delete(arr2); // Удаляем массив и освобождаем память после второй задачи
 
     }
     catch (const exception& e) { // Обрабатываем исключения, возникающие в программе
