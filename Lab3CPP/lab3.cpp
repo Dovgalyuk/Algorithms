@@ -21,7 +21,7 @@ int bfs(Desk& desk, int start_x, int start_y) {
     size_t rows = desk.size();
     size_t cols = desk[0].size();
     //std::cout << "Check0" << std::endl;
-    std::vector<std::vector<bool>> visited(rows, std::vector<bool>(cols, false));
+    Visited visited(rows, std::vector<bool>(cols, false));
 
     Queue* queue = queue_create();
 
@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
         std::cerr << "Usage: " << argv[0] << " <filename>" << std::endl;
         return 1;
     }
-    std::vector<std::vector<std::string>> desk;
+    Desk desk;
 
     std::string filename = argv[1];
 
