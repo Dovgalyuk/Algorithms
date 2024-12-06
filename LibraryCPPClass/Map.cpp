@@ -97,7 +97,7 @@ AssociativeArray::Node* AssociativeArray::insert(Node* node, const std::string& 
 
 AssociativeArray::Node* AssociativeArray::find(Node* node, const std::string& key) const {
     if (!node) {
-        throw std::runtime_error("this node does not exist");
+        return nullptr;
     }
 
     if (key == node->key) {

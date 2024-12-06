@@ -4,6 +4,7 @@
 #include <chrono>
 using namespace std;
 
+
 void basicTests() {
     AssociativeArray arr;
 
@@ -14,19 +15,42 @@ void basicTests() {
     arr.insert("key5", "value5");
 
    
-    assert(arr.find("key1") == "value1");
-    assert(arr.find("key2") == "value2");
-    assert(arr.find("key3") == "value3");
-    assert(arr.find("key4") == "value4");
-    assert(arr.find("key5") == "value5");
-    
+    if (arr.find("key1")!= "value1") {
+        throw std::runtime_error("value not found");
+    }
+    if (arr.find("key2")!= "value2") {
+        throw std::runtime_error("value not found");
+    }
+    if (arr.find("key3")!= "value3") {
+        throw std::runtime_error("value not found");
+    }
+    if (arr.find("key4")!= "value4") {
+        throw std::runtime_error("value not found");
+
+    }
+    if (arr.find("key5")!= "value5") {
+        throw std::runtime_error("value not found");
+
+    }
+    if (!arr.find("key6").empty()) {
+        throw std::runtime_error("incorrect search");
+
+    }
+    if (!arr.find("key7").empty()) {
+        throw std::runtime_error("incorrect search");
+
+    }
 
     arr.insert("key1", "new_value1");
-    assert(arr.find("key1") == "new_value1");
+    if ((arr.find("key1") != "new_value1")) {
+        throw std::runtime_error(" new value not found");
+    }
     arr.insert("key2", "new_value2");
-    assert(arr.find("key2") == "new_value2");
+    if ((arr.find("key2") != "new_value2")) {
+        throw std::runtime_error("new value not found");
+    }
 
-    // Тест удаления
+    
     arr.remove("key1");
     arr.remove("key2");
     arr.remove("key3");
@@ -50,7 +74,9 @@ void loadTest() {
 
     
     for (int i = 0; i < numElements; ++i) {
-        assert(arr.find("key" + std::to_string(i)) == "value" + std::to_string(i));
+        if ((arr.find("key" + std::to_string(i)) != "value" + std::to_string(i))) {
+            throw std::runtime_error("deletion error");
+        }
     }
 
 
@@ -74,6 +100,7 @@ int main() {
     }
     catch (const std::runtime_error& e) {
         std::cerr << e.what() << std::endl;
+        return 1;
     }
     return 0;
 }

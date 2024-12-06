@@ -69,7 +69,9 @@ data myAssociativeArray(size_t n) {
 
     start = std::chrono::high_resolution_clock::now();
     for (const auto& key : keys) {
-        array.find(key);
+        if (array.find(key).empty()) {
+            throw std::runtime_error("value not found");
+        }
     }
     end = std::chrono::high_resolution_clock::now();
     time.find = std::chrono::duration<double>(end - start).count();
@@ -107,9 +109,15 @@ void benchmark(size_t numbers) {
 }
 
 int main() {
+    try {
 
-    for (size_t numbers = 100000; numbers <= 1000000; numbers += 20000) {
-        benchmark(numbers);
+        for (size_t numbers = 100000; numbers <= 1000000; numbers += 20000) {
+            benchmark(numbers);
+        }
+    }
+    catch (const std::runtime_error& e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
     }
 
     return 0;
