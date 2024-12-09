@@ -49,7 +49,8 @@ bool is_balanced(const std::string& str) {
     }
 
     // Проверяем, что все скобки и кавычки сбалансированы
-    bool is_balanced = stack_empty(stack) && !is_quote_open;
+    bool balanced = stack_empty(stack) && !is_quote_open;
+    return balanced;
 } 
  
 int main() { 
