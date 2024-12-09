@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.10)
+project(DynamicArrayProcessing)
+
+set(CMAKE_CXX_STANDARD 17)
+
+# Добавляем исполняемый файл
+add_executable(DynamicArrayProcessing main.cpp)
+
+# Указываем путь к файлу arr.txt
+set(INPUT_FILE "${CMAKE_SOURCE_DIR}/Lab1/output.txt")
+
+# Проверяем, что файл существует
+if(NOT EXISTS ${INPUT_FILE})
+    message(FATAL_ERROR "Input file arr.txt not found at ${INPUT_FILE}")
+endif()
+
+# Добавляем тест
+add_custom_target(
+    RunTests ALL
+    COMMAND DynamicArrayProcessing
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running tests with arr.txt file located at ${INPUT_FILE}"
+)
