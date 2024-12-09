@@ -130,7 +130,7 @@
     <ClCompile Include="Lab1.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="arr.txt" />
+    <Text Include="output.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <numeric>
 
+using namespace std;
+
 class DynamicArray {
 public:
     DynamicArray(size_t size) : size(size), data(new int[size]) {}
@@ -30,65 +32,90 @@ private:
 };
 
 // Function to process the array and find elements greater than the sum of all elements
-void findElementsGreaterThanSum(const DynamicArray& array) {
+vector<int> findElementsGreaterThanSum(const DynamicArray& array) {
     int sum = 0;
     for (size_t i = 0; i < array.getSize(); ++i) {
         sum += array[i];
     }
 
-    std::cout << "Elements greater than the sum of the array: ";
+    vector<int> result;
     for (size_t i = 0; i < array.getSize(); ++i) {
         if (array[i] > sum) {
-            std::cout << i << " ";
+            result.push_back(array[i]);
         }
     }
-    std::cout << std::endl;
+    return result;
 }
 
 // Function to find elements that occur only once
-void findUniqueElements(const DynamicArray& array) {
-    std::unordered_map<int, int> frequency;
+vector<int> findUniqueElements(const DynamicArray& array) {
+    unordered_map<int, int> frequency;
 
     for (size_t i = 0; i < array.getSize(); ++i) {
         frequency[array[i]]++;
     }
 
-    std::cout << "Elements that appear only once: ";
+    vector<int> result;
     for (size_t i = 0; i < array.getSize(); ++i) {
         if (frequency[array[i]] == 1) {
-            std::cout << array[i] << " ";
+            result.push_back(array[i]);
         }
     }
-    std::cout << std::endl;
+    return result;
+}
+
+void writeResultsToFile(const vector<int>& column1, const vector<int>& column2, const string& filename) {
+    ofstream outfile(filename);
+    if (!outfile.is_open()) {
+        cerr << "Error opening file for writing: " << filename << endl;
+        return;
+    }
+
+    // Write first column: element greater than sum of array (first element only)
+    if (!column1.empty()) {
+        outfile << column1[0] << endl;
+    }
+
+    // Write second column: unique elements
+    for (size_t i = 0; i < column2.size(); ++i) {
+        outfile << column2[i] << " ";
+    }
+    outfile << endl;
+
+    outfile.close();
+    cout << "Results written to " << filename << endl;
 }
 
 int main() {
-    // Default file name
-    const std::string filename = "arr.txt";
+    // Part 1: Find elements greater than the sum
+    size_t size1;
+    cout << "Enter the size of the first array: ";
+    cin >> size1;
 
-    // Open file to determine size and read data
-    std::ifstream infile(filename);
-    if (!infile.is_open()) {
-        std::cerr << "Error opening file " << filename << std::endl;
-        return 1;
+    DynamicArray array1(size1);
+    cout << "Enter " << size1 << " elements for the first array: ";
+    for (size_t i = 0; i < size1; ++i) {
+        cin >> array1[i];
     }
 
-    std::vector<int> tempArray;
-    int value;
-    while (infile >> value) {
-        tempArray.push_back(value);
-    }
-    infile.close();
+    vector<int> greaterThanSum = findElementsGreaterThanSum(array1);
 
-    size_t size = tempArray.size();
-    DynamicArray array(size);
-    for (size_t i = 0; i < size; ++i) {
-        array[i] = tempArray[i];
+    // Part 2: Find unique elements
+    size_t size2;
+    cout << "Enter the size of the second array: ";
+    cin >> size2;
+
+    DynamicArray array2(size2);
+    cout << "Enter " << size2 << " elements for the second array: ";
+    for (size_t i = 0; i < size2; ++i) {
+        cin >> array2[i];
     }
 
-    // Call functions to process the array
-    findElementsGreaterThanSum(array);
-    findUniqueElements(array);
+    vector<int> uniqueElements = findUniqueElements(array2);
+
+    // Write results to file
+    const string outputFilename = "output.txt";
+    writeResultsToFile(greaterThanSum, uniqueElements, outputFilename);
 
     return 0;
 }
