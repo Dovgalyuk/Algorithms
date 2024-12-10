@@ -1,19 +1,16 @@
-cmake_minimum_required(VERSION 3.10)
-project(DynamicArrayProcessing)
-
-set(CMAKE_CXX_STANDARD 17)
-
-# Добавляем исполняемый файл
-add_executable(DynamicArrayProcessing main.cpp)
-
+# Указываем путь к файлу arr.txt
+set(INPUT_FILE "${CMAKE_SOURCE_DIR}Lab1/output.txt")
 # Указываем входные и выходные файлы
 set(INPUT_FILE ${CMAKE_SOURCE_DIR}/test_input.txt)
 set(EXPECTED_OUTPUT_FILE ${CMAKE_SOURCE_DIR}/expected_output.txt)
 set(ACTUAL_OUTPUT_FILE ${CMAKE_BINARY_DIR}/output.txt)
 
+# Проверяем, что файл существует
+if(NOT EXISTS ${INPUT_FILE})
+    message(FATAL_ERROR "Input file arr.txt not found at ${INPUT_FILE}")
+endif()
 # Создаем файл с тестовыми данными
 file(WRITE ${INPUT_FILE} "4\n-1 0 0 2\n5\n1 2 2 4 5\n")
-
 # Создаем файл с ожидаемым результатом
 file(WRITE ${EXPECTED_OUTPUT_FILE} "2\n1 4 5\n")
 
@@ -24,10 +21,12 @@ add_custom_command(
     DEPENDS DynamicArrayProcessing
     COMMENT "Running test with input data"
 )
-
 # Сравнение результатов
 add_custom_target(
     RunTests ALL
+    COMMAND DynamicArrayProcessing
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running tests with arr.txt file located at ${INPUT_FILE}"
     COMMAND ${CMAKE_COMMAND} -E compare_files ${ACTUAL_OUTPUT_FILE} ${EXPECTED_OUTPUT_FILE}
     DEPENDS ${ACTUAL_OUTPUT_FILE}
     COMMENT "Comparing actual output with expected output"
