@@ -15,7 +15,7 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
-        vector.set(i, i);
+        vector.set(i, (int)i);
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
     {
@@ -63,7 +63,7 @@ int main()
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector.resize(i);
-        vector.set(i - 1, i);
+        vector.set((size_t)(i) - 1, i);
     }
 
     MyVector copy = vector;
