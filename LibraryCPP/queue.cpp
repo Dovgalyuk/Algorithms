@@ -5,7 +5,6 @@ struct Queue
 {
     size_t size;
     size_t front;
-    size_t back;
     Vector* vec;
 };
 
@@ -16,7 +15,6 @@ Queue* queue_create()
     vector_resize(queue->vec, 1);
     queue->size = 0;
     queue->front = 0;
-    queue->back = 0;
     return queue;
 }
 
@@ -29,18 +27,17 @@ void queue_delete(Queue* queue)
 void queue_insert(Queue* queue, Data data)
 {
     if (queue->size == vector_size(queue->vec)) {
-        vector_resize(queue->vec, queue->size * 2);
+        size_t new_size = queue->size * 2;
+        vector_resize(queue->vec, new_size);
         for (size_t i = 0; i < queue->size; ++i) {
-            vector_set(queue->vec, i, vector_get(queue->vec, (queue->front + i) % vector_size(queue->vec)));
+            vector_set(queue->vec, i, vector_get(queue->vec, (queue->front + i) % queue->size));
         }
         queue->front = 0;
-        queue->back = queue->size;
     }
-    vector_set(queue->vec, queue->back, data);
-    queue->back = (queue->back + 1) % vector_size(queue->vec);
+    size_t back = (queue->front + queue->size) % vector_size(queue->vec);
+    vector_set(queue->vec, back, data);
     queue->size++;
 }
-
 
 Data queue_get(const Queue* queue)
 {

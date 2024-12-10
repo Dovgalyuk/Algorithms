@@ -3,6 +3,31 @@
 #include <climits>
 #include "queue.h"
 
+void read_queue(Queue* queue, std::ifstream& input, int n) {
+    for (int i = 0; i < n; ++i) {
+        int time;
+        input >> time;
+        queue_insert(queue, time);
+    }
+}
+
+Queue* find_min_time(Queue* queues[], int& min_time) {
+    min_time = INT_MAX;
+    Queue* min_queue = nullptr;
+
+    for (int i = 0; i < 3; ++i) {
+        if (!queue_empty(queues[i])) {
+            int time = queue_get(queues[i]);
+            if (time < min_time) {
+                min_time = time;
+                min_queue = queues[i];
+            }
+        }
+    }
+
+    return min_queue;
+}
+
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
@@ -16,82 +41,35 @@ int main(int argc, char* argv[]) {
     }
     std::ofstream output("output.txt");
 
-    int n1, n2, n3;
+    int n[3];
 
-    input >> n1;
-    Queue* queue1 = queue_create();
-    for (int i = 0; i < n1; ++i) {
-        int time;
-        input >> time;
-        queue_insert(queue1, time);
+    for (int i = 0; i < 3; ++i) {
+        input >> n[i];
     }
 
-    input >> n2;
-    Queue* queue2 = queue_create();
-    for (int i = 0; i < n2; ++i) {
-        int time;
-        input >> time;
-        queue_insert(queue2, time);
+    Queue* queues[3] = {
+        queue_create(),
+        queue_create(),
+        queue_create()
+    };
+
+    for (int i = 0; i < 3; ++i) {
+        read_queue(queues[i], input, n[i]);
     }
 
-    input >> n3;
-    Queue* queue3 = queue_create();
-    for (int i = 0; i < n3; ++i) {
-        int time;
-        input >> time;
-        queue_insert(queue3, time);
-    }
+    while (!queue_empty(queues[0]) || !queue_empty(queues[1]) || !queue_empty(queues[2])) {
+        int min_time;
+        Queue* min_queue = find_min_time(queues, min_time);
 
-    while (!queue_empty(queue1) || !queue_empty(queue2) || !queue_empty(queue3)) {
-        int min_time = INT_MAX;
-        int queue_index = -1;
-        int next_time = -1;
-
-        if (!queue_empty(queue1)) {
-            int time1 = queue_get(queue1);
-            if (time1 < min_time) {
-                min_time = time1;
-                queue_index = 1;
-                next_time = time1;
-            }
-        }
-
-
-        if (!queue_empty(queue2)) {
-            int time2 = queue_get(queue2);
-            if (time2 < min_time) {
-                min_time = time2;
-                queue_index = 2;
-                next_time = time2;
-            }
-        }
-
-        if (!queue_empty(queue3)) {
-            int time3 = queue_get(queue3);
-            if (time3 < min_time) {
-                min_time = time3;
-                queue_index = 3;
-                next_time = time3;
-            }
-        }
-
-        if (queue_index == 1) {
-            output << queue_index << " " << next_time << std::endl;
-            queue_remove(queue1);
-        }
-        else if (queue_index == 2) {
-            output << queue_index << " " << next_time << std::endl;
-            queue_remove(queue2);
-        }
-        else if (queue_index == 3) {
-            output << queue_index << " " << next_time << std::endl;
-            queue_remove(queue3);
+        if (min_queue) {
+            output << (min_queue == queues[0] ? 1 : (min_queue == queues[1] ? 2 : 3)) << " " << min_time << std::endl;
+            queue_remove(min_queue);
         }
     }
 
-    queue_delete(queue1);
-    queue_delete(queue2);
-    queue_delete(queue3);
+    for (int i = 0; i < 3; ++i) {
+        queue_delete(queues[i]);
+    }
 
     input.close();
     output.close();
