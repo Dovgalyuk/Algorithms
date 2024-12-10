@@ -1,0 +1,26 @@
+bipush 1
+bipush 2
+bipush 3
+iadd
+istore_0
+iload_0
+bipush 2
+imul
+istore_1
+bihush 1
+isub
+bipush 10
+swap
+bipush 5
+bipush 2
+iand
+istore_2
+bipush 6
+bipush 2
+ior
+bipush 5
+bipush 2
+xor
+istore_3
+bipush 999
+pop
