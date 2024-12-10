@@ -23,12 +23,12 @@ bool is_balanced(const std::string& str) {
         } else if (!is_quote_open) { 
             if (c == '(') {
                 stack_push(stack, static_cast<Data>(c));
-            } else if (c == ')') {
-                if (stack_empty(stack)) {
+                is_quote_open = true; 
+            } else {
+                if (stack_empty(stack) || stack_get(stack) != '"') {
                     stack_delete(stack);
                     return false; 
                 }
-                Data top = stack_get(stack);
                 stack_pop(stack);
                 if (top != '(') {
                     stack_delete(stack);
@@ -36,26 +36,30 @@ bool is_balanced(const std::string& str) {
                 }
             }
         }
-    }
+    }  
 
-    
     bool balanced = stack_empty(stack) && !is_quote_open;
     stack_delete(stack); 
     return balanced;
-}
+} 
+ 
+int main(int argc, char **argv) {
+    if (argc < 3) {
+        std::cerr << "Usage: " << argv[0] << " <input.txt> <output.txt>\n";
+        return 1;
+    }
 
-int main() { 
-    std::ifstream infile("input.txt"); 
-    std::ofstream outfile("output.txt"); 
-    std::string s; 
- 
-    while (std::getline(infile, s)) { 
-        if (is_balanced(s)) { 
-            outfile << "YES" << std::endl; 
-        } else { 
-            outfile << "NO" << std::endl; 
-        } 
-    } 
- 
-    return 0; 
+    std::ifstream infile(argv[1]);
+    std::ofstream outfile(argv[2]);
+    std::string s;
+
+    while (std::getline(infile, s)) {
+        if (is_balanced(s)) {
+            outfile << "YES" << std::endl;
+        } else {
+            outfile << "NO" << std::endl;
+        }
+    }
+
+    return 0;
 }
