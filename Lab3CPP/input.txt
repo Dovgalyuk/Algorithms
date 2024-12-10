@@ -1,0 +1,6 @@
+3
+GET
+ADD 1
+ADD 2
+ADD 3
+GET
