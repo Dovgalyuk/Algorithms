@@ -105,24 +105,28 @@ public:
         if (index >= qty_vertex) {
             return;
         }
+
         for (size_t i = 0; i < qty_vertex; ++i) {
-            Edge<E>* edge = edgeMatrix.get(index * qty_vertex + i);
-            if (edge) {
-                delete edge;
-                edgeMatrix.set(index * qty_vertex + i, nullptr);
-            }
+            delete edgeMatrix.get(index * qty_vertex + i);   
+            edgeMatrix.set(index * qty_vertex + i, nullptr);
+            delete edgeMatrix.get(i * qty_vertex + index);   
+            edgeMatrix.set(i * qty_vertex + index, nullptr);
         }
+
         for (size_t i = index; i < qty_vertex - 1; i++) {
             vertices.set(i, vertices.get(i + 1));
         }
         vertices.resize(qty_vertex - 1);
+
         Vector<Edge<E>*> newEdgeMatrix;
         size_t newQtyVertex = get_VertexAmount();
         newEdgeMatrix.resize(newQtyVertex * newQtyVertex);
-        for (size_t i = 0; i < newQtyVertex; i++) {
-            for (size_t j = 0; j < newQtyVertex; j++) {
-                Edge<E>* edge = edgeMatrix.get(((i + (i >= index)) * qty_vertex) + (j + (j >= index)));
-                newEdgeMatrix.set((i * newQtyVertex) + j, edge);
+        for (size_t i = 0; i < qty_vertex; i++) {
+            if (i == index) continue; 
+            for (size_t j = 0; j < qty_vertex; j++) {
+                if (j == index) continue; 
+                size_t oldIndex = (i < index ? i : i - 1) * qty_vertex + (j < index ? j : j - 1);
+                newEdgeMatrix.set((i < index ? i : i - 1) * newQtyVertex + (j < index ? j : j - 1), edgeMatrix.get(oldIndex));
             }
         }
         edgeMatrix.swap_data(newEdgeMatrix);
@@ -194,4 +198,4 @@ private:
     Vector<Edge<E>*> edgeMatrix;
 };
 
-#endif 
+#endif
