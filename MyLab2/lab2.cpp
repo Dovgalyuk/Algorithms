@@ -5,7 +5,7 @@
 #include "stack.h"
 
 
-bool MyChecker(List<std::string> list) {
+bool MyChecker(const List<std::string>& list) {
     Stack<std::string> stack;
 
     for (auto item = list.first(); item != nullptr; item = item->next())
