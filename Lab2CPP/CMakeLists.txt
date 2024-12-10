@@ -7,5 +7,5 @@ add_executable(Lab2CPP lab2.cpp)
 target_include_directories(Lab2CPP PUBLIC ../LibraryCPP)
 target_link_libraries(Lab2CPP LibraryCPP)
 
-add_test(NAME TestLab2CPP COMMAND Lab2CPP)
-${CMAKE_BINARY_DIR}/output.txt)
+
+add_test(NAME TestLab2CPP COMMAND Lab2CPP ${CMAKE_BINARY_DIR}/input.txt ${CMAKE_BINARY_DIR}/output.txt)
