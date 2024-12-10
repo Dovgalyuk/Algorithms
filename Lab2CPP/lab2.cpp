@@ -15,44 +15,35 @@ bool isMatchingPair(char opening, char closing) {
  
 bool is_balanced(const std::string& str) {
     Stack* stack = stack_create();
-    bool is_quote_open = false; // Булевская переменная для отслеживания кавычек
+    bool is_quote_open = false; // Для отслеживания кавычек
 
     for (char c : str) {
-        if (c == '(') {
-            stack_push(stack, static_cast<Data>(c));
-        } else if (c == '"') {
-            if (!is_quote_open) {
-                // Если открывающая кавычка
+        if (c == '"') {
+            is_quote_open = !is_quote_open; // Переключаем состояние кавычки
+        } else if (!is_quote_open) { // Если не в кавычках, обрабатываем скобки
+            if (c == '(') {
                 stack_push(stack, static_cast<Data>(c));
-                is_quote_open = true; // Помечаем, что кавычка открыта
-            } else {
-                // Если закрывающая кавычка
-                if (stack_empty(stack) || stack_get(stack) != '"') {
+            } else if (c == ')') {
+                if (stack_empty(stack)) {
                     stack_delete(stack);
-                    return false; // Несоответствие кавычек
+                    return false; // Лишняя закрывающая скобка
                 }
+                Data top = stack_get(stack);
                 stack_pop(stack);
-                is_quote_open = false; // Кавычка закрыта
-            }
-        } else if (c == ')') {
-            if (stack_empty(stack)) {
-                stack_delete(stack);
-                return false; // Лишняя закрывающая скобка
-            }
-            Data top = stack_get(stack);
-            stack_pop(stack);
-            if (top != '(') {
-                stack_delete(stack);
-                return false; // Несоответствие скобок
+                if (top != '(') {
+                    stack_delete(stack);
+                    return false; // Несоответствие скобок
+                }
             }
         }
     }
 
     // Проверяем, что все скобки и кавычки сбалансированы
     bool balanced = stack_empty(stack) && !is_quote_open;
+    stack_delete(stack); // Удаляем стек перед возвратом
     return balanced;
-} 
- 
+}
+
 int main() { 
     std::ifstream infile("input.txt"); 
     std::ofstream outfile("output.txt"); 
