@@ -50,11 +50,8 @@ public:
     void add_edge(V from_label, V to_label, E label) {
         size_t from = get_vertex_index(from_label);
         size_t to = get_vertex_index(to_label);
-        
-        if (from >= vertices_count || to >= vertices_count)
-            throw invalid_argument("[add_edge] One or both vertices do not exist.");
 
-        if (has_edge(from, to))
+        if (has_edge(from_label, to_label))
             throw invalid_argument("[add_edge] Graph already have this edge.");\
 
         adjacency_matrix.get(from).get(to).label = label;
@@ -65,9 +62,8 @@ public:
     }
 
     // Remove vertex
-    void remove_vertex(size_t vertex) {
-        if (vertex >= vertices_count)
-            throw invalid_argument("[remove_vertex] Graph does not have specified vertex.");
+    void remove_vertex(V vertex_label) {
+        size_t vertex = get_vertex_index(vertex_label);
     
         size_t new_size = vertices_count - 1;
         Vector<Vector<Edge>> new_adjacency_matrix(new_size, Vector<Edge>(new_size));
@@ -95,9 +91,9 @@ public:
     }
 
     // Remove an edge between the given vertices
-    void remove_edge(size_t from, size_t to) {
-        if (from >= vertices_count || to >= vertices_count)
-            throw invalid_argument("[remove_edge] One or both vertices do not exist.");
+    void remove_edge(V from_label, V to_label) {
+        size_t from = get_vertex_index(from_label);
+        size_t to = get_vertex_index(to_label);
 
         adjacency_matrix.get(from).set(to, Edge());
 
@@ -107,42 +103,43 @@ public:
     }
 
     // Check if there exists an edge between the vertices
-    bool has_edge(size_t from, size_t to) const {
+    bool has_edge(V from_label, V to_label) const {
+        size_t from = get_vertex_index(from_label);
+        size_t to = get_vertex_index(to_label);
+
         bool is_exist = false;
 
-        if (from < vertices_count || to < vertices_count) {
-            if (adjacency_matrix.get(from).get(to).label != E()) is_exist = true;
-        }
-
+        if (adjacency_matrix.get(from).get(to).label != E()) is_exist = true;
+        
         return is_exist;
     }
 
     // Set a label for the edge
-    void set_edge_label(size_t from, size_t to, E label) {
-        if (from >= vertices_count || to >= vertices_count)
-            throw invalid_argument("[set_edge_label] One or both vertices do not exist.");
+    void set_edge_label(V from_label, V to_label, E label) {
+        size_t from = get_vertex_index(from_label);
+        size_t to = get_vertex_index(to_label);
 
         adjacency_matrix.get(from).set(to, label);
     }
 
     // Get an edge label
-    E get_edge_label(size_t from, size_t to) const {
-        if (from >= vertices_count || to >= vertices_count)
-            throw invalid_argument("[get_edge_label] One or both vertices do not exist.");
+    E get_edge_label(V from_label, V to_label) const {
+        size_t from = get_vertex_index(from_label);
+        size_t to = get_vertex_index(to_label);
 
         return adjacency_matrix.get(from).get(to).label;
     }
 
-    // Set a label for the vertex
+    // Set a label for the vertex by ordinal number
     void set_vertex_label(size_t vertex, V label) {
-        if (vertex > vertices_count) {
+        if (vertex >= vertices_count) {
             throw invalid_argument("[set_vertex_label] Graph does not have a specified vertex.");
         }
 
         vertices_labels.set(vertex, label);
     }
 
-    // Get a vertex label
+    // Get vertex label by ordinal number
     V get_vertex_label(size_t vertex) const {
         if (vertex >= vertices_count) {
             throw invalid_argument("[get_vertex_label] Graph does not have a specified vertex.");
@@ -153,11 +150,12 @@ public:
 
     // Get index of a vertex
     size_t get_vertex_index(V label) const {
-        // for (size_t i = 0; i < vertices_count; i++) {
-        //     if (vertices_labels.get(i) == label) return i;
-        // }
+        int res = vertices_labels.find(label);
 
-        return vertices_labels.find(label);
+        if  (res != -1)
+            return size_t(res);
+        else
+            throw invalid_argument("[get_vertex_index] Graph does not have a specified vertex.");
     }
 
     // Get labels of all vertices as a vector
@@ -179,12 +177,12 @@ public:
             skip_non_neighbors();
         }
 
-        size_t operator*() const {
-            return index;
+        V operator*() const {
+            return graph.get_vertex_label(index);
         }
 
         Neighbor_Iterator& operator++() {
-            ++index;
+            index++;
             skip_non_neighbors(); // Skipping non-neighbors after incrementing
             return *this;
         }
@@ -200,17 +198,19 @@ public:
 
         void skip_non_neighbors() {
             // skip all indexes until a neighbor is encountered
-            while (index < graph.vertices_count && !graph.adjacency_matrix.get(vertex).get(index).label) {
+            while (index < graph.vertices_count && graph.adjacency_matrix.get(vertex).get(index).label == E()) {
                 index++;
             }
         }
     };
 
-    Neighbor_Iterator neighbors_begin(size_t vertex) const {
+    Neighbor_Iterator neighbors_begin(V vertex_label) const {
+        size_t vertex = get_vertex_index(vertex_label);
         return Neighbor_Iterator(*this, vertex, 0);
     }
 
-    Neighbor_Iterator neighbors_end(size_t vertex) const {
+    Neighbor_Iterator neighbors_end(V vertex_label) const {
+        size_t vertex = get_vertex_index(vertex_label);
         return Neighbor_Iterator(*this, vertex, vertices_count);
     }
 

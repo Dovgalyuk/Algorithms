@@ -90,15 +90,15 @@ public:
     }
 
     // Searches for an index of element in the vector
-    size_t find(Data value) const
+    int find(Data value) const
     {
         for (size_t i = 0; i < len; i++) {
             if (data[i] == value) {
-                return i;
+                return int(i);
             }
         }
        
-        throw invalid_argument("Element not found");
+        return -1;
     }
 
     // Retrieves current vector size

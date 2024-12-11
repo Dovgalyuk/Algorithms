@@ -62,14 +62,12 @@ int main() {
 			return 1;
 		}
 
-		std::cout << "Neighbor: " << *current << std::endl;
-
 		expected++;
 	}
-
+	
 	// ---------- Test 5 - remove vertex ---------- //
 
-	graph.remove_vertex(9);
+	graph.remove_vertex(4);
 
 	Vector<int> vertices_3 = graph.get_vertices_labels();
 
