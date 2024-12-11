@@ -35,10 +35,10 @@ int main(int argc, char **argv) {
         graph.add_edge(from, to, weight);
     }
     
-    Vector<Edge<char, int>> result = kruskal<char, int>(graph, vertices_count);
+    Vector<Edge_Expanded<char, int>> result = kruskal<char, int>(graph, vertices_count);
 
     cout << "Minimal tree:" << endl;
-    for (const Edge<char, int>& e : result) {
+    for (const Edge_Expanded<char, int>& e : result) {
         cout << e.u << " -- " << e.v << " : " << e.weight << endl;
     }
 

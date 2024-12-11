@@ -7,17 +7,17 @@ using namespace std;
 
 // Structure for graph edge representation
 template <typename V, typename E>
-struct Edge {
+struct Edge_Expanded {
     V u, v; // вершины ребра
     E weight; // вес ребра (стоимость соединения)
 
-    Edge() {}
-    Edge(V u, V v, E weight) : u(u), v(v), weight(weight) {}
+    Edge_Expanded() {}
+    Edge_Expanded(V u, V v, E weight) : u(u), v(v), weight(weight) {}
 };
 
 // Function for comparing edges by weight
 template <typename V, typename E>
-bool compare_edges(const Edge<V, E>& a, const Edge<V, E>& b) {
+bool compare_edges(const Edge_Expanded<V, E>& a, const Edge_Expanded<V, E>& b) {
     return a.weight < b.weight;
 }
 
@@ -41,13 +41,13 @@ void union_sets(V u, V v, Vector<V>& parent, Vector<V>& vertices_labels) {
 
 // Kruskal's Algorithm
 template <typename V, typename E>
-Vector<Edge<V, E>> kruskal(Graph<V, E> graph, int n) {
+Vector<Edge_Expanded<V, E>> kruskal(Graph<V, E> graph, int n) {
     Vector<Vector<Graph<V, E>::Edge>> adjacency_matrix = graph.get_adjacency_matrix();
     Vector<V> vertices_labels = graph.get_vertices_labels();
     size_t vertices_count = vertices_labels.size();
 
     // Get vector of all edges
-    Vector<Edge<V, E>> edges;
+    Vector<Edge_Expanded<V, E>> edges;
     for (size_t i = 0; i < vertices_count; i++) {
         for (size_t j = 1; j < vertices_count; j++) {
             if ((graph.graph_type == Graph<V, E>::Graph_Type::Undirected && j < i) || i == j) continue;
@@ -55,18 +55,18 @@ Vector<Edge<V, E>> kruskal(Graph<V, E> graph, int n) {
             E label = adjacency_matrix.get(i).get(j).label;
                 
             if (label != E()) {
-                edges.push(Edge<V, E>(vertices_labels.get(i), vertices_labels.get(j), label));
+                edges.push(Edge_Expanded<V, E>(vertices_labels.get(i), vertices_labels.get(j), label));
             }
         }
     }
 
-    Vector<Edge<V, E>> result;
+    Vector<Edge_Expanded<V, E>> result;
     Vector<V> parent(n);
     for (int i = 0; i < n; i++) parent.set(i, vertices_labels.get(i));
 
     sort(edges.begin(), edges.end(), compare_edges<V, E>);
 
-    for (const Edge<V, E>& e : edges) {
+    for (const Edge_Expanded<V, E>& e : edges) {
         V u = find<V>(e.u, parent, vertices_labels);
         V v = find<V>(e.v, parent, vertices_labels);
         if (u != v) {
