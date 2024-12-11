@@ -4,7 +4,6 @@
 #include "vector.h"
 #include "list.h"
 #include <stdexcept>
-//#include <iostream>
 
 using namespace std;
 
