@@ -113,7 +113,6 @@ List::Item *List::erase_first() {
         nextItem->_prev = nullptr;
     } else {
         _listLast = nullptr;
-        _list = nullptr;
     }
 
     _list = nextItem;
