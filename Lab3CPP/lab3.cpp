@@ -18,15 +18,15 @@ void bfs(int start, int finish, int n, int** graph, int* parent) {
         int current = queue_get(q);
         queue_remove(q);
 
+        if (current == finish) {
+            queue_delete(q);
+            return;
+        }
+
         for (int i = 1; i <= n; ++i) {
             if (graph[current][i] == 1 && parent[i] == -1) { 
                 parent[i] = current;
                 queue_insert(q, i);
-
-                if (i == finish) {
-                    queue_delete(q);
-                    return;
-                }
             }
         }
     }
