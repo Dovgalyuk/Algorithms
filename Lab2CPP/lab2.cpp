@@ -24,7 +24,11 @@ bool is_balanced(const std::string& str) {
             if (c == '(') {
                 stack_push(stack, static_cast<Data>(c));
             } else if (c == ')') {
-                if (stack_empty(stack) || stack_get(stack) != '(') {
+                if (stack_empty(stack)) {
+                    stack_delete(stack);
+                    return false; 
+                }
+                if (stack_get(stack) != '(') {
                     stack_delete(stack);
                     return false; 
                 }
@@ -33,7 +37,7 @@ bool is_balanced(const std::string& str) {
         }
     }  
 
-    bool balanced = stack_empty(stack) && !is_quote_open;
+    bool balanced = stack_empty(stack) && !is_quote_open; 
     stack_delete(stack); 
     return balanced;
 }
