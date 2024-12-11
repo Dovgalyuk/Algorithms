@@ -6,8 +6,7 @@ using namespace std;
 
 void bfs(int start, int finish, int n, int** graph, int* parent) {
     Queue* q = queue_create();
-    
-    
+
     for (int i = 1; i <= n; ++i) {
         parent[i] = -1;
     }
