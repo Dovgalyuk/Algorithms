@@ -35,8 +35,12 @@ public:
     Vector& operator=(Vector& a)
     {
         // avoid self-assignment
-        if (this != &a)
+        if (this != &a) {
+            if (data) {
+                delete[] data;
+            }
             copy_vector(a);
+        }
 
         return *this;
     }
