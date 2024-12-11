@@ -6,31 +6,35 @@ using namespace std;
 
 void bfs(int start, int finish, int n, int** graph, int* parent) {
     Queue* q = queue_create();
+    bool* visited = new bool[n + 1];
 
     for (int i = 1; i <= n; ++i) {
-        parent[i] = -1;
+        visited[i] = false;
     }
 
     queue_insert(q, start);
-    parent[start] = start;  
+    visited[start] = true;
 
     while (!queue_empty(q)) {
         int current = queue_get(q);
         queue_remove(q);
 
-        if (current == finish) {
-            queue_delete(q);
-            return;
-        }
-
         for (int i = 1; i <= n; ++i) {
-            if (graph[current][i] == 1 && parent[i] == -1) { 
+            if (graph[current][i] == 1 && !visited[i]) {
+                visited[i] = true;
                 parent[i] = current;
                 queue_insert(q, i);
+
+                if (i == finish) {
+                    delete[] visited;
+                    queue_delete(q);
+                    return;
+                }
             }
         }
     }
     queue_delete(q);
+    delete[] visited;
 }
 
 int main(__attribute__((unused)) int argc, char** argv) {
@@ -51,7 +55,10 @@ int main(__attribute__((unused)) int argc, char** argv) {
     }
 
     int* parent = new int[n + 1];
-    
+    for (int i = 1; i <= n; ++i) {
+        parent[i] = -1;
+    }
+
     bfs(start, finish, n, graph, parent);
 
     if (parent[finish] == -1) {
@@ -78,7 +85,7 @@ int main(__attribute__((unused)) int argc, char** argv) {
         delete[] path;
     }
 
-    for (int i = 0; <= n; ++i) {
+    for (int i = 0; i <= n; ++i) {
         delete[] graph[i];
     }
     delete[] graph;
