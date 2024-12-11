@@ -33,7 +33,7 @@ void bfs(int start, int finish, int n, int** graph, int* parent) {
     queue_delete(q);
 }
 
-int main(__attribute__((unused)) int argc, char** argv  ) {
+int main(__attribute__((unused)) int argc, char** argv) {
     ifstream input(argv[1]);
 
     int n, start, finish;
@@ -57,17 +57,23 @@ int main(__attribute__((unused)) int argc, char** argv  ) {
     if (parent[finish] == -1) {
         cout << "IMPOSSIBLE";
     } else {
-        int* path = new int[n];
         int path_length = 0;
-
         for (int at = finish; at != -1; at = parent[at]) {
-            path[path_length++] = at;
+            path_length++;
         }
 
-        for (int i = path_length - 1; i >= 1; --i) {
-            cout << path[i] << " ";
+        int* path = new int[path_length];
+        int index = path_length - 1;
+        for (int at = finish; at != -1; at = parent[at]) {
+            path[index--] = at;
         }
-        cout << path[0];
+
+        for (int i = 0; i < path_length; ++i) {
+            if (i > 0) {
+                cout << " ";
+            }
+            cout << path[i];
+        }
 
         delete[] path;
     }
