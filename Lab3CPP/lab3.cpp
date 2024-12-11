@@ -78,7 +78,7 @@ int main(__attribute__((unused)) int argc, char** argv) {
         delete[] path;
     }
 
-    for (int i = 0; i <= n; ++i) {
+    for (int i = 0; <= n; ++i) {
         delete[] graph[i];
     }
     delete[] graph;
