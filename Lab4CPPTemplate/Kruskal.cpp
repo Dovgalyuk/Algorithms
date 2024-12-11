@@ -42,7 +42,7 @@ void union_sets(V u, V v, Vector<V>& parent, Vector<V>& vertices_labels) {
 // Kruskal's Algorithm
 template <typename V, typename E>
 Vector<Edge_Expanded<V, E>> kruskal(Graph<V, E> graph, int n) {
-    Vector<Vector<Graph<V, E>::Edge>> adjacency_matrix = graph.get_adjacency_matrix();
+    Vector<Vector<typename Graph<V, E>::Edge>> adjacency_matrix = graph.get_adjacency_matrix();
     Vector<V> vertices_labels = graph.get_vertices_labels();
     size_t vertices_count = vertices_labels.size();
 
