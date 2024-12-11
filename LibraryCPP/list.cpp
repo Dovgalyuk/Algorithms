@@ -21,7 +21,7 @@ List *list_create()
 
 void list_delete(List *list)
 {
-    if (list != 0 && list != nullptr){
+    if (list != nullptr){
         ListItem * current = list->first;
         ListItem * temp;
         while (current != nullptr){
@@ -36,7 +36,7 @@ void list_delete(List *list)
 
 ListItem *list_first(List *list)
 {
-    if (list != 0 && list != nullptr){
+    if (list != nullptr){
         return list->first;
     }
     else return nullptr;
@@ -59,7 +59,7 @@ ListItem *list_item_next(ListItem *item)
 
 ListItem *list_insert(List *list, Data data)
 {
-    if (list != 0 && list != nullptr){
+    if (list != nullptr){
         ListItem * temp = new ListItem();
         temp->dt = new Data();
         *(temp->dt) = data;
@@ -72,7 +72,7 @@ ListItem *list_insert(List *list, Data data)
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
-    if (list != 0 && list != nullptr){
+    if (list != nullptr){
         ListItem * back = item->next;
         ListItem * temp = new ListItem();
         temp->dt = new Data();
@@ -86,7 +86,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
 ListItem *list_erase_first(List *list)
 {
-    if (list != 0 && list != nullptr){
+    if (list != nullptr){
         if (list->first != nullptr){
             ListItem * temp = list->first;
             list->first = list->first->next;
@@ -101,7 +101,7 @@ ListItem *list_erase_first(List *list)
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    if (list != 0 && list != nullptr){
+    if (list != nullptr){
         if (item != nullptr && item->next != nullptr){
             ListItem * temp = item->next;
             item->next = temp->next;

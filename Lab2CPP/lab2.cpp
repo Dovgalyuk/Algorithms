@@ -30,10 +30,24 @@ string lab_2(const string &inputstr){
 
 int main()
 {
-    ifstream file;
-    file.open("input.txt");
+    if (argc != 2) {
+        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
+        return 1;
+    }
+
+    ifstream file(argv[1]);
+    if (!file.is_open()) {
+        cerr << "Error opening file: " << argv[1] << endl;
+        return 1;
+    }
+
     string arr[4];
-    file >> arr[0] >> arr[1] >> arr[2] >> arr[3];
+    if (!(file >> arr[0] >> arr[1] >> arr[2] >> arr[3])) {
+        cerr << "Error reading from file." << endl;
+        file.close();
+        return 1;
+    }
+    file.close();
     if (lab_2(arr[0]) != arr[1])
     {
         std::cout << "Invalid lab_2 test1 execution\n";
