@@ -28,22 +28,21 @@ string lab_2(const string &inputstr){
     return temp;
 }
 
-int main()
-{
-    if (arr != 2) {
-        std::cout << "Usage: " << arr[0] << " <input_file>" << endl;
+int main(int argc, char* argv[]) {
+    if (argc != 2) {
+        std::cout << "Usage: " << argv[0] << " <input_file>" << endl;
         return 1;
     }
 
-    ifstream file(arr[1]);
+    ifstream file(argv[1]);
     if (!file.is_open()) {
-        std::cout << "Error opening file: " << arr[1] << endl;
+        std::cout << "Error opening file: " << argv[1] << endl;
         return 1;
     }
 
     string arr[4];
     if (!(file >> arr[0] >> arr[1] >> arr[2] >> arr[3])) {
-        std::cout << "Error reading from file.\n";
+        std::cout << "Error reading from file\n";
         file.close();
         return 1;
     }
