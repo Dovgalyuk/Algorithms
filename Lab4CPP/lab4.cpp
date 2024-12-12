@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
 
     Graph<int, int> graph(numVertices);
 
-    for (int i = 0; i < numVertices; i++) {
+    for (int i = 0; i < numEdges; i++) {
         int from, to;
         if (fscanf(input, "%d %d", &from, &to) < 1) {
             throw std::invalid_argument("Invalid argument");
