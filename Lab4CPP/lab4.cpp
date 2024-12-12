@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <set>
+#include <queue>
 #include <limits>
 #include <fstream>
 #include "graph.h"
@@ -11,15 +11,14 @@ template <typename V, typename E>
 int dijkstra(Graph<V, E>& graph, size_t start, size_t end) {
     size_t n = graph.getSize();
     vector<E> dist(n, numeric_limits<E>::max());
-    set<pair<E, size_t>> pq;
-
+    priority_queue<pair<E, size_t>, vector<pair<E, size_t>>, greater<pair<E, size_t>>> pq;
     dist[start] = 0;
-    pq.insert({0, start});
+    pq.push({0, start});
 
     while (!pq.empty()) {
-        size_t u = pq.begin()->second;
-        E d = pq.begin()->first;
-        pq.erase(pq.begin());
+        size_t u = pq.top().second;
+        E d = pq.top().first;
+        pq.pop();
 
         if (u == end) {
             return d;
@@ -31,14 +30,13 @@ int dijkstra(Graph<V, E>& graph, size_t start, size_t end) {
 
             if (dist[u] + weight < dist[v]) {
                 dist[v] = dist[u] + weight;
-                pq.insert({dist[v], v});
+                pq.push({dist[v], v});
             }
         }
     }
 
     return 0;
 }
-
 bool test1(int result) {
     if (result != 9) {
         cout << result << endl;
@@ -53,7 +51,6 @@ int main(int argc, char **argv) {
     if(!f.is_open()) {
         cout << "Error opening file" << endl;
     }
-
     size_t n, m;
     f >> n >> m;
 
