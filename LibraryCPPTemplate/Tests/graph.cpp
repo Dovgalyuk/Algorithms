@@ -8,13 +8,12 @@ void testGraphIterator() {
     for (int i = 0; i < 5; ++i) 
         g.set_vertex_mark(i, i);
 
-    // Add edges
     g.add_edge(0, 1, 10); 
     g.add_edge(1, 2, 20); 
-    g.add_edge(2, 0, 30); // Edge from vertex 2 to vertex 0 (creating a cycle)
+    g.add_edge(2, 0, 30);
     g.add_edge(1, 3, 40); 
     g.add_edge(3, 4, 50); 
-    g.add_edge(4, 1, 60); // Edge from vertex 4 to vertex 1 (creating another cycle)
+    g.add_edge(4, 1, 60);
 
     typename Graph<int, int>::iterator it = g.begin(1);
     typename Graph<int, int>::iterator it_end = g.end(1);

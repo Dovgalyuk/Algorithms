@@ -4,8 +4,8 @@
 #include <cstddef>
 #include <stdexcept>
 #include <cmath>
+#include <algorithm>
 
-#define max(a, b) (((a) > (b)) ? (a) : (b))
 #define RESIZE_FACTOR 2
 
 template <typename Data>
@@ -51,13 +51,13 @@ public:
 
     Data get(size_t index) const
     {
-        if (current_size <= index) throw std::out_of_range("[vector get] The index is out of range");
+        if (current_size <= index) throw std::out_of_range("The index is out of range");
         return pointer[index];
     }
 
     void set(size_t index, Data value)
     {
-        if (current_size <= index) throw std::out_of_range("[vector set] The index is out of range");
+        if (current_size <= index) throw std::out_of_range("The index is out of range");
         pointer[index] = value;
     }
 
@@ -69,7 +69,7 @@ public:
     void resize(size_t new_size)
     {
         if (new_size > real_size) {
-            size_t new_capacity = max(new_size, static_cast<size_t>(std::ceil(RESIZE_FACTOR * real_size)));
+            size_t new_capacity = std::max(new_size, static_cast<size_t>(std::ceil(RESIZE_FACTOR * real_size)));
 
             Data *ptr = new Data[new_capacity];
             if (!ptr) throw std::bad_alloc();
@@ -111,7 +111,7 @@ public:
 
     Data &operator[](size_t index)
     {
-        if (current_size <= index) throw std::out_of_range("[vector &operator[]] The index is out of range");
+        if (current_size <= index) throw std::out_of_range("The index is out of range");
         return pointer[index];
     }
 

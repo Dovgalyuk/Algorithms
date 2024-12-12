@@ -11,9 +11,7 @@ public:
 	struct vertex;
 	struct edge;
 
-	//............................................................................
 	struct iterator {
-		// This iterator includes all neighbors (both outgoing and incoming)
 
 		vertex *ver;
 		typename List<edge*>::Item *ptr;
@@ -27,12 +25,12 @@ public:
 			}
 		} 
 
-		bool operator==(iterator &other)
+		bool operator==(const iterator &other) const
 		{
 			return other.ptr == this->ptr;
 		}
 
-		bool operator!=(iterator &other)
+		bool operator!=(const iterator &other) const
 		{
 			return !((*this) == other);
 		}
@@ -84,7 +82,7 @@ public:
 			edges = ptr;
 		}
 
-		vertex_mark_type get_mark()
+		vertex_mark_type get_mark() const
 		{
 			return mark;
 		}
