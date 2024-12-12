@@ -66,7 +66,7 @@ int main() {
 	}
 	
 	// ---------- Test 5 - remove vertex ---------- //
-
+	
 	graph.remove_vertex(4);
 
 	Vector<int> vertices_3 = graph.get_vertices_labels();
@@ -96,9 +96,9 @@ int main() {
 
 	// ---------- Test 8 - set and get edge label ---------- //
 
-	graph.set_edge_label(0, 1, 100);
+	graph.set_edge_label(0, 2, 100);
 
-	if (graph.get_edge_label(0, 1) != 100) {
+	if (graph.get_edge_label(0, 2) != 100) {
 		std::cout << "Invalid edge label after set\n";
 		return 1;
 	}

@@ -8,8 +8,8 @@ using namespace std;
 // Structure for graph edge representation
 template <typename V, typename E>
 struct Edge_Expanded {
-    V u, v; // вершины ребра
-    E weight; // вес ребра (стоимость соединения)
+    V u, v; // edge vertices
+    E weight; // edge weight (cost of connection)
 
     Edge_Expanded() {}
     Edge_Expanded(V u, V v, E weight) : u(u), v(v), weight(weight) {}
@@ -41,28 +41,31 @@ void union_sets(V u, V v, Vector<V>& parent, Vector<V>& vertices_labels) {
 
 // Kruskal's Algorithm
 template <typename V, typename E>
-Vector<Edge_Expanded<V, E>> kruskal(Graph<V, E> graph, int n) {
-    Vector<Vector<typename Graph<V, E>::Edge>> adjacency_matrix = graph.get_adjacency_matrix();
+Vector<Edge_Expanded<V, E>> kruskal(Graph<V, E> graph, size_t vertices_count) {
     Vector<V> vertices_labels = graph.get_vertices_labels();
-    size_t vertices_count = vertices_labels.size();
 
     // Get vector of all edges
     Vector<Edge_Expanded<V, E>> edges;
     for (size_t i = 0; i < vertices_count; i++) {
-        for (size_t j = 1; j < vertices_count; j++) {
-            if ((graph.graph_type == Graph<V, E>::Graph_Type::Undirected && j < i) || i == j) continue;
+        V u = vertices_labels.get(i);
+        for (auto current = graph.neighbors_begin(u); current != graph.neighbors_end(u); ++current) {
+            V v = *current;
+            size_t j = graph.get_vertex_index(v);
 
-            E label = adjacency_matrix.get(i).get(j).label;
-                
-            if (label != E()) {
-                edges.push(Edge_Expanded<V, E>(vertices_labels.get(i), vertices_labels.get(j), label));
+            if (i < j) {    // avoid duplicates in undirected graph
+                if (graph.has_edge(u, v)) {
+                    E weight = graph.get_edge_label(u, v); 
+
+                    edges.push(Edge_Expanded<V, E>(u, v, weight));    
+                }
             }
         }
     }
 
+    // Minimal spanning tree construction
     Vector<Edge_Expanded<V, E>> result;
-    Vector<V> parent(n);
-    for (int i = 0; i < n; i++) parent.set(i, vertices_labels.get(i));
+    Vector<V> parent(vertices_count);
+    for (int i = 0; i < vertices_count; i++) parent.set(i, vertices_labels.get(i));
 
     sort(edges.begin(), edges.end(), compare_edges<V, E>);
 

@@ -15,9 +15,9 @@ public:
 	};
 
     struct Edge {
-        E label = E();
+        E label;
 
-        Edge() {}
+        Edge() : label(E()) {}
         Edge(E edge_label) : label(edge_label) {}
     };
 
@@ -27,7 +27,7 @@ public:
         vertices_labels.resize(vertices_count);
 
         for (size_t i = 0; i < vertices_count; i++) {
-            adjacency_matrix.set(i, Vector<Edge>(vertices_count));
+            adjacency_matrix.set(i, Vector<Edge*>(vertices_count, nullptr));
         }
     }
 
@@ -39,9 +39,10 @@ public:
 
         for (size_t i = 0; i < vertices_count - 1; i++) {
             adjacency_matrix.get(i).resize(vertices_count);
+            adjacency_matrix.get(i).set(vertices_count - 1, nullptr);
         }
 
-        adjacency_matrix.set(vertices_count - 1, Vector<Edge>(vertices_count));
+        adjacency_matrix.set(vertices_count - 1, Vector<Edge*>(vertices_count, nullptr));
         set_vertex_label(vertices_count - 1, label);
     }
 
@@ -51,12 +52,14 @@ public:
         size_t to = get_vertex_index(to_label);
 
         if (has_edge(from_label, to_label))
-            throw invalid_argument("[add_edge] Graph already have this edge.");\
+            throw invalid_argument("[add_edge] Graph already have this edge.");
 
-        adjacency_matrix.get(from).get(to).label = label;
+        Edge* edge = new Edge(label);
+
+        adjacency_matrix.get(from).set(to, edge);
 
         if (graph_type == Graph_Type::Undirected) {
-            adjacency_matrix.get(to).get(from).label = label;
+            adjacency_matrix.get(to).set(from, edge);
         }
     }
 
@@ -65,7 +68,7 @@ public:
         size_t vertex = get_vertex_index(vertex_label);
     
         size_t new_size = vertices_count - 1;
-        Vector<Vector<Edge>> new_adjacency_matrix(new_size, Vector<Edge>(new_size));
+        Vector<Vector<Edge*>> new_adjacency_matrix(new_size, Vector<Edge*>(new_size, nullptr));
         Vector<V> new_vertices_labels(new_size);
 
         for (size_t i = 0; i < vertices_count; i++) {
@@ -76,9 +79,13 @@ public:
                 if (j == vertex) continue; // Skip the vertex to be removed
 
                 size_t new_col_index = j < vertex ? j : j - 1;
-                E new_value = adjacency_matrix.get(i).get(j).label;
+                Edge* edge = adjacency_matrix.get(i).get(j);
 
-                new_adjacency_matrix.get(new_row_index).get(new_col_index).label = new_value;
+                if (edge != nullptr) {
+                    Edge* new_edge = new Edge(edge->label);
+
+                    new_adjacency_matrix.get(new_row_index).set(new_col_index, new_edge);
+                }
             }
             new_vertices_labels.set(new_row_index, vertices_labels.get(i));
         }
@@ -94,10 +101,10 @@ public:
         size_t from = get_vertex_index(from_label);
         size_t to = get_vertex_index(to_label);
 
-        adjacency_matrix.get(from).set(to, Edge());
+        adjacency_matrix.get(from).set(to, nullptr);
 
         if (graph_type == Graph_Type::Undirected) {
-            adjacency_matrix.get(to).set(from, Edge());
+            adjacency_matrix.get(to).set(from, nullptr);
         }   
     }
 
@@ -105,20 +112,22 @@ public:
     bool has_edge(V from_label, V to_label) const {
         size_t from = get_vertex_index(from_label);
         size_t to = get_vertex_index(to_label);
-
-        bool is_exist = false;
-
-        if (adjacency_matrix.get(from).get(to).label != E()) is_exist = true;
         
-        return is_exist;
+        return adjacency_matrix.get(from).get(to) != nullptr;
     }
 
     // Set a label for the edge
     void set_edge_label(V from_label, V to_label, E label) {
         size_t from = get_vertex_index(from_label);
         size_t to = get_vertex_index(to_label);
+        
+        if (!has_edge(from_label, to_label))
+            throw invalid_argument("[set_edge_label] Graph does not have this edge.");
 
-        adjacency_matrix.get(from).set(to, label);
+        if (adjacency_matrix.get(from).get(to) == nullptr)
+            cout << "AAAAAA";
+
+        adjacency_matrix.get(from).get(to)->label = label;
     }
 
     // Get an edge label
@@ -126,7 +135,10 @@ public:
         size_t from = get_vertex_index(from_label);
         size_t to = get_vertex_index(to_label);
 
-        return adjacency_matrix.get(from).get(to).label;
+        if(!has_edge(from_label, to_label))
+            throw invalid_argument("[get_edge_label] Graph does not have this edge.");
+
+        return adjacency_matrix.get(from).get(to)->label;
     }
 
     // Set a label for the vertex by ordinal number
@@ -162,11 +174,6 @@ public:
         return vertices_labels;
     }
 
-    // Get adjacency matrix
-    Vector<Vector<Edge>> get_adjacency_matrix() const {
-        return adjacency_matrix;
-    }
-
     // Iterator for enumerating neighbors of a given vertex
     class Neighbor_Iterator {
     public:
@@ -197,7 +204,7 @@ public:
 
         void skip_non_neighbors() {
             // skip all indexes until a neighbor is encountered
-            while (index < graph.vertices_count && graph.adjacency_matrix.get(vertex).get(index).label == E()) {
+            while (index < graph.vertices_count && !graph.adjacency_matrix.get(vertex).get(index)) {
                 index++;
             }
         }
@@ -216,7 +223,7 @@ public:
     Graph_Type graph_type;
 private:
     size_t vertices_count;
-    Vector<Vector<Edge>> adjacency_matrix;
+    Vector<Vector<Edge*>> adjacency_matrix;
     Vector<V> vertices_labels;
 };
 
