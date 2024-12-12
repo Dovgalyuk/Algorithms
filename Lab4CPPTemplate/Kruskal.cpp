@@ -65,7 +65,7 @@ Vector<Edge_Expanded<V, E>> kruskal(Graph<V, E> graph, size_t vertices_count) {
     // Minimal spanning tree construction
     Vector<Edge_Expanded<V, E>> result;
     Vector<V> parent(vertices_count);
-    for (int i = 0; i < vertices_count; i++) parent.set(i, vertices_labels.get(i));
+    for (size_t i = 0; i < vertices_count; i++) parent.set(i, vertices_labels.get(i));
 
     sort(edges.begin(), edges.end(), compare_edges<V, E>);
 
