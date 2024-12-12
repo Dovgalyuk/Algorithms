@@ -6,17 +6,15 @@
 
 using namespace std;
 
-int main() {
-// int main(int argc, char **argv) {
-//     cout << argv[1];
-//     if (argc < 2) {
-//         cout << "Need input file" << endl;
-//         return 1;
-//     }
+int main(int argc, char **argv) {
+    if (argc < 2) {
+        cout << "Need input file" << endl;
+        return 1;
+    }
+
     Graph<char, int> graph(Graph<char, int>::Graph_Type::Undirected, 0);
 
-    ifstream in("E:/Algorithms/Lab4CPPTemplate/input.txt");
-    // ifstream in(argv[1]);
+    ifstream in(argv[1]);
     if (!in.is_open()) {
         cout << "File not opened\n";
         return 1;

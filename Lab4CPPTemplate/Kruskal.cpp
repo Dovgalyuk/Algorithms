@@ -41,7 +41,7 @@ void union_sets(V u, V v, Vector<V>& parent, Vector<V>& vertices_labels) {
 
 // Kruskal's Algorithm
 template <typename V, typename E>
-Vector<Edge_Expanded<V, E>> kruskal(Graph<V, E> graph, size_t vertices_count) {
+Vector<Edge_Expanded<V, E>> kruskal(Graph<V, E>& graph, size_t vertices_count) {
     Vector<V> vertices_labels = graph.get_vertices_labels();
 
     // Get vector of all edges

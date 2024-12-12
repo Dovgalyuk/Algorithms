@@ -31,6 +31,10 @@ public:
         }
     }
 
+    ~Graph() {
+        clear_edges();
+    }
+
     // Add a vertex
     void add_vertex(V label = V()) {
         vertices_count++;
@@ -82,9 +86,7 @@ public:
                 Edge* edge = adjacency_matrix.get(i).get(j);
 
                 if (edge != nullptr) {
-                    Edge* new_edge = new Edge(edge->label);
-
-                    new_adjacency_matrix.get(new_row_index).set(new_col_index, new_edge);
+                    new_adjacency_matrix.get(new_row_index).set(new_col_index, edge);
                 }
             }
             new_vertices_labels.set(new_row_index, vertices_labels.get(i));
@@ -101,6 +103,12 @@ public:
         size_t from = get_vertex_index(from_label);
         size_t to = get_vertex_index(to_label);
 
+        if (!has_edge(from_label, to_label))
+            throw invalid_argument("[remove_edge] Graph does not have this edge.");
+
+        Edge* edge = adjacency_matrix.get(from).get(to);
+
+        delete edge;
         adjacency_matrix.get(from).set(to, nullptr);
 
         if (graph_type == Graph_Type::Undirected) {
@@ -219,6 +227,21 @@ public:
 
     Graph_Type graph_type;
 private:
+    void clear_edges() {
+        for (size_t i = 0; i < vertices_count; i++) {
+            for (size_t j = 0; j < vertices_count; j++) {
+                if (has_edge(vertices_labels.get(i), vertices_labels.get(j))) {
+                    if (graph_type == Graph_Type::Undirected && i >= j) continue;
+
+                    Edge* edge = adjacency_matrix.get(i).get(j);
+
+                    delete edge;
+                    adjacency_matrix.get(i).set(j, nullptr);
+                }
+            }
+        }
+    }
+
     size_t vertices_count;
     Vector<Vector<Edge*>> adjacency_matrix;
     Vector<V> vertices_labels;
