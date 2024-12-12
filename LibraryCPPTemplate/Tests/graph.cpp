@@ -7,7 +7,7 @@
 int main() {
     Graph<int, int> graph(7);
 
-    // Test 1: get all vertex marks
+    //test 1.get all vertex marks
     Vector<int> vertices = graph.getAllVertexMarks();
     if (7 != vertices.size()) {
         for (size_t i = 0; i < vertices.size(); ++i) {
@@ -17,7 +17,7 @@ int main() {
         return 1;
     }
 
-    // Test 2: Removing vertex
+    //test 2. Removing vertex
     graph.removeVertex(6);
     Vector<int> vertices2 = graph.getAllVertexMarks();
     if (vertices2.size() != 6) {
@@ -28,7 +28,7 @@ int main() {
         return 1;
     }
 
-    // Test 3: Adding vertex
+    //test 3.Adding vertex
     graph.addVertex();
     Vector<int> vertices3 = graph.getAllVertexMarks();
     if (vertices3.size() != 7) {
@@ -39,7 +39,7 @@ int main() {
         return 1;
     }
 
-    // Test 4: Adding edge
+    //test 4.Adding edge
     graph.addVertex();
     graph.addEdge(7, 4, 10);
     graph.addEdge(7, 1, 7);

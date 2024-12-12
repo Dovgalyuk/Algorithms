@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <queue>
+#include <set>
 #include <limits>
 #include <fstream>
 #include "graph.h"
@@ -11,15 +11,15 @@ template <typename V, typename E>
 int dijkstra(Graph<V, E>& graph, size_t start, size_t end) {
     size_t n = graph.getSize();
     vector<E> dist(n, numeric_limits<E>::max());
-    priority_queue<pair<E, size_t>, vector<pair<E, size_t>>, greater<pair<E, size_t>>> pq;
+    set<pair<E, size_t>> pq;
 
     dist[start] = 0;
-    pq.push({0, start});
+    pq.insert({0, start});
 
     while (!pq.empty()) {
-        size_t u = pq.top().second;
-        E d = pq.top().first;
-        pq.pop();
+        size_t u = pq.begin()->second;
+        E d = pq.begin()->first;
+        pq.erase(pq.begin());
 
         if (u == end) {
             return d;
@@ -31,7 +31,7 @@ int dijkstra(Graph<V, E>& graph, size_t start, size_t end) {
 
             if (dist[u] + weight < dist[v]) {
                 dist[v] = dist[u] + weight;
-                pq.push({dist[v], v});
+                pq.insert({dist[v], v});
             }
         }
     }
