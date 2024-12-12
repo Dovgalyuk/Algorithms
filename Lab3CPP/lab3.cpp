@@ -6,35 +6,31 @@ using namespace std;
 
 void bfs(int start, int finish, int n, int** graph, int* parent) {
     Queue* q = queue_create();
-    bool* visited = new bool[n + 1];
 
     for (int i = 1; i <= n; ++i) {
-        visited[i] = false;
+        parent[i] = -1;
     }
 
     queue_insert(q, start);
-    visited[start] = true;
+    parent[start] = start;  
 
     while (!queue_empty(q)) {
         int current = queue_get(q);
         queue_remove(q);
 
+        if (current == finish) {
+            queue_delete(q);
+            return;
+        }
+
         for (int i = 1; i <= n; ++i) {
-            if (graph[current][i] == 1 && !visited[i]) {
-                visited[i] = true;
+            if (graph[current][i] == 1 && parent[i] == -1) { 
                 parent[i] = current;
                 queue_insert(q, i);
-
-                if (i == finish) {
-                    delete[] visited;
-                    queue_delete(q);
-                    return;
-                }
             }
         }
     }
     queue_delete(q);
-    delete[] visited;
 }
 
 int main(__attribute__((unused)) int argc, char** argv) {
