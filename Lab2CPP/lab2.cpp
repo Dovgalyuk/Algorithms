@@ -1,48 +1,32 @@
-#include <iostream> 
-#include <fstream> 
-#include <string> 
-#include "stack.h" 
- 
-bool isMatchingPair(char opening, char closing) { 
-    if (opening == '(' && closing == ')') { 
-        return true; 
-    } 
-    if (opening == '"' && closing == '"') { 
-        return true; 
-    } 
-    return false; 
-} 
- 
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "stack.h"
+
 bool is_balanced(const std::string& str) {
     Stack* stack = stack_create();
-    bool is_quote_open = false;
 
     for (char c : str) {
-        if (c == '"') {
-            is_quote_open = !is_quote_open;
-        } else if (!is_quote_open) {
-            if (c == '(') {
-                stack_push(stack, static_cast<Data>(c));
-            } else if (c == ')') {
-                if (stack_empty(stack)) {
-                    stack_delete(stack);
-                    return false; 
-                }
-                if (stack_get(stack) != '(') {
-                    stack_delete(stack);
-                    return false; 
-                }
+        if (c == '(' || c == '"' || c == '\'') {
+            if (!stack_empty(stack) && stack_get(stack) == c && (c == '"' || c == '\'')) {
                 stack_pop(stack);
+            } else {
+                stack_push(stack, static_cast<Data>(c));
             }
+        } else if (c == ')') {
+            // на закрывающую скобку
+            if (stack_empty(stack) || stack_get(stack) != '(') {
+                stack_delete(stack);
+                return false;
+            }
+            stack_pop(stack);
         }
-    }  
-
-    bool balanced = stack_empty(stack) && !is_quote_open; 
-    stack_delete(stack); 
+    }
+    bool balanced = stack_empty(stack);
+    stack_delete(stack);
     return balanced;
 }
 
- 
 int main(int argc, char **argv) {
     if (argc < 3) {
         std::cerr << "Usage: " << argv[0] << " <input.txt> <output.txt>\n";
