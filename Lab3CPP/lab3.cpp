@@ -10,23 +10,23 @@ void bfs(int start, int finish, int n, int** graph, int* parent) {
     for (int i = 1; i <= n; ++i) {
         parent[i] = -1;
     }
-
+    
     queue_insert(q, start);
-    parent[start] = start;  
+    parent[start] = 0; 
 
     while (!queue_empty(q)) {
         int current = queue_get(q);
         queue_remove(q);
 
-        if (current == finish) {
-            queue_delete(q);
-            return;
-        }
-
         for (int i = 1; i <= n; ++i) {
             if (graph[current][i] == 1 && parent[i] == -1) { 
                 parent[i] = current;
                 queue_insert(q, i);
+
+                if (i == finish) {
+                    queue_delete(q);
+                    return;
+                }
             }
         }
     }
@@ -51,32 +51,23 @@ int main(__attribute__((unused)) int argc, char** argv) {
     }
 
     int* parent = new int[n + 1];
-    for (int i = 1; i <= n; ++i) {
-        parent[i] = -1;
-    }
 
     bfs(start, finish, n, graph, parent);
 
     if (parent[finish] == -1) {
         cout << "IMPOSSIBLE";
     } else {
+        int* path = new int[n];
         int path_length = 0;
-        for (int at = finish; at != -1; at = parent[at]) {
-            path_length++;
+
+        for (int at = finish; at != 0; at = parent[at]) { 
+            path[path_length++] = at;
         }
 
-        int* path = new int[path_length];
-        int index = path_length - 1;
-        for (int at = finish; at != -1; at = parent[at]) {
-            path[index--] = at;
+        for (int i = path_length - 1; i >= 1; --i) { 
+            cout << path[i] << " ";
         }
-
-        for (int i = 0; i < path_length; ++i) {
-            if (i > 0) {
-                cout << " ";
-            }
-            cout << path[i];
-        }
+        cout << path[0];
 
         delete[] path;
     }
