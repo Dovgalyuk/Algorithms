@@ -124,9 +124,6 @@ public:
         if (!has_edge(from_label, to_label))
             throw invalid_argument("[set_edge_label] Graph does not have this edge.");
 
-        if (adjacency_matrix.get(from).get(to) == nullptr)
-            cout << "AAAAAA";
-
         adjacency_matrix.get(from).get(to)->label = label;
     }
 
