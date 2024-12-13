@@ -1,27 +1,26 @@
 #include <iostream>
 #include "graph.h"
 
-void dfs(Graph<int, int>& graph, int vertex, std::vector<bool>& visited) {
-    visited[vertex] = true;
+void dfs(Graph<int, int>& graph, int vertex, std::vector<int>& visited) {
+    visited[vertex] = 1;
 
     for (auto it = graph.begin(vertex); it != graph.end(vertex); it++) {
-        auto neighborVertex = *it;
-        int neighbor = neighborVertex.get_mark();
-        if (!visited[neighbor]) {
+        auto neighbor = (*it).get_mark();
+        if (visited[neighbor] == 0) {
             dfs(graph, neighbor, visited);
         }
     }
 }
 
 int countConnectedComponents(Graph<int, int>& graph, int numVertices) {
-    std::vector<bool> visited;
-    visited.resize(numVertices, false);
+    std::vector<int> visited;
+    visited.resize(numVertices, 0);
 
     int components = 0;
 
     for (int i = 0; i < numVertices; i++) {
-        if (!visited[i]) {
-            ++components;
+        if (visited[i] == 0) {
+            components++;
             dfs(graph, i, visited);
         }
     }
