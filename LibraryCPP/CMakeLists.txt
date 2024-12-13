@@ -1,3 +1,3 @@
-add_library(LibraryCPP STATIC vector.cpp queue.cpp)
+#add_library(LibraryCPP STATIC)
 
-add_subdirectory(Tests)
+#add_subdirectory(Tests)

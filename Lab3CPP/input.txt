@@ -1,4 +1,0 @@
-City1 City2
-City2 End
-Start City1
-Start End
