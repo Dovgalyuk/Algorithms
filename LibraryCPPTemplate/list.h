@@ -1,6 +1,8 @@
 #ifndef LIST_TEMPLATE_H
 #define LIST_TEMPLATE_H
 
+#include <stdexcept>
+
 template <typename Data>
 class List
 {
