@@ -11,16 +11,16 @@ void read_queue(Queue* queue, std::ifstream& input, int n) {
     }
 }
 
-Queue* find_min_time(Queue* queues[], int& min_time) {
+Queue** find_min_time(Queue* queues[], int& min_time) {
     min_time = INT_MAX;
-    Queue* min_queue = nullptr;
+    Queue** min_queue = nullptr;
 
     for (int i = 0; i < 3; ++i) {
         if (!queue_empty(queues[i])) {
             int time = queue_get(queues[i]);
             if (time < min_time) {
                 min_time = time;
-                min_queue = queues[i];
+                min_queue = &queues[i];
             }
         }
     }
@@ -39,6 +39,7 @@ int main(int argc, char* argv[]) {
         std::cerr << "Error opening file: " << argv[1] << std::endl;
         return 1;
     }
+
     std::ofstream output("output.txt");
 
     int n[3];
@@ -59,11 +60,13 @@ int main(int argc, char* argv[]) {
 
     while (!queue_empty(queues[0]) || !queue_empty(queues[1]) || !queue_empty(queues[2])) {
         int min_time;
-        Queue* min_queue = find_min_time(queues, min_time);
+        Queue** min_queue = find_min_time(queues, min_time);
 
         if (min_queue) {
-            output << (min_queue == queues[0] ? 1 : (min_queue == queues[1] ? 2 : 3)) << " " << min_time << std::endl;
-            queue_remove(min_queue);
+            // ¬ычисл€ем номер очереди и €вно приводим тип к int
+            int queue_number = static_cast<int>(min_queue - queues) + 1;
+            output << queue_number << " " << min_time << std::endl;
+            queue_remove(*min_queue);
         }
     }
 
