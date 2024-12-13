@@ -12,14 +12,6 @@ add_test(TestListCPPTemplate TestListCPPTemplate)
 # set_tests_properties(TestQueueCPPTemplate PROPERTIES TIMEOUT 10)
 
 # add_executable(TestStackCPPTemplate stack.cpp)
-#add_executable(Lab4CPP lab4.cpp)
-
-#include_directories(Lab4CPP PUBLIC .)
-#include_directories(Lab4CPP PUBLIC ../LibraryCPPTemplate)
-#target_link_libraries(Lab4CPP LibraryCPPTemplate)
-
-#add_test(NAME TestLab COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-
 # target_include_directories(TestStackCPPTemplate PUBLIC ..)
 # add_test(TestStackCPPTemplate TestStackCPPTemplate)
 
