@@ -1,25 +1,39 @@
 #include <iostream>
 #include "graph.h"
+#include <string>
 
-void dfs(Graph<int, int>& graph, int vertex, std::vector<int>& visited) {
+void dfs(Graph<int, int>& graph, size_t vertex, std::vector<int>& visited) {
+    if (vertex >= visited.size()) {
+        std::string b = "vertex out of range " + (char)vertex;
+        throw std::invalid_argument(b);
+    }
     visited[vertex] = 1;
 
     for (auto it = graph.begin(vertex); it != graph.end(vertex); it++) {
-        auto neighbor = (*it).get_mark();
+        size_t neighbor = (*it).get_mark();
+        if (neighbor >= visited.size()) {
+            std::string b = "neighbor out of range " + (char)neighbor;
+            throw std::invalid_argument(b);
+        }
         if (visited[neighbor] == 0) {
             dfs(graph, neighbor, visited);
         }
     }
 }
 
-int countConnectedComponents(Graph<int, int>& graph, int numVertices) {
+int countConnectedComponents(Graph<int, int>& graph, size_t numVertices) {
     std::vector<int> visited;
     visited.resize(numVertices, 0);
 
     int components = 0;
 
-    for (int i = 0; i < numVertices; i++) {
+    for (size_t i = 0; i < numVertices; i++) {
+        
         if (visited[i] == 0) {
+            if (i >= visited.size()) {
+                std::string b = "i out of range " + (char)i;
+                throw std::invalid_argument(b);
+            }
             components++;
             dfs(graph, i, visited);
         }
