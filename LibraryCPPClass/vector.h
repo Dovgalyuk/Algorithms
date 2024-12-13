@@ -2,7 +2,6 @@
 #define VECTOR_H
 
 #include <cstddef>
-#include <vector>
 
 typedef int Data;
 
@@ -27,16 +26,24 @@ public:
     // Sets vector element with the specified index
     void set(size_t index, Data value);
 
+    // Append new element in end vector
+    void insert(Data value);
+
     // Retrieves current vector size
     size_t size() const;
+
+    // Retrieves current vector capacity
+    size_t cap() const;
 
     // Changes the vector size (may increase or decrease)
     // Should be O(1) on average
     void resize(size_t size);
 
 private:
-    std::vector<Data> _vector;
     // private data should be here
+    size_t _capacity;
+    size_t _size;
+    Data *_vector;
 };
 
 #endif

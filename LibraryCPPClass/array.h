@@ -5,7 +5,8 @@
 
 typedef int Data;
 
-class Array{
+class Array
+{
 public:
     // create array
     explicit Array(size_t size);
@@ -29,8 +30,7 @@ public:
     size_t size() const;
 
 private:
-    size_t _size;
-    Data *_array;
+    // private data should be here
 };
 
 #endif

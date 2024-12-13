@@ -3,7 +3,7 @@
 
 #include <cstddef>
 #include <queue>
-#include "list.h"
+#include "vector.h"
 
 typedef int Data;
 
@@ -37,7 +37,9 @@ public:
     bool empty() const;
 
 private:
-    List *_queue;
+    size_t _front;
+    size_t _back;
+    Vector* _queue;
 };
 
 #endif

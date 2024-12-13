@@ -5,23 +5,17 @@
 
 typedef int Data;
 
-class List {
+class List
+{
 public:
     class Item
     {
     public:
-        // Creator for crate new Item
-        Item(Data data);
-
-        Item *prev();
-        Item *next();
-        Data data() const;
+        Item *next() { return nullptr; }
+        Item *prev() { return nullptr; }
+        Data data() const { return Data(); }
     private:
-        Item *_prev;
-        Item *_next;
-        Data _data;
-
-        friend class List;
+        // internal data here
     };
 
     // Creates new list
@@ -39,9 +33,6 @@ public:
     // Retrieves the first item from the list
     Item *first();
 
-    // Retrieves the last item from the list
-    Item *last();
-
     // Inserts new list item into the beginning
     Item *insert(Data data);
 
@@ -57,9 +48,7 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
-    size_t _size;
-    Item *_list;
-    Item *_listLast;
+    // private data should be here
 };
 
 #endif

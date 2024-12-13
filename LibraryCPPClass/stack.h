@@ -2,8 +2,6 @@
 #define STACK_H
 
 #include <cstddef>
-#include "stack"
-#include "list.h"
 
 typedef int Data;
 
@@ -37,7 +35,7 @@ public:
     bool empty() const;
 
 private:
-    List *_stack;
+    // private data should be here
 };
 
 #endif
