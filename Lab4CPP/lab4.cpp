@@ -4,16 +4,14 @@
 
 void dfs(Graph<int, int>& graph, size_t vertex, std::vector<int>& visited) {
     if (vertex >= visited.size()) {
-        std::string b = "vertex out of range " + (char)vertex;
-        throw std::invalid_argument(b);
+        throw std::invalid_argument("vertex");
     }
     visited[vertex] = 1;
 
     for (auto it = graph.begin(vertex); it != graph.end(vertex); it++) {
         size_t neighbor = (*it).get_mark();
-        if (neighbor >= visited.size()) {
-            std::string b = "neighbor out of range " + (char)neighbor;
-            throw std::invalid_argument(b);
+        if (neighbor > visited.size()) {
+            throw std::invalid_argument("neighbor");
         }
         if (visited[neighbor] == 0) {
             dfs(graph, neighbor, visited);
@@ -28,12 +26,10 @@ int countConnectedComponents(Graph<int, int>& graph, size_t numVertices) {
     int components = 0;
 
     for (size_t i = 0; i < numVertices; i++) {
-        
+        if (i > visited.size()) {
+            throw std::invalid_argument("i");
+        }
         if (visited[i] == 0) {
-            if (i >= visited.size()) {
-                std::string b = "i out of range " + (char)i;
-                throw std::invalid_argument(b);
-            }
             components++;
             dfs(graph, i, visited);
         }
