@@ -1,8 +1,7 @@
 #include <iostream>
 #include "graph.h"
-#include "vector.h"
 
-void dfs(Graph<int, int>& graph, int vertex, Vector<bool>& visited) {
+void dfs(Graph<int, int>& graph, int vertex, std::vector<bool>& visited) {
     visited[vertex] = true;
 
     for (auto it = graph.begin(vertex); it != graph.end(vertex); ++it) {
@@ -15,7 +14,7 @@ void dfs(Graph<int, int>& graph, int vertex, Vector<bool>& visited) {
 }
 
 int countConnectedComponents(Graph<int, int>& graph, int numVertices) {
-    Vector<bool> visited;
+    std::vector<bool> visited;
     visited.resize(numVertices, false);
 
     int components = 0;

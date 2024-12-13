@@ -1,7 +1,7 @@
 #ifndef GRAPH_TEMPLATE_H
 #define GRAPH_TEMPLATE_H
 
-#include "vector.h"
+#include <vector>
 #include "list.h"
 
 template <typename vertex_mark_type, typename edge_mark_type>
@@ -186,8 +186,9 @@ public:
 		typename List<edge*>::Item *item = adjacency_list[from_index]->first();
 		while (item) {
 			if (item->data()) {
-				if (item->data()->to == vertices[to_index])
+				if (item->data()->to == vertices[to_index]) {
 					return true;
+				}
 			}
 			item = item->next();
 		}
@@ -257,11 +258,12 @@ public:
 		return vertices[ind];
 	}
 
-	Vector<vertex_mark_type> get_all_vertex_marks()
+	std::vector<vertex_mark_type> get_all_vertex_marks()
 	{
-		Vector<vertex_mark_type> ans(count_vertices);
-		for (size_t ind = 0; ind < count_vertices; ind++)
+		std::vector<vertex_mark_type> ans(count_vertices);
+		for (size_t ind = 0; ind < count_vertices; ind++) {
 			ans[ind] = vertices[ind]->get_mark();
+		}
 		return ans;
 	}
 
@@ -284,8 +286,8 @@ public:
 private:
 	size_t count_vertices;
 	size_t next_edge_id;
-	Vector<vertex*> vertices;
-	Vector<List<edge*>*> adjacency_list;
+	std::vector<vertex*> vertices;
+	std::vector<List<edge*>*> adjacency_list;
 
 	void remove_edge(vertex *ver, size_t id)
 	{
