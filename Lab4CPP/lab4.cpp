@@ -4,7 +4,7 @@
 void dfs(Graph<int, int>& graph, int vertex, std::vector<bool>& visited) {
     visited[vertex] = true;
 
-    for (auto it = graph.begin(vertex); it != graph.end(vertex); ++it) {
+    for (auto it = graph.begin(vertex); it != graph.end(vertex); it++) {
         const Graph<int, int>::vertex& neighborVertex = *it;
         int neighbor = neighborVertex.get_mark();
         if (!visited[neighbor]) {
@@ -19,7 +19,7 @@ int countConnectedComponents(Graph<int, int>& graph, int numVertices) {
 
     int components = 0;
 
-    for (int i = 0; i < numVertices; ++i) {
+    for (int i = 0; i < numVertices; i++) {
         if (!visited[i]) {
             ++components;
             dfs(graph, i, visited);
