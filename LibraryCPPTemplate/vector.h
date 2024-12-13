@@ -111,7 +111,7 @@ public:
 
     Data &operator[](size_t index)
     {
-        if (current_size <= index) throw std::out_of_range("1111The index is out of range");
+        if (current_size < index) throw std::out_of_range("1111The index is out of range");
         return pointer[index];
     }
 

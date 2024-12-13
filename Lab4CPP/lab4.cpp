@@ -2,25 +2,25 @@
 #include "graph.h"
 #include "vector.h"
 
-void dfs(Graph<int, int>& graph, size_t vertex, Vector<bool>& visited) {
+void dfs(Graph<int, int>& graph, int vertex, Vector<bool>& visited) {
     visited[vertex] = true;
 
     for (auto it = graph.begin(vertex); it != graph.end(vertex); ++it) {
         const Graph<int, int>::vertex& neighborVertex = *it;
-        size_t neighbor = neighborVertex.get_mark();
+        int neighbor = neighborVertex.get_mark();
         if (!visited[neighbor]) {
             dfs(graph, neighbor, visited);
         }
     }
 }
 
-int countConnectedComponents(Graph<int, int>& graph, size_t numVertices) {
+int countConnectedComponents(Graph<int, int>& graph, int numVertices) {
     Vector<bool> visited;
     visited.resize(numVertices, false);
 
     int components = 0;
 
-    for (size_t i = 0; i < numVertices; ++i) {
+    for (int i = 0; i < numVertices; ++i) {
         if (!visited[i]) {
             ++components;
             dfs(graph, i, visited);
