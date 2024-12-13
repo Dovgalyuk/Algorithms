@@ -3,7 +3,10 @@
 #include <vector>
 #include "queue.h"
 
-void bfs(const std::vector<std::vector<int>>& graph, int start, std::vector<int>& distances) {
+typedef std::vector<std::vector<int>> Graph;
+typedef std::vector<int> Distances;
+
+void bfs(const Graph& graph, int start, Distances& distances) {
     Queue* queue = queue_create();
     queue_insert(queue, start);
     distances[start] = 0;
@@ -37,7 +40,7 @@ int main(int argc, char* argv[]) {
 
     int n;
     infile >> n;
-    std::vector<std::vector<int>> graph(n, std::vector<int>(n));
+    Graph graph(n, std::vector<int>(n));
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             infile >> graph[i][j];
@@ -45,7 +48,7 @@ int main(int argc, char* argv[]) {
     }
     infile.close();
 
-    std::vector<int> distances(n, -1);
+    Distances distances(n, -1);
     bfs(graph, 0, distances);
 
     std::ofstream outfile("output.txt");
