@@ -51,17 +51,30 @@ public:
 		}
 
 		vertex& operator*() {
-    		if (!ptr)
-        		throw std::runtime_error("Dereferencing a null iterator");
+    		if (!ptr) {
+    		    throw std::runtime_error("Dereferencing a null iterator");
+    		}
 
     		edge *e = ptr->data();
-    		if (e->from == ver)
-        		return *(e->to);
-    		else if (e->to == ver)
+    		if (!e || (!e->from && !e->to)) {
+    		    throw std::runtime_error("Invalid edge in iterator");
+    		}
+
+    		if (e->from == ver) {
+    		    if (!e->to) {
+    		        throw std::runtime_error("Null target vertex in edge");
+    		    }
+    		    return *(e->to);
+    		} else if (e->to == ver) {
+    		    if (!e->from) {
+    		        throw std::runtime_error("Null source vertex in edge");
+    		    }
     		    return *(e->from);
-    		else
-     		   throw std::runtime_error("Edge is not connected to the current vertex");
+    		} else {
+    		    throw std::runtime_error("Edge is not connected to the current vertex");
+    		}
 		}
+
 
 	};
 

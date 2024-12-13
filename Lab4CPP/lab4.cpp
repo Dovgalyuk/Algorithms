@@ -9,13 +9,18 @@ void dfs(Graph<int, int>& graph, size_t vertex, std::vector<int>& visited) {
     visited[vertex] = 1;
 
     for (auto it = graph.begin(vertex); it != graph.end(vertex); it++) {
-        size_t neighbor = (*it).get_mark();
-        if (neighbor >= visited.size()) {
-            std::cerr << "Invalid neighbor: " << neighbor << " for vertex: " << vertex << std::endl;
-            throw std::invalid_argument("neighbor out of bounds");
-        }
-        if (visited[neighbor] == 0) {
-            dfs(graph, neighbor, visited);
+        try {
+            size_t neighbor = (*it).get_mark();
+            if (neighbor >= visited.size()) {
+                std::cerr << "Invalid neighbor: " << neighbor << " for vertex: " << vertex << std::endl;
+                throw std::invalid_argument("neighbor out of bounds");
+            }
+            if (visited[neighbor] == 0) {
+                dfs(graph, neighbor, visited);
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Error while processing neighbor: " << e.what() << std::endl;
+            throw;
         }
     }
 }
