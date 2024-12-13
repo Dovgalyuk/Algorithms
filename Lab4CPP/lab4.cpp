@@ -5,7 +5,7 @@ void dfs(Graph<int, int>& graph, int vertex, std::vector<bool>& visited) {
     visited[vertex] = true;
 
     for (auto it = graph.begin(vertex); it != graph.end(vertex); it++) {
-        const Graph<int, int>::vertex& neighborVertex = *it;
+        auto neighborVertex = *it;
         int neighbor = neighborVertex.get_mark();
         if (!visited[neighbor]) {
             dfs(graph, neighbor, visited);
