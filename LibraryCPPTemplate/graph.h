@@ -43,14 +43,14 @@ public:
 			return *this;
 		}
 
-		iterator &operator++(int)
+		iterator operator++(int)
 		{
-			iterator *temp = this;
-			++(*this);
-			return *temp;
+    		iterator temp = *this;
+    		++(*this);
+    		return temp;
 		}
 
-		vertex operator*()
+		vertex& operator*()
 		{
 			if (!ptr)
 				throw std::runtime_error("Dereferencing a null iterator");
