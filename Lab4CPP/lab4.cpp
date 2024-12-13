@@ -6,15 +6,19 @@ void dfs(Graph<int, int>& graph, size_t vertex, std::vector<int>& visited) {
     if (vertex >= visited.size()) {
         throw std::invalid_argument("vertex out of bounds");
     }
+    std::cout << "Visiting vertex: " << vertex << std::endl;
     visited[vertex] = 1;
 
     for (auto it = graph.begin(vertex); it != graph.end(vertex); it++) {
         try {
             size_t neighbor = (*it).get_mark();
+            std::cout << "Checking neighbor: " << neighbor << " from vertex: " << vertex << std::endl;
+
             if (neighbor >= visited.size()) {
                 std::cerr << "Invalid neighbor: " << neighbor << " for vertex: " << vertex << std::endl;
                 throw std::invalid_argument("neighbor out of bounds");
             }
+
             if (visited[neighbor] == 0) {
                 dfs(graph, neighbor, visited);
             }
@@ -24,6 +28,7 @@ void dfs(Graph<int, int>& graph, size_t vertex, std::vector<int>& visited) {
         }
     }
 }
+
 
 int countConnectedComponents(Graph<int, int>& graph, size_t numVertices) {
     std::vector<int> visited;
@@ -69,6 +74,8 @@ int main(int argc, char **argv) {
         }
         graph.add_edge(from, to, 1);
     }
+
+    graph.print_graph();
 
     int components = countConnectedComponents(graph, numVertices);
     FILE* output = fopen("output.txt", "w");

@@ -123,15 +123,16 @@ public:
 		}
 	};
 
-	Graph(size_t num_vertices) : count_vertices(num_vertices), next_edge_id(0)
-	{
-		adjacency_list.resize(num_vertices, nullptr);
-		vertices.resize(num_vertices);
-		for (size_t ind = 0; ind < num_vertices; ind++) {
-			adjacency_list[ind] = new List<edge*>;
-			vertices[ind] = new vertex(adjacency_list[ind]);
-		}
+	Graph(size_t num_vertices) : count_vertices(num_vertices), next_edge_id(0) {
+    	adjacency_list.resize(num_vertices, nullptr);
+    	vertices.resize(num_vertices);
+
+    	for (size_t ind = 0; ind < num_vertices; ind++) {
+        	adjacency_list[ind] = new List<edge*>;
+        	vertices[ind] = new vertex(ind, adjacency_list[ind]);
+    	}
 	}
+
 
 	~Graph()
 	{
@@ -179,18 +180,25 @@ public:
 		vertices.push_back(new vertex(mark, adjacency_list[count_vertices++]));
 	}
 
-	size_t add_edge(size_t from_vertex_ind, size_t to_vertex_ind, edge_mark_type mark) 
-	{
-		if ((from_vertex_ind >= count_vertices) or (to_vertex_ind >= count_vertices))
-			throw std::out_of_range("[add_edge] Incorrect index");
+	size_t add_edge(size_t from_vertex_ind, size_t to_vertex_ind, edge_mark_type mark) {
+    	if ((from_vertex_ind >= count_vertices) || (to_vertex_ind >= count_vertices)) {
+    	    throw std::out_of_range("[add_edge] Incorrect index");
+    	}
 
-		vertex *from_vertex = vertices[from_vertex_ind];
-		vertex *to_vertex = vertices[to_vertex_ind];
-		edge *new_edge = new edge(mark, from_vertex, to_vertex, next_edge_id++);
-		adjacency_list[from_vertex_ind]->insert(new_edge);
-		adjacency_list[to_vertex_ind]->insert(new_edge);
+    	vertex* from_vertex = vertices[from_vertex_ind];
+    	vertex* to_vertex = vertices[to_vertex_ind];
 
-		return next_edge_id - 1;
+    	if (!from_vertex || !to_vertex) {
+    	    throw std::runtime_error("[add_edge] Null vertex pointer");
+    	}
+
+    	edge* new_edge = new edge(mark, from_vertex, to_vertex, next_edge_id++);
+    	adjacency_list[from_vertex_ind]->insert(new_edge);
+    	if (from_vertex_ind != to_vertex_ind) {
+    	    adjacency_list[to_vertex_ind]->insert(new_edge);
+    	}
+
+    	return next_edge_id - 1;
 	}
 
 	bool has_edge(size_t from_index, size_t to_index)
@@ -264,6 +272,26 @@ public:
 		delete ver;
 		delete edges;
 	}
+
+	void print_graph() {
+    	std::cout << "Graph structure:" << std::endl;
+    	for (size_t i = 0; i < count_vertices; i++) {
+    	    std::cout << "Vertex " << i << " (mark: " << vertices[i]->get_mark() << "): ";
+    	    typename List<edge*>::Item* item = adjacency_list[i]->first();
+    	    while (item) {
+    	        edge* e = item->data();
+    	        if (e) {
+    	            size_t from = e->from ? e->from->get_mark() : -1;
+    	            size_t to = e->to ? e->to->get_mark() : -1;
+    	            std::cout << "[" << from << " -> " << to << "] ";
+    	        }
+    	        item = item->next();
+    	    }
+    	    std::cout << std::endl;
+    	}
+	}
+
+
 
 	vertex *get_vertex(size_t ind) 
 	{
