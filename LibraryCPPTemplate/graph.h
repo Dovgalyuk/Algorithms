@@ -50,17 +50,19 @@ public:
     		return temp;
 		}
 
-		vertex& operator*()
-		{
-			if (!ptr)
-				throw std::runtime_error("Dereferencing a null iterator");
+		vertex& operator*() {
+    		if (!ptr)
+        		throw std::runtime_error("Dereferencing a null iterator");
 
-			edge *e = ptr->data();
-			if (e->from == ver)
-				return *(e->to);
-			else
-				return *(e->from);
+    		edge *e = ptr->data();
+    		if (e->from == ver)
+        		return *(e->to);
+    		else if (e->to == ver)
+    		    return *(e->from);
+    		else
+     		   throw std::runtime_error("Edge is not connected to the current vertex");
 		}
+
 	};
 
 	struct vertex {
