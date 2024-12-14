@@ -8,14 +8,14 @@ struct Vector {
     size_t size;
     size_t capacity;
 
-    // Конструктор, инициализирующий поля
+    // Конструктор инициализирует поля
     Vector() : data(nullptr), size(0), capacity(0) {}  // Инициализация
 };
 
 Vector* vector_create() {
-    // Создаем объект вектора, инициализация полей через конструктор
-    Vector* vector = new Vector;
-    return vector;  // Указатель на новый вектор
+    // Создаем объект вектора с помощью конструктора
+    Vector* vector = new Vector; // Конструктор инициализирует поля
+    return vector;
 }
 
 void vector_delete(Vector* vector) {
