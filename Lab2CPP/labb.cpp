@@ -16,11 +16,8 @@ int main() {
         if (command == "PUSH") {
             std::string param;
             stream >> param;
-            if (std::isdigit(param[0])) {
-                stack.push(std::stoi(param));
-            } else {
-                stack.push(registers[param[0]]);
-            }
+            // Используем тернарный оператор для упрощения
+            stack.push(std::isdigit(param[0]) ? std::stoi(param) : registers[param[0]]);
         } else if (command == "POP") {
             char reg;
             stream >> reg;
