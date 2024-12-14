@@ -8,13 +8,17 @@ struct Vector {
     size_t size;
     size_t capacity;
 
-    // Конструктор инициализирует поля
-    Vector() : data(nullptr), size(0), capacity(0) {}  // Инициализация
+    // Явное указание на инициализацию всех полей
+    Vector() {
+        data = nullptr;
+        size = 0;
+        capacity = 0;
+    }
 };
 
 Vector* vector_create() {
     // Создаем объект вектора с помощью конструктора
-    Vector* vector = new Vector; // Конструктор инициализирует поля
+    Vector* vector = new Vector;  // Конструктор инициализирует поля
     return vector;
 }
 
