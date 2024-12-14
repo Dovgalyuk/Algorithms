@@ -13,6 +13,8 @@ Queue &Queue::operator=(const Queue &a) {
 }
 
 Queue::~Queue(){
+    _front = 0;
+    _back = 0;
     delete _queue;
 }
 
@@ -31,16 +33,12 @@ void Queue::insert(Data data) {
 }
 
 Data Queue::get() const {
-    if (empty()) {
-        throw std::runtime_error("Queue is empty");
-    }
+    if (empty()) throw std::runtime_error("Queue is empty");
     return _queue->get(_front);
 }
 
 void Queue::remove(){
-    if (empty()) {
-        throw std::runtime_error("Stack is empty");
-    }
+    if (empty()) throw std::runtime_error("Stack is empty");
     _front++;
 }
 
