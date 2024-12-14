@@ -1,30 +1,30 @@
 #ifndef STACK_H
 #define STACK_H
 
-// Stack
-// Stores integer values inside
-typedef size_t Data;
+#include <cstddef>  // Для типа size_t
 
+// Объявление типа Data
+typedef size_t Data;  // Тип данных для стека
+
+// Структура стека
 struct Stack;
 
-// Creates empty stack
-Stack *stack_create();
+// Создание пустого стека
+Stack* stack_create();
 
-// Deletes the stack
-void stack_delete(Stack *stack);
+// Удаление стека
+void stack_delete(Stack* stack);
 
-// Pushes data on top of the stack
-// Should be O(1) on average
-void stack_push(Stack *stack, Data data);
+// Добавление данных в стек (O(1) в среднем)
+void stack_push(Stack* stack, Data data);
 
-// Retrives the last element from the stack
-Data stack_get(const Stack *stack);
+// Получение последнего элемента стека
+Data stack_get(const Stack* stack);
 
-// Removes the last element from the stack
-// Should be O(1)
-void stack_pop(Stack *stack);
+// Удаление последнего элемента стека (O(1))
+void stack_pop(Stack* stack);
 
-// Returns true if the stack is empty
-bool stack_empty(const Stack *stack);
+// Проверка, пуст ли стек
+bool stack_empty(const Stack* stack);
 
 #endif
