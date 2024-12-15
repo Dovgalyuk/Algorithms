@@ -36,7 +36,7 @@ void paint_board(int N, int M) {
                 board[new_x][new_y] = current_color + 1;
                 int* new_cell = malloc(2 * sizeof(int));
                 if (!new_cell) {
-                    fprintf(stderr, "Ошибка выделения памяти для новой клетки\n");
+                    fprintf(stderr, "Memory allocation error\n");
                 }
                 else
                 {
@@ -55,8 +55,8 @@ void paint_board(int N, int M) {
     queue_delete(queue);
 }
 
-int main() {
-    FILE* input_file = fopen("input.txt", "r");
+int main(int argc, char* argv[]) {
+    FILE* input_file = fopen(argv[1], "r");
 
     if (!input_file) {
         return 1;
