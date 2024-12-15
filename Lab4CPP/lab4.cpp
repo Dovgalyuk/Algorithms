@@ -7,7 +7,10 @@
 
 using namespace std;
 
-void Prim(const GraphStructure<std::string, int>& graph) {
+// Упрощение типа графа
+typedef GraphStructure<std::string, int> Graph;
+
+void Prim(const Graph& graph) {
     size_t vertexCount = graph.getNodeCount();
     vector<bool> inMST(vertexCount, false);
     vector<int> minEdge(vertexCount, numeric_limits<int>::max());
@@ -61,8 +64,12 @@ int main(int argc, char** argv) {
             throw std::out_of_range("File opening error");
         }
 
-        GraphStructure<std::string, int>::StructureType type = GraphStructure<std::string, int>::StructureType::Undirected;
-        GraphStructure<std::string, int> graph(type);
+        if (inputFile.peek() == std::ifstream::traits_type::eof()) {
+            throw std::runtime_error("File is empty");
+        }
+
+        Graph::StructureType type = Graph::StructureType::Undirected;
+        Graph graph(type);
 
         inputFile >> qty_vertex;
         for (int i = 0; i < qty_vertex; i++) {

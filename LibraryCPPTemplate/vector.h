@@ -127,12 +127,9 @@ public:
     }
 
     void push(Data value) {
-        if (vectorSize >= volume) {
-            resize(vectorSize + 1);
-            vectorSize--;
-        }
-        data[vectorSize++] = value;
-    }
+    resize(vectorSize + 1);
+    data[vectorSize - 1] = value;
+}
     
 private:
     Data* data;

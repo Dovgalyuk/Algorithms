@@ -8,9 +8,8 @@
 template <typename ValueType>
 struct Node {
     Node() {}
-    Node(size_t id, ValueType label) : id(id), label(label) {}
+    Node(ValueType label) : label(label) {}
 
-    size_t id = std::numeric_limits<size_t>::max();
     ValueType label = ValueType();
 };
 
@@ -31,6 +30,7 @@ public:
     };
 
     GraphStructure(StructureType structureType) : structureType(structureType) {}
+
     ~GraphStructure() {
         clearConnections();
     }
@@ -116,67 +116,69 @@ public:
 
     size_t addNode(ValueType nodeLabel) {
         size_t index = nodes.size();
-        nodes.push(Node<ValueType>(index, nodeLabel));
+        nodes.push(Node<ValueType>(nodeLabel));
 
         size_t totalNodes = getNodeCount();
         Vector<Connection<EdgeType>*> newConnectionMatrix;
+        newConnectionMatrix.resize(totalNodes * totalNodes);
+
+        for (size_t i = 0; i < totalNodes - 1; ++i) {
+            for (size_t j = 0; j < totalNodes - 1; ++j) {
+                newConnectionMatrix.set(i * totalNodes + j, connectionMatrix.get(i * (totalNodes - 1) + j));
+            }
+        }
 
         for (size_t i = 0; i < totalNodes; ++i) {
-            for (size_t j = 0; j < totalNodes; ++j) {
-                newConnectionMatrix.push(nullptr);
-            }
+            newConnectionMatrix.set(i * totalNodes + (totalNodes - 1), nullptr); // Новый столбец
+            newConnectionMatrix.set((totalNodes - 1) * totalNodes + i, nullptr); // Новая строка
         }
 
         connectionMatrix.swap_data(newConnectionMatrix);
 
         return index;
-    }
-
-    void removeNode(size_t index) {
-    size_t totalNodes = getNodeCount();
-    if (index >= totalNodes) {
-        return;
-    }
-
-    // Удаляем соединения, связанные с удаляемым узлом
-    for (size_t i = 0; i < totalNodes; i++) {
-        Connection<EdgeType>* connection = connectionMatrix.get(index * totalNodes + i);
-        if (connection) {
-            delete connection;
-            connectionMatrix.set(index * totalNodes + i, nullptr);
-        }
-        connection = connectionMatrix.get(i * totalNodes + index);
-        if (connection) {
-            delete connection;
-            connectionMatrix.set(i * totalNodes + index, nullptr);
-        }
-    }
-
-    // Сдвигаем узлы
-    for (size_t i = index; i < totalNodes - 1; i++) {
-        nodes.set(i, nodes.get(i + 1));
-    }
-    nodes.resize(totalNodes - 1);
-
-    // Обновляем матрицу соединений
-    Vector<Connection<EdgeType>*> tempConnectionMatrix;
-    size_t updatedNodeCount = getNodeCount();
-    tempConnectionMatrix.resize(updatedNodeCount * updatedNodeCount);
-    for (size_t i = 0; i < updatedNodeCount; i++) {
-        for (size_t j = 0; j < updatedNodeCount; j++) {
-            Connection<EdgeType>* connection = connectionMatrix.get(((i + (i >= index)) * totalNodes) + (j + (j >= index)));
-            tempConnectionMatrix.set((i * updatedNodeCount) + j, connection);
-        }
-    }
-
-    connectionMatrix.swap_data(tempConnectionMatrix);
 }
 
+void removeNode(size_t index) {
+        size_t totalNodes = getNodeCount();
+        if (index >= totalNodes) {
+            return;
+        }
+
+        for (size_t i = 0; i < totalNodes; i++) {
+            Connection<EdgeType>* connection = connectionMatrix.get(index * totalNodes + i);
+            if (connection) {
+                delete connection;
+                connectionMatrix.set(index * totalNodes + i, nullptr);
+            }
+            connection = connectionMatrix.get(i * totalNodes + index);
+            if (connection) {
+                delete connection;
+                connectionMatrix.set(i * totalNodes + index, nullptr);
+            }
+        }
+
+        for (size_t i = index; i < totalNodes - 1; i++) {
+            nodes.set(i, nodes.get(i + 1));
+        }
+        nodes.resize(totalNodes - 1);
+
+        Vector<Connection<EdgeType>*> tempConnectionMatrix;
+        size_t updatedNodeCount = getNodeCount();
+        tempConnectionMatrix.resize(updatedNodeCount * updatedNodeCount);
+        for (size_t i = 0; i < updatedNodeCount; i++) {
+            for (size_t j = 0; j < updatedNodeCount; j++) {
+                Connection<EdgeType>* connection = connectionMatrix.get(((i + (i >= index)) * totalNodes) + (j + (j >= index)));
+                tempConnectionMatrix.set((i * updatedNodeCount) + j, connection);
+            }
+        }
+
+        connectionMatrix.swap_data(tempConnectionMatrix);
+    }
 
     std::vector<ValueType> getAllNodeData() const {
         std::vector<ValueType> allData;
         for (size_t i = 0; i < nodes.size(); i++) {
-            allData.push_back(nodes[i].label); // Извлечение меток узлов
+            allData.push_back(nodes[i].label);
         }
         return allData;
     }
@@ -241,4 +243,3 @@ private:
 };
 
 #endif
-
