@@ -93,10 +93,16 @@ public:
             }
         }
 
+        typename List<Edge*>::Item* item = v->edges.first();
+        while (item) {
+            Edge* edge = item->data();
+            delete edge;
+            item = item->next();
+        }
+
         delete v;
         vertices.erase(vertices.begin() + ind);
     }
-
 
     void set_vertex_mark(size_t ind, V mark) {
         if (ind >= vertices.size()) {
