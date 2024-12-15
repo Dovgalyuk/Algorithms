@@ -1,39 +1,30 @@
 #include <cstddef>
 #include <iostream>
-#include <stdexpected>
 #include "list.h"
 
 struct ListItem
 {
     Data data;
-    ListItem next;
-    ListItem previous;
+    ListItem* next;
 };
 
 struct List
 {
     ListItem* head;
+    ListItem* end;
 };
 
 List *list_create()
 {
-    List* list = new list;
+    List* list = new List;
     list->head = nullptr;
+    list->end = nullptr;
     return list;
-}
-
-void list_clear(List *list){
-    while(!list_empty(list)){
-        list_erase_first(list);
-    }
 }
 
 void list_delete(List *list)
 {
-    if(list){
-        list_clear(list);
-        delete list;
-    }
+    
 }
 
 ListItem *list_first(List *list)
