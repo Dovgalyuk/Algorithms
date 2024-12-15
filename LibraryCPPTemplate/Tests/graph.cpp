@@ -6,11 +6,11 @@ int main() {
     Graph<std::string, int> graph(5);
 
     //Adding vertex marks
-    graph.add_vertex_mark("A");
-    graph.add_vertex_mark("B");
-    graph.add_vertex_mark("C");
-    graph.add_vertex_mark("D");
-    graph.add_vertex_mark("E");
+    graph.add_vertex("A");
+    graph.add_vertex("B");
+    graph.add_vertex("C");
+    graph.add_vertex("D");
+    graph.add_vertex("E");
 
     if (graph.get_vertex_count() != 5) {
         std::cout << "Invalid vertex amount\n" << std::endl;
@@ -54,7 +54,7 @@ int main() {
     std::cout << "\n";
 
     //Edge remove
-    graph.delete_edge(0);
+    graph.remove_edge(graph.get_vertex(0), graph.get_vertex(1));
     std::cout << "Edge A -> B exists after deletion: " << (graph.has_edge(0, 1) ? "Yes\n" : "No\n") << std::endl;
 
     //Get and print all vertex marks
