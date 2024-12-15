@@ -9,8 +9,7 @@
 template <typename V>
 struct Vertex {
     Vertex() {}
-    Vertex(size_t number, V mark) : number(number), mark(mark) {}
-    size_t number = std::numeric_limits<size_t>::max();
+    Vertex(V mark) : mark(mark) {}
     V mark = V();
 };
 
@@ -88,14 +87,24 @@ public:
 
     size_t add_Vertex(V vertex_mark) {
         size_t index = vertices.size();
-        vertices.push(Vertex<V>(index, vertex_mark));
+        vertices.push(Vertex<V>(vertex_mark));
+
         size_t qty_vertex = get_VertexAmount();
         Vector<Edge<E>*> newEdgeMatrix;
+
         for (size_t i = 0; i < qty_vertex; ++i) {
             for (size_t j = 0; j < qty_vertex; ++j) {
                 newEdgeMatrix.push(nullptr);
             }
         }
+
+        for (size_t i = 0; i < qty_vertex - 1; ++i) {
+            for (size_t j = 0; j < qty_vertex - 1; ++j) {
+                size_t oldIndex = (i < index ? i : i) * (qty_vertex - 1) + (j < index ? j : j);
+                newEdgeMatrix.set(i * qty_vertex + j, edgeMatrix.get(oldIndex));
+            }
+        }
+
         edgeMatrix.swap_data(newEdgeMatrix);
         return index;
     }

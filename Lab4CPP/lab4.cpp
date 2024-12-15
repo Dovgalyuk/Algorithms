@@ -5,9 +5,11 @@
 #include <string>
 #include <vector>
 
+typedef Graph<std::string, std::string> StringGraph;
+
 class ComponentCounter {
 public:
-    ComponentCounter(Graph<std::string, std::string>& graph)
+    ComponentCounter(StringGraph& graph)
         : graph(graph), visited(graph.get_VertexAmount(), false) {}
 
     int countComponents() {
@@ -24,7 +26,7 @@ public:
 private:
     void dfs(size_t vertex) {
         visited[vertex] = true;
-        Graph<std::string, std::string>::Iterator it = graph.get_Iterator(vertex);
+        StringGraph::Iterator it = graph.get_Iterator(vertex);
         while (it.hasNext()) {
             size_t adjacent = it.next();
             if (!visited[adjacent]) {
@@ -33,7 +35,7 @@ private:
         }
     }
 
-    Graph<std::string, std::string>& graph;
+    StringGraph& graph;
     std::vector<bool> visited;
 };
 
@@ -52,7 +54,7 @@ int main(int argc, char* argv[]) {
     size_t vertexCount, edgeCount;
     inputFile >> vertexCount >> edgeCount;
 
-    Graph<std::string, std::string> graph;
+    StringGraph graph;
 
     for (size_t i = 0; i < vertexCount; ++i) {
         std::string vertexLabel;
