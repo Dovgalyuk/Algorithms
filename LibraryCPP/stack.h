@@ -18,10 +18,8 @@ void stack_delete(Stack* stack);
 // Добавление данных в стек (O(1) в среднем)
 void stack_push(Stack* stack, Data data);
 
-
 // Получение последнего элемента стека
 Data stack_get(const Stack* stack);
-
 
 // Удаление последнего элемента стека (O(1))
 void stack_pop(Stack* stack);

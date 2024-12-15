@@ -8,12 +8,8 @@ struct Vector {
     size_t size;
     size_t capacity;
 
-    // Явное указание на инициализацию всех полей
-    Vector() {
-        data = nullptr;
-        size = 0;
-        capacity = 0;
-    }
+    // Конструктор, инициализирующий все поля
+    Vector() : data(nullptr), size(0), capacity(0) {}
 };
 
 Vector* vector_create() {
@@ -49,11 +45,13 @@ void vector_resize(Vector* vector, size_t size) {
     // Если новый размер больше текущей емкости, увеличиваем размер
     if (size > vector->capacity) {
         size_t new_capacity = vector->capacity == 0 ? 1 : vector->capacity;
+        
+        // Удваиваем вместимость до тех пор, пока она не станет достаточной
         while (new_capacity < size) {
-            new_capacity *= 2;  // Удваиваем емкость до тех пор, пока она не станет достаточной
+            new_capacity *= 2;
         }
 
-        // Выделяем новую память для данных
+        // Выделяем память для нового массива
         Data* new_data = new Data[new_capacity];
 
         // Если старые данные существуют, копируем их в новый массив
@@ -63,8 +61,9 @@ void vector_resize(Vector* vector, size_t size) {
         }
 
         vector->data = new_data;  // Указываем на новый массив
-        vector->capacity = new_capacity;  // Обновляем емкость
+        vector->capacity = new_capacity;  // Обновляем вместимость
     }
 
-    vector->size = size;  // Устанавливаем новый размер
+    // Устанавливаем новый размер
+    vector->size = size;
 }

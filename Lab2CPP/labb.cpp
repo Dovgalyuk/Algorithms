@@ -4,7 +4,7 @@
 #include <map>
 
 int main() {
-    Stack stack;
+    Stack* stack = stack_create();
     std::map<char, int> registers = {{'A', 0}, {'B', 0}, {'C', 0}, {'D', 0}};
 
     std::string input;
@@ -16,30 +16,29 @@ int main() {
         if (command == "PUSH") {
             std::string param;
             stream >> param;
-            // Используем тернарный оператор для упрощения
-            stack.push(std::isdigit(param[0]) ? std::stoi(param) : registers[param[0]]);
+            stack_push(stack, std::isdigit(param[0]) ? std::stoi(param) : registers[param[0]]);
         } else if (command == "POP") {
             char reg;
             stream >> reg;
-            registers[reg] = stack.top();
-            stack.pop();
+            registers[reg] = stack_get(stack);
+            stack_pop(stack);
         } else if (command == "ADD") {
             char reg;
             stream >> reg;
-            int op1 = stack.top(); stack.pop();
-            int op2 = stack.top(); stack.pop();
+            int op1 = stack_get(stack); stack_pop(stack);
+            int op2 = stack_get(stack); stack_pop(stack);
             registers[reg] = op1 + op2;
         } else if (command == "MUL") {
             char reg;
             stream >> reg;
-            int op1 = stack.top(); stack.pop();
-            int op2 = stack.top(); stack.pop();
+            int op1 = stack_get(stack); stack_pop(stack);
+            int op2 = stack_get(stack); stack_pop(stack);
             registers[reg] = op1 * op2;
         } else if (command == "SUB") {
             char reg;
             stream >> reg;
-            int op1 = stack.top(); stack.pop();
-            int op2 = stack.top(); stack.pop();
+            int op1 = stack_get(stack); stack_pop(stack);
+            int op2 = stack_get(stack); stack_pop(stack);
             registers[reg] = op1 - op2;
         }
     }
@@ -49,5 +48,6 @@ int main() {
     }
     std::cout << std::endl;
 
+    stack_delete(stack);
     return 0;
 }
