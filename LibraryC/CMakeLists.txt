@@ -1,3 +1,3 @@
-add_library(LibraryC STATIC list.c stack.c)
+add_library(LibraryC STATIC vector.c queue.c)
 
 add_subdirectory(Tests)

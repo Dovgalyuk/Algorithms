@@ -3,12 +3,16 @@
 
 void myfree(void *p)
 {
-    delete (int*)p;
+    delete static_cast<int*>(p);
 }
 
-int vector_get_int(Vector *v, size_t i)
-{
-    return *(int*)vector_get(v, i);
+int vector_get_int(Vector* v, size_t i) {
+    Data data = vector_get(v, i);
+    if (!data) {
+        std::cerr << "Error: Attempt to access uninitialized element at index " << i << "\n";
+        return 1;
+    }
+    return *(int*)data;
 }
 
 int main()
@@ -23,8 +27,9 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, new int(i));
-
+    {
+        vector_set(vector, i, new int(static_cast<int>(i)));
+    }
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)
@@ -71,7 +76,7 @@ int main()
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector_resize(vector, i);
-        vector_set(vector, i - 1, new int(i));
+        vector_set(vector, i - 1, new int(static_cast<int>(i)));
     }
 
     long long sum = 0;
