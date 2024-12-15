@@ -66,17 +66,7 @@ public:
 
     ~Graph() {
         clear();
-        for (Vertex* v : vertices) {
-            typename List<Edge*>::Item* item = v->edges.first();
-            while (item) {
-                Edge* edge = item->data();
-                delete edge;
-                item = item->next();
-            }
-            delete v;
-        }
     }
-
 
     void add_vertex(V mark) {
         if (vertices.size() >= max_vertex_count) {
@@ -272,6 +262,12 @@ private:
 
     void clear() {
         for (Vertex* v : vertices) {
+            typename List<Edge*>::Item* item = v->edges.first();
+            while (item) {
+                Edge* edge = item->data();
+                delete edge;
+                item = item->next();
+            }
             delete v;
         }
         vertices.clear();
