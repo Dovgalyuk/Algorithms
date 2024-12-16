@@ -122,7 +122,7 @@ int main(int argc, char **argv)
 
         while ((input >> board[lines])) {
 	        std::cout << "\n" << board[lines];
-            for(int i = 0; i < std::size(board[lines]); i++) {
+            for(long unsigned int i = 0; i < std::size(board[lines]); i++) {
                 if(board[lines][i] == 'K') {
                     start_x = i;
                     start_y = lines;
