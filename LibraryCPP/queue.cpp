@@ -28,10 +28,13 @@ void queue_insert(Queue* queue, Data data)
 {
     if (queue->size == vector_size(queue->vec)) {
         size_t new_size = queue->size * 2;
-        vector_resize(queue->vec, new_size);
+        Vector* new_vec = vector_create();
+        vector_resize(new_vec, new_size);
         for (size_t i = 0; i < queue->size; ++i) {
-            vector_set(queue->vec, i, vector_get(queue->vec, (queue->front + i) % queue->size));
+            vector_set(new_vec, i, vector_get(queue->vec, (queue->front + i) % queue->size));
         }
+        vector_delete(queue->vec);
+        queue->vec = new_vec;
         queue->front = 0;
     }
     size_t back = (queue->front + queue->size) % vector_size(queue->vec);
