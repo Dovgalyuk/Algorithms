@@ -1,58 +1,41 @@
 #ifndef QUEUE_TEMPLATE_H
 #define QUEUE_TEMPLATE_H
 
+#include "vector.h"
+
 template <typename Data> class Queue
 {
 public:
-    // Create empty queue
-    Queue()
-    {
+    Queue() {}
+
+    ~Queue() {}
+
+    void insert(const Data& data) {
+        size_t size = data_.size();
+        data_.resize(size + 1);
+        data_.set(size, data);
     }
 
-    // copy constructor
-    Queue(const Queue &a)
-    {
-        // implement or disable this function
+    Data get() const {
+        if (empty()) {
+            throw std::out_of_range("Queue is empty");
+        }
+        return data_[0];
     }
 
-    // assignment operator
-    Queue &operator=(const Queue &a)
-    {
-        // implement or disable this function
-        return *this;
+    void remove() {
+        if (empty()) {
+            throw std::out_of_range("Queue is empty");
+        }
+        data_.erase(0);
     }
 
-    // Deletes queue
-    ~Queue()
-    {
-    }
-
-    // Includes new element into the queue
-    // Should be O(1) on average
-    void insert(Data data)
-    {
-    }
-
-    // Retrieves first element from the queue
-    Data get() const
-    {
-        return Data();
-    }
-
-    // Removes first element from the queue
-    // Should be O(1) on average
-    void remove()
-    {
-    }
-
-    // Returns true if the queue is empty
-    bool empty() const
-    {
-        return true;
+    bool empty() const {
+        return data_.size() == 0;
     }
 
 private:
-    // private data should be here
+    Vector<Data> data_;
 };
 
 #endif
