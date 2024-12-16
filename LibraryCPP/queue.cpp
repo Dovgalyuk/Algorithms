@@ -38,11 +38,11 @@ Data queue_get(const Queue* queue) {
         }
         else {
             std::cout <<"Очередь пуста1";
-            return NULL;
+            return 0;
         }
     }
     std::cout <<"Нет очереди3";
-    return NULL;
+    return 0;
 }
 
 void queue_remove(Queue* queue) {
