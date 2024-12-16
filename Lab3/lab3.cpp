@@ -106,6 +106,7 @@ private:
 
             // Check if cord in queue is end, return min path
             if (x == end.x && y == end.y) {
+                delete queue;
                 return valueMiddle;
             }
 
