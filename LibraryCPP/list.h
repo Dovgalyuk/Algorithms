@@ -42,4 +42,10 @@ ListItem *list_erase_first(List *list);
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);
 
+bool list_empty(const List* list);
+
+ListItem* list_insert_end(List* list, Data data);
+
+void list_clear(List* list);
+
 #endif
