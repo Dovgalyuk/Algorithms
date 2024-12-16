@@ -20,10 +20,10 @@ Array* array_create_and_fill(size_t size) {
 void task1(Array* arr, Array* arr2) {
     size_t size = array_size(arr);
     size_t arr2_index = 0;
-    for (int i = 0; i < size; ++i) {
+    for (size_t i = 0; i < size; ++i) {
         int value = array_get(arr, i);
         if (value % 2 == 0) {
-            array_set(arr2, arr2_index, i);
+            array_set(arr2, arr2_index, static_cast<Data>(i));
             ++arr2_index;
         }
     }
