@@ -220,38 +220,44 @@ int main(int argc, char **argv) {
     ifstream inputTest1(argv[1]);
 
     // Upload area data from txt (test 1)
-    Area area1;
-    if (!area1.uploadFromTxt(inputTest1)) {
+    Area* area1 = new Area();
+    if (!area1->uploadFromTxt(inputTest1)) {
+        delete area1;
         return 1;
     }
 
     // Find min path in Area (test 1) & Test
-    std::string minPathArea1 = area1.findMinPath();
+    std::string minPathArea1 = area1->findMinPath();
     if (minPathArea1 != "######\n#xxxX#\n#x####\n#xxxY#\n######\n") {
         cout << "Test 1: fail" << endl;
+        delete area1;
         return 1;
     }
     cout << "Test 1: success" << endl;
     cout << minPathArea1 << endl;
+    delete area1;
 
     // Test 2
     // input data from txt file
     ifstream inputTest2(argv[2]);
 
     // Upload area data from txt (test 2)
-    Area area2;
-    if (!area2.uploadFromTxt(inputTest2)) {
+    Area* area2 = new Area();
+    if (!area2->uploadFromTxt(inputTest2)) {
+        delete area2;
         return 1;
     }
 
     // Find min path in Area (test 2) & Test
-    std::string minPathArea2 = area2.findMinPath();
+    std::string minPathArea2 = area2->findMinPath();
     if (minPathArea2 != "IMPOSSIBLE") {
         cout << "Test 2: fail" << endl;
+        delete area2;
         return 1;
     }
     cout << "Test 2: success" << endl;
     cout << minPathArea2 << endl;
+    delete area2;
 
     return 0;
 }
