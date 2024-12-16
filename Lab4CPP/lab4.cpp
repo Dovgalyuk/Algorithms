@@ -9,11 +9,10 @@ using namespace std;
 
 const int INF = numeric_limits<int>::max();
 
-// Функция для чтения графа из файла
 void readGraph(Graph<int, int>& g, const string& filename) {
     ifstream file(filename);
     if (!file) {
-        cerr << "Unable to open file " << filename << endl;
+        cerr << "Невозможно открыть файл " << filename << endl;
         exit(1);
     }
 
@@ -31,7 +30,6 @@ void readGraph(Graph<int, int>& g, const string& filename) {
     }
 }
 
-// Алгоритм Флойда для поиска кратчайших путей
 vector<vector<int>> floydWarshall(const Graph<int, int>& g) {
     size_t n = g.getAllVertexLabels().size();
     vector<vector<int>> dist(n, vector<int>(n, INF));
@@ -58,7 +56,6 @@ vector<vector<int>> floydWarshall(const Graph<int, int>& g) {
     return dist;
 }
 
-// Функция для поиска самого длинного из кратчайших путей
 int findLongestShortestPath(const vector<vector<int>>& dist) {
     int maxDist = 0;
     for (size_t i = 0; i < dist.size(); ++i) {
@@ -78,7 +75,7 @@ int main() {
     vector<vector<int>> dist = floydWarshall(g);
     int longestShortestPath = findLongestShortestPath(dist);
 
-    cout << "Longest shortest path: " << longestShortestPath << endl;
+    cout << "Длинекйший кратчайший путь: " << longestShortestPath << endl;
 
     return 0;
 }

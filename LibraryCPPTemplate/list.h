@@ -23,17 +23,14 @@ public:
         friend class List;
     };
 
-    // Creates new list
     List() : head_(nullptr), tail_(nullptr) {}
 
-    // Copy constructor
     List(const List& a) : head_(nullptr), tail_(nullptr) {
         for (Item* item = a.head_; item != nullptr; item = item->next_) {
             insert(item->data_);
         }
     }
 
-    // Assignment operator
     List& operator=(const List& a) {
         if (this != &a) {
             clear();
@@ -44,14 +41,11 @@ public:
         return *this;
     }
 
-    // Destroys the list and frees the memory
     ~List() { clear(); }
 
-    // Retrieves the first item from the list
     Item* first() { return head_; }
     const Item* first() const { return head_; }
 
-    // Inserts new list item into the beginning
     Item* insert(Data data) {
         Item* newItem = new Item(data);
         if (head_ == nullptr) {
@@ -64,7 +58,6 @@ public:
         return newItem;
     }
 
-    // Inserts new list item after the specified item
     Item* insert_after(Item* item, Data data) {
         if (item == nullptr) {
             return insert(data);
@@ -84,8 +77,6 @@ public:
         return newItem;
     }
 
-    // Deletes the first list item.
-    // Returns pointer to the item next to the deleted one.
     Item* erase_first() {
         if (head_ == nullptr) {
             return nullptr;
@@ -104,9 +95,7 @@ public:
         return head_;
     }
 
-    // Deletes the list item following the specified one.
-    // Returns pointer to the item next to the deleted one.
-    // Should be O(1)
+
     Item* erase_next(Item* item) {
         if (item == nullptr || item->next_ == nullptr) {
             return nullptr;
@@ -139,4 +128,4 @@ private:
     }
 };
 
-#endif // LIST_TEMPLATE_H
+#endif 
