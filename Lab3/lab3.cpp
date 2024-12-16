@@ -127,6 +127,8 @@ private:
                 }
             }
         }
+        delete queue;
+
         return -1;
     }
 
