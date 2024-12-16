@@ -66,7 +66,7 @@ void search(vector<vector<char>>& lbr, size_t rows, size_t cols, Point start, Po
             int new_y = current.y + moves[i][1];
 
             //сhecking the boundaries of the labyrinth and the unvisited points
-            if (new_x >= 0 && new_x < rows && new_y >= 0 && new_y < cols && 
+            if (new_x >= 0 && size_t(new_x) < rows && new_y >= 0 && size_t(new_y) < cols && 
                 (lbr[new_x][new_y] == '.' || lbr[new_x][new_y] == 'Y') && !visited[new_x][new_y]) {
 
                 visited[new_x][new_y] = true; 
