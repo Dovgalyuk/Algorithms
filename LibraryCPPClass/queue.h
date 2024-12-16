@@ -37,7 +37,7 @@ public:
     bool empty() const;
 
     // Returns size if the queue
-    int size() const;
+    size_t size() const;
 
     // Safe swap on n
     void safeSwap(int n);

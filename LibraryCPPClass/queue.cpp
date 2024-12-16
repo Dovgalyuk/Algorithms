@@ -5,6 +5,8 @@ Queue::Queue() : _front(0), _back(0), _queue(new Vector) {
 }
 
 Queue::Queue(const Queue &a) {
+    _front = a._front;
+    _back = a._back;
     _queue = a._queue;
 }
 
@@ -19,7 +21,7 @@ Queue::~Queue(){
 }
 
 void Queue::insert(Data data) {
-    if (_back == _queue->cap() && _front != 0) {
+    if (_front != 0) {
         // Сдвигаем элементы в начало, освобождая место
         for (size_t idx = 0; idx < _back - _front; idx++) {
             _queue->set(idx, _queue->get(idx + _front));
@@ -27,8 +29,7 @@ void Queue::insert(Data data) {
         _queue->resize(_back - _front);
         _back -= _front;
         _front = 0;
-    }
-    if (_back == _queue->cap()) {
+    } else if (_back == _queue->cap()) {
         _queue->resize(_queue->cap() * 2);
     }
 
@@ -51,22 +52,21 @@ bool Queue::empty() const {
     return _back - _front == 0;
 }
 
-int Queue::size() const {
-    return (int) (_back - _front);
+size_t Queue::size() const {
+    return _back - _front;
 }
 
 void Queue::safeSwap(int n) {
     // Normalize swapN
-    int swapN = ((-1 * n) % size() + size()) % size();
-
+    const size_t swapN = ((-1 * n) % (int) size() + (int) size()) % (int) size();
     if (swapN == 0) return;
 
     Vector* buf = new Vector;
     buf->resize(size());
-    for (int idx = 0; idx < (int) buf->size(); idx++) {
+    for (size_t idx = 0; idx < buf->size(); idx++) {
         buf->set(idx, _queue->get(_front + ((idx + swapN) % size())));
     }
-    for (int idx = 0; idx < size(); idx++) {
+    for (size_t idx = 0; idx < size(); idx++) {
         _queue->set(_front + idx, buf->get(idx));
     }
     delete buf;
