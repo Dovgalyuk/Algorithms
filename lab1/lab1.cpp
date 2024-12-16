@@ -17,16 +17,16 @@ Array* array_create_and_fill(size_t size) {
 }
 
 // Задание 1: Найти индексы четных элементов
-void task1(Array* arr) {
+void task1(Array* arr, Array* arr2) {
     size_t size = array_size(arr);
-    std::cout << "Indexes of even elements: ";
-    for (size_t i = 0; i < size; ++i) {
+    size_t arr2_index = 0;
+    for (int i = 0; i < size; ++i) {
         int value = array_get(arr, i);
         if (value % 2 == 0) {
-            std::cout << i << " ";
+            array_set(arr2, arr2_index, i);
+            ++arr2_index;
         }
     }
-    std::cout << std::endl;
 }
 
 // Задание 2: Найти элементы, не делящиеся ни на один другой элемент массива
@@ -78,13 +78,19 @@ int main(int argc, char **argv) {
         std::cout << "error with array read.\n";
         return 1;
     }
+    Array* arr2 = array_create_and_fill(size);
+    if (!arr2) {
+        std::cout << "error with array read.\n";
+        return 1;
+    }
 
     // Выполняем задачи
-    task1(arr);
+    task1(arr, arr2);
     task2(arr);
 
     // Удаляем массив
     array_delete(arr);
+    array_delete(arr2); 
 
     return 0;
 }
