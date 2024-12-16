@@ -6,8 +6,8 @@ void myfree(void *p)
     delete (int*)p;
 }
 
-int vector_get_int(Vector *vector, size_t i) {
-    int *value = (int *)vector_get(vector, i);
+int vector_get_int(Vector *v, size_t i) {
+    int *value = (int *)vector_get(v, i);
     return value ? *value : 0;  
 }
 
