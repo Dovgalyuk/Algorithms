@@ -1,7 +1,11 @@
 #include "vector.h"
 #include <stdexcept>
 
-Vector::Vector() : _capacity(0), _size(0), _vector(nullptr) {}
+Vector::Vector() {
+    _capacity = 1;
+    _size = 0;
+    _vector = new Data[_capacity];
+}
 
 Vector::Vector(const Vector &a){
     _capacity = a._capacity;

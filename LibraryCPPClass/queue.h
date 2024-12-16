@@ -36,6 +36,12 @@ public:
     // Returns true if the queue is empty
     bool empty() const;
 
+    // Returns size if the queue
+    int size() const;
+
+    // Safe swap on n
+    void safeSwap(int n);
+
 private:
     size_t _front;
     size_t _back;
