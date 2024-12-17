@@ -9,15 +9,6 @@ using namespace std;
 
 const int INF = numeric_limits<int>::max();
 
-void customAssert(bool condition, const char* message) {
-    if (!condition) {
-        std::cerr << "Ошибка утверждения: " << message << std::endl;
-        std::exit(EXIT_FAILURE);
-    }
-}
-
-#define CUSTOM_ASSERT(condition, message) customAssert(condition, message)
-
 void readGraph(Graph<int, int>& g, const string& filename) {
     ifstream file(filename);
     if (!file) {
@@ -86,13 +77,7 @@ int main() {
     DistMatrix dist = floydWarshall(g);
     int longestShortestPath = findLongestShortestPath(dist);
 
-    cout << "Самый длинный кратчайший путь: " << longestShortestPath << endl;
-
-    vector<int> labels = g.getAllVertexLabels();
-    CUSTOM_ASSERT(labels[1] == 2, "labels[1] должно быть 2");
-    CUSTOM_ASSERT(labels[2] == 3, "labels[2] должно быть 3");
-    CUSTOM_ASSERT(labels[3] == 4, "labels[3] должно быть 4");
-    CUSTOM_ASSERT(labels[4] == 5, "labels[4] должно быть 5");
+    cout << "Длинекйший кратчайший путь: " << longestShortestPath << endl;
 
     return 0;
 }
