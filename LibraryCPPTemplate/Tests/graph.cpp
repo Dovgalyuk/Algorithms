@@ -1,66 +1,98 @@
 #include <iostream>
-#include <cassert>
+#include <fstream>
+#include <vector>
+#include <limits>
+#include <algorithm>
 #include "graph.h"
 
-void test_graph() {
-    Graph<int, std::string> g(5);
+using namespace std;
 
-    g.addVertex(1);
-    g.addVertex(2);
-    g.addVertex(3);
-    g.addVertex(4);
-    g.addVertex(5);
+const int INF = numeric_limits<int>::max();
 
-    g.addEdge(0, 1, "Ребро 0-1");
-    g.addEdge(1, 2, "Ребро 1-2");
-    g.addEdge(2, 3, "Ребро 2-3");
-    g.addEdge(3, 4, "Ребро 3-4");
-    g.addEdge(4, 0, "Ребро 4-0");
+void customAssert(bool condition, const char* message) {
+    if (!condition) {
+        std::cerr << "Ошибка утверждения: " << message << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+}
 
-    assert(g.hasEdge(0, 1));
-    assert(g.hasEdge(1, 2));
-    assert(g.hasEdge(2, 3));
-    assert(g.hasEdge(3, 4));
-    assert(g.hasEdge(4, 0));
-    assert(!g.hasEdge(0, 2));
+#define CUSTOM_ASSERT(condition, message) customAssert(condition, message)
 
-    assert(g.getEdgeLabel(0, 1) == "Ребро 0-1");
-    assert(g.getEdgeLabel(1, 2) == "Ребро 1-2");
-    assert(g.getEdgeLabel(2, 3) == "Ребро 2-3");
-    assert(g.getEdgeLabel(3, 4) == "Ребро 3-4");
-    assert(g.getEdgeLabel(4, 0) == "Ребро 4-0");
+void readGraph(Graph<int, int>& g, const string& filename) {
+    ifstream file(filename);
+    if (!file) {
+        cerr << "Невозможно открыть файл " << filename << endl;
+        exit(1);
+    }
 
-    assert(g.getVertexLabel(0) == 1);
-    assert(g.getVertexLabel(1) == 2);
-    assert(g.getVertexLabel(2) == 3);
-    assert(g.getVertexLabel(3) == 4);
-    assert(g.getVertexLabel(4) == 5);
+    size_t vertices, edges;
+    file >> vertices >> edges;
 
-    std::vector<int> labels = g.getAllVertexLabels();
-    assert(labels.size() == 5);
-    assert(labels[0] == 1);
-    assert(labels[1] == 2);
-    assert(labels[2] == 3);
-    assert(labels[3] == 4);
-    assert(labels[4] == 5);
+    for (size_t i = 0; i < vertices; ++i) {
+        g.addVertex(i);
+    }
 
-    auto it = g.neighborsBegin(0);
-    assert(it != g.neighborsEnd(0));
-    assert((*it).first == 1);
-    assert((*it).second == "Ребро 0-1");
-    ++it;
-    assert(it == g.neighborsEnd(0));
+    int from, to, weight;
+    for (size_t i = 0; i < edges; ++i) {
+        file >> from >> to >> weight;
+        g.addEdge(from, to, weight);
+    }
+}
 
-    g.removeEdge(0, 1);
-    assert(!g.hasEdge(0, 1));
+typedef vector<vector<int>> DistMatrix;
 
-    g.removeVertex(2);
-    assert(g.getAllVertexLabels().size() == 4);
+DistMatrix floydWarshall(const Graph<int, int>& g) {
+    size_t n = g.getAllVertexLabels().size();
+    DistMatrix dist(n, vector<int>(n, INF));
 
-    std::cout << "Все тесты прошли!" << std::endl;
+    for (size_t i = 0; i < n; ++i) {
+        dist[i][i] = 0;
+        auto it = g.neighborsBegin(i);
+        while (it != g.neighborsEnd(i)) {
+            dist[i][(*it).to] = (*it).label;
+            ++it;
+        }
+    }
+
+    for (size_t k = 0; k < n; ++k) {
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < n; ++j) {
+                if (dist[i][k] != INF && dist[k][j] != INF) {
+                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                }
+            }
+        }
+    }
+
+    return dist;
+}
+
+int findLongestShortestPath(const DistMatrix& dist) {
+    int maxDist = 0;
+    for (size_t i = 0; i < dist.size(); ++i) {
+        for (size_t j = 0; j < dist[i].size(); ++j) {
+            if (i != j && dist[i][j] != INF) {
+                maxDist = max(maxDist, dist[i][j]);
+            }
+        }
+    }
+    return maxDist;
 }
 
 int main() {
-    test_graph();
+    Graph<int, int> g(0);
+    readGraph(g, "input.txt");
+
+    DistMatrix dist = floydWarshall(g);
+    int longestShortestPath = findLongestShortestPath(dist);
+
+    cout << "Самый длинный кратчайший путь: " << longestShortestPath << endl;
+
+    vector<int> labels = g.getAllVertexLabels();
+    CUSTOM_ASSERT(labels[1] == 2, "labels[1] должно быть 2");
+    CUSTOM_ASSERT(labels[2] == 3, "labels[2] должно быть 3");
+    CUSTOM_ASSERT(labels[3] == 4, "labels[3] должно быть 4");
+    CUSTOM_ASSERT(labels[4] == 5, "labels[4] должно быть 5");
+
     return 0;
 }

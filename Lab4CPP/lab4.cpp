@@ -38,7 +38,7 @@ vector<vector<int>> floydWarshall(const Graph<int, int>& g) {
         dist[i][i] = 0;
         auto it = g.neighborsBegin(i);
         while (it != g.neighborsEnd(i)) {
-            dist[i][(*it).first] = (*it).second;
+            dist[i][(*it).to] = (*it).label;
             ++it;
         }
     }
@@ -55,6 +55,7 @@ vector<vector<int>> floydWarshall(const Graph<int, int>& g) {
 
     return dist;
 }
+
 
 int findLongestShortestPath(const vector<vector<int>>& dist) {
     int maxDist = 0;

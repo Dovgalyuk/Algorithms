@@ -27,7 +27,11 @@ public:
 
     List(const List& a) : head_(nullptr), tail_(nullptr) {
         for (Item* item = a.head_; item != nullptr; item = item->next_) {
-            insert(item->data_);
+            if (tail_ == nullptr) {
+                insert(item->data_);
+            } else {
+                insert_after(tail_, item->data_);
+            }
         }
     }
 
@@ -35,7 +39,11 @@ public:
         if (this != &a) {
             clear();
             for (Item* item = a.head_; item != nullptr; item = item->next_) {
-                insert(item->data_);
+                if (tail_ == nullptr) {
+                    insert(item->data_);
+                } else {
+                    insert_after(tail_, item->data_);
+                }
             }
         }
         return *this;
@@ -95,7 +103,6 @@ public:
         return head_;
     }
 
-
     Item* erase_next(Item* item) {
         if (item == nullptr || item->next_ == nullptr) {
             return nullptr;
@@ -128,4 +135,4 @@ private:
     }
 };
 
-#endif 
+#endif

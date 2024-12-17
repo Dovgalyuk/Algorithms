@@ -8,6 +8,13 @@
 template <typename ValueType, typename EdgeType>
 class Graph {
 public:
+    struct Edge {
+        size_t to;
+        EdgeType label;
+
+        Edge(size_t to, EdgeType label) : to(to), label(label) {}
+    };
+
     Graph(size_t vertexCount);
 
     void addVertex(const ValueType& label);
@@ -31,45 +38,45 @@ public:
     std::vector<ValueType> getAllVertexLabels() const;
 
     class NeighborIterator {
-public:
-    NeighborIterator(std::nullptr_t) : current_(nullptr) {}
-    
-    NeighborIterator(typename List<std::pair<size_t, EdgeType>>::Item* item) 
-        : current_(item) {}
-    
-    NeighborIterator(const typename List<std::pair<size_t, EdgeType>>::Item* item) 
-        : current_(const_cast<typename List<std::pair<size_t, EdgeType>>::Item*>(item)) {}
+    public:
+        NeighborIterator(std::nullptr_t) : current_(nullptr) {}
 
-    NeighborIterator& operator++() {
-        if (current_) current_ = current_->next();
-        return *this;
-    }
+        NeighborIterator(typename List<Edge>::Item* item)
+            : current_(item) {}
 
-    bool operator!=(const NeighborIterator& other) const {
-        return current_ != other.current_;
-    }
+        NeighborIterator(const typename List<Edge>::Item* item)
+            : current_(const_cast<typename List<Edge>::Item*>(item)) {}
 
-    bool operator==(const NeighborIterator& other) const {
-        return current_ == other.current_;
-    }
+        NeighborIterator& operator++() {
+            if (current_) current_ = current_->next();
+            return *this;
+        }
 
-    std::pair<size_t, EdgeType> operator*() const {
-        if (!current_) throw std::out_of_range("Итератор находится вне зоны действия");
-        return current_->data();
-    }
+        bool operator!=(const NeighborIterator& other) const {
+            return current_ != other.current_;
+        }
 
-private:
-    typename List<std::pair<size_t, EdgeType>>::Item* current_;
-};
+        bool operator==(const NeighborIterator& other) const {
+            return current_ == other.current_;
+        }
+
+        Edge operator*() const {
+            if (!current_) throw std::out_of_range("Итератор находится вне зоны действия");
+            return current_->data();
+        }
+
+    private:
+        typename List<Edge>::Item* current_;
+    };
+
     NeighborIterator neighborsBegin(size_t vertex) const;
 
     NeighborIterator neighborsEnd(size_t vertex) const;
 
 private:
     std::vector<ValueType> vertices_;
-    std::vector<List<std::pair<size_t, EdgeType>>> adjacencyList_;
+    std::vector<List<Edge>> adjacencyList_;
 };
-
 
 template <typename ValueType, typename EdgeType>
 Graph<ValueType, EdgeType>::Graph(size_t vertexCount)
@@ -86,7 +93,7 @@ void Graph<ValueType, EdgeType>::addEdge(size_t from, size_t to, const EdgeType&
     if (from >= vertices_.size() || to >= vertices_.size()) {
         throw std::out_of_range("Индекс вершины вне диапазона");
     }
-    adjacencyList_[from].insert({to, label});
+    adjacencyList_[from].insert(Edge(to, label));
 }
 
 template <typename ValueType, typename EdgeType>
@@ -99,8 +106,10 @@ void Graph<ValueType, EdgeType>::removeVertex(size_t vertex) {
         auto item = adjacencyList_[i].first();
         while (item) {
             auto next = item->next();
-            if (item->data().first == vertex) {
-                adjacencyList_[i].erase_next(item);
+            if (item->data().to == vertex) {
+                adjacencyList_[i].erase(item);
+            } else if (item->data().to > vertex) {
+                item->data().to--;
             }
             item = next;
         }
@@ -117,8 +126,8 @@ void Graph<ValueType, EdgeType>::removeEdge(size_t from, size_t to) {
     }
     auto item = adjacencyList_[from].first();
     while (item) {
-        if (item->data().first == to) {
-            adjacencyList_[from].erase_next(item->prev());
+        if (item->data().to == to) {
+            adjacencyList_[from].erase(item);
             return;
         }
         item = item->next();
@@ -132,7 +141,7 @@ bool Graph<ValueType, EdgeType>::hasEdge(size_t from, size_t to) const {
     }
     auto item = adjacencyList_[from].first();
     while (item) {
-        if (item->data().first == to) {
+        if (item->data().to == to) {
             return true;
         }
         item = item->next();
@@ -147,8 +156,8 @@ void Graph<ValueType, EdgeType>::setEdgeLabel(size_t from, size_t to, const Edge
     }
     auto item = adjacencyList_[from].first();
     while (item) {
-        if (item->data().first == to) {
-            item->data().second = label;
+        if (item->data().to == to) {
+            item->data().label = label;
             return;
         }
         item = item->next();
@@ -163,8 +172,8 @@ EdgeType Graph<ValueType, EdgeType>::getEdgeLabel(size_t from, size_t to) const 
     }
     auto item = adjacencyList_[from].first();
     while (item) {
-        if (item->data().first == to) {
-            return item->data().second;
+        if (item->data().to == to) {
+            return item->data().label;
         }
         item = item->next();
     }
@@ -208,4 +217,4 @@ typename Graph<ValueType, EdgeType>::NeighborIterator Graph<ValueType, EdgeType>
     return NeighborIterator(nullptr);
 }
 
-#endif 
+#endif
