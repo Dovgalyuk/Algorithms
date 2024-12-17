@@ -7,49 +7,40 @@ public:
     class Item {
     public:
         Item(Data data) : data_(data), next_(nullptr), prev_(nullptr) {}
-
         Item* next() { return next_; }
         const Item* next() const { return next_; }
         Item* prev() { return prev_; }
         const Item* prev() const { return prev_; }
         Data& data() { return data_; }
         const Data& data() const { return data_; }
-
     private:
         Data data_;
         Item* next_;
         Item* prev_;
-
         friend class List;
     };
 
     List() : head_(nullptr), tail_(nullptr) {}
 
     List(const List& a) : head_(nullptr), tail_(nullptr) {
-        for (Item* item = a.head_; item != nullptr; item = item->next_) {
-            if (tail_ == nullptr) {
-                insert(item->data_);
-            } else {
-                insert_after(tail_, item->data_);
-            }
+        for (Item* item = a.tail_; item != nullptr; item = item->prev_) {
+            insert(item->data_);
         }
     }
 
     List& operator=(const List& a) {
         if (this != &a) {
             clear();
-            for (Item* item = a.head_; item != nullptr; item = item->next_) {
-                if (tail_ == nullptr) {
-                    insert(item->data_);
-                } else {
-                    insert_after(tail_, item->data_);
-                }
+            for (Item* item = a.tail_; item != nullptr; item = item->prev_) {
+                insert(item->data_);
             }
         }
         return *this;
     }
 
-    ~List() { clear(); }
+    ~List() {
+        clear();
+    }
 
     Item* first() { return head_; }
     const Item* first() const { return head_; }
@@ -70,17 +61,14 @@ public:
         if (item == nullptr) {
             return insert(data);
         }
-
         Item* newItem = new Item(data);
         newItem->next_ = item->next_;
         newItem->prev_ = item;
-
         if (item->next_ != nullptr) {
             item->next_->prev_ = newItem;
         } else {
             tail_ = newItem;
         }
-
         item->next_ = newItem;
         return newItem;
     }
@@ -89,17 +77,14 @@ public:
         if (head_ == nullptr) {
             return nullptr;
         }
-
         Item* nextItem = head_->next_;
         delete head_;
         head_ = nextItem;
-
         if (head_ == nullptr) {
             tail_ = nullptr;
         } else {
             head_->prev_ = nullptr;
         }
-
         return head_;
     }
 
@@ -107,17 +92,14 @@ public:
         if (item == nullptr || item->next_ == nullptr) {
             return nullptr;
         }
-
         Item* nextItem = item->next_->next_;
         delete item->next_;
         item->next_ = nextItem;
-
         if (nextItem != nullptr) {
             nextItem->prev_ = item;
         } else {
             tail_ = item;
         }
-
         return nextItem;
     }
 

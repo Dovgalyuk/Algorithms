@@ -11,66 +11,44 @@ public:
     struct Edge {
         size_t to;
         EdgeType label;
-
-        Edge(size_t to, EdgeType label) : to(to), label(label) {}
     };
 
     Graph(size_t vertexCount);
-
     void addVertex(const ValueType& label);
-
     void addEdge(size_t from, size_t to, const EdgeType& label);
-
     void removeVertex(size_t vertex);
-
     void removeEdge(size_t from, size_t to);
-
     bool hasEdge(size_t from, size_t to) const;
-
     void setEdgeLabel(size_t from, size_t to, const EdgeType& label);
-
     EdgeType getEdgeLabel(size_t from, size_t to) const;
-
     void setVertexLabel(size_t vertex, const ValueType& label);
-
     ValueType getVertexLabel(size_t vertex) const;
-
     std::vector<ValueType> getAllVertexLabels() const;
 
     class NeighborIterator {
     public:
         NeighborIterator(std::nullptr_t) : current_(nullptr) {}
-
-        NeighborIterator(typename List<Edge>::Item* item)
-            : current_(item) {}
-
-        NeighborIterator(const typename List<Edge>::Item* item)
-            : current_(const_cast<typename List<Edge>::Item*>(item)) {}
-
+        NeighborIterator(typename List<Edge>::Item* item) : current_(item) {}
+        NeighborIterator(const typename List<Edge>::Item* item) : current_(const_cast<typename List<Edge>::Item*>(item)) {}
         NeighborIterator& operator++() {
             if (current_) current_ = current_->next();
             return *this;
         }
-
         bool operator!=(const NeighborIterator& other) const {
             return current_ != other.current_;
         }
-
         bool operator==(const NeighborIterator& other) const {
             return current_ == other.current_;
         }
-
-        Edge operator*() const {
+        std::pair<size_t, EdgeType> operator*() const {
             if (!current_) throw std::out_of_range("Итератор находится вне зоны действия");
-            return current_->data();
+            return {current_->data().to, current_->data().label};
         }
-
     private:
         typename List<Edge>::Item* current_;
     };
 
     NeighborIterator neighborsBegin(size_t vertex) const;
-
     NeighborIterator neighborsEnd(size_t vertex) const;
 
 private:
@@ -79,8 +57,7 @@ private:
 };
 
 template <typename ValueType, typename EdgeType>
-Graph<ValueType, EdgeType>::Graph(size_t vertexCount)
-    : vertices_(vertexCount), adjacencyList_(vertexCount) {}
+Graph<ValueType, EdgeType>::Graph(size_t vertexCount) : vertices_(vertexCount), adjacencyList_(vertexCount) {}
 
 template <typename ValueType, typename EdgeType>
 void Graph<ValueType, EdgeType>::addVertex(const ValueType& label) {
@@ -93,7 +70,7 @@ void Graph<ValueType, EdgeType>::addEdge(size_t from, size_t to, const EdgeType&
     if (from >= vertices_.size() || to >= vertices_.size()) {
         throw std::out_of_range("Индекс вершины вне диапазона");
     }
-    adjacencyList_[from].insert(Edge(to, label));
+    adjacencyList_[from].insert({to, label});
 }
 
 template <typename ValueType, typename EdgeType>
@@ -101,20 +78,18 @@ void Graph<ValueType, EdgeType>::removeVertex(size_t vertex) {
     if (vertex >= vertices_.size()) {
         throw std::out_of_range("Индекс вершины вне диапазона");
     }
-
     for (size_t i = 0; i < adjacencyList_.size(); ++i) {
         auto item = adjacencyList_[i].first();
         while (item) {
             auto next = item->next();
             if (item->data().to == vertex) {
-                adjacencyList_[i].erase(item);
+                adjacencyList_[i].erase_next(item->prev());
             } else if (item->data().to > vertex) {
                 item->data().to--;
             }
             item = next;
         }
     }
-
     vertices_.erase(vertices_.begin() + vertex);
     adjacencyList_.erase(adjacencyList_.begin() + vertex);
 }
@@ -127,7 +102,7 @@ void Graph<ValueType, EdgeType>::removeEdge(size_t from, size_t to) {
     auto item = adjacencyList_[from].first();
     while (item) {
         if (item->data().to == to) {
-            adjacencyList_[from].erase(item);
+            adjacencyList_[from].erase_next(item->prev());
             return;
         }
         item = item->next();

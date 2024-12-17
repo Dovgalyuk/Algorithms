@@ -1,83 +1,118 @@
 #include <iostream>
-#include <fstream>
-#include <vector>
-#include <limits>
-#include <algorithm>
+#include <cassert>
 #include "graph.h"
 
-using namespace std;
+void test_graph() {
+    Graph<int, std::string> g(5);
+    g.addVertex(1);
+    g.addVertex(2);
+    g.addVertex(3);
+    g.addVertex(4);
+    g.addVertex(5);
+    g.addEdge(0, 1, "Ребро 0-1");
+    g.addEdge(1, 2, "Ребро 1-2");
+    g.addEdge(2, 3, "Ребро 2-3");
+    g.addEdge(3, 4, "Ребро 3-4");
+    g.addEdge(4, 0, "Ребро 4-0");
 
-const int INF = numeric_limits<int>::max();
-
-void readGraph(Graph<int, int>& g, const string& filename) {
-    ifstream file(filename);
-    if (!file) {
-        cerr << "Невозможно открыть файл " << filename << endl;
-        exit(1);
+    if (!g.hasEdge(0, 1)) {
+        std::cerr << "Тест провален: ребро (0, 1) не найдено" << std::endl;
+    }
+    if (!g.hasEdge(1, 2)) {
+        std::cerr << "Тест провален: ребро (1, 2) не найдено" << std::endl;
+    }
+    if (!g.hasEdge(2, 3)) {
+        std::cerr << "Тест провален: ребро (2, 3) не найдено" << std::endl;
+    }
+    if (!g.hasEdge(3, 4)) {
+        std::cerr << "Тест провален: ребро (3, 4) не найдено" << std::endl;
+    }
+    if (!g.hasEdge(4, 0)) {
+        std::cerr << "Тест провален: ребро (4, 0) не найдено" << std::endl;
+    }
+    if (g.hasEdge(0, 2)) {
+        std::cerr << "Тест провален: ребро (0, 2) найдено" << std::endl;
+    }
+    if (g.getEdgeLabel(0, 1) != "Ребро 0-1") {
+        std::cerr << "Тест провален: неверная метка ребра (0, 1)" << std::endl;
+    }
+    if (g.getEdgeLabel(1, 2) != "Ребро 1-2") {
+        std::cerr << "Тест провален: неверная метка ребра (1, 2)" << std::endl;
+    }
+    if (g.getEdgeLabel(2, 3) != "Ребро 2-3") {
+        std::cerr << "Тест провален: неверная метка ребра (2, 3)" << std::endl;
+    }
+    if (g.getEdgeLabel(3, 4) != "Ребро 3-4") {
+        std::cerr << "Тест провален: неверная метка ребра (3, 4)" << std::endl;
+    }
+    if (g.getEdgeLabel(4, 0) != "Ребро 4-0") {
+        std::cerr << "Тест провален: неверная метка ребра (4, 0)" << std::endl;
+    }
+    if (g.getVertexLabel(0) != 1) {
+        std::cerr << "Тест провален: неверная метка вершины 0" << std::endl;
+    }
+    if (g.getVertexLabel(1) != 2) {
+        std::cerr << "Тест провален: неверная метка вершины 1" << std::endl;
+    }
+    if (g.getVertexLabel(2) != 3) {
+        std::cerr << "Тест провален: неверная метка вершины 2" << std::endl;
+    }
+    if (g.getVertexLabel(3) != 4) {
+        std::cerr << "Тест провален: неверная метка вершины 3" << std::endl;
+    }
+    if (g.getVertexLabel(4) != 5) {
+        std::cerr << "Тест провален: неверная метка вершины 4" << std::endl;
     }
 
-    size_t vertices, edges;
-    file >> vertices >> edges;
-
-    for (size_t i = 0; i < vertices; ++i) {
-        g.addVertex(i);
+    std::vector<int> labels = g.getAllVertexLabels();
+    if (labels.size() != 5) {
+        std::cerr << "Тест провален: неверное количество вершин" << std::endl;
+    }
+    if (labels[0] != 1) {
+        std::cerr << "Тест провален: неверная метка вершины 0" << std::endl;
+    }
+    if (labels[1] != 2) {
+        std::cerr << "Тест провален: неверная метка вершины 1" << std::endl;
+    }
+    if (labels[2] != 3) {
+        std::cerr << "Тест провален: неверная метка вершины 2" << std::endl;
+    }
+    if (labels[3] != 4) {
+        std::cerr << "Тест провален: неверная метка вершины 3" << std::endl;
+    }
+    if (labels[4] != 5) {
+        std::cerr << "Тест провален: неверная метка вершины 4" << std::endl;
     }
 
-    int from, to, weight;
-    for (size_t i = 0; i < edges; ++i) {
-        file >> from >> to >> weight;
-        g.addEdge(from, to, weight);
+    auto it = g.neighborsBegin(0);
+    if (it == g.neighborsEnd(0)) {
+        std::cerr << "Тест провален: нет соседей для вершины 0" << std::endl;
     }
-}
-
-typedef vector<vector<int>> DistMatrix;
-
-DistMatrix floydWarshall(const Graph<int, int>& g) {
-    size_t n = g.getAllVertexLabels().size();
-    DistMatrix dist(n, vector<int>(n, INF));
-
-    for (size_t i = 0; i < n; ++i) {
-        dist[i][i] = 0;
-        auto it = g.neighborsBegin(i);
-        while (it != g.neighborsEnd(i)) {
-            dist[i][(*it).to] = (*it).label;
-            ++it;
-        }
+    if ((*it).first != 1) {
+        std::cerr << "Тест провален: неверный сосед для вершины 0" << std::endl;
+    }
+    if ((*it).second != "Ребро 0-1") {
+        std::cerr << "Тест провален: неверная метка ребра (0, 1)" << std::endl;
+    }
+    ++it;
+    if (it != g.neighborsEnd(0)) {
+        std::cerr << "Тест провален: неверное количество соседей для вершины 0" << std::endl;
     }
 
-    for (size_t k = 0; k < n; ++k) {
-        for (size_t i = 0; i < n; ++i) {
-            for (size_t j = 0; j < n; ++j) {
-                if (dist[i][k] != INF && dist[k][j] != INF) {
-                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
-                }
-            }
-        }
+    g.removeEdge(0, 1);
+    if (g.hasEdge(0, 1)) {
+        std::cerr << "Тест провален: ребро (0, 1) не удалено" << std::endl;
     }
 
-    return dist;
-}
-
-int findLongestShortestPath(const DistMatrix& dist) {
-    int maxDist = 0;
-    for (size_t i = 0; i < dist.size(); ++i) {
-        for (size_t j = 0; j < dist[i].size(); ++j) {
-            if (i != j && dist[i][j] != INF) {
-                maxDist = max(maxDist, dist[i][j]);
-            }
-        }
+    g.removeVertex(2);
+    if (g.getAllVertexLabels().size() != 4) {
+        std::cerr << "Тест провален: неверное количество вершин после удаления" << std::endl;
     }
-    return maxDist;
+
+    std::cout << "Все тесты прошли!" << std::endl;
 }
 
 int main() {
-    Graph<int, int> g(0);
-    readGraph(g, "input.txt");
-
-    DistMatrix dist = floydWarshall(g);
-    int longestShortestPath = findLongestShortestPath(dist);
-
-    cout << "Длинекйший кратчайший путь: " << longestShortestPath << endl;
-
+    test_graph();
     return 0;
 }
