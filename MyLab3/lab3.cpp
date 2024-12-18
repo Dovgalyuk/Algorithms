@@ -4,12 +4,13 @@
 #include "vector.h"
 #include "queue.h"
 
+typedef Vector<std::string> VS;
+
 struct Position {
     int row, col;
 };
 
-// BFS для подсчёта достижимых клеток и восстановления пути
-int bfs(Vector<std::string>& field, Position start) {
+int bfs(VS& field, Position start) {
     const int dRow[] = {-1, 1, 0, 0};
     const int dCol[] = {0, 0, -1, 1};
 
@@ -57,7 +58,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    Vector<std::string> field;
+    VS field;
     std::string line;
     while (std::getline(input, line)) {
         field.resize(field.size() + 1);
@@ -89,6 +90,8 @@ int main(int argc, char **argv) {
         output << field.get(i) << std::endl;
     }
 
+    input.close();
+    output.close();
 
     return 0;
 }
