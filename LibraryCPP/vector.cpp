@@ -9,7 +9,6 @@ struct Vector {
 Vector *vector_create() {
     Vector *vector = new Vector;
     vector->capacity = 10;
-    vector->capacity = 0;
     vector->data = new Data[vector->capacity];
     return vector;
 }
