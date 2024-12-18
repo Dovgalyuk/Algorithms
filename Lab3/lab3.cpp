@@ -4,18 +4,20 @@
 #include "vector.h"
 #include "queue.h"
 
+typedef Vector<std::string> vstr;
+
 struct Position {
     int row, col;
 };
 
-int bfs(Vector<std::string>& maze, Position start) {
+int bfs(vstr& maze, Position start) {
     const int dRow[] = {-1, 1, 0, 0};
     const int dCol[] = {0, 0, -1, 1};
 
     Queue<Position> queue;
     queue.insert(start);
 
-    Vector<std::string> visited;
+    vstr visited;
     visited.resize(maze.size());
     for(size_t i = 0; i < maze.size(); i++) {
         visited.set(i, std::string(maze.get(0).size(), '0'));
@@ -54,7 +56,7 @@ int main(int argc, char** argv) {
         throw std::runtime_error("Failed to open input file.");
     }
 
-    Vector<std::string> maze;
+    vstr maze;
     std::string line;
     while (std::getline(input, line)) {
         maze.resize(maze.size() + 1);
