@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -35,9 +36,13 @@ command parse(const string& input)
         {
             cmd.value = value[0];
         }
-        else
+        else if (all_of(value.begin(), value.end(), ::isdigit))
         {
             cmd.value = stoi(value);
+        }
+        else
+        {
+            cmd.type = typeCommand::INVALID;
         }
     }
     else if (op == "pop")
@@ -46,7 +51,14 @@ command parse(const string& input)
         string reg;
 
         iss >> reg;
-        cmd.value = reg[0];
+        if (reg.size() == 1 && validReg(reg[0]))
+        {
+            cmd.value = reg[0];
+        }
+        else
+        {
+            cmd.type = typeCommand::INVALID;
+        }
     }
     else if (op == "call")
     {
@@ -80,6 +92,14 @@ int main(int argc, char* argv[])
     {
         command cmd = parse(input);
 
+        if (cmd.type == typeCommand::INVALID)
+        {
+            cout << "Invalid command!" << endl;
+            inputFile.close();
+            processorStack.~Stack();
+            return 1;
+        }
+
         switch (cmd.type)
         {
             case typeCommand::PUSH: 
@@ -98,7 +118,7 @@ int main(int argc, char* argv[])
             {
                 if (processorStack.empty()) 
                 {
-                    cout << "BAD POP" << endl;
+                    cout << "BAD POP: Stack is empty" << endl;
                     inputFile.close();
                     processorStack.~Stack();
                     return 1;
@@ -107,7 +127,7 @@ int main(int argc, char* argv[])
                 int value = processorStack.get();
                 if (value == CALL_MARKER || !validReg(static_cast<char>(cmd.value))) 
                 {
-                    cout << "BAD POP" << endl;
+                    cout << "BAD POP: Invalid value or register" << endl;
                     inputFile.close();
                     processorStack.~Stack();
                     return 1;
@@ -126,7 +146,7 @@ int main(int argc, char* argv[])
             {
                 if (processorStack.empty() || processorStack.get() != CALL_MARKER) 
                 {
-                    cout << "BAD RET" << endl;
+                    cout << "BAD RET: No CALL marker on stack" << endl;
                     inputFile.close();
                     processorStack.~Stack();
                     return 1;
@@ -134,15 +154,11 @@ int main(int argc, char* argv[])
                 processorStack.pop();
                 break;
             }
-            case typeCommand::INVALID: 
-            {
-                cout << "Invalid command!" << endl;
+            default:
+                cerr << "Unknown error occurred!" << endl;
                 inputFile.close();
                 processorStack.~Stack();
                 return 1;
-            }
-            default:
-                break;
         }
     }
 
