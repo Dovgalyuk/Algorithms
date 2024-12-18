@@ -3,7 +3,7 @@
 #include "graph.h"
 
 void test_graph() {
-    Graph<int, std::string> g(5);
+    Graph<int, std::string> g(0); // Initialize with 0 vertices
     g.addVertex(1);
     g.addVertex(2);
     g.addVertex(3);
@@ -17,7 +17,7 @@ void test_graph() {
 
     if (!g.hasEdge(0, 1)) {
         std::cerr << "Тест провален: ребро (0, 1) не найдено" << std::endl;
-        exit(1); 
+        exit(1);
     }
     if (!g.hasEdge(1, 2)) {
         std::cerr << "Тест провален: ребро (1, 2) не найдено" << std::endl;
@@ -142,5 +142,5 @@ void test_graph() {
 
 int main() {
     test_graph();
-    return 0; 
+    return 0;
 }

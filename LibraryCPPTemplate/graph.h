@@ -65,6 +65,7 @@ void Graph<ValueType, EdgeType>::addVertex(const ValueType& label) {
     adjacencyList_.emplace_back();
 }
 
+
 template <typename ValueType, typename EdgeType>
 void Graph<ValueType, EdgeType>::addEdge(size_t from, size_t to, const EdgeType& label) {
     if (from >= vertices_.size() || to >= vertices_.size()) {
