@@ -28,6 +28,10 @@ void organize_numbers(ifstream& input) {
     queue_insert(all, queue_get(lessThanA));
     queue_insert(all, queue_get(betweenAandB));
     queue_insert(all, queue_get(greaterThanB));
+
+    queue_remove(lessThanA);
+    queue_remove(betweenAandB);
+    queue_remove(greaterThanB);
 }
 
 int main(int argc, char* argv[]) {
