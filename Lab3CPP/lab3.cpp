@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void organize_numbers(ifstream& input) {
+Queue* organize_numbers(ifstream& input) {
     int a, b, number;
     Queue *lessThanA = queue_create();
     Queue *betweenAandB = queue_create();
@@ -28,6 +28,7 @@ void organize_numbers(ifstream& input) {
     queue_insert(all, queue_get(lessThanA));
     queue_insert(all, queue_get(betweenAandB));
     queue_insert(all, queue_get(greaterThanB));
+    return all;
 }
 
 int main(int argc, char* argv[]) {
@@ -39,8 +40,8 @@ int main(int argc, char* argv[]) {
     if (!input) {
         return 1;
     }
-    
-    organize_numbers(input);
+    Queue *result = queue_create();
+    result = organize_numbers(input);
 
     input.close();
     return 0;
