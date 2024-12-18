@@ -4,13 +4,16 @@ struct Vector
 {
     Data* data;
     size_t size;
+    size_t capacity;
 };
 
 Vector *vector_create()
 {
     Vector *vector = new Vector;
     vector->size = 0;
-    vector->data = (Data*)malloc(vector->size);
+    vector->capacity = 8;
+    vector->data = (Data*)malloc(vector->capacity * sizeof(Data));
+
     return vector;
 }
 
@@ -41,13 +44,13 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-    vector->data = (Data*)realloc(vector->data, size * sizeof(Data));
-    if(size > vector->size)
+    if(size > vector->capacity)
     {
-        for(size_t i = vector->size; i < size; i++)
-        {
-            vector->data[i] = (Data)0;
-        }
+        while (vector->capacity < size)
+            vector->capacity *= 2;
+
+        vector->data = (Data*)realloc(vector->data, vector->capacity * sizeof(Data));
     }
+
     vector->size = size;
 }
