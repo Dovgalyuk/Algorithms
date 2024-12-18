@@ -23,7 +23,7 @@ bool compare_edges(const Edge_Expanded<V, E>& a, const Edge_Expanded<V, E>& b) {
 
 // Function for finding the root of a connectivity component
 template <typename V>
-V find(V v, Vector<V>& parent, Vector<V>& vertices_labels) {
+V find(V v, Vector<V>& parent, const Vector<V>& vertices_labels) {
     size_t pos = vertices_labels.find(v);
     if (parent.get(pos) == v) return v;
     parent.set(pos, find(parent.get(pos), parent, vertices_labels));
@@ -32,7 +32,7 @@ V find(V v, Vector<V>& parent, Vector<V>& vertices_labels) {
 
 // Function for combining connectivity components
 template <typename V>
-void union_sets(V u, V v, Vector<V>& parent, Vector<V>& vertices_labels) {
+void union_sets(V u, V v, Vector<V>& parent, const Vector<V>& vertices_labels) {
     u = find(u, parent, vertices_labels);
     v = find(v, parent, vertices_labels);
     size_t pos = vertices_labels.find(u);
@@ -42,7 +42,7 @@ void union_sets(V u, V v, Vector<V>& parent, Vector<V>& vertices_labels) {
 // Kruskal's Algorithm
 template <typename V, typename E>
 Vector<Edge_Expanded<V, E>> kruskal(Graph<V, E>& graph, size_t vertices_count) {
-    Vector<V> vertices_labels = graph.get_vertices_labels();
+    const Vector<V> vertices_labels = graph.get_vertices_labels();
 
     // Get vector of all edges
     Vector<Edge_Expanded<V, E>> edges;
@@ -54,7 +54,7 @@ Vector<Edge_Expanded<V, E>> kruskal(Graph<V, E>& graph, size_t vertices_count) {
 
             if (i < j) {    // avoid duplicates in undirected graph
                 if (graph.has_edge(u, v)) {
-                    E weight = graph.get_edge_label(u, v); 
+                    const E weight = graph.get_edge_label(u, v); 
 
                     edges.push(Edge_Expanded<V, E>(u, v, weight));    
                 }

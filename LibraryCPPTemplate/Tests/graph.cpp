@@ -10,7 +10,7 @@ int main() {
 
 	// ---------- Test 1 - get vertices labels ---------- //
 
-	Vector<int> vertices = graph.get_vertices_labels();
+	const Vector<int> vertices = graph.get_vertices_labels();
 
 	if (vertices.size() != 5) {
 		std::cout << "Invalid vertices count\n";
@@ -25,7 +25,7 @@ int main() {
 	graph.add_vertex(3);
 	graph.add_vertex(4);
 
-	Vector<int> vertices_2 = graph.get_vertices_labels();
+	const Vector<int> vertices_2 = graph.get_vertices_labels();
 
 	if (vertices_2.size() != 10) {
 		std::cout << "Invalid vertices count\n";
@@ -69,7 +69,7 @@ int main() {
 	
 	graph.remove_vertex(4);
 
-	Vector<int> vertices_3 = graph.get_vertices_labels();
+	const Vector<int> vertices_3 = graph.get_vertices_labels();
 
 	if (vertices_3.size() != 9) {
 		std::cout << "Invalid vertices count after removing vertex\n";

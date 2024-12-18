@@ -136,7 +136,7 @@ public:
     }
 
     // Get an edge label
-    E& get_edge_label(V from_label, V to_label) const {
+    const E& get_edge_label(V from_label, V to_label) const {
         size_t from = get_vertex_index(from_label);
         size_t to = get_vertex_index(to_label);
 
@@ -156,7 +156,7 @@ public:
     }
 
     // Get vertex label by ordinal number
-    V& get_vertex_label(size_t vertex) const {
+    const V& get_vertex_label(size_t vertex) const {
         if (vertex >= vertices_count) {
             throw invalid_argument("[get_vertex_label] Graph does not have a specified vertex.");
         }
@@ -175,7 +175,7 @@ public:
     }
 
     // Get labels of all vertices as a vector
-    Vector<V>& get_vertices_labels() {
+    const Vector<V>& get_vertices_labels() const {
         return vertices_labels;
     }
 
