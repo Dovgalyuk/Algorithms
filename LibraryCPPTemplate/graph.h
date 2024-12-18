@@ -9,8 +9,8 @@ template <typename ValueType, typename EdgeType>
 class Graph {
 public:
     struct Edge {
-        size_t to;
-        EdgeType label;
+        size_t to;       
+        EdgeType label;  
     };
 
     Graph(size_t vertexCount);
@@ -40,9 +40,9 @@ public:
         bool operator==(const NeighborIterator& other) const {
             return current_ == other.current_;
         }
-        std::pair<size_t, EdgeType> operator*() const {
-            if (!current_) throw std::out_of_range("Итератор находится вне зоны действия");
-            return {current_->data().to, current_->data().label};
+        Edge operator*() const {
+            if (!current_) throw std::out_of_range("Iterator is out of range");
+            return current_->data();
         }
     private:
         typename List<Edge>::Item* current_;
@@ -53,7 +53,7 @@ public:
 
 private:
     std::vector<ValueType> vertices_;
-    std::vector<List<Edge>> adjacencyList_;
+    std::vector<List<Edge>> adjacencyList_; 
 };
 
 template <typename ValueType, typename EdgeType>
@@ -68,7 +68,7 @@ void Graph<ValueType, EdgeType>::addVertex(const ValueType& label) {
 template <typename ValueType, typename EdgeType>
 void Graph<ValueType, EdgeType>::addEdge(size_t from, size_t to, const EdgeType& label) {
     if (from >= vertices_.size() || to >= vertices_.size()) {
-        throw std::out_of_range("Индекс вершины вне диапазона");
+        throw std::out_of_range("Vertex index out of range");
     }
     adjacencyList_[from].insert({to, label});
 }
@@ -76,7 +76,7 @@ void Graph<ValueType, EdgeType>::addEdge(size_t from, size_t to, const EdgeType&
 template <typename ValueType, typename EdgeType>
 void Graph<ValueType, EdgeType>::removeVertex(size_t vertex) {
     if (vertex >= vertices_.size()) {
-        throw std::out_of_range("Индекс вершины вне диапазона");
+        throw std::out_of_range("Vertex index out of range");
     }
     for (size_t i = 0; i < adjacencyList_.size(); ++i) {
         auto item = adjacencyList_[i].first();
@@ -97,12 +97,16 @@ void Graph<ValueType, EdgeType>::removeVertex(size_t vertex) {
 template <typename ValueType, typename EdgeType>
 void Graph<ValueType, EdgeType>::removeEdge(size_t from, size_t to) {
     if (from >= vertices_.size() || to >= vertices_.size()) {
-        throw std::out_of_range("Индекс вершины вне диапазона");
+        throw std::out_of_range("Vertex index out of range");
     }
     auto item = adjacencyList_[from].first();
     while (item) {
         if (item->data().to == to) {
-            adjacencyList_[from].erase_next(item->prev());
+            if (item == adjacencyList_[from].first()) {
+                adjacencyList_[from].erase_first();
+            } else {
+                adjacencyList_[from].erase_next(item->prev());
+            }
             return;
         }
         item = item->next();
@@ -112,7 +116,7 @@ void Graph<ValueType, EdgeType>::removeEdge(size_t from, size_t to) {
 template <typename ValueType, typename EdgeType>
 bool Graph<ValueType, EdgeType>::hasEdge(size_t from, size_t to) const {
     if (from >= vertices_.size() || to >= vertices_.size()) {
-        throw std::out_of_range("Индекс вершины вне диапазона");
+        throw std::out_of_range("Vertex index out of range");
     }
     auto item = adjacencyList_[from].first();
     while (item) {
@@ -127,7 +131,7 @@ bool Graph<ValueType, EdgeType>::hasEdge(size_t from, size_t to) const {
 template <typename ValueType, typename EdgeType>
 void Graph<ValueType, EdgeType>::setEdgeLabel(size_t from, size_t to, const EdgeType& label) {
     if (from >= vertices_.size() || to >= vertices_.size()) {
-        throw std::out_of_range("Индекс вершины вне диапазона");
+        throw std::out_of_range("Vertex index out of range");
     }
     auto item = adjacencyList_[from].first();
     while (item) {
@@ -137,13 +141,13 @@ void Graph<ValueType, EdgeType>::setEdgeLabel(size_t from, size_t to, const Edge
         }
         item = item->next();
     }
-    throw std::runtime_error("Ребро не найдено");
+    throw std::runtime_error("Edge not found");
 }
 
 template <typename ValueType, typename EdgeType>
 EdgeType Graph<ValueType, EdgeType>::getEdgeLabel(size_t from, size_t to) const {
     if (from >= vertices_.size() || to >= vertices_.size()) {
-        throw std::out_of_range("Индекс вершины вне диапазона");
+        throw std::out_of_range("Vertex index out of range");
     }
     auto item = adjacencyList_[from].first();
     while (item) {
@@ -152,13 +156,13 @@ EdgeType Graph<ValueType, EdgeType>::getEdgeLabel(size_t from, size_t to) const 
         }
         item = item->next();
     }
-    throw std::runtime_error("Ребро не найдено");
+    throw std::runtime_error("Edge not found");
 }
 
 template <typename ValueType, typename EdgeType>
 void Graph<ValueType, EdgeType>::setVertexLabel(size_t vertex, const ValueType& label) {
     if (vertex >= vertices_.size()) {
-        throw std::out_of_range("Индекс вершины вне диапазона");
+        throw std::out_of_range("Vertex index out of range");
     }
     vertices_[vertex] = label;
 }
@@ -166,7 +170,7 @@ void Graph<ValueType, EdgeType>::setVertexLabel(size_t vertex, const ValueType& 
 template <typename ValueType, typename EdgeType>
 ValueType Graph<ValueType, EdgeType>::getVertexLabel(size_t vertex) const {
     if (vertex >= vertices_.size()) {
-        throw std::out_of_range("Индекс вершины вне диапазона");
+        throw std::out_of_range("Vertex index out of range");
     }
     return vertices_[vertex];
 }
@@ -179,7 +183,7 @@ std::vector<ValueType> Graph<ValueType, EdgeType>::getAllVertexLabels() const {
 template <typename ValueType, typename EdgeType>
 typename Graph<ValueType, EdgeType>::NeighborIterator Graph<ValueType, EdgeType>::neighborsBegin(size_t vertex) const {
     if (vertex >= vertices_.size()) {
-        throw std::out_of_range("Индекс вершины вне диапазона");
+        throw std::out_of_range("Vertex index out of range");
     }
     return NeighborIterator(adjacencyList_[vertex].first());
 }
@@ -187,7 +191,7 @@ typename Graph<ValueType, EdgeType>::NeighborIterator Graph<ValueType, EdgeType>
 template <typename ValueType, typename EdgeType>
 typename Graph<ValueType, EdgeType>::NeighborIterator Graph<ValueType, EdgeType>::neighborsEnd(size_t vertex) const {
     if (vertex >= vertices_.size()) {
-        throw std::out_of_range("Индекс вершины вне диапазона");
+        throw std::out_of_range("Vertex index out of range");
     }
     return NeighborIterator(nullptr);
 }

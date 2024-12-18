@@ -28,14 +28,17 @@ void readGraph(Graph<int, int>& g, const string& filename) {
 }
 
 vector<vector<int>> floydWarshall(const Graph<int, int>& g) {
+    typedef Graph<int, int> GraphType; 
     typedef vector<vector<int>> DistMatrix;
-    size_t n = g.getAllVertexLabels().size();
+
+    const GraphType& graph = g; 
+    size_t n = graph.getAllVertexLabels().size();
     DistMatrix dist(n, vector<int>(n, INF));
     for (size_t i = 0; i < n; ++i) {
         dist[i][i] = 0;
-        auto it = g.neighborsBegin(i);
-        while (it != g.neighborsEnd(i)) {
-            dist[i][(*it).first] = (*it).second;
+        auto it = graph.neighborsBegin(i);
+        while (it != graph.neighborsEnd(i)) {
+            dist[i][(*it).to] = (*it).label;
             ++it;
         }
     }
@@ -63,11 +66,17 @@ int findLongestShortestPath(const vector<vector<int>>& dist) {
     return maxDist;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        cerr << "Использование: " << argv[0] << " <имя_файла>" << endl;
+        return 1;
+    }
+
+    string filename = argv[1];
     Graph<int, int> g(0);
-    readGraph(g, "input.txt");
+    readGraph(g, filename);
     vector<vector<int>> dist = floydWarshall(g);
     int longestShortestPath = findLongestShortestPath(dist);
-    cout << "Длинекйший кратчайший путь: " << longestShortestPath << endl;
+    cout << "Длиннейший кратчайший путь: " << longestShortestPath << endl;
     return 0;
 }
