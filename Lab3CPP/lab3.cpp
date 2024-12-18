@@ -2,8 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <cstring>
-#include "queue.h"
-#include "list.h"
+#include "../LibraryCPP/queue.h"
+#include "../LibraryCPP/list.h"
 #include <string>
 
 using namespace std;
@@ -13,25 +13,25 @@ int moves[4][2] = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
 
 //structure for saving a point
 struct Point {
-    int x, y;
+    int row, col;
 };
 
-//сonverting the Point structure back to the Data type
+//con­vert­ing the Point structure back to the Data type
 Data pointToData(Point p, size_t cols) {
-    return static_cast<Data>(p.x) * static_cast<Data>(cols) + static_cast<Data>(p.y);
+    return static_cast<Data>(p.row) * static_cast<Data>(cols) + static_cast<Data>(p.col);
 }
 
-//converting the Data type back to a Point structure 
+//converting the Data type back to a Point structure
 Point dataToPoint(Data d, size_t cols) {
     Point p;
-    p.x = d / static_cast<Data>(cols);
-    p.y = d % cols;
+    p.row = d / static_cast<Data>(cols);
+    p.col = d % cols;
     return p;
 }
 
 //function for finding a path in a labyrinth
 void search(vector<vector<char>>& lbr, size_t rows, size_t cols, Point start, Point end, ostream& out) {
-    if (start.x < 0 || start.y < 0 || static_cast<size_t>(start.x) >= rows || static_cast<size_t>(start.y) >= cols) {
+    if (start.row < 0 || start.col < 0 || static_cast<size_t>(start.row) >= rows || static_cast<size_t>(start.col) >= cols) {
         cerr << "Invalid starting point" << endl;
         return;
     }
@@ -39,14 +39,14 @@ void search(vector<vector<char>>& lbr, size_t rows, size_t cols, Point start, Po
     //creating a queue for processing points
     Queue* queue = queue_create();
     Data start_data = pointToData(start, cols);
-    lbr[start.x][start.y] = '.'; //marking the starting point as visited
+    lbr[start.row][start.col] = '.'; // marking the starting point as visited
     queue_insert(queue, start_data);
-    
+
     //array for tracking visited points
     vector<vector<bool>> visited(rows, vector<bool>(cols, false));
-    visited[start.x][start.y] = true; //marking the starting point as visited
+    visited[start.row][start.col] = true; //marking the starting point as visited
 
-    bool path_found = false; 
+    bool path_found = false;
 
     while (!queue_empty(queue)) {
         Data current_data = queue_get(queue);
@@ -55,30 +55,30 @@ void search(vector<vector<char>>& lbr, size_t rows, size_t cols, Point start, Po
         Point current = dataToPoint(current_data, cols);
 
         //checking if the end point has been reached
-        if (current.x == end.x && current.y == end.y) {
-            path_found = true; 
-            break; 
+        if (current.row == end.row && current.col == end.col) {
+            path_found = true;
+            break;
         }
 
         //checking around
         for (int i = 0; i < 4; i++) {
-            int new_x = current.x + moves[i][0];
-            int new_y = current.y + moves[i][1];
+            int new_row = current.row + moves[i][0]; 
+            int new_col = current.col + moves[i][1]; 
 
-            //сhecking the boundaries of the labyrinth and the unvisited points
-            if (new_x >= 0 && size_t(new_x) < rows && new_y >= 0 && size_t(new_y) < cols && 
-                (lbr[new_x][new_y] == '.' || lbr[new_x][new_y] == 'Y') && !visited[new_x][new_y]) {
+            //checking the boundaries of the labyrinth and the unvisited points
+            if (new_row >= 0 && size_t(new_row) < rows && new_col >= 0 && size_t(new_col) < cols &&
+                (lbr[new_row][new_col] == '.' || lbr[new_row][new_col] == 'Y') && !visited[new_row][new_col]) {
 
-                visited[new_x][new_y] = true; 
-                Data new_data = pointToData({ new_x, new_y }, cols);
+                visited[new_row][new_col] = true;
+                Data new_data = pointToData({ new_row, new_col }, cols);
                 queue_insert(queue, new_data); //adding to the queue
             }
         }
     }
-    
-    //сhecking for a path
+
+    //checking for a path
     if (!path_found) {
-        out << "IMPOSSIBLE\n"; 
+        out << "IMPOSSIBLE\n";
     } else {
         for (size_t i = 0; i < rows; i++) {
             for (size_t j = 0; j < cols; j++) {
@@ -87,8 +87,8 @@ void search(vector<vector<char>>& lbr, size_t rows, size_t cols, Point start, Po
                 }
             }
         }
-        lbr[start.x][start.y] = 'X'; 
-        lbr[end.x][end.y] = 'Y';  
+        lbr[start.row][start.col] = 'X';
+        lbr[end.row][end.col] = 'Y';
 
         //output labyrinth
         for (const auto& row : lbr) {
@@ -120,7 +120,7 @@ int main(int argc, char* argv[]) {
 
     vector<vector<char>> lbr;
     Point start = { -1, -1 };
-    Point end = { -1, -1 }; 
+    Point end = { -1, -1 };
     size_t rows = 0;
 
     string line;
@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
         for (size_t i = 0; i < row.size(); i++) {
             if (row[i] == 'X') {
                 start = { static_cast<int>(rows), static_cast<int>(i) };
-                lbr[rows][i] = '.'; 
+                lbr[rows][i] = '.';
             }
             if (row[i] == 'Y') {
                 end = { static_cast<int>(rows), static_cast<int>(i) };
@@ -140,16 +140,16 @@ int main(int argc, char* argv[]) {
         rows++;
     }
 
-    if (start.x == -1 && start.y == -1) {
+    if (start.row == -1 && start.col == -1) {
         cerr << "Start point not found" << endl;
         return 1;
     }
 
-    if (end.x == -1 && end.y == -1) { 
+    if (end.row == -1 && end.col == -1) {
         cerr << "End point not found" << endl;
         return 1;
     }
 
-    search(lbr, rows, lbr[0].size(), start, end, output_file); 
+    search(lbr, rows, lbr[0].size(), start, end, output_file);
     return 0;
 }
