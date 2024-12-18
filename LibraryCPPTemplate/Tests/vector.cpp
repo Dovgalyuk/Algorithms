@@ -22,7 +22,7 @@ int main()
         if (vector.get(i) != (int)i)
         {
             std::cout << "Invalid vector element " << i << "\n";
-            return 1;
+            return 2;
         }
     }
 
@@ -30,7 +30,7 @@ int main()
     if (vector.size() != 10)
     {
         std::cout << "Invalid resize\n";
-        return 1;
+        return 3;
     }
 
     std::cout << "Vector: ";
@@ -42,7 +42,7 @@ int main()
     if (vector.size() != 3)
     {
         std::cout << "Invalid resize\n";
-        return 1;
+        return 4;
     }
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
@@ -50,7 +50,7 @@ int main()
         if (vector.get(i) != (int)i)
         {
             std::cout << "Invalid vector element " << i << "\n";
-            return 1;
+            return 5;
         }
     }
 
@@ -73,7 +73,7 @@ int main()
         if (vector.get(i) != copy.get(i))
         {
             std::cout << "Invalid copy element " << i << "\n";
-            return 1;
+            return 6;
         }
     }
 

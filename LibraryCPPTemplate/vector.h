@@ -2,56 +2,158 @@
 #define VECTOR_TEMPLATE_H
 
 #include <cstddef>
+#include <algorithm>
 
-template <typename Data> class Vector
-{
+template <typename Data>
+class Vector {
 public:
-    // Creates vector
-    Vector()
-    {
+    
+    Vector() {
+        arr = new Data[1];
+        size_v = 0;
+        capacity = 1;
     }
 
-    // copy constructor
-    Vector(const Vector &a)
-    {
+    Vector(size_t q, Data value){
+        arr = new Data[q];
+        size_v = 0;
+        capacity = q;
+        for (size_t i = 0; i < q; i++)
+            push(value);
     }
 
-    // assignment operator
-    Vector &operator=(const Vector &a)
-    {
+    Vector(const Vector& a) {
+        size_v = a.size_v; 
+        capacity = a.capacity;
+        arr = new Data[capacity];
+        for (size_t i = 0; i < size_v; ++i) {
+            arr[i] = a.arr[i];
+        }
+    }
+
+    Vector& operator=(const Vector& a) {
+        if (this == &a) return *this;
+
+        delete[] arr;
+        size_v = a.size_v;
+        capacity = a.capacity;
+        arr = new Data[capacity];
+
+        for (size_t i = 0; i < size_v; ++i) {
+            arr[i] = a.arr[i];
+        }
         return *this;
     }
 
-    // Deletes vector structure and internal data
-    ~Vector()
-    {
+    Data& operator[](size_t index) {
+        if (index >= size_v) {
+            return arr[0];
+        }
+        return arr[index];
     }
 
-    // Retrieves vector element with the specified index
-    Data get(size_t index) const
-    {
+    const Data& operator[](size_t index) const {
+        if (index >= size_v) {
+            return arr[0];
+        }
+        return arr[index];
+    }
+
+    ~Vector() {
+        delete[] arr;
+        arr = nullptr;
+    }
+
+    Data get(size_t index) {
+        if (index >= size_v) {
+            return Data();
+        }
+        return arr[index];
+    }
+
+    void set(size_t index, Data value) {
+        if (index < size_v) {
+            arr[index] = value;
+        }
+    }
+
+    size_t size() const {
+        return size_v;
+    }
+
+    void resize(size_t new_size) {
+        if (new_size > capacity) {
+            capacity = new_size * 2;
+            Data* new_ptr = new Data[capacity];
+            for (size_t i = 0; i < size_v; ++i) {
+                new_ptr[i] = arr[i];
+            }
+            delete[] arr;
+            arr = new_ptr;
+        }
+        size_v = new_size;
+    }
+
+    void push(Data value) {
+        if (size_v >= capacity) {
+            resize(size_v + 1);
+            size_v--;
+        }
+        arr[size_v++] = value;
+    }
+
+    Data pop() {
+        if (size_v > 0) {
+            return arr[--size_v];
+        }
         return Data();
     }
 
-    // Sets vector element with the specified index
-    void set(size_t index, Data value)
-    {
+    Data pop_front() {
+        if (size_v > 0) {
+            Data temp = arr[0];
+            erase(0);
+            return temp;
+        }
+        return Data();
     }
 
-    // Retrieves current vector size
-    size_t size() const
-    {
-        return 0;
+    Data erase(size_t index) {
+        if (size_v == 0 || index > size_v)
+            return Data();
+
+        Data temp = arr[index];
+        for (size_t i = index; i < size_v - 1; i++) {
+            arr[i] = arr[i + 1];
+        }
+
+        if(size_v - 1 < capacity)
+            resize(size_v - 1);
+
+        return temp;
     }
 
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
-    void resize(size_t size)
-    {
+    void clear() {
+        size_v = 0;
+        capacity = 0;
+        delete[] arr;
+        arr = nullptr;
+    }
+
+    Vector<Data> reverse(size_t start, size_t end) {
+        while (start < end) {
+            std::swap(arr[start], arr[end]);
+            ++start;
+            --end;
+        }
+
+        return *this;
     }
 
 private:
-    // private data should be here
+    Data* arr;
+    size_t size_v;
+    size_t capacity;
 };
 
 #endif
