@@ -51,7 +51,7 @@ bool less(const std::pair<unsigned int, size_t>& a, const std::pair<unsigned int
 Vector<unsigned int> find_min_path(Graph<std::string, size_t>& graph, size_t start) {
     Vector<unsigned int> distances(graph.get_vertices().size(), std::numeric_limits<unsigned int>::max());
     Vector<bool> visited(graph.get_vertices().size(), false);
-    BinaryHeap<std::pair<unsigned int, size_t>> queue(less);
+    BinaryHeap <std::pair<unsigned int, size_t>, less> queue;
 
     distances[start] = 0;
     queue.push({ 0, start });

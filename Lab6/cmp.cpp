@@ -48,7 +48,7 @@ bool less(const size_t& a, const size_t& b) {
 }
 
 data myHeap(int n) {
-    BinaryHeap<size_t> heap(less);
+    BinaryHeap<size_t, less> heap;
     data temp;
     temp.number = n;
     size_t* values = new size_t[n];

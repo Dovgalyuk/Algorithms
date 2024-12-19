@@ -1,8 +1,8 @@
 #ifndef BINARY_HEAP_H
 #define BINARY_HEAP_H
 
-#define TEMPLATE_H template<typename Data>
-#define CLASS BinaryHeap<Data>
+#define TEMPLATE_H template<typename Data, bool(*comparator)(const Data&, const Data&)>
+#define CLASS BinaryHeap<Data, comparator>
 
 #include "vector.h"
 
@@ -10,7 +10,7 @@ TEMPLATE_H
 class BinaryHeap {
 public:
     // Constructor with comparator
-    BinaryHeap(bool(*comparator)(const Data&, const Data&)) : comparator(comparator) {}
+    BinaryHeap() {}
 
     // Insert an element into the heap
     void push(const Data& value);
@@ -33,9 +33,6 @@ private:
 
     // Helper function to restore heap property after pop
     void apply_rules(size_t index);
-
-    // Comparartor for two elements
-    bool(*comparator)(const Data&, const Data&);
 };
 
 TEMPLATE_H
@@ -65,19 +62,21 @@ Data CLASS::pop() {
 
 TEMPLATE_H
 void CLASS::apply_rules(size_t index) {
-    size_t left = 2 * index + 1;
-    size_t right = 2 * index + 2;
-    size_t smallest = index;
+    size_t left, right, smallest = index;
 
-    if (left < arr.size() && comparator(arr[left], arr[smallest])) {
-        smallest = left;
-    }
-    if (right < arr.size() && comparator(arr[right], arr[smallest])) {
-        smallest = right;
-    }
-    if (smallest != index) {
+    while (smallest != index) {
+        left = 2 * index + 1;
+        right = 2 * index + 2;
+        size_t smallest = index;
+
+        if (left < arr.size() && comparator(arr[left], arr[smallest])) {
+            smallest = left;
+        }
+        if (right < arr.size() && comparator(arr[right], arr[smallest])) {
+            smallest = right;
+        }
+
         std::swap(arr[index], arr[smallest]);
-        apply_rules(smallest);
     }
 }
 

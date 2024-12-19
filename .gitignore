@@ -15,3 +15,5 @@ build/*
 .vscode/*
 lab6.png
 SDIA_LAB6/*
+myHeap.png
+stdQueue.png

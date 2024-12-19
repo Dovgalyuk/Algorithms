@@ -9,7 +9,7 @@ bool less(const std::string& a, const std::string& b) {
 }
 
 int main() {
-	BinaryHeap<std::string> heap(less);
+	BinaryHeap<std::string, less> heap;
 	if (!heap.is_empty()) {
 		std::cout << "invalid is_empty()";
 		return 1;
