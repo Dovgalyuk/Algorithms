@@ -32,13 +32,24 @@ command parse(const string& input)
         string value;
         iss >> value;
 
-        if (validReg(value[0]) && value.size() == 1)
+        if (value.empty())
+        {
+            cmd.type = typeCommand::INVALID;
+        }
+        else if (validReg(value[0]) && value.size() == 1)
         {
             cmd.value = value[0];
         }
         else if (all_of(value.begin(), value.end(), ::isdigit))
         {
-            cmd.value = stoi(value);
+            try
+            {
+                cmd.value = stoi(value);
+            }
+            catch (const exception&)
+            {
+                cmd.type = typeCommand::INVALID;
+            }
         }
         else
         {
