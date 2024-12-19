@@ -15,7 +15,7 @@ public:
         Edge(size_t edgeTo, E edgeMark) : path(edgeTo), sign(edgeMark) {}
     };
 
-    Graph(size_t vertices) : vertexCount(vertices){
+    Graph(size_t vertices) : vertexCount(vertices) {
         adjacencyList.resize(vertices);
         verticesMarks.resize(vertices);
         for (size_t i = 0; i < vertices; ++i) {
@@ -25,7 +25,7 @@ public:
 
     void addEdge(size_t from, size_t path, E mark) {
         if (from >= vertexCount) {
-            throw std::invalid_argument("It's impossible path add an edge, the vertex doesn't exist. addEdge");
+            throw std::invalid_argument("It's impossible to add an edge, the vertex doesn't exist. addEdge");
         }
         if (!hasEdge(from, path)) {
             adjacencyList.get(from).insert(Edge(path, mark));
@@ -36,7 +36,7 @@ public:
 
     void removeEdge(size_t from, size_t path) {
         if (from >= vertexCount || path >= vertexCount) {
-            throw std::invalid_argument("It's impossible path remove an edge, the vertex doesn't exist. removeEdge");
+            throw std::invalid_argument("It's impossible to remove an edge, the vertex doesn't exist. removeEdge");
         }
 
         auto& edges = adjacencyList.get(from);
@@ -67,34 +67,31 @@ public:
 
     void removeVertex(size_t vertex) {
         if (vertex >= vertexCount) {
-            throw std::invalid_argument("It's impossible path remove a vertex, the vertex doesn't exist. removeVertex");
+            throw std::invalid_argument("Not found specified vertex. removeVertex");
+        }
+
+        for (size_t i = 0; i < vertexCount; ++i) {
+            if (i != vertex) {
+                removeEdge(i, vertex);
+            }
+        }
+
+        auto& edges = adjacencyList.get(vertex);
+        auto* current = edges.first();
+        while (current) {
+            auto* next = current->next();
+            removeEdge(vertex, current->data().path);
+            current = next;
         }
 
         for (size_t i = vertex; i < vertexCount - 1; ++i) {
-            adjacencyList.set(i, adjacencyList.get(i + 1));
-            verticesMarks.set(i, verticesMarks.get(i + 1));
+            swap(adjacencyList, i, i + 1);
+            swap(verticesMarks, i, i + 1);
         }
-        --vertexCount;
-        adjacencyList.resize(vertexCount);
-        verticesMarks.resize(vertexCount);
 
-        for (size_t i = 0; i < vertexCount; ++i) {
-            auto& adj_list = adjacencyList.get(i);
-            auto* current = adj_list.first();
-            typename List<Edge>::Item* prev = nullptr;
-            while (current) {
-                if (current->data().path == vertex) {
-                    if (prev) {
-                        adj_list.erase_next(prev);
-                    } else {
-                        adj_list.erase_first();
-                    }
-                } else {
-                    prev = current;
-                    current = current->next();
-                }
-            }
-        }
+        adjacencyList.resize(vertexCount - 1);
+        verticesMarks.resize(vertexCount - 1);
+        --vertexCount;
     }
 
     bool hasEdge(size_t from, size_t path) const {
@@ -205,6 +202,13 @@ private:
     size_t vertexCount;
     Vector<List<Edge>> adjacencyList;
     Vector<V> verticesMarks;
+
+    template <typename T>
+    void swap(Vector<T>& vec, size_t i, size_t j) {
+        T temp = vec.get(i);
+        vec.set(i, vec.get(j));
+        vec.set(j, temp);
+    }
 };
 
 #endif // GRAPH_H

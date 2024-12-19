@@ -23,13 +23,12 @@ public:
     };
 
     // Creates new list
-    List() : head(nullptr), tail(nullptr), size(0) {}
+    List() : head(nullptr), tail(nullptr) {}
 
     // Copy constructor
     List(const List &a)
     {
         head = tail = nullptr;
-        size = 0;
         for (Item *current = a.head; current != nullptr; current = current->nextt)
         {
             insert(current->dataa);
@@ -46,7 +45,7 @@ public:
                 erase_first();
             }
 
-            for (Item *current = a.head; current != nullptr; current = current->nextt)
+            for (Item *current = a.tail; current != a.head; current = current->prevv)
             {
                 insert(current->dataa);
             }
@@ -83,7 +82,6 @@ public:
             head->prevv = new_item;
             head = new_item;
         }
-        size++;
         return new_item;
     }
 
@@ -107,8 +105,6 @@ public:
         {
             tail = new_item;
         }
-
-        size++;
         return new_item;
     }
 
@@ -130,8 +126,6 @@ public:
         {
             tail = nullptr;
         }
-
-        size--;
         delete temp;
         return head;
     }
@@ -155,8 +149,6 @@ public:
         {
             tail = item;
         }
-
-        size--;
         delete to_delete;
         return item->nextt;
     }
@@ -164,7 +156,6 @@ public:
 private:
     Item *head;
     Item *tail;
-    size_t size;
 };
 
 #endif
