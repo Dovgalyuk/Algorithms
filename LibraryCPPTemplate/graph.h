@@ -84,7 +84,11 @@ void Graph<ValueType, EdgeType>::removeVertex(size_t vertex) {
         while (item) {
             auto next = item->next();
             if (item->data().to == vertex) {
-                adjacencyList_[i].erase_next(item->prev());
+                if (item == adjacencyList_[i].first()) {
+                    adjacencyList_[i].erase_first();
+                } else {
+                    adjacencyList_[i].erase_next(item->prev());
+                }
             } else if (item->data().to > vertex) {
                 item->data().to--;
             }
@@ -104,13 +108,13 @@ void Graph<ValueType, EdgeType>::removeEdge(size_t from, size_t to) {
     while (item) {
         if (item->data().to == to) {
             if (item == adjacencyList_[from].first()) {
-                adjacencyList_[from].erase_first();
+                item = adjacencyList_[from].erase_first(); 
             } else {
-                adjacencyList_[from].erase_next(item->prev());
+                item = adjacencyList_[from].erase_next(item->prev()); 
             }
-            return;
+            return; 
         }
-        item = item->next();
+        item = item->next(); 
     }
 }
 

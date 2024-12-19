@@ -7,9 +7,11 @@
 
 using namespace std;
 
-const int INF = numeric_limits<int>::max();
+using Data = int;
 
-void readGraph(Graph<int, int>& g, const string& filename) {
+const Data INF = numeric_limits<Data>::max();
+
+void readGraph(Graph<Data, Data>& g, const string& filename) {
     ifstream file(filename);
     if (!file) {
         cerr << "Невозможно открыть файл " << filename << endl;
@@ -20,20 +22,20 @@ void readGraph(Graph<int, int>& g, const string& filename) {
     for (size_t i = 0; i < vertices; ++i) {
         g.addVertex(i);
     }
-    int from, to, weight;
+    Data from, to, weight;
     for (size_t i = 0; i < edges; ++i) {
         file >> from >> to >> weight;
         g.addEdge(from, to, weight);
     }
 }
 
-vector<vector<int>> floydWarshall(const Graph<int, int>& g) {
-    typedef Graph<int, int> GraphType; 
-    typedef vector<vector<int>> DistMatrix;
+vector<vector<Data>> floydWarshall(const Graph<Data, Data>& g) {
+    typedef Graph<Data, Data> GraphType; 
+    typedef vector<vector<Data>> DistMatrix;
 
     const GraphType& graph = g; 
     size_t n = graph.getAllVertexLabels().size();
-    DistMatrix dist(n, vector<int>(n, INF));
+    DistMatrix dist(n, vector<Data>(n, INF));
     for (size_t i = 0; i < n; ++i) {
         dist[i][i] = 0;
         auto it = graph.neighborsBegin(i);
@@ -54,8 +56,8 @@ vector<vector<int>> floydWarshall(const Graph<int, int>& g) {
     return dist;
 }
 
-int findLongestShortestPath(const vector<vector<int>>& dist) {
-    int maxDist = 0;
+Data findLongestShortestPath(const vector<vector<Data>>& dist) {
+    Data maxDist = 0;
     for (size_t i = 0; i < dist.size(); ++i) {
         for (size_t j = 0; j < dist[i].size(); ++j) {
             if (i != j && dist[i][j] != INF) {
@@ -73,10 +75,10 @@ int main(int argc, char* argv[]) {
     }
 
     string filename = argv[1];
-    Graph<int, int> g(0);
+    Graph<Data, Data> g(0);
     readGraph(g, filename);
-    vector<vector<int>> dist = floydWarshall(g);
-    int longestShortestPath = findLongestShortestPath(dist);
+    vector<vector<Data>> dist = floydWarshall(g);
+    Data longestShortestPath = findLongestShortestPath(dist);
     cout << "Длиннейший кратчайший путь: " << longestShortestPath << endl;
     return 0;
 }
