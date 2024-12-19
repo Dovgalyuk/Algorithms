@@ -1,62 +1,78 @@
 #include <iostream>
-#include <vector>
-#include <queue>
-#include <climits>
 #include <fstream>
+#include <string>
+#include "queue.h"
+#include "vector.h"
 
 using namespace std;
 
-vector<int> naidit_rasstoianie_ot_vershiny(const vector<vector<int>>& smieznost, int start_vershina) {
-    int kolichestvo_vershin = smieznost.size();  
-    vector<int> rasstoianie(kolichestvo_vershin, INT_MAX);  
-    queue<int> ochened;  
+void bfs(int** graph, int num_vertices, int start, const string& filename) {
+    // Используем vector вместо массива
+    Vector* distances = vector_create();
+    vector_resize(distances, num_vertices);
+    for (int i = 0; i < num_vertices; i++) vector_set(distances, i, -1);
+    vector_set(distances, start, 0);
 
-    rasstoianie[start_vershina] = 0;  
-    ochened.push(start_vershina);  
+    Queue* queue = queue_create();
+    queue_insert(queue, start);
 
-    while (!ochened.empty()) {
-        int tekushchaya_vershina = ochened.front();  
-        ochened.pop();
+    while (!queue_empty(queue)) {
+        int current = queue_get(queue);
+        queue_remove(queue);
 
-        for (int i = 0; i < kolichestvo_vershin; ++i) {
-            if (smieznost[tekushchaya_vershina][i] == 1 && rasstoianie[i] == INT_MAX) {
-                rasstoianie[i] = rasstoianie[tekushchaya_vershina] + 1;  
-                ochened.push(i);  
+        for (int i = 0; i < num_vertices; i++) {
+            if (graph[current][i] == 1 && vector_get(distances, i) == -1) {
+                vector_set(distances, i, vector_get(distances, current) + 1);
+                queue_insert(queue, i);
             }
         }
     }
 
-    return rasstoianie;  
+    ofstream output(filename);
+    if (!output) {
+        cerr << "Ошибка: не удалось открыть файл " << filename << endl;
+        vector_delete(distances);
+        queue_delete(queue);
+        return;
+    }
+
+    for (int i = 0; i < num_vertices; i++) output << vector_get(distances, i) << endl;
+    output.close();
+
+    vector_delete(distances);
+    queue_delete(queue);
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        cerr << "Ошибка: не указан файл для чтения!" << endl;
+    if (argc != 3) {
+        cerr << "Usage: " << argv[0] << " <input_file> <output_file>" << endl;
         return 1;
     }
 
-    ifstream inputFile(argv[1]);  // Используем имя файла, переданное как аргумент
-    if (!inputFile) {
+    ifstream input(argv[1]);
+    if (!input) {
         cerr << "Ошибка: не удалось открыть файл " << argv[1] << endl;
         return 1;
     }
 
-    int kolichestvo_vershin;
-    inputFile >> kolichestvo_vershin;
+    int num_vertices;
+    input >> num_vertices;
 
-    vector<vector<int>> smieznost(kolichestvo_vershin, vector<int>(kolichestvo_vershin));
-
-    for (int i = 0; i < kolichestvo_vershin; ++i) {
-        for (int j = 0; j < kolichestvo_vershin; ++j) {
-            inputFile >> smieznost[i][j];
+    // Создаем динамическую матрицу смежности
+    int** graph = new int*[num_vertices];
+    for (int i = 0; i < num_vertices; i++) {
+        graph[i] = new int[num_vertices];
+        for (int j = 0; j < num_vertices; j++) {
+            input >> graph[i][j];
         }
     }
 
-    vector<int> rasstoianie = naidit_rasstoianie_ot_vershiny(smieznost, 0);
+    bfs(graph, num_vertices, 0, argv[2]);
 
-    for (int i = 0; i < kolichestvo_vershin; ++i) {
-        cout << rasstoianie[i] << endl;
-    }
+    for (int i = 0; i < num_vertices; i++) delete[] graph[i];
+    delete[] graph;
+
+    input.close();
 
     return 0;
 }
