@@ -70,11 +70,10 @@ Queue<Data>::~Queue() {
 template <typename Data>
 void Queue<Data>::insert(Data value) {
     if (queueSize == data.size()) {
-        Vector<Data> temp(data);
         size_t new_size = (queueSize == 0) ? 1 : queueSize * 2;
         data.resize(new_size);
         for (size_t i = 0; i < queueSize; i++) {
-            data.set(i, temp.get((frontIndex + i) % queueSize));
+            data.set(i, data.get((frontIndex + i) % queueSize));
         }
         frontIndex = 0;
     }
