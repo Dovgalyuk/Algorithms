@@ -21,15 +21,7 @@ void queue_delete(Queue* queue)
 
 void queue_insert(Queue* queue, Data data)
 {
-    ListItem* tail = queue->list->tail;
-    if (tail == nullptr) {
-        queue->list->tail = list_insert(queue->list, data);
-    } else {
-        queue->list->tail = list_insert_after(queue->list, tail, data);
-    }
-    if (queue->list->head == nullptr) {
-        queue->list->head = queue->list->tail;
-    }
+    list_insert_last(queue->list, data);
 }
 
 Data queue_get(const Queue* queue)

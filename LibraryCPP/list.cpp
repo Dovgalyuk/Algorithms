@@ -1,6 +1,18 @@
 #include <cstddef>
 #include "list.h"
 
+struct ListItem
+{
+    Data data;
+    ListItem* next;
+};
+
+struct List
+{
+    ListItem* head;
+    ListItem* tail;
+};
+
 List* list_create()
 {
     List* list = new List;
@@ -23,6 +35,11 @@ void list_delete(List* list)
 ListItem* list_first(List* list)
 {
     return list->head;
+}
+
+ListItem* list_last(List* list)
+{
+    return list->tail;
 }
 
 Data list_item_data(const ListItem* item)
@@ -59,6 +76,21 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
     return newItem;
 }
 
+ListItem* list_insert_last(List* list, Data data)
+{
+    ListItem* item = new ListItem;
+    item->data = data;
+    item->next = nullptr;
+    if (list->tail == nullptr) {
+        list->head = item;
+        list->tail = item;
+    } else {
+        list->tail->next = item;
+        list->tail = item;
+    }
+    return item;
+}
+
 ListItem* list_erase_first(List* list)
 {
     if (list->head == nullptr) {
@@ -71,18 +103,4 @@ ListItem* list_erase_first(List* list)
     }
     delete item;
     return list->head;
-}
-
-ListItem* list_erase_next(List* list, ListItem* item)
-{
-    if (item->next == nullptr) {
-        return nullptr;
-    }
-    ListItem* toDelete = item->next;
-    item->next = toDelete->next;
-    if (list->tail == toDelete) {
-        list->tail = item;
-    }
-    delete toDelete;
-    return item->next;
 }

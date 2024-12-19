@@ -5,17 +5,8 @@
 // Stores integer values inside
 typedef int Data;
 
-struct ListItem
-{
-    Data data;
-    ListItem* next;
-};
-
-struct List
-{
-    ListItem* head;
-    ListItem* tail;
-};
+struct List;
+struct ListItem;
 
 // Creates new list
 List* list_create();
@@ -38,12 +29,11 @@ ListItem* list_insert(List* list, Data data);
 // Inserts new list item after the specified item
 ListItem* list_insert_after(List* list, ListItem* item, Data data);
 
+// Inserts new list item at the end
+ListItem* list_insert_last(List* list, Data data);
+
 // Deletes the first list item.
 // Returns pointer to the item next to the deleted one.
 ListItem* list_erase_first(List* list);
-
-// Deletes the list item following the specified one.
-// Returns pointer to the item next to the deleted one.
-ListItem* list_erase_next(List* list, ListItem* item);
 
 #endif
