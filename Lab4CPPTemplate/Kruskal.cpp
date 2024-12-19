@@ -53,11 +53,9 @@ Vector<Edge_Expanded<V, E>> kruskal(Graph<V, E>& graph, size_t vertices_count) {
             size_t j = graph.get_vertex_index(v);
 
             if (i < j) {    // avoid duplicates in undirected graph
-                if (graph.has_edge(u, v)) {
-                    const E weight = graph.get_edge_label(u, v); 
+                const E weight = graph.get_edge_label(u, v); 
 
-                    edges.push(Edge_Expanded<V, E>(u, v, weight));    
-                }
+                edges.push(Edge_Expanded<V, E>(u, v, weight));    
             }
         }
     }
