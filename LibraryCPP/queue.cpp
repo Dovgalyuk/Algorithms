@@ -1,39 +1,58 @@
 #include "queue.h"
-#include <iostream>
-#include <vector>
-
-using namespace std;
+#include "vector.h"
 
 struct Queue {
-    vector<int> data;  // Используем стандартный вектор для хранения элементов
+    Vector* vector;
+    size_t front;
+    size_t rear;
+    size_t size;
 };
 
 Queue* queue_create() {
-    return new Queue;
+    Queue* queue = new Queue;
+    queue->vector = vector_create();
+    vector_resize(queue->vector, 1);  // Начальный размер
+    queue->front = 0;
+    queue->rear = 0;
+    queue->size = 0;
+    return queue;
 }
 
 void queue_delete(Queue* queue) {
+    vector_delete(queue->vector);
     delete queue;
 }
 
-void queue_insert(Queue* queue, int data) {
-    queue->data.push_back(data);  // Добавляем элемент в конец очереди
+void queue_insert(Queue* queue, Data data) {
+    if (queue->size == vector_size(queue->vector)) {
+        size_t new_size = vector_size(queue->vector) * 2;
+        Vector* new_vector = vector_create();
+        vector_resize(new_vector, new_size);
+
+        for (size_t i = 0; i < queue->size; i++) {
+            vector_set(new_vector, i, vector_get(queue->vector, (queue->front + i) % vector_size(queue->vector)));
+        }
+
+        vector_delete(queue->vector);
+        queue->vector = new_vector;
+        queue->front = 0;
+        queue->rear = queue->size;
+    }
+
+    vector_set(queue->vector, queue->rear, data);
+    queue->rear = (queue->rear + 1) % vector_size(queue->vector);
+    queue->size++;
 }
 
-int queue_get(const Queue* queue) {
-    if (queue->data.empty()) {
-        cerr << "Ошибка: очередь пуста!" << endl;
-        return -1;  // Ошибка
-    }
-    return queue->data.front();  // Возвращаем первый элемент очереди
+Data queue_get(const Queue* queue) {
+    return vector_get(queue->vector, queue->front);
 }
 
 void queue_remove(Queue* queue) {
-    if (!queue->data.empty()) {
-        queue->data.erase(queue->data.begin());  // Удаляем первый элемент
-    }
+    queue->front = (queue->front + 1) % vector_size(queue->vector);
+    queue->size--;
 }
 
 bool queue_empty(const Queue* queue) {
-    return queue->data.empty();  // Проверка, пуста ли очередь
+    return queue->size == 0;
 }
