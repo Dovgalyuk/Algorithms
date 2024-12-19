@@ -7,10 +7,12 @@
 using namespace std;
 
 void bfs(int** graph, int num_vertices, int start, const string& filename) {
-    // Используем vector вместо массива
     Vector* distances = vector_create();
     vector_resize(distances, num_vertices);
-    for (int i = 0; i < num_vertices; i++) vector_set(distances, i, -1);
+
+    for (int i = 0; i < num_vertices; i++) {
+        vector_set(distances, i, -1);
+    }
     vector_set(distances, start, 0);
 
     Queue* queue = queue_create();
@@ -29,15 +31,14 @@ void bfs(int** graph, int num_vertices, int start, const string& filename) {
     }
 
     ofstream output(filename);
-    if (!output) {
-        cerr << "Ошибка: не удалось открыть файл " << filename << endl;
-        vector_delete(distances);
-        queue_delete(queue);
-        return;
+    if (!output.is_open()) {
+        cerr << "Ошибка: не удалось открыть файл " << filename << " для записи." << endl;
+    } else {
+        for (int i = 0; i < num_vertices; i++) {
+            output << vector_get(distances, i) << endl;
+        }
+        output.close();
     }
-
-    for (int i = 0; i < num_vertices; i++) output << vector_get(distances, i) << endl;
-    output.close();
 
     vector_delete(distances);
     queue_delete(queue);
@@ -45,20 +46,19 @@ void bfs(int** graph, int num_vertices, int start, const string& filename) {
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
-        cerr << "Usage: " << argv[0] << " <input_file> <output_file>" << endl;
+        cerr << "usage: " << argv[0] << " <input_file> <output_file>" << endl;
         return 1;
     }
 
     ifstream input(argv[1]);
-    if (!input) {
-        cerr << "Ошибка: не удалось открыть файл " << argv[1] << endl;
+    if (!input.is_open()) {
+        cerr << "Ошибка: не удалось открыть файл " << argv[1] << " для чтения." << endl;
         return 1;
     }
 
     int num_vertices;
     input >> num_vertices;
 
-    // Создаем динамическую матрицу смежности
     int** graph = new int*[num_vertices];
     for (int i = 0; i < num_vertices; i++) {
         graph[i] = new int[num_vertices];
@@ -66,13 +66,14 @@ int main(int argc, char* argv[]) {
             input >> graph[i][j];
         }
     }
+    input.close();
 
     bfs(graph, num_vertices, 0, argv[2]);
 
-    for (int i = 0; i < num_vertices; i++) delete[] graph[i];
+    for (int i = 0; i < num_vertices; i++) {
+        delete[] graph[i];
+    }
     delete[] graph;
-
-    input.close();
 
     return 0;
 }
