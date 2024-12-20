@@ -1,15 +1,15 @@
 #include "lab3.h"
 
-vector<char> bfs(char start, unordered_map<char, vector<char>> graph) {
-    unordered_set<char> visited;
+vector<Data> bfs(Data start, unordered_map<Data, vector<Data>>& graph) {
+    unordered_set<Data> visited;
     Queue *q = queue_create();
-    vector<char> result;
+    vector<Data> result;
 
     queue_insert(q,start);
     visited.insert(start);
 
     while (!queue_empty(q)) {
-        char curr = queue_get(q);
+        Data curr = queue_get(q);
         queue_remove(q);
 
         for (auto neighbor : graph[curr]) {
@@ -25,12 +25,12 @@ vector<char> bfs(char start, unordered_map<char, vector<char>> graph) {
     return result;
 }
 
-vector<char> task(ifstream& input, int reactions) {
-    char start;
+vector<Data> task(ifstream& input, int reactions) {
+    Data start;
     input >> start;
 
-    unordered_map<char, vector<char>> graph;
-    char curr, canGet;
+    unordered_map<Data, vector<Data>> graph;
+    Data curr, canGet;
     for(int i = 0; i < reactions; i++)
     {
         input >> curr >> canGet;

@@ -1,6 +1,8 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#define BUFFER_SIZE 10
+
 // Queue
 // Stores integer values inside
 typedef char Data;
