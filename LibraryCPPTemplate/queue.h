@@ -72,9 +72,20 @@ void Queue<Data>::insert(Data value) {
     if (queueSize == data.size()) {
         size_t new_size = (queueSize == 0) ? 1 : queueSize * 2;
         data.resize(new_size);
-        for (size_t i = 0; i < queueSize; i++) {
-            data.set(i, data.get((frontIndex + i) % queueSize));
+
+        size_t count = 0; 
+        size_t current = frontIndex;
+        Data temp = data.get(current);
+
+        while (count < queueSize) {
+            size_t next = (current + queueSize - frontIndex) % queueSize;
+            Data swapping =  data.get(next);
+            data.set(next, temp);
+            temp = swapping;
+            current = next; 
+            ++count;
         }
+
         frontIndex = 0;
     }
     data.set((frontIndex + queueSize) % data.size(), value);
