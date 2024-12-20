@@ -36,10 +36,6 @@ command parse(const string& input)
         {
             cmd.type = typeCommand::INVALID;
         }
-        else if (validReg(value[0]) && value.size() == 1)
-        {
-            cmd.value = value[0];
-        }
         else if (all_of(value.begin(), value.end(), ::isdigit))
         {
             try
@@ -50,6 +46,10 @@ command parse(const string& input)
             {
                 cmd.type = typeCommand::INVALID;
             }
+        }
+        else if (validReg(value[0]) && value.size() == 1)
+        {
+            cmd.value = static_cast<size_t>(value[0] - 'A');
         }
         else
         {
@@ -115,14 +115,7 @@ int main(int argc, char* argv[])
         {
             case typeCommand::PUSH: 
             {
-                if (cmd.value >= 0 && cmd.value <= 3)
-                {
-                    processorStack.push(registers['A' + cmd.value]);
-                }
-                else
-                {
-                    processorStack.push(cmd.value);
-                }
+                processorStack.push(cmd.value);
                 break;
             }
             case typeCommand::POP: 
