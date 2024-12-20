@@ -13,11 +13,11 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
+        vector_set(vector, i, '0' + i);
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != (int)i)
+        if (vector_get(vector, i) != '0' + i)
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -45,7 +45,7 @@ int main()
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != (int)i)
+        if (vector_get(vector, i) != '0' + i)
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -61,14 +61,14 @@ int main()
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector_resize(vector, i);
-        vector_set(vector, i - 1, i);
+        vector_set(vector, i - 1, '1');
     }
 
-    long long sum = 0;
-    for (int i = 0 ; i < 10000000 ; ++i)
-        sum += vector_get(vector, i);
+    //long long sum = 0;
+    //for (int i = 0 ; i < 10000000 ; ++i)
+    //    sum += vector_get(vector, i);
 
-    std::cout << sum << "\n";
+    //std::cout << sum << "\n";
 
     vector_delete(vector);
 }

@@ -3,7 +3,7 @@
 
 // Queue
 // Stores integer values inside
-typedef int Data;
+typedef char Data;
 
 struct Queue;
 
