@@ -64,7 +64,7 @@ command parse(const string& input)
         iss >> reg;
         if (reg.size() == 1 && validReg(reg[0]))
         {
-            cmd.value = reg[0];
+            cmd.value = reg[0] - 'A';
         }
         else
         {
@@ -115,9 +115,9 @@ int main(int argc, char* argv[])
         {
             case typeCommand::PUSH: 
             {
-                if (validReg(static_cast<char>(cmd.value)))
+                if (cmd.value >= 0 && cmd.value <= 3)
                 {
-                    processorStack.push(registers[static_cast<char>(cmd.value)]);
+                    processorStack.push(registers['A' + cmd.value]);
                 }
                 else
                 {
@@ -136,7 +136,7 @@ int main(int argc, char* argv[])
                 }
 
                 int value = processorStack.get();
-                if (value == CALL_MARKER || !validReg(static_cast<char>(cmd.value))) 
+                if (value == CALL_MARKER || cmd.value < 0 || cmd.value > 3) 
                 {
                     cout << "BAD POP: Invalid value or register" << endl;
                     inputFile.close();
@@ -144,7 +144,7 @@ int main(int argc, char* argv[])
                     return 1;
                 }
 
-                registers[static_cast<char>(cmd.value)] = value;
+                registers['A' + cmd.value] = value;
                 processorStack.pop();
                 break;
             }

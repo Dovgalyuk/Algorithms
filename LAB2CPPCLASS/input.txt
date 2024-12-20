@@ -1,4 +1,4 @@
-push 1
+push 65
 pop A
 call
 ret
