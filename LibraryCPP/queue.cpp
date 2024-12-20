@@ -4,7 +4,6 @@
 struct Queue {
     Vector* vector;
     size_t front;
-    size_t rear;
     size_t size;
 };
 
@@ -13,7 +12,6 @@ Queue* queue_create() {
     queue->vector = vector_create();
     vector_resize(queue->vector, 1);  // Начальный размер
     queue->front = 0;
-    queue->rear = 0;
     queue->size = 0;
     return queue;
 }
@@ -25,7 +23,7 @@ void queue_delete(Queue* queue) {
 
 void queue_insert(Queue* queue, Data data) {
     if (queue->size == vector_size(queue->vector)) {
-        size_t new_size = vector_size(queue->vector) * 2;
+        size_t new_size = vector_size(queue->vector) * 2 + 1;
         Vector* new_vector = vector_create();
         vector_resize(new_vector, new_size);
 
@@ -36,19 +34,23 @@ void queue_insert(Queue* queue, Data data) {
         vector_delete(queue->vector);
         queue->vector = new_vector;
         queue->front = 0;
-        queue->rear = queue->size;
     }
-
-    vector_set(queue->vector, queue->rear, data);
-    queue->rear = (queue->rear + 1) % vector_size(queue->vector);
+    size_t rear = (queue->front + queue->size) % vector_size(queue->vector);
+    vector_set(queue->vector, rear, data);
     queue->size++;
 }
 
 Data queue_get(const Queue* queue) {
+    if (queue_empty(queue)) {
+        throw std::runtime_error("Queue is empty");
+    }
     return vector_get(queue->vector, queue->front);
 }
 
 void queue_remove(Queue* queue) {
+    if (queue_empty(queue)) {
+        throw std::runtime_error("Queue is empty");
+    }
     queue->front = (queue->front + 1) % vector_size(queue->vector);
     queue->size--;
 }
