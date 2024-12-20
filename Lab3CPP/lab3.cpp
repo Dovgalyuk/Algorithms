@@ -1,20 +1,18 @@
 #include <iostream>
 #include <fstream>
-#include "queue.h"
-#include <vector>
 
+#include "queue.h"
 using namespace std;
 
-void lab_3(int a, int b, int *arr, int size) {
+void lab_3(int a, int b, int *arr){
     Queue * queue1 = queue_create();
     Queue * queue2 = queue_create();
     Queue * queue3 = queue_create();
-
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < 9; i++){
         if (arr[i] < a){
             queue_insert(queue1, arr[i]);
         }
-        else if(arr[i] >= a && arr[i] <= b){
+        else if(arr[i] <= b){
             queue_insert(queue2, arr[i]);
         }
         else{
@@ -37,10 +35,7 @@ void lab_3(int a, int b, int *arr, int size) {
         k++;
         queue_remove(queue3);
     }
-    queue_delete(queue1);
-    queue_delete(queue2);
-    queue_delete(queue3);
-
+    
 }
 
 int main(int argc, char* argv[]) {
@@ -69,37 +64,19 @@ int main(int argc, char* argv[]) {
             return 1;
         }
     }
+    int ans_arr[9];
+    for(int i = 0; i < 9; i++){
+        if (!(file >> ans_arr[i])) {
+            std::cout << "Error reading from file\n";
+            file.close();
+            return 1;
+        }
+    }
     file.close();
-
-    int original_arr[9];
-    for(int i = 0; i < 9; i++){
-        original_arr[i] = arr[i];
-    }
-
-
-    lab_3(a, b, arr, 9);
-
-    std::vector<int> expected_arr;
-    for(int i = 0; i < 9; i++){
-        if (original_arr[i] < a){
-            expected_arr.push_back(original_arr[i]);
-        }
-    }
-    for(int i = 0; i < 9; i++){
-        if (original_arr[i] >= a && original_arr[i] <= b){
-            expected_arr.push_back(original_arr[i]);
-        }
-    }
-
-        for(int i = 0; i < 9; i++){
-            if(original_arr[i] > b){
-            expected_arr.push_back(original_arr[i]);
-            }
-    }
-
+    lab_3(a, b, arr);
     bool is_solve = true;
     for(int i = 0; i < 9; i++){
-        if (arr[i] != expected_arr[i]) {
+        if (arr[i] != ans_arr[i]) {
             is_solve = false;
             break;
         }

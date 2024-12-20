@@ -38,7 +38,7 @@ size_t vector_size(const Vector *vector)
 void vector_resize(Vector *vector, size_t size)
 {
     Data * ndt = new Data[size];
-    for (int i = 0; i<vector->sz;i++){
+    for (size_t i = 0; i<vector->sz;i++){
         ndt[i] = vector->dt[i];
     }
     delete vector->dt;
