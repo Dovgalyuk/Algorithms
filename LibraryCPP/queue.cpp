@@ -1,5 +1,6 @@
 #include "queue.h"
 #include "vector.h"
+#include <stdexcept> // Добавляем заголовок для std::runtime_error
 
 struct Queue {
     Vector* vector;
@@ -42,14 +43,14 @@ void queue_insert(Queue* queue, Data data) {
 
 Data queue_get(const Queue* queue) {
     if (queue_empty(queue)) {
-        throw std::runtime_error("Queue is empty");
+        throw std::runtime_error("Queue is empty"); // Используем std::runtime_error
     }
     return vector_get(queue->vector, queue->front);
 }
 
 void queue_remove(Queue* queue) {
     if (queue_empty(queue)) {
-        throw std::runtime_error("Queue is empty");
+        throw std::runtime_error("Queue is empty"); // Используем std::runtime_error
     }
     queue->front = (queue->front + 1) % vector_size(queue->vector);
     queue->size--;
