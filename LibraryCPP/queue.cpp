@@ -28,7 +28,17 @@ void queue_delete(Queue *queue)
 void queue_insert(Queue *queue, Data data)
 {
     if (queue->size == vector_size(queue->vector)) {
-        vector_resize(queue->vector, queue->size == 0 ? 4 : queue->size * 2);
+        Vector* new_vector = vector_create();
+        vector_resize(new_vector, queue->size == 0 ? 4 : queue->size * 2);
+
+        for (size_t i = 0; i < queue->size; ++i) {
+            vector_set(new_vector, i, vector_get(queue->vector, (queue->front + i) % vector_size(queue->vector)));
+        }
+
+        vector_delete(queue->vector);
+        queue->vector = new_vector;
+        queue->front = 0;
+        queue->back = queue->size;
     }
     vector_set(queue->vector, queue->back, data);
     queue->back = (queue->back + 1) % vector_size(queue->vector);
