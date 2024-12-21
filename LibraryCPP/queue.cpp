@@ -25,6 +25,7 @@ void queue_insert(Queue *queue, Data data)
 {
     if (queue) {
         list_insert(queue->list, data);
+    }
 }
 
 Data queue_get(const Queue *queue)
