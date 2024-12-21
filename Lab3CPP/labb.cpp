@@ -81,7 +81,7 @@ bool read_maze_from_file(const string& filename, vector<string>& maze, int& star
 
     while (getline(input_file, line)) {
         maze.push_back(line);
-        for (int col = 0; col < line.size(); ++col) {
+        for (std::string::size_type col = 0; col < line.size(); ++col) { // Изменили тип на size_t
             if (line[col] == 'X') {
                 start_x = row;
                 start_y = col;
@@ -97,6 +97,7 @@ bool read_maze_from_file(const string& filename, vector<string>& maze, int& star
     input_file.close();
     return true;
 }
+
 
 // Основная функция
 int main() {
@@ -126,3 +127,5 @@ int main() {
 
     return 0;
 }
+
+
