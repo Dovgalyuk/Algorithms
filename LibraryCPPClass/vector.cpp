@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 Vector::Vector() {
-    _capacity = 1;
+    _capacity = 2;
     _size = 0;
     _vector = new Data[_capacity];
 }

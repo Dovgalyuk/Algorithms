@@ -1,42 +1,60 @@
 #include "queue.h"
 #include <stdexcept>
 
-Queue::Queue() : _front(0), _back(0), _queue(new Vector) {
+Queue::Queue() {
+    _front = 0;
+    _back = 0;
+    _size = 0;
+    _queue = new Vector;
+    _queue->resize(2);
 }
 
 Queue::Queue(const Queue &a) {
     _front = a._front;
     _back = a._back;
+    _size = a._size;
     _queue = a._queue;
 }
 
 Queue &Queue::operator=(const Queue &a) {
+    if (this != &a) {
+        delete _queue;
+        _front = a._front;
+        _back = a._back;
+        _size = a._size;
+        _queue = a._queue;
+    }
     return *this;
 }
 
 Queue::~Queue(){
     _front = 0;
     _back = 0;
+    _size = 0;
     delete _queue;
 }
 
 void Queue::insert(Data data) {
-    if (_front != 0) {
-        // Сдвигаем элементы в начало, освобождая место
-        for (size_t idx = 0; idx < _back - _front; idx++) {
-            _queue->set(idx, _queue->get(idx + _front));
+    // Если достигли масимума по cap в vector
+    if (_size == _queue->cap()) {
+        // Делаем нормализацию для кольцего буфера, если буфер полностью заполнен
+        for (size_t idx = 0; idx < (_queue->cap() / 2); idx++) {
+            size_t idx_front = (_front + idx) % _queue->cap();
+
+            Data bufData = _queue->get(idx);
+            _queue->set(idx, _queue->get(idx_front));
+            _queue->set(idx_front, bufData);
         }
-        _queue->resize(_back - _front);
-        _back -= _front;
         _front = 0;
-    } else if (_back == _queue->cap()) {
-        _queue->resize(_queue->cap() * 2);
+        _back = _queue->cap();
     }
 
-    _queue->resize(_back + 1);
+    _queue->resize(_queue->size()+1);
     _queue->set(_back, data);
-    _back++;
+    _back = (_back + 1) % (int) _queue->size();
+    _size++;
 }
+
 
 Data Queue::get() const {
     if (empty()) throw std::runtime_error("Queue is empty");
@@ -45,29 +63,14 @@ Data Queue::get() const {
 
 void Queue::remove(){
     if (empty()) throw std::runtime_error("Stack is empty");
-    _front++;
+    _front = (_front + 1) % (int) _queue->cap();
+    _size--;
 }
 
 bool Queue::empty() const {
-    return _back - _front == 0;
+    return _size == 0;
 }
 
 size_t Queue::size() const {
-    return _back - _front;
-}
-
-void Queue::safeSwap(int n) {
-    // Normalize swapN
-    const size_t swapN = ((-1 * n) % (int) size() + (int) size()) % (int) size();
-    if (swapN == 0) return;
-
-    Vector* buf = new Vector;
-    buf->resize(size());
-    for (size_t idx = 0; idx < buf->size(); idx++) {
-        buf->set(idx, _queue->get(_front + ((idx + swapN) % size())));
-    }
-    for (size_t idx = 0; idx < size(); idx++) {
-        _queue->set(_front + idx, buf->get(idx));
-    }
-    delete buf;
+    return _size;
 }

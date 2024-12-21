@@ -16,9 +16,10 @@ struct Position {
 struct Area {
     // Clear memory
     ~Area() {
-        for (Queue* queue : area) {
-            delete queue;
+        for (std::vector<Data> areaY : area) {
+            areaY.clear();
         }
+        area.clear();
     }
 
     // Upload area from txt
@@ -28,7 +29,6 @@ struct Area {
         row = -1;
         col = 0;
 
-        Queue* areaY = nullptr;
         while (getline(input, line) && flag) {
             if (row == -1) {
                 // First int row in area
@@ -38,18 +38,18 @@ struct Area {
                 flag = false;
             }
 
-            areaY = new Queue();
+            std::vector<Data> areaY;
             for (int i = 0; i < (int) line.size(); i++) {
                 if (line[i] == areaWall) {
-                    areaY->insert(-2);
+                    areaY.push_back(-2);
                 } else if (line[i] == areaPath) {
-                    areaY->insert(-1);
+                    areaY.push_back(-1);
                 } else if (line[i] == areaEnd && (end.x == -1 || end.y == -1)) {
-                    areaY->insert(-1);
+                    areaY.push_back(-1);
                     end.x = i;
                     end.y = col;
                 } else if (line[i] == areaStart && (start.x == -1 || start.y == -1)) {
-                    areaY->insert(0);
+                    areaY.push_back(0);
                     start.x = i;
                     start.y = col;
                 } else {
@@ -62,9 +62,7 @@ struct Area {
         }
         // Delete object in area if flag is not success
         if (!flag) {
-            for (Queue* queue : area) {
-                delete queue;
-            }
+            delete this;
         }
         return flag;
     }
@@ -79,7 +77,7 @@ struct Area {
 private:
     // Private data
     int col = -1, row = -1;
-    std::vector<Queue*> area;
+    std::vector<std::vector<Data>> area;
     Position start{-1, -1}, end{-1, -1};
 
     // Find min path to exit (waveAlgorithm)
@@ -98,8 +96,10 @@ private:
 
         while (!queue->empty()) {
             // Put cords from queue
-            int x = queue->get(); queue->remove();
-            int y = queue->get(); queue->remove();
+            int x = queue->get();
+            queue->remove();
+            int y = queue->get();
+            queue->remove();
 
             // Get middle value from area
             Data valueMiddle = _getDataByCord(x, y);
@@ -187,17 +187,11 @@ private:
     }
 
     // Set Data(int) in queue by cord (x,y)
-    Data _getDataByCord(int x, int y) {
+    Data _getDataByCord(int x, int y) const {
         if (y < 0 || y >= col || x < 0 || x >= row) {
             throw std::out_of_range("Coordinates are out of bounds: (" + std::to_string(x) + ", " + std::to_string(y) + ")");
         }
-        // Safe swap, for get data on X place
-        area[y]->safeSwap(-x);
-        // Remove value
-        Data value = area[y]->get();
-        // Safe swap, for return the array to original state
-        area[y]->safeSwap(x);
-        return value;
+        return area[y][x];
     }
 
     // Set Data(int) in queue by cord (x,y)
@@ -205,15 +199,7 @@ private:
         if (y < 0 || y >= col || x < 0 || x >= row) {
             throw std::out_of_range("Coordinates are out of bounds: (" + std::to_string(x) + ", " + std::to_string(y) + ")");
         }
-        // Safe swap, for remove data on X place
-        area[y]->safeSwap(-x);
-        // Remove value
-        area[y]->remove();
-        // Safe swap, for input data on X place
-        area[y]->insert(value);
-        area[y]->safeSwap(1);
-        // Safe swap, for return the array to original state
-        area[y]->safeSwap(x);
+        area[y][x] = value;
     }
 };
 
@@ -233,6 +219,7 @@ int main(int argc, char **argv) {
     std::string minPathArea1 = area1->findMinPath();
     if (minPathArea1 != "######\n#xxxX#\n#x####\n#xxxY#\n######\n") {
         cout << "Test 1: fail" << endl;
+        // cout << minPathArea1 << endl;
         delete area1;
         return 1;
     }

@@ -39,12 +39,10 @@ public:
     // Returns size if the queue
     size_t size() const;
 
-    // Safe swap on n
-    void safeSwap(int n);
-
 private:
     size_t _front;
     size_t _back;
+    size_t _size;
     Vector* _queue;
 };
 
