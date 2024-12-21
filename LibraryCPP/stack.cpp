@@ -1,41 +1,34 @@
 #include "stack.h"
-#include "vector.h"
-#include <stdexcept>
 
-struct Stack {
-    Vector* vector;
+struct Stack
+{
 };
 
-Stack* stack_create() {
-    Stack* stack = new Stack;
-    stack->vector = vector_create();
-    return stack;
+Stack *stack_create()
+{
+    return new Stack;
 }
 
-void stack_delete(Stack* stack) {
-    vector_delete(stack->vector);
+void stack_delete(Stack *stack)
+{
+    // TODO: free stack elements
     delete stack;
 }
 
-void stack_push(Stack* stack, Data data) {
-    vector_resize(stack->vector, vector_size(stack->vector) + 1);
-    vector_set(stack->vector, vector_size(stack->vector) - 1, data);
+void stack_push(Stack *stack, Data data)
+{
 }
 
-Data stack_get(const Stack* stack) {
-    if (stack_empty(stack)) {
-        throw std::out_of_range("Stack is empty");
-    }
-    return vector_get(stack->vector, vector_size(stack->vector) - 1);
+Data stack_get(const Stack *stack)
+{
+    return (Data)0;
 }
 
-void stack_pop(Stack* stack) {
-    if (stack_empty(stack)) {
-        throw std::out_of_range("Stack is empty");
-    }
-    vector_resize(stack->vector, vector_size(stack->vector) - 1);
+void stack_pop(Stack *stack)
+{
 }
 
-bool stack_empty(const Stack* stack) {
-    return vector_size(stack->vector) == 0;
+bool stack_empty(const Stack *stack)
+{
+    return true;
 }
