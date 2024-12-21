@@ -1,28 +1,31 @@
 #include <cstddef>
-#include "list.h"
+#include "list.h"  // Ваш заголовочный файл
 
-struct ListItem
-{
+// Определение структуры ListItem
+struct ListItem {
     Data data;
     ListItem* next;
     ListItem* prev;
+
+    // Конструктор для ListItem с параметрами
+    ListItem(Data data, ListItem* next = nullptr, ListItem* prev = nullptr)
+        : data(data), next(next), prev(prev) {}
 };
 
-struct List
-{
+// Определение структуры List
+struct List {
     ListItem* head;
 };
 
-List *list_create()
-{
+// Создание нового списка
+List* list_create() {
     List* list = new List;
     list->head = nullptr;
     return list;
 }
 
-void list_delete(List *list)
-{
-    // TODO: free items
+// Удаление списка и всех его элементов
+void list_delete(List* list) {
     if (!list) return;
     ListItem* current = list->head;
     if (current) {
@@ -30,41 +33,40 @@ void list_delete(List *list)
             ListItem* next = current->next;
             delete current;
             current = next;
-        } while (current != list->head);
+        } while (current != list->head);  // Пока не вернемся к началу списка
     }
     delete list;
 }
 
-ListItem *list_first(List *list)
-{
-    return list ? list->head : NULL;
+// Получение первого элемента списка
+ListItem* list_first(List* list) {
+    return list ? list->head : nullptr;
 }
 
-Data list_item_data(const ListItem *item)
-{
-    return item ? item->data : (Data)0;
+// Получение данных из элемента списка
+Data list_item_data(const ListItem* item) {
+    return item ? item->data : Data();  // Возвращаем "пустые" данные по умолчанию
 }
 
-ListItem *list_item_next(ListItem *item)
-{
-    return item ? item->next : NULL;
+// Получение следующего элемента для указанного
+ListItem* list_item_next(ListItem* item) {
+    return item ? item->next : nullptr;
 }
 
-ListItem *list_item_prev(ListItem *item)
-{
-    return item ? item->prev : NULL;
+// Получение предыдущего элемента для указанного
+ListItem* list_item_prev(ListItem* item) {
+    return item ? item->prev : nullptr;
 }
 
-ListItem *list_insert(List *list, Data data)
-{
-    if (!list) return NULL;
-    ListItem* new_item = new ListItem(data, nullptr, nullptr);
+// Вставка нового элемента в список
+ListItem* list_insert(List* list, Data data) {
+    if (!list) return nullptr;
+    ListItem* new_item = new ListItem(data);  // Используем конструктор с 3 параметрами
     if (!list->head) {
-        new_item->next = new_item->prev = new_item;
-        list->head=new_item
-    }
-    else {
-        ListItem* tail = list->head->prev;
+        new_item->next = new_item->prev = new_item;  // Устанавливаем элементы в кольцевую структуру
+        list->head = new_item;
+    } else {
+        ListItem* tail = list->head->prev;  // Получаем последний элемент
         new_item->next = list->head;
         new_item->prev = tail;
         tail->next = new_item;
@@ -73,23 +75,22 @@ ListItem *list_insert(List *list, Data data)
     return new_item;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    if (!list) return NULL;
+// Вставка нового элемента после указанного
+ListItem* list_insert_after(List* list, ListItem* item, Data data) {
+    if (!list || !item) return nullptr;
     ListItem* new_item = new ListItem(data, item->next, item);
     item->next->prev = new_item;
     item->next = new_item;
-    return new_item
+    return new_item;
 }
 
-ListItem *list_erase_first(List *list)
-{
-    if (!list) return NULL;
+// Удаление первого элемента
+ListItem* list_erase_first(List* list) {
+    if (!list || !list->head) return nullptr;
     ListItem* head = list->head;
     if (head->next == head) {
-        list->head = NULL;
-    }
-    else {
+        list->head = nullptr;
+    } else {
         ListItem* tail = head->prev;
         list->head = head->next;
         list->head->prev = tail;
@@ -99,14 +100,19 @@ ListItem *list_erase_first(List *list)
     return list->head;
 }
 
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    if (!list) return NULL;
+// Удаление элемента, следующего за указанным
+ListItem* list_erase_next(List* list, ListItem* item) {
+    if (!list || !item) return nullptr;
     ListItem* to_delete = item->next;
-    item->next = to_delete->next;
-    to_delete->next->prev = item;
-    if (list->head == to_delete)
-        list->head = to_delete->next;
-    delete to_delete;
+    if (to_delete) {
+        item->next = to_delete->next;
+        if (to_delete->next) {
+            to_delete->next->prev = item;
+        }
+        if (to_delete == list->head) {
+            list->head = to_delete->next;
+        }
+        delete to_delete;
+    }
     return item->next;
 }
