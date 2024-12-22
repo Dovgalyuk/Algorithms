@@ -35,7 +35,7 @@ void queue_insert(Queue *queue, Data data)
         queue->vector = vector;
         queue->first = 0;
     }
-    vector_set(queue->vector, (queue->first + queue->sz + 1) % vector_size(queue->vector), data);
+    vector_set(queue->vector, (queue->first + queue->sz) % vector_size(queue->vector), data);
     queue->sz++;
 }
 
