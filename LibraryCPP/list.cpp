@@ -63,9 +63,11 @@ ListItem* list_insert(List* list, Data data) {
     if (!list) return nullptr;
     ListItem* new_item = new ListItem(data);
     if (!list->head) {
+        // Пустой список
         new_item->next = new_item->prev = new_item;
         list->head = new_item;
     } else {
+        // Добавляем в конец списка
         ListItem* tail = list->head->prev;
         new_item->next = list->head;
         new_item->prev = tail;
@@ -74,7 +76,6 @@ ListItem* list_insert(List* list, Data data) {
     }
     return new_item;
 }
-
 
 // Вставка нового элемента после указанного
 ListItem* list_insert_after(List* list, ListItem* item, Data data) {

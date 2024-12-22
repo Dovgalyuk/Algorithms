@@ -71,7 +71,7 @@ void print_maze(const vector<string>& maze) {
 bool read_maze_from_file(const string& filename, vector<string>& maze, int& start_x, int& start_y, int& end_x, int& end_y) {
     ifstream input_file(filename);
     if (!input_file.is_open()) {
-        cerr << "Ошибка при открытии файла!" << endl;
+        cerr << "Ошибка при открытии файла: " << filename << endl;
         return false;
     }
 
@@ -81,7 +81,7 @@ bool read_maze_from_file(const string& filename, vector<string>& maze, int& star
 
     while (getline(input_file, line)) {
         maze.push_back(line);
-        for (std::string::size_type col = 0; col < line.size(); ++col) { // Изменили тип на size_t
+        for (std::string::size_type col = 0; col < line.size(); ++col) {
             if (line[col] == 'X') {
                 start_x = row;
                 start_y = col;
@@ -97,7 +97,6 @@ bool read_maze_from_file(const string& filename, vector<string>& maze, int& star
     input_file.close();
     return true;
 }
-
 
 // Основная функция
 int main() {
@@ -127,5 +126,3 @@ int main() {
 
     return 0;
 }
-
-
