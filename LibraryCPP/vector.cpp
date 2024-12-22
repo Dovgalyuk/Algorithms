@@ -4,12 +4,14 @@ struct Vector
 {
     Data * dt;
     size_t sz;
+    size_t cap;
 };
 
 Vector *vector_create()
 {
     Vector * nv = new Vector();
-    nv->sz=100;
+    nv->sz = 100;
+    nv->cap = 20;
     nv->dt = new Data[nv->sz];
     return nv;
 }
@@ -32,15 +34,22 @@ void vector_set(Vector *vector, size_t index, Data value)
 
 size_t vector_size(const Vector *vector)
 {
-    return vector->sz;
+    return vector->cap;
 }
 
 void vector_resize(Vector *vector, size_t size)
 {
-    Data * ndt = new Data[size];
-    for (size_t i = 0; i<vector->sz;i++){
-        ndt[i] = vector->dt[i];
+    if (size <= vector->sz) {
+        vector->cap = size;
     }
-    delete vector->dt;
-    vector->dt = ndt;
+    else {
+        Data* ndt = new Data[size * 2 + 1];
+        for (size_t i = 0; i < vector->cap; i++) {
+            ndt[i] = vector->dt[i];
+        }
+        delete vector->dt;
+        vector->dt = ndt;
+        vector->sz = size * 2 + 1;
+        vector->cap = size;
+    }
 }
