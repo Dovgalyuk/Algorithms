@@ -10,7 +10,7 @@ struct Vector
 Vector *vector_create()
 {
     Vector * nv = new Vector();
-    nv->sz = 100;
+    nv->sz = 20;
     nv->cap = 20;
     nv->dt = new Data[nv->sz];
     return nv;
