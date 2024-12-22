@@ -4,11 +4,6 @@
 #include <set>
 #include "queue.h"
 
-
-struct Cell {
-    int x, y, color;
-};
-
 void paint_board(int n, int m, int board[100][100]) {
     Queue* q = queue_create();
 
