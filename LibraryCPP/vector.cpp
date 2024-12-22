@@ -47,7 +47,7 @@ void vector_resize(Vector *vector, size_t size)
         for (size_t i = 0; i < vector->cap; i++) {
             ndt[i] = vector->dt[i];
         }
-        delete vector->dt;
+        delete[] vector->dt;
         vector->dt = ndt;
         vector->sz = size * 2 + 1;
         vector->cap = size;
