@@ -18,7 +18,7 @@ Vector *vector_create()
 
 void vector_delete(Vector *vector)
 {
-    delete vector->dt;
+    delete[] vector->dt;
     delete vector; 
 }
 
