@@ -61,21 +61,26 @@ ListItem* list_item_prev(ListItem* item) {
 // Вставка нового элемента в список
 ListItem* list_insert(List* list, Data data) {
     if (!list) return nullptr;
+    
     ListItem* new_item = new ListItem(data);
+    
+    // Если список пуст, новый элемент становится головой, он указывает сам на себя
     if (!list->head) {
-        // Пустой список
-        new_item->next = new_item->prev = new_item;
+        new_item->next = new_item;
+        new_item->prev = new_item;
         list->head = new_item;
     } else {
-        // Добавляем в конец списка
-        ListItem* tail = list->head->prev;
-        new_item->next = list->head;
-        new_item->prev = tail;
-        tail->next = new_item;
-        list->head->prev = new_item;
+        // Вставляем в конец списка (за голову)
+        ListItem* tail = list->head->prev;  // последний элемент
+        new_item->next = list->head;        // следующий элемент — голова
+        new_item->prev = tail;              // предыдущий — последний элемент
+        tail->next = new_item;              // предыдущий элемент указывает на новый
+        list->head->prev = new_item;        // голова указывает на новый
     }
+
     return new_item;
 }
+
 
 // Вставка нового элемента после указанного
 ListItem* list_insert_after(List* list, ListItem* item, Data data) {
@@ -89,7 +94,10 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
 // Удаление первого элемента
 ListItem* list_erase_first(List* list) {
     if (!list || !list->head) return nullptr;
+    
     ListItem* head = list->head;
+    
+    // Если список состоит из одного элемента
     if (head->next == head) {
         list->head = nullptr;
     } else {
@@ -98,23 +106,27 @@ ListItem* list_erase_first(List* list) {
         list->head->prev = tail;
         tail->next = list->head;
     }
+    
     delete head;
     return list->head;
 }
 
+
 // Удаление элемента, следующего за указанным
 ListItem* list_erase_next(List* list, ListItem* item) {
-    if (!list || !item) return nullptr;
+    if (!list || !item || !item->next) return nullptr;
+    
     ListItem* to_delete = item->next;
-    if (to_delete) {
-        item->next = to_delete->next;
-        if (to_delete->next) {
-            to_delete->next->prev = item;
-        }
-        if (to_delete == list->head) {
-            list->head = to_delete->next;
-        }
-        delete to_delete;
+    item->next = to_delete->next;
+    if (to_delete->next) {
+        to_delete->next->prev = item;
     }
+
+    // Если удаляем элемент из головы списка, обновляем голову
+    if (to_delete == list->head) {
+        list->head = to_delete->next;
+    }
+
+    delete to_delete;
     return item->next;
 }
