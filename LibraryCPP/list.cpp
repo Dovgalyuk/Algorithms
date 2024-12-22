@@ -27,15 +27,22 @@ List* list_create() {
 // Удаление списка и всех его элементов
 void list_delete(List* list) {
     if (!list) return;
+
     ListItem* current = list->head;
-    if (current) {
-        do {
-            ListItem* next = current->next;
-            delete current;
-            current = next;
-        } while (current != list->head);  // Пока не вернемся к началу списка
+    if (!current) {
+        delete list;
+        return;
     }
-    delete list;
+
+    // Удаляем все элементы списка
+    ListItem* next = nullptr;
+    do {
+        next = current->next;
+        delete current;
+        current = next;
+    } while (current != list->head);  // Повторяем, пока не вернемся в голову
+
+    delete list;  // Удаляем сам список
 }
 
 // Получение первого элемента списка
@@ -61,25 +68,27 @@ ListItem* list_item_prev(ListItem* item) {
 // Вставка нового элемента в список
 ListItem* list_insert(List* list, Data data) {
     if (!list) return nullptr;
-    
+
+    // Создаем новый элемент
     ListItem* new_item = new ListItem(data);
-    
-    // Если список пуст, новый элемент становится головой, он указывает сам на себя
+
+    // Если список пуст, новый элемент становится головой и указывает сам на себя
     if (!list->head) {
         new_item->next = new_item;
         new_item->prev = new_item;
         list->head = new_item;
     } else {
-        // Вставляем в конец списка (за голову)
-        ListItem* tail = list->head->prev;  // последний элемент
-        new_item->next = list->head;        // следующий элемент — голова
-        new_item->prev = tail;              // предыдущий — последний элемент
-        tail->next = new_item;              // предыдущий элемент указывает на новый
-        list->head->prev = new_item;        // голова указывает на новый
+        // Вставляем элемент в конец списка (после последнего элемента)
+        ListItem* tail = list->head->prev;  // Найдем последний элемент (tail)
+        new_item->next = list->head;        // Новый элемент указывает на голову
+        new_item->prev = tail;              // Новый элемент указывает на последний элемент
+        tail->next = new_item;              // Последний элемент теперь указывает на новый
+        list->head->prev = new_item;        // Голова теперь указывает на новый элемент
     }
 
     return new_item;
 }
+
 
 
 // Вставка нового элемента после указанного
