@@ -61,12 +61,12 @@ ListItem* list_item_prev(ListItem* item) {
 // Вставка нового элемента в список
 ListItem* list_insert(List* list, Data data) {
     if (!list) return nullptr;
-    ListItem* new_item = new ListItem(data);  // Используем конструктор с 3 параметрами
+    ListItem* new_item = new ListItem(data);
     if (!list->head) {
-        new_item->next = new_item->prev = new_item;  // Устанавливаем элементы в кольцевую структуру
+        new_item->next = new_item->prev = new_item;
         list->head = new_item;
     } else {
-        ListItem* tail = list->head->prev;  // Получаем последний элемент
+        ListItem* tail = list->head->prev;
         new_item->next = list->head;
         new_item->prev = tail;
         tail->next = new_item;
@@ -74,6 +74,7 @@ ListItem* list_insert(List* list, Data data) {
     }
     return new_item;
 }
+
 
 // Вставка нового элемента после указанного
 ListItem* list_insert_after(List* list, ListItem* item, Data data) {
