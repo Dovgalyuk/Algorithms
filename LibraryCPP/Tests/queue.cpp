@@ -17,7 +17,7 @@ int main()
 
     std::cout << "Get: " << queue_get(queue) << "\n";
     queue_remove(queue);
-
+    
     if (queue_get(queue) != '2')
     {
         std::cout << "Invalid second element of the queue\n";

@@ -6,6 +6,7 @@ struct Queue
     Vector *vector;
     size_t first;
     size_t last;
+    size_t size;
 };
 
 Queue *queue_create()
@@ -13,8 +14,8 @@ Queue *queue_create()
     Queue *queue = new Queue;
     queue->first = 0;
     queue->last = 0;
+    queue->size = 0;
     queue->vector = vector_create();
-    vector_resize(queue->vector, BUFFER_SIZE);
 
     return queue;
 }
@@ -27,26 +28,40 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue *queue, Data data)
 {
-    vector_set(queue->vector,queue->last, data);
-    queue->last = (queue->last + 1) % BUFFER_SIZE;
+    if(queue->size + 1 > vector_size(queue->vector))
+    {
+        vector_resize(queue->vector, vector_size(queue->vector) + 1);
+        if(queue->first != 0)
+        {
+            for(size_t i = vector_size(queue->vector) - 1; i > queue->first; i--)
+            {
+                vector_set(queue->vector, i, vector_get(queue->vector, i - 1));
+            }
+            queue->first++;
+        }
+    }
+    queue->last = (queue->last + 1) % vector_size(queue->vector);
+    vector_set(queue->vector, queue->last, data);
+    queue->size++;
 }
 
 Data queue_get(const Queue *queue)
 {
-    if(queue->first != queue->last)
-        return vector_get(queue->vector, queue->first);
-    return (Data)0;
+   return vector_get(queue->vector, queue->first);
 }
 
 void queue_remove(Queue *queue)
 {
-    if(queue->first != queue->last)
-        queue->first = (queue->first + 1) % BUFFER_SIZE;
+    if(!queue_empty(queue))
+    {
+        queue->size--;
+        queue->first = (queue->first + 1) % vector_size(queue->vector);
+    }
 }
 
 bool queue_empty(const Queue *queue)
 {
-    if(queue->first == queue->last)
+    if(queue->size == 0)
         return true;
         
     return false;
