@@ -35,7 +35,9 @@ void lab_3(int a, int b, int *arr){
         k++;
         queue_remove(queue3);
     }
-    
+    queue_delete(queue1);
+    queue_delete(queue2);
+    queue_delete(queue3);
 }
 
 int main(int argc, char* argv[]) {
