@@ -98,9 +98,31 @@ bool read_maze_from_file(const string& filename, vector<string>& maze, int& star
     return true;
 }
 
+// Функция для записи лабиринта в файл
+bool write_maze_to_file(const string& filename, const vector<string>& maze) {
+    ofstream output_file(filename);
+    if (!output_file.is_open()) {
+        cerr << "Ошибка при открытии выходного файла: " << filename << endl;
+        return false;
+    }
+
+    for (const auto& row : maze) {
+        output_file << row << endl;
+    }
+
+    output_file.close();
+    return true;
+}
+
 // Основная функция
-int main() {
-    string input_filename = "input.txt"; // Имя входного файла
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        cerr << "Использование: " << argv[0] << " <входной файл> <выходной файл>" << endl;
+        return 1;
+    }
+
+    string input_filename = argv[1]; // Имя входного файла
+    string output_filename = argv[2]; // Имя выходного файла
 
     // Переменные для координат старта и финиша
     int start_x = -1, start_y = -1, end_x = -1, end_y = -1;
@@ -123,6 +145,13 @@ int main() {
     else {
         cout << "\nIMPOSSIBLE" << endl;
     }
+
+    // Запись результата в выходной файл
+    if (!write_maze_to_file(output_filename, maze)) {
+        return 1;
+    }
+
+    cout << "Решенный лабиринт записан в файл: " << output_filename << endl;
 
     return 0;
 }
