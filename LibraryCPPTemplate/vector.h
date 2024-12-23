@@ -112,6 +112,21 @@ public:
     size_ = new_size;
   }
 
+  // Overloaded resize method with initial value
+    void resize(size_t new_size, const Data& initialValue) {
+        if (new_size > capacity_) {
+            capacity_ = new_size * 2;
+            Data* new_data = new Data[capacity_];
+            std::copy(data_, data_ + size_, new_data);
+            delete[] data_;
+            data_ = new_data;
+        }
+        if (new_size > size_) {
+            std::fill(data_ + size_, data_ + new_size, initialValue); // Fill new elements with initialValue
+        }
+        size_ = new_size;
+    }
+
   void erase(size_t index) {
     if (index >= size_) {
       throw std::out_of_range("Index out of range");
