@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
     }
 
     int a,b;
-    int arr[];
+    int arr[9];
     if (!(file >> a >> b)) {
         std::cout << "Error reading from file\n";
         file.close();
@@ -66,19 +66,38 @@ int main(int argc, char* argv[]) {
             return 1;
         }
     }
+
     int ans_arr[9];
+        for(int i = 0; i < 9; i++){
+        ans_arr[i] = arr[i];
+    }
+
+    file.close();
+
+    lab_3(a, b, arr);
+
+    std::vector<int> expected_arr;
     for(int i = 0; i < 9; i++){
-        if (!(file >> ans_arr[i])) {
-            std::cout << "Error reading from file\n";
-            file.close();
-            return 1;
+        if (ans_arr[i] < a){
+            expected_arr.push_back(ans_arr[i]);
         }
     }
-    file.close();
-    lab_3(a, b, arr);
+        for(int i = 0; i < 9; i++){
+        if (ans_arr[i] >= a && ans_arr[i] <= b){
+            expected_arr.push_back(ans_arr[i]);
+        }
+    }
+
+        for(int i = 0; i < 9; i++){
+            if(ans_arr[i] > b){
+            expected_arr.push_back(ans_arr[i]);
+            }
+    }
+
+
     bool is_solve = true;
     for(int i = 0; i < 9; i++){
-        if (arr[i] != ans_arr[i]) {
+        if (arr[i] != expected_arr[i]) {
             is_solve = false;
             break;
         }
