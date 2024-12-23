@@ -60,31 +60,25 @@ ListItem* list_item_prev(ListItem* item) {
 
 // Вставка нового элемента в список
 ListItem* list_insert(List* list, Data data) {
-    if (!list) return nullptr; // Если списка нет, возвращаем nullptr.
+    if (!list) return nullptr;
 
-    // Создаем новый элемент списка.
-    ListItem* new_item = new ListItem;
-    new_item->data = data;
-    new_item->next = nullptr;
-    new_item->prev = nullptr;
+    // Используем конструктор с параметрами
+    ListItem* new_item = new ListItem(data, nullptr, nullptr);
 
     if (!list->head) {
-        // Если список пуст, новый элемент становится головой и указывает сам на себя.
         new_item->next = new_item;
         new_item->prev = new_item;
         list->head = new_item;
     } else {
-        // Вставляем элемент в конец списка.
-        ListItem* tail = list->head->prev;  // Найдем последний элемент (tail).
-        new_item->next = list->head;        // Новый элемент указывает на голову.
-        new_item->prev = tail;              // Новый элемент указывает на последний элемент.
-        tail->next = new_item;              // Последний элемент теперь указывает на новый.
-        list->head->prev = new_item;        // Голова теперь указывает на новый элемент.
+        ListItem* tail = list->head->prev;
+        new_item->next = list->head;
+        new_item->prev = tail;
+        tail->next = new_item;
+        list->head->prev = new_item;
     }
 
-    return new_item; // Возвращаем указатель на новый элемент.
+    return new_item;
 }
-
 // Вставка нового элемента после указанного
 ListItem* list_insert_after(List* list, ListItem* item, Data data) {
     if (!list || !item) return nullptr;
