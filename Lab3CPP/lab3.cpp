@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
     }
 
     int a,b;
-    int arr[9];
+    int arr[];
     if (!(file >> a >> b)) {
         std::cout << "Error reading from file\n";
         file.close();
