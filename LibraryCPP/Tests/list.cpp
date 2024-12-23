@@ -1,48 +1,58 @@
 #include <iostream>
 #include "list.h"
 
-int main()
-{
-    List *list = list_create();
+int main() {
+    List* list = list_create();
 
-    if (!list)
-    {
+    if (!list) {
         std::cout << "List creation error\n";
         return 1;
     }
 
+    // Вставляем элементы 1, 2, 3 в конец списка.
     list_insert(list, 1);
     list_insert(list, 2);
     list_insert(list, 3);
 
-    if (list_item_data(list_first(list)) != 3)
-    {
-        std::cout << "list_insert error\n";
+    // Проверяем первый элемент (он должен быть 1).
+    if (list_item_data(list_first(list)) != 1) {
+        std::cout << "list_insert error: incorrect first element\n";
         return 1;
     }
 
+    // Вставляем 4 после первого элемента (1).
     list_insert_after(list, list_first(list), 4);
 
-    if (list_item_data(list_item_next(list_first(list))) != 4)
-    {
-        std::cout << "list_insert_after error\n";
+    // Проверяем, что следующий элемент после первого - 4.
+    if (list_item_data(list_item_next(list_first(list))) != 4) {
+        std::cout << "list_insert_after error: incorrect next element\n";
         return 1;
     }
 
+    // Удаляем первый элемент (1).
     list_erase_first(list);
 
-    if (list_item_data(list_first(list)) != 4)
-    {
-        std::cout << "list_erase error\n";
+    // Проверяем, что первый элемент теперь 4 (первый следующий после старого 1).
+    if (list_item_data(list_first(list)) != 4) {
+        std::cout << "list_erase error: incorrect first element after erase\n";
         return 1;
     }
 
+    // Печатаем список.
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
-    {
-        std::cout << list_item_data(item) << " ";
+    ListItem* first = list_first(list);
+    if (first) {
+        ListItem* current = first;
+        do {
+            std::cout << list_item_data(current) << " ";
+            current = list_item_next(current);
+        } while (current != first);
     }
     std::cout << "\n";
 
+    // Удаляем список.
     list_delete(list);
+    std::cout << "Test completed successfully.\n";
+
+    return 0;
 }
