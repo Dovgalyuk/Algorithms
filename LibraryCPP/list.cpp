@@ -27,22 +27,15 @@ List* list_create() {
 // Удаление списка и всех его элементов
 void list_delete(List* list) {
     if (!list) return;
-
     ListItem* current = list->head;
-    if (!current) {
-        delete list;
-        return;
+    if (current) {
+        do {
+            ListItem* next = current->next;
+            delete current;
+            current = next;
+        } while (current != list->head);  // Пока не вернемся к началу списка
     }
-
-    // Удаляем все элементы списка
-    ListItem* next = nullptr;
-    do {
-        next = current->next;
-        delete current;
-        current = next;
-    } while (current != list->head);  // Повторяем, пока не вернемся в голову
-
-    delete list;  // Удаляем сам список
+    delete list;
 }
 
 // Получение первого элемента списка
@@ -65,31 +58,31 @@ ListItem* list_item_prev(ListItem* item) {
     return item ? item->prev : nullptr;
 }
 
+// Вставка нового элемента в список
 ListItem* list_insert(List* list, Data data) {
-    if (!list) return nullptr; // Если списка нет, возвращаем nullptr.
+    if (!list) return nullptr;
 
-    // Создаем новый элемент списка.
-    ListItem* new_item = new ListItem;
-    new_item->data = data;
-    new_item->next = nullptr;
-    new_item->prev = nullptr;
+    // Создаем новый элемент
+    ListItem* new_item = new ListItem(data);
 
+    // Если список пуст, новый элемент становится головой и указывает сам на себя
     if (!list->head) {
-        // Если список пуст, новый элемент становится головой и указывает сам на себя.
         new_item->next = new_item;
         new_item->prev = new_item;
         list->head = new_item;
     } else {
-        // Вставляем элемент в конец списка.
-        ListItem* tail = list->head->prev;  // Найдем последний элемент (tail).
-        new_item->next = list->head;        // Новый элемент указывает на голову.
-        new_item->prev = tail;              // Новый элемент указывает на последний элемент.
-        tail->next = new_item;              // Последний элемент теперь указывает на новый.
-        list->head->prev = new_item;        // Голова теперь указывает на новый элемент.
+        // Вставляем элемент в конец списка (после последнего элемента)
+        ListItem* tail = list->head->prev;  // Найдем последний элемент (tail)
+        new_item->next = list->head;        // Новый элемент указывает на голову
+        new_item->prev = tail;              // Новый элемент указывает на последний элемент
+        tail->next = new_item;              // Последний элемент теперь указывает на новый
+        list->head->prev = new_item;        // Голова теперь указывает на новый элемент
     }
 
-    return new_item; // Возвращаем указатель на новый элемент.
+    return new_item;
 }
+
+
 
 // Вставка нового элемента после указанного
 ListItem* list_insert_after(List* list, ListItem* item, Data data) {
