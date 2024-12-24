@@ -68,4 +68,5 @@ void search(int** graph, int num_tops, const string &filename, int &start, int &
     output.close();
 
     delete[] distances;
+    queue_delete(queue);
 }
