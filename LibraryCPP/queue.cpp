@@ -1,4 +1,4 @@
-#include "../LibraryCPP/queue.h"
+#include "queue.h"
 #include "vector.h"
 
 struct Queue
@@ -55,7 +55,7 @@ Data queue_get(const Queue *queue)
 void queue_remove(Queue *queue)
 {
     queue->front = (queue->front + 1) % vector_size(queue->vector);
-    queue->size - 1;
+    queue->size--;
 }
 
 bool queue_empty(const Queue *queue)

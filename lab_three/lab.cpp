@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <string>
-#include "../LibraryCPP/queue.h"
+#include "queue.h"
 
 using namespace std;
 
@@ -49,7 +48,7 @@ void search(int** graph, int num_tops, const string &filename, int &start, int &
     queue_insert(queue, start-1);
 
     while (!queue_empty(queue)) {
-        int now = queue_get(queue);
+        int now = static_cast<int>(queue_get(queue));
         queue_remove(queue);
 
         if (now == (end - 1)) break;
