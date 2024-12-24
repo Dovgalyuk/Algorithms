@@ -60,8 +60,11 @@ std::string evaluate_rpn(const std::string& expression) {
 }
 
 int main() {
-    std::string expression1 = "1 2 + 3";
-    std::string expression2 = "10 9 - +";
+    std::ifstream file("D:/Algorithms/lab2/input.txt");
+    std::string expression1;
+    std::string expression2;
+    std::getline(file, expression1);
+    std::getline(file, expression2);
 
     std::cout << "Expression: " << expression1 << "\nResult: " << evaluate_rpn(expression1) << "\n";
     std::cout << "Expression: " << expression2 << "\nResult: " << evaluate_rpn(expression2) << "\n";
