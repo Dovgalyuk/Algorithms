@@ -1,6 +1,6 @@
 #include "lab3.h"
 
-vector<Data> bfs(Data start, unordered_map<Data, vector<Data>>& graph) {
+vector<Data> bfs(Data start, Graph& graph) {
     unordered_set<Data> visited;
     Queue *q = queue_create();
     vector<Data> result;
@@ -29,7 +29,7 @@ vector<Data> task(ifstream& input, int reactions) {
     Data start;
     input >> start;
 
-    unordered_map<Data, vector<Data>> graph;
+    Graph graph;
     Data curr, canGet;
     for(int i = 0; i < reactions; i++)
     {

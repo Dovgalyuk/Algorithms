@@ -10,6 +10,8 @@
 
 using namespace std;
 
+typedef unordered_map<Data, vector<Data>> Graph;
+
 vector<char> bfs(char start, unordered_map<char, vector<char>>& graph);
 vector<char> task(ifstream& input, int reactions);
 

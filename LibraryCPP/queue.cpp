@@ -5,7 +5,6 @@ struct Queue
 {
     Vector *vector;
     size_t first;
-    size_t last;
     size_t size;
 };
 
@@ -13,7 +12,6 @@ Queue *queue_create()
 {
     Queue *queue = new Queue;
     queue->first = 0;
-    queue->last = 0;
     queue->size = 0;
     queue->vector = vector_create();
 
@@ -40,8 +38,8 @@ void queue_insert(Queue *queue, Data data)
             queue->first++;
         }
     }
-    queue->last = (queue->last + 1) % vector_size(queue->vector);
-    vector_set(queue->vector, queue->last, data);
+    size_t last = (queue->first + queue->size) % vector_size(queue->vector);
+    vector_set(queue->vector, last, data);
     queue->size++;
 }
 
