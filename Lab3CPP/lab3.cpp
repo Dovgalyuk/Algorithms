@@ -22,7 +22,7 @@ void lab_3(const string& file_path, int a, int b) {
     Queue * queue1 = queue_create();
     Queue * queue2 = queue_create();
     Queue * queue3 = queue_create();
-    for (int i = 0; i < arr.size(); i++){
+    for (size_t i = 0; i < arr.size(); i++){
         if (arr[i] < a){
             queue_insert(queue1, arr[i]);
         }
