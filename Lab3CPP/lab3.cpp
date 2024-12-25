@@ -1,9 +1,9 @@
 #include "lab3.h"
 
-vector<Data> bfs(Data start, Graph& graph) {
+Vector bfs(Data start, Graph& graph) {
     unordered_set<Data> visited;
     Queue *q = queue_create();
-    vector<Data> result;
+    Vector result;
 
     queue_insert(q,start);
     visited.insert(start);
@@ -25,7 +25,7 @@ vector<Data> bfs(Data start, Graph& graph) {
     return result;
 }
 
-vector<Data> task(ifstream& input, int reactions) {
+Vector task(ifstream& input, int reactions) {
     Data start;
     input >> start;
 
