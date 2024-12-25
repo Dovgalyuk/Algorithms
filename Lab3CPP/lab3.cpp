@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <vector>
 
 #include "queue.h"
 using namespace std;
@@ -52,60 +54,47 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int a,b;
-    int arr[9];
+    int a, b;
     if (!(file >> a >> b)) {
-        std::cout << "Error reading from file\n";
+        std::cout << "Error reading a and b from file\n";
         file.close();
         return 1;
     }
+
+    std::vector<int> arr(9);
     for(int i = 0; i < 9; i++){
         if (!(file >> arr[i])) {
-            std::cout << "Error reading from file\n";
+            std::cout << "Error reading numbers from file\n";
             file.close();
             return 1;
         }
     }
 
-    int ans_arr[9];
-        for(int i = 0; i < 9; i++){
-        ans_arr[i] = arr[i];
+    std::vector<int> ans_arr(9);
+    for(int i = 0; i < 9; i++){
+        if (!(file >> ans_arr[i])) {
+            std::cout << "Error reading answer array from file\n";
+            file.close();
+            return 1;
+        }
     }
 
     file.close();
 
-    lab_3(a, b, arr);
-
-    std::vector<int> expected_arr;
-    for(int i = 0; i < 9; i++){
-        if (ans_arr[i] < a){
-            expected_arr.push_back(ans_arr[i]);
-        }
-    }
-        for(int i = 0; i < 9; i++){
-        if (ans_arr[i] >= a && ans_arr[i] <= b){
-            expected_arr.push_back(ans_arr[i]);
-        }
-    }
-
-        for(int i = 0; i < 9; i++){
-            if(ans_arr[i] > b){
-            expected_arr.push_back(ans_arr[i]);
-            }
-    }
-
-
+    lab_3(a, b, arr.data());
+    
     bool is_solve = true;
     for(int i = 0; i < 9; i++){
-        if (arr[i] != expected_arr[i]) {
+        if (arr[i] != ans_arr[i]) {
             is_solve = false;
             break;
         }
     }
     if (!is_solve)
     {
-        std::cout << "Invalid lab_2 test1 execution\n";
+        std::cout << "Invalid lab_3 test execution\n";
         return 1;
     }
+
     return 0;
 }
