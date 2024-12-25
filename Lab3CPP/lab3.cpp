@@ -6,19 +6,7 @@
 #include "queue.h"
 using namespace std;
 
-void lab_3(const string& file_path, int a, int b) {
-    ifstream file(file_path);
-    if (!file.is_open()) {
-        cerr << "Error opening file: " << file_path << endl;
-        return; 
-    }
-
-    vector<int> arr;
-    int num;
-    while (file >> num) {
-        arr.push_back(num);
-    }
-    file.close();
+void lab_3(int a, int b, vector<int>& arr){
     Queue * queue1 = queue_create();
     Queue * queue2 = queue_create();
     Queue * queue3 = queue_create();
@@ -88,30 +76,14 @@ int main(int argc, char* argv[]) {
             return 1;
         }
     }
-
-    string filePath = argv[1];
-    lab_3(filePath, a, b);
     
-    file.seekg(0);
-
-    if (!(file >> a >> b)) {
-        std::cout << "Error reading from file\n";
-        file.close();
-        return 1;
-    }
-    std::vector<int> arr_check(9);
-    for(int i = 0; i < 9; i++){
-        if (!(file >> arr_check[i])) {
-            std::cout << "Error reading numbers from file\n";
-            file.close();
-            return 1;
-        }
-    }
     file.close();
+    
+    lab_3(a, b, arr);
 
     bool is_solve = true;
     for(int i = 0; i < 9; i++){
-        if (arr_check[i] != ans_arr[i]) {
+        if (arr[i] != ans_arr[i]) {
             is_solve = false;
             break;
         }
