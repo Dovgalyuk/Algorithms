@@ -59,12 +59,22 @@ std::string evaluate_rpn(const std::string& expression) {
     }
 }
 
-int main() {
-    std::ifstream file("D:/Algorithms/lab2/input.txt");
+int main(int argc, char** argv) {
     std::string expression1;
-    std::string expression2;
-    std::getline(file, expression1);
-    std::getline(file, expression2);
+    std::string expression2; 
+    if (argc > 1) {
+        std::ifstream input(argv[1]);
+        if (!input.is_open()) {
+            std::cerr << "cant open file: " << argv[1] << '\n';
+            return 1;
+        }
+        input >> expression1;
+        input >> expression2;
+    }
+    else {
+        std::cout << "argc <= 1. Please enter two expressions:\n";
+        std::cin >> expression1 >> expression2;
+    }
 
     std::cout << "Expression: " << expression1 << "\nResult: " << evaluate_rpn(expression1) << "\n";
     std::cout << "Expression: " << expression2 << "\nResult: " << evaluate_rpn(expression2) << "\n";
