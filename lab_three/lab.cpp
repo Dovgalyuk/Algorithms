@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void search(int** graph, int num_tops, const string &filename, int &start, int &end);
+void search(int** graph, int num_tops, const string &filename, int start, int end);
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-void search(int** graph, int num_tops, const string &filename, int &start, int &end) {
+void search(int** graph, int num_tops, const string &filename, int start, int end) {
 
     int* distances = new int[num_tops];
     for (int i = 0; i < num_tops; i++) distances[i] = -1; //0 -1 -1 -1
@@ -58,7 +58,6 @@ void search(int** graph, int num_tops, const string &filename, int &start, int &
                 distances[i] = distances[now] + 1;
                 queue_insert(queue, i);
             }
-            else queue_insert(queue, i);
         }
     }
 
