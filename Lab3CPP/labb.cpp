@@ -3,11 +3,48 @@
 #include <queue>
 #include <fstream>
 #include <string>
-#include "queue.h"
 using namespace std;
 
+// Тип для лабиринта
+using Maze = vector<string>;
+
+// Функция для обработки соседей
+bool process_neighbors(int x, int y, int nx, int ny, Maze& maze, vector<vector<bool>>& visited, vector<vector<int>>& dist, queue<pair<int, int>>& q, int end_x, int end_y, int dx[], int dy[]) {
+    int n = maze.size();
+    int m = maze[0].size();
+
+    // Проверяем, можно ли двигаться в новую точку
+    if (nx >= 0 && ny >= 0 && nx < n && ny < m && !visited[nx][ny] && maze[nx][ny] != '#') {
+        visited[nx][ny] = true;
+        dist[nx][ny] = dist[x][y] + 1;
+        q.push({ nx, ny });
+
+        // Если достигли цели, восстанавливаем путь
+        if (nx == end_x && ny == end_y) {
+            int cx = end_x, cy = end_y;
+            while (dist[cx][cy] != 0) {
+                maze[cx][cy] = 'x';
+                for (int j = 0; j < 4; ++j) {
+                    int px = cx - dx[j];
+                    int py = cy - dy[j];
+                    if (px >= 0 && py >= 0 && px < n && py < m && dist[px][py] == dist[cx][cy] - 1) {
+                        cx = px;
+                        cy = py;
+                        break;
+                    }
+                }
+            }
+            maze[x][y] = 'X';
+            maze[end_x][end_y] = 'Y';
+            return true;
+        }
+    }
+
+    return false;
+}
+
 // Функция для поиска пути с помощью BFS
-bool bfs(vector<string>& maze, int start_x, int start_y, int end_x, int end_y) {
+bool bfs(Maze& maze, int start_x, int start_y, int end_x, int end_y) {
     int n = maze.size();
     int m = maze[0].size();
 
@@ -26,49 +63,30 @@ bool bfs(vector<string>& maze, int start_x, int start_y, int end_x, int end_y) {
         auto [x, y] = q.front();
         q.pop();
 
+        // Обрабатываем все 4 соседних клетки
         for (int i = 0; i < 4; ++i) {
             int nx = x + dx[i];
             int ny = y + dy[i];
 
-            if (nx >= 0 && ny >= 0 && nx < n && ny < m && !visited[nx][ny] && maze[nx][ny] != '#') {
-                visited[nx][ny] = true;
-                dist[nx][ny] = dist[x][y] + 1;
-                q.push({ nx, ny });
-
-                if (nx == end_x && ny == end_y) {
-                    int cx = end_x, cy = end_y;
-                    while (dist[cx][cy] != 0) {
-                        maze[cx][cy] = 'x';
-                        for (int j = 0; j < 4; ++j) {
-                            int px = cx - dx[j];
-                            int py = cy - dy[j];
-                            if (px >= 0 && py >= 0 && px < n && py < m && dist[px][py] == dist[cx][cy] - 1) {
-                                cx = px;
-                                cy = py;
-                                break;
-                            }
-                        }
-                    }
-                    maze[start_x][start_y] = 'X';
-                    maze[end_x][end_y] = 'Y';
-                    return true;
-                }
+            // Вызываем функцию для обработки соседа
+            if (process_neighbors(x, y, nx, ny, maze, visited, dist, q, end_x, end_y, dx, dy)) {
+                return true; // Путь найден
             }
         }
     }
 
-    return false;
+    return false; // Путь не найден
 }
 
 // Функция для вывода лабиринта в консоль
-void print_maze(const vector<string>& maze) {
+void print_maze(const Maze& maze) {
     for (const auto& row : maze) {
         cout << row << endl;
     }
 }
 
 // Функция для чтения лабиринта из файла
-bool read_maze_from_file(const string& filename, vector<string>& maze, int& start_x, int& start_y, int& end_x, int& end_y) {
+bool read_maze_from_file(const string& filename, Maze& maze, int& start_x, int& start_y, int& end_x, int& end_y) {
     ifstream input_file(filename);
     if (!input_file.is_open()) {
         cerr << "Ошибка при открытии файла: " << filename << endl;
@@ -99,7 +117,7 @@ bool read_maze_from_file(const string& filename, vector<string>& maze, int& star
 }
 
 // Функция для записи лабиринта в файл
-bool write_maze_to_file(const string& filename, const vector<string>& maze) {
+bool write_maze_to_file(const string& filename, const Maze& maze) {
     ofstream output_file(filename);
     if (!output_file.is_open()) {
         cerr << "Ошибка при открытии выходного файла: " << filename << endl;
@@ -126,7 +144,7 @@ int main(int argc, char* argv[]) {
 
     // Переменные для координат старта и финиша
     int start_x = -1, start_y = -1, end_x = -1, end_y = -1;
-    vector<string> maze;
+    Maze maze;
 
     // Чтение лабиринта из файла
     if (!read_maze_from_file(input_filename, maze, start_x, start_y, end_x, end_y)) {

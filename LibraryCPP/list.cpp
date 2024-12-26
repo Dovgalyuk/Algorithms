@@ -110,11 +110,14 @@ ListItem* list_erase_first(List* list) {
 
 
 // Удаление элемента, следующего за указанным
+// Удаление элемента, следующего за указанным
 ListItem* list_erase_next(List* list, ListItem* item) {
     if (!list || !item || !item->next) return nullptr;
-    
+
     ListItem* to_delete = item->next;
     item->next = to_delete->next;
+
+    // Если следующий элемент существует, обновляем его prev
     if (to_delete->next) {
         to_delete->next->prev = item;
     }
@@ -124,6 +127,11 @@ ListItem* list_erase_next(List* list, ListItem* item) {
         list->head = to_delete->next;
     }
 
+    // Удаление самого элемента
     delete to_delete;
     return item->next;
 }
+
+
+
+
