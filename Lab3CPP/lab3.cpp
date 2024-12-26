@@ -1,45 +1,52 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <sstream>
-
 #include "queue.h"
+
 using namespace std;
 
-void lab_3(int a, int b, vector<int>& arr){
-    Queue * queue1 = queue_create();
-    Queue * queue2 = queue_create();
-    Queue * queue3 = queue_create();
-    for (size_t i = 0; i < arr.size(); i++){
-        if (arr[i] < a){
-            queue_insert(queue1, arr[i]);
-        }
-        else if(arr[i] <= b){
-            queue_insert(queue2, arr[i]);
-        }
-        else{
-            queue_insert(queue3, arr[i]);
+vector<int> lab_3(const string& file_path, int a, int b) {
+    ifstream file(file_path);
+    if (!file.is_open()) {
+        cerr << "Error opening file: " << file_path << endl;
+        return {};
+    }
+
+    Queue *queue1 = queue_create();
+    Queue *queue2 = queue_create();
+    Queue *queue3 = queue_create();
+
+    int num;
+    while (file >> num) {
+        if (num < a) {
+            queue_insert(queue1, num);
+        } else if (num <= b) {
+            queue_insert(queue2, num);
+        } else {
+            queue_insert(queue3, num);
         }
     }
-    int k = 0;
-    while (!queue_empty(queue1)){
-        arr[k] = queue_get(queue1);
-        k++;
+
+    file.close();
+
+    vector<int> sorted_arr;
+    while (!queue_empty(queue1)) {
+        sorted_arr.push_back(queue_get(queue1));
         queue_remove(queue1);
     }
-    while (!queue_empty(queue2)){
-        arr[k] = queue_get(queue2);
-        k++;
+    while (!queue_empty(queue2)) {
+        sorted_arr.push_back(queue_get(queue2));
         queue_remove(queue2);
     }
-    while (!queue_empty(queue3)){
-        arr[k] = queue_get(queue3);
-        k++;
+    while (!queue_empty(queue3)) {
+        sorted_arr.push_back(queue_get(queue3));
         queue_remove(queue3);
     }
+
     queue_delete(queue1);
     queue_delete(queue2);
     queue_delete(queue3);
+    return sorted_arr;
 }
 
 int main(int argc, char* argv[]) {
@@ -60,37 +67,35 @@ int main(int argc, char* argv[]) {
         file.close();
         return 1;
     }
-    std::vector<int> arr(9);
-    for(int i = 0; i < 9; i++){
-        if (!(file >> arr[i])) {
-            std::cout << "Error reading from file\n";
-            file.close();
-            return 1;
-        }
-    }
+
     std::vector<int> ans_arr(9);
-    for(int i = 0; i < 9; i++){
+    for (int i = 0; i < 9; i++) {
         if (!(file >> ans_arr[i])) {
             std::cout << "Error reading answer array from file\n";
             file.close();
             return 1;
         }
     }
-    
+
     file.close();
-    
-    lab_3(a, b, arr);
+    string filePath = argv[1];
+    vector<int> sorted_arr = lab_3(filePath, a, b);
+
+    if (sorted_arr.size() != 9)
+    {
+        std::cout << "Error, not 9 elements in sorted array" << endl;
+        return 1;
+    }
 
     bool is_solve = true;
-    for(int i = 0; i < 9; i++){
-        if (arr[i] != ans_arr[i]) {
+    for (size_t i = 0; i < sorted_arr.size(); i++) {
+        if (sorted_arr[i] != ans_arr[i]) {
             is_solve = false;
             break;
         }
     }
-    if (!is_solve)
-    {
-        std::cout << "Invalid lab_2 test1 execution\n";
+    if (!is_solve) {
+        std::cout << "Invalid lab_3 test1 execution\n";
         return 1;
     }
 
