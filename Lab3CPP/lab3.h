@@ -13,7 +13,7 @@ using namespace std;
 typedef unordered_map<Data, vector<Data>> Graph;
 typedef vector<Data> Vector;
 
-vector<char> bfs(char start, unordered_map<char, vector<char>>& graph);
-vector<char> task(ifstream& input, int reactions);
+Vector bfs(Data start, Graph& graph);
+Vector task(ifstream& input, int reactions);
 
 #endif
