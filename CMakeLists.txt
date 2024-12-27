@@ -17,4 +17,4 @@ add_subdirectory(LibraryCPP)
 
 #add_subdirectory(Lab1C)
 
-add_subdirectory(lab2)
+add_subdirectory(lab3)
