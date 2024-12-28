@@ -15,7 +15,7 @@ bool is_valid(int x, int y, int n, int m, const Vector* board) {
 int color_board(int n, int m, const Vector* initial_cells) {
     Vector* board = vector_create();
     unsigned long long index1 = (unsigned long long)n * m;
-    vector_resize(board, index1); 
+    vector_resize(board, index1);
 
     for (size_t i = 0; i < vector_size(board); ++i) {
         vector_set(board, i, 0);
@@ -71,22 +71,20 @@ int color_board(int n, int m, const Vector* initial_cells) {
 }
 
 int main(int argc, char** argv) {
-
     int n, m;
     if (argc > 1) {
         std::ifstream input(argv[1]);
         if (!input.is_open()) {
-            std::cerr << "cant open file: " << argv[1] << '\n';
+            std::cerr << "Cannot open file: " << argv[1] << '\n';
             return 1;
         }
         input >> n >> m;
-
     }
     else {
         std::cout << "argc <= 1\nn=3; m=3\n";
-        m = 3; n = 3;
+        n = 3;
+        m = 3;
     }
-
 
     Vector* initial_cells = vector_create();
     int x, y;
@@ -105,13 +103,13 @@ int main(int argc, char** argv) {
     }
     else {
         std::cout << "x=1;y=1\n";
-        x = 1; y = 1;
+        x = 1;
+        y = 1;
         vector_resize(initial_cells, vector_size(initial_cells) + 3);
         vector_set(initial_cells, vector_size(initial_cells) - 3, x - 1);
         vector_set(initial_cells, vector_size(initial_cells) - 2, y - 1);
         vector_set(initial_cells, vector_size(initial_cells) - 1, 1);
     }
-
 
     int result = color_board(n, m, initial_cells);
     std::cout << "colors count: " << result << std::endl;

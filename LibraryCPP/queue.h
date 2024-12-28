@@ -1,30 +1,28 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-// Queue
-// Stores integer values inside
-typedef int Data;
+#include "list.h"
 
-struct Queue;
+struct Queue {
+    List* list;
+};
 
-// Create empty queue
-Queue *queue_create();
+// Создает новую очередь
+Queue* queue_create();
 
-// Deletes queue
-void queue_delete(Queue *queue);
+// Удаляет очередь
+void queue_delete(Queue* queue);
 
-// Includes new element into the queue
-// Should be O(1) on average
-void queue_insert(Queue *queue, Data data);
+// Добавляет элемент в конец очереди
+void queue_insert(Queue* queue, int data);
 
-// Retrieves first element from the queue
-Data queue_get(const Queue *queue);
+// Возвращает первый элемент очереди
+int queue_get(const Queue* queue);
 
-// Removes first element from the queue
-// Should be O(1) on average
-void queue_remove(Queue *queue);
+// Удаляет первый элемент очереди
+void queue_remove(Queue* queue);
 
-// Returns true if the queue is empty
-bool queue_empty(const Queue *queue);
+// Проверяет, пуста ли очередь
+bool queue_empty(const Queue* queue);
 
-#endif
+#endif // QUEUE_H

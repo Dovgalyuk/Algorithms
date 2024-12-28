@@ -1,39 +1,39 @@
 #ifndef LIST_H
 #define LIST_H
 
-// List
-// Stores integer values inside
-typedef int Data;
+struct ListItem {
+    int data;
+    ListItem* next;
+    ListItem* prev;
+};
 
-struct List;
-struct ListItem;
+struct List {
+    ListItem* head;
+    ListItem* tail;
+};
 
-// Creates new list
+// Создает новый список
 List* list_create();
 
-// Destroys the list and frees the memory
+// Удаляет список
 void list_delete(List* list);
 
-// Retrieves the first item from the list
-ListItem* list_first(List* list);
+// Вставляет элемент в начало списка
+void list_insert(List* list, int data);
 
-// Extracts data from the list item
-Data list_item_data(const ListItem* item);
+// Вставляет элемент после указанного узла
+void list_insert_after(List* list, ListItem* item, int data);
 
-// Returns list item following after the specified one
-ListItem* list_item_next(ListItem* item);
+// Удаляет первый элемент списка
+void list_erase_first(List* list);
 
-// Inserts new list item into the beginning
-ListItem* list_insert(List* list, Data data);
+// Возвращает первый элемент списка
+ListItem* list_first(const List* list);
 
-// Inserts new list item after the specified item
-ListItem* list_insert_after(List* list, ListItem* item, Data data);
+// Возвращает данные из элемента списка
+int list_item_data(const ListItem* item);
 
-// Inserts new list item at the end
-ListItem* list_insert_last(List* list, Data data);
+// Возвращает следующий элемент списка
+ListItem* list_item_next(const ListItem* item);
 
-// Deletes the first list item.
-// Returns pointer to the item next to the deleted one.
-ListItem* list_erase_first(List* list);
-
-#endif
+#endif // LIST_H
