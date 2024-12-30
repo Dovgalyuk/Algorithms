@@ -66,7 +66,6 @@ int main(int argc, char* argv[]) {
     int arr[9];
     int temp;
 
-    file.close();
     lab_3(a, b, arr, file);
     bool is_solve = true;
     for(int i = 0; i < 9; i++){
@@ -80,6 +79,7 @@ int main(int argc, char* argv[]) {
             break;
         }
     }
+    file.close();
     if (!is_solve)
     {
         std::cout << "Invalid lab_3 test1 execution\n";
