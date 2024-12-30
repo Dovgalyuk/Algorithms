@@ -4,7 +4,7 @@
 #include "queue.h"
 using namespace std;
 
-void lab_3(int a, int b, int *arr){
+void lab_3(int a, int b, int *arr, ifstream& file){
     Queue * queue1 = queue_create();
     Queue * queue2 = queue_create();
     Queue * queue3 = queue_create();
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
     int temp;
 
     file.close();
-    lab_3(a, b, arr);
+    lab_3(a, b, arr, file);
     bool is_solve = true;
     for(int i = 0; i < 9; i++){
         if (!(file >> temp)) {
