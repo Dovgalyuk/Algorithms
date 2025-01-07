@@ -23,10 +23,9 @@ void queue_delete(Queue *queue) {
     delete queue;
 }
 
-void queue_insert(Queue* queue, Data data)
-{
-    if (queue->size == vector_size((queue->vector))) {
-        size_t new_size = queue->size * 2;
+void queue_insert(Queue* queue, Data data) {
+    if (queue->size == vector_size(queue->vector)) {
+        size_t new_size = queue->size == 0 ? 1 : queue->size * 2; // Увеличиваем размер
         Vector* new_vec = vector_create();
         vector_resize(new_vec, new_size);
 
@@ -44,7 +43,7 @@ void queue_insert(Queue* queue, Data data)
 }
 
 Data queue_get(const Queue *queue) {
-    if (queue->size == 0) return 0;
+    if (queue->size == 0) return (Data)0; // Лучше использовать специальное значение или выбрасывать исключение
     return vector_get(queue->vector, queue->front);
 }
 
@@ -54,6 +53,6 @@ void queue_remove(Queue *queue) {
     queue->size--;
 }
 
-bool queue_empty(const Queue *queue){
+bool queue_empty(const Queue *queue) {
     return queue->size == 0;
 }
