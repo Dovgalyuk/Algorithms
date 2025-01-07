@@ -28,14 +28,18 @@ void queue_insert(Queue* queue, Data data) {
         Vector* new_vec = vector_create();
         vector_resize(new_vec, new_size);
 
+        // Копируем данные из старого вектора в новый
         for (size_t i = 0; i < queue->size; ++i) {
             vector_set(new_vec, i, vector_get(queue->vector, (queue->front + i) % vector_size(queue->vector)));
         }
+
         vector_delete(queue->vector);
         queue->vector = new_vec;
         queue->front = 0;
-        queue->back = queue->size;
+        queue->back = queue->size; // Обновляем back
     }
+
+    // Вставляем новый элемент
     vector_set(queue->vector, queue->back, data);
     queue->back = (queue->back + 1) % vector_size(queue->vector);
     queue->size++;
@@ -46,7 +50,7 @@ Data queue_get(const Queue *queue) {
 }
 
 void queue_remove(Queue *queue) {
-    if (queue->size == 0) return; // Проверка на пустую очередь
+    if (queue_empty(queue)) return; // Проверка на пустую очередь
     queue->front = (queue->front + 1) % vector_size(queue->vector);
     queue->size--;
 }
