@@ -1,61 +1,53 @@
-#include <iostream>
-#include <fstream>
-#include <string>
 #include "vector.h"
-#include "queue.h"
 
-using namespace std;
+struct Vector {
+    Data *data;
+    size_t size;
+    size_t capacity;
+};
 
-void organize_numbers(ifstream& input) {
-    int a, b, number;
-    Queue *lessThanA = queue_create();
-    Queue *betweenAandB = queue_create();
-    Queue *greaterThanB = queue_create();
-
-    input >> a >> b;
-
-    while (input >> number) {
-        if (number < a) {
-            queue_insert(lessThanA, number);
-        } else if (number >= a && number <= b) {
-            queue_insert(betweenAandB, number);
-        } else {
-            queue_insert(greaterThanB, number);
-        }
-    }
-
-    Queue *all = queue_create();
-
-    // Переносим элементы из очередей в одну общую очередь
-    while (!queue_empty(lessThanA)) {
-        queue_insert(all, queue_get(lessThanA));
-    }
-    while (!queue_empty(betweenAandB)) {
-        queue_insert(all, queue_get(betweenAandB));
-    }
-    while (!queue_empty(greaterThanB)) {
-        queue_insert(all, queue_get(greaterThanB));
-    }
-
-    // Освобождаем память для очередей
-    queue_remove(lessThanA);
-    queue_remove(betweenAandB);
-    queue_remove(greaterThanB);
-    queue_remove(all);
+Vector *vector_create() {
+    Vector *vector = new Vector;
+    vector->size = 0;
+    vector->capacity = 10;
+    vector->data = new Data[vector->capacity];
+    return vector;
 }
 
-int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        return 1;
+void vector_delete(Vector *vector) {
+    if (vector != nullptr) {
+        delete[] vector->data;
+        delete vector; 
     }
+}
 
-    ifstream input(argv[1]);
-    if (!input) {
-        return 1;
+Data vector_get(const Vector *vector, size_t index) {
+    if (index >= vector->size) return (Data)0;
+    return vector->data[index];
+}
+
+void vector_set(Vector *vector, size_t index, Data value) {
+    if (index >= vector->size) return;
+    vector->data[index] = value;
+}
+
+size_t vector_size(const Vector *vector) {
+    return vector->size;
+}
+
+void vector_resize(Vector *vector, size_t size) {
+    if (size > vector->capacity) {
+        while (vector->capacity < size) {
+            vector->capacity *= 2;
+        }
+        Data *new_data = new Data[vector->capacity];
+        for (size_t i = 0; i < vector->size; ++i) {
+            new_data[i] = vector->data[i];
+        }
+        delete[] vector->data;
+        vector->data = new_data;
     }
-
-    organize_numbers(input);
-
-    input.close();
-    return 0;
+    if (size > vector->size) {
+        vector->size = size;
+    }
 }
