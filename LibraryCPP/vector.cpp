@@ -36,18 +36,45 @@ size_t vector_size(const Vector *vector) {
 }
 
 void vector_resize(Vector *vector, size_t size) {
+    if (size == 0) {
+        // Если новый размер равен 0, освобождаем память и обнуляем вектор
+        delete[] vector->data;
+        vector->data = nullptr;
+        vector->size = 0;
+        vector->capacity = 0;
+        return;
+    }
+
+    // Увеличиваем емкость, если новый размер больше текущей
     if (size > vector->capacity) {
-        while (vector->capacity < size) {
-            vector->capacity *= 2;
+        size_t new_capacity = vector->capacity;
+
+        // Увеличиваем емкость до ближайшей степени двойки
+        while (new_capacity < size) {
+            new_capacity = (new_capacity == 0) ? 1 : new_capacity * 2;
         }
-        Data *new_data = new Data[vector->capacity];
+
+        // Выделяем новую память
+        Data *new_data = new Data[new_capacity];
+
+        // Копируем старые данные в новый массив
         for (size_t i = 0; i < vector->size; ++i) {
             new_data[i] = vector->data[i];
         }
+
+        // Освобождаем старую память
         delete[] vector->data;
+
+        // Обновляем указатели и размеры
         vector->data = new_data;
+        vector->capacity = new_capacity;
     }
-    if (size > vector->size) {
-        vector->size = size;
+
+    // Устанавливаем новый размер
+    vector->size = size;
+
+    // Если новый размер больше старого, инициализируем новые элементы
+    for (size_t i = vector->size; i < size; ++i) {
+        vector->data[i] = Data(); // Инициализация по умолчанию
     }
 }
