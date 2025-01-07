@@ -29,18 +29,18 @@ void organize_numbers(ifstream& input) {
     // Переносим элементы из очередей в одну общую очередь
     while (!queue_empty(lessThanA)) {
         queue_insert(all, queue_get(lessThanA));
+        queue_delete(lessThanA);
     }
     while (!queue_empty(betweenAandB)) {
         queue_insert(all, queue_get(betweenAandB));
+        queue_delete(betweenAandB);
     }
     while (!queue_empty(greaterThanB)) {
         queue_insert(all, queue_get(greaterThanB));
+        queue_delete(greaterThanB);
     }
 
     // Освобождаем память для очередей
-    queue_delete(lessThanA);
-    queue_delete(betweenAandB);
-    queue_delete(greaterThanB);
     queue_delete(all);
 }
 
