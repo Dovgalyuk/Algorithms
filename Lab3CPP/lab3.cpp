@@ -38,10 +38,10 @@ void organize_numbers(ifstream& input) {
     }
 
     // Освобождаем память для очередей
-    queue_remove(lessThanA);
-    queue_remove(betweenAandB);
-    queue_remove(greaterThanB);
-    queue_remove(all);
+    queue_delete(lessThanA);
+    queue_delete(betweenAandB);
+    queue_delete(greaterThanB);
+    queue_delete(all);
 }
 
 int main(int argc, char* argv[]) {

@@ -1,5 +1,5 @@
-#include "queue.h"
 #include "vector.h"
+#include "queue.h"
 
 struct Queue {
     Vector *vector;
@@ -11,7 +11,6 @@ struct Queue {
 Queue *queue_create() {
     Queue *queue = new Queue;
     queue->vector = vector_create();
-    vector_resize(queue->vector, 1);
     queue->size = 0;
     queue->front = 0;
     queue->back = 0;
@@ -43,12 +42,11 @@ void queue_insert(Queue* queue, Data data) {
 }
 
 Data queue_get(const Queue *queue) {
-    if (queue->size == 0) return (Data)0; // Лучше использовать специальное значение или выбрасывать исключение
     return vector_get(queue->vector, queue->front);
 }
 
 void queue_remove(Queue *queue) {
-    if (queue->size == 0) return;
+    if (queue->size == 0) return; // Проверка на пустую очередь
     queue->front = (queue->front + 1) % vector_size(queue->vector);
     queue->size--;
 }
