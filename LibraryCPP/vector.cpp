@@ -36,12 +36,12 @@ size_t vector_size(const Vector *vector) {
 }
 
 void vector_resize(Vector *vector, size_t size) {
+    // Если новый размер равен 0, освобождаем память и обнуляем вектор
     if (size == 0) {
-        // Если новый размер равен 0, освобождаем память и обнуляем вектор
-        delete[] vector->data;
-        vector->data = nullptr;
-        vector->size = 0;
-        vector->capacity = 0;
+        delete[] vector->data; // Освобождаем память
+        vector->data = nullptr; // Устанавливаем указатель на nullptr
+        vector->size = 0;       // Устанавливаем размер вектора в 0
+        vector->capacity = 0;   // Устанавливаем емкость вектора в 0
         return;
     }
 
