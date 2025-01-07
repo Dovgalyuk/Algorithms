@@ -25,13 +25,23 @@ void organize_numbers(ifstream& input) {
     }
 
     Queue *all = queue_create();
-    queue_insert(all, queue_get(lessThanA));
-    queue_insert(all, queue_get(betweenAandB));
-    queue_insert(all, queue_get(greaterThanB));
 
+    // Переносим элементы из очередей в одну общую очередь
+    while (!queue_empty(lessThanA)) {
+        queue_insert(all, queue_get(lessThanA));
+    }
+    while (!queue_empty(betweenAandB)) {
+        queue_insert(all, queue_get(betweenAandB));
+    }
+    while (!queue_empty(greaterThanB)) {
+        queue_insert(all, queue_get(greaterThanB));
+    }
+
+    // Освобождаем память для очередей
     queue_remove(lessThanA);
     queue_remove(betweenAandB);
     queue_remove(greaterThanB);
+    queue_remove(all);
 }
 
 int main(int argc, char* argv[]) {
