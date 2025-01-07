@@ -59,7 +59,7 @@ void vector_resize(Vector *vector, size_t size) {
 
         // Копируем старые данные в новый массив
         for (size_t i = 0; i < vector->size; ++i) {
-            new_data[i] = vector->data[i];
+            new_data[i] = vector->data[i]; // Копируем существующие данные
         }
 
         // Освобождаем старую память
@@ -72,9 +72,7 @@ void vector_resize(Vector *vector, size_t size) {
 
     // Устанавливаем новый размер
     vector->size = size;
-
-    // Если новый размер больше старого, инициализируем новые элементы
     for (size_t i = vector->size; i < size; ++i) {
-        vector->data[i] = Data(); // Инициализация по умолчанию
+        vector->data[i] = Data();
     }
 }
