@@ -3,7 +3,6 @@
 
 Queue::Queue() {
     _front = 0;
-    _back = 0;
     _size = 0;
     _queue = new Vector;
     _queue->resize(2);
@@ -11,7 +10,6 @@ Queue::Queue() {
 
 Queue::Queue(const Queue &a) {
     _front = a._front;
-    _back = a._back;
     _size = a._size;
     _queue = a._queue;
 }
@@ -20,7 +18,6 @@ Queue &Queue::operator=(const Queue &a) {
     if (this != &a) {
         delete _queue;
         _front = a._front;
-        _back = a._back;
         _size = a._size;
         _queue = a._queue;
     }
@@ -29,7 +26,6 @@ Queue &Queue::operator=(const Queue &a) {
 
 Queue::~Queue(){
     _front = 0;
-    _back = 0;
     _size = 0;
     delete _queue;
 }
@@ -46,12 +42,10 @@ void Queue::insert(Data data) {
             _queue->set(idx_front, bufData);
         }
         _front = 0;
-        _back = _queue->cap();
     }
 
     _queue->resize(_queue->size()+1);
-    _queue->set(_back, data);
-    _back = (_back + 1) % (int) _queue->size();
+    _queue->set((_front + _size % (int) _queue->size()), data);
     _size++;
 }
 

@@ -41,7 +41,6 @@ public:
 
 private:
     size_t _front;
-    size_t _back;
     size_t _size;
     Vector* _queue;
 };
