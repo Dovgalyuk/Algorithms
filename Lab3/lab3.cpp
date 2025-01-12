@@ -3,25 +3,22 @@
 #include "queue.h"
 using namespace std;
 
+typedef std::vector<Data> areaRow;
+
 #define areaWall '#'
 #define areaStart 'X'
 #define areaEnd 'Y'
 #define areaMinPath 'x'
 #define areaPath '.'
+#define wall (-2)
+#define path (-1)
+#define visited 0
 
 struct Position {
     int x, y;
 };
 
 struct Area {
-    // Clear memory
-    ~Area() {
-        for (std::vector<Data> areaY : area) {
-            areaY.clear();
-        }
-        area.clear();
-    }
-
     // Upload area from txt
     bool uploadFromTxt(ifstream& input) {
         bool flag = true;
@@ -38,18 +35,18 @@ struct Area {
                 flag = false;
             }
 
-            std::vector<Data> areaY;
+            areaRow areaY;
             for (int i = 0; i < (int) line.size(); i++) {
                 if (line[i] == areaWall) {
-                    areaY.push_back(-2);
+                    areaY.push_back(wall);
                 } else if (line[i] == areaPath) {
-                    areaY.push_back(-1);
+                    areaY.push_back(path);
                 } else if (line[i] == areaEnd && (end.x == -1 || end.y == -1)) {
-                    areaY.push_back(-1);
+                    areaY.push_back(path);
                     end.x = i;
                     end.y = col;
                 } else if (line[i] == areaStart && (start.x == -1 || start.y == -1)) {
-                    areaY.push_back(0);
+                    areaY.push_back(visited);
                     start.x = i;
                     start.y = col;
                 } else {
@@ -80,6 +77,9 @@ private:
     std::vector<std::vector<Data>> area;
     Position start{-1, -1}, end{-1, -1};
 
+    // Cords around point in area (Up, Down, Left, Right)
+    int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
     // Find min path to exit (waveAlgorithm)
     int waveAlgorithm() {
         // If area is empty or has no start or end
@@ -90,9 +90,6 @@ private:
         // Init queue with cord position (add start position)
         Queue *queue = new Queue();
         queue->insert(start.x); queue->insert(start.y);
-
-        // Cords around value (Up, Down, Left, Right)
-        int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
         while (!queue->empty()) {
             // Put cords from queue
@@ -158,7 +155,6 @@ private:
             visualArea[y][x] = 'x'; // Mark the path
 
             // Find the next step by checking neighbors with value - 1
-            int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
             int currentValue = _getDataByCord(x, y);
 
             for (const auto& direction : directions) {
