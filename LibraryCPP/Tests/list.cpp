@@ -38,9 +38,12 @@ int main()
     }
 
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
-    {
-        std::cout << list_item_data(item) << " ";
+    if (list_first(list)) {
+        ListItem* item = list_first(list);
+        do {
+            std::cout << list_item_data(item) << " ";
+            item = list_item_next(item);
+        } while (item != list_first(list)); // Останавливаемся, если вернулись к началу
     }
     std::cout << "\n";
 
