@@ -12,8 +12,8 @@ public:
         list_.insert(data);
     }
 
-    // Retrieves the last element from the stack
-    Data get() const
+
+    Data pop()
     {
         Data data = list_.first()->data();
         list_.erase_first();

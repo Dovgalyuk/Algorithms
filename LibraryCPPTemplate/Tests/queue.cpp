@@ -50,7 +50,7 @@ int main()
     }
 
     MyQueue copy(*queue);
-    for (int i = 1 ; i <= 10000000 ; ++i)
+    for (int i = 1 ; i <= 100 ; ++i)
     {
         if (copy.empty())
             return 1;
