@@ -127,11 +127,16 @@ public:
         size_ = new_size;
     }
 
-  void erase(size_t index) {
-    if (index >= size_) {
-      throw std::out_of_range("Index out of range");
+    // copy constructor
+    Vector(const Vector &a)
+    {
     }
 
+    // assignment operator
+    Vector &operator=(const Vector &a)
+    {
+        return *this;
+    }
 
     // Use memmove to shift elements efficiently
     memmove(&data_[index], &data_[index + 1], (size_ - index - 1) * sizeof(Data));

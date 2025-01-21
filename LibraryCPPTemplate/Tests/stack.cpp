@@ -45,9 +45,17 @@ int main()
         return 1;
     }
 
+    MyStack copy(stack);
+
     while (!stack.empty())
     {
+        if (stack.get() != copy.get())
+        {
+            std::cout << "Invalid stack copy\n";
+            return 1;
+        }
         std::cout << "Get: " << stack.get() << "\n";
+        copy.pop();
         stack.pop();
     }
 }

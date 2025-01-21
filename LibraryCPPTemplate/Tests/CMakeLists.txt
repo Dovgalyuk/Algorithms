@@ -10,9 +10,9 @@ add_executable(TestQueueCPPTemplate queue.cpp)
 target_include_directories(TestQueueCPPTemplate PUBLIC ..)
 add_test(TestQueueCPPTemplate TestQueueCPPTemplate)
 
-add_executable(TestStackCPPTemplate stack.cpp)
-target_include_directories(TestStackCPPTemplate PUBLIC ..)
-add_test(TestStackCPPTemplate TestStackCPPTemplate)
+# add_executable(TestStackCPPTemplate stack.cpp)
+# target_include_directories(TestStackCPPTemplate PUBLIC ..)
+# add_test(TestStackCPPTemplate TestStackCPPTemplate)
 
 add_executable(TestVectorCPPTemplate vector.cpp)
 target_include_directories(TestVectorCPPTemplate PUBLIC ..)

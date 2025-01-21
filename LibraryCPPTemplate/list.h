@@ -39,6 +39,18 @@ public:
         first_ = nullptr;
     }
 
+    // copy constructor
+    List(const List &a)
+    {
+    }
+
+    // assignment operator
+    List &operator=(const List &a)
+    {
+        return *this;
+    }
+
+    // Destroys the list and frees the memory
     ~List()
     {
         while (first_ != nullptr)
