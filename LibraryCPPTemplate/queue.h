@@ -18,30 +18,30 @@ public:
     ~Queue() {}
 
     void insert(const Data& data) {
-        data_.resize(data_.size() + 1); // Увеличиваем размер на 1
-        data_.set(data_.size() - 1, data); // Устанавливаем значение в последний элемент
+        data_.resize(data_.size() + 1); 
+        data_.set(data_.size() - 1, data);
     }
 
     Data get() const {
         if (empty()) {
             throw std::out_of_range("Queue is empty");
         }
-        return data_.get(0); // Получаем первый элемент
+        return data_.get(0);
     }
 
     void remove() {
         if (empty()) {
             throw std::out_of_range("Queue is empty");
         }
-        data_.erase(0); // Удаляем первый элемент
+        data_.erase(0);
     }
 
     bool empty() const {
-        return data_.size() == 0; // Проверяем, пустая ли очередь
+        return data_.size() == 0;
     }
 
 private:
-    Vector<Data> data_; // Используем вектор для хранения данных
+    Vector<Data> data_;
 };
 
 #endif
