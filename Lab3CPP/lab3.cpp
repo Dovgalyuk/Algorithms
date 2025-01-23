@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-
+#include <vector>
 #include "queue.h"
 using namespace std;
 
@@ -53,19 +53,33 @@ int main(int argc, char* argv[]) {
         file.close();
         return 1;
     }
+
+    vector<int> file_data;
+    int temp;
+    while(file >> temp){
+        file_data.push_back(temp);
+    }
+    file.clear();  // Clear flags
+    file.seekg(0, ios::beg);
+    if (!(file >> a >> b)) {
+        std::cout << "Error reading from file\n";
+        file.close();
+        return 1;
+    }
     Queue * result_queue = queue_create();
     lab_3(a, b, file, result_queue);
-    
+
     bool is_solve = true;
-    int temp_file, temp_queue;
-    while(file >> temp_file){
-        if (queue_empty(result_queue)){
+    for(int temp_file : file_data){
+        if (queue_empty(result_queue))
+        {
             is_solve = false;
             break;
         }
-        temp_queue = queue_get(result_queue);
+        int temp_queue = queue_get(result_queue);
         queue_remove(result_queue);
-        if (temp_file != temp_queue){
+        if (temp_file != temp_queue)
+        {
             is_solve = false;
             break;
         }
@@ -75,7 +89,6 @@ int main(int argc, char* argv[]) {
     {
         is_solve = false;
     }
-
     file.close();
     queue_delete(result_queue);
     if (!is_solve) {
