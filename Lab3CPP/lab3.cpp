@@ -54,25 +54,21 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    vector<int> file_data;
-    int temp;
-    while (file >> temp) {
-        file_data.push_back(temp);
+    vector<int> file_data_copy;
+    for (size_t i = 2; i < file_data.size(); ++i) { 
+        file_data_copy.push_back(file_data[i]);
     }
-    file.close();
 
-    Queue * result_queue = queue_create();
-    vector<int> file_data_copy = file_data;
+    Queue* result_queue = queue_create();
     lab_3(a, b, file_data_copy, result_queue);
 
     bool is_solve = true;
-    
-    for (size_t i = 0; i < file_data.size(); ++i) {
+    for (size_t i = 0; i < file_data_copy.size(); ++i) {
         if (queue_empty(result_queue)) {
             is_solve = false;
             break;
         }
-        int temp_file = file_data[i];
+        int temp_file = file_data_copy[i];
         int temp_queue = queue_get(result_queue);
         queue_remove(result_queue);
         if (temp_file != temp_queue) {
@@ -81,8 +77,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    if (!queue_empty(result_queue))
-    {
+    if (!queue_empty(result_queue)) {
         is_solve = false;
     }
 
