@@ -4,12 +4,12 @@
 #include "queue.h"
 using namespace std;
 
-void lab_3(int a, int b, ifstream& file, Queue* result_queue) {
+void lab_3(int a, int b, vector<int> &file_data, Queue* result_queue) {
     Queue* queue1 = queue_create();
     Queue* queue2 = queue_create();
     Queue* queue3 = queue_create();
-    int temp;
-    while (file >> temp) {
+    
+    for (int temp : file_data){
         if (temp < a) {
             queue_insert(queue1, temp);
         } else if (temp <= b) {
@@ -56,18 +56,13 @@ int main(int argc, char* argv[]) {
 
     vector<int> file_data;
     int temp;
-    while(file >> temp){
+    while (file >> temp) {
         file_data.push_back(temp);
     }
-    file.clear();  // Clear flags
-    file.seekg(0, ios::beg);
-    if (!(file >> a >> b)) {
-        std::cout << "Error reading from file\n";
-        file.close();
-        return 1;
-    }
+    file.close();
+
     Queue * result_queue = queue_create();
-    lab_3(a, b, file, result_queue);
+    lab_3(a, b, file_data, result_queue);
 
     bool is_solve = true;
     for(int temp_file : file_data){
@@ -89,7 +84,7 @@ int main(int argc, char* argv[]) {
     {
         is_solve = false;
     }
-    file.close();
+
     queue_delete(result_queue);
     if (!is_solve) {
         std::cout << "Invalid lab_3 test1 execution\n";
