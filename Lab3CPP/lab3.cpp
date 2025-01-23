@@ -65,19 +65,20 @@ int main(int argc, char* argv[]) {
     lab_3(a, b, file_data, result_queue);
 
     bool is_solve = true;
-    for(int temp_file : file_data){
-        if (queue_empty(result_queue))
-        {
+    int i = 0;
+    while (i < file_data.size()) {
+        if (queue_empty(result_queue)) {
             is_solve = false;
             break;
         }
+        int temp_file = file_data[i];
         int temp_queue = queue_get(result_queue);
         queue_remove(result_queue);
-        if (temp_file != temp_queue)
-        {
+        if (temp_file != temp_queue) {
             is_solve = false;
             break;
         }
+        i++;
     }
 
     if (!queue_empty(result_queue))
