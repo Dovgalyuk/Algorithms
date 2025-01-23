@@ -65,8 +65,8 @@ int main(int argc, char* argv[]) {
     lab_3(a, b, file_data, result_queue);
 
     bool is_solve = true;
-    int i = 0;
-    while (i < file_data.size()) {
+    
+    for (size_t i = 0; i < file_data.size(); ++i) {
         if (queue_empty(result_queue)) {
             is_solve = false;
             break;
@@ -78,7 +78,6 @@ int main(int argc, char* argv[]) {
             is_solve = false;
             break;
         }
-        i++;
     }
 
     if (!queue_empty(result_queue))
