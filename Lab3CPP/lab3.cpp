@@ -1,34 +1,43 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
+
 #include "queue.h"
 using namespace std;
 
-void lab_3(int a, int b, vector<int>& arr, ifstream& file){
+void lab_3(int a, int b, int *arr, ifstream& file){
     Queue * queue1 = queue_create();
     Queue * queue2 = queue_create();
     Queue * queue3 = queue_create();
     int temp;
-    
-    while (file >> temp) {
-        if (temp < a) {
+    for (int i = 0; i < 9; i++){
+        if (!(file >> temp)) {
+            std::cout << "Error reading from file\n";
+            file.close();
+        }
+        if (temp < a){
             queue_insert(queue1, temp);
-        } else if (temp <= b) {
+        }
+        else if(temp <= b){
             queue_insert(queue2, temp);
-        } else {
+        }
+        else{
             queue_insert(queue3, temp);
         }
     }
-    while (!queue_empty(queue1)) {
-        arr.push_back(queue_get(queue1));
+    int k = 0;
+    while (!queue_empty(queue1)){
+        arr[k] = queue_get(queue1);
+        k++;
         queue_remove(queue1);
     }
-    while (!queue_empty(queue2)) {
-        arr.push_back(queue_get(queue2));
+    while (!queue_empty(queue2)){
+        arr[k] = queue_get(queue2);
+        k++;
         queue_remove(queue2);
     }
-    while (!queue_empty(queue3)) {
-        arr.push_back(queue_get(queue3));
+    while (!queue_empty(queue3)){
+        arr[k] = queue_get(queue3);
+        k++;
         queue_remove(queue3);
     }
     queue_delete(queue1);
@@ -54,29 +63,21 @@ int main(int argc, char* argv[]) {
         file.close();
         return 1;
     }
-    vector<int> arr;
+    int arr[9];
     int temp;
-    
+
     lab_3(a, b, arr, file);
-    
     bool is_solve = true;
-    size_t i = 0;
-    while (file >> temp){
-        if (i >= arr.size())
-            {
-                is_solve = false;
-                break;
-            }
-        if(arr[i] != temp)
-            {
-                is_solve = false;
-                break;
-            }
-            i++;
-    }
-    if (i != arr.size() && is_solve)
-    {
-        is_solve = false;
+    while (!file.eof()){
+        if (!(file >> temp)) {
+            std::cout << "Error reading from file\n";
+            file.close();
+            return 1;
+        }
+        if (arr[i] != temp) {
+            is_solve = false;
+            break;
+        }
     }
     file.close();
     if (!is_solve)
