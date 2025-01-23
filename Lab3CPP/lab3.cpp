@@ -65,6 +65,7 @@ int main(int argc, char* argv[]) {
     }
     int arr[9];
     int temp;
+    int j = 0;
 
     lab_3(a, b, arr, file);
     bool is_solve = true;
@@ -74,10 +75,11 @@ int main(int argc, char* argv[]) {
             file.close();
             return 1;
         }
-        if (arr[i] != temp) {
+        if (arr[j] != temp) {
             is_solve = false;
             break;
         }
+        j++;
     }
     file.close();
     if (!is_solve)
