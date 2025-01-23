@@ -4,12 +4,13 @@
 #include "queue.h"
 using namespace std;
 
-void lab_3(int a, int b, const vector<int> &file_data, Queue* result_queue) {
-    Queue* queue1 = queue_create();
-    Queue* queue2 = queue_create();
-    Queue* queue3 = queue_create();
+void lab_3(int a, int b, vector<int>& arr, ifstream& file){
+    Queue * queue1 = queue_create();
+    Queue * queue2 = queue_create();
+    Queue * queue3 = queue_create();
+    int temp;
     
-    for (int temp : file_data){
+    while (file >> temp) {
         if (temp < a) {
             queue_insert(queue1, temp);
         } else if (temp <= b) {
@@ -18,16 +19,20 @@ void lab_3(int a, int b, const vector<int> &file_data, Queue* result_queue) {
             queue_insert(queue3, temp);
         }
     }
-    while (!queue_empty(queue1)) {
-        queue_insert(result_queue, queue_get(queue1));
+    int k = 0;
+    while (!queue_empty(queue1)){
+        arr[k] = queue_get(queue1);
+        k++;
         queue_remove(queue1);
     }
-    while (!queue_empty(queue2)) {
-        queue_insert(result_queue, queue_get(queue2));
+    while (!queue_empty(queue2)){
+        arr[k] = queue_get(queue2);
+        k++;
         queue_remove(queue2);
     }
-    while (!queue_empty(queue3)) {
-        queue_insert(result_queue, queue_get(queue3));
+    while (!queue_empty(queue3)){
+        arr[k] = queue_get(queue3);
+        k++;
         queue_remove(queue3);
     }
     queue_delete(queue1);
@@ -47,42 +52,39 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int a, b;
+    int a,b;
     if (!(file >> a >> b)) {
         std::cout << "Error reading from file\n";
         file.close();
         return 1;
     }
-
-    vector<int> file_data_copy;
-    for (size_t i = 2; i < file_data.size(); ++i) { 
-        file_data_copy.push_back(file_data[i]);
-    }
-
-    Queue* result_queue = queue_create();
-    lab_3(a, b, file_data_copy, result_queue);
-
+    vector<int> arr;
+    int temp;
+    
+    lab_3(a, b, arr, file);
+    
     bool is_solve = true;
-    for (size_t i = 0; i < file_data_copy.size(); ++i) {
-        if (queue_empty(result_queue)) {
-            is_solve = false;
-            break;
-        }
-        int temp_file = file_data_copy[i];
-        int temp_queue = queue_get(result_queue);
-        queue_remove(result_queue);
-        if (temp_file != temp_queue) {
-            is_solve = false;
-            break;
-        }
+    size_t i = 0;
+    while (file >> temp){
+        if (i >= arr.size())
+            {
+                is_solve = false;
+                break;
+            }
+        if(arr[i] != temp)
+            {
+                is_solve = false;
+                break;
+            }
+            i++;
     }
-
-    if (!queue_empty(result_queue)) {
+    if (i != arr.size() && is_solve)
+    {
         is_solve = false;
     }
-
-    queue_delete(result_queue);
-    if (!is_solve) {
+    file.close();
+    if (!is_solve)
+    {
         std::cout << "Invalid lab_3 test1 execution\n";
         return 1;
     }
