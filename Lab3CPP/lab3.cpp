@@ -19,20 +19,16 @@ void lab_3(int a, int b, vector<int>& arr, ifstream& file){
             queue_insert(queue3, temp);
         }
     }
-    int k = 0;
-    while (!queue_empty(queue1)){
-        arr[k] = queue_get(queue1);
-        k++;
+    while (!queue_empty(queue1)) {
+        arr.push_back(queue_get(queue1));
         queue_remove(queue1);
     }
-    while (!queue_empty(queue2)){
-        arr[k] = queue_get(queue2);
-        k++;
+    while (!queue_empty(queue2)) {
+        arr.push_back(queue_get(queue2));
         queue_remove(queue2);
     }
-    while (!queue_empty(queue3)){
-        arr[k] = queue_get(queue3);
-        k++;
+    while (!queue_empty(queue3)) {
+        arr.push_back(queue_get(queue3));
         queue_remove(queue3);
     }
     queue_delete(queue1);
