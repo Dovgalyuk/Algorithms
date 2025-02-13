@@ -37,9 +37,9 @@ void find_max_sum_segment(Array* arr) {
         cout << "Массив слишком мал для поиска 5 элементов." << endl;
         return;
     }
-
-    int max_sum = 0, max_index = 0;
-
+    int max_sum = 0;
+    size_t max_index = 0 ;
+    
     // Считаем сумму первых 5 элементов
     for (size_t i = 0; i < 5; ++i) {
         max_sum += array_get(arr, i);
@@ -52,7 +52,7 @@ void find_max_sum_segment(Array* arr) {
 
         if (current_sum > max_sum) {
             max_sum = current_sum;
-            max_index = static_cast<int>(i);  
+            max_index = i;  
         }
     }
 
@@ -65,7 +65,6 @@ void find_max_sum_segment(Array* arr) {
     cout << endl;
 }
 
-// Главная функция
 int main(int argc, char* argv[]) {
     istream* input = &cin;
     ifstream inputFile;
