@@ -1,5 +1,6 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
+#include <cstddef>
 
 template <typename Data>
 class Array
