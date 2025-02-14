@@ -40,10 +40,7 @@ public:
     // sets the specified array element to the value
     void set(size_t index, Data value)
     {
-        if (index < dataSize)
-        {
-            data[index] = value;
-        }
+        data[index] = value;
     }
 
     // returns array size
