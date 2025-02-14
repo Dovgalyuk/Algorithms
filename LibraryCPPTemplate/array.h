@@ -1,29 +1,30 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
 
-template <typename Data> class Array
+template <typename Data>
+class Array
 {
 public:
     // create array
     explicit Array(size_t size)
     {
-        if (size<=0)
+        if (size <= 0)
         {
-            size = 10;
+            throw std::invalid_argument("Array size must be greater than 0");
         }
         dataSize = size;
         data = new Data[size];
     }
 
     // copy constructor
-    Array(const Array &a)
+    Array(const Array& a)
     {
         dataSize = a.dataSize;
         data = a.data;
     }
 
     // assignment operator
-    Array &operator=(const Array &a)
+    Array& operator=(const Array& a)
     {
         return *this;
     }
@@ -43,12 +44,13 @@ public:
     // sets the specified array element to the value
     void set(size_t index, Data value)
     {
-        if (index >= dataSize){
-            data = new Data[dataSize*2];
-            dataSize = dataSize*2;
-            set(index, value);
-        } else{
+        if (index < dataSize)
+        {
             data[index] = value;
+        }
+        else
+        {
+            throw std::out_of_range("index out of range");
         }
     }
 
