@@ -8,10 +8,6 @@ public:
     // create array
     explicit Array(size_t size)
     {
-        if (size <= 0)
-        {
-            throw std::invalid_argument("Array size must be greater than 0");
-        }
         dataSize = size;
         data = new Data[size];
     }
@@ -47,10 +43,6 @@ public:
         if (index < dataSize)
         {
             data[index] = value;
-        }
-        else
-        {
-            throw std::out_of_range("index out of range");
         }
     }
 
