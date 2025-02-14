@@ -1,0 +1,17 @@
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/CMakeFiles/RUN_TESTS.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/CMakeFiles/ALL_BUILD.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/CMakeFiles/ZERO_CHECK.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryC/CMakeFiles/LibraryC.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryC/CMakeFiles/RUN_TESTS.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryC/Tests/CMakeFiles/TestArrayC.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryC/Tests/CMakeFiles/RUN_TESTS.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryCPP/CMakeFiles/LibraryCPP.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryCPP/CMakeFiles/RUN_TESTS.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryCPP/Tests/CMakeFiles/RUN_TESTS.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryCPPClass/CMakeFiles/LibraryCPPClass.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryCPPClass/CMakeFiles/RUN_TESTS.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryCPPClass/Tests/CMakeFiles/RUN_TESTS.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryCPPTemplate/CMakeFiles/RUN_TESTS.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/LibraryCPPTemplate/Tests/CMakeFiles/RUN_TESTS.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/Lab1C/CMakeFiles/Lab1C.dir
+C:/Users/alaka/source/repos/Alakazjab/Algorithms/Lab1C/CMakeFiles/RUN_TESTS.dir
