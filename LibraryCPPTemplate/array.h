@@ -7,11 +7,19 @@ public:
     // create array
     explicit Array(size_t size)
     {
+        if (size<=0)
+        {
+            size = 10;
+        }
+        dataSize = size;
+        data = new Data[size];
     }
 
     // copy constructor
     Array(const Array &a)
     {
+        dataSize = a.dataSize;
+        data = a.data;
     }
 
     // assignment operator
@@ -23,27 +31,36 @@ public:
     // delete array, free memory
     ~Array()
     {
+        delete[] data;
     }
 
     // returns specified array element
     Data get(size_t index) const
     {
-        return Data(0);
+        return data[index];
     }
 
     // sets the specified array element to the value
     void set(size_t index, Data value)
     {
+        if (index >= dataSize){
+            data = new Data[dataSize*2];
+            dataSize = dataSize*2;
+            set(index, value);
+        } else{
+            data[index] = value;
+        }
     }
 
     // returns array size
     size_t size() const
     {
-        return 0;
+        return dataSize;
     }
 
 private:
-    // private data should be here
+    size_t dataSize;
+    Data* data;
 };
 
 #endif
