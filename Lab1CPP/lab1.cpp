@@ -1,12 +1,10 @@
-#include "array.h"
+ï»¿#include "array.h"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
 #include <fstream>
 
 using namespace std;
-
-
 
 void task1(Array* arr) {
     if (arr->size == 0) return;
@@ -39,7 +37,6 @@ Array* task2(Array* arr) {
         }
     }
 
-    // Resize the result array to fit the actual number of elements
     Array* resized_result = array_create(result_index);
     for (size_t i = 0; i < result_index; ++i) {
         array_set(resized_result, i, array_get(result, i));
@@ -57,24 +54,24 @@ int main(int argc, char* argv[]) {
     if (argc >= 2) {
         inputFile.open(argv[1]); 
         if (!inputFile) {
-            cerr << "Îøèáêà: íå óäàëîñü îòêðûòü ôàéë " << argv[1] << endl;
+            cerr << "ÐžÑˆÐ¸Ð±ÐºÐ°: Ð½Ðµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ñ„Ð°Ð¹Ð» " << argv[1] << endl;
             return 1; 
         }
         input = &inputFile; 
     }
 
-    // ×èñëà Ôèáîíà÷÷è
+    // Ð§Ð¸ÑÐ»Ð° Ð¤Ð¸Ð±Ð¾Ð½Ð°Ñ‡Ñ‡Ð¸
     size_t fib_size;
-    cout << "Ââåäèòå ðàçìåð ìàññèâà Ôèáîíà÷÷è: ";
+    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð¼Ð°ÑÑÐ¸Ð²Ð° Ð¤Ð¸Ð±Ð¾Ð½Ð°Ñ‡Ñ‡Ð¸: ";
     if (!(*input >> fib_size)) {
-        cerr << "Îøèáêà: íåêîððåêòíûé ââîä äàííûõ äëÿ ðàçìåðà ìàññèâà Ôèáîíà÷÷è" << endl;
+        cerr << "ÐžÑˆÐ¸Ð±ÐºÐ°: Ð½ÐµÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð½Ñ‹Ð¹ Ð²Ð²Ð¾Ð´ Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð´Ð»Ñ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð° Ð¼Ð°ÑÑÐ¸Ð²Ð° Ð¤Ð¸Ð±Ð¾Ð½Ð°Ñ‡Ñ‡Ð¸" << endl;
         return 1;
     }
 
     Array* fib_array = array_create(fib_size);
     task1(fib_array);
 
-    cout << "Ìàññèâ Ôèáîíà÷÷è: ";
+    cout << "ÐœÐ°ÑÑÐ¸Ð² Ð¤Ð¸Ð±Ð¾Ð½Ð°Ñ‡Ñ‡Ð¸: ";
     for (size_t i = 0; i < array_size(fib_array); ++i) {
         cout << array_get(fib_array, i) << " ";
     }
@@ -82,11 +79,11 @@ int main(int argc, char* argv[]) {
 
     array_delete(fib_array);
 
-    // Ìàññèâ ðàíäîìíûõ ÷èñåë
+    // ÐœÐ°ÑÑÐ¸Ð² Ñ€Ð°Ð½Ð´Ð¾Ð¼Ð½Ñ‹Ñ… Ñ‡Ð¸ÑÐµÐ»
     size_t rand_size;
-    cout << "Ââåäèòå ðàçìåð ñëó÷àéíîãî ìàññèâà: ";
+    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ ÑÐ»ÑƒÑ‡Ð°Ð¹Ð½Ð¾Ð³Ð¾ Ð¼Ð°ÑÑÐ¸Ð²Ð°: ";
     if (!(*input >> rand_size)) {
-        cerr << "Îøèáêà: íåêîððåêòíûé ââîä äàííûõ äëÿ ðàçìåðà ñëó÷àéíîãî ìàññèâà" << endl;
+        cerr << "ÐžÑˆÐ¸Ð±ÐºÐ°: Ð½ÐµÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð½Ñ‹Ð¹ Ð²Ð²Ð¾Ð´ Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð´Ð»Ñ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð° ÑÐ»ÑƒÑ‡Ð°Ð¹Ð½Ð¾Ð³Ð¾ Ð¼Ð°ÑÑÐ¸Ð²Ð°" << endl;
         return 1;
     }
 
@@ -97,7 +94,7 @@ int main(int argc, char* argv[]) {
         array_set(rand_array, i, rand() % 100 + 1); 
     }
 
-    cout << "Ñëó÷àéíûé ìàññèâ: ";
+    cout << "Ð¡Ð»ÑƒÑ‡Ð°Ð¹Ð½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ¸Ð²: ";
     for (size_t i = 0; i < array_size(rand_array); ++i) {
         cout << array_get(rand_array, i) << " ";
     }
@@ -105,7 +102,7 @@ int main(int argc, char* argv[]) {
 
     Array* non_divisible_array = task2(rand_array);
 
-    cout << "Íåñîðàçìåðíûå ýëåìåíòû: ";
+    cout << "ÐÐµÑÐ¾Ñ€Ð°Ð·Ð¼ÐµÑ€Ð½Ñ‹Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹: ";
     for (size_t i = 0; i < array_size(non_divisible_array); ++i) {
         cout << array_get(non_divisible_array, i) << " ";
     }
