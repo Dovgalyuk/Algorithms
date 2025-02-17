@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
 
     Array* non_divisible_array = task2(rand_array);
 
-    cout << "Несоразмерные элементы: ";
+    cout << "Неделимые элементы: ";
     for (size_t i = 0; i < array_size(non_divisible_array); ++i) {
         cout << array_get(non_divisible_array, i) << " ";
     }
