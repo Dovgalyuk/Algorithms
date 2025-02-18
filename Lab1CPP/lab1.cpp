@@ -87,8 +87,6 @@ int main(int argc, char* argv[]) {
     Data findMaxSumElements  = find_max_sum_elements(array);
     
     std::cout << "Максимальная сумма элементов массива: " << findMaxSumElements << std::endl;
-
-    system("pause");
     array_delete(array);
 
     return 0;
