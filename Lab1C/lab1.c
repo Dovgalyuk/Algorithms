@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../LibraryC/array.h"
+#include "array.h"
 
 Array* array_create_and_read(FILE* input)
 {
@@ -32,7 +32,7 @@ void task1(Array* arr)
 
     for (size_t i = 0; i < array_size(arr); i++) {
         if ((unsigned long)array_get(arr, i) > (unsigned long)sum) {
-            printf("%llu (index: %zu) ", array_get(arr, i), i);
+            printf("%lu (index: %zu) ", array_get(arr, i), i);
         }
     }
     printf("\n");
@@ -67,7 +67,7 @@ void task2(Array* arr)
 
         printf("Массив после %d шага: ", step + 1);
         for (size_t i = 0; i < size; i++) {
-            printf("%llu ", array_get(arr, i));
+            printf("%lu ", array_get(arr, i));
         }
         printf("\n");
     }
