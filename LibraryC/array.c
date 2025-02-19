@@ -26,8 +26,14 @@ Array *array_create(size_t size, FFree f) {
 }
 
 // delete array, free memory
-void array_delete(Array *arr) {
+void array_delete(Array* arr) {
     if (arr == NULL) return;
+
+    for (size_t i = 0; i < arr->size; i++) {
+        if (arr->data[i] != NULL) {
+            free(arr->data[i]);
+        }
+    }
 
     free(arr->data);
     free(arr);
