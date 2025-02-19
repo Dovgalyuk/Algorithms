@@ -19,7 +19,6 @@ Array* array_create_and_read(FILE* input)
     return arr;
 }
 
-// Задача 1: Найти количество элементов, превышающих сумму всех элементов массива
 void task1(Array* arr)
 {
     int sum = 0;
@@ -39,7 +38,6 @@ void task1(Array* arr)
     printf("\n");
 }
 
-// Задача 2: Сдвиг элементов массива в указанном направлении
 void task2(Array* arr)
 {
     int steps;

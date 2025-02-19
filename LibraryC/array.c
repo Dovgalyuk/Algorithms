@@ -29,7 +29,6 @@ Array *array_create(size_t size, FFree f) {
 void array_delete(Array* arr) {
     if (arr == NULL) return;
 
-    // ќсвобождаем пам€ть только дл€ самого массива
     free(arr->data);
     free(arr);
 }
