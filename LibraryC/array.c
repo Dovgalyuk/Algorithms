@@ -7,17 +7,18 @@ typedef struct Array {
 } Array;
 
 // create array
-Array *array_create(size_t size, FFree f) {
-    Array *arr = (Array *)malloc(sizeof(Array));
+Array* array_create(size_t size) {
+    Array* arr = (Array*)malloc(sizeof(Array));
     if (arr == NULL) return NULL;
 
     arr->size = size;
-    arr->data = (Data *)malloc(size * sizeof(Data));
+    arr->data = (Data*)malloc(size * sizeof(Data)); // Здесь выделяем память под массив
     if (arr->data == NULL) {
         free(arr);
         return NULL;
     }
 
+    // Инициализация массива
     for (size_t i = 0; i < size; i++) {
         arr->data[i] = 0;
     }
@@ -48,7 +49,7 @@ void array_set(Array *arr, size_t index, Data value) {
 }
 
 // returns array size
-size_t array_size(const Array *arr) {
+size_t array_size(const Array* arr) {
     if (arr == NULL) return 0;
     return arr->size;
 }
