@@ -2,17 +2,14 @@
 #include <stdlib.h>
 #include "array.h"
 
-// Создать массив и считать данные из файла
 Array* array_create_and_read(FILE* input)
 {
     int n;
-    fscanf(input, "%d", &n);  // Считываем размер массива
+    fscanf(input, "%d", &n);
 
-    /* Создаем массив */
     Array* arr = array_create(n, NULL);
-    if (arr == NULL) return NULL;  // Проверяем успешность создания массива
+    if (arr == NULL) return NULL;
 
-    /* Считываем элементы массива */
     for (int i = 0; i < n; ++i)
     {
         int x;
@@ -27,7 +24,6 @@ void task1(Array* arr)
 {
     int sum = 0;
 
-    // Считаем сумму всех элементов массива
     for (size_t i = 0; i < array_size(arr); i++) {
         sum += array_get(arr, i);
     }
@@ -35,10 +31,9 @@ void task1(Array* arr)
     printf("Сумма всех элементов массива: %d\n", sum);
     printf("Элементы, большие суммы: ");
 
-    // Выводим элементы, превышающие сумму всех элементов массива
     for (size_t i = 0; i < array_size(arr); i++) {
         if (array_get(arr, i) > sum) {
-            printf("%d (index: %zu) ", array_get(arr, i), i);
+            printf("%lu (index: %zu) ", array_get(arr, i), i);
         }
     }
     printf("\n");
@@ -58,26 +53,24 @@ void task2(Array* arr)
 
     size_t size = array_size(arr);
 
-    // Выполняем сдвиг массива
     for (int step = 0; step < steps; step++) {
-        if (direction == 'R') {  // Сдвиг вправо
+        if (direction == 'R') {
             int last = array_get(arr, size - 1);
             for (size_t i = size - 1; i > 0; i--) {
                 array_set(arr, i, array_get(arr, i - 1));
             }
-            array_set(arr, 0, 0);  // Освобождаем первую ячейку
+            array_set(arr, 0, 0);
         }
-        else if (direction == 'L') {  // Сдвиг влево
+        else if (direction == 'L') {
             for (size_t i = 0; i < size - 1; i++) {
                 array_set(arr, i, array_get(arr, i + 1));
             }
-            array_set(arr, size - 1, 0);  // Освобождаем последнюю ячейку
+            array_set(arr, size - 1, 0); 
         }
 
-        // Выводим состояние массива после сдвига
         printf("Массив после %d шага: ", step + 1);
         for (size_t i = 0; i < size; i++) {
-            printf("%d ", array_get(arr, i));
+            printf("%lu ", array_get(arr, i));
         }
         printf("\n");
     }
@@ -96,12 +89,10 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    // Выполняем задачу 1
     Array* arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
 
-    // Выполняем задачу 2
     arr = array_create_and_read(input);
     task2(arr);
     array_delete(arr);
