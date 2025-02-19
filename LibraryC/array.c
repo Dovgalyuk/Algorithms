@@ -7,7 +7,7 @@ typedef struct Array {
 } Array;
 
 // create array
-Array* array_create(size_t size) {
+Array *array_create(size_t size) {
     Array* arr = (Array*)malloc(sizeof(Array));
     if (arr == NULL) return NULL;
 
@@ -49,7 +49,7 @@ void array_set(Array *arr, size_t index, Data value) {
 }
 
 // returns array size
-size_t array_size(const Array* arr) {
+size_t array_size(const Array *arr) {
     if (arr == NULL) return 0;
     return arr->size;
 }
