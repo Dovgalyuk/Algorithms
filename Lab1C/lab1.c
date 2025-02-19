@@ -32,7 +32,7 @@ void task1(Array* arr)
     printf("Элементы, большие суммы: ");
 
     for (size_t i = 0; i < array_size(arr); i++) {
-        if (array_get(arr, i) > sum) {
+        if ((unsigned long)array_get(arr, i) > (unsigned long)sum) {
             printf("%lu (index: %zu) ", array_get(arr, i), i);
         }
     }
@@ -55,7 +55,6 @@ void task2(Array* arr)
 
     for (int step = 0; step < steps; step++) {
         if (direction == 'R') {
-            int last = array_get(arr, size - 1);
             for (size_t i = size - 1; i > 0; i--) {
                 array_set(arr, i, array_get(arr, i - 1));
             }
@@ -65,7 +64,7 @@ void task2(Array* arr)
             for (size_t i = 0; i < size - 1; i++) {
                 array_set(arr, i, array_get(arr, i + 1));
             }
-            array_set(arr, size - 1, 0); 
+            array_set(arr, size - 1, 0);
         }
 
         printf("Массив после %d шага: ", step + 1);
