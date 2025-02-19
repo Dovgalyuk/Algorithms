@@ -7,18 +7,17 @@ typedef struct Array {
 } Array;
 
 // create array
-Array *array_create(size_t size) {
+Array *array_create(size_t size, FFree f) {
     Array* arr = (Array*)malloc(sizeof(Array));
     if (arr == NULL) return NULL;
 
     arr->size = size;
-    arr->data = (Data*)malloc(size * sizeof(Data)); // Здесь выделяем память под массив
+    arr->data = (Data*)malloc(size * sizeof(Data));
     if (arr->data == NULL) {
         free(arr);
         return NULL;
     }
 
-    // Инициализация массива
     for (size_t i = 0; i < size; i++) {
         arr->data[i] = 0;
     }
