@@ -4,14 +4,14 @@ struct Array
 {
     Data* data;
     size_t size;
-    explicit Array(const size_t size): data(new Data[size]), size(size)  {}
+    explicit Array(const size_t arr_size): data(new Data[arr_size]), size(arr_size)  {}
     ~Array() {
         delete[] data;
     }
 };
 
 // create array
-Array *array_create(size_t size)
+Array *array_create(const size_t size)
 {
     return new Array(size);
 }
@@ -23,7 +23,7 @@ void array_delete(Array* arr)
 }
 
 // returns specified array element
-Data array_get(const Array *arr, size_t index)
+Data array_get(const Array *arr, const size_t index)
 {
     if (index >= arr->size) {
         return 0;
