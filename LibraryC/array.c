@@ -8,6 +8,8 @@ typedef struct Array {
 
 // create array
 Array *array_create(size_t size, FFree f) {
+    (void)f;  // Убирает предупреждение об неиспользуемом параметре
+
     Array* arr = (Array*)malloc(sizeof(Array));
     if (arr == NULL) return NULL;
 
