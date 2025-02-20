@@ -7,26 +7,25 @@
 using namespace std;
 
 void task1(Array* arr) {
-    if (arr->size == 0) return;
+    if (array_size(arr) == 0) return;
 
-    array_set(arr, 0, 0); 
-    if (arr->size > 1) {
-        array_set(arr, 1, 1); 
+    array_set(arr, 0, 0);
+    if (array_size(arr) > 1) {
+        array_set(arr, 1, 1);
     }
 
-    for (size_t i = 2; i < arr->size; ++i) {
+    for (size_t i = 2; i < array_size(arr); ++i) {
         array_set(arr, i, array_get(arr, i - 1) + array_get(arr, i - 2));
     }
 }
 
-
 Array* task2(Array* arr) {
-    Array* result = array_create(arr->size);
+    Array* result = array_create(array_size(arr));
     size_t result_index = 0;
 
-    for (size_t i = 0; i < arr->size; ++i) {
+    for (size_t i = 0; i < array_size(arr); ++i) {
         bool is_divisible = false;
-        for (size_t j = 0; j < arr->size; ++j) {
+        for (size_t j = 0; j < array_size(arr); ++j) {
             if (i != j && array_get(arr, i) % array_get(arr, j) == 0) {
                 is_divisible = true;
                 break;
@@ -45,19 +44,18 @@ Array* task2(Array* arr) {
     return resized_result;
 }
 
-
 int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
-    istream* input = &cin; 
+    istream* input = &cin;
     ifstream inputFile;
 
     if (argc >= 2) {
-        inputFile.open(argv[1]); 
+        inputFile.open(argv[1]);
         if (!inputFile) {
             cerr << "Ошибка: не удалось открыть файл " << argv[1] << endl;
-            return 1; 
+            return 1;
         }
-        input = &inputFile; 
+        input = &inputFile;
     }
 
     // Числа Фибоначчи
@@ -91,7 +89,7 @@ int main(int argc, char* argv[]) {
     srand(static_cast<unsigned>(time(0)));
 
     for (size_t i = 0; i < rand_size; ++i) {
-        array_set(rand_array, i, rand() % 100 + 1); 
+        array_set(rand_array, i, rand() % 100 + 1);
     }
 
     cout << "Случайный массив: ";
@@ -112,7 +110,7 @@ int main(int argc, char* argv[]) {
     array_delete(non_divisible_array);
 
     if (inputFile.is_open()) {
-        inputFile.close(); 
+        inputFile.close();
     }
 
     return 0;

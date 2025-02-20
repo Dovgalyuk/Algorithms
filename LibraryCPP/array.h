@@ -7,10 +7,7 @@
 // Stores integer values inside
 typedef int Data;
 
-struct Array {
-    Data* data;
-    size_t size;
-};
+struct Array;
 
 // create array
 Array *array_create(size_t size);
