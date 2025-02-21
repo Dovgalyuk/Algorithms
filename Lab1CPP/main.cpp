@@ -1,5 +1,6 @@
 #include "array.h"
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 #include <unordered_map>
 #include <stdexcept>
@@ -40,6 +41,7 @@ void task1(const Array* arr) {
     }
     cout << endl;
 }
+
 // Находит и выводит самый часто встречающийся элемент и количество его вхождений
 void task2(const Array* arr) {
     if (array_size(arr) == 0) return;
@@ -61,23 +63,29 @@ void task2(const Array* arr) {
 
     cout << "Самое частое число: " << mostFrequent << " встречается " << maxCount << " раз" << endl;
 }
-int main() {
+
+int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
     size_t size;
 
-    cout << "Введите размер массива: ";
-    cin >> size;
-
-    if (size <= 0) {
-        cerr << "Ошибка: Размер массива не может быть равен нулю." << endl;
-        return 1;
+    if (argc > 1) {
+        ifstream inputFile(argv[1]);
+        if (!inputFile) {
+            cerr << "Не удалось открыть файл: " << argv[1] << endl;
+            return 1;
+        }
+        inputFile >> size;
+    }
+    else {
+        cout << "Введите размер массива: ";
+        cin >> size;
     }
 
     Array* arr = array_create(size);
 
-    srand(static_cast<unsigned int>(time(0))); 
+    srand(static_cast<unsigned int>(time(0)));
     for (size_t i = 0; i < size; ++i) {
-        array_set(arr, i, rand() % 100); 
+        array_set(arr, i, rand() % 100);
     }
 
     cout << "Массив: ";
