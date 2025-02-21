@@ -69,7 +69,7 @@ int main() {
     cin >> size;
 
     if (size <= 0) {
-        throw std::invalid_argument("Размер массива не может быть равен нулю.");
+        throw std::invalid_argument("Размер массива не может быть равен нулю");
     }
     Array* arr = array_create(size);
 
