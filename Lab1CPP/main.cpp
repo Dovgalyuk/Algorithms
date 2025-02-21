@@ -69,13 +69,15 @@ int main() {
     cin >> size;
 
     if (size <= 0) {
-        throw std::invalid_argument("Размер массива не может быть равен нулю");
+        cerr << "Ошибка: Размер массива не может быть равен нулю." << endl;
+        return 1;
     }
+
     Array* arr = array_create(size);
 
     srand(static_cast<unsigned int>(time(0))); 
     for (size_t i = 0; i < size; ++i) {
-        array_set(arr, i, rand() % 100);
+        array_set(arr, i, rand() % 100); 
     }
 
     cout << "Массив: ";
