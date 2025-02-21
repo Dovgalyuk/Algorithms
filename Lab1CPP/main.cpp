@@ -1,54 +1,56 @@
+#include "array.h"
 #include <iostream>
-#include <fstream>
-#include <vector>
 #include <algorithm>
 #include <unordered_map>
 #include <stdexcept>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
-vector<int> read_array(ifstream& input) {
-    int n;
-    input >> n;
-    vector<int> arr(n);
-    for (int i = 0; i < n; ++i) {
-        input >> arr[i];
+// Находит элементы больше среднего min и max, выводит их количество и индексы.
+void task1(const Array* arr) {
+    if (array_size(arr) == 0) return;
+
+    int min = array_get(arr, 0);
+    int max = array_get(arr, 0);
+
+    for (size_t i = 1; i < array_size(arr); ++i) {
+        int cur = array_get(arr, i);
+        if (cur < min) min = cur;
+        if (cur > max) max = cur;
     }
-    return arr;
-}
 
-// Найти количество элементов, значение которых больше среднего арифметического минимального и максимального элементов массива
-void task1(const vector<int>& arr) {
-    if (arr.empty()) return;
-
-    int min = *min_element(arr.begin(), arr.end());
-    int max = *max_element(arr.begin(), arr.end());
     double avg = (min + max) / 2.0;
 
-    vector<size_t> indices;
-    for (size_t i = 0; i < arr.size(); ++i) {
-        if (arr[i] > avg) {
-            indices.push_back(i);
+    cout << "Количество элементов больших среднего арифметического: ";
+    size_t count = 0;
+    for (size_t i = 0; i < array_size(arr); ++i) {
+        if (array_get(arr, i) > avg) {
+            count++;
         }
     }
+    cout << count << endl;
 
-    cout << "Количество элементов, больших среднего арифметического min и max: " << indices.size() << endl;
     cout << "Индексы: ";
-    for (size_t i : indices) {
-        cout << i << " ";
+    for (size_t i = 0; i < array_size(arr); ++i) {
+        if (array_get(arr, i) > avg) {
+            cout << i << " ";
+        }
     }
     cout << endl;
 }
-
-void task2(const vector<int>& arr) {
-    if (arr.empty()) return;
+// Находит и выводит самый часто встречающийся элемент и количество его вхождений
+void task2(const Array* arr) {
+    if (array_size(arr) == 0) return;
 
     unordered_map<int, int> frequencyMap;
-    for (int num : arr) {
-        frequencyMap[num]++;
+
+    for (size_t i = 0; i < array_size(arr); ++i) {
+        frequencyMap[array_get(arr, i)]++;
     }
 
-    int mostFrequent = arr[0];
+    int mostFrequent = array_get(arr, 0);
     int maxCount = 1;
     for (const auto& pair : frequencyMap) {
         if (pair.second > maxCount) {
@@ -57,27 +59,32 @@ void task2(const vector<int>& arr) {
         }
     }
 
-    cout << "Самое частое число: " << mostFrequent << " (встречается " << maxCount << " раз)" << endl;
+    cout << "Самое частое число: " << mostFrequent << " встречается " << maxCount << " раз" << endl;
 }
+int main() {
+    setlocale(LC_ALL, "Russian");
+    size_t size;
 
-int main(int argc, char** argv) {
-    if (argc < 2) {
-        cerr << "Использование: " << argv[0] << " <input_file>" << endl;
-        return 1;
+    cout << "Введите размер массива: ";
+    cin >> size;
+
+    Array* arr = array_create(size);
+
+    srand(static_cast<unsigned int>(time(0))); 
+    for (size_t i = 0; i < size; ++i) {
+        array_set(arr, i, rand() % 100);
     }
 
-    ifstream input(argv[1]);
-    if (!input) {
-        cerr << "Не удалось открыть файл." << endl;
-        return 1;
+    cout << "Массив: ";
+    for (size_t i = 0; i < size; ++i) {
+        cout << array_get(arr, i) << " ";
     }
+    cout << endl;
 
-    vector<int> arr1 = read_array(input);
-    task1(arr1);
+    task1(arr);
+    task2(arr);
 
-    vector<int> arr2 = read_array(input);
-    task2(arr2);
+    array_delete(arr);
 
-    input.close();
     return 0;
 }
