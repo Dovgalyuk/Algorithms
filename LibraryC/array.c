@@ -4,6 +4,7 @@
 typedef struct Array {
     size_t size;
     Data* data;
+    FFree free_func;
 } Array;
 
 // create array
@@ -18,6 +19,8 @@ Array* array_create(size_t size, FFree f) {
         return NULL;
     }
 
+    arr->free_func = f;
+
     for (size_t i = 0; i < size; i++) {
         arr->data[i] = 0;
     }
@@ -26,12 +29,12 @@ Array* array_create(size_t size, FFree f) {
 }
 
 // delete array, free memory
-void array_delete(Array* arr, FFree free_func) {
+void array_delete(Array* arr) {
     if (arr == NULL) return;
 
-    if (free_func != NULL) {
+    if (arr->free_func != NULL) {
         for (size_t i = 0; i < arr->size; i++) {
-            free_func(arr->data[i]);
+            arr->free_func(arr->data[i]);
         }
     }
 
