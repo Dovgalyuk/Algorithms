@@ -34,7 +34,7 @@ void array_delete(Array* arr) {
 
     if (arr->free_func != NULL) {
         for (size_t i = 0; i < arr->size; i++) {
-            arr->free_func(arr->data[i]);
+            arr->free_func((void*)arr->data[i]);
         }
     }
 
