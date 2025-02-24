@@ -27,12 +27,7 @@ int main()
             array_delete(arr);
             return 1;
         }
-    }
-
-    for (int i = 0; i < 10; ++i)
-    {
-        delete (int*)array_get(arr, i);
-    }
+    }w
 
     array_delete(arr);
     return 0;

@@ -3,11 +3,11 @@
 
 typedef struct Array {
     size_t size;
-    Data *data;
+    Data* data;
 } Array;
 
 // create array
-Array *array_create(size_t size, FFree f) {
+Array* array_create(size_t size, FFree f) {
     Array* arr = (Array*)malloc(sizeof(Array));
     if (arr == NULL) return NULL;
 
@@ -26,15 +26,21 @@ Array *array_create(size_t size, FFree f) {
 }
 
 // delete array, free memory
-void array_delete(Array* arr) {
+void array_delete(Array* arr, FFree free_func) {
     if (arr == NULL) return;
+
+    if (free_func != NULL) {
+        for (size_t i = 0; i < arr->size; i++) {
+            free_func(arr->data[i]);
+        }
+    }
 
     free(arr->data);
     free(arr);
 }
 
 // returns specified array element
-Data array_get(const Array *arr, size_t index) {
+Data array_get(const Array* arr, size_t index) {
     if (arr == NULL || index >= arr->size) {
         return 0;
     }
@@ -42,13 +48,13 @@ Data array_get(const Array *arr, size_t index) {
 }
 
 // sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value) {
+void array_set(Array* arr, size_t index, Data value) {
     if (arr == NULL || index >= arr->size) return;
     arr->data[index] = value;
 }
 
 // returns array size
-size_t array_size(const Array *arr) {
+size_t array_size(const Array* arr) {
     if (arr == NULL) return 0;
     return arr->size;
 }
