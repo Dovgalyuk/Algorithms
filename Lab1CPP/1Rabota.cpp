@@ -1,60 +1,63 @@
-﻿#include <iostream>
-#include <fstream>  // Для работы с файлами
-#include <cstdlib> 
-#include <ctime>   
-#include <locale>  
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
+#include <locale>
+#include "array.h"  
+
 using namespace std;
 
-void otrezokmassiva(int arr[], int size) {
-    int count = 0; // Максимальная длина отрезка нечётных чисел
-    int temp = 0;  // Текущая длина отрезка нечётных чисел
-    int start = -1; // Начало текущего отрезка
-    int maxStart = -1; // Начало наибольшего отрезка
-    int maxEnd = -1;   // Конец наибольшего отрезка
+// Функция для поиска наибольшего отрезка нечётных чисел
+void otrezokmassiva(Array* arr) {
+    size_t size = array_size(arr);
+    int count = 0; 
+    int temp = 0;
+    size_t start = 0;  
+    size_t maxStart = 0;
+    size_t maxEnd = 0;
 
-    for (int i = 0; i < size; i++) {
-        if (arr[i] % 2 != 0) {
-            if (temp == 0) {
-                start = i; 
-            }
+    for (size_t i = 0; i < size; i++) {
+        Data value = array_get(arr, i);
+        if (value % 2 != 0) {
+            if (temp == 0) start = i;
             temp++;
         } else {
             if (count < temp) {
                 count = temp;
                 maxStart = start;
-                maxEnd = i - 1; 
+                maxEnd = i - 1;
             }
-            temp = 0; 
+            temp = 0;
         }
     }
 
-    // Проверяем последний отрезок, если массив заканчивается на нечётное число
+    
     if (count < temp) {
         count = temp;
         maxStart = start;
-        maxEnd = size - 1; 
+        maxEnd = size - 1;
     }
 
-    cout << '\n' << "Наибольшая длина отрезка нечётных чисел: " << count << endl;
-
-    if (maxStart != -1 && maxEnd != -1) {
+    cout << "\nНаибольшая длина отрезка нечётных чисел: " << count << endl;
+    
+    if (maxStart != 0 || maxEnd != 0) {
         cout << "Сам отрезок: ";
-        for (int i = maxStart; i <= maxEnd; i++) {
-            cout << arr[i];
-            if (i < maxEnd) {
-                cout << ", ";
-            }
+        for (size_t i = maxStart; i <= maxEnd; i++) {
+            cout << array_get(arr, i);
+            if (i < maxEnd) cout << ", ";
         }
         cout << endl;
     }
 }
 
-void povtorelevemt(int arr[], int size) {
+// Функция для поиска элементов, встречающихся ровно два раза
+void povtorelevemt(Array* arr) {
+    size_t size = array_size(arr);
     cout << "Элементы, которые повторяются 2 раза: ";
-    for (int i = 0; i < size; i++) {
-        for (int j = i + 1; j < size; j++) {
-            if (arr[i] == arr[j]) {
-                cout << arr[i] << " ";
+    for (size_t i = 0; i < size; i++) {
+        for (size_t j = i + 1; j < size; j++) {
+            if (array_get(arr, i) == array_get(arr, j)) {
+                cout << array_get(arr, i) << " ";
                 break;
             }
         }
@@ -65,38 +68,41 @@ void povtorelevemt(int arr[], int size) {
 int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
 
-    // Проверка аргументов командной строки
+    
     if (argc < 2) {
         cerr << "Ошибка: укажите путь к файлу с входными данными." << endl;
         return 1;
     }
 
-    // Открываем файл с входными данными
+    
     ifstream inputFile(argv[1]);
     if (!inputFile) {
         cerr << "Ошибка: не удалось открыть файл " << argv[1] << endl;
         return 1;
     }
 
-    int size;
-    inputFile >> size; // Читаем размер массива из файла
+    
+    size_t size;
+    inputFile >> size;
 
-    int* array = new int[size];
-    srand(static_cast<unsigned int>(time(0))); // Инициализация генератора случайных чисел
+    // Создание и заполнение массива
+    Array* array = array_create(size);
+    srand(static_cast<unsigned int>(time(0)));
 
     cout << "Сгенерированные числа: ";
-    for (int i = 0; i < size; i++) {
-        array[i] = 1 + rand() % 50; // Генерация случайных чисел от 1 до 50
-        cout << array[i];
-        if (i < size - 1) {
-            cout << ", ";
-        }
+    for (size_t i = 0; i < size; i++) {
+        Data value = 1 + rand() % 50;
+        array_set(array, i, value);
+        cout << value;
+        if (i < size - 1) cout << ", ";
     }
     cout << endl;
 
-    otrezokmassiva(array, size); // Нахождение наибольшего отрезка нечётных чисел
-    povtorelevemt(array, size);  // Поиск элементов, которые повторяются 2 раза
+    // Обработка массива
+    otrezokmassiva(array);
+    povtorelevemt(array);
 
-    delete[] array; // Освобождение памяти
+    // Освобождение памяти
+    array_delete(array);
     return 0;
 }
