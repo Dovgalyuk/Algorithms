@@ -1,93 +1,104 @@
 ﻿#include <iostream>
-#include <vector>
-#include <unordered_map>
-#include <ctime>
+#include <fstream>
 #include <cstdlib>
+#include <ctime>
+#include <unordered_map>
+#include "array.h"
 
-const double GROWTH_FACTOR = 1.5; // Коэффициент увеличения размера вектора при переполнении
+using namespace std;
 
-// Класс, реализующий динамический массив с неизменяемым размером
-class MyArray {
-private:
-    std::vector<int> data; // Вектор для хранения элементов массива
-    int capacity; // Текущая емкость массива
+// Функция для нахождения суммы элементов, не превышающих 20
+int sum_elements_not_exceeding(Array* arr, int limit) {
+    int sum = 0;
+    for (size_t i = 0; i < array_size(arr); ++i) {
+        if (array_get(arr, i) <= limit) {
+            sum += array_get(arr, i);
+        }
+    }
+    return sum;
+}
 
-    // Метод для увеличения размера массива при необходимости
-    void expandIfNeeded() {
-        if (data.size() >= capacity) {
-            capacity = static_cast<int>(capacity * GROWTH_FACTOR);
-            data.resize(capacity);
+// Функция для поиска наиболее часто встречающегося числа
+int most_frequent_element(Array* arr) {
+    unordered_map<int, int> frequency;
+    
+    for (size_t i = 0; i < array_size(arr); ++i) {
+        frequency[array_get(arr, i)]++;
+    }
+
+    int max_count = 0;
+    int most_frequent = array_get(arr, 0);
+
+    for (const auto& pair : frequency) {
+        if (pair.second > max_count) {
+            max_count = pair.second;
+            most_frequent = pair.first;
         }
     }
 
-public:
-    // Конструктор, заполняющий массив случайными числами
-    MyArray(int size) : capacity(size) {
-        data.resize(size);
-        for (int &val : data) {
-            val = rand() % 50; // Генерация случайных чисел от 0 до 49
+    return most_frequent;
+}
+
+int main(int argc, char* argv[]) {
+    istream* input = &cin;
+    ifstream inputFile;
+
+    if (argc >= 2) {
+        inputFile.open(argv[1]);
+        if (!inputFile) {
+            cerr << "Ошибка: не удалось открыть файл " << argv[1] << endl;
+            return 1;
         }
+        input = &inputFile;
     }
 
-    // Метод для вывода массива на экран
-    void print() const {
-        for (int val : data) {
-            std::cout << val << " ";
-        }
-        std::cout << std::endl;
+    size_t size1, size2;
+    
+    if (!(*input >> size1)) {
+        cerr << "Ошибка: некорректный ввод данных" << endl;
+        return 1;
     }
 
-    // Метод для добавления элемента с учетом динамического увеличения
-    void addElement(int value) {
-        expandIfNeeded();
-        data.push_back(value);
+    Array* arr1 = array_create(size1);
+    for (size_t i = 0; i < size1; ++i) {
+        int value;
+        if (!(*input >> value)) value = rand() % 50; 
+        array_set(arr1, i, value);
     }
 
-    // Метод для подсчета суммы элементов, не превышающих заданное значение
-    int sumElementsNotExceeding(int limit) const {
-        int sum = 0;
-        for (int val : data) {
-            if (val <= limit) {
-                sum += val;
-            }
-        }
-        return sum;
+    cout << "Массив: ";
+    for (size_t i = 0; i < array_size(arr1); ++i) {
+        cout << array_get(arr1, i) << " ";
+    }
+    cout << endl;
+
+    cout << "Сумма элементов (<=20): " << sum_elements_not_exceeding(arr1, 20) << endl;
+    array_delete(arr1);
+
+    if (!(*input >> size2)) {
+        cerr << "Ошибка: некорректный ввод данных" << endl;
+        return 1;
     }
 
-    // Метод для поиска наиболее часто встречающегося числа в массиве
-    int mostFrequentElement() const {
-        std::unordered_map<int, int> frequency;
-        for (int val : data) {
-            frequency[val]++;
-        }
-
-        int maxCount = 0, mostFrequent = data[0];
-        for (const auto &pair : frequency) {
-            if (pair.second > maxCount) {
-                maxCount = pair.second;
-                mostFrequent = pair.first;
-            }
-        }
-        return mostFrequent;
+    Array* arr2 = array_create(size2);
+    for (size_t i = 0; i < size2; ++i) {
+        int value;
+        if (!(*input >> value)) value = rand() % 50;
+        array_set(arr2, i, value);
     }
-};
 
-int main() {
-    srand(time(0)); // Инициализация генератора случайных чисел
+    cout << "Массив: ";
+    for (size_t i = 0; i < array_size(arr2); ++i) {
+        cout << array_get(arr2, i) << " ";
+    }
+    cout << endl;
 
-    int size1;
-    std::cout << "Введите размер массива для подсчета суммы: ";
-    std::cin >> size1;
-    MyArray arr1(size1); // Создание первого массива
-    arr1.print();
-    std::cout << "Сумма элементов (<=20): " << arr1.sumElementsNotExceeding(20) << std::endl;
+    cout << "Наиболее часто встречающееся число: " << most_frequent_element(arr2) << endl;
+    array_delete(arr2);
 
-    int size2;
-    std::cout << "Введите размер массива для поиска самого частого элемента: ";
-    std::cin >> size2;
-    MyArray arr2(size2); // Создание второго массива
-    arr2.print();
-    std::cout << "Наиболее часто встречающееся число: " << arr2.mostFrequentElement() << std::endl;
+    if (inputFile.is_open()) {
+        inputFile.close();
+    }
 
     return 0;
 }
