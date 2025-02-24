@@ -27,8 +27,7 @@ int main()
             array_delete(arr);
             return 1;
         }
-    }w
+    }
 
     array_delete(arr);
-    return 0;
 }
