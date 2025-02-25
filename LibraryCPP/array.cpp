@@ -30,6 +30,7 @@ void array_delete(Array* arr) {
 
 Data array_get(const Array* arr, size_t index) {
     if (index >= arr->size) {
+        throw std::out_of_range("Index out of range in array_get()");
     }
     return arr->data[index];
 }
@@ -37,6 +38,7 @@ Data array_get(const Array* arr, size_t index) {
 
 void array_set(Array* arr, size_t index, Data value) {
     if (index >= arr->size) {
+        throw std::out_of_range("Index out of range in array_set()");
     }
     arr->data[index] = value;
 }

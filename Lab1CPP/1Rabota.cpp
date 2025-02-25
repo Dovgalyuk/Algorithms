@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <locale>
+#include <unordered_map>  
 #include "array.h"  
 
 using namespace std;
@@ -31,7 +32,7 @@ void otrezokmassiva(Array* arr) {
         }
     }
 
-    
+    // Проверка последнего отрезка
     if (count < temp) {
         count = temp;
         maxStart = start;
@@ -53,13 +54,19 @@ void otrezokmassiva(Array* arr) {
 // Функция для поиска элементов, встречающихся ровно два раза
 void povtorelevemt(Array* arr) {
     size_t size = array_size(arr);
-    cout << "Элементы, которые повторяются 2 раза: ";
+    std::unordered_map<Data, int> countMap;  
+
+    
     for (size_t i = 0; i < size; i++) {
-        for (size_t j = i + 1; j < size; j++) {
-            if (array_get(arr, i) == array_get(arr, j)) {
-                cout << array_get(arr, i) << " ";
-                break;
-            }
+        Data value = array_get(arr, i);
+        countMap[value]++;
+    }
+
+    // Вывод элементов, которые повторяются 2 раза
+    cout << "Элементы, которые повторяются 2 раза: ";
+    for (const auto& pair : countMap) {
+        if (pair.second == 2) { 
+            cout << pair.first << " ";
         }
     }
     cout << endl;
@@ -68,20 +75,20 @@ void povtorelevemt(Array* arr) {
 int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
 
-    
+    // Проверка аргументов командной строки
     if (argc < 2) {
         cerr << "Ошибка: укажите путь к файлу с входными данными." << endl;
         return 1;
     }
 
-    
+    // Открытие файла
     ifstream inputFile(argv[1]);
     if (!inputFile) {
         cerr << "Ошибка: не удалось открыть файл " << argv[1] << endl;
         return 1;
     }
 
-    
+    // Чтение размера массива
     size_t size;
     inputFile >> size;
 
