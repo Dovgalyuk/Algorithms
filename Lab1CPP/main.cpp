@@ -3,13 +3,13 @@
 #include <ctime>
 #include <cstdlib>
 #include <algorithm>
-#include "array.h" // предполагаем, что это ваша библиотека с функционалом работы с массивами
+#include "array.h"
 
 using namespace std;
 
-// Function to calculate the arithmetic mean of positive and negative numbers
+// Функция для вычисления среднего арифметического положительных и отрицательных чисел
 void task1(Array* arr) {
-    for (size_t i = 0; i < array_size(arr); i++) { // random initialization of the array
+    for (size_t i = 0; i < array_size(arr); i++) { // случайная инициализация массива
         array_set(arr, i, rand());
     }
 
@@ -41,10 +41,10 @@ void task1(Array* arr) {
         cout << "There are no negative numbers in the array." << endl;
 }
 
-// Function to find the minimum difference between even numbers in the array
+// Функция для нахождения минимальной разницы между четными числами в массиве
 void task2(Array* arr) {
     for (size_t i = 0; i < array_size(arr); i++) {
-        array_set(arr, i, rand() % 202 - 101); // create an array with values from -101 to 101
+        array_set(arr, i, rand() % 202 - 101); // создайте массив со значениями от -101 до 101
     }
 
     cout << "Array: ";
@@ -56,7 +56,7 @@ void task2(Array* arr) {
     Array* evenArr = array_create(array_size(arr));
     size_t evenCount = 0;
 
-    // Add only even elements to the new array
+   // Добавляйте в новый массив только четные элементы
     for (size_t i = 0; i < array_size(arr); i++) {
         if (array_get(arr, i) % 2 == 0) {
             array_set(evenArr, evenCount++, array_get(arr, i));
@@ -71,7 +71,7 @@ void task2(Array* arr) {
 
     int minDiff = abs(array_get(evenArr, 0) - array_get(evenArr, 1));
 
-    // Find the minimum difference between different even elements
+    //Найдите минимальную разницу между различными четными элементами
     for (size_t i = 0; i < evenCount - 1; i++) {
         for (size_t j = i + 1; j < evenCount; j++) {
             int diff = abs(array_get(evenArr, i) - array_get(evenArr, j));
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
 
     Array* arr = nullptr;
 
-    // Input size for task 1 and 2
+    // Размер входных данных для задач 1 и 2
     istream* input = &cin;
     ifstream inputFile;
     size_t arraySize;
@@ -122,7 +122,7 @@ int main(int argc, char* argv[]) {
     task1(arr);
 
 
-    // Input size for task 2
+    // Размер входных данных для задачи 2
     cout << "Enter array size for task 2: ";
 
     arr = array_create(arraySize2);
