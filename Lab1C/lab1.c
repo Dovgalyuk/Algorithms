@@ -24,7 +24,7 @@ void task1(Array* arr)
     int sum = 0;
 
     for (size_t i = 0; i < array_size(arr); i++) {
-        sum += array_get(arr, i);
+        sum += (int)array_get(arr, i);
     }
 
     printf("Сумма всех элементов массива: %d\n", sum);
