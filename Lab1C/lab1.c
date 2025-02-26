@@ -32,7 +32,7 @@ void task1(Array* arr)
 
     for (size_t i = 0; i < array_size(arr); i++) {
         if (array_get((int)arr, i) > sum) {
-            printf("%lu (index: %zu) ", array_get(arr, i), i);
+            printf("%lu (index: %zu) ", (int)array_get(arr, i), i);
         }
     }
     printf("\n");
