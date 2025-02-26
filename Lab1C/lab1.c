@@ -31,8 +31,8 @@ void task1(Array* arr)
     printf("Элементы, большие суммы: ");
 
     for (size_t i = 0; i < array_size(arr); i++) {
-        if (array_get((int)arr, i) > sum) {
-            printf("%lu (index: %zu) ", (int)array_get(arr, i), i);
+        if ((int)array_get(arr, i) > sum) {
+            printf("%d (index: %zu) ", (int)array_get(arr, i), i);
         }
     }
     printf("\n");
