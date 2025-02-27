@@ -120,8 +120,8 @@ int main(int argc, char* argv[]) {
 
     arr = array_create(arraySize);
     task1(arr);
-
-
+    array_delete(arr);
+    
     // Размер входных данных для задачи 2
     cout << "Enter array size for task 2: ";
 

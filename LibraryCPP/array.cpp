@@ -4,14 +4,22 @@ struct Array
 {
     Data* data;
     size_t size;
+
+    Array(size_t size)
+    {
+        this->size = size;
+        this->data = new Data[size];
+        for (size_t i = 0; i < size; ++i)
+        {
+            this->data[i] = Data();
+        }
+    }
 };
 
 // create array
-Array *array_create(size_t size)
+Array* array_create(size_t size)
 {
-    Array* arr = new Array;
-    arr->size = size;
-    arr->data = new Data[size];
+    Array* arr = new Array(size);
     return arr;
 }
 
