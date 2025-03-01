@@ -20,28 +20,25 @@ int sum_elements_not_exceeding(Array* arr, int limit) {
 // Функция для поиска наиболее часто встречающегося числа
 int most_frequent_element(Array* arr) {
     unordered_map<int, int> frequency;
-    
     for (size_t i = 0; i < array_size(arr); ++i) {
         frequency[array_get(arr, i)]++;
     }
 
     int max_count = 0;
     int most_frequent = array_get(arr, 0);
-
     for (const auto& pair : frequency) {
         if (pair.second > max_count) {
             max_count = pair.second;
             most_frequent = pair.first;
         }
     }
-
     return most_frequent;
 }
 
 int main(int argc, char* argv[]) {
     istream* input = &cin;
     ifstream inputFile;
-
+    
     if (argc >= 2) {
         inputFile.open(argv[1]);
         if (!inputFile) {
@@ -52,52 +49,54 @@ int main(int argc, char* argv[]) {
     }
 
     size_t size1, size2;
-    
     if (!(*input >> size1)) {
-        cerr << "Ошибка: некорректный ввод данных" << endl;
+        cerr << "Ошибка: некорректный ввод данных (ожидался размер первого массива)" << endl;
         return 1;
     }
 
     Array* arr1 = array_create(size1);
     for (size_t i = 0; i < size1; ++i) {
         int value;
-        if (!(*input >> value)) value = rand() % 50; 
+        if (!(*input >> value)) {
+            cerr << "Ошибка: некорректные данные для первого массива" << endl;
+            return 1;
+        }
         array_set(arr1, i, value);
     }
 
-    cout << "Массив: ";
+    cout << "Массив 1: ";
     for (size_t i = 0; i < array_size(arr1); ++i) {
         cout << array_get(arr1, i) << " ";
     }
     cout << endl;
-
     cout << "Сумма элементов (<=20): " << sum_elements_not_exceeding(arr1, 20) << endl;
     array_delete(arr1);
-
+    
     if (!(*input >> size2)) {
-        cerr << "Ошибка: некорректный ввод данных" << endl;
+        cerr << "Ошибка: некорректный ввод данных (ожидался размер второго массива)" << endl;
         return 1;
     }
 
     Array* arr2 = array_create(size2);
     for (size_t i = 0; i < size2; ++i) {
         int value;
-        if (!(*input >> value)) value = rand() % 50;
+        if (!(*input >> value)) {
+            cerr << "Ошибка: некорректные данные для второго массива" << endl;
+            return 1;
+        }
         array_set(arr2, i, value);
     }
 
-    cout << "Массив: ";
+    cout << "Массив 2: ";
     for (size_t i = 0; i < array_size(arr2); ++i) {
         cout << array_get(arr2, i) << " ";
     }
     cout << endl;
-
     cout << "Наиболее часто встречающееся число: " << most_frequent_element(arr2) << endl;
     array_delete(arr2);
-
+    
     if (inputFile.is_open()) {
         inputFile.close();
     }
-
     return 0;
 }
