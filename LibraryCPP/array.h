@@ -1,27 +1,71 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include <cstddef>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <stdexcept>
 
-// Non-resizeable array
-// Stores integer values inside
-typedef int Data;
+template <typename T>
+class Array{
+private:
+    std::vector<T> data;
+    size_t size_;
+public:
+    Array(size_t size) : data(size), size_(size) {}
 
-struct Array;
+    Array(const Array& other) : data(other.data), size_(other.size_) {}
 
-// create array
-Array *array_create(size_t size);
+    Array& operator=(const Array& other) {
+        if (this != &other) {
+            data = other.data;
+            size_ = other.size_;
+        }
+        return *this;
+    }
 
-// delete array, free memory
-void array_delete(Array *arr);
+    Array(Array&& other) noexcept : data(std::move(other.data)), size_(other.size_) {
+        other.size_ = 0;
+    }
 
-// returns specified array element
-Data array_get(const Array *arr, size_t index);
+    Array& operator=(Array&& other) noexcept {
+        if (this != &other) {
+            data = std::move(other.data);
+            size_ = other.size_;
+            other.size_ = 0;
+        }
+        return *this;
+    }
 
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value);
+    size_t size() const {
+        return size_;
+    }
 
-// returns array size
-size_t array_size(const Array *arr);
+    T& at(size_t index) {
+        if (index >= size_) {
+            throw std::out_of_range("Index out of range");
+        }
+        return data[index];
+    }
+
+    const T& at(size_t index) const {
+        if (index >= size_) {
+            throw std::out_of_range("Index out of range");
+        }
+        return data[index];
+    }
+
+    T& operator[](size_t index) {
+        return data[index];
+    }
+
+    const T& operator[](size_t index) const {
+        return data[index];
+    }
+
+    void fill(const T& value) {
+        std::fill(data.begin(), data.end(), value);
+    }
+};
 
 #endif
