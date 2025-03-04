@@ -14,7 +14,7 @@ int main()
     }
 
     for (size_t i = 0; i < arr.size(); ++i) {
-        if (arr.at(i) != i * 2) {
+        if (arr.at(i) != static_cast<int>(i * 2)) {
             std::cerr << "Test Failed: Value mismatch at index " << i << std::endl;
             return 1;
         }
