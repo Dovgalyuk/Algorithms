@@ -1,111 +1,97 @@
+#ifndef ARRAY_H
+#define ARRAY_H
+
 #include <iostream>
-#include <vector>
-#include <random>
-#include <algorithm>
-#include <map>
-#include <limits>
+#include <stdexcept>
 
-using namespace std;
-
-class FixedSizeArray {
+template <typename T>
+class Array {
 private:
-    vector<int> data;
+    T* data;
     size_t size;
 
 public:
-    FixedSizeArray(size_t size) : size(size), data(size) {}
+    Array(size_t size) : size(size) {
+        if (size == 0) {
+            data = nullptr;
+        } else {
+            data = new T[size];
+        }
+    }
+
+    Array(const Array& other) : size(other.size) {
+        data = new T[size];
+        for (size_t i = 0; i < size; ++i) {
+            data[i] = other.data[i];
+        }
+    }
+
+    Array& operator=(const Array& other) {
+        if (this != &other) {
+            delete[] data;
+
+            size = other.size;
+            data = new T[size];
+
+            for (size_t i = 0; i < size; ++i) {
+                data[i] = other.data[i];
+            }
+        }
+        return *this;
+    }
+
+    Array(Array&& other) noexcept : data(other.data), size(other.size) {
+        other.data = nullptr;
+        other.size = 0;
+    }
+
+    Array& operator=(Array&& other) noexcept {
+        if (this != &other) {
+            delete[] data;
+            data = other.data;
+            size = other.size;
+
+            other.data = nullptr;
+            other.size = 0;
+        }
+        return *this;
+    }
+
+    ~Array() {
+        delete[] data;
+    }
+
+    T& operator[](size_t index) {
+        if (index >= size) {
+            throw std::out_of_range("Индекс выходит за границы массива");
+        }
+        return data[index];
+    }
+
+    const T& operator[](size_t index) const {
+        if (index >= size) {
+            throw std::out_of_range("Индекс выходит за границы массива");
+        }
+        return data[index];
+    }
 
     size_t getSize() const {
         return size;
     }
 
-    int& operator[](size_t index) {
-        return data[index];
+    void set(size_t index, const T& value) {
+        if (index >= size) {
+            throw std::out_of_range("Индекс выходит за границы массива");
+        }
+        data[index] = value;
     }
 
-    const int& operator[](size_t index) const {
+    T get(size_t index) const {
+        if (index >= size) {
+            throw std::out_of_range("Индекс выходит за границы массива");
+        }
         return data[index];
     }
 };
 
-
-int findMaxEvenIndex(const FixedSizeArray& arr) {
-    if (arr.getSize() == 0) {
-        return numeric_limits<int>::min(); 
-    }
-
-    int maxVal = numeric_limits<int>::min();
-
-    for (size_t i = 0; i < arr.getSize(); i += 2) {
-        if (arr[i] > maxVal) {
-            maxVal = arr[i];
-        }
-    }
-
-    return maxVal;
-}
-
-int findMostFrequent(const FixedSizeArray& arr) {
-    if (arr.getSize() == 0) {
-        return numeric_limits<int>::min();
-    }
-
-    map<int, int> counts;
-    for (size_t i = 0; i < arr.getSize(); ++i) {
-        counts[arr[i]]++;
-    }
-
-    int mostFrequent = arr[0];
-    int maxCount = 0;
-
-    for (const auto& pair : counts) {
-        if (pair.second > maxCount) {
-            mostFrequent = pair.first;
-            maxCount = pair.second;
-        }
-    }
-
-    return mostFrequent;
-}
-
-
-int main() {
-    setlocale(LC_ALL, "Russian");
-	
-    size_t size1;
-    cout << "Введите размер массива для задачи 1: ";
-    cin >> size1;
-
-    FixedSizeArray arr1(size1);
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> distrib(1, 100);
-
-    cout << "Массив 1: ";
-    for (size_t i = 0; i < size1; ++i) {
-        arr1[i] = distrib(gen);
-        cout << arr1[i] << " ";
-    }
-    cout << endl;
-
-    int maxEven = findMaxEvenIndex(arr1);
-    cout << "Максимальное значение среди элементов с четными индексами: " << maxEven << endl;
-
-    // Task 2
-    size_t size2;
-    cout << "Введите размер массива для задания 2: ";
-    cin >> size2;
-
-    FixedSizeArray arr2(size2);
-    cout << "Массив 2: ";
-    for (size_t i = 0; i < size2; ++i) {
-        arr2[i] = distrib(gen);
-        cout << arr2[i] << " ";
-    }
-    cout << endl;
-
-    int mostFrequent = findMostFrequent(arr2);
-    cout << "Наиболее часто встречающийся элемент в массиве: " << mostFrequent << endl;
-
-    return 0;
-}
+#endif
