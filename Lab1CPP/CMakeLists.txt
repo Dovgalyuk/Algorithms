@@ -3,7 +3,7 @@ project(ArrayProcessing)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(ArrayProcessing main.cpp Array.h)
+add_executable(ArrayProcessing main.cpp array.h)
 
 enable_testing()
 
