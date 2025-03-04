@@ -1,135 +1,104 @@
 #include <iostream>
-#include <stdexcept>  
+#include <random>
+#include <algorithm>
+#include <map>
+#include <stdexcept>
 
-using namespace std;
+#include "Array.h"
 
-template <typename T>
-class Array {
-private:
-    T* data;
-    size_t size;
+// нахождение максимального элемента среди элементов с четными индексами
+int findMaxEvenIndex(const Array<int>& arr) {
+    if (arr.getSize() == 0) {
+        throw std::runtime_error("Массив пуст!");
+    }
 
-public:
-    // получаем размер массива
-    Array(size_t size) : size(size) {
-        if (size == 0) {
-            data = nullptr; // 0 - не допустимый размер
-        } else {
-            data = new T[size];
+    int maxVal = arr[0];
+
+    for (size_t i = 2; i < arr.getSize(); i += 2) {
+        if (arr[i] > maxVal) {
+            maxVal = arr[i];
         }
     }
 
-    // копия
-    Array(const Array& other) : size(other.size) {
-        data = new T[size];
-        for (size_t i = 0; i < size; ++i) {
-            data[i] = other.data[i];
+    return maxVal;
+}
+
+// определение числа, которое встречается чаще всего
+int findMostFrequent(const Array<int>& arr) {
+    if (arr.getSize() == 0) {
+        throw std::runtime_error("Массив пуст!");
+    }
+
+    std::map<int, int> counts;
+    for (size_t i = 0; i < arr.getSize(); ++i) {
+        counts[arr[i]]++;
+    }
+
+    int mostFrequent = arr[0];
+    int maxCount = counts[arr[0]];
+
+    for (const auto& pair : counts) {
+        if (pair.second > maxCount) {
+            maxCount = pair.second;
+            mostFrequent = pair.first;
         }
     }
 
-    Array& operator=(const Array& other) {
-        if (this != &other) {
-            // очищам память
-            delete[] data;
-
-            // Выделяем субсидии
-            size = other.size;
-            data = new T[size];
-
-            // копир
-            for (size_t i = 0; i < size; ++i) {
-                data[i] = other.data[i];
-            }
-        }
-        return *this;
-    }
-
-    // передвижиния
-    Array(Array&& other) noexcept : data(other.data), size(other.size) {
-        other.data = nullptr;
-        other.size = 0;
-    }
-
-    // присваивания движением
-    Array& operator=(Array&& other) noexcept {
-        if (this != &other) {
-            delete[] data;
-            data = other.data;
-            size = other.size;
-
-            other.data = nullptr;
-            other.size = 0;
-        }
-        return *this;
-    }
-
-    // деструктор
-    ~Array() {
-        delete[] data;
-    }
-
-    // доступ по индексу
-    T& operator[](size_t index) {
-        if (index >= size) {
-            throw out_of_range("Индекс выходит за границы массива");
-        }
-        return data[index];
-    }
-
-    // константный оператор доступа по индексу
-    const T& operator[](size_t index) const {
-        if (index >= size) {
-            throw out_of_range("Индекс выходит за границы массива");
-        }
-        return data[index];
-    }
-
-    // получение размера массива
-    size_t getSize() const {
-        return size;
-    }
-
-    // установка значения элемента
-    void set(size_t index, const T& value) {
-        if (index >= size) {
-            throw out_of_range("Индекс выходит за границы массива");
-        }
-        data[index] = value;
-    }
-
-    // получение значения элемента
-    T get(size_t index) const {
-        if (index >= size) {
-            throw out_of_range("Индекс выходит за границы массива");
-        }
-        return data[index];
-    }
-};
+    return mostFrequent;
+}
 
 int main() {
 	setlocale(LC_ALL, "Russian");
+    int size1, size2;
+
+    std::cout << "Введите размер массива для поиска максимума среди четных индексов: ";
+    std::cin >> size1;
+
+    if (size1 <= 0) {
+        std::cerr << "Размер массива должен быть положительным." << std::endl;
+        return 1;
+    }
+
+    Array<int> arr1(size1);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(1, 100); // генерация чисел от 1 до 100
+
+    for (size_t i = 0; i < arr1.getSize(); ++i) {
+        arr1.set(i, distrib(gen));
+        std::cout << arr1.get(i) << " ";
+    }
+    std::cout << std::endl;
+
     try {
-        Array<int> myArray(5);
+        int maxEven = findMaxEvenIndex(arr1);
+        std::cout << "Максимальный элемент среди элементов с четными индексами: " << maxEven << std::endl;
+    } catch (const std::runtime_error& e) {
+        std::cerr << "Ошибка: " << e.what() << std::endl;
+        return 1;
+    }
 
-        for (size_t i = 0; i < myArray.getSize(); ++i) {
-            myArray[i] = i * 2;
-        }
+    std::cout << "Введите размер массива для поиска наиболее часто встречающегося элемента: ";
+    std::cin >> size2;
 
-        for (size_t i = 0; i < myArray.getSize(); ++i) {
-            cout << "Элемент " << i << ": " << myArray[i] << endl;
-        }
+    if (size2 <= 0) {
+        std::cerr << "Размер массива должен быть положительным." << std::endl;
+        return 1;
+    }
 
-        Array<int> myArray2 = myArray;
-        Array<int> myArray3(10);
-        myArray3 = myArray;
-        Array<int> myArray4 = move(myArray3);
-        myArray3 = move(myArray);
+    Array<int> arr2(size2);
+    for (size_t i = 0; i < arr2.getSize(); ++i) {
+        arr2[i] = distrib(gen);
+        std::cout << arr2[i] << " ";
+    }
+    std::cout << std::endl;
 
-
-    } catch (const out_of_range& e) {
-        cerr << "Ошибка: " << e.what() << endl;
-    } catch (const std::exception& e) {
-      cerr << "Ошибка: " << e.what() << endl;
+    try {
+        int mostFrequent = findMostFrequent(arr2);
+        std::cout << "Наиболее часто встречающийся элемент: " << mostFrequent << std::endl;
+    } catch (const std::runtime_error& e) {
+        std::cerr << "Ошибка: " << e.what() << std::endl;
+        return 1;
     }
 
     return 0;
