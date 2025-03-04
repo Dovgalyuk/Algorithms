@@ -8,8 +8,8 @@
 template <typename T>
 class Array{
 private:
-    std::vector<T> data;
     size_t size_;
+    std::vector<T> data;
 public:
     Array(size_t size);
     Array(const Array& other);
