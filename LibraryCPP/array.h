@@ -12,7 +12,7 @@ private:
     size_t size_;
 public:
     Array(size_t size);
-    Array(const FixedArray& other);
+    Array(const Array& other);
     Array& operator=(const Array& other);
     Array(Array&& other) noexcept;
     Array& operator=(Array&& other) noexcept;
