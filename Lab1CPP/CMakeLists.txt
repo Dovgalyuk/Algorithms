@@ -1,18 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
-project(FixedSizeArrayExample)
+project(ArrayProcessing)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 
-add_executable(FixedSizeArrayExample lab1.cpp)
+add_executable(ArrayProcessing main.cpp Array.h)
 
 enable_testing()
 
-add_test(
-    NAME FixedSizeArrayTest
-    COMMAND $<TARGET_FILE:FixedSizeArrayExample>
-)
-
-# Example input for the test
-set_tests_properties(FixedSizeArrayTest PROPERTIES
-    INPUT "10\n15\n"
-)
+add_test(ArrayProcessingTest ArrayProcessing)
+set_property(TEST ArrayProcessingTest PROPERTY ENVIRONMENT "INPUT_FILE=input.txt")
