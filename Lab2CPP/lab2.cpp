@@ -1,9 +1,8 @@
 ﻿#include <iostream>
 #include <fstream>
-#include <stack>
 #include <string>
-#include <vector>
 #include <cctype>
+#include "stack.h"
 
 using namespace std;
 
@@ -15,11 +14,11 @@ int getPrecedence(char op) {
 }
 
 // Функция для преобразования инфиксного выражения в постфиксное
-string infixToPostfix(istream* input) {         //(1+2)*3 -> 12+3*
+string infixToPostfix(istream* input) { // (1+2)*3 -> 12+3*
     string expression;
-    getline(*input, expression); 
+    getline(*input, expression);
 
-    stack<char> operators;
+    Stack* operators = stack_create();
     string postfix;
 
     for (char ch : expression) {
@@ -27,59 +26,69 @@ string infixToPostfix(istream* input) {         //(1+2)*3 -> 12+3*
             postfix += ch; // Добавляем цифру в постфиксное выражение
         }
         else if (ch == '(') {
-            operators.push(ch);
+            stack_push(operators, ch); // Помещаем '(' в стек
         }
         else if (ch == ')') {
-            while (!operators.empty() && operators.top() != '(') {
-                postfix += operators.top();
-                operators.pop();
+            while (!stack_empty(operators) && stack_get(operators) != '(') {
+                postfix += static_cast<char>(stack_get(operators));
+                stack_pop(operators);
             }
-            operators.pop(); // Удаляем '(' из стека
+            stack_pop(operators); // Удаляем '(' из стека
         }
         else {
-            while (!operators.empty() && getPrecedence(operators.top()) >= getPrecedence(ch)) {
-                postfix += operators.top();
-                operators.pop();
+            while (!stack_empty(operators) && getPrecedence(static_cast<char>(stack_get(operators))) >= getPrecedence(ch)) {
+                postfix += static_cast<char>(stack_get(operators));
+                stack_pop(operators);
             }
-            operators.push(ch);
+            stack_push(operators, ch); // Помещаем оператор в стек
         }
     }
 
-    while (!operators.empty()) {
-        postfix += operators.top();
-        operators.pop();
+    while (!stack_empty(operators)) {
+        postfix += static_cast<char>(stack_get(operators));
+        stack_pop(operators);
     }
 
+    stack_delete(operators); 
     return postfix;
 }
 
 // Функция для генерации ассемблерных команд из постфиксного выражения
 void generateAssembly(const string& postfix) {
-    vector<string> assembly;
+    Stack* stack = stack_create();
 
     for (char ch : postfix) {
         if (isdigit(ch)) {
-            assembly.push_back("PUSH " + string(1, ch));
+            cout << "PUSH " << ch << endl;
+            stack_push(stack, ch - '0'); // Преобразуем символ в число и помещаем в стек
         }
         else {
-            assembly.push_back("POP A");
-            assembly.push_back("POP B");
+            cout << "POP A" << endl;
+            int a = stack_get(stack);
+            stack_pop(stack);
+
+            cout << "POP B" << endl;
+            int b = stack_get(stack);
+            stack_pop(stack);
+
             if (ch == '+') {
-                assembly.push_back("ADD A, B");
+                cout << "ADD A, B" << endl;
+                stack_push(stack, a + b);
             }
             else if (ch == '*') {
-                assembly.push_back("MUL A, B");
+                cout << "MUL A, B" << endl;
+                stack_push(stack, a * b);
             }
             else if (ch == '-') {
-                assembly.push_back("SUB A, B");
+                cout << "SUB A, B" << endl;
+                stack_push(stack, b - a);
             }
-            assembly.push_back("PUSH A");
+
+            cout << "PUSH A" << endl;
         }
     }
 
-    for (const auto& line : assembly) {
-        cout << line << endl;
-    }
+    stack_delete(stack); // Удаляем стек
 }
 
 int main(int argc, char* argv[]) {

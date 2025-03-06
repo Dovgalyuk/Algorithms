@@ -5,7 +5,7 @@
 
 // Stack
 // Stores integer values inside
-typedef long long Data;
+typedef int Data;
 
 struct Stack;
 
