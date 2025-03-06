@@ -17,22 +17,22 @@ void stack_delete(Stack* stack) {
 }
 
 void stack_push(Stack* stack, Data data) {
-    vector_resize(stack->vector, vector_size(stack->vector) + 1);  // Óâåëè÷èâàåì ðàçìåð âåêòîðà
-    vector_set(stack->vector, vector_size(stack->vector) - 1, data);  // Äîáàâëÿåì ýëåìåíò
+    vector_resize(stack->vector, vector_size(stack->vector) + 1);  // Ð£Ð²ÐµÐ»Ð¸Ñ‡Ð¸Ð²Ð°ÐµÐ¼ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð²ÐµÐºÑ‚Ð¾Ñ€Ð°
+    vector_set(stack->vector, vector_size(stack->vector) - 1, data);  // Ð”Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚
 }
 
 Data stack_get(const Stack* stack) {
     if (stack_empty(stack)) {
         throw std::underflow_error("Stack is empty");
     }
-    return vector_get(stack->vector, vector_size(stack->vector) - 1);  // Âîçâðàùàåì ïîñëåäíèé ýëåìåíò
+    return vector_get(stack->vector, vector_size(stack->vector) - 1);  // Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚
 }
 
 void stack_pop(Stack* stack) {
     if (stack_empty(stack)) {
         throw std::underflow_error("Stack is empty");
     }
-    vector_resize(stack->vector, vector_size(stack->vector) - 1);  // Óìåíüøàåì ðàçìåð âåêòîðà
+    vector_resize(stack->vector, vector_size(stack->vector) - 1);  // Ð£Ð¼ÐµÐ½ÑŒÑˆÐ°ÐµÐ¼ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð²ÐµÐºÑ‚Ð¾Ñ€Ð°
 }
 
 bool stack_empty(const Stack* stack) {

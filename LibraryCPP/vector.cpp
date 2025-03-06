@@ -39,7 +39,7 @@ size_t vector_size(const Vector* vector) {
     return vector->size;
 }
 
-void vector_resize(Vector* vector, size_t size) {      //Åñëè size ìåíüøå èëè ðàâåí òåêóùåé åìêîñòè, òî ñëîæíîñòü áóäåò O(1).
+void vector_resize(Vector* vector, size_t size) {      //Ð•ÑÐ»Ð¸ size Ð¼ÐµÐ½ÑŒÑˆÐµ Ð¸Ð»Ð¸ Ñ€Ð°Ð²ÐµÐ½ Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¹ ÐµÐ¼ÐºÐ¾ÑÑ‚Ð¸, Ñ‚Ð¾ ÑÐ»Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑŒ Ð±ÑƒÐ´ÐµÑ‚ O(1).
     if (size > vector->capacity) {
         size_t new_capacity = vector->capacity == 0 ? 1 : vector->capacity * 2;
         while (new_capacity < size) {
