@@ -1,0 +1,6 @@
+push 1
+ret
+push 1
+call
+ret
+pop A
