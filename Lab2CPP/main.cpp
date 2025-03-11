@@ -8,12 +8,10 @@ using namespace std;
 
 void convertToStackOperations(const string& expression) {
     Stack* opStack = stack_create();
-    Stack* output = stack_create();
 
     for (char c : expression) {
         if (isdigit(c)) {
             cout << "PUSH " << c << endl;
-            stack_push(output, c - '0'); 
         } else if (c == '+' || c == '-' || c == '*' || c == '/') {
             while (!stack_empty(opStack)) {
                 char topOp = static_cast<char>(stack_get(opStack));
@@ -24,8 +22,6 @@ void convertToStackOperations(const string& expression) {
                     cout << "POP B" << endl;
                     cout << (topOp == '+' ? "ADD" : topOp == '-' ? "SUB" : topOp == '*' ? "MUL" : "DIV") << " A, B" << endl;
                     cout << "PUSH A" << endl;
-                    
-                    stack_push(output, 0);
                 } else {
                     break;
                 }
@@ -42,8 +38,6 @@ void convertToStackOperations(const string& expression) {
                 cout << "POP B" << endl;
                 cout << (op == '+' ? "ADD" : op == '-' ? "SUB" : op == '*' ? "MUL" : "DIV") << " A, B" << endl;
                 cout << "PUSH A" << endl;
-                
-                stack_push(output, 0);
             }
             stack_pop(opStack);
         }
@@ -57,12 +51,9 @@ void convertToStackOperations(const string& expression) {
         cout << "POP B" << endl;
         cout << (op == '+' ? "ADD" : op == '-' ? "SUB" : op == '*' ? "MUL" : "DIV") << " A, B" << endl;
         cout << "PUSH A" << endl;
-        
-        stack_push(output, 0);
     }
 
     stack_delete(opStack);
-    stack_delete(output);
 }
 
 int main(int argc, char* argv[]) {
