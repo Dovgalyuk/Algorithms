@@ -1,50 +1,34 @@
-#include <stdexcept>
+#include "array.h"
 
-using Data = int;
-
-//Контейнер, хранящий указатель на данные типа Data и размер массива в виде переменной типа size_t.
-struct Array {
-    Data* data = nullptr;
-    size_t size = 0;
+struct Array
+{
 };
 
-// Создаёт массив указанного размера
-Array* array_create(size_t size) {
-    if (size == 0) {
-        throw std::invalid_argument("Размер массива не может быть равен нулю.");
-    }
-
-    Array* arr = new Array;
-    arr->data = new Data[size];
-    arr->size = size;
-    return arr;
+// create array
+Array *array_create(size_t size)
+{
+    return new Array;
 }
 
-// Удаляет массив и освобождает память
-void array_delete(Array* arr) {
-    if (arr) {
-        delete[] arr->data;
-        delete arr;
-    }
+// delete array, free memory
+void array_delete(Array *arr)
+{
+    delete arr;
 }
 
-// Возвращает элемент массива по индексу
-Data array_get(const Array* arr, size_t index) {
-    if (index >= arr->size) {
-        throw std::out_of_range("Индекс выходит за пределы массива.");
-    }
-    return arr->data[index];
+// returns specified array element
+Data array_get(const Array *arr, size_t index)
+{
+    return (Data)0;
 }
 
-// Устанавливает значение элемента массива по индексу
-void array_set(Array* arr, size_t index, Data value) {
-    if (index >= arr->size) {
-        throw std::out_of_range("Индекс выходит за пределы массива.");
-    }
-    arr->data[index] = value;
+// sets the specified array element to the value
+void array_set(Array *arr, size_t index, Data value)
+{
 }
 
-// Возвращает размер массива
-size_t array_size(const Array* arr) {
-    return arr->size;
+// returns array size
+size_t array_size(const Array *arr)
+{
+    return 0;
 }
