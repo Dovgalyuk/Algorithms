@@ -3,7 +3,6 @@
 #include <string>
 #include <sstream>
 #include <cctype>
-#include <stack>
 using namespace std;
 
 
@@ -11,7 +10,7 @@ void process_expression(const string& expr) {
     Stack* stack = stack_create();
     stringstream output;
 
-    stack<char> operators;
+     std::stack<char> operators;
 
     for (size_t i = 0; i < expr.size(); ++i) {
         char c = expr[i];
