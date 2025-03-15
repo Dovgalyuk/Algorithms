@@ -32,10 +32,17 @@ Data stack_get(const Stack* stack)
 
 void stack_pop(Stack* stack)
 {
-    vector_resize(stack->vector, vector_size(stack->vector) - 1);
+    if (!stack_empty(stack)) {
+        vector_resize(stack->vector, vector_size(stack->vector) - 1);
+    }
 }
 
 bool stack_empty(const Stack* stack)
 {
     return vector_size(stack->vector) == 0;
+}
+
+size_t stack_size(const Stack* stack)
+{
+    return vector_size(stack->vector);
 }
