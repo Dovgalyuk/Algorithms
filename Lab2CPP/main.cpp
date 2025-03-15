@@ -1,17 +1,19 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <string>
+#include <unordered_map>
 #include "stack.h"
-#include "vector.h"
 
 using namespace std;
 
-struct CPU {
-    int registers[4] = {0, 0, 0, 0}; // Регистры A, B, C, D
+class CPU {
+private:
     Stack* stack;
+    unordered_map<string, int> registers;
     bool error = false;
-    
+    bool returnExpected = false;
+
+public:
     CPU() {
         stack = stack_create();
     }
@@ -20,76 +22,106 @@ struct CPU {
         stack_delete(stack);
     }
 
-    void push(int value) {
-        stack_push(stack, value);
+    void push(const string& operand) {
+        if (isdigit(operand[0]) || (operand.size() > 1 && isdigit(operand[1]))) {
+            stack_push(stack, stoi(operand));
+            returnExpected = false;
+        } else {
+            stack_push(stack, registers[operand]);
+        }
     }
 
-    void pop(int regIndex) {
-        if (stack_empty(stack) || stack_get(stack) < 0) {
-            cout << "BAD POP" << endl;
+    void pop(const string& reg) {
+        if (stack_empty(stack)) {
+            cout << "ERROR: Stack underflow" << endl;
             error = true;
             return;
         }
-        registers[regIndex] = stack_get(stack);
+        if (returnExpected) {
+            cout << "ERROR: Cannot pop return address" << endl;
+            error = true;
+            return;
+        }
+        registers[reg] = stack_get(stack);
         stack_pop(stack);
     }
 
-    void add() {
-        if (stack_size(stack) < 2) { cout << "BAD OPERATION" << endl; error = true; return; }
-        int a = stack_get(stack); stack_pop(stack);
-        int b = stack_get(stack); stack_pop(stack);
-        stack_push(stack, a + b);
-    }
+    void add() { operate('+'); }
+    void sub() { operate('-'); }
+    void mul() { operate('*'); }
 
-    void sub() {
-        if (stack_size(stack) < 2) { cout << "BAD OPERATION" << endl; error = true; return; }
-        int a = stack_get(stack); stack_pop(stack);
-        int b = stack_get(stack); stack_pop(stack);
-        stack_push(stack, b - a);
-    }
-
-    void mul() {
-        if (stack_size(stack) < 2) { cout << "BAD OPERATION" << endl; error = true; return; }
-        int a = stack_get(stack); stack_pop(stack);
-        int b = stack_get(stack); stack_pop(stack);
-        stack_push(stack, a * b);
-    }
-
-    void call(int address) {
-        stack_push(stack, -address); // Отрицательное значение для адреса возврата
+    void call() {
+        stack_push(stack, -1); // Simulating return address
+        returnExpected = true;
     }
 
     void ret() {
-        if (stack_empty(stack) || stack_get(stack) >= 0) {
-            cout << "BAD RET" << endl;
+        if (stack_empty(stack)) {
+            cout << "ERROR: Nothing to return to" << endl;
+            error = true;
+            return;
+        }
+        if (!returnExpected) {
+            cout << "ERROR: Invalid return operation" << endl;
             error = true;
             return;
         }
         stack_pop(stack);
+        returnExpected = false;
     }
 
-    void printRegisters() {
-        cout << "A = " << registers[0] << "\nB = " << registers[1] << "\nC = " << registers[2] << "\nD = " << registers[3] << endl;
+    void print_registers() {
+        if (!error) {
+            for (const auto& reg : registers) {
+                cout << reg.first << " = " << reg.second << endl;
+            }
+        }
+    }
+
+private:
+    void operate(char op) {
+        if (stack_size(stack) < 2) {
+            cout << "ERROR: Stack underflow" << endl;
+            error = true;
+            return;
+        }
+        int b = stack_get(stack);
+        stack_pop(stack);
+        int a = stack_get(stack);
+        stack_pop(stack);
+
+        switch (op) {
+            case '+': stack_push(stack, a + b); break;
+            case '-': stack_push(stack, a - b); break;
+            case '*': stack_push(stack, a * b); break;
+        }
     }
 };
 
-void executeInstructions(istream& input) {
+int main(int argc, char* argv[]) {
+    setlocale(LC_ALL, "Russian");
+    istream* input = &cin;
+    ifstream inputFile;
+    if (argc >= 2) {
+        inputFile.open(argv[1]);
+        if (!inputFile) {
+            cerr << "Ошибка: не удалось открыть файл " << argv[1] << endl;
+            return 1;
+        }
+        input = &inputFile;
+    }
+
     CPU cpu;
-    string line;
-    while (getline(input, line)) {
-        istringstream iss(line);
-        string command;
-        iss >> command;
+    string command;
+    while (*input >> command) {
         if (command == "push") {
-            int value;
-            iss >> value;
-            cpu.push(value);
+            string operand;
+            *input >> operand;
+            cpu.push(operand);
         } else if (command == "pop") {
-            char reg;
-            iss >> reg;
-            int regIndex = reg - 'A';
-            if (regIndex < 0 || regIndex > 3) { cout << "INVALID REGISTER" << endl; return; }
-            cpu.pop(regIndex);
+            string reg;
+            *input >> reg;
+            cpu.pop(reg);
         } else if (command == "add") {
             cpu.add();
         } else if (command == "sub") {
@@ -97,30 +129,14 @@ void executeInstructions(istream& input) {
         } else if (command == "mul") {
             cpu.mul();
         } else if (command == "call") {
-            int address = 1; // фиктивный адрес
-            cpu.call(address);
+            cpu.call();
         } else if (command == "ret") {
             cpu.ret();
         } else {
-            cout << "INVALID COMMAND" << endl;
-            return;
-        }
-        if (cpu.error) return;
-    }
-    cpu.printRegisters();
-}
-
-int main(int argc, char* argv[]) {
-    istream* input = &cin;
-    ifstream file;
-    if (argc >= 2) {
-        file.open(argv[1]);
-        if (!file) {
-            cerr << "Ошибка: не удалось открыть файл " << argv[1] << endl;
+            cout << "ERROR: Unknown command " << command << endl;
             return 1;
         }
-        input = &file;
     }
-    executeInstructions(*input);
+    cpu.print_registers();
     return 0;
 }
