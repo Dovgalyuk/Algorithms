@@ -1,48 +1,34 @@
 #include "array.h"
-#include <stdexcept> 
 
-struct Array {
-    size_t size;  
-    Data* data;   
-
-   
-    Array(size_t size) {
-        this->size = size;
-        this->data = new Data[size]; 
-    }
-
-    
-    ~Array() {
-        delete[] data;
-    }
+struct Array
+{
 };
 
-
-Array* array_create(size_t size) {
-    return new Array(size);
+// create array
+Array *array_create(size_t size)
+{
+    return new Array;
 }
 
-
-void array_delete(Array* arr) {
+// delete array, free memory
+void array_delete(Array *arr)
+{
     delete arr;
 }
 
-
-Data array_get(const Array* arr, size_t index) {
-    if (index >= arr->size) {
-        throw std::out_of_range("Index out of range in array_get()");
-    }
-    return arr->data[index];
+// returns specified array element
+Data array_get(const Array *arr, size_t index)
+{
+    return (Data)0;
 }
 
-
-void array_set(Array* arr, size_t index, Data value) {
-    if (index >= arr->size) {
-        throw std::out_of_range("Index out of range in array_set()");
-    }
-    arr->data[index] = value;
+// sets the specified array element to the value
+void array_set(Array *arr, size_t index, Data value)
+{
 }
 
-size_t array_size(const Array* arr) {
-    return arr->size;
+// returns array size
+size_t array_size(const Array *arr)
+{
+    return 0;
 }
