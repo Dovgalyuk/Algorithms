@@ -84,10 +84,16 @@ int main() {
             ss >> operand;
             try {
                 int value = stoi(operand);
-                stack_push_typed(stack, value, DATA_VALUE);
+                StackData data;
+                data.value = value;
+                data.type = DATA_VALUE;
+                stack_push_typed(stack, data);
             } catch (const invalid_argument& e) {
                 if (registers.count(operand)) {
-                    stack_push_typed(stack, registers[operand], DATA_VALUE);
+                    StackData data;
+                    data.value = registers[operand];
+                    data.type = DATA_VALUE;
+                    stack_push_typed(stack, data);
                 } else {
                     cout << "Недействительный регистр" << endl;
                     inputFile.close();
