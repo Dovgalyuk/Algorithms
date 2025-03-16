@@ -19,15 +19,15 @@ struct StackData {
 };
 
 void stack_push_typed(Stack *stack, StackData data) {
-    stack_push(stack, reinterpret_cast<Data&>(data));
+    Data data_to_push = reinterpret_cast<Data&>(data);
+    stack_push(stack, data_to_push);
 }
 
 StackData stack_get_typed(Stack *stack) {
-    if (stack_empty(stack)) {
-        return {0, DATA_VALUE};
-    }
-    Data data = stack_get(stack);
-    return *reinterpret_cast<StackData*>(&data);
+    Data rawData = stack_get(stack);
+    StackData data;
+    data = *reinterpret_cast<StackData*>(&rawData);
+    return data;
 }
 
 StackData stack_pop_typed(Stack *stack) {
@@ -36,10 +36,10 @@ StackData stack_pop_typed(Stack *stack) {
     }
 
     Data rawData = stack_get(stack);
-    StackData top_data = *reinterpret_cast<StackData*>(&rawData);
     stack_pop(stack);
-
-    return top_data;
+    StackData data;
+    data = *reinterpret_cast<StackData*>(&rawData);
+    return data;
 }
 
 string trim(const string& str) {
