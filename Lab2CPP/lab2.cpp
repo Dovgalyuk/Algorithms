@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <map>
+#include <algorithm>
 
 #include "stack.h"
 using namespace std;
