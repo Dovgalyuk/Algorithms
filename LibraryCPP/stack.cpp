@@ -1,6 +1,6 @@
 #include "stack.h"
 #include "list.h"
-
+#include <iostream>
 struct Stack
 {
     List *list;
