@@ -1,5 +1,7 @@
 #include <cstddef>
 #include "list.h"
+#include <ostream>
+
 using namespace std;
 
 typedef int Data;
