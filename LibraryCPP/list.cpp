@@ -4,7 +4,6 @@
 
 using namespace std;
 
-typedef int Data;
 struct ListItem
 {
     Data data;
