@@ -18,10 +18,7 @@ struct StackData {
     DataType type;
 };
 
-void stack_push_typed(Stack *stack, Data value, DataType type) {
-    StackData data;
-    data.value = value;
-    data.type = type;
+void stack_push_typed(Stack *stack, StackData data) {
     stack_push(stack, reinterpret_cast<Data&>(data));
 }
 
@@ -124,9 +121,11 @@ int main() {
             }
 
             registers[register_name] = top_data.value;
-
         } else if (command == "call") {
-            stack_push_typed(stack, -1, RETURN_ADDRESS);
+            StackData data;
+            data.value = -1;
+            data.type = RETURN_ADDRESS;
+            stack_push_typed(stack, data);
         } else if (command == "ret") {
             if (stack_empty(stack)) {
                 cout << "Пустой стек" << endl;
@@ -144,7 +143,7 @@ int main() {
         }
     }
 
-    inputFile.close(); 
+    inputFile.close();
 
     cout << "A = " << registers["A"] << endl;
     cout << "B = " << registers["B"] << endl;
