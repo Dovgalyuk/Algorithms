@@ -24,9 +24,12 @@ void stack_push_typed(Stack *stack, StackData data) {
 }
 
 StackData stack_get_typed(Stack *stack) {
+    if (stack_empty(stack)) {
+        return {0, DATA_VALUE};
+    }
     Data rawData = stack_get(stack);
-    StackData data;
-    data = *reinterpret_cast<StackData*>(&rawData);
+    StackData *data_ptr = reinterpret_cast<StackData*>(&rawData);
+    StackData data = *data_ptr;
     return data;
 }
 
