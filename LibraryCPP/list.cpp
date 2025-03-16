@@ -30,8 +30,7 @@ List *list_create()
     return list;
 }
 
-void list_delete(List *list)
-{
+void list_delete(List *list) {
     if (list) {
         ListItem *current = list->head;
         while (current) {
@@ -39,6 +38,9 @@ void list_delete(List *list)
             delete current;
             current = next;
         }
+        list->head = nullptr;
+        list->tail = nullptr;
+        list->size = 0;
         delete list;
     }
 }
