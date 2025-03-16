@@ -44,10 +44,7 @@ Data stack_get(const Stack *stack)
 void stack_pop(Stack *stack)
 {
     if (stack && stack->list) {
-        ListItem *first = list_erase_first(stack->list);
-        if(first){
-            delete first; 
-        }
+        list_erase_first(stack->list); 
     }
 }
 
