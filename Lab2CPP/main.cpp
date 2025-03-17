@@ -2,7 +2,6 @@
 #include <fstream>
 #include <string>
 #include <unordered_map>
-#include <cctype> // Для isdigit()
 #include "stack.h"
 
 using namespace std;
@@ -12,7 +11,7 @@ private:
     Stack* stack;
     unordered_map<string, int> registers;
     bool error = false;
-    int returnDepth = 0; // Количество ожидаемых возвратов
+    bool returnExpected = false;
 
 public:
     CPU() {
@@ -23,17 +22,10 @@ public:
         stack_delete(stack);
     }
 
-    bool isNumber(const string& str) {
-        if (str.empty()) return false;
-        if (str[0] == '-' && str.size() > 1) {
-            return all_of(str.begin() + 1, str.end(), ::isdigit);
-        }
-        return all_of(str.begin(), str.end(), ::isdigit);
-    }
-
     void push(const string& operand) {
-        if (isNumber(operand)) { // Исправленная проверка
+        if (isdigit(operand[0]) || (operand.size() > 1 && isdigit(operand[1]))) {
             stack_push(stack, stoi(operand));
+            returnExpected = false;
         } else {
             stack_push(stack, registers[operand]);
         }
@@ -45,7 +37,7 @@ public:
             error = true;
             return;
         }
-        if (returnDepth > 0) { // Ошибка 2: нельзя извлекать адрес возврата
+        if (returnExpected) {
             cout << "ERROR: Cannot pop return address" << endl;
             error = true;
             return;
@@ -59,24 +51,23 @@ public:
     void mul() { operate('*'); }
 
     void call() {
-        stack_push(stack, -1); // Симуляция адреса возврата
-        returnDepth++;
+        stack_push(stack, -1); // Simulating return address
+        returnExpected = true;
     }
 
     void ret() {
-        if (stack_empty(stack) || returnDepth == 0) {
+        if (stack_empty(stack)) {
             cout << "ERROR: Nothing to return to" << endl;
             error = true;
             return;
         }
-        while (!stack_empty(stack)) { // Удаляем все адреса возврата
-            int value = stack_get(stack);
-            stack_pop(stack);
-            if (value == -1) {
-                returnDepth--;
-                break;
-            }
+        if (!returnExpected) {
+            cout << "ERROR: Invalid return operation" << endl;
+            error = true;
+            return;
         }
+        stack_pop(stack);
+        returnExpected = false;
     }
 
     void print_registers() {
