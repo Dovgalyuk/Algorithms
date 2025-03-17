@@ -7,8 +7,8 @@
 using namespace std;
 
 void process_expression(const string& expr) {
-    Stack* stack = stack_create();
-    Stack* operators = stack_create();
+    Stack* stack = stack_create(); 
+    Stack* operators = stack_create(); 
     stringstream output;
 
     for (size_t i = 0; i < expr.size(); ++i) {
@@ -16,9 +16,9 @@ void process_expression(const string& expr) {
 
         if (isdigit(c)) {
             output << "PUSH " << c << "\n";
-            stack_push(stack, c - '0');
+            stack_push(stack, c - '0'); 
         } else if (c == '(') {
-            stack_push(operators, c);
+            stack_push(operators, c); 
         } else if (c == ')') {
             while (!stack_empty(operators) && stack_get(operators) != '(') {
                 char op = stack_get(operators);
@@ -39,7 +39,7 @@ void process_expression(const string& expr) {
                 }
             }
             if (!stack_empty(operators) && stack_get(operators) == '(') {
-                stack_pop(operators);
+                stack_pop(operators);  
             }
         } else if (c == '+' || c == '-') {
             while (!stack_empty(operators) && (stack_get(operators) == '*' || stack_get(operators) == '/')) {
