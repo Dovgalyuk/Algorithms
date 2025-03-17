@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <unordered_map>
+#include <cctype> // Для isdigit()
 #include "stack.h"
 
 using namespace std;
@@ -11,7 +12,7 @@ private:
     Stack* stack;
     unordered_map<string, int> registers;
     bool error = false;
-    bool returnExpected = false;
+    int returnCount = 0; // Счетчик адресов возврата
 
 public:
     CPU() {
@@ -22,10 +23,15 @@ public:
         stack_delete(stack);
     }
 
+    bool isNumber(const string& str) {
+        if (str.empty()) return false;
+        size_t i = (str[0] == '-') ? 1 : 0; // Начинаем с 1, если есть '-'
+        return (i < str.size()) && all_of(str.begin() + i, str.end(), ::isdigit);
+    }
+
     void push(const string& operand) {
-        if (isdigit(operand[0]) || (operand.size() > 1 && isdigit(operand[1]))) {
+        if (isNumber(operand)) { // Проверяем, является ли строка числом
             stack_push(stack, stoi(operand));
-            returnExpected = false;
         } else {
             stack_push(stack, registers[operand]);
         }
@@ -37,7 +43,7 @@ public:
             error = true;
             return;
         }
-        if (returnExpected) {
+        if (returnCount > 0) { // Нельзя изменять стек, если там есть адрес возврата
             cout << "ERROR: Cannot pop return address" << endl;
             error = true;
             return;
@@ -51,23 +57,24 @@ public:
     void mul() { operate('*'); }
 
     void call() {
-        stack_push(stack, -1); // Simulating return address
-        returnExpected = true;
+        stack_push(stack, -2); // Специальный маркер адреса возврата
+        returnCount++;
     }
 
     void ret() {
-        if (stack_empty(stack)) {
+        if (returnCount == 0) {
             cout << "ERROR: Nothing to return to" << endl;
             error = true;
             return;
         }
-        if (!returnExpected) {
-            cout << "ERROR: Invalid return operation" << endl;
-            error = true;
-            return;
+        while (!stack_empty(stack)) { // Удаляем все адреса возврата
+            int value = stack_get(stack);
+            stack_pop(stack);
+            if (value == -2) { // Нашли метку возврата
+                returnCount--;
+                break;
+            }
         }
-        stack_pop(stack);
-        returnExpected = false;
     }
 
     void print_registers() {
