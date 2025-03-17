@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <cctype> // Для isdigit()
 #include "stack.h"
+#include <algorithm> // Нужно для all_of()
+
 
 using namespace std;
 
