@@ -3,15 +3,13 @@
 #include <string>
 #include <sstream>
 #include <cctype>
-#include <stack>
-using namespace std;
 
+using namespace std;
 
 void process_expression(const string& expr) {
     Stack* stack = stack_create();
+    Stack* operators = stack_create();
     stringstream output;
-
-    std::stack<char> operators;
 
     for (size_t i = 0; i < expr.size(); ++i) {
         char c = expr[i];
@@ -20,11 +18,11 @@ void process_expression(const string& expr) {
             output << "PUSH " << c << "\n";
             stack_push(stack, c - '0');
         } else if (c == '(') {
-            operators.push(c);
+            stack_push(operators, c);
         } else if (c == ')') {
-            while (!operators.empty() && operators.top() != '(') {
-                char op = operators.top();
-                operators.pop();
+            while (!stack_empty(operators) && stack_get(operators) != '(') {
+                char op = stack_get(operators);
+                stack_pop(operators);
 
                 int b = stack_get(stack); stack_pop(stack);
                 int a = stack_get(stack); stack_pop(stack);
@@ -40,13 +38,13 @@ void process_expression(const string& expr) {
                     stack_push(stack, a * b);
                 }
             }
-            if (!operators.empty() && operators.top() == '(') {
-                operators.pop();
+            if (!stack_empty(operators) && stack_get(operators) == '(') {
+                stack_pop(operators);
             }
         } else if (c == '+' || c == '-') {
-            while (!operators.empty() && (operators.top() == '*' || operators.top() == '/')) {
-                char op = operators.top();
-                operators.pop();
+            while (!stack_empty(operators) && (stack_get(operators) == '*' || stack_get(operators) == '/')) {
+                char op = stack_get(operators);
+                stack_pop(operators);
 
                 int b = stack_get(stack); stack_pop(stack);
                 int a = stack_get(stack); stack_pop(stack);
@@ -59,15 +57,15 @@ void process_expression(const string& expr) {
                     stack_push(stack, a - b);
                 }
             }
-            operators.push(c);
+            stack_push(operators, c);
         } else if (c == '*' || c == '/') {
-            operators.push(c);
+            stack_push(operators, c);
         }
     }
 
-    while (!operators.empty()) {
-        char op = operators.top();
-        operators.pop();
+    while (!stack_empty(operators)) {
+        char op = stack_get(operators);
+        stack_pop(operators);
 
         int b = stack_get(stack); stack_pop(stack);
         int a = stack_get(stack); stack_pop(stack);
@@ -86,6 +84,7 @@ void process_expression(const string& expr) {
 
     cout << output.str();
     stack_delete(stack);
+    stack_delete(operators);
 }
 
 int main() {
