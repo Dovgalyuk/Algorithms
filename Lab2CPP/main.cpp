@@ -2,10 +2,9 @@
 #include <fstream>
 #include <string>
 #include <unordered_map>
-#include <cctype> // Для isdigit()
+#include <cctype>     // Для isdigit()
+#include <algorithm>  // Для find_if()
 #include "stack.h"
-#include <algorithm> // Нужно для all_of()
-
 
 using namespace std;
 
@@ -25,10 +24,13 @@ public:
         stack_delete(stack);
     }
 
+    // Проверка, является ли строка числом (включая отрицательные)
     bool isNumber(const string& str) {
         if (str.empty()) return false;
-        size_t i = (str[0] == '-') ? 1 : 0; // Начинаем с 1, если есть '-'
-        return (i < str.size()) && all_of(str.begin() + i, str.end(), ::isdigit);
+        if (str[0] == '-' && str.size() > 1) { // Отрицательные числа
+            return all_of(str.begin() + 1, str.end(), ::isdigit);
+        }
+        return all_of(str.begin(), str.end(), ::isdigit);
     }
 
     void push(const string& operand) {
@@ -74,7 +76,7 @@ public:
             stack_pop(stack);
             if (value == -2) { // Нашли метку возврата
                 returnCount--;
-                break;
+                if (returnCount == 0) break; // Все возвраты обработаны
             }
         }
     }
