@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 
 size_t find_max_odd_segment(const Array* arr) {
     size_t max_length = 0;
@@ -40,13 +40,13 @@ void compress_array(Array* arr, int a, int b) {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        std::cerr << "Использование: " << argv[0] << " <input_file>" << std::endl;
+        std::cerr << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << argv[0] << " <input_file>" << std::endl;
         return 1;
     }
 
     std::ifstream input_file(argv[1]);
     if (!input_file.is_open()) {
-        std::cerr << "Ошибка: не удалось открыть файл " << argv[1] << std::endl;
+        std::cerr << "пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ " << argv[1] << std::endl;
         return 1;
     }
 
@@ -60,18 +60,18 @@ int main(int argc, char* argv[]) {
         array_set(arr, i, std::rand() % 100);
     }
 
-    std::cout << "Исходный массив: ";
+    std::cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: ";
     for (size_t i = 0; i < array_size(arr); ++i) {
         std::cout << array_get(arr, i) << " ";
     }
     std::cout << std::endl;
 
     size_t max_odd_length = find_max_odd_segment(arr);
-    std::cout << "Максимальная длина отрезка из нечетных чисел: " << max_odd_length << std::endl;
+    std::cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: " << max_odd_length << std::endl;
 
     compress_array(arr, a, b);
 
-    std::cout << "Сжатый массив: ";
+    std::cout << "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: ";
     for (size_t i = 0; i < array_size(arr); ++i) {
         std::cout << array_get(arr, i) << " ";
     }
