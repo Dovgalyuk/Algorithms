@@ -153,12 +153,12 @@ int main() {
             }
             if (previousCommand == "push"){
                 cout << "BAD RET" << endl;
-                 inputFile.close();
+                inputFile.close();
                 stack_delete(stack);
                 return 1;
             }
 
-            StackData top_data = stack_pop_typed(stack);
+            stack_pop_typed(stack);
             previousCommand = "ret";
         } else {
             cout << "Недействительная команда." << endl;
