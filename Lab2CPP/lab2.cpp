@@ -19,8 +19,7 @@ struct StackData {
 };
 
 void stack_push_typed(Stack *stack, StackData data) {
-    Data data_to_push = reinterpret_cast<Data&>(data);
-    stack_push(stack, data_to_push);
+    stack_push(stack, reinterpret_cast<Data&>(data));
 }
 
 StackData stack_get_typed(Stack *stack) {
@@ -29,8 +28,7 @@ StackData stack_get_typed(Stack *stack) {
     }
     Data rawData = stack_get(stack);
     StackData *data_ptr = reinterpret_cast<StackData*>(&rawData);
-    if(data_ptr == nullptr) return {0, DATA_VALUE};
-    StackData data = *data_ptr;
+    StackData data = *reinterpret_cast<StackData*>(&rawData);
     return data;
 }
 
@@ -40,11 +38,9 @@ StackData stack_pop_typed(Stack *stack) {
     }
 
     Data rawData = stack_get(stack);
-    if(rawData == 0) return {0, DATA_VALUE};
     
     StackData *data_ptr = reinterpret_cast<StackData*>(&rawData);
-    if(data_ptr == nullptr) return {0, DATA_VALUE};
-    StackData top_data = *data_ptr;
+    StackData top_data = *reinterpret_cast<StackData*>(&rawData);
     stack_pop(stack);
     return top_data;
 }
@@ -157,7 +153,7 @@ int main() {
                 return 1;
             }
 
-            stack_pop_typed(stack);
+            StackData top_data = stack_pop_typed(stack);
             previousCommand = "ret";
         } else {
             cout << "Недействительная команда." << endl;
