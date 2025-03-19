@@ -57,9 +57,9 @@ int main() {
     vector<string> instructions;
     string command;
 
-    ifstream inputFile("input.txt");
+    ifstream inputFile("in.txt");
     if (!inputFile) {
-        cerr << "Error opening input.txt" << endl;
+        cerr << "Error opening in.txt" << endl;
         return 1;
     }
 
