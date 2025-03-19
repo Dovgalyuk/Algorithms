@@ -4,8 +4,8 @@
 #include <sstream>
 #include <map>
 #include <algorithm>
-
 #include "stack.h"
+
 using namespace std;
 
 enum DataType {
@@ -39,10 +39,11 @@ StackData stack_pop_typed(Stack *stack) {
     }
 
     Data rawData = stack_get(stack);
+    
+    StackData *data_ptr = reinterpret_cast<StackData*>(&rawData);
+    StackData top_data = *data_ptr;
     stack_pop(stack);
-    StackData data;
-    data = *reinterpret_cast<StackData*>(&rawData);
-    return data;
+    return top_data;
 }
 
 string trim(const string& str) {
@@ -73,6 +74,7 @@ int main() {
     }
 
     string line;
+    string previousCommand = "";
     while (getline(inputFile, line)) {
         line = trim(line);
 
@@ -104,6 +106,7 @@ int main() {
                     return 1;
                 }
             }
+             previousCommand = "push";
         } else if (command == "pop") {
             if (stack_empty(stack)) {
                 cout << "Пустой стек" << endl;
@@ -130,20 +133,29 @@ int main() {
             }
 
             registers[register_name] = top_data.value;
+             previousCommand = "pop";
         } else if (command == "call") {
             StackData data;
             data.value = -1;
             data.type = RETURN_ADDRESS;
             stack_push_typed(stack, data);
+            previousCommand = "call";
         } else if (command == "ret") {
-            if (stack_empty(stack)) {
+             if (stack_empty(stack)) {
                 cout << "Пустой стек" << endl;
                 inputFile.close();
                 stack_delete(stack);
                 return 1;
             }
+            if (previousCommand == "push"){
+                cout << "BAD RET" << endl;
+                 inputFile.close();
+                stack_delete(stack);
+                return 1;
+            }
 
-            stack_pop_typed(stack);
+            StackData top_data = stack_pop_typed(stack);
+            previousCommand = "ret";
         } else {
             cout << "Недействительная команда." << endl;
             inputFile.close();
