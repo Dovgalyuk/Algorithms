@@ -19,14 +19,6 @@ public:
     ListNode* head;
     LinkedList() : head(nullptr) {}
 
-    ~LinkedList() {
-        while (head) {
-            ListNode* temp = head;
-            head = head->next;
-            delete temp;
-        }
-    }
-
     void push_front(int val) {
         ListNode* node = new ListNode(val);
         node->next = head;
@@ -34,7 +26,7 @@ public:
     }
 
     int pop_front() {
-        if (!head) throw runtime_error("Stack underflow");
+        if (!head) throw runtime_error("Недостаточный расход стека.");
         int val = head->value;
         ListNode* temp = head;
         head = head->next;
@@ -67,7 +59,7 @@ int main() {
 
     ifstream inputFile("input.txt");
     if (!inputFile) {
-        cerr << "Ошибка открытия - input.txt" << endl;
+        cerr << "Error opening input.txt" << endl;
         return 1;
     }
 
@@ -101,7 +93,7 @@ int main() {
             int result = (instr == "add") ? (b + a) : (instr == "sub") ? (b - a) : (b * a);
             stack.push(result);
         } else if (instr == "call") {
-            stack.push(-1);  // Маркер адреса возврата
+            stack.push(-1); 
         } else if (instr == "ret") {
             if (stack.empty() || stack.top() != -1) {
                 cout << "BAD RET" << endl;
