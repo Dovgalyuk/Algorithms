@@ -19,12 +19,8 @@ struct StackData {
 };
 
 void stack_push_typed(Stack *stack, StackData data) {
-        Data* data_to_push = new Data; //Allocate the correct size
-        *data_to_push = reinterpret_cast<Data&>(data); //Copy bits
-
-        stack_push(stack, *data_to_push);
-
-        delete data_to_push;
+        Data data_to_push = reinterpret_cast<Data&>(data); 
+        stack_push(stack, data_to_push);
 }
 
 StackData stack_get_typed(Stack *stack) {
@@ -33,14 +29,11 @@ StackData stack_get_typed(Stack *stack) {
     }
 
     Data rawData = stack_get(stack);
+    StackData stackData;
     //Properly cast to StackData*
-    StackData* stackDataPtr = new StackData;
-    *stackDataPtr = *reinterpret_cast<StackData*>(&rawData);
+    stackData = *reinterpret_cast<StackData*>(&rawData);
 
-    StackData result = *stackDataPtr;
-
-    delete stackDataPtr;
-    return result;
+    return stackData;
 }
 
 StackData stack_pop_typed(Stack *stack) {
@@ -48,14 +41,12 @@ StackData stack_pop_typed(Stack *stack) {
         return {0, DATA_VALUE};
     }
 
+    //Get raw data
     Data rawData = stack_get(stack);
 
-    StackData* stackDataPtr = new StackData;
-    *stackDataPtr = *reinterpret_cast<StackData*>(&rawData);
-    StackData top_data = *stackDataPtr;
+    StackData top_data = *reinterpret_cast<StackData*>(&rawData);
     stack_pop(stack);
 
-    delete stackDataPtr;
     return top_data;
 }
 
@@ -167,7 +158,7 @@ int main() {
                 return 1;
             }
 
-            stack_pop_typed(stack);
+            StackData top_data = stack_pop_typed(stack);
             previousCommand = "ret";
         } else {
             cout << "Недействительная команда." << endl;
