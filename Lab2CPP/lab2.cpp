@@ -1,180 +1,111 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sstream>
-#include <map>
-#include <algorithm>
-#include "stack.h"
+#include <stack>
+#include <unordered_map>
+#include <vector>
 
 using namespace std;
 
-enum DataType {
-    DATA_VALUE,
-    RETURN_ADDRESS
+class ListNode {
+public:
+    int value;
+    ListNode* next;
+    ListNode(int val) : value(val), next(nullptr) {}
 };
 
-struct StackData {
-    Data value;
-    DataType type;
+class LinkedList {
+public:
+    ListNode* head;
+    LinkedList() : head(nullptr) {}
+
+    void push_front(int val) {
+        ListNode* node = new ListNode(val);
+        node->next = head;
+        head = node;
+    }
+
+    int pop_front() {
+        if (!head) throw runtime_error("Stack underflow");
+        int val = head->value;
+        ListNode* temp = head;
+        head = head->next;
+        delete temp;
+        return val;
+    }
+
+    bool is_empty() { return head == nullptr; }
 };
 
-void stack_push_typed(Stack *stack, StackData data) {
-        Data data_to_push = reinterpret_cast<Data&>(data); 
-        stack_push(stack, data_to_push);
-}
+class Stack {
+private:
+    LinkedList list;
 
-StackData stack_get_typed(Stack *stack) {
-    if (stack_empty(stack)) {
-        return {0, DATA_VALUE};
+public:
+    void push(int val) { list.push_front(val); }
+    int pop() { return list.pop_front(); }
+    bool empty() { return list.is_empty(); }
+    int top() {
+        if (list.head) return list.head->value;
+        throw runtime_error("Stack is empty");
     }
-
-    Data rawData = stack_get(stack);
-    StackData stackData;
-    //Properly cast to StackData*
-    stackData = *reinterpret_cast<StackData*>(&rawData);
-
-    return stackData;
-}
-
-StackData stack_pop_typed(Stack *stack) {
-    if (stack_empty(stack)) {
-        return {0, DATA_VALUE};
-    }
-
-    //Get raw data
-    Data rawData = stack_get(stack);
-
-    StackData top_data = *reinterpret_cast<StackData*>(&rawData);
-    stack_pop(stack);
-
-    return top_data;
-}
-
-string trim(const string& str) {
-    string s = str;
-    s.erase(s.begin(), find_if(s.begin(), s.end(), [](unsigned char ch) {
-        return !isspace(ch);
-    }));
-    s.erase(find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
-        return !isspace(ch);
-    }).base(), s.end());
-    return s;
-}
+};
 
 int main() {
-    setlocale(LC_ALL,"Russian");
-    Stack *stack = stack_create();
-    map<string, int> registers;
-    registers["A"] = 0;
-    registers["B"] = 0;
-    registers["C"] = 0;
-    registers["D"] = 0;
+    Stack stack;
+    unordered_map<string, int> registers = {{"A", 0}, {"B", 0}, {"C", 0}, {"D", 0}};
+    vector<string> instructions;
+    string command;
 
     ifstream inputFile("input.txt");
-    if (!inputFile.is_open()) {
-        cerr << "Ошибка открытия файла: input.txt" << endl;
-        stack_delete(stack);
+    if (!inputFile) {
+        cerr << "Error opening input.txt" << endl;
         return 1;
     }
 
-    string line;
-    string previousCommand = "";
-    while (getline(inputFile, line)) {
-        line = trim(line);
+    while (getline(inputFile, command)) {
+        if (!command.empty()) {
+            instructions.push_back(command);
+        }
+    }
+    inputFile.close();
 
-        if (line.empty()) continue;
-
-        stringstream ss(line);
-        string command;
-        ss >> command;
-
-        if (command == "push") {
-            string operand;
-            ss >> operand;
-            try {
-                int value = stoi(operand);
-                StackData data;
-                data.value = value;
-                data.type = DATA_VALUE;
-                stack_push_typed(stack, data);
-            } catch (const invalid_argument& e) {
-                if (registers.count(operand)) {
-                    StackData data;
-                    data.value = registers[operand];
-                    data.type = DATA_VALUE;
-                    stack_push_typed(stack, data);
-                } else {
-                    cout << "Недействительный регистр" << endl;
-                    inputFile.close();
-                    stack_delete(stack);
-                    return 1;
-                }
+    for (const string& instr : instructions) {
+        if (instr.find("push") == 0) {
+            string val = instr.substr(5);
+            if (isdigit(val[0]) || (val[0] == '-' && isdigit(val[1]))) {
+                stack.push(stoi(val));
+            } else if (registers.find(val) != registers.end()) {
+                stack.push(registers[val]);
             }
-             previousCommand = "push";
-        } else if (command == "pop") {
-            if (stack_empty(stack)) {
-                cout << "Пустой стек" << endl;
-                inputFile.close();
-                stack_delete(stack);
-                return 1;
+        } else if (instr.find("pop") == 0) {
+            string reg = instr.substr(4);
+            if (stack.empty()) {
+                cout << "BAD POP" << endl;
+                return 0;
             }
-
-            StackData top_data = stack_pop_typed(stack);
-            if (top_data.type == RETURN_ADDRESS) {
-                cout << "Не достано число из стека командой - pop" << endl;
-                inputFile.close();
-                stack_delete(stack);
-                return 1;
-            }
-
-            string register_name;
-            ss >> register_name;
-            if (!registers.count(register_name)) {
-                cout << "Недействительный регистр." << endl;
-                inputFile.close();
-                stack_delete(stack);
-                return 1;
-            }
-
-            registers[register_name] = top_data.value;
-             previousCommand = "pop";
-        } else if (command == "call") {
-            StackData data;
-            data.value = -1;
-            data.type = RETURN_ADDRESS;
-            stack_push_typed(stack, data);
-            previousCommand = "call";
-        } else if (command == "ret") {
-             if (stack_empty(stack)) {
-                cout << "Пустой стек" << endl;
-                inputFile.close();
-                stack_delete(stack);
-                return 1;
-            }
-            if (previousCommand == "push"){
+            registers[reg] = stack.pop();
+        } else if (instr == "add" || instr == "sub" || instr == "mul") {
+            if (stack.empty()) { cout << "BAD OPERATION" << endl; return 0; }
+            int a = stack.pop();
+            if (stack.empty()) { cout << "BAD OPERATION" << endl; return 0; }
+            int b = stack.pop();
+            int result = (instr == "add") ? (b + a) : (instr == "sub") ? (b - a) : (b * a);
+            stack.push(result);
+        } else if (instr == "call") {
+            stack.push(-1);  // Маркер адреса возврата
+        } else if (instr == "ret") {
+            if (stack.empty() || stack.top() != -1) {
                 cout << "BAD RET" << endl;
-                inputFile.close();
-                stack_delete(stack);
-                return 1;
+                return 0;
             }
-
-            stack_pop_typed(stack);
-            previousCommand = "ret";
-        } else {
-            cout << "Недействительная команда." << endl;
-            inputFile.close();
-            stack_delete(stack);
-            return 1;
+            stack.pop();
         }
     }
 
-    inputFile.close();
-
-    cout << "A = " << registers["A"] << endl;
-    cout << "B = " << registers["B"] << endl;
-    cout << "C = " << registers["C"] << endl;
-    cout << "D = " << registers["D"] << endl;
-
-    stack_delete(stack);
+    for (const auto& reg : {"A", "B", "C", "D"}) {
+        cout << reg << " = " << registers[reg] << endl;
+    }
+    
     return 0;
 }
