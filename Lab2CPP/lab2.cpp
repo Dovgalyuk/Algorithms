@@ -19,17 +19,21 @@ struct StackData {
 };
 
 void stack_push_typed(Stack *stack, StackData data) {
-    stack_push(stack, reinterpret_cast<Data&>(data));
+     stack_push(stack, reinterpret_cast<Data&>(data));
 }
 
 StackData stack_get_typed(Stack *stack) {
     if (stack_empty(stack)) {
         return {0, DATA_VALUE};
     }
+    // Get raw Data from the stack
     Data rawData = stack_get(stack);
-    StackData *data_ptr = reinterpret_cast<StackData*>(&rawData);
-    StackData data = *reinterpret_cast<StackData*>(&rawData);
-    return data;
+
+    // Properly cast to StackData*
+    StackData* stackDataPtr = reinterpret_cast<StackData*>(&rawData);
+
+    // Dereference the pointer and return
+    return *stackDataPtr;
 }
 
 StackData stack_pop_typed(Stack *stack) {
@@ -37,10 +41,14 @@ StackData stack_pop_typed(Stack *stack) {
         return {0, DATA_VALUE};
     }
 
+    //Get raw data
     Data rawData = stack_get(stack);
-    
-    StackData *data_ptr = reinterpret_cast<StackData*>(&rawData);
-    StackData top_data = *reinterpret_cast<StackData*>(&rawData);
+
+    //Properly cast to StackData*
+    StackData* stackDataPtr = reinterpret_cast<StackData*>(&rawData);
+    StackData top_data = *stackDataPtr;
+
+    //Pop from the stack
     stack_pop(stack);
     return top_data;
 }
