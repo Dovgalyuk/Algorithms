@@ -19,6 +19,14 @@ public:
     ListNode* head;
     LinkedList() : head(nullptr) {}
 
+    ~LinkedList() {
+        while (head) {
+            ListNode* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+
     void push_front(int val) {
         ListNode* node = new ListNode(val);
         node->next = head;
