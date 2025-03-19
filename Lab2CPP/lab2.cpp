@@ -67,7 +67,7 @@ int main() {
 
     ifstream inputFile("input.txt");
     if (!inputFile) {
-        cerr << "Error opening input.txt" << endl;
+        cerr << "Ошибка открытия - input.txt" << endl;
         return 1;
     }
 
