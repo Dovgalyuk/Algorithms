@@ -28,6 +28,7 @@ StackData stack_get_typed(Stack *stack) {
         return {0, DATA_VALUE};
     }
     Data rawData = stack_get(stack);
+    StackData *data_ptr = reinterpret_cast<StackData*>(&rawData);
     if(data_ptr == nullptr) return {0, DATA_VALUE};
     StackData data = *data_ptr;
     return data;
