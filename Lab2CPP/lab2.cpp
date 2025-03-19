@@ -7,7 +7,6 @@
 using namespace std;
 
 void process_expression(const string& expr) {
-    Stack* values = stack_create();
     Stack* operators = stack_create();
     stringstream output;
 
@@ -15,9 +14,7 @@ void process_expression(const string& expr) {
         char c = expr[i];
 
         if (isdigit(c)) {  
-            int num = c - '0';
-            output << "PUSH " << num << "\n";
-            stack_push(values, num);
+            output << "PUSH " << c << "\n";
         } 
         else if (c == '(') {
             stack_push(operators, c);
@@ -26,21 +23,13 @@ void process_expression(const string& expr) {
             while (!stack_empty(operators) && stack_get(operators) != '(') {
                 char op = stack_get(operators);
                 stack_pop(operators);
-
-                int b = stack_get(values); stack_pop(values);
-                int a = stack_get(values); stack_pop(values);
-
+                
                 output << "POP B\nPOP A\n";
                 if (op == '+') output << "ADD A, B\n";
                 if (op == '-') output << "SUB A, B\n";
                 if (op == '*') output << "MUL A, B\n";
                 if (op == '/') output << "DIV A, B\n";
                 output << "PUSH A\n";
-
-                stack_push(values, (op == '+') ? (a + b) : 
-                                      (op == '-') ? (a - b) : 
-                                      (op == '*') ? (a * b) : 
-                                                    (a / b));
             }
             stack_pop(operators);
         } 
@@ -49,15 +38,10 @@ void process_expression(const string& expr) {
                 char op = stack_get(operators);
                 stack_pop(operators);
 
-                int b = stack_get(values); stack_pop(values);
-                int a = stack_get(values); stack_pop(values);
-
                 output << "POP B\nPOP A\n";
                 if (op == '*') output << "MUL A, B\n";
                 if (op == '/') output << "DIV A, B\n";
                 output << "PUSH A\n";
-
-                stack_push(values, (op == '*') ? (a * b) : (a / b));
             }
             stack_push(operators, c);
         } 
@@ -70,22 +54,16 @@ void process_expression(const string& expr) {
         char op = stack_get(operators);
         stack_pop(operators);
 
-        int b = stack_get(values); stack_pop(values);
-        int a = stack_get(values); stack_pop(values);
-
         output << "POP B\nPOP A\n";
         if (op == '+') output << "ADD A, B\n";
         if (op == '-') output << "SUB A, B\n";
         if (op == '*') output << "MUL A, B\n";
         if (op == '/') output << "DIV A, B\n";
         output << "PUSH A\n";
-
-        stack_push(values, (op == '+') ? (a + b) : (op == '-') ? (a - b) : (op == '*') ? (a * b) : (a / b));
     }
 
     cout << output.str();
 
-    stack_delete(values);
     stack_delete(operators);
 }
 
