@@ -28,7 +28,7 @@ StackData stack_get_typed(Stack *stack) {
         return {0, DATA_VALUE};
     }
     Data rawData = stack_get(stack);
-    StackData *data_ptr = reinterpret_cast<StackData*>(&rawData);
+    if(data_ptr == nullptr) return {0, DATA_VALUE};
     StackData data = *data_ptr;
     return data;
 }
@@ -39,8 +39,10 @@ StackData stack_pop_typed(Stack *stack) {
     }
 
     Data rawData = stack_get(stack);
+    if(rawData == 0) return {0, DATA_VALUE};
     
     StackData *data_ptr = reinterpret_cast<StackData*>(&rawData);
+    if(data_ptr == nullptr) return {0, DATA_VALUE};
     StackData top_data = *data_ptr;
     stack_pop(stack);
     return top_data;
@@ -154,7 +156,7 @@ int main() {
                 return 1;
             }
 
-            StackData top_data = stack_pop_typed(stack);
+            stack_pop_typed(stack);
             previousCommand = "ret";
         } else {
             cout << "Недействительная команда." << endl;
