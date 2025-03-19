@@ -1,25 +1,22 @@
-#include <cstddef>
+#include <cstddef> 
+#include <iostream> 
 #include "list.h"
-#include <iostream>
 
-using namespace std;
+typedef int Data;  
 
-struct ListItem
-{
+struct ListItem {
     Data data;
     ListItem *next;
     ListItem *prev;
 };
 
-struct List
-{
+struct List {
     ListItem *head;
-    ListItem *tail;
+    ListItem *tail; 
     size_t size;
 };
 
-List *list_create()
-{
+List *list_create() {
     List *list = new List;
     if (list) {
         list->head = nullptr;
@@ -44,74 +41,69 @@ void list_delete(List *list) {
     }
 }
 
-ListItem *list_first(List *list)
-{
+
+ListItem *list_first(List *list) {
     if (list) {
         return list->head;
     }
-    return NULL;
+    return nullptr;
 }
 
-Data list_item_data(const ListItem *item)
-{
+Data list_item_data(const ListItem *item) {
     if (item) {
         return item->data;
     }
-    return (Data)0;
+    return (Data)0; // Or throw an exception, or return a sentinel value
 }
 
-ListItem *list_item_next(ListItem *item)
-{
+ListItem *list_item_next(ListItem *item) {
     if (item) {
         return item->next;
     }
-    return NULL;
+    return nullptr;
 }
 
-ListItem *list_item_prev(ListItem *item)
-{
+ListItem *list_item_prev(ListItem *item) {
     if (item) {
         return item->prev;
     }
-    return NULL;
+    return nullptr;
 }
 
-ListItem *list_insert(List *list, Data data)
-{
+ListItem *list_insert(List *list, Data data) {
     if (!list) {
         return nullptr;
     }
 
     ListItem *newItem = new ListItem;
     if (!newItem) {
-        cerr << "Ошибка выделения памяти в list_insert!" << endl;
+        std::cerr << "Memory allocation failed in list_insert!" << std::endl;
         return nullptr;
     }
 
     newItem->data = data;
     newItem->next = list->head;
-    newItem->prev = nullptr;
+    newItem->prev = nullptr; 
     if (list->head) {
         list->head->prev = newItem;
     }
-    list->head = newItem;
+    list->head = newItem; 
     if (!list->tail) {
-        list->tail = newItem;
+        list->tail = newItem;  
     }
     list->size++;
 
     return newItem;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
+ListItem *list_insert_after(List *list, ListItem *item, Data data) {
     if (!list || !item) {
         return nullptr;
     }
 
     ListItem *newItem = new ListItem;
     if (!newItem) {
-        cerr << "Ошибка выделения памяти в list_insert_after!" << endl;
+        std::cerr << "Memory allocation failed in list_insert_after!" << std::endl;
         return nullptr;
     }
 
@@ -129,29 +121,28 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     return newItem;
 }
 
-ListItem *list_erase_first(List *list)
-{
+void list_erase_first(List *list) {
     if (!list || !list->head) {
-        return nullptr;
+        return;
     }
 
     ListItem *firstItem = list->head;
     list->head = firstItem->next;
+    
     if (list->head) {
         list->head->prev = nullptr;
     } else {
-        list->tail = nullptr; 
+        list->tail = nullptr;
     }
+
     list->size--;
-    firstItem->next = nullptr;
-    firstItem->prev = nullptr;
-    return firstItem;
+    delete firstItem; 
 }
 
-ListItem *list_erase_next(List *list, ListItem *item)
-{
+
+void list_erase_next(List *list, ListItem *item) {
     if (!list || !item || !item->next) {
-        return nullptr;
+        return;
     }
 
     ListItem *itemToRemove = item->next;
@@ -160,10 +151,9 @@ ListItem *list_erase_next(List *list, ListItem *item)
     if (itemToRemove->next) {
         itemToRemove->next->prev = item;
     } else {
-        list->tail = item;  
+        list->tail = item;
     }
-    itemToRemove->next = nullptr; 
-    itemToRemove->prev = nullptr;
+
     list->size--;
-    return itemToRemove;
+    delete itemToRemove; 
 }
