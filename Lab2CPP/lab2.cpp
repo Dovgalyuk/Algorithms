@@ -3,7 +3,7 @@
 #include <sstream>
 #include <stack>
 #include <unordered_map>
-#include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -34,7 +34,15 @@ public:
         return val;
     }
 
-    bool is_empty() { return head == nullptr; }
+    bool isEmpty() const { return head == nullptr; } 
+
+    ~LinkedList() { 
+        while (head) {
+            ListNode* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
 };
 
 class Stack {
@@ -44,7 +52,7 @@ private:
 public:
     void push(int val) { list.push_front(val); }
     int pop() { return list.pop_front(); }
-    bool empty() { return list.is_empty(); }
+    bool empty() { return list.isEmpty(); }
     int top() {
         if (list.head) return list.head->value;
         throw runtime_error("Stack is empty");
@@ -54,18 +62,19 @@ public:
 int main() {
     Stack stack;
     unordered_map<string, int> registers = {{"A", 0}, {"B", 0}, {"C", 0}, {"D", 0}};
-    vector<string> instructions;
     string command;
+    ifstream inputFile("in.txt"); 
 
-    cout << "Enter instructions (one per line, type 'end' to finish):" << endl;
-    while (getline(cin, command) && command != "end") {
-        if (!command.empty()) {
-            instructions.push_back(command);
-        }
+    if (!inputFile.is_open()) {
+        cerr << "Ошибка открытия файла!" << endl;
+        return 1;
     }
 
-    for (const string& instr : instructions) {
-        stringstream ss(instr);
+    while (getline(inputFile, command)) {
+        if (command == "end") break;
+        if (command.empty()) continue;
+
+        stringstream ss(command);
         string op;
         ss >> op;
 
@@ -107,16 +116,24 @@ int main() {
         } else if (op == "call") {
             stack.push(-1);
         } else if (op == "ret") {
-            if (stack.empty() || stack.top() != -1) {
+            if (stack.empty()) {
                 cout << "BAD RET" << endl;
                 return 0;
             }
+            if(stack.top() != -1) {
+                cout << "BAD RET" << endl;
+                return 0;
+            }
+
             stack.pop();
+
         } else {
-            cerr << "Invalid instruction: " << instr << endl;
+            cerr << "Ошибочная инструкция: " << command << endl;
             return 1;
         }
     }
+
+    inputFile.close(); 
 
     for (const auto& reg : {"A", "B", "C", "D"}) {
         cout << reg << " = " << registers[reg] << endl;
