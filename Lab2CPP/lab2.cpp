@@ -63,7 +63,7 @@ int main() {
     Stack stack;
     unordered_map<string, int> registers = {{"A", 0}, {"B", 0}, {"C", 0}, {"D", 0}};
     string command;
-    ifstream inputFile("in.txt"); 
+    ifstream inputFile("input.txt"); 
 
     if (!inputFile.is_open()) {
         cerr << "Ошибка открытия файла!" << endl;
