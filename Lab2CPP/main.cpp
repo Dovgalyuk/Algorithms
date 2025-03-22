@@ -28,7 +28,6 @@ bool is_balanced(const std::string& str) {
 int main() {
     std::string input;
     
-    // Запрос данных у пользователя
     std::cout << "Enter the line to check: ";
     std::getline(std::cin, input);
     
