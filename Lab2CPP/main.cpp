@@ -26,29 +26,17 @@ bool is_balanced(const std::string& str) {
 }
 
 int main() {
-    // Тест 1:
-    std::string expression1 = "{[()]}";
-    std::cout << "Test 1: " << (is_balanced(expression1) ? "Balanced" : "Not Balanced") << std::endl;
-
-    // Тест 2:
-    std::string expression2 = "{[(])}";
-    std::cout << "Test 2: " << (is_balanced(expression2) ? "Balanced" : "Not Balanced") << std::endl;
-
-    // Тест 3: 
-    std::string expression3 = "{[\"(hello)\"]}";
-    std::cout << "Test 3: " << (is_balanced(expression3) ? "Balanced" : "Not Balanced") << std::endl;
-
-    // Тест 4: 
-    std::string expression4 = "{[(])}[{()}]";
-    std::cout << "Test 4: " << (is_balanced(expression4) ? "Balanced" : "Not Balanced") << std::endl;
-
-    // Тест 5:
-    std::string expression5 = "{[";
-    std::cout << "Test 5: " << (is_balanced(expression5) ? "Balanced" : "Not Balanced") << std::endl;
-
-    // Тест 6:
-    std::string expression6 = "([)]";
-    std::cout << "Test 6: " << (is_balanced(expression6) ? "Balanced" : "Not Balanced") << std::endl;
-
+    std::string input;
+    
+    // Запрос данных у пользователя
+    std::cout << "Enter the line to check: ";
+    std::getline(std::cin, input);
+    
+    if (is_balanced(input)) {
+        std::cout << "YES\n"; 
+    } else {
+        std::cout << "NO\n"; 
+    }
+    
     return 0;
 }
