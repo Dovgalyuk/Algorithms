@@ -39,12 +39,12 @@ void array_delete(Array *arr)
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    /*if (!arr) {
+    if (!arr) {
         throw std::invalid_argument("Array is null");
     }
     if(index >= arr->size){
         throw std::out_of_range("Index out of range");
-    }*/
+    }
     return arr->data[index];
 }
 

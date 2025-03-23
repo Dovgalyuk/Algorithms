@@ -1,17 +1,3 @@
-Start testing: Mar 23 21:50 RTZ 2 (çèìà)
+Start testing: Mar 23 22:13 RTZ 2 (çèìà)
 ----------------------------------------------------------
-1/2 Testing: TestArrayCPP
-1/2 Test: TestArrayCPP
-Command: "C:/Dovgaluk/out/build/x64-Debug/LibraryCPP/Tests/TestArrayCPP.exe"
-Directory: C:/Dovgaluk/out/build/x64-Debug/LibraryCPP/Tests
-"TestArrayCPP" start time: Mar 23 21:50 RTZ 2 (çèìà)
-Output:
-----------------------------------------------------------
-<end of output>
-Test time =   0.02 sec
-----------------------------------------------------------
-Test Passed.
-"TestArrayCPP" end time: Mar 23 21:50 RTZ 2 (çèìà)
-"TestArrayCPP" time elapsed: 00:00:00
-----------------------------------------------------------
-
+End testing: Mar 23 22:13 RTZ 2 (çèìà)
