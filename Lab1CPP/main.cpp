@@ -27,6 +27,7 @@ Data findMaxEvenIndex(const Array* arr) {
 
     // Проходим по элементам массива с четными индексами
     for (size_t i = 0; i < size; i += 2) {
+        std::cerr << "findMaxEvenIndex: i = " << i << std::endl;
         Data val = array_get(arr, i);
         if (val > maxVal) {
             maxVal = val;
