@@ -25,15 +25,11 @@ Data findMaxEvenIndex(const Array* arr) {
     // »нициализируем максимальное значение минимальным возможным значением типа Data
     Data maxVal = numeric_limits<Data>::min();
 
-    // ‘лаг, указывающий, был ли найден хот€ бы один элемент с четным индексом
-    bool found = false;
-
     // ѕроходим по элементам массива с четными индексами
     for (size_t i = 0; i < size; i += 2) {
         Data val = array_get(arr, i);
         if (val > maxVal) {
             maxVal = val;
-            found = true;
         }
     }
 
