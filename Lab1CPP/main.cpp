@@ -67,26 +67,26 @@ Data findMostFrequent(const Array* arr) {
 }
 
 int main() {
-    setlocale(LC_ALL, "Russian");
 
     // 1. Поиск максимального элемента среди элементов с четными индексами
 
     size_t size1;
-    cout << "Введите размер первого массива: ";
+    //cout << "Введите размер первого массива: ";
     cin >> size1;
 
     Array* arr1 = array_create(size1);
 
     fillRandom(arr1, 1, 100); // Заполняем случайными числами от 1 до 100
 
-    cout << "Массив 1: ";
+    /*cout << "Массив 1: ";
     for (size_t i = 0; i < array_size(arr1); ++i) {
         cout << array_get(arr1, i) << " ";
     }
-    cout << endl;
+    cout << endl;*/
 
     Data maxEven = findMaxEvenIndex(arr1);
-    cout << "Максимальный элемент с четным индексом: " << maxEven << endl;
+    //cout << "Максимальный элемент с четным индексом: " << maxEven << endl;
+    cout << maxEven << endl;
 
     // Освобождаем память
     array_delete(arr1);
@@ -96,21 +96,22 @@ int main() {
 
 
     size_t size2;
-    cout << "Введите размер второго массива: ";
+    //cout << "Введите размер второго массива: ";
     cin >> size2;
 
     Array* arr2 = array_create(size2);
 
     fillRandom(arr2, 1, 10); // Заполняем случайными числами от 1 до 10
 
-    cout << "Массив 2: ";
-    for (size_t i = 0; i < array_size(arr2); ++i) {
-        cout << array_get(arr2, i) << " ";
-    }
-    cout << endl;
+    ///*cout << "Массив 2: ";
+    //for (size_t i = 0; i < array_size(arr2); ++i) {
+    //    cout << array_get(arr2, i) << " ";
+    //}
+    //cout << endl;*/
 
     Data mostFrequent = findMostFrequent(arr2);
-    cout << "Наиболее часто встречающееся значение: " << mostFrequent << endl;
+    //cout << "Наиболее часто встречающееся значение: " << mostFrequent << endl;
+    cout << mostFrequent << endl;
 
     // Освобождаем память
     array_delete(arr2);
