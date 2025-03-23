@@ -61,9 +61,11 @@ public:
     void mul() { operate('*'); }
 
     void call() {
-        stack_push(stack, -2); // Специальный маркер адреса возврата
+        static int returnMarker = -2; // Уникальный маркер для возврата
+        stack_push(stack, returnMarker); 
         returnCount++;
     }
+    
 
     void ret() {
         if (returnCount == 0) {
