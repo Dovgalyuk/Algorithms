@@ -22,6 +22,8 @@ void fillRandom(Array* arr, int minVal, int maxVal) {
 Data findMaxEvenIndex(const Array* arr) {
     size_t size = array_size(arr);
 
+    if (!size % 2 > 0)size -= 1;
+
     // Инициализируем максимальное значение минимальным возможным значением типа Data
     Data maxVal = numeric_limits<Data>::min();
 
