@@ -49,6 +49,11 @@ Data findMaxEvenIndex(const Array* arr) {
 Data findMostFrequent(const Array* arr) {
     size_t size = array_size(arr);
 
+    if (size == 0) {
+        std::cerr << "findMostFrequent: Array is empty, returning 0" << std::endl;
+        return 0; // Или другое разумное значение по умолчанию
+    }
+
     // Создаем unordered_map для подсчета частоты каждого элемента
     // Ключ - элемент массива (Data), значение - количество вхождений этого элемента
     unordered_map<Data, int> counts;
