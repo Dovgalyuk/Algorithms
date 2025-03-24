@@ -82,16 +82,19 @@ int main() {
     size_t size1;
     //cout << "Введите размер первого массива: ";
     cin >> size1;
+    std::cerr << "main: size1 = " << size1 << std::endl;
 
     Array* arr1 = array_create(size1);
 
-    fillRandom(arr1, 1, 100); // Заполняем случайными числами от 1 до 100
-
-    /*cout << "Массив 1: ";
-    for (size_t i = 0; i < array_size(arr1); ++i) {
-        cout << array_get(arr1, i) << " ";
+    if (size1 > 0) {
+        fillRandom(arr1, 1, 100);
     }
-    cout << endl;*/
+    else {
+        // Что делать, если size1 == 0?
+        // arr1->data будет nullptr!
+        // array_get будет вызывать исключение, если size1 == 0
+        std::cerr << "main: size1 is 0, not filling the array" << std::endl;
+    }
 
     Data maxEven = findMaxEvenIndex(arr1);
     //cout << "Максимальный элемент с четным индексом: " << maxEven << endl;
@@ -107,6 +110,7 @@ int main() {
     size_t size2;
     //cout << "Введите размер второго массива: ";
     cin >> size2;
+    std::cerr << "main: size2 = " << size2 << std::endl;
 
     Array* arr2 = array_create(size2);
 
