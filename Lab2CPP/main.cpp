@@ -1,41 +1,66 @@
+#include "stack.h"
 #include <iostream>
-#include <stack>
+#include <fstream>
 #include <string>
+#include <unordered_map>
+#include <cstdlib>
 
-bool is_balanced(const std::string& str) {
-    std::stack<char> stack;
+std::string check_balance(const std::string &input) {
+    Stack *stack = stack_create();
     
-    for (char ch : str) {
-        if (ch == '(' || ch == '[' || ch == '{' || ch == '"' || ch == '\'') {
-            stack.push(ch);
-        } else if (ch == ')' || ch == ']' || ch == '}' || ch == '"' || ch == '\'') {
-            if (stack.empty()) return false;
-            char top = stack.top();
-            stack.pop();
-            if ((ch == ')' && top != '(') || 
-                (ch == ']' && top != '[') || 
-                (ch == '}' && top != '{') || 
-                (ch == '"' && top != '"') || 
-                (ch == '\'' && top != '\'')) {
-                return false;
+    std::unordered_map<char, char> pairs = 
+    {
+        {')', '('},
+        {']', '['},
+        {'}', '{'},
+        {'"', '"'}
+    };
+
+    for (char ch : input) 
+    {
+        if (ch == '(' || ch == '[' || ch == '{' || ch == '"') {
+            stack_push(stack, ch);
+        }
+        else if (ch == ')' || ch == ']' || ch == '}' || ch == '"') {
+            if (stack_empty(stack)) 
+            {
+                stack_delete(stack);
+                return "NO";
+            }
+
+            char top = stack_get(stack);
+            stack_pop(stack);
+
+            if (top != pairs[ch]) 
+            {
+                stack_delete(stack);
+                return "NO";
             }
         }
     }
-    
-    return stack.empty();
+
+    if (stack_empty(stack)) {
+        stack_delete(stack);
+        return "YES";
+    } else {
+        stack_delete(stack);
+        return "NO";
+    }
 }
 
 int main() {
     std::string input;
-    
-    std::cout << "Enter the line to check: ";
-    std::getline(std::cin, input);
-    
-    if (is_balanced(input)) {
-        std::cout << "YES\n"; 
+    std::ifstream input_file("input.txt");
+
+    if (input_file.is_open()) {
+        std::getline(input_file, input);
+        input_file.close();  
     } else {
-        std::cout << "NO\n"; 
+        std::cerr << "Не удалось открыть файл input.txt. Введите данные вручную:\n";
+        std::getline(std::cin, input);
     }
-    
+
+    std::cout << check_balance(input) << std::endl;
+
     return 0;
 }
