@@ -3,7 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <cctype>     // Для isdigit()
-#include <algorithm>  // Для find_if()
+#include <algorithm>  // Для all_of()
 #include "stack.h"
 
 using namespace std;
@@ -13,7 +13,6 @@ private:
     Stack* stack;
     unordered_map<string, int> registers;
     bool error = false;
-    int returnCount = 0; // Счетчик адресов возврата
 
 public:
     CPU() {
@@ -27,14 +26,14 @@ public:
     // Проверка, является ли строка числом (включая отрицательные)
     bool isNumber(const string& str) {
         if (str.empty()) return false;
-        if (str[0] == '-' && str.size() > 1) { // Отрицательные числа
+        if (str[0] == '-' && str.size() > 1) {
             return all_of(str.begin() + 1, str.end(), ::isdigit);
         }
         return all_of(str.begin(), str.end(), ::isdigit);
     }
 
     void push(const string& operand) {
-        if (isNumber(operand)) { // Проверяем, является ли строка числом
+        if (isNumber(operand)) {
             stack_push(stack, stoi(operand));
         } else {
             stack_push(stack, registers[operand]);
@@ -47,11 +46,6 @@ public:
             error = true;
             return;
         }
-        if (returnCount > 0) { // Нельзя изменять стек, если там есть адрес возврата
-            cout << "ERROR: Cannot pop return address" << endl;
-            error = true;
-            return;
-        }
         registers[reg] = stack_get(stack);
         stack_pop(stack);
     }
@@ -60,27 +54,19 @@ public:
     void sub() { operate('-'); }
     void mul() { operate('*'); }
 
-    void call() {
-        static int returnMarker = -2; // Уникальный маркер для возврата
-        stack_push(stack, returnMarker); 
-        returnCount++;
+    void call(int returnAddress) {
+        stack_push(stack, returnAddress);
     }
-    
 
-    void ret() {
-        if (returnCount == 0) {
+    int ret() {
+        if (stack_empty(stack)) {
             cout << "ERROR: Nothing to return to" << endl;
             error = true;
-            return;
+            return -1;
         }
-        while (!stack_empty(stack)) { // Удаляем все адреса возврата
-            int value = stack_get(stack);
-            stack_pop(stack);
-            if (value == -2) { // Нашли метку возврата
-                returnCount--;
-                if (returnCount == 0) break; // Все возвраты обработаны
-            }
-        }
+        int returnAddress = stack_get(stack);
+        stack_pop(stack);
+        return returnAddress;
     }
 
     void print_registers() {
@@ -115,6 +101,7 @@ int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
     istream* input = &cin;
     ifstream inputFile;
+    
     if (argc >= 2) {
         inputFile.open(argv[1]);
         if (!inputFile) {
@@ -126,7 +113,12 @@ int main(int argc, char* argv[]) {
 
     CPU cpu;
     string command;
+    int programCounter = 0;
+    unordered_map<int, int> callStack;
+
     while (*input >> command) {
+        programCounter++;
+
         if (command == "push") {
             string operand;
             *input >> operand;
@@ -142,14 +134,19 @@ int main(int argc, char* argv[]) {
         } else if (command == "mul") {
             cpu.mul();
         } else if (command == "call") {
-            cpu.call();
+            callStack[programCounter] = programCounter;
+            cpu.call(programCounter);
         } else if (command == "ret") {
-            cpu.ret();
+            int returnAddress = cpu.ret();
+            if (returnAddress != -1) {
+                programCounter = returnAddress;
+            }
         } else {
             cout << "ERROR: Unknown command " << command << endl;
             return 1;
         }
     }
+
     cpu.print_registers();
     return 0;
 }
