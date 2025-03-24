@@ -22,7 +22,14 @@ void fillRandom(Array* arr, int minVal, int maxVal) {
 Data findMaxEvenIndex(const Array* arr) {
     size_t size = array_size(arr);
 
-    if (!size % 2 > 0)size -= 1;
+    std::cerr << "findMaxEvenIndex: size = " << size << std::endl; // ƒобавлено
+
+    if (size == 0) {
+        std::cerr << "findMaxEvenIndex: Array is empty, returning min!!!!!" << std::endl;
+        return numeric_limits<Data>::min();
+    }
+
+    //if (!size % 2 > 0)size -= 1;
 
     // »нициализируем максимальное значение минимальным возможным значением типа Data
     Data maxVal = numeric_limits<Data>::min();
