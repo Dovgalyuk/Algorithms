@@ -240,7 +240,7 @@ build LibraryCPP\Tests\rebuild_cache: phony LibraryCPP\Tests\CMakeFiles\rebuild_
 
 build cmake_object_order_depends_target_Lab1CPP: phony || cmake_object_order_depends_target_LibraryCPP
 
-build Lab1CPP\CMakeFiles\Lab1CPP.dir\main.cpp.obj: CXX_COMPILER__Lab1CPP_unscanned_Debug C$:\Dovgaluk\Lab1CPP\main.cpp || cmake_object_order_depends_target_Lab1CPP
+build Lab1CPP\CMakeFiles\Lab1CPP.dir\lab1.cpp.obj: CXX_COMPILER__Lab1CPP_unscanned_Debug C$:\Dovgaluk\Lab1CPP\lab1.cpp || cmake_object_order_depends_target_Lab1CPP
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   INCLUDES = -IC:\Dovgaluk\Lab1CPP\..\LibraryCPP
   OBJECT_DIR = Lab1CPP\CMakeFiles\Lab1CPP.dir
@@ -256,7 +256,7 @@ build Lab1CPP\CMakeFiles\Lab1CPP.dir\main.cpp.obj: CXX_COMPILER__Lab1CPP_unscann
 #############################################
 # Link the executable Lab1CPP\Lab1CPP.exe
 
-build Lab1CPP\Lab1CPP.exe: CXX_EXECUTABLE_LINKER__Lab1CPP_Debug Lab1CPP\CMakeFiles\Lab1CPP.dir\main.cpp.obj | LibraryCPP\LibraryCPP.lib || LibraryCPP\LibraryCPP.lib
+build Lab1CPP\Lab1CPP.exe: CXX_EXECUTABLE_LINKER__Lab1CPP_Debug Lab1CPP\CMakeFiles\Lab1CPP.dir\lab1.cpp.obj | LibraryCPP\LibraryCPP.lib || LibraryCPP\LibraryCPP.lib
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = LibraryCPP\LibraryCPP.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

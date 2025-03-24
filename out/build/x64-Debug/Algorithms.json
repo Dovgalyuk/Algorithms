@@ -1,0 +1,32 @@
+[
+  {
+    "Name": "TestArrayCPP",
+    "Command": "C:/Dovgaluk/out/build/x64-Debug/LibraryCPP/Tests/TestArrayCPP.exe",
+    "Arguments": [],
+    "WorkingDirectory": "C:/Dovgaluk/out/build/x64-Debug/LibraryCPP/Tests",
+    "ProjectFile": "C:/Dovgaluk/LibraryCPP/Tests/CMakeLists.txt",
+    "LineNumber": 4,
+    "Environment": {},
+    "ExpectsFailure": false,
+    "PassRegularExpression": null,
+    "FailRegularExpression": null,
+    "TargetName": "TestArrayCPP.exe (LibraryCPP\\Tests\\TestArrayCPP.exe)",
+    "TimeoutInMs": -1
+  },
+  {
+    "Name": "TestLab1CPP",
+    "Command": "C:/Dovgaluk/out/build/x64-Debug/Lab1CPP/Lab1CPP.exe",
+    "Arguments": [
+      "C:/Dovgaluk/Lab1CPP/input.txt"
+    ],
+    "WorkingDirectory": "C:/Dovgaluk/out/build/x64-Debug/Lab1CPP",
+    "ProjectFile": "C:/Dovgaluk/Lab1CPP/CMakeLists.txt",
+    "LineNumber": 5,
+    "Environment": {},
+    "ExpectsFailure": false,
+    "PassRegularExpression": null,
+    "FailRegularExpression": null,
+    "TargetName": "Lab1CPP.exe (Lab1CPP\\Lab1CPP.exe)",
+    "TimeoutInMs": -1
+  }
+]

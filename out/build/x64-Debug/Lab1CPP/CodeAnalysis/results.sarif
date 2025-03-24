@@ -20,7 +20,7 @@
       "artifacts": [
         {
           "location": {
-            "uri": "file:///c:/dovgaluk/lab1cpp/main.cpp"
+            "uri": "file:///c:/dovgaluk/lab1cpp/lab1.cpp"
           },
           "roles": [
             "analysisTarget"
