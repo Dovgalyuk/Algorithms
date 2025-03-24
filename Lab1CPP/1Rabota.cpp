@@ -1,115 +1,103 @@
 #include <iostream>
 #include <fstream>
-#include <cstdlib>
-#include <ctime>
-#include <locale>
-#include <unordered_map>  
-#include "array.h"  
+#include <string>
+#include <algorithm> 
+#include <cctype>    
+#include "stack.h"   
 
 using namespace std;
 
-// Функция для поиска наибольшего отрезка нечётных чисел
-void otrezokmassiva(Array* arr) {
-    size_t size = array_size(arr);
-    int count = 0; 
-    int temp = 0;
-    size_t start = 0;  
-    size_t maxStart = 0;
-    size_t maxEnd = 0;
-
-    for (size_t i = 0; i < size; i++) {
-        Data value = array_get(arr, i);
-        if (value % 2 != 0) {
-            if (temp == 0) start = i;
-            temp++;
-        } else {
-            if (count < temp) {
-                count = temp;
-                maxStart = start;
-                maxEnd = i - 1;
-            }
-            temp = 0;
-        }
-    }
-
-    // Проверка последнего отрезка
-    if (count < temp) {
-        count = temp;
-        maxStart = start;
-        maxEnd = size - 1;
-    }
-
-    cout << "\nНаибольшая длина отрезка нечётных чисел: " << count << endl;
-    
-    if (maxStart != 0 || maxEnd != 0) {
-        cout << "Сам отрезок: ";
-        for (size_t i = maxStart; i <= maxEnd; i++) {
-            cout << array_get(arr, i);
-            if (i < maxEnd) cout << ", ";
-        }
-        cout << endl;
-    }
+// Функция для преобразования строки к нижнему регистру
+string to_lower(const string& str) {
+    string lower_str = str;
+    transform(lower_str.begin(), lower_str.end(), lower_str.begin(),
+              [](unsigned char c) { return static_cast<char>(tolower(c)); }); 
+    return lower_str;
 }
 
-// Функция для поиска элементов, встречающихся ровно два раза
-void povtorelevemt(Array* arr) {
-    size_t size = array_size(arr);
-    std::unordered_map<Data, int> countMap;  
+// Функция для проверки, является ли тег открывающим
+bool is_opening_tag(const string& tag) {
+    return tag[1] != '/';
+}
 
-    
-    for (size_t i = 0; i < size; i++) {
-        Data value = array_get(arr, i);
-        countMap[value]++;
-    }
+// Функция для получения закрывающего тега из открывающего
+string get_closing_tag(const string& opening_tag) {
+    return "</" + opening_tag.substr(1);
+}
 
-    // Вывод элементов, которые повторяются 2 раза
-    cout << "Элементы, которые повторяются 2 раза: ";
-    for (const auto& pair : countMap) {
-        if (pair.second == 2) { 
-            cout << pair.first << " ";
+// Функция для проверки корректности последовательности HTML-тегов
+bool check_html_tags(ifstream& input) {
+    Stack* stack = stack_create();  
+    string line;
+
+    while (getline(input, line)) {
+        
+        line.erase(0, line.find_first_not_of(' '));
+        line.erase(line.find_last_not_of(' ') + 1);
+
+        if (line.empty()) continue; 
+
+        if (is_opening_tag(line)) {
+            
+            stack_push(stack, to_lower(line));
+        } else {
+            
+            if (stack_empty(stack)) {
+                stack_delete(stack);
+                return false;  
+            }
+
+            string top_tag = stack_get(stack);
+            string expected_closing_tag = get_closing_tag(top_tag);
+
+            if (to_lower(line) != to_lower(expected_closing_tag)) {
+                stack_delete(stack);
+                return false;  
+            }
+
+            stack_pop(stack);  
         }
     }
-    cout << endl;
+
+    // Если стек пуст, последовательность корректна
+    bool result = stack_empty(stack);
+    stack_delete(stack);
+    return result;
 }
 
 int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
 
     // Проверка аргументов командной строки
-    if (argc < 2) {
-        cerr << "Ошибка: укажите путь к файлу с входными данными." << endl;
+    if (argc < 3) {
+        cerr << "Ошибка: укажите путь к входному и выходному файлам." << endl;
         return 1;
     }
 
-    // Открытие файла
+    // Открытие входного файла
     ifstream inputFile(argv[1]);
     if (!inputFile) {
-        cerr << "Ошибка: не удалось открыть файл " << argv[1] << endl;
+        cerr << "Ошибка: не удалось открыть входной файл " << argv[1] << endl;
         return 1;
     }
 
-    // Чтение размера массива
-    size_t size;
-    inputFile >> size;
-
-    // Создание и заполнение массива
-    Array* array = array_create(size);
-    srand(static_cast<unsigned int>(time(0)));
-
-    cout << "Сгенерированные числа: ";
-    for (size_t i = 0; i < size; i++) {
-        Data value = 1 + rand() % 50;
-        array_set(array, i, value);
-        cout << value;
-        if (i < size - 1) cout << ", ";
+    // Открытие выходного файла
+    ofstream outputFile(argv[2]);
+    if (!outputFile) {
+        cerr << "Ошибка: не удалось открыть выходной файл " << argv[2] << endl;
+        inputFile.close();
+        return 1;
     }
-    cout << endl;
 
-    // Обработка массива
-    otrezokmassiva(array);
-    povtorelevemt(array);
+    // Проверка корректности HTML-тегов
+    if (check_html_tags(inputFile)) {
+        outputFile << "YES" << endl;
+    } else {
+        outputFile << "NO" << endl;
+    }
 
-    // Освобождение памяти
-    array_delete(array);
+    // Закрытие файлов
+    inputFile.close();
+    outputFile.close();
     return 0;
 }

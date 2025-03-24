@@ -1,61 +1,77 @@
-#include <cstddef>
 #include "list.h"
+#include <cstddef>
 
-struct ListItem
-{
-};
-
-struct List
-{
-};
-
-List *list_create()
-{
-    return new List;
+// Создание нового списка
+List* list_create() {
+    List* list = new List;
+    list->head = nullptr;
+    return list;
 }
 
-void list_delete(List *list)
-{
-    // TODO: free items
+// Удаление списка и освобождение памяти
+void list_delete(List* list) {
+    while (list->head != nullptr) {
+        ListItem* temp = list->head;
+        list->head = list->head->next;
+        delete temp;
+    }
     delete list;
 }
 
-ListItem *list_first(List *list)
-{
-    return NULL;
+// Получение первого элемента списка
+ListItem* list_first(List* list) {
+    return list->head;
 }
 
-Data list_item_data(const ListItem *item)
-{
-    return (Data)0;
+// Получение данных из элемента списка
+Data list_item_data(const ListItem* item) {
+    return item->data;
 }
 
-ListItem *list_item_next(ListItem *item)
-{
-    return NULL;
+// Получение следующего элемента списка
+ListItem* list_item_next(ListItem* item) {
+    return item->next;
 }
 
-ListItem *list_item_prev(ListItem *item)
-{
-    return NULL;
+// Вставка элемента в начало списка
+ListItem* list_insert(List* list, Data data) {
+    ListItem* newItem = new ListItem;
+    newItem->data = data;
+    newItem->next = list->head;
+    list->head = newItem;
+    return newItem;
 }
 
-ListItem *list_insert(List *list, Data data)
-{
-    return NULL;
+// Вставка элемента после указанного элемента
+ListItem* list_insert_after(List* /*list*/, ListItem* item, Data data) {
+    if (item == nullptr) {
+        return nullptr; 
+    }
+    ListItem* newItem = new ListItem;
+    newItem->data = data;
+    newItem->next = item->next;
+    item->next = newItem;
+    return newItem;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    return NULL;
+// Удаление первого элемента списка
+ListItem* list_erase_first(List* list) {
+    if (list->head == nullptr) {
+        return nullptr; 
+    }
+    ListItem* temp = list->head;
+    list->head = list->head->next;
+    delete temp;
+    return list->head;
 }
 
-ListItem *list_erase_first(List *list)
-{
-    return NULL;
-}
-
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    return NULL;
+// Удаление элемента, следующего за указанным
+ListItem* list_erase_next(ListItem* item) {
+    if (item == nullptr || item->next == nullptr) {
+        return nullptr; 
+    }
+    ListItem* temp = item->next;
+    item->next = item->next->next;
+    delete temp;
+    return item->next;
 }
