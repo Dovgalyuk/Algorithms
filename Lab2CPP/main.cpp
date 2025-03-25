@@ -7,21 +7,22 @@
 
 std::string check_balance(const std::string &input) {
     Stack *stack = stack_create();
-    
+
     std::unordered_map<char, char> pairs = 
     {
         {')', '('},
         {']', '['},
         {'}', '{'},
-        {'"', '"'}
+        {'"', '"'},
+        {'\'', '\''} 
     };
 
     for (char ch : input) 
     {
-        if (ch == '(' || ch == '[' || ch == '{' || ch == '"') {
+        if (ch == '(' || ch == '[' || ch == '{' || ch == '"' || ch == '\'') {
             stack_push(stack, ch);
         }
-        else if (ch == ')' || ch == ']' || ch == '}' || ch == '"') {
+        else if (ch == ')' || ch == ']' || ch == '}' || ch == '"' || ch == '\'') {
             if (stack_empty(stack)) 
             {
                 stack_delete(stack);
@@ -48,15 +49,20 @@ std::string check_balance(const std::string &input) {
     }
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     std::string input;
-    std::ifstream input_file("input.txt");
 
-    if (input_file.is_open()) {
-        std::getline(input_file, input);
-        input_file.close();  
+    if (argc > 1) {
+        std::ifstream input_file(argv[1]);
+        if (input_file.is_open()) {
+            std::getline(input_file, input);
+            input_file.close();
+        } else {
+            std::cerr << "Не удалось открыть файл " << argv[1] << ". Введите данные вручную:\n";
+            std::getline(std::cin, input);
+        }
     } else {
-        std::cerr << "Не удалось открыть файл input.txt. Введите данные вручную:\n";
+        std::cerr << "Файл не передан. Введите данные вручную:\n";
         std::getline(std::cin, input);
     }
 
