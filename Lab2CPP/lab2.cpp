@@ -80,9 +80,9 @@ int main() {
         instructions.push_back(command); 
     }
 
-    inputFile.close();
+    inputFile.close(); 
 
-    for (size_t i = 0; i < instructions.size(); ++i) {
+    for (size_t i = 0; i < instructions.size(); ++i) { 
         command = instructions[i];
         if (command.empty()) continue;
 
@@ -126,18 +126,18 @@ int main() {
             int result = (op == "add") ? (b + a) : (op == "sub") ? (b - a) : (b * a);
             stack.push(result);
         } else if (op == "call") {
-            stack.push(static_cast<int>(i + 1)); 
+            stack.push(static_cast<int>(i + 1));  
         } else if (op == "ret") {
-            if (stack.empty()) {
+             if (stack.empty()) {
                 cout << "BAD RET" << endl;
                 return 0;
             }
-            
+
             try {
                 int returnAddress = stack.pop();
 
-                if (returnAddress >= 0 && returnAddress < instructions.size()) {
-                    i = returnAddress - 1;
+                if (returnAddress >= 0 && static_cast<size_t>(returnAddress) < instructions.size()) {
+                    i = returnAddress - 1; 
                 } else {
                     cout << "BAD RET" << endl;
                     return 0;
