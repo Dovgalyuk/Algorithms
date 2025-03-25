@@ -4,6 +4,7 @@
 #include <stack>
 #include <unordered_map>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
@@ -34,7 +35,7 @@ public:
         return val;
     }
 
-    bool isEmpty() const { return head == nullptr; } 
+    bool is_empty() { return head == nullptr; }
 
     ~LinkedList() { 
         while (head) {
@@ -52,7 +53,7 @@ private:
 public:
     void push(int val) { list.push_front(val); }
     int pop() { return list.pop_front(); }
-    bool empty() { return list.isEmpty(); }
+    bool empty() { return list.is_empty(); }
     int top() {
         if (list.head) return list.head->value;
         throw runtime_error("Stack is empty");
@@ -63,15 +64,22 @@ int main() {
     Stack stack;
     unordered_map<string, int> registers = {{"A", 0}, {"B", 0}, {"C", 0}, {"D", 0}};
     string command;
-    ifstream inputFile("input.txt"); 
+    vector<string> instructions;
 
+    ifstream inputFile("input.txt"); 
     if (!inputFile.is_open()) {
-        cerr << "Ошибка открытия файла!" << endl;
+        cerr << "Error opening input file!" << endl;
         return 1;
     }
 
     while (getline(inputFile, command)) {
-        if (command == "end") break;
+        instructions.push_back(command);  
+    }
+
+    inputFile.close();
+
+    for (size_t i = 0; i < instructions.size(); ++i) {
+        command = instructions[i];
         if (command.empty()) continue;
 
         stringstream ss(command);
@@ -114,26 +122,33 @@ int main() {
             int result = (op == "add") ? (b + a) : (op == "sub") ? (b - a) : (b * a);
             stack.push(result);
         } else if (op == "call") {
-            stack.push(-1);
+            stack.push(i + 1);  
         } else if (op == "ret") {
             if (stack.empty()) {
                 cout << "BAD RET" << endl;
                 return 0;
             }
-            if(stack.top() != -1) {
+            
+            try {
+                int returnAddress = stack.pop();
+                
+                if (returnAddress >= 0 && returnAddress <= instructions.size()) {
+                    i = returnAddress -1 ; 
+                } else {
+                    cout << "BAD RET" << endl;
+                    return 0;
+                }
+
+            } catch (const runtime_error& e) {
                 cout << "BAD RET" << endl;
                 return 0;
             }
 
-            stack.pop();
-
         } else {
-            cerr << "Ошибочная инструкция: " << command << endl;
+            cerr << "Invalid instruction: " << command << endl;
             return 1;
         }
     }
-
-    inputFile.close(); 
 
     for (const auto& reg : {"A", "B", "C", "D"}) {
         cout << reg << " = " << registers[reg] << endl;
