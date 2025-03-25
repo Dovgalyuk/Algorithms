@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <fstream>
 #include <vector>
+#include <limits> 
 
 using namespace std;
 
@@ -52,8 +53,11 @@ private:
 
 public:
     void push(int val) { list.push_front(val); }
+
     int pop() { return list.pop_front(); }
+
     bool empty() { return list.is_empty(); }
+
     int top() {
         if (list.head) return list.head->value;
         throw runtime_error("Stack is empty");
@@ -73,7 +77,7 @@ int main() {
     }
 
     while (getline(inputFile, command)) {
-        instructions.push_back(command);  
+        instructions.push_back(command); 
     }
 
     inputFile.close();
@@ -122,7 +126,7 @@ int main() {
             int result = (op == "add") ? (b + a) : (op == "sub") ? (b - a) : (b * a);
             stack.push(result);
         } else if (op == "call") {
-            stack.push(i + 1);  
+            stack.push(static_cast<int>(i + 1)); 
         } else if (op == "ret") {
             if (stack.empty()) {
                 cout << "BAD RET" << endl;
@@ -131,9 +135,9 @@ int main() {
             
             try {
                 int returnAddress = stack.pop();
-                
-                if (returnAddress >= 0 && returnAddress <= instructions.size()) {
-                    i = returnAddress -1 ; 
+
+                if (returnAddress >= 0 && returnAddress < instructions.size()) {
+                    i = returnAddress - 1;
                 } else {
                     cout << "BAD RET" << endl;
                     return 0;
