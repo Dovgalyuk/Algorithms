@@ -1,161 +1,168 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <sstream>
-#include <stack>
-#include <unordered_map>
-#include <fstream>
-#include <vector>
-#include <limits> 
+#include <map>
 
+#include "stack.h"
 using namespace std;
 
-class LinkedList {
-public:
-    struct ListNode {
-        int value;
-        ListNode* next;
-        ListNode(int val) : value(val), next(nullptr) {}
-    };
-
-    ListNode* head;
-
-    LinkedList() : head(nullptr) {}
-
-    void push_front(int val) {
-        ListNode* node = new ListNode(val);
-        node->next = head;
-        head = node;
-    }
-
-    int pop_front() {
-        if (!head) throw runtime_error("Недостаточный расход стека.");
-        int val = head->value;
-        ListNode* temp = head;
-        head = head->next;
-        delete temp;
-        return val;
-    }
-
-    bool is_empty() { return head == nullptr; }
-
-    ~LinkedList() { 
-        while (head) {
-            ListNode* temp = head;
-            head = head->next;
-            delete temp;
-        }
-    }
+enum InstructionType {
+    PUSH,
+    POP,
+    ADD,
+    SUB,
+    MUL,
+    CALL,
+    RET,
+    INVALID
 };
 
-class Stack {
-private:
-    LinkedList list;
-
-public:
-    void push(int val) { list.push_front(val); }
-
-    int pop() { return list.pop_front(); }
-
-    bool empty() { return list.is_empty(); }
-
-    int top() {
-        if (list.head) return list.head->value;
-        throw runtime_error("Stack is empty");
-    }
-};
+InstructionType getInstructionType(const string& instruction) {
+    if (instruction == "push") return PUSH;
+    if (instruction == "pop") return POP;
+    if (instruction == "add") return ADD;
+    if (instruction == "sub") return SUB;
+    if (instruction == "mul") return MUL;
+    if (instruction == "call") return CALL;
+    if (instruction == "ret") return RET;
+    return INVALID;
+}
 
 int main() {
-    Stack stack;
-    unordered_map<string, int> registers = {{"A", 0}, {"B", 0}, {"C", 0}, {"D", 0}};
-    string command;
-    vector<string> instructions;
-
-    ifstream inputFile("input.txt"); 
+    ifstream inputFile("input.txt");
     if (!inputFile.is_open()) {
-        cerr << "Error opening input file!" << endl;
+        cerr << "Error opening input file." << endl;
         return 1;
     }
 
-    while (getline(inputFile, command)) {
-        instructions.push_back(command); 
-    }
+    Stack* stack = stack_create();
+    map<string, int> registers;
+    registers["A"] = 0;
+    registers["B"] = 0;
+    registers["C"] = 0;
+    registers["D"] = 0;
 
-    inputFile.close(); 
 
-    for (size_t i = 0; i < instructions.size(); ++i) { 
-        command = instructions[i];
-        if (command.empty()) continue;
+    string line;
+    while (getline(inputFile, line)) {
+        stringstream ss(line);
+        string instruction;
+        ss >> instruction;
 
-        stringstream ss(command);
-        string op;
-        ss >> op;
+        InstructionType type = getInstructionType(instruction);
 
-        if (op == "push") {
-            string val;
-            ss >> val;
-            if (isdigit(val[0]) || (val[0] == '-' && isdigit(val[1]))) {
+        switch (type) {
+            case PUSH: {
+                string valueStr;
+                ss >> valueStr;
                 try {
-                    stack.push(stoi(val));
+                    Data value = stoi(valueStr);
+                    stack_push(stack, value);
                 } catch (const invalid_argument& e) {
-                    cerr << "Invalid number format: " << val << endl;
+                   
+                   if (registers.count(valueStr)) {
+                     stack_push(stack, registers[valueStr]);
+                   }
+                   else {
+                    cerr << "Error: Invalid push argument." << endl;
+                    stack_delete(stack);
+                    return 1;
+                   }
+                }
+                break;
+            }
+            case POP: {
+                string registerName;
+                ss >> registerName;
+
+                if (stack_empty(stack)) {
+                    cerr << "Error: Stack is empty during pop." << endl;
+                    stack_delete(stack);
                     return 1;
                 }
-            } else if (registers.find(val) != registers.end()) {
-                stack.push(registers[val]);
-            } else {
-                cerr << "Unknown register or value: " << val << endl;
-                return 1;
-            }
-        } else if (op == "pop") {
-            string reg;
-            ss >> reg;
-            if (registers.find(reg) == registers.end()) {
-                cerr << "Invalid register: " << reg << endl;
-                return 1;
-            }
-            if (stack.empty()) {
-                cout << "BAD POP" << endl;
-                return 0;
-            }
-            registers[reg] = stack.pop();
-        } else if (op == "add" || op == "sub" || op == "mul") {
-            if (stack.empty()) { cout << "BAD OPERATION" << endl; return 0; }
-            int a = stack.pop();
-            if (stack.empty()) { cout << "BAD OPERATION" << endl; return 0; }
-            int b = stack.pop();
-            int result = (op == "add") ? (b + a) : (op == "sub") ? (b - a) : (b * a);
-            stack.push(result);
-        } else if (op == "call") {
-            stack.push(static_cast<int>(i + 1));  
-        } else if (op == "ret") {
-             if (stack.empty()) {
-                cout << "BAD RET" << endl;
-                return 0;
-            }
-
-            try {
-                int returnAddress = stack.pop();
-
-                if (returnAddress >= 0 && static_cast<size_t>(returnAddress) < instructions.size()) {
-                    i = returnAddress - 1; 
-                } else {
-                    cout << "BAD RET" << endl;
-                    return 0;
+                
+                Data top = stack_get(stack);
+                if (top > 10000){ 
+                  cerr << "Error: Cannot pop return address." << endl;
+                  stack_delete(stack);
+                  return 1;
                 }
 
-            } catch (const runtime_error& e) {
-                cout << "BAD RET" << endl;
-                return 0;
-            }
+                if (!registers.count(registerName)) {
+                    cerr << "Error: Invalid register name." << endl;
+                    stack_delete(stack);
+                    return 1;
+                }
 
-        } else {
-            cerr << "Invalid instruction: " << command << endl;
-            return 1;
+                registers[registerName] = top;
+                stack_pop(stack);
+                break;
+            }
+            case ADD:
+            case SUB:
+            case MUL: {
+                if (stack_empty(stack)) {
+                    cerr << "Error: Stack is empty during arithmetic operation." << endl;
+                    stack_delete(stack);
+                    return 1;
+                }
+                Data operand2 = stack_get(stack);
+                stack_pop(stack);
+
+                if (stack_empty(stack)) {
+                    cerr << "Error: Stack is empty during arithmetic operation." << endl;
+                    stack_delete(stack);
+                    return 1;
+                }
+                Data operand1 = stack_get(stack);
+                stack_pop(stack);
+
+                Data result;
+                if (type == ADD) {
+                    result = operand1 + operand2;
+                } else if (type == SUB) {
+                    result = operand1 - operand2;
+                } else {
+                    result = operand1 * operand2;
+                }
+                stack_push(stack, result);
+                break;
+            }
+            case CALL: {
+                Data returnAddress = 10001;
+                stack_push(stack, returnAddress);
+                break;
+            }
+            case RET: {
+                if (stack_empty(stack)) {
+                    cerr << "Error: Stack is empty during ret." << endl;
+                    stack_delete(stack);
+                    return 1;
+                }
+                Data top = stack_get(stack);
+
+                 if (top != 10001){
+                    cerr << "BAD RET" << endl;
+                    stack_delete(stack);
+                    return 1;
+                 }
+
+                stack_pop(stack);
+                break;
+            }
+            case INVALID:
+                cerr << "Error: Invalid instruction." << endl;
+                stack_delete(stack);
+                return 1;
         }
     }
 
-    for (const auto& reg : {"A", "B", "C", "D"}) {
-        cout << reg << " = " << registers[reg] << endl;
+    stack_delete(stack);
+    inputFile.close();
+
+    for (const auto& pair : registers) {
+        cout << pair.first << " = " << pair.second << endl;
     }
 
     return 0;
