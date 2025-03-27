@@ -26,10 +26,12 @@ InstructionType getInstructionType(const string& instruction) {
     if (instruction == "mul") return MUL;
     if (instruction == "call") return CALL;
     if (instruction == "ret") return RET;
-    return INVALID;
+    return RET;
 }
 
 int main() {
+    const int RETURN_ADDRESS_MARKER = 10001;
+    
     ifstream inputFile("input.txt");
     if (!inputFile.is_open()) {
         cerr << "Error opening input file." << endl;
@@ -61,7 +63,7 @@ int main() {
                     stack_push(stack, value);
                 } catch (const invalid_argument& e) {
                    
-                   if (registers.count(valueStr)) {
+                   if (registers.find(valueStr) != registers.end()) {
                      stack_push(stack, registers[valueStr]);
                    }
                    else {
@@ -83,7 +85,7 @@ int main() {
                 }
                 
                 Data top = stack_get(stack);
-                if (top > 10000){ 
+                if (top > RETURN_ADDRESS_MARKER){ 
                   cerr << "Error: Cannot pop return address." << endl;
                   stack_delete(stack);
                   return 1;
@@ -130,7 +132,7 @@ int main() {
                 break;
             }
             case CALL: {
-                Data returnAddress = 10001;
+                Data returnAddress = RETURN_ADDRESS_MARKER;
                 stack_push(stack, returnAddress);
                 break;
             }
@@ -142,7 +144,7 @@ int main() {
                 }
                 Data top = stack_get(stack);
 
-                 if (top != 10001){
+                 if (top != RETURN_ADDRESS_MARKER){
                     cerr << "BAD RET" << endl;
                     stack_delete(stack);
                     return 1;
