@@ -8,6 +8,8 @@
 
 using namespace std;
 
+const int RETURN_MARKER = -2; // Специальный маркер для call/ret
+
 class CPU {
 private:
     Stack* stack;
@@ -26,6 +28,7 @@ public:
     // Проверка, является ли строка числом (включая отрицательные)
     bool isNumber(const string& str) {
         if (str.empty()) return false;
+        if (str == "-2") return false; // Запрещаем использовать -2
         if (str[0] == '-' && str.size() > 1) {
             return all_of(str.begin() + 1, str.end(), ::isdigit);
         }
@@ -34,7 +37,13 @@ public:
 
     void push(const string& operand) {
         if (isNumber(operand)) {
-            stack_push(stack, stoi(operand));
+            int value = stoi(operand);
+            if (value == RETURN_MARKER) {
+                cout << "ERROR: Invalid push value (-2 is reserved)" << endl;
+                error = true;
+                return;
+            }
+            stack_push(stack, value);
         } else {
             stack_push(stack, registers[operand]);
         }
@@ -55,6 +64,7 @@ public:
     void mul() { operate('*'); }
 
     void call(int returnAddress) {
+        stack_push(stack, RETURN_MARKER); // Добавляем маркер перед адресом возврата
         stack_push(stack, returnAddress);
     }
 
@@ -64,6 +74,22 @@ public:
             error = true;
             return -1;
         }
+
+        int value = stack_get(stack);
+        stack_pop(stack);
+
+        if (value != RETURN_MARKER) {
+            cout << "ERROR: Invalid return sequence" << endl;
+            error = true;
+            return -1;
+        }
+
+        if (stack_empty(stack)) {
+            cout << "ERROR: Stack corrupted, missing return address" << endl;
+            error = true;
+            return -1;
+        }
+
         int returnAddress = stack_get(stack);
         stack_pop(stack);
         return returnAddress;
