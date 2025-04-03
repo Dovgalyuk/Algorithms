@@ -3,20 +3,10 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <algorithm>
 #include "queue.h"
 
 using namespace std;
-
-void print_board(const vector<int>& board) {
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            cout << board[i * 3 + j] << " ";
-        }
-        cout << endl;
-    }
-
-    cout << endl;
-}
 
 long to_long(const vector<int>& board) {
     long result = 0;
@@ -37,7 +27,7 @@ vector<int> to_board(long number) {
 
 vector<long> get_neighbors(const vector<int>& board) {
     vector<long> neighbors;
-    int zero_pos = find(board.begin(), board.end(), 0) - board.begin();
+    int zero_pos = std::find(board.begin(), board.end(), 0) - board.begin();
     int row = zero_pos / 3;
     int col = zero_pos % 3;
 
@@ -55,6 +45,16 @@ vector<long> get_neighbors(const vector<int>& board) {
         }
     }
     return neighbors;
+}
+
+void print_board(const vector<int>& board) {
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            cout << board[i * 3 + j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
 }
 
 void solve_puzzle(vector<int> start) {
