@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 // Vector (dynamic array)
-typedef std::string Data;
+typedef int Data;
 
 struct Vector {
     Data* data;

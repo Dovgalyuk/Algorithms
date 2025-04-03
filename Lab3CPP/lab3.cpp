@@ -3,9 +3,10 @@
 #include <string>
 #include "queue.h"
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
-using BoardState = std::string;
+using BoardState = std::vector<int>;
 
 void print_board(const BoardState& board) {
     for (int i = 0; i < 9; ++i) {
@@ -16,12 +17,12 @@ void print_board(const BoardState& board) {
 }
 
 bool is_goal(const BoardState& board) {
-    return board == "123456780";
+    return board == BoardState{1, 2, 3, 4, 5, 6, 7, 8, 0};
 }
 
 vector<BoardState> get_neighbors(const BoardState& board) {
     vector<BoardState> neighbors;
-    int zero_pos = board.find('0');
+    int zero_pos = find(board.begin(), board.end(), 0) - board.begin();
 
     auto swap_positions = [](BoardState board, int i, int j) {
         swap(board[i], board[j]);
@@ -45,24 +46,41 @@ vector<BoardState> get_neighbors(const BoardState& board) {
 
 void bfs(const BoardState& start) {
     Queue* queue = queue_create();
-    unordered_set<BoardState> visited;
-    unordered_map<BoardState, BoardState> parent_map;
+    unordered_set<string> visited;
+    unordered_map<string, BoardState> parent_map;
 
-    queue_insert(queue, start);
-    visited.insert(start);
-    parent_map[start] = "";
+    auto board_to_string = [](const BoardState& board) {
+        string str;
+        for (int num : board) {
+            str += to_string(num);
+        }
+        return str;
+    };
+
+    string start_str = board_to_string(start);
+    int start_index = 0;
+
+    queue_insert(queue, start_index);
+    visited.insert(start_str);
+    parent_map[start_str] = BoardState();
 
     while (!queue_empty(queue)) {
-        BoardState current_board = queue_get(queue);
+        int current_index = queue_get(queue);
         queue_remove(queue);
 
+        BoardState current_board = start;
+
         if (is_goal(current_board)) {
-            
             vector<BoardState> path;
-            for (BoardState state = current_board; !state.empty(); state = parent_map[state]) {
-                path.push_back(state);
+            string current_board_str = board_to_string(current_board);
+            for (string state = current_board_str; !state.empty(); state = board_to_string(parent_map[state])) {
+                BoardState board_state;
+                for (char c : state) {
+                    board_state.push_back(c - '0');
+                }
+                path.push_back(board_state);
             }
-            
+
             for (auto it = path.rbegin(); it != path.rend(); ++it) {
                 print_board(*it);
             }
@@ -72,10 +90,12 @@ void bfs(const BoardState& start) {
 
         auto neighbors = get_neighbors(current_board);
         for (const BoardState& neighbor : neighbors) {
-            if (visited.find(neighbor) == visited.end()) {
-                visited.insert(neighbor);
-                parent_map[neighbor] = current_board;
-                queue_insert(queue, neighbor);
+            string neighbor_str = board_to_string(neighbor);
+            if (visited.find(neighbor_str) == visited.end()) {
+                visited.insert(neighbor_str);
+                parent_map[neighbor_str] = current_board;
+                int neighbor_index = 0;
+                queue_insert(queue, neighbor_index);
             }
         }
     }
@@ -83,13 +103,14 @@ void bfs(const BoardState& start) {
     queue_delete(queue);
 }
 
+
 bool is_solvable(const BoardState& board) {
     int inversions = 0;
 
     for (int i = 0; i < 9; ++i) {
-        if (board[i] == '0') continue;
+        if (board[i] == 0) continue;
         for (int j = i + 1; j < 9; ++j) {
-            if (board[j] != '0' && board[i] > board[j]) {
+            if (board[j] != 0 && board[i] > board[j]) {
                 ++inversions;
             }
         }
@@ -99,11 +120,9 @@ bool is_solvable(const BoardState& board) {
 }
 
 int main() {
-    string input;
-    cin >> input;
-
-    if (input.length() != 9 || input.find_first_not_of("012345678") != string::npos) {
-        return 1;
+    BoardState input(9);
+    for (int i = 0; i < 9; ++i) {
+        cin >> input[i];
     }
 
     if (!is_solvable(input)) {
