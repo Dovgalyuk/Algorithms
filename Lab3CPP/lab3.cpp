@@ -103,12 +103,20 @@ void solve_puzzle(vector<int> start) {
     }
 
     cout << "No solution has been found." << endl;
+    queue_delete(q);
 }
 
 int main() {
+    string filename = "input.txt";
+    ifstream input_file(filename);
+
+    if (!input_file.is_open()) {
+        cout << "Error opening file!" << endl;
+        return 1;
+    }
+
     string start_str;
-    cout << "Enter the initial state of the board (a 9-character string, where 0 is an empty space): ";
-    cin >> start_str;
+    input_file >> start_str;
 
     if (start_str.length() != 9) {
         cout << "Error: The status must contain 9 characters." << endl;
