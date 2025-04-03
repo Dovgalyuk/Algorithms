@@ -1,7 +1,6 @@
 #include "queue.h"
 #include <iostream>
 #include <stdexcept>
-#include <ostream>
 
 Queue* queue_create() {
     Queue* queue = new Queue;
@@ -12,14 +11,12 @@ Queue* queue_create() {
     queue->front = 0;
     queue->back = 0;
     queue->count = 0;
-    std::cout << "Memory allocation queue" << std::endl;
     return queue;
 }
 
 void queue_delete(Queue* queue) {
     if (queue == nullptr) return;
     vector_delete(queue->vector);
-    std::cout << "Freeing up memory queue" << std::endl;
     delete queue;
 }
 

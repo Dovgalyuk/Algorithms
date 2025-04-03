@@ -1,20 +1,17 @@
 #include "vector.h"
 #include <algorithm>
-#include <ostream>
 
 Vector* vector_create() {
     Vector* vector = new Vector;
     vector->size = 0;
     vector->capacity = 8;
     vector->data = new Data[vector->capacity];
-    std::cout << "Memory allocation vector" << std::endl;
     return vector;
 }
 
 void vector_delete(Vector* vector) {
     delete[] vector->data;
     delete vector;
-    std::cout << "Freeing up memory vector" << std::endl;
 }
 
 Data vector_get(const Vector* vector, size_t index) {
