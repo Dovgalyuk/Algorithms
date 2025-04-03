@@ -32,6 +32,9 @@ Data queue_get(const Queue* queue) {
 }
 
 void queue_remove(Queue* queue) {
+    if (queue_empty(queue)) {
+        throw std::runtime_error("Attempted to remove from empty queue");
+    }
     queue->front++;
     queue->count--;
 }
