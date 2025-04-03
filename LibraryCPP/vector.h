@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 // Vector (dynamic array)
-typedef int Data;
+typedef long Data;
 
 struct Vector {
     Data* data;

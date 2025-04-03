@@ -3,128 +3,123 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <algorithm>
 #include "queue.h"
 
 using namespace std;
-using BoardState = std::vector<int>;
 
-void print_board(const BoardState& board) {
-    for (int i = 0; i < 9; ++i) {
-        cout << board[i] << " ";
-        if (i % 3 == 2) cout << endl;
+void print_board(const vector<int>& board) {
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            cout << board[i * 3 + j] << " ";
+        }
+        cout << endl;
     }
+
     cout << endl;
 }
 
-bool is_goal(const BoardState& board) {
-    return board == BoardState{1, 2, 3, 4, 5, 6, 7, 8, 0};
+long to_long(const vector<int>& board) {
+    long result = 0;
+    for (int i = 0; i < 9; ++i) {
+        result = result * 10 + board[i];
+    }
+    return result;
 }
 
-vector<BoardState> get_neighbors(const BoardState& board) {
-    vector<BoardState> neighbors;
+vector<int> to_board(long number) {
+    vector<int> board(9);
+    for (int i = 8; i >= 0; --i) {
+        board[i] = number % 10;
+        number /= 10;
+    }
+    return board;
+}
+
+vector<long> get_neighbors(const vector<int>& board) {
+    vector<long> neighbors;
     int zero_pos = find(board.begin(), board.end(), 0) - board.begin();
+    int row = zero_pos / 3;
+    int col = zero_pos % 3;
 
-    auto swap_positions = [](BoardState board, int i, int j) {
-        swap(board[i], board[j]);
-        return board;
-    };
+    vector<pair<int, int>> directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
-    int moves[] = {-3, 3, -1, 1};
-    for (int move : moves) {
-        int new_pos = zero_pos + move;
+    for (auto& dir : directions) {
+        int new_row = row + dir.first;
+        int new_col = col + dir.second;
 
-        if (new_pos >= 0 && new_pos < 9 &&
-            ((move == -3 || move == 3) || (zero_pos / 3 == new_pos / 3))) {
-
-            BoardState new_board = swap_positions(board, zero_pos, new_pos);
-            neighbors.push_back(new_board);
+        if (new_row >= 0 && new_row < 3 && new_col >= 0 && new_col < 3) {
+            int new_zero_pos = new_row * 3 + new_col;
+            vector<int> new_board = board;
+            swap(new_board[zero_pos], new_board[new_zero_pos]);
+            neighbors.push_back(to_long(new_board));
         }
     }
-
     return neighbors;
 }
 
-void bfs(const BoardState& start) {
-    Queue* queue = queue_create();
-    unordered_set<string> visited;
-    unordered_map<string, BoardState> parent_map;
+void solve_puzzle(vector<int> start) {
+    vector<int> goal_board = {1, 2, 3, 4, 5, 6, 7, 8, 0};
+    long goal = to_long(goal_board);
 
-    auto board_to_string = [](const BoardState& board) {
-        string str;
-        for (int num : board) {
-            str += to_string(num);
-        }
-        return str;
-    };
+    long start_long = to_long(start);
+    if (start_long == goal) {
+        print_board(start);
+        return;
+    }
 
-    string start_str = board_to_string(start);
-    queue_insert(queue, start);
+    Queue* q = queue_create();
+    unordered_set<long> visited;
 
-    visited.insert(start_str);
-    parent_map[start_str] = BoardState();
+    queue_insert(q, start_long);
+    visited.insert(start_long);
 
-    while (!queue_empty(queue)) {
-        BoardState current_board = queue_get(queue);
-        queue_remove(queue);
+    unordered_map<long, long> parent_map;
+    parent_map[start_long] = -1;
 
-        if (is_goal(current_board)) {
-            vector<BoardState> path;
-            string current_board_str = board_to_string(current_board);
-            for (string state = current_board_str; !state.empty(); state = board_to_string(parent_map[state])) {
-                BoardState board_state;
-                for (char c : state) {
-                    board_state.push_back(c - '0');
+    while (!queue_empty(q)) {
+        long current_board_long = queue_get(q);
+        queue_remove(q);
+        vector<int> current_board = to_board(current_board_long);
+
+        for (long neighbor : get_neighbors(current_board)) {
+            if (visited.find(neighbor) == visited.end()) {
+                visited.insert(neighbor);
+                queue_insert(q, neighbor);
+                parent_map[neighbor] = current_board_long;
+
+                if (neighbor == goal) {
+                    vector<long> solution_path;
+                    for (long state = goal; state != -1; state = parent_map[state]) {
+                        solution_path.push_back(state);
+                    }
+
+                    for (auto it = solution_path.rbegin(); it != solution_path.rend(); ++it) {
+                        print_board(to_board(*it));
+                    }
+                    return;
                 }
-                path.push_back(board_state);
-            }
-
-            for (auto it = path.rbegin(); it != path.rend(); ++it) {
-                print_board(*it);
-            }
-            queue_delete(queue);
-            return;
-        }
-
-        auto neighbors = get_neighbors(current_board);
-        for (const BoardState& neighbor : neighbors) {
-            string neighbor_str = board_to_string(neighbor);
-            if (visited.find(neighbor_str) == visited.end()) {
-                visited.insert(neighbor_str);
-                parent_map[neighbor_str] = current_board;
-                queue_insert(queue, neighbor);
             }
         }
     }
 
-    queue_delete(queue);
-}
-
-bool is_solvable(const BoardState& board) {
-    int inversions = 0;
-
-    for (int i = 0; i < 9; ++i) {
-        if (board[i] == 0) continue;
-        for (int j = i + 1; j < 9; ++j) {
-            if (board[j] != 0 && board[i] > board[j]) {
-                ++inversions;
-            }
-        }
-    }
-
-    return (inversions % 2 == 0);
+    cout << "No solution has been found." << endl;
 }
 
 int main() {
-    BoardState input(9);
-    for (int i = 0; i < 9; ++i) {
-        cin >> input[i];
-    }
+    string start_str;
+    cout << "Enter the initial state of the board (a 9-character string, where 0 is an empty space): ";
+    cin >> start_str;
 
-    if (!is_solvable(input)) {
+    if (start_str.length() != 9) {
+        cout << "Error: The status must contain 9 characters." << endl;
         return 1;
     }
 
-    bfs(input);
+    vector<int> start(9);
+    for (int i = 0; i < 9; ++i) {
+        start[i] = start_str[i] - '0';
+    }
+
+    solve_puzzle(start);
     return 0;
 }
