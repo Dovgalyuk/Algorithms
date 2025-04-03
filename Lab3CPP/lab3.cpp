@@ -1,9 +1,10 @@
 ﻿#include <iostream>
 #include <unordered_set>
 #include <string>
-#include "queue.h"
 #include <unordered_map>
 #include <vector>
+#include <algorithm>
+#include "queue.h"
 
 using namespace std;
 using BoardState = std::vector<int>;
@@ -58,17 +59,14 @@ void bfs(const BoardState& start) {
     };
 
     string start_str = board_to_string(start);
-    int start_index = 0;
+    queue_insert(queue, start);
 
-    queue_insert(queue, start_index);
     visited.insert(start_str);
     parent_map[start_str] = BoardState();
 
     while (!queue_empty(queue)) {
-        int current_index = queue_get(queue);
+        BoardState current_board = queue_get(queue);
         queue_remove(queue);
-
-        BoardState current_board = start;
 
         if (is_goal(current_board)) {
             vector<BoardState> path;
@@ -94,15 +92,13 @@ void bfs(const BoardState& start) {
             if (visited.find(neighbor_str) == visited.end()) {
                 visited.insert(neighbor_str);
                 parent_map[neighbor_str] = current_board;
-                int neighbor_index = 0;
-                queue_insert(queue, neighbor_index);
+                queue_insert(queue, neighbor);
             }
         }
     }
 
     queue_delete(queue);
 }
-
 
 bool is_solvable(const BoardState& board) {
     int inversions = 0;
