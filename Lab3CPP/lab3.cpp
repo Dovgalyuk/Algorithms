@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 #include <fstream>
-#include <memory>
 
 #include "queue.h"
 
@@ -138,12 +137,10 @@ int main(int argc, char** argv) {
     }
 
     try {
-    	Queue* q = queue_create();
-    	unique_ptr<Queue, decltype(&queue_delete)> queue_guard(q, queue_delete);
-    	solve_puzzle(start);
-	} catch (const std::exception& e) {
-    	cerr << "Error: " << e.what() << endl;
-	}
+        solve_puzzle(start);
+    } catch (const std::exception& e) {
+        cerr << "Error: " << e.what() << endl;
+    }
 
     return 0;
 }

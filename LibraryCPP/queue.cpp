@@ -12,10 +12,8 @@ Queue* queue_create() {
 }
 
 void queue_delete(Queue* queue) {
-    if (queue) {
-        if (queue->vector) {
-            vector_delete(queue->vector);
-        }
+    if (queue != nullptr) {
+        vector_delete(queue->vector);
         delete queue;
     }
 }

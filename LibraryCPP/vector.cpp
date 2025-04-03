@@ -10,7 +10,7 @@ Vector* vector_create() {
 }
 
 void vector_delete(Vector* vector) {
-    if (vector) {
+    if (vector != nullptr) {
         delete[] vector->data;
         delete vector;
     }
