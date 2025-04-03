@@ -4,9 +4,6 @@
 
 Queue* queue_create() {
     Queue* queue = new Queue;
-    if (queue == nullptr) {
-        exit(1);
-    }
     queue->vector = vector_create();
     queue->front = 0;
     queue->back = 0;
@@ -31,14 +28,14 @@ void queue_insert(Queue* queue, const Data& data) {
 
 Data queue_get(const Queue* queue) {
     if (queue == nullptr || queue_empty(queue)) {
-        exit(1);
+        throw std::runtime_error("Queue is empty");
     }
     return vector_get(queue->vector, queue->front);
 }
 
 void queue_remove(Queue* queue) {
     if (queue == nullptr || queue_empty(queue)) {
-        exit(1);
+        throw std::runtime_error("Queue is empty");
     }
     queue->front++;
     queue->count--;

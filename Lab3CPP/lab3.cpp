@@ -136,7 +136,11 @@ int main(int argc, char** argv) {
         start[i] = start_str[i] - '0';
     }
 
-    solve_puzzle(start);
+    try {
+        solve_puzzle(start);
+    } catch (const std::exception& e) {
+        cerr << "Error: " << e.what() << endl;
+    }
 
     return 0;
 }

@@ -38,7 +38,12 @@ size_t vector_size(const Vector* vector) {
 void vector_resize(Vector* vector, size_t size) {
     if (size > vector->capacity) {
         size_t new_capacity = std::max(vector->capacity * 2, size);
-        Data* new_data = new Data[new_capacity];
+        Data* new_data = nullptr;
+        try {
+            new_data = new Data[new_capacity];
+        } catch (...) {
+            throw std::bad_alloc();
+        }
         std::copy(vector->data, vector->data + vector->size, new_data);
         delete[] vector->data;
         vector->data = new_data;
