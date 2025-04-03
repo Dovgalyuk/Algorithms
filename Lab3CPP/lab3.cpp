@@ -78,34 +78,40 @@ void solve_puzzle(vector<int> start) {
     unordered_map<long long, long long> parent_map;
     parent_map[start_long] = -1;
 
-    while (!queue_empty(q)) {
-        long long current_board_long = queue_get(q);
-        queue_remove(q);
-        vector<int> current_board = to_board(current_board_long);
+    try {
+        while (!queue_empty(q)) {
+            long long current_board_long = queue_get(q);
+            queue_remove(q);
+            vector<int> current_board = to_board(current_board_long);
 
-        for (long long neighbor : get_neighbors(current_board)) {
-            if (visited.find(neighbor) == visited.end()) {
-                visited.insert(neighbor);
-                queue_insert(q, neighbor);
-                parent_map[neighbor] = current_board_long;
+            for (long long neighbor : get_neighbors(current_board)) {
+                if (visited.find(neighbor) == visited.end()) {
+                    visited.insert(neighbor);
+                    queue_insert(q, neighbor);
+                    parent_map[neighbor] = current_board_long;
 
-                if (neighbor == goal) {
-                    vector<long long> solution_path;
-                    for (long long state = goal; state != -1; state = parent_map[state]) {
-                        solution_path.push_back(state);
+                    if (neighbor == goal) {
+                        vector<long long> solution_path;
+                        for (long long state = goal; state != -1; state = parent_map[state]) {
+                            solution_path.push_back(state);
+                        }
+
+                        for (auto it = solution_path.rbegin(); it != solution_path.rend(); ++it) {
+                            print_board(to_board(*it));
+                        }
+                        queue_delete(q);
+                        return;
                     }
-
-                    for (auto it = solution_path.rbegin(); it != solution_path.rend(); ++it) {
-                        print_board(to_board(*it));
-                    }
-                    queue_delete(q);
-                    return;
                 }
             }
         }
+
+        cout << "No solution has been found." << endl;
+    } catch (...) {
+        queue_delete(q);
+        throw;
     }
 
-    cout << "No solution has been found." << endl;
     queue_delete(q);
 }
 
