@@ -21,8 +21,8 @@ void queue_delete(Queue* queue) {
 }
 
 void queue_insert(Queue* queue, const Data& data) {
-    if (queue == nullptr) {
-        exit(1);
+    if (!queue) {
+        throw std::runtime_error("Queue is null");
     }
     vector_set(queue->vector, queue->back, data);
     queue->back++;
