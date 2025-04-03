@@ -111,26 +111,26 @@ void solve_puzzle(vector<int> start) {
 
 int main(int argc, char** argv) {
     if (argc < 2) {
-        printf("Error: specify the input data file.\n");
+        cerr << "Error: specify the input data file." << endl;
         return 1;
     }
 
     FILE* input = fopen(argv[1], "r");
-    if (input == NULL) {
-        printf("Error: couldn't open the file %s.\n", argv[1]);
+    if (input == nullptr) {
+        cerr << "Error: couldn't open the file " << argv[1] << "." << endl;
         return 1;
     }
 
     char start_str[10];
     if (fscanf(input, "%9s", start_str) != 1) {
-        printf("Error: data could not be read from the file.\n");
+        cerr << "Error: data could not be read from the file." << endl;
         fclose(input);
         return 1;
     }
     fclose(input);
 
     if (strlen(start_str) != 9) {
-        cout << "Error: The status must contain 9 characters." << endl;
+        cerr << "Error: The status must contain 9 characters." << endl;
         return 1;
     }
 
