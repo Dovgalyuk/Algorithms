@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 #include <fstream>
-#include <cstring>
 
 #include "queue.h"
 
@@ -115,21 +114,18 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    FILE* input = fopen(argv[1], "r");
-    if (input == nullptr) {
-        cerr << "Error: couldn't open the file " << argv[1] << "." << endl;
+    string filename = argv[1];
+    ifstream input_file(filename);
+
+    if (!input_file.is_open()) {
+        cerr << "Error: couldn't open the file " << filename << "." << endl;
         return 1;
     }
 
-    char start_str[10];
-    if (fscanf(input, "%9s", start_str) != 1) {
-        cerr << "Error: data could not be read from the file." << endl;
-        fclose(input);
-        return 1;
-    }
-    fclose(input);
+    string start_str;
+    input_file >> start_str;
 
-    if (strlen(start_str) != 9) {
+    if (start_str.length() != 9) {
         cerr << "Error: The status must contain 9 characters." << endl;
         return 1;
     }
