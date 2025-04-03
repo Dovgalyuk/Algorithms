@@ -5,7 +5,6 @@
 #include <map>
 
 #include "stack.h"
-#include "list.h"
 
 using namespace std;
 
