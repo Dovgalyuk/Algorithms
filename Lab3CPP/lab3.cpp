@@ -98,6 +98,7 @@ void solve_puzzle(vector<int> start) {
                     for (auto it = solution_path.rbegin(); it != solution_path.rend(); ++it) {
                         print_board(to_board(*it));
                     }
+                    queue_delete(q);
                     return;
                 }
             }
