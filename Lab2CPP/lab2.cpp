@@ -5,6 +5,8 @@
 #include <map>
 
 #include "stack.h"
+#include "list.h"
+
 using namespace std;
 
 enum InstructionType {
@@ -30,8 +32,8 @@ InstructionType getInstructionType(const string& instruction) {
 }
 
 int main() {
-    const int RETURN_ADDRESS_MARKER = 10001;
-    
+    const int RETURN_ADDRESS_MARKER = 10001; 
+
     ifstream inputFile("input.txt");
     if (!inputFile.is_open()) {
         cerr << "Error opening input file." << endl;
@@ -64,7 +66,7 @@ int main() {
                 } catch (const invalid_argument& e) {
                    
                    if (registers.find(valueStr) != registers.end()) {
-                     stack_push(stack, registers[valueStr]);
+                       stack_push(stack, registers[valueStr]);
                    }
                    else {
                     cerr << "Error: Invalid push argument." << endl;
@@ -85,7 +87,7 @@ int main() {
                 }
                 
                 Data top = stack_get(stack);
-                if (top > RETURN_ADDRESS_MARKER){ 
+                if (top == RETURN_ADDRESS_MARKER){ 
                   cerr << "Error: Cannot pop return address." << endl;
                   stack_delete(stack);
                   return 1;
