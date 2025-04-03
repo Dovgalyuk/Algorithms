@@ -1,5 +1,6 @@
 #include "vector.h"
 #include <algorithm>
+#include <ostream>
 
 Vector* vector_create() {
     Vector* vector = new Vector;

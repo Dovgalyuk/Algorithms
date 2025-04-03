@@ -1,6 +1,7 @@
 #include "queue.h"
 #include <iostream>
 #include <stdexcept>
+#include <ostream>
 
 Queue* queue_create() {
     Queue* queue = new Queue;
