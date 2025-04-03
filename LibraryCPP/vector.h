@@ -1,14 +1,16 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include <cstddef>
-#include <string>
+#include <stdexcept>
 
 // Vector (dynamic array)
-// Stores string values inside
 typedef std::string Data;
 
-struct Vector;
+struct Vector {
+    Data* data;
+    size_t size;
+    size_t capacity;
+};
 
 // Creates vector
 Vector* vector_create();
