@@ -44,13 +44,17 @@ vector<BoardState> get_neighbors(const Board& board) {
 
         if (new_row >= 0 && new_row < 3 && new_col >= 0 && new_col < 3) {
             int new_zero_pos = new_row * 3 + new_col;
-            Board new_board = board;
-            swap(new_board[zero_pos], new_board[new_zero_pos]);
-            neighbors.push_back(to_long(new_board));
+
+            if (new_zero_pos >= 0 && new_zero_pos < 9) {
+                Board new_board = board;
+                swap(new_board[zero_pos], new_board[new_zero_pos]);
+                neighbors.push_back(to_long(new_board));
+            }
         }
     }
     return neighbors;
 }
+
 
 void print_board(const Board& board) {
     for (int i = 0; i < 3; ++i) {
