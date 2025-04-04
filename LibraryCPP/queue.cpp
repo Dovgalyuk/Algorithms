@@ -12,10 +12,9 @@ Queue* queue_create() {
 }
 
 void queue_delete(Queue* queue) {
-    if (queue != nullptr) {
-        vector_delete(queue->vector);
-        delete queue;
-    }
+    if (queue == nullptr) return;
+    vector_delete(queue->vector);
+    delete queue;
 }
 
 void queue_insert(Queue* queue, const Data& data) {
