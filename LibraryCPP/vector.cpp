@@ -1,5 +1,6 @@
 #include "vector.h"
 #include <algorithm>
+#include <iostream>
 
 Vector* vector_create() {
     Vector* vector = new Vector;
@@ -10,10 +11,9 @@ Vector* vector_create() {
 }
 
 void vector_delete(Vector* vector) {
-    if (vector != nullptr) {
-        delete[] vector->data;
-        delete vector;
-    }
+    if (vector == nullptr) return;
+    delete[] vector->data;
+    delete vector;
 }
 
 Data vector_get(const Vector* vector, size_t index) {
@@ -24,7 +24,12 @@ Data vector_get(const Vector* vector, size_t index) {
 }
 
 void vector_set(Vector* vector, size_t index, const Data& value) {
-    vector_resize(vector, index + 1);
+    if (index >= vector->capacity) {
+        vector_resize(vector, index + 1);
+    }
+    if (index >= vector->size) {
+        vector->size = index + 1;
+    }
     vector->data[index] = value;
 }
 
