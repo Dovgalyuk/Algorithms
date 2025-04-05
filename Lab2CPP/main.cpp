@@ -28,11 +28,16 @@ public:
     // Проверка, является ли строка числом (включая отрицательные)
     bool isNumber(const string& str) {
         if (str.empty()) return false;
-        if (str == "-2") return false; // Запрещаем использовать -2
-        if (str[0] == '-' && str.size() > 1) {
-            return all_of(str.begin() + 1, str.end(), ::isdigit);
+        int value = 0;
+        try {
+            size_t idx;
+            value = stoi(str, &idx);
+            if (idx != str.size()) return false; // проверяем, что вся строка — число
+        } catch (...) {
+            return false;
         }
-        return all_of(str.begin(), str.end(), ::isdigit);
+        if (value == RETURN_MARKER) return false;
+        return true;
     }
 
     void push(const string& operand) {
@@ -127,7 +132,7 @@ int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
     istream* input = &cin;
     ifstream inputFile;
-    
+
     if (argc >= 2) {
         inputFile.open(argv[1]);
         if (!inputFile) {
