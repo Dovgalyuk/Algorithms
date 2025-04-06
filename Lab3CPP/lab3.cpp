@@ -1,9 +1,7 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cstring> 
-#include <cstdio> 
+#include <cstring>
 #include "queue.h"
 #include "vector.h"
 
@@ -20,9 +18,9 @@ typedef struct {
 int main() {
     char maze[MAX_ROWS][MAX_COLS];
     int rows = 0, cols = 0;
-    Position start;
+    Position start = {-1, -1};
     int distances[MAX_ROWS][MAX_COLS];
-
+    
     ifstream inputFile("input.txt");
     if (!inputFile.is_open()) {
         cerr << "Error opening input file." << endl;
@@ -31,12 +29,13 @@ int main() {
 
     string line;
     while (getline(inputFile, line) && rows < MAX_ROWS) {
-        strncpy(maze[rows], line.c_str(), MAX_COLS - 1);
-        maze[rows][MAX_COLS - 1] = '\0';
+        size_t len = min(line.length(), (size_t)MAX_COLS - 1);
+        line.copy(maze[rows], len, 0); 
+        maze[rows][len] = '\0'; 
         rows++;
 
-        for (size_t j = 0; j < line.length() && j < MAX_COLS; j++) {
-            if (line[j] == 'X') {
+        for (size_t j = 0; j < len; j++) {
+            if (maze[rows - 1][j] == 'X') {
                 start.row = rows - 1;
                 start.col = j;
             }
@@ -45,13 +44,16 @@ int main() {
 
     inputFile.close();
 
+    if (start.row == -1) {
+        cerr << "Error: Starting position 'X' not found in maze." << endl;
+        return 1;
+    }
     if (rows > 0) {
         cols = (int)strlen(maze[0]);
     } else {
         cerr << "Error: Maze is empty." << endl;
         return 1;
     }
-
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             distances[i][j] = -1; 
@@ -59,7 +61,7 @@ int main() {
     }
 
     Queue *queue = queue_create();
-    queue_insert(queue, (start.row * cols) + start.col); 
+    queue_insert(queue, (start.row * cols) + start.col);
     distances[start.row][start.col] = 0;
 
     int dr[] = {-1, 1, 0, 0};
@@ -96,7 +98,6 @@ int main() {
             }
         }
     }
-
     if (closest_digit != '\0') {
         cout << closest_digit << endl;
     } else {
