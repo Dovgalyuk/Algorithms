@@ -1,11 +1,18 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include "vector.h"
+
 // Queue
 // Stores integer values inside
 typedef int Data;
 
-struct Queue;
+struct Queue {
+    Vector *vector;
+    size_t head; 
+    size_t tail; 
+    size_t size; 
+};
 
 // Create empty queue
 Queue *queue_create();
