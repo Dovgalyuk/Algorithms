@@ -1,0 +1,6 @@
+add_executable(Lab3CPP main.cpp)
+target_include_directories(Lab3CPP PUBLIC ../LibraryCPP)
+target_link_libraries(Lab3CPP LibraryCPP)
+
+add_test(NAME TestLab3CPP COMMAND Lab3CPP ${CMAKE_SOURCE_DIR}/Lab3CPP/input.txt)
+
