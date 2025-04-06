@@ -1,11 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cstring> 
 #include "queue.h"
 #include "vector.h"
 
 #define MAX_ROWS 100
 #define MAX_COLS 100
+
+using namespace std;
 
 typedef struct {
     int row;
@@ -18,30 +21,34 @@ int main() {
     Position start;
     int distances[MAX_ROWS][MAX_COLS];
 
-    FILE *file;
-    errno_t err = fopen_s(&file, "input.txt", "r");
-    if (err != 0) {
-        perror("Error opening input.txt");
+    ifstream inputFile("input.txt");
+    if (!inputFile.is_open()) {
+        cerr << "Error opening input file." << endl;
         return 1;
     }
 
-    while (fgets(maze[rows], MAX_COLS, file) != NULL) {
-        char *newline = strchr(maze[rows], '\n');
-        if (newline != NULL) {
-            *newline = '\0';
-        }
-        for (int j = 0; maze[rows][j] != '\0'; j++) {
-            if (maze[rows][j] == 'X') {
-                start.row = rows;
+    string line;
+    while (getline(inputFile, line) && rows < MAX_ROWS) {
+        strncpy_s(maze[rows], MAX_COLS, line.c_str(), line.length());
+        maze[rows][MAX_COLS - 1] = '\0';
+        rows++;
+
+        for (int j = 0; j < line.length() && j < MAX_COLS; j++) {
+            if (line[j] == 'X') {
+                start.row = rows - 1;
                 start.col = j;
             }
         }
-        rows++;
     }
 
-    fclose(file);
+    inputFile.close();
   
-    cols = (int)strlen(maze[0]);
+    if (rows > 0) {
+        cols = (int)strlen(maze[0]);
+    } else {
+        cerr << "Error: Maze is empty." << endl;
+        return 1;
+    }
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -49,7 +56,7 @@ int main() {
         }
     }
     Queue *queue = queue_create();
-    queue_insert(queue, (start.row * cols) + start.col); 
+    queue_insert(queue, (start.row * cols) + start.col);
     distances[start.row][start.col] = 0;
 
     int dr[] = {-1, 1, 0, 0};
@@ -86,9 +93,9 @@ int main() {
         }
     }
     if (closest_digit != '\0') {
-        printf("%c\n", closest_digit);
+        cout << closest_digit << endl;
     } else {
-        printf("No reachable digit found.\n");
+        cout << "No reachable digit found." << endl;
     }
 
     queue_delete(queue);
