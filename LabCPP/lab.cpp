@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <vector>
 #include <stdexcept>
+#include <climits>
 #include "queue.h"
 
 using namespace std;
@@ -118,7 +119,7 @@ vector<string> solve_puzzle8(const string& initial) {
 
                     if (!visited[next]) {
                         states.push_back({ next, current.path + dir_chars[i] });
-                        if (states.size() > INT_MAX) {
+                        if (states.size() > static_cast<size_t>(INT_MAX)) {
                             throw runtime_error("Too many states generated");
                         }
                         queue_insert(queue, static_cast<int>(states.size() - 1));
