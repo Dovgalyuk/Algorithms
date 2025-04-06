@@ -2,7 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cstring>
+#include <cstring> 
+#include <cstdio> 
 #include "queue.h"
 #include "vector.h"
 
@@ -33,16 +34,17 @@ int main() {
         strncpy(maze[rows], line.c_str(), MAX_COLS - 1);
         maze[rows][MAX_COLS - 1] = '\0';
         rows++;
-        
-        for (int j = 0; j < line.length() && j < MAX_COLS; j++) {
+
+        for (size_t j = 0; j < line.length() && j < MAX_COLS; j++) {
             if (line[j] == 'X') {
                 start.row = rows - 1;
                 start.col = j;
             }
         }
     }
+
     inputFile.close();
-    
+
     if (rows > 0) {
         cols = (int)strlen(maze[0]);
     } else {
@@ -52,12 +54,12 @@ int main() {
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            distances[i][j] = -1;
+            distances[i][j] = -1; 
         }
     }
 
     Queue *queue = queue_create();
-    queue_insert(queue, (start.row * cols) + start.col);
+    queue_insert(queue, (start.row * cols) + start.col); 
     distances[start.row][start.col] = 0;
 
     int dr[] = {-1, 1, 0, 0};
@@ -80,6 +82,7 @@ int main() {
             }
         }
     }
+
     int min_distance = -1;
     char closest_digit = '\0';
 
@@ -93,6 +96,7 @@ int main() {
             }
         }
     }
+
     if (closest_digit != '\0') {
         cout << closest_digit << endl;
     } else {
