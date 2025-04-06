@@ -7,12 +7,7 @@
 // Stores integer values inside
 typedef int Data;
 
-struct Queue {
-    Vector *vector;
-    size_t head; 
-    size_t tail; 
-    size_t size; 
-};
+struct Queue;
 
 // Create empty queue
 Queue *queue_create();
