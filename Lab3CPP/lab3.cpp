@@ -1,7 +1,8 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cstring> 
+#include <cstring>
 #include "queue.h"
 #include "vector.h"
 
@@ -29,10 +30,10 @@ int main() {
 
     string line;
     while (getline(inputFile, line) && rows < MAX_ROWS) {
-        strncpy_s(maze[rows], MAX_COLS, line.c_str(), line.length());
+        strncpy(maze[rows], line.c_str(), MAX_COLS - 1);
         maze[rows][MAX_COLS - 1] = '\0';
         rows++;
-
+        
         for (int j = 0; j < line.length() && j < MAX_COLS; j++) {
             if (line[j] == 'X') {
                 start.row = rows - 1;
@@ -40,9 +41,8 @@ int main() {
             }
         }
     }
-
     inputFile.close();
-  
+    
     if (rows > 0) {
         cols = (int)strlen(maze[0]);
     } else {
@@ -55,6 +55,7 @@ int main() {
             distances[i][j] = -1;
         }
     }
+
     Queue *queue = queue_create();
     queue_insert(queue, (start.row * cols) + start.col);
     distances[start.row][start.col] = 0;
