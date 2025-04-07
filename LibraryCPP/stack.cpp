@@ -1,4 +1,10 @@
 #include "stack.h"
+#include "list.h"
+
+
+struct Stack {
+    List* list;
+};
 
 
 Stack* stack_create() {
@@ -13,7 +19,6 @@ void stack_delete(Stack* stack) {
 }
 
 void stack_push(Stack* stack, Data data) {
-    
     list_insert(stack->list, data);
 }
 
