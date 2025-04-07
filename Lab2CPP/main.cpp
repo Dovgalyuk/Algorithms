@@ -7,45 +7,48 @@
 
 std::string check_balance(const std::string &input) {
     Stack *stack = stack_create();
+    bool inside_quotes = false;
 
-    std::unordered_map<char, char> pairs = 
-    {
+    std::unordered_map<char, char> pairs = {
         {')', '('},
         {']', '['},
         {'}', '{'},
         {'"', '"'},
-        {'\'', '\''} 
+        {'\'', '\''}
     };
 
-    for (char ch : input) 
-    {
-        if (ch == '(' || ch == '[' || ch == '{' || ch == '"' || ch == '\'') {
-            stack_push(stack, ch);
+    for (char ch : input) {
+        if (ch == '"' || ch == '\'') {
+            inside_quotes = !inside_quotes; 
+            continue; 
         }
-        else if (ch == ')' || ch == ']' || ch == '}' || ch == '"' || ch == '\'') {
-            if (stack_empty(stack)) 
-            {
-                stack_delete(stack);
-                return "NO";
-            }
 
-            char top = stack_get(stack);
-            stack_pop(stack);
+        if (!inside_quotes) {
+            if (ch == '(' || ch == '[' || ch == '{' || ch == '"' || ch == '\'') {
+                stack_push(stack, ch);  
+            } else if (ch == ')' || ch == ']' || ch == '}' || ch == '"' || ch == '\'') {
+                if (stack_empty(stack)) {
+                    stack_delete(stack);
+                    return "NO"; 
+                }
 
-            if (top != pairs[ch]) 
-            {
-                stack_delete(stack);
-                return "NO";
+                char top = stack_get(stack);
+                stack_pop(stack);
+
+                if (top != pairs[ch]) {
+                    stack_delete(stack);
+                    return "NO"; 
+                }
             }
         }
     }
 
-    if (stack_empty(stack)) {
+    if (stack_empty(stack) && !inside_quotes) {
         stack_delete(stack);
         return "YES";
     } else {
         stack_delete(stack);
-        return "NO";
+        return "NO"; 
     }
 }
 
