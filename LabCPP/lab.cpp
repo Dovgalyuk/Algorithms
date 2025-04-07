@@ -11,7 +11,8 @@ using namespace std;
 
 struct BoardState {
     string state;
-    string path;
+    int parent_idx;
+    char move;
 };
 
 static int step_counter = 0;
@@ -43,19 +44,51 @@ vector<string> get_neighbors(const string& current) {
     return neighbors;
 }
 
+vector<string> reconstruct_path(const vector<BoardState>& states, int goal_idx) {
+    vector<string> path;
+    vector<char> moves;
+
+    // Проходим от конечного состояния к начальному
+    int current = goal_idx;
+    while (current != 0) {
+        moves.push_back(states[current].move);
+        current = states[current].parent_idx;
+    }
+
+    // Восстанавливаем последовательность состояний в обратном порядке
+    string state = states[0].state;
+    path.push_back(state);
+    for (auto it = moves.rbegin(); it != moves.rend(); ++it) {
+        size_t zero_pos = state.find('0');
+        size_t new_pos = zero_pos;
+
+        switch (*it) {
+        case 'U': new_pos = zero_pos - 3; break;
+        case 'D': new_pos = zero_pos + 3; break;
+        case 'L': new_pos = zero_pos - 1; break;
+        case 'R': new_pos = zero_pos + 1; break;
+        }
+
+        if (new_pos < state.length()) {
+            swap(state[zero_pos], state[new_pos]);
+            path.push_back(state);
+        }
+    }
+
+    return path;
+}
+
 vector<string> solve_puzzle8(const string& initial) {
     const string goal = "123456780";
     Queue* queue = queue_create();
     unordered_map<string, bool> visited;
-    vector<string> solution;
     vector<BoardState> states;
 
-    // Проверка начального состояния
     if (initial.length() != 9) {
         throw runtime_error("Invalid initial state length");
     }
 
-    states.push_back({ initial, "" });
+    states.push_back({ initial, -1, '\0' });
     queue_insert(queue, 0);
 
     while (!queue_empty(queue)) {
@@ -64,35 +97,8 @@ vector<string> solve_puzzle8(const string& initial) {
         BoardState current = states[current_idx];
 
         if (current.state == goal) {
-            // Восстановление пути
-            string state = initial;
-            solution.push_back(state);
-            for (char move : current.path) {
-                size_t zero_pos = state.find('0');
-                if (zero_pos == string::npos) break;
-
-                size_t new_pos = zero_pos;
-                switch (move) {
-                case 'U':
-                    if (zero_pos >= 3) new_pos = zero_pos - 3;
-                    break;
-                case 'D':
-                    if (zero_pos + 3 < 9) new_pos = zero_pos + 3;
-                    break;
-                case 'L':
-                    if (zero_pos % 3 > 0) new_pos = zero_pos - 1;
-                    break;
-                case 'R':
-                    if (zero_pos % 3 < 2) new_pos = zero_pos + 1;
-                    break;
-                }
-                // Дополнительная проверка
-                if (new_pos < state.length()) {
-                    swap(state[zero_pos], state[new_pos]);
-                    solution.push_back(state);
-                }
-            }
-            break;
+            queue_delete(queue);
+            return reconstruct_path(states, current_idx);
         }
 
         if (visited[current.state]) continue;
@@ -101,7 +107,6 @@ vector<string> solve_puzzle8(const string& initial) {
         size_t zero_pos = current.state.find('0');
         if (zero_pos == string::npos) continue;
 
-        // Генерация соседних состояний с проверками
         const int directions[4][2] = { {-1,0}, {1,0}, {0,-1}, {0,1} };
         const char dir_chars[] = { 'L', 'R', 'U', 'D' };
 
@@ -113,12 +118,11 @@ vector<string> solve_puzzle8(const string& initial) {
                 string next = current.state;
                 size_t swap_pos = static_cast<size_t>(y * 3 + x);
 
-                // Проверка перед обменом
                 if (swap_pos < next.length() && zero_pos < next.length()) {
                     swap(next[zero_pos], next[swap_pos]);
 
                     if (!visited[next]) {
-                        states.push_back({ next, current.path + dir_chars[i] });
+                        states.push_back({ next, current_idx, dir_chars[i] });
                         if (states.size() > static_cast<size_t>(INT_MAX)) {
                             throw runtime_error("Too many states generated");
                         }
@@ -130,7 +134,7 @@ vector<string> solve_puzzle8(const string& initial) {
     }
 
     queue_delete(queue);
-    return solution;
+    return {};
 }
 
 void print_board(const string& state) {
@@ -148,6 +152,7 @@ void print_board(const string& state) {
 
 int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
+    step_counter = 0; // Сбрасываем счетчик шагов
 
     string initial;
     if (argc >= 2) {
@@ -170,9 +175,14 @@ int main(int argc, char* argv[]) {
 
     try {
         vector<string> solution = solve_puzzle8(initial);
-        cout << "\nПуть решения (" << solution.size() - 1 << " ходов):\n";
-        for (const string& state : solution) {
-            print_board(state);
+        if (solution.empty()) {
+            cout << "Решение не найдено." << endl;
+        }
+        else {
+            cout << "\nПуть решения (" << solution.size() - 1 << " ходов):\n";
+            for (const string& state : solution) {
+                print_board(state);
+            }
         }
     }
     catch (const exception& e) {
