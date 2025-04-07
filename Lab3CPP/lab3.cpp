@@ -44,18 +44,18 @@ vector<BoardState> get_neighbors(const Board& board) {
 
         if (new_row >= 0 && new_row < 3 && new_col >= 0 && new_col < 3) {
             int new_zero_pos = new_row * 3 + new_col;
-
-            if (new_zero_pos >= 0 && new_zero_pos < 9) {
-                Board new_board = board;
-                swap(new_board[zero_pos], new_board[new_zero_pos]);
-                neighbors.push_back(to_long(new_board));
-            }
+            Board new_board = board;
+            swap(new_board[zero_pos], new_board[new_zero_pos]);
+            neighbors.push_back(to_long(new_board));
         }
     }
     return neighbors;
 }
 
-void print_board(const Board& board) {
+void print_board(const Board& board, int step = -1) {
+    if (step >= 0) {
+        cout << "Step " << step << ":" << endl;
+    }
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
             cout << board[i * 3 + j] << " ";
@@ -111,8 +111,8 @@ void solve_puzzle(const Board& start) {
 
         reverse(solution_path.begin(), solution_path.end());
 
-        for (const auto& state : solution_path) {
-            print_board(to_board(state));
+        for (size_t i = 0; i < solution_path.size(); ++i) {
+            print_board(to_board(solution_path[i]), static_cast<int>(i));
         }
     } else {
         cout << "No solution has been found." << endl;

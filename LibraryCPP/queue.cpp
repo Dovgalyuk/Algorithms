@@ -23,7 +23,20 @@ void queue_insert(Queue* queue, const Data& data) {
     }
 
     if (queue->count == queue->vector->capacity) {
-        vector_resize(queue->vector, queue->vector->capacity * 2);
+        size_t old_capacity = queue->vector->capacity;
+        size_t new_capacity = old_capacity * 2;
+        Vector* new_vector = vector_create();
+        vector_resize(new_vector, new_capacity);
+
+        for (size_t i = 0; i < queue->count; ++i) {
+            Data value = vector_get(queue->vector, (queue->front + i) % old_capacity);
+            vector_set(new_vector, i, value);
+        }
+
+        vector_delete(queue->vector);
+        queue->vector = new_vector;
+        queue->front = 0;
+        queue->back = queue->count;
     }
 
     vector_set(queue->vector, queue->back, data);
