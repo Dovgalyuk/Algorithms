@@ -48,6 +48,7 @@ void vector_resize(Vector* vector, size_t size) {
         delete[] vector->data;
         vector->data = new_data;
     }
+    vector->size = size;
 }
 
 void vector_pop(Vector* vector) {
