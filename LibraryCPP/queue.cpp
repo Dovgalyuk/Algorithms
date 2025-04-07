@@ -35,16 +35,18 @@ void queue_insert(Queue *queue, Data data)
     }
     else if (queue->count == capacity)
     {
-        vector_resize(queue->vector, capacity * 2);
-        size_t newCapacity = vector_size(queue->vector);
-
-        for (size_t i = 0; i < queue->count; i++)
-        {
+        Vector* newVector = vector_create();
+        vector_resize(newVector, capacity * 2);
+        
+        for (size_t i = 0; i < queue->count; i++) {
             Data val = vector_get(queue->vector, (queue->front + i) % capacity);
-            vector_set(queue->vector, i, val);
+            vector_set(newVector, i, val);
         }
+        
+        vector_delete(queue->vector);
+        queue->vector = newVector;
         queue->front = 0;
-        capacity = newCapacity; 
+        capacity = capacity * 2; 
     }
 
     size_t pos = (queue->front + queue->count) % capacity;

@@ -17,9 +17,8 @@ const int moves[8][2] = {
 void solveKnightPath(vector<string>& board) {
     Queue* q = queue_create(); 
     Vector* steps = vector_create(); 
-
-    for (int i = 0; i < N * N; i++) {
-        vector_resize(steps, i + 1);
+    vector_resize(steps, N*N);
+    for (int i = 0; i < N * N; i++) {      
         vector_set(steps, i, -1); 
     }
 
@@ -81,7 +80,7 @@ void solveKnightPath(vector<string>& board) {
         pathLen--;
     }
 
-    board[startIdx / N][startIdx % N] = static_cast<char>('0'); 
+    board[startIdx / N][startIdx % N] = '0'; 
 
     queue_delete(q);
     vector_delete(steps);
