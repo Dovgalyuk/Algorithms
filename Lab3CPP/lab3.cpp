@@ -15,15 +15,20 @@ typedef struct {
     int col;
 } Position;
 
-int main() {
+int main(int argc, char *argv[]) {
     char maze[MAX_ROWS][MAX_COLS];
     int rows = 0, cols = 0;
     Position start = {-1, -1};
     int distances[MAX_ROWS][MAX_COLS];
-    
-    ifstream inputFile("input.txt");
+    const char* filename = "input.txt";
+
+    if (argc > 1) {
+        filename = argv[1];
+    }    
+    ifstream inputFile(filename);
+
     if (!inputFile.is_open()) {
-        cerr << "Error opening input file." << endl;
+        cerr << "Error opening input file: " << filename << endl;
         return 1;
     }
 
