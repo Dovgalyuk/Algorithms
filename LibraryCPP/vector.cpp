@@ -49,4 +49,3 @@ void vector_resize(Vector* vector, size_t size) {
         vector->capacity = new_capacity;
     }
     vector->size = size;
-}

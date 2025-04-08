@@ -1,20 +1,22 @@
 #include "queue.h"
-#include <iostream>
 #include <stdexcept>
 
 Queue* queue_create() {
     Queue* queue = new Queue;
     queue->vector = vector_create();
     queue->front = 0;
-    queue->back = 0;
     queue->count = 0;
     return queue;
 }
 
 void queue_delete(Queue* queue) {
-    if (queue == nullptr) return;
+    if (!queue) return;
     vector_delete(queue->vector);
     delete queue;
+}
+
+bool queue_empty(const Queue* queue) {
+    return queue->count == 0;
 }
 
 void queue_insert(Queue* queue, const Data& data) {
@@ -36,11 +38,10 @@ void queue_insert(Queue* queue, const Data& data) {
         vector_delete(queue->vector);
         queue->vector = new_vector;
         queue->front = 0;
-        queue->back = queue->count;
     }
 
-    vector_set(queue->vector, queue->back, data);
-    queue->back = (queue->back + 1) % queue->vector->capacity;
+    size_t insert_index = (queue->front + queue->count) % queue->vector->capacity;
+    vector_set(queue->vector, insert_index, data);
     queue->count++;
 }
 
@@ -58,8 +59,4 @@ void queue_remove(Queue* queue) {
 
     queue->front = (queue->front + 1) % queue->vector->capacity;
     queue->count--;
-}
-
-bool queue_empty(const Queue* queue) {
-    return queue->count == 0;
 }

@@ -82,7 +82,7 @@ void solve_puzzle(const Board& start) {
     queue_insert(q, start_long);
 
     BoardState found_goal = -1;
-    while (!queue_empty(q)) {
+    while (!queue_empty(q) && found_goal == -1) {
         BoardState current_board_long = queue_get(q);
         queue_remove(q);
         Board current_board = to_board(current_board_long);
@@ -98,7 +98,6 @@ void solve_puzzle(const Board& start) {
                 }
             }
         }
-        if (found_goal != -1) break;
     }
 
     queue_delete(q);
