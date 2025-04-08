@@ -1,71 +1,62 @@
-#include "stack.h"
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <unordered_map>
-#include <vector>
+#include "stack.h"
 
-std::string check_balance(const std::string &input) {
-    Stack *stack = stack_create();
-    std::vector<char> quote_stack; 
+using namespace std;
+
+string check_balance(const string& b) {
+    Stack* stack = stack_create();
+    int a = b.length();
     
-    std::unordered_map<char, char> pairs = {
-        {')', '('},
-        {']', '['},
-        {'}', '{'}
-    };
-
-    for (char ch : input) {
-        if (ch == '"' || ch == '\'') {
-            if (quote_stack.empty() || quote_stack.back() != ch) {
-                quote_stack.push_back(ch);
-            } else {
-                quote_stack.pop_back();
-            }
+    for (int i = 0; i < a; ++i) {
+        if (stack_empty(stack)) stack_push(stack, b[i]);
+        else if (b[i] == ']') {
+            if (stack_get(stack) == '[') stack_pop(stack);
+            else stack_push(stack, b[i]);
         }
-
-        if (ch == '(' || ch == '[' || ch == '{') {
-            stack_push(stack, ch);
-        } else if (ch == ')' || ch == ']' || ch == '}') {
-            if (stack_empty(stack)) {
-                stack_delete(stack);
-                return "NO";
-            }
-
-            char top = stack_get(stack);
-            stack_pop(stack);
-
-            if (top != pairs[ch]) {
-                stack_delete(stack);
-                return "NO";
-            }
+        else if (b[i] == ')') {
+            if (stack_get(stack) == '(') stack_pop(stack);
+            else stack_push(stack, b[i]);
         }
-    }
-
-    bool result = stack_empty(stack) && quote_stack.empty();
+        else if (b[i] == '}') {
+            if (stack_get(stack) == '{') stack_pop(stack);
+            else stack_push(stack, b[i]);
+        }
+        else if (b[i] == '\'') {
+            if (stack_get(stack) == '\'') stack_pop(stack);
+            else stack_push(stack, b[i]);
+        }
+        else if (b[i] == '"') {
+            if (stack_get(stack) == '"') stack_pop(stack);
+            else stack_push(stack, b[i]);
+        }
+        else stack_push(stack, b[i]);
+    } 
+    
+    string result = stack_empty(stack) ? "YES" : "NO";
     stack_delete(stack);
-    
-    return result ? "YES" : "NO";
+    return result;
 }
 
 int main(int argc, char *argv[]) {
-    std::string input;
+    string input;
 
     if (argc > 1) {
-        std::ifstream input_file(argv[1]);
+        ifstream input_file(argv[1]);
         if (input_file.is_open()) {
-            std::getline(input_file, input);
+            getline(input_file, input);
             input_file.close();
         } else {
-            std::cerr << "Не удалось открыть файл " << argv[1] << ". Введите данные вручную:\n";
-            std::getline(std::cin, input);
+            cerr << "Не удалось открыть файл " << argv[1] << ". Введите данные вручную:\n";
+            getline(cin, input);
         }
     } else {
-        std::cerr << "Файл не передан. Введите данные вручную:\n";
-        std::getline(std::cin, input);
+        cerr << "Файл не передан. Введите данные вручную:\n";
+        getline(cin, input);
     }
 
-    std::cout << check_balance(input) << std::endl;
+    cout << check_balance(input) << endl;
 
     return 0;
 }
