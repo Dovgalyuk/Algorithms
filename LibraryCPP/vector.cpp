@@ -27,10 +27,10 @@ void vector_set(Vector* vector, size_t index, const Data& value) {
     if (index >= vector->capacity) {
         vector_resize(vector, index + 1);
     }
+    vector->data[index] = value;
     if (index >= vector->size) {
         vector->size = index + 1;
     }
-    vector->data[index] = value;
 }
 
 size_t vector_size(const Vector* vector) {
@@ -48,4 +48,5 @@ void vector_resize(Vector* vector, size_t size) {
         vector->data = new_data;
         vector->capacity = new_capacity;
     }
+    vector->size = size;
 }
