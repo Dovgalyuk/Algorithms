@@ -1,6 +1,7 @@
 #include "queue.h"
 #include <iostream>
 #include <cstdlib>
+#include <algorithm>
 
 using namespace std;
 
@@ -32,22 +33,24 @@ void queue_insert(Queue *queue, Data data)
 {
     size_t capacity = vector_size(queue->vector);
     if (queue->size == capacity) {
-        if (queue->head != 0) { 
-            Data *temp_data = new Data[queue->size];
-            for (size_t i = 0; i < queue->size; ++i) {
-                temp_data[i] = vector_get(queue->vector, (queue->head + i) % capacity);
-            }
-            
-            for (size_t i = 0; i < queue->size; i++) {
-                vector_set(queue->vector, i, temp_data[i]);
-            }
-
-            delete[] temp_data;
-
-            queue->head = 0; 
-        }
         size_t new_size = capacity == 0 ? 1 : capacity * 2;
-        vector_resize(queue->vector, new_size);
+        if (queue->head != 0) { 
+            Vector* new_vector = vector_create();
+            vector_resize(new_vector, new_size);
+            for (size_t i = 0; i < queue->size; ++i) {
+                Data elem = vector_get(queue->vector, (queue->head + i) % capacity);
+                vector_set(new_vector, i, elem);
+            }
+            vector_set(new_vector, queue->size, data);
+            vector_delete(queue->vector); 
+            queue->vector = new_vector; 
+            queue->head = 0;
+            queue->size++; 
+        }
+        else
+        {
+            vector_resize(queue->vector, new_size);
+        }
         capacity = vector_size(queue->vector);
     }
     size_t insert_index = (queue->head + queue->size) % capacity;
