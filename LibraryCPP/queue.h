@@ -1,10 +1,10 @@
 #ifndef QUEUE_H
 #define QUEUE_H
-
+#include "list.h"
 // Queue
 // Stores integer values inside
+struct List;
 typedef int Data;
-
 struct Queue;
 
 // Create empty queue

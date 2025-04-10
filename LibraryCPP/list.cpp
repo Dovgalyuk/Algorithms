@@ -8,12 +8,6 @@ struct ListItem
     ListItem* prev;
 };
 
-struct List
-{
-    ListItem* head;
-    ListItem* tail;
-};
-
 List *list_create()
 {
     List* list = new List;
