@@ -113,7 +113,6 @@ void solve_puzzle(const Board& start) {
         for (size_t i = 0; i < solution_path.size(); ++i) {
             print_board(to_board(solution_path[i]), static_cast<int>(i));
         }
-        
     } else {
         cout << "No solution has been found." << endl;
     }
@@ -145,25 +144,28 @@ Board read_input(const string& filename) {
     return start;
 }
 
-int main() {
-    string filename = "input.txt";
-    ifstream input_file(filename);
-    Board start;
 
+int main(int argc, char** argv) {
+    if (argc < 2) {
+        cerr << "Error: specify the input data file." << endl;
+        return 1;
+    }
+
+    string filename = argv[1];
+    Board start;
+    
     try {
         start = read_input(filename);
     } catch (const exception& e) {
         cerr << "Error: " << e.what() << endl;
         return 1;
     }
-
-    input_file.close();
-
+    
     try {
         solve_puzzle(start);
     } catch (const exception& e) {
         cerr << "Error: " << e.what() << endl;
     }
-
+    
     return 0;
 }
