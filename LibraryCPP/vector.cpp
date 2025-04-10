@@ -24,11 +24,8 @@ Data vector_get(const Vector* vector, size_t index) {
 }
 
 void vector_set(Vector* vector, size_t index, const Data& value) {
-    if (index >= vector->capacity) {
-        vector_resize(vector, index + 1);
-    }
     if (index >= vector->size) {
-        vector->size = index + 1;
+        vector_resize(vector, index + 1);
     }
     vector->data[index] = value;
 }
@@ -48,5 +45,5 @@ void vector_resize(Vector* vector, size_t size) {
         vector->data = new_data;
         vector->capacity = new_capacity;
     }
-    vector->size = size;
+    vector->size = std::max(vector->size, size);
 }
