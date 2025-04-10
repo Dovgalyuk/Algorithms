@@ -75,49 +75,55 @@ void solve_puzzle(const Board& start) {
         return;
     }
 
-    Queue* q = queue_create();
-    unordered_map<BoardState, BoardState> parent_map;
-    parent_map[start_long] = -1;
+    Queue* q = nullptr;
+    try {
+        q = queue_create();  // создаём очередь
 
-    queue_insert(q, start_long);
+        unordered_map<BoardState, BoardState> parent_map;
+        parent_map[start_long] = -1;
 
-    BoardState found_goal = -1;
-    while (!queue_empty(q) && found_goal == -1) {
-        BoardState current_board_long = queue_get(q);
-        queue_remove(q);
-        Board current_board = to_board(current_board_long);
+        queue_insert(q, start_long);
 
-        for (BoardState neighbor : get_neighbors(current_board)) {
-            if (parent_map.find(neighbor) == parent_map.end()) {
-                queue_insert(q, neighbor);
-                parent_map[neighbor] = current_board_long;
+        BoardState found_goal = -1;
+        while (!queue_empty(q) && found_goal == -1) {
+            BoardState current_board_long = queue_get(q);
+            queue_remove(q);
+            Board current_board = to_board(current_board_long);
 
-                if (neighbor == goal) {
-                    found_goal = neighbor;
-                    break;
+            for (BoardState neighbor : get_neighbors(current_board)) {
+                if (parent_map.find(neighbor) == parent_map.end()) {
+                    queue_insert(q, neighbor);
+                    parent_map[neighbor] = current_board_long;
+
+                    if (neighbor == goal) {
+                        found_goal = neighbor;
+                        break;
+                    }
                 }
             }
         }
-    }
 
-    queue_delete(q);
+        if (found_goal != -1) {
+            vector<BoardState> solution_path;
+            for (BoardState state = found_goal; state != -1; state = parent_map[state]) {
+                solution_path.push_back(state);
+            }
 
-    if (found_goal != -1) {
-        vector<BoardState> solution_path;
-        for (BoardState state = found_goal; state != -1; state = parent_map[state]) {
-            solution_path.push_back(state);
+            reverse(solution_path.begin(), solution_path.end());
+
+            for (size_t i = 0; i < solution_path.size(); ++i) {
+                print_board(to_board(solution_path[i]), static_cast<int>(i));
+            }
+        } else {
+            cout << "No solution has been found." << endl;
         }
 
-        reverse(solution_path.begin(), solution_path.end());
-
-        for (size_t i = 0; i < solution_path.size(); ++i) {
-            print_board(to_board(solution_path[i]), static_cast<int>(i));
-        }
-    } else {
-        cout << "No solution has been found." << endl;
+        queue_delete(q);
+    } catch (...) {
+        if (q) queue_delete(q);
+        throw;
     }
 }
-
 
 Board read_input(const string& filename) {
     ifstream input_file(filename);
@@ -144,28 +150,25 @@ Board read_input(const string& filename) {
     return start;
 }
 
-
-int main(int argc, char** argv) {
-    if (argc < 2) {
-        cerr << "Error: specify the input data file." << endl;
-        return 1;
-    }
-
-    string filename = argv[1];
+int main() {
+    string filename = "input.txt";
+    ifstream input_file(filename);
     Board start;
-    
+
     try {
         start = read_input(filename);
     } catch (const exception& e) {
         cerr << "Error: " << e.what() << endl;
         return 1;
     }
-    
+
+    input_file.close();
+
     try {
         solve_puzzle(start);
     } catch (const exception& e) {
         cerr << "Error: " << e.what() << endl;
     }
-    
+
     return 0;
 }
