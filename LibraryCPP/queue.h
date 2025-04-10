@@ -6,7 +6,6 @@
 struct Queue {
     Vector* vector;
     size_t front;
-    size_t back;
     size_t count;
 };
 
