@@ -33,13 +33,16 @@ void queue_insert(Queue *queue, Data data)
     size_t capacity = vector_size(queue->vector);
     if (queue->size == capacity) {
         size_t new_size = capacity == 0 ? 1 : capacity * 2;
-        if (queue->head != 0) { 
+        if (queue->head != 0) {
+            
             Vector* new_vector = vector_create();
             vector_resize(new_vector, new_size);
+
             for (size_t i = 0; i < queue->size; ++i) {
                 Data elem = vector_get(queue->vector, (queue->head + i) % capacity);
                 vector_set(new_vector, i, elem);
             }
+            
             vector_set(new_vector, queue->size, data);
             vector_delete(queue->vector); 
             queue->vector = new_vector; 
@@ -52,12 +55,11 @@ void queue_insert(Queue *queue, Data data)
         }
         capacity = vector_size(queue->vector);
     }
-    size_t insert_index = (queue->head + queue->size) % capacity;
-    if (insert_index >= capacity){
-        cerr << "index is out of bounds" << endl;
-        exit(EXIT_FAILURE);
+    if (capacity==0){
+        vector_resize(queue->vector, 1);
+        capacity = vector_size(queue->vector);
     }
-    vector_resize(queue->vector, capacity);
+    size_t insert_index = (queue->head + queue->size) % capacity;
     vector_set(queue->vector, insert_index, data);
 
     queue->size++;
