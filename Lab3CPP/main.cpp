@@ -62,7 +62,8 @@ void search(vector<vector<char>>& lbr, Point start, Point end, ostream& out) {
 
 int main() {
     vector<vector<char>> lbr;
-    Point start, end;
+    Point start = { -1, -1 }; 
+    Point end = { -1, -1 }; 
     string line;
 
     while (getline(cin, line) && !line.empty()) {
@@ -72,6 +73,11 @@ int main() {
             if (row[i] == 'X') start = { static_cast<int>(lbr.size() - 1), static_cast<int>(i) };
             if (row[i] == 'Y') end = { static_cast<int>(lbr.size() - 1), static_cast<int>(i) };
         }
+    }
+
+    if (start.row == -1 || end.row == -1) {
+        cout << "Start or end point not found!" << endl;
+        return 1; 
     }
 
     search(lbr, start, end, cout);
