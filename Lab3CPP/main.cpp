@@ -62,7 +62,7 @@ void search(vector<vector<char>>& lbr, Point start, Point end, ostream& out) {
 
 int main() {
     vector<vector<char>> lbr;
-    Point start = { -1, -1 }; 
+    Point start = { -1, -1 };
     Point end = { -1, -1 }; 
     string line;
 
@@ -77,6 +77,10 @@ int main() {
 
     if (start.row == -1 || end.row == -1) {
         cout << "Start or end point not found!" << endl;
+        cout << "Labyrinth contents:" << endl;
+        for (const auto& row : lbr) {
+            cout << string(row.begin(), row.end()) << endl;
+        }
         return 1; 
     }
 
