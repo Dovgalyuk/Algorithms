@@ -1,6 +1,10 @@
 #include <cstddef>
 #include "list.h"
 
+struct List {
+    ListItem* head;
+};
+
 struct ListItem
 {
     Data data;
@@ -12,13 +16,11 @@ List *list_create()
 {
     List* list = new List;
     list->head = nullptr;
-    list->tail = nullptr;
     return list;
 }
 
 void list_delete(List *list)
 {
-    // TODO: free items
     while (list->head != nullptr) {
         list_erase_first(list);
     }
@@ -55,16 +57,16 @@ ListItem *list_insert(List *list, Data data)
     if (list->head != nullptr) {
         list->head->prev = item;
     }
-    else {
-        list->tail = item;
-    }
-
     list->head = item;
     return item;
 }
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
+    if (item == nullptr) {
+        return list_insert(list, data);
+    }
+
     ListItem* new_item = new ListItem;
     new_item->data = data;
     new_item->next = item->next;
@@ -73,10 +75,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     if (item->next != nullptr) {
         item->next->prev = new_item;
     }
-    else {
-        list->tail = new_item;
-    }
-
     item->next = new_item;
     return new_item;
 }
@@ -89,13 +87,10 @@ ListItem *list_erase_first(List *list)
 
     ListItem* next_item = list->head->next;
     delete list->head;
-
     list->head = next_item;
+
     if (next_item != nullptr) {
         next_item->prev = nullptr;
-    }
-    else {
-        list->tail = nullptr;
     }
 
     return next_item;
@@ -103,19 +98,20 @@ ListItem *list_erase_first(List *list)
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
+    if (item == nullptr) {
+        return list_erase_first(list);
+    }
+
     if (item->next == nullptr) {
         return nullptr;
     }
 
     ListItem* next_item = item->next->next;
     delete item->next;
-
     item->next = next_item;
+
     if (next_item != nullptr) {
         next_item->prev = item;
-    }
-    else {
-        list->tail = item;
     }
 
     return next_item;

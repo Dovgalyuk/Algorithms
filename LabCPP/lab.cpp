@@ -46,35 +46,12 @@ vector<string> get_neighbors(const string& current) {
 
 vector<string> reconstruct_path(const vector<BoardState>& states, int goal_idx) {
     vector<string> path;
-    vector<char> moves;
-
-    // Проходим от конечного состояния к начальному
     int current = goal_idx;
-    while (current != 0) {
-        moves.push_back(states[current].move);
+    while (current != -1) {
+        path.push_back(states[current].state);
         current = states[current].parent_idx;
     }
-
-    // Восстанавливаем последовательность состояний в обратном порядке
-    string state = states[0].state;
-    path.push_back(state);
-    for (auto it = moves.rbegin(); it != moves.rend(); ++it) {
-        size_t zero_pos = state.find('0');
-        size_t new_pos = zero_pos;
-
-        switch (*it) {
-        case 'U': new_pos = zero_pos - 3; break;
-        case 'D': new_pos = zero_pos + 3; break;
-        case 'L': new_pos = zero_pos - 1; break;
-        case 'R': new_pos = zero_pos + 1; break;
-        }
-
-        if (new_pos < state.length()) {
-            swap(state[zero_pos], state[new_pos]);
-            path.push_back(state);
-        }
-    }
-
+    reverse(path.begin(), path.end());
     return path;
 }
 
