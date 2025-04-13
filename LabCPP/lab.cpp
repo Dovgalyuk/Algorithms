@@ -5,6 +5,7 @@
 #include <vector>
 #include <stdexcept>
 #include <climits>
+#include <algorithm>
 #include "queue.h"
 
 using namespace std;
