@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 #include "queue.h"
 
 using namespace std;
@@ -60,29 +61,40 @@ void search(vector<vector<char>>& lbr, Point start, Point end, ostream& out) {
     queue_delete(queue);
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     vector<vector<char>> lbr;
     Point start = { -1, -1 };
     Point end = { -1, -1 }; 
     string line;
 
-    while (getline(cin, line) && !line.empty()) {
-        vector<char> row(line.begin(), line.end());
-        lbr.push_back(row);
-        for (size_t i = 0; i < row.size(); i++) {
-            if (row[i] == 'X') start = { static_cast<int>(lbr.size() - 1), static_cast<int>(i) };
-            if (row[i] == 'Y') end = { static_cast<int>(lbr.size() - 1), static_cast<int>(i) };
+    if (argc > 1) {
+        ifstream inputFile(argv[1]);
+        if (inputFile) {
+            while (getline(inputFile, line)) {
+                if (line.empty()) continue; 
+                vector<char> row(line.begin(), line.end());
+                lbr.push_back(row);
+                for (size_t i = 0; i < row.size(); i++) {
+                    if (row[i] == 'X') start = { static_cast<int>(lbr.size() - 1), static_cast<int>(i) };
+                    if (row[i] == 'Y') end = { static_cast<int>(lbr.size() - 1), static_cast<int>(i) };
+                }
+            }
+            inputFile.close();
+        } else {
+            cerr << "Couldn't open the file " << argv[1] << endl;
         }
     }
 
-    // Проверка на наличие начальной и конечной точки
-    if (start.row == -1 || end.row == -1) {
-        cout << "Начальная или конечная точка не найдена!" << endl;
-        cout << "Содержимое лабиринта:" << endl;
-        for (const auto& row : lbr) {
-            cout << string(row.begin(), row.end()) << endl;
+    if (lbr.empty()) {
+        cout << "Enter the maze:" << endl;
+        while (getline(cin, line) && !line.empty()) {
+            vector<char> row(line.begin(), line.end());
+            lbr.push_back(row);
+            for (size_t i = 0; i < row.size(); i++) {
+                if (row[i] == 'X') start = { static_cast<int>(lbr.size() - 1), static_cast<int>(i) };
+                if (row[i] == 'Y') end = { static_cast<int>(lbr.size() - 1), static_cast<int>(i) };
+            }
         }
-        return 1; 
     }
 
     search(lbr, start, end, cout);
