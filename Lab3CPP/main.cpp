@@ -1,89 +1,129 @@
 #include <iostream>
 #include <vector>
+#include <cstring>
 #include "queue.h"
+#include "list.h"
+#include <string>
 
 using namespace std;
+
+int moves[4][2] = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
 
 struct Point {
     int row, col;
 };
 
-int pointToData(Point p, size_t cols) {
-    return p.row * cols + p.col;
+Data pointToData(Point p, size_t cols) {
+    return static_cast<Data>(p.row) * static_cast<Data>(cols) + static_cast<Data>(p.col);
 }
 
-Point dataToPoint(int d, size_t cols) {
-    return { static_cast<int>(d / cols), static_cast<int>(d % cols) };
+Point dataToPoint(Data d, size_t cols) {
+    Point p;
+    p.row = d / static_cast<Data>(cols);
+    p.col = d % cols;
+    return p;
 }
 
-int moves[4][2] = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
-
-void search(vector<vector<char>>& lbr, Point start, Point end, ostream& out) {
+void search(vector<vector<char>>& lbr, size_t rows, size_t cols, Point start, Point end, ostream& out) {
     Queue* queue = queue_create();
-    queue_insert(queue, pointToData(start, lbr[0].size()));
-    vector<vector<bool>> visited(lbr.size(), vector<bool>(lbr[0].size(), false));
-    visited[start.row][start.col] = true;
-    vector<vector<Point>> parents(lbr.size(), vector<Point>(lbr[0].size(), { -1, -1 }));
+    Data start_data = pointToData(start, cols);
+    lbr[start.row][start.col] = '.'; 
+    queue_insert(queue, start_data); 
+
+    vector<vector<bool>> visited(rows, vector<bool>(cols, false));
+    visited[start.row][start.col] = true; 
+
+    vector<vector<Point>> parents(rows, vector<Point>(cols, { -1, -1 }));
+
+    bool path_found = false;
 
     while (!queue_empty(queue)) {
-        int current_data = queue_get(queue);
+        Data current_data = queue_get(queue);
         queue_remove(queue);
-        Point current = dataToPoint(current_data, lbr[0].size());
+
+        Point current = dataToPoint(current_data, cols);
 
         if (current.row == end.row && current.col == end.col) {
-            Point p = end;
-            while (p.row != -1) {
-                lbr[p.row][p.col] = 'x';
-                p = parents[p.row][p.col];
-            }
-            lbr[start.row][start.col] = 'X';
-            lbr[end.row][end.col] = 'Y';
-            for (const auto& row : lbr) out << string(row.begin(), row.end()) << endl;
-            queue_delete(queue);
-            return;
+            path_found = true;
+            break;
         }
 
-        for (auto& move : moves) {
-            int new_row = current.row + move[0];
-            int new_col = current.col + move[1];
-            if (new_row >= 0 && static_cast<size_t>(new_row) < lbr.size() && 
-                new_col >= 0 && static_cast<size_t>(new_col) < lbr[0].size() &&
+        for (int i = 0; i < 4; i++) {
+            int new_row = current.row + moves[i][0];
+            int new_col = current.col + moves[i][1];
+
+            if (new_row >= 0 && static_cast<size_t>(new_row) < rows &&
+                new_col >= 0 && static_cast<size_t>(new_col) < cols &&
                 (lbr[new_row][new_col] == '.' || lbr[new_row][new_col] == 'Y') && 
                 !visited[new_row][new_col]) {
+
                 visited[new_row][new_col] = true;
                 parents[new_row][new_col] = current;
-                queue_insert(queue, pointToData({ new_row, new_col }, lbr[0].size()));
+                Data new_data = pointToData({ new_row, new_col }, cols);
+                queue_insert(queue, new_data); 
             }
         }
     }
-    out << "IMPOSSIBLE\n";
+
+
+    if (!path_found) {
+        out << "IMPOSSIBLE\n";
+    } else {
+        Point p = end;
+        while (p.row != -1 && p.col != -1) {
+            if (lbr[p.row][p.col] == '.') {
+                lbr[p.row][p.col] = 'x'; 
+            }
+            p = parents[p.row][p.col];
+        }
+
+        lbr[start.row][start.col] = 'X'; 
+        lbr[end.row][end.col] = 'Y';
+
+        for (const auto& row : lbr) {
+            out << string(row.begin(), row.end()) << endl;
+        }
+    }
+
     queue_delete(queue);
 }
 
 int main() {
     vector<vector<char>> lbr;
     Point start = { -1, -1 };
-    Point end = { -1, -1 }; 
-    string line;
+    Point end = { -1, -1 };
+    size_t rows = 0;
 
+    cout << "Enter the maze: " << endl;
+
+    string line;
     while (getline(cin, line) && !line.empty()) {
         vector<char> row(line.begin(), line.end());
         lbr.push_back(row);
+
         for (size_t i = 0; i < row.size(); i++) {
-            if (row[i] == 'X') start = { static_cast<int>(lbr.size() - 1), static_cast<int>(i) };
-            if (row[i] == 'Y') end = { static_cast<int>(lbr.size() - 1), static_cast<int>(i) };
+            if (row[i] == 'X') {
+                start = { static_cast<int>(rows), static_cast<int>(i) };
+                lbr[rows][i] = '.'; 
+            }
+            if (row[i] == 'Y') {
+                end = { static_cast<int>(rows), static_cast<int>(i) };
+            }
         }
+        rows++;
     }
 
-    if (start.row == -1 || end.row == -1) {
-        cout << "Start or end point not found!" << endl;
-        cout << "Labyrinth contents:" << endl;
-        for (const auto& row : lbr) {
-            cout << string(row.begin(), row.end()) << endl;
-        }
-        return 1; 
+    if (start.row == -1 && start.col == -1) {
+        cerr << "Start point not found" << endl;
+        return 1;
     }
 
-    search(lbr, start, end, cout);
+    if (end.row == -1 && end.col == -1) {
+        cerr << "End point not found" << endl;
+        return 1;
+    }
+
+    search(lbr, rows, lbr[0].size(), start, end, cout);
+
     return 0;
 }
