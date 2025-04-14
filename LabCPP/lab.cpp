@@ -13,7 +13,6 @@ using namespace std;
 struct BoardState {
     string state;
     int parent_idx;
-    char move;
 };
 
 static int step_counter = 0;
@@ -66,7 +65,7 @@ vector<string> solve_puzzle8(const string& initial) {
         throw runtime_error("Invalid initial state length");
     }
 
-    states.push_back({ initial, -1, '\0' });
+    states.push_back({ initial, -1 });
     queue_insert(queue, 0);
 
     while (!queue_empty(queue)) {
@@ -86,7 +85,6 @@ vector<string> solve_puzzle8(const string& initial) {
         if (zero_pos == string::npos) continue;
 
         const int directions[4][2] = { {-1,0}, {1,0}, {0,-1}, {0,1} };
-        const char dir_chars[] = { 'L', 'R', 'U', 'D' };
 
         for (int i = 0; i < 4; i++) {
             int x = static_cast<int>(zero_pos % 3) + directions[i][0];
@@ -100,7 +98,7 @@ vector<string> solve_puzzle8(const string& initial) {
                     swap(next[zero_pos], next[swap_pos]);
 
                     if (!visited[next]) {
-                        states.push_back({ next, current_idx, dir_chars[i] });
+                        states.push_back({ next, current_idx });
                         if (states.size() > static_cast<size_t>(INT_MAX)) {
                             throw runtime_error("Too many states generated");
                         }
@@ -130,7 +128,7 @@ void print_board(const string& state) {
 
 int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
-    step_counter = 0; // Сбрасываем счетчик шагов
+    step_counter = 0;
 
     string initial;
     if (argc >= 2) {
