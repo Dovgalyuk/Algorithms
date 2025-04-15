@@ -13,6 +13,7 @@ struct Point {
 };
 
 typedef vector<vector<char>> Labyrinth;
+typedef vector<vector<Point>> Parents; 
 
 int pointToData(Point p, size_t cols) {
     return p.row * cols + p.col;
@@ -24,7 +25,7 @@ Point dataToPoint(int d, size_t cols) {
 
 int moves[4][2] = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
 
-void printPath(Labyrinth& lbr, Point start, Point end, const vector<vector<Point>>& parents, ostream& out) {
+void printPath(Labyrinth& lbr, Point start, Point end, const Parents& parents, ostream& out) {
     Point p = end;
     while (p.row != -1) {
         if (p != start && p != end) {
@@ -45,7 +46,7 @@ void search(Labyrinth& lbr, Point start, Point end, ostream& out) {
     queue_insert(queue, pointToData(start, lbr[0].size()));
     vector<vector<bool>> visited(lbr.size(), vector<bool>(lbr[0].size(), false));
     visited[start.row][start.col] = true;
-    vector<vector<Point>> parents(lbr.size(), vector<Point>(lbr[0].size(), { -1, -1 }));
+    Parents parents(lbr.size(), vector<Point>(lbr[0].size(), { -1, -1 })); 
 
     bool found = false;
     while (!queue_empty(queue)) {
