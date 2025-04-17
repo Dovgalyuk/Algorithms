@@ -1,49 +1,34 @@
 #include "vector.h"
-#include <stdlib.h>
 
 struct Vector
 {
-    Data* data;
-    size_t size;
-    size_t capacity;
 };
 
-Vector* vector_create()
+Vector *vector_create()
 {
-    Vector* vector = new Vector;
-    vector->data = nullptr;
-    vector->size = 0;
-    vector->capacity = 0;
-    return vector;
+    return new Vector;
 }
 
-void vector_delete(Vector* vector)
+void vector_delete(Vector *vector)
 {
-    free(vector->data);
-    delete vector;
+    // TODO: free vector internals
+    delete vector; 
 }
 
-Data vector_get(const Vector* vector, size_t index)
+Data vector_get(const Vector *vector, size_t index)
 {
-    return vector->data[index];
+    return (Data)0;
 }
 
-void vector_set(Vector* vector, size_t index, Data value)
+void vector_set(Vector *vector, size_t index, Data value)
 {
-    vector->data[index] = value;
 }
 
-size_t vector_size(const Vector* vector)
+size_t vector_size(const Vector *vector)
 {
-    return vector->size;
+    return 0;
 }
 
-void vector_resize(Vector* vector, size_t size)
+void vector_resize(Vector *vector, size_t size)
 {
-    if (size > vector->capacity) 
-    {
-        vector->capacity = size * 2;
-        vector->data = (Data*)realloc(vector->data, vector->capacity * sizeof(Data));
-    }
-    vector->size = size;
 }
