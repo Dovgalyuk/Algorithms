@@ -32,6 +32,12 @@ void queue_insert(Queue* q, Data data)
     else
     {
         ListItem* last = list_first(q->list);
+        if (last == nullptr) 
+        {
+            list_insert(q->list, data);
+            return;
+        }
+        
         while (list_item_next(last) != nullptr)
         {
             last = list_item_next(last);
