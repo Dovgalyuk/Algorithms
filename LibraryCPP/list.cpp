@@ -79,10 +79,10 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
     if (item->next != nullptr) 
     {
-        item->next->prev = new_item;
+        item->next->prev = item;
     }
-    item->next = new_item;
-    return new_item;
+    item->next = item;
+    return item;
 }
 
 ListItem *list_erase_first(List *list)
