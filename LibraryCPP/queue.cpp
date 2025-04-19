@@ -1,5 +1,4 @@
 #include "list.h"
-#include "queue.h"
 
 struct Queue 
 {
@@ -16,42 +15,30 @@ Queue* queue_create()
 void queue_delete(Queue* q) 
 {
     if (q == nullptr) return;
-
     list_delete(q->list);
     delete q;
 }
 
 void queue_insert(Queue* q, Data data) 
 {
-    if (q == nullptr) return;
-
-    if (queue_empty(q))
+    ListItem* current = list_first(q->list);
+    if (!current)
     {
-        list_insert(q->list, data);
+        list_insert(q->list, data); 
+        return;
     }
-    else
+    
+    while (list_item_next(current))
     {
-        ListItem* last = list_first(q->list);
-        if (last == nullptr) 
-        {
-            list_insert(q->list, data);
-            return;
-        }
-        
-        while (list_item_next(last) != nullptr)
-        {
-            last = list_item_next(last);
-        }
-        list_insert_after(q->list, last, data);
+        current = list_item_next(current);
     }
+    
+    list_insert_after(q->list, current, data);
 }
 
 Data queue_get(const Queue* q) 
 {
-    if (q == nullptr || queue_empty(q))
-    {
-        return Data();
-    }
+    if (q == nullptr || queue_empty(q)) return Data();
     return list_item_data(list_first(q->list));
 }
 
