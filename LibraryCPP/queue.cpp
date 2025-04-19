@@ -36,6 +36,11 @@ void queue_insert(Queue* q, Data data)
     list_insert_after(q->list, current, data);
 }
 
+bool queue_empty(const Queue* q) 
+{
+    return q == nullptr || list_first(q->list) == nullptr;
+}
+
 Data queue_get(const Queue* q) 
 {
     if (q == nullptr || queue_empty(q)) return Data();
@@ -46,9 +51,4 @@ void queue_remove(Queue* q)
 {
     if (q == nullptr || queue_empty(q)) return;
     list_erase_first(q->list);
-}
-
-bool queue_empty(const Queue* q) 
-{
-    return q == nullptr || list_first(q->list) == nullptr;
 }
