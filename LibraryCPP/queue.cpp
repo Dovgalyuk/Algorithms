@@ -8,7 +8,7 @@ struct Queue {
 
 Queue* queue_create() 
 {
-    Queue queue = new Queue;
+    Queue* queue = new Queue; 
     queue->list = list_create();
     queue->tail = nullptr;
     return queue;
