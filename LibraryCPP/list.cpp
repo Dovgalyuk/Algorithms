@@ -10,21 +10,21 @@ struct ListItem
 struct List 
 {
     ListItem* head;
-    ListItem* end;
 };
 
 List* list_create() 
 {
     List* list = new List;
     list->head = nullptr;
-    list->end = nullptr;
+    
     return list;
 }
 
 void list_delete(List* list) 
 {
-    ListItem* current = list->head;
+    if (!list) return;
 
+    ListItem* current = list->head;
     while (current != nullptr) 
     {
         ListItem* next = current->next;
@@ -52,16 +52,9 @@ ListItem* list_item_next(ListItem* item)
 
 ListItem* list_insert(List* list, Data data) 
 {
-    ListItem* new_item = new ListItem;
-    new_item->data = data;
-    new_item->next = list->head;
-
-    if (list->head == nullptr) 
-    {
-        list->end = new_item;
-    }
-
+    ListItem* new_item = new ListItem{ data, list->head };
     list->head = new_item;
+
     return new_item;
 }
 
@@ -72,29 +65,18 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
         return list_insert(list, data);
     }
 
-    ListItem* new_item = new ListItem;
-    new_item->data = data;
-    new_item->next = item->next;
+    ListItem* new_item = new ListItem{ data, item->next };
     item->next = new_item;
-
-    if (item == list->end) 
-    {
-        list->end = new_item;
-    }
 
     return new_item;
 }
 
 ListItem* list_erase_first(List* list) 
 {
-    if (list->head == nullptr) 
-    {
-        return nullptr;
-    }
+    if (!list->head) return nullptr;
 
     ListItem* to_delete = list->head;
     list->head = to_delete->next;
-
     if (list->head == nullptr) 
     {
         list->end = nullptr;
@@ -120,5 +102,6 @@ ListItem* list_erase_next(List* list, ListItem* item)
     }
 
     delete to_delete;
+
     return item->next;
 }

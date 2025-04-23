@@ -1,7 +1,8 @@
 #include "queue.h"
 #include "list.h"
 
-struct Queue {
+struct Queue 
+{
     List* list;
     ListItem* tail;
 };
@@ -22,7 +23,8 @@ void queue_delete(Queue* queue)
     delete queue;
 }
 
-void queue_insert(Queue* queue, Data data) {
+void queue_insert(Queue* queue, Data data) 
+{
     if (!queue) return;
 
     if (!queue->tail) 
