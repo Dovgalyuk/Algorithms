@@ -77,30 +77,17 @@ ListItem* list_erase_first(List* list)
 
     ListItem* to_delete = list->head;
     list->head = to_delete->next;
-    if (list->head == nullptr) 
-    {
-        list->end = nullptr;
-    }
-
     delete to_delete;
+
     return list->head;
 }
 
 ListItem* list_erase_next(List* list, ListItem* item) 
 {
-    if (item == nullptr || item->next == nullptr) 
-    {
-        return nullptr;
-    }
+    if (item == nullptr || item->next == nullptr) return nullptr;
 
     ListItem* to_delete = item->next;
     item->next = to_delete->next;
-
-    if (to_delete == list->end) 
-    {
-        list->end = item;
-    }
-
     delete to_delete;
 
     return item->next;
