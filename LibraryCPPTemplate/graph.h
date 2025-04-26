@@ -51,6 +51,4 @@ private:
     void resize_Adjacency_Matrix();
 };
 
-#include "graph.cpp"
-
 #endif
