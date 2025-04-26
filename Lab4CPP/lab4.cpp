@@ -1,82 +1,91 @@
-﻿#include "graph.h"
-#include "vector.h"
+﻿#include <iostream>
 #include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
+#include <algorithm>
+#include "Graph.h"
+#include "DSU.cpp"
 
-using StringGraph = Graph<std::string, std::string>;
+struct EdgeInfo {
+    int u, v;
+    int weight;
 
-class ComponentCounter {
-public:
-    ComponentCounter(StringGraph& graph)
-        : graph(graph), visited(graph.get_VertexAmount(), false) {}
-
-    int countComponents() {
-        int count = 0;
-        for (size_t i = 0; i < graph.get_VertexAmount(); ++i) {
-            if (!visited[i]) {
-                dfs(i);
-                count++;
-            }
-        }
-        return count;
+    bool operator<(const EdgeInfo& other) const {
+        return weight < other.weight;
     }
-
-private:
-    void dfs(size_t vertex) {
-        visited[vertex] = true;
-        StringGraph::Iterator it = graph.get_Iterator(vertex);
-        while (it.hasNext()) {
-            size_t adjacent = it.next();
-            if (!visited[adjacent]) {
-                dfs(adjacent);
-            }
-        }
-    }
-
-    StringGraph& graph;
-    std::vector<bool> visited;
 };
 
-int main(int argc, char* argv[]) {
+int main(int argc, char** argv) {
     if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
+        std::cerr << "Error: specify the input data file." << std::endl;
         return 1;
     }
 
-    std::ifstream inputFile(argv[1]);
-    if (!inputFile.is_open()) {
-        std::cerr << "Error opening file." << std::endl;
+    std::ifstream infile(argv[1]);
+    if (!infile) {
+        std::cerr << "Error opening file\n";
         return 1;
     }
 
-    size_t vertexCount, edgeCount;
-    inputFile >> vertexCount >> edgeCount;
+    Graph<std::string, int> graph;
+    int vertexCount, edgeCount;
+    infile >> vertexCount >> edgeCount;
 
-    StringGraph graph;
-
-    for (size_t i = 0; i < vertexCount; ++i) {
-        std::string vertexLabel;
-        inputFile >> vertexLabel;
-        graph.add_Vertex(vertexLabel);
+    for (int i = 0; i < vertexCount; ++i) {
+        std::string label;
+        infile >> label;
+        graph.add_Vertex(label);
     }
 
-    for (size_t i = 0; i < edgeCount; ++i) {
-        size_t from, to;
-        inputFile >> from >> to;
-        if (from < vertexCount && to < vertexCount) {
-            graph.add_Edge(from, to, "");
-        } else {
-            std::cout << "Invalid vertex index in edges. Skipping this edge." << std::endl;
+    for (int i = 0; i < edgeCount; ++i) {
+        int from, to, weight;
+        infile >> from >> to >> weight;
+        graph.add_Edge(from, to, weight);
+        graph.add_Edge(to, from, weight);
+    }
+
+    Vector<EdgeInfo> edges;
+
+    for (int u = 0; u < vertexCount; ++u) {
+        auto it = graph.get_Iterator(u);
+        while (it.hasNext()) {
+            int v = it.next();
+            int weight = graph.get_Edge_Mark(u, v);
+            if (u < v) {
+                edges.push_back({u, v, weight});
+            }
         }
     }
 
-    inputFile.close();
+    std::vector<EdgeInfo> edges_std;
+    for (size_t i = 0; i < edges.size(); ++i) {
+        edges_std.push_back(edges.get(i));
+    }
+    std::sort(edges_std.begin(), edges_std.end());
 
-    ComponentCounter counter(graph);
-    int components = counter.countComponents();
-    std::cout << "Number of related components: " << components << std::endl;
+    edges.clear();
+    for (const auto& e : edges_std) {
+        edges.push_back(e);
+    }
+
+    DSU dsu(vertexCount);
+
+    int totalWeight = 0;
+    Vector<EdgeInfo> mst;
+
+    for (size_t i = 0; i < edges.size(); ++i) {
+        const auto& edge = edges.get(i);
+        if (dsu.find_set(edge.u) != dsu.find_set(edge.v)) {
+            dsu.union_sets(edge.u, edge.v);
+            mst.push_back(edge);
+            totalWeight += edge.weight;
+        }
+    }
+
+    std::cout << "Minimum Spanning Tree edges:\n";
+    for (size_t i = 0; i < mst.size(); ++i) {
+        const auto& edge = mst.get(i);
+        std::cout << edge.u << " -- " << edge.v << " [weight=" << edge.weight << "]\n";
+    }
+    std::cout << "Total weight: " << totalWeight << std::endl;
 
     return 0;
 }

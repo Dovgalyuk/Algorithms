@@ -3,62 +3,52 @@
 
 #include "vector.h"
 #include <vector>
-#include <stdexcept>
-#include <limits>
 
-template <typename V>
-struct Vertex {
-    Vertex() {}
-    Vertex(size_t number, V mark) : number(number), mark(mark) {}
-    size_t number = std::numeric_limits<size_t>::max();
-    V mark = V();
-};
-
-template <typename E>
-struct Edge {
-    Edge() {}
-    Edge(E mark) : mark(mark) {}
-    E mark = E();
-};
-
-template<typename V, typename E>
+template <typename V, typename E>
 class Graph {
+private:
+    struct Vertex {
+        V mark;
+    };
+
+    struct Edge {
+        E mark;
+    };
+
+    Vector<Vertex> vertices;
+    Vector<Vector<Edge>> adjacencyMatrix;
+
 public:
     Graph();
     ~Graph();
-    Graph& operator=(const Graph& other);
-    void add_Edge(size_t startIv, size_t endIv, E edge_mark);
-    void remove_Edge(size_t startIv, size_t endIv);
-    Edge<E>* get_Edge(size_t startIv, size_t endIv) const;
-    bool isEdgeExist(size_t startIv, size_t endIv) const;
-    Vertex<V>& get_Vertex(size_t index);
-    size_t get_VertexAmount() const;
-    size_t add_Vertex(V vertex_mark);
+    
+    size_t add_Vertex(const V& mark);
     void remove_Vertex(size_t index);
-    std::vector<V> get_AllVertexData() const;
+    void add_Edge(size_t start, size_t end, const E& mark);
+    void remove_Edge(size_t start, size_t end);
+    bool is_Edge_Exist(size_t start, size_t end) const;
+    const V& get_Vertex_Mark(size_t index) const;
+    void set_Vertex_Mark(size_t index, const V& mark);
+    const E& get_Edge_Mark(size_t start, size_t end) const;
+    void set_Edge_Mark(size_t start, size_t end, const E& mark);
+    std::vector<V> get_All_Vertex_Marks() const;
 
-    struct Iterator {
-    private:
-        const Graph* graph;
-        size_t start;
-        size_t end;
-
-        size_t get_index_Vertex_near();
+    class Iterator {
     public:
-        Iterator(const Graph* graph, size_t start);
+        Iterator(const Graph* graph, size_t vertex);
         bool hasNext() const;
         size_t next();
-        size_t get_Index() const;
-        int get_Start() const;
+        
+    private:
+        const Graph* graph;
+        size_t vertex;
+        size_t currentNeighbor;
     };
 
-    Iterator get_Iterator(size_t start) const;
+    Iterator get_Iterator(size_t vertex) const;
 
 private:
-    void clearEdges();
-
-    Vector<Vertex<V>> vertices;
-    Vector<Edge<E>*> edgeMatrix;
+    void resize_Adjacency_Matrix();
 };
 
 #include "graph.cpp"
