@@ -104,6 +104,7 @@ void solve_puzzle(const Board& start) {
 
     if (found_goal != -1) {
         vector<BoardState> solution_path;
+		//от готового к начальному
         for (BoardState state = found_goal; state != -1; state = parent_map[state]) {
             solution_path.push_back(state);
         }
