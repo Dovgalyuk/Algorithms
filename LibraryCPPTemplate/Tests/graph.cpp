@@ -9,8 +9,8 @@ Graph<V, E>::~Graph() {}
 template <typename V, typename E>
 size_t Graph<V, E>::add_Vertex(const V& mark) {
     size_t index = vertices.size();
-    vertices.push(Vertex<V>{mark});
-    
+    vertices.push_back(Vertex{mark});
+
     resize_Adjacency_Matrix();
     return index;
 }
@@ -117,7 +117,13 @@ size_t Graph<V, E>::Iterator::next() {
 
 template <typename V, typename E>
 void Graph<V, E>::resize_Adjacency_Matrix() {
-    for (size_t i = 0; i < vertices.size(); ++i) {
-        adjacencyMatrix.get(i).resize(vertices.size());
+    size_t newSize = vertices.size();
+    for (size_t i = 0; i < adjacencyMatrix.size(); ++i) {
+        adjacencyMatrix.get(i).resize(newSize);
+    }
+
+    adjacencyMatrix.push_back(Vector<Edge>{});
+    for (size_t i = 0; i < newSize; ++i) {
+        adjacencyMatrix.get(newSize).push_back(Edge<E>{});
     }
 }
