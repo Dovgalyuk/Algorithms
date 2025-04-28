@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include "vector.h"
+#include <algorithm>
 #include <set>
 
 template <typename E>
@@ -103,8 +104,8 @@ public:
 
     // Удаление вершины
     void remove_Vertex(size_t index) {
-        vertices.erase(index);
-        adj_list.erase(index);
+        vertices.erase(vertices.begin() + index);
+		adj_list.erase(adj_list.begin() + index);
         --vertices_count;
     }
 
