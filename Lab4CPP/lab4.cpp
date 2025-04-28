@@ -2,7 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
-#include "Graph.h"
+#include "graph.h"
 
 int main(int argc, char** argv) {
     if (argc < 2) {
