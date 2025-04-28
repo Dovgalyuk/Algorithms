@@ -78,17 +78,25 @@ public:
         adj_list[vertex1].push_back({vertex1, vertex2, edge});
     }
 
-    // Удаление ребра
     void remove_Edge(size_t vertex1, size_t vertex2) {
-        adj_list[vertex1].erase(
-            std::remove_if(adj_list[vertex1].begin(), adj_list[vertex1].end(),
-                [vertex2](const EdgeInfo<E>& e) { return e.vertex2 == vertex2; }),
-            adj_list[vertex1].end());
-        adj_list[vertex2].erase(
-            std::remove_if(adj_list[vertex2].begin(), adj_list[vertex2].end(),
-                [vertex1](const EdgeInfo<E>& e) { return e.vertex2 == vertex1; }),
-            adj_list[vertex2].end());
-    }
+    	auto& edges1 = adj_list[vertex1];
+    	auto& edges2 = adj_list[vertex2];
+
+    	for (size_t i = 0; i < edges1.size(); ++i) {
+        	if (edges1[i].vertex2 == vertex2) {
+            	edges1.erase(i);
+            	break;
+        	}
+    	}
+
+    	for (size_t i = 0; i < edges2.size(); ++i) {
+        	if (edges2[i].vertex2 == vertex1) {
+            	edges2.erase(i);
+            	break;
+        	}
+    	}
+	}
+
 
     Vector<EdgeInfo<E>> get_edges() const {
         Vector<EdgeInfo<E>> edges;
