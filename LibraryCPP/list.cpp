@@ -1,5 +1,6 @@
 #include <cstddef>
 #include "list.h"
+#include <stdexcept>
 
 struct ListItem
 {
@@ -12,6 +13,7 @@ struct List
 {
     ListItem* head;       
     ListItem* tail;        
+    size_t size;
 };
 
 // Создание пустого списка
@@ -20,6 +22,7 @@ List *list_create()
     List* list = new List;
     list->head = nullptr;
     list->tail = nullptr;
+    list->size = 0;
     return list;
 }
 
@@ -74,6 +77,7 @@ ListItem *list_insert(List *list, Data data)
         list->tail = newItem;
     }
     list->head = newItem;
+    list->size++;
 
     return newItem;
 }
@@ -99,6 +103,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
         list->tail = newItem;
     }
     item->next = newItem;
+    list->size++;
 
     return newItem;
 }
@@ -120,6 +125,7 @@ ListItem *list_erase_first(List *list)
         list->tail = nullptr;
     }
     delete toDelete;
+    list->size--;
     return list->head;
 }
 
@@ -146,5 +152,22 @@ ListItem *list_erase_next(List *list, ListItem *item)
         list->tail = item;
     }
     delete toDelete;
+    list->size--;
     return item->next;
+}
+
+size_t list_size(const List *list) {
+    return list->size;
+}
+
+ListItem *list_get(const List *list, size_t index) {
+    if (index >= list->size) {
+        throw std::out_of_range("Index out of range");
+    }
+
+    ListItem *current = list->head;
+    for (size_t i = 0; i < index; ++i) {
+        current = current->next;
+    }
+    return current;
 }

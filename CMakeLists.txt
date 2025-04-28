@@ -1,3 +1,5 @@
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 cmake_minimum_required(VERSION 3.15)
 project(Algorithms)
 
@@ -11,9 +13,9 @@ else()
 endif()
 
 #add_subdirectory(LibraryC)
-add_subdirectory(LibraryCPP)
+#add_subdirectory(LibraryCPP)
 #add_subdirectory(LibraryCPPClass)
-#add_subdirectory(LibraryCPPTemplate)
+add_subdirectory(LibraryCPPTemplate)
 #add_subdirectory(Lab1CPP)
 #add_subdirectory(Lab2CPP)
-add_subdirectory(Lab3CPP)
+add_subdirectory(Lab4CPP)
