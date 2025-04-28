@@ -3,6 +3,7 @@
 
 #include <stdexcept>
 #include <cstddef>
+#include <algorithm>
 
 template <typename T>
 class Vector {
@@ -30,11 +31,8 @@ public:
         }
     }
 
-     ~Vector() {
-        for (size_t i = 0; i < current_size; ++i) {
-             data[i].~T();
-        }
-        operator delete[](data);
+    ~Vector() {
+        delete[] data;
     }
 
     size_t size() const { return current_size; }
@@ -75,12 +73,14 @@ public:
     const T& get(size_t index) const { return data[index]; }
 
     void resize(size_t new_capacity) {
-    	T* new_data = new T[new_capacity];
-    	std::copy(data, data + current_size, new_data);
-    	delete[] data;
-    	data = new_data;
-    	capacity = new_capacity;
-	}
+        if (new_capacity <= current_size) return;
+
+        T* new_data = new T[new_capacity];
+        std::copy(data, data + current_size, new_data);
+        delete[] data;
+        data = new_data;
+        capacity = new_capacity;
+    }
 };
 
 #endif
