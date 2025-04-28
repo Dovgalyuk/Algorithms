@@ -2,10 +2,9 @@
 #include <fstream>
 #include <algorithm>
 #include "Graph.h"
-#include "DSU.cpp"
 
 struct EdgeInfo {
-    int u, v;
+    size_t u, v;
     int weight;
 
     bool operator<(const EdgeInfo& other) const {
@@ -25,46 +24,38 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    Graph<std::string, int> graph;
-    int vertexCount, edgeCount;
+    size_t vertexCount, edgeCount;
     infile >> vertexCount >> edgeCount;
 
-    for (int i = 0; i < vertexCount; ++i) {
-        std::string label;
-        infile >> label;
-        graph.add_Vertex(label);
-    }
+    Graph graph(vertexCount);
 
-    for (int i = 0; i < edgeCount; ++i) {
-        int from, to, weight;
+    for (size_t i = 0; i < edgeCount; ++i) {
+        size_t from, to;
+        int weight;
         infile >> from >> to >> weight;
-        graph.add_Edge(from, to, weight);
-        graph.add_Edge(to, from, weight);
+        graph.add_edge(from, to, weight);
     }
 
     Vector<EdgeInfo> edges;
 
-    for (int u = 0; u < vertexCount; ++u) {
-        auto it = graph.get_Iterator(u);
-        while (it.hasNext()) {
-            int v = it.next();
-            int weight = graph.get_Edge_Mark(u, v);
+    for (size_t u = 0; u < vertexCount; ++u) {
+        auto it = graph.iterator(u);
+        while (it.has_next()) {
+            size_t v = it.next();
+            int weight = 0;
+            for (size_t i = 0; i < graph.get_edges().size(); ++i) {
+                if (graph.get_edges().get(i).from == u && graph.get_edges().get(i).to == v) {
+                    weight = graph.get_edges().get(i).weight;
+                    break;
+                }
+            }
             if (u < v) {
                 edges.push_back({u, v, weight});
             }
         }
     }
 
-    std::vector<EdgeInfo> edges_std;
-    for (size_t i = 0; i < edges.size(); ++i) {
-        edges_std.push_back(edges.get(i));
-    }
-    std::sort(edges_std.begin(), edges_std.end());
-
-    edges.clear();
-    for (const auto& e : edges_std) {
-        edges.push_back(e);
-    }
+    std::sort(edges.get(0), edges.get(edges.size() - 1));
 
     DSU dsu(vertexCount);
 
@@ -73,7 +64,7 @@ int main(int argc, char** argv) {
 
     for (size_t i = 0; i < edges.size(); ++i) {
         const auto& edge = edges.get(i);
-        if (dsu.find_set(edge.u) != dsu.find_set(edge.v)) {
+        if (dsu.find(edge.u) != dsu.find(edge.v)) {
             dsu.union_sets(edge.u, edge.v);
             mst.push_back(edge);
             totalWeight += edge.weight;
