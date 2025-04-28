@@ -31,10 +31,10 @@ public:
     }
 
      ~Vector() {
-        for (size_t i = 0; i < size_; ++i) {
-            elements_[i].~T();
+        for (size_t i = 0; i < current_size; ++i) {
+             data[i].~T();
         }
-        operator delete[](elements_);
+        operator delete[](data);
     }
 
     size_t size() const { return current_size; }
