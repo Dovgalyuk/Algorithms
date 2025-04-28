@@ -12,18 +12,16 @@ private:
     size_t capacity;
 
 public:
-    
     T* begin() { return data; }
     T* end() { return data + current_size; }
 
     const T* begin() const { return data; }
     const T* end() const { return data + current_size; }
-    
+
     Vector(size_t initial_capacity = 10) : current_size(0), capacity(initial_capacity) {
         data = new T[capacity];
     }
 
-    //  онструктор дл€ инициализации с initializer_list
     Vector(std::initializer_list<T> init_list) : current_size(init_list.size()), capacity(init_list.size()) {
         data = new T[capacity];
         size_t i = 0;
@@ -50,22 +48,21 @@ public:
 
     void push_back(const T& value) {
         if (current_size == capacity) {
-            resize(capacity * 2);  // ”величиваем размер в два раза, если массив переполнен
+            resize(capacity * 2);
         }
         data[current_size++] = value;
     }
 
-    void erase(T* position) {
-        if (position < data || position >= data + current_size) {
-            throw std::out_of_range("Position out of range");
+    void erase(size_t index) {
+        if (index >= current_size) {
+            throw std::out_of_range("Index out of range");
         }
-        size_t index = position - data;
         for (size_t i = index; i < current_size - 1; ++i) {
             data[i] = data[i + 1];
         }
         --current_size;
     }
-    
+
     void set(size_t index, const T& value) {
         if (index >= current_size) throw std::out_of_range("Index out of range");
         data[index] = value;
