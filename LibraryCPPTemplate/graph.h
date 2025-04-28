@@ -2,7 +2,6 @@
 #define GRAPH_H
 
 #include "vector.h"
-#include <algorithm>
 #include <set>
 
 template <typename E>
@@ -11,7 +10,7 @@ struct EdgeInfo {
     size_t vertex2;
     E weight;
 
-    EdgeInfo() : vertex1(0), vertex2(0), weight(E()) {}  // Default constructor
+    EdgeInfo() : vertex1(0), vertex2(0), weight(E()) {}
     EdgeInfo(size_t v1, size_t v2, const E& w) : vertex1(v1), vertex2(v2), weight(w) {}
 };
 
@@ -63,39 +62,38 @@ template <typename V, typename E>
 class Graph {
 public:
     Graph(size_t n) : vertices_count(n) {
-        adj_list.resize(n);  // Инициализация списка смежности
+        adj_list.resize(n);
     }
 
-    // Добавление вершины
     void add_Vertex(const V& vertex) {
         vertices.push_back(vertex);
         adj_list.push_back({});
         ++vertices_count;
     }
 
-    // Добавление ребра
     void add_Edge(size_t vertex1, size_t vertex2, const E& edge) {
         adj_list[vertex1].push_back({vertex1, vertex2, edge});
     }
 
     void remove_Edge(size_t vertex1, size_t vertex2) {
-    	auto& edges1 = adj_list[vertex1];
-    	auto& edges2 = adj_list[vertex2];
+        if (vertex1 >= adj_list.size() || vertex2 >= adj_list.size()) {
+            throw std::out_of_range("Vertex index out of range");
+        }
+        
+        for (size_t i = 0; i < adj_list[vertex1].size(); ++i) {
+            if (adj_list[vertex1][i].vertex2 == vertex2) {
+                adj_list[vertex1].erase(i);
+                break;
+            }
+        }
 
-    	for (size_t i = 0; i < edges1.size(); ++i) {
-        	if (edges1[i].vertex2 == vertex2) {
-            	edges1.erase(i);
-            	break;
-        	}
-    	}
-
-    	for (size_t i = 0; i < edges2.size(); ++i) {
-        	if (edges2[i].vertex2 == vertex1) {
-            	edges2.erase(i);
-            	break;
-        	}
-    	}
-	}
+        for (size_t i = 0; i < adj_list[vertex2].size(); ++i) {
+            if (adj_list[vertex2][i].vertex2 == vertex1) {
+                adj_list[vertex2].erase(i);
+                break;
+            }
+        }
+    }
 
 
     Vector<EdgeInfo<E>> get_edges() const {
@@ -110,19 +108,20 @@ public:
         return edges;
     }
 
-    // Удаление вершины
     void remove_Vertex(size_t index) {
-        vertices.erase(vertices.begin() + index);
-		adj_list.erase(adj_list.begin() + index);
+        if (index >= vertices.size()) {
+            throw std::out_of_range("Vertex index out of range");
+        }
+        vertices.erase(index);
+        adj_list.erase(index);
         --vertices_count;
     }
 
-    // Получение количества вершин
+
     size_t get_VertexAmount() const {
         return vertices_count;
     }
 
-    // Итератор для перебора соседей вершины
     class Iterator {
     public:
         Iterator(Graph& g, size_t v) : graph(g), vertex(v), edge_idx(0) {}
@@ -147,8 +146,8 @@ public:
 
 private:
     size_t vertices_count;
-    Vector<V> vertices;  // Using custom vector instead of std::vector
-    Vector<Vector<EdgeInfo<E>>> adj_list;  // Using custom vector instead of std::vector
+    Vector<V> vertices;
+    Vector<Vector<EdgeInfo<E>>> adj_list;
 };
 
 #endif
