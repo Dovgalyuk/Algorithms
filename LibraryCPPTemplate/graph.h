@@ -1,7 +1,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include <vector>
+#include "vector.h"
 #include <set>
 
 template <typename E>
@@ -10,6 +10,7 @@ struct EdgeInfo {
     size_t vertex2;
     E weight;
 
+    EdgeInfo() : vertex1(0), vertex2(0), weight(E()) {}  // Default constructor
     EdgeInfo(size_t v1, size_t v2, const E& w) : vertex1(v1), vertex2(v2), weight(w) {}
 };
 
@@ -23,8 +24,8 @@ public:
 
 class DSU {
 private:
-    std::vector<size_t> parent;
-    std::vector<size_t> rank;
+    Vector<size_t> parent;
+    Vector<size_t> rank;
 
 public:
     DSU(size_t n) {
@@ -88,8 +89,8 @@ public:
             adj_list[vertex2].end());
     }
 
-    std::vector<EdgeInfo<E>> get_edges() const {
-        std::vector<EdgeInfo<E>> edges;
+    Vector<EdgeInfo<E>> get_edges() const {
+        Vector<EdgeInfo<E>> edges;
         for (size_t i = 0; i < adj_list.size(); ++i) {
             for (const auto& edge : adj_list[i]) {
                 if (i < edge.vertex2) { // Избегаем дублирующихся рёбер для неориентированного графа
@@ -102,8 +103,8 @@ public:
 
     // Удаление вершины
     void remove_Vertex(size_t index) {
-        vertices.erase(vertices.begin() + index);
-        adj_list.erase(adj_list.begin() + index);
+        vertices.erase(index);
+        adj_list.erase(index);
         --vertices_count;
     }
 
@@ -137,8 +138,8 @@ public:
 
 private:
     size_t vertices_count;
-    std::vector<V> vertices;
-    std::vector<std::vector<EdgeInfo<E>>> adj_list;  // Список смежности для каждого типа рёбер
+    Vector<V> vertices;  // Using custom vector instead of std::vector
+    Vector<Vector<EdgeInfo<E>>> adj_list;  // Using custom vector instead of std::vector
 };
 
 #endif

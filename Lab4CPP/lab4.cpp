@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
         graph.add_Edge(from, to, weight);
     }
 
-    std::vector<EdgeInfo<int>> edges = graph.get_edges();
+    Vector<EdgeInfo<int>> edges = graph.get_edges();
     std::sort(edges.begin(), edges.end(), [](const EdgeInfo<int>& a, const EdgeInfo<int>& b) {
         return a.weight < b.weight;
     });
