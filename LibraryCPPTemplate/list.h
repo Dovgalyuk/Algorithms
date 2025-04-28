@@ -105,7 +105,7 @@ public:
     Item *insert_after(Item *item, Data data) {
         Item *newItem = new Item();
         newItem->itemData = data;
-    
+
         if (!item) {
             // Вставка в начало списка
             newItem->nextItem = head;
@@ -122,7 +122,7 @@ public:
             }
             item->nextItem = newItem;
         }
-    
+
         ++listSize;
         return newItem;
     }
