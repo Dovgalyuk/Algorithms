@@ -30,8 +30,11 @@ public:
         }
     }
 
-    ~Vector() {
-        delete[] data;
+     ~Vector() {
+        for (size_t i = 0; i < size_; ++i) {
+            elements_[i].~T();
+        }
+        operator delete[](elements_);
     }
 
     size_t size() const { return current_size; }
@@ -72,14 +75,12 @@ public:
     const T& get(size_t index) const { return data[index]; }
 
     void resize(size_t new_capacity) {
-        T* new_data = new T[new_capacity];
-        for (size_t i = 0; i < current_size; ++i) {
-            new_data[i] = data[i];
-        }
-        delete[] data;
-        data = new_data;
-        capacity = new_capacity;
-    }
+    	T* new_data = new T[new_capacity];
+    	std::copy(data, data + current_size, new_data);
+    	delete[] data;
+    	data = new_data;
+    	capacity = new_capacity;
+	}
 };
 
 #endif
