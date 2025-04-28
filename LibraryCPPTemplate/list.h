@@ -26,6 +26,7 @@ public:
             erase_first();
         }
     }
+
     void erase(size_t index) {
         if (index >= listSize) return;
     
@@ -125,6 +126,7 @@ public:
         ++listSize;
         return newItem;
     }
+
     Item* push_back(const Data& data) {
         Item* newItem = new Item();
         newItem->itemData = data;
@@ -145,33 +147,32 @@ public:
     }
 
     // Возвращает указатель на первый элемент списка
- // Возвращает указатель на первый элемент списка
-Item* begin() const {
-    return head;
-}
-
-// Deletes the list item following the specified one.
-// Deletes the first element when item is null.
-// Returns pointer to the item next to the deleted one.
-// Should be O(1)
-Item *erase_next(Item *item) {
-    if (!item) {
-        // Удаление первого элемента
-        return erase_first();
+    Item* begin() const {
+        return head;
     }
 
-    Item *toDelete = item->next();
-    if (!toDelete) return nullptr;
+    // Deletes the list item following the specified one.
+    // Deletes the first element when item is null.
+    // Returns pointer to the item next to the deleted one.
+    // Should be O(1)
+    Item *erase_next(Item *item) {
+        if (!item) {
+            // Удаление первого элемента
+            return erase_first();
+        }
 
-    item->nextItem = toDelete->next();
-    if (toDelete->next()) {
-        toDelete->next()->prevItem = item;
+        Item *toDelete = item->next();
+        if (!toDelete) return nullptr;
+
+        item->nextItem = toDelete->next();
+        if (toDelete->next()) {
+            toDelete->next()->prevItem = item;
+        }
+
+        delete toDelete;
+        --listSize;
+        return item->next();
     }
-
-    delete toDelete;
-    --listSize;
-    return item->next();
-}
 
 private:
     Item *head;
