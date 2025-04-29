@@ -102,6 +102,7 @@ public:
     
     // Inserts new list item after the specified item
     // Inserts first element if item is null
+
     Item *insert_after(Item *item, Data data) {
         Item *newItem = new Item();
         newItem->itemData = data;
@@ -125,6 +126,7 @@ public:
 
         ++listSize;
         return newItem;
+
     }
 
     Item* push_back(const Data& data) {
