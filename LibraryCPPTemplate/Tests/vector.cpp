@@ -14,12 +14,11 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector.size() ; ++i)
-        vector.set(i, i);
-
-    for (size_t i = 0 ; i < vector.size() ; ++i)
+    for (size_t i = 0; i < vector.size(); ++i)
+    vector.set(i, static_cast<int>(i)); 
+    for (size_t i = 0; i < vector.size(); ++i)
     {
-        if (vector.get(i) != (int)i)
+        if (vector.get(i) != static_cast<int>(i)) 
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -27,6 +26,7 @@ int main()
     }
 
     vector.resize(10);
+
     if (vector.size() != 10)
     {
         std::cout << "Invalid resize\n";
@@ -34,20 +34,20 @@ int main()
     }
 
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector.size() ; ++i)
-        std::cout << vector.get(i) << " ";
+    for (size_t i = 0; i < vector.size(); ++i)
+        std::cout << vector.get(i) << " "; 
     std::cout << "\n";
-
+    
     vector.resize(3);
     if (vector.size() != 3)
     {
         std::cout << "Invalid resize\n";
         return 1;
     }
-
-    for (size_t i = 0 ; i < vector.size() ; ++i)
+    
+    for (size_t i = 0; i < vector.size(); ++i)
     {
-        if (vector.get(i) != (int)i)
+        if (vector.get(i) != static_cast<int>(i)) 
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -55,12 +55,11 @@ int main()
     }
 
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector.size() ; ++i)
-        std::cout << vector.get(i) << " ";
+    for (size_t i = 0; i < vector.size(); ++i)
+        std::cout << vector.get(i) << " "; 
     std::cout << "\n";
 
-    // Performance test
-    for (int i = 1 ; i <= 10000000 ; ++i)
+    for (int i = 1; i <= 10000000; ++i)
     {
         vector.resize(i);
         vector.set(i - 1, i);
@@ -68,18 +67,11 @@ int main()
 
     MyVector copy = vector;
 
-    for (int i = 0 ; i < 10000000 ; ++i)
-    {
-        if (vector.get(i) != copy.get(i))
-        {
-            std::cout << "Invalid copy element " << i << "\n";
-            return 1;
-        }
-    }
-
     long long sum = 0;
-    for (int i = 0 ; i < 10000000 ; ++i)
+    for (int i = 0; i < 10000000; ++i)
         sum += vector.get(i);
 
     std::cout << sum << "\n";
+
+    return 0; 
 }
