@@ -6,7 +6,8 @@
 #include <iostream>
 
 template <typename V, typename E>
-class Graph {
+class Graph
+{
 private:
     struct EdgeCell {
         bool exists;
@@ -101,7 +102,7 @@ public:
         checkIndex(to);
         if (!adjMatrix[from][to].exists) throw std::runtime_error("Edge does not exist");
         adjMatrix[from][to].label = label;
-        adjMatrix[to][from].label = label; // Обновляем метку обратного ребра
+        adjMatrix[to][from].label = label;
     }
 
     E getEdgeLabel(size_t from, size_t to) const {
@@ -132,7 +133,7 @@ public:
         Vector<Edge> edges;
         for (size_t i = 0; i < adjMatrix.size(); ++i) {
             for (size_t j = 0; j < adjMatrix[i].size(); ++j) {
-                if (adjMatrix[i][j].exists && i < j) { // Добавляем только одно ребро для неориентированного графа
+                if (adjMatrix[i][j].exists && i < j) {
                     edges.push_back(Edge(i, j, adjMatrix[i][j].label));
                 }
             }
@@ -151,21 +152,19 @@ public:
 
         bool hasNext() {
             while (idx < graph.getVertexCount()) {
-                if (graph.adjMatrix[vertex][idx].exists) return true;
+                if (graph.adjMatrix[vertex][idx].exists) {
+                    return true;
+                }
                 ++idx;
             }
             return false;
         }
 
         size_t next() {
+            if (!hasNext()) throw std::out_of_range("No more elements");
             return idx++;
         }
     };
-
-    Iterator getIterator(size_t v) const {
-        checkIndex(v);
-        return Iterator(*this, v);
-    }
 };
 
 #endif
