@@ -12,11 +12,10 @@ int main() {
     graph.setVertexLabel(4, "E");
 
     if (graph.getVertexCount() != 5) {
-        std::cout << "Invalid vertex amount\n" << std::endl;
+        std::cout << "Invalid vertex amount" << std::endl;
         return 1;
-    }
-    else {
-        std::cout << "Correct number of vertices\n" << std::endl;
+    } else {
+        std::cout << "Correct number of vertices" << std::endl;
     }
 
     graph.addEdge(0, 1, "m");
@@ -37,17 +36,13 @@ int main() {
         std::set<int> expected;
         if (vertex == 0) {
             expected = { 1, 3 };
-        }
-        else if (vertex == 1) {
+        } else if (vertex == 1) {
             expected = { 2, 3 };
-        }
-        else if (vertex == 2) {
+        } else if (vertex == 2) {
             expected = { 3 };
-        }
-        else if (vertex == 3) {
+        } else if (vertex == 3) {
             expected = { 0, 4 };
-        }
-        else if (vertex == 4) {
+        } else if (vertex == 4) {
             expected = {};
         }
 
@@ -57,8 +52,7 @@ int main() {
                 std::cout << v << " ";
             }
             std::cout << std::endl;
-        }
-        else {
+        } else {
             std::cout << "Test failed for vertex " << vertex << ": expected { ";
             for (int v : expected) {
                 std::cout << v << " ";
@@ -84,17 +78,13 @@ int main() {
         std::set<int> expected;
         if (vertex == 0) {
             expected = { 1, 3 };
-        }
-        else if (vertex == 1) {
+        } else if (vertex == 1) {
             expected = { 3 };
-        }
-        else if (vertex == 2) {
+        } else if (vertex == 2) {
             expected = { 3 };
-        }
-        else if (vertex == 3) {
+        } else if (vertex == 3) {
             expected = { 0, 4 };
-        }
-        else if (vertex == 4) {
+        } else if (vertex == 4) {
             expected = {};
         }
 
@@ -104,8 +94,7 @@ int main() {
                 std::cout << v << " ";
             }
             std::cout << std::endl;
-        }
-        else {
+        } else {
             std::cout << "Post-removal test failed for vertex " << vertex << ": expected { ";
             for (int v : expected) {
                 std::cout << v << " ";
@@ -126,8 +115,7 @@ int main() {
     if (graph.getVertexCount() != 4) {
         std::cout << "Invalid vertex deletion" << std::endl;
         return 1;
-    }
-    else {
+    } else {
         std::cout << "Valid vertex removal" << std::endl;
     }
 
