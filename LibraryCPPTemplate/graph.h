@@ -71,6 +71,7 @@ public:
         checkIndex(from);
         checkIndex(to);
         adjMatrix[from][to] = EdgeCell(label);
+        std::cout << "Edge added from " << from << " to " << to << " with label " << label << std::endl;
     }
 
     void removeEdge(size_t from, size_t to) {
@@ -130,7 +131,7 @@ public:
         Vector<Edge> edges;
         for (size_t i = 0; i < adjMatrix.size(); ++i) {
             for (size_t j = 0; j < adjMatrix[i].size(); ++j) {
-                if (adjMatrix[i][j].exists && i < j) { // Добавляем только одно ребро для неориентированного графа
+                if (adjMatrix[i][j].exists && i < j) {
                     edges.push_back(Edge(i, j, adjMatrix[i][j].label));
                 }
             }
@@ -148,8 +149,10 @@ public:
         Iterator(const Graph& g, size_t v) : graph(g), vertex(v), idx(0) {}
 
         bool hasNext() {
+            std::cout << "Checking for next neighbor for vertex " << vertex << " at idx " << idx << std::endl;
             while (idx < graph.getVertexCount()) {
                 if (graph.adjMatrix[vertex][idx].exists) {
+                    std::cout << "Found neighbor at " << idx << std::endl;
                     return true;
                 }
                 ++idx;
@@ -158,8 +161,10 @@ public:
         }
 
         size_t next() {
-            if (!hasNext()) throw std::out_of_range("No more elements");
-            return idx++;
+            if (!hasNext()) throw std::out_of_range("No more edges");
+            size_t result = idx++;
+            std::cout << "Returning neighbor " << result << std::endl;
+            return result;
         }
     };
 

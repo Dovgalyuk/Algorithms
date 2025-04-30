@@ -18,33 +18,40 @@ int main() {
         std::cout << "Correct number of vertices" << std::endl;
     }
 
-    graph.addEdge(1, 2, "f");
-    graph.addEdge(2, 3, "s");
-    graph.addEdge(1, 3, "o");
-    graph.addEdge(3, 0, "t");
-    graph.addEdge(3, 4, "e");
+    // Добавляем рёбра
+    graph.addEdge(0, 1, "m"); // 0 -> 1
+    graph.addEdge(1, 2, "f"); // 1 -> 2
+    graph.addEdge(2, 3, "s"); // 2 -> 3
+    graph.addEdge(1, 3, "o"); // 1 -> 3
+    graph.addEdge(3, 0, "t"); // 3 -> 0
+    graph.addEdge(3, 4, "e"); // 3 -> 4
 
+    // Тестируем для каждой вершины
     for (size_t vertex = 0; vertex < graph.getVertexCount(); ++vertex) {
         Graph<std::string, std::string>::Iterator it = graph.getIterator(vertex);
         std::set<int> actual;
 
+        // Перебираем всех соседей текущей вершины
         while (it.hasNext()) {
             actual.insert((int)it.next());
         }
 
         std::set<int> expected;
+
+        // Ожидаемые соседи для каждой вершины в ориентированном графе
         if (vertex == 0) {
-            expected = { 1, 3 };
+            expected = { 1 }; // Сосед 1, т.к. есть рёбро 0 -> 1
         } else if (vertex == 1) {
-            expected = { 2, 3 };
+            expected = { 2, 3 }; // Соседи 2 и 3, т.к. есть рёбра 1 -> 2 и 1 -> 3
         } else if (vertex == 2) {
-            expected = { 3 };
+            expected = { 3 }; // Сосед 3, т.к. есть рёбро 2 -> 3
         } else if (vertex == 3) {
-            expected = { 0, 4 };
+            expected = { 0, 4 }; // Соседи 0 и 4, т.к. есть рёбра 3 -> 0 и 3 -> 4
         } else if (vertex == 4) {
-            expected = {};
+            expected = {}; // Нет исходящих рёбер из 4
         }
 
+        // Проверяем, совпадает ли фактический результат с ожидаемым
         if (actual == expected) {
             std::cout << "Test passed for vertex " << vertex << ": ";
             for (int v : actual) {
@@ -65,6 +72,7 @@ int main() {
         }
     }
 
+    // Удаляем рёбро 1 -> 2
     graph.removeEdge(1, 2);
     for (size_t vertex = 0; vertex < graph.getVertexCount(); ++vertex) {
         Graph<std::string, std::string>::Iterator it = graph.getIterator(vertex);
@@ -75,16 +83,17 @@ int main() {
         }
 
         std::set<int> expected;
+
         if (vertex == 0) {
-            expected = { 1, 3 };
+            expected = { 1 }; // Сосед 1
         } else if (vertex == 1) {
-            expected = { 3 };
+            expected = { 3 }; // Сосед 3
         } else if (vertex == 2) {
-            expected = { 3 };
+            expected = { 3 }; // Сосед 3
         } else if (vertex == 3) {
-            expected = { 0, 4 };
+            expected = { 0, 4 }; // Соседи 0 и 4
         } else if (vertex == 4) {
-            expected = {};
+            expected = {}; // Нет исходящих рёбер из 4
         }
 
         if (actual == expected) {
