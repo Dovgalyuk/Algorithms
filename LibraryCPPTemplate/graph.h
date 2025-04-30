@@ -133,7 +133,7 @@ public:
         Vector<Edge> edges;
         for (size_t i = 0; i < adjMatrix.size(); ++i) {
             for (size_t j = 0; j < adjMatrix[i].size(); ++j) {
-                if (adjMatrix[i][j].exists && i < j) {
+                if (adjMatrix[i][j].exists && i < j) { // Добавляем только одно ребро для неориентированного графа
                     edges.push_back(Edge(i, j, adjMatrix[i][j].label));
                 }
             }
@@ -165,6 +165,11 @@ public:
             return idx++;
         }
     };
+
+    Iterator getIterator(size_t vertex) const {
+        checkIndex(vertex);
+        return Iterator(*this, vertex);
+    }
 };
 
 #endif
