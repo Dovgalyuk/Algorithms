@@ -12,15 +12,6 @@ private:
     size_t current_size;
     size_t capacity;
 
-    void resize(size_t new_capacity) {
-        T* new_data = new T[new_capacity];
-        for (size_t i = 0; i < current_size; ++i)
-            new_data[i] = data[i];
-        delete[] data;
-        data = new_data;
-        capacity = new_capacity;
-    }
-
 public:
     Vector(size_t initial_capacity = 10)
         : data(new T[initial_capacity]), current_size(0), capacity(initial_capacity) {}
@@ -50,6 +41,23 @@ public:
     void set(size_t index, const T& value) {
         if (index >= current_size) throw std::out_of_range("Index out of range");
         data[index] = value;
+    }
+
+    T get(size_t index) const {
+        if (index >= current_size) throw std::out_of_range("Index out of range");
+        return data[index];
+    }
+
+    void resize(size_t new_size) {
+        if (new_size > capacity) {
+            T* new_data = new T[new_size];
+            for (size_t i = 0; i < current_size; ++i)
+                new_data[i] = data[i];
+            delete[] data;
+            data = new_data;
+            capacity = new_size;
+        }
+        current_size = new_size;
     }
 
     T& operator[](size_t index) {
