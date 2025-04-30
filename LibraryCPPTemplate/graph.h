@@ -69,12 +69,14 @@ public:
         checkIndex(from);
         checkIndex(to);
         adjMatrix[from][to] = EdgeCell(label);
+        adjMatrix[to][from] = EdgeCell(label);
     }
 
     void removeEdge(size_t from, size_t to) {
         checkIndex(from);
         checkIndex(to);
         adjMatrix[from][to] = EdgeCell();
+        adjMatrix[to][from] = EdgeCell();
     }
 
     bool hasEdge(size_t from, size_t to) const {
@@ -98,6 +100,7 @@ public:
         checkIndex(to);
         if (!adjMatrix[from][to].exists) throw std::runtime_error("Edge does not exist");
         adjMatrix[from][to].label = label;
+        adjMatrix[to][from].label = label;
     }
 
     E getEdgeLabel(size_t from, size_t to) const {
@@ -128,7 +131,7 @@ public:
         Vector<Edge> edges;
         for (size_t i = 0; i < adjMatrix.size(); ++i) {
             for (size_t j = 0; j < adjMatrix[i].size(); ++j) {
-                if (adjMatrix[i][j].exists) {
+                if (adjMatrix[i][j].exists && i < j) {
                     edges.push_back(Edge(i, j, adjMatrix[i][j].label));
                 }
             }
@@ -143,27 +146,4 @@ public:
         size_t idx;
 
     public:
-        Iterator(const Graph& g, size_t v) : graph(g), vertex(v), idx(0) {}
-
-        Iterator() : graph(*(new Graph<V, E>())), vertex(0), idx(0) {}
-
-        bool hasNext() {
-            while (idx < graph.getVertexCount()) {
-                if (graph.adjMatrix[vertex][idx].exists) return true;
-                ++idx;
-            }
-            return false;
-        }
-
-        size_t next() {
-            return idx++;
-        }
-    };
-
-    Iterator getIterator(size_t v) const {
-        checkIndex(v);
-        return Iterator(*this, v);
-    }
-};
-
-#endif
+        Iterator(co
