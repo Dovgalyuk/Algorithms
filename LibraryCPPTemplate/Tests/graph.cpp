@@ -5,11 +5,11 @@
 int main() {
     Graph<std::string, std::string> graph(5);
 
-    graph.addVertex("A");
-    graph.addVertex("B");
-    graph.addVertex("C");
-    graph.addVertex("D");
-    graph.addVertex("E");
+    graph.setVertexLabel(0, "A");
+    graph.setVertexLabel(1, "B");
+    graph.setVertexLabel(2, "C");
+    graph.setVertexLabel(3, "D");
+    graph.setVertexLabel(4, "E");
 
     if (graph.getVertexCount() != 5) {
         std::cout << "Invalid vertex amount\n" << std::endl;
@@ -36,7 +36,7 @@ int main() {
 
         std::set<int> expected;
         if (vertex == 0) {
-            expected = { 1 };
+            expected = { 1, 3 };
         }
         else if (vertex == 1) {
             expected = { 2, 3 };
@@ -83,7 +83,7 @@ int main() {
 
         std::set<int> expected;
         if (vertex == 0) {
-            expected = { 1 };
+            expected = { 1, 3 };
         }
         else if (vertex == 1) {
             expected = { 3 };
