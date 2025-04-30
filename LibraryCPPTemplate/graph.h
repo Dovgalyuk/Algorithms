@@ -71,14 +71,12 @@ public:
         checkIndex(from);
         checkIndex(to);
         adjMatrix[from][to] = EdgeCell(label);
-        adjMatrix[to][from] = EdgeCell(label);
     }
 
     void removeEdge(size_t from, size_t to) {
         checkIndex(from);
         checkIndex(to);
         adjMatrix[from][to] = EdgeCell();
-        adjMatrix[to][from] = EdgeCell();
     }
 
     bool hasEdge(size_t from, size_t to) const {
@@ -102,7 +100,6 @@ public:
         checkIndex(to);
         if (!adjMatrix[from][to].exists) throw std::runtime_error("Edge does not exist");
         adjMatrix[from][to].label = label;
-        adjMatrix[to][from].label = label;
     }
 
     E getEdgeLabel(size_t from, size_t to) const {

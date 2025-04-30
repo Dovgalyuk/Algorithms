@@ -18,7 +18,6 @@ int main() {
         std::cout << "Correct number of vertices" << std::endl;
     }
 
-    graph.addEdge(0, 1, "m");
     graph.addEdge(1, 2, "f");
     graph.addEdge(2, 3, "s");
     graph.addEdge(1, 3, "o");
