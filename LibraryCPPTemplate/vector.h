@@ -2,56 +2,89 @@
 #define VECTOR_TEMPLATE_H
 
 #include <cstddef>
+#include <stdexcept>
+#include <algorithm> 
 
-template <typename Data> class Vector
-{
+template <typename Data>
+class Vector {
 public:
-    // Creates vector
-    Vector()
-    {
+
+    Vector() : data(nullptr), capacity(0), currentSize(0) {}
+
+    Vector(size_t size, const Data& defaultValue) : data(nullptr), capacity(0), currentSize(0) {
+        resize(size);
+        for (size_t i = 0; i < size; ++i) {
+            data[i] = defaultValue;
+        }
     }
 
-    // copy constructor
-    Vector(const Vector &a)
-    {
+    Vector(const Vector &other) : data(nullptr), capacity(0), currentSize(0) {
+        resize(other.currentSize);
+        std::copy(other.data, other.data + other.currentSize, data);
     }
 
-    // assignment operator
-    Vector &operator=(const Vector &a)
-    {
+    Vector &operator=(const Vector &other) {
+        if (this != &other) {
+            delete[] data;
+            data = nullptr;
+            capacity = 0;
+            currentSize = 0;
+            resize(other.currentSize);
+            std::copy(other.data, other.data + other.currentSize, data);
+        }
         return *this;
     }
 
-    // Deletes vector structure and internal data
-    ~Vector()
-    {
+    ~Vector() {
+        delete[] data;
     }
 
-    // Retrieves vector element with the specified index
-    Data get(size_t index) const
-    {
-        return Data();
+    Data& get(size_t index) {
+        if (index >= currentSize) {
+            throw std::out_of_range("Индекс вне диапазона");
+        }
+        return data[index]; 
     }
 
-    // Sets vector element with the specified index
-    void set(size_t index, Data value)
-    {
+    const Data& get(size_t index) const {
+        if (index >= currentSize) {
+            throw std::out_of_range("Индекс вне диапазона");
+        }
+        return data[index]; 
     }
 
-    // Retrieves current vector size
-    size_t size() const
-    {
-        return 0;
+    // Установка элемента по индексу
+    void set(size_t index, Data value) {
+        if (index >= currentSize) {
+            throw std::out_of_range("Индекс вне диапазона");
+        }
+        data[index] = value;
     }
 
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
-    void resize(size_t size)
-    {
+    // Текущий размер вектора
+    size_t size() const {
+        return currentSize;
+    }
+
+    // Изменение размера вектора
+    void resize(size_t newSize) {
+        if (newSize > capacity) {
+            size_t newCapacity = std::max(newSize, capacity * 2);
+            Data *newData = new Data[newCapacity];
+            if (data) {
+                std::copy(data, data + currentSize, newData);
+                delete[] data;
+            }
+            data = newData;
+            capacity = newCapacity;
+        }
+        currentSize = newSize;
     }
 
 private:
-    // private data should be here
+    Data *data;          
+    size_t capacity;     
+    size_t currentSize;  
 };
 
 #endif

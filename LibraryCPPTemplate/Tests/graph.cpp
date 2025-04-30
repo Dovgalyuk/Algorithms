@@ -38,7 +38,9 @@ int main()
     }
 
     // Добавим рёбра
+    std::cout << "Добавляем ребро 0 -> 1 с весом 100\n";
     graph.AddEdge(0, 1, 100);
+    std::cout << "Добавляем ребро 0 -> 2 с весом 200\n";
     graph.AddEdge(0, 2, 200);
 
     if (!graph.HasEdge(0, 1)) {
@@ -68,20 +70,22 @@ int main()
 
     // Проверим соседей вершины
     auto neighbors = graph.GetNeighbors(0);
-    int neighborCount = 0;
-    for (size_t neighbor : neighbors) {
-        if (neighbor != 1 && neighbor != 2) {
-            std::cout << "Найден неверный сосед: " << neighbor << "\n";
-            return 1;
-        }
-        ++neighborCount;
-    }
+    size_t neighborCount = neighbors.size();
     if (neighborCount != 2) {
         std::cout << "Недопустимое количество соседей для вершины 0\n";
         return 1;
     }
 
+    for (size_t i = 0; i < neighborCount; ++i) {
+        size_t neighbor = neighbors.get(i);
+        if (neighbor != 1 && neighbor != 2) {
+            std::cout << "Найден неверный сосед: " << neighbor << "\n";
+            return 1;
+        }
+    }
+
     // Удалим ребро
+    std::cout << "Удаляем ребро 0 -> 1\n";
     graph.RemoveEdge(0, 1);
     if (graph.HasEdge(0, 1)) {
         std::cout << "Не удалось удалить ребро 0->1\n";
@@ -89,6 +93,7 @@ int main()
     }
 
     // Удалим вершину
+    std::cout << "Удаляем вершину 2\n";
     graph.RemoveVertex(2);
     if (graph.VertexCount() != 3) {
         std::cout << "Не удалось удалить вершину 2\n";

@@ -1,9 +1,10 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include <vector>
-#include <optional>
+#include "vector.h" 
 #include "list.h"
+#include <optional>
+#include <iostream> 
 
 template<typename VertexLabelType, typename EdgeLabelType>
 class Graph {
@@ -13,8 +14,8 @@ private:
         std::optional<EdgeLabelType> label;
     };
 
-    std::vector<std::optional<VertexLabelType>> vertexLabels;
-    std::vector<List<Edge>> adjacencyLists;
+    Vector<std::optional<VertexLabelType>> vertexLabels; 
+    Vector<List<Edge>> adjacencyLists; 
 
 public:
     explicit Graph(size_t vertexCount) {
@@ -23,101 +24,122 @@ public:
     }
 
     void AddVertex() {
-        vertexLabels.push_back(std::nullopt);
-        adjacencyLists.emplace_back();
+        vertexLabels.resize(vertexLabels.size() + 1);
+        adjacencyLists.resize(adjacencyLists.size() + 1);
     }
 
     void RemoveVertex(size_t index) {
-        if (index >= vertexLabels.size()) return;
-
-        while (!adjacencyLists[index].empty()) {
-            adjacencyLists[index].erase(0); 
+        if (index >= vertexLabels.size()) {
+            std::cout << "Ошибка: индекс вершины выходит за пределы\n";
+            return;
         }
- 
-        for (auto& list : adjacencyLists) {
-            for (size_t i = 0; i < list.size(); ++i) {
-                if (list.get(i)->data().to == index) {
-                    list.erase(i);
-                    --i;
+   
+        adjacencyLists.set(index, List<Edge>()); 
+    
+        for (size_t i = 0; i < adjacencyLists.size(); ++i) {
+            auto& list = adjacencyLists.get(i);
+            for (size_t j = 0; j < list.size(); ++j) {
+                auto& edge = list.get(j)->data();
+                if (edge.to == index) {
+                    list.erase(j);
+                    --j;
+                } else if (edge.to > index) {               
+                    edge.to--;
                 }
             }
         }
-    
-        vertexLabels.erase(vertexLabels.begin() + index);
-        adjacencyLists.erase(adjacencyLists.begin() + index);
-    
-        for (auto& list : adjacencyLists) {
-            for (size_t i = 0; i < list.size(); ++i) {
-                if (list.get(i)->data().to > index) {
-                    list.get(i)->data().to--;
-                }
-            }
+  
+        vertexLabels.set(index, std::nullopt);
+        for (size_t i = index; i < vertexLabels.size() - 1; ++i) {
+            vertexLabels.set(i, vertexLabels.get(i + 1));
+            adjacencyLists.set(i, adjacencyLists.get(i + 1));
         }
+        vertexLabels.resize(vertexLabels.size() - 1);
+        adjacencyLists.resize(adjacencyLists.size() - 1);
+    
+        std::cout << "Вершина " << index << " удалена\n";
     }
 
     void AddEdge(size_t from, size_t to, std::optional<EdgeLabelType> label = std::nullopt) {
-        if (from >= adjacencyLists.size() || to >= adjacencyLists.size()) return;
+        if (from >= adjacencyLists.size() || to >= adjacencyLists.size()) {
+            std::cout << "Ошибка: индекс вершины выходит за пределы\n";
+            return;
+        }
 
-        if (HasEdge(from, to)) return; 
+        if (HasEdge(from, to)) {
+            std::cout << "Ребро " << from << " -> " << to << " уже существует\n";
+            return;
+        }
 
         Edge edge{to, label};
-        adjacencyLists[from].push_back(edge);
+        adjacencyLists.get(from).push_back(edge);
+        std::cout << "Ребро " << from << " -> " << to << " добавлено\n";
     }
 
     void RemoveEdge(size_t from, size_t to) {
         if (from >= adjacencyLists.size()) return;
 
-        auto& list = adjacencyLists[from];
+        auto& list = adjacencyLists.get(from);
         for (size_t i = 0; i < list.size(); ++i) {
-            if (list.get(i)->data().to == to) { 
+            auto& edge = list.get(i)->data(); 
+            if (edge.to == to) {
                 list.erase(i);
-                break;
+                std::cout << "Ребро " << from << " -> " << to << " удалено\n";
+                return;
             }
         }
+        std::cout << "Ребро " << from << " -> " << to << " не найдено для удаления\n";
     }
 
     bool HasEdge(size_t from, size_t to) const {
-        if (from >= adjacencyLists.size()) return false;
+        if (from >= adjacencyLists.size()) {
+            std::cout << "Ошибка: индекс вершины выходит за пределы\n";
+            return false;
+        }
 
-        const auto& list = adjacencyLists[from];
+        const auto& list = adjacencyLists.get(from);
         for (size_t i = 0; i < list.size(); ++i) {
-            if (list.get(i)->data().to == to) 
+            const auto& edge = list.get(i)->data(); 
+            if (edge.to == to) {
                 return true;
+            }
         }
         return false;
     }
 
     void SetVertexLabel(size_t index, const VertexLabelType& label) {
         if (index >= vertexLabels.size()) return;
-        vertexLabels[index] = label;
+        vertexLabels.set(index, label);
     }
 
     std::optional<VertexLabelType> GetVertexLabel(size_t index) const {
         if (index >= vertexLabels.size()) return std::nullopt;
-        return vertexLabels[index];
+        return vertexLabels.get(index);
     }
 
     void SetEdgeLabel(size_t from, size_t to, const EdgeLabelType& label) {
         if (from >= adjacencyLists.size()) return;
 
-        auto& list = adjacencyLists[from];
+        auto& list = adjacencyLists.get(from);
         for (size_t i = 0; i < list.size(); ++i) {
             auto& edge = list.get(i)->data(); 
             if (edge.to == to) {
-                edge.label = label; 
-                break;
+                edge.label = label;
+                std::cout << "Метка ребра " << from << " -> " << to << " обновлена\n";
+                return;
             }
         }
+        std::cout << "Ребро " << from << " -> " << to << " не найдено для обновления метки\n";
     }
 
     std::optional<EdgeLabelType> GetEdgeLabel(size_t from, size_t to) const {
         if (from >= adjacencyLists.size()) return std::nullopt;
 
-        const auto& list = adjacencyLists[from];
+        const auto& list = adjacencyLists.get(from);
         for (size_t i = 0; i < list.size(); ++i) {
             const auto& edge = list.get(i)->data(); 
             if (edge.to == to) {
-                return edge.label; 
+                return edge.label;
             }
         }
         return std::nullopt;
@@ -127,18 +149,17 @@ public:
         return vertexLabels.size();
     }
 
-    // Возвращает список соседей для заданной вершины
-    std::vector<size_t> GetNeighbors(size_t vertex) const {
-        std::vector<size_t> neighbors;
+    Vector<size_t> GetNeighbors(size_t vertex) const {
+        Vector<size_t> neighbors;
         if (vertex >= adjacencyLists.size()) return neighbors;
 
-        const auto& list = adjacencyLists[vertex];
+        const auto& list = adjacencyLists.get(vertex);
+        neighbors.resize(list.size());
         for (size_t i = 0; i < list.size(); ++i) {
-            const auto& edge = list.get(i)->data(); 
-            neighbors.push_back(edge.to);          
+            neighbors.set(i, list.get(i)->data().to); 
         }
         return neighbors;
     }
 };
 
-#endif 
+#endif
