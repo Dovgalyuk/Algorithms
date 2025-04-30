@@ -26,14 +26,21 @@ private:
 
 public:
     Graph(size_t vertexCount = 0) {
+        vertexLabels.resize(vertexCount);
+        adjMatrix.resize(vertexCount);
         for (size_t i = 0; i < vertexCount; ++i) {
-            vertexLabels.push_back(V());
+            adjMatrix[i].resize(vertexCount);
         }
+    }
 
-        for (size_t i = 0; i < vertexCount; ++i) {
-            Vector<EdgeCell> row(vertexCount);
-            adjMatrix.push_back(row);
-        }
+    Graph(const Graph& other)
+        : vertexLabels(other.vertexLabels), adjMatrix(other.adjMatrix) {}
+
+    Graph& operator=(const Graph& other) {
+        if (this == &other) return *this;
+        vertexLabels = other.vertexLabels;
+        adjMatrix = other.adjMatrix;
+        return *this;
     }
 
     size_t addVertex(const V& label) {

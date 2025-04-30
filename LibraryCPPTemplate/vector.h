@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <cstddef>
 #include <initializer_list>
+#include <algorithm>
 
 template <typename T>
 class Vector {
@@ -12,22 +13,43 @@ private:
     size_t current_size;
     size_t capacity;
 
+    void resize_data(size_t new_capacity) {
+        T* new_data = new T[new_capacity];
+        std::copy(data, data + current_size, new_data);
+        delete[] data;
+        data = new_data;
+        capacity = new_capacity;
+    }
+
 public:
     Vector(size_t initial_capacity = 10)
         : data(new T[initial_capacity]), current_size(0), capacity(initial_capacity) {}
 
     Vector(std::initializer_list<T> init_list)
         : data(new T[init_list.size()]), current_size(init_list.size()), capacity(init_list.size()) {
-        size_t i = 0;
-        for (const T& value : init_list)
-            data[i++] = value;
+        std::copy(init_list.begin(), init_list.end(), data);
+    }
+
+    Vector(const Vector& other)
+        : data(new T[other.capacity]), current_size(other.current_size), capacity(other.capacity) {
+        std::copy(other.data, other.data + other.current_size, data);
+    }
+
+    Vector& operator=(const Vector& other) {
+        if (this == &other) return *this;
+        delete[] data;
+        data = new T[other.capacity];
+        current_size = other.current_size;
+        capacity = other.capacity;
+        std::copy(other.data, other.data + other.current_size, data);
+        return *this;
     }
 
     ~Vector() { delete[] data; }
 
     void push_back(const T& value) {
         if (current_size == capacity)
-            resize(capacity * 2);
+            resize_data(capacity * 2);
         data[current_size++] = value;
     }
 
@@ -50,14 +72,15 @@ public:
 
     void resize(size_t new_size) {
         if (new_size > capacity) {
-            T* new_data = new T[new_size];
-            for (size_t i = 0; i < current_size; ++i)
-                new_data[i] = data[i];
-            delete[] data;
-            data = new_data;
-            capacity = new_size;
+            reserve(new_size * 2);
         }
         current_size = new_size;
+    }
+
+    void reserve(size_t new_capacity) {
+        if (new_capacity > capacity) {
+            resize_data(new_capacity);
+        }
     }
 
     T& operator[](size_t index) {
