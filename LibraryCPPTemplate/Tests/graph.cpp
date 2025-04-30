@@ -5,13 +5,13 @@
 int main() {
     Graph<std::string, std::string> graph(5);
 
-    graph.add_Vertex("A");
-    graph.add_Vertex("B");
-    graph.add_Vertex("C");
-    graph.add_Vertex("D");
-    graph.add_Vertex("E");
+    graph.addVertex("A");
+    graph.addVertex("B");
+    graph.addVertex("C");
+    graph.addVertex("D");
+    graph.addVertex("E");
 
-    if (graph.get_VertexAmount() != 5) {
+    if (graph.getVertexCount() != 5) {
         std::cout << "Invalid vertex amount\n" << std::endl;
         return 1;
     }
@@ -19,18 +19,18 @@ int main() {
         std::cout << "Correct number of vertices\n" << std::endl;
     }
 
-    graph.add_Edge(0, 1, "m");
-    graph.add_Edge(1, 2, "f");
-    graph.add_Edge(2, 3, "s");
-    graph.add_Edge(1, 3, "o");
-    graph.add_Edge(3, 0, "t");
-    graph.add_Edge(3, 4, "e");
+    graph.addEdge(0, 1, "m");
+    graph.addEdge(1, 2, "f");
+    graph.addEdge(2, 3, "s");
+    graph.addEdge(1, 3, "o");
+    graph.addEdge(3, 0, "t");
+    graph.addEdge(3, 4, "e");
 
-    for (size_t vertex = 0; vertex < graph.get_VertexAmount(); ++vertex) {
-        Graph<std::string, std::string>::Iterator it = graph.iterator(vertex);
+    for (size_t vertex = 0; vertex < graph.getVertexCount(); ++vertex) {
+        Graph<std::string, std::string>::Iterator it = graph.getIterator(vertex);
         std::set<int> actual;
 
-        while (it.has_next()) {
+        while (it.hasNext()) {
             actual.insert((int)it.next());
         }
 
@@ -72,12 +72,12 @@ int main() {
         }
     }
 
-    graph.remove_Edge(1, 2);
-    for (size_t vertex = 0; vertex < graph.get_VertexAmount(); ++vertex) {
-        Graph<std::string, std::string>::Iterator it = graph.iterator(vertex);
+    graph.removeEdge(1, 2);
+    for (size_t vertex = 0; vertex < graph.getVertexCount(); ++vertex) {
+        Graph<std::string, std::string>::Iterator it = graph.getIterator(vertex);
         std::set<int> actual;
 
-        while (it.has_next()) {
+        while (it.hasNext()) {
             actual.insert((int)it.next());
         }
 
@@ -121,9 +121,9 @@ int main() {
 
     int index1 = 3;
     std::cout << "Deleting a vertex with index: " << index1 << std::endl;
-    graph.remove_Vertex(index1);
+    graph.removeVertex(index1);
 
-    if (graph.get_VertexAmount() != 4) {
+    if (graph.getVertexCount() != 4) {
         std::cout << "Invalid vertex deletion" << std::endl;
         return 1;
     }

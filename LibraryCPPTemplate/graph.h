@@ -2,152 +2,161 @@
 #define GRAPH_H
 
 #include "vector.h"
-#include <set>
-
-template <typename E>
-struct EdgeInfo {
-    size_t vertex1;
-    size_t vertex2;
-    E weight;
-
-    EdgeInfo() : vertex1(0), vertex2(0), weight(E()) {}
-    EdgeInfo(size_t v1, size_t v2, const E& w) : vertex1(v1), vertex2(v2), weight(w) {}
-};
-
-class Edge {
-public:
-    size_t from, to;
-    double weight;
-
-    Edge(size_t f = 0, size_t t = 0, double w = 0.0) : from(f), to(t), weight(w) {}
-};
-
-class DSU {
-private:
-    Vector<size_t> parent;
-    Vector<size_t> rank;
-
-public:
-    DSU(size_t n) {
-        for (size_t i = 0; i < n; ++i) {
-            parent.push_back(i);
-            rank.push_back(0);
-        }
-    }
-
-    size_t find(size_t a) {
-        if (parent[a] != a) {
-            parent[a] = find(parent[a]);
-        }
-        return parent[a];
-    }
-
-    void union_sets(size_t a, size_t b) {
-        size_t rootA = find(a);
-        size_t rootB = find(b);
-        if (rootA != rootB) {
-            if (rank[rootA] < rank[rootB]) {
-                parent[rootA] = rootB;
-            } else if (rank[rootA] > rank[rootB]) {
-                parent[rootB] = rootA;
-            } else {
-                parent[rootB] = rootA;
-                rank[rootA] += 1;
-            }
-        }
-    }
-};
+#include <stdexcept>
 
 template <typename V, typename E>
 class Graph {
+private:
+    struct EdgeCell {
+        bool exists;
+        E label;
+
+        EdgeCell() : exists(false), label(E()) {}
+        EdgeCell(const E& l) : exists(true), label(l) {}
+    };
+
+    Vector<V> vertexLabels;
+    Vector<Vector<EdgeCell>> adjMatrix;
+
+    void checkIndex(size_t index) const {
+        if (index >= vertexLabels.size()) {
+            throw std::out_of_range("Index out of range");
+        }
+    }
+
 public:
-    Graph(size_t n) : vertices_count(n) {
-        adj_list.resize(n);
-    }
-
-    void add_Vertex(const V& vertex) {
-        vertices.push_back(vertex);
-        adj_list.push_back({});
-        ++vertices_count;
-    }
-
-    void add_Edge(size_t vertex1, size_t vertex2, const E& edge) {
-        adj_list[vertex1].push_back({vertex1, vertex2, edge});
-    }
-
-    void remove_Edge(size_t vertex1, size_t vertex2) {
-        if (vertex1 >= adj_list.size() || vertex2 >= adj_list.size()) {
-            throw std::out_of_range("Vertex index out of range");
-        }
-        
-        for (size_t i = 0; i < adj_list[vertex1].size(); ++i) {
-            if (adj_list[vertex1][i].vertex2 == vertex2) {
-                adj_list[vertex1].erase(i);
-                break;
-            }
+    Graph(size_t vertexCount = 0) {
+        for (size_t i = 0; i < vertexCount; ++i) {
+            vertexLabels.push_back(V());
         }
 
-        for (size_t i = 0; i < adj_list[vertex2].size(); ++i) {
-            if (adj_list[vertex2][i].vertex2 == vertex1) {
-                adj_list[vertex2].erase(i);
-                break;
-            }
+        for (size_t i = 0; i < vertexCount; ++i) {
+            Vector<EdgeCell> row(vertexCount);
+            adjMatrix.push_back(row);
         }
     }
 
+    size_t addVertex(const V& label) {
+        size_t index = vertexLabels.size();
+        vertexLabels.push_back(label);
 
-    Vector<EdgeInfo<E>> get_edges() const {
-        Vector<EdgeInfo<E>> edges;
-        for (size_t i = 0; i < adj_list.size(); ++i) {
-            for (const auto& edge : adj_list[i]) {
-                if (i < edge.vertex2) { // Избегаем дублирующихся рёбер для неориентированного графа
-                    edges.push_back(edge);
+        for (size_t i = 0; i < adjMatrix.size(); ++i) {
+            adjMatrix[i].push_back(EdgeCell());
+        }
+
+        Vector<EdgeCell> newRow(vertexLabels.size());
+        adjMatrix.push_back(newRow);
+        return index;
+    }
+
+    void removeVertex(size_t index) {
+        checkIndex(index);
+        vertexLabels.erase(index);
+        adjMatrix.erase(index);
+        for (size_t i = 0; i < adjMatrix.size(); ++i) {
+            adjMatrix[i].erase(index);
+        }
+    }
+
+    void addEdge(size_t from, size_t to, const E& label) {
+        checkIndex(from);
+        checkIndex(to);
+        adjMatrix[from][to] = EdgeCell(label);
+    }
+
+    void removeEdge(size_t from, size_t to) {
+        checkIndex(from);
+        checkIndex(to);
+        adjMatrix[from][to] = EdgeCell();
+    }
+
+    bool hasEdge(size_t from, size_t to) const {
+        checkIndex(from);
+        checkIndex(to);
+        return adjMatrix[from][to].exists;
+    }
+
+    void setVertexLabel(size_t index, const V& label) {
+        checkIndex(index);
+        vertexLabels[index] = label;
+    }
+
+    V getVertexLabel(size_t index) const {
+        checkIndex(index);
+        return vertexLabels[index];
+    }
+
+    void setEdgeLabel(size_t from, size_t to, const E& label) {
+        checkIndex(from);
+        checkIndex(to);
+        if (!adjMatrix[from][to].exists) throw std::runtime_error("Edge does not exist");
+        adjMatrix[from][to].label = label;
+    }
+
+    E getEdgeLabel(size_t from, size_t to) const {
+        checkIndex(from);
+        checkIndex(to);
+        if (!adjMatrix[from][to].exists) throw std::runtime_error("Edge does not exist");
+        return adjMatrix[from][to].label;
+    }
+
+    Vector<V> getAllVertexLabels() const {
+        return vertexLabels;
+    }
+
+    size_t getVertexCount() const {
+        return vertexLabels.size();
+    }
+
+    struct Edge {
+        size_t from;
+        size_t to;
+        E weight;
+
+        Edge() : from(0), to(0), weight(E()) {}
+        Edge(size_t f, size_t t, const E& w) : from(f), to(t), weight(w) {}
+    };
+
+    Vector<Edge> getEdges() const {
+        Vector<Edge> edges;
+        for (size_t i = 0; i < adjMatrix.size(); ++i) {
+            for (size_t j = 0; j < adjMatrix[i].size(); ++j) {
+                if (adjMatrix[i][j].exists) {
+                    edges.push_back(Edge(i, j, adjMatrix[i][j].label));
                 }
             }
         }
         return edges;
     }
 
-    void remove_Vertex(size_t index) {
-        if (index >= vertices.size()) {
-            throw std::out_of_range("Vertex index out of range");
-        }
-        vertices.erase(index);
-        adj_list.erase(index);
-        --vertices_count;
-    }
-
-
-    size_t get_VertexAmount() const {
-        return vertices_count;
-    }
-
     class Iterator {
-    public:
-        Iterator(Graph& g, size_t v) : graph(g), vertex(v), edge_idx(0) {}
+    private:
+        const Graph& graph;
+        size_t vertex;
+        size_t idx;
 
-        bool has_next() const {
-            return edge_idx < graph.adj_list[vertex].size();
+    public:
+        Iterator(const Graph& g, size_t v) : graph(g), vertex(v), idx(0) {}
+
+        Iterator() : graph(*(new Graph<V, E>())), vertex(0), idx(0) {}
+
+        bool hasNext() {
+            while (idx < graph.getVertexCount()) {
+                if (graph.adjMatrix[vertex][idx].exists) return true;
+                ++idx;
+            }
+            return false;
         }
 
         size_t next() {
-            return graph.adj_list[vertex][edge_idx++].vertex2;
+            return idx++;
         }
-
-    private:
-        Graph& graph;
-        size_t vertex;
-        size_t edge_idx;
     };
 
-    Iterator iterator(size_t v) {
+    Iterator getIterator(size_t v) const {
+        checkIndex(v);
         return Iterator(*this, v);
     }
-
-private:
-    size_t vertices_count;
-    Vector<V> vertices;
-    Vector<Vector<EdgeInfo<E>>> adj_list;
 };
 
 #endif

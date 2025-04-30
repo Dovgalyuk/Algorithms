@@ -1,56 +1,58 @@
 ﻿#include <iostream>
-#include <vector>
 #include <fstream>
 #include <algorithm>
 #include "graph.h"
+#include "dsu.h"
+
+using namespace std;
 
 int main(int argc, char** argv) {
     if (argc < 2) {
-        std::cerr << "Error: specify the input data file." << std::endl;
+        cerr << "Error: specify the input data file." << endl;
         return 1;
     }
 
-    std::ifstream infile(argv[1]);
+    ifstream infile(argv[1]);
     if (!infile) {
-        std::cerr << "Error opening file\n";
+        cerr << "Error: cannot open file " << argv[1] << endl;
         return 1;
     }
 
-    size_t vertexCount, edgeCount;
-    infile >> vertexCount >> edgeCount;
+    size_t n, m;
+    infile >> n >> m;
 
-     Graph<std::string, int> graph(vertexCount);
+    Graph<string, int> graph(n);
+    for (size_t i = 0; i < n; ++i) {
+        string name;
+        infile >> name;
+        graph.setVertexLabel(i, name);
+    }
 
-    for (size_t i = 0; i < edgeCount; ++i) {
+    for (size_t i = 0; i < m; ++i) {
         size_t from, to;
         int weight;
         infile >> from >> to >> weight;
-        graph.add_Edge(from, to, weight);
+        graph.addEdge(from, to, weight);
     }
 
-    Vector<EdgeInfo<int>> edges = graph.get_edges();
-    std::sort(edges.begin(), edges.end(), [](const EdgeInfo<int>& a, const EdgeInfo<int>& b) {
+    auto edges = graph.getEdges();
+    sort(edges.begin(), edges.end(), [](const Graph<string, int>::Edge& a, const Graph<string, int>::Edge& b) {
         return a.weight < b.weight;
     });
 
-    DSU dsu(vertexCount);
-
+    DSU dsu(graph.getVertexCount());
     int totalWeight = 0;
-    std::vector<EdgeInfo<int>> mst;
 
-    for (const auto& edge : edges) {
-        if (dsu.find(edge.vertex1) != dsu.find(edge.vertex2)) {
-            dsu.union_sets(edge.vertex1, edge.vertex2);
-            mst.push_back(edge);
-            totalWeight += edge.weight;
+    cout << "Minimum Spanning Tree:\n";
+    for (const auto& e : edges) {
+        if (dsu.find(e.from) != dsu.find(e.to)) {
+            dsu.unite(e.from, e.to);
+            totalWeight += e.weight;
+            cout << graph.getVertexLabel(e.from) << " -- "
+                 << graph.getVertexLabel(e.to) << " [" << e.weight << "]\n";
         }
     }
 
-    std::cout << "Minimum Spanning Tree edges:\n";
-    for (const auto& edge : mst) {
-        std::cout << edge.vertex1 << " -- " << edge.vertex2 << " [weight=" << edge.weight << "]\n";
-    }
-    std::cout << "Total weight: " << totalWeight << std::endl;
-
+    cout << "Total weight: " << totalWeight << "\n";
     return 0;
 }
