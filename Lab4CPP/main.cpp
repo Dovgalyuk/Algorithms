@@ -1,6 +1,5 @@
 #include <iostream>
 #include <climits>
-#include <windows.h> // Include Windows API for console settings
 #include "graph.h"
 #include <cassert>
 
@@ -39,7 +38,7 @@ void modifiedFloydWarshall(const Graph<Data>& graph, size_t vertex_amount) {
         }
     }
 
-    std::cout << "Матрица смежности:\n"; 
+    std::cout << "Adjacency Matrix:\n";
     for (size_t i = 0; i < vertex_amount; ++i) {
         for (size_t j = 0; j < vertex_amount; ++j) {
             if (mutableGraph.getEdge(i, j)) {
@@ -54,32 +53,29 @@ void modifiedFloydWarshall(const Graph<Data>& graph, size_t vertex_amount) {
     size_t start_vertex = 0;
     size_t end_vertex = vertex_amount - 1; 
     if (mutableGraph.getEdge(start_vertex, end_vertex) != nullptr) {
-        std::cout << "Самый длинный путь от вершины " << start_vertex << " до вершины " << end_vertex << " равен "
-                  << mutableGraph.getEdge(start_vertex, end_vertex)->getEdgeData() << "\n"; 
+        std::cout << "Longest path from vertex " << start_vertex << " to vertex " << end_vertex << " is "
+                  << mutableGraph.getEdge(start_vertex, end_vertex)->getEdgeData() << "\n";
     } else {
-        std::cout << "Самый длинный путь от вершины " << start_vertex << " до вершины " << end_vertex << " отсутствует\n"; 
+        std::cout << "Longest path from vertex " << start_vertex << " to vertex " << end_vertex << " is NULL\n";
     }
 }
 
 int main() {
-    // Set console output to UTF-8
-    SetConsoleOutputCP(CP_UTF8);
-
     size_t vertex_amount = 0; 
     int N = 0; 
 
-    std::cout << "Введите количество вершин> "; 
+    std::cout << "Input vertex_amount> ";
     std::cin >> vertex_amount;
 
     Graph<int> graph(vertex_amount);
 
-    std::cout << "Введите количество данных для чтения> ";
+    std::cout << "Input size read data> ";
     std::cin >> N;
 
     for (int i = 0; i < N; i++) {
         size_t start_vertex_index, end_vertex_index;
         int edge_data;
-        std::cout << "Введите данные " << i << " (start_vertex_index, end_vertex_index, edge_data)> "; 
+        std::cout << "input " << i << " data (size_t start_vertex_index, size_t end_vertex_index, Data edge_data)> ";
         std::cin >> start_vertex_index >> end_vertex_index >> edge_data;
         graph.addEdge(start_vertex_index, end_vertex_index, edge_data);
     }
