@@ -4,7 +4,7 @@
 #include <vector>
 #include <stdexcept>
 #include <iostream>
-#include <algorithm>  // Для использования std::remove_if
+#include <algorithm>  // Для std::remove_if
 
 template <typename T>
 class Graph {
@@ -28,10 +28,19 @@ private:
     std::vector<Edge*> edges;
 
 public:
+    // Конструктор
     Graph(size_t vertexCount) {
         for (size_t i = 0; i < vertexCount; ++i) {
-            vertexes.push_back(Vertex(T(i))); // Initializing vertex data with their index.
+            vertexes.push_back(Vertex(T(i)));
         }
+    }
+
+    // Деструктор (удаляет все Edge*)
+    ~Graph() {
+        for (auto edge : edges) {
+            delete edge;
+        }
+        edges.clear();
     }
 
     size_t getVertexAmount() const {
@@ -67,16 +76,18 @@ public:
                 return edge;
             }
         }
-        return nullptr; 
+        return nullptr; // ⬅ изменено: теперь возвращает nullptr, а не бросает исключение
     }
 
     void removeEdge(size_t start, size_t end) {
-        edges.erase(
-            std::remove_if(edges.begin(), edges.end(), [start, end](Edge* edge) {
-                return edge->start == start && edge->end == end;
-            }),
-            edges.end()
-        );
+        auto it = std::remove_if(edges.begin(), edges.end(), [start, end](Edge* edge) {
+            if (edge->start == start && edge->end == end) {
+                delete edge;  // удаляем память!
+                return true;
+            }
+            return false;
+        });
+        edges.erase(it, edges.end());
     }
 
     void removeVertex(size_t index) {
@@ -84,18 +95,19 @@ public:
             throw std::out_of_range("Vertex index out of range");
         }
 
-        // Remove edges connected to this vertex
-        edges.erase(
-            std::remove_if(edges.begin(), edges.end(), [index](Edge* edge) {
-                return edge->start == index || edge->end == index;
-            }),
-            edges.end()
-        );
+        // Удаляем все рёбра, связанные с этой вершиной
+        auto it = std::remove_if(edges.begin(), edges.end(), [index](Edge* edge) {
+            if (edge->start == index || edge->end == index) {
+                delete edge;  // очищаем память!
+                return true;
+            }
+            return false;
+        });
+        edges.erase(it, edges.end());
 
-        // Remove vertex
         vertexes.erase(vertexes.begin() + index);
 
-        // Reindex the remaining vertices
+        // Перенумеровка рёбер
         for (auto& edge : edges) {
             if (edge->start > index) edge->start--;
             if (edge->end > index) edge->end--;
@@ -108,7 +120,6 @@ public:
         Graph* graph;
 
     public:
-        // Поменяли местами порядок объявления переменных
         Iterator(Graph* graph, size_t index) : index(index), graph(graph) {}
 
         bool operator!=(const Iterator& other) const {
