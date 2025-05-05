@@ -2,13 +2,12 @@
 #include <fstream>
 #include <climits>
 #include "graph.h"
-#include <cassert>
 
 const int INF = INT_MAX;
 
 template<typename Data>
 void modifiedFloydWarshall(Graph<Data>& graph, size_t vertex_amount) {
-    Graph<Data> mutableGraph = graph;
+    Graph<Data> mutableGraph = graph; // копия
 
     for (size_t k = 0; k < vertex_amount; ++k) {
         for (size_t i = 0; i < vertex_amount; ++i) {
@@ -20,14 +19,12 @@ void modifiedFloydWarshall(Graph<Data>& graph, size_t vertex_amount) {
                     int weightIK = edgeIK->getEdgeData();
                     int weightKJ = edgeKJ->getEdgeData();
 
-                    if (mutableGraph.getEdge(i, j) == nullptr ||
-                        (weightIK != INF && weightKJ != INF &&
-                         mutableGraph.getEdge(i, j)->getEdgeData() > weightIK + weightKJ)) {
-                        if (mutableGraph.getEdge(i, j) == nullptr) {
+                    auto edgeIJ = mutableGraph.getEdge(i, j);
+                    if (!edgeIJ || edgeIJ->getEdgeData() > weightIK + weightKJ) {
+                        if (!edgeIJ)
                             mutableGraph.addEdge(i, j, weightIK + weightKJ);
-                        } else {
-                            mutableGraph.getEdge(i, j)->setEdgeData(weightIK + weightKJ);
-                        }
+                        else
+                            edgeIJ->setEdgeData(weightIK + weightKJ);
                     }
                 }
             }
@@ -42,59 +39,39 @@ void modifiedFloydWarshall(Graph<Data>& graph, size_t vertex_amount) {
         std::cout << "\n";
     }
 
-    size_t start_vertex = 0;
-    size_t end_vertex = vertex_amount - 1;
-    if (mutableGraph.getEdge(start_vertex, end_vertex)) {
-        std::cout << "Shortest path from vertex " << start_vertex << " to vertex " << end_vertex
-                  << " is " << mutableGraph.getEdge(start_vertex, end_vertex)->getEdgeData() << "\n";
-    } else {
-        std::cout << "No path from vertex " << start_vertex << " to vertex " << end_vertex << "\n";
-    }
+    size_t start = 0, end = vertex_amount - 1;
+    auto path = mutableGraph.getEdge(start, end);
+    if (path)
+        std::cout << "Shortest path from " << start << " to " << end << ": " << path->getEdgeData() << "\n";
+    else
+        std::cout << "No path from " << start << " to " << end << "\n";
 }
 
-int main(int argc, char* argv[]) {
-    size_t vertex_amount = 0;
-    int N = 0;
-    std::ifstream infile;
-    std::istream* in = &std::cin;
 
-    if (argc > 1) {
-        infile.open(argv[1]);
-        if (infile.is_open()) {
-            in = &infile;
-            std::cout << "Reading input from file: " << argv[1] << "\n";
-        } else {
-            std::cerr << "Failed to open file: " << argv[1] << ". Switching to manual input.\n";
-        }
-    } else {
-        std::cout << "No input file provided. Using manual input.\n";
-    }
+int main(int argc, char* argv[]) {
+    std::ifstream file("input.txt");
+    std::istream* input = &std::cin;
+    if (file)
+        input = &file;
+    else
+        std::cout << "input.txt not found. Enter input manually.\n";
+
+    size_t vertex_amount = 0;
+    int edge_count = 0;
 
     std::cout << "Input vertex_amount> ";
-    *in >> vertex_amount;
-
-    if (vertex_amount == 0) {
-        std::cerr << "Invalid vertex amount.\n";
-        return 1;
-    }
-
+    *input >> vertex_amount;
     Graph<int> graph(vertex_amount);
 
     std::cout << "Input number of edges> ";
-    *in >> N;
+    *input >> edge_count;
 
-    for (int i = 0; i < N; ++i) {
-        size_t start_vertex_index, end_vertex_index;
-        int edge_data;
-        std::cout << "Input " << i << " data (start_vertex end_vertex weight)> ";
-        *in >> start_vertex_index >> end_vertex_index >> edge_data;
-
-        if (start_vertex_index >= vertex_amount || end_vertex_index >= vertex_amount) {
-            std::cerr << "Invalid edge index: " << start_vertex_index << " -> " << end_vertex_index << "\n";
-            return 1;
-        }
-
-        graph.addEdge(start_vertex_index, end_vertex_index, edge_data);
+    for (int i = 0; i < edge_count; ++i) {
+        size_t u, v;
+        int weight;
+        std::cout << "Edge " << i << " (start end weight): ";
+        *input >> u >> v >> weight;
+        graph.addEdge(u, v, weight);
     }
 
     modifiedFloydWarshall(graph, vertex_amount);

@@ -33,7 +33,7 @@ int main() {
 
     // Итерация по графу
     auto it = graph->getIterator(0);
-    while (*it) {
+    while (it != graph->getIterator(graph->getVertexAmount())) {
         cout << "Visiting vertex: " << it.getIndex() << endl;
         ++it;
     }

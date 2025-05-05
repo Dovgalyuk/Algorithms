@@ -1,235 +1,137 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include "vector.h"
+#include <vector>
+#include <stdexcept>
+#include <iostream>
+#include <algorithm>  // Для использования std::remove_if
 
-template<typename Data>
+template <typename T>
 class Graph {
-public:
-    Graph(size_t vertexAmount) {
-        vertexes.resize(vertexAmount);
-        for (size_t i = 0; i < vertexAmount; i++) {
-            vertexes.set(i, Vertex(static_cast<int>(i)));
-        }
-        edgeMatrix.resize(vertexAmount * vertexAmount);
-        for (size_t i = 0; i < edgeMatrix.size(); i++) {
-            edgeMatrix.set(i, nullptr);
-        }
-    }
-
-    ~Graph() {
-        for (size_t i = 0; i < edgeMatrix.size(); i++) {
-            delete edgeMatrix.get(i);
-        }
-    }
-
-    Graph(const Graph& a) {
-        vertexes = a.vertexes;
-        Vector<Edge*> tempEdgeMatrix = a.edgeMatrix;
-        edgeMatrix.swap(tempEdgeMatrix);
-    }
-
-    Graph& operator=(const Graph& other) {
-        if (this == &other) {
-            return *this;
-        }
-
-        for (size_t i = 0; i < edgeMatrix.size(); i++) {
-            delete edgeMatrix.get(i);
-        }
-
-        Vector<Vertex> tempVertices = other.vertexes;
-        Vector<Edge*> tempEdgeMatrix = other.edgeMatrix;
-        vertexes.swap(tempVertices);
-        edgeMatrix.swap(tempEdgeMatrix);
-
-        return *this;
-    }
-
+private:
     struct Vertex {
-    private:
-        Data vertexData;
-
-    public:
-        Vertex() : vertexData(Data()) {}
-
-        Vertex(Data vertexData) {
-            this->vertexData = vertexData;
-        }
-
-        void setVertexData(Data vertexData) {
-            this->vertexData = vertexData;
-        }
-
-        Data getVertexData() {
-            return this->vertexData;
-        }
+        T data;
+        Vertex(T data) : data(data) {}
+        T getVertexData() const { return data; }
     };
 
     struct Edge {
-    private:
-        Data edgeData;
-
-    public:
-        Edge(Data data) {
-            this->edgeData = data;
-        }
-
-        void setEdgeData(Data data) {
-            this->edgeData = data;
-        }
-
-        Data getEdgeData() {
-            return edgeData;
-        }
+        size_t start;
+        size_t end;
+        int weight;
+        Edge(size_t start, size_t end, int weight) : start(start), end(end), weight(weight) {}
+        int getEdgeData() const { return weight; }
+        void setEdgeData(int newWeight) { weight = newWeight; }
     };
+
+    std::vector<Vertex> vertexes;
+    std::vector<Edge*> edges;
+
+public:
+    Graph(size_t vertexCount) {
+        for (size_t i = 0; i < vertexCount; ++i) {
+            vertexes.push_back(Vertex(T(i))); // Initializing vertex data with their index.
+        }
+    }
 
     size_t getVertexAmount() const {
         return vertexes.size();
     }
 
-    struct Iterator {
-    private:
-        Graph* graph;
-        size_t start;
-        int end = -1;
-
-        size_t getNearVertexIndex() {
-            for (size_t i = end + 1; i < graph->getVertexAmount(); i++) {
-                if (graph->isEdgeExist(start, i)) {
-                    return static_cast<int>(i);
-                }
-            }
-            return -1;
+    Vertex getVertex(size_t index) const {
+        if (index >= vertexes.size()) {
+            throw std::out_of_range("Vertex index out of range");
         }
-
-    public:
-        Iterator(Graph* graph, size_t start) {
-            this->graph = graph;
-            this->start = start;
-            this->end = getNearVertexIndex();
-        }
-
-        bool operator*() {
-            return end != -1;
-        }
-
-        void operator++() {
-            end = getNearVertexIndex();
-        }
-
-        size_t getIndex() const {
-            return end;
-        }
-
-        int getStart() const {
-            return start;
-        }
-    };
-
-    Iterator getIterator(size_t start) {
-        return Iterator(this, start);
+        return vertexes[index];
     }
 
-    size_t addVertex(Data vertex_data) {
-        size_t index = vertexes.size();
-        vertexes.resize(index + 1);
-        vertexes.set(index, Vertex(vertex_data));
+    void addEdge(size_t start, size_t end, int weight) {
+        if (start >= vertexes.size() || end >= vertexes.size()) {
+            throw std::out_of_range("Edge vertices are out of range");
+        }
+        edges.push_back(new Edge(start, end, weight));
+    }
 
-        size_t vertex_amount = getVertexAmount();
-
-        Vector<Edge*> buffMatrix;
-        buffMatrix.resize(vertex_amount * vertex_amount);
-        for (size_t i = 0; i < vertex_amount; i++) {
-            for (size_t j = 0; j < vertex_amount; j++) {
-                buffMatrix.set((i * vertex_amount) + j, edgeMatrix.get(i * index + j));
+    bool isEdgeExist(size_t start, size_t end) const {
+        for (const auto& edge : edges) {
+            if (edge->start == start && edge->end == end) {
+                return true;
             }
         }
+        return false;
+    }
 
-        edgeMatrix.swap(buffMatrix);
-        return index;
+    Edge* getEdge(size_t start, size_t end) const {
+        for (auto& edge : edges) {
+            if (edge->start == start && edge->end == end) {
+                return edge;
+            }
+        }
+        return nullptr; 
+    }
+
+    void removeEdge(size_t start, size_t end) {
+        edges.erase(
+            std::remove_if(edges.begin(), edges.end(), [start, end](Edge* edge) {
+                return edge->start == start && edge->end == end;
+            }),
+            edges.end()
+        );
     }
 
     void removeVertex(size_t index) {
-        size_t _vertexAmount = getVertexAmount();
-
-        if (index >= _vertexAmount) {
-            return;
+        if (index >= vertexes.size()) {
+            throw std::out_of_range("Vertex index out of range");
         }
 
-        for (size_t i = index; i < _vertexAmount - 1; i++) {
-            vertexes.set(i, vertexes.get(i + 1));
-        }
-        vertexes.resize(_vertexAmount - 1);
+        // Remove edges connected to this vertex
+        edges.erase(
+            std::remove_if(edges.begin(), edges.end(), [index](Edge* edge) {
+                return edge->start == index || edge->end == index;
+            }),
+            edges.end()
+        );
 
-        for (size_t i = 0; i < _vertexAmount; i++) {
-            Edge* edge = edgeMatrix.get(index * _vertexAmount + i);
-            if (edge) {
-                delete edge;
-            }
-            edge = edgeMatrix.get(i * _vertexAmount + index);
-            if (edge) {
-                delete edge;
-            }
-        }
+        // Remove vertex
+        vertexes.erase(vertexes.begin() + index);
 
-        size_t vertex_amount = getVertexAmount();
-        Vector<Edge*> buffMatrix;
-        buffMatrix.resize(vertex_amount * vertex_amount);
-        for (size_t i = 0; i < vertex_amount; i++) {
-            for (size_t j = 0; j < vertex_amount; j++) {
-                Edge* edge = edgeMatrix.get(((i + (i >= index)) * _vertexAmount) + (j + (j >= index)));
-                buffMatrix.set((i * vertex_amount) + j, edge);
-            }
-        }
-
-        edgeMatrix.swap(buffMatrix);
-    }
-
-    Vertex getVertex(size_t index) {
-        return vertexes.get(index);
-    }
-
-    void addEdge(size_t start_vertex_index, size_t end_vertex_index, Data edge_data) {
-        if (start_vertex_index >= getVertexAmount() || end_vertex_index >= getVertexAmount()) {
-            std::cerr << "Invalid vertex indices!" << std::endl;
-            return;
-        }
-    
-        size_t vertex_amount = getVertexAmount();
-        Edge* existingEdge = edgeMatrix.get(start_vertex_index * vertex_amount + end_vertex_index);
-    
-        if (existingEdge == nullptr) {
-            Edge* newEdge = new Edge(edge_data);
-            edgeMatrix.set(start_vertex_index * vertex_amount + end_vertex_index, newEdge);
-        }
-        else {
-            existingEdge->setEdgeData(edge_data);
-        }
-    }
-    
-
-    void removeEdge(size_t start_vertex_index, size_t end_vertex_index) {
-        size_t vertex_amount = getVertexAmount();
-        Edge* edge = edgeMatrix.get(start_vertex_index * vertex_amount + end_vertex_index);
-        if (edge) {
-            delete edge;
-            edgeMatrix.set(start_vertex_index * vertex_amount + end_vertex_index, nullptr);
+        // Reindex the remaining vertices
+        for (auto& edge : edges) {
+            if (edge->start > index) edge->start--;
+            if (edge->end > index) edge->end--;
         }
     }
 
-    Edge* getEdge(size_t start_vertex_index, size_t end_vertex_index) {
-        size_t vertex_amount = getVertexAmount();
-        return edgeMatrix.get(start_vertex_index * vertex_amount + end_vertex_index);
-    }
+    class Iterator {
+    private:
+        size_t index;
+        Graph* graph;
 
-    bool isEdgeExist(size_t start_vertex_index, size_t end_vertex_index) {
-        return getEdge(start_vertex_index, end_vertex_index) != nullptr;
-    }
+    public:
+        // Поменяли местами порядок объявления переменных
+        Iterator(Graph* graph, size_t index) : index(index), graph(graph) {}
 
-private:
-    Vector<Vertex> vertexes;
-    Vector<Edge*> edgeMatrix;
+        bool operator!=(const Iterator& other) const {
+            return index != other.index;
+        }
+
+        Iterator& operator++() {
+            ++index;
+            return *this;
+        }
+
+        Vertex operator*() const {
+            return graph->getVertex(index);
+        }
+
+        size_t getIndex() const {
+            return index;
+        }
+    };
+
+    Iterator getIterator(size_t startIndex) {
+        return Iterator(this, startIndex);
+    }
 };
 
 #endif
