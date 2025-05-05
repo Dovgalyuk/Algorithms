@@ -21,11 +21,11 @@ ListItem *list_first(List *list);
 Data list_item_data(const ListItem *item);
 
 // Returns list item following after the specified one
-ListItem *list_item_next(ListItem *item);
+ListItem *list_item_next(const ListItem *item);
 
 // Returns previous element for the specified item.
 // Not applicable for the singly linked lists.
-ListItem *list_item_prev(ListItem *item);
+ListItem *list_item_prev(const ListItem *item);
 
 // Inserts new list item into the beginning
 ListItem *list_insert(List *list, Data data);
