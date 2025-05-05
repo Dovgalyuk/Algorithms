@@ -3,7 +3,9 @@
 
 template <typename Data>
 class List {
+    
 public:
+    
     class Item {
     public:
         Item *next() { return nextItem; }
@@ -19,6 +21,8 @@ public:
         friend class List<Data>;
     };
 
+    Item *head;
+    size_t listSize;
     List() : head(nullptr), listSize(0) {}
 
     // Конструктор копирования
@@ -180,11 +184,7 @@ public:
         delete toDelete;
         --listSize;
         return item->next();
-    }
-
-private:
-    Item *head;
-    size_t listSize;
+    }    
 };
 
 #endif

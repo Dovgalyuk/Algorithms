@@ -38,12 +38,10 @@ public:
     
         for (size_t i = 0; i < adjacencyLists.size(); ++i) {
             auto& list = adjacencyLists.get(i);
-            for (size_t j = 0; j < list.size(); ++j) {
-                auto& edge = list.get(j)->data();
+            for (auto* item = list.begin(); item != nullptr; item = item->next()) {
+                auto& edge = item->data();
                 if (edge.to == index) {
-                    list.erase(j);
-                    --j;
-                } else if (edge.to > index) {               
+                } else if (edge.to > index) {
                     edge.to--;
                 }
             }
@@ -159,6 +157,10 @@ public:
             neighbors.set(i, list.get(i)->data().to); 
         }
         return neighbors;
+    }
+
+    const List<Edge>& GetAdjacencyList(size_t vertex) const {
+        return adjacencyLists.get(vertex);
     }
 };
 

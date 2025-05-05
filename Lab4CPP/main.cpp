@@ -28,9 +28,9 @@ void PrimMST(const MyGraph& graph) {
     std::priority_queue<Edge, std::vector<Edge>, std::greater<Edge>> pq;
 
     inMST.set(0, true);
-    auto initialNeighbors = graph.GetNeighbors(0); 
-    for (size_t i = 0; i < initialNeighbors.size(); ++i) {
-        size_t neighbor = initialNeighbors.get(i);
+    const auto& initialList = graph.GetAdjacencyList(0); 
+    for (auto* item = initialList.begin(); item != nullptr; item = item->next()) {
+        size_t neighbor = item->data().to;
         auto weight = graph.GetEdgeLabel(0, neighbor);
         if (weight.has_value()) {
             pq.push({0, neighbor, weight.value()});
@@ -50,9 +50,9 @@ void PrimMST(const MyGraph& graph) {
         mstWeight += edge.weight;
         mstEdges.push_back(edge);
 
-        auto currentNeighbors = graph.GetNeighbors(edge.to); 
-        for (size_t i = 0; i < currentNeighbors.size(); ++i) {
-            size_t neighbor = currentNeighbors.get(i);
+        const auto& currentList = graph.GetAdjacencyList(edge.to);
+        for (auto* item = currentList.begin(); item != nullptr; item = item->next()) {
+            size_t neighbor = item->data().to;
             if (!inMST.get(neighbor)) {
                 auto weight = graph.GetEdgeLabel(edge.to, neighbor);
                 if (weight.has_value()) {
