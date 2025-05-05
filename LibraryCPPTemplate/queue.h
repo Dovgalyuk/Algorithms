@@ -1,58 +1,80 @@
 #ifndef QUEUE_TEMPLATE_H
 #define QUEUE_TEMPLATE_H
 
-template <typename Data> class Queue
-{
+#include <cstddef>  // для nullptr
+#include <stdexcept>  // для std::out_of_range
+
+template <typename Data>
+class Queue {
 public:
-    // Create empty queue
-    Queue()
-    {
+    Queue() : _head(nullptr), _tail(nullptr) {}
+
+    Queue(const Queue &other) : _head(nullptr), _tail(nullptr) {
+        Node* current = other._head;
+        while (current) {
+            insert(current->data);
+            current = current->next;
+        }
     }
 
-    // copy constructor
-    Queue(const Queue &a)
-    {
-        // implement or disable this function
-    }
-
-    // assignment operator
-    Queue &operator=(const Queue &a)
-    {
-        // implement or disable this function
+    Queue &operator=(const Queue &other) {
+        if (this != &other) {
+            clear();
+            Node* current = other._head;
+            while (current) {
+                insert(current->data);
+                current = current->next;
+            }
+        }
         return *this;
     }
 
-    // Deletes queue
-    ~Queue()
-    {
+    ~Queue() {
+        clear();
     }
 
-    // Includes new element into the queue
-    // Should be O(1) on average
-    void insert(Data data)
-    {
+    void insert(Data data) {
+        Node* new_node = new Node(data);
+        if (!_tail) {
+            _head = _tail = new_node;
+        } else {
+            _tail->next = new_node;
+            _tail = new_node;
+        }
     }
 
-    // Retrieves first element from the queue
-    Data get() const
-    {
-        return Data();
+    Data get() const {
+        if (!_head) throw std::out_of_range("Queue is empty");
+        return _head->data;
     }
 
-    // Removes first element from the queue
-    // Should be O(1) on average
-    void remove()
-    {
+    void remove() {
+        if (!_head) return;
+        Node* temp = _head;
+        _head = _head->next;
+        delete temp;
+        if (!_head) _tail = nullptr;
     }
 
-    // Returns true if the queue is empty
-    bool empty() const
-    {
-        return true;
+    bool empty() const {
+        return _head == nullptr;
     }
 
 private:
-    // private data should be here
+    struct Node {
+        Data data;
+        Node* next;
+        Node(Data d) : data(d), next(nullptr) {}
+    };
+
+    Node* _head;
+    Node* _tail;
+
+    void clear() {
+        while (_head) {
+            remove();
+        }
+    }
 };
 
 #endif
