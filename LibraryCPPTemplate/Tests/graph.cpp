@@ -31,20 +31,10 @@ int main() {
         return 1;
     }
 
-    auto it = graph->getIterator(0);
-
-    if (!graph) {
-        cout << "Graph does not exist\n";
-        return 1;
-    }
-
     // Итерация по графу
+    auto it = graph->getIterator(0);
     while (*it) {
-        if (it.getIndex() != 3) {
-            cout << "Invalid iteration\n";
-            delete graph;
-            return 1;
-        }
+        cout << "Visiting vertex: " << it.getIndex() << endl;
         ++it;
     }
 

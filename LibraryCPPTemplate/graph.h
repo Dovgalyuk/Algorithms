@@ -191,9 +191,14 @@ public:
     }
 
     void addEdge(size_t start_vertex_index, size_t end_vertex_index, Data edge_data) {
+        if (start_vertex_index >= getVertexAmount() || end_vertex_index >= getVertexAmount()) {
+            std::cerr << "Invalid vertex indices!" << std::endl;
+            return;
+        }
+    
         size_t vertex_amount = getVertexAmount();
         Edge* existingEdge = edgeMatrix.get(start_vertex_index * vertex_amount + end_vertex_index);
-
+    
         if (existingEdge == nullptr) {
             Edge* newEdge = new Edge(edge_data);
             edgeMatrix.set(start_vertex_index * vertex_amount + end_vertex_index, newEdge);
@@ -202,6 +207,7 @@ public:
             existingEdge->setEdgeData(edge_data);
         }
     }
+    
 
     void removeEdge(size_t start_vertex_index, size_t end_vertex_index) {
         size_t vertex_amount = getVertexAmount();
