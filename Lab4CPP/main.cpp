@@ -29,8 +29,8 @@ void PrimMST(const MyGraph& graph) {
 
     inMST.set(0, true);
     const auto& initialList = graph.GetAdjacencyList(0); 
-    for (auto* item = initialList.begin(); item != nullptr; item = item->next()) {
-        size_t neighbor = item->data().to;
+    for (auto it = initialList.begin(); it != initialList.end(); ++it) {
+        size_t neighbor = it.getItem()->data().to;
         auto weight = graph.GetEdgeLabel(0, neighbor);
         if (weight.has_value()) {
             pq.push({0, neighbor, weight.value()});
@@ -51,8 +51,8 @@ void PrimMST(const MyGraph& graph) {
         mstEdges.push_back(edge);
 
         const auto& currentList = graph.GetAdjacencyList(edge.to);
-        for (auto* item = currentList.begin(); item != nullptr; item = item->next()) {
-            size_t neighbor = item->data().to;
+        for (auto it = currentList.begin(); it != currentList.end(); ++it) {
+            size_t neighbor = it.getItem()->data().to;
             if (!inMST.get(neighbor)) {
                 auto weight = graph.GetEdgeLabel(edge.to, neighbor);
                 if (weight.has_value()) {

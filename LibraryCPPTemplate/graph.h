@@ -38,8 +38,8 @@ public:
     
         for (size_t i = 0; i < adjacencyLists.size(); ++i) {
             auto& list = adjacencyLists.get(i);
-            for (auto* item = list.begin(); item != nullptr; item = item->next()) {
-                auto& edge = item->data();
+            for (auto it = list.begin(); it != list.end(); ++it) {
+                auto& edge = it.getItem()->data();
                 if (edge.to == index) {
                 } else if (edge.to > index) {
                     edge.to--;
