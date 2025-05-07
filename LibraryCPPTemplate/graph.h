@@ -38,8 +38,8 @@ public:
     
         for (size_t i = 0; i < adjacencyLists.size(); ++i) {
             auto& list = adjacencyLists.get(i);
-            for (auto it = list.begin(); it != list.end(); ++it) {
-                auto& edge = it.getItem()->data();
+            for (auto* item = list.head; item != nullptr; item = item->next()) {
+                auto& edge = item->data();
                 if (edge.to == index) {
                 } else if (edge.to > index) {
                     edge.to--;
@@ -161,6 +161,24 @@ public:
 
     const List<Edge>& GetAdjacencyList(size_t vertex) const {
         return adjacencyLists.get(vertex);
+    }
+
+public:
+    class NeighborIterator {
+    public:
+        NeighborIterator(typename List<Edge>::Item* ptr) : ptr_(ptr) {}
+        NeighborIterator& operator++() { if (ptr_) ptr_ = ptr_->next(); return *this; }
+        bool operator!=(const NeighborIterator& other) const { return ptr_ != other.ptr_; }
+        size_t operator*() const { return ptr_->data().to; }
+    private:
+        typename List<Edge>::Item* ptr_;
+    };
+
+    NeighborIterator neighbors_begin(size_t vertex) const {
+        return NeighborIterator(adjacencyLists.get(vertex).head);
+    }
+    NeighborIterator neighbors_end(size_t) const {
+        return NeighborIterator(nullptr);
     }
 };
 

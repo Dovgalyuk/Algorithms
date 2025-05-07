@@ -21,20 +21,6 @@ public:
         friend class List<Data>;
     };
 
-    class Iterator {
-    public:
-        Iterator(Item* ptr) : current(ptr) {}
-        Iterator& operator++() { if (current) current = current->next(); return *this; }
-        bool operator!=(const Iterator& other) const { return current != other.current; }
-        Data& operator*() { return current->data(); }
-        Item* getItem() const { return current; }
-    private:
-        Item* current;
-    };
-
-    Iterator begin() const { return Iterator(head); }
-    Iterator end() const { return Iterator(nullptr); }
-
     Item *head;
     size_t listSize;
     List() : head(nullptr), listSize(0) {}
