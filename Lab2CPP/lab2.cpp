@@ -12,7 +12,7 @@ private:
     std::vector<std::string> call_log;  // Лог выполненных операций
 
     // Проверка, что в стеке достаточно элементов для операции
-    void check_stack_size(int required) {
+    void check_stack_size(size_t required) {
         if (stack_size(stack) < required) {
             throw std::runtime_error("Stack underflow");
         }
