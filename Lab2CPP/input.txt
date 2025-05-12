@@ -1,5 +1,2 @@
-bipush 1
-bipush 2
-bipush 3
-iadd
-istore_0
+bipush -1
+pop
