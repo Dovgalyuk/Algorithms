@@ -1,6 +1,6 @@
 #include <iostream>
 #include "graph.h"
-
+#include <vector>
 typedef Graph<std::string, int> MyGraph;
 
 int main()
@@ -84,6 +84,32 @@ int main()
         }
     }
 
+    std::vector<size_t> iteratedNeighbors;
+    for (auto it = graph.neighbors_begin(0); it != graph.neighbors_end(0); ++it) {
+        iteratedNeighbors.push_back(*it);
+    }
+
+    // Проверим, что количество совпадает 
+    if (iteratedNeighbors.size() != neighbors.size()) {
+        std::cout << "Итератор прошел по неверному количеству соседей\n";
+        return 1;
+    }
+
+    // Проверим, что значения совпадают
+    for (size_t i = 0; i < iteratedNeighbors.size(); ++i) {
+        bool found = false;
+        for (size_t j = 0; j < neighbors.size(); ++j) {
+            if (iteratedNeighbors[i] == neighbors.get(j)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            std::cout << "Итератор нашел неверного соседа: " << iteratedNeighbors[i] << "\n";
+            return 1;
+        }
+    }
+
     // Удалим ребро
     std::cout << "Удаляем ребро 0 -> 1\n";
     graph.RemoveEdge(0, 1);
@@ -100,6 +126,8 @@ int main()
         return 1;
     }
 
+    
+    
     std::cout << "Все тесты прошли успешно!\n";
     return 0;
 }
