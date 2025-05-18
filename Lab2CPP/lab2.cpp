@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
-#include "../LibraryCPP/stack.h"
+#include "stack.h"
 
 class JVMStack {
 private:
