@@ -5,14 +5,13 @@
 struct Queue {
     Vector* vector;
     size_t head = 0;
-    size_t tail = 0;
-    size_t count = 0;
+    size_t count = 0; 
 };
 
 Queue* queue_create() {
     Queue* queue = new Queue;
     queue->vector = vector_create();
-    vector_resize(queue->vector, 2); 
+    vector_resize(queue->vector, 2);
     return queue;
 }
 
@@ -23,10 +22,8 @@ void queue_delete(Queue* queue) {
 
 void queue_insert(Queue* queue, Data data) {
     if (queue->count == vector_size(queue->vector)) {
-        
         Vector* new_vector = vector_create();
         vector_resize(new_vector, vector_size(queue->vector) * 2);
-        
         
         for (size_t i = 0; i < queue->count; ++i) {
             vector_set(new_vector, i, 
@@ -36,12 +33,11 @@ void queue_insert(Queue* queue, Data data) {
         Vector* old_vector = queue->vector;
         queue->vector = new_vector;
         queue->head = 0;
-        queue->tail = queue->count;
         vector_delete(old_vector);
     }
     
-    vector_set(queue->vector, queue->tail, data);
-    queue->tail = (queue->tail + 1) % vector_size(queue->vector);
+    size_t tail = (queue->head + queue->count) % vector_size(queue->vector);
+    vector_set(queue->vector, tail, data);
     queue->count++;
 }
 
