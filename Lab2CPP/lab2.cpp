@@ -248,17 +248,13 @@ int main() {
 
     std::cout << "stack:" << std::endl;
     Stack* temp_stack = stack_create();
-    List* list = stack->list;
-    while (list) {
-        ListItem* current = list_first(stack->list);
-        if (current != nullptr) {
-            std::cout << list_item_data(current) << std::endl;
-            list = list_erase_first(stack->list);
-        }
-        else {
-            break;
-        }
+    
+    while (!stack_empty(stack)) {
+        Data value = stack_get(stack);
+        std::cout << value << std::endl;
+        stack_pop(stack); 
     }
+
     stack_delete(temp_stack);
 
     std::cout << "vars:" << std::endl;
