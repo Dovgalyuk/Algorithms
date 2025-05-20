@@ -13,4 +13,4 @@ add_custom_target(create_input_file ALL DEPENDS input.txt)
 
 add_test(NAME TestLab2CPP COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 
-add_dependencies(TestLab2CPP create_input_file)
+#add_dependencies(TestLab2CPP create_input_file)
