@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "stack.h"
+#include <stack>
 
 int main() {
     Stack* stack = stack_create();
