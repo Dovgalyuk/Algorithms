@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include "stack.h"
+#include "list.h"
 
 int main() {
     Stack* stack = stack_create();
