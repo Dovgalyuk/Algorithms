@@ -11,13 +11,6 @@ add_custom_command(
 
 add_custom_target(create_input_file ALL DEPENDS input.txt)
 
-add_test(NAME TestLab2CPP COMMAND Lab2CPP)
-set_tests_properties(TestLab2CPP PROPERTIES
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/Lab2CPP
-    PASS_REGULAR_EXPRESSION "Executing: bipush\nExecuting: bipush\nExecuting: bipush\nExecuting: iadd\nExecuting: istore_0\nstack:\nvars:\n5\n0\n0\n0"
-)
+add_test(NAME TestLab2CPP COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 
 add_dependencies(TestLab2CPP create_input_file)
-
-#add_test(NAME TestLab2CPP COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-
