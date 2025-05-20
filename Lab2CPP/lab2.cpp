@@ -3,7 +3,6 @@
 #include <sstream>
 #include <string>
 #include "stack.h"
-#include "list.h"
 
 int main() {
     Stack* stack = stack_create();
@@ -247,15 +246,12 @@ int main() {
     inputFile.close();
 
     std::cout << "stack:" << std::endl;
-    Stack* temp_stack = stack_create();
-    
+
     while (!stack_empty(stack)) {
         Data value = stack_get(stack);
         std::cout << value << std::endl;
-        stack_pop(stack); 
+        stack_pop(stack);
     }
-
-    stack_delete(temp_stack);
 
     std::cout << "vars:" << std::endl;
     for (int i = 0; i < 4; ++i) {
