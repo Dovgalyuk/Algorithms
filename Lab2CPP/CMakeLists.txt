@@ -3,7 +3,7 @@ target_include_directories(Lab2CPP PUBLIC ../LibraryCPP)
 target_link_libraries(Lab2CPP LibraryCPP)
 
 add_custom_command(
-    OUTPUT ${CMAKE_BINARY_DIR}/Lab2CPP/in.txt
+    OUTPUT ${CMAKE_SOURCE_DIR}/Lab2CPP/in.txt
     COMMAND ${CMAKE_COMMAND} -E echo "bipush 1\nbipush 2\nbipush 3\niadd\nistore_0" > ${CMAKE_BINARY_DIR}/Lab2CPP/in.txt
     DEPENDS lab2.cpp
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/Lab2CPP
