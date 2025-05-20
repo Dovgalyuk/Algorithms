@@ -4,7 +4,7 @@ target_link_libraries(Lab2CPP LibraryCPP)
 
 add_custom_command(
     OUTPUT input.txt
-    COMMAND ${CMAKE_COMMAND} -E file WRITE input.txt "bipush 1\nbipush 2\nbipush 3\niadd\nistore_0"
+    COMMAND ${CMAKE_COMMAND} -E echo "bipush 1\nbipush 2\nbipush 3\niadd\nistore_0" > ${CMAKE_CURRENT_BINARY_DIR}/input.txt
     DEPENDS lab2.cpp
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/Lab2CPP
     VERBATIM
