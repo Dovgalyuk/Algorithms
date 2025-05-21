@@ -52,38 +52,59 @@ void floydWarshall(const Graph<std::string, int>& graph) {
 }
 
 int main(int argc, char** argv) {
-    if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
-        std::cerr << "Error: specify the input data file." << std::endl;
+    try {
+        if (argc < 2) {
+            std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
+            return 1;
+        }
+
+        std::ifstream infile(argv[1]);
+        if (!infile) {
+            std::cerr << "Error: cannot open file " << argv[1] << std::endl;
+            return 1;
+        }
+
+        size_t vertexCount, edgeCount;
+        if (!(infile >> vertexCount >> edgeCount)) {
+            std::cerr << "Error reading vertex and edge counts" << std::endl;
+            return 1;
+        }
+
+        Graph<std::string, int> graph;
+        
+        for (size_t i = 0; i < vertexCount; ++i) {
+            std::string label;
+            if (!(infile >> label)) {
+                std::cerr << "Error reading vertex label " << i << std::endl;
+                return 1;
+            }
+            graph.addVertex(label);
+        }
+        
+        for (size_t i = 0; i < edgeCount; ++i) {
+            size_t from, to;
+            int weight;
+            if (!(infile >> from >> to >> weight)) {
+                std::cerr << "Error reading edge " << i << std::endl;
+                return 1;
+            }
+            if (from >= vertexCount || to >= vertexCount) {
+                std::cerr << "Invalid vertex index in edge " << i 
+                          << ": " << from << " or " << to 
+                          << " (vertex count = " << vertexCount << ")" << std::endl;
+                return 1;
+            }
+            graph.addEdge(from, to, weight);
+        }
+
+        infile.close();
+
+        floydWarshall(graph);
+        
+    } catch (const std::exception& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
         return 1;
     }
-
-    std::ifstream infile(argv[1]);
-    if (!infile) {
-        std::cerr << "Error: cannot open file " << argv[1] << std::endl;
-        return 1;
-    }
-
-    size_t vertexCount, edgeCount;
-    infile >> vertexCount >> edgeCount;
-
-    Graph<std::string, int> graph(vertexCount);
-    
-    for (size_t i = 0; i < vertexCount; ++i) {
-        std::string label;
-        infile >> label;
-        graph.setVertexLabel(i, label);
-    }
-    for (size_t i = 0; i < edgeCount; ++i) {
-        size_t from, to;
-        int weight;
-        infile >> from >> to >> weight;
-        graph.addEdge(from, to, weight);
-    }
-
-    infile.close();
-
-    floydWarshall(graph);
     
     return 0;
 }
