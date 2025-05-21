@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "vector.h"
 #include <iostream>
 #include <limits>
 #include <fstream>
