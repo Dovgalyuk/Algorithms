@@ -2,7 +2,7 @@
 #include <iostream>
 #include <limits>
 #include <fstream>
-#include <sstream>
+#include <string>
 
 void floydWarshall(const Graph<std::string, int>& graph) {
     size_t n = graph.getVertexCount();
@@ -51,48 +51,39 @@ void floydWarshall(const Graph<std::string, int>& graph) {
     }
 }
 
-void readGraphFromFile(const std::string& filename, Graph<std::string, int>& graph) {
-    std::ifstream file(filename);
-    if (!file.is_open()) {
-        throw std::runtime_error("Cannot open file: " + filename);
-    }
-
-    size_t vertexCount;
-    file >> vertexCount;
-    
-    graph = Graph<std::string, int>(vertexCount);
-    
-    for (size_t i = 0; i < vertexCount; ++i) {
-        std::string label;
-        file >> label;
-        graph.setVertexLabel(i, label);
-    }
-    
-    size_t edgeCount;
-    file >> edgeCount;
-    
-    for (size_t i = 0; i < edgeCount; ++i) {
-        size_t from, to;
-        int weight;
-        file >> from >> to >> weight;
-        graph.addEdge(from, to, weight);
-    }
-}
-
 int main(int argc, char** argv) {
     if (argc < 2) {
         std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
+        std::cerr << "Error: specify the input data file." << std::endl;
         return 1;
     }
 
-    try {
-        Graph<std::string, int> graph;
-        readGraphFromFile(argv[1], graph);
-        floydWarshall(graph);
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
+    std::ifstream infile(argv[1]);
+    if (!infile) {
+        std::cerr << "Error: cannot open file " << argv[1] << std::endl;
         return 1;
     }
 
+    size_t vertexCount, edgeCount;
+    infile >> vertexCount >> edgeCount;
+
+    Graph<std::string, int> graph(vertexCount);
+    
+    for (size_t i = 0; i < vertexCount; ++i) {
+        std::string label;
+        infile >> label;
+        graph.setVertexLabel(i, label);
+    }
+    for (size_t i = 0; i < edgeCount; ++i) {
+        size_t from, to;
+        int weight;
+        infile >> from >> to >> weight;
+        graph.addEdge(from, to, weight);
+    }
+
+    infile.close();
+
+    floydWarshall(graph);
+    
     return 0;
 }
