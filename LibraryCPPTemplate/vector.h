@@ -9,6 +9,13 @@ template <typename Data>
 class Vector {
 public:
     Vector() : data(nullptr), _size(0), _capacity(0) {}
+    
+    explicit Vector(size_t size) : _size(size), _capacity(size) {
+        data = new Data[_capacity];
+        for (size_t i = 0; i < _size; ++i) {
+            data[i] = Data();
+        }
+    }
 
     Vector(const Vector& other) : _size(other._size), _capacity(other._size) {
         data = new Data[_capacity];
@@ -42,16 +49,6 @@ public:
     const Data& operator[](size_t index) const {
         if (index >= _size) throw std::out_of_range("Index out of range");
         return data[index];
-    }
-
-    Data get(size_t index) const {
-        if (index >= _size) throw std::out_of_range("Index out of range");
-        return data[index];
-    }
-
-    void set(size_t index, const Data& value) {
-        if (index >= _size) throw std::out_of_range("Index out of range");
-        data[index] = value;
     }
 
     size_t size() const { return _size; }
