@@ -1,11 +1,9 @@
 #include "graph.h"
 #include <iostream>
 #include <limits>
-#include <fstream>
-#include <string>
 
 void floydWarshall(const Graph<std::string, int>& graph) {
-    size_t n = graph.getVertexCount();
+    size_t n = graph.getVertexCount(); 
     
     Vector<Vector<int>> dist;
     dist.resize(n);
@@ -36,6 +34,7 @@ void floydWarshall(const Graph<std::string, int>& graph) {
             }
         }
     }
+    
     std::cout << "Shortest distances between all pairs of vertices:\n";
     for (size_t i = 0; i < n; ++i) {
         for (size_t j = 0; j < n; ++j) {
@@ -50,38 +49,32 @@ void floydWarshall(const Graph<std::string, int>& graph) {
     }
 }
 
-int main(int argc, char** argv) {
-    if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
-        std::cerr << "Error: specify the input data file." << std::endl;
-        return 1;
-    }
-
-    std::ifstream infile(argv[1]);
-    if (!infile) {
-        std::cerr << "Error: cannot open file " << argv[1] << std::endl;
-        return 1;
-    }
-
-    size_t vertexCount, edgeCount;
-    infile >> vertexCount >> edgeCount;
-
+int main() {
+    size_t vertexCount;
+    std::cout << "Enter number of vertices: ";
+    std::cin >> vertexCount;
+    
     Graph<std::string, int> graph(vertexCount);
     
     for (size_t i = 0; i < vertexCount; ++i) {
         std::string label;
-        infile >> label;
+        std::cout << "Enter label for vertex " << i << ": ";
+        std::cin >> label;
         graph.setVertexLabel(i, label);
     }
+    
+    size_t edgeCount;
+    std::cout << "Enter number of edges: ";
+    std::cin >> edgeCount;
+    
     for (size_t i = 0; i < edgeCount; ++i) {
         size_t from, to;
         int weight;
-        infile >> from >> to >> weight;
-        graph.addEdge(from, to, weight);
+        std::cout << "Enter edge " << i << " (from to weight): ";
+        std::cin >> from >> to >> weight;
+        graph.addEdge(from, to, weight);  
     }
-
-    infile.close();
-
+    
     floydWarshall(graph);
     
     return 0;
