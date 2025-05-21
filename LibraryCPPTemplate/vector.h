@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <algorithm>
 
-template <typename Data> class Vector
-{
+template <typename Data>
+class Vector {
 public:
     Vector() : data(nullptr), _size(0), _capacity(0) {}
 
@@ -32,6 +32,16 @@ public:
 
     ~Vector() {
         delete[] data;
+    }
+
+    Data& operator[](size_t index) {
+        if (index >= _size) throw std::out_of_range("Index out of range");
+        return data[index];
+    }
+
+    const Data& operator[](size_t index) const {
+        if (index >= _size) throw std::out_of_range("Index out of range");
+        return data[index];
     }
 
     Data get(size_t index) const {
@@ -63,6 +73,21 @@ public:
             data = new_data;
             _capacity = new_capacity;
         }
+    }
+
+    void push_back(const Data& value) {
+        if (_size == _capacity) {
+            reserve(_capacity == 0 ? 1 : _capacity * 2);
+        }
+        data[_size++] = value;
+    }
+
+    void erase(size_t index) {
+        if (index >= _size) throw std::out_of_range("Index out of range");
+        for (size_t i = index; i < _size - 1; ++i) {
+            data[i] = data[i + 1];
+        }
+        --_size;
     }
 
 private:
