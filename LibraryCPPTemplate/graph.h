@@ -1,3 +1,4 @@
+
 #ifndef GRAPH_H
 #define GRAPH_H
 
@@ -37,13 +38,11 @@ public:
     size_t addVertex(const V& label) {
         size_t index = vertexLabels.size();
         vertexLabels.push_back(label);
-
         for (size_t i = 0; i < adjMatrix.size(); ++i) {
             adjMatrix[i].push_back(EdgeCell());
         }
 
-        Vector<EdgeCell> newRow;
-        newRow.resize(vertexLabels.size()); 
+        Vector<EdgeCell> newRow(vertexLabels.size());
         adjMatrix.push_back(newRow);
         return index;
     }
@@ -108,27 +107,6 @@ public:
         return vertexLabels.size();
     }
 
-    struct Edge {
-        size_t from;
-        size_t to;
-        E weight;
-
-        Edge() : from(0), to(0), weight(E()) {}
-        Edge(size_t f, size_t t, const E& w) : from(f), to(t), weight(w) {}
-    };
-
-    Vector<Edge> getEdges() const {
-        Vector<Edge> edges;
-        for (size_t i = 0; i < adjMatrix.size(); ++i) {
-            for (size_t j = 0; j < adjMatrix[i].size(); ++j) {
-                if (adjMatrix[i][j].exists && i < j) {
-                    edges.push_back(Edge(i, j, adjMatrix[i][j].label));
-                }
-            }
-        }
-        return edges;
-    }
-
     class Iterator {
     private:
         const Graph& graph;
@@ -136,25 +114,23 @@ public:
         size_t idx;
 
     public:
-        Iterator(const Graph& g, size_t v) : graph(g), vertex(v), idx(0) {}
-
-        bool hasNext() {
-            std::cout << "Checking for next neighbor for vertex " << vertex << " at idx " << idx << std::endl;
-            while (idx < graph.getVertexCount()) {
-                if (graph.adjMatrix[vertex][idx].exists) {
-                    std::cout << "Found neighbor at " << idx << std::endl;
-                    return true;
-                }
+        Iterator(const Graph& g, size_t v) : graph(g), vertex(v), idx(0) {
+            while (idx < graph.getVertexCount() && !graph.hasEdge(vertex, idx)) {
                 ++idx;
             }
-            return false;
+        }
+
+        bool hasNext() const {
+            return idx < graph.getVertexCount();
         }
 
         size_t next() {
             if (!hasNext()) throw std::out_of_range("No more edges");
-            size_t result = idx++;
-            std::cout << "Returning neighbor " << result << std::endl;
-            return result;
+            size_t current = idx++;
+            while (idx < graph.getVertexCount() && !graph.hasEdge(vertex, idx)) {
+                ++idx;
+            }
+            return current;
         }
     };
 
