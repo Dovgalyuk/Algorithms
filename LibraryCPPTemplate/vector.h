@@ -1,142 +1,99 @@
-#ifndef GRAPH_H
-#define GRAPH_H
+#ifndef VECTOR_TEMPLATE_H
+#define VECTOR_TEMPLATE_H
 
-#include "vector.h"
+#include <cstddef>
 #include <stdexcept>
-#include <iostream>
+#include <algorithm>
 
-template <typename V, typename E>
-class Graph {
-private:
-    struct EdgeCell {
-        bool exists;
-        E label;
-
-        EdgeCell() : exists(false), label(E()) {}
-        EdgeCell(const E& l) : exists(true), label(l) {}
-    };
-
-    Vector<V> vertexLabels;
-    Vector<Vector<EdgeCell>> adjMatrix;
-
-    void checkIndex(size_t index) const {
-        if (index >= vertexLabels.size()) {
-            throw std::out_of_range("Index out of range");
-        }
-    }
-
+template <typename Data>
+class Vector {
 public:
-    Graph(size_t vertexCount = 0) {
-        vertexLabels.resize(vertexCount);
-        adjMatrix.resize(vertexCount);
-        for (size_t i = 0; i < vertexCount; ++i) {
-            adjMatrix[i].resize(vertexCount);
+    Vector() : data(nullptr), _size(0), _capacity(0) {}
+
+    Vector(const Vector& other) : _size(other._size), _capacity(other._size) {
+        data = new Data[_capacity];
+        for (size_t i = 0; i < _size; ++i) {
+            data[i] = other.data[i];
         }
     }
 
-    size_t addVertex(const V& label) {
-        size_t index = vertexLabels.size();
-        vertexLabels.push_back(label);
-        for (size_t i = 0; i < adjMatrix.size(); ++i) {
-            adjMatrix[i].push_back(EdgeCell());
-        }
-
-        Vector<EdgeCell> newRow(vertexLabels.size());
-        adjMatrix.push_back(newRow);
-        return index;
-    }
-
-    void removeVertex(size_t index) {
-        checkIndex(index);
-        vertexLabels.erase(index);
-        adjMatrix.erase(index);
-        for (size_t i = 0; i < adjMatrix.size(); ++i) {
-            adjMatrix[i].erase(index);
-        }
-    }
-
-    void addEdge(size_t from, size_t to, const E& label) {
-        checkIndex(from);
-        checkIndex(to);
-        adjMatrix[from][to] = EdgeCell(label);
-        std::cout << "Edge added from " << from << " to " << to << " with label " << label << std::endl;
-    }
-
-    void removeEdge(size_t from, size_t to) {
-        checkIndex(from);
-        checkIndex(to);
-        adjMatrix[from][to] = EdgeCell();
-    }
-
-    bool hasEdge(size_t from, size_t to) const {
-        checkIndex(from);
-        checkIndex(to);
-        return adjMatrix[from][to].exists;
-    }
-
-    void setVertexLabel(size_t index, const V& label) {
-        checkIndex(index);
-        vertexLabels[index] = label;
-    }
-
-    V getVertexLabel(size_t index) const {
-        checkIndex(index);
-        return vertexLabels[index];
-    }
-
-    void setEdgeLabel(size_t from, size_t to, const E& label) {
-        checkIndex(from);
-        checkIndex(to);
-        if (!adjMatrix[from][to].exists) throw std::runtime_error("Edge does not exist");
-        adjMatrix[from][to].label = label;
-    }
-
-    E getEdgeLabel(size_t from, size_t to) const {
-        checkIndex(from);
-        checkIndex(to);
-        if (!adjMatrix[from][to].exists) throw std::runtime_error("Edge does not exist");
-        return adjMatrix[from][to].label;
-    }
-
-    Vector<V> getAllVertexLabels() const {
-        return vertexLabels;
-    }
-
-    size_t getVertexCount() const {
-        return vertexLabels.size();
-    }
-
-    class Iterator {
-    private:
-        const Graph& graph;
-        size_t vertex;
-        size_t idx;
-
-    public:
-        Iterator(const Graph& g, size_t v) : graph(g), vertex(v), idx(0) {
-            while (idx < graph.getVertexCount() && !graph.hasEdge(vertex, idx)) {
-                ++idx;
+    Vector& operator=(const Vector& other) {
+        if (this != &other) {
+            delete[] data;
+            _size = other._size;
+            _capacity = other._size;
+            data = new Data[_capacity];
+            for (size_t i = 0; i < _size; ++i) {
+                data[i] = other.data[i];
             }
         }
-
-        bool hasNext() const {
-            return idx < graph.getVertexCount();
-        }
-
-        size_t next() {
-            if (!hasNext()) throw std::out_of_range("No more edges");
-            size_t current = idx++;
-            while (idx < graph.getVertexCount() && !graph.hasEdge(vertex, idx)) {
-                ++idx;
-            }
-            return current;
-        }
-    };
-
-    Iterator getIterator(size_t vertex) const {
-        checkIndex(vertex);
-        return Iterator(*this, vertex);
+        return *this;
     }
+
+    ~Vector() {
+        delete[] data;
+    }
+
+    Data& operator[](size_t index) {
+        if (index >= _size) throw std::out_of_range("Index out of range");
+        return data[index];
+    }
+
+    const Data& operator[](size_t index) const {
+        if (index >= _size) throw std::out_of_range("Index out of range");
+        return data[index];
+    }
+
+    Data get(size_t index) const {
+        if (index >= _size) throw std::out_of_range("Index out of range");
+        return data[index];
+    }
+
+    void set(size_t index, const Data& value) {
+        if (index >= _size) throw std::out_of_range("Index out of range");
+        data[index] = value;
+    }
+
+    size_t size() const { return _size; }
+
+    void resize(size_t new_size) {
+        if (new_size > _capacity) {
+            reserve(new_size * 2);
+        }
+        _size = new_size;
+    }
+
+    void reserve(size_t new_capacity) {
+        if (new_capacity > _capacity) {
+            Data* new_data = new Data[new_capacity];
+            for (size_t i = 0; i < _size; ++i) {
+                new_data[i] = data[i];
+            }
+            delete[] data;
+            data = new_data;
+            _capacity = new_capacity;
+        }
+    }
+
+    void push_back(const Data& value) {
+        if (_size == _capacity) {
+            reserve(_capacity == 0 ? 1 : _capacity * 2);
+        }
+        data[_size++] = value;
+    }
+
+    void erase(size_t index) {
+        if (index >= _size) throw std::out_of_range("Index out of range");
+        for (size_t i = index; i < _size - 1; ++i) {
+            data[i] = data[i + 1];
+        }
+        --_size;
+    }
+
+private:
+    Data* data;
+    size_t _size;
+    size_t _capacity;
 };
 
-#endif
+#endif // VECTOR_TEMPLATE_H
