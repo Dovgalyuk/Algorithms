@@ -2,172 +2,176 @@
 #define GRAPH_H
 
 #include "vector.h"
-#include <string>
-#include <limits>
 #include <stdexcept>
+#include <iostream>
 
-template <typename EdgeData = int, typename VertexData = std::string>
-class Graph {
-public:
-    struct Edge {
+template <typename V, typename E>
+class Graph
+{
+private:
+    struct EdgeCell {
         bool exists;
-        EdgeData data;
-        
-        Edge() : exists(false), data() {}
-        Edge(bool e, const EdgeData& d) : exists(e), data(d) {}
+        E label;
+
+        EdgeCell() : exists(false), label(E()) {}
+        EdgeCell(const E& l) : exists(true), label(l) {}
     };
 
+    Vector<V> vertexLabels;
+    Vector<Vector<EdgeCell>> adjMatrix;
+
+    void checkIndex(size_t index) const {
+        if (index >= vertexLabels.size()) {
+            throw std::out_of_range("Index out of range");
+        }
+    }
+
+public:
     Graph(size_t vertexCount = 0) {
-        if (vertexCount > 1000) {
-            throw std::out_of_range("Too many vertices");
-        }
-        verticesData.resize(vertexCount);
-        adjacencyMatrix.resize(vertexCount);
+        vertexLabels.resize(vertexCount);
+        adjMatrix.resize(vertexCount);
         for (size_t i = 0; i < vertexCount; ++i) {
-            adjacencyMatrix.set(i, Vector<Edge>());
-            adjacencyMatrix.get(i).resize(vertexCount);
-            for (size_t j = 0; j < vertexCount; ++j) {
-                adjacencyMatrix.get(i).set(j, Edge(false, EdgeData()));
-            }
+            adjMatrix[i].resize(vertexCount);
         }
     }
 
-    void setEdgeData(size_t from, size_t to, const EdgeData& data) {
-        checkVertexIndex(from);
-        checkVertexIndex(to);
-        adjacencyMatrix.get(from).set(to, Edge(true, data));
+    Graph(const Graph& other)
+        : vertexLabels(other.vertexLabels), adjMatrix(other.adjMatrix) {}
+
+    Graph& operator=(const Graph& other) {
+        if (this == &other) return *this;
+        vertexLabels = other.vertexLabels;
+        adjMatrix = other.adjMatrix;
+        return *this;
     }
 
-    size_t vertexCount() const {
-        return verticesData.size();
+    size_t addVertex(const V& label) {
+        size_t index = vertexLabels.size();
+        vertexLabels.push_back(label);
+
+        for (size_t i = 0; i < adjMatrix.size(); ++i) {
+            adjMatrix[i].push_back(EdgeCell());
+        }
+
+        Vector<EdgeCell> newRow(vertexLabels.size());
+        adjMatrix.push_back(newRow);
+        return index;
     }
 
-    size_t addVertex() {
-        size_t newIndex = vertexCount();
-        
-        adjacencyMatrix.resize(newIndex + 1);
-        adjacencyMatrix.set(newIndex, Vector<Edge>());
-        adjacencyMatrix.get(newIndex).resize(newIndex + 1);
-        
-        for (size_t j = 0; j <= newIndex; ++j) {
-            adjacencyMatrix.get(newIndex).set(j, Edge(false, EdgeData()));
+    void removeVertex(size_t index) {
+        checkIndex(index);
+        vertexLabels.erase(index);
+        adjMatrix.erase(index);
+        for (size_t i = 0; i < adjMatrix.size(); ++i) {
+            adjMatrix[i].erase(index);
         }
-        
-        for (size_t i = 0; i < newIndex; ++i) {
-            adjacencyMatrix.get(i).resize(newIndex + 1);
-            adjacencyMatrix.get(i).set(newIndex, Edge(false, EdgeData()));
-        }
-        
-        verticesData.resize(newIndex + 1);
-        return newIndex;
     }
 
-    void addEdge(size_t from, size_t to) {
-        if (from >= vertexCount() || to >= vertexCount()) {
-            throw std::out_of_range("Vertex index out of range in addEdge");
-        }
-        adjacencyMatrix.get(from).set(to, Edge(true, EdgeData()));
-    }
-
-    void removeVertex(size_t vertex) {
-        if (vertex >= vertexCount()) return;
-        
-        for (size_t i = vertex; i < vertexCount() - 1; ++i) {
-            adjacencyMatrix.set(i, adjacencyMatrix.get(i + 1));
-        }
-        adjacencyMatrix.resize(vertexCount() - 1);
-        
-        for (size_t i = 0; i < vertexCount(); ++i) {
-            Vector<Edge> row = adjacencyMatrix.get(i);
-            for (size_t j = vertex; j < vertexCount() - 1; ++j) {
-                row.set(j, row.get(j + 1));
-            }
-            row.resize(vertexCount() - 1);
-            adjacencyMatrix.set(i, row);
-        }
-        
-        for (size_t i = vertex; i < vertexCount() - 1; ++i) {
-            verticesData.set(i, verticesData.get(i + 1));
-        }
-        verticesData.resize(vertexCount() - 1);
+    void addEdge(size_t from, size_t to, const E& label) {
+        checkIndex(from);
+        checkIndex(to);
+        adjMatrix[from][to] = EdgeCell(label);
+        std::cout << "Edge added from " << from << " to " << to << " with label " << label << std::endl;
     }
 
     void removeEdge(size_t from, size_t to) {
-        if (from >= vertexCount() || to >= vertexCount()) return;
-        adjacencyMatrix.get(from).set(to, Edge{false, EdgeData()});
+        checkIndex(from);
+        checkIndex(to);
+        adjMatrix[from][to] = EdgeCell();
     }
 
     bool hasEdge(size_t from, size_t to) const {
-        if (from >= vertexCount() || to >= vertexCount()) return false;
-        return adjacencyMatrix.get(from).get(to).exists;
+        checkIndex(from);
+        checkIndex(to);
+        return adjMatrix[from][to].exists;
     }
 
-    EdgeData getEdgeData(size_t from, size_t to) const {
-        if (from >= vertexCount() || to >= vertexCount()) return EdgeData();
-        return adjacencyMatrix.get(from).get(to).data;
+    void setVertexLabel(size_t index, const V& label) {
+        checkIndex(index);
+        vertexLabels[index] = label;
     }
 
-    void setVertexData(size_t vertex, const VertexData& data) {
-        if (vertex >= vertexCount()) return;
-        verticesData.set(vertex, data);
+    V getVertexLabel(size_t index) const {
+        checkIndex(index);
+        return vertexLabels[index];
     }
 
-    VertexData getVertexData(size_t vertex) const {
-        if (vertex >= vertexCount()) return VertexData();
-        return verticesData.get(vertex);
+    void setEdgeLabel(size_t from, size_t to, const E& label) {
+        checkIndex(from);
+        checkIndex(to);
+        if (!adjMatrix[from][to].exists) throw std::runtime_error("Edge does not exist");
+        adjMatrix[from][to].label = label;
     }
 
-    Vector<VertexData> getAllVertexData() const {
-        return verticesData;
+    E getEdgeLabel(size_t from, size_t to) const {
+        checkIndex(from);
+        checkIndex(to);
+        if (!adjMatrix[from][to].exists) throw std::runtime_error("Edge does not exist");
+        return adjMatrix[from][to].label;
     }
 
-    class NeighborIterator {
-    public:
-        NeighborIterator(const Graph* graph, size_t vertex, size_t index)
-            : graph(graph), vertex(vertex), index(index) {
-            while (this->index < graph->vertexCount() && 
-                   !graph->hasEdge(vertex, this->index)) {
-                ++this->index;
-            }
-        }
+    Vector<V> getAllVertexLabels() const {
+        return vertexLabels;
+    }
 
-        bool operator!=(const NeighborIterator& other) const {
-            return index != other.index;
-        }
+    size_t getVertexCount() const {
+        return vertexLabels.size();
+    }
 
-        NeighborIterator& operator++() {
-            do {
-                ++index;
-            } while (index < graph->vertexCount() && !graph->hasEdge(vertex, index));
-            return *this;
-        }
+    struct Edge {
+        size_t from;
+        size_t to;
+        E weight;
 
-        size_t operator*() const {
-            return index;
-        }
-
-    private:
-        const Graph* graph;
-        size_t vertex;
-        size_t index;
+        Edge() : from(0), to(0), weight(E()) {}
+        Edge(size_t f, size_t t, const E& w) : from(f), to(t), weight(w) {}
     };
 
-    NeighborIterator beginNeighbors(size_t vertex) const {
-        return NeighborIterator(this, vertex, 0);
-    }
-
-    NeighborIterator endNeighbors(size_t vertex) const {
-        return NeighborIterator(this, vertex, vertexCount());
-    }
-private:
-    void checkVertexIndex(size_t index) const {
-        if (index >= vertexCount()) {
-            throw std::out_of_range("Vertex index out of range");
+    Vector<Edge> getEdges() const {
+        Vector<Edge> edges;
+        for (size_t i = 0; i < adjMatrix.size(); ++i) {
+            for (size_t j = 0; j < adjMatrix[i].size(); ++j) {
+                if (adjMatrix[i][j].exists && i < j) {
+                    edges.push_back(Edge(i, j, adjMatrix[i][j].label));
+                }
+            }
         }
+        return edges;
     }
 
-    Vector<Vector<Edge>> adjacencyMatrix;
-    Vector<VertexData> verticesData;
+    class Iterator {
+    private:
+        const Graph& graph;
+        size_t vertex;
+        size_t idx;
+
+    public:
+        Iterator(const Graph& g, size_t v) : graph(g), vertex(v), idx(0) {}
+
+        bool hasNext() {
+            std::cout << "Checking for next neighbor for vertex " << vertex << " at idx " << idx << std::endl;
+            while (idx < graph.getVertexCount()) {
+                if (graph.adjMatrix[vertex][idx].exists) {
+                    std::cout << "Found neighbor at " << idx << std::endl;
+                    return true;
+                }
+                ++idx;
+            }
+            return false;
+        }
+
+        size_t next() {
+            if (!hasNext()) throw std::out_of_range("No more edges");
+            size_t result = idx++;
+            std::cout << "Returning neighbor " << result << std::endl;
+            return result;
+        }
+    };
+
+    Iterator getIterator(size_t vertex) const {
+        checkIndex(vertex);
+        return Iterator(*this, vertex);
+    }
 };
 
-#endif 
+#endif
