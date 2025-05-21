@@ -1,53 +1,125 @@
 #include "graph.h"
-
 #include <iostream>
-#include <cassert>
-
-void testGraph() {
-    Graph<int, std::string> graph(3);
-    assert(graph.vertexCount() == 3);
-    
-    size_t v3 = graph.addVertex();
-    assert(v3 == 3);
-    assert(graph.vertexCount() == 4);
-    
-    graph.addEdge(0, 1);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 3);
-    assert(graph.hasEdge(0, 1));
-    assert(graph.hasEdge(1, 2));
-    assert(graph.hasEdge(2, 3));
-    assert(!graph.hasEdge(0, 2));
-    
-    graph.setVertexData(0, "A");
-    graph.setVertexData(1, "B");
-    graph.setVertexData(2, "C");
-    graph.setVertexData(3, "D");
-    assert(graph.getVertexData(0) == "A");
-    assert(graph.getVertexData(3) == "D");
-    
-    graph.setEdgeData(0, 1, 5);
-    graph.setEdgeData(1, 2, 3);
-    assert(graph.getEdgeData(0, 1) == 5);
-    assert(graph.getEdgeData(1, 2) == 3);
-    
-    size_t neighbors[] = {1};
-    size_t i = 0;
-    for (auto it = graph.beginNeighbors(0); it != graph.endNeighbors(0); ++it) {
-        assert(*it == neighbors[i++]);
-    }
-    
-    graph.removeEdge(0, 1);
-    assert(!graph.hasEdge(0, 1));
-    
-    graph.removeVertex(1);
-    assert(graph.vertexCount() == 3);
-    assert(!graph.hasEdge(1, 2)); 
-    
-    std::cout << "All graph tests passed!" << std::endl;
-}
+#include <set>
 
 int main() {
-    testGraph();
+    Graph<std::string, std::string> graph(5);
+
+    graph.setVertexLabel(0, "A");
+    graph.setVertexLabel(1, "B");
+    graph.setVertexLabel(2, "C");
+    graph.setVertexLabel(3, "D");
+    graph.setVertexLabel(4, "E");
+
+    if (graph.getVertexCount() != 5) {
+        std::cout << "Invalid vertex amount" << std::endl;
+        return 1;
+    } else {
+        std::cout << "Correct number of vertices" << std::endl;
+    }
+
+    graph.addEdge(0, 1, "m");
+    graph.addEdge(1, 2, "f");
+    graph.addEdge(2, 3, "s");
+    graph.addEdge(1, 3, "o");
+    graph.addEdge(3, 0, "t");
+    graph.addEdge(3, 4, "e");
+
+    for (size_t vertex = 0; vertex < graph.getVertexCount(); ++vertex) {
+        Graph<std::string, std::string>::Iterator it = graph.getIterator(vertex);
+        std::set<int> actual;
+
+        while (it.hasNext()) {
+            actual.insert((int)it.next());
+        }
+
+        std::set<int> expected;
+
+        if (vertex == 0) {
+            expected = { 1 }; 
+        } else if (vertex == 1) {
+            expected = { 2, 3 }; 
+        } else if (vertex == 2) {
+            expected = { 3 }; 
+        } else if (vertex == 3) {
+            expected = { 0, 4 }; 
+        } else if (vertex == 4) {
+            expected = {}; 
+        }
+
+        if (actual == expected) {
+            std::cout << "Test passed for vertex " << vertex << ": ";
+            for (int v : actual) {
+                std::cout << v << " ";
+            }
+            std::cout << std::endl;
+        } else {
+            std::cout << "Test failed for vertex " << vertex << ": expected { ";
+            for (int v : expected) {
+                std::cout << v << " ";
+            }
+            std::cout << "} but got { ";
+            for (int v : actual) {
+                std::cout << v << " ";
+            }
+            std::cout << "}" << std::endl;
+            return 1;
+        }
+    }
+
+    graph.removeEdge(1, 2);
+    for (size_t vertex = 0; vertex < graph.getVertexCount(); ++vertex) {
+        Graph<std::string, std::string>::Iterator it = graph.getIterator(vertex);
+        std::set<int> actual;
+
+        while (it.hasNext()) {
+            actual.insert((int)it.next());
+        }
+
+        std::set<int> expected;
+
+        if (vertex == 0) {
+            expected = { 1 }; 
+        } else if (vertex == 1) {
+            expected = { 3 }; 
+        } else if (vertex == 2) {
+            expected = { 3 }; 
+        } else if (vertex == 3) {
+            expected = { 0, 4 }; 
+        } else if (vertex == 4) {
+            expected = {}; 
+        }
+
+        if (actual == expected) {
+            std::cout << "Post-removal test passed for vertex " << vertex << ": ";
+            for (int v : actual) {
+                std::cout << v << " ";
+            }
+            std::cout << std::endl;
+        } else {
+            std::cout << "Post-removal test failed for vertex " << vertex << ": expected { ";
+            for (int v : expected) {
+                std::cout << v << " ";
+            }
+            std::cout << "} but got { ";
+            for (int v : actual) {
+                std::cout << v << " ";
+            }
+            std::cout << "}" << std::endl;
+            return 1;
+        }
+    }
+
+    int index1 = 3;
+    std::cout << "Deleting a vertex with index: " << index1 << std::endl;
+    graph.removeVertex(index1);
+
+    if (graph.getVertexCount() != 4) {
+        std::cout << "Invalid vertex deletion" << std::endl;
+        return 1;
+    } else {
+        std::cout << "Valid vertex removal" << std::endl;
+    }
+
     return 0;
 }
