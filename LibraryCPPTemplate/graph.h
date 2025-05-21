@@ -6,8 +6,7 @@
 #include <iostream>
 
 template <typename V, typename E>
-class Graph
-{
+class Graph {
 private:
     struct EdgeCell {
         bool exists;
@@ -35,16 +34,6 @@ public:
         }
     }
 
-    Graph(const Graph& other)
-        : vertexLabels(other.vertexLabels), adjMatrix(other.adjMatrix) {}
-
-    Graph& operator=(const Graph& other) {
-        if (this == &other) return *this;
-        vertexLabels = other.vertexLabels;
-        adjMatrix = other.adjMatrix;
-        return *this;
-    }
-
     size_t addVertex(const V& label) {
         size_t index = vertexLabels.size();
         vertexLabels.push_back(label);
@@ -53,7 +42,8 @@ public:
             adjMatrix[i].push_back(EdgeCell());
         }
 
-        Vector<EdgeCell> newRow(vertexLabels.size());
+        Vector<EdgeCell> newRow;
+        newRow.resize(vertexLabels.size()); 
         adjMatrix.push_back(newRow);
         return index;
     }
