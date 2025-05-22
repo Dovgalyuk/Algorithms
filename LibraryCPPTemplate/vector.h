@@ -14,8 +14,10 @@ public:
 
     Vector(const Vector& other) : _size(other._size), _capacity(other._size) {
         if (_capacity > 0) {
-            data = new Data[_capacity];
-            std::copy(other.data, other.data + _size, data);
+            data = static_cast<Data*>(::operator new(_capacity * sizeof(Data)));
+            for (size_t i = 0; i < _size; ++i) {
+                new (&data[i]) Data(other.data[i]);
+            }
         } else {
             data = nullptr;
         }
@@ -29,8 +31,8 @@ public:
 
     Vector& operator=(const Vector& other) {
         if (this != &other) {
-            Vector temp(other);
-            swap(temp);
+            Vector tmp(other);
+            swap(tmp);
         }
         return *this;
     }
@@ -68,68 +70,64 @@ public:
     bool empty() const noexcept { return _size == 0; }
 
     void resize(size_t new_size) {
-        if (new_size > max_size()) {
-            throw std::length_error("Vector resize() exceeded max size");
-        }
-        
         if (new_size > _capacity) {
             reserve(new_size);
         }
         
         if (new_size > _size) {
             for (size_t i = _size; i < new_size; ++i) {
-                new (&data[i]) Data(); 
+                new (&data[i]) Data();
             }
         } else if (new_size < _size) {
             for (size_t i = new_size; i < _size; ++i) {
-                data[i].~Data(); 
+                data[i].~Data();
             }
         }
         _size = new_size;
     }
 
     void reserve(size_t new_capacity) {
-        if (new_capacity > max_size()) {
-            throw std::length_error("Vector reserve() exceeded max size");
-        }
-        
         if (new_capacity <= _capacity) return;
         
-        Data* new_data = new Data[new_capacity];
-        for (size_t i = 0; i < _size; ++i) {
-            new (&new_data[i]) Data(std::move(data[i]));
-            data[i].~Data(); 
+        if (new_capacity > max_size()) {
+            throw std::length_error("Vector capacity exceeded");
         }
         
-        delete[] data;
+        Data* new_data = static_cast<Data*>(::operator new(new_capacity * sizeof(Data)));
+        for (size_t i = 0; i < _size; ++i) {
+            new (&new_data[i]) Data(std::move(data[i]));
+            data[i].~Data();
+        }
+        
+        ::operator delete(data);
         data = new_data;
         _capacity = new_capacity;
     }
 
     void push_back(const Data& value) {
         if (_size == _capacity) {
-            reserve(_capacity == 0 ? 1 : std::min(_capacity * 2, max_size()));
+            reserve(calculate_growth());
         }
-        new (&data[_size++]) Data(value); 
+        new (&data[_size]) Data(value);
+        ++_size;
     }
 
     void push_back(Data&& value) {
         if (_size == _capacity) {
-            reserve(_capacity == 0 ? 1 : std::min(_capacity * 2, max_size()));
+            reserve(calculate_growth());
         }
-        new (&data[_size++]) Data(std::move(value));
+        new (&data[_size]) Data(std::move(value));
+        ++_size;
     }
 
     void erase(size_t index) {
         if (index >= _size) throw std::out_of_range("Index out of range");
         
         data[index].~Data();
-        
         for (size_t i = index; i < _size - 1; ++i) {
             new (&data[i]) Data(std::move(data[i + 1]));
-            data[i + 1].~Data(); 
+            data[i + 1].~Data();
         }
-        
         --_size;
     }
 
@@ -138,10 +136,10 @@ public:
             for (size_t i = 0; i < _size; ++i) {
                 data[i].~Data();
             }
-            delete[] data;
+            ::operator delete(data);
             data = nullptr;
+            _size = _capacity = 0;
         }
-        _size = _capacity = 0;
     }
 
     size_t max_size() const noexcept {
@@ -152,6 +150,14 @@ private:
     Data* data;
     size_t _size;
     size_t _capacity;
+
+    size_t calculate_growth() const {
+        const size_t geometric = _capacity * 2;
+        if (geometric < _capacity) {
+            return max_size();
+        }
+        return geometric;
+    }
 };
 
 #endif // VECTOR_TEMPLATE_H
