@@ -118,6 +118,14 @@ public:
         _size = _capacity = 0;
     }
 
+    void erase(size_t index) {
+    if (index >= _size) throw std::out_of_range("Index out of range");
+    for (size_t i = index; i < _size - 1; ++i) {
+        data[i] = std::move(data[i + 1]);
+    }
+    --_size;
+}
+
 private:
     Data* data;
     size_t _size;
