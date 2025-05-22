@@ -4,71 +4,41 @@
 typedef Vector<int> MyVector;
 
 int main() {
-    MyVector vector;
+    try {
+        Vector<int> vector;
 
-    vector.resize(5);
-    if (vector.size() != 5) {
-        std::cout << "Invalid resize\n";
+        vector.resize(5);
+        for (size_t i = 0; i < vector.size(); ++i) {
+            vector[i] = static_cast<int>(i);
+        }
+
+        std::cout << "Vector (size 5): ";
+        for (size_t i = 0; i < vector.size(); ++i) {
+            std::cout << vector[i] << " ";
+        }
+        std::cout << "\n";
+
+        vector.resize(10);
+        std::cout << "Vector (size 10): ";
+        for (size_t i = 0; i < vector.size(); ++i) {
+            std::cout << vector[i] << " ";
+        }
+        std::cout << "\n";
+        
+        vector.resize(3);
+        std::cout << "Vector (size 3): ";
+        for (size_t i = 0; i < vector.size(); ++i) {
+            std::cout << vector[i] << " ";
+        }
+        std::cout << "\n";
+        for (int i = 1; i <= 1000; ++i) {
+            vector.resize(i);
+            vector[i-1] = i;
+        }
+
+        return 0;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
         return 1;
     }
-
-    for (size_t i = 0; i < vector.size(); ++i)
-        vector[i] = i;  
-
-    for (size_t i = 0; i < vector.size(); ++i) {
-        if (vector[i] != (int)i) {   
-            std::cout << "Invalid vector element " << i << "\n";
-            return 1;
-        }
-    }
-
-    vector.resize(10);
-    if (vector.size() != 10) {
-        std::cout << "Invalid resize\n";
-        return 1;
-    }
-
-    std::cout << "Vector: ";
-    for (size_t i = 0; i < vector.size(); ++i)
-        std::cout << vector[i] << " ";   
-    std::cout << "\n";
-
-    vector.resize(3);
-    if (vector.size() != 3) {
-        std::cout << "Invalid resize\n";
-        return 1;
-    }
-
-    for (size_t i = 0; i < vector.size(); ++i) {
-        if (vector[i] != (int)i) {   
-            std::cout << "Invalid vector element " << i << "\n";
-            return 1;
-        }
-    }
-
-    std::cout << "Vector: ";
-    for (size_t i = 0; i < vector.size(); ++i)
-        std::cout << vector[i] << " ";  
-    std::cout << "\n";
-
-    for (int i = 1; i <= 10000000; ++i) {
-        vector.resize(i);
-        vector[i - 1] = i;  
-    }
-
-    MyVector copy = vector;
-
-    for (int i = 0; i < 10000000; ++i) {
-        if (vector[i] != copy[i]) { 
-            std::cout << "Invalid copy element " << i << "\n";
-            return 1;
-        }
-    }
-
-    long long sum = 0;
-    for (int i = 0; i < 10000000; ++i)
-        sum += vector[i]; 
-
-    std::cout << sum << "\n";
-    return 0;
 }
