@@ -5,6 +5,14 @@
 #include "stack.h"
 #include "list.h"
 
+bool getArgument(std::stringstream& ss, int& value, const std::string& command) {
+    if (!(ss >> value)) {
+        std::cerr << "Error: Invalid argument for " << command << std::endl;
+        return false;
+    }
+    return true;
+}
+
 int main() {
     Stack* stack = stack_create();
     int vars[4] = { 0, 0, 0, 0 };
@@ -25,8 +33,9 @@ int main() {
 
         if (command == "bipush") {
             int value;
-            ss >> value;
-            stack_push(stack, value);
+            if (getArgument(ss, value, command)) {
+                stack_push(stack, value);
+            }
         }
         else if (command == "pop") {
             if (!stack_empty(stack)) {
@@ -36,118 +45,39 @@ int main() {
                 std::cerr << "Error: Stack is empty" << std::endl;
             }
         }
-        else if (command == "imul") {
+        else if (command == "imul" || command == "iand" || command == "ior" || command == "ixor" || command == "iadd" || command == "isub") {
             if (!stack_empty(stack)) {
                 int op2 = stack_get(stack);
                 stack_pop(stack);
                 if (!stack_empty(stack)) {
                     int op1 = stack_get(stack);
                     stack_pop(stack);
-                    stack_push(stack, op1 * op2);
+                    if (command == "imul") {
+                        stack_push(stack, op1 * op2);
+                    }
+                    else if (command == "iand") {
+                        stack_push(stack, op1 & op2);
+                    }
+                    else if (command == "ior") {
+                        stack_push(stack, op1 | op2);
+                    }
+                    else if (command == "ixor") {
+                        stack_push(stack, op1 ^ op2);
+                    }
+                    else if (command == "iadd") {
+                        stack_push(stack, op1 + op2);
+                    }
+                    else if (command == "isub") {
+                        stack_push(stack, op1 - op2);
+                    }
                 }
                 else {
-                    std::cerr << "Error: Not enough operands on stack for imul" << std::endl;
+                    std::cerr << "Error: Not enough operands on stack for " << command << std::endl;
                     stack_push(stack, op2);
                 }
-
             }
             else {
-                std::cerr << "Error: Not enough operands on stack for imul" << std::endl;
-            }
-        }
-        else if (command == "iand") {
-            if (!stack_empty(stack)) {
-                int op2 = stack_get(stack);
-                stack_pop(stack);
-                if (!stack_empty(stack)) {
-                    int op1 = stack_get(stack);
-                    stack_pop(stack);
-                    stack_push(stack, op1 & op2);
-                }
-                else {
-                    std::cerr << "Error: Not enough operands on stack for iand" << std::endl;
-                    stack_push(stack, op2);
-                }
-
-            }
-            else {
-                std::cerr << "Error: Not enough operands on stack for iand" << std::endl;
-            }
-        }
-        else if (command == "ior") {
-            if (!stack_empty(stack)) {
-                int op2 = stack_get(stack);
-                stack_pop(stack);
-                if (!stack_empty(stack)) {
-                    int op1 = stack_get(stack);
-                    stack_pop(stack);
-                    stack_push(stack, op1 | op2);
-                }
-                else {
-                    std::cerr << "Error: Not enough operands on stack for ior" << std::endl;
-                    stack_push(stack, op2);
-                }
-
-            }
-            else {
-                std::cerr << "Error: Not enough operands on stack for ior" << std::endl;
-            }
-        }
-        else if (command == "ixor") {
-            if (!stack_empty(stack)) {
-                int op2 = stack_get(stack);
-                stack_pop(stack);
-                if (!stack_empty(stack)) {
-                    int op1 = stack_get(stack);
-                    stack_pop(stack);
-                    stack_push(stack, op1 ^ op2);
-                }
-                else {
-                    std::cerr << "Error: Not enough operands on stack for ixor" << std::endl;
-                    stack_push(stack, op2);
-                }
-
-            }
-            else {
-                std::cerr << "Error: Not enough operands on stack for ixor" << std::endl;
-            }
-        }
-        else if (command == "iadd") {
-            if (!stack_empty(stack)) {
-                int op2 = stack_get(stack);
-                stack_pop(stack);
-                if (!stack_empty(stack)) {
-                    int op1 = stack_get(stack);
-                    stack_pop(stack);
-                    stack_push(stack, op1 + op2);
-                }
-                else {
-                    std::cerr << "Error: Not enough operands on stack for iadd" << std::endl;
-                    stack_push(stack, op2);
-                }
-
-            }
-            else {
-                std::cerr << "Error: Not enough operands on stack for iadd" << std::endl;
-            }
-        }
-        else if (command == "isub") {
-            if (!stack_empty(stack)) {
-                int op2 = stack_get(stack);
-                stack_pop(stack);
-                if (!stack_empty(stack)) {
-                    int op1 = stack_get(stack);
-                    stack_pop(stack);
-                    stack_push(stack, op1 - op2);
-                }
-                else {
-                    std::cerr << "Error: Not enough operands on stack for isub" << std::endl;
-                    stack_push(stack, op2);
-                }
-
-            }
-            else {
-                std::cerr << "Error: Not enough operands on stack for isub" << std::endl;
+                std::cerr << "Error: Not enough operands on stack for " << command << std::endl;
             }
         }
         else if (command == "iload_0") {
@@ -219,9 +149,10 @@ int main() {
         }
         else if (command == "invokestatic") {
             int address;
-            ss >> address;
-            stack_push(stack, -1);
-            std::cout << "Calling function at address: " << address << std::endl;
+            if (getArgument(ss, address, command)) {
+                stack_push(stack, -1);
+                std::cout << "Calling function at address: " << address << std::endl;
+            }
         }
         else if (command == "return") {
             if (!stack_empty(stack)) {
@@ -237,7 +168,6 @@ int main() {
             else {
                 std::cerr << "Error: Return address not found on stack" << std::endl;
             }
-
         }
         else {
             std::cerr << "Unknown command: " << command << std::endl;
@@ -247,11 +177,11 @@ int main() {
     inputFile.close();
 
     std::cout << "stack:" << std::endl;
-    
+
     while (!stack_empty(stack)) {
         Data value = stack_get(stack);
         std::cout << value << std::endl;
-        stack_pop(stack); 
+        stack_pop(stack);
     }
 
     std::cout << "vars:" << std::endl;
