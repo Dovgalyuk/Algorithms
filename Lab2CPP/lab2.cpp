@@ -3,8 +3,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
-#include "stack.h"
-
+#include "../LibraryCPP/stack.h"
 class JVMStack {
 private:
     Stack* stack;
@@ -29,12 +28,14 @@ public:
 
     ~JVMStack() { stack_delete(stack); }
 
+    //помещает значение в стек
     void bipush(int value) {
         call_log.push_back("bipush " + std::to_string(value));
         stack_push(stack, value);
-        is_return_address_stack.push_back(false);  // Это не адрес возврата
+        is_return_address_stack.push_back(false);
     }
 
+    //удаление верхнего элемента стека
     void pop() {
         call_log.push_back("pop");
         check_stack_size(1);
@@ -43,6 +44,7 @@ public:
         is_return_address_stack.pop_back();
     }
 
+    //Умножение 
     void imul() {
         call_log.push_back("imul");
         check_stack_size(2);
@@ -52,6 +54,7 @@ public:
         stack_push(stack, a * b); is_return_address_stack.push_back(false);
     }
 
+    //И
     void iand() {
         call_log.push_back("iand");
         check_stack_size(2);
@@ -61,6 +64,7 @@ public:
         stack_push(stack, a & b); is_return_address_stack.push_back(false);
     }
 
+    //ИЛИ
     void ior() {
         call_log.push_back("ior");
         check_stack_size(2);
@@ -70,6 +74,7 @@ public:
         stack_push(stack, a | b); is_return_address_stack.push_back(false);
     }
 
+    //исключающее ИЛИ
     void ixor() {
         call_log.push_back("ixor");
         check_stack_size(2);
@@ -79,6 +84,7 @@ public:
         stack_push(stack, a ^ b); is_return_address_stack.push_back(false);
     }
 
+    //Сложение 
     void iadd() {
         call_log.push_back("iadd");
         check_stack_size(2);
@@ -88,6 +94,7 @@ public:
         stack_push(stack, a + b); is_return_address_stack.push_back(false);
     }
 
+    //Вычитание
     void isub() {
         call_log.push_back("isub");
         check_stack_size(2);
@@ -97,6 +104,7 @@ public:
         stack_push(stack, b - a); is_return_address_stack.push_back(false);
     }
 
+    //загружают локальную переменную из variables[i] в стек
     void iload_0() {
         call_log.push_back("iload_0");
         stack_push(stack, variables[0]);
@@ -121,6 +129,7 @@ public:
         is_return_address_stack.push_back(false);
     }
 
+    //Cохранение в переменную variables[i]
     void istore_0() {
         call_log.push_back("istore_0");
         check_stack_size(1);
@@ -157,6 +166,7 @@ public:
         is_return_address_stack.pop_back();
     }
 
+    //меняет местами два верхних значения стека
     void swap() {
         call_log.push_back("swap");
         check_stack_size(2);
@@ -167,12 +177,14 @@ public:
         stack_push(stack, b); is_return_address_stack.push_back(a_flag);
     }
 
+    //кладёт в стек адрес возврата
     void invokestatic(int address) {
         call_log.push_back("invokestatic " + std::to_string(address));
-        stack_push(stack, -address);  // адрес как отрицательное число
-        is_return_address_stack.push_back(true);  // это именно адрес возврата
+        stack_push(stack, -address);
+        is_return_address_stack.push_back(true);
     }
 
+    //снимает адрес возврата
     void return_op() {
         call_log.push_back("return");
         check_stack_size(1);

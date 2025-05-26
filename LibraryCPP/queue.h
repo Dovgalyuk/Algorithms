@@ -1,9 +1,11 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include <cstdint>
+
 // Queue
 // Stores integer values inside
-typedef int Data;
+typedef intptr_t Data;
 
 struct Queue;
 

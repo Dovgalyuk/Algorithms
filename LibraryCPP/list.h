@@ -1,9 +1,11 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include <cstdint>
+
 // List
 // Stores integer values inside
-typedef int Data;
+typedef intptr_t Data;
 
 struct List;
 struct ListItem;

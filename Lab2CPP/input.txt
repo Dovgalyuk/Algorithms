@@ -1,2 +1,3 @@
-bipush -1
-pop
+bipush 2
+bipush 2
+iand
