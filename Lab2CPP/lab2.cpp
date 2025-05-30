@@ -150,15 +150,23 @@ int main() {
         else if (command == "invokestatic") {
             int address;
             if (getArgument(ss, address, command)) {
-                stack_push(stack, -1);
+                std::stringstream ss_addr;
+                ss_addr << address << "*";
+                int returnAddress;
+                ss_addr >> returnAddress;
+                stack_push(stack, returnAddress);
                 std::cout << "Calling function at address: " << address << std::endl;
             }
         }
         else if (command == "return") {
             if (!stack_empty(stack)) {
+                std::stringstream ss_return;
                 int returnAddress = stack_get(stack);
                 stack_pop(stack);
-                if (returnAddress != -1) {
+                ss_return << returnAddress;
+                std::string returnAddressStr;
+                ss_return >> returnAddressStr;
+                if (returnAddressStr.find('*') == std::string::npos) {
                     std::cerr << "Error: Invalid return address: " << returnAddress << std::endl;
                 }
                 else {
