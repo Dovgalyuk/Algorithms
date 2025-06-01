@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "../LibraryCPP/queue.h"
+#include "queue.h"
 
 using namespace std;
 
