@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <cstdint>
-#include "../LibraryCPP/queue.h"
+#include "queue.h"
 
 struct Cell {
     int row, col;
@@ -72,7 +72,6 @@ int main(int argc, char* argv[]) {
 
     std::cout << max_color << std::endl;
 
-    // Очистка оставшихся ячеек в очереди
     while (!queue_empty(queue)) {
         Cell* tmp = (Cell*)queue_get(queue);
         queue_remove(queue);
