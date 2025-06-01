@@ -1,4 +1,4 @@
-add_executable(Lab3CPP lab3.cpp)
+add_executable(Lab3CPP lab3.cpp ../LibraryCPP/list.cpp ../LibraryCPP/queue.cpp)
 target_include_directories(Lab3CPP PUBLIC ../LibraryCPP)
 target_link_libraries(Lab3CPP LibraryCPP)
 

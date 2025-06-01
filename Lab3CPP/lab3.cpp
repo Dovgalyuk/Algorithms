@@ -1,75 +1,64 @@
 #include <iostream>
-#include <vector>
 #include <fstream>
-#include <set>
-#include "queue.h"
+#include <vector>
+#include "../LibraryCPP/queue.h"
 
-void paint_board(int n, int m, int board[100][100]) {
-    Queue* q = queue_create();
+using namespace std;
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            if (board[i][j] > 0) {
-                queue_insert(q, i * m + j);
-            }
-        }
-    }
-
-    while (!queue_empty(q)) {
-        int cell_index = queue_get(q);
-        int x = cell_index / m;
-        int y = cell_index % m;
-
-        for (int dx = -1; dx <= 1; ++dx) {
-            for (int dy = -1; dy <= 1; ++dy) {
-                if (abs(dx) + abs(dy) == 1) {
-                    int nx = x + dx;
-                    int ny = y + dy;
-
-                    if (nx >= 0 && nx < n && ny >= 0 && ny < m && board[nx][ny] == 0) {
-                        board[nx][ny] = board[x][y] + 1;
-                        queue_insert(q, nx * m + ny);
-                    }
-                }
-            }
-        }
-
-        queue_remove(q);
-    }
-
-    queue_delete(q);
-}
+struct Cell {
+    int row, col, intensity;
+};
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
+    if (argc != 2) {
+        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
         return 1;
     }
 
-    
-    std::ifstream infile(argv[1]);
-    int n, m;
-    infile >> n >> m;
-
-    int board[100][100];
-    for (int i = 0; i < n; ++i)
-        for (int j = 0; j < m; ++j)
-            board[i][j] = 0;
-
-    int x, y;
-    while (infile >> x >> y) {
-        board[x - 1][y - 1] = 1;
+    ifstream fin(argv[1]);
+    if (!fin) {
+        cerr << "Error: Cannot open input file " << argv[1] << endl;
+        return 1;
     }
 
-    paint_board(n, m, board);
+    int n, m;
+    fin >> n >> m;
 
-    int max_color = 0;
-    for (int i = 0; i < n; ++i)
-        for (int j = 0; j < m; ++j)
-            if (board[i][j] > max_color) {
-                max_color = board[i][j];
+    vector<vector<int>> board(n, vector<int>(m, 0));
+
+    Queue* q = queue_create();
+
+    int x, y;
+    while (fin >> x >> y) {
+        x--; y--; // Перевод в 0-индексацию
+        board[x][y] = 1;
+        queue_insert(q, (intptr_t)(new Cell{x, y, 1}));
+    }
+
+    int dx[] = {-1, 1, 0, 0};
+    int dy[] = {0, 0, -1, 1};
+    int maxIntensity = 1;
+
+    while (!queue_empty(q)) {
+        Cell* cell = (Cell*)queue_get(q);
+        queue_remove(q);
+
+        for (int d = 0; d < 4; d++) {
+            int nx = cell->row + dx[d];
+            int ny = cell->col + dy[d];
+            if (nx >= 0 && nx < n && ny >= 0 && ny < m && board[nx][ny] == 0) {
+                board[nx][ny] = cell->intensity + 1;
+                maxIntensity = max(maxIntensity, cell->intensity + 1);
+                queue_insert(q, (intptr_t)(new Cell{nx, ny, cell->intensity + 1}));
             }
+        }
 
-    std::cout << max_color << std::endl;
+        delete cell;
+    }
+
+    queue_delete(q);
+
+    cout << maxIntensity << endl;
 
     return 0;
-}   
+}
