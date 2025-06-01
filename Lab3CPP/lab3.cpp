@@ -2,7 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <set>
-#include "../LibraryCPP/queue.h"
+#include "queue.h"
 
 void paint_board(int n, int m, int board[100][100]) {
     Queue* q = queue_create();
