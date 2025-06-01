@@ -43,6 +43,7 @@ int main(int argc, char* argv[]) {
         while (!queue_empty(queue)) {
             Cell* current = (Cell*)queue_get(queue);
             queue_remove(queue);
+            if (!current) continue;
 
             int cur_row = current->row;
             int cur_col = current->col;
@@ -63,10 +64,20 @@ int main(int argc, char* argv[]) {
 
         queue_delete(queue);
         queue = next_queue;
-        max_color++;
+
+        if (!queue_empty(queue)) {
+            max_color++;
+        }
     }
 
-    std::cout << max_color - 1 << std::endl;
+    std::cout << max_color << std::endl;
+
+    // Очистка оставшихся ячеек в очереди
+    while (!queue_empty(queue)) {
+        Cell* tmp = (Cell*)queue_get(queue);
+        queue_remove(queue);
+        delete tmp;
+    }
 
     queue_delete(queue);
     return 0;
