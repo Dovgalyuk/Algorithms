@@ -1,3 +1,3 @@
-add_library(LibraryCPP STATIC list.cpp queue.cpp)
+add_library(LibraryCPP STATIC queue.cpp list.cpp)
 
 add_subdirectory(Tests)

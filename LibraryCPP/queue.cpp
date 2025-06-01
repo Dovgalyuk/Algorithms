@@ -1,14 +1,15 @@
 #include "queue.h"
 #include "list.h"
+#include <stdexcept>
 
 struct Queue {
     List* list;
 };
 
 Queue* queue_create() {
-    Queue* q = new Queue;
-    q->list = list_create();
-    return q;
+    Queue* queue = new Queue;
+    queue->list = list_create();
+    return queue;
 }
 
 void queue_delete(Queue* queue) {
@@ -21,10 +22,17 @@ void queue_insert(Queue* queue, Data data) {
 }
 
 Data queue_get(const Queue* queue) {
-    return list_item_data(list_first(queue->list));
+    ListItem* item = list_first(queue->list);
+    if (!item) {
+        throw std::out_of_range("Queue is empty");
+    }
+    return list_item_data(item);
 }
 
 void queue_remove(Queue* queue) {
+    if (queue_empty(queue)) {
+        throw std::out_of_range("Queue is empty");
+    }
     list_erase_first(queue->list);
 }
 

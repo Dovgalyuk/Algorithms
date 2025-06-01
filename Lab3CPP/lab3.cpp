@@ -1,83 +1,75 @@
 #include <iostream>
-#include <fstream>
 #include <vector>
-#include <cstdint>
-#include "queue.h"
+#include <fstream>
+#include <set>
+#include "../LibraryCPP/queue.h"
 
-struct Cell {
-    int row, col;
-};
+void paint_board(int n, int m, int board[100][100]) {
+    Queue* q = queue_create();
 
-int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
-        return 1;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            if (board[i][j] > 0) {
+                queue_insert(q, i * m + j);
+            }
+        }
     }
 
-    std::ifstream fin(argv[1]);
-    if (!fin) {
-        std::cerr << "Error: Cannot open input file " << argv[1] << std::endl;
-        return 1;
-    }
+    while (!queue_empty(q)) {
+        int cell_index = queue_get(q);
+        int x = cell_index / m;
+        int y = cell_index % m;
 
-    int n, m;
-    fin >> n >> m;
+        for (int dx = -1; dx <= 1; ++dx) {
+            for (int dy = -1; dy <= 1; ++dy) {
+                if (abs(dx) + abs(dy) == 1) {
+                    int nx = x + dx;
+                    int ny = y + dy;
 
-    std::vector<std::vector<int>> board(n, std::vector<int>(m, 0));
-    Queue* queue = queue_create();
-
-    int x, y;
-    while (fin >> x >> y) {
-        board[x - 1][y - 1] = 1;
-        Cell* cell = new Cell{x - 1, y - 1};
-        queue_insert(queue, (intptr_t)cell);
-    }
-
-    int max_color = 1;
-    int dx[] = {-1, 1, 0, 0};
-    int dy[] = {0, 0, -1, 1};
-
-    while (!queue_empty(queue)) {
-        Queue* next_queue = queue_create();
-
-        while (!queue_empty(queue)) {
-            Cell* current = (Cell*)queue_get(queue);
-            queue_remove(queue);
-            if (!current) continue;
-
-            int cur_row = current->row;
-            int cur_col = current->col;
-
-            for (int d = 0; d < 4; ++d) {
-                int nx = cur_row + dx[d];
-                int ny = cur_col + dy[d];
-
-                if (nx >= 0 && ny >= 0 && nx < n && ny < m && board[nx][ny] == 0) {
-                    board[nx][ny] = board[cur_row][cur_col] + 1;
-                    Cell* next = new Cell{nx, ny};
-                    queue_insert(next_queue, (intptr_t)next);
+                    if (nx >= 0 && nx < n && ny >= 0 && ny < m && board[nx][ny] == 0) {
+                        board[nx][ny] = board[x][y] + 1;
+                        queue_insert(q, nx * m + ny);
+                    }
                 }
             }
-
-            delete current;
         }
 
-        queue_delete(queue);
-        queue = next_queue;
-
-        if (!queue_empty(queue)) {
-            max_color++;
-        }
+        queue_remove(q);
     }
+
+    queue_delete(q);
+}
+
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        return 1;
+    }
+
+    
+    std::ifstream infile(argv[1]);
+    int n, m;
+    infile >> n >> m;
+
+    int board[100][100];
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < m; ++j)
+            board[i][j] = 0;
+
+    int x, y;
+    while (infile >> x >> y) {
+        board[x - 1][y - 1] = 1;
+    }
+
+    paint_board(n, m, board);
+
+    int max_color = 0;
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < m; ++j)
+            if (board[i][j] > max_color) {
+                max_color = board[i][j];
+            }
 
     std::cout << max_color << std::endl;
 
-    while (!queue_empty(queue)) {
-        Cell* tmp = (Cell*)queue_get(queue);
-        queue_remove(queue);
-        delete tmp;
-    }
-
-    queue_delete(queue);
     return 0;
-}
+}   

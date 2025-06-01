@@ -47,10 +47,12 @@ ListItem* list_item_prev(ListItem* item) {
 }
 
 ListItem* list_insert(List* list, Data data) {
-    return list_insert_after(list, list->sentinel, data);
+    return list_insert_after(list, nullptr, data);
 }
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data) {
+    if (item == nullptr) item = list->sentinel;
+
     ListItem* new_item = new ListItem{data, item->next, item};
     item->next->prev = new_item;
     item->next = new_item;
@@ -58,15 +60,16 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
 }
 
 ListItem* list_erase_first(List* list) {
-    if (list_first(list) == nullptr)
-        return nullptr;
-    return list_erase_next(list, list->sentinel);
+    return list_erase_next(list, nullptr);
 }
 
 ListItem* list_erase_next(List* list, ListItem* item) {
+    if (item == nullptr) item = list->sentinel;
+
     ListItem* to_delete = item->next;
     if (to_delete == list->sentinel)
         return nullptr;
+
     item->next = to_delete->next;
     to_delete->next->prev = item;
     ListItem* next = to_delete->next;
