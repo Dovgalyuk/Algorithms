@@ -1,54 +1,57 @@
 #include "list.h"
-#include <cstdlib>
+#include <stdexcept>
 
 struct ListItem {
     Data data;
     ListItem* next;
     ListItem* prev;
+
+    ListItem(Data d) : data(d), next(nullptr), prev(nullptr) {}
 };
 
 struct List {
     ListItem* head;
+
+    List() : head(nullptr) {}
+    ~List() {
+        if (!head) return;
+        ListItem* current = head->next;
+        while (current != head) {
+            ListItem* nextItem = current->next;
+            delete current;
+            current = nextItem;
+        }
+        delete head;
+        head = nullptr;
+    }
 };
 
 List* list_create() {
-    List* list = (List*)malloc(sizeof(List));
-    if (list) {
-        list->head = nullptr;
-    }
-    return list;
+    return new List();
 }
 
 void list_delete(List* list) {
-    if (!list) return;
-
-    if (list->head) {
-        ListItem* current = list->head->next;
-        while (current != list->head) {
-            ListItem* nextItem = current->next;
-            free(current);
-            current = nextItem;
-        }
-        free(list->head);
-    }
-
-    free(list);
+    delete list;
 }
 
 ListItem* list_first(List* list) {
-    return list ? list->head : nullptr;
+    if (!list) return nullptr;
+    return list->head;
 }
 
 Data list_item_data(const ListItem* item) {
-    return item ? item->data : 0;
+    if (!item) throw std::invalid_argument("Null pointer in list_item_data");
+    return item->data;
 }
 
 ListItem* list_item_next(ListItem* item) {
-    return item ? item->next : nullptr;
+    if (!item) return nullptr;
+    return item->next;
 }
 
 ListItem* list_item_prev(ListItem* item) {
-    return item ? item->prev : nullptr;
+    if (!item) return nullptr;
+    return item->prev;
 }
 
 ListItem* list_insert(List* list, Data data) {
@@ -56,18 +59,17 @@ ListItem* list_insert(List* list, Data data) {
 }
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data) {
-    if (!list) return nullptr;
+    if (!list) throw std::invalid_argument("Null list in list_insert_after");
 
-    ListItem* newItem = (ListItem*)malloc(sizeof(ListItem));
-    if (!newItem) return nullptr;
-
-    newItem->data = data;
+    ListItem* newItem = new ListItem(data);
 
     if (!list->head) {
+        // пустой список
         newItem->next = newItem;
         newItem->prev = newItem;
         list->head = newItem;
     } else if (!item) {
+        // вставка в начало
         ListItem* tail = list->head->prev;
         newItem->next = list->head;
         newItem->prev = tail;
@@ -75,6 +77,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
         list->head->prev = newItem;
         list->head = newItem;
     } else {
+        // вставка после item
         newItem->next = item->next;
         newItem->prev = item;
         item->next->prev = newItem;
@@ -102,7 +105,7 @@ ListItem* list_erase_next(List* list, ListItem* item) {
     if (toDelete == toDelete->next) {
         // один элемент в списке
         list->head = nullptr;
-        free(toDelete);
+        delete toDelete;
         return nullptr;
     } else {
         toDelete->prev->next = toDelete->next;
@@ -111,7 +114,7 @@ ListItem* list_erase_next(List* list, ListItem* item) {
             list->head = toDelete->next;
         }
         ListItem* nextItem = toDelete->next;
-        free(toDelete);
+        delete toDelete;
         return nextItem;
     }
 }

@@ -5,7 +5,7 @@
 
 // Queue
 // Stores integer values inside
-typedef intptr_t Data;
+typedef int Data;
 
 struct Queue;
 
