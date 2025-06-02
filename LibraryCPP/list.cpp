@@ -1,127 +1,83 @@
 #include "list.h"
-#include <stdexcept>
-#include <iostream>
+#include <cstddef>
+
+struct List;
 
 struct ListItem {
     Data data;
-    ListItem* next;
-    ListItem* prev;
-
-    ListItem(Data d) : data(d), next(nullptr), prev(nullptr) {}
+    ListItem *prev;
+    ListItem *next;
+    List *parent;
 };
 
 struct List {
-    ListItem* head;
-    size_t size;
-
-    List() : head(nullptr), size(0) {}
-    
-    ~List() {
-        clear();
-    }
-    
-    void clear() {
-        while (head) {
-            ListItem* toDelete = head;
-            head = (head->next == head || !head->next) ? nullptr : head->next;
-            delete toDelete;
-        }
-        size = 0;
-    }
+    ListItem *sentinel;
 };
 
-List* list_create() {
-    try {
-        return new List();
-    } catch (const std::bad_alloc&) {
-        std::cerr << "Memory allocation failed in list_create()" << std::endl;
-        return nullptr;
+List *list_create() {
+    List *list = new List;
+    list->sentinel = new ListItem;
+    list->sentinel->prev = list->sentinel;
+    list->sentinel->next = list->sentinel;
+    list->sentinel->parent = list;
+    return list;
+}
+
+void list_delete(List *list) {
+    ListItem *cur = list->sentinel->next;
+    while (cur != list->sentinel) {
+        ListItem *tmp = cur->next;
+        delete cur;
+        cur = tmp;
     }
+
+    delete list->sentinel;
+    delete list;
 }
 
-void list_delete(List* list) {
-    if (list) {
-        list->clear();
-        delete list;
-    }
+ListItem *list_first(List *list) {
+    ListItem *first = list->sentinel->next;
+    return (first == list->sentinel ? nullptr : first);
 }
 
-ListItem* list_first(List* list) {
-    return list ? list->head : nullptr;
-}
-
-Data list_item_data(const ListItem* item) {
-    if (!item) throw std::invalid_argument("Null item in list_item_data");
+Data list_item_data(const ListItem *item) {
     return item->data;
 }
 
-ListItem* list_item_next(ListItem* item) {
-    return item ? item->next : nullptr;
+ListItem *list_item_next(const ListItem *item) {
+    ListItem *n = item->next;
+    return (n->parent == item->parent && n != item->parent->sentinel ? n : nullptr);
 }
 
-ListItem* list_item_prev(ListItem* item) {
-    return item ? item->prev : nullptr;
+ListItem *list_item_prev(const ListItem *item) {
+    ListItem *p = item->prev;
+    return (p->parent == item->parent && p != item->parent->sentinel ? p : nullptr);
 }
 
-ListItem* list_insert(List* list, Data data) {
+ListItem *list_insert_after(List *list, ListItem *item, Data data) {
+    ListItem *pos = item ? item : list->sentinel;
+    ListItem *node = new ListItem{ data, pos, pos->next, list };
+    pos->next->prev = node;
+    pos->next = node;
+    return node;
+}
+
+ListItem *list_insert(List *list, Data data) {
     return list_insert_after(list, nullptr, data);
 }
 
-ListItem* list_insert_after(List* list, ListItem* item, Data data) {
-    if (!list) throw std::invalid_argument("Null list in list_insert_after");
-
-    ListItem* newItem;
-    try {
-        newItem = new ListItem(data);
-    } catch (const std::bad_alloc&) {
-        throw std::runtime_error("Memory allocation failed in list_insert_after");
-    }
-
-    if (!list->head) {
-        newItem->next = newItem;
-        newItem->prev = newItem;
-        list->head = newItem;
-    } else if (!item) {
-        newItem->next = list->head;
-        newItem->prev = list->head->prev;
-        list->head->prev->next = newItem;
-        list->head->prev = newItem;
-        list->head = newItem;
-    } else {
-        newItem->next = item->next;
-        newItem->prev = item;
-        item->next->prev = newItem;
-        item->next = newItem;
-    }
-
-    list->size++;
-    return newItem;
-}
-
-ListItem* list_erase_first(List* list) {
+ListItem *list_erase_first(List *list) {
+    if (list->sentinel->next == list->sentinel) return nullptr;
     return list_erase_next(list, nullptr);
 }
 
-ListItem* list_erase_next(List* list, ListItem* item) {
-    if (!list || !list->head) return nullptr;
-
-    ListItem* toDelete = item ? item->next : list->head;
-    if (!toDelete) return nullptr;
-
-    if (toDelete->next == toDelete) {
-        list->head = nullptr;
-    } else {
-        toDelete->prev->next = toDelete->next;
-        toDelete->next->prev = toDelete->prev;
-        
-        if (toDelete == list->head) {
-            list->head = toDelete->next;
-        }
-    }
-
-    ListItem* nextItem = toDelete->next;
-    delete toDelete;
-    list->size--;
-
-    return (nextItem == toDelete) ? nullptr : nextItem;
+ListItem *list_erase_next(List *list, ListItem *item) {
+    ListItem *pos = item ? item : list->sentinel;
+    ListItem *to_del = pos->next;
+    if (to_del == list->sentinel) return nullptr;
+    ListItem *next = to_del->next;
+    pos->next = next;
+    next->prev = pos;
+    delete to_del;
+    return (next == list->sentinel ? nullptr : next);
 }
