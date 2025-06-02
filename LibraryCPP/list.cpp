@@ -21,19 +21,16 @@ List* list_create() {
 
 void list_delete(List* list) {
     if (!list) return;
-    if (!list->head) {
-        free(list);
-        return;
+
+    if (list->head) {
+        ListItem* current = list->head->next;
+        while (current != list->head) {
+            ListItem* nextItem = current->next;
+            free(current);
+            current = nextItem;
+        }
+        free(list->head);
     }
-
-    ListItem* current = list->head;
-    ListItem* nextItem;
-
-    do {
-        nextItem = current->next;
-        free(current);
-        current = nextItem;
-    } while (current != list->head);
 
     free(list);
 }
@@ -94,25 +91,23 @@ ListItem* list_erase_first(List* list) {
 ListItem* list_erase_next(List* list, ListItem* item) {
     if (!list || !list->head) return nullptr;
 
-    ListItem* toDelete = nullptr;
+    ListItem* toDelete;
 
     if (!item) {
         toDelete = list->head;
     } else {
         toDelete = item->next;
-        if (toDelete == list->head) {
-            list->head = toDelete->next;
-        }
     }
 
     if (toDelete == toDelete->next) {
+        // один элемент в списке
         list->head = nullptr;
         free(toDelete);
         return nullptr;
     } else {
         toDelete->prev->next = toDelete->next;
         toDelete->next->prev = toDelete->prev;
-        if (list->head == toDelete) {
+        if (toDelete == list->head) {
             list->head = toDelete->next;
         }
         ListItem* nextItem = toDelete->next;
