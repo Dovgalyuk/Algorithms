@@ -39,7 +39,11 @@ int main(int argc, char* argv[]) {
     int dy[] = {0, 0, -1, 1};
     int maxIntensity = 1;
 
-    while (!queue_empty(q)) {
+    int count = 0;
+    const int maxIterations = n * m;
+
+    while (!queue_empty(q) && count < maxIterations) {
+        count++;
         Cell* cell = (Cell*)queue_get(q);
         queue_remove(q);
 
@@ -48,7 +52,8 @@ int main(int argc, char* argv[]) {
             int ny = cell->col + dy[d];
             if (nx >= 0 && nx < n && ny >= 0 && ny < m && board[nx][ny] == 0) {
                 board[nx][ny] = cell->intensity + 1;
-                maxIntensity = max(maxIntensity, cell->intensity + 1);
+                if (maxIntensity < cell->intensity + 1)
+                    maxIntensity = cell->intensity + 1;
                 queue_insert(q, (intptr_t)(new Cell{nx, ny, cell->intensity + 1}));
             }
         }

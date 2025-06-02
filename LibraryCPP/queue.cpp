@@ -32,16 +32,16 @@ void queue_insert(Queue* queue, Data data) {
 }
 
 Data queue_get(const Queue* queue) {
-    if (!queue) throw std::out_of_range("Queue is empty");
+    if (!queue || queue_empty(queue)) return 0;  // Возвращаем 0 вместо исключения
     ListItem* first = list_first(queue->list);
-    if (!first) throw std::out_of_range("Queue is empty");
+    if (!first) return 0;
     return list_item_data(first);
 }
 
 void queue_remove(Queue* queue) {
-    if (!queue) throw std::out_of_range("Queue is empty");
+    if (!queue || queue_empty(queue)) return;  // Просто выходим, если пустая
     ListItem* first = list_first(queue->list);
-    if (!first) throw std::out_of_range("Queue is empty");
+    if (!first) return;
 
     if (first == queue->tail) {
         queue->tail = nullptr;
