@@ -1,5 +1,6 @@
 #include "list.h"
 #include <stdexcept>
+#include <iostream>
 
 struct ListItem {
     Data data;
@@ -11,20 +12,38 @@ struct ListItem {
 
 struct List {
     ListItem* head;
+    size_t size;
 
-    List() : head(nullptr) {}
+    List() : head(nullptr), size(0) {}
+    
     ~List() {
-        while (!list_first(this))
-            list_erase_first(this);
+        clear();
+    }
+    
+    void clear() {
+        while (head) {
+            ListItem* toDelete = head;
+            head = (head->next == head || !head->next) ? nullptr : head->next;
+            delete toDelete;
+        }
+        size = 0;
     }
 };
 
 List* list_create() {
-    return new List();
+    try {
+        return new List();
+    } catch (const std::bad_alloc&) {
+        std::cerr << "Memory allocation failed in list_create()" << std::endl;
+        return nullptr;
+    }
 }
 
 void list_delete(List* list) {
-    delete list;
+    if (list) {
+        list->clear();
+        delete list;
+    }
 }
 
 ListItem* list_first(List* list) {
@@ -32,7 +51,7 @@ ListItem* list_first(List* list) {
 }
 
 Data list_item_data(const ListItem* item) {
-    if (!item) throw std::invalid_argument("Null item");
+    if (!item) throw std::invalid_argument("Null item in list_item_data");
     return item->data;
 }
 
@@ -49,19 +68,23 @@ ListItem* list_insert(List* list, Data data) {
 }
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data) {
-    if (!list) throw std::invalid_argument("Null list");
+    if (!list) throw std::invalid_argument("Null list in list_insert_after");
 
-    ListItem* newItem = new ListItem(data);
+    ListItem* newItem;
+    try {
+        newItem = new ListItem(data);
+    } catch (const std::bad_alloc&) {
+        throw std::runtime_error("Memory allocation failed in list_insert_after");
+    }
 
     if (!list->head) {
         newItem->next = newItem;
         newItem->prev = newItem;
         list->head = newItem;
     } else if (!item) {
-        ListItem* tail = list->head->prev;
         newItem->next = list->head;
-        newItem->prev = tail;
-        tail->next = newItem;
+        newItem->prev = list->head->prev;
+        list->head->prev->next = newItem;
         list->head->prev = newItem;
         list->head = newItem;
     } else {
@@ -71,6 +94,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
         item->next = newItem;
     }
 
+    list->size++;
     return newItem;
 }
 
@@ -82,17 +106,22 @@ ListItem* list_erase_next(List* list, ListItem* item) {
     if (!list || !list->head) return nullptr;
 
     ListItem* toDelete = item ? item->next : list->head;
+    if (!toDelete) return nullptr;
 
-    if (toDelete == toDelete->next) {
+    if (toDelete->next == toDelete) {
         list->head = nullptr;
     } else {
         toDelete->prev->next = toDelete->next;
         toDelete->next->prev = toDelete->prev;
-        if (toDelete == list->head)
+        
+        if (toDelete == list->head) {
             list->head = toDelete->next;
+        }
     }
 
     ListItem* nextItem = toDelete->next;
     delete toDelete;
-    return nextItem;
+    list->size--;
+
+    return (nextItem == toDelete) ? nullptr : nextItem;
 }
