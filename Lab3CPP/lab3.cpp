@@ -32,7 +32,8 @@ int main(int argc, char* argv[]) {
     while (fin >> x >> y) {
         x--; y--;
         board[x][y] = 1;
-        queue_insert(q, new Cell{x, y, 1});
+        Cell* newCell = new Cell{x, y, 1};
+        queue_insert(q, reinterpret_cast<Data>(newCell));
     }
 
     int dx[] = {-1, 1, 0, 0};
@@ -44,7 +45,7 @@ int main(int argc, char* argv[]) {
 
     while (!queue_empty(q) && count < maxIterations) {
         count++;
-        Cell* cell = (Cell*)queue_get(q);
+        Cell* cell = reinterpret_cast<Cell*>(queue_get(q));
         queue_remove(q);
 
         for (int d = 0; d < 4; d++) {
@@ -54,7 +55,8 @@ int main(int argc, char* argv[]) {
                 board[nx][ny] = cell->intensity + 1;
                 if (maxIntensity < cell->intensity + 1)
                     maxIntensity = cell->intensity + 1;
-                queue_insert(q, new Cell{nx, ny, cell->intensity + 1});
+                Cell* newCell = new Cell{nx, ny, cell->intensity + 1};
+                queue_insert(q, reinterpret_cast<Data>(newCell));
             }
         }
 
