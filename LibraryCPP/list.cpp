@@ -14,15 +14,8 @@ struct List {
 
     List() : head(nullptr) {}
     ~List() {
-        if (!head) return;
-        ListItem* current = head->next;
-        while (current != head) {
-            ListItem* nextItem = current->next;
-            delete current;
-            current = nextItem;
-        }
-        delete head;
-        head = nullptr;
+        while (!list_first(this))
+            list_erase_first(this);
     }
 };
 
@@ -35,23 +28,20 @@ void list_delete(List* list) {
 }
 
 ListItem* list_first(List* list) {
-    if (!list) return nullptr;
-    return list->head;
+    return list ? list->head : nullptr;
 }
 
 Data list_item_data(const ListItem* item) {
-    if (!item) throw std::invalid_argument("Null pointer in list_item_data");
+    if (!item) throw std::invalid_argument("Null item");
     return item->data;
 }
 
 ListItem* list_item_next(ListItem* item) {
-    if (!item) return nullptr;
-    return item->next;
+    return item ? item->next : nullptr;
 }
 
 ListItem* list_item_prev(ListItem* item) {
-    if (!item) return nullptr;
-    return item->prev;
+    return item ? item->prev : nullptr;
 }
 
 ListItem* list_insert(List* list, Data data) {
@@ -59,17 +49,15 @@ ListItem* list_insert(List* list, Data data) {
 }
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data) {
-    if (!list) throw std::invalid_argument("Null list in list_insert_after");
+    if (!list) throw std::invalid_argument("Null list");
 
     ListItem* newItem = new ListItem(data);
 
     if (!list->head) {
-        // пустой список
         newItem->next = newItem;
         newItem->prev = newItem;
         list->head = newItem;
     } else if (!item) {
-        // вставка в начало
         ListItem* tail = list->head->prev;
         newItem->next = list->head;
         newItem->prev = tail;
@@ -77,7 +65,6 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
         list->head->prev = newItem;
         list->head = newItem;
     } else {
-        // вставка после item
         newItem->next = item->next;
         newItem->prev = item;
         item->next->prev = newItem;
@@ -94,27 +81,18 @@ ListItem* list_erase_first(List* list) {
 ListItem* list_erase_next(List* list, ListItem* item) {
     if (!list || !list->head) return nullptr;
 
-    ListItem* toDelete;
-
-    if (!item) {
-        toDelete = list->head;
-    } else {
-        toDelete = item->next;
-    }
+    ListItem* toDelete = item ? item->next : list->head;
 
     if (toDelete == toDelete->next) {
-        // один элемент в списке
         list->head = nullptr;
-        delete toDelete;
-        return nullptr;
     } else {
         toDelete->prev->next = toDelete->next;
         toDelete->next->prev = toDelete->prev;
-        if (toDelete == list->head) {
+        if (toDelete == list->head)
             list->head = toDelete->next;
-        }
-        ListItem* nextItem = toDelete->next;
-        delete toDelete;
-        return nextItem;
     }
+
+    ListItem* nextItem = toDelete->next;
+    delete toDelete;
+    return nextItem;
 }

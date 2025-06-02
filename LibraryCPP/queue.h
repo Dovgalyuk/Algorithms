@@ -5,7 +5,7 @@
 
 // Queue
 // Stores integer values inside
-typedef void* Data;
+typedef int Data;
 
 struct Queue;
 

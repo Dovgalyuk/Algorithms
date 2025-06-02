@@ -6,17 +6,12 @@ struct Queue {
     List* list;
     ListItem* tail;
 
-    Queue() : list(nullptr), tail(nullptr) {}
-    ~Queue() {
-        if (list) list_delete(list);
-    }
+    Queue() : list(list_create()), tail(nullptr) {}
+    ~Queue() { list_delete(list); }
 };
 
 Queue* queue_create() {
-    Queue* queue = new Queue();
-    queue->list = list_create();
-    queue->tail = nullptr;
-    return queue;
+    return new Queue();
 }
 
 void queue_delete(Queue* queue) {
@@ -24,9 +19,9 @@ void queue_delete(Queue* queue) {
 }
 
 void queue_insert(Queue* queue, Data data) {
-    if (!queue) throw std::invalid_argument("Null queue in queue_insert");
+    if (!queue) throw std::invalid_argument("Null queue");
 
-    if (queue->tail == nullptr) {
+    if (!queue->tail) {
         queue->tail = list_insert(queue->list, data);
     } else {
         queue->tail = list_insert_after(queue->list, queue->tail, data);
@@ -34,23 +29,16 @@ void queue_insert(Queue* queue, Data data) {
 }
 
 Data queue_get(const Queue* queue) {
-    if (!queue) throw std::invalid_argument("Null queue in queue_get");
-    if (queue_empty(queue)) throw std::out_of_range("queue_get from empty queue");
+    if (!queue) throw std::invalid_argument("Null queue");
+    if (queue_empty(queue)) throw std::out_of_range("Empty queue");
 
-    ListItem* first = list_first(queue->list);
-    if (!first) throw std::out_of_range("queue_get: no first item");
-
-    return list_item_data(first);
+    return list_item_data(list_first(queue->list));
 }
 
 void queue_remove(Queue* queue) {
-    if (!queue) throw std::invalid_argument("Null queue in queue_remove");
-    if (queue_empty(queue)) return;
+    if (!queue || queue_empty(queue)) return;
 
-    ListItem* first = list_first(queue->list);
-    if (!first) return;
-
-    if (first == queue->tail) {
+    if (queue->tail == list_first(queue->list)) {
         queue->tail = nullptr;
     }
 
@@ -58,6 +46,5 @@ void queue_remove(Queue* queue) {
 }
 
 bool queue_empty(const Queue* queue) {
-    if (!queue) return true;
-    return list_first(queue->list) == nullptr;
+    return !queue || !list_first(queue->list);
 }

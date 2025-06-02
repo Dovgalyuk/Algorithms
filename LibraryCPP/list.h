@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-typedef void* Data;
+typedef int Data;
 
 struct List;
 struct ListItem;
