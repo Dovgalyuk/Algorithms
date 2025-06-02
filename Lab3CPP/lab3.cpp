@@ -30,9 +30,9 @@ int main(int argc, char* argv[]) {
 
     int x, y;
     while (fin >> x >> y) {
-        x--; y--; // Перевод в 0-индексацию
+        x--; y--;
         board[x][y] = 1;
-        queue_insert(q, (intptr_t)(new Cell{x, y, 1}));
+        queue_insert(q, new Cell{x, y, 1});
     }
 
     int dx[] = {-1, 1, 0, 0};
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
                 board[nx][ny] = cell->intensity + 1;
                 if (maxIntensity < cell->intensity + 1)
                     maxIntensity = cell->intensity + 1;
-                queue_insert(q, (intptr_t)(new Cell{nx, ny, cell->intensity + 1}));
+                queue_insert(q, new Cell{nx, ny, cell->intensity + 1});
             }
         }
 
