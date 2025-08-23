@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include "queue.h"
 
-typedef struct Queue
-{
+typedef struct Queue {
+    // remove this
+    Data d;
 } Queue;
 
 Queue *queue_create(FFree f)

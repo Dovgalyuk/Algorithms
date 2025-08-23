@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include "stack.h"
 
-typedef struct Stack
-{
+typedef struct Stack {
+    // remove this
+    Data d;
 } Stack;
 
 Stack *stack_create(FFree f)

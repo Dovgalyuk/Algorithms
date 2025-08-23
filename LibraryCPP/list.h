@@ -2,7 +2,9 @@
 #define LIST_H
 
 // List
+
 // Stores integer values inside
+// Change it to desired type
 typedef int Data;
 
 struct List;

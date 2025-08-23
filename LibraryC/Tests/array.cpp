@@ -19,6 +19,8 @@ int main()
         array_set(arr, i, (Data)d);
     }
 
+    array_set(arr, 0, (Data)new int(0));
+
     for (int i = 0 ; i < 10 ; ++i)
     {
         if (*(int*)array_get(arr, i) != i * 2)

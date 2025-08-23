@@ -16,6 +16,8 @@ int main()
     for (int i = 0 ; i < 10 ; ++i)
         arr->set(i, i * 2);
 
+    *arr = *arr;
+
     MyArray copy(*arr);
 
     for (int i = 0 ; i < 10 ; ++i)

@@ -1,12 +1,14 @@
 #include <stdlib.h>
 #include "list.h"
 
-typedef struct ListItem
-{
+typedef struct ListItem {
+    // remove this
+    Data d;
 } ListItem;
 
-typedef struct List
-{
+typedef struct List {
+    // remove this
+    Data d;
 } List;
 
 List *list_create(FFree f)

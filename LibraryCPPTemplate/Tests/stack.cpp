@@ -11,6 +11,8 @@ int main()
     stack.push(2);
     stack.push(3);
 
+    stack = stack;
+
     if (stack.get() != 3)
     {
         std::cout << "Invalid stack top after push\n";
