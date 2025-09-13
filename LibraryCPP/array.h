@@ -12,7 +12,7 @@ typedef int Data;
 struct Array;
 
 // create array
-Array* array_create(size_t size, const int* values);
+Array* array_create(size_t size, int* values);
 
 // delete array, free memory
 void array_delete(Array *arr);
