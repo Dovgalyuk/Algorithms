@@ -12,7 +12,7 @@ Array* array_create_and_read(ifstream& input)
     /* Create array */
     Array* arr = array_create(n, nullptr);
     /* Read array data */
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < n; i++)
     {
         int x;
         input >> x;
@@ -31,10 +31,11 @@ void task1(Array* arr)
 {
     int n = array_size(arr);
     for (int i = 0; i < n; i++) {
-        arr[i] = fac(i); 
+        array_set(arr, i, fac(i));
     }
+     cout << "Факториал: "
     for (int i = 0; i < n; i++) {
-        cout << arr[i] << " ";
+        cout << array_get(arr, i) << " ";
     }
     cout << endl;
 }
@@ -45,9 +46,6 @@ void task2(Array* arr)
     if (n < 5) {
         return;
     }
-    for (int i = 0; i < n; i++) {
-        arr[i] = array_get(arr, i);
-    }
 
     int max = 0;
     int indx = 0;
@@ -55,7 +53,7 @@ void task2(Array* arr)
     for (int i = 0; i <= n - 5; i++) {
         int tec = 0;
         for (int j = 0; j < 5; j++) {
-            tec += arr[i + j];
+            tec += array_get(arr, i + j);
         }
         if (tec > max) {
             max = tec;
@@ -66,7 +64,7 @@ void task2(Array* arr)
     cout << "Максимальная сумма: " << max << endl;
     cout << "Элементы с максимальной суммой: ";
     for (int i = 0; i < 5; i++) {
-        cout << Arr[i + indx] << " ";
+        cout << array_get(arr, indx + i) << " ";
     }
 
 }
