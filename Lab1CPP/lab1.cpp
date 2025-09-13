@@ -33,7 +33,7 @@ void task1(Array* arr)
     for (int i = 0; i < n; i++) {
         array_set(arr, i, fac(i));
     }
-     cout << "Факториал: "
+    cout << "Факториал: ";
     for (int i = 0; i < n; i++) {
         cout << array_get(arr, i) << " ";
     }

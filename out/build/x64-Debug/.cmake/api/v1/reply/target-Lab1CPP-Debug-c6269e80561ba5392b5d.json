@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Lab1C/Lab1C.exe"
+			"path" : "Lab1CPP/Lab1CPP.exe"
 		},
 		{
-			"path" : "Lab1C/Lab1C.pdb"
+			"path" : "Lab1CPP/Lab1CPP.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -20,7 +20,7 @@
 		],
 		"files" : 
 		[
-			"Lab1C/CMakeLists.txt",
+			"Lab1CPP/CMakeLists.txt",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
@@ -63,7 +63,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /Zi /Ob0 /Od /RTC1 -MDd"
+					"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd"
 				},
 				{
 					"backtrace" : 4,
@@ -81,10 +81,10 @@
 			[
 				{
 					"backtrace" : 5,
-					"path" : "C:/Users/marui/source/repos/Algorithms/Lab1C/../LibraryC"
+					"path" : "C:/Users/marui/source/repos/Algorithms/Lab1CPP/../LibraryCPP"
 				}
 			],
-			"language" : "C",
+			"language" : "CXX",
 			"sourceIndexes" : 
 			[
 				0
@@ -95,16 +95,16 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "LibraryC::@05a76b2f4dbe82cfc264"
+			"id" : "LibraryCPP::@4b3589622afbd1422885"
 		}
 	],
-	"id" : "Lab1C::@c050f807fd595b3ba8be",
+	"id" : "Lab1CPP::@ee6367d4ac0702ad1401",
 	"link" : 
 	{
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "/DWIN32 /D_WINDOWS /Zi /Ob0 /Od /RTC1 -MDd",
+				"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd",
 				"role" : "flags"
 			},
 			{
@@ -113,7 +113,7 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "LibraryC\\LibraryC.lib",
+				"fragment" : "LibraryCPP\\LibraryCPP.lib",
 				"role" : "libraries"
 			},
 			{
@@ -121,14 +121,14 @@
 				"role" : "libraries"
 			}
 		],
-		"language" : "C"
+		"language" : "CXX"
 	},
-	"name" : "Lab1C",
-	"nameOnDisk" : "Lab1C.exe",
+	"name" : "Lab1CPP",
+	"nameOnDisk" : "Lab1CPP.exe",
 	"paths" : 
 	{
-		"build" : "Lab1C",
-		"source" : "Lab1C"
+		"build" : "Lab1CPP",
+		"source" : "Lab1CPP"
 	},
 	"sourceGroups" : 
 	[
@@ -145,7 +145,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "Lab1C/lab1.c",
+			"path" : "Lab1CPP/lab1.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
