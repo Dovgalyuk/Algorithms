@@ -34,7 +34,7 @@ void task1(Array* arr)
     for (int i = 0; i < n; i++) {
         array_set(arr, i, fac(i));
     }
-    cout << "Факториал: ";
+    cout << "Factorial: ";
     for (int i = 0; i < n; i++) {
         cout << array_get(arr, i) << " ";
     }
@@ -62,8 +62,8 @@ void task2(Array* arr)
         }
     }
 
-    cout << "Максимальная сумма: " << max << endl;
-    cout << "Элементы с максимальной суммой: ";
+    cout << "Maximum sum: " << max << endl;
+    cout << "Elements with maximum sum: ";
     for (int i = 0; i < 5; i++) {
         cout << array_get(arr, indx + i) << " ";
     }
@@ -83,6 +83,9 @@ int main(int argc, char** argv)
     task1(arr);
     array_delete(arr);
     /* Create another array here */
+    input.clear();
+    input.seekg(0, ios::beg);
+
     arr = array_create_and_read(input);
     task2(arr);
     array_delete(arr);

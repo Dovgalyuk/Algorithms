@@ -1,0 +1,9 @@
+# ninja log v6
+20	363	7795723273039765	LibraryCPP/CMakeFiles/LibraryCPP.dir/stack.cpp.obj	64c3630b8df0e4b0
+30	688	7795723273139774	Lab1CPP/CMakeFiles/Lab1CPP.dir/lab1.cpp.obj	3df1f9e08c364b83
+6	366	7795723272900539	LibraryCPP/CMakeFiles/LibraryCPP.dir/array.cpp.obj	f03ab63dd5130c41
+12	366	7795723272959919	LibraryCPP/CMakeFiles/LibraryCPP.dir/list.cpp.obj	32030cd6a4e47108
+25	367	7795723273089776	LibraryCPP/CMakeFiles/LibraryCPP.dir/vector.cpp.obj	e2108e3565631185
+16	367	7795723272999789	LibraryCPP/CMakeFiles/LibraryCPP.dir/queue.cpp.obj	92b18d7ef637ffed
+367	418	7795723276515321	LibraryCPP/LibraryCPP.lib	5fab00947c546bb4
+689	991	7795723279727928	Lab1CPP/Lab1CPP.exe	f011a3ad5562260f
