@@ -8,7 +8,7 @@ struct Array {
 };
 
 // create array
-Array* array_create(int size, int* values) {
+Array* array_create(size_t size, int* values) {
     Array* arr = new Array;
     arr->size = size;
     arr->data = new int[size];

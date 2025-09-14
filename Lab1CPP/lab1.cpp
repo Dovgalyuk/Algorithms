@@ -26,6 +26,7 @@ long long fac(int n) {
     for (int i = 1; i <= n; i++) {
         res *= i;
     }
+    return res;
 }
 void task1(Array* arr)
 {

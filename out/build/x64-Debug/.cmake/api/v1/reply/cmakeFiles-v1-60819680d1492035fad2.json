@@ -141,28 +141,7 @@
 			"path" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeCommonLanguageInclude.cmake"
 		},
 		{
-			"path" : "LibraryC/CMakeLists.txt"
-		},
-		{
-			"path" : "LibraryC/Tests/CMakeLists.txt"
-		},
-		{
 			"path" : "LibraryCPP/CMakeLists.txt"
-		},
-		{
-			"path" : "LibraryCPP/Tests/CMakeLists.txt"
-		},
-		{
-			"path" : "LibraryCPPClass/CMakeLists.txt"
-		},
-		{
-			"path" : "LibraryCPPClass/Tests/CMakeLists.txt"
-		},
-		{
-			"path" : "LibraryCPPTemplate/CMakeLists.txt"
-		},
-		{
-			"path" : "LibraryCPPTemplate/Tests/CMakeLists.txt"
 		},
 		{
 			"path" : "Lab1CPP/CMakeLists.txt"

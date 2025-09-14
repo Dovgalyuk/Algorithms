@@ -14,14 +14,11 @@
 		"commands" : 
 		[
 			"add_executable",
-			"target_link_libraries",
-			"add_compile_options",
-			"target_include_directories"
+			"target_link_libraries"
 		],
 		"files" : 
 		[
-			"Lab1CPP/CMakeLists.txt",
-			"CMakeLists.txt"
+			"Lab1CPP/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -37,21 +34,6 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 3,
-				"parent" : 0
-			},
-			{
-				"file" : 1
-			},
-			{
-				"command" : 2,
-				"file" : 1,
-				"line" : 8,
-				"parent" : 3
-			},
-			{
-				"command" : 3,
-				"file" : 0,
 				"line" : 2,
 				"parent" : 0
 			}
@@ -64,24 +46,13 @@
 			[
 				{
 					"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd"
-				},
-				{
-					"backtrace" : 4,
-					"fragment" : "/W4"
-				},
-				{
-					"backtrace" : 4,
-					"fragment" : "/WX"
-				},
-				{
-					"fragment" : "-WX"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 5,
-					"path" : "C:/Users/marui/source/repos/Algorithms/Lab1CPP/../LibraryCPP"
+					"backtrace" : 2,
+					"path" : "C:/Users/marui/source/repos/Algorithms/LibraryCPP"
 				}
 			],
 			"language" : "CXX",
