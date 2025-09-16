@@ -58,6 +58,14 @@ void array_set(Array *arr, size_t index, Data value) {
   if (index >= arr->size) {
     return;
   }
+
+  if (arr->free_fn != NULL) {
+    Data old_value = arr->elements[index];
+    if (old_value != (Data)0) {
+      arr->free_fn((void *)old_value);
+    }
+  }
+
   arr->elements[index] = value;
 }
 
