@@ -1,4 +1,5 @@
 #include "array.h"
+#include <stdbool.h>
 #include <stdio.h>
 
 Array *array_create_and_read(FILE *input) {
@@ -13,6 +14,13 @@ Array *array_create_and_read(FILE *input) {
     array_set(arr, i, x);
   }
 
+  return arr;
+}
+
+Array *array_create_and_read_single_line(FILE *input) {
+  int n;
+  fscanf(input, "%d", &n);
+  Array *arr = array_create(n, NULL);
   return arr;
 }
 
@@ -38,7 +46,7 @@ void task2(Array *arr) {
 
   for (size_t i = 0; i < n; i++) {
     int a = (int)array_get(arr, i);
-    int is_divisible = 0;
+    int is_divisible = false;
 
     for (size_t j = 0; j < n; j++) {
       if (i == j) {
@@ -47,7 +55,7 @@ void task2(Array *arr) {
       int b = (int)array_get(arr, j);
 
       if (b != 0 && a % b == 0) {
-        is_divisible = 1;
+        is_divisible = true;
         break;
       }
     }
@@ -68,7 +76,7 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  arr = array_create_and_read(input);
+  arr = array_create_and_read_single_line(input);
   task1(arr);
   array_delete(arr);
 
