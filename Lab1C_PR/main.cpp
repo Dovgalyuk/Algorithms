@@ -22,8 +22,9 @@ bool readFile(const string& filename, int& n, int*& data) {
     }
 
     data = new int[n];
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; i++) {
         file >> data[i];
+    }
 
     file.close();
     return true;
@@ -40,8 +41,9 @@ void task4(const string& filename) {
     arr.fillFrom(data);
 
     int sum = 0;
-    for (int i = 0; i < arr.getSize(); i++)
+    for (int i = 0; i < arr.getSize(); i++) {
         sum += arr.get(i);
+    }
 
     int count = 0;
     vector<int> indices;
