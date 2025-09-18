@@ -1,3 +1,7 @@
+cmake_minimum_required(VERSION 3.10)
+
+set(ENABLE_TESTING OFF)
+
 add_subdirectory(../LibraryCPP LibraryCPP)
 
 add_executable(Lab1C_PR main.cpp)
