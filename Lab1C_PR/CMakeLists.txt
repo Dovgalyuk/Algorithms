@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(ENABLE_TESTING OFF)
+set(CMAKE_DISABLE_TESTING ON)
 
 add_subdirectory(../LibraryCPP LibraryCPP)
 
