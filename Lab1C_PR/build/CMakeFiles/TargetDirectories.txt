@@ -1,7 +1,0 @@
-C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/build/CMakeFiles/Lab1C_PR.dir
-C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/build/CMakeFiles/RUN_TESTS.dir
-C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/build/CMakeFiles/ZERO_CHECK.dir
-C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/build/LibraryCPP/CMakeFiles/LibraryCPP.dir
-C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/build/LibraryCPP/CMakeFiles/RUN_TESTS.dir
-C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/build/LibraryCPP/Tests/CMakeFiles/RUN_TESTS.dir
