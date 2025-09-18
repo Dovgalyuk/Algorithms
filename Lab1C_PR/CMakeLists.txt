@@ -1,5 +1,3 @@
-set(ENABLE_TESTING OFF)
-
 add_subdirectory(../LibraryCPP LibraryCPP)
 
 add_executable(Lab1C_PR main.cpp)
