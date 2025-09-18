@@ -46,7 +46,7 @@ void task2(Array *arr) {
 
   for (size_t i = 0; i < n; i++) {
     int a = (int)array_get(arr, i);
-    int is_divisible = false;
+    bool is_divisible = false;
 
     for (size_t j = 0; j < n; j++) {
       if (i == j) {
