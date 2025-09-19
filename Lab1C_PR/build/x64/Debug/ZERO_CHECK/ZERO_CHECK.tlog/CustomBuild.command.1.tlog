@@ -1,0 +1,10 @@
+^C:\USERS\DROZD\SOURCE\REPOS\ALGORITHMS\LAB1C_PR\BUILD\CMAKEFILES\1309419378EAB6910F1B431465229E0F\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/drozd/source/repos/Algorithms/Lab1C_PR -BC:/Users/drozd/source/repos/Algorithms/Lab1C_PR/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/build/Project.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

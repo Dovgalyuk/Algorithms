@@ -13,7 +13,7 @@ private:
 public:
     Array(int s) {
         if (s <= 0)
-            throw invalid_argument("Размер должен быть положительным!");
+            throw invalid_argument("Size must be positive!");
 
         size = s;
         data = new int[size]; // Выделение памяти.
@@ -27,14 +27,14 @@ public:
 
     int& get(int index) {
         if (index < 0 || index >= size)
-            throw out_of_range("Индекс вне границ!");
+            throw out_of_range("Index out of bounds!");
 
         return data[index];
     }
 
     const int& get(int index) const {
         if (index < 0 || index >= size)
-            throw out_of_range("Индекс вне границ!");
+            throw out_of_range("Index out of bounds!");
 
         return data[index];
     }

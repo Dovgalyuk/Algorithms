@@ -11,13 +11,13 @@ using namespace std;
 bool readFile(const string& filename, int& n, int*& data) {
     ifstream file(filename);
     if (!file.is_open()) {
-        cout << "Ошибка: файл не открыт!" << endl;
+        cout << "Error: file not opened!" << endl;
         return false;
     }
 
     file >> n;
     if (n <= 0) {
-        cout << "Ошибка: размер <= 0!" << endl;
+        cout << "Error: size <= 0!" << endl;
         return false;
     }
 
@@ -56,9 +56,9 @@ void task4(const string& filename) {
         }
     }
 
-    cout << "Task 4: Количество элементов > суммы (" << sum << "): " << count << endl;
+    cout << "Task 4: Number of elements > sum (" << sum << "): " << count << endl;
     if (count > 0) {
-        cout << "Номера (от 0): ";
+        cout << "Indices (from 0): ";
         for (size_t j = 0; j < indices.size(); j++) {
             cout << indices[j];
             if (j < indices.size() - 1) {
@@ -84,7 +84,7 @@ void task5(const string& filename) {
     arr.fillFrom(data);
 
     if (n < 5) {
-        cout << "Task 5: Массив слишком маленький!" << endl;
+        cout << "Task 5: Array too small!" << endl;
         delete[] data;
         return;
     }
@@ -99,8 +99,8 @@ void task5(const string& filename) {
         }
     }
 
-    cout << "Task 5: Максимальная сумма 5 соседних: " << maxSum << endl;
-    cout << "Элементы: ";
+    cout << "Task 5: Max sum of 5 neighbors " << maxSum << endl;
+    cout << "Elements: ";
     for (int j = startIndex; j < startIndex + 5; j++) {
         cout << arr.get(j);
         if (j < startIndex + 4) {
@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
 
     if (argc < 2) {
-        cout << "Ошибка: укажите файл!" << endl;
+        cout << "Error: specify the file!" << endl;
         return 1;
     }
     string filename = argv[1];
