@@ -1,0 +1,1 @@
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/Lab1C.dir/link.d CMakeFiles/Lab1C.dir/lab1.c.o -o Lab1C  ../LibraryC/libLibraryC.a

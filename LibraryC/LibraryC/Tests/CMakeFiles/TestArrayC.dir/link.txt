@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/TestArrayC.dir/link.d CMakeFiles/TestArrayC.dir/array.cpp.o -o TestArrayC  ../libLibraryC.a

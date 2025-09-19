@@ -1,0 +1,2 @@
+/usr/bin/ar qc libLibraryC.a CMakeFiles/LibraryC.dir/array.c.o CMakeFiles/LibraryC.dir/list.c.o CMakeFiles/LibraryC.dir/queue.c.o CMakeFiles/LibraryC.dir/stack.c.o CMakeFiles/LibraryC.dir/vector.c.o
+/usr/bin/ranlib libLibraryC.a

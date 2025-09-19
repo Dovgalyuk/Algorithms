@@ -1,0 +1,2 @@
+/usr/bin/ar qc libLibraryCPP.a CMakeFiles/LibraryCPP.dir/array.cpp.o CMakeFiles/LibraryCPP.dir/list.cpp.o CMakeFiles/LibraryCPP.dir/queue.cpp.o CMakeFiles/LibraryCPP.dir/stack.cpp.o CMakeFiles/LibraryCPP.dir/vector.cpp.o
+/usr/bin/ranlib libLibraryCPP.a
