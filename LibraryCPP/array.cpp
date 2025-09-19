@@ -35,30 +35,52 @@ size_t array_size(const Array *arr)
 */
 
 #include "array.h"
-struct Array {
+
+struct Array
+{
     Data* data;
     size_t size;
-};
-Array* array_create(size_t size) {
-    if (size == 0) {
-        return nullptr;
+
+    Array(size_t size)
+    {
+        this->size = size;
+        this->data = new Data[size];
+        for (size_t i = 0; i < size; ++i)
+        {
+            this->data[i] = Data();
+        }
     }
-    Array* arr = new Array;
-    arr->size = size;
-    arr->data = new Data[size];
+};
+
+// create array
+Array* array_create(size_t size)
+{
+    Array* arr = new Array(size);
     return arr;
 }
-void array_delete(Array* arr) {
-    if (!arr) return;
+
+// delete array, free memory
+void array_delete(Array* arr)
+{
     delete[] arr->data;
     delete arr;
 }
-Data array_get(const Array* arr, size_t index) {
+
+// returns specified array element
+Data array_get(const Array* arr, size_t index)
+{
+    if (index >= arr->size) return 0;
     return arr->data[index];
 }
-void array_set(Array* arr, size_t index, Data value) {
-    arr->data[index] = value;
+
+// sets the specified array element to the value
+void array_set(Array* arr, size_t index, Data value)
+{
+    if (index < arr->size) arr->data[index] = value;
 }
-size_t array_size(const Array* arr) {
+
+// returns array size
+size_t array_size(const Array* arr)
+{
     return arr->size;
 }
