@@ -1,3 +1,28 @@
+#include "array.h"
+#include <stdexcept>
+
+Array::Array(size_t s) {
+    if (s <= 0) throw std::invalid_argument("Size >0");
+    size = s;
+    data = new Data[size]; // Выделение
+    for (size_t i = 0; i < size; i++) data[i] = 0;
+}
+
+Array::~Array() { delete[] data; }
+
+size_t Array::getSize() const { return size; }
+
+Data Array::get(size_t index) const {
+    if (index >= size) throw std::out_of_range("Index wrong");
+    return data[index];
+}
+
+void Array::set(size_t index, Data value) {
+    if (index >= size) throw std::out_of_range("Index wrong");
+    data[index] = value;
+}
+
+
 /*#include "array.h"
 
 struct Array
@@ -33,7 +58,9 @@ size_t array_size(const Array *arr)
     return 0;
 }*/
 
-#include "array.h"
+
+
+/*#include "array.h"
 
 struct Array
 {
@@ -82,4 +109,4 @@ void array_set(Array* arr, size_t index, Data value)
 size_t array_size(const Array* arr)
 {
     return arr->size;
-}
+}*/

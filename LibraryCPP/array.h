@@ -1,3 +1,22 @@
+#ifndef ARRAY_H
+#define ARRAY_H
+#include <cstddef>
+
+typedef int Data; // Тип данных
+
+struct Array {
+    Data* data; // Указатель
+    size_t size; // Размер
+
+    Array(size_t s); // Создать
+    ~Array(); // Удалить
+    size_t getSize() const; // Размер
+    Data get(size_t index) const; // Получить
+    void set(size_t index, Data value); // Установить
+};
+
+#endif
+
 /*#ifndef ARRAY_H
 #define ARRAY_H
 
@@ -29,7 +48,7 @@ size_t array_size(const Array *arr);
 #endif
 */
 
-#ifndef ARRAY_H
+/*#ifndef ARRAY_H
 #define ARRAY_H
 
 #include <stdexcept>
@@ -78,4 +97,4 @@ public:
     }
 };
 
-#endif
+#endif*/
