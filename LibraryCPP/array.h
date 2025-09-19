@@ -1,50 +1,55 @@
-#ifndef ARRAY_H
+/*#ifndef ARRAY_H
 #define ARRAY_H
 
-#include <stdexcept>
+#include <cstddef>
 
-using namespace std;
+// Non-resizeable array
 
-class Array {
-private:
-    int* data;
-    int size;
+// Stores integer values inside
+// Change it to desired type
+typedef int Data;
 
-public:
-    Array(int s) {
-        if (s <= 0)
-            throw invalid_argument("Размер должен быть положительным!");
+struct Array;
 
-        size = s;
-        data = new int[size]; // Выделение памяти.
-        for (int i = 0; i < size; i++)
-            data[i] = 0;
-    }
+// create array
+Array *array_create(size_t size);
 
-    ~Array() { delete[] data; } // Очистка памяти.
+// delete array, free memory
+void array_delete(Array *arr);
 
-    int getSize() const { return size; }
+// returns specified array element
+Data array_get(const Array *arr, size_t index);
 
-    int& get(int index) {
-        if (index < 0 || index >= size)
-            throw out_of_range("Индекс вне границ!");
+// sets the specified array element to the value
+void array_set(Array *arr, size_t index, Data value);
 
-        return data[index];
-    }
+// returns array size
+size_t array_size(const Array *arr);
 
-    const int& get(int index) const {
-        if (index < 0 || index >= size)
-            throw out_of_range("Индекс вне границ!");
+#endif*/
 
-        return data[index];
-    }
 
-    void set(int index, int value) { get(index) = value; }
+#ifndef ARRAY_H
+#define ARRAY_H
+#include <cstddef> // Для size_t
+#include <stdexcept> // Для ошибок
 
-    void fillFrom(const int* source) {
-        for (int i = 0; i < size; i++)
-            data[i] = source[i];
-    }
+typedef int Data; // Тип данных
+
+struct Array {
+    Data* data; // Массив
+    size_t size; // Размер
 };
+
+// create array
+Array* array_create(size_t size);
+// delete array, free memory
+void array_delete(Array* arr);
+// returns array size
+size_t array_size(const Array* arr);
+// returns specified array element
+Data array_get(const Array* arr, size_t index);
+// sets the specified array element to the value
+void array_set(Array* arr, size_t index, Data value);
 
 #endif
