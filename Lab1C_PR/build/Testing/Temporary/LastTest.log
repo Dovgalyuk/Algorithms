@@ -1,22 +1,22 @@
-Start testing: Sep 19 17:50 RTZ 2 (зима)
+Start testing: Sep 19 18:04 RTZ 2 (зима)
 ----------------------------------------------------------
 1/1 Testing: TestLab1C_PR
 1/1 Test: TestLab1C_PR
 Command: "C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/build/Debug/Lab1C_PR.exe" "C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/input.txt"
 Directory: C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/build
-"TestLab1C_PR" start time: Sep 19 17:50 RTZ 2 (зима)
+"TestLab1C_PR" start time: Sep 19 18:04 RTZ 2 (зима)
 Output:
 ----------------------------------------------------------
-Task 4: Количество элементов > суммы (115): 0
-Task 5: Максимальная сумма 5 соседних: 114
-Элементы: 2, 3, 4, 5, 100
+Task 4: Number of elements > sum (115): 0
+Task 5: Max sum of 5 neighbors 114
+Elements: 2, 3, 4, 5, 100
 <end of output>
 Test time =   0.03 sec
 ----------------------------------------------------------
 Test Pass Reason:
-Required regular expression found. Regex=[Task 4: Количество элементов > суммы \(.*\): 0]
-"TestLab1C_PR" end time: Sep 19 17:50 RTZ 2 (зима)
+Required regular expression found. Regex=[Task 4: Number of elements > sum \(.*\): 0]
+"TestLab1C_PR" end time: Sep 19 18:04 RTZ 2 (зима)
 "TestLab1C_PR" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Sep 19 17:50 RTZ 2 (зима)
+End testing: Sep 19 18:04 RTZ 2 (зима)
