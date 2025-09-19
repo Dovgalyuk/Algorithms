@@ -143,15 +143,15 @@
 					"source" : "LibraryCPPTemplate/Tests"
 				},
 				{
-					"build" : "Lab1C",
-					"jsonFile" : "directory-Lab1C-Debug-42e6e8c49d67c6e886b2.json",
+					"build" : "Lab1C_PR",
+					"jsonFile" : "directory-Lab1C_PR-Debug-0bce5dc4f8fa630a9ca3.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
 					},
 					"parentIndex" : 0,
 					"projectIndex" : 0,
-					"source" : "Lab1C",
+					"source" : "Lab1C_PR",
 					"targetIndexes" : 
 					[
 						0
@@ -190,9 +190,9 @@
 			[
 				{
 					"directoryIndex" : 9,
-					"id" : "Lab1C::@c050f807fd595b3ba8be",
-					"jsonFile" : "target-Lab1C-Debug-d9219ab5f51ba9af4e4b.json",
-					"name" : "Lab1C",
+					"id" : "Lab1C_PR::@25e0b6084f727821e6c5",
+					"jsonFile" : "target-Lab1C_PR-Debug-03ed68cf5707c3bec640.json",
+					"name" : "Lab1C_PR",
 					"projectIndex" : 0
 				},
 				{

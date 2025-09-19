@@ -54,7 +54,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/Lab1C/cmake_install.cmake")
+  include("C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/Lab1C_PR/cmake_install.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT

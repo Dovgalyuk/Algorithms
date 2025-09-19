@@ -220,7 +220,7 @@
 			"path" : "LibraryCPPTemplate/Tests/CMakeLists.txt"
 		},
 		{
-			"path" : "Lab1C/CMakeLists.txt"
+			"path" : "Lab1C_PR/CMakeLists.txt"
 		}
 	],
 	"kind" : "cmakeFiles",

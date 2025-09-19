@@ -29,7 +29,7 @@ C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/LibraryCPPTemplate/CM
 C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/LibraryCPPTemplate/Tests/CMakeFiles/test.dir
 C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/LibraryCPPTemplate/Tests/CMakeFiles/edit_cache.dir
 C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/LibraryCPPTemplate/Tests/CMakeFiles/rebuild_cache.dir
-C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/Lab1C/CMakeFiles/Lab1C.dir
-C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/Lab1C/CMakeFiles/test.dir
-C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/Lab1C/CMakeFiles/edit_cache.dir
-C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/Lab1C/CMakeFiles/rebuild_cache.dir
+C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/Lab1C_PR/CMakeFiles/Lab1C_PR.dir
+C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/Lab1C_PR/CMakeFiles/test.dir
+C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/Lab1C_PR/CMakeFiles/edit_cache.dir
+C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/Lab1C_PR/CMakeFiles/rebuild_cache.dir
