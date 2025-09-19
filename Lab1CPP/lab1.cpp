@@ -41,7 +41,7 @@ void task1(Array *arr)
             std::cout << array_get(arr, i) << " ";
         }
     }
-    std::cout << ". ";
+    std::cout << "\n";
 }
 
 void task2(Array *arr)
