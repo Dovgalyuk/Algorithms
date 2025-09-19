@@ -4,14 +4,19 @@
 Array *array_create_and_read(FILE *input)
 {
     int n;
-    fscanf(input, "%d", &n);
+    if (fscanf(input, "%d", &n) != 1) {
+        return NULL;
+    }
     /* Create array */
     Array *arr = array_create(n, NULL);
     /* Read array data */
     for (int i = 0 ; i < n ; ++i)
     {
         int x;
-        fscanf(input, "%d", &x);
+        if (fscanf(input, "%d", &x) != 1) {
+            array_delete(arr);
+            return NULL;
+        }
         array_set(arr, i, x);
     }
     return arr;
