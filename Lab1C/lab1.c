@@ -37,7 +37,9 @@ void task1(Array *arr)
 	}
 
 	long sum = 0;
-	for (size_t i = min_idx + 1; i < max_idx; ++i) {
+	size_t start = (min_idx < max_idx) ? min_idx + 1 : max_idx + 1;
+	size_t end = (min_idx < max_idx) ? max_idx : min_idx;
+	for (size_t i = start; i < end; ++i) {
 		sum += (long)array_get(arr, i);
 	}
 
