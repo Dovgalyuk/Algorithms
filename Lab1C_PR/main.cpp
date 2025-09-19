@@ -22,8 +22,9 @@ bool readFile(const string& filename, int& n, int*& data) {
     }
 
     data = new int[n];
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; i++) {
         file >> data[i];
+    }
 
     file.close();
     return true;
@@ -34,14 +35,17 @@ bool readFile(const string& filename, int& n, int*& data) {
 void task4(const string& filename) {
     int n = 0;
     int* data = nullptr;
-    if (!readFile(filename, n, data)) return;
+    if (!readFile(filename, n, data)) {
+        return;
+    }
 
     Array arr(n);
     arr.fillFrom(data);
 
     int sum = 0;
-    for (int i = 0; i < arr.getSize(); i++)
+    for (int i = 0; i < arr.getSize(); i++) {
         sum += arr.get(i);
+    }
 
     int count = 0;
     vector<int> indices;
@@ -57,7 +61,9 @@ void task4(const string& filename) {
         cout << "Номера (от 0): ";
         for (size_t j = 0; j < indices.size(); j++) {
             cout << indices[j];
-            if (j < indices.size() - 1) cout << ", ";
+            if (j < indices.size() - 1) {
+                cout << ", ";
+            }
         }
         cout << endl;
     }
@@ -70,7 +76,9 @@ void task4(const string& filename) {
 void task5(const string& filename) {
     int n = 0;
     int* data = nullptr;
-    if (!readFile(filename, n, data)) return;
+    if (!readFile(filename, n, data)) {
+        return;
+    }
 
     Array arr(n);
     arr.fillFrom(data);
@@ -95,7 +103,9 @@ void task5(const string& filename) {
     cout << "Элементы: ";
     for (int j = startIndex; j < startIndex + 5; j++) {
         cout << arr.get(j);
-        if (j < startIndex + 4) cout << ", ";
+        if (j < startIndex + 4) {
+            cout << ", ";
+        }
     }
     cout << endl;
 
