@@ -206,7 +206,7 @@ static void task5(const string& filename) {
         delete[] data;
         return;
     }
-
+    
     int maxSum = INT_MIN;
     int startIndex = 0;
     for (int i = 0; i <= n - 5; i++) {
