@@ -1,23 +1,23 @@
-/*#include <iostream>
-#include <fstream> // Для файлов.
-#include <vector> // Для vector.
-#include <climits> // Для INT_MIN.
+п»ї/*#include <iostream>
+#include <fstream> // Р”Р»СЏ С„Р°Р№Р»РѕРІ.
+#include <vector> // Р”Р»СЏ vector.
+#include <climits> // Р”Р»СЏ INT_MIN.
 #include "array.h"
 
 using namespace std;
 
-// Функция для чтения из файла.
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ С‡С‚РµРЅРёСЏ РёР· С„Р°Р№Р»Р°.
 
 bool readFile(const string& filename, int& n, int*& data) {
     ifstream file(filename);
     if (!file.is_open()) {
-        cout << "Ошибка: файл не открыт!" << endl;
+        cout << "РћС€РёР±РєР°: С„Р°Р№Р» РЅРµ РѕС‚РєСЂС‹С‚!" << endl;
         return false;
     }
 
     file >> n;
     if (n <= 0) {
-        cout << "Ошибка: размер <= 0!" << endl;
+        cout << "РћС€РёР±РєР°: СЂР°Р·РјРµСЂ <= 0!" << endl;
         return false;
     }
 
@@ -29,7 +29,7 @@ bool readFile(const string& filename, int& n, int*& data) {
     return true;
 }
 
-// Задание 4.
+// Р—Р°РґР°РЅРёРµ 4.
 
 void task4(const string& filename) {
     int n = 0;
@@ -52,9 +52,9 @@ void task4(const string& filename) {
         }
     }*/
 
-    /*cout << "Task 4: Количество элементов > суммы (" << sum << "): " << count << endl;
+    /*cout << "Task 4: РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ > СЃСѓРјРјС‹ (" << sum << "): " << count << endl;
     if (count > 0) {
-        cout << "Номера (от 0): ";
+        cout << "РќРѕРјРµСЂР° (РѕС‚ 0): ";
         for (size_t j = 0; j < indices.size(); j++) {
             cout << indices[j];
             if (j < indices.size() - 1) cout << ", ";
@@ -62,10 +62,10 @@ void task4(const string& filename) {
         cout << endl;
     }*/
 
-    /*cout << "Task 4: Количество элементов > суммы (" << sum << "): " << count;
+    /*cout << "Task 4: РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ > СЃСѓРјРјС‹ (" << sum << "): " << count;
     if (count > 0) {
         cout << endl;
-        cout << "Номера (от 0): ";
+        cout << "РќРѕРјРµСЂР° (РѕС‚ 0): ";
         for (size_t j = 0; j < indices.size(); ++j) {
             if (j) cout << ", ";
             cout << indices[j];
@@ -76,10 +76,10 @@ void task4(const string& filename) {
         cout << ";";
     }
 
-    delete[] data; // Очистка памяти.
+    delete[] data; // РћС‡РёСЃС‚РєР° РїР°РјСЏС‚Рё.
 }
 
-// Задание 5.
+// Р—Р°РґР°РЅРёРµ 5.
 
 void task5(const string& filename) {
     int n = 0;
@@ -90,7 +90,7 @@ void task5(const string& filename) {
     arr.fillFrom(data);
 
     if (n < 5) {
-        cout << "Task 5: Массив слишком маленький!" << endl;
+        cout << "Task 5: РњР°СЃСЃРёРІ СЃР»РёС€РєРѕРј РјР°Р»РµРЅСЊРєРёР№!" << endl;
         delete[] data;
         return;
     }
@@ -105,8 +105,8 @@ void task5(const string& filename) {
         }
     }
 
-    cout << "Task 5: Максимальная сумма 5 соседних: " << maxSum << endl;
-    cout << "Элементы: ";
+    cout << "Task 5: РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ СЃСѓРјРјР° 5 СЃРѕСЃРµРґРЅРёС…: " << maxSum << endl;
+    cout << "Р­Р»РµРјРµРЅС‚С‹: ";
     for (int j = startIndex; j < startIndex + 5; j++) {
         cout << arr.get(j);
         if (j < startIndex + 4) cout << ", ";
@@ -120,7 +120,7 @@ int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
 
     if (argc < 2) {
-        cout << "Ошибка: укажите файл!" << endl;
+        cout << "РћС€РёР±РєР°: СѓРєР°Р¶РёС‚Рµ С„Р°Р№Р»!" << endl;
         return 1;
     }
     string filename = argv[1];
@@ -147,11 +147,11 @@ using std::endl;
 static bool readFile(const string& filename, int& n, int*& data) {
     std::ifstream file(filename);
     if (!file.is_open()) {
-        cout << "Ошибка: файл не открыт!" << endl;
+        cout << "РћС€РёР±РєР°: С„Р°Р№Р» РЅРµ РѕС‚РєСЂС‹С‚!" << endl;
         return false;
     }
     if (!(file >> n) || n <= 0) {
-        cout << "Ошибка: размер <= 0!" << endl;
+        cout << "РћС€РёР±РєР°: СЂР°Р·РјРµСЂ <= 0!" << endl;
         return false;
     }
     data = new int[n];
@@ -175,10 +175,10 @@ static void task4(const string& filename) {
         if (array_get(arr, i) > sum) { ++count; indices.push_back(static_cast<int>(i)); }
     }
 
-    cout << "Task 4: Количество элементов > суммы (" << sum << "): " << count;
+    cout << "Task 4: РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ > СЃСѓРјРјС‹ (" << sum << "): " << count;
     if (count > 0) {
         cout << endl;
-        cout << "Номера (от 0): ";
+        cout << "РќРѕРјРµСЂР° (РѕС‚ 0): ";
         for (size_t j = 0; j < indices.size(); ++j) {
             if (j) cout << ", ";
             cout << indices[j];
@@ -201,7 +201,7 @@ static void task5(const string& filename) {
     for (int i = 0; i < n; ++i) array_set(arr, static_cast<size_t>(i), data[i]);
 
     if (n < 5) {
-        cout << "Task 5: Массив слишком маленький!" << endl;
+        cout << "Task 5: РњР°СЃСЃРёРІ СЃР»РёС€РєРѕРј РјР°Р»РµРЅСЊРєРёР№!" << endl;
         array_delete(arr);
         delete[] data;
         return;
@@ -216,8 +216,8 @@ static void task5(const string& filename) {
         if (cur > maxSum) { maxSum = cur; startIndex = i; }
     }
 
-    cout << "Task 5: Максимальная сумма 5 соседних: " << maxSum << endl;
-    cout << "Элементы: ";
+    cout << "Task 5: РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ СЃСѓРјРјР° 5 СЃРѕСЃРµРґРЅРёС…: " << maxSum << endl;
+    cout << "Р­Р»РµРјРµРЅС‚С‹: ";
     for (int j = startIndex; j < startIndex + 5; j++) {
         if (j > startIndex) cout << ", ";
         cout << array_get(arr, j);
@@ -232,7 +232,7 @@ int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russia");
 
     if (argc < 2) {
-        cout << "Ошибка: укажите файл!" << endl;
+        cout << "РћС€РёР±РєР°: СѓРєР°Р¶РёС‚Рµ С„Р°Р№Р»!" << endl;
         return 1;
     }
     string filename = argv[1];

@@ -269,7 +269,7 @@ build LibraryCPP\Tests\rebuild_cache: phony LibraryCPP\Tests\CMakeFiles\rebuild_
 build cmake_object_order_depends_target_Lab1C_PR: phony || cmake_object_order_depends_target_LibraryCPP
 
 build Lab1C_PR\CMakeFiles\Lab1C_PR.dir\main.cpp.obj: CXX_COMPILER__Lab1C_PR_unscanned_Debug C$:\Users\drozd\source\repos\Algorithms\Lab1C_PR\main.cpp || cmake_object_order_depends_target_Lab1C_PR
-  FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
+  FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX /utf-8 -WX
   INCLUDES = -IC:\Users\drozd\source\repos\Algorithms\Lab1C_PR\..\LibraryCPP
   OBJECT_DIR = Lab1C_PR\CMakeFiles\Lab1C_PR.dir
   OBJECT_FILE_DIR = Lab1C_PR\CMakeFiles\Lab1C_PR.dir

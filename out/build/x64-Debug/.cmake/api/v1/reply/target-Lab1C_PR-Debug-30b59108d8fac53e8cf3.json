@@ -16,6 +16,7 @@
 			"add_executable",
 			"target_link_libraries",
 			"add_compile_options",
+			"target_compile_options",
 			"target_include_directories"
 		],
 		"files" : 
@@ -52,6 +53,12 @@
 			{
 				"command" : 3,
 				"file" : 0,
+				"line" : 6,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
 				"line" : 2,
 				"parent" : 0
 			}
@@ -74,13 +81,17 @@
 					"fragment" : "/WX"
 				},
 				{
+					"backtrace" : 5,
+					"fragment" : "/utf-8"
+				},
+				{
 					"fragment" : "-WX"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 5,
+					"backtrace" : 6,
 					"path" : "C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/../LibraryCPP"
 				}
 			],

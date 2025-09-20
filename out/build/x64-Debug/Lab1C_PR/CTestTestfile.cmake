@@ -5,4 +5,4 @@
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
 add_test(TestLab1C_PR "C:/Users/drozd/source/repos/Algorithms/out/build/x64-Debug/Lab1C_PR/Lab1C_PR.exe" "C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/input.txt")
-set_tests_properties(TestLab1C_PR PROPERTIES  PASS_REGULAR_EXPRESSION "Task 4:  ÓÎË˜ÂÒÚ‚Ó ˝ÎÂÏÂÌÚÓ‚ > ÒÛÏÏ˚ \\(.*\\): 0;Task 5: Ã‡ÍÒËÏ‡Î¸Ì‡ˇ ÒÛÏÏ‡ 5 ÒÓÒÂ‰ÌËı: 114" _BACKTRACE_TRIPLES "C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/CMakeLists.txt;5;add_test;C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/CMakeLists.txt;0;")
+set_tests_properties(TestLab1C_PR PROPERTIES  PASS_REGULAR_EXPRESSION "Task 4: –ö–æ–ª–∏—á–µ—Å—Ç–≤–æ —ç–ª–µ–º–µ–Ω—Ç–æ–≤ > —Å—É–º–º—ã \\(.*\\): 0;Task 5: –ú–∞–∫—Å–∏–º–∞–ª—å–Ω–∞—è —Å—É–º–º–∞ 5 —Å–æ—Å–µ–¥–Ω–∏—Ö: 114" _BACKTRACE_TRIPLES "C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/CMakeLists.txt;9;add_test;C:/Users/drozd/source/repos/Algorithms/Lab1C_PR/CMakeLists.txt;0;")
