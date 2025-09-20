@@ -83,10 +83,21 @@ int main(int argc, char** argv)
     task1(arr);
     array_delete(arr);
 
+
     /* Create another array here */
+
+
     arr = array_create_and_read(input);
-    task2(arr);
-    array_delete(arr);
-    
+    if (array_size(arr) < 5) {
+        array_delete(arr);
+
+        input.clear();
+        input.seekg(0, ios::beg);
+
+        arr = array_create_and_read(input);
+    }
+        task2(arr);
+        array_delete(arr);
+ 
     input.close();
 }
