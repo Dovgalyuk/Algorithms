@@ -50,9 +50,9 @@ void task4(const string& filename) {
             count++;
             indices.push_back(i);
         }
-    }
+    }*/
 
-    cout << "Task 4: Количество элементов > суммы (" << sum << "): " << count << endl;
+    /*cout << "Task 4: Количество элементов > суммы (" << sum << "): " << count << endl;
     if (count > 0) {
         cout << "Номера (от 0): ";
         for (size_t j = 0; j < indices.size(); j++) {
@@ -60,6 +60,20 @@ void task4(const string& filename) {
             if (j < indices.size() - 1) cout << ", ";
         }
         cout << endl;
+    }*/
+
+    /*cout << "Task 4: Количество элементов > суммы (" << sum << "): " << count;
+    if (count > 0) {
+        cout << endl;
+        cout << "Номера (от 0): ";
+        for (size_t j = 0; j < indices.size(); ++j) {
+            if (j) cout << ", ";
+            cout << indices[j];
+        }
+        cout << endl;
+    }
+    else {
+        cout << ";";
     }
 
     delete[] data; // Очистка памяти.
@@ -122,77 +136,106 @@ int main(int argc, char* argv[]) {
 #include <fstream>
 #include <vector>
 #include <climits>
-#include "array.h"
-#include "../LibraryC/list.h"
+#include <string>
+#include <windows.h>
+#include "../LibraryCPP/array.h"
 
-using namespace std;
+using std::string;
+using std::vector;
+using std::cout;
+using std::endl;
 
-// Функция для чтения из файла
-bool readFile(const string& filename, size_t& n, Data*& data) {
-    ifstream file(filename);
-    if (!file.is_open()) { cout << "Error: file not opened!" << endl; return false; }
-    file >> n;
-    if (n <= 0) { cout << "Error: size <=0!" << endl; return false; }
-    data = new Data[n];
-    for (size_t i = 0; i < n; i++) file >> data[i];
-    file.close();
+static bool readFile(const string& filename, int& n, int*& data) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        cout << "Ошибка: файл не открыт!" << endl;
+        return false;
+    }
+    if (!(file >> n) || n <= 0) {
+        cout << "Ошибка: размер <= 0!" << endl;
+        return false;
+    }
+    data = new int[n];
+    for (int i = 0; i < n; i++) file >> data[i];
     return true;
 }
 
-// Задание 4
-void task4(const string& filename) {
-    size_t n = 0;
-    Data* raw_data = nullptr;
-    if (!readFile(filename, n, raw_data)) return;
+static void task4(const string& filename) {
+    int n = 0; int* data = nullptr;
+    if (!readFile(filename, n, data)) return;
 
-    Array* arr = array_create(n); // Создаём контейнер
-    for (size_t i = 0; i < n; i++) array_set(arr, i, raw_data[i]); // Заполняем
+    Array* arr = array_create(static_cast<size_t>(n));
+    for (int i = 0; i < n; ++i) array_set(arr, static_cast<size_t>(i), data[i]);
 
-    Data sum = 0;
-    for (size_t i = 0; i < array_size(arr); i++) sum += array_get(arr, i);
+    long long sum = 0;
+    for (size_t i = 0; i < array_size(arr); ++i) sum += array_get(arr, i);
 
     int count = 0;
-    vector<size_t> indices;
-    for (size_t i = 0; i < array_size(arr); i++) {
-        if (array_get(arr, i) > sum) { count++; indices.push_back(i); }
+    vector<int> indices;
+    for (size_t i = 0; i < array_size(arr); ++i) {
+        if (array_get(arr, i) > sum) { ++count; indices.push_back(static_cast<int>(i)); }
     }
 
-    cout << "Task 4: Number of elements > sum (" << sum << "): " << count << endl;
-    if (count > 0) { cout << "Indices (from 0): "; for (size_t idx : indices) cout << idx << " "; cout << endl; }
+    cout << "Task 4: Количество элементов > суммы (" << sum << "): " << count;
+    if (count > 0) {
+        cout << endl;
+        cout << "Номера (от 0): ";
+        for (size_t j = 0; j < indices.size(); ++j) {
+            if (j) cout << ", ";
+            cout << indices[j];
+        }
+        cout << endl;
+    }
+    else {
+        cout << ";";
+    }
 
-    delete[] raw_data;
-    array_delete(arr); // Очистка
+    array_delete(arr);
+    delete[] data;
 }
 
-// Задание 5
-void task5(const string& filename) {
-    size_t n = 0;
-    Data* raw_data = nullptr;
-    if (!readFile(filename, n, raw_data)) return;
+static void task5(const string& filename) {
+    int n = 0; int* data = nullptr;
+    if (!readFile(filename, n, data)) return;
 
-    Array* arr = array_create(n);
-    for (size_t i = 0; i < n; i++) array_set(arr, i, raw_data[i]);
+    Array* arr = array_create(static_cast<size_t>(n));
+    for (int i = 0; i < n; ++i) array_set(arr, static_cast<size_t>(i), data[i]);
 
-    if (n < 5) { cout << "Task 5: Array too small!" << endl; delete[] raw_data; array_delete(arr); return; }
-
-    Data maxSum = INT_MIN;
-    size_t start = 0;
-    for (size_t i = 0; i <= n - 5; i++) {
-        Data cur = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2) + array_get(arr, i + 3) + array_get(arr, i + 4);
-        if (cur > maxSum) { maxSum = cur; start = i; }
+    if (n < 5) {
+        cout << "Task 5: Массив слишком маленький!" << endl;
+        array_delete(arr);
+        delete[] data;
+        return;
     }
 
-    cout << "Task 5: Max sum: " << maxSum << endl;
-    cout << "Elements: ";
-    for (size_t j = start; j < start + 5; j++) cout << array_get(arr, j) << " ";
+    int maxSum = INT_MIN;
+    int startIndex = 0;
+    for (int i = 0; i <= n - 5; i++) {
+        int cur = array_get(arr, i) + array_get(arr, i + 1)
+            + array_get(arr, i + 2) + array_get(arr, i + 3)
+            + array_get(arr, i + 4);
+        if (cur > maxSum) { maxSum = cur; startIndex = i; }
+    }
+
+    cout << "Task 5: Максимальная сумма 5 соседних: " << maxSum << endl;
+    cout << "Элементы: ";
+    for (int j = startIndex; j < startIndex + 5; j++) {
+        if (j > startIndex) cout << ", ";
+        cout << array_get(arr, j);
+    }
     cout << endl;
 
-    delete[] raw_data;
     array_delete(arr);
+    delete[] data;
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) { cout << "Error: specify file!" << endl; return 1; }
+    SetConsoleOutputCP(CP_UTF8);
+
+    if (argc < 2) {
+        cout << "Ошибка: укажите файл!" << endl;
+        return 1;
+    }
     string filename = argv[1];
     task4(filename);
     task5(filename);
