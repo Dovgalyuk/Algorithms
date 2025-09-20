@@ -137,7 +137,6 @@ int main(int argc, char* argv[]) {
 #include <vector>
 #include <climits>
 #include <string>
-#include <windows.h>
 #include "../LibraryCPP/array.h"
 
 using std::string;
@@ -230,7 +229,7 @@ static void task5(const string& filename) {
 }
 
 int main(int argc, char* argv[]) {
-    SetConsoleOutputCP(CP_UTF8);
+    setlocale(LC_ALL, "Russia");
 
     if (argc < 2) {
         cout << "Ошибка: укажите файл!" << endl;
