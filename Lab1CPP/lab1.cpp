@@ -16,13 +16,13 @@ void fiboFunction(size_t size)
 	if (size >= 1) { fibo_box.set(0, 0); }
 	if (size >= 2) { fibo_box.set(1, 1); }
 
-	for (int i = 2; i < size; i++)
+	for (size_t i = 2; i < size; i++)
 	{
 		fibo_box[i] = fibo_box[i - 1] + fibo_box[i - 2];
 	}
 	cout << "==========================================================" << endl;
 	cout << "Fibo numbers: ";
-	for (int i = 0; i < fibo_box.size(); i++)
+	for (size_t i = 0; i < fibo_box.size(); i++)
 	{
 		cout << fibo_box[i] <<" ";
 	}
@@ -34,7 +34,7 @@ void findDublicates(Array& box)
 	bool isFound = false;
 	map<int, int> num_duble;
 
-	for (int i = 0; i < box.size(); i++)
+	for (size_t i = 0; i < box.size(); i++)
 	{
 		int num = box.get(i);
 		num_duble[num]++;
