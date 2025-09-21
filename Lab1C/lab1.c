@@ -52,6 +52,7 @@ void task2(Array *arr)
         if (count > maxFrequent) {
             maxFrequent = count;
             maxNumber = val;
+            maxFrequentIdx = (int)i;
         }
 
     }
