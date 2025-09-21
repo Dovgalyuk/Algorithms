@@ -97,7 +97,7 @@ int main(int args,char* argv[]) {
 
 		 Array box(size_box); 
 		 
-		 for (int i = 0; i < size_box; i++)
+		 for (size_t i = 0; i < size_box; i++)
 			{
 			 int value;
 			 if (!(read_file >> value)) {
