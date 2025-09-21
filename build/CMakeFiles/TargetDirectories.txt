@@ -1,0 +1,17 @@
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/CMakeFiles/RUN_TESTS.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryC/CMakeFiles/LibraryC.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryC/CMakeFiles/RUN_TESTS.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryC/Tests/CMakeFiles/TestArrayC.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryC/Tests/CMakeFiles/RUN_TESTS.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryCPP/CMakeFiles/LibraryCPP.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryCPP/CMakeFiles/RUN_TESTS.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryCPP/Tests/CMakeFiles/RUN_TESTS.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryCPPClass/CMakeFiles/LibraryCPPClass.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryCPPClass/CMakeFiles/RUN_TESTS.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryCPPClass/Tests/CMakeFiles/RUN_TESTS.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryCPPTemplate/CMakeFiles/RUN_TESTS.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/LibraryCPPTemplate/Tests/CMakeFiles/RUN_TESTS.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/Lab1C/CMakeFiles/Lab1C.dir
+C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/Lab1C/CMakeFiles/RUN_TESTS.dir
