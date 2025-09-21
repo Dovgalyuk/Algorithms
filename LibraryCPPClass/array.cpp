@@ -6,7 +6,7 @@ Array::Array(size_t size) : size_(size), data_(new Data[size])
     {
         throw std::bad_alloc();
     }
-    for (int i = 0; i < size_; i++)
+    for (size_t i = 0; i < size_; i++)
     {
         data_[i] = Data(0);
     }
@@ -15,7 +15,7 @@ Array::Array(size_t size) : size_(size), data_(new Data[size])
 Array::Array(const Array &other) :size_(other.size_)
 {
     data_ = new Data[size_];
-    for (int i = 0; i < size_; i++)
+    for (size_t i = 0; i < size_; i++)
     {
         data_[i] = other.data_[i];
     }
@@ -29,7 +29,7 @@ Array &Array::operator=(const Array &other)
         size_ = other.size_;
         data_ = new Data[size_];
 
-        for (int i = 0; i < size_; i++)
+        for (size_t i = 0; i < size_; i++)
         {
             data_[i] = other.data_[i];
         }
