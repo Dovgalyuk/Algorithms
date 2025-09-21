@@ -2,27 +2,32 @@
 #define ARRAY_H
 
 #include <cstddef>
+#include <stdexcept>
 
 // Change it to desired type
 typedef int Data;
 
 class Array
 {
+
+
 public:
     // create array
     explicit Array(size_t size);
 
     // copy constructor
-    Array(const Array &a);
+    Array(const Array& other);
 
     // assignment operator
-    Array &operator=(const Array &a);
+    Array& operator=(const Array& other);
 
     // delete array, free memory
     ~Array();
 
     // returns specified array element
     Data get(size_t index) const;
+
+    Data& operator[](size_t index);
 
     // sets the specified array element to the value
     void set(size_t index, Data value);
@@ -32,6 +37,9 @@ public:
 
 private:
     // private data should be here
+    size_t size_;
+    Data* data_;
+
 };
 
 #endif
