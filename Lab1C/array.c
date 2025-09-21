@@ -52,13 +52,12 @@ void array_print(Array *arr)
         printf("NULL array\n");
         return;
     }
-    
-    printf("[");
+
     for (int i = 0; i < arr->size; i++) {
         printf("%d", array_get(arr, i));
         if (i < arr->size - 1) {
-            printf(", ");
+            printf(" ");
         }
     }
-    printf("]\n");
+    printf("\n");
 }
