@@ -1,0 +1,16 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/badvo/OneDrive/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/GitHub/Algorithms/build/cmake_install.cmake",
+		"C:/Users/badvo/OneDrive/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/GitHub/Algorithms/build/LibraryC/cmake_install.cmake",
+		"C:/Users/badvo/OneDrive/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/GitHub/Algorithms/build/LibraryC/Tests/cmake_install.cmake",
+		"C:/Users/badvo/OneDrive/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/GitHub/Algorithms/build/LibraryCPP/cmake_install.cmake",
+		"C:/Users/badvo/OneDrive/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/GitHub/Algorithms/build/LibraryCPP/Tests/cmake_install.cmake",
+		"C:/Users/badvo/OneDrive/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/GitHub/Algorithms/build/LibraryCPPClass/cmake_install.cmake",
+		"C:/Users/badvo/OneDrive/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/GitHub/Algorithms/build/LibraryCPPClass/Tests/cmake_install.cmake",
+		"C:/Users/badvo/OneDrive/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/GitHub/Algorithms/build/LibraryCPPTemplate/cmake_install.cmake",
+		"C:/Users/badvo/OneDrive/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/GitHub/Algorithms/build/LibraryCPPTemplate/Tests/cmake_install.cmake",
+		"C:/Users/badvo/OneDrive/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/GitHub/Algorithms/build/Lab1C/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
