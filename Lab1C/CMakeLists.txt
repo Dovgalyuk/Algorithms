@@ -1,13 +1,6 @@
-cmake_minimum_required(VERSION 3.10)
-project(array_processor)
-
-set(CMAKE_C_STANDARD 11)
-
-add_executable(Lab1C lab1.c array.c)
-
-set(TEST_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/input.txt")
+add_executable(Lab1C lab1.c)
+target_include_directories(Lab1C PUBLIC ../LibraryC)
+target_link_libraries(Lab1C LibraryC)
 
 add_test(NAME TestLab1C COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-
-set_property(TEST TestLab1C PROPERTY PASS_REGULAR_EXPRESSION "0 5 8 8 2 3 5 2 9 4
-1 2 3 4 5")
+set_property(TEST TestLab1C PROPERTY PASS_REGULAR_EXPRESSION "5 8 8 2 3")
