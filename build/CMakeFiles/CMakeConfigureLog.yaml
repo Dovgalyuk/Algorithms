@@ -1,0 +1,1307 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineSystem.cmake:212 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The system is: Windows - 10.0.19045 - AMD64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft MPI\\Bin\\"
+        - "C:\\app\\Student\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Microsoft VS Code\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files\\Azure Data Studio\\bin"
+        - "C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Programs\\Git\\cmd"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      MSBuild version 17.3.1+2badb37d1 for .NET Framework
+      Сборка начата 21.09.2025 14:50:33.
+      Проект "C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\4.1.1\\CompilerIdC\\CompilerIdC.vcxproj" в узле 1 (целевые объекты по умолчанию).
+      PrepareForBuild:
+        Создание каталога "Debug\\".
+        Создание каталога "Debug\\CompilerIdC.tlog\\".
+      InitializeBuildStatus:
+        Создание "Debug\\CompilerIdC.tlog\\unsuccessfulbuild", так как было задано "AlwaysCreate".
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TC /FC /errorReport:queue CMakeCCompilerId.c
+        CMakeCCompilerId.c
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X64 Debug\\CMakeCCompilerId.obj
+        CompilerIdC.vcxproj -> C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\4.1.1\\CompilerIdC\\CompilerIdC.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_C_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Файл "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" удаляется.
+        Обращение к "Debug\\CompilerIdC.tlog\\CompilerIdC.lastbuildstate".
+      Сборка проекта "C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\4.1.1\\CompilerIdC\\CompilerIdC.vcxproj" завершена (целевые объекты по умолчанию).
+      
+      Сборка успешно завершена.
+          Предупреждений: 0
+          Ошибок: 0
+      
+      Прошло времени 00:00:01.36
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+      
+      The C compiler identification is MSVC, found in:
+        C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/CMakeFiles/4.1.1/CompilerIdC/CompilerIdC.exe
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:103 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft MPI/Bin/"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Microsoft VS Code/bin/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files/Azure Data Studio/bin/"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft MPI\\Bin\\"
+        - "C:\\app\\Student\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Microsoft VS Code\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files\\Azure Data Studio\\bin"
+        - "C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Programs\\Git\\cmd"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft MPI/Bin/"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Microsoft VS Code/bin/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files/Azure Data Studio/bin/"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/lld-link"
+      - "C:/Program Files/Microsoft MPI/Bin/lld-link.com"
+      - "C:/Program Files/Microsoft MPI/Bin/lld-link.exe"
+      - "C:/Program Files/Microsoft MPI/Bin/lld-link"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/lld-link.com"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/lld-link.exe"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/lld-link"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "C:/ProgramData/chocolatey/bin/lld-link.com"
+      - "C:/ProgramData/chocolatey/bin/lld-link.exe"
+      - "C:/ProgramData/chocolatey/bin/lld-link"
+      - "C:/Program Files/Microsoft VS Code/bin/lld-link.com"
+      - "C:/Program Files/Microsoft VS Code/bin/lld-link.exe"
+      - "C:/Program Files/Microsoft VS Code/bin/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/lld-link.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/lld-link.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/lld-link"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/lld-link.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/lld-link.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/lld-link"
+      - "C:/Program Files/Azure Data Studio/bin/lld-link.com"
+      - "C:/Program Files/Azure Data Studio/bin/lld-link.exe"
+      - "C:/Program Files/Azure Data Studio/bin/lld-link"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/lld-link.com"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/lld-link.exe"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/lld-link"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/lld-link.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/lld-link.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/lld-link"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/lld-link.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/lld-link.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/lld-link"
+      - "C:/Program Files/dotnet/lld-link.com"
+      - "C:/Program Files/dotnet/lld-link.exe"
+      - "C:/Program Files/dotnet/lld-link"
+      - "C:/Program Files/CMake/bin/lld-link.com"
+      - "C:/Program Files/CMake/bin/lld-link.exe"
+      - "C:/Program Files/CMake/bin/lld-link"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/lld-link.com"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/lld-link.exe"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft MPI\\Bin\\"
+        - "C:\\app\\Student\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Microsoft VS Code\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files\\Azure Data Studio\\bin"
+        - "C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Programs\\Git\\cmd"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft MPI/Bin/"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Microsoft VS Code/bin/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files/Azure Data Studio/bin/"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft MPI\\Bin\\"
+        - "C:\\app\\Student\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Microsoft VS Code\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files\\Azure Data Studio\\bin"
+        - "C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Programs\\Git\\cmd"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_MT"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "mt"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft MPI/Bin/"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Microsoft VS Code/bin/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files/Azure Data Studio/bin/"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/mt.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/mt.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/mt"
+      - "C:/Program Files/Microsoft MPI/Bin/mt.com"
+      - "C:/Program Files/Microsoft MPI/Bin/mt.exe"
+      - "C:/Program Files/Microsoft MPI/Bin/mt"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/mt.com"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/mt.exe"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/mt"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt"
+      - "C:/Windows/System32/mt.com"
+      - "C:/Windows/System32/mt.exe"
+      - "C:/Windows/System32/mt"
+      - "C:/Windows/mt.com"
+      - "C:/Windows/mt.exe"
+      - "C:/Windows/mt"
+      - "C:/Windows/System32/wbem/mt.com"
+      - "C:/Windows/System32/wbem/mt.exe"
+      - "C:/Windows/System32/wbem/mt"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt"
+      - "C:/Windows/System32/OpenSSH/mt.com"
+      - "C:/Windows/System32/OpenSSH/mt.exe"
+      - "C:/Windows/System32/OpenSSH/mt"
+      - "C:/ProgramData/chocolatey/bin/mt.com"
+      - "C:/ProgramData/chocolatey/bin/mt.exe"
+      - "C:/ProgramData/chocolatey/bin/mt"
+      - "C:/Program Files/Microsoft VS Code/bin/mt.com"
+      - "C:/Program Files/Microsoft VS Code/bin/mt.exe"
+      - "C:/Program Files/Microsoft VS Code/bin/mt"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/mt.com"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/mt.exe"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/mt"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/mt.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/mt.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/mt"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/mt.com"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/mt.exe"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/mt"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/mt.com"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/mt.exe"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/mt"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/mt.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/mt.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/mt"
+      - "C:/Program Files/Azure Data Studio/bin/mt.com"
+      - "C:/Program Files/Azure Data Studio/bin/mt.exe"
+      - "C:/Program Files/Azure Data Studio/bin/mt"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/mt.com"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/mt.exe"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/mt"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/mt.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/mt.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/mt"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/mt.com"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/mt.exe"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/mt"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/mt.com"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/mt.exe"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/mt"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/mt.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/mt.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/mt"
+      - "C:/Program Files/dotnet/mt.com"
+      - "C:/Program Files/dotnet/mt.exe"
+      - "C:/Program Files/dotnet/mt"
+      - "C:/Program Files/CMake/bin/mt.com"
+      - "C:/Program Files/CMake/bin/mt.exe"
+      - "C:/Program Files/CMake/bin/mt"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/mt.com"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/mt.exe"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/mt"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/mt.com"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/mt.exe"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/mt"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft MPI\\Bin\\"
+        - "C:\\app\\Student\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Microsoft VS Code\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files\\Azure Data Studio\\bin"
+        - "C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Programs\\Git\\cmd"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lib"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft MPI/Bin/"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Microsoft VS Code/bin/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files/Azure Data Studio/bin/"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/lib.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/lib.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft MPI\\Bin\\"
+        - "C:\\app\\Student\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Microsoft VS Code\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files\\Azure Data Studio\\bin"
+        - "C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Programs\\Git\\cmd"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft MPI\\Bin\\"
+        - "C:\\app\\Student\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Microsoft VS Code\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files\\Azure Data Studio\\bin"
+        - "C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Programs\\Git\\cmd"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      MSBuild version 17.3.1+2badb37d1 for .NET Framework
+      Сборка начата 21.09.2025 14:50:34.
+      Проект "C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\4.1.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" в узле 1 (целевые объекты по умолчанию).
+      PrepareForBuild:
+        Создание каталога "Debug\\".
+        Создание каталога "Debug\\CompilerIdCXX.tlog\\".
+      InitializeBuildStatus:
+        Создание "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild", так как было задано "AlwaysCreate".
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+        CompilerIdCXX.vcxproj -> C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\4.1.1\\CompilerIdCXX\\CompilerIdCXX.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_CXX_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Файл "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" удаляется.
+        Обращение к "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate".
+      Сборка проекта "C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\4.1.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" завершена (целевые объекты по умолчанию).
+      
+      Сборка успешно завершена.
+          Предупреждений: 0
+          Ошибок: 0
+      
+      Прошло времени 00:00:00.73
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+      
+      The CXX compiler identification is MSVC, found in:
+        C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/CMakeFiles/4.1.1/CompilerIdCXX/CompilerIdCXX.exe
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft MPI/Bin/"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Microsoft VS Code/bin/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files/Azure Data Studio/bin/"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/lld-link"
+      - "C:/Program Files/Microsoft MPI/Bin/lld-link.com"
+      - "C:/Program Files/Microsoft MPI/Bin/lld-link.exe"
+      - "C:/Program Files/Microsoft MPI/Bin/lld-link"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/lld-link.com"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/lld-link.exe"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/lld-link"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "C:/ProgramData/chocolatey/bin/lld-link.com"
+      - "C:/ProgramData/chocolatey/bin/lld-link.exe"
+      - "C:/ProgramData/chocolatey/bin/lld-link"
+      - "C:/Program Files/Microsoft VS Code/bin/lld-link.com"
+      - "C:/Program Files/Microsoft VS Code/bin/lld-link.exe"
+      - "C:/Program Files/Microsoft VS Code/bin/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/lld-link"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/lld-link.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/lld-link.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/lld-link"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/lld-link.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/lld-link.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/lld-link"
+      - "C:/Program Files/Azure Data Studio/bin/lld-link.com"
+      - "C:/Program Files/Azure Data Studio/bin/lld-link.exe"
+      - "C:/Program Files/Azure Data Studio/bin/lld-link"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/lld-link.com"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/lld-link.exe"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/lld-link"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/lld-link.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/lld-link.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/lld-link"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/lld-link.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/lld-link.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/lld-link"
+      - "C:/Program Files/dotnet/lld-link.com"
+      - "C:/Program Files/dotnet/lld-link.exe"
+      - "C:/Program Files/dotnet/lld-link"
+      - "C:/Program Files/CMake/bin/lld-link.com"
+      - "C:/Program Files/CMake/bin/lld-link.exe"
+      - "C:/Program Files/CMake/bin/lld-link"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/lld-link.com"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/lld-link.exe"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft MPI\\Bin\\"
+        - "C:\\app\\Student\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Microsoft VS Code\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files\\Azure Data Studio\\bin"
+        - "C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Programs\\Git\\cmd"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineRCCompiler.cmake:40 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Platform/Windows-MSVC.cmake:574 (enable_language)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Platform/Windows-MSVC.cmake:547 (__windows_compiler_msvc_enable_rc)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Platform/Windows-MSVC-C.cmake:5 (__windows_compiler_msvc)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeCInformation.cmake:48 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_RC_COMPILER"
+    description: "RC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "rc"
+    candidate_directories:
+      - "C:/Program Files/Microsoft MPI/Bin/"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Microsoft VS Code/bin/"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/"
+      - "C:/Program Files/Azure Data Studio/bin/"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/CMake/sbin/"
+      - "C:/Program Files/CMake/"
+      - "C:/Program Files (x86)/Algorithms/bin/"
+      - "C:/Program Files (x86)/Algorithms/sbin/"
+      - "C:/Program Files (x86)/Algorithms/"
+    searched_directories:
+      - "C:/Program Files/Microsoft MPI/Bin/rc.com"
+      - "C:/Program Files/Microsoft MPI/Bin/rc.exe"
+      - "C:/Program Files/Microsoft MPI/Bin/rc"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/rc.com"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/rc.exe"
+      - "C:/app/Student/product/21c/dbhomeXE/bin/rc"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/rc.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/rc.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/rc"
+      - "C:/Windows/System32/rc.com"
+      - "C:/Windows/System32/rc.exe"
+      - "C:/Windows/System32/rc"
+      - "C:/Windows/rc.com"
+      - "C:/Windows/rc.exe"
+      - "C:/Windows/rc"
+      - "C:/Windows/System32/wbem/rc.com"
+      - "C:/Windows/System32/wbem/rc.exe"
+      - "C:/Windows/System32/wbem/rc"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc"
+      - "C:/Windows/System32/OpenSSH/rc.com"
+      - "C:/Windows/System32/OpenSSH/rc.exe"
+      - "C:/Windows/System32/OpenSSH/rc"
+      - "C:/ProgramData/chocolatey/bin/rc.com"
+      - "C:/ProgramData/chocolatey/bin/rc.exe"
+      - "C:/ProgramData/chocolatey/bin/rc"
+      - "C:/Program Files/Microsoft VS Code/bin/rc.com"
+      - "C:/Program Files/Microsoft VS Code/bin/rc.exe"
+      - "C:/Program Files/Microsoft VS Code/bin/rc"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/rc.com"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/rc.exe"
+      - "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/rc"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/rc.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/rc.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/rc"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/rc.com"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/rc.exe"
+      - "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/rc"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/rc.com"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/rc.exe"
+      - "C:/Program Files/Microsoft SQL Server/150/DTS/Binn/rc"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/rc.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/rc.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/rc"
+      - "C:/Program Files/Azure Data Studio/bin/rc.com"
+      - "C:/Program Files/Azure Data Studio/bin/rc.exe"
+      - "C:/Program Files/Azure Data Studio/bin/rc"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/rc.com"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/rc.exe"
+      - "C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin/rc"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/rc.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/rc.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/Tools/Binn/rc"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/rc.com"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/rc.exe"
+      - "C:/Program Files/Microsoft SQL Server/160/Tools/Binn/rc"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/rc.com"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/rc.exe"
+      - "C:/Program Files/Microsoft SQL Server/160/DTS/Binn/rc"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/rc.com"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/rc.exe"
+      - "C:/Program Files (x86)/Microsoft SQL Server/160/DTS/Binn/rc"
+      - "C:/Program Files/dotnet/rc.com"
+      - "C:/Program Files/dotnet/rc.exe"
+      - "C:/Program Files/dotnet/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/rc.com"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/rc.exe"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Microsoft/WindowsApps/rc"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/rc.com"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/rc.exe"
+      - "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/AppData/Local/Programs/Git/cmd/rc"
+      - "C:/Program Files/bin/rc.com"
+      - "C:/Program Files/bin/rc.exe"
+      - "C:/Program Files/bin/rc"
+      - "C:/Program Files/sbin/rc.com"
+      - "C:/Program Files/sbin/rc.exe"
+      - "C:/Program Files/sbin/rc"
+      - "C:/Program Files/rc.com"
+      - "C:/Program Files/rc.exe"
+      - "C:/Program Files/rc"
+      - "C:/Program Files (x86)/bin/rc.com"
+      - "C:/Program Files (x86)/bin/rc.exe"
+      - "C:/Program Files (x86)/bin/rc"
+      - "C:/Program Files (x86)/sbin/rc.com"
+      - "C:/Program Files (x86)/sbin/rc.exe"
+      - "C:/Program Files (x86)/sbin/rc"
+      - "C:/Program Files (x86)/rc.com"
+      - "C:/Program Files (x86)/rc.exe"
+      - "C:/Program Files (x86)/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Program Files/CMake/sbin/rc.com"
+      - "C:/Program Files/CMake/sbin/rc.exe"
+      - "C:/Program Files/CMake/sbin/rc"
+      - "C:/Program Files/CMake/rc.com"
+      - "C:/Program Files/CMake/rc.exe"
+      - "C:/Program Files/CMake/rc"
+      - "C:/Program Files (x86)/Algorithms/bin/rc.com"
+      - "C:/Program Files (x86)/Algorithms/bin/rc.exe"
+      - "C:/Program Files (x86)/Algorithms/bin/rc"
+      - "C:/Program Files (x86)/Algorithms/sbin/rc.com"
+      - "C:/Program Files (x86)/Algorithms/sbin/rc.exe"
+      - "C:/Program Files (x86)/Algorithms/sbin/rc"
+      - "C:/Program Files (x86)/Algorithms/rc.com"
+      - "C:/Program Files (x86)/Algorithms/rc.exe"
+      - "C:/Program Files (x86)/Algorithms/rc"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft MPI\\Bin\\"
+        - "C:\\app\\Student\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Microsoft VS Code\\bin"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\"
+        - "C:\\Program Files\\Azure Data Studio\\bin"
+        - "C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420\\AppData\\Local\\Programs\\Git\\cmd"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/Algorithms"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/Algorithms"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/Desktop/\u041d\u043e\u0432\u0430\u044f \u043f\u0430\u043f\u043a\u0430 (3)/Algorithms/build/CMakeFiles/CMakeScratch/TryCompile-qxpmmy"
+      binary: "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/Desktop/\u041d\u043e\u0432\u0430\u044f \u043f\u0430\u043f\u043a\u0430 (3)/Algorithms/build/CMakeFiles/CMakeScratch/TryCompile-qxpmmy"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/CMakeFiles/CMakeScratch/TryCompile-qxpmmy'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_d9689.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.3.1+2badb37d1 for .NET Framework
+        Сборка начата 21.09.2025 14:50:36.
+        Проект "C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qxpmmy\\cmTC_d9689.vcxproj" в узле 1 (целевые объекты по умолчанию).
+        PrepareForBuild:
+          Создание каталога "cmTC_d9689.dir\\Debug\\".
+          Создание каталога "C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qxpmmy\\Debug\\".
+          Создание каталога "cmTC_d9689.dir\\Debug\\cmTC_d9689.tlog\\".
+        InitializeBuildStatus:
+          Создание "cmTC_d9689.dir\\Debug\\cmTC_d9689.tlog\\unsuccessfulbuild", так как было задано "AlwaysCreate".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_d9689.dir\\Debug\\\\" /Fd"cmTC_d9689.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCCompilerABI.c"
+          Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.33.31630 для x64
+          CMakeCCompilerABI.c
+          (C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_d9689.dir\\Debug\\\\" /Fd"cmTC_d9689.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCCompilerABI.c"
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qxpmmy\\Debug\\cmTC_d9689.exe" /INCREMENTAL /ILK:"cmTC_d9689.dir\\Debug\\cmTC_d9689.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/CMakeFiles/CMakeScratch/TryCompile-qxpmmy/Debug/cmTC_d9689.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/CMakeFiles/CMakeScratch/TryCompile-qxpmmy/Debug/cmTC_d9689.lib" /MACHINE:X64  /machine:x64 cmTC_d9689.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_d9689.vcxproj -> C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qxpmmy\\Debug\\cmTC_d9689.exe
+        FinalizeBuildStatus:
+          Файл "cmTC_d9689.dir\\Debug\\cmTC_d9689.tlog\\unsuccessfulbuild" удаляется.
+          Обращение к "cmTC_d9689.dir\\Debug\\cmTC_d9689.tlog\\cmTC_d9689.lastbuildstate".
+        Сборка проекта "C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qxpmmy\\cmTC_d9689.vcxproj" завершена (целевые объекты по умолчанию).
+        
+        Сборка успешно завершена.
+            Предупреждений: 0
+            Ошибок: 0
+        
+        Прошло времени 00:00:00.65
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'C': C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CMakeDetermineLinkerId.cmake:36 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the C compiler's linker: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.33.31630.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/Desktop/\u041d\u043e\u0432\u0430\u044f \u043f\u0430\u043f\u043a\u0430 (3)/Algorithms/build/CMakeFiles/CMakeScratch/TryCompile-hmzl4f"
+      binary: "C:/Users/\u0423\u0447\u0435\u043d\u0438\u043a\u0422\u041e\u0420/Desktop/\u041d\u043e\u0432\u0430\u044f \u043f\u0430\u043f\u043a\u0430 (3)/Algorithms/build/CMakeFiles/CMakeScratch/TryCompile-hmzl4f"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/CMakeFiles/CMakeScratch/TryCompile-hmzl4f'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_f50e1.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.3.1+2badb37d1 for .NET Framework
+        Сборка начата 21.09.2025 14:50:37.
+        Проект "C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hmzl4f\\cmTC_f50e1.vcxproj" в узле 1 (целевые объекты по умолчанию).
+        PrepareForBuild:
+          Создание каталога "cmTC_f50e1.dir\\Debug\\".
+          Создание каталога "C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hmzl4f\\Debug\\".
+          Создание каталога "cmTC_f50e1.dir\\Debug\\cmTC_f50e1.tlog\\".
+        InitializeBuildStatus:
+          Создание "cmTC_f50e1.dir\\Debug\\cmTC_f50e1.tlog\\unsuccessfulbuild", так как было задано "AlwaysCreate".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /GR /Fo"cmTC_f50e1.dir\\Debug\\\\" /Fd"cmTC_f50e1.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCXXCompilerABI.cpp"
+          Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.33.31630 для x64
+          CMakeCXXCompilerABI.cpp
+          (C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /GR /Fo"cmTC_f50e1.dir\\Debug\\\\" /Fd"cmTC_f50e1.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCXXCompilerABI.cpp"
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hmzl4f\\Debug\\cmTC_f50e1.exe" /INCREMENTAL /ILK:"cmTC_f50e1.dir\\Debug\\cmTC_f50e1.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/CMakeFiles/CMakeScratch/TryCompile-hmzl4f/Debug/cmTC_f50e1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/УченикТОР/Desktop/Новая папка (3)/Algorithms/build/CMakeFiles/CMakeScratch/TryCompile-hmzl4f/Debug/cmTC_f50e1.lib" /MACHINE:X64  /machine:x64 cmTC_f50e1.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_f50e1.vcxproj -> C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hmzl4f\\Debug\\cmTC_f50e1.exe
+        FinalizeBuildStatus:
+          Файл "cmTC_f50e1.dir\\Debug\\cmTC_f50e1.tlog\\unsuccessfulbuild" удаляется.
+          Обращение к "cmTC_f50e1.dir\\Debug\\cmTC_f50e1.tlog\\cmTC_f50e1.lastbuildstate".
+        Сборка проекта "C:\\Users\\УченикТОР\\Desktop\\Новая папка (3)\\Algorithms\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hmzl4f\\cmTC_f50e1.vcxproj" завершена (целевые объекты по умолчанию).
+        
+        Сборка успешно завершена.
+            Предупреждений: 0
+            Ошибок: 0
+        
+        Прошло времени 00:00:00.74
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'CXX': C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CMakeDetermineLinkerId.cmake:36 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the CXX compiler's linker: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.33.31630.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+...
