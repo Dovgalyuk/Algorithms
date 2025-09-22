@@ -43,6 +43,10 @@ void array_set(Array *arr, size_t index, Data value)
 {
     if (index >= arr->size)
         return;
+
+    if (arr->data[index] && arr->free_func)
+        arr->free_func((void*) arr->data[index]);
+
     arr->data[index] = value;
 }
 
