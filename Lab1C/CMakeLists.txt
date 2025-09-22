@@ -16,3 +16,9 @@ set_property(TEST TestZerosLab1C PROPERTY FAIL_REGULAR_EXPRESSION "\.+")
 
 add_test(NAME TestEmptysLab1C COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/resources/test_input5.txt)
 set_property(TEST TestEmptysLab1C PROPERTY FAIL_REGULAR_EXPRESSION "\.+")
+
+add_test(NAME TestTask1WithOneTask2WithMultipleNumbersLab1C COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/resources/test_input6.txt)
+set_property(TEST TestTask1WithOneTask2WithMultipleNumbersLab1C PROPERTY PASS_REGULAR_EXPRESSION "1[\ \n]+5[\ \n]*")
+
+add_test(NAME TestTask1ZeroTask2WithOneNumberLab1C COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/resources/test_input7.txt)
+set_property(TEST TestTask1ZeroTask2WithOneNumberLab1C PROPERTY PASS_REGULAR_EXPRESSION "0[\ \n]+5[\ \n]*")
