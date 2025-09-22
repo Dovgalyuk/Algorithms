@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../LibraryC/array.h"
+#include "array.h"
 
 Array *array_create_and_read(FILE *input)
 {
@@ -55,19 +55,19 @@ void task2(Array *arr, FILE *input)
 	size_t n = array_size(arr);
 	size_t write_pos = 0;
 
-	for (size_t i = 0; i < n; ++i) {
-		long long v = (long long)(intptr_t)array_get(arr, i);
-		if (v < a || v > b) {
-			array_set(arr, write_pos++, (Data)(intptr_t)v);
-		}
-	}
+    for (size_t i = 0; i < n; ++i) {
+        long long v = (long long)array_get(arr, i);
+        if (v < a || v > b) {
+            array_set(arr, write_pos++, (Data)v);
+        }
+    }
 	while (write_pos < n) {
 		array_set(arr, write_pos++, (Data)0);
 	}
 
-	for (size_t i = 0; i < n; ++i) {
+    for (size_t i = 0; i < n; ++i) {
         if (i > 0) printf(" ");
-        printf("%lld", (long long)(intptr_t)array_get(arr, i));
+        printf("%lld", (long long)array_get(arr, i));
     }
     printf("\n");
 }
