@@ -10,14 +10,19 @@ typedef uintptr_t Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
 
-typedef struct Array Array;
+typedef struct Array
+{
+    size_t size;
+    Data* data;
+    FFree* free_func;
+}Array;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 // create array
-Array *array_create(size_t size, FFree f);
+Array* array_create(size_t size, FFree f);
 
 // delete array, free memory
 void array_delete(Array *arr);
