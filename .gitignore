@@ -1,15 +1,40 @@
-*.opensdf
-*.sdf
-*.suo
-*.user
-*.filters
-*.obj
+Set-Content -Path .gitignore -Encoding utf8 -Value @'
+# CMake cache & aux
+[Cc]MakeCache.txt
+[Cc]MakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+compile_commands.json
+Testing/
+
+# Build dirs (локальные)
+build/
+out/
+**/Debug/
+**/Release/
+**/RelWithDebInfo/
+**/MinSizeRel/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# Binaries / objects
 *.exe
-ipch/*
-*/Debug/*
-*/Release/*
-Debug/*
-Release/*
-.vs/*
-build/*
-.vscode/*
+*.dll
+*.lib
+*.pdb
+*.ilk
+*.obj
+*.o
+*.a
+*.so
+*.dylib
+
+# Logs
+*.log
+'@
