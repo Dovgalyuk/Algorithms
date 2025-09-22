@@ -8,6 +8,7 @@ Array* array_create_and_read(FILE* input)
     {
         return NULL;
     }
+
     Array* arr = array_create(n, NULL);
 
     for (int i = 0; i < n; ++i)
@@ -16,6 +17,7 @@ Array* array_create_and_read(FILE* input)
         fscanf(input, "%d", &x);
         array_set(arr, i, x);
     }
+
     return arr;
 }
 
