@@ -15,7 +15,7 @@ out/
 **/RelWithDebInfo/
 **/MinSizeRel/
 
-# Visual Studio / VS Code
+# Visual Studio
 .vs/
 .vscode/
 *.sln
