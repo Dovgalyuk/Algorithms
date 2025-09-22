@@ -23,13 +23,13 @@ Array* array_create_and_read(FILE* input)
 
 void task1(Array* arr)
 {
-    if (arr == NULL || arr->size == 0)
+    if (arr == NULL || array_size(arr) == 0)
     {
         return;
     }
 
     int count = 0;
-    for (size_t i = 0; i < arr->size; i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         int value = (int) array_get(arr, i);
         for (int j = 2; j < 10; j++)
@@ -47,7 +47,7 @@ void task1(Array* arr)
 
 void task2(Array* arr)
 {
-    if (arr == NULL || arr->size == 0)
+    if (arr == NULL || array_size(arr) == 0)
     {
         return;
     }
@@ -55,10 +55,10 @@ void task2(Array* arr)
     int max_count = 0;
     int most_frequent = (int) array_get(arr, 0);
 
-    for (size_t i = 0; i < arr->size; i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         int current_count = 0;
-        for (size_t j = 0; j < arr->size; j++)
+        for (size_t j = 0; j < array_size(arr); j++)
         {
             if (array_get(arr, i) == array_get(arr, j))
             {

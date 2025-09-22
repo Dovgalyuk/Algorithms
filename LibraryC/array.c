@@ -1,9 +1,12 @@
-//
-// Created by Administrator on 9/22/2025.
-//
-
 #include "array.h"
 #include <stdlib.h>
+
+typedef struct Array
+{
+    size_t size;
+    Data* data;
+    FFree* free_func;
+} Array;
 
 Array* array_create(size_t size, FFree f)
 {
