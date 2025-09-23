@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include "vector.h"
 
-typedef struct Vector
-{
+typedef struct Vector {
+    // remove this
+    Data d;
 } Vector;
 
 Vector *vector_create(FFree f)

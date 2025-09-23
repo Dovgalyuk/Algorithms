@@ -15,9 +15,11 @@ int main()
     for (size_t i = 0 ; i < vector.size() ; ++i)
         vector.set(i, i);
 
+    vector = vector;
+
     for (size_t i = 0 ; i < vector.size() ; ++i)
     {
-        if (vector.get(i) != (int)i)
+        if (vector.get(i) != (Data)i)
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -45,7 +47,7 @@ int main()
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
     {
-        if (vector.get(i) != (int)i)
+        if (vector.get(i) != (Data)i)
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;

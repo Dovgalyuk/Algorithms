@@ -2,7 +2,9 @@
 #define QUEUE_H
 
 // Queue
+
 // Stores integer values inside
+// Change it to desired type
 typedef int Data;
 
 struct Queue;

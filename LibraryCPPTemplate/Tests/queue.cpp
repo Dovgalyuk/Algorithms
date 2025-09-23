@@ -11,6 +11,8 @@ int main()
     queue->insert(2);
     queue->insert(3);
 
+    *queue = *queue;
+
     if (queue->get() != 1)
     {
         std::cout << "Invalid first element of the queue\n";

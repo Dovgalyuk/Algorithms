@@ -17,6 +17,8 @@ int main()
     for (size_t i = 0 ; i < vector.size() ; ++i)
         vector.set(i, i);
 
+    vector = vector;
+
     for (size_t i = 0 ; i < vector.size() ; ++i)
     {
         if (vector.get(i) != (int)i)

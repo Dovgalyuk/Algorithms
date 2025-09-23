@@ -2,7 +2,9 @@
 #define LIST_H
 
 // List
+
 // Stores integer values inside
+// Change it to desired type
 typedef int Data;
 
 struct List;
@@ -31,6 +33,7 @@ ListItem *list_item_prev(ListItem *item);
 ListItem *list_insert(List *list, Data data);
 
 // Inserts new list item after the specified item
+// Inserts first element if item is null
 ListItem *list_insert_after(List *list, ListItem *item, Data data);
 
 // Deletes the first list item.
@@ -38,6 +41,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data);
 ListItem *list_erase_first(List *list);
 
 // Deletes the list item following the specified one.
+// Deletes the first element when item is null.
 // Returns pointer to the item next to the deleted one.
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);

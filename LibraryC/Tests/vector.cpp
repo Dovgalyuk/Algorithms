@@ -25,6 +25,8 @@ int main()
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
         vector_set(vector, i, new int(i));
 
+    vector_set(vector, 0, new int(0));
+
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)

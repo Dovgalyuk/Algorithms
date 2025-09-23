@@ -3,6 +3,7 @@
 
 #include <cstddef>
 
+// Change it to desired type
 typedef int Data;
 
 class Vector

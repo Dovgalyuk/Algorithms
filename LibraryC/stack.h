@@ -2,10 +2,11 @@
 #define STACK_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 // Stack
-// Stores pointer to custom user data
-typedef void* Data;
+// Stores integer or pointer to custom user data
+typedef uintptr_t Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
 
