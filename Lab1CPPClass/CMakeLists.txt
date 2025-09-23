@@ -8,3 +8,10 @@ add_test(NAME TestLab1CPPClass
 set_tests_properties(TestLab1CPPClass PROPERTIES
     PASS_REGULAR_EXPRESSION "Положительных: 4.*Отрицательных: 3.*Нулевых: 3.*Элементы, встречающиеся ровно два раза:.*-1.*1"
 )
+
+add_test(NAME TestNoTwiceLab1CPPClass
+         COMMAND Lab1CPPClass ${CMAKE_CURRENT_SOURCE_DIR}/input_no_twice.txt)
+
+set_tests_properties(TestNoTwiceLab1CPPClass PROPERTIES
+    PASS_REGULAR_EXPRESSION "Элементы, встречающиеся ровно два раза: таких элементов нет"
+)
