@@ -9,58 +9,57 @@ using namespace std;
 
 // Функция для чтения из файла.
 
-static bool readFile(const string& filename, int& n, int*& data) {
+static Array* loadArray(const string& filename) {
     ifstream file(filename);
-
     if (!file.is_open()) {
         cout << "Ошибка: файл не открыт!" << endl;
-        return false;
+        return nullptr;
     }
 
+    int n = 0;
     if (!(file >> n) || n <= 0) {
         cout << "Ошибка: размер <= 0!" << endl;
-        return false;
+        return nullptr;
     }
 
-    data = new int[n];
-    for (int i = 0; i < n; i++)
-        file >> data[i];
+    Array* arr = array_create(static_cast<size_t>(n));
+    for (int i = 0; i < n; ++i) {
+        int x = 0;
+        file >> x;
+        array_set(arr, static_cast<size_t>(i), x);
+    }
 
-    return true;
+    return arr;
 }
 
 // Задание 4.
 
 static void task4(const string& filename) {
-    int n = 0;
-    int* data = nullptr;
-
-    if (!readFile(filename, n, data))
+    Array* arr = loadArray(filename);
+    if (!arr)
         return;
 
-    Array* arr = array_create(static_cast<size_t>(n));
-    for (int i = 0; i < n; ++i)
-        array_set(arr, static_cast<size_t>(i), data[i]);
-
     long long sum = 0;
-    for (size_t i = 0; i < array_size(arr); ++i)
+    const size_t n = array_size(arr);
+    for (size_t i = 0; i < n; ++i)
         sum += array_get(arr, i);
 
     int count = 0;
-    vector<int> indices;
-    for (size_t i = 0; i < array_size(arr); ++i) {
+    vector<size_t> indices;
+    for (size_t i = 0; i < n; ++i) {
         if (array_get(arr, i) > sum) {
             ++count;
-            indices.push_back(static_cast<int>(i));
+            indices.push_back(i);
         }
     }
 
     cout << "Task 4: Количество элементов > суммы (" << sum << "): " << count;
     if (count > 0) {
-        cout << endl << "Номера (от 0): ";
-
+        cout << "\nНомера (от 0): ";
         for (size_t j = 0; j < indices.size(); ++j) {
-            if (j) cout << ", ";
+            if (j)
+                cout << ", ";
+
             cout << indices[j];
         }
 
@@ -70,54 +69,47 @@ static void task4(const string& filename) {
         cout << ";";
 
     array_delete(arr);
-    delete[] data;
 }
 
 // Задание 5.
 
 static void task5(const string& filename) {
-    int n = 0;
-    int* data = nullptr;
-
-    if (!readFile(filename, n, data))
+    Array* arr = loadArray(filename);
+    if (!arr)
         return;
 
-    Array* arr = array_create(static_cast<size_t>(n));
-    for (int i = 0; i < n; ++i)
-        array_set(arr, static_cast<size_t>(i), data[i]);
-
+    const size_t n = array_size(arr);
     if (n < 5) {
         cout << "Task 5: Массив слишком маленький!" << endl;
         array_delete(arr);
-        delete[] data;
         return;
     }
     
     int maxSum = INT_MIN;
-    int startIndex = 0;
-    for (int i = 0; i <= n - 5; i++) {
-        int cur = array_get(arr, i) + array_get(arr, i + 1)
-            + array_get(arr, i + 2) + array_get(arr, i + 3)
-            + array_get(arr, i + 4);
+    size_t start = 0;
+    for (size_t i = 0; i + 5 <= n; ++i) {
+        int s = 0;
+        for (size_t k = 0; k < 5; ++k)
+            s += array_get(arr, i + k);
 
-        if (cur > maxSum) {
-            maxSum = cur;
-            startIndex = i;
+        if (s > maxSum) {
+            maxSum = s;
+            start = i;
         }
     }
 
     cout << "Task 5: Максимальная сумма 5 соседних: " << maxSum << endl;
     cout << "Элементы: ";
-    for (int j = startIndex; j < startIndex + 5; j++) {
-        if (j > startIndex)
+    for (size_t k = 0; k < 5; ++k) {
+        if (k)
             cout << ", ";
 
-        cout << array_get(arr, j);
+        cout << array_get(arr, start + k);
     }
+
     cout << endl;
 
     array_delete(arr);
-    delete[] data;
 }
 
 int main(int argc, char* argv[]) {
