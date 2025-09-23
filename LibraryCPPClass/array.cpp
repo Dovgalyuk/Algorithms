@@ -2,10 +2,7 @@
 
 Array::Array(size_t size) : size_(size), data_(new Data[size])
 {
-    if (data_ == nullptr)
-    {
-        throw std::bad_alloc();
-    }
+   
     for (size_t i = 0; i < size_; i++)
     {
         data_[i] = Data(0);
@@ -36,17 +33,7 @@ Array &Array::operator=(const Array &other)
     }
     return *this;
 }
-Data& Array::operator[](size_t index)
-{
-    if (index >= size_)
-    {
-        throw std::out_of_range("ERROR: index out of range");
-    }
-    else
-    {
-        return data_[index];
-    }
-}
+
 Array::~Array()
 {
     delete[] data_;

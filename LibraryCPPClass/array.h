@@ -27,7 +27,7 @@ public:
     // returns specified array element
     Data get(size_t index) const;
 
-    Data& operator[](size_t index);
+
 
     // sets the specified array element to the value
     void set(size_t index, Data value);

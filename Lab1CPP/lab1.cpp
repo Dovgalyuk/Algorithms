@@ -18,13 +18,14 @@ void fiboFunction(size_t size)
 
 	for (size_t i = 2; i < size; i++)
 	{
-		fibo_box[i] = fibo_box[i - 1] + fibo_box[i - 2];
+		int result = fibo_box.get(i-1) + fibo_box.get(i-2);
+		fibo_box.set(i, result);
 	}
 	cout << "==========================================================" << endl;
 	cout << "Fibo numbers: ";
 	for (size_t i = 0; i < fibo_box.size(); i++)
 	{
-		cout << fibo_box[i] <<" ";
+		cout << fibo_box.get(i) <<" ";
 	}
 	cout << endl;
 }
@@ -40,7 +41,7 @@ void findDublicates(Array& box)
 		num_duble[num]++;
 	}
 
-	cout << "============== Duplicate Numbers ===============" << endl;
+	
 	for (const auto& n: num_duble)
 	{
 		if (n.second == 2)
@@ -59,7 +60,7 @@ void findDublicates(Array& box)
 }
 
 int main(int args,char* argv[]) {
-	size_t size_box;
+	size_t size_box,size_two;
 	string  data_line;
 
 	if (args < 2)
@@ -87,22 +88,23 @@ int main(int args,char* argv[]) {
 		}
 
 
-		if (!(getline(read_file, data_line)))
+		if (!(read_file >> size_two))
 		{
-			cerr << "Error: invalid argument" << endl;
+			cerr << "Error: invalid arguments";
 			return 1;
 		}
 
 		fiboFunction(size_box);
 
-		 Array box(size_box); 
+		 Array box(size_two); 
 		 
-		 for (size_t i = 0; i < size_box; i++)
+		 for (size_t i = 0; i < size_two; i++)
 			{
 			 int value;
 			 if (!(read_file >> value)) {
 
 				 cerr << "Error: not enough numbers" << endl;
+				 return 1;
 			 }
 			 box.set(i, value);
 			}
