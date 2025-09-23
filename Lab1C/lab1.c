@@ -1,40 +1,113 @@
-#include <stdio.h>
 #include "array.h"
+#include <stdio.h>
+#include <stdbool.h>
 
-Array *array_create_and_read(FILE *input)
-{
+Array *array_create_from_size(FILE *input) {
     int n;
-    fscanf(input, "%d", &n);
-    /* Create array */
-    Array *arr = array_create(n, NULL);
-    /* Read array data */
-    for (int i = 0 ; i < n ; ++i)
-    {
-        int x;
-        fscanf(input, "%d", &x);
-        array_set(arr, i, x);
+    if (fscanf(input, "%d", &n) != 1) {
+        return NULL;
     }
+    return array_create(n, NULL);
+}
+
+Array *array_create_and_read(FILE *input) {
+    int n;
+    if (fscanf(input, "%d", &n) != 1) {
+        return NULL;
+    }
+
+    Array *arr = array_create(n, NULL);
+    if (arr == NULL) {
+        return NULL;
+    }
+
+    for (int i = 0; i < n; ++i) {
+        int x;
+        if (fscanf(input, "%d", &x) != 1) {
+            array_delete(arr);
+            return NULL;
+        }
+        array_set(arr, i, (Data)x);
+    }
+
     return arr;
 }
 
-void task1(Array *arr)
-{
+bool is_palindrome(int num) {
+    if (num < 0) return false;
+    
+    int reversed = 0;
+    int original = num;
+    
+    while (num > 0) {
+        reversed = reversed * 10 + num % 10;
+        num /= 10;
+    }
+    
+    return original == reversed;
 }
 
-void task2(Array *arr)
-{
+void task1(Array *arr) {
+    int current = 10;
+    for (size_t i = 0; i < array_size(arr); i++) {
+        while (!is_palindrome(current)) {
+            current++;
+        }
+        array_set(arr, i, (Data)current);
+        printf("%d ", current);
+        current++;
+    }
 }
 
-int main(int argc, char **argv)
-{
+void task2(Array *arr) {
+    for (size_t i = 0; i < array_size(arr); i++) {
+        bool is_first = true;
+        for (size_t j = 0; j < i; j++) {
+            if (array_get(arr, i) == array_get(arr, j)) {
+                is_first = false;
+                break;
+            }
+        }
+        
+        if (is_first) {
+            int count = 0;
+            for (size_t j = 0; j < array_size(arr); j++) {
+                if (array_get(arr, i) == array_get(arr, j)) {
+                    count++;
+                }
+            }
+            
+            if (count == 2) {
+                printf("%d ", (int)array_get(arr, i));
+            }
+        }
+    }
+}
+
+int main(int argc, char **argv) {
     Array *arr = NULL;
     FILE *input = fopen(argv[1], "r");
+    
+    if (input == NULL) {
+        printf("Error: Can't open the input file %s\n", argv[1]);
+        return 1;
+    }
+    
+    rewind(input);
+    arr = array_create_from_size(input);
+    if (arr != NULL) {
+        task1(arr);
+        array_delete(arr);
+    }
+    
+    rewind(input);
     arr = array_create_and_read(input);
-    task1(arr);
-    array_delete(arr);
-    /* Create another array here */
-    arr = array_create_and_read(input);
-    task2(arr);
-    array_delete(arr);
+    if (arr != NULL) {
+        task2(arr);
+        array_delete(arr);
+    }
+        
+    printf("\n");
     fclose(input);
+    return 0;
 }
