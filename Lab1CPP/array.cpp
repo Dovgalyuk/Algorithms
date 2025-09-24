@@ -2,11 +2,9 @@
 #include <algorithm>
 #include <stdexcept>
 
-Array::Array(size_t size) : _size(size), _data(nullptr) {
-    if (_size == 0) {
-        _data = nullptr;
-    } else {
-        _data = new int[_size]{}; // value-initialize to 0
+Array::Array(std::size_t size) : _size(size), _data(nullptr) {
+    if (_size > 0) {
+        _data = new int[_size]{};
     }
 }
 
@@ -36,16 +34,26 @@ Array::~Array() {
     _size = 0;
 }
 
-int& Array::operator[](size_t index) {
+int& Array::operator[](std::size_t index) {
     if (index >= _size) throw std::out_of_range("Array index out of range");
     return _data[index];
 }
 
-const int& Array::operator[](size_t index) const {
+const int& Array::operator[](std::size_t index) const {
     if (index >= _size) throw std::out_of_range("Array index out of range");
     return _data[index];
 }
 
-size_t Array::size() const {
+std::size_t Array::size() const {
     return _size;
+}
+
+int Array::get(std::size_t index) const {
+    if (index >= _size) throw std::out_of_range("Array index out of range");
+    return _data[index];
+}
+
+void Array::set(std::size_t index, int value) {
+    if (index >= _size) throw std::out_of_range("Array index out of range");
+    _data[index] = value;
 }

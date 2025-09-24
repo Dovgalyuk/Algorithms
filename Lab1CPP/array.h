@@ -1,20 +1,26 @@
-#pragma once
+#ifndef ARRAY_H
+#define ARRAY_H
 
 #include <cstddef>
 
 class Array {
 public:
-    explicit Array(size_t size);
+    explicit Array(std::size_t size);
     Array(const Array& a);
     Array& operator=(const Array& a);
     ~Array();
 
-    int& operator[](size_t index);
-    const int& operator[](size_t index) const;
+    std::size_t size() const;
 
-    size_t size() const;
+    int& operator[](std::size_t index);
+    const int& operator[](std::size_t index) const;
+
+    int  get(std::size_t index) const;
+    void set(std::size_t index, int value);
 
 private:
-    size_t _size;
+    std::size_t _size;
     int* _data;
 };
+
+#endif
