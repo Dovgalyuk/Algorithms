@@ -1,4 +1,8 @@
-add_executable(Lab1CPP main.cpp array.cpp)
+add_executable(Lab1CPP main.cpp)
+
+target_include_directories(Lab1CPP PUBLIC ../LibraryCPPClass)
+
+target_link_libraries(Lab1CPP LibraryCPPClass)
 
 add_test(NAME TestLab1CPP COMMAND Lab1CPP "${CMAKE_CURRENT_SOURCE_DIR}/input.txt")
 

@@ -1,34 +1,59 @@
 #include "array.h"
+#include <algorithm>
+#include <stdexcept>
 
-struct Array
-{
-};
-
-// create array
-Array *array_create(size_t size)
-{
-    return new Array;
+Array::Array(std::size_t size) : _size(size), _data(nullptr) {
+    if (_size > 0) {
+        _data = new int[_size]{};
+    }
 }
 
-// delete array, free memory
-void array_delete(Array *arr)
-{
-    delete arr;
+Array::Array(const Array& a) : _size(a._size), _data(nullptr) {
+    if (_size) {
+        _data = new int[_size];
+        std::copy(a._data, a._data + _size, _data);
+    }
 }
 
-// returns specified array element
-Data array_get(const Array *arr, size_t index)
-{
-    return (Data)0;
+Array& Array::operator=(const Array& a) {
+    if (this == &a) return *this;
+    if (a._size != _size) {
+        delete[] _data;
+        _size = a._size;
+        _data = _size ? new int[_size] : nullptr;
+    }
+    if (_size) {
+        std::copy(a._data, a._data + _size, _data);
+    }
+    return *this;
 }
 
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value)
-{
+Array::~Array() {
+    delete[] _data;
+    _data = nullptr;
+    _size = 0;
 }
 
-// returns array size
-size_t array_size(const Array *arr)
-{
-    return 0;
+int& Array::operator[](std::size_t index) {
+    if (index >= _size) throw std::out_of_range("Array index out of range");
+    return _data[index];
+}
+
+const int& Array::operator[](std::size_t index) const {
+    if (index >= _size) throw std::out_of_range("Array index out of range");
+    return _data[index];
+}
+
+std::size_t Array::size() const {
+    return _size;
+}
+
+int Array::get(std::size_t index) const {
+    if (index >= _size) throw std::out_of_range("Array index out of range");
+    return _data[index];
+}
+
+void Array::set(std::size_t index, int value) {
+    if (index >= _size) throw std::out_of_range("Array index out of range");
+    _data[index] = value;
 }
