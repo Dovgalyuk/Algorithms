@@ -3,6 +3,8 @@ project(DynamicArrayProject)
 
 set(CMAKE_CXX_STANDARD 17)
 
+enable_testing()
+
 add_executable(array_program main.cpp)
 
 add_test(NAME Test1 

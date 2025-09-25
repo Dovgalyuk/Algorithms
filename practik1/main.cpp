@@ -154,8 +154,6 @@ int main() {
         task4();
         task5();
         
-        cout << "\nПрограмма успешно завершена!" << endl;
-        
     } catch (const exception& e) { //обработка ошибок 
         cerr << "Ошибка: " << e.what() << endl;
         return 1;

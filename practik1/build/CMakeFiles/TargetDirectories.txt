@@ -1,3 +1,4 @@
 C:/practiks/practik1/build/CMakeFiles/array_program.dir
+C:/practiks/practik1/build/CMakeFiles/test.dir
 C:/practiks/practik1/build/CMakeFiles/edit_cache.dir
 C:/practiks/practik1/build/CMakeFiles/rebuild_cache.dir
