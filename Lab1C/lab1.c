@@ -48,7 +48,7 @@ bool is_palindrome(int num) {
 }
 
 void task1(Array *arr) {
-    int current = 10;
+    int current = 0;
     for (size_t i = 0; i < array_size(arr); i++) {
         while (!is_palindrome(current)) {
             current++;
