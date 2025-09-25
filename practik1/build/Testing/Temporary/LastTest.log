@@ -1,10 +1,10 @@
-Start testing: Sep 25 20:29 RTZ 2 (зима)
+Start testing: Sep 25 20:45 RTZ 2 (зима)
 ----------------------------------------------------------
 1/2 Testing: Test1
 1/2 Test: Test1
 Command: "C:/practiks/practik1/build/array_program.exe"
 Directory: C:/practiks/practik1/test1
-"Test1" start time: Sep 25 20:29 RTZ 2 (зима)
+"Test1" start time: Sep 25 20:45 RTZ 2 (зима)
 Output:
 ----------------------------------------------------------
 РџСЂРѕРіСЂР°РјРјР° РѕР±СЂР°Р±РѕС‚РєРё С„РёРєСЃРёСЂРѕРІР°РЅРЅС‹С… РјР°СЃСЃРёРІРѕРІ
@@ -22,7 +22,7 @@ Output:
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"Test1" end time: Sep 25 20:29 RTZ 2 (зима)
+"Test1" end time: Sep 25 20:45 RTZ 2 (зима)
 "Test1" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -30,7 +30,7 @@ Test Passed.
 2/2 Test: Test2
 Command: "C:/practiks/practik1/build/array_program.exe"
 Directory: C:/practiks/practik1/test2
-"Test2" start time: Sep 25 20:29 RTZ 2 (зима)
+"Test2" start time: Sep 25 20:45 RTZ 2 (зима)
 Output:
 ----------------------------------------------------------
 РџСЂРѕРіСЂР°РјРјР° РѕР±СЂР°Р±РѕС‚РєРё С„РёРєСЃРёСЂРѕРІР°РЅРЅС‹С… РјР°СЃСЃРёРІРѕРІ
@@ -48,8 +48,8 @@ Output:
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Test2" end time: Sep 25 20:29 RTZ 2 (зима)
+"Test2" end time: Sep 25 20:45 RTZ 2 (зима)
 "Test2" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Sep 25 20:29 RTZ 2 (зима)
+End testing: Sep 25 20:45 RTZ 2 (зима)
