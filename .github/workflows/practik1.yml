@@ -1,0 +1,22 @@
+name: CI - Practik1 Only
+
+on:
+  push:
+    branches: [practik1]
+  pull_request:
+    branches: [practik1]
+
+jobs:
+  test-practik1:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build and Test Practik1
+      run: |
+        cd practik1
+        mkdir -p build
+        cd build
+        cmake ..
+        cmake --build .
+        ctest -V --output-on-failure
