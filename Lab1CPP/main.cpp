@@ -15,13 +15,13 @@ long long factorial(int n)
     return result;
 }
 
-int findMostFrequent(const Array& arr) 
+int findMostFrequent(const Array& arr)
 {
     int max_count = 0;
     int most_frequent = arr.get(0);
     int n = arr.size();
 
-    for (int i = 0; i < n; i++) 
+    for (int i = 0; i < n; i++)
     {
         int count = 0;
         for (int j = 0; j < n; j++)
@@ -31,7 +31,7 @@ int findMostFrequent(const Array& arr)
                 count++;
             }
         }
-        if (count > max_count) 
+        if (count > max_count)
         {
             max_count = count;
             most_frequent = arr.get(i);
@@ -40,7 +40,7 @@ int findMostFrequent(const Array& arr)
     return most_frequent;
 }
 
-int main(int argc, char* argv[]) 
+int main(int argc, char* argv[])
 {
     using namespace std;
     if (argc < 2)
@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
     }
 
     ifstream file(argv[1]);
-    if (!file.is_open()) 
+    if (!file.is_open())
     {
         cerr << "Failed to open file: " << argv[1] << endl;
         return 1;
