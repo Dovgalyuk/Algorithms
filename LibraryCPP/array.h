@@ -3,24 +3,27 @@
 
 #include <cstddef>
 
-class Array {
-public:
-    explicit Array(std::size_t size);
-    Array(const Array& a);
-    Array& operator=(const Array& a);
-    ~Array();
+// Non-resizeable array
 
-    std::size_t size() const;
+// Stores integer values inside
+// Change it to desired type
+typedef int Data;
 
-    int& operator[](std::size_t index);
-    const int& operator[](std::size_t index) const;
+struct Array;
 
-    int  get(std::size_t index) const;
-    void set(std::size_t index, int value);
+// create array
+Array *array_create(size_t size);
 
-private:
-    std::size_t _size;
-    int* _data;
-};
+// delete array, free memory
+void array_delete(Array *arr);
+
+// returns specified array element
+Data array_get(const Array *arr, size_t index);
+
+// sets the specified array element to the value
+void array_set(Array *arr, size_t index, Data value);
+
+// returns array size
+size_t array_size(const Array *arr);
 
 #endif

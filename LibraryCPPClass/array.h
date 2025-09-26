@@ -1,13 +1,11 @@
-#ifndef ARRAY_H
-#define ARRAY_H
-
+#pragma once
 #include <cstddef>
 
 class Array {
 public:
-    explicit Array(std::size_t size);
-    Array(const Array& a);
-    Array& operator=(const Array& a);
+    explicit Array(std::size_t size = 0);
+    Array(const Array& other);
+    Array& operator=(const Array& other);
     ~Array();
 
     std::size_t size() const;
@@ -22,5 +20,3 @@ private:
     std::size_t _size;
     int* _data;
 };
-
-#endif

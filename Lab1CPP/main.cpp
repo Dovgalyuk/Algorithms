@@ -1,66 +1,76 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
 #include <algorithm>
-#include <cmath>
+#include <cstddef>
+#include <fstream>
+#include <iostream>
+#include <vector>
+
 #include "array.h"
 
-static int sum_of_digits(const Array& a) {
+static int sum_digits_int(int x) {
+    long long v = x;
+    if (v < 0) v = -v;
     int s = 0;
-    for (std::size_t i = 0; i < a.size(); ++i) {
-        int v = std::abs(a[i]);
-        while (v) { s += v % 10; v /= 10; }
+    while (v > 0) {
+        s += static_cast<int>(v % 10);
+        v /= 10;
     }
     return s;
 }
 
+static int sum_of_digits(const Array& a) {
+    int sum = 0;
+    for (std::size_t i = 0; i < a.size(); ++i) sum += sum_digits_int(a[i]);
+    return sum;
+}
+
 static int most_frequent(const Array& a) {
-    std::vector<int> v(a.size());
-    for (std::size_t i = 0; i < a.size(); ++i) v[i] = a[i];
+    if (a.size() == 0) return 0;
+
+    std::vector<int> v;
+    v.reserve(a.size());
+    for (std::size_t i = 0; i < a.size(); ++i) v.push_back(a[i]);
     std::sort(v.begin(), v.end());
 
-    int bestVal = v.empty() ? 0 : v[0], bestCnt = 0;
-    int curVal = 0, curCnt = 0;
+    int bestVal = v[0], bestCnt = 1;
+    int curVal  = v[0], curCnt  = 1;
 
-    for (std::size_t i = 0; i < v.size(); ++i) {
-        if (i == 0 || v[i] != curVal) {
-            if (curCnt > 0) {
-                if (curCnt > bestCnt || (curCnt == bestCnt && curVal < bestVal)) {
-                    bestCnt = curCnt; bestVal = curVal;
-                }
+    for (std::size_t i = 1; i < v.size(); ++i) {
+        if (v[i] == curVal) {
+            ++curCnt;
+        } else {
+            if (curCnt > bestCnt) {
+                bestCnt = curCnt;
+                bestVal = curVal;
             }
             curVal = v[i];
             curCnt = 1;
-        } else {
-            ++curCnt;
         }
     }
-    if (curCnt > 0) {
-        if (curCnt > bestCnt || (curCnt == bestCnt && curVal < bestVal)) {
-            bestCnt = curCnt; bestVal = curVal;
-        }
+    if (curCnt > bestCnt) {
+        bestCnt = curCnt;
+        bestVal = curVal;
     }
     return bestVal;
 }
 
 int main(int argc, char** argv) {
-    std::ifstream fin;
-    std::istream* pin = &std::cin;
-    if (argc > 1) {
-        fin.open(argv[1]);
-        if (!fin) {
-            std::cerr << "Failed to open file\n";
-            return 1;
-        }
-        pin = &fin;
+    if (argc != 2) {
+        std::cerr << "Usage: Lab1CPP <input-file>\n";
+        return 1;
     }
-    std::istream& in = *pin;
 
-    std::size_t n;
-    if (!(in >> n) || n == 0) {
+    std::ifstream in(argv[1]);
+    if (!in) {
+        std::cerr << "File not found\n";
+        return 1;
+    }
+
+    long long m = 0;
+    if (!(in >> m) || m <= 0) {
         std::cerr << "Invalid array size\n";
         return 1;
     }
+    std::size_t n = static_cast<std::size_t>(m);
 
     Array arr(n);
     for (std::size_t i = 0; i < n; ++i) {

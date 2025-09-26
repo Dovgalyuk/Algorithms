@@ -3,9 +3,7 @@
 #include <stdexcept>
 
 Array::Array(std::size_t size) : _size(size), _data(nullptr) {
-    if (_size > 0) {
-        _data = new int[_size]{};
-    }
+    if (_size > 0) _data = new int[_size]{};
 }
 
 Array::Array(const Array& a) : _size(a._size), _data(nullptr) {
@@ -17,14 +15,14 @@ Array::Array(const Array& a) : _size(a._size), _data(nullptr) {
 
 Array& Array::operator=(const Array& a) {
     if (this == &a) return *this;
-    if (a._size != _size) {
-        delete[] _data;
-        _size = a._size;
-        _data = _size ? new int[_size] : nullptr;
+    int* nd = nullptr;
+    if (a._size) {
+        nd = new int[a._size];
+        std::copy(a._data, a._data + a._size, nd);
     }
-    if (_size) {
-        std::copy(a._data, a._data + _size, _data);
-    }
+    delete[] _data;
+    _data = nd;
+    _size = a._size;
     return *this;
 }
 
@@ -34,6 +32,8 @@ Array::~Array() {
     _size = 0;
 }
 
+std::size_t Array::size() const { return _size; }
+
 int& Array::operator[](std::size_t index) {
     if (index >= _size) throw std::out_of_range("Array index out of range");
     return _data[index];
@@ -42,10 +42,6 @@ int& Array::operator[](std::size_t index) {
 const int& Array::operator[](std::size_t index) const {
     if (index >= _size) throw std::out_of_range("Array index out of range");
     return _data[index];
-}
-
-std::size_t Array::size() const {
-    return _size;
 }
 
 int Array::get(std::size_t index) const {
