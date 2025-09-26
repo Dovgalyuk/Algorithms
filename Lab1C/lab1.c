@@ -35,6 +35,7 @@ Array *array_create_and_read(FILE *input) {
 
 bool is_palindrome(int num) {
     if (num < 0) return false;
+	if (num < 10) return true;
     
     int reversed = 0;
     int original = num;
@@ -71,7 +72,7 @@ void task2(Array *arr) {
         
         if (is_first) {
             int count = 0;
-            for (size_t j = 0; j < array_size(arr); j++) {
+            for (size_t j = i; j < array_size(arr); j++) {
                 if (array_get(arr, i) == array_get(arr, j)) {
                     count++;
                 }
@@ -93,21 +94,18 @@ int main(int argc, char **argv) {
         return 1;
     }
     
-    rewind(input);
     arr = array_create_from_size(input);
     if (arr != NULL) {
         task1(arr);
         array_delete(arr);
     }
     
-    rewind(input);
     arr = array_create_and_read(input);
     if (arr != NULL) {
         task2(arr);
         array_delete(arr);
     }
         
-    printf("\n");
     fclose(input);
     return 0;
 }
