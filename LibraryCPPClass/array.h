@@ -30,6 +30,9 @@ public:
     // returns array size
     size_t size() const;
 
+    // prints array
+    void print();
+
 private:
     // private data should be here
     Data* _data;
