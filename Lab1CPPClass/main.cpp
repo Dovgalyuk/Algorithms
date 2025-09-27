@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <limits>
 #include "../LibraryCPPClass/array.h"
 
 using namespace std;
@@ -14,15 +15,12 @@ Array readArrayFromFile(const string& filename) {
 
     size_t n;
     file >> n;
-    file.ignore(numeric_limits<streamsize>::max(), '\n');
 
     Array arr(n);
-    string line;
-    istringstream iss(line);
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; ++i) {
         Data val;
         if (!(file >> val)) {
-            cerr << "Ошибка: недостаточно элементов в файле '" << filename << "' (ожидалось " << n << ", найдено " << i << ")" << endl;
+            std::cerr << "Ошибка: недостаточно элементов" << std::endl;
             return Array(0);
         }
         arr.set(i, val);
