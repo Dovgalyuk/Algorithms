@@ -3,24 +3,26 @@
 #include <sstream>
 #include "../LibraryCPPClass/array.h"
 
-Array readArrayFromFile(const std::string& filename) {
-    std::ifstream file(filename);
+using namespace std;
+
+Array readArrayFromFile(const string& filename) {
+    ifstream file(filename);
     if (!file.is_open()) {
-        std::cerr << "Ошибка при чтении файла" << std::endl;
+        cerr << "Ошибка при чтении файла" << endl;
         return Array(0);
     }
 
     size_t n;
     file >> n;
-    file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    file.ignore(numeric_limits<streamsize>::max(), '\n');
 
     Array arr(n);
-    std::string line;
-    std::istringstream iss(line);
+    string line;
+    istringstream iss(line);
     for (size_t i = 0; i < n; i++) {
         Data val;
         if (!(file >> val)) {
-            std::cerr << "Ошибка: недостаточно элементов в файле '" << filename << "' (ожидалось " << n << ", найдено " << i << ")" << std::endl;
+            cerr << "Ошибка: недостаточно элементов в файле '" << filename << "' (ожидалось " << n << ", найдено " << i << ")" << endl;
             return Array(0);
         }
         arr.set(i, val);
@@ -31,7 +33,7 @@ Array readArrayFromFile(const std::string& filename) {
     return arr;
 }
 
-void reverseArray(const std::string& filename) {
+void reverseArray(const string& filename) {
     Array arr = readArrayFromFile(filename);
     if (arr.size() == 0) {
         return;
@@ -47,7 +49,7 @@ void reverseArray(const std::string& filename) {
     arr.print();
 }
 
-void shiftArray(const std::string& filename, char direction, size_t steps) {
+void shiftArray(const string& filename, char direction, size_t steps) {
     Array arr = readArrayFromFile(filename);
     if (arr.size() == 0) {
         return;
@@ -73,7 +75,7 @@ void shiftArray(const std::string& filename, char direction, size_t steps) {
         }
     }
     else {
-        std::cerr << "Неправильное направление: используйте 'l' или 'r'" << std::endl;
+        cerr << "Неправильное направление: используйте 'l' или 'r'" << endl;
         return;
     }
 
@@ -82,16 +84,16 @@ void shiftArray(const std::string& filename, char direction, size_t steps) {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        std::cerr << "Использование: " << argv[0] << " <reverse|shift> <filename> [direction steps]" << std::endl;
+        cerr << "Использование: " << argv[0] << " <reverse|shift> <filename> [direction steps]" << endl;
         return 1;
     }
 
-    std::string mode = argv[1];
+    string mode = argv[1];
     if (mode == "reverse") {
         reverseArray(argv[2]);
     }
     else if (mode == "shift") {
-        shiftArray(argv[2], argv[3][0], std::stoul(argv[4]));
+        shiftArray(argv[2], argv[3][0], stoul(argv[4]));
     }
     else {
         return 1;
