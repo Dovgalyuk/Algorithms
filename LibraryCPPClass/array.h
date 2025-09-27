@@ -13,10 +13,10 @@ public:
     explicit Array(size_t size);
 
     // copy constructor
-    Array(const Array &a);
+    Array(const Array& a);
 
     // assignment operator
-    Array &operator=(const Array &a);
+    Array& operator=(const Array& a);
 
     // delete array, free memory
     ~Array();
@@ -32,6 +32,8 @@ public:
 
 private:
     // private data should be here
+    Data* _data;
+    size_t _size;
 };
 
 #endif
