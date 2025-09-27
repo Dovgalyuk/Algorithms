@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Lab1C/Lab1C.exe"
+			"path" : "Lab1CPP/Lab1CPP.exe"
 		},
 		{
-			"path" : "Lab1C/Lab1C.pdb"
+			"path" : "Lab1CPP/Lab1CPP.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -14,14 +14,11 @@
 		"commands" : 
 		[
 			"add_executable",
-			"target_link_libraries",
-			"add_compile_options",
-			"target_include_directories"
+			"target_link_libraries"
 		],
 		"files" : 
 		[
-			"Lab1C/CMakeLists.txt",
-			"CMakeLists.txt"
+			"Lab1CPP/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -37,21 +34,6 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 3,
-				"parent" : 0
-			},
-			{
-				"file" : 1
-			},
-			{
-				"command" : 2,
-				"file" : 1,
-				"line" : 8,
-				"parent" : 3
-			},
-			{
-				"command" : 3,
-				"file" : 0,
 				"line" : 2,
 				"parent" : 0
 			}
@@ -63,28 +45,17 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /Zi /Ob0 /Od /RTC1 -MDd"
-				},
-				{
-					"backtrace" : 4,
-					"fragment" : "/W4"
-				},
-				{
-					"backtrace" : 4,
-					"fragment" : "/WX"
-				},
-				{
-					"fragment" : "-WX"
+					"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 5,
-					"path" : "C:/Users/Admin/source/repos/Algorithms/Lab1C/../LibraryC"
+					"backtrace" : 2,
+					"path" : "C:/Users/Admin/source/repos/Algorithms/LibraryCPP"
 				}
 			],
-			"language" : "C",
+			"language" : "CXX",
 			"sourceIndexes" : 
 			[
 				0
@@ -95,16 +66,16 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "LibraryC::@05a76b2f4dbe82cfc264"
+			"id" : "LibraryCPP::@4b3589622afbd1422885"
 		}
 	],
-	"id" : "Lab1C::@c050f807fd595b3ba8be",
+	"id" : "Lab1CPP::@ee6367d4ac0702ad1401",
 	"link" : 
 	{
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "/DWIN32 /D_WINDOWS /Zi /Ob0 /Od /RTC1 -MDd",
+				"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd",
 				"role" : "flags"
 			},
 			{
@@ -113,7 +84,7 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "LibraryC\\LibraryC.lib",
+				"fragment" : "LibraryCPP\\LibraryCPP.lib",
 				"role" : "libraries"
 			},
 			{
@@ -121,14 +92,14 @@
 				"role" : "libraries"
 			}
 		],
-		"language" : "C"
+		"language" : "CXX"
 	},
-	"name" : "Lab1C",
-	"nameOnDisk" : "Lab1C.exe",
+	"name" : "Lab1CPP",
+	"nameOnDisk" : "Lab1CPP.exe",
 	"paths" : 
 	{
-		"build" : "Lab1C",
-		"source" : "Lab1C"
+		"build" : "Lab1CPP",
+		"source" : "Lab1CPP"
 	},
 	"sourceGroups" : 
 	[
@@ -145,7 +116,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "Lab1C/lab1.c",
+			"path" : "Lab1CPP/lab1.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
