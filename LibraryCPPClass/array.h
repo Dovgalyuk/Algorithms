@@ -10,9 +10,6 @@ public:
 
     std::size_t size() const;
 
-    int& operator[](std::size_t index);
-    const int& operator[](std::size_t index) const;
-
     int  get(std::size_t index) const;
     void set(std::size_t index, int value);
 

@@ -34,16 +34,6 @@ Array::~Array() {
 
 std::size_t Array::size() const { return _size; }
 
-int& Array::operator[](std::size_t index) {
-    if (index >= _size) throw std::out_of_range("Array index out of range");
-    return _data[index];
-}
-
-const int& Array::operator[](std::size_t index) const {
-    if (index >= _size) throw std::out_of_range("Array index out of range");
-    return _data[index];
-}
-
 int Array::get(std::size_t index) const {
     if (index >= _size) throw std::out_of_range("Array index out of range");
     return _data[index];

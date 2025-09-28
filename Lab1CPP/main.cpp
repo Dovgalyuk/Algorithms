@@ -19,7 +19,7 @@ static int sum_digits_int(int x) {
 
 static int sum_of_digits(const Array& a) {
     int sum = 0;
-    for (std::size_t i = 0; i < a.size(); ++i) sum += sum_digits_int(a[i]);
+    for (std::size_t i = 0; i < a.size(); ++i) sum += sum_digits_int(a.get(i));
     return sum;
 }
 
@@ -28,7 +28,7 @@ static int most_frequent(const Array& a) {
 
     std::vector<int> v;
     v.reserve(a.size());
-    for (std::size_t i = 0; i < a.size(); ++i) v.push_back(a[i]);
+    for (std::size_t i = 0; i < a.size(); ++i) v.push_back(a.get(i));
     std::sort(v.begin(), v.end());
 
     int bestVal = v[0], bestCnt = 1;
@@ -74,10 +74,12 @@ int main(int argc, char** argv) {
 
     Array arr(n);
     for (std::size_t i = 0; i < n; ++i) {
-        if (!(in >> arr[i])) {
+        int value;
+        if (!(in >> value)) {
             std::cerr << "Not enough numbers\n";
             return 1;
         }
+        arr.set(i, value);
     }
 
     std::cout << "Sum of digits: " << sum_of_digits(arr)
