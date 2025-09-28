@@ -1,0 +1,9 @@
+C:/Users/admin/Algorithms/StepanovLab1/Test/build/CMakeFiles/Experimental.dir
+C:/Users/admin/Algorithms/StepanovLab1/Test/build/CMakeFiles/Nightly.dir
+C:/Users/admin/Algorithms/StepanovLab1/Test/build/CMakeFiles/Continuous.dir
+C:/Users/admin/Algorithms/StepanovLab1/Test/build/CMakeFiles/NightlyMemoryCheck.dir
+C:/Users/admin/Algorithms/StepanovLab1/Test/build/CMakeFiles/array.dir
+C:/Users/admin/Algorithms/StepanovLab1/Test/build/CMakeFiles/lab1test.dir
+C:/Users/admin/Algorithms/StepanovLab1/Test/build/CMakeFiles/RUN_TESTS.dir
+C:/Users/admin/Algorithms/StepanovLab1/Test/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/admin/Algorithms/StepanovLab1/Test/build/CMakeFiles/ZERO_CHECK.dir

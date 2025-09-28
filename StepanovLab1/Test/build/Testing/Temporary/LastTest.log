@@ -1,0 +1,18 @@
+Start testing: Sep 28 23:42 RTZ 2 (çèìà)
+----------------------------------------------------------
+1/1 Testing: TestArrayCPPClass
+1/1 Test: TestArrayCPPClass
+Command: "C:/Users/admin/Algorithms/StepanovLab1/Test/build/Release/lab1test.exe"
+Directory: C:/Users/admin/Algorithms/StepanovLab1/Test/build
+"TestArrayCPPClass" start time: Sep 28 23:42 RTZ 2 (çèìà)
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"TestArrayCPPClass" end time: Sep 28 23:42 RTZ 2 (çèìà)
+"TestArrayCPPClass" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Sep 28 23:42 RTZ 2 (çèìà)
