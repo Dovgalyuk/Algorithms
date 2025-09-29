@@ -97,6 +97,5 @@ void printArray(const Array* arr) {
     for (size_t i = 0; i < size; ++i) {
         cout << array_get(arr, i) << " ";
     }
-    cout << endl;
 }
 

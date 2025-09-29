@@ -1,6 +1,6 @@
 add_executable(Lab1CPP Lab1.cpp)
-target_include_directories(Lab1CPP PUBLIC ../LibraryCPP)
-target_link_libraries(Lab1CPP LibraryCPP)
+target_include_directories(Lab1CPP PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP)
+target_link_libraries(Lab1CPP PRIVATE LibraryCPP)
 
 # Тест 1: Fibonachi
 add_test(NAME TestFibonachi COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
