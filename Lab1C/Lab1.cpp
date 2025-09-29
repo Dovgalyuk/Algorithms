@@ -10,7 +10,7 @@ void printArray(const Array* arr);
 
 int main() {
     //Fibonachi
-    ifstream file1("input1.txt");
+    ifstream file1("./input1.txt");
     if (!file1) {
         cerr << "Cannot open input1.txt\n";
         return 1;
@@ -24,7 +24,7 @@ int main() {
     printArray(fibArr);
 
     //Compressed array
-    ifstream file2("input2.txt");
+    ifstream file2("./input2.txt");
     if (!file2) {
         cerr << "Cannot open input2.txt\n";
         array_delete(fibArr);
