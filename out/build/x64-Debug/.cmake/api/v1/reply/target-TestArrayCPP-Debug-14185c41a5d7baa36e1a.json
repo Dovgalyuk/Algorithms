@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Lab1C/Lab1C.exe"
+			"path" : "LibraryCPP/Tests/TestArrayCPP.exe"
 		},
 		{
-			"path" : "Lab1C/Lab1C.pdb"
+			"path" : "LibraryCPP/Tests/TestArrayCPP.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -20,7 +20,7 @@
 		],
 		"files" : 
 		[
-			"Lab1C/CMakeLists.txt",
+			"LibraryCPP/Tests/CMakeLists.txt",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
@@ -81,7 +81,7 @@
 			[
 				{
 					"backtrace" : 5,
-					"path" : "C:/Users/dimas/source/repos/Algorithms/Lab1C/../LibraryCPP"
+					"path" : "C:/Users/dimas/source/repos/Algorithms/LibraryCPP/Tests/.."
 				}
 			],
 			"language" : "CXX",
@@ -98,7 +98,7 @@
 			"id" : "LibraryCPP::@4b3589622afbd1422885"
 		}
 	],
-	"id" : "Lab1C::@c050f807fd595b3ba8be",
+	"id" : "TestArrayCPP::@f2b864f8dfe3321ad621",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -123,12 +123,12 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "Lab1C",
-	"nameOnDisk" : "Lab1C.exe",
+	"name" : "TestArrayCPP",
+	"nameOnDisk" : "TestArrayCPP.exe",
 	"paths" : 
 	{
-		"build" : "Lab1C",
-		"source" : "Lab1C"
+		"build" : "LibraryCPP/Tests",
+		"source" : "LibraryCPP/Tests"
 	},
 	"sourceGroups" : 
 	[
@@ -145,7 +145,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "Lab1C/Lab1.cpp",
+			"path" : "LibraryCPP/Tests/array.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

@@ -9,50 +9,55 @@ void compressArray(Array* arr, int a, int b);
 void printArray(const Array* arr);
 
 int main() {
-    //Fibonachi
-    ifstream file1("./input1.txt");
+    //Broken
+    /*ifstream file1("input1.txt");
     if (!file1) {
         cerr << "Cannot open input1.txt\n";
         return 1;
-    }
+    }*/
 
-    size_t n1;
-    file1 >> n1;
+    //Fibonachi
+    int n1 = 10;    //size_t n1
+    //file1 >> n1;
     Array* fibArr = array_create(n1);
 
     fillFibonacci(fibArr);
     printArray(fibArr);
 
-    //Compressed array
-    ifstream file2("./input2.txt");
+    //Broken
+    /*ifstream file2("input2.txt");
     if (!file2) {
         cerr << "Cannot open input2.txt\n";
         array_delete(fibArr);
         return 1;
-    }
+    }*/
 
-    size_t n2;
-    file2 >> n2;
+    //Compressed array
+    size_t n2 = 8;  //size_t n2
+    int test2[] = { 10, 5, 8, 20, 15, 3, 25, 12 };
+    //file2 >> n2;
     Array* compressArr = array_create(n2);
 
     for (size_t i = 0; i < n2; ++i) {
-        Data value;
-        if (!(file2 >> value)) {
+        Data value = test2[i];
+        //Broken
+        /*if (!(file2 >> value)) {
             cerr << "Invalid data in input2.txt\n";
             array_delete(fibArr);
             array_delete(compressArr);
             return 1;
-        }
+        }*/
         array_set(compressArr, i, value);
     }
 
-    int a, b;
-    if (!(file2 >> a >> b)) {
+    int a = 5, b = 15;  //int a, b
+    //Broken
+    /*if (!(file2 >> a >> b)) {
         cerr << "Invalid interval data in input2.txt\n";
         array_delete(fibArr);
         array_delete(compressArr);
         return 1;
-    }
+    }*/
 
     compressArray(compressArr, a, b);
     printArray(compressArr);
@@ -97,5 +102,6 @@ void printArray(const Array* arr) {
     for (size_t i = 0; i < size; ++i) {
         cout << array_get(arr, i) << " ";
     }
+    cout << endl;
 }
 

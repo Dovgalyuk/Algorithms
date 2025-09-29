@@ -12,7 +12,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "LibraryCPPClass/LibraryCPPClass.lib"
+			"path" : "LibraryCPP/LibraryCPP.lib"
 		}
 	],
 	"backtrace" : 1,
@@ -25,7 +25,7 @@
 		],
 		"files" : 
 		[
-			"LibraryCPPClass/CMakeLists.txt",
+			"LibraryCPP/CMakeLists.txt",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
@@ -73,21 +73,17 @@
 			"language" : "CXX",
 			"sourceIndexes" : 
 			[
-				0,
-				1,
-				2,
-				3,
-				4
+				0
 			]
 		}
 	],
-	"id" : "LibraryCPPClass::@73029f66a4a4277003c7",
-	"name" : "LibraryCPPClass",
-	"nameOnDisk" : "LibraryCPPClass.lib",
+	"id" : "LibraryCPP::@4b3589622afbd1422885",
+	"name" : "LibraryCPP",
+	"nameOnDisk" : "LibraryCPP.lib",
 	"paths" : 
 	{
-		"build" : "LibraryCPPClass",
-		"source" : "LibraryCPPClass"
+		"build" : "LibraryCPP",
+		"source" : "LibraryCPP"
 	},
 	"sourceGroups" : 
 	[
@@ -95,11 +91,7 @@
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				0,
-				1,
-				2,
-				3,
-				4
+				0
 			]
 		}
 	],
@@ -108,31 +100,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "LibraryCPPClass/array.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "LibraryCPPClass/list.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "LibraryCPPClass/queue.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "LibraryCPPClass/stack.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "LibraryCPPClass/vector.cpp",
+			"path" : "LibraryCPP/array.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
