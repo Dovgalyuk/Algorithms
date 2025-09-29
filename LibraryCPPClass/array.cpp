@@ -1,15 +1,17 @@
 #include "array.h"
 #include <stdexcept>
 
-Array::Array(size_t size) : size_(size)
+Array::Array(size_t size)
 {
+    size_ = size;
     data_ = new Data[size];
     for (size_t i = 0; i < size_; i++)
         data_[i] = 0;
 }
 
-Array::Array(const Array& a) : size_(a.size_)
+Array::Array(const Array& a)
 {
+    size_ = a.size_;
     data_ = new Data[a.size_];
     for (size_t i = 0; i < size_; i++)
         data_[i] = a.data_[i];

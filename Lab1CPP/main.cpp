@@ -15,12 +15,14 @@ static void find_greater_than_sum(const Array& arr) {
     bool first = true;
     for (size_t i = 0; i < arr.size(); i++) {
         if (arr.get(i) > total) {
-            if (!first) cout << ' ';
+            if (!first) 
+                cout << ' ';
             cout << i;
             first = false;
         }
     }
-    if (first) cout << "None ";
+    if (first) 
+        cout << "None ";
 }
 
 static void print_unique_elements(const Array& arr) {
@@ -31,15 +33,18 @@ static void print_unique_elements(const Array& arr) {
         int x = arr.get(i);
         int cnt = 0;
         for (size_t j = 0; j < arr.size(); j++)
-            if (arr.get(j) == x) ++cnt;
+            if (arr.get(j) == x) 
+                ++cnt;
 
         if (cnt == 1) {
-            if (printed_any) cout << ' ';
+            if (printed_any) 
+                cout << ' ';
             cout << x;
             printed_any = true;
         }
     }
-    if (!printed_any) cout << "None";
+    if (!printed_any)
+        cout << "None";
 }
 
 static Array read_array_from_file(const string& path) {

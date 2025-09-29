@@ -35,3 +35,10 @@ add_test(NAME TestLab1CPP_Input4
 set_tests_properties(TestLab1CPP_Input4 PROPERTIES PASS_REGULAR_EXPRESSION
     "Indices of elements greater than total sum \\([-+]?[0-9]+\\):[ \\t]*1.*Unique elements:[ \\t]*10"
 )
+
+add_test(NAME TestLab1CPP_Input5
+    COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input5.txt
+)
+set_property(TEST TestLab1CPP_Input5 PROPERTY PASS_REGULAR_EXPRESSION
+    "Indices of elements greater than total sum \\(10\\):[ \\t]*None.*Unique elements:[ \\t]*None"
+)

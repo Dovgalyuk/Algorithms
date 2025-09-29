@@ -3,36 +3,27 @@
 
 #include <cstddef>
 
+// Non-resizeable array
+
+// Stores integer values inside
 // Change it to desired type
 typedef int Data;
 
-class Array
-{
-public:
-    // create array
-    explicit Array(size_t size);
+struct Array;
 
-    // copy constructor
-    Array(const Array& a);
+// create array
+Array* array_create(size_t size);
 
-    // assignment operator
-    Array& operator=(const Array& a);
+// delete array, free memory
+void array_delete(Array* arr);
 
-    // delete array, free memory
-    ~Array();
+// returns specified array element
+Data array_get(const Array* arr, size_t index);
 
-    // returns specified array element
-    Data get(size_t index) const;
+// sets the specified array element to the value
+void array_set(Array* arr, size_t index, Data value);
 
-    // sets the specified array element to the value
-    void set(size_t index, Data value);
-
-    // returns array size
-    size_t size() const;
-
-private:
-    size_t size_;
-    Data* data_;
-};
+// returns array size
+size_t array_size(const Array* arr);
 
 #endif
