@@ -31,6 +31,7 @@ int test() {
     for (size_t i = 0; i < arr.size(); ++i) {
         cout << arr[i] << " ";
     }
+    cout <<"//////////////////////////////////" << endl;
     cout << endl;
 
     return 0;
