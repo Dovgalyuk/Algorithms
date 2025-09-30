@@ -35,7 +35,7 @@ Array::~Array()
 
 Data Array::get(size_t index) const
 {
-    if(index >= _size || index < 0) {
+    if(index >= _size) {
         throw std::out_of_range("Индекс вне диапазона");
     }    
     return _data[index];
@@ -43,7 +43,7 @@ Data Array::get(size_t index) const
 
 void Array::set(size_t index, Data value)
 {
-    if(index >= _size || index < 0) {
+    if(index >= _size) {
         throw std::out_of_range("Индекс вне диапазона");
     } 
     _data[index] = value;
