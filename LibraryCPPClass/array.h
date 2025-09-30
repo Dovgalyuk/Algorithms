@@ -31,7 +31,8 @@ public:
     size_t size() const;
 
 private:
-    // private data should be here
+    Data* _data;
+    size_t _size;
 };
 
 #endif
