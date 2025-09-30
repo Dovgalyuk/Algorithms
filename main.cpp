@@ -6,7 +6,6 @@
 #include <climits>
 #include <stdexcept>
 #include <locale>
-#include <windows.h>
 
 using namespace std;
 
