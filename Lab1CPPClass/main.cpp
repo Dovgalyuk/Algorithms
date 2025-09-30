@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <limits>
-#include "../LibraryCPPClass/array.h"
+#include "array.h"
 
 using namespace std;
 
