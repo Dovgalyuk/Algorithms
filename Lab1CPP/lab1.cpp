@@ -10,7 +10,7 @@ Array* array_create_and_read(ifstream& input)
     int n;
     input >> n;
     /* Create array */
-    Array* arr = array_create(n, nullptr);
+    Array* arr = array_create(n);
     /* Read array data */
     for (int i = 0; i < n; i++)
     {

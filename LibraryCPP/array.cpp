@@ -8,18 +8,12 @@ struct Array {
 };
 
 // create array
-Array* array_create(size_t size, int* values) {
+Array* array_create(size_t size) {
 
     Array* arr = new Array;
 
     arr->size = size;
     arr->data = new int[size];
-
-    if (values != nullptr) {
-        for (int i = 0; i < size; i++)
-            arr->data[i] = values[i];
-    }
-
     return arr;
 }
 

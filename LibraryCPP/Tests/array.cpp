@@ -3,7 +3,7 @@
 
 int main()
 {
-    Array *arr = array_create(10, nullptr);
+    Array *arr = array_create(10);
 
     if (array_size(arr) != 10)
     {
