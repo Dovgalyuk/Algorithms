@@ -4,6 +4,11 @@
 
 using namespace std;
 
+Array* array_create_and_size(ifstream& input) {
+    int n;
+    input >> n;
+    return array_create(n);
+}
 
 Array* array_create_and_read(ifstream& input)
 {
@@ -79,7 +84,7 @@ int main(int argc, char** argv)
     if (!input.is_open())
         return 1;
 
-    arr = array_create_and_read(input);
+    arr = array_create_and_size(input);
     task1(arr);
     array_delete(arr);
 
