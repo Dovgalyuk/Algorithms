@@ -2,14 +2,11 @@
 #include <iostream>
 #include "array.h"
 
-Array::Array(size_t size) : _data(new Data[size]), _size(size)
+Array::Array(size_t size) : _data(new Data[size]()), _size(size)
 {
-    if (_data == nullptr) {
-        throw std::bad_alloc();
-    }
 }
 
-Array::Array(const Array& a) : _data(new Data[a._size]), _size(a._size)
+Array::Array(const Array& a) : _data(new Data[a._size]()), _size(a._size)
 {
     for (size_t i = 0; i < _size; i++) {
         _data[i] = a._data[i];
