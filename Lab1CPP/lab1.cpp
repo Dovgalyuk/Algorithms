@@ -130,10 +130,11 @@ void frequentNumber(const string& fileName)
 
     sort(arr, 0, arr.size() - 1);
 
-    int maxCount = 1;
-    int frequintNumberID = 0;
-    int currentCount = 1;
-    for (int i = 1; i < arr.size(); i++)
+    size_t maxCount = 1;
+    size_t frequintNumberID = 0;
+    size_t currentCount = 1;
+    
+    for (size_t i = 1; i < arr.size(); i++)
     {
         if (arr.get(i-1) == arr.get(i))
         {
