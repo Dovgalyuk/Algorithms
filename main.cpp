@@ -12,7 +12,7 @@ using namespace std;
 void setRussianLocale() { // функция русской локализации (кроссплатформенная)
     try {
         locale::global(locale("ru_RU.UTF-8"));
-    } catch (const std::exception&) {
+    } catch (const exception&) {
         try {
             locale::global(locale("Russian_Russia.1251"));
         } catch (const exception&) {
