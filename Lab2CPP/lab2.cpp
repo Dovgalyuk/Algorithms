@@ -19,7 +19,7 @@ int priority(char c)
 
 void task(std::string input)
 {
-    Stack* stack_operator = stack_create();
+    Stack* stack = stack_create();
     std::string output;
 
     for(size_t i = 0; i < input.size();i++)
@@ -32,37 +32,34 @@ void task(std::string input)
         }
         else if(c == '(')
         {
-            stack_push(stack_operator, c);
+            stack_push(stack, c);
         }
         else if(c == ')')
         {
-            while(stack_get(stack_operator) != '(')
+            while(stack_get(stack) != '(')
             {
-                output += stack_get(stack_operator);
-                stack_pop(stack_operator);
+                output += stack_get(stack);
+                stack_pop(stack);
             }
-            stack_pop(stack_operator);
+            stack_pop(stack);
         }
         else if(c == '+' || c == '-' || c == '*')
         {
-            while(!stack_empty(stack_operator) && priority(stack_get(stack_operator) >= priority(c)))
+            while(!stack_empty(stack) && priority(stack_get(stack) >= priority(c)))
             {
-                output += stack_get(stack_operator);
-                stack_pop(stack_operator);
+                output += stack_get(stack);
+                stack_pop(stack);
             }
-            stack_push(stack_operator, c);
+            stack_push(stack, c);
         }
     }
 
-    while(!stack_empty(stack_operator))
+    while(!stack_empty(stack))
     {
-        output += stack_get(stack_operator);
-        stack_pop(stack_operator);
+        output += stack_get(stack);
+        stack_pop(stack);
     }
-    stack_delete(stack_operator);
 
-
-    Stack* stack = stack_create();
 
     for(size_t i = 0; i < output.size(); i++)
     {

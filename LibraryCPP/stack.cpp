@@ -53,10 +53,5 @@ void stack_pop(Stack *stack)
 bool stack_empty(const Stack *stack)
 {
     size_t size = vector_size(stack->vector);
-    if(size > 0)
-    {
-        return false;
-    }
-
-    return true;
+    return size == 0;
 }
