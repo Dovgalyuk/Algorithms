@@ -1,0 +1,4 @@
+Size of array: 10
+Array contents: 1 3 5 2 7 9 11 4 6 8 
+Max odd sequence length: 3
+Array after right shift by 2: 0 0 1 3 5 2 7 9 11 4 

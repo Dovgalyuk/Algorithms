@@ -49,31 +49,57 @@ void shift_array(::array<int>& arr, int steps, bool left) {
 }
 
 
-
-
-
-int main() {
-    test();
+int main() 
+{
     ifstream input("input.txt");
+    if (!input.is_open()) {
+        cerr << "Cannot open input.txt" << endl;
+        return 1;
+    }
+
     size_t n;
     input >> n;
 
     ::array<int> arr(n);
+
     for (size_t i = 0; i < n; ++i) {
         input >> arr[i];
     }
 
-    //4
-    cout << "Max odd sequence length: " << longest_odd_sequence(arr) << endl;
+    ofstream output("output.txt");
+    if (!output.is_open()) {
+        cerr << "Cannot create output.txt" << endl;
+        return 1;
+    }
+    output << "Size of array: " << arr.size() << endl;
 
-    //5
-    shift_array(arr, 2, false); //vpravo
-
-    cout << "Array after right shift by 2: ";
+    output << "Array contents: ";
     for (size_t i = 0; i < arr.size(); ++i) {
-        cout << arr[i] << " ";
+        output << arr[i] << " ";
+        if (i + 1 == arr.size()) {
+            output << endl;
+        }
+    }
+    
+
+    size_t max_len = longest_odd_sequence(arr);
+    cout << "Max odd sequence length: " << max_len << endl;
+    output << "Max odd sequence length: " << max_len << endl;
+
+    ::array<int> shifted_arr(n);
+    for (size_t i = 0; i < n; ++i) {
+        shifted_arr[i] = arr[i];
+    }
+    shift_array(shifted_arr, 2, false);
+    cout << "Array after right shift by 2: ";
+    output << "Array after right shift by 2: ";
+    for (size_t i = 0; i < shifted_arr.size(); ++i) {
+        cout << shifted_arr[i] << " ";
+        output << shifted_arr[i] << " ";
     }
     cout << endl;
+
+    output << endl;
 
     return 0;
 }
