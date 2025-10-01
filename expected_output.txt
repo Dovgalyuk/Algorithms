@@ -1,0 +1,2 @@
+Two smallest: 2, 2
+Unique elements: 7 
