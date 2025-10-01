@@ -56,7 +56,7 @@ Array::~Array()
 
 Data Array::get(size_t index) const
 {
-    if (index >= 0 && index < asize) {
+    if (index < asize) {
         return adata[index];
     }
     else {
@@ -66,7 +66,7 @@ Data Array::get(size_t index) const
 
 void Array::set(size_t index, Data value)
 {
-    if (index >= 0 && index < asize) {
+    if (index < asize) {
         adata[index] = value;
     }
 }
