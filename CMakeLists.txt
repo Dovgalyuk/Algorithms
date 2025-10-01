@@ -17,7 +17,7 @@ add_test(NAME DOVprac1_test
 set_tests_properties(DOVprac1_test PROPERTIES
                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                      FIXTURES_SETUP run_program)
-
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/input.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 add_test(NAME run_program
          COMMAND DOVprac1
          WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
