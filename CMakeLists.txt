@@ -4,7 +4,7 @@ project(arraylab)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(lab main.cpp)
+add_executable(arrlab main.cpp)
 
 enable_testing()
 
@@ -16,3 +16,4 @@ add_test(
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 
 )
+
