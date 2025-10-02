@@ -71,9 +71,8 @@ int main()
         cerr << "Cannot create output.txt" << endl;
         return 1;
     }
-    output << "Size of array: " << arr.size() << endl;
+    output  << arr.size() << endl;
 
-    output << "Array contents: ";
     for (size_t i = 0; i < arr.size(); ++i) {
         output << arr[i] << " ";
         if (i + 1 == arr.size()) {
@@ -84,7 +83,7 @@ int main()
 
     size_t max_len = longest_odd_sequence(arr);
     cout << "Max odd sequence length: " << max_len << endl;
-    output << "Max odd sequence length: " << max_len << endl;
+    output << max_len << endl;
 
     ::array<int> shifted_arr(n);
     for (size_t i = 0; i < n; ++i) {
@@ -92,7 +91,6 @@ int main()
     }
     shift_array(shifted_arr, 2, false);
     cout << "Array after right shift by 2: ";
-    output << "Array after right shift by 2: ";
     for (size_t i = 0; i < shifted_arr.size(); ++i) {
         cout << shifted_arr[i] << " ";
         output << shifted_arr[i] << " ";
