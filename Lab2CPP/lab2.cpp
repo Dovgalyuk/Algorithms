@@ -59,48 +59,37 @@ void task(std::string input)
         output += stack_get(stack);
         stack_pop(stack);
     }
-
+    stack_delete(stack);
 
     for(size_t i = 0; i < output.size(); i++)
     {
         char c = output[i];
-        int A, B;
 
         if(c >= '0' && c <= '9')
         {
             std::cout << "PUSH " << c << std::endl;
-            stack_push(stack, c);
         }
         else if(c == '+' || c == '-' || c == '*')
         {
             std::cout << "POP A" << std::endl;
             std::cout << "POP B" << std::endl;
-            A = stack_get(stack);
-            stack_pop(stack);
-            B = stack_get(stack);
-            stack_pop(stack);
             
             if(c == '+')
             {
                 std::cout << "ADD A, B" << std::endl;
-                A = A + B;
             }
             else if(c == '-')
             {
                 std::cout << "SUB A, B" << std::endl;
-                A = A - B;
             }
             else if(c == '*')
             {
                 std::cout << "MUL A, B" << std::endl;
-                A = A * B;
             }
 
             std::cout << "PUSH A" << std::endl;
-            stack_push(stack, A);
         }
     }
-    stack_delete(stack);
 }
 
 int main(int argc, char **argv)
