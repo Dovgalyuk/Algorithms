@@ -1,10 +1,3 @@
-cmake_minimum_required(VERSION 3.10)
-project(Lab1CPP)
-
-enable_testing() 
-
-add_subdirectory(../LibraryCPP LibraryCPP_build)
-
 add_executable(Lab1CPP lab1.cpp)
 target_include_directories(Lab1CPP PUBLIC ../LibraryCPP)
 target_link_libraries(Lab1CPP LibraryCPP)

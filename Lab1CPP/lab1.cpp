@@ -10,7 +10,7 @@ Array *array_create_and_read(std::istream& input)
     /* Create array */
     Array *arr = array_create(n);
     /* Read array data */
-    for (int i = 0 ; i < n ; ++i)
+    for (size_t i = 0 ; i < n ; ++i)
     {
         Data x;
         input >> x;
