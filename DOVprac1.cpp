@@ -34,12 +34,12 @@ void shift_array(::array<int>& arr, int steps, bool left) {
         for (size_t i = 0; i < n - steps; ++i) {
             arr[i] = arr[i + steps];
         }
-        for (int i = n - steps; i < static_cast<int>(n); ++i) {
+        for (size_t i = n - steps; i < n; ++i) {
             arr[i] = 0;
         }
     }
     else { //vpravo
-        for (int i = n - 1; i >= steps; --i) {
+        for (size_t i = n - 1; i >= static_cast <size_t> (steps); --i) {
             arr[i] = arr[i - steps];
         }
         for (int i = 0; i < steps; ++i) {
@@ -71,15 +71,6 @@ int main()
         cerr << "Cannot create output.txt" << endl;
         return 1;
     }
-    output  << arr.size() << endl;
-
-    for (size_t i = 0; i < arr.size(); ++i) {
-        output << arr[i] << " ";
-        if (i + 1 == arr.size()) {
-            output << endl;
-        }
-    }
-    
 
     size_t max_len = longest_odd_sequence(arr);
     cout << "Max odd sequence length: " << max_len << endl;
