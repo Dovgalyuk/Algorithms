@@ -35,7 +35,7 @@ void subtractingArray(const string& fileName)
         return;
     }
     
-    size_t n, k1, k2;
+    size_t n, ik1, ik2;
     file >> n;
     Array arr(n);
     for (size_t i = 0; i < n; i++)
@@ -44,16 +44,19 @@ void subtractingArray(const string& fileName)
         file >> val;
         arr.set(i, val);
     }
-    file >> k1;
-    file >> k2;
+    file >> ik1;
+    file >> ik2;
     file.close();
       
-    if (arr.size() == 0 || k1 > n || k2 > n)
+    if (arr.size() == 0 || ik1 > n || ik2 > n)
     {
         return;
     }
+
+    int k1 = arr.get(ik1);
+    int k2 = arr.get(ik2);
     
-    cout << "K1: "<< arr.get(k1) <<"; K2: "<< arr.get(k2) << endl;
+    cout << "K1: "<< k1 <<"; K2: "<< k2 << endl;
     cout << "Array before subtraction: " << endl;
     for (size_t i = 0; i < arr.size(); i++)
     {
@@ -61,15 +64,17 @@ void subtractingArray(const string& fileName)
     }
     cout << endl;
 
+    
+    
     for (size_t i = 0; i < arr.size(); i++)
     {
         if (arr.get(i) > 0)
         {
-            arr.set(i, arr.get(i) - arr.get(k1));
+            arr.set(i, arr.get(i) - k1);
         }
         else
         {
-            arr.set(i, arr.get(i) + arr.get(k2));
+            arr.set(i, arr.get(i) - k2);
         }
     }
     
