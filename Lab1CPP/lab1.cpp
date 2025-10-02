@@ -91,18 +91,9 @@ int main(int argc, char** argv)
 
     /* Create another array here */
 
-
     arr = array_create_and_read(input);
-    if (array_size(arr) < 5) {
-        array_delete(arr);
-
-        input.clear();
-        input.seekg(0, ios::beg);
-
-        arr = array_create_and_read(input);
-    }
-        task2(arr);
-        array_delete(arr);
+    task2(arr);
+    array_delete(arr);
  
     input.close();
 }
