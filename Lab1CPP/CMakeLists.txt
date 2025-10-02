@@ -4,7 +4,7 @@ target_link_libraries(Lab1CPP LibraryCPPClass)
 
 add_test(NAME TestSubtractingArray COMMAND Lab1CPP -sub ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 
-set_property(TEST TestSubtractingArray PROPERTY PASS_REGULAR_EXPRESSION "-2 3 0 4 5 -1 7 8 -4 10")
+set_property(TEST TestSubtractingArray PROPERTY PASS_REGULAR_EXPRESSION "-2 -7 0 1 2 -11 4 5 -14 7")
 
 
 add_test(NAME TestFrequinceNumber COMMAND Lab1CPP -freq ${CMAKE_CURRENT_SOURCE_DIR}/frequinceNumber.txt)
