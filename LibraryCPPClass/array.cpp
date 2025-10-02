@@ -49,9 +49,7 @@ Array& Array::operator=(const Array& a)
 
 Array::~Array()
 {
-    if (adata != nullptr) {
-        delete[] adata;
-    }
+    delete[] adata;
 }
 
 Data Array::get(size_t index) const
