@@ -63,7 +63,7 @@ void task1(Array *arr)
 
 /*Read an integer from a file, create an array of this size and 
 fill it with numbers from the file. Find five neighboring elements, 
-the sum of whose values ??is maximum. Display the result on the screen.*/
+the sum of whose values is maximum. Display the result on the screen.*/
 void task2(Array *arr)
 {
     size_t n = array_size(arr);
