@@ -12,8 +12,9 @@ set(SRC_DIR ${CMAKE_SOURCE_DIR})
 
 add_test(
     NAME RunArrayTest
-    COMMAND sh -c "./array_app < ${SRC_DIR}/input.txt > actual_output.txt && diff ${SRC_DIR}/expected_output.txt actual_output.txt"
+    COMMAND sh -c "./arrlab < ${SRC_DIR}/input.txt > actual_output.txt && diff ${SRC_DIR}/expected_output.txt actual_output.txt"
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 
 )
+
 
