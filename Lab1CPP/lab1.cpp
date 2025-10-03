@@ -19,30 +19,39 @@ Array *array_create_and_read(std::istream& input)
     return arr;
 }
 
+Array* array_create_read_size(std::istream& input)
+{
+    size_t n;
+    input >> n;
+    return array_create(n);
+}
 
-/*Прочитать целое число из файла, создать массив такой размерности. 
-Заполнить массив простыми числами, начиная с 2. Вывести массив на экран.*/
+
+bool is_prime(int n)
+{
+    if (n < 2) return false;
+    for (int i = 2; i * i <= n; ++i)
+        if (n % i == 0)
+            return false;
+    return true;
+}
+
+/*Read an integer from a file, create an array of this size. 
+Fill the array with prime numbers, starting with 2. Display the array on the screen.*/
 void task1(Array *arr) 
 {
-    int num = 2;
-    for (size_t i = 0; i < array_size(arr); ++i)
+    array_set(arr, 0, 2);
+    int num = 3;
+    for (size_t i = 1; i < array_size(arr); )
     {
-        while (true)
+        if (is_prime(num))
         {
-            bool prime = true;
-            for (int j = 2; j * j <= num; ++j)
-            {
-                if (num % j == 0)
-                {
-                    prime = false;
-                    break;
-                }
-            }
-            if (prime) break;
-            ++num;
+            array_set(arr, i, num);
+            ++i;
         }
-        array_set(arr, i, num++);
+        ++num;
     }
+
 
     for (size_t i = 0; i < array_size(arr); ++i)
     {
@@ -52,9 +61,9 @@ void task1(Array *arr)
 
 }
 
-/*Прочитать целое число из файла, создать массив такой размерности и 
-заполнить его числами из файла. Найти пять соседних элементов, 
-сумма значений которых максимальна. Вывести результат на экран.*/
+/*Read an integer from a file, create an array of this size and 
+fill it with numbers from the file. Find five neighboring elements, 
+the sum of whose values ??is maximum. Display the result on the screen.*/
 void task2(Array *arr)
 {
     size_t n = array_size(arr);
@@ -101,10 +110,11 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    Array* arr = array_create_and_read(input);
+    Array* arr = array_create_read_size(input);
     task1(arr);
     array_delete(arr);
 
+    input.seekg(0); // to set the read pointer to the beginning of the file
     arr = array_create_and_read(input);
     task2(arr);
     array_delete(arr);

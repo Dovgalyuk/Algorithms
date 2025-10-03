@@ -3,5 +3,6 @@ target_include_directories(Lab1CPP PUBLIC ../LibraryCPP)
 target_link_libraries(Lab1CPP LibraryCPP)
 
 add_test(NAME TestLab1CPP COMMAND $<TARGET_FILE:Lab1CPP> ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-set_property(TEST TestLab1CPP PROPERTY PASS_REGULAR_EXPRESSION  "2 3 5 7 11")
+set_property(TEST TestLab1CPP PROPERTY PASS_REGULAR_EXPRESSION  "2 3 5 7 11.*5 6 7 8 9")
+
 
