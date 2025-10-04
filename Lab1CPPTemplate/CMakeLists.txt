@@ -14,3 +14,7 @@ set_property(TEST TestGrades PROPERTY PASS_REGULAR_EXPRESSION "Количест�
 add_test(NAME TestElements COMMAND Elements ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 
 set_property(TEST TestElements PROPERTY PASS_REGULAR_EXPRESSION "Элементы, встречающиеся ровно дважды: 3 4 5")
+
+add_test(NAME TestElementsNone COMMAND Elements ${CMAKE_CURRENT_SOURCE_DIR}/twice_none_input.txt)
+
+set_property(TEST TestElementsNone PROPERTY PASS_REGULAR_EXPRESSION "Элементы, встречающиеся ровно дважды: нет")
