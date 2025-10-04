@@ -17,7 +17,7 @@ Array<T> getArrayFromFile(const char* filename)
     Array<T> arr(n);
     for (size_t i = 0; i < n; ++i) 
     {
-        int val;
+        T val;
         if (!(f >> val)) 
             throw runtime_error("Недостаточно данных в файле");
         arr.set(i, val);
