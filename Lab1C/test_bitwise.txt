@@ -1,0 +1,9 @@
+bipush 5
+bipush 3
+iand
+bipush 2
+ior
+bipush 1
+ixor
+istore_0
+

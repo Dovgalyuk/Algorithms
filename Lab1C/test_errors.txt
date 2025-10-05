@@ -1,0 +1,6 @@
+pop
+bipush 1
+iadd
+bipush 2
+istore_0
+

@@ -1,0 +1,9 @@
+bipush 10
+bipush 3
+isub
+bipush 2
+imul
+bipush 4
+iadd
+istore_0
+
