@@ -364,15 +364,14 @@ void handle_istore_0(JavaMachine* machine) {
     }
     
     // Извлечение значение с верха стека
-    Data value = stack_get(machine->stack);
-    stack_pop(machine->stack);
-    ч
-    // Сохраняем в переменную 0
-    machine->vars[0] = (int)value;
-    
-    machine->function_calls++;
-    
-    printf("istore_0\n");
+ Data value = stack_get(machine->stack);
+stack_pop(machine->stack);
+ // Сохраняем в переменную 0
+machine->vars[0] = (int)value;
+
+machine->function_calls++;
+
+printf("istore_0\n");
 }
 
 void handle_istore_1(JavaMachine* machine) {
@@ -685,8 +684,7 @@ int main(int argc, char** argv) {
         printf("Usage: %s <input_file>\n", argv[0]);
         return 1;
     }
-    
-    // Создаем JAVA-машину
+
     JavaMachine* machine = java_machine_create();
     if (machine == NULL) {
         printf("Error: cannot create Java machine\n");
@@ -705,10 +703,8 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-// Простое правило разграничения типов значений в стеке:
-// - обычные числа: value < 1000
-// - адреса возврата: value >= 1000
-// Это не меняет тип Data и не требует дополнительных структур/тегов.
+
+//является ли значение адресом возврата
 bool is_return_address(Data value) {
     return (int)value >= 1000;
 }
@@ -718,6 +714,5 @@ bool is_number(Data value) {
 }
 
 bool is_valid_operand(Data value) {
-    // Операнды для арифметики и store должны быть обычными числами
     return is_number(value);
 }
