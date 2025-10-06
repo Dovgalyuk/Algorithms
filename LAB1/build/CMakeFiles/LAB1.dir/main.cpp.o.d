@@ -1,5 +1,5 @@
 CMakeFiles/LAB1.dir/main.cpp.o: \
-  /Users/mukhammadzakhidnematzhanov/Documents/LAB1/main.cpp \
+  /Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LAB1/main.cpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site \
@@ -981,4 +981,4 @@ CMakeFiles/LAB1.dir/main.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path_iterator.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/recursive_directory_iterator.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/u8path.h \
-  /Users/mukhammadzakhidnematzhanov/Documents/LAB1/Function.h
+  /Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LAB1/Function.h
