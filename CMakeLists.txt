@@ -1,20 +1,18 @@
-cmake_minimum_required(VERSION 3.10)
-project(arraylab)
-
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-add_executable(arrlab main.cpp)
+cmake_minimum_required(VERSION 3.15)
+project(Algorithms)
 
 enable_testing()
+set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+if (MSVC)
+    # needs at least cmake 3.15
+    add_compile_options(/W4 /WX)
+else()
+    add_compile_options(-Wall -Wextra -Wpedantic -Wno-gnu-empty-struct -Wno-unused-parameter)
+endif()
 
-set(SRC_DIR ${CMAKE_SOURCE_DIR})
+#add_subdirectory(LibraryC)
+add_subdirectory(LibraryCPP)
+#add_subdirectory(LibraryCPPClass)
+#add_subdirectory(LibraryCPPTemplate)
 
-add_test(
-    NAME RunArrayTest
-    COMMAND sh -c "./arrlab < ${SRC_DIR}/input.txt > actual_output.txt && diff ${SRC_DIR}/expected_output.txt actual_output.txt"
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-
-)
-
-
+add_subdirectory(Lab1CPP)
