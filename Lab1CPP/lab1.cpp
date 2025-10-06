@@ -42,14 +42,14 @@ void task1(Array *arr)
 {
     array_set(arr, 0, 2);
     int num = 3;
-    for (size_t i = 1; i < array_size(arr); )
+    for (size_t i = 1; i < array_size(arr); ++num)
     {
         if (is_prime(num))
         {
             array_set(arr, i, num);
             ++i;
         }
-        ++num;
+  
     }
 
 
@@ -114,7 +114,6 @@ int main(int argc, char **argv)
     task1(arr);
     array_delete(arr);
 
-    input.seekg(0); // to set the read pointer to the beginning of the file
     arr = array_create_and_read(input);
     task2(arr);
     array_delete(arr);
