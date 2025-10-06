@@ -46,11 +46,12 @@ void shift_array(Array* arr, int steps, bool left) {
     }
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    ifstream input("input.txt");
+    string input_filename = (argc > 1) ? argv[1] : "input.txt";
+    ifstream input(input_filename);
     if (!input.is_open()) {
-        cerr << "Cannot open input.txt" << endl;
+        cerr << "Cannot open " << input_filename << endl;
         return 1;
     }
 
