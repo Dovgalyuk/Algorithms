@@ -1,15 +1,15 @@
-﻿#include "test.h"
 #include "array.h"
 #include <iostream>
 #include <fstream>
 
 using namespace std;
-size_t longest_odd_sequence(const ::array<int>& arr) {
+
+size_t longest_odd_sequence(const Array* arr) {
     size_t max_len = 0;
     size_t current_len = 0;
 
-    for (size_t i = 0; i < arr.size(); ++i) {
-        if (arr[i] % 2 != 0) {
+    for (size_t i = 0; i < array_size(arr); ++i) {
+        if (array_get(arr, i) % 2 != 0) {
             current_len++;
             if (current_len > max_len) max_len = current_len;
         }
@@ -21,35 +21,32 @@ size_t longest_odd_sequence(const ::array<int>& arr) {
     return max_len;
 }
 
-
-
-void shift_array(::array<int>& arr, int steps, bool left) {
-    size_t n = arr.size();
+void shift_array(Array* arr, int steps, bool left) {
+    size_t n = array_size(arr);
     if (steps >= static_cast<int>(n)) {
-        for (size_t i = 0; i < n; ++i) arr[i] = 0;
+        for (size_t i = 0; i < n; ++i) array_set(arr, i, 0);
         return;
     }
 
     if (left) {
         for (size_t i = 0; i < n - steps; ++i) {
-            arr[i] = arr[i + steps];
+            array_set(arr, i, array_get(arr, i + steps));
         }
         for (size_t i = n - steps; i < n; ++i) {
-            arr[i] = 0;
+            array_set(arr, i, 0);
         }
     }
     else { //vpravo
-        for (size_t i = n - 1; i >= static_cast <size_t> (steps); --i) {
-            arr[i] = arr[i - steps];
+        for (size_t i = n - 1; i >= static_cast<size_t>(steps); --i) {
+            array_set(arr, i, array_get(arr, i - steps));
         }
         for (int i = 0; i < steps; ++i) {
-            arr[i] = 0;
+            array_set(arr, i, 0);
         }
     }
 }
 
-
-int main() 
+int main()
 {
     ifstream input("input.txt");
     if (!input.is_open()) {
@@ -60,15 +57,18 @@ int main()
     size_t n;
     input >> n;
 
-    ::array<int> arr(n);
+    Array* arr = array_create(n);
 
     for (size_t i = 0; i < n; ++i) {
-        input >> arr[i];
+        int val;
+        input >> val;
+        array_set(arr, i, val);
     }
 
     ofstream output("output.txt");
     if (!output.is_open()) {
         cerr << "Cannot create output.txt" << endl;
+        array_delete(arr);
         return 1;
     }
 
@@ -76,19 +76,22 @@ int main()
     cout << "Max odd sequence length: " << max_len << endl;
     output << max_len << endl;
 
-    ::array<int> shifted_arr(n);
+    Array* shifted_arr = array_create(n);
     for (size_t i = 0; i < n; ++i) {
-        shifted_arr[i] = arr[i];
+        array_set(shifted_arr, i, array_get(arr, i));
     }
     shift_array(shifted_arr, 2, false);
     cout << "Array after right shift by 2: ";
-    for (size_t i = 0; i < shifted_arr.size(); ++i) {
-        cout << shifted_arr[i] << " ";
-        output << shifted_arr[i] << " ";
+    for (size_t i = 0; i < array_size(shifted_arr); ++i) {
+        cout << array_get(shifted_arr, i) << " ";
+        output << array_get(shifted_arr, i) << " ";
     }
     cout << endl;
 
     output << endl;
+
+    array_delete(arr);
+    array_delete(shifted_arr);
 
     return 0;
 }
