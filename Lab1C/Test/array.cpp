@@ -17,8 +17,8 @@ int main() {
 	auto copy(*array);
 
 	for (std::size_t index{}; index < 10; ++index) {
-		if (array->at(index) != index * 2
-			|| copy.at(index) != index * 2) {
+		if (array->at(index) != static_cast<int>(index) * 2
+			|| copy.at(index) != static_cast<int>(index) * 2) {
 			std::cout << "Invalid array element: " << index << std::endl;
 			return 1;
 		}
