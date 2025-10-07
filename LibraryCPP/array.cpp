@@ -1,9 +1,6 @@
 #include "array.h"
 #include <stdexcept>
 
-struct Array
-{
-};
 
 Array* array_create(size_t size)
 {

@@ -1,5 +1,24 @@
+cmake_minimum_required(VERSION 3.10)
+project(Lab1CPP)
+
+# Настройка компилятора C++
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Основная программа
 add_executable(Lab1CPP main.cpp)
-target_include_directories(Lab1CPP PUBLIC ../LibraryCPP)
+
+# Подключаем библиотеку LibraryCPP
+target_include_directories(Lab1CPP PRIVATE ../LibraryCPP)
 target_link_libraries(Lab1CPP LibraryCPP)
 
+# Копируем входной файл
+configure_file(input.txt input.txt COPYONLY)
+
+enable_testing()
+
+# Тест для вашей программы
 add_test(NAME TestLab1CPP COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
+set_tests_properties(TestLab1CPP PROPERTIES 
+    PASS_REGULAR_EXPRESSION "Factorial array: 1 1 2 6 24.*Elements appearing twice: 2 4"
+)

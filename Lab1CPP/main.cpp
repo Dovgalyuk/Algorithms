@@ -5,7 +5,8 @@
 #include <vector>
 #include <string>
 
-// Функция вычисления факториала
+// Функция вычисления факториала.
+
 Data factorial(int n) {
     Data result = 1;
     for (int i = 2; i <= n; ++i) {
@@ -71,9 +72,9 @@ void process_duplicates(const std::string& filename) {
     }
     
     std::vector<Data> result;
-    for (const auto& [key, value] : count) {
-        if (value == 2) {
-            result.push_back(key);
+    for (const auto& pair : count) {
+        if (pair.second == 2) {
+            result.push_back(pair.first);
         }
     }
     
@@ -95,7 +96,6 @@ int main(int argc, char* argv[]) {
     std::string input_file = argv[1];
     
     try {
-        // Обрабатываем обе задачи из одного файла
         process_factorials(input_file);
         process_duplicates(input_file);
     } catch (const std::exception& e) {
