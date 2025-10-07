@@ -1,10 +1,10 @@
-Start testing: Oct 06 22:00 MSK
+Start testing: Oct 07 15:31 MSK
 ----------------------------------------------------------
 1/1 Testing: Run_LAB1
 1/1 Test: Run_LAB1
 Command: "/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LAB1/build/LAB1"
 Directory: /Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LAB1/build
-"Run_LAB1" start time: Oct 06 22:00 MSK
+"Run_LAB1" start time: Oct 07 15:31 MSK
 Output:
 ----------------------------------------------------------
 размер массива 5
@@ -13,12 +13,12 @@ Output:
 Максимальная длина отрезка нечетных чисел: 1
 Сжатый массив: 3 4 485 83 0 
 <end of output>
-Test time =   0.00 sec
+Test time =   0.47 sec
 ----------------------------------------------------------
 Test Pass Reason:
 Required regular expression found. Regex=[Сжатый]
-"Run_LAB1" end time: Oct 06 22:00 MSK
+"Run_LAB1" end time: Oct 07 15:31 MSK
 "Run_LAB1" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Oct 06 22:00 MSK
+End testing: Oct 07 15:31 MSK
