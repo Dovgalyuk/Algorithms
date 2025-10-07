@@ -34,7 +34,7 @@ public:
 		size_ = other.size_;
 
 		try {
-			for (std::size_t index = 0; index < other.size_; ++index) {
+			for (std::size_t index{}; index < other.size_; ++index) {
 				newData[index] = other[index];
 			}
 			data_ = newData;
@@ -50,6 +50,35 @@ public:
 		size_ = other.size_;
 
 		other.data_ = nullptr;
+	}
+
+	StaticSizeArray& operator=(const StaticSizeArray& other) {
+		if (&other != this) {
+			delete[] data_;
+
+			size_ = other.size_;
+			data_ = new T[other.size_];
+
+			for (std::size_t index{}; index < other.size_; ++index) {
+				data_[index] = other[index];
+			}
+		}
+
+		return *this;
+	}
+
+	StaticSizeArray& operator=(StaticSizeArray&& other) {
+		if (&other != this) {
+			delete[] data_;
+
+			data_ = other.data_;
+			size_ = other.size_;
+
+			other.data_ = nullptr;
+			other.size_ = 0;
+		}
+
+		return *this;
 	}
 	
 	~StaticSizeArray() noexcept {
