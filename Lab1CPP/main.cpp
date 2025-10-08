@@ -6,112 +6,111 @@
 
 using namespace std;
 
-struct Array {
-	int* elem;
-	int size;
-};
 
-Array construct_array(int n) {
-	Array arr;
-	arr.size = n;
-	arr.elem = new int[n];
-	return arr;
-}
-
-void destruct_array(Array& arr) {
-	delete[] arr.elem;
-	arr.elem = nullptr;
-	arr.size = 0;
-}
-
-bool read_array(const string& input, Array& arr) {
-	ifstream inp(input);
-
-	if (!inp.is_open()) return false;
-	int n;
-
-	if (!(inp >> n)) return false;
-
-	if (n <= 0) return false;
-
-	Array temp = construct_array(n);
-
-	for (int i = 0; i < n; i++) {
-		if (!(inp >> temp.elem[i])) {
-			destruct_array(temp);
-			inp.close();
-			return false;
-		}
-	}
-
-	arr = temp;
-	inp.close();
-	return true;
-
-}
-
-
-void two_small(const Array& arr) {
-	int n = arr.size;
-	int min1;
-	int min2;
-	if (arr.size <= 0) {
-		cout << "Two smallest: none\n";
+void two_small(const Array* arr) {
+	size_t n = array_size(arr);
+	if (n == 0) {
+		cout << "Two smallest elements: none\n";
 		return;
 	}
+
 	if (n == 1) {
-		min1 = arr.elem[0];
-		min2 = arr.elem[0];
-		cout << "Two smallest: " << min1 << ", " << min2 << endl;
-	}
-	if (n >= 2) {
-		if (arr.elem[0] < arr.elem[1]) min1 = arr.elem[0], min2 = arr.elem[1];
-		else min1 = arr.elem[1], min2 = arr.elem[0];
-		for (int i = 2; i < n; i++) {
-			if (min1 > arr.elem[i]) {
-				min2 = min1;
-				min1 = arr.elem[i];
-			}
-			else if (min2 > arr.elem[i]) min2 = arr.elem[i];
-		}
-		cout << "Two smallest: " << min1 << ", " << min2 << endl;
+		Data val = array_get(arr, 0);
+		cout << "Two smallest elements: " << val << ", " << val << endl;
+		return;
 	}
 
+	Data min1 = array_get(arr, 0);
+	Data min2 = array_get(arr, 0);
+
+	for (size_t i = 1; i < n; ++i) {
+		Data val = array_get(arr, i);
+		if (val < min1) min1 = val;
+	}
+
+	bool found = false;
+	for (size_t i = 0; i < n; ++i) {
+		Data val = array_get(arr, i);
+		if (val > min1) {
+			if (!found || val < min2) {
+				min2 = val;
+				found = true;
+			}
+		}
+	}
+
+	if (!found) {
+		min2 = min1;
+	}
+
+	cout << "Two smallest elements: " << min1 << ", " << min2 << endl;
 }
 
-void unique_elem(const Array& arr) {
-	int n = arr.size;
-	bool flag = false;
+void unique_elem(const Array* arr) {
+	size_t n = array_size(arr);
+	bool found = false;
+
 	cout << "Unique elements:";
-	for (int i = 0; i < n; i++) {
+	for (size_t i = 0; i < n; ++i) {
+		Data curr = array_get(arr, i);
 		int count = 0;
-		for (int j = 0; j < n; j++) {
-			if (arr.elem[j] == arr.elem[i]) {
-				count++;
+		for (size_t j = 0; j < n; ++j) {
+			if (array_get(arr, j) == curr) count++;
+		}
+
+		if (count == 1) {
+			bool all_out = false;
+			for (size_t k = 0; k < i; ++k) {
+				if (array_get(arr, k) == curr) {
+					all_out = true;
+					break;
+				}
+			}
+			if (!all_out) {
+				cout << " " << curr;
+				found = true;
 			}
 		}
-		if (count == 1) {
-			cout << " " << arr.elem[i] ;
-			flag = true;
-		}
 	}
-	if (!flag) cout << " none";
+
+	if (!found) {
+		cout << " none";
+	}
 	cout << endl;
 }
 
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
-		cerr << "Error: expected one input file.\n";
+		cerr << "Opened: " << argv[0] << " file>\n";
 		return 1;
 	}
 
-	Array arr;
-	if (!read_array(argv[1], arr)) {
-		cerr << "Failed to read from file: " << argv[1] << endl;
+	ifstream file(argv[1]);
+
+	if (!file.is_open()) {
+		cerr << "Cannot open file\n";
 		return 1;
 	}
+	size_t n;
+	file >> n;
+
+	if (n == 0) {
+		cerr << "Incorrect size\n";
+		return 1;
+	}
+	Array* arr = array_create(n);
+
+	for (size_t i = 0; i < n; ++i) {
+		Data value;
+		file >> value;
+		array_set(arr, i, value);
+	}
+
+	file.close();
+
 	two_small(arr);
 	unique_elem(arr);
-	destruct_array(arr);
+
+	array_delete(arr);
 	return 0;
 }
