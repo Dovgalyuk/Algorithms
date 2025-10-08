@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include "array.h"
 
-Array* array_create(size_t size, void* unused)
+Array* array_create(size_t size, void* f)
 {
-    (void)unused;
+    (void)f;
     Array* arr = malloc(sizeof(Array));
     if (!arr) return NULL;
 
