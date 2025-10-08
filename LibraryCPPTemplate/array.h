@@ -1,49 +1,253 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
 
-template <typename Data> class Array
-{
+#include <cstddef>
+#include <initializer_list>
+#include <string>
+#include <memory>
+#include <stdexcept>
+#include <iostream>
+#include <iterator>
+#include <ranges>
+#include "concepts.h"
+
+template<class T>
+class iterator;
+
+template<std::copyable T>
+class Array {
 public:
-    // create array
-    explicit Array(size_t size)
-    {
-    }
+	Array() = delete;
 
-    // copy constructor
-    Array(const Array &a)
-    {
-    }
+	explicit Array(std::size_t arraySize) {
+		data_ = new T[arraySize];
+		size_ = arraySize;
+	}
 
-    // assignment operator
-    Array &operator=(const Array &a)
-    {
-        return *this;
-    }
+	Array(std::size_t arraySize, T defaultValue) : Array(arraySize) {
+		for (std::size_t index = 0; index < size_; ++index) {
+			data_[index] = defaultValue;
+		}
+	}
 
-    // delete array, free memory
-    ~Array()
-    {
-    }
+	Array(std::initializer_list<T> list) : Array(list.size()) {
+		for (std::size_t index{}; auto& element : list) {
+			data_[index++] = element;
+		}
+	}
 
-    // returns specified array element
-    Data get(size_t index) const
-    {
-        return Data(0);
-    }
+	Array(const Array& other) : data_(nullptr), size_(0) {
+		T* newData = new T[other.size_];
+		size_ = other.size_;
 
-    // sets the specified array element to the value
-    void set(size_t index, Data value)
-    {
-    }
+		try {
+			for (std::size_t index{}; index < other.size_; ++index) {
+				newData[index] = other[index];
+			}
+			data_ = newData;
+		}
+		catch (...) {
+			delete[] newData;
+			throw;
+		}
+	}
 
-    // returns array size
-    size_t size() const
-    {
-        return 0;
-    }
+	Array(Array&& other) noexcept {
+		data_ = other.data_;
+		size_ = other.size_;
+
+		other.data_ = nullptr;
+	}
+
+	Array& operator=(const Array& other) {
+		if (&other != this) {
+			delete[] data_;
+
+			size_ = other.size_;
+			data_ = new T[other.size_];
+
+			for (std::size_t index{}; index < other.size_; ++index) {
+				data_[index] = other[index];
+			}
+		}
+
+		return *this;
+	}
+
+	Array& operator=(Array&& other) {
+		if (&other != this) {
+			delete[] data_;
+
+			data_ = other.data_;
+			size_ = other.size_;
+
+			other.data_ = nullptr;
+			other.size_ = 0;
+		}
+
+		return *this;
+	}
+
+	~Array() noexcept {
+		delete[] data_;
+	}
+
+	std::size_t size() const {
+		return size_;
+	}
+
+	T& operator[](std::size_t index) {
+		return data_[index];
+	}
+
+	const T& operator[](std::size_t index) const {
+		return data_[index];
+	}
+
+	T& at(std::size_t index) {
+		if (index >= size_) {
+			throw std::out_of_range("Array::at: index out of range");
+		}
+		return data_[index];
+	}
+
+	const T& at(std::size_t index) const {
+		if (index >= size_) {
+			throw std::out_of_range("Array::at: index out of range");
+		}
+		return data_[index];
+	}
+
+	iterator<T> begin() noexcept {
+		return iterator(data_);
+	}
+
+	iterator<T> end() noexcept {
+		return iterator(data_ + size_);
+	}
+
+	iterator<const T> begin() const noexcept {
+		return iterator<const T>(data_);
+	}
+
+	iterator<const T> end() const noexcept {
+		return iterator<const T>(data_ + size_);
+	}
+
+	iterator<const T> cbegin() const noexcept {
+		return iterator<const T>(data_);
+	}
+
+	iterator<const T> cend() const noexcept {
+		return iterator<const T>(data_ + size_);
+	}
+
+	// function alias for array test
+
+	T get(size_t index) const
+	{
+		return this->at(index);
+	}
+
+	void set(size_t index, T value)
+	{
+		this->at(index) = value;
+	}
 
 private:
-    // private data should be here
+	T* data_;
+	std::size_t size_;
 };
+
+
+template<class T>
+class iterator {
+public:
+	using value_type = T;
+	using difference_type = std::ptrdiff_t;
+	using pointer = T*;
+	using reference = T&;
+	using iterator_category = std::random_access_iterator_tag;
+	using iterator_concept = std::random_access_iterator_tag;
+
+	iterator(pointer ptr) : ptr(ptr) {}
+
+	constexpr iterator() noexcept : ptr(nullptr) {}
+
+	reference operator*() const {
+		return *ptr;
+	}
+
+	pointer operator->() const {
+		return ptr;
+	}
+
+	iterator& operator++() {
+		++ptr;
+		return *this;
+	}
+
+	iterator operator++(int) {
+		iterator tmp = *this;
+		++(*this);
+		return tmp;
+	}
+
+	iterator& operator--() {
+		--ptr;
+		return *this;
+	}
+
+	iterator operator--(int) {
+		iterator tmp = *this;
+		--(*this);
+		return tmp;
+	}
+
+	iterator& operator+=(difference_type n) {
+		ptr += n;
+		return *this;
+	}
+
+	iterator operator+(difference_type n) const {
+		return iterator(ptr + n);
+	}
+
+	friend iterator operator+(difference_type n, const iterator& it) {
+		return it + n;
+	}
+
+	iterator& operator-=(difference_type n) {
+		ptr -= n;
+		return *this;
+	}
+
+	iterator operator-(difference_type n) const {
+		return iterator(ptr - n);
+	}
+
+	difference_type operator-(const iterator& other) const {
+		return ptr - other.ptr;
+	}
+
+	reference operator[](difference_type n) const {
+		return *(ptr + n);
+	}
+
+	friend constexpr auto operator<=>(const iterator&, const iterator&) = default;
+
+private:
+	pointer ptr;
+};
+
+template<class T>
+std::ostream& operator<<(std::ostream& stream, const Array<T>& array) {
+	stream << "(";
+	for (std::size_t index{}; index < array.size(); ++index) {
+		stream << std::to_string(array.at(index));
+		if (index != (array.size() - 1)) stream << ", ";
+	}
+	return stream << ")";
+}
 
 #endif

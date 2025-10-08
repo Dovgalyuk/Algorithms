@@ -1,13 +1,6 @@
-﻿set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_executable(Lab1C lab1.c)
+target_include_directories(Lab1C PUBLIC ../LibraryC)
+target_link_libraries(Lab1C LibraryC)
 
-add_library(CustomLibrary INTERFACE)
-
-target_sources(CustomLibrary PRIVATE "CustomLibrary.h" "Array.h" "Concepts.h" "Iterator.h")
-
-add_executable(CustomLibraryApp "CustomLibrary.cpp")
-
-target_include_directories(CustomLibraryApp PUBLIC)
-target_link_libraries(CustomLibraryApp CustomLibrary)
-
-add_subdirectory("Test")
+add_test(NAME TestLab1C COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
+set_property(TEST TestLab1C PROPERTY PASS_REGULAR_EXPRESSION "1 2 3 4 5")

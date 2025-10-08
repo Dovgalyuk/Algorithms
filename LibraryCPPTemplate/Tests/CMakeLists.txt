@@ -1,6 +1,6 @@
-# add_executable(TestArrayCPPTemplate array.cpp)
-# target_include_directories(TestArrayCPPTemplate PUBLIC ..)
-# add_test(TestArrayCPPTemplate TestArrayCPPTemplate)
+add_executable(TestArrayCPPTemplate array.cpp)
+target_include_directories(TestArrayCPPTemplate PUBLIC ..)
+add_test(TestArrayCPPTemplate TestArrayCPPTemplate)
 
 # add_executable(TestListCPPTemplate list.cpp)
 # target_include_directories(TestListCPPTemplate PUBLIC ..)
