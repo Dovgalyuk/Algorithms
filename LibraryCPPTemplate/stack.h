@@ -1,58 +1,63 @@
 #ifndef STACK_TEMPLATE_H
 #define STACK_TEMPLATE_H
 
+#include <cstddef>
+#include <stdexcept>
+#include "vector.h"
+
 template <typename Data> class Stack
 {
 public:
-    // Creates empty stack
-    Stack()
+    Stack() {}
+
+    Stack(const Stack& other)
+        : m_storage(other.m_storage)
     {
     }
 
-    // copy constructor
-    Stack(const Stack &a)
+    Stack& operator=(const Stack& other)
     {
-        // implement or disable this function
-    }
-
-    // assignment operator
-    Stack &operator=(const Stack &a)
-    {
-        // implement or disable this function
+        if (this != &other)
+        {
+            m_storage = other.m_storage;
+        }
         return *this;
     }
 
-    // Deletes the stack
-    ~Stack()
+    ~Stack() {}
+
+    void push(const Data& value)
     {
+        const size_t index = m_storage.size();
+        m_storage.resize(index + 1);
+        m_storage.set(index, value);
     }
 
-    // Pushes data on top of the stack
-    // Should be O(1) on average
-    void push(Data data)
-    {
-    }
-
-    // Retrieves the last element from the stack
     Data get() const
     {
-        return Data();
+        if (empty())
+        {
+            throw std::out_of_range("Get empty");
+        }
+        return m_storage.get(m_storage.size() - 1);
     }
 
-    // Removes the last element from the stack
-    // Should be O(1)
     void pop()
     {
+        if (empty())
+        {
+            throw std::out_of_range("Pop empty");
+        }
+        m_storage.resize(m_storage.size() - 1);
     }
 
-    // Returns true if the stack is empty
     bool empty() const
     {
-        return true;
+        return m_storage.size() == 0;
     }
 
 private:
-    // private data should be here
+    Vector<Data> m_storage;
 };
 
 #endif
