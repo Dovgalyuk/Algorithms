@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 
 
 using namespace std;
@@ -13,7 +14,6 @@ void two_small(const Array* arr) {
 		cout << "Two smallest elements: none\n";
 		return;
 	}
-
 	if (n == 1) {
 		Data val = array_get(arr, 0);
 		cout << "Two smallest elements: " << val << ", " << val << endl;
@@ -21,28 +21,19 @@ void two_small(const Array* arr) {
 	}
 
 	Data min1 = array_get(arr, 0);
-	Data min2 = array_get(arr, 0);
-
-	for (size_t i = 1; i < n; ++i) {
-		Data val = array_get(arr, i);
-		if (val < min1) min1 = val;
+	Data min2 = array_get(arr, 1);
+	if (min1 > min2) {
+		swap(min1, min2);
 	}
 
-	bool found = false;
-	for (size_t i = 0; i < n; ++i) {
+	for (size_t i = 2; i < n; ++i) {
 		Data val = array_get(arr, i);
-		if (val > min1) {
-			if (!found || val < min2) {
-				min2 = val;
-				found = true;
-			}
+		if (val <= min1) {
+			min2 = min1;
+			min1 = val;
 		}
+		else if (val <= min2) min2 = val;
 	}
-
-	if (!found) {
-		min2 = min1;
-	}
-
 	cout << "Two smallest elements: " << min1 << ", " << min2 << endl;
 }
 
@@ -59,23 +50,12 @@ void unique_elem(const Array* arr) {
 		}
 
 		if (count == 1) {
-			bool all_out = false;
-			for (size_t k = 0; k < i; ++k) {
-				if (array_get(arr, k) == curr) {
-					all_out = true;
-					break;
-				}
-			}
-			if (!all_out) {
-				cout << " " << curr;
-				found = true;
+			cout << " " << curr;
+			found = true;
 			}
 		}
-	}
 
-	if (!found) {
-		cout << " none";
-	}
+	if (!found) cout << " none";
 	cout << endl;
 }
 
