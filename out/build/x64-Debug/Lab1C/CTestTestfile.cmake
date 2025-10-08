@@ -8,4 +8,4 @@ add_test(TestLab1C "C:/Users/РљРёСЂРёР»Р»/source/repos/ekim0w/Algorithms/out/bui
 set_tests_properties(TestLab1C PROPERTIES  PASS_REGULAR_EXPRESSION "Осадки по месяцам:
 1 2 3 4 5 6 7 8 9 10
 Сжатый массив:
-1 6 7 8 9 10 0 0 0 0" _BACKTRACE_TRIPLES "C:/Users/РљРёСЂРёР»Р»/source/repos/ekim0w/Algorithms/Lab1C/CMakeLists.txt;4;add_test;C:/Users/РљРёСЂРёР»Р»/source/repos/ekim0w/Algorithms/Lab1C/CMakeLists.txt;0;")
+1 6 7 8 9 10 0 0 0 0" _BACKTRACE_TRIPLES "C:/Users/РљРёСЂРёР»Р»/source/repos/ekim0w/Algorithms/Lab1C/CMakeLists.txt;5;add_test;C:/Users/РљРёСЂРёР»Р»/source/repos/ekim0w/Algorithms/Lab1C/CMakeLists.txt;0;")

@@ -15,7 +15,8 @@
 		[
 			"add_executable",
 			"target_link_libraries",
-			"add_compile_options"
+			"add_compile_options",
+			"target_include_directories"
 		],
 		"files" : 
 		[
@@ -47,6 +48,12 @@
 				"file" : 1,
 				"line" : 8,
 				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 3,
+				"parent" : 0
 			}
 		]
 	},
@@ -68,6 +75,13 @@
 				},
 				{
 					"fragment" : "-WX"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/\u041a\u0438\u0440\u0438\u043b\u043b/source/repos/ekim0w/Algorithms/Lab1C/../LibraryC"
 				}
 			],
 			"language" : "C",

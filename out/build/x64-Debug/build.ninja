@@ -634,6 +634,7 @@ build cmake_object_order_depends_target_Lab1C: phony || cmake_object_order_depen
 
 build Lab1C\CMakeFiles\Lab1C.dir\lab1.c.obj: C_COMPILER__Lab1C_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\Lab1C\lab1.c || cmake_object_order_depends_target_Lab1C
   FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
+  INCLUDES = -IC:\Users\Кирилл\source\repos\ekim0w\Algorithms\Lab1C\..\LibraryC
   OBJECT_DIR = Lab1C\CMakeFiles\Lab1C.dir
   OBJECT_FILE_DIR = Lab1C\CMakeFiles\Lab1C.dir
   TARGET_COMPILE_PDB = Lab1C\CMakeFiles\Lab1C.dir\
