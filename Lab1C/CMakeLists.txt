@@ -5,5 +5,5 @@ target_include_directories(Lab1C PRIVATE ../LibraryC)
 add_test(NAME TestLab1C COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 
 set_tests_properties(TestLab1C PROPERTIES PASS_REGULAR_EXPRESSION
-"Precipitation per month:\n1 2 3 4 5 6 7 8 9 10\nCompressed array:\n1 6 7 8 9 10 0 0 0 0"
+"Precipitation per month:\n1 2 3 4 5 6 7 8 9 10 11 12\nCompressed array:\n1 6 7 8 9 10 0 0 0 0 0 0"
 )
