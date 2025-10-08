@@ -8,25 +8,25 @@
 extern "C" {
 #endif
 
-typedef uintptr_t Data;
+    typedef uintptr_t Data;
 
-typedef void FFree(void*);
+    typedef void FFree(void*);
 
-typedef struct Array {
-    Data* data;
-    size_t size;
-    FFree* free_func;
-} Array;
+    typedef struct Array {
+        Data* data;
+        size_t size;
+        FFree* free_func;
+    } Array;
 
-Array* array_create(size_t size, FFree* f);
+    Array* array_create(size_t size, FFree* f);
 
-void array_delete(Array* arr);
+    void array_delete(Array* arr);
 
-Data array_get(const Array* arr, size_t index);
+    Data array_get(const Array* arr, size_t index);
 
-void array_set(Array* arr, size_t index, Data value);
+    void array_set(Array* arr, size_t index, Data value);
 
-size_t array_size(const Array* arr);
+    size_t array_size(const Array* arr);
 
 #ifdef __cplusplus
 }

@@ -1,9 +1,8 @@
 #include <stdlib.h>
 #include "array.h"
 
-Array* array_create(size_t size, void* f)
+Array* array_create(size_t size, FFree* f)
 {
-    (void)f;
     Array* arr = malloc(sizeof(Array));
     if (!arr) return NULL;
 
@@ -14,13 +13,13 @@ Array* array_create(size_t size, void* f)
     }
 
     arr->size = size;
+    arr->free_func = f; 
 
-    for (size_t i = 0; i < size; ++i) {
-        arr->data[i] = 0;
-    }
+    for (size_t i = 0; i < size; ++i) arr->data[i] = 0;
 
     return arr;
 }
+
 
 void array_delete(Array* arr)
 {
