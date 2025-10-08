@@ -5,7 +5,6 @@ C:/Users/Кирилл/source/repos/ekim0w/Algorithms/out/build/x64-Debug/Library
 C:/Users/Кирилл/source/repos/ekim0w/Algorithms/out/build/x64-Debug/LibraryC/CMakeFiles/test.dir
 C:/Users/Кирилл/source/repos/ekim0w/Algorithms/out/build/x64-Debug/LibraryC/CMakeFiles/edit_cache.dir
 C:/Users/Кирилл/source/repos/ekim0w/Algorithms/out/build/x64-Debug/LibraryC/CMakeFiles/rebuild_cache.dir
-C:/Users/Кирилл/source/repos/ekim0w/Algorithms/out/build/x64-Debug/LibraryC/Tests/CMakeFiles/TestArrayC.dir
 C:/Users/Кирилл/source/repos/ekim0w/Algorithms/out/build/x64-Debug/LibraryC/Tests/CMakeFiles/test.dir
 C:/Users/Кирилл/source/repos/ekim0w/Algorithms/out/build/x64-Debug/LibraryC/Tests/CMakeFiles/edit_cache.dir
 C:/Users/Кирилл/source/repos/ekim0w/Algorithms/out/build/x64-Debug/LibraryC/Tests/CMakeFiles/rebuild_cache.dir

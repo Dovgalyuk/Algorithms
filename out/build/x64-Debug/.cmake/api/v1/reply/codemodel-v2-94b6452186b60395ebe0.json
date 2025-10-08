@@ -50,11 +50,7 @@
 					},
 					"parentIndex" : 1,
 					"projectIndex" : 0,
-					"source" : "LibraryC/Tests",
-					"targetIndexes" : 
-					[
-						4
-					]
+					"source" : "LibraryC/Tests"
 				},
 				{
 					"build" : "LibraryCPP",
@@ -181,8 +177,7 @@
 						0,
 						1,
 						2,
-						3,
-						4
+						3
 					]
 				}
 			],
@@ -214,13 +209,6 @@
 					"id" : "LibraryCPPClass::@73029f66a4a4277003c7",
 					"jsonFile" : "target-LibraryCPPClass-Debug-078c82333ffb92a79568.json",
 					"name" : "LibraryCPPClass",
-					"projectIndex" : 0
-				},
-				{
-					"directoryIndex" : 2,
-					"id" : "TestArrayC::@258c58ed07dec5af0266",
-					"jsonFile" : "target-TestArrayC-Debug-87dbd0d98066fda3445b.json",
-					"name" : "TestArrayC",
 					"projectIndex" : 0
 				}
 			]
