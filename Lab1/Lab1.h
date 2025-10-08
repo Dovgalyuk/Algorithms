@@ -47,7 +47,7 @@ namespace cl {
 			// return std::accumulate(begin, end, value_type{});
 
 			using value_type = typename std::iterator_traits<Iterator>::value_type;
-			if (begin == end) return value_type{};
+			if (++begin == end) return value_type{};
 
 			value_type result = value_type();
 
