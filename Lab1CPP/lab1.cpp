@@ -1,6 +1,7 @@
 #include "array.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -61,10 +62,17 @@ int main(int argc, char* argv[])
     Array* arr = array_create(n);
 
     for (size_t i = 0; i < n; ++i) {
-        int val;
-        input >> val;
-        array_set(arr, i, val);
+        int sdvig;
+        input >> sdvig;
+        array_set(arr, i, sdvig);
     }
+
+    int steps;
+    input >> steps;
+
+    string napravlenie;
+    input >> napravlenie;
+    bool left = (napravlenie == "left");
 
     ofstream output("output.txt");
     if (!output.is_open()) {
@@ -81,8 +89,8 @@ int main(int argc, char* argv[])
     for (size_t i = 0; i < n; ++i) {
         array_set(shifted_arr, i, array_get(arr, i));
     }
-    shift_array(shifted_arr, 2, false);
-    cout << "Array after right shift by 2: ";
+    shift_array(shifted_arr, steps, left);
+    cout << "Array after " << napravlenie << " shift by " << steps << ": ";
     for (size_t i = 0; i < array_size(shifted_arr); ++i) {
         cout << array_get(shifted_arr, i) << " ";
         output << array_get(shifted_arr, i) << " ";
