@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "LibraryC/Tests/TestArrayC.exe"
+			"path" : "Lab1C/Lab1C.exe"
 		},
 		{
-			"path" : "LibraryC/Tests/TestArrayC.pdb"
+			"path" : "Lab1C/Lab1C.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -15,12 +15,11 @@
 		[
 			"add_executable",
 			"target_link_libraries",
-			"add_compile_options",
-			"target_include_directories"
+			"add_compile_options"
 		],
 		"files" : 
 		[
-			"LibraryC/Tests/CMakeLists.txt",
+			"Lab1C/CMakeLists.txt",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
@@ -37,7 +36,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 3,
+				"line" : 2,
 				"parent" : 0
 			},
 			{
@@ -48,12 +47,6 @@
 				"file" : 1,
 				"line" : 8,
 				"parent" : 3
-			},
-			{
-				"command" : 3,
-				"file" : 0,
-				"line" : 2,
-				"parent" : 0
 			}
 		]
 	},
@@ -68,16 +61,16 @@
 				{
 					"backtrace" : 4,
 					"fragment" : "/W4"
-				}
-			],
-			"includes" : 
-			[
+				},
 				{
-					"backtrace" : 5,
-					"path" : "C:/Users/\u041a\u0438\u0440\u0438\u043b\u043b/source/repos/ekim0w/Algorithms/LibraryC/Tests/.."
+					"backtrace" : 4,
+					"fragment" : "/WX"
+				},
+				{
+					"fragment" : "-WX"
 				}
 			],
-			"language" : "CXX",
+			"language" : "C",
 			"sourceIndexes" : 
 			[
 				0
@@ -91,7 +84,7 @@
 			"id" : "LibraryC::@05a76b2f4dbe82cfc264"
 		}
 	],
-	"id" : "TestArrayC::@258c58ed07dec5af0266",
+	"id" : "Lab1C::@c050f807fd595b3ba8be",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -114,14 +107,14 @@
 				"role" : "libraries"
 			}
 		],
-		"language" : "CXX"
+		"language" : "C"
 	},
-	"name" : "TestArrayC",
-	"nameOnDisk" : "TestArrayC.exe",
+	"name" : "Lab1C",
+	"nameOnDisk" : "Lab1C.exe",
 	"paths" : 
 	{
-		"build" : "LibraryC/Tests",
-		"source" : "LibraryC/Tests"
+		"build" : "Lab1C",
+		"source" : "Lab1C"
 	},
 	"sourceGroups" : 
 	[
@@ -138,7 +131,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "LibraryC/Tests/array.cpp",
+			"path" : "Lab1C/lab1.c",
 			"sourceGroupIndex" : 0
 		}
 	],

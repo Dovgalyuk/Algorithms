@@ -10,11 +10,9 @@ extern "C" {
 
 	typedef uintptr_t Data;
 
-	typedef void FFree(void*);
-
 	typedef struct Array Array;
 
-	Array* array_create(size_t size, FFree* f);
+	Array* array_create(size_t size, void* unused);
 
 	void array_delete(Array* arr);
 

@@ -1,14 +1,9 @@
 #include <stdlib.h>
 #include "array.h"
 
-struct Array {
-    Data* data;
-    size_t size;
-};
-
-Array* array_create(size_t size, FFree* f)
+Array* array_create(size_t size, void* unused)
 {
-    (void)f; 
+    (void)unused;
     Array* arr = malloc(sizeof(Array));
     if (!arr) return NULL;
 
@@ -48,6 +43,5 @@ void array_set(Array* arr, size_t index, Data value)
 
 size_t array_size(const Array* arr)
 {
-    if (!arr) return 0;
-    return arr->size;
+    return arr ? arr->size : 0;
 }

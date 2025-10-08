@@ -90,35 +90,35 @@ build rebuild_cache: phony CMakeFiles\rebuild_cache.util
 build cmake_object_order_depends_target_LibraryC: phony || .
 
 build LibraryC\CMakeFiles\LibraryC.dir\array.c.obj: C_COMPILER__LibraryC_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryC\array.c || cmake_object_order_depends_target_LibraryC
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryC\CMakeFiles\LibraryC.dir
   OBJECT_FILE_DIR = LibraryC\CMakeFiles\LibraryC.dir
   TARGET_COMPILE_PDB = LibraryC\CMakeFiles\LibraryC.dir\LibraryC.pdb
   TARGET_PDB = LibraryC\LibraryC.pdb
 
 build LibraryC\CMakeFiles\LibraryC.dir\list.c.obj: C_COMPILER__LibraryC_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryC\list.c || cmake_object_order_depends_target_LibraryC
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryC\CMakeFiles\LibraryC.dir
   OBJECT_FILE_DIR = LibraryC\CMakeFiles\LibraryC.dir
   TARGET_COMPILE_PDB = LibraryC\CMakeFiles\LibraryC.dir\LibraryC.pdb
   TARGET_PDB = LibraryC\LibraryC.pdb
 
 build LibraryC\CMakeFiles\LibraryC.dir\queue.c.obj: C_COMPILER__LibraryC_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryC\queue.c || cmake_object_order_depends_target_LibraryC
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryC\CMakeFiles\LibraryC.dir
   OBJECT_FILE_DIR = LibraryC\CMakeFiles\LibraryC.dir
   TARGET_COMPILE_PDB = LibraryC\CMakeFiles\LibraryC.dir\LibraryC.pdb
   TARGET_PDB = LibraryC\LibraryC.pdb
 
 build LibraryC\CMakeFiles\LibraryC.dir\stack.c.obj: C_COMPILER__LibraryC_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryC\stack.c || cmake_object_order_depends_target_LibraryC
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryC\CMakeFiles\LibraryC.dir
   OBJECT_FILE_DIR = LibraryC\CMakeFiles\LibraryC.dir
   TARGET_COMPILE_PDB = LibraryC\CMakeFiles\LibraryC.dir\LibraryC.pdb
   TARGET_PDB = LibraryC\LibraryC.pdb
 
 build LibraryC\CMakeFiles\LibraryC.dir\vector.c.obj: C_COMPILER__LibraryC_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryC\vector.c || cmake_object_order_depends_target_LibraryC
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryC\CMakeFiles\LibraryC.dir
   OBJECT_FILE_DIR = LibraryC\CMakeFiles\LibraryC.dir
   TARGET_COMPILE_PDB = LibraryC\CMakeFiles\LibraryC.dir\LibraryC.pdb
@@ -192,7 +192,7 @@ build LibraryC\rebuild_cache: phony LibraryC\CMakeFiles\rebuild_cache.util
 build cmake_object_order_depends_target_TestArrayC: phony || cmake_object_order_depends_target_LibraryC
 
 build LibraryC\Tests\CMakeFiles\TestArrayC.dir\array.cpp.obj: CXX_COMPILER__TestArrayC_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryC\Tests\array.cpp || cmake_object_order_depends_target_TestArrayC
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   INCLUDES = -IC:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryC\Tests\..
   OBJECT_DIR = LibraryC\Tests\CMakeFiles\TestArrayC.dir
   OBJECT_FILE_DIR = LibraryC\Tests\CMakeFiles\TestArrayC.dir
@@ -269,35 +269,35 @@ build LibraryC\Tests\rebuild_cache: phony LibraryC\Tests\CMakeFiles\rebuild_cach
 build cmake_object_order_depends_target_LibraryCPP: phony || .
 
 build LibraryCPP\CMakeFiles\LibraryCPP.dir\array.cpp.obj: CXX_COMPILER__LibraryCPP_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryCPP\array.cpp || cmake_object_order_depends_target_LibraryCPP
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
   OBJECT_FILE_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
   TARGET_COMPILE_PDB = LibraryCPP\CMakeFiles\LibraryCPP.dir\LibraryCPP.pdb
   TARGET_PDB = LibraryCPP\LibraryCPP.pdb
 
 build LibraryCPP\CMakeFiles\LibraryCPP.dir\list.cpp.obj: CXX_COMPILER__LibraryCPP_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryCPP\list.cpp || cmake_object_order_depends_target_LibraryCPP
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
   OBJECT_FILE_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
   TARGET_COMPILE_PDB = LibraryCPP\CMakeFiles\LibraryCPP.dir\LibraryCPP.pdb
   TARGET_PDB = LibraryCPP\LibraryCPP.pdb
 
 build LibraryCPP\CMakeFiles\LibraryCPP.dir\queue.cpp.obj: CXX_COMPILER__LibraryCPP_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryCPP\queue.cpp || cmake_object_order_depends_target_LibraryCPP
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
   OBJECT_FILE_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
   TARGET_COMPILE_PDB = LibraryCPP\CMakeFiles\LibraryCPP.dir\LibraryCPP.pdb
   TARGET_PDB = LibraryCPP\LibraryCPP.pdb
 
 build LibraryCPP\CMakeFiles\LibraryCPP.dir\stack.cpp.obj: CXX_COMPILER__LibraryCPP_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryCPP\stack.cpp || cmake_object_order_depends_target_LibraryCPP
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
   OBJECT_FILE_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
   TARGET_COMPILE_PDB = LibraryCPP\CMakeFiles\LibraryCPP.dir\LibraryCPP.pdb
   TARGET_PDB = LibraryCPP\LibraryCPP.pdb
 
 build LibraryCPP\CMakeFiles\LibraryCPP.dir\vector.cpp.obj: CXX_COMPILER__LibraryCPP_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryCPP\vector.cpp || cmake_object_order_depends_target_LibraryCPP
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
   OBJECT_FILE_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
   TARGET_COMPILE_PDB = LibraryCPP\CMakeFiles\LibraryCPP.dir\LibraryCPP.pdb
@@ -411,35 +411,35 @@ build LibraryCPP\Tests\rebuild_cache: phony LibraryCPP\Tests\CMakeFiles\rebuild_
 build cmake_object_order_depends_target_LibraryCPPClass: phony || .
 
 build LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir\array.cpp.obj: CXX_COMPILER__LibraryCPPClass_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryCPPClass\array.cpp || cmake_object_order_depends_target_LibraryCPPClass
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir
   OBJECT_FILE_DIR = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir
   TARGET_COMPILE_PDB = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir\LibraryCPPClass.pdb
   TARGET_PDB = LibraryCPPClass\LibraryCPPClass.pdb
 
 build LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir\list.cpp.obj: CXX_COMPILER__LibraryCPPClass_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryCPPClass\list.cpp || cmake_object_order_depends_target_LibraryCPPClass
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir
   OBJECT_FILE_DIR = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir
   TARGET_COMPILE_PDB = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir\LibraryCPPClass.pdb
   TARGET_PDB = LibraryCPPClass\LibraryCPPClass.pdb
 
 build LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir\queue.cpp.obj: CXX_COMPILER__LibraryCPPClass_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryCPPClass\queue.cpp || cmake_object_order_depends_target_LibraryCPPClass
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir
   OBJECT_FILE_DIR = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir
   TARGET_COMPILE_PDB = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir\LibraryCPPClass.pdb
   TARGET_PDB = LibraryCPPClass\LibraryCPPClass.pdb
 
 build LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir\stack.cpp.obj: CXX_COMPILER__LibraryCPPClass_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryCPPClass\stack.cpp || cmake_object_order_depends_target_LibraryCPPClass
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir
   OBJECT_FILE_DIR = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir
   TARGET_COMPILE_PDB = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir\LibraryCPPClass.pdb
   TARGET_PDB = LibraryCPPClass\LibraryCPPClass.pdb
 
 build LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir\vector.cpp.obj: CXX_COMPILER__LibraryCPPClass_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\LibraryCPPClass\vector.cpp || cmake_object_order_depends_target_LibraryCPPClass
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir
   OBJECT_FILE_DIR = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir
   TARGET_COMPILE_PDB = LibraryCPPClass\CMakeFiles\LibraryCPPClass.dir\LibraryCPPClass.pdb
@@ -633,8 +633,7 @@ build LibraryCPPTemplate\Tests\rebuild_cache: phony LibraryCPPTemplate\Tests\CMa
 build cmake_object_order_depends_target_Lab1C: phony || cmake_object_order_depends_target_LibraryC
 
 build Lab1C\CMakeFiles\Lab1C.dir\lab1.c.obj: C_COMPILER__Lab1C_unscanned_Debug C$:\Users\Кирилл\source\repos\ekim0w\Algorithms\Lab1C\lab1.c || cmake_object_order_depends_target_Lab1C
-  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4
-  INCLUDES = -IC:\Users\Кирилл\source\repos\ekim0w\Algorithms\Lab1C\..\LibraryC
+  FLAGS = /WX- /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   OBJECT_DIR = Lab1C\CMakeFiles\Lab1C.dir
   OBJECT_FILE_DIR = Lab1C\CMakeFiles\Lab1C.dir
   TARGET_COMPILE_PDB = Lab1C\CMakeFiles\Lab1C.dir\

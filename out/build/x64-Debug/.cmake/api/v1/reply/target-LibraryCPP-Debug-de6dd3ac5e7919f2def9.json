@@ -61,6 +61,13 @@
 				{
 					"backtrace" : 3,
 					"fragment" : "/W4"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "/WX"
+				},
+				{
+					"fragment" : "-WX"
 				}
 			],
 			"language" : "CXX",
