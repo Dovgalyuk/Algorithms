@@ -23,25 +23,27 @@ size_t longest_odd_sequence(const Array* arr) {
 }
 
 void shift_array(Array* arr, int steps, bool left) {
-    size_t n = array_size(arr);
-    if (steps >= static_cast<int>(n)) {
-        for (size_t i = 0; i < n; ++i) array_set(arr, i, 0);
+    ssize_t n = static_cast<ssize_t>(array_size(arr));
+    if (steps >= n) {
+        for (ssize_t i = 0; i < n; ++i) {
+            array_set(arr, i, 0);
+        }
         return;
     }
 
     if (left) {
-        for (size_t i = 0; i < n - steps; ++i) {
+        for (ssize_t i = 0; i < n - steps; ++i) {
             array_set(arr, i, array_get(arr, i + steps));
         }
-        for (size_t i = n - steps; i < n; ++i) {
+        for (ssize_t i = n - steps; i < n; ++i) {
             array_set(arr, i, 0);
         }
     }
-    else { //vpravo
-        for (size_t i = n - 1; i >= static_cast<size_t>(steps); --i) {
+    else {  //vpravo
+        for (ssize_t i = n - 1; i >= steps; --i) {
             array_set(arr, i, array_get(arr, i - steps));
         }
-        for (int i = 0; i < steps; ++i) {
+        for (ssize_t i = 0; i < steps; ++i) {
             array_set(arr, i, 0);
         }
     }
