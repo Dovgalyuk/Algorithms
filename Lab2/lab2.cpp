@@ -37,26 +37,21 @@ static bool validateSequence(const std::string& s)
         bool matched = false;
 
         for (const auto& tk : TOKENS) {
-            if (matchAt(s, i, tk.open)) {
-                if (tk.symmetric) {
-                    if (!st.empty() && st.get() == tk.close) {
-                        st.pop();
-                    }
-                    else {
-                        st.push(tk.close);
-                    }
-                }
-                else {
-                    st.push(tk.close);
-                }
+            if (matchAt(s, i, tk.open) && tk.symmetric) {
+                if (!st.empty() && st.get() == tk.close) st.pop();
+                else st.push(tk.close);
+                i += tk.open.size();
+                matched = true;
+                break;
+            }
+            if (matchAt(s, i, tk.open) && !tk.symmetric) {
+                st.push(tk.close);
                 i += tk.open.size();
                 matched = true;
                 break;
             }
             if (!tk.symmetric && matchAt(s, i, tk.close)) {
-                if (st.empty() || st.get() != tk.close) {
-                    return false;
-                }
+                if (st.empty() || st.get() != tk.close) return false;
                 st.pop();
                 i += tk.close.size();
                 matched = true;

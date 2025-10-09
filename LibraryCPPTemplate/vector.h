@@ -95,14 +95,6 @@ public:
             }
         }
 
-        if (size < m_size)
-        {
-            for (size_t i = size; i < m_size; ++i)
-            {
-                m_data[i] = Data();
-            }
-        }
-
         m_size = size;
     }
 
@@ -131,8 +123,6 @@ private:
             return;
         }
 
-        const size_t previous_size = m_size;
-
         if (other.m_size > m_capacity)
         {
             Data* replacement = allocate(other.m_size);
@@ -156,14 +146,6 @@ private:
         }
 
         m_size = other.m_size;
-
-        if (previous_size > m_size)
-        {
-            for (size_t i = m_size; i < previous_size && i < m_capacity; ++i)
-            {
-                m_data[i] = Data();
-            }
-        }
     }
 
     void grow(size_t required)
