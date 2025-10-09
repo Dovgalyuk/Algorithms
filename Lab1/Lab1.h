@@ -64,12 +64,6 @@ namespace cl {
 				throw std::invalid_argument("movePosition must be non-negative");
 			}
 
-			auto size = std::distance(begin, end);
-			if (movePosition > size) {
-				std::fill(begin, end, T{ 0 });
-				return;
-			}
-
 			if (direction == MoveDirection::Right) {
 				for (auto i = end - 1; i >= begin; --i) {
 					if (i >= begin + movePosition) {
