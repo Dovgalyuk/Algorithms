@@ -25,7 +25,7 @@ void task1(ifstream& input)
     read_arr(size, input, arr);
 
     int pos = 0, neg = 0, zer = 0;
-    for (int i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         if (array_get(arr, i) > 0)
         {
