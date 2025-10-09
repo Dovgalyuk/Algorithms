@@ -1,9 +1,13 @@
 #include <stdlib.h>
+#include <string.h>
 #include "array.h"
 
 typedef struct Array {
     // remove this
     Data d;
+    size_t arr_size;
+    Data* data;
+    FFree free_func;
 } Array;
 
 // create array
