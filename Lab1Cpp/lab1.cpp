@@ -9,7 +9,7 @@ using namespace std;
 void read_arr(int size, ifstream& input, Array* arr)
 {
     int value;
-    for (int i = 0; i < size; i++)
+    for (size_t i = 0; i < array_size(arr); i++)
     {
         input >> value;
         array_set(arr, i, value);
