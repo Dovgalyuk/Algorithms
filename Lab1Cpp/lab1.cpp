@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void read_arr(int size, ifstream& input, Array* arr)
+void read_arr(ifstream& input, Array* arr)
 {
     int value;
     for (size_t i = 0; i < array_size(arr); i++)
@@ -22,7 +22,7 @@ void task1(ifstream& input)
     input >> size;
     Array* arr = array_create(size);
 
-    read_arr(size, input, arr);
+    read_arr(input, arr);
 
     int pos = 0, neg = 0, zer = 0;
     for (size_t i = 0; i < array_size(arr); i++)
@@ -51,7 +51,7 @@ void task2(ifstream& input)
     input >> size;
     Array* arr = array_create(size);
 
-    read_arr(size, input, arr);
+    read_arr(input, arr);
 
     int maxSum = 0, left = 0, sum;
 
