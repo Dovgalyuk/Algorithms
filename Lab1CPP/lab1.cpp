@@ -23,7 +23,7 @@ size_t longest_odd_sequence(const Array* arr) {
 }
 
 void shift_array(Array* arr, int steps, bool left) {
-  
+    ssize_t n = static_cast<ssize_t>(array_size(arr));
     if (left) {
         for (ssize_t i = 0; i < n - steps; ++i) {
             array_set(arr, i, array_get(arr, i + steps));
