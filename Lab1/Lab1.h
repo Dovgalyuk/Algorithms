@@ -128,11 +128,11 @@ namespace cl {
 
 		T tempValue;
 
-		for (std::size_t index{}; index < arraySize; ++index) {
+		for (auto& element : resultArray) {
 			if (!(file >> tempValue)) {
-				throw std::runtime_error("Faield to parse element at index: " + index);
+				throw std::runtime_error("Faield to parse element");
 			}
-			resultArray[index] = tempValue;
+			element = tempValue;
 		}
 
 		return resultArray;
