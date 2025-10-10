@@ -24,14 +24,29 @@ using namespace std;
 Array *array_create_and_read(FILE *input)
 {
     int n;
-    fscanf(input, "%d", &n);
+    if (fscanf(input, "%d", &n) != 1)
+    {
+        cerr << "Не удалось прочесть размер массива\n";
+        return nullptr;
+    }
+
     /* Create array */
     Array *arr = array_create(n);
+    if (!arr)
+    {
+        cerr << "Ошибка при создании массива\n";
+        return nullptr;
+    }
     /* Read array data */
     for (int i = 0 ; i < n ; ++i)
     {
-        int x = 1;
-        fscanf(input, "%d", &x);
+        int x = 0;
+        if (fscanf(input, "%d", &x) != 1)
+        {
+            cerr << "Не удалось прочесть элемент массива на позиции " << i << "\n";
+            array_delete(arr);
+            return nullptr;
+        }
         array_set(arr, i, x);
     }
     return arr;
@@ -170,7 +185,7 @@ int main(int argc, char **argv)
         cout << "arr not del" << endl;
     else
         cout << "arr del complite" << endl;
-        
+
     fclose(input_2);
 
     // system("pause");
