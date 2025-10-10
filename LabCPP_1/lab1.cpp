@@ -54,6 +54,11 @@ Array *array_create_and_read(FILE *input)
 
 void task1(Array *arr)
 {
+    if (!arr)
+    {
+        cerr << "Empty array in task1" << endl;
+        return;
+    }
     // Вариант 1)
 
     int maxNum = 0;
@@ -98,6 +103,12 @@ void task1(Array *arr)
 
 void task2(Array *arr)
 {
+    if (!arr)
+    {
+        cerr << "Empty array in task2" << endl;
+        return;
+    }
+
     int direction;
     int step;
     int n = array_size(arr);
@@ -148,6 +159,11 @@ void task2(Array *arr)
 
 int main(int argc, char **argv)
 {
+    if (argc < 2)
+    {
+        cout << "Using: " << argv[0] << " input.txt" << endl;
+        return 1;
+    }
     Array *arr = nullptr;
 
     FILE *input = fopen(argv[1], "r");
@@ -158,14 +174,15 @@ int main(int argc, char **argv)
     }
 
     arr = array_create_and_read(input);
+    if (arr == nullptr)
+    {
+        fclose(input);
+        return 1;
+    }
     task1(arr);
 
     array_delete(arr);
     arr = nullptr;
-    if (arr != nullptr) //Проверяем удалены ли данные
-        cout << "arr not del" << endl;
-    else
-        cout << "arr del complite" << endl;
 
     fclose(input);
 
@@ -177,14 +194,15 @@ int main(int argc, char **argv)
     }
     
     arr = array_create_and_read(input_2);
+    if (arr == nullptr)
+    {
+        fclose(input_2);
+        return 1;
+    }
     task2(arr);
 
     array_delete(arr);
     arr = nullptr;
-    if (arr != nullptr)
-        cout << "arr not del" << endl;
-    else
-        cout << "arr del complite" << endl;
 
     fclose(input_2);
 
