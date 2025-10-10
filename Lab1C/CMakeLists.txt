@@ -1,6 +1,33 @@
-add_executable(Lab1C lab1.c)
-target_include_directories(Lab1C PUBLIC ../LibraryC)
-target_link_libraries(Lab1C LibraryC)
+cmake_minimum_required(VERSION 3.16)
+project(LAB1C)
+set(CMAKE_CXX_STANDARD 20)
 
-add_test(NAME TestLab1C COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-set_property(TEST TestLab1C PROPERTY PASS_REGULAR_EXPRESSION "1 2 3 4 5")
+add_executable(Lab1C
+        lab1.cpp
+        Function.h
+        ../LibraryCPP/task1.cpp
+	../LibraryCPP/task2.cpp
+        ../LibraryCPP/task1.h
+        ../LibraryCPP/task2.h
+)
+
+target_include_directories(Lab1C PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP
+)
+
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.txt
+        ${CMAKE_CURRENT_BINARY_DIR}/input.txt
+        COPYONLY)
+
+
+enable_testing()
+
+
+add_test(NAME TestLab1C COMMAND Lab1C ${CMAKE_CURRENT_BINARY_DIR}/input.txt)
+
+# Проверяем вывод
+set_tests_properties(TestLab1C PROPERTIES
+        PASS_REGULAR_EXPRESSION
+        "размер массива;элементы массива;интервал;Максимальная длина отрезка нечетных чисел;Сжатый массив"
+)
