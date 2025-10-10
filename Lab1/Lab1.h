@@ -37,11 +37,6 @@ namespace cl {
 			return { minElementIndex, maxElementIndex };
 		}
 
-		template<class T> constexpr auto getTypeCast() = delete;
-		template<> constexpr auto getTypeCast<double>() { return [](auto s) { return std::stod(s); }; }
-		template<> constexpr auto getTypeCast<float>() { return [](auto s) { return std::stof(s); }; }
-		template<> constexpr auto getTypeCast<int>() { return [](auto s) { return std::stoi(s); }; }
-
 		template<concepts::summable T, class Iterator>
 		typename std::iterator_traits<Iterator>::value_type sum(Iterator begin, Iterator end) {
 			// return std::accumulate(begin, end, value_type{});
@@ -124,33 +119,20 @@ namespace cl {
 
 	template<concepts::primitiveType T>
 	Array<T> createArrayFromFile(std::fstream& file) {
-		std::string sizeStr;
-		if (!(file >> sizeStr)) {
+		T arraySize;
+		if (!(file >> arraySize)) {
 			throw std::runtime_error("Failed to read array size");
-		}
-
-		std::size_t arraySize;
-		
-		try {
-			arraySize = std::stoll(sizeStr);
-		}
-		catch (const std::exception&) {
-			throw std::runtime_error("Failed to parse array size");
 		}
 
 		Array<T> resultArray(arraySize);
 
-		std::string rawFileData;
+		T tempValue;
 
-		auto typeCast = algorithms::getTypeCast<T>();
-
-		for (std::size_t index{}; index != arraySize && file >> rawFileData; ++index) {
-			try {
-				resultArray[index] = typeCast(rawFileData);
+		for (std::size_t index{}; index < arraySize; ++index) {
+			if (!(file >> tempValue)) {
+				throw std::runtime_error("Faield to parse element at index: " + index);
 			}
-			catch (const std::exception&) {
-				throw std::runtime_error("Failed to parse element at index: " + std::to_string(index) + ": " + rawFileData);
-			}
+			resultArray[index] = tempValue;
 		}
 
 		return resultArray;
