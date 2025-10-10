@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader"><![CDATA[{
+  "useNewFormat": true
+}]]></component>
+  <component name="CMakeProjectFlavorService">
+    <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="Algorithms" targetName="Lab1C" />
+      <config projectName="Algorithms" targetName="LibraryCPP" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="792ce5bc-95a8-4445-b929-f81c33a20d66" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/LibraryCPP/Tests/TestTask1.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LibraryCPP/Tests/TestTask2.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/.idea/LAB1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/.idea/editor.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/Function.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/4.1.2/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/4.1.2/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/4.1.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/4.1.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/4.1.2/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/4.1.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/4.1.2/CompilerIdC/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/4.1.2/CompilerIdC/apple-sdk.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/4.1.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/4.1.2/CompilerIdCXX/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/4.1.2/CompilerIdCXX/apple-sdk.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/InstallScripts.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/LAB1.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/LAB1.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/LAB1.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/LAB1.dir/compiler_depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/LAB1.dir/compiler_depend.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/LAB1.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/LAB1.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/LAB1.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/LAB1.dir/main.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/LAB1.dir/main.cpp.o.d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/LAB1.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/Makefile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/Makefile2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/CTestTestfile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/LAB1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/Testing/Temporary/CTestCostData.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/Testing/Temporary/LastTest.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/build/input.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/input.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB1/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab1C/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Lab1C/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab1C/Function.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab1C/Function.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab1C/lab1.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibraryCPP/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryCPP/CMakeLists.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2025" />
+    <option name="minorVersion" value="2.1" />
+    <option name="productBranch" value="Classic" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="33pGmWfa1gqDMqUTphRy4RuDWc0" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "CMake Application.Lab1C.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.west.config.association.type.startup.service": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "ctest.advertisement.all.test.configuration.is.created": "true",
+    "git-widget-placeholder": "Nematzhanov",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/main.cpp",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="CMake Application.Lab1C">
+    <configuration name="Lab1C" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Algorithms" TARGET_NAME="Lab1C" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Algorithms" RUN_TARGET_NAME="Lab1C">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LibraryCPP" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Algorithms" TARGET_NAME="LibraryCPP" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All CTest" type="CTestRunConfiguration" factoryName="CTestRun" PROGRAM_PARAMS="--extra-verbose" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$CMakeCurrentLocalGenerationDir$" PASS_PARENT_ENVS_2="true" RUN_PATH="$CTestCurrentExecutableName$" EXPLICIT_BUILD_TARGET_NAME="all" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.Lab1C" />
+      <item itemvalue="CMake Application.LibraryCPP" />
+      <item itemvalue="CTest Application.All CTest" />
+    </list>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="792ce5bc-95a8-4445-b929-f81c33a20d66" name="Changes" comment="" />
+      <created>1760006758946</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1760006758946</updated>
+      <workItem from="1760006760362" duration="10437000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.cpp</url>
+          <line>10</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/LibraryCPP/task1.h</url>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

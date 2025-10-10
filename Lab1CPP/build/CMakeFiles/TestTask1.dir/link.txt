@@ -1,0 +1,1 @@
+/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/TestTask1.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/tests/TestTask1.cpp.o CMakeFiles/TestTask1.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/task1.cpp.o -o TestTask1

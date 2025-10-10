@@ -1,0 +1,6 @@
+/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/Lab1C/build/CMakeFiles/Lab1C.dir
+/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/Lab1C/build/CMakeFiles/TestTask1.dir
+/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/Lab1C/build/CMakeFiles/TestTask2.dir
+/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/Lab1C/build/CMakeFiles/test.dir
+/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/Lab1C/build/CMakeFiles/edit_cache.dir
+/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/Lab1C/build/CMakeFiles/rebuild_cache.dir

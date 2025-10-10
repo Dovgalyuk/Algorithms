@@ -1,4 +1,0 @@
-/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LAB1/build/CMakeFiles/LAB1.dir
-/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LAB1/build/CMakeFiles/test.dir
-/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LAB1/build/CMakeFiles/edit_cache.dir
-/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LAB1/build/CMakeFiles/rebuild_cache.dir
