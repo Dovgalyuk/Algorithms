@@ -127,8 +127,14 @@ int main(int argc, char** argv) {
 			return 0;
 		}
 	}
-	for (auto a : { 'A', 'B', 'C', 'D' }) {
-		cout << a << " = " << Arr[a] << "\n";
-	}
+
+	cout << "A = " << Arr['A']
+		<< " B = " << Arr['B']
+		<< " C = " << Arr['C']
+		<< " D = " << Arr['D'] << endl;
+
+	stack_delete(stack);
+	file.close();
+
 	return 0;
 }
