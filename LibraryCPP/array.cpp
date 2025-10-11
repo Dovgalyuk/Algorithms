@@ -22,8 +22,7 @@ void array_delete(Array *arr)
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    Data var = arr->data[index];
-    return var;
+    return arr->data[index];
 }
 
 // sets the specified array element to the value
