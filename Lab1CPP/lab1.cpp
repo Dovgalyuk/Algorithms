@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <array.h>
+#include <climits>
 using namespace std;
 
 Array *array_create_and_read(ifstream &input) {
