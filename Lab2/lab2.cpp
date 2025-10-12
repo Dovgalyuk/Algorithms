@@ -29,23 +29,20 @@ static inline bool matchAt(const std::string& s, size_t i, const std::string& t)
     return s.compare(i, t.size(), t) == 0;
 }
 
-static bool validateSequence(const std::string& s)
-{
+bool validateSequence(const std::string& s) {
     Stack<std::string> st;
 
     for (size_t i = 0; i < s.size(); ) {
         bool matched = false;
-
         for (const auto& tk : TOKENS) {
-            if (matchAt(s, i, tk.open) && tk.symmetric) {
-                if (!st.empty() && st.get() == tk.close) st.pop();
-                else st.push(tk.close);
-                i += tk.open.size();
-                matched = true;
-                break;
-            }
-            if (matchAt(s, i, tk.open) && !tk.symmetric) {
-                st.push(tk.close);
+            if (matchAt(s, i, tk.open)) {
+                if (tk.symmetric) {
+                    if (!st.empty() && st.get() == tk.close) st.pop();
+                    else st.push(tk.close);
+                }
+                else {
+                    st.push(tk.close);
+                }
                 i += tk.open.size();
                 matched = true;
                 break;
@@ -58,9 +55,7 @@ static bool validateSequence(const std::string& s)
                 break;
             }
         }
-        if (!matched) {
-            ++i;
-        }
+        if (!matched) ++i;
     }
     return st.empty();
 }
