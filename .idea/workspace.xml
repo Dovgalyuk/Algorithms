@@ -31,84 +31,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="792ce5bc-95a8-4445-b929-f81c33a20d66" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Lab1CPP/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeCache.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/4.1.2/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/4.1.2/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/4.1.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/4.1.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/4.1.2/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/4.1.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/4.1.2/CompilerIdC/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/4.1.2/CompilerIdC/apple-sdk.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/4.1.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/4.1.2/CompilerIdCXX/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/4.1.2/CompilerIdCXX/apple-sdk.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/InstallScripts.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/task1.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/task1.cpp.o.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/task2.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/task2.cpp.o.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/compiler_depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/compiler_depend.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/lab1.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/lab1.cpp.o.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Lab1C.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Makefile.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/Makefile2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/task1.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/task1.cpp.o.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/tests/TestTask1.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/tests/TestTask1.cpp.o.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/compiler_depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/compiler_depend.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask1.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/task2.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/task2.cpp.o.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/tests/TestTask2.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/Users/mukhammadzakhidnematzhanov/Documents/Algorithms/LibraryCPP/tests/TestTask2.cpp.o.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/compiler_depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/compiler_depend.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/TestTask2.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/cmake.check_cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CMakeFiles/progress.marks" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/CTestTestfile.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/Lab1C" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/TestTask1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/TestTask2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/Testing/Temporary/CTestCostData.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/Testing/Temporary/LastTest.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/cmake_install.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/build/input.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/lab1.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Lab1CPP/lab1.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibraryCPP/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryCPP/CMakeLists.txt" afterDir="false" />
-    </list>
+    <list default="true" id="792ce5bc-95a8-4445-b929-f81c33a20d66" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -204,7 +127,7 @@
       <workItem from="1760006760362" duration="10437000" />
       <workItem from="1760175817761" duration="1353000" />
       <workItem from="1760201558528" duration="639000" />
-      <workItem from="1760264955051" duration="1575000" />
+      <workItem from="1760264955051" duration="1934000" />
     </task>
     <servers />
   </component>
