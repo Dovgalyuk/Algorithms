@@ -1,77 +1,117 @@
 #include <cstddef>
 #include "list.h"
 
-#ifndef UNUSED
-#define UNUSED(x) (void)(x)
-#endif
-
-struct ListItem
-{
+struct ListItem {
+    Data data;
+    ListItem* prev;
+    ListItem* next;
 };
 
-struct List
-{
+struct List {
+    ListItem* head;
+    ListItem* tail;
 };
 
-List* list_create()
-{
-    return new List;
+List* list_create() {
+    List* list = new List;
+    list->head = nullptr;
+    list->tail = nullptr;
+    return list;
 }
 
-void list_delete(List* list)
-{
-    // TODO: free items
+void list_delete(List* list) {
+    if (!list)
+        return;
+
+    ListItem* it = list->head;
+    while (it) {
+        ListItem* nxt = it->next;
+        delete it;
+        it = nxt;
+    }
+
     delete list;
 }
 
-ListItem* list_first(List* list)
-{
-    UNUSED(list);
-    return NULL;
+ListItem* list_first(List* list) {
+    return list ? list->head : nullptr;
 }
 
-Data list_item_data(const ListItem* item)
-{
-    UNUSED(item);
-    return (Data)0;
+Data list_item_data(const ListItem* item) {
+    return item ? item->data : (Data)0;
 }
 
-ListItem* list_item_next(ListItem* item)
-{
-    UNUSED(item);
-    return NULL;
+ListItem* list_item_next(ListItem* item) {
+    return item ? item->next : nullptr;
 }
 
-ListItem* list_item_prev(ListItem* item)
-{
-    UNUSED(item);
-    return NULL;
+ListItem* list_item_prev(ListItem* item) {
+    return item ? item->prev : nullptr;
 }
 
-ListItem* list_insert(List* list, Data data)
-{
-    UNUSED(list);
-    UNUSED(data);
-    return NULL;
+ListItem* list_insert(List* list, Data data) {
+    ListItem* node = new ListItem{ data, nullptr, nullptr };
+    node->next = list->head;
+
+    if (list->head)
+        list->head->prev = node;
+    else
+        list->tail = node;
+
+    list->head = node;
+    return node;
 }
 
-ListItem* list_insert_after(List* list, ListItem* item, Data data)
-{
-    UNUSED(list);
-    UNUSED(item);
-    UNUSED(data);
-    return NULL;
+ListItem* list_insert_after(List* list, ListItem* item, Data data) {
+    if (!item)
+        return list_insert(list, data);
+
+    ListItem* node = new ListItem{ data, item, item->next };
+
+    if (item->next)
+        item->next->prev = node;
+    else
+        list->tail = node;
+
+    item->next = node;
+    return node;
 }
 
-ListItem* list_erase_first(List* list)
-{
-    UNUSED(list);
-    return NULL;
+ListItem* list_erase_first(List* list) {
+    if (!list || !list->head)
+        return nullptr;
+
+    ListItem* rem = list->head;
+    ListItem* newHead = rem->next;
+
+    if (newHead)
+        newHead->prev = nullptr;
+    else
+        list->tail = nullptr;
+
+    delete rem;
+    list->head = newHead;
+    return newHead;
 }
 
-ListItem* list_erase_next(List* list, ListItem* item)
-{
-    UNUSED(list);
-    UNUSED(item);
-    return NULL;
+ListItem* list_erase_next(List* list, ListItem* item) {
+    if (!list)
+        return nullptr;
+    if (!item)
+        return list_erase_first(list);
+
+    ListItem* rem = item->next;
+    if (!rem)
+        return nullptr;
+
+    ListItem* after = rem->next;
+    item->next = after;
+
+    if (after)
+        after->prev = item;
+    else
+        list->tail = item;
+
+    delete rem;
+    return after;
 }
