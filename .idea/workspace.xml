@@ -31,7 +31,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="792ce5bc-95a8-4445-b929-f81c33a20d66" name="Changes" comment="" />
+    <list default="true" id="792ce5bc-95a8-4445-b929-f81c33a20d66" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Lab1CPP/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Lab1CPP/CMakeLists.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -127,7 +129,7 @@
       <workItem from="1760006760362" duration="10437000" />
       <workItem from="1760175817761" duration="1353000" />
       <workItem from="1760201558528" duration="639000" />
-      <workItem from="1760264955051" duration="1934000" />
+      <workItem from="1760264955051" duration="2560000" />
     </task>
     <servers />
   </component>
