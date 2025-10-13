@@ -17,7 +17,6 @@
 
 
 #include <iostream>
-// #include <algorithm> // Для sort во втором варианте task1()
 #include "array.h"
 using namespace std;
 
@@ -59,7 +58,6 @@ void task1(Array *arr)
         cerr << "Empty array in task1" << endl;
         return;
     }
-    // Вариант 1)
 
     int maxNum = 0;
     int absCount = 0;
@@ -67,37 +65,19 @@ void task1(Array *arr)
 
     for (int i = 0; i < n; i++) // Проходим первый раз, забираем максимально число
     {
-        if (maxNum < arr -> data[i])
+        if (maxNum < array_get(arr, i))
         {
-            maxNum = arr -> data[i];
+            maxNum = array_get(arr, i);
         }
     }
     for (int i = 0; i < n; i++) // Проходим второй раз, сравнивая модуль числа с максимальным
     {
-        if (abs(arr -> data[i]) > maxNum) // Если число по модулю больше максимального...
+        if (abs(array_get(arr, i)) > maxNum) // Если число по модулю больше максимального...
         {
             absCount++; // то +1 к кол-ву
         }
     }
 
-    // // Вариант 2) (с применением сортировки, но как по мне первый эффективнее)
-
-    // sort(arr -> data, arr -> data + n); // Сортируем по возрастанию
-       
-    // int maxNum = arr->data[arr->size-1]; // Самое большое число в конце
-    // int absCount = 0;
-    
-    // for (int i = 0; i < n; i++)
-    // {
-    //     if ((arr->data[i] < 0) && (abs(arr->data[i]) > maxNum)) // Поиск только среди отрицателных, т.к. в положительных и так максимальное число
-    //     {
-    //         absCount++;
-    //     }
-    //     else
-    //     {
-    //         break; // Прерываем, если пошли положительные числа
-    //     }
-    // }
     cout << "absCount = " << absCount << endl;
 }
 
@@ -118,7 +98,7 @@ void task2(Array *arr)
     direction = 1;
     cout << "Input step: ";
     // cin >> step;
-    step = 4;
+    step = 2;
     cout << endl;
     
     switch (direction)
@@ -183,20 +163,11 @@ int main(int argc, char **argv)
 
     array_delete(arr);
     arr = nullptr;
-
-    fclose(input);
-
-    FILE *input_2 = fopen(argv[1], "r");
-    if (input_2 == nullptr)
-    {
-        cout << "Failed open input file" << endl;
-        return 1;
-    }
     
-    arr = array_create_and_read(input_2);
+    arr = array_create_and_read(input);
     if (arr == nullptr)
     {
-        fclose(input_2);
+        fclose(input);
         return 1;
     }
     task2(arr);
@@ -204,8 +175,7 @@ int main(int argc, char **argv)
     array_delete(arr);
     arr = nullptr;
 
-    fclose(input_2);
+    fclose(input);
 
-    // system("pause");
     return 0;
 }
