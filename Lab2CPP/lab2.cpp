@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include "stack.h"
 #include <fstream>
-#include <sstream>
 
 Data add(Data a, Data b){ return a + b; }
 Data sub(Data a, Data b){ return a - b; } 
@@ -77,9 +76,8 @@ int main(int argc, char* argv[]){
     if(!file){
         return 1;
     }
-    std::stringstream b;
-    b << file.rdbuf();
-    std::string str = b.str();
+    std::string str;
+    std::getline(file, str);
     interpretBefunge(str);
     return 0;
 }
