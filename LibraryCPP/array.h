@@ -9,11 +9,7 @@
 // Change it to desired type
 typedef int Data;
 
-struct Array
-{
-    size_t size;
-    Data *data;
-};
+struct Array;
 
 // create array
 Array *array_create(size_t size);
