@@ -79,46 +79,38 @@
 
 void task2(Array *arr)
 {
-    size_t size = array_size(arr);
+    int size = array_size(arr);    
     bool found = false;
     std::cout << "Elements that occur 2 times: ";
-    for (size_t i = 0; i < size; i++)
+    for (int i = 0; i < size; i++) 
     {
         Data current = array_get(arr, i);
         int count = 0;
-        for (size_t j = 0; j < size; j++)
-        {
-            if (array_get(arr, j) == current)
+        int firstIndex = size;
+        for (int j = 0; j < size; j++) {
+            if (array_get(arr, j) == current) 
             {
                 count++;
+                if (firstIndex == size) 
+                {
+                    firstIndex = j;
+                }
             }
         }
-        if (count == 2)
+        if (count == 2 && firstIndex == i) 
         {
-            bool alreadyPrinted = false;
-            for (size_t k = 0; k < i; k++)
-            {
-                if (array_get(arr, k) == current)
-                {
-                    alreadyPrinted = true;
-                    break;
-                }
+            if (found) {
+                std::cout << " ";
             }
-            if (!alreadyPrinted)
-            {
-                if (found)
-                {
-                    std::cout << " ";
-                }
-                std::cout << current;
-                found = true;
-            }
+            std::cout << current;
+            found = true;
         }
     }
-    if (!found)
+    if (!found) 
     {
-        std::cout << "no such elements.";
+        std::cout << "no such elements";
     }
+    std::cout << std::endl;
 }
 
     int main(int argc, char **argv)
