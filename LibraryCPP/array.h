@@ -3,10 +3,10 @@
 
 #include <cstddef>
 
-// Non-resizeable array
+// Non-resizeable array - массив с неизменяемым размером
 
-// Stores integer values inside
-// Change it to desired type
+// Stores integer values inside - хранит челочисленные значения внутри
+// Change it to desired type - изменение его на желаемый тип
 typedef int Data;
 
 struct Array;
