@@ -25,8 +25,8 @@ void task1(Array *arr){
     if (arr == nullptr) return;
     
     int sum = 0;
-    int rainday = size;
     size_t size = array_size(arr);
+    size_t rainday = size;
     for(size_t i = 0; i < size; i++){
         sum += array_get(arr, i);
         if (array_get(arr, i) == 0) {
