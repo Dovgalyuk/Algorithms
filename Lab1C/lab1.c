@@ -29,7 +29,6 @@ void task1(Array* arr)
     int month_days[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
     size_t start = 0;
 
-    printf("Precipitation per month:\n");
     for (int m = 0; m < 12; ++m) {
         Data sum = 0;
         for (size_t i = 0; i < (size_t)month_days[m] && start + i < array_size(arr); ++i) {
@@ -58,7 +57,6 @@ void task2(Array* arr)
         array_set(arr, write_index++, 0);
     }
 
-    printf("Compressed array:\n");
     for (size_t i = 0; i < n; ++i) {
         printf("%lu ", array_get(arr, i));
     }
@@ -67,8 +65,8 @@ void task2(Array* arr)
 
 int main(int argc, char** argv)
 {
-    if (argc < 2) {
-        fprintf(stderr, "Error: input file not specified\n");
+    if (argc < 3) {
+        fprintf(stderr, "Usage: %s <input_file> <task1|task2>\n", argv[0]);
         return 1;
     }
 
@@ -86,25 +84,19 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    task1(arr);
-    array_delete(arr);
-
-    input = fopen(argv[1], "r");
-    if (!input) {
-        fprintf(stderr, "Error: cannot reopen input file %s\n", argv[1]);
+    if (strcmp(argv[2], "task1") == 0) {
+        task1(arr);
+    }
+    else if (strcmp(argv[2], "task2") == 0) {
+        task2(arr);
+    }
+    else {
+        fprintf(stderr, "Error: unknown task name '%s'\n", argv[2]);
+        array_delete(arr);
         return 1;
     }
 
-    arr = array_create_and_read(input);
-    fclose(input);
-
-    if (!arr) {
-        fprintf(stderr, "Error: failed to read array for task2\n");
-        return 1;
-    }
-
-    task2(arr);
     array_delete(arr);
-
     return 0;
 }
+

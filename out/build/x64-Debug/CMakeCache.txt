@@ -35,6 +35,21 @@ CMAKE_CXX_COMPILER:STRING=C:/Program Files/Microsoft Visual Studio/2022/Communit
 //No help, variable specified on the command line.
 CMAKE_CXX_FLAGS:STRING=/WX-
 
+//Flags used by the CXX compiler during DEBUG builds.
+CMAKE_CXX_FLAGS_DEBUG:STRING=/Zi /Ob0 /Od /RTC1
+
+//Flags used by the CXX compiler during MINSIZEREL builds.
+CMAKE_CXX_FLAGS_MINSIZEREL:STRING=/O1 /Ob1 /DNDEBUG
+
+//Flags used by the CXX compiler during RELEASE builds.
+CMAKE_CXX_FLAGS_RELEASE:STRING=/O2 /Ob2 /DNDEBUG
+
+//Flags used by the CXX compiler during RELWITHDEBINFO builds.
+CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=/Zi /O2 /Ob1 /DNDEBUG
+
+//Libraries linked by default with all C++ applications.
+CMAKE_CXX_STANDARD_LIBRARIES:STRING=kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+
 //C compiler
 CMAKE_C_COMPILER:STRING=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe
 
@@ -78,7 +93,7 @@ CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/CMakeFiles/pkgRedirects
 
 //No help, variable specified on the command line.
-CMAKE_INSTALL_PREFIX:PATH=C:/Users/Кирилл/Source/Repos/Algorithms/out/install/x64-Debug
+CMAKE_INSTALL_PREFIX:PATH=C:/Users/Кирилл/source/repos/Algorithms/out/install/x64-Debug
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/link.exe
@@ -212,6 +227,18 @@ CMAKE_CPACK_COMMAND:INTERNAL=C:/Program Files/Microsoft Visual Studio/2022/Commu
 CMAKE_CTEST_COMMAND:INTERNAL=C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/ctest.exe
 //ADVANCED property for variable: CMAKE_CXX_COMPILER
 CMAKE_CXX_COMPILER-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CXX_FLAGS
+CMAKE_CXX_FLAGS-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CXX_FLAGS_DEBUG
+CMAKE_CXX_FLAGS_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CXX_FLAGS_MINSIZEREL
+CMAKE_CXX_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CXX_FLAGS_RELEASE
+CMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CXX_FLAGS_RELWITHDEBINFO
+CMAKE_CXX_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CXX_STANDARD_LIBRARIES
+CMAKE_CXX_STANDARD_LIBRARIES-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_COMPILER
 CMAKE_C_COMPILER-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS
@@ -268,7 +295,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=10
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib
