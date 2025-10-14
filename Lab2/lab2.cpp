@@ -36,13 +36,12 @@ bool validateSequence(const std::string& s) {
         bool matched = false;
         for (const auto& tk : TOKENS) {
             if (matchAt(s, i, tk.open)) {
-                if (tk.symmetric) {
-                    if (!st.empty() && st.get() == tk.close) st.pop();
-                    else st.push(tk.close);
+                if (tk.symmetric && !st.empty() && st.get() == tk.close)
+                {
+                    st.pop();
                 }
-                else {
-                    st.push(tk.close);
-                }
+                else st.push(tk.close);
+
                 i += tk.open.size();
                 matched = true;
                 break;
