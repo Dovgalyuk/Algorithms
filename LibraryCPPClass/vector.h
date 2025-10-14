@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef VECTOR_H
 #define VECTOR_H
 
@@ -13,10 +15,10 @@ public:
     Vector();
 
     // copy constructor
-    Vector(const Vector &a);
+    Vector(const Vector& a);
 
     // assignment operator
-    Vector &operator=(const Vector &a);
+    Vector& operator=(const Vector& a);
 
     // Deletes vector structure and internal data
     ~Vector();
@@ -36,6 +38,9 @@ public:
 
 private:
     // private data should be here
+    Data* adata;
+    size_t asize;
+    size_t acapacity;
 };
 
 #endif

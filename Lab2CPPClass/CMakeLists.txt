@@ -1,0 +1,13 @@
+add_executable(lab2cppclass Lab21Struct.cpp)
+target_include_directories(lab2cppclass PUBLIC ../LibraryCPPClass)
+target_link_libraries(lab2cppclass LibraryCPPClass)
+
+# add_test(NAME TestLab2CPPClass COMMAND lab2cppclass ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
+add_test(NAME TestLab21CPPClass COMMAND lab2cppclass "1+2*3-1")
+set_property(TEST TestLab21CPPClass PROPERTY PASS_REGULAR_EXPRESSION "6")
+add_test(NAME TestLab22CPPClass COMMAND lab2cppclass "1*(2+3)")
+set_property(TEST TestLab22CPPClass PROPERTY PASS_REGULAR_EXPRESSION "5")
+add_test(NAME TestLab23CPPClass COMMAND lab2cppclass "(5 + 10 -5)* (2 + 3)")
+set_property(TEST TestLab23CPPClass PROPERTY PASS_REGULAR_EXPRESSION "50")
+add_test(NAME TestLab24CPPClass COMMAND lab2cppclass "(3*(8+4-2)+5)")
+set_property(TEST TestLab24CPPClass PROPERTY PASS_REGULAR_EXPRESSION "35")
