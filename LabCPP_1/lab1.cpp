@@ -81,7 +81,7 @@ void task1(Array *arr)
     cout << "absCount = " << absCount << endl;
 }
 
-void task2(Array *arr)
+void task2(Array *arr, FILE *input)
 {
     if (!arr)
     {
@@ -89,16 +89,16 @@ void task2(Array *arr)
         return;
     }
 
-    int direction;
-    int step;
+    int direction, step = fscanf(input, "%d" "%d", &direction, &step);
+    
     int n = array_size(arr);
 
-    cout << "1. <- \n2. ->" << endl;
+    // cout << "1. <- \n2. ->" << endl;
     // cin >> direction;
-    direction = 1;
-    cout << "Input step: ";
+    // direction = 1;
+    // cout << "Input step: ";
     // cin >> step;
-    step = 2;
+    // step = 2;
     cout << endl;
     
     switch (direction)
@@ -126,7 +126,7 @@ void task2(Array *arr)
     default:
         cout << "Choose 1 or 2!" << endl;
         cout << endl;
-        return task2(arr);
+        return;
     }
 
     cout << "Result array:" << endl;
@@ -170,7 +170,7 @@ int main(int argc, char **argv)
         fclose(input);
         return 1;
     }
-    task2(arr);
+    task2(arr, input);
 
     array_delete(arr);
     arr = nullptr;
