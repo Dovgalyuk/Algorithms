@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 #include <iostream>
 
 using namespace std;
@@ -31,23 +31,13 @@ void task1(Array *arr)
             cnt_neg += 1;
             sum_neg += num;
         }
-        if (num >= 0){
+        if (num > 0){
             cnt_pos += 1;
             sum_pos += num;
         }
     }
-    if (cnt_pos == 0 && cnt_neg == 0){
-        cout << 0 << " " << 0 << " ";
-    }
-    if (cnt_pos != 0 && cnt_neg == 0){
-        cout << sum_pos / cnt_pos << " " << 0 << " ";
-    }
-    if (cnt_pos == 0 && cnt_neg != 0){
-        cout << 0 << " " << sum_neg / cnt_neg << " ";
-    }
-    if (cnt_pos != 0 && cnt_neg != 0){
-        cout << sum_pos / cnt_pos << " " <<  sum_neg / cnt_neg << " ";
-    }
+    cout << (cnt_pos == 0 ? 0 : sum_pos / cnt_pos) << " "
+     << (cnt_neg == 0 ? 0 : sum_neg / cnt_neg) << " ";
 }
 
 void task2(Array *arr)
