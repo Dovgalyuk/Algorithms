@@ -33,7 +33,7 @@ void task1(Array *arr){
             rainday--;
         }
     }
-    cout << sum / rainday << "," << (sum % rainday)/rainday << " ";
+    cout << sum / rainday << "," << (sum % rainday) << " ";
 }
 
 void task2(Array *arr){
