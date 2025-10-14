@@ -7,43 +7,59 @@ public:
     // create array
     explicit Array(size_t size)
     {
+        mSize = size;
+        mData = new Data[mSize];
     }
 
     // copy constructor
     Array(const Array &a)
     {
+        mSize = a.mSize;
+        mData = new Data[mSize];
+        for (size_t i = 0; i < mSize; i++)
+            mData[i] = a.mData[i];
     }
 
     // assignment operator
     Array &operator=(const Array &a)
     {
+        if (this != &other) {
+            delete[] mData;
+            mSize = a.mSize;
+            mData = new Data[mSize];
+            for (size_t i = 0; i < mSize; i++)
+            mData[i] = a.mData[i];
+        }
         return *this;
     }
 
     // delete array, free memory
     ~Array()
     {
+        delete[] mData;
     }
 
     // returns specified array element
     Data get(size_t index) const
     {
-        return Data(0);
+        return mData[index];
     }
 
     // sets the specified array element to the value
     void set(size_t index, Data value)
     {
+        mData[index] = value;
     }
 
     // returns array size
     size_t size() const
     {
-        return 0;
+        return mSize;
     }
 
 private:
-    // private data should be here
+    Data* mData;
+    size_t mSize;
 };
 
 #endif
