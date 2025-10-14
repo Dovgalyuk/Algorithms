@@ -8,8 +8,6 @@ using namespace std;
 
 typedef map<char, int> MAP;
 
-bool call = false;
-
 string perevod(string text) {
 	for (char& c : text) {
 		c = tolower(c);
@@ -17,7 +15,7 @@ string perevod(string text) {
 	return text;
 }
 
-bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, bool& call) {
+bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, Stack* call) {
 
 	int value;
 
@@ -26,7 +24,6 @@ bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, bool& call) {
 	if (s == "push") {
 		file >> value;
 		stack_push(stack, value);
-		call = false;
 	}
 	else if (s == "pop") {
 		char c;
@@ -39,7 +36,6 @@ bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, bool& call) {
 
 		Arr[c] = stack_get(stack);
 		stack_pop(stack);
-		call = false;
 	}
 	else if (s == "add"){
 		if (stack_empty(stack)) {
@@ -59,7 +55,6 @@ bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, bool& call) {
 		stack_pop(stack);
 
 		stack_push(stack, a + b);
-		call = false;
 	}
 	else if (s == "sub") {
 		if (stack_empty(stack)) {
@@ -79,7 +74,6 @@ bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, bool& call) {
 		stack_pop(stack);
 
 		stack_push(stack, a - b);
-		call = false;
 	}
 	else if (s == "mul") {
 		if (stack_empty(stack)) {
@@ -99,26 +93,25 @@ bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, bool& call) {
 		stack_pop(stack);
 
 		stack_push(stack, a * b);
-		call = false;
 	}
 	else if (s == "call"){
 		stack_push(stack , 9999);
-		call = true;
+		stack_push(call, 1);
 	}
 	else if (s == "ret") {
-		if (stack_empty(stack)) {
+		if (stack_empty(stack) || stack_empty(call)) {
 			cout << "BAD RET";
 			return false;
 		}
 
-		int qwer = stack_get(stack);
-
-		if (qwer != 9999 || !call) {
+		int qwer_1= stack_get(stack);
+		int qwer_2 = stack_get(call);
+		if (qwer_1 != 9999 || qwer_2 != 1) {
 			cout << "BAD RET";
 			return false;
 		}
 		stack_pop(stack);
-		call = false;
+		stack_pop(call);
 	}
 
 	return true;
@@ -135,6 +128,7 @@ int main(int argc, char** argv) {
 	}
 
 	Stack* stack = stack_create();
+	Stack* call = stack_create();
 	MAP Arr = {
 		{'A',0},{'B',0},{'C',0},{'D',0}
 	};
@@ -143,6 +137,7 @@ int main(int argc, char** argv) {
 	while (file >> s) {
 		if (!qwer(s, stack, Arr, file, call)) {
 			stack_delete(stack);
+			stack_delete(call);
 			file.close();
 			return 0;
 		}
@@ -154,6 +149,7 @@ int main(int argc, char** argv) {
 		<< " D = " << Arr['D'] << endl;
 
 	stack_delete(stack);
+	stack_delete(call);
 	file.close();
 
 	return 0;
