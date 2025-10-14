@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "array.h"
+#include <string.h>
 
 Array* array_create_and_read(FILE* input)
 {
