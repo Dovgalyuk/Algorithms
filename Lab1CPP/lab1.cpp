@@ -33,7 +33,12 @@ void task1(Array *arr){
             rainday--;
         }
     }
-    cout << sum / rainday << "," << (sum % rainday) << " ";
+    if (rainday == 0) {
+        cout << "0,0 "; 
+    }
+    else {
+        cout << sum / rainday << "," << (sum % rainday) << " ";
+    }
 }
 
 void task2(Array *arr){
@@ -41,11 +46,10 @@ void task2(Array *arr){
 
     for (size_t i = 0; i < array_size(arr) - 1; i++) {
         for (size_t j = 0; j < array_size(arr) - i - 1; j++) {
-            size_t v = j+1;
-            if (array_get(arr, j) > array_get(arr, v)) {
+            if (array_get(arr, j) > array_get(arr, j + 1)) {
                 int temp = array_get(arr, j);
-                array_set(arr, j, array_get(arr, v));
-                array_set(arr, v, temp);
+                array_set(arr, j, array_get(arr, j + 1));
+                array_set(arr, j + 1, temp);
             }
         }
     }
@@ -65,8 +69,8 @@ void task2(Array *arr){
             cout << array_get(arr, i) << " ";
         }
     }
-    if(array_get(arr, array_size(arr)-1)!=array_get(arr, array_size(arr)))
-        cout<<array_get(arr, array_size(arr))<<" ";
+    if(array_get(arr, array_size(arr)-2)!=array_get(arr, array_size(arr)-1))
+        cout<<array_get(arr, array_size(arr)-1)<<" ";
 }
 
 int main(){
