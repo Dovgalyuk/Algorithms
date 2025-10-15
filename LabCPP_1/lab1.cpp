@@ -89,7 +89,13 @@ void task2(Array *arr, FILE *input)
         return;
     }
 
-    int direction, step = fscanf(input, "%d" "%d", &direction, &step);
+    int direction, step;
+    int ret = fscanf(input, "%d %d", &direction, &step);
+    if (ret != 2)
+    {
+        cerr << "Ошибка чтения направления и шага\n";
+        return;
+    }
     
     int n = array_size(arr);
 
