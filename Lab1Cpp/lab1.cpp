@@ -66,21 +66,24 @@ void task2(Array *arr)
     size_t size = array_size(arr);
     int max_sum = 0;
     size_t best_start = 0;
-    bool first = true;
     
-    for (size_t i = 0; i <= size - 5; i++)
+    int current_sum = 0;
+    for (size_t i = 0; i < 5; i++)
     {
-        int sum = 0;
-        for (size_t j = i; j < i + 5; j++)
-        {
-            sum = sum + array_get(arr, j);
-        }
+        current_sum += array_get(arr, i);
+    }
+    
+    max_sum = current_sum;
+    best_start = 0;
+    
+    for (size_t i = 1; i <= size - 5; i++)
+    {
+        current_sum = current_sum - array_get(arr, i - 1) + array_get(arr, i + 4);
         
-        if (first || sum > max_sum)
+        if (current_sum > max_sum)
         {
-            max_sum = sum;
+            max_sum = current_sum;
             best_start = i;
-            first = false;
         }
     }
     
