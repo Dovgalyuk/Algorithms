@@ -13,6 +13,9 @@ Array* array_create_and_read(FILE* input)
         return nullptr;
     }
     Array* arr = array_create(n);
+    if (arr == nullptr) {
+        return nullptr;
+    }
     for (size_t i = 0; i < n; ++i)
     {
         Data x;
@@ -52,7 +55,7 @@ void task1(Array* arr)
 void task2(Array* arr)
 {
     int a, b;
-    printf("Enter interval [a, b] to remove elements: ");
+    printf("Enter interval [a, b]: ");
     if (scanf("%d %d", &a, &b) != 2) {
         printf("Error reading interval\n");
         return;
@@ -105,10 +108,12 @@ int main(int argc, char** argv)
     arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
+    arr = nullptr;
 
     arr = array_create_and_read(input);
     task2(arr);
     array_delete(arr);
+    arr = nullptr;
 
     fclose(input);
     return 0;
