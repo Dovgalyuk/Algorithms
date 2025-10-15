@@ -41,6 +41,7 @@ private:
     Data* adata;
     size_t asize;
     size_t acapacity;
+    void copyadata(const Vector& a);
 };
 
 #endif
