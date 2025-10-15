@@ -34,79 +34,122 @@ int aoper(int pa, int pb, char poper) {
     }
 }
 
-void foper(Stack& pvalues, Stack& poperators) {
-    if (pvalues.empty() || poperators.empty()) {
-        throw runtime_error("Ошибка в выражении");
-    }
-    int val2 = pvalues.get();
-    pvalues.pop();
-    int val1 = pvalues.get();
-    pvalues.pop();
-    char op = (char)poperators.get();
-    poperators.pop();
-    int res = aoper(val1, val2, op);
-    pvalues.push(res);
-}
-
-int fexpr(const std::string& pexp) {
-    Stack vals;
+string foper(const string& pexp) {
+    string res;
     Stack opers;
-    for (size_t i = 0; i < pexp.length(); i++) {
-        if (pexp[i] == ' ') {
-            continue;
-        }
-        if (isdigit(pexp[i])) {
-            int num = 0;
-            string snum;
-            while (i < pexp.length() && isdigit(pexp[i])) {
-                snum += pexp[i];
-                i++;
 
+    for (size_t i = 0; i < pexp.length(); i++) {
+        char c = pexp[i];
+        if (c == ' ') continue;
+        if (isdigit(c)) {
+            while (i < pexp.length() && isdigit(pexp[i])) {
+                res += pexp[i];
+                i++;
             }
             i--;
-            num = stoi(snum);
-            vals.push(num);
+            res += ' ';
         }
-        else if (pexp[i] == '(') {
-            opers.push('(');
+        else if (c == '(') {
+            opers.push(c);
         }
-        else if (pexp[i] == ')') {
+        else if (c == ')') {
             while (!opers.empty() && opers.get() != '(') {
-                foper(vals, opers);
-            }
-            if (!opers.empty()) {
+                res += (char)opers.get();
+                res += ' ';
                 opers.pop();
             }
-        }
-        else if (pexp[i] == '+' || pexp[i] == '-' ||
-            pexp[i] == '*' || pexp[i] == '/') {
-            while (!opers.empty() && operpr((char)opers.get()) >= operpr(pexp[i])) {
-                foper(vals, opers);
+            if (!opers.empty() && opers.get() == '(') {
+                opers.pop();
             }
-            opers.push(pexp[i]);
+            else {
+                throw runtime_error("Некорректное выражение");
+            }
+        }
+        else if (c == '+' || c == '-' || c == '*' || c == '/') {
+            while (!opers.empty() && opers.get() != '(' &&
+                operpr((char)opers.get()) >= operpr(c)) {
+                res += (char)opers.get();
+                res += ' ';
+                opers.pop();
+            }
+            opers.push(c);
         }
         else {
-            throw runtime_error("Ошибка в выражении");
+            throw runtime_error("Недопустимый символ");
         }
     }
     while (!opers.empty()) {
-        foper(vals, opers);
+        if (opers.get() == '(') {
+            throw runtime_error("Некорректное выражение");
+        }
+        res += (char)opers.get();
+        res += ' ';
+        opers.pop();
     }
-    if (vals.empty()) {
-        throw runtime_error("Ошибка в выражении");
+    return res;
+}
+
+int fexpr(const string& rpn) {
+    Stack values;
+    string num;
+
+    for (size_t i = 0; i < rpn.length(); i++) {
+        char c = rpn[i];
+
+        if (c == ' ') {
+            if (!num.empty()) {
+                values.push(stoi(num));
+                num.clear();
+            }
+            continue;
+        }
+
+        if (isdigit(c)) {
+            num += c;
+        }
+        else if (c == '+' || c == '-' || c == '*' || c == '/') {
+            if (values.empty()) {
+                throw runtime_error("Недостаточно операндов");
+            }
+            int val2 = values.get();
+            values.pop();
+
+            if (values.empty()) {
+                throw runtime_error("Недостаточно операндов");
+            }
+            int val1 = values.get();
+            values.pop();
+
+            int res = aoper(val1, val2, c);
+            values.push(res);
+        }
     }
-    return vals.get();
+    if (!num.empty()) {
+        values.push(stoi(num));
+    }
+    if (values.empty()) {
+        throw runtime_error("Пустое выражение");
+    }
+    int res = values.get();
+    values.pop();
+
+    if (!values.empty()) {
+        throw runtime_error("Некорректное выражение");
+    }
+    return res;
 }
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         return 1;
     }
-    setlocale(LC_ALL, "russian");
-    string expression = argv[1];
+
+    string expr = argv[1];
+
     try {
-        int result = fexpr(expression);
-        cout << result << endl;
+        string rpn = foper(expr);
+        int res = fexpr(rpn);
+        cout << res << endl;
         return 0;
     }
     catch (const exception& e) {
