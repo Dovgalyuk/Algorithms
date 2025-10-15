@@ -1,0 +1,3 @@
+C:/Users/Vanek/source/repos/Algorithms3/Lab1C/build/CMakeFiles/Lab1C.dir
+C:/Users/Vanek/source/repos/Algorithms3/Lab1C/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Vanek/source/repos/Algorithms3/Lab1C/build/CMakeFiles/ZERO_CHECK.dir

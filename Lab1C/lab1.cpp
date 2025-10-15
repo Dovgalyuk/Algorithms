@@ -1,111 +1,131 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
 #include "array.h"
 
-Array* array_create_and_read(FILE* input)
+using namespace std;
+
+Array* array_create_and_read(ifstream& input)
 {
     int n;
-    if (fscanf(input, "%d", &n) != 1)
-        return NULL;
+    if (!(input >> n) || n <= 0) {
+        return nullptr;
+    }
 
-    Array* arr = array_create(n, NULL); 
-    for (int i = 0; i < n; ++i)
+    Array* arr = array_create(n);
+    for (int i = 0; i < n; i++)
     {
         int x;
-        fscanf(input, "%d", &x);
+        if (!(input >> x)) {
+            array_delete(arr);
+            return nullptr;
+        }
         array_set(arr, i, x);
     }
     return arr;
 }
 
-
 void task1(Array* arr)
 {
     size_t n = array_size(arr);
-    if (n == 0) return;
+    if (n == 0) {
+        cout << "Task1: array is empty" << endl;
+        return;
+    }
 
     double sum = 0;
-    for (size_t i = 0; i < n; ++i)
+    for (size_t i = 0; i < n; i++)
         sum += array_get(arr, i);
 
-    double avg = sum / n;
+    double average = sum / n;
 
-    int closest = (int)array_get(arr, 0);
-    double min_diff = fabs(closest - avg);
+    int closest = array_get(arr, 0);
+    double min_diff = fabs(closest - average);
 
-    for (size_t i = 1; i < n; ++i)
-    {
-        int val = (int)array_get(arr, i);
-        double diff = fabs(val - avg);
-        if (diff < min_diff)
-        {
+    for (size_t i = 1; i < n; i++) {
+        int element = array_get(arr, i);
+        double diff = fabs((double)element - average);
+        if (diff < min_diff) {
             min_diff = diff;
-            closest = val;
+            closest = element;
         }
     }
 
-    printf("Task1: element closest to average (%.2f) is %d\n", avg, closest);
+    cout << "Task1: element closest to average (" << fixed << setprecision(2) << average << ") is " << closest << endl;
 }
 
-
-void task2(Array* arr, FILE* input)
+void task2(Array* arr, ifstream& input)
 {
     size_t n = array_size(arr);
-    if (n == 0) return;
+    if (n == 0) {
+        cout << "Task2: array is empty" << endl;
+        return;
+    }
 
     int direction, steps;
-    fscanf(input, "%d %d", &direction, &steps); 
+    if (!(input >> direction >> steps)) {
+        cout << "Error reading direction and steps" << endl;
+        return;
+    }
 
-    if (steps > (int)n) steps = (int)n; 
+    if (steps > (int)n) steps = (int)n;
+    if (steps < 0) steps = 0;
 
-    Array* res = array_create(n, NULL);
+    Array* res = array_create(n);
 
-    for (size_t i = 0; i < n; ++i)
+    for (size_t i = 0; i < n; i++)
         array_set(res, i, 0);
 
-    if (direction == 0)
-    {
-        for (size_t i = 0; i + steps < n; ++i)
+    if (direction == 0) {
+        for (size_t i = 0; i + steps < n; i++)
             array_set(res, i, array_get(arr, i + steps));
     }
-    else 
-    {
-        for (size_t i = steps; i < (int)n; ++i)
+    else {
+        for (size_t i = steps; i < n; i++)
             array_set(res, i, array_get(arr, i - steps));
     }
 
-    printf("Task2: shifted array = ");
-    for (size_t i = 0; i < n; ++i)
-        printf("%d ", (int)array_get(res, i));
-    printf("\n");
+    cout << "Task2: shifted array = ";
+    for (size_t i = 0; i < n; i++)
+        cout << array_get(res, i) << " ";
+    cout << endl;
 
     array_delete(res);
 }
 
 int main(int argc, char** argv)
 {
-    if (argc < 2)
-    {
-        printf("Usage: %s <input_file>\n", argv[0]);
+    if (argc != 2) {
+        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
         return 1;
     }
 
-    FILE* input = fopen(argv[1], "r");
-    if (!input)
-    {
-        perror("File open error");
+    ifstream input;
+    input.open(argv[1]);
+    if (!input.is_open()) {
+        cerr << "Cannot open file: " << argv[1] << endl;
         return 1;
     }
 
     Array* arr = array_create_and_read(input);
+    if (!arr) {
+        cerr << "Error reading first array" << endl;
+        input.close();
+        return 1;
+    }
     task1(arr);
     array_delete(arr);
 
     arr = array_create_and_read(input);
+    if (!arr) {
+        cerr << "Error reading second array" << endl;
+        input.close();
+        return 1;
+    }
     task2(arr, input);
     array_delete(arr);
 
-    fclose(input);
+    input.close();
     return 0;
 }

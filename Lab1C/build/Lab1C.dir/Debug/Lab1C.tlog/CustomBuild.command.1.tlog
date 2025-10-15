@@ -1,0 +1,10 @@
+^C:\USERS\VANEK\SOURCE\REPOS\ALGORITHMS3\LAB1C\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Vanek/source/repos/Algorithms3/Lab1C -BC:/Users/Vanek/source/repos/Algorithms3/Lab1C/build --check-stamp-file C:/Users/Vanek/source/repos/Algorithms3/Lab1C/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
