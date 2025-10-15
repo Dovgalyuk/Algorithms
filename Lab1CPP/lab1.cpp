@@ -44,8 +44,8 @@ void task2(Array *arr){
             size_t v = j+1;
             if (array_get(arr, j) > array_get(arr, v)) {
                 int temp = array_get(arr, j);
-                array_get(arr, j) = array_get(arr, v);
-                array_get(arr, v) = temp;
+                array_set(arr, j, v);
+                array_set(arr, v, temp);
             }
         }
     }
