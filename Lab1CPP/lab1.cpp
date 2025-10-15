@@ -49,7 +49,7 @@ void task2(Array *arr){
         }
     }
 
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; i < n-1; i++) {
         if (arr[i]==arr[i++]) {
             for (size_t g = i++; g < n; g++)
             {
@@ -64,6 +64,8 @@ void task2(Array *arr){
             cout << arr[i] << " ";
         }
     }
+    if(arr[n-1]!=arr[n])
+        cout<<arr[n]<<" ";
 }
 
 int main(){
