@@ -9,14 +9,18 @@ Array* array_create_and_read(FILE* input)
 {
     size_t n;
     if (fscanf(input, "%zu", &n) != 1) {
-        printf("Error reading array size\n");
+        printf("Error array size\n");
         return nullptr;
     }
     Array* arr = array_create(n);
     for (size_t i = 0; i < n; ++i)
     {
         Data x;
-        fscanf(input, "%d", &x);
+        if (fscanf(input, "%d", &x) != 1) {  // ДОБАВЛЕНА ПРОВЕРКА
+            printf("Error array element at index %zu\n", i);
+            array_delete(arr);
+            return nullptr;
+        }
         array_set(arr, i, x);
     }
     return arr;
@@ -94,7 +98,7 @@ int main(int argc, char** argv)
     FILE* input = fopen(argv[1], "r");
 
     if (input == nullptr) {
-        printf("Error: Cannot open file %s\n", argv[1]);
+        printf("Cannot open file %s\n", argv[1]);
         return 1;
     }
 
