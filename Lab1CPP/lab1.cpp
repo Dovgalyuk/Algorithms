@@ -39,21 +39,21 @@ void task1(Array *arr){
 void task2(Array *arr){
     if (arr == nullptr) return;
 
-    for (size_t i = 0; i < n - 1; i++) {
-        for (size_t j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                size_t temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
+    for (size_t i = 0; i < array_size(arr) - 1; i++) {
+        for (size_t j = 0; j < array_size(arr) - i - 1; j++) {
+            if (array_get(arr, j) > array_get(arr, j++)) {
+                size_t temp = array_get(arr, j);
+                array_get(arr, j) = array_get(arr, j++);
+                array_get(arr, j++) = temp;
             }
         }
     }
 
-    for (size_t i = 0; i < n-1; i++) {
-        if (arr[i]==arr[i++]) {
-            for (size_t g = i++; g < n; g++)
+    for (size_t i = 0; i < array_size(arr)-1; i++) {
+        if (array_get(arr, i)==array_get(arr, i++)) {
+            for (size_t g = i++; g < array_size(arr); g++)
             {
-                if (arr[g] == arr[i])
+                if (array_get(arr, g) == array_get(arr, i))
                     i++;
                 else
                     g = n;
@@ -61,11 +61,11 @@ void task2(Array *arr){
         }
         else
         {
-            cout << arr[i] << " ";
+            cout << array_get(arr, i) << " ";
         }
     }
-    if(arr[n-1]!=arr[n])
-        cout<<arr[n]<<" ";
+    if(array_get(arr, array_size(arr)-1)!=array_get(arr, array_size(arr)))
+        cout<<array_get(arr, array_size(arr))<<" ";
 }
 
 int main(){
