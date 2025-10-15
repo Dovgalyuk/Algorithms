@@ -41,22 +41,22 @@ void task2(Array *arr){
 
     for (size_t i = 0; i < array_size(arr) - 1; i++) {
         for (size_t j = 0; j < array_size(arr) - i - 1; j++) {
-            if (array_get(arr, j) > array_get(arr, j++)) {
+            if (array_get(arr, j) > array_get(arr, j+1)) {
                 size_t temp = array_get(arr, j);
-                array_get(arr, j) = array_get(arr, j++);
-                array_get(arr, j++) = temp;
+                array_get(arr, j) = array_get(arr, j+1);
+                array_get(arr, j+1) = temp;
             }
         }
     }
 
     for (size_t i = 0; i < array_size(arr)-1; i++) {
-        if (array_get(arr, i)==array_get(arr, i++)) {
+        if (array_get(arr, i)==array_get(arr, i+1)) {
             for (size_t g = i++; g < array_size(arr); g++)
             {
                 if (array_get(arr, g) == array_get(arr, i))
                     i++;
                 else
-                    g = n;
+                    g = array_size(arr);
             }
         }
         else
