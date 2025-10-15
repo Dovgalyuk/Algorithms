@@ -1,9 +1,10 @@
 #include <iostream>
+#include <string>
 #include "list.h"
 
 int main()
 {
-    List *list = list_create();
+    List* list = list_create();
 
     if (!list)
     {
@@ -11,38 +12,59 @@ int main()
         return 1;
     }
 
-    list_insert(list, 1);
-    list_insert(list, 2);
-    list_insert(list, 3);
+    list_insert(list, "1");
+    list_insert(list, "2");
+    list_insert(list, "3");
 
-    if (list_item_data(list_first(list)) != 3)
+    ListItem* item = list_first(list);
+    if (!item)
     {
         std::cout << "list_insert error\n";
+        list_delete(list);
         return 1;
     }
 
-    list_insert_after(list, list_first(list), 4);
+    if (list_item_data(item) != "3")
+    {
+        std::cout << "list_insert error\n";
+        list_delete(list);
+        return 1;
+    }
 
-    if (list_item_data(list_item_next(list_first(list))) != 4)
+    list_insert_after(list, list_first(list), "4");
+
+    item = list_item_next(list_first(list));
+    if (!item)
     {
         std::cout << "list_insert_after error\n";
+        list_delete(list);
+        return 1;
+    }
+
+    if (list_item_data(item) != "4")
+    {
+        std::cout << "list_insert_after error\n";
+        list_delete(list);
         return 1;
     }
 
     list_erase_first(list);
 
-    if (list_item_data(list_first(list)) != 4)
+    if (list_item_data(list_first(list)) != "4")
     {
         std::cout << "list_erase error\n";
+        list_delete(list);
         return 1;
     }
 
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
+    for (ListItem* it = list_first(list); it; it = list_item_next(it))
     {
-        std::cout << list_item_data(item) << " ";
+        std::cout << list_item_data(it) << " ";
     }
     std::cout << "\n";
 
     list_delete(list);
+
+    return 0;
 }
