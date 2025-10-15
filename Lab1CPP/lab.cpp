@@ -8,7 +8,10 @@ using namespace std;
 Array* array_create_and_read(FILE* input)
 {
     size_t n;
-    fscanf(input, "%zu", &n);
+    if (fscanf(input, "%zu", &n) != 1) {
+        printf("Error reading array size\n");
+        return nullptr;
+    }
     Array* arr = array_create(n);
     for (size_t i = 0; i < n; ++i)
     {
@@ -46,7 +49,10 @@ void task2(Array* arr)
 {
     int a, b;
     printf("Enter interval [a, b] to remove elements: ");
-    scanf("%d %d", &a, &b);
+    if (scanf("%d %d", &a, &b) != 2) {
+        printf("Error reading interval\n");
+        return;
+    }
     if (a > b) {
         int temp = a;
         a = b;
