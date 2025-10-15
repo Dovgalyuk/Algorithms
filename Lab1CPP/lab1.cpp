@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "../LibraryCPP/array.h"
+#include <algorithm>
+#include "array.h"
 
 using namespace std;
 
@@ -38,24 +39,22 @@ void task1(Array *arr){
 
 void task2(Array *arr){
     if (arr == nullptr) return;
-    
-    size_t n = array_size(arr);
-    
-    // bubble sort
-    for(size_t i = 0; i < n - 1; i++){
-        for (size_t j = 0; j < n - i - 1; j++){
-            if(array_get(arr, j) > array_get(arr, j + 1)){
-                // swap
-                Data temp = array_get(arr, j);
-                array_set(arr, j, array_get(arr, j + 1));
-                array_set(arr, j + 1, temp);
+
+    sort(begin(arr), end(arr));
+
+    for (size_t i = 0; i < n; i++) {
+        if (arr[i]==arr[i++]) {
+            for (int g = i++; g < n; g++)
+            {
+                if (arr[g] == arr[i])
+                    i++;
+                else
+                    g = n;
             }
         }
-    }
-    
-    for(size_t i = 0; i < n; i++){
-        if (i == 0 || array_get(arr, i) != array_get(arr, i - 1)) {
-            cout << array_get(arr, i) << " ";
+        else
+        {
+            cout << arr[i] << " ";
         }
     }
 }
