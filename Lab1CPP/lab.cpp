@@ -39,17 +39,17 @@ void task1(Array* arr)
         }
     }
     
-    #Array* arrEven = nullptr;
-    #arrEven = array_create(CountEven);
-    #int arrEvenI = 0;
+    /*Array* arrEven = nullptr;
+    arrEven = array_create(CountEven);
+    int arrEvenI = 0;
 
-    #for (size_t i = 0; i < array_size(arr); ++i)
-    #{
-        #if (array_get(arr, i) % 2 == 0) {
+    for (size_t i = 0; i < array_size(arr); ++i)
+    {
+        if (array_get(arr, i) % 2 == 0) {
              #array_set(arrEven, arrEvenI, i);
              #arrEvenI += 1;
-            #}
-    #}
+            }
+    }*/
     for (size_t i = 0; i < array_size(arr); ++i)
     {
         if (array_get(arr, i) % 2 == 0) {
