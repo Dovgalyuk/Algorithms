@@ -39,10 +39,10 @@ void task1(Array *arr){
 void task2(Array *arr){
     if (arr == nullptr) return;
 
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
+    for (size_t i = 0; i < n - 1; i++) {
+        for (size_t j = 0; j < n - i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
-                int temp = arr[j];
+                size_t temp = arr[j];
                 arr[j] = arr[j + 1];
                 arr[j + 1] = temp;
             }
@@ -51,7 +51,7 @@ void task2(Array *arr){
 
     for (size_t i = 0; i < n; i++) {
         if (arr[i]==arr[i++]) {
-            for (int g = i++; g < n; g++)
+            for (size_t g = i++; g < n; g++)
             {
                 if (arr[g] == arr[i])
                     i++;
