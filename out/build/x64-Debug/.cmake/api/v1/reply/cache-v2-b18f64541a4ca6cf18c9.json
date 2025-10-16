@@ -575,7 +575,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/\u041a\u0438\u0440\u0438\u043b\u043b/Source/Repos/Algorithms/out/install/x64-Debug"
+			"value" : "C:/Users/\u041a\u0438\u0440\u0438\u043b\u043b/source/repos/Algorithms/out/install/x64-Debug"
 		},
 		{
 			"name" : "CMAKE_LINKER",
