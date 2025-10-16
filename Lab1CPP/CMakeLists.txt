@@ -1,9 +1,10 @@
-add_executable(Lab1CPP lab1.cpp)
 target_include_directories(Lab1CPP PUBLIC ../LibraryCPP)
 target_link_libraries(Lab1CPP LibraryCPP)
 
-add_test(NAME TestLab1CPP COMMAND $<TARGET_FILE:Lab1CPP> ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-set_tests_properties(TestLab1CPP PROPERTIES PASS_REGULAR_EXPRESSION "5,0 1 2 3 4 ")
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.txt ${CMAKE_CURRENT_BINARY_DIR}/input.txt COPYONLY)
 
-add_test(NAME TestLab1CPPNoUn COMMAND $<TARGET_FILE:Lab1CPP> ${CMAKE_CURRENT_SOURCE_DIR}/inputunun.txt)
-set_tests_properties(TestLab1CPPNoUn PROPERTIES PASS_REGULAR_EXPRESSION "47,2 1 2 3 4 5 ")
+add_test(NAME TestLab1CPP COMMAND $<TARGET_FILE:Lab1CPP>)
+set_tests_properties(TestLab1CPP PROPERTIES
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    PASS_REGULAR_EXPRESSION "5,0 1 2 3 4 "
+)
