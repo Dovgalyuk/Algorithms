@@ -22,7 +22,7 @@ Array* array_create_and_read(FILE* input, int *a, int *b)
         array_set(arr, i, (Data)x);
     }
 
-    if (fscanf(input, "%d %d", a, b) != 2) {
+    if (fscanf(input, "%d %d", a, b) != 2) { 
         array_delete(arr);
         return NULL;
     }

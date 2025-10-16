@@ -11,3 +11,4 @@ add_test(NAME TestLab1_Task2 COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input.txt
 set_tests_properties(TestLab1_Task2 PROPERTIES PASS_REGULAR_EXPRESSION
 "1 6 7 8 9 .* 0 0 0 0"
 )
+ 
