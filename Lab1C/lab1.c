@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "array.h"
 #include <string.h>
+#include "array.h"
 
-Array* array_create_and_read(FILE* input)
+Array* array_create_and_read(FILE* input, int *a, int *b)
 {
     int n;
     if (fscanf(input, "%d", &n) != 1) 
@@ -20,6 +20,11 @@ Array* array_create_and_read(FILE* input)
             return NULL;
         }
         array_set(arr, i, (Data)x);
+    }
+
+    if (fscanf(input, "%d %d", a, b) != 2) {
+        array_delete(arr);
+        return NULL;
     }
 
     return arr;
@@ -41,15 +46,14 @@ void task1(Array* arr)
     printf("\n");
 }
 
-void task2(Array* arr)
+void task2(Array* arr, int a, int b)
 {
-    int a = 2, b = 5;
     size_t write_index = 0;
     size_t n = array_size(arr);
 
     for (size_t i = 0; i < n; ++i) {
         Data val = array_get(arr, i);
-        if (val < (Data)a || val >(Data)b) {
+        if (val < (Data)a || val > (Data)b) {
             array_set(arr, write_index++, val);
         }
     }
@@ -77,7 +81,8 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    Array* arr = array_create_and_read(input);
+    int a, b;
+    Array* arr = array_create_and_read(input, &a, &b);
     fclose(input);
 
     if (!arr) {
@@ -87,11 +92,9 @@ int main(int argc, char** argv)
 
     if (strcmp(argv[2], "task1") == 0) {
         task1(arr);
-    }
-    else if (strcmp(argv[2], "task2") == 0) {
-        task2(arr);
-    }
-    else {
+    } else if (strcmp(argv[2], "task2") == 0) {
+        task2(arr, a, b);
+    } else {
         fprintf(stderr, "Error: unknown task name '%s'\n", argv[2]);
         array_delete(arr);
         return 1;
@@ -100,4 +103,3 @@ int main(int argc, char** argv)
     array_delete(arr);
     return 0;
 }
-
