@@ -35,8 +35,8 @@ long long fac(int n) {
 void task1(Array* arr)
 {
     size_t n = array_size(arr);
-    for (int i = 0; i < n; i++)
-        array_set(arr, i, (int)fac(i));
+    for (size_t i = 0; i < n; i++)
+        array_set(arr, i, (int)fac((int)i));
 
     cout << "Factorial: ";
 
@@ -54,13 +54,13 @@ void task2(Array* arr)
     }
 
     int max = 0;
-    int indx = 0;
+    size_t indx = 0;
 
-    for (int i = 0; i <= n - 5; i++) {
+    for (size_t i = 0; i <= n - 5; i++) {
 
         int tec = 0;
 
-        for (int j = 0; j < 5; j++)
+        for (size_t j = 0; j < 5; j++)
             tec += array_get(arr, i + j);
 
         if (tec > max) {
