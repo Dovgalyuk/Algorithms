@@ -7,18 +7,25 @@ using namespace std;
 
 bool tags_match(const string& open_tag, const string& close_tag) {
 
-    if (close_tag[0] != '<' || close_tag[1] != '/' || close_tag.back() != '>')
+    if (close_tag.size() < 4 || close_tag[0] != '<' || close_tag[1] != '/' || close_tag.back() != '>') {
         return false;
+    }
 
-    string open_name = open_tag.substr(1, open_tag.size() - 2);
-    string close_name = close_tag.substr(2, close_tag.size() - 3);
+    size_t open_len = open_tag.size();
+    size_t close_len = close_tag.size();
 
-    if (open_name.size() != close_name.size())
+    if (open_len - 2 != close_len - 3) {
         return false;
+    }
 
-    for (size_t i = 0; i < open_name.size(); ++i) {
-        if (tolower(open_name[i]) != tolower(close_name[i]))
+    size_t name_length = open_len - 2;
+
+    for (size_t i = 0; i < name_length; ++i) {
+        char open_char = tolower(open_tag[i + 1]);     
+        char close_char = tolower(close_tag[i + 2]);
+        if (open_char != close_char) {
             return false;
+        }
     }
     return true;
 }
