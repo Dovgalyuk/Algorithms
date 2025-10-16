@@ -34,9 +34,9 @@ long long fac(int n) {
 }
 void task1(Array* arr)
 {
-    int n = array_size(arr);
+    size_t n = array_size(arr);
     for (int i = 0; i < n; i++)
-        array_set(arr, i, fac(i));
+        array_set(arr, i, (int)fac(i));
 
     cout << "Factorial: ";
 
@@ -48,7 +48,7 @@ void task1(Array* arr)
 
 void task2(Array* arr)
 {
-    int n = array_size(arr);
+    size_t n = array_size(arr);
     if (n < 5) {
         return;
     }
@@ -78,6 +78,7 @@ void task2(Array* arr)
 
 int main(int argc, char** argv)
 {
+    (void)argc;
     Array* arr = nullptr;
 
     ifstream input(argv[1]);

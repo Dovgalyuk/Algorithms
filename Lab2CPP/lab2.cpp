@@ -10,7 +10,7 @@ typedef map<char, int> MAP;
 
 string perevod(string text) {
 	for (char& c : text) {
-		c = tolower(c);
+		c = (char)tolower(c);
 	}
 	return text;
 }
@@ -96,7 +96,7 @@ bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, Stack* call) {
 	}
 	else if (s == "call"){
 		stack_push(stack , 9999);
-		stack_push(call, 1);
+		stack_push(call, 9999);
 	}
 	else if (s == "ret") {
 		if (stack_empty(stack) || stack_empty(call)) {
@@ -106,7 +106,7 @@ bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, Stack* call) {
 
 		int qwer_1= stack_get(stack);
 		int qwer_2 = stack_get(call);
-		if (qwer_1 != 9999 || qwer_2 != 1) {
+		if (qwer_1 != 9999 || qwer_2 != 9999) {
 			cout << "BAD RET";
 			return false;
 		}
@@ -118,9 +118,9 @@ bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, Stack* call) {
 }
 
 
-
-int main(int argc, char** argv) {
-
+int main(int argc, char** argv)
+{
+	(void)argc;
 	ifstream file(argv[1]);
 
 	if (!file.is_open()) {
