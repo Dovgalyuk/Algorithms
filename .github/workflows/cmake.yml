@@ -24,7 +24,7 @@ jobs:
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS_INIT="-fsanitize=address" -DCMAKE_C_FLAGS_INIT="-fsanitize=address" -DCMAKE_EXE_LINKER_FLAGS_INIT="-fsanitize=address"
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS_INIT="-fsanitize=address,memory,undefined,safe-stack ASAN_OPTIONS=detect_leaks=1" -DCMAKE_C_FLAGS_INIT="-fsanitize=address,memory,undefined,safe-stack ASAN_OPTIONS=detect_leaks=1" -DCMAKE_EXE_LINKER_FLAGS_INIT="-fsanitize=address,memory,undefined,safe-stack ASAN_OPTIONS=detect_leaks=1"
 
     - name: Build
       # Build your program with the given configuration
