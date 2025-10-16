@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Array *array_create_and_write(ifstream& input)
+Array* array_create_and_write(ifstream& input)
 {
     int n;
     input >> n;
@@ -21,27 +21,27 @@ Array *array_create_and_write(ifstream& input)
     return arr;
 }
 
-void task1(Array *arr){
+void task1(Array* arr) {
     if (arr == nullptr) return;
-    
+
     int sum = 0;
     size_t size = array_size(arr);
     size_t rainday = size;
-    for(size_t i = 0; i < size; i++){
+    for (size_t i = 0; i < size; i++) {
         sum += array_get(arr, i);
         if (array_get(arr, i) == 0) {
             rainday--;
         }
     }
     if (rainday == 0) {
-        cout << "0,0 "; 
+        cout << "0,0 ";
     }
     else {
         cout << sum / rainday << "," << (sum % rainday) << " ";
     }
 }
 
-void task2(Array *arr){
+void task2(Array* arr) {
     if (arr == nullptr) return;
 
     for (size_t i = 0; i < array_size(arr) - 1; i++) {
@@ -54,8 +54,8 @@ void task2(Array *arr){
         }
     }
 
-    for (size_t i = 0; i < array_size(arr)-1; i++) {
-        if (array_get(arr, i)==array_get(arr, i+1)) {
+    for (size_t i = 0; i < array_size(arr) - 1; i++) {
+        if (array_get(arr, i) == array_get(arr, i + 1)) {
             for (size_t g = i++; g < array_size(arr); g++)
             {
                 if (array_get(arr, g) == array_get(arr, i))
@@ -69,22 +69,22 @@ void task2(Array *arr){
             cout << array_get(arr, i) << " ";
         }
     }
-    if(array_get(arr, array_size(arr)-2)!=array_get(arr, array_size(arr)-1))
-        cout<<array_get(arr, array_size(arr)-1)<<" ";
+    if (array_get(arr, array_size(arr) - 2) != array_get(arr, array_size(arr) - 1))
+        cout << array_get(arr, array_size(arr) - 1) << " ";
 }
 
-int main(){
+int main() {
     ifstream input("input.txt");
 
-    Array *arr = array_create_and_write(input);
-    
+    Array* arr = array_create_and_write(input);
+
     task1(arr);
     array_delete(arr);
-    
-    
+
+
     /* Create another array here */
     arr = array_create_and_write(input);
-    
+
     task2(arr);
     array_delete(arr);
     input.close();
