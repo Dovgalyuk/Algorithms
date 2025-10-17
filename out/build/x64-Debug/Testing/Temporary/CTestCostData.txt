@@ -1,4 +1,0 @@
-TestArrayCPP 4 0.00281805
-TestFibonachi 2 0.0413968
-TestCompressed 1 0.0265362
----
