@@ -48,10 +48,22 @@ void task1(Array *arr)
     }
 }
 
-void task2(Array *arr)
+void task2(Array* arr)
 {
     if (arr == nullptr)
         return;
+
+    if (array_size(arr) == 1) {
+        cout << array_get(arr, 0);
+        return;
+    }
+
+    
+    if (array_size(arr) == 2) {
+        if (array_get(arr, 0) != array_get(arr, 1))
+            cout << array_get(arr, 0) << " " << array_get(arr, 0);
+        return;
+    }
 
     for (size_t i = 0; i < array_size(arr) - 1; i++)
     {
