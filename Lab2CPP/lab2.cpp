@@ -99,13 +99,13 @@ bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file) {
 	}
 	else if (s == "ret") {
 		if (stack_empty(stack)) {
-			cout << "BAD RET\n";
+			cout << "BAD RET";
 			return false;
 		}
 
 		int qwer_1 = stack_get(stack);
 		if (qwer_1 != 9999) {
-			cout << "BAD RET\n";
+			cout << "BAD RET";
 			return false;
 		}
 		stack_pop(stack);
