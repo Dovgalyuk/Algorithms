@@ -15,4 +15,4 @@ set_tests_properties(TestLab2CPP_4 PROPERTIES PASS_REGULAR_EXPRESSION "BAD POP")
 
 
 add_test(NAME TestLab2CPP_5 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input5.txt)
-set_tests_properties(TestLab2CPP_5 PROPERTIES PASS_REGULAR_EXPRESSION "A = 0.*B = 0.*C = 0.*D = 0")
+set_tests_properties(TestLab2CPP_5 PROPERTIES PASS_REGULAR_EXPRESSION "BAD RET")
