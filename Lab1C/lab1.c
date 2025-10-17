@@ -62,7 +62,7 @@ void task1(Array* arr)
         for (size_t i = 0; i < (size_t)month_days[m] && start + i < array_size(arr); ++i) {
             sum += array_get(arr, start + i);
         }
-        printf("%d ", sum);
+        printf("%lu ", sum);
         start += month_days[m];
     }
     printf("\n");
@@ -85,7 +85,7 @@ void task2(Array* arr, int a, int b)
     }
 
     for (size_t i = 0; i < n; ++i) {
-        printf("%d ", array_get(arr, i));
+        printf("%lu ", array_get(arr, i));
     }
     printf("\n");
 }
