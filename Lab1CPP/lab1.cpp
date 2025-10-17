@@ -85,9 +85,9 @@ void task2(Array *arr)
     }
 }
 
-int main()
+int main(int argc, char **argv)
 {
-    ifstream input("input.txt");
+    ifstream input(argv[1]);;
 
     Array *arr = array_create_and_write(input);
 
