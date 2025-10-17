@@ -3,14 +3,14 @@
 #include <string.h>
 #include "array.h"
 
-Array* array_create_and_read(FILE* input, int *a, int *b)
+Array* array_read_task1(FILE* input)
 {
     int n;
-    if (fscanf(input, "%d", &n) != 1) 
+    if (fscanf(input, "%d", &n) != 1)
         return NULL;
 
     Array* arr = array_create(n, NULL);
-    if (!arr) 
+    if (!arr)
         return NULL;
 
     for (int i = 0; i < n; ++i) {
@@ -22,7 +22,29 @@ Array* array_create_and_read(FILE* input, int *a, int *b)
         array_set(arr, i, (Data)x);
     }
 
-    if (fscanf(input, "%d %d", a, b) != 2) { 
+    return arr;
+}
+
+Array* array_read_task2(FILE* input, int* a, int* b)
+{
+    int n;
+    if (fscanf(input, "%d", &n) != 1)
+        return NULL;
+
+    Array* arr = array_create(n, NULL);
+    if (!arr)
+        return NULL;
+
+    for (int i = 0; i < n; ++i) {
+        int x;
+        if (fscanf(input, "%d", &x) != 1) {
+            array_delete(arr);
+            return NULL;
+        }
+        array_set(arr, i, (Data)x);
+    }
+
+    if (fscanf(input, "%d %d", a, b) != 2) {
         array_delete(arr);
         return NULL;
     }
@@ -40,7 +62,7 @@ void task1(Array* arr)
         for (size_t i = 0; i < (size_t)month_days[m] && start + i < array_size(arr); ++i) {
             sum += array_get(arr, start + i);
         }
-        printf("%lu ", sum);
+        printf("%d ", sum);
         start += month_days[m];
     }
     printf("\n");
@@ -53,7 +75,7 @@ void task2(Array* arr, int a, int b)
 
     for (size_t i = 0; i < n; ++i) {
         Data val = array_get(arr, i);
-        if (val < (Data)a || val > (Data)b) {
+        if (val < (Data)a || val >(Data)b) {
             array_set(arr, write_index++, val);
         }
     }
@@ -63,7 +85,7 @@ void task2(Array* arr, int a, int b)
     }
 
     for (size_t i = 0; i < n; ++i) {
-        printf("%lu ", array_get(arr, i));
+        printf("%d ", array_get(arr, i));
     }
     printf("\n");
 }
@@ -81,25 +103,36 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    int a, b;
-    Array* arr = array_create_and_read(input, &a, &b);
-    fclose(input);
-
-    if (!arr) {
-        fprintf(stderr, "Error: failed to read array\n");
-        return 1;
-    }
+    Array* arr = NULL;
+    int a = 0, b = 0;
 
     if (strcmp(argv[2], "task1") == 0) {
+        arr = array_read_task1(input);
+        if (!arr) {
+            fprintf(stderr, "Error: failed to read data for task1\n");
+            fclose(input);
+            return 1;
+        }
         task1(arr);
-    } else if (strcmp(argv[2], "task2") == 0) {
+
+    }
+    else if (strcmp(argv[2], "task2") == 0) {
+        arr = array_read_task2(input, &a, &b);
+        if (!arr) {
+            fprintf(stderr, "Error: failed to read data for task2\n");
+            fclose(input);
+            return 1;
+        }
         task2(arr, a, b);
-    } else {
+
+    }
+    else {
         fprintf(stderr, "Error: unknown task name '%s'\n", argv[2]);
-        array_delete(arr);
+        fclose(input);
         return 1;
     }
 
+    fclose(input);
     array_delete(arr);
     return 0;
 }
