@@ -13,7 +13,7 @@ set_tests_properties(TestLab1CPP PROPERTIES
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input2.txt ${CMAKE_CURRENT_BINARY_DIR}/input2.txt COPYONLY)
 
 add_test(NAME TestLab1CPP2 COMMAND $<TARGET_FILE:Lab1CPP>)
-set_tests_properties(TestLab1CPP PROPERTIES
+set_tests_properties(TestLab1CPP2 PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     PASS_REGULAR_EXPRESSION "0,0 "
 )
