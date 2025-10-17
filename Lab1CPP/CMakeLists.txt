@@ -14,5 +14,5 @@ set_tests_properties(TestLab1CPP PROPERTIES
 add_test(NAME TestLab1CPP_Input2 COMMAND $<TARGET_FILE:Lab1CPP> input2.txt)
 set_tests_properties(TestLab1CPP_Input2 PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    PASS_REGULAR_EXPRESSION "0,0 "
+    PASS_REGULAR_EXPRESSION "5,0 1 2 3 4 "
 )
