@@ -36,9 +36,9 @@ public:
     void resize(size_t size);
 
 private:
-    size_t new_capacity;
-    size_t size_v;
     Data* data;
+    size_t size_v;
+    size_t new_capacity;
     const size_t grow_constant = 2;
 };
 

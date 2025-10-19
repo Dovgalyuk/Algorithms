@@ -1,7 +1,7 @@
 #include "vector.h"
 #include <stdexcept>
 
-Vector::Vector():size_v(0),new_capacity(0), data(new Data [2])
+Vector::Vector(): data(new Data [2]), size_v(0), new_capacity(0)
 {
     new_capacity = size_v * grow_constant;
     data = new Data[new_capacity];
