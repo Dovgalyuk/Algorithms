@@ -1,24 +1,29 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include "../LibraryCPP/array.h"  // Подключаем готовый header
+#include "array.h"
 
 using namespace std;
 
 // Функция 1: Разделение на положительные и отрицательные
-void separatePositiveNegative(Array* source, vector<int>& positive, vector<int>& negative) {
+void separatePositiveNegative(Array* source, Array* positive, Array* negative, 
+                             size_t* pos_count, size_t* neg_count) {
+    *pos_count = 0;
+    *neg_count = 0;
+    
     for (size_t i = 0; i < array_size(source); ++i) {
         int value = array_get(source, i);
         if (value > 0) {
-            positive.push_back(value);
+            array_set(positive, (*pos_count)++, value);
         } else if (value < 0) {
-            negative.push_back(value);
+            array_set(negative, (*neg_count)++, value);
         }
     }
 }
 
-// Функция 2: Поиск уникальных элементов
-void findUniqueElements(Array* source, vector<int>& unique) {
+// Функция 2: Поиск уникальных элементов - использовать Array вместо vector
+void findUniqueElements(Array* source, Array* unique, size_t* unique_count) {
+    *unique_count = 0;
+    
     for (size_t i = 0; i < array_size(source); ++i) {
         int value = array_get(source, i);
         int count = 0;
@@ -28,7 +33,7 @@ void findUniqueElements(Array* source, vector<int>& unique) {
             }
         }
         if (count == 1) {
-            unique.push_back(value);
+            array_set(unique, (*unique_count)++, value);
         }
     }
 }
@@ -48,7 +53,6 @@ int main(int argc, char* argv[]) {
     int size;
     inputFile >> size;
     
-    // Используем готовые функции из LibraryCPP
     Array* arr = array_create(size);
     
     for (int i = 0; i < size; ++i) {
@@ -64,30 +68,37 @@ int main(int argc, char* argv[]) {
     }
     cout << endl;
     
-    vector<int> positive, negative;
-    separatePositiveNegative(arr, positive, negative);
+    // Создаем массивы для результатов (максимальный размер = исходный размер)
+    Array* positive = array_create(size);
+    Array* negative = array_create(size);
+    Array* unique = array_create(size);
+    
+    size_t pos_count, neg_count, unique_count;
+    
+    separatePositiveNegative(arr, positive, negative, &pos_count, &neg_count);
+    findUniqueElements(arr, unique, &unique_count);
     
     cout << "Positive numbers: ";
-    for (int num : positive) {
-        cout << num << " ";
+    for (size_t i = 0; i < pos_count; ++i) {
+        cout << array_get(positive, i) << " ";
     }
     cout << endl;
     
     cout << "Negative numbers: ";
-    for (int num : negative) {
-        cout << num << " ";
+    for (size_t i = 0; i < neg_count; ++i) {
+        cout << array_get(negative, i) << " ";
     }
     cout << endl;
     
-    vector<int> unique;
-    findUniqueElements(arr, unique);
-    
     cout << "Unique elements: ";
-    for (int num : unique) {
-        cout << num << " ";
+    for (size_t i = 0; i < unique_count; ++i) {
+        cout << array_get(unique, i) << " ";
     }
     cout << endl;
     
     array_delete(arr);
+    array_delete(positive);
+    array_delete(negative);
+    array_delete(unique);
     return 0;
 }
