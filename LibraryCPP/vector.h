@@ -7,9 +7,14 @@
 
 // Stores integer values inside
 // Change it to desired type
-typedef int Data;
+typedef double Data;
 
-struct Vector;
+struct Vector
+{
+    size_t size;
+    size_t capacity;
+    Data *data;
+};
 
 // Creates vector
 Vector *vector_create();
@@ -25,9 +30,11 @@ void vector_set(Vector *vector, size_t index, Data value);
 
 // Retrieves current vector size
 size_t vector_size(const Vector *vector);
+// Retrieves current vector capacity
+size_t vector_capacity(const Vector *vector);
 
 // Changes the vector size (may increase or decrease)
 // Should be O(1) on average
-void vector_resize(Vector *vector, size_t size);
+void vector_resize(Vector *vector, size_t req_size);
 
 #endif
