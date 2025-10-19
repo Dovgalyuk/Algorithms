@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include "../LibraryCPP/task2.h"
-#include "../LibraryCPP/task1.h"
+#include  <../LibraryCPP/task1.h>
+#include  <../LibraryCPP/task2.h>
+#include "../LibraryCPP/array.h"
+
 using namespace std;
 
 int main() {
@@ -13,18 +15,21 @@ int main() {
 
     int n;
     file >> n;
-    int* arr = new int[n];
+    int* arr = array_create(n);
 
     for (int i = 0; i < n; i++) {
-        file >> arr[i];
+        int x;
+        file >> x;
+        array_set(arr, i, x);
     }
 
     int a, b;
     file >> a >> b;
-cout << "размер массива " << n << endl;
-    cout << "элементы массива " ;
+
+    cout << "размер массива " << n << endl;
+    cout << "элементы массива ";
     for (int i = 0; i < n; i++) {
-        cout << arr[i] << " ";
+        cout << array_get(arr, i) << " ";
     }
     cout << endl;
 
@@ -37,11 +42,11 @@ cout << "размер массива " << n << endl;
 
     cout << "Сжатый массив: ";
     for (int i = 0; i < n; i++) {
-        cout << arr[i] << " ";
+        cout << array_get(arr, i) << " ";
     }
     cout << endl;
 
-    delete[] arr;
+    array_delete(arr);
     file.close();
     return 0;
 }

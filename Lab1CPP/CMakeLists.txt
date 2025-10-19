@@ -6,6 +6,7 @@ add_executable(Lab1C
         lab1.cpp
         ../LibraryCPP/task1.cpp
         ../LibraryCPP/task2.cpp
+        ../LibraryCPP/array.cpp
 )
 
 target_include_directories(Lab1C PUBLIC
@@ -19,23 +20,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.txt
 
 enable_testing()
 
-#add_executable(TestTask1
-#        ../LibraryCPP/tests/TestTask1.cpp
-#        ../LibraryCPP/task1.cpp
-#)
-#
-#
-#target_include_directories(TestTask1 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP)
-#add_test(NAME TestTask1 COMMAND TestTask1)
-#
-#add_executable(TestTask2
-#        ../LibraryCPP/tests/TestTask2.cpp
-#        ../LibraryCPP/task2.cpp
-#)
-#target_include_directories(TestTask2 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP)
-#add_test(NAME TestTask2 COMMAND TestTask2)
-
-
 add_test(NAME TestMaxLength COMMAND Lab1C ${CMAKE_CURRENT_BINARY_DIR}/input.txt)
 set_tests_properties(TestMaxLength PROPERTIES
         PASS_REGULAR_EXPRESSION
@@ -47,3 +31,11 @@ set_tests_properties(TestCompressedArray PROPERTIES
         PASS_REGULAR_EXPRESSION
         "Сжатый массив: 5 6 7 8 9 0 0 0 0 0"
 )
+
+add_executable(ArrayTest
+        ../LibraryCPP/tests/array.cpp
+        ../LibraryCPP/array.cpp
+)
+
+target_include_directories(ArrayTest PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP)
+add_test(NAME ArrayTest COMMAND ArrayTest)

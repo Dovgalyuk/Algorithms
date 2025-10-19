@@ -20,8 +20,6 @@
   <component name="CMakeRunConfigurationManager">
     <generated>
       <config projectName="Algorithms" targetName="Lab1C" />
-      <config projectName="Algorithms" targetName="TestTask1" />
-      <config projectName="Algorithms" targetName="TestTask2" />
       <config projectName="Algorithms" targetName="LibraryCPP" />
     </generated>
   </component>
@@ -32,7 +30,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="792ce5bc-95a8-4445-b929-f81c33a20d66" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Lab1CPP/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Lab1CPP/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab1CPP/lab1.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Lab1CPP/lab1.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibraryCPP/Tests/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryCPP/Tests/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibraryCPP/Tests/array.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryCPP/Tests/array.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibraryCPP/array.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryCPP/array.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibraryCPP/array.h" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryCPP/array.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,16 +99,6 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestTask1" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Algorithms" TARGET_NAME="TestTask1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Algorithms" RUN_TARGET_NAME="TestTask1">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestTask2" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Algorithms" TARGET_NAME="TestTask2" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Algorithms" RUN_TARGET_NAME="TestTask2">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="All CTest" type="CTestRunConfiguration" factoryName="CTestRun" PROGRAM_PARAMS="--extra-verbose" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$CMakeCurrentLocalGenerationDir$" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_PATH="$CTestCurrentExecutableName$" EXPLICIT_BUILD_TARGET_NAME="all" TEST_MODE="SUITE_TEST">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -113,8 +107,6 @@
     </configuration>
     <list>
       <item itemvalue="CMake Application.Lab1C" />
-      <item itemvalue="CMake Application.TestTask1" />
-      <item itemvalue="CMake Application.TestTask2" />
       <item itemvalue="CMake Application.LibraryCPP" />
       <item itemvalue="CTest Application.All CTest" />
     </list>
@@ -129,7 +121,17 @@
       <workItem from="1760006760362" duration="10437000" />
       <workItem from="1760175817761" duration="1353000" />
       <workItem from="1760201558528" duration="639000" />
-      <workItem from="1760264955051" duration="2560000" />
+      <workItem from="1760264955051" duration="2877000" />
+      <workItem from="1760268383301" duration="43000" />
+      <workItem from="1760342318047" duration="375000" />
+      <workItem from="1760349461451" duration="346000" />
+      <workItem from="1760446010643" duration="557000" />
+      <workItem from="1760512023983" duration="1639000" />
+      <workItem from="1760637340343" duration="982000" />
+      <workItem from="1760689221437" duration="1719000" />
+      <workItem from="1760731115805" duration="3000" />
+      <workItem from="1760816489483" duration="2466000" />
+      <workItem from="1760892442963" duration="2394000" />
     </task>
     <servers />
   </component>

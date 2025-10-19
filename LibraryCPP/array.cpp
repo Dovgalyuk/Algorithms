@@ -1,35 +1,27 @@
 #include "array.h"
+#include <cstddef>
 
-struct Array
+Data* array_create(size_t size)
 {
-};
-
-// create array
-Array *array_create(size_t size)
-{
-    return new Array;
+    return new Data[size];
 }
 
-// delete array, free memory
-void array_delete(Array *arr)
+void array_delete(Data* arr)
 {
-    delete arr;
+    delete[] arr;
 }
 
-// returns specified array element
-Data array_get(const Array *arr, size_t index)
+Data array_get(const Data* arr, size_t index)
 {
-    return (Data)0;
+    return arr[index];
 }
 
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value)
+void array_set(Data* arr, size_t index, Data value)
 {
+    arr[index] = value;
 }
 
-// returns array size
-size_t array_size(const Array *arr)
+size_t array_size(const Data*, size_t size)
 {
-    return 0;
+    return size;
 }
-
