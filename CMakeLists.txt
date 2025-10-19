@@ -16,4 +16,5 @@ add_subdirectory(LibraryCPPClass)
 add_subdirectory(LibraryCPPTemplate)
 
 # add_subdirectory(Lab1C)
-add_subdirectory(LabCPP_1)
+# add_subdirectory(LabCPP_1)
+add_subdirectory(LabCPP_2)
