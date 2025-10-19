@@ -2,9 +2,11 @@
 #define STACK_H
 
 #include <cstddef>
+#include "vector.h"
+#include <string>
 
 // Change it to desired type
-typedef int Data;
+typedef std::string Data;
 
 class Stack
 {
@@ -37,6 +39,9 @@ public:
 
 private:
     // private data should be here
+    Vector box;
+   
+    
 };
 
 #endif

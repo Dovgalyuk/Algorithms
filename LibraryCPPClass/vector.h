@@ -2,9 +2,10 @@
 #define VECTOR_H
 
 #include <cstddef>
+#include <string>
 
 // Change it to desired type
-typedef int Data;
+typedef std::string Data;
 
 class Vector
 {
@@ -35,7 +36,10 @@ public:
     void resize(size_t size);
 
 private:
-    // private data should be here
+    size_t new_capacity;
+    size_t size_v;
+    Data* data;
+    const size_t grow_constant = 2;
 };
 
 #endif
