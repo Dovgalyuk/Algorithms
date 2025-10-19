@@ -33,8 +33,7 @@ set_tests_properties(TestCompressedArray PROPERTIES
 )
 
 add_executable(ArrayTest
-        ../LibraryCPP/tests/array.cpp
-        ../LibraryCPP/array.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP
 )
 
 target_include_directories(ArrayTest PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP)

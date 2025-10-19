@@ -30,13 +30,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="792ce5bc-95a8-4445-b929-f81c33a20d66" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Lab1CPP/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Lab1CPP/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab1CPP/lab1.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Lab1CPP/lab1.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibraryCPP/Tests/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryCPP/Tests/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibraryCPP/Tests/array.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryCPP/Tests/array.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibraryCPP/array.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryCPP/array.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibraryCPP/array.h" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryCPP/array.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +125,7 @@
       <workItem from="1760689221437" duration="1719000" />
       <workItem from="1760731115805" duration="3000" />
       <workItem from="1760816489483" duration="2466000" />
-      <workItem from="1760892442963" duration="2394000" />
+      <workItem from="1760892442963" duration="2997000" />
     </task>
     <servers />
   </component>
