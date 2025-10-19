@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Lab2CPP/Lab2CPP.exe"
+			"path" : "Lab2CPP/LAB2CPP.exe"
 		},
 		{
-			"path" : "Lab2CPP/Lab2CPP.pdb"
+			"path" : "Lab2CPP/LAB2CPP.pdb"
 		}
 	],
 	"backtrace" : 2,
@@ -106,7 +106,7 @@
 			"id" : "LibraryCPPClass::@73029f66a4a4277003c7"
 		}
 	],
-	"id" : "Lab2CPP::@e0a064ab7e0e3ebc24bb",
+	"id" : "LAB2CPP::@e0a064ab7e0e3ebc24bb",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -131,8 +131,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "Lab2CPP",
-	"nameOnDisk" : "Lab2CPP.exe",
+	"name" : "LAB2CPP",
+	"nameOnDisk" : "LAB2CPP.exe",
 	"paths" : 
 	{
 		"build" : "Lab2CPP",

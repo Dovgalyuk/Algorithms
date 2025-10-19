@@ -276,41 +276,41 @@ build LibraryCPPClass\Tests\rebuild_cache: phony LibraryCPPClass\Tests\CMakeFile
 # =============================================================================
 
 # =============================================================================
-# Object build statements for EXECUTABLE target Lab2CPP
+# Object build statements for EXECUTABLE target LAB2CPP
 
 
 #############################################
-# Order-only phony target for Lab2CPP
+# Order-only phony target for LAB2CPP
 
-build cmake_object_order_depends_target_Lab2CPP: phony || cmake_object_order_depends_target_LibraryCPPClass
+build cmake_object_order_depends_target_LAB2CPP: phony || cmake_object_order_depends_target_LibraryCPPClass
 
-build Lab2CPP\CMakeFiles\Lab2CPP.dir\main.cpp.obj: CXX_COMPILER__Lab2CPP_unscanned_Debug C$:\Users\Пользователь\source\repos\Algorithms\LAB2CPP\main.cpp || cmake_object_order_depends_target_Lab2CPP
+build Lab2CPP\CMakeFiles\LAB2CPP.dir\main.cpp.obj: CXX_COMPILER__LAB2CPP_unscanned_Debug C$:\Users\Пользователь\source\repos\Algorithms\LAB2CPP\main.cpp || cmake_object_order_depends_target_LAB2CPP
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   INCLUDES = -IC:\Users\Пользователь\source\repos\Algorithms\LAB2CPP\..\LibraryCPPClass
-  OBJECT_DIR = Lab2CPP\CMakeFiles\Lab2CPP.dir
-  OBJECT_FILE_DIR = Lab2CPP\CMakeFiles\Lab2CPP.dir
-  TARGET_COMPILE_PDB = Lab2CPP\CMakeFiles\Lab2CPP.dir\
-  TARGET_PDB = Lab2CPP\Lab2CPP.pdb
+  OBJECT_DIR = Lab2CPP\CMakeFiles\LAB2CPP.dir
+  OBJECT_FILE_DIR = Lab2CPP\CMakeFiles\LAB2CPP.dir
+  TARGET_COMPILE_PDB = Lab2CPP\CMakeFiles\LAB2CPP.dir\
+  TARGET_PDB = Lab2CPP\LAB2CPP.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target Lab2CPP
+# Link build statements for EXECUTABLE target LAB2CPP
 
 
 #############################################
-# Link the executable Lab2CPP\Lab2CPP.exe
+# Link the executable Lab2CPP\LAB2CPP.exe
 
-build Lab2CPP\Lab2CPP.exe: CXX_EXECUTABLE_LINKER__Lab2CPP_Debug Lab2CPP\CMakeFiles\Lab2CPP.dir\main.cpp.obj | LibraryCPPClass\LibraryCPPClass.lib || LibraryCPPClass\LibraryCPPClass.lib
+build Lab2CPP\LAB2CPP.exe: CXX_EXECUTABLE_LINKER__LAB2CPP_Debug Lab2CPP\CMakeFiles\LAB2CPP.dir\main.cpp.obj | LibraryCPPClass\LibraryCPPClass.lib || LibraryCPPClass\LibraryCPPClass.lib
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = LibraryCPPClass\LibraryCPPClass.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  OBJECT_DIR = Lab2CPP\CMakeFiles\Lab2CPP.dir
-  POST_BUILD = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\Пользователь\source\repos\Algorithms\out\build\x64-Debug\Lab2CPP && C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Programming/vcpkg/vcpkg-master/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/Пользователь/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP/Lab2CPP.exe -installedDir C:/Programming/vcpkg/vcpkg-master/installed/x64-windows/debug/bin -OutVariable out"
+  OBJECT_DIR = Lab2CPP\CMakeFiles\LAB2CPP.dir
+  POST_BUILD = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\Пользователь\source\repos\Algorithms\out\build\x64-Debug\Lab2CPP && C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Programming/vcpkg/vcpkg-master/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/Пользователь/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP/LAB2CPP.exe -installedDir C:/Programming/vcpkg/vcpkg-master/installed/x64-windows/debug/bin -OutVariable out"
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = Lab2CPP\CMakeFiles\Lab2CPP.dir\
-  TARGET_FILE = Lab2CPP\Lab2CPP.exe
-  TARGET_IMPLIB = Lab2CPP\Lab2CPP.lib
-  TARGET_PDB = Lab2CPP\Lab2CPP.pdb
+  TARGET_COMPILE_PDB = Lab2CPP\CMakeFiles\LAB2CPP.dir\
+  TARGET_FILE = Lab2CPP\LAB2CPP.exe
+  TARGET_IMPLIB = Lab2CPP\LAB2CPP.lib
+  TARGET_PDB = Lab2CPP\LAB2CPP.pdb
 
 
 #############################################
@@ -350,9 +350,9 @@ build Lab2CPP\rebuild_cache: phony Lab2CPP\CMakeFiles\rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build Lab2CPP: phony Lab2CPP\Lab2CPP.exe
+build LAB2CPP: phony Lab2CPP\LAB2CPP.exe
 
-build Lab2CPP.exe: phony Lab2CPP\Lab2CPP.exe
+build LAB2CPP.exe: phony Lab2CPP\LAB2CPP.exe
 
 build LibraryCPPClass: phony LibraryCPPClass\LibraryCPPClass.lib
 
@@ -381,7 +381,7 @@ build all: phony LibraryCPPClass\all Lab2CPP\all
 #############################################
 # Folder: C:/Users/Пользователь/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP
 
-build Lab2CPP\all: phony Lab2CPP\Lab2CPP.exe
+build Lab2CPP\all: phony Lab2CPP\LAB2CPP.exe
 
 # =============================================================================
 
