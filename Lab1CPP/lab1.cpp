@@ -61,7 +61,7 @@ void task2(Array* arr)
     
     if (array_size(arr) == 2) {
         if (array_get(arr, 0) != array_get(arr, 1))
-            cout << array_get(arr, 0) << " " << array_get(arr, 0);
+            cout << array_get(arr, 0) << " " << array_get(arr, 1);
         return;
     }
 
