@@ -3,7 +3,7 @@ target_include_directories(Lab2CPPClass PUBLIC ../LibraryCPPClass)
 target_link_libraries(Lab2CPPClass LibraryCPPClass)
 
 # add some tests
-add_test(NAME TestLab2CPPClassMergeExample COMMAND Lab2CPPCLass ${CMAKE_CURRENT_SOURCE_DIR}/input_example.txt)
+add_test(NAME TestLab2CPPClassMergeExample COMMAND Lab2CPPClass ${CMAKE_CURRENT_SOURCE_DIR}/input_example.txt)
 set_tests_properties(TestLab2CPPClassMergeExample PROPERTIES PASS_REGULAR_EXPRESSION "5 12 34 ")
 
 add_test(NAME TestLab2CPPClassMergeEmpty COMMAND Lab2CPPClass ${CMAKE_CURRENT_SOURCE_DIR}/input_empty.txt)
