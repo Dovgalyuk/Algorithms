@@ -1,0 +1,1 @@
+10 2 16 25 4 get get add get sqrt peek get sq peek get div peek

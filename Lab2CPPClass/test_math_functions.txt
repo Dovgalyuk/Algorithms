@@ -1,0 +1,1 @@
+25 16 9 6 get sqrt peek get sqrt peek get sq peek get sq peek
