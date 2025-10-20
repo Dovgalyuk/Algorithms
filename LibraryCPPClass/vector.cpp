@@ -4,7 +4,7 @@
 Vector::Vector() : data_(nullptr), size_(0), capacity_(0)
 {}
 
-Vector::Vector(const Vector& a) : data_(nullptr), size_(0), capacity_(0)
+void Vector::copy_from(const Vector& a)
 {
     if (a.size_ > 0) {
         capacity_ = a.capacity_;
@@ -13,25 +13,24 @@ Vector::Vector(const Vector& a) : data_(nullptr), size_(0), capacity_(0)
         for (size_t i = 0; i < size_; ++i) {
             data_[i] = a.data_[i];
         }
+    } else {
+        data_ = nullptr;
+        size_ = 0;
+        capacity_ = 0;
     }
+}
+
+Vector::Vector(const Vector& a) : data_(nullptr), size_(0), capacity_(0)
+{
+    copy_from(a);
 }
 
 Vector& Vector::operator=(const Vector& a)
 {
     if (this != &a) {
         delete[] data_;
-        data_ = nullptr;
-        size_ = 0;
-        capacity_ = 0;
-
-        if (a.size_ > 0) {
-            capacity_ = a.capacity_;
-            data_ = new Data[capacity_];
-            size_ = a.size_;
-            for (size_t i = 0; i < size_; ++i) {
-                data_[i] = a.data_[i];
-            }
-        }
+        
+        copy_from(a);
     }
     return *this;
 }
@@ -80,8 +79,7 @@ void Vector::resize(size_t new_size)
 
     Data* new_data = new Data[new_capacity];
 
-    size_t copy_size = std::min(size_, new_size);
-    for (size_t i = 0; i < copy_size; ++i) {
+    for (size_t i = 0; i < size_; ++i) {
         new_data[i] = data_[i];
     }
 

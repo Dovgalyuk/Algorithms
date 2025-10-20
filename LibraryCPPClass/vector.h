@@ -38,6 +38,8 @@ private:
     Data* data_;
     size_t size_;
     size_t capacity_;
+
+    void copy_from(const Vector& a);
 };
 
 #endif
