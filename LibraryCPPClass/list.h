@@ -14,13 +14,13 @@ public:
     public:
         Item* next() { return nullptr; }
         Item* prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Data data() const { return _data; }
     private:
         Item* _next;
         Item* _prev;
         Data _data;
 
-        Item(Data d) : _data(d), _next(nullptr), _prev(nullptr) {}
+        Item(Data d) : _next(nullptr), _prev(nullptr), _data(d) {}
         friend class List;
     };
 
