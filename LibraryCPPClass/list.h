@@ -12,8 +12,8 @@ public:
     class Item
     {
     public:
-        Item* next() { return nullptr; }
-        Item* prev() { return nullptr; }
+        Item* next() { return _next; }
+        Item* prev() { return _prev; }
         Data data() const { return _data; }
     private:
         Item* _next;
@@ -37,7 +37,7 @@ public:
     ~List();
 
     // Retrieves the first item from the list
-    Item* first();
+    Item* first() const;
 
     // Inserts new list item into the beginning
     Item* insert(Data data);
