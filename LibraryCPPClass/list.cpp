@@ -14,14 +14,17 @@ List::List(const List& a) : _head(nullptr), _tail(nullptr)
 
 List& List::operator=(const List& a)
 {
-    while (_head)
+    if (this != &a)
     {
-        erase_first();
-    }
-    Item* last = nullptr;
-    for (Item* it = a._head; it; it = it->_next)
-    {
-        last = insert_after(last, it->_data);
+        while (_head)
+        {
+            erase_first();
+        }
+        Item* last = nullptr;
+        for (Item* it = a._head; it; it = it->_next)
+        {
+            last = insert_after(last, it->_data);
+        }
     }
     return*this;
 }

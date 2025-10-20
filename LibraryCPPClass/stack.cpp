@@ -6,10 +6,7 @@ Stack::Stack(const Stack& a) : _list(a._list) {}
 
 Stack& Stack::operator=(const Stack& a)
 {
-    if (this != &a)
-    {
-        _list = a._list;
-    }
+    _list = a._list;
     return *this;
 }
 
