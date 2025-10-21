@@ -139,11 +139,11 @@ double Calc(const string& pfxExpr)
     size_t i = 0;
     while (i < pfxExpr.size())
     {
-        // Пропускаем пробелы
-        if (isspace(pfxExpr[i])) {
-            ++i;
-            continue;
-        }
+        // // Пропускаем пробелы
+        // if (isspace(pfxExpr[i])) {
+        //     ++i;
+        //     continue;
+        // }
 
         // Если число
         if (isdigit(pfxExpr[i]))
