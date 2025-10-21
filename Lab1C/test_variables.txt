@@ -1,0 +1,13 @@
+bipush 5
+istore_0
+bipush 3
+istore_1
+bipush 2
+istore_2
+iload_0
+iload_1
+iadd
+iload_2
+imul
+istore_3
+
