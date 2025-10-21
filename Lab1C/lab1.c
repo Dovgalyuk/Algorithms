@@ -21,7 +21,7 @@ void array_swap(Array* arr, const int i1, const int i2) {
 void Hoara_sort(Array* arr, const int first, const int last) {
     if (first >= last) return;
     int lastPtr = last, firstPtr = first;
-    int pivot = array_get(arr, first + (last - first) / 2);
+    unsigned long long pivot = array_get(arr, first + (last - first) / 2);
     while (firstPtr <= lastPtr) {
         while(array_get(arr, lastPtr) > pivot) lastPtr--;
         while(array_get(arr, firstPtr) < pivot) firstPtr++;
@@ -37,14 +37,15 @@ void Hoara_sort(Array* arr, const int first, const int last) {
 
 // print array 
 void printArray(Array* arr) {
-    for(size_t i = 0; i < array_size(arr); i++) {
-        printf("%d ", array_get(arr, i));
+    for( size_t i = 0; i < array_size(arr); i++) {
+        printf("%llu ", array_get(arr, i));
     }
     printf("\n");
 }
 
 // checking for simple number
 bool is_simple_number(const Data n) {
+    if (n < 2) return false;
     for (int d = 2; d <= (int)sqrt(n)+1; d++)
             if (n % d == 0) {
                 return false;
@@ -73,7 +74,7 @@ Array *array_create_and_read(FILE *input)
 void task1(Array *arr)
 {
     array_set(arr, 0, 2);
-    for (int x = 3, i = 1; i < array_size(arr); x++) {
+    for (unsigned int x = 3, i = 1; i < array_size(arr); x++) {
         if(is_simple_number(x)) {
             array_set(arr, i, x);
             i++;
@@ -92,7 +93,7 @@ void task2(Array *arr)
     Hoara_sort(arr, 0, array_size(arr) - 1);
     int min_dif = -1;
     int prev_even = -1;
-    for (int i = 0; i < array_size(arr); i++) {
+    for (unsigned int i = 0; i < array_size(arr); i++) {
         if(array_get(arr,i) % 2 == 0) {
             if (prev_even != -1) {
                 int dif = array_get(arr,i) - prev_even;
