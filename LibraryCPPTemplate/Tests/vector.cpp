@@ -1,7 +1,7 @@
 #include <iostream>
 #include "vector.h"
-
-typedef Vector<int> MyVector;
+#include <string>
+typedef Vector<std::string> MyVector;
 
 int main()
 {
@@ -15,13 +15,13 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
-        vector.set(i, i);
+        vector.set(i, std::to_string(i));
 
     vector = vector;
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
     {
-        if (vector.get(i) != (int)i)
+        if (vector.get(i) != (std::string)std::to_string(i))
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -49,7 +49,7 @@ int main()
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
     {
-        if (vector.get(i) != (int)i)
+        if (vector.get(i) != (std::string)std::to_string(i))
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -65,7 +65,7 @@ int main()
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector.resize(i);
-        vector.set(i - 1, i);
+        vector.set(i - 1, std::to_string(i));
     }
 
     MyVector copy = vector;
@@ -81,7 +81,7 @@ int main()
 
     long long sum = 0;
     for (int i = 0 ; i < 10000000 ; ++i)
-        sum += vector.get(i);
+        sum += std::stol(vector.get(i));
 
     std::cout << sum << "\n";
 }

@@ -3,9 +3,10 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include <cctype>  
+#include <cctype>
 
-#include "../LibraryCPPClass/stack.h"
+
+#include "../LibraryCPPTemplate/stack.h"
 using namespace std;
 
 string process(const string& l)  {
@@ -26,7 +27,7 @@ int main(int argc, char* argv[])
 {
     setlocale(LC_CTYPE, "ru");
     string line;
-    Stack s_1;
+    Stack<string>s_1;
 
     if (argc < 2)  
     {
