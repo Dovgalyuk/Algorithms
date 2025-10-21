@@ -38,7 +38,7 @@ void Hoara_sort(Array* arr, const int first, const int last) {
 // print array 
 void printArray(Array* arr) {
     for( size_t i = 0; i < array_size(arr); i++) {
-        printf("%llu ", array_get(arr, i));
+        printf("%lu ", array_get(arr, i));
     }
     printf("\n");
 }
