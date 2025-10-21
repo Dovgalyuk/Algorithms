@@ -25,15 +25,16 @@
 
 using namespace std;
 
-bool isOperator(char c) //
+bool isOperator(char c)
 {
     return c == '+' || c == '-' || c == '*' || c == '/';
 }
 
-int priority(char op) //
+int priority(char op)
 {
     if (op == '+' || op == '-') return 1;
     if (op == '*' || op == '/') return 2;
+    if (op == '~') return 3;
     return 0;
 }
 
@@ -50,11 +51,21 @@ string infixToPostfix(string& expression)
     // Создаем строку с постфиксным выражением
     string postfix = "";
 
+    bool isUnaryMinus = false;
+
     for (size_t i = 0; i < expression.length(); ++i)
     {
         char ch = expression[i];
         if (isspace(ch))
             continue;
+
+        if (ch == '-')
+        {
+            if (i == 0 || (i > 0 && expression[i-1] == '(')) // Для случая x * (-(a-b))
+                isUnaryMinus = true;
+            else
+                isUnaryMinus = false;
+        }
 
         if (isdigit(ch))
         {
@@ -76,7 +87,7 @@ string infixToPostfix(string& expression)
             while (!stack_empty(operatorStack) && stack_get(operatorStack) != '(')
             {
                 postfix += stack_get(operatorStack);
-                postfix += ' ';
+                // postfix += ' ';
                 stack_pop(operatorStack);
             }
             if (!stack_empty(operatorStack))
@@ -84,20 +95,30 @@ string infixToPostfix(string& expression)
         }
         else if (isOperator(ch))
         {
-            while (!stack_empty(operatorStack) && priority(stack_get(operatorStack)) >= priority(ch))
+            if (ch == '-' && isUnaryMinus)
             {
-                postfix += stack_get(operatorStack);
-                postfix += ' ';
-                stack_pop(operatorStack);
+                stack_push(operatorStack, '~');
+                isUnaryMinus = false;
             }
-            stack_push(operatorStack, ch);
+            else
+            {
+                while (!stack_empty(operatorStack) && priority(stack_get(operatorStack)) >= priority(ch))
+                {
+                    postfix += stack_get(operatorStack);
+                    // postfix += ' ';
+                    stack_pop(operatorStack);
+                }
+                stack_push(operatorStack, ch);
+            }
         }
+        else
+            isUnaryMinus = false;
     }
 
     while (!stack_empty(operatorStack))
     {
         postfix += stack_get(operatorStack);
-        postfix += ' ';
+        // postfix += ' ';
         stack_pop(operatorStack);
     }
 
@@ -135,25 +156,37 @@ double Calc(const string& pfxExpr)
             stack_push(value, num);
         }
         //Если оператор
-        else if (isOperator(pfxExpr[i]))
+        else if (isOperator(pfxExpr[i]) || pfxExpr[i] == '~')
         {
-            double a = stack_get(value);
-            stack_pop(value);
-            double b = stack_get(value);
-            stack_pop(value);
-            double res;
-
-            switch (pfxExpr[i])
+            if (pfxExpr[i] == '~')
             {
-                case '+': res = b + a; break;
-                case '-': res = b - a; break;
-                case '*': res = b * a; break;
-                case '/': res = b / a; break;
-                default: res = 0; break;
+                // Унарный минус: получаем число из стека и меняем знак
+                double a = stack_get(value);
+                stack_pop(value);
+                stack_push(value, -a);
+                ++i;
             }
+            else
+            {
+                double a = stack_get(value);
+                stack_pop(value);
+                double b = stack_get(value);
+                stack_pop(value);
+                double res;
 
-            stack_push(value, res);
-            ++i;
+                switch (pfxExpr[i])
+                {
+                    case '+': res = b + a; break;
+                    case '-': res = b - a; break;
+                    case '*': res = b * a; break;
+                    case '/': res = b / a; break;
+                    default: res = 0; break;
+                }
+            
+
+                stack_push(value, res);
+                ++i;
+            }
         }
         // Если неизвестный символ
         else
