@@ -70,6 +70,19 @@ Array *array_create_and_read(FILE *input)
     return arr;
 }
 
+// read size and create array
+Array *array_create_and_read_size_only(FILE *input)
+{
+    int n;
+    fscanf(input, "%d", &n);
+
+    // Create array 
+    Array *arr = array_create(n, NULL);
+
+    return arr;
+}
+
+
 // task 1 (completion simple numbers) 
 void task1(Array *arr)
 {
@@ -110,7 +123,7 @@ int main(int argc, char **argv)
 {
     Array *arr = NULL;
     FILE *input = fopen("input.txt", "r");
-    arr = array_create_and_read(input);
+    arr = array_create_and_read_size_only(input);
     task1(arr);
     array_delete(arr);
     // Create another array here 
