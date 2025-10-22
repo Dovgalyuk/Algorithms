@@ -23,7 +23,7 @@ public:
     // assignment operator
     Array &operator=(const Array &a)
     {
-        if (this != &other) {
+        if (this != &a) {
             delete[] mData;
             mSize = a.mSize;
             mData = new Data[mSize];
