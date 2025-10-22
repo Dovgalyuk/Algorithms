@@ -69,29 +69,26 @@ void task2(Array* arr, ifstream& input)
         return;
     }
 
-    if (steps > (int)n) {
-        steps = (int)n;
-    }
-    if (steps < 0) {
-        steps = 0;
-    }
+    size_t step_count = static_cast<size_t>(steps);
+    if (step_count > n) step_count = n;
+    if (steps < 0) step_count = 0;
 
-    if (direction == 0) { 
-        for (size_t i = 0; i + steps < n; i++) {
-            array_set(arr, i, array_get(arr, i + steps));
+    if (direction == 0) {
+        for (size_t i = 0; i + step_count < n; i++) {
+            array_set(arr, i, array_get(arr, i + step_count));
         }
-   
-        for (size_t i = n - steps; i < n; i++) {
+
+        for (size_t i = n - step_count; i < n; i++) {
             array_set(arr, i, 0);
         }
     }
-    else { 
+    else {
        
-        for (size_t i = n - 1; i >= steps; i--) {
-            array_set(arr, i, array_get(arr, i - steps));
+        for (size_t i = n - 1; i >= step_count; i--) {
+            array_set(arr, i, array_get(arr, i - step_count));
         }
-     
-        for (size_t i = 0; i < steps; i++) {
+
+        for (size_t i = 0; i < step_count; i++) {
             array_set(arr, i, 0);
         }
     }
