@@ -31,12 +31,3 @@ set_tests_properties(TestCompressedArray PROPERTIES
         PASS_REGULAR_EXPRESSION
         "Сжатый массив: 5 6 7 8 9 0 0 0 0 0"
 )
-
-add_executable(ArrayTest
-        ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP/Tarray.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP/array.cpp
-)
-
-target_include_directories(ArrayTest PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP
-)
