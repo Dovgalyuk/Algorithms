@@ -69,29 +69,37 @@ void task2(Array* arr, ifstream& input)
         return;
     }
 
-    if (steps > (int)n) steps = (int)n;
-    if (steps < 0) steps = 0;
-
-    Array* res = array_create(n);
-
-    for (size_t i = 0; i < n; i++)
-        array_set(res, i, 0);
-
-    if (direction == 0) {
-        for (size_t i = 0; i + steps < n; i++)
-            array_set(res, i, array_get(arr, i + steps));
+    if (steps > (int)n) {
+        steps = (int)n;
     }
-    else {
-        for (size_t i = steps; i < n; i++)
-            array_set(res, i, array_get(arr, i - steps));
+    if (steps < 0) {
+        steps = 0;
+    }
+
+    if (direction == 0) { 
+        for (size_t i = 0; i + steps < n; i++) {
+            array_set(arr, i, array_get(arr, i + steps));
+        }
+   
+        for (size_t i = n - steps; i < n; i++) {
+            array_set(arr, i, 0);
+        }
+    }
+    else { 
+       
+        for (size_t i = n - 1; i >= steps; i--) {
+            array_set(arr, i, array_get(arr, i - steps));
+        }
+     
+        for (size_t i = 0; i < steps; i++) {
+            array_set(arr, i, 0);
+        }
     }
 
     cout << "Task2: shifted array = ";
     for (size_t i = 0; i < n; i++)
-        cout << array_get(res, i) << " ";
+        cout << array_get(arr, i) << " ";
     cout << endl;
-
-    array_delete(res);
 }
 
 int main(int argc, char** argv)
