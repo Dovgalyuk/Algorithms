@@ -62,6 +62,10 @@ void array_set(Array *arr, size_t index, Data value)
     if (arr == NULL || arr->d == NULL || index >= arr->size) {
         return;
     }
+
+    if (arr->freeFunc != NULL && arr->d[index] != 0 && arr->d[index] != value) {
+        arr->freeFunc((void*)arr->d[index]);
+    }
         
     arr->d[index] = value;  
    
@@ -75,3 +79,4 @@ size_t array_size(const Array *arr)
 
     return arr->size;
 }
+
