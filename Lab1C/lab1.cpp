@@ -83,7 +83,11 @@ void task2(Array* arr, ifstream& input)
         }
     }
     else {
+<<<<<<< HEAD
 
+=======
+       
+>>>>>>> 1bfc6b8b4b18bf3bcbae8f6a4e143ec7da3dacea
         for (size_t i = n - 1; i >= step_count; i--) {
             array_set(arr, i, array_get(arr, i - step_count));
         }
