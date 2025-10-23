@@ -66,11 +66,7 @@ public:
     // Returns true if the stack is empty
     bool empty() const
     {
-        if (box.size() != 0)
-        {
-            return false;
-        }
-        return true;
+        return box.size() == 0;
     }
 
 };

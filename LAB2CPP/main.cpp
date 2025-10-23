@@ -4,9 +4,9 @@
 #include <string>
 #include <algorithm>
 #include <cctype>
+#include "stack.h"
 
 
-#include "../LibraryCPPTemplate/stack.h"
 using namespace std;
 
 string process(const string& l)  {
@@ -15,7 +15,7 @@ string process(const string& l)  {
     {
         if (!isspace(ch))
         {
-            ch = static_cast<unsigned char>(std::tolower(ch));
+            ch = static_cast<unsigned char> (std::tolower(ch));
         }
             
     }
@@ -57,21 +57,25 @@ int main(int argc, char* argv[])
                     bool isClosing = false;
                     i++;
                     
-                    
                     if (r[i] == '/')
                     {
                         isClosing = true;
                         i++;
                         
                     }
-                    string name_tag;
-                    while (i < r.length() && r[i] != '>')
+                    
+                   /* while (i < r.length() && r[i] != '>')
                     {
                         name_tag += r[i];   
                         i++;
                         
 
-                    }
+                    }*/
+                    size_t start = i;
+                    size_t end = r.find('>', i);
+                    if (end == string::npos) break;
+                    string name_tag=r.substr(start,end-start);
+
                     if (isClosing)
                     {
                         
@@ -79,10 +83,13 @@ int main(int argc, char* argv[])
                         {
 
                             s_1.pop();
-                           
-                        }
 
-                       
+                        }
+                        else
+                        {
+                            cout << "NO" << endl;
+                            return 1;
+                        }
                     }
                     else
                     {
