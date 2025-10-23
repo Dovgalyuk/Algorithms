@@ -22,22 +22,27 @@ Array *array_create_and_read(istream &input)
     return arr;
 }
 
-void task1(Array *arr)
-{
-    if (arr == nullptr || array_size(arr) == 0) return;
-
-    int count = 0;
-    for (size_t i = 0; i < array_size(arr) - 1; i++){
-        if(array_get(arr, i) * array_get(arr, i + 1) < 0){
-            count++;
+void task1(Array *arr) {
+    if (arr == nullptr || array_size(arr) < 2) return;
+    
+    int signChanges = 0;
+    int prevSign = (array_get(arr, 0) >= 0) ? 1 : -1;
+    
+    for (size_t i = 1; i < array_size(arr); i++) {
+        int currentSign = (array_get(arr, i) >= 0) ? 1 : -1;
+        
+        if (currentSign != prevSign) {
+            signChanges++;
+            prevSign = currentSign;
         }
     }
-    cout << "change of sign: " << count << " ";
+    
+    cout << "change of sign: " <<  signChanges;
 }
 
 void task2(Array *arr)
 {
-    cout << "unique values: ";
+    cout << " unique values: ";
     if (arr == nullptr || array_size(arr) == 0) return;
     
     for (size_t i = 0; i < array_size(arr); i++){
