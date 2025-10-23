@@ -1,9 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 
 using namespace std;
+
 
 Array *array_create_and_read(istream &input)
 {
@@ -42,22 +43,26 @@ void task2(Array *arr)
     for (size_t i = 0; i < array_size(arr); i++){
         int count = 0;
         for (size_t j = 0; j < array_size(arr); j++){
-            if (array_get(arr, i) == array_get(arr, j)) {
+            if(array_get(arr, i) == array_get(arr, j)){
                 count++;
             }
-        }  
-        if (count == 1) {
+            if(count == 2){
+                break;
+            }
+        }
+        if(count == 1){
             cout << array_get(arr, i) << " ";
         }
+
     }
-    cout << endl;
+
 }
 
 
 int main(int argc, char **argv){
     if (argc < 2) {
-    cerr << "Usage: " << argv[0] << " <input_file>" << endl;
-    return 1;
+        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
+        return 1;
     }
     ifstream FILE(argv[1]);
     if (!FILE.is_open()){

@@ -6,4 +6,4 @@ add_test(NAME TestLab1CPP COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 set_property(TEST TestLab1CPP PROPERTY PASS_REGULAR_EXPRESSION "change of sign: 0 unique values: 1 2 3 4 ")
 
 add_test(NAME TestLab1CPP2 COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/test2.txt)
-set_property(TEST TestLab1CPP2 PROPERTY PASS_REGULAR_EXPRESSION "change of sign: 5 unique values: -1 2 3 4 6 ")
+set_property(TEST TestLab1CPP2 PROPERTY PASS_REGULAR_EXPRESSION "change of sign: 5 unique values: 0 -1 2 3 4 6 ")

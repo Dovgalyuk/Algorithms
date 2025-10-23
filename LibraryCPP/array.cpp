@@ -10,7 +10,7 @@ struct Array
 Array *array_create(size_t size)
 {
     Array* newArr = new Array;
-    newArr->data = new int[size]{0};
+    newArr->data = new int[size];
     newArr->size = size;
     return newArr;
 }
