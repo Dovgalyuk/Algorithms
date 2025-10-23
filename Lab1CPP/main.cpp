@@ -1,4 +1,4 @@
-#include "../LibraryCPPClass/array.h"
+#include "array.h"
 #include <iostream>
 #include <fstream>
 
@@ -15,25 +15,46 @@ bool is_palindrome(int n) {
 	return start == reversed;
 }
 
-int main(){
-	std::ifstream file("input.txt");
+int main(int argc, char* argv[]) {
+	if (argc < 2) {
+		cout << "Error: File not specified" << endl;
+		return 1;
+	}
+
+	std::ifstream file(argv[1]);
+
+	if (!file.is_open()) {
+		cout << "Error: Cannot open file " << argv[1] << endl;
+		return 1;
+	}
+	
 	int size1;
 	file >> size1;
 
-	for (int i = 0; i < size1; i++) {
-		int temp;
-		file >> temp;
-	}
-
 	Array arr1(size1);
 	int num = 0;
-	for (size_t i = 0; i < arr1.size(); i++) {
-		while (!is_palindrome(num)) num++;
-		arr1.set(i, num);
-		num++;
+	for (size_t i = 0; i < size1; i++) {
+		int temp;
+		file >> temp;
+		if (is_palindrome(temp)) {
+			arr1.set(num, temp);
+			num++;
+		}
 	}
 
-	for (int i = 0; i < size1; i++) {
+	for (size_t i = 0; i < num; i++) {
+		for (size_t j = 0; j < num - i - 1; j++) {
+			if (arr1.get(j) > arr1.get(j + 1)) {
+				int a = arr1.get(j);
+				int b = arr1.get(j + 1);
+				swap(a, b);
+				arr1.set(j, a);
+				arr1.set(j + 1, b);
+			}
+		}
+	}
+
+	for (size_t i = 0; i < num; i++) {
 		cout << arr1.get(i) << " ";
 	}
 	cout << endl;
