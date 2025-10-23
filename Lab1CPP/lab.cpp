@@ -46,8 +46,18 @@ void task1(Array* arr)
     }
 }
 
-void task2(Array* arr, int* a, int* b)
+void read_interval(FILE* input, int* a, int* b)
 {
+    if (fscanf(input, "%d %d", a, b) != 2) {
+        printf("Error reading interval\n");
+        *a = 0;
+        *b = 0;
+    }
+}
+void task2(Array* arr, FILE* input)
+{
+    int a, b;
+    read_interval(input, &a, &b);
     if (a > b) {
         int temp = a;
         a = b;
@@ -92,15 +102,8 @@ int main(int argc, char** argv)
     array_delete(arr);
     arr = nullptr;
 
-    int* a;
-    int b;
-    if (fscanf(input, "%d %d", a, b) != 2) {
-    printf("Error reading interval\n");
-    *a = 0;
-    *b = 0;
-    }
     arr = array_create_and_read(input);
-    task2(arr, a, b);
+    task2(arr, input);
     array_delete(arr);
     arr = nullptr;
     fclose(input);
