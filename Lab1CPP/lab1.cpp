@@ -18,43 +18,26 @@ Array *read_array_from_file(std::istream& in)
     return arr;
 }
 
-Array* read_array_size(std::istream& in)
-{
-    size_t size;
-    in >> size;
-    return array_create(size);
-}
-
-bool check_prime(int number)
-{
-    if (number <= 1) return false;
-    if (number == 2) return true;
-    
-    for (int i = 2; i * i <= number; i++) {
-        if (number % i == 0)
-            return false;
-    }
-    return true;
-}
-
 void task1(Array *arr) 
 {
     size_t arr_size = array_size(arr);
-    int current = 2;
-    size_t count = 0;
+    size_t max_lenght = 0;
+    size_t current_lenght = 0;
     
-    while (count < arr_size) {
-        if (check_prime(current)) {
-            array_set(arr, count, current);
-            count++;
-        }
-        current++;
-    }
-
     for (size_t i = 0; i < arr_size; i++) {
-        std::cout << array_get(arr, i) << " ";
+        int value = array_get(arr, i);
+        
+        if (value % 2 != 0) {
+            current_lenght++;
+            if (current_lenght > max_lenght) {
+                max_lenght = current_lenght;
+            }
+        } else {
+            current_lenght = 0;
+        }
     }
-    std::cout << std::endl;
+    
+    std::cout << max_lenght << std::endl;
 }
 
 
@@ -62,29 +45,25 @@ void task2(Array *arr)
 {
     size_t arr_size = array_size(arr);
     
-    if (arr_size < 5) {
-        return;
-    }
-
-    int sum = 0;
-    for (size_t i = 0; i < 5; i++) {
-        sum += array_get(arr, i);
-    }
-    
-    int max_sum = sum;
-    size_t start_index = 0;
-
-    for (size_t i = 1; i <= arr_size - 5; i++) {
-        sum = sum - array_get(arr, i - 1) + array_get(arr, i + 4);
+    for (size_t i = 0; i < arr_size; i++) {
+        int value = array_get(arr, i);
+        bool no_delitel = true;
         
-        if (sum > max_sum) {
-            max_sum = sum;
-            start_index = i;
+        for (size_t j = 0; j < arr_size; j++) {
+            if (i != j) {
+                int other = array_get(arr, j);
+                
+                if (other != 0 && other != 1 && other != -1) {
+                    if (value % other == 0) {
+                        no_delitel = false;
+                    }
+                }
+            }
         }
-    }
-
-    for (size_t i = start_index; i < start_index + 5; i++) {
-        std::cout << array_get(arr, i) << " ";
+        
+        if (no_delitel) {
+            std::cout << value << " ";
+        }
     }
     std::cout << std::endl;
 }
@@ -97,7 +76,7 @@ int main(int argc, char **argv)
 
     std::ifstream file(argv[1]);
 
-    Array* array1 = read_array_size(file);
+    Array* array1 = read_array_from_file(file);
     task1(array1);
     array_delete(array1);
 
