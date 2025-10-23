@@ -1,2 +1,3 @@
-1 2 3 4 5 6 7 8 9 10 peek setr peek setr peek setr
+2 3 add peek sub peek mul peek div peek sqrt peek sq peek get peek cond end setr repeat peek
+
 

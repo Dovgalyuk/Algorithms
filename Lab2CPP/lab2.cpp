@@ -2,10 +2,8 @@
 #include <fstream>
 #include <cmath>
 #include <string>
-#include "array.h"
+#include <vector>
 #include "stack.h"
-
-std::ifstream inputnum("inputnum");
 
 enum Command {
     cmd_none = 0,
@@ -39,13 +37,10 @@ Command command_to_num(const std::string& cmd) {
     return cmd_none;
 }
 
-void read_numbers_and_commands_from_file(const char* filename, Stack* nums, Array* cmds_array, size_t& cmds_count) {
+void read_numbers_and_commands_from_file(const char* filename, Stack* nums, std::vector<Command>& cmds) {
     std::ifstream file(filename);
     std::string token;
     bool reading_commands = false;
-
-    const size_t max_cmds = array_size(cmds_array);
-    cmds_count = 0;
 
     while (file >> token) {
         if (!reading_commands) {
@@ -59,20 +54,34 @@ void read_numbers_and_commands_from_file(const char* filename, Stack* nums, Arra
         }
         if (reading_commands) {
             Command cmd_code = command_to_num(token);
-            if (cmd_code != cmd_none && cmds_count < max_cmds) {
-                array_set(cmds_array, cmds_count, static_cast<Data>(cmd_code));
-                cmds_count++;
+            if (cmd_code != cmd_none) {
+                cmds.push_back(cmd_code);
             }
         }
     }
 }
 
-void execute_commands(Array* cmds, size_t count, Stack* nums) {
+size_t skip_cond_block(const std::vector<Command>& cmds, size_t current_index, size_t count) {
+    size_t nested = 0;
+    size_t i = current_index + 1;
+    while (i < count) {
+        if (cmds[i] == cmd_cond) nested++;
+        else if (cmds[i] == cmd_end) {
+            if (nested == 0) break;
+            nested--;
+        }
+        i++;
+    }
+    return i + 1; 
+}
+
+void execute_commands(const std::vector<Command>& cmds, Stack* nums, std::ifstream& inputnum) {
     int loop_var = 0;
     size_t i = 0;
+    size_t count = cmds.size();
 
     while (i < count) {
-        Command cmd = static_cast<Command>(array_get(cmds, i));
+        Command cmd = cmds[i];
 
         switch (cmd) {
         case cmd_peek:
@@ -93,11 +102,9 @@ void execute_commands(Array* cmds, size_t count, Stack* nums) {
 
         case cmd_add:
             if (!stack_empty(nums)) {
-                int a = stack_get(nums);
-                stack_pop(nums);
+                int a = stack_get(nums); stack_pop(nums);
                 if (!stack_empty(nums)) {
-                    int b = stack_get(nums);
-                    stack_pop(nums);
+                    int b = stack_get(nums); stack_pop(nums);
                     stack_push(nums, a + b);
                 }
             }
@@ -106,11 +113,9 @@ void execute_commands(Array* cmds, size_t count, Stack* nums) {
 
         case cmd_sub:
             if (!stack_empty(nums)) {
-                int a = stack_get(nums);
-                stack_pop(nums);
+                int a = stack_get(nums); stack_pop(nums);
                 if (!stack_empty(nums)) {
-                    int b = stack_get(nums);
-                    stack_pop(nums);
+                    int b = stack_get(nums); stack_pop(nums);
                     stack_push(nums, b - a);
                 }
             }
@@ -119,11 +124,9 @@ void execute_commands(Array* cmds, size_t count, Stack* nums) {
 
         case cmd_mul:
             if (!stack_empty(nums)) {
-                int a = stack_get(nums);
-                stack_pop(nums);
+                int a = stack_get(nums); stack_pop(nums);
                 if (!stack_empty(nums)) {
-                    int b = stack_get(nums);
-                    stack_pop(nums);
+                    int b = stack_get(nums); stack_pop(nums);
                     stack_push(nums, a * b);
                 }
             }
@@ -132,11 +135,9 @@ void execute_commands(Array* cmds, size_t count, Stack* nums) {
 
         case cmd_div:
             if (!stack_empty(nums)) {
-                int a = stack_get(nums);
-                stack_pop(nums);
+                int a = stack_get(nums); stack_pop(nums);
                 if (!stack_empty(nums) && a != 0) {
-                    int b = stack_get(nums);
-                    stack_pop(nums);
+                    int b = stack_get(nums); stack_pop(nums);
                     stack_push(nums, b / a);
                 }
             }
@@ -145,8 +146,7 @@ void execute_commands(Array* cmds, size_t count, Stack* nums) {
 
         case cmd_sqrt:
             if (!stack_empty(nums)) {
-                int a = stack_get(nums);
-                stack_pop(nums);
+                int a = stack_get(nums); stack_pop(nums);
                 stack_push(nums, (int)sqrt(a));
             }
             ++i;
@@ -154,8 +154,7 @@ void execute_commands(Array* cmds, size_t count, Stack* nums) {
 
         case cmd_sq:
             if (!stack_empty(nums)) {
-                int a = stack_get(nums);
-                stack_pop(nums);
+                int a = stack_get(nums); stack_pop(nums);
                 stack_push(nums, a * a);
             }
             ++i;
@@ -174,58 +173,22 @@ void execute_commands(Array* cmds, size_t count, Stack* nums) {
         }
 
         case cmd_cond: {
-            if (!stack_empty(nums)) {
-                int a = stack_get(nums);
-                stack_pop(nums);
-                if (!stack_empty(nums)) {
-                    int b = stack_get(nums);
-                    stack_pop(nums);
-                    if (a == b) {
-                        ++i;
-                    }
-                    else {
-                        size_t nested = 0;
-                        do {
-                            ++i;
-                            if (i >= count) break;
-                            Command cur = static_cast<Command>(array_get(cmds, i));
-                            if (cur == cmd_cond) nested++;
-                            if (cur == cmd_end) {
-                                if (nested == 0) break;
-                                else nested--;
-                            }
-                        } while (true);
-                        ++i;
-                    }
-                }
-                else {
-                    size_t nested = 0;
-                    do {
-                        ++i;
-                        if (i >= count) break;
-                        Command cur = static_cast<Command>(array_get(cmds, i));
-                        if (cur == cmd_cond) nested++;
-                        if (cur == cmd_end) {
-                            if (nested == 0) break;
-                            else nested--;
-                        }
-                    } while (true);
-                    ++i;
-                }
+            if (stack_empty(nums)) {
+                i = skip_cond_block(cmds, i, count);
+                break;
+            }
+            int a = stack_get(nums); stack_pop(nums);
+            if (stack_empty(nums)) {
+                i = skip_cond_block(cmds, i, count);
+                break;
+            }
+            int b = stack_get(nums); stack_pop(nums);
+
+            if (a == b) {
+                ++i;
             }
             else {
-                size_t nested = 0;
-                do {
-                    ++i;
-                    if (i >= count) break;
-                    Command cur = static_cast<Command>(array_get(cmds, i));
-                    if (cur == cmd_cond) nested++;
-                    if (cur == cmd_end) {
-                        if (nested == 0) break;
-                        else nested--;
-                    }
-                } while (true);
-                ++i;
+                i = skip_cond_block(cmds, i, count);
             }
             break;
         }
@@ -238,18 +201,8 @@ void execute_commands(Array* cmds, size_t count, Stack* nums) {
             if (loop_var > 0) {
                 loop_var--;
                 ssize_t j = i - 1;
-                while (j >= 0) {
-                    Command c = static_cast<Command>(array_get(cmds, j));
-                    if (c == cmd_setr)
-                        break;
-                    j--;
-                }
-                if (j >= 0) {
-                    i = j + 1;
-                }
-                else {
-                    ++i;
-                }
+                while (j >= 0 && cmds[j] != cmd_setr) j--;
+                i = (j >= 0) ? j + 1 : i + 1;
             }
             else {
                 ++i;
@@ -264,29 +217,28 @@ void execute_commands(Array* cmds, size_t count, Stack* nums) {
 }
 
 int main(int argc, char* argv[]) {
-  
-    const char* input_files[3] = {
-        argc > 1 ? argv[1] : "input.txt",
-        argc > 2 ? argv[2] : "input2.txt",
-        argc > 3 ? argv[3] : "input3.txt"
-    };
 
-    for (int t = 0; t < 3; ++t) {
-        Stack* nums = stack_create();
-        Array* cmds = array_create(64);
-        size_t cmds_count = 0;
-
-        read_numbers_and_commands_from_file(input_files[t], nums, cmds, cmds_count);
-
-        execute_commands(cmds, cmds_count, nums);
-
-        stack_delete(nums);
-        array_delete(cmds);
+    if (argc < 3) {
+        return 1;
     }
 
+    std::ifstream inputnum(argv[2]);
+    if (!inputnum) {
+        return 1;
+    }
+
+    Stack* nums = stack_create();
+    std::vector<Command> cmds;
+
+    read_numbers_and_commands_from_file(argv[1], nums, cmds);
+    execute_commands(cmds, nums, inputnum);
+
+    stack_delete(nums);
     inputnum.close();
+
     return 0;
 }
+
 
 
 
