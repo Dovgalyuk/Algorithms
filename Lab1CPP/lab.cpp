@@ -46,7 +46,7 @@ void task1(Array* arr)
     }
 }
 
-void task2(Array* arr, int a, int b)
+void task2(Array* arr, int* a, int* b)
 {
     if (a > b) {
         int temp = a;
@@ -92,7 +92,8 @@ int main(int argc, char** argv)
     array_delete(arr);
     arr = nullptr;
 
-    int* a, b;
+    int* a;
+    int b;
     if (fscanf(input, "%d %d", a, b) != 2) {
     printf("Error reading interval\n");
     *a = 0;
