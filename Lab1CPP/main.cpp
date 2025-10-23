@@ -32,8 +32,8 @@ int main(int argc, char* argv[]) {
 	file >> size1;
 
 	Array arr1(size1);
-	int num = 0;
-	for (size_t i = 0; i < size1; i++) {
+	size_t num = 0;
+	for (int i = 0; i < size1; i++) {
 		int temp;
 		file >> temp;
 		if (is_palindrome(temp)) {
