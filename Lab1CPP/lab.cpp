@@ -92,7 +92,7 @@ int main(int argc, char** argv)
     array_delete(arr);
     arr = nullptr;
 
-    int a, b;
+    int* a, b;
     if (fscanf(input, "%d %d", a, b) != 2) {
     printf("Error reading interval\n");
     *a = 0;
