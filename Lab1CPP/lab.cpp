@@ -61,11 +61,12 @@ void task1(Array* arr)
 void task2(Array* arr)
 {
     int a, b;
-    printf("Enter interval [a, b]: ");
-    if (scanf("%d %d", &a, &b) != 2) {
-        printf("Error reading interval\n");
-        return;
+    if (fscanf(input, "%d %d", a, b) != 2) {
+    printf("Error reading interval\n");
+    *a = 0;
+    *b = 0;
     }
+    
     if (a > b) {
         int temp = a;
         a = b;
