@@ -38,18 +38,6 @@ void task1(Array* arr)
             CountEven += 1;
         }
     }
-    
-    /*Array* arrEven = nullptr;
-    arrEven = array_create(CountEven);
-    int arrEvenI = 0;
-
-    for (size_t i = 0; i < array_size(arr); ++i)
-    {
-        if (array_get(arr, i) % 2 == 0) {
-             #array_set(arrEven, arrEvenI, i);
-             #arrEvenI += 1;
-            }
-    }*/
     for (size_t i = 0; i < array_size(arr); ++i)
     {
         if (array_get(arr, i) % 2 == 0) {
@@ -58,21 +46,13 @@ void task1(Array* arr)
     }
 }
 
-void task2(Array* arr)
+void task2(Array* arr, int a, int b)
 {
-    int a, b;
-    if (fscanf(input, "%d %d", a, b) != 2) {
-    printf("Error reading interval\n");
-    *a = 0;
-    *b = 0;
-    }
-    
     if (a > b) {
         int temp = a;
         a = b;
         b = temp;
     }
-
     size_t write_index = 0;
     for (size_t read_index = 0; read_index < array_size(arr); ++read_index)
     {
@@ -83,18 +63,15 @@ void task2(Array* arr)
             write_index++;
         }
     }
-
     for (size_t i = write_index; i < array_size(arr); ++i)
     {
         array_set(arr, i, 0);
     }
-
     for (size_t i = 0; i < array_size(arr); ++i)
     {
         printf("%d ", array_get(arr, i));
     }
     printf("\n");
-
 }
 
 int main(int argc, char** argv)
@@ -103,7 +80,6 @@ int main(int argc, char** argv)
         printf("Usage: %s <input_file>\n", argv[0]);
         return 1;
     }
-
     Array* arr = nullptr;
     FILE* input = fopen(argv[1], "r");
 
@@ -111,17 +87,21 @@ int main(int argc, char** argv)
         printf("Cannot open file %s\n", argv[1]);
         return 1;
     }
-
     arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
     arr = nullptr;
 
+    int a, b;
+    if (fscanf(input, "%d %d", a, b) != 2) {
+    printf("Error reading interval\n");
+    *a = 0;
+    *b = 0;
+    }
     arr = array_create_and_read(input);
-    task2(arr);
+    task2(arr, a, b);
     array_delete(arr);
     arr = nullptr;
-
     fclose(input);
     return 0;
 }
