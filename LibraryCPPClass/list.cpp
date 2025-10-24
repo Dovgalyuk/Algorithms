@@ -1,9 +1,9 @@
 #include <cstddef>
 #include "list.h"
 
-List::List() : _head(nullptr), _tail(nullptr) {}
+List::List() : _head(nullptr) {}
 
-List::List(const List& a) : _head(nullptr), _tail(nullptr)
+List::List(const List& a) : _head(nullptr)
 {
     Item* last = nullptr;
     for (Item* it = a._head; it; it = it->_next)
@@ -58,7 +58,6 @@ List::Item* List::insert_after(Item* item, Data data)
             new_item->_next = _head;
         }
         _head = new_item;
-        if (!_tail) _tail = new_item;
     }
     else
     {
@@ -68,7 +67,6 @@ List::Item* List::insert_after(Item* item, Data data)
         if (item->_next) item->_next->_prev = new_item;
 
         item->_next = new_item;
-        if (item == _tail) _tail = new_item;
     }
 
     return new_item;
@@ -89,7 +87,6 @@ List::Item* List::erase_next(Item* item)
         to_delete = _head;
         _head = _head->_next;
         if (_head) _head->_prev = nullptr;
-        if (to_delete == _tail) _tail = nullptr;
     }
     else
     {
@@ -98,7 +95,6 @@ List::Item* List::erase_next(Item* item)
 
         item->_next = to_delete->_next;
         if (to_delete->_next) to_delete->_next->_prev = item;
-        if (to_delete == _tail) _tail = item;
     }
 
     delete to_delete;

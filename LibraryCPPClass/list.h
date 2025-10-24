@@ -57,7 +57,6 @@ public:
     Item* erase_next(Item* item);
 private:
     Item* _head = nullptr;
-    Item* _tail = nullptr;
 };
 
 #endif
