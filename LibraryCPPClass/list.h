@@ -57,6 +57,9 @@ public:
     Item* erase_next(Item* item);
 private:
     Item* _head = nullptr;
+
+    void copy(const List& a);
+    void clear();
 };
 
 #endif

@@ -5,36 +5,22 @@ List::List() : _head(nullptr) {}
 
 List::List(const List& a) : _head(nullptr)
 {
-    Item* last = nullptr;
-    for (Item* it = a._head; it; it = it->_next)
-    {
-        last = insert_after(last, it->_data);
-    }
+    copy(a);
 }
 
 List& List::operator=(const List& a)
 {
     if (this != &a)
     {
-        while (_head)
-        {
-            erase_first();
-        }
-        Item* last = nullptr;
-        for (Item* it = a._head; it; it = it->_next)
-        {
-            last = insert_after(last, it->_data);
-        }
+        clear();
+        copy(a);
     }
     return*this;
 }
 
 List::~List()
 {
-    while (_head)
-    {
-        erase_first();
-    }
+    clear();
 }
 
 List::Item* List::first() const
@@ -50,12 +36,13 @@ List::Item* List::insert(Data data)
 List::Item* List::insert_after(Item* item, Data data)
 {
     Item* new_item = new Item(data);
+
     if (!item)
     {
+        new_item->_next = _head;
         if (_head)
         {
             _head->_prev = new_item;
-            new_item->_next = _head;
         }
         _head = new_item;
     }
@@ -63,9 +50,10 @@ List::Item* List::insert_after(Item* item, Data data)
     {
         new_item->_next = item->_next;
         new_item->_prev = item;
-
-        if (item->_next) item->_next->_prev = new_item;
-
+        if (item->_next)
+        {
+            item->_next->_prev = new_item;
+        }
         item->_next = new_item;
     }
 
@@ -79,25 +67,37 @@ List::Item* List::erase_first()
 
 List::Item* List::erase_next(Item* item)
 {
-    Item* to_delete;
-    if (!item)
-    {
-        if (!_head) return nullptr;
+    Item* to_delete = item ? item->_next : _head;
+    if (!to_delete)
+        return nullptr;
 
-        to_delete = _head;
-        _head = _head->_next;
-        if (_head) _head->_prev = nullptr;
-    }
-    else
-    {
-        to_delete = item->_next;
-        if (!to_delete) return nullptr;
+    if (to_delete == _head)
+        _head = to_delete->_next;
 
-        item->_next = to_delete->_next;
-        if (to_delete->_next) to_delete->_next->_prev = item;
-    }
+    if (to_delete->_next)
+        to_delete->_next->_prev = to_delete->_prev;
+    if (to_delete->_prev)
+        to_delete->_prev->_next = to_delete->_next;
 
+    Item* next_item = to_delete->_next;
     delete to_delete;
 
-    return item ? item->_next : _head;
+    return next_item;
+}
+
+void List::copy(const List& a)
+{
+    Item* last = nullptr;
+    for (Item* it = a._head; it; it = it->_next)
+    {
+        last = insert_after(last, it->_data);
+    }
+}
+
+void List::clear()
+{
+    while (_head)
+    {
+        erase_first();
+    }
 }
