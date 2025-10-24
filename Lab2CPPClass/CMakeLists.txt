@@ -20,3 +20,6 @@ set_tests_properties(TestLab2CPPClassMergeReverse PROPERTIES PASS_REGULAR_EXPRES
 
 add_test(NAME TestLab2CPPClassMergeDups COMMAND Lab2CPPClass ${CMAKE_CURRENT_SOURCE_DIR}/input_dups.txt)
 set_tests_properties(TestLab2CPPClassMergeDups PROPERTIES PASS_REGULAR_EXPRESSION "1 2 3 3 ")
+
+add_test(NAME TestLab2CPPClassMergeLarge COMMAND Lab2CPPClass ${CMAKE_CURRENT_SOURCE_DIR}/input_large.txt)
+set_tests_properties(TestLab2CPPClassMergeLarge PROPERTIES TIMEOUT 30)
