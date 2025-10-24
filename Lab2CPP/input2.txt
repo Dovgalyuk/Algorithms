@@ -1,0 +1,3 @@
+2 3 add peek sub peek mul peek div peek sqrt peek sq peek get peek cond end setr repeat peek
+
+
