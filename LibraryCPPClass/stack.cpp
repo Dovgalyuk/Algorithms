@@ -1,38 +1,34 @@
 #include "stack.h"
 
-Stack::Stack()
-{
-}
+Stack::Stack() {}
 
-Stack::Stack(const Stack &a)
-{
-    // implement or disable this function
-}
+Stack::Stack(const Stack& a) : _list(a._list) {}
 
-Stack &Stack::operator=(const Stack &a)
+Stack& Stack::operator=(const Stack& a)
 {
-    // implement or disable this function
+    _list = a._list;
     return *this;
 }
 
-Stack::~Stack()
-{
-}
+Stack::~Stack() {}
 
 void Stack::push(Data data)
 {
+    _list.insert(data);
 }
 
 Data Stack::get() const
 {
-    return Data();
+    if (empty()) return Data();
+    return _list.first()->data();
 }
 
 void Stack::pop()
 {
+    if (!empty()) _list.erase_first();
 }
 
 bool Stack::empty() const
 {
-    return true;
+    return _list.first() == nullptr;
 }
