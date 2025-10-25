@@ -9,37 +9,34 @@ void compressArray(Array* arr, int a, int b);
 void printArray(const Array* arr);
 
 int main(int argc, char** argv) {
-    ifstream file1(argv[1]);
-    if (!file1) {
+    if (argc != 2) {
+        cerr << "Usage: " << argv[0] << " input.txt" << endl;
+        return 1;
+    }
+
+    ifstream file(argv[1]);
+    if (!file) {
         cerr << "Cannot open " << argv[1] << endl;
         return 1;
     }
 
     //Fibonachi
     size_t n1;
-    file1 >> n1;
+    file >> n1;
     Array* fibArr = array_create(n1);
 
     fillFibonacci(fibArr);
     printArray(fibArr);
 
-
-    ifstream file2(argv[2]);
-    if (!file2) {
-        cerr << "Cannot open " << argv[2] << endl;
-        array_delete(fibArr);
-        return 1;
-    }
-
     //Compressed array
     size_t n2;
-    file2 >> n2;
+    file >> n2;
     Array* compressArr = array_create(n2);
 
     for (size_t i = 0; i < n2; ++i) {
         Data value;
-        if (!(file2 >> value)) {
-            cerr << "Invalid data in " << argv[2] << endl;
+        if (!(file >> value)) {
+            cerr << "Invalid array data in " << argv[1] << endl;
             array_delete(fibArr);
             array_delete(compressArr);
             return 1;
@@ -48,7 +45,7 @@ int main(int argc, char** argv) {
     }
 
     int a, b;
-    if (!(file2 >> a >> b)) {
+    if (!(file >> a >> b)) {
         cerr << "Invalid interval data in " << argv[2] << endl;
         array_delete(fibArr);
         array_delete(compressArr);
