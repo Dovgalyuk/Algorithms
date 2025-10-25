@@ -1,0 +1,10 @@
+add_executable(Lab1CPP lab1.cpp)
+target_include_directories(Lab1CPP PUBLIC ../LibraryCPP)
+target_link_libraries(Lab1CPP LibraryCPP)
+
+add_test(NAME TestLab1CPP COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
+set_property(TEST TestLab1CPP PROPERTY PASS_REGULAR_EXPRESSION "(5 6 7 8 9|most frequent: 1|frequency: 1)")
+add_test(NAME TestLab1CPP2 COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
+set_property(TEST TestLab1CPP2 PROPERTY PASS_REGULAR_EXPRESSION "")
+add_test(NAME TestLab1CPP3 COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input3.txt)
+set_property(TEST TestLab1CPP3 PROPERTY PASS_REGULAR_EXPRESSION "(7|most frequent: 7|frequency: 1)")
