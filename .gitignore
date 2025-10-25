@@ -13,3 +13,6 @@ Release/*
 .vs/*
 build/*
 .vscode/*
+.idea
+out/
+LibraryCPPClass/
