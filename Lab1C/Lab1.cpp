@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 #include <fstream>
 
 using namespace std;
@@ -8,56 +8,52 @@ void fillFibonacci(Array* arr);
 void compressArray(Array* arr, int a, int b);
 void printArray(const Array* arr);
 
-int main() {
-    //Broken
-    /*ifstream file1("input1.txt");
+int main(int argc, char** argv) {
+    ifstream file1(argv[1]);
     if (!file1) {
-        cerr << "Cannot open input1.txt\n";
+        cerr << "Cannot open " << argv[1] << endl;
         return 1;
-    }*/
+    }
 
     //Fibonachi
-    int n1 = 10;    //size_t n1
-    //file1 >> n1;
+    size_t n1;
+    file1 >> n1;
     Array* fibArr = array_create(n1);
 
     fillFibonacci(fibArr);
     printArray(fibArr);
 
-    //Broken
-    /*ifstream file2("input2.txt");
+
+    ifstream file2(argv[2]);
     if (!file2) {
-        cerr << "Cannot open input2.txt\n";
+        cerr << "Cannot open " << argv[2] << endl;
         array_delete(fibArr);
         return 1;
-    }*/
+    }
 
     //Compressed array
-    size_t n2 = 8;  //size_t n2
-    int test2[] = { 10, 5, 8, 20, 15, 3, 25, 12 };
-    //file2 >> n2;
+    size_t n2;
+    file2 >> n2;
     Array* compressArr = array_create(n2);
 
     for (size_t i = 0; i < n2; ++i) {
-        Data value = test2[i];
-        //Broken
-        /*if (!(file2 >> value)) {
-            cerr << "Invalid data in input2.txt\n";
+        Data value;
+        if (!(file2 >> value)) {
+            cerr << "Invalid data in " << argv[2] << endl;
             array_delete(fibArr);
             array_delete(compressArr);
             return 1;
-        }*/
+        }
         array_set(compressArr, i, value);
     }
 
-    int a = 5, b = 15;  //int a, b
-    //Broken
-    /*if (!(file2 >> a >> b)) {
-        cerr << "Invalid interval data in input2.txt\n";
+    int a, b;
+    if (!(file2 >> a >> b)) {
+        cerr << "Invalid interval data in " << argv[2] << endl;
         array_delete(fibArr);
         array_delete(compressArr);
         return 1;
-    }*/
+    }
 
     compressArray(compressArr, a, b);
     printArray(compressArr);
