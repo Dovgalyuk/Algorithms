@@ -1,0 +1,3 @@
+call
+push 9999
+ret

@@ -15,7 +15,7 @@ string perevod(string text) {
 	return text;
 }
 
-bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, Stack* call) {
+bool qwer(string& s, Stack* stack, MAP& Arr, ifstream& file) {
 
 	int value;
 
@@ -30,6 +30,10 @@ bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, Stack* call) {
 		file >> c;
 
 		if (stack_empty(stack)) {
+			cout << "BAD POP";
+			return false;
+		}
+		if (stack_get(stack) == -9999){
 			cout << "BAD POP";
 			return false;
 		}
@@ -95,23 +99,20 @@ bool qwer(string& s, Stack* stack, MAP& Arr , ifstream& file, Stack* call) {
 		stack_push(stack, a * b);
 	}
 	else if (s == "call"){
-		stack_push(stack , 9999);
-		stack_push(call, 9999);
+		stack_push(stack , -9999);
 	}
 	else if (s == "ret") {
-		if (stack_empty(stack) || stack_empty(call)) {
+		if (stack_empty(stack)) {
 			cout << "BAD RET";
 			return false;
 		}
 
 		int qwer_1= stack_get(stack);
-		int qwer_2 = stack_get(call);
-		if (qwer_1 != 9999 || qwer_2 != 9999) {
+		if (qwer_1 != -9999) {
 			cout << "BAD RET";
 			return false;
 		}
 		stack_pop(stack);
-		stack_pop(call);
 	}
 
 	return true;
@@ -128,16 +129,14 @@ int main(int argc, char** argv)
 	}
 
 	Stack* stack = stack_create();
-	Stack* call = stack_create();
 	MAP Arr = {
 		{'A',0},{'B',0},{'C',0},{'D',0}
 	};
 	string s;
 
 	while (file >> s) {
-		if (!qwer(s, stack, Arr, file, call)) {
+		if (!qwer(s, stack, Arr, file)) {
 			stack_delete(stack);
-			stack_delete(call);
 			file.close();
 			return 0;
 		}
@@ -149,7 +148,6 @@ int main(int argc, char** argv)
 		<< " D = " << Arr['D'] << endl;
 
 	stack_delete(stack);
-	stack_delete(call);
 	file.close();
 
 	return 0;

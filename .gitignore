@@ -13,30 +13,5 @@ Release/*
 .vs/*
 build/*
 .vscode/*
-# === CMake generated files ===
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-CTestTestfile.cmake
-Makefile
-build/
-*.make
-*.depend
-*.d
-*.ts
-*.dir
-
-# === Compiled binaries ===
-*.o
-*.a
-*.so
-*.out
-*.exe
-*.dll
-*.dylib
-
-# === IDE / System ===
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
+.idea
+out/
