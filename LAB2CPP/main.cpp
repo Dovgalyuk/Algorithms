@@ -63,14 +63,6 @@ int main(int argc, char* argv[])
                         i++;
                         
                     }
-                    
-                   /* while (i < r.length() && r[i] != '>')
-                    {
-                        name_tag += r[i];   
-                        i++;
-                        
-
-                    }*/
                     size_t start = i;
                     size_t end = r.find('>', i);
                     if (end == string::npos) break;
