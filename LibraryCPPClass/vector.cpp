@@ -63,10 +63,6 @@ size_t Vector::size() const
 
 void Vector::resize(size_t new_size)
 {
-    if (new_size == size_) {
-        return;
-    }
-
     if (new_size <= capacity_) {
         size_ = new_size;
         return;
