@@ -13,3 +13,5 @@ Release/*
 .vs/*
 build/*
 .vscode/*
+*.DS_Store
+*.out

@@ -7,3 +7,5 @@
 *.vrb
 *.snm
 *.out
+*.DS_Store
+*.idea
