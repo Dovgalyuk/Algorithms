@@ -1,1 +1,0 @@
-10 5 20 4 15 3 get get add peek get get sub peek get get mul peek get get div peek
