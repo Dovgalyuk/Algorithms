@@ -1,182 +1,291 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <sstream>
-#include <cmath>
+#include <unordered_map>
+#include <functional>
 #include <vector>
 #include "stack.h"
-#include "vector.h"
 
-class CalculonInterpreter {
-private:
-    Stack stack_;
-    Vector input_data_;
-    size_t input_index_;
-    Data loop_variable_;
-    std::vector<std::string> commands_;
-    size_t command_index_;
-    bool in_conditional_block_;
-    bool conditional_executed_;
-    size_t repeat_start_index_;
-    
+class ExecutionContext {
 public:
-    CalculonInterpreter() : input_index_(0), loop_variable_(0), command_index_(0), 
-                           in_conditional_block_(false), conditional_executed_(false), 
-                           repeat_start_index_(0) {}
-    
-    void execute(const std::string& filename) {
-        std::ifstream file(filename);
-        if (!file.is_open()) {
-            std::cerr << "Error opening file: " << filename << std::endl;
+    Stack stack;
+    std::istream& input;
+    std::ostream& output;
+    size_t currentIndex = 0;
+
+    // for cond & end commands
+    bool skipMode = false;
+    int skipLevel = 0;
+
+    //for setr & repeat command
+    int repeatCounter = 0;
+    size_t repeatStartIndex = 0;
+    bool inLoop = false;
+
+    ExecutionContext(std::istream& in, std::ostream& out) : input(in), output(out) {}
+
+    Data pop() {
+        if (stack.empty())
+        {
+            throw std::runtime_error("Stack underflow");
+        }
+        Data value = stack.get();
+        stack.pop();
+        return value;
+    }
+
+    void push(Data value) {
+        stack.push(value);
+    }
+
+    Data peek() {
+        if (stack.empty()) {
+            throw std::runtime_error("Stack is empty");
+        }
+        return stack.get();
+    }
+};
+
+class Command {
+public:
+    virtual ~Command() = default;
+    virtual void execute(ExecutionContext& context) = 0;
+};
+
+class AddCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        Data firstValue = context.pop();
+        Data secondValue = context.pop();
+        context.push(firstValue + secondValue);
+    }
+};
+
+class SubCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        Data firstValue = context.pop();
+        Data secondValue = context.pop();
+        context.push(firstValue - secondValue);
+    }
+};
+
+class MulCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        Data firstValue = context.pop();
+        Data secondValue = context.pop();
+        context.push(firstValue * secondValue);
+    }
+};
+
+class DivCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        Data firstValue = context.pop();
+        Data secondValue = context.pop();
+
+        if (secondValue == 0)
+        {
+            context.push(0);
             return;
         }
         
-        std::string token;
-        bool reading_data = true;
+
+        context.push(firstValue / secondValue);
+    }
+};
+
+class SqrtCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        Data lastValue = context.pop();
         
-        while (file >> token) {
-            if (reading_data) {
-                std::istringstream iss(token);
-                Data value;
-                if (iss >> value && iss.eof()) {
-                    size_t current_size = input_data_.size();
-                    input_data_.resize(current_size + 1);
-                    input_data_.set(current_size, value);
-                } else {
-                    reading_data = false;
-                    
-                    commands_.push_back(token);
-                }
-            } else {
-                commands_.push_back(token);
-            }
+        if (lastValue < 0)
+        {
+            context.push(0);
         }
         
-        file.close();
+        double sqrtValue = std::sqrt(static_cast<double>(lastValue));
+        Data result = static_cast<Data>(std::round(sqrtValue));
+        context.push(result);
+    }
+};
+
+class SqCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        Data lastValue = context.pop();
         
-        while (command_index_ < commands_.size()) {
-            executeCommand(commands_[command_index_]);
-            command_index_++;
+        context.push(lastValue * lastValue);
+    }
+};
+
+class GetCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        Data userValue;
+
+        if (context.input >> userValue)
+        {
+           context.push(userValue);
+           return;
+        } 
+        else {
+            context.push(0);
+        }
+        context.input.clear();
+    }
+};
+
+class PeekCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        context.output << context.peek() << " ";
+    }
+};
+
+class CondCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        if (context.skipMode)
+        {
+            context.skipLevel++;
+            return;
+        }
+        
+        Data a = context.pop();
+        Data b = context.pop();
+
+        if (a != b)
+        {
+            context.skipMode = true;
+            context.skipLevel = 1;
+            context.push(b);
+        }
+        
+    }
+};
+
+class EndCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        if (context.skipMode) {
+            context.skipLevel--;
+            if (context.skipLevel == 0) {
+                context.skipMode = false;
+            }
         }
     }
-    
-private:
-    void executeCommand(const std::string& command) {
-        if (in_conditional_block_ && !conditional_executed_) {
-            if (command == "end") {
-                in_conditional_block_ = false;
-                conditional_executed_ = false;
-            }
-            return;
+};
+
+class SetrCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        Data value = context.pop();
+        context.repeatCounter = static_cast<int>(value);
+        context.repeatStartIndex = context.currentIndex;
+        context.inLoop = true;
+    }
+};
+
+class RepeatCommand : public Command {
+public:
+    void execute(ExecutionContext& context) override {
+        if (!context.inLoop)
+        {
+            throw std::runtime_error("repeat without setr");
         }
         
-        if (command == "repeat") {
-            if (loop_variable_ > 0) {
-                loop_variable_--;
-                command_index_ = repeat_start_index_ - 1;
+        if (context.repeatCounter > 0)
+        {
+            context.repeatCounter--;
+            context.currentIndex = context.repeatStartIndex;
+        } else {
+            context.inLoop = false;
+        }
+    }
+};
+
+class CommandFactory {
+private:
+    std::unordered_map<std::string, std::function<std::unique_ptr<Command>()>> commands_;
+
+public:
+    CommandFactory() {
+        registerCommand("add", []() { return std::make_unique<AddCommand>(); });
+        registerCommand("sub", []() { return std::make_unique<SubCommand>(); });
+        registerCommand("mul", []() { return std::make_unique<MulCommand>(); });
+        registerCommand("div", []() { return std::make_unique<DivCommand>(); });
+        registerCommand("sqrt", []() { return std::make_unique<SqrtCommand>(); });
+        registerCommand("sq", []() { return std::make_unique<SqCommand>(); });
+        registerCommand("get", []() { return std::make_unique<GetCommand>(); });
+        registerCommand("peek", []() { return std::make_unique<PeekCommand>(); });
+        registerCommand("cond", []() { return std::make_unique<CondCommand>(); });
+        registerCommand("end", []() { return std::make_unique<EndCommand>(); });
+        registerCommand("setr", []() { return std::make_unique<SetrCommand>(); });
+        registerCommand("repeat", []() { return std::make_unique<RepeatCommand>(); });
+    }
+
+    void registerCommand(const std::string& name, std::function<std::unique_ptr<Command>()> creator) {
+        commands_[name] = std::move(creator);
+    }
+
+    std:: unique_ptr<Command> createCommand(const std::string& name) const {
+        auto it = commands_.find(name);
+        if (it != commands_.end())
+        {
+            return it -> second();
+        }
+        return nullptr;
+    }
+};
+
+std::vector<std::string> tokenize(const std::string& program) {
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream stream(program);
+
+    while (stream >> token)
+    {
+        tokens.push_back(token);
+    }
+
+    return tokens;
+}
+
+class ProgramExecutor {
+private:
+    CommandFactory factory_;
+    std::vector<std::string> tokens_;
+public:
+    ProgramExecutor(const std::string &program) {
+        tokens_ = tokenize(program);
+    }
+    void execute() {
+        ExecutionContext context(std::cin, std::cout);
+
+        while (context.currentIndex < tokens_.size())
+        {
+            const std::string& token = tokens_[context.currentIndex];
+
+            try
+            {
+                if (auto command = factory_.createCommand(token))
+                {
+                    command -> execute(context);
+                } else {
+                    Data value = std::stod(token);
+                    context.push(value);
+                }
+                
+            }
+            catch (const std::exception& e)
+            {
+                std::cout << e.what() << std::endl;
                 return;
             }
-        }
-        
-        if (command == "add") {
-            if (!stack_.empty()) {
-                Data b = stack_.get();
-                stack_.pop();
-                if (!stack_.empty()) {
-                    Data a = stack_.get();
-                    stack_.pop();
-                    stack_.push(a + b);
-                } else {
-                    stack_.push(b);
-                }
-            }
-        } else if (command == "sub") {
-            if (!stack_.empty()) {
-                Data b = stack_.get();
-                stack_.pop();
-                if (!stack_.empty()) {
-                    Data a = stack_.get();
-                    stack_.pop();
-                    stack_.push(a - b);
-                } else {
-                    stack_.push(b);
-                }
-            }
-        } else if (command == "mul") {
-            if (!stack_.empty()) {
-                Data b = stack_.get();
-                stack_.pop();
-                if (!stack_.empty()) {
-                    Data a = stack_.get();
-                    stack_.pop();
-                    stack_.push(a * b);
-                } else {
-                    stack_.push(b);
-                }
-            }
-        } else if (command == "div") {
-            if (!stack_.empty()) {
-                Data b = stack_.get();
-                stack_.pop();
-                if (!stack_.empty()) {
-                    Data a = stack_.get();
-                    stack_.pop();
-                    if (b != 0) {
-                        stack_.push(a / b);
-                    }
-                } else {
-                    stack_.push(b);
-                }
-            }
-        } else if (command == "sqrt") {
-            if (!stack_.empty()) {
-                Data value = stack_.get();
-                stack_.pop();
-                stack_.push(static_cast<Data>(std::sqrt(value)));
-            }
-        } else if (command == "sq") {
-            if (!stack_.empty()) {
-                Data value = stack_.get();
-                stack_.pop();
-                stack_.push(value * value);
-            }
-        } else if (command == "get") {
-            if (input_index_ < input_data_.size()) {
-                stack_.push(input_data_.get(input_index_));
-                input_index_++;
-            }
-        } else if (command == "peek") {
-            if (!stack_.empty()) {
-                std::cout << stack_.get() << " ";
-            }
-        } else if (command == "cond") {
-            if (!stack_.empty()) {
-                Data b = stack_.get();
-                stack_.pop();
-                if (!stack_.empty()) {
-                    Data a = stack_.get();
-                    stack_.pop();
-                    
-                    if (a == b) {
-                        in_conditional_block_ = true;
-                        conditional_executed_ = true;
-                    } else {
-                        in_conditional_block_ = true;
-                        conditional_executed_ = false;
-                    }
-                } else {
-                    stack_.push(b);
-                }
-            }
-        } else if (command == "end") {
-            in_conditional_block_ = false;
-            conditional_executed_ = false;
-        } else if (command == "setr") {
-            if (!stack_.empty()) {
-                loop_variable_ = stack_.get();
-                stack_.pop();
-                repeat_start_index_ = command_index_ + 1;
-            }
+            context.currentIndex++;
         }
     }
 };
@@ -187,11 +296,20 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    std::string filename = argv[1];
+    std::ifstream file(argv[1]);
     
-    CalculonInterpreter interpreter;
-    interpreter.execute(filename);
-    std::cout << std::endl;
-    
+    if (!file)
+    {
+        std::cerr << "Cannot open file: " << argv[1] << std::endl;
+        return 1;
+    }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string program = buffer.str();
+
+    ProgramExecutor executor(program);
+    executor.execute();
+
     return 0;
 }
