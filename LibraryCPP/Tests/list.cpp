@@ -37,10 +37,15 @@ int main()
         return 1;
     }
 
+    //исправила, так как было некорректно для кольцевого списка
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
+    for (ListItem *item = list_first(list), *first = item; item ; item = list_item_next(item))
     {
         std::cout << list_item_data(item) << " ";
+        if (item == first)
+        {
+            break;
+        } 
     }
     std::cout << "\n";
 
