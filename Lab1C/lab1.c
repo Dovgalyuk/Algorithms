@@ -86,6 +86,11 @@ Array *array_create_and_read_size_only(FILE *input)
 // task 1 (completion simple numbers) 
 void task1(Array *arr)
 {
+     if (arr == NULL || array_size(arr) == 0) {
+        printf("empty array\n");
+        return;
+    }
+
     array_set(arr, 0, 2);
     for (unsigned int x = 3, i = 1; i < array_size(arr); x++) {
         if(is_simple_number(x)) {

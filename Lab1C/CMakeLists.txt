@@ -7,3 +7,9 @@ set_property(TEST TestPrimeNumbers PROPERTY PASS_REGULAR_EXPRESSION "2 3 5 7 11 
 
 add_test(NAME TestEvenDifference COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 set_property(TEST TestEvenDifference PROPERTY PASS_REGULAR_EXPRESSION "the minimum difference between two even elements: 2")
+
+add_test(NAME TestIncorrectPrimeNumbers COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
+set_property(TEST TestIncorrectPrimeNumbers PROPERTY PASS_REGULAR_EXPRESSION "empty array")
+
+add_test(NAME TestIncorrectEvenDifference COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
+set_property(TEST TestIncorrectPrimeNumbers PROPERTY PASS_REGULAR_EXPRESSION "incorrect array!")
