@@ -13,7 +13,7 @@ typedef struct {
 
 
 //создание новой машины
-JavaMachine* java_machine_create(void) {
+JavaMachine* java_machine_create() {
     
     JavaMachine* machine = (JavaMachine*)malloc(sizeof(JavaMachine));
     if (machine == NULL) {
@@ -716,5 +716,3 @@ bool is_number(Data value) {
 bool is_valid_operand(Data value) {
     return is_number(value);
 }
-
-
