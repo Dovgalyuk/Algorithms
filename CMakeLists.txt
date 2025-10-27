@@ -7,7 +7,7 @@ if (MSVC)
     # needs at least cmake 3.15
     add_compile_options(/W4 /WX)
 else()
-    add_compile_options(-Wall -Wextra -Wpedantic -Wno-gnu-empty-struct -Wno-unused-parameter -ftrapv)
+    add_compile_options(-Wall -Wextra -Werror -Wpedantic -Wno-gnu-empty-struct -Wno-unused-parameter -ftrapv)
     if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         add_compile_options(-fsanitize=address,undefined)
         add_link_options(-fsanitize=address,undefined)
