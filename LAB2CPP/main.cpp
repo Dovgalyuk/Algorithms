@@ -9,9 +9,9 @@
 
 using namespace std;
 
-string process(const string& l)  {
-    string result = l;
-    for (char& ch : result)
+void process(string& l)  {
+
+    for (char& ch : l)
     {
         if (!isspace(ch))
         {
@@ -19,7 +19,6 @@ string process(const string& l)  {
         }
             
     }
-    return result;
 }
 
 
@@ -47,26 +46,26 @@ int main(int argc, char* argv[])
         while (getline(reader, line))
         {
             
-            string r = process(line);
+             process(line);
            
             
-            for (size_t i = 0; i < r.length(); i++)
+            for (size_t i = 0; i < line.length(); i++)
             {
-                if (r[i] == '<')
+                if (line[i] == '<')
                 {
                     bool isClosing = false;
                     i++;
                     
-                    if (r[i] == '/')
+                    if (line[i] == '/')
                     {
                         isClosing = true;
                         i++;
                         
                     }
                     size_t start = i;
-                    size_t end = r.find('>', i);
+                    size_t end = line.find('>', i);
                     if (end == string::npos) break;
-                    string name_tag=r.substr(start,end-start);
+                    string name_tag=line.substr(start,end-start);
 
                     if (isClosing)
                     {
