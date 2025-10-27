@@ -1,18 +1,16 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include <cstddef>
-
 typedef int Data;
 
-Data* array_create(size_t size);
+int* array_create(int size);
 
-void array_delete(Data* arr);
+void array_delete(int* arr);
 
-Data array_get(const Data* arr, size_t index);
+Data array_get(const int* arr, int index);
 
-void array_set(Data* arr, size_t index, Data value);
+void array_set(int* arr, int index, int value);
 
-size_t array_size(const Data* arr, size_t size);
+int array_size(const int* arr, int size);
 
 #endif

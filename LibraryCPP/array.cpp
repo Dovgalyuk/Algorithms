@@ -1,27 +1,27 @@
 #include "array.h"
 #include <cstddef>
 
-Data* array_create(size_t size)
+int* array_create(int size)
 {
-    return new Data[size];
+    return new int[size];
 }
 
-void array_delete(Data* arr)
+void array_delete(int* arr)
 {
     delete[] arr;
 }
 
-Data array_get(const Data* arr, size_t index)
+int array_get(const int* arr, int index)
 {
     return arr[index];
 }
 
-void array_set(Data* arr, size_t index, Data value)
+void array_set(int* arr, int index, int value)
 {
     arr[index] = value;
 }
 
-size_t array_size(const Data*, size_t size)
+int array_size(const int*, int size)
 {
     return size;
 }
