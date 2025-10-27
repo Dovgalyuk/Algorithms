@@ -32,6 +32,8 @@ public:
 
 private:
     // private data should be here
+    size_t size_;
+    Data* data_;
 };
 
 #endif
