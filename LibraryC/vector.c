@@ -85,6 +85,8 @@ void vector_resize(Vector *vector, size_t size) {
         }
       }
     }
+    vector->size = size;
+    return;
   }
 
   if (size > vector->size) {
@@ -97,6 +99,10 @@ void vector_resize(Vector *vector, size_t size) {
       Data *new_items = realloc(vector->items, new_capacity * sizeof(Data));
       if (new_items == NULL) {
         return;
+      }
+
+      for (size_t i = vector->capacity; i < new_capacity; i++) {
+        new_items[i] = (Data)0;
       }
 
       vector->items = new_items;
