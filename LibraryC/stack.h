@@ -8,7 +8,7 @@
 // Stores integer or pointer to custom user data
 typedef uintptr_t Data;
 // Custom function to free user pointers on delete
-typedef void (FFree)(void*);
+typedef void(FFree)(void *);
 
 typedef struct Stack Stack;
 
@@ -35,6 +35,21 @@ void stack_pop(Stack *stack);
 
 // Returns true if the stack is empty
 bool stack_empty(const Stack *stack);
+
+// Reverses the stack in place
+void stack_reverse(Stack *stack);
+
+// Retrieves the bottom element from the stack
+Data stack_get_bottom(Stack *stack);
+
+// Pushes data to the bottom of the stack
+void stack_unshift(Stack *stack, Data data);
+
+// Pops the bottom element from the stack
+Data stack_shift(Stack *stack);
+
+// Concatenates all stack elements into one string and replaces stack contents
+void stack_concat(Stack *stack);
 
 #ifdef __cplusplus
 }
