@@ -36,8 +36,8 @@ void array_delete(Array *arr)
 
     if(arr->freefunc){
         for (size_t i = 0; i < arr->size; i++){
-            if(arr->data[i] != 0){
-                arr->freefunc((void*)arr->data[i]);
+            if (arr->data[i] != 0) {
+                arr->freefunc((void*)(uintptr_t)arr->data[i]);
             }
         }
     }
@@ -69,6 +69,9 @@ void array_set(Array *arr, size_t index, Data value)
     if (index >= arr->size){
         fprintf(stderr, "array_set: index %zu out of bounds (size=%zu)\n", index, arr->size);
         return;
+    }
+    if (arr->freefunc && arr->data[index] != 0) {
+        arr->freefunc((void*)(uintptr_t)arr->data[index]);
     }
     arr->data[index] = value;
 }

@@ -20,7 +20,6 @@ int main()
         array_set(arr, i, (Data)d);
     }
 
-    delete (int *)array_get(arr, 0);
     array_set(arr, 0, (Data) new int(0));
 
     for (int i = 0; i < 10; ++i)
