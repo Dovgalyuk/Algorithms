@@ -53,7 +53,7 @@ void task2(Array *arr)
             if (i != j) {
                 int other = array_get(arr, j);
                 
-                if (other != 0 && other != 1 && other != -1) {
+                if (other != 0) {
                     if (value % other == 0) {
                         no_delitel = false;
                     }
