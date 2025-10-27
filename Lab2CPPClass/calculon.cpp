@@ -1,10 +1,13 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cmath>
 #include <unordered_map>
 #include <functional>
 #include <vector>
+#include <memory>
 #include "stack.h"
+
 
 class ExecutionContext {
 public:
