@@ -8,7 +8,7 @@
 // Stores integer or pointer to custom user data
 typedef uintptr_t Data;
 // Custom function to free user pointers on delete
-typedef void (FFree)(void*);
+typedef void(FFree)(void *);
 
 typedef struct Vector Vector;
 
@@ -34,6 +34,9 @@ size_t vector_size(const Vector *vector);
 // Changes the vector size (may increase or decrease)
 // Should be O(1) on average
 void vector_resize(Vector *vector, size_t size);
+
+// Swaps two elements in the vector
+void vector_swap(Vector *vector, size_t i, size_t j);
 
 #ifdef __cplusplus
 }

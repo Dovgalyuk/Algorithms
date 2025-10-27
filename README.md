@@ -212,3 +212,6 @@ https://www.youtube.com/watch?v=ahgv_eJDhrE
 ## Компактные структуры данных
 
 https://habr.com/ru/company/mailru/blog/479822/
+
+# Студент
+Васильев Александр Юрьевич, гр. 5098

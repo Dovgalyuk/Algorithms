@@ -8,7 +8,7 @@
 // Stores integer or pointer to custom user data
 typedef uintptr_t Data;
 // Custom function to free user pointers on delete
-typedef void (FFree)(void*);
+typedef void(FFree)(void *);
 
 typedef struct Array Array;
 
