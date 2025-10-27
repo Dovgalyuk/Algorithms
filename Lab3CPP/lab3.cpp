@@ -15,8 +15,8 @@ struct Point
     Point(int x, int y) : x(x), y(y) {} 
 };
 
-const Point move[] = {Point(-1, -1), Point(-1, 0), Point(-1, 1), Point(0, -1), Point(0, 1), Point(1, -1), Point(1, 0), Point(1, 1)};
 const int move_size = 8;
+const Point move[move_size] = {Point(-1, -1), Point(-1, 0), Point(-1, 1), Point(0, -1), Point(0, 1), Point(1, -1), Point(1, 0), Point(1, 1)};
 
 int bfs(Vector* vector, int height, int width, Point start, Point end)
 {
@@ -59,13 +59,8 @@ int bfs(Vector* vector, int height, int width, Point start, Point end)
             int new_x = cur_x + x;
             int new_y = cur_y + y;
             
-            while(true) 
+            while(!(new_x < 0 || new_x >= width || new_y < 0 || new_y >= height)) 
             {
-                if(new_x < 0 || new_x >= width || new_y < 0 || new_y >= height)
-                {
-                    break;
-                }
-
                 int newIndex= new_y * width + new_x;
                 char c = (char)vector_get(vector, newIndex);
             
