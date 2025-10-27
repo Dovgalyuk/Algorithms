@@ -1,5 +1,7 @@
 bipush 1
 bipush 2
 bipush 3
+swap
 iadd
 istore_0
+

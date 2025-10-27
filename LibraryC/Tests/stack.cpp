@@ -8,23 +8,23 @@ void myfree(void *p)
 
 int stack_get_int(Stack *s)
 {
-    void *v = stack_get(s);
-    if (!v)
+    Data v = stack_get(s);
+    if (v == 0)
     {
         std::cout << "Invalid stack_get\n";
         stack_delete(s);
         exit(1);
     }
-    return *(int*)v;
+    return *(int*)(void*)v;
 }
 
 int main()
 {
     Stack *stack = stack_create(myfree);
 
-    stack_push(stack, new int(1));
-    stack_push(stack, new int(2));
-    stack_push(stack, new int(3));
+    stack_push(stack, (Data)new int(1));
+    stack_push(stack, (Data)new int(2));
+    stack_push(stack, (Data)new int(3));
 
     if (stack_get_int(stack) != 3)
     {
@@ -54,8 +54,8 @@ int main()
     }
 
     std::cout << "Get: " << stack_get_int(stack) << "\n";
-    stack_push(stack, new int(4));
-    stack_push(stack, new int(5));
+    stack_push(stack, (Data)new int(4));
+    stack_push(stack, (Data)new int(5));
 
     if (stack_get_int(stack) != 5)
     {
