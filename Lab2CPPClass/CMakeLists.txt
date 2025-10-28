@@ -51,11 +51,18 @@ set_tests_properties(TestCalculonSqCommand PROPERTIES
     PASS_REGULAR_EXPRESSION "16"
 )
 
-add_test(NAME TestCalculonGetCommand
-         COMMAND Lab2CPPClass ${CMAKE_CURRENT_SOURCE_DIR}/Tests/get-command.txt)
+add_test(NAME TestCalculonGetCommandFromFile
+         COMMAND Lab2CPPClass ${CMAKE_CURRENT_SOURCE_DIR}/Tests/get-command.txt --file ${CMAKE_CURRENT_SOURCE_DIR}/Tests/get-test-data.txt)
 
-set_tests_properties(TestCalculonGetCommand PROPERTIES
-    PASS_REGULAR_EXPRESSION "0"
+set_tests_properties(TestCalculonGetCommandFromFile PROPERTIES
+    PASS_REGULAR_EXPRESSION "10 52 2"
+)
+
+add_test(NAME TestCalculonGetCommandInline
+         COMMAND Lab2CPPClass ${CMAKE_CURRENT_SOURCE_DIR}/Tests/get-command.txt --inline)
+
+set_tests_properties(TestCalculonGetCommandFromFile PROPERTIES
+    PASS_REGULAR_EXPRESSION "10 52 2"
 )
 
 add_test(NAME TestCalculonCondCommand

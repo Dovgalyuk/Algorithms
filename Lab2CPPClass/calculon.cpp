@@ -8,11 +8,47 @@
 #include <memory>
 #include "stack.h"
 
+class InputStrategy {
+public:
+    virtual ~InputStrategy() = default;
+    virtual Data getNext() = 0;
+};
+
+class StdinInputStrategy : public InputStrategy {
+public:
+    Data getNext() override {
+        Data value;
+        if (std::cin >> value)
+        {
+            return value;
+        } else {
+            std::cin.clear();
+            return 0;
+        }        
+    }
+};
+
+class PreloadedInputStrategy : public InputStrategy {
+private:
+    std::vector<Data> data_;
+    size_t currentIndex_ = 0;
+public:
+    PreloadedInputStrategy(const std::vector<Data>& data): data_(data) {}
+
+    Data getNext() override {
+        if (currentIndex_ < data_.size())
+        {
+            return data_[currentIndex_++];
+        } else {
+            return 0;
+        }
+    }
+};
 
 class ExecutionContext {
 public:
     Stack stack;
-    std::istream& input;
+    std::unique_ptr<InputStrategy> inputStrategy;
     std::ostream& output;
     size_t currentIndex = 0;
 
@@ -25,7 +61,7 @@ public:
     size_t repeatStartIndex = 0;
     bool inLoop = false;
 
-    ExecutionContext(std::istream& in, std::ostream& out) : input(in), output(out) {}
+    ExecutionContext(std::unique_ptr<InputStrategy> strategy, std::ostream& out) : inputStrategy(std::move(strategy)), output(out) {}
 
     Data pop() {
         if (stack.empty())
@@ -127,17 +163,8 @@ public:
 class GetCommand : public Command {
 public:
     void execute(ExecutionContext& context) override {
-        Data userValue;
-
-        if (context.input >> userValue)
-        {
-           context.push(userValue);
-           return;
-        } 
-        else {
-            context.push(0);
-        }
-        context.input.clear();
+        Data data = context.inputStrategy -> getNext();
+        context.push(data);
     }
 };
 
@@ -261,12 +288,21 @@ class ProgramExecutor {
 private:
     CommandFactory factory_;
     std::vector<std::string> tokens_;
+    std::vector<Data> inputData_;
+
+    void loadInputData(const std::string& dataStr) {
+        std::istringstream dataStream(dataStr);
+        Data value;
+        while (dataStream >> value) {
+            inputData_.push_back(value);
+        }
+    }
 public:
     ProgramExecutor(const std::string &program) {
         tokens_ = tokenize(program);
     }
-    void execute() {
-        ExecutionContext context(std::cin, std::cout);
+    void execute(std::unique_ptr<InputStrategy> inputStrategy) {
+        ExecutionContext context(std::move(inputStrategy), std::cout);
 
         while (context.currentIndex < tokens_.size())
         {
@@ -294,9 +330,93 @@ public:
     }
 };
 
+std::vector<Data> loadDataFromFile(const std::string& filename) {
+    std::vector<Data> data;
+    std::ifstream file(filename);
+    if (!file) {
+        throw std::runtime_error("Cannot open data file: " + filename);
+    }
+    
+    Data value;
+    while (file >> value) {
+        data.push_back(value);
+    }
+    return data;
+}
+
+std::vector<Data> loadDataFromFirstLine(const std::string& content) {
+    std::vector<Data> data;
+    std::istringstream stream(content);
+    std::string firstLine;
+    
+    if (std::getline(stream, firstLine)) {
+        std::istringstream dataStream(firstLine);
+        Data value;
+        while (dataStream >> value) {
+            data.push_back(value);
+        }
+    }
+    
+    return data;
+}
+
+struct InputConfig
+{
+    std::string strategyType;
+    std::string dataFilename;
+};
+
+class InputStrategyFactory {
+public:
+    static InputConfig createConfigFromArguments(int argc, char* argv[]) {
+        InputConfig config;
+        config.strategyType = "stdin";
+
+        if (argc >= 3)
+        {
+            std::string arg = argv[2];
+            if (arg == "--inline")
+            {
+                config.strategyType = "inline";
+            }
+            else if (arg == "--file" && argc >= 4)
+            {
+                config.strategyType = "file";
+                config.dataFilename = argv[3];
+            }
+            else if (arg == "--stdin")
+            {
+                config.strategyType = "stdin";
+            }
+        }
+
+        return config;
+    }
+
+    static std::unique_ptr<InputStrategy> createFromConfig(const InputConfig& config, const std::string& programContent = "")
+    {
+        if (config.strategyType == "stdin")
+        {
+            return std::make_unique<StdinInputStrategy>();
+        }
+        else if (config.strategyType == "inline") {
+            auto data = loadDataFromFirstLine(programContent);
+            return std::make_unique<PreloadedInputStrategy>(data);
+        }
+        else if (config.strategyType == "file") {
+            auto data = loadDataFromFile(config.dataFilename);
+            return std::make_unique<PreloadedInputStrategy>(data);
+        }
+        else {
+            throw std::invalid_argument("Unknown input strategy: " + config.strategyType);
+        }
+    }
+};
+
+
 int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <data_and_script_file>" << std::endl;
+    if (argc < 2) {
+        std::cerr << "Usage: " << argv[0] << " <script_file> [--stdin | --inline | --file <data_file>]" << std::endl;
         return 1;
     }
     
@@ -312,8 +432,19 @@ int main(int argc, char* argv[]) {
     buffer << file.rdbuf();
     std::string program = buffer.str();
 
-    ProgramExecutor executor(program);
-    executor.execute();
+    try {
+        auto config = InputStrategyFactory::createConfigFromArguments(argc, argv);
+        auto inputStrategy = InputStrategyFactory::createFromConfig(config, program);
+        
+        std::cout << "Using " << config.strategyType << " input strategy" << std::endl;
+        
+        ProgramExecutor executor(program);
+        executor.execute(std::move(inputStrategy));
+        
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
+    }
 
     return 0;
 }
