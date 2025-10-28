@@ -35,15 +35,28 @@ void task1(Array* arr)
     for (size_t i = 0; i < array_size(arr); ++i)
     {
         if (array_get(arr, i) % 2 == 0) {
-            CountEven += 1;
+        CountEven += 1;
         }
     }
+
+    Array* arrEven = nullptr;
+    arrEven = array_create(CountEven);
+    int arrEvenI = 0;
+
     for (size_t i = 0; i < array_size(arr); ++i)
     {
         if (array_get(arr, i) % 2 == 0) {
-            printf("%zu ", i);
+            array_set(arrEven, arrEvenI, i);
+            arrEvenI += 1;
         }
     }
+
+    for (size_t i = 0; i < array_size(arrEven); ++i)
+    {
+        printf("%d ", array_get(arrEven, i));
+    }
+    printf("\n");
+    array_delete(arrEven);
 }
 
 void read_interval(FILE* input, int* a, int* b)
