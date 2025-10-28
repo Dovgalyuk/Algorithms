@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include "array.h"
 #include <fstream>
 #include <string>
 #include <limits>
@@ -13,13 +13,16 @@ void findFastestCars(std::istream& in) {
         return;
     }
 
-    std::vector<int> speeds(n);
+    Array* speeds = array_create(n);
     int maxSpeed = std::numeric_limits<int>::min();
 
     for (int i = 0; i < n; ++i) {
-        in >> speeds[i];
-        if (speeds[i] > maxSpeed) {
-            maxSpeed = speeds[i];
+        int speed;
+        in >> speed;
+        array_set(speeds, i, speed);
+
+        if (speed > maxSpeed) {
+            maxSpeed = speed;
         }
     }
 
@@ -27,7 +30,7 @@ void findFastestCars(std::istream& in) {
     int lastIndex = -1;
 
     for (int i = 0; i < n; ++i) {
-        if (speeds[i] == maxSpeed) {
+        if (array_get(speeds, i) == maxSpeed) {
             if (firstIndex == -1) { 
                 firstIndex = i;
             }
@@ -40,6 +43,8 @@ void findFastestCars(std::istream& in) {
     } else {
         std::cout << "Task4: " << firstIndex + 1 << " " << lastIndex + 1 << std::endl;
     }
+
+    array_delete(speeds);
 }
 
 void findNonDivisibleElements(std::istream& in) {
@@ -51,32 +56,37 @@ void findNonDivisibleElements(std::istream& in) {
         return;
     }
 
-    std::vector<int> arr(m);
+    Array* arr = array_create(m);
     for (int i = 0; i < m; ++i) {
-        in >> arr[i];
+        int val;
+        in >> val;
+        array_set(arr, i, val);
     }
 
     std::cout << "Task5:";
     
     for (int i = 0; i < m; ++i) {
         bool isDivisible = false;
-        
+        int currentVal = array_get(arr, i);
+
         for (int j = 0; j < m; ++j) {
             if (i == j) {
                 continue;
             }
-            
-            if (arr[j] != 0 && arr[i] % arr[j] == 0) {
+            int divisor = array_get(arr, j);
+
+            if (divisor != 0 && currentVal % divisor == 0) {
                 isDivisible = true;
                 break;
             }
         }
 
         if (!isDivisible) {
-            std::cout << " " << arr[i];
+            std::cout << " " << currentVal;
         }
     }
     std::cout << std::endl;
+    array_delete(arr);
 }
 
 int main(int argc, char* argv[]) {
