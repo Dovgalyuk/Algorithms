@@ -15,7 +15,7 @@ int main() {
 
     int n;
     file >> n;
-    int* arr = array_create(n);
+    Array* arr = array_create(n);
 
     for (int i = 0; i < n; i++) {
         int x;
@@ -28,17 +28,17 @@ int main() {
 
     cout << "размер массива " << n << endl;
     cout << "элементы массива ";
-    for (int i = 0; i < n; i++) {
+    for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << " ";
     }
     cout << endl;
 
     cout << "интервал " << a << " " << b << endl;
 
-    int maxLen = task1(arr, n);
+    size_t maxLen = task1(arr);
     cout << "Максимальная длина отрезка нечетных чисел: " << maxLen << endl;
 
-    task2(arr, n, a, b);
+    task2(arr, a, b);
 
     cout << "Сжатый массив: ";
     for (int i = 0; i < n; i++) {

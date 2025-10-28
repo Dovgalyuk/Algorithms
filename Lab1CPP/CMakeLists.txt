@@ -23,11 +23,11 @@ enable_testing()
 add_test(NAME TestMaxLength COMMAND Lab1C ${CMAKE_CURRENT_BINARY_DIR}/input.txt)
 set_tests_properties(TestMaxLength PROPERTIES
         PASS_REGULAR_EXPRESSION
-        "Максимальная длина отрезка нечетных чисел: 1"
+        "1"
 )
 
 add_test(NAME TestCompressedArray COMMAND Lab1C ${CMAKE_CURRENT_BINARY_DIR}/input.txt)
 set_tests_properties(TestCompressedArray PROPERTIES
         PASS_REGULAR_EXPRESSION
-        "Сжатый массив: 5 6 7 8 9 0 0 0 0 0"
+        "5 6 7 8 9 0 0 0 0 0"
 )

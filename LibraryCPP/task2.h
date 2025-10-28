@@ -1,5 +1,7 @@
 #ifndef ALGORITHMS_TASK2_H
 #define ALGORITHMS_TASK2_H
-void task2(int* arr, int n, int a, int b);
+#include "array.h"
+
+void task2(Array* arr, int a, int b);
 
 #endif

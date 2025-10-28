@@ -4,9 +4,10 @@
 
 #ifndef ALGORITHMS_TASK1_H
 #define ALGORITHMS_TASK1_H
+#include "array.h"
 
 
-int task1(int* arr, int n) ;
+int task1(Array* arr) ;
 
 
 #endif //ALGORITHMS_TASK1_H

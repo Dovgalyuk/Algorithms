@@ -1,15 +1,13 @@
-//
-// Created by Mukhammadzakhid Nematzhanov on 9/10/25.
-//
-
+#include "array.h"
 #include "task1.h"
 
-int task1(int* arr, int n) {
+int task1(Array* arr) {
     int maxLen = 0;
     int currentLen = 0;
 
-    for (int i = 0; i < n; i++) {
-        if (arr[i] % 2 != 0) {
+    for (size_t i = 0; i < array_size(arr); i++) {
+        int value = array_get(arr, i);
+        if (value % 2 != 0) {
             currentLen++;
             if (currentLen > maxLen) {
                 maxLen = currentLen;
