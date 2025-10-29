@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef ARRAY_H
 #define ARRAY_H
 
@@ -13,10 +15,10 @@ public:
     explicit Array(size_t size);
 
     // copy constructor
-    Array(const Array &a);
+    Array(const Array& a);
 
     // assignment operator
-    Array &operator=(const Array &a);
+    Array& operator=(const Array& a);
 
     // delete array, free memory
     ~Array();
@@ -32,6 +34,8 @@ public:
 
 private:
     // private data should be here
+    Data* adata;
+    size_t asize;
 };
 
 #endif
