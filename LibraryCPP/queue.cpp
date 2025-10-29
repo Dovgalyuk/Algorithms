@@ -1,11 +1,11 @@
 #include "queue.h"
 #include <stdlib.h>
 #include "vector.h"
+
 struct Queue
 {
     Vector* data;
     size_t front;
-    size_t back;
     size_t count;
 };
 
@@ -14,7 +14,6 @@ Queue* queue_create()
     Queue* queue = new Queue;
     queue->data = vector_create();
     queue->front = 0;
-    queue->back = 0;
     queue->count = 0;
 
     vector_resize(queue->data, 8);
@@ -44,11 +43,10 @@ void queue_insert(Queue* queue, Data data)
         vector_delete(queue->data);
         queue->data = new_data;
         queue->front = 0;
-        queue->back = queue->count;
     }
 
-    vector_set(queue->data, queue->back, data);
-    queue->back = (queue->back + 1) % vector_size(queue->data);
+    size_t insert_pos = (queue->front + queue->count) % vector_size(queue->data);
+    vector_set(queue->data, insert_pos, data);
     queue->count++;
 }
 
