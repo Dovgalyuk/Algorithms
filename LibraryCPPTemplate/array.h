@@ -1,49 +1,66 @@
-#ifndef ARRAY_TEMPLATE_H
-#define ARRAY_TEMPLATE_H
+#ifndef ARRAY_H
+#define ARRAY_H
 
-template <typename Data> class Array
-{
+#include <cstddef>
+#include <stdexcept>
+#include <algorithm>
+
+template<typename T>
+class array {
 public:
-    // create array
-    explicit Array(size_t size)
-    {
+    explicit array(size_t size) : size_(size) {
+        if (size == 0) {
+            data_ = nullptr;
+        }
+        else {
+            data_ = new T[size]();
+        }
     }
 
-    // copy constructor
-    Array(const Array &a)
-    {
+    ~array() {
+        delete[] data_;
     }
 
-    // assignment operator
-    Array &operator=(const Array &a)
-    {
+    array(const array& other) : size_(other.size_) {
+        if (size_ == 0) {
+            data_ = nullptr;
+        }
+        else {
+            data_ = new T[size_];
+            std::copy(other.data_, other.data_ + size_, data_);
+        }
+    }
+
+    array& operator=(const array& other) {
+        if (this != &other) {
+            delete[] data_;
+            size_ = other.size_;
+            if (size_ == 0) {
+                data_ = nullptr;
+            }
+            else {
+                data_ = new T[size_];
+                std::copy(other.data_, other.data_ + size_, data_);
+            }
+        }
         return *this;
     }
 
-    // delete array, free memory
-    ~Array()
-    {
+    size_t size() const { return size_; }
+
+    T& operator[](size_t index) {
+        if (index >= size_) throw std::out_of_range("Index out of range");
+        return data_[index];
     }
 
-    // returns specified array element
-    Data get(size_t index) const
-    {
-        return Data(0);
-    }
-
-    // sets the specified array element to the value
-    void set(size_t index, Data value)
-    {
-    }
-
-    // returns array size
-    size_t size() const
-    {
-        return 0;
+    const T& operator[](size_t index) const {
+        if (index >= size_) throw std::out_of_range("Index out of range");
+        return data_[index];
     }
 
 private:
-    // private data should be here
+    T* data_;
+    size_t size_;
 };
 
-#endif
+#endif // ARRAY_H

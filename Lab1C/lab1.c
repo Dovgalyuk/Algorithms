@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include "array.h"
 
-Array *array_create_and_read(FILE *input)
+Array* array_create_and_read(FILE* input)
 {
     int n;
     fscanf(input, "%d", &n);
     /* Create array */
-    Array *arr = array_create(n, NULL);
+    Array* arr = array_create(n, NULL);
     /* Read array data */
-    for (int i = 0 ; i < n ; ++i)
+    for (int i = 0; i < n; ++i)
     {
         int x;
         fscanf(input, "%d", &x);
@@ -17,18 +17,18 @@ Array *array_create_and_read(FILE *input)
     return arr;
 }
 
-void task1(Array *arr)
+void task1(Array* arr)
 {
 }
 
-void task2(Array *arr)
+void task2(Array* arr)
 {
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-    Array *arr = NULL;
-    FILE *input = fopen(argv[1], "r");
+    Array* arr = NULL;
+    FILE* input = fopen(argv[1], "r");
     arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
