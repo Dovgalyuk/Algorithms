@@ -1,21 +1,21 @@
-C:\Users\kupor\Algorithms\build>cmake --build . --config RelWithDebInfo
+C:\Users\admin\Algorithms\build>cmake --build . --config RelWithDebInfo
 Версия MSBuild 17.14.23+b0019275e для .NET Framework
 
   1>Checking Build System
-  Building Custom Rule C:/Users/kupor/Algorithms/LibraryCPPClass/CMakeLists.txt
+  Building Custom Rule C:/Users/admin/Algorithms/LibraryCPPClass/CMakeLists.txt
   array.cpp
-  LibraryCPPClass.vcxproj -> C:\Users\kupor\Algorithms\build\LibraryCPPClass\RelWithDebInfo\LibraryCPPClass.lib
-  Building Custom Rule C:/Users/kupor/Algorithms/LibraryCPPClass/Tests/CMakeLists.txt
+  LibraryCPPClass.vcxproj -> C:\Users\admin\Algorithms\build\LibraryCPPClass\RelWithDebInfo\LibraryCPPClass.lib
+  Building Custom Rule C:/Users/admin/Algorithms/LibraryCPPClass/Tests/CMakeLists.txt
   array.cpp
-  TestArrayCPPClass.vcxproj -> C:\Users\kupor\Algorithms\build\LibraryCPPClass\Tests\RelWithDebInfo\TestArrayCPPClass.e
+  TestArrayCPPClass.vcxproj -> C:\Users\admin\Algorithms\build\LibraryCPPClass\Tests\RelWithDebInfo\TestArrayCPPClass.e
   xe
-  Building Custom Rule C:/Users/kupor/Algorithms/Lab1CPPClass/CMakeLists.txt
-  str.cpp
-  lab1cppclass.vcxproj -> C:\Users\kupor\Algorithms\build\Lab1CPPClass\RelWithDebInfo\lab1cppclass.exe
-  Building Custom Rule C:/Users/kupor/Algorithms/CMakeLists.txt
+  Building Custom Rule C:/Users/admin/Algorithms/Lab1CPPClass/CMakeLists.txt
+  struct1.cpp
+  lab1cppclass.vcxproj -> C:\Users\admin\Algorithms\build\Lab1CPPClass\RelWithDebInfo\lab1cppclass.exe
+  Building Custom Rule C:/Users/admin/Algorithms/CMakeLists.txt
 
-C:\Users\kupor\Algorithms\build>ctest -C RelWithDebInfo --output-on-failure
-Test project C:/Users/kupor/Algorithms/build
+C:\Users\admin\Algorithms\build>ctest -C RelWithDebInfo --output-on-failure
+Test project C:/Users/admin/Algorithms/build
     Start 1: TestArrayCPPClass
 1/2 Test #1: TestArrayCPPClass ................   Passed    0.06 sec
     Start 2: TestLab1CPPClass
@@ -24,4 +24,4 @@ Test project C:/Users/kupor/Algorithms/build
 100% tests passed, 0 tests failed out of 2
 
 Total Test time (real) =   0.22 sec
-PS C:\Users\kupor\Algorithms\Lab1CPPClass>
+PS C:\Users\admin\Algorithms\Lab1CPPClass>
