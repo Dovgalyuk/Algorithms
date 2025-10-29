@@ -5,3 +5,6 @@ target_link_libraries(Lab1CPP LibraryCPP)
 
 add_test(NAME TestLab1CPP COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 set_property(TEST TestLab1CPP PROPERTY PASS_REGULAR_EXPRESSION "Task4: 3 5.*Task5:.*5.*3.*7.*2.*")
+
+add_test(NAME TestLab1CPP_SingleMax COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input_single_max.txt)
+set_property(TEST TestLab1CPP_SingleMax PROPERTY PASS_REGULAR_EXPRESSION "Task4: 3.*Task5:.*5.*3.*7.*2.*")
