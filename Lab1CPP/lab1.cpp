@@ -1,15 +1,22 @@
 #include <iostream>
 #include <fstream>
-#include  <../LibraryCPP/task1.h>
-#include  <../LibraryCPP/task2.h>
-#include "../LibraryCPP/array.h"
+#include  "task1.h"
+#include  "task2.h"
+#include  "array.h"
 
 using namespace std;
 
-int main() {
-    ifstream file("input.txt");
+int main(int argc, char* argv[]) {
+
+    if (argc < 2) {
+        cerr << "Add an argument" << endl;
+        return 1;
+    }
+
+
+    ifstream file(argv[1]);
     if (!file.is_open()) {
-        cerr << "Не удалось открыть файл!" << endl;
+        cerr << "Error: Could not open file" << endl;
         return 1;
     }
 
@@ -26,21 +33,21 @@ int main() {
     int a, b;
     file >> a >> b;
 
-    cout << "размер массива " << n << endl;
-    cout << "элементы массива ";
+    cout << "Array size " << n << endl;
+    cout << "Array elements ";
     for (size_t i = 0; i < array_size(arr); i++) {
         cout << array_get(arr, i) << " ";
     }
     cout << endl;
 
-    cout << "интервал " << a << " " << b << endl;
+    cout << "Interval " << a << " " << b << endl;
 
     size_t maxLen = task1(arr);
-    cout << "Максимальная длина отрезка нечетных чисел: " << maxLen << endl;
+    cout << "The maximum length of a segment of odd numbers: " << maxLen << endl;
 
     task2(arr, a, b);
 
-    cout << "Сжатый массив: ";
+    cout << "Compressed array: ";
     for (int i = 0; i < n; i++) {
         cout << array_get(arr, i) << " ";
     }
