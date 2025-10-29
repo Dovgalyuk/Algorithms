@@ -2,17 +2,16 @@
 #include <fstream>
 #include <map>
 #include <vector>
-#include <memory>
 #include "array.h"
 
 using namespace std;
 
-unique_ptr<Array> array_create_and_read(ifstream& input)
+Array* array_create_and_read(ifstream& input)
 {
     int n;
     input >> n;
     /* Create array */
-    auto arr = make_unique <Array>(n);
+    Array* arr = new Array(n);
     /* Read array data */
     for (int i = 0 ; i < n ; ++i)
     {
@@ -87,15 +86,20 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    auto arr = array_create_and_read(input);
+    Array* arr = nullptr;
+    arr = array_create_and_read(input);
     cout << "Task1 - Precipitation analysis:" << endl;
-    task1(arr.get());
+    task1(arr);
+    delete arr;
+    arr = nullptr;
     
     /* Create another array here */
     arr = array_create_and_read(input);
     cout << "Task2 - Elements appearing exactly twice:" << endl;
-    task2(arr.get());
-    
+    task2(arr);
+    delete arr;
+    arr = nullptr;
+
     input.close();
     return 0;
 }
