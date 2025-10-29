@@ -8,3 +8,6 @@ endif()
 
 add_test(NAME Lab3_Hex_BFS_Sample COMMAND Lab3C_PR ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 set_tests_properties(Lab3_Hex_BFS_Sample PROPERTIES PASS_REGULAR_EXPRESSION "S(.|\\r|\\n)*x(.|\\r|\\n)*x(.|\\r|\\n)*E")
+
+add_test(NAME Lab3_Hex_BFS_Big COMMAND Lab3C_PR ${CMAKE_CURRENT_SOURCE_DIR}/input_2.txt)
+set_tests_properties(Lab3_Hex_BFS_Big PROPERTIES PASS_REGULAR_EXPRESSION "S(.|\\r|\\n)*x(.|\\r|\\n)*x(.|\\r|\\n)*x(.|\\r|\\n)*x(.|\\r|\\n)*E")

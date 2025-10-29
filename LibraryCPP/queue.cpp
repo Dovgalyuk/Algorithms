@@ -5,12 +5,16 @@
 struct Queue {
     Vector* buf;
     size_t head;
-    size_t tail;
     size_t count;
 };
 
 static size_t q_capacity(const Queue* q) {
     return vector_size(q->buf);
+}
+
+static size_t q_tail(const Queue* q) {
+    size_t cap = q_capacity(q);
+    return (q->head + q->count) % (cap ? cap : 1);
 }
 
 static void q_grow(Queue* q) {
@@ -28,7 +32,6 @@ static void q_grow(Queue* q) {
     vector_delete(q->buf);
     q->buf = nb;
     q->head = 0;
-    q->tail = q->count;
 }
 
 Queue* queue_create() {
@@ -36,7 +39,6 @@ Queue* queue_create() {
     q->buf = vector_create();
     vector_resize(q->buf, 4);
     q->head = 0;
-    q->tail = 0;
     q->count = 0;
     return q;
 }
@@ -53,9 +55,8 @@ void queue_insert(Queue* q, Data data) {
     if (q->count == q_capacity(q))
         q_grow(q);
 
-    size_t cap = q_capacity(q);
-    vector_set(q->buf, q->tail, data);
-    q->tail = (q->tail + 1) % cap;
+    size_t idx = q_tail(q);
+    vector_set(q->buf, idx, data);
     ++q->count;
 }
 

@@ -2,9 +2,13 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <utility>
 #include "queue.h"
 
 using namespace std;
+
+using Cell = pair<int, int>;
+using Cells = vector<Cell>;
 
 // Функция для чтения прямоугольной сетки из файла.
 
@@ -27,23 +31,23 @@ static bool read_grid(const string& filename, vector<string>& g) {
 // Функция для печати сетки в виде шестиугольной (соты).
 
 static void print_hex(const vector<string>& g) {
-    int H = (int)g.size();
-    int W = H ? (int)g[0].size() : 0;
+    size_t H = g.size();
+    size_t W = H ? g[0].size() : 0;
     if (!H || !W)
         return;
 
-    for (int c = 0; c < W; ++c)
+    for (size_t c = 0; c < W; ++c)
         cout << " / \\";
     cout << "\n";
 
-    for (int r = 0; r < H; ++r) {
+    for (size_t r = 0; r < H; ++r) {
         cout << string(2 * r, ' ');
-        for (int c = 0; c < W; ++c)
+        for (size_t c = 0; c < W; ++c)
             cout << "| " << (g[r][c] == '.' ? ' ' : g[r][c]) << ' ';
         cout << "|\n";
 
         cout << string(2 * r, ' ');
-        for (int c = 0; c < W; ++c)
+        for (size_t c = 0; c < W; ++c)
             cout << " \\ /";
         if (r < H - 1)
             cout << " \\";
@@ -53,16 +57,17 @@ static void print_hex(const vector<string>& g) {
 
 // Функция для получения списка соседей клетки в шестиугольной решётке.
 
-static void neighbors(int r, int c, int H, int W, vector<pair<int, int>>& out) {
-    static const int dr[6] = { -1,-1, 0, 0, +1,+1 };
-    static const int dc_even[6] = { -1, 0, -1, +1, -1, 0 };
-    static const int dc_odd[6] = { 0,+1, -1, +1,  0,+1 };
+static void neighbors(int r, int c, size_t H, size_t W, Cells& out) {
+    out.clear();
+    static const int dr[6] = { +1, +1, 0, 0, -1, -1 };
+    static const int dc_even[6] = { 0, +1, +1, -1, 0, +1 };
+    static const int dc_odd[6] = { -1, 0, +1, -1, -1, 0 };
 
-    bool even = (r % 2 == 0);
+    const bool even = (r % 2 == 0);
     for (int i = 0; i < 6; ++i) {
         int nr = r + dr[i];
-        int nc = c + (even ? dc_odd[i] : dc_even[i]);
-        if (0 <= nr && nr < H && 0 <= nc && nc < W)
+        int nc = c + (even ? dc_even[i] : dc_odd[i]);
+        if (nr >= 0 && nc >= 0 && (size_t)nr < H && (size_t)nc < W)
             out.push_back({ nr, nc });
     }
 }
@@ -75,24 +80,24 @@ int main(int argc, char* argv[]) {
     if (!read_grid(argv[1], g))
         return 0;
 
-    int H = (int)g.size();
-    int W = (int)g[0].size();
+    size_t H = g.size();
+    size_t W = g[0].size();
 
-    for (int r = 1; r < H; ++r)
-        if ((int)g[r].size() != W)
+    for (size_t r = 1; r < H; ++r)
+        if (g[r].size() != W)
             return 0;
 
     int sr = -1, sc = -1, er = -1, ec = -1;
 
-    for (int r = 0; r < H; ++r) {
-        for (int c = 0; c < W; ++c) {
+    for (size_t r = 0; r < H; ++r) {
+        for (size_t c = 0; c < W; ++c) {
             if (g[r][c] == 'S') {
-                sr = r;
-                sc = c;
+                sr = (int)r;
+                sc = (int)c;
             }
             if (g[r][c] == 'E') {
-                er = r;
-                ec = c;
+                er = (int)r;
+                ec = (int)c;
             }
         }
     }
@@ -102,11 +107,12 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    auto id = [W](int r, int c) { return r * W + c; };
-    auto rid = [W](int id) { return id / W; };
-    auto cid = [W](int id) { return id % W; };
+    int Wi = (int)W;
+    auto id = [Wi](int r, int c) { return r * Wi + c; };
+    auto rid = [Wi](int id) { return id / Wi; };
+    auto cid = [Wi](int id) { return id % Wi; };
 
-    int N = H * W;
+    size_t N = H * W;
     vector<int> parent(N, -1);
     vector<char> used(N, 0);
 
@@ -122,7 +128,7 @@ int main(int argc, char* argv[]) {
         if (r == er && c == ec)
             break;
 
-        vector<pair<int, int>> nb; nb.reserve(6);
+        Cells nb; nb.reserve(6);
         neighbors(r, c, H, W, nb);
 
         for (size_t k = 0; k < nb.size(); ++k) {
