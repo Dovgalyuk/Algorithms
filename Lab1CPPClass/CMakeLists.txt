@@ -1,4 +1,4 @@
-add_executable(lab1cppclass str.cpp)
+add_executable(lab1cppclass struct1.cpp)
 target_include_directories(lab1cppclass PUBLIC ../LibraryCPPClass)
 target_link_libraries(lab1cppclass LibraryCPPClass)
 
