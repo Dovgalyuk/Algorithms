@@ -8,6 +8,7 @@ if (MSVC)
     add_compile_options(/W4 /WX)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic -Wno-gnu-empty-struct -Wno-unused-parameter)
+endif()
 
 #add_subdirectory(LibraryC)
 add_subdirectory(LibraryCPP)
