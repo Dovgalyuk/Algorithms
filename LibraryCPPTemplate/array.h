@@ -6,9 +6,9 @@
 #include <algorithm>
 
 template<typename T>
-class array {
+class Array {
 public:
-    explicit array(size_t size) : size_(size) {
+    explicit Array(size_t size) : size_(size) {  // конструктор
         if (size == 0) {
             data_ = nullptr;
         }
@@ -17,11 +17,11 @@ public:
         }
     }
 
-    ~array() {
+    ~Array() {  // деструктор
         delete[] data_;
     }
 
-    array(const array& other) : size_(other.size_) {
+    Array(const Array& other) : size_(other.size_) {  // копирующий конструктор
         if (size_ == 0) {
             data_ = nullptr;
         }
@@ -31,7 +31,7 @@ public:
         }
     }
 
-    array& operator=(const array& other) {
+    Array& operator=(const Array& other) {  // оператор присваивания
         if (this != &other) {
             delete[] data_;
             size_ = other.size_;

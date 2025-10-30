@@ -11,13 +11,12 @@ int main(int argc, char* argv[]) {
     std::ifstream in(argv[1]);
     int n;
     in >> n;
-    array<int> arr(n);
+    Array<int> arr(n);
     for (int i = 0; i < n; ++i) {
         in >> arr[i];
     }
     in.close();
 
-    // Задача 1: положительные
     bool first = true;
     for (int i = 0; i < n; ++i) {
         if (arr[i] > 0) {
@@ -28,7 +27,6 @@ int main(int argc, char* argv[]) {
     }
     std::cout << "\n";
 
-    // Задача 1: отрицательные
     first = true;
     for (int i = 0; i < n; ++i) {
         if (arr[i] < 0) {
@@ -39,8 +37,7 @@ int main(int argc, char* argv[]) {
     }
     std::cout << "\n";
 
-    // Задача 2: min even diff
-    array<int> evens(n);
+    Array<int> evens(n);
     int even_count = 0;
     for (int i = 0; i < n; ++i) {
         if (arr[i] % 2 == 0) {
