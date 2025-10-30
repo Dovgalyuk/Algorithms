@@ -59,17 +59,19 @@ static void print_hex(const vector<string>& g) {
 
 static void neighbors(int r, int c, size_t H, size_t W, Cells& out) {
     out.clear();
-    static const int dr[6] = { +1, +1, 0, 0, -1, -1 };
-    static const int dc_even[6] = { 0, +1, +1, -1, 0, +1 };
-    static const int dc_odd[6] = { -1, 0, +1, -1, -1, 0 };
+    auto push = [&](int rr, int cc) {
+        if (rr >= 0 && cc >= 0 && (size_t)rr < H && (size_t)cc < W)
+            out.push_back({ rr, cc });
+    };
 
-    const bool even = (r % 2 == 0);
-    for (int i = 0; i < 6; ++i) {
-        int nr = r + dr[i];
-        int nc = c + (even ? dc_even[i] : dc_odd[i]);
-        if (nr >= 0 && nc >= 0 && (size_t)nr < H && (size_t)nc < W)
-            out.push_back({ nr, nc });
-    }
+    push(r - 1, c - 1);
+    push(r - 1, c);
+
+    push(r, c - 1);
+    push(r, c + 1);
+
+    push(r + 1, c);
+    push(r + 1, c + 1);
 }
 
 int main(int argc, char* argv[]) {
