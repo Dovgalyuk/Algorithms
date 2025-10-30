@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 project(LAB1CPP)
-set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Lab1CPP
         lab1.cpp
-        ../LibraryCPP/task1.cpp
-        ../LibraryCPP/task2.cpp
+        task1.cpp
+        task2.cpp
         ../LibraryCPP/array.cpp
 )
 
