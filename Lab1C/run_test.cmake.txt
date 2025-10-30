@@ -1,0 +1,18 @@
+execute_process(
+    COMMAND ${TEST_EXECUTABLE} ${INPUT_FILE}
+    OUTPUT_FILE actual_output.txt
+    RESULT_VARIABLE result
+)
+
+execute_process(
+    COMMAND ${CMAKE_COMMAND} -E compare_files
+            actual_output.txt
+            ${EXPECTED_OUTPUT}
+    RESULT_VARIABLE diff_result
+)
+
+if(NOT diff_result EQUAL 0)
+    message(FATAL_ERROR "Test failed! Output doesn't match expected result.")
+else()
+    message("Test passed! Output matches expected result.")
+endif()

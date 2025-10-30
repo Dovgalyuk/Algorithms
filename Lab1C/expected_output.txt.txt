@@ -1,0 +1,11 @@
+=== Array Processing Program ===
+
+=== Task 1 ===
+Array: 1 2 3 4 5 6 7 8 9 0 
+Min: 0, Max: 9, Average: 4.5
+Indices of elements less than average: 0 1 2 3 9 
+Total count: 5
+
+=== Task 2 ===
+Array: 1 2 3 4 
+Elements that appear exactly twice: None
