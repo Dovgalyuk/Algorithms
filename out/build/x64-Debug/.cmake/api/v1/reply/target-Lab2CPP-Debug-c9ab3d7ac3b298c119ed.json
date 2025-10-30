@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Lab1C/Lab1C.exe"
+			"path" : "Lab2CPP/Lab2CPP.exe"
 		},
 		{
-			"path" : "Lab1C/Lab1C.pdb"
+			"path" : "Lab2CPP/Lab2CPP.pdb"
 		}
 	],
 	"backtrace" : 2,
@@ -16,12 +16,13 @@
 			"_add_executable",
 			"add_executable",
 			"target_link_libraries",
-			"add_compile_options"
+			"add_compile_options",
+			"target_include_directories"
 		],
 		"files" : 
 		[
 			"C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
-			"Lab1C/CMakeLists.txt",
+			"Lab2CPP/CMakeLists.txt",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
@@ -44,7 +45,7 @@
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 2,
+				"line" : 3,
 				"parent" : 0
 			},
 			{
@@ -55,6 +56,12 @@
 				"file" : 2,
 				"line" : 8,
 				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 2,
+				"parent" : 0
 			}
 		]
 	},
@@ -81,8 +88,8 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
-					"path" : "C:/Users/Vanek/source/repos/Algorithms3/LibraryCPP"
+					"backtrace" : 6,
+					"path" : "C:/Users/Vanek/source/repos/Algorithms3/Lab2CPP/../LibraryCPP"
 				}
 			],
 			"language" : "CXX",
@@ -99,7 +106,7 @@
 			"id" : "LibraryCPP::@4b3589622afbd1422885"
 		}
 	],
-	"id" : "Lab1C::@c050f807fd595b3ba8be",
+	"id" : "Lab2CPP::@e0a064ab7e0e3ebc24bb",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -124,12 +131,12 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "Lab1C",
-	"nameOnDisk" : "Lab1C.exe",
+	"name" : "Lab2CPP",
+	"nameOnDisk" : "Lab2CPP.exe",
 	"paths" : 
 	{
-		"build" : "Lab1C",
-		"source" : "Lab1C"
+		"build" : "Lab2CPP",
+		"source" : "Lab2CPP"
 	},
 	"sourceGroups" : 
 	[
@@ -146,7 +153,7 @@
 		{
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,
-			"path" : "Lab1C/lab1.cpp",
+			"path" : "Lab2CPP/lab2.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

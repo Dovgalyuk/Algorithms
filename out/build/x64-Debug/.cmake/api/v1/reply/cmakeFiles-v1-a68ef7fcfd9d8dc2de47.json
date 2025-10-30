@@ -156,7 +156,7 @@
 			"path" : "LibraryCPP/Tests/CMakeLists.txt"
 		},
 		{
-			"path" : "Lab1C/CMakeLists.txt"
+			"path" : "Lab2CPP/CMakeLists.txt"
 		}
 	],
 	"kind" : "cmakeFiles",
