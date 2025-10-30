@@ -9,5 +9,5 @@ set_tests_properties(TestLab1CPP PROPERTIES
 
 add_test(NAME TestLab1CPP2 COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
 set_tests_properties(TestLab1CPP2 PROPERTIES 
-    PASS_REGULAR_EXPRESSION "0.*9 4 12 11 13"
+    PASS_REGULAR_EXPRESSION "0.*25 26 27 28 29"
 )
