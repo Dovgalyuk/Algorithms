@@ -3,8 +3,12 @@
 #include <climits>
 #include "array.h"
 
-void task1(const char* filename) {
-    std::ifstream in(filename);
+int main(int argc, char* argv[]) {
+    if (argc != 2) {
+        return 1;
+    }
+
+    std::ifstream in(argv[1]);
     int n;
     in >> n;
     array<int> arr(n);
@@ -13,10 +17,7 @@ void task1(const char* filename) {
     }
     in.close();
 
-    int pos_count = 0;
-    for (int i = 0; i < n; ++i) {
-        if (arr[i] > 0) ++pos_count;
-    }
+    // Задача 1: положительные
     bool first = true;
     for (int i = 0; i < n; ++i) {
         if (arr[i] > 0) {
@@ -27,10 +28,7 @@ void task1(const char* filename) {
     }
     std::cout << "\n";
 
-    int neg_count = 0;
-    for (int i = 0; i < n; ++i) {
-        if (arr[i] < 0) ++neg_count;
-    }
+    // Задача 1: отрицательные
     first = true;
     for (int i = 0; i < n; ++i) {
         if (arr[i] < 0) {
@@ -40,18 +38,8 @@ void task1(const char* filename) {
         }
     }
     std::cout << "\n";
-}
 
-void task2(const char* filename) {
-    std::ifstream in(filename);
-    int n;
-    in >> n;
-    array<int> arr(n);
-    for (int i = 0; i < n; ++i) {
-        in >> arr[i];
-    }
-    in.close();
-
+    // Задача 2: min even diff
     array<int> evens(n);
     int even_count = 0;
     for (int i = 0; i < n; ++i) {
@@ -62,7 +50,7 @@ void task2(const char* filename) {
 
     if (even_count < 2) {
         std::cout << "0\n";
-        return;
+        return 0;
     }
 
     int min_diff = INT_MAX;
@@ -78,19 +66,6 @@ void task2(const char* filename) {
         }
     }
 
-    if (min_diff == INT_MAX) {
-        std::cout << "0\n";
-    }
-    else {
-        std::cout << min_diff << "\n";
-    }
-}
-
-int main(int argc, char* argv[]) {
-    if (argc != 3) {
-        return 1;
-    }
-    task1(argv[1]);
-    task2(argv[2]);
+    std::cout << (min_diff == INT_MAX ? 0 : min_diff) << "\n";
     return 0;
 }
