@@ -21,7 +21,15 @@ void process(string& l)  {
     }
 }
 
-
+bool equip (const string &s,const char* ch, size_t size_s)
+{
+    if (s.length()!= size_s) return false;
+    for (size_t i =0;i<size_s;i++)
+    {
+        if (s[i]!=ch[i]) return false;
+    }
+    return true;
+}
 int main(int argc, char* argv[])  
 {
     setlocale(LC_CTYPE, "ru");
@@ -64,17 +72,17 @@ int main(int argc, char* argv[])
                     }
                     size_t start = i;
                     size_t end = line.find('>', i);
+                    const char * tag_start = &line[start];
+                    size_t tag_size=end-start;
                     if (end == string::npos) break;
-                    string name_tag=line.substr(start,end-start);
-
+                    // string name_tag=line.substr(start,end-start);
+                    
                     if (isClosing)
                     {
                         
-                        if (!s_1.empty() && s_1.get() == name_tag)
+                        if (!s_1.empty() && equip(s_1.get(),tag_start,tag_size))
                         {
-
                             s_1.pop();
-
                         }
                         else
                         {
@@ -84,7 +92,7 @@ int main(int argc, char* argv[])
                     }
                     else
                     {
-                        s_1.push(name_tag);
+                        s_1.push(string(tag_start,tag_size));
                     }
                 }
                 
