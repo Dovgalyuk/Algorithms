@@ -11,7 +11,7 @@ set_property(TEST Lab2_Test1_BasicNumbers PROPERTY PASS_REGULAR_EXPRESSION "3.*2
 add_test(NAME Lab2_Test2_Arithmetic COMMAND Lab2CPP ${CMAKE_CURRENT_BINARY_DIR}/tests/test2.txt)
 set_property(TEST Lab2_Test2_Arithmetic PROPERTY PASS_REGULAR_EXPRESSION "1.*2.*3.*6")
 
-add_test(NAME Lab2_Test3_3 COMMAND Lab2CPP ${CMAKE_CURRENT_BINARY_DIR}/tests/test3.txt)
+add_test(NAME Lab2_Test3_Multiplication COMMAND Lab2CPP ${CMAKE_CURRENT_BINARY_DIR}/tests/test3.txt)
 set_property(TEST Lab2_Test3_Multiplication PROPERTY PASS_REGULAR_EXPRESSION "10")
 
 
