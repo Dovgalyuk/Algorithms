@@ -34,17 +34,8 @@ void task1(Array* arr)
     {
         if (array_get(arr, i) == max)
         {
-            first = i;
-            break;
-        }
-    }
-
-    for (int i = n - 1; i >= 0; --i)
-    {
-        if (array_get(arr, i) == max)
-        {
+            if (first == -1) first = i;
             last = i;
-            break;
         }
     }
 
