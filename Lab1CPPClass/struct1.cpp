@@ -1,82 +1,100 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <limits>
+#include <cmath>
 #include "array.h"
 
 using namespace std;
 
-Data f1(const Array& prarr) {
-	double sum = 0;
-	size_t asize = prarr.size();
-
-	for (size_t i = 0; i < asize; i++) {
-		sum += prarr.get(i);
-	}
-	double average = sum / asize;
-
-	Data felem = prarr.get(0);
-	double min_diff = abs(prarr.get(0) - average);
-
-	for (size_t i = 1; i < asize; i++) {
-		double diff = abs(prarr.get(i) - average);
-		if (diff < min_diff) {
-			min_diff = diff;
-			felem = prarr.get(i);
-		}
-	}
-	return felem;
+long long factorial(int n) {
+    if (n < 0) return 0;
+    long long f = 1;
+    for (int i = 1; i <= n; i++)
+        f *= i;
+    return f;
 }
 
-Data f2(const Array& prarr) {
-
-	Data mdiff = numeric_limits<Data>::max();
-	size_t asize = prarr.size();
-	for (size_t i = 0; i < asize; i++) {
-		for (size_t j = i + 1; j < asize; j++) {
-			if ((prarr.get(i) % 2 == 0 && prarr.get(j) % 2 == 0) && (prarr.get(i) != prarr.get(j))) {
-				Data diff = abs(prarr.get(i) - prarr.get(j));
-				if (diff < mdiff) {
-					mdiff = diff;
-				}
-			}
-		}
-	}
-	return mdiff;
+void task4(Array& prarr) {
+    for (size_t i = 0; i < prarr.size(); i++) {
+        Data val = prarr.get(i);
+        prarr.set(i, factorial(val));
+        cout << prarr.get(i) << " ";
+    }
+    cout << endl;
 }
 
-void printarr(const Array& prarr) {
-	size_t asize = prarr.size();
-	for (size_t i = 0; i < asize; i++) {
-		cout << prarr.get(i) << " ";
-	}
-	cout << endl;
+void task5(Array& prarr, Data a, Data b) {
+    Array temp(prarr.size());
+    size_t write_index = 0;
+    size_t asize = prarr.size();
+
+    for (size_t i = 0; i < asize; i++) {
+        Data current = prarr.get(i);
+        if (current < a || current > b) {
+            temp.set(write_index, current);
+            write_index++;
+        }
+    }
+
+    for (size_t i = write_index; i < asize; i++) {
+        temp.set(i, 0);
+    }
+
+    for (size_t i = 0; i < asize; i++) {
+        prarr.set(i, temp.get(i));
+    }
+
+    for (size_t i = 0; i < asize; i++) {
+        cout << prarr.get(i);
+        if (i < asize - 1) cout << " ";
+    }
+    cout << endl;
 }
 
 int main(int argc, char* argv[])
 {
-	if (argc < 2) {
-		cerr << "Usage: " << argv[0] << " <filename>" << endl;
-		return 1;
-	}
-	size_t asize1 = 0;
-	ifstream in(argv[1]);
-	if (in.is_open()) {
-		in >> asize1;
-		if (asize1 > 0) {
+    if (argc < 2) {
+        return 1;
+    }
 
-			Array arr  = Array(asize1);
+    ifstream in(argv[1]);
+    if (!in.is_open()) {
+        return 1;
+    }
 
-			int n = 0;
-			for (size_t i = 0; i < asize1; i++) {
-				in >> n;
-				arr.set(i, n);
-			}
-			Data res1 = f1(arr);
-			Data res2 = f2(arr);
-			cout << res1 << " " << res2 << endl;
-		}
-		in.close();
-	}
-	return 0;
+    size_t size4;
+    in >> size4;
+
+    if (size4 > 0) {
+        Array arr4(size4);
+
+        for (size_t i = 0; i < size4; i++) {
+            Data value;
+            in >> value;
+            arr4.set(i, value);
+        }
+
+        task4(arr4);
+    }
+
+    size_t size5;
+    in >> size5;
+
+    if (size5 > 0) {
+        Array arr5(size5);
+
+        for (size_t i = 0; i < size5; i++) {
+            Data value;
+            in >> value;
+            arr5.set(i, value);
+        }
+
+        Data a, b;
+        in >> a >> b;
+
+        task5(arr5, a, b);
+    }
+
+    in.close();
+    return 0;
 }
