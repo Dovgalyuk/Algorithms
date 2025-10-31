@@ -1,0 +1,129 @@
+\usepackage[
+  a5paper, mag=1000,
+  left=2cm, right=2cm, top=2cm, bottom=2cm, headsep=0.7cm, footskip=1.27cm
+]{geometry}
+
+%\pdfpagewidth 145mm
+%\pdfpageheight 215mm
+
+%\textwidth=120mm
+%\textheight=195mm
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage{ucs}
+\usepackage[english,russian]{babel}
+\usepackage{textcomp}
+%\usepackage{cmap}
+%\IfFileExists{pscyr.sty}{\usepackage{pscyr}}{} % Нормальные шрифты
+%\usepackage{amsmath}
+%\usepackage{tabularx}
+%\usepackage{array}
+\usepackage{multirow}
+%\usepackage{amssymb}
+
+\usepackage{graphicx}
+
+\usepackage{tabularx}
+
+% Короткие заголовки только в колонтитулах
+\usepackage[toctitles]{titlesec}
+
+%
+%% цвет в документе
+%\usepackage[usenames]{color}
+%\usepackage{colortbl}
+%
+%% собственные разделы
+%\usepackage{titletoc}
+%
+%% Форматирование чисел
+%\usepackage{siunitx}
+%\sisetup{range-phrase = \ldots}
+%
+%% оглавление + ссылки
+%\usepackage[pdftex]{hyperref}
+%
+%\hypersetup{%
+%    pdfborder = {0 0 0},
+%    colorlinks,
+%    citecolor=red,
+%    filecolor=Darkgreen,
+%    linkcolor=blue,
+%    urlcolor=blue
+%}
+%
+%\usepackage{hypcap}
+%\usepackage[numbered]{bookmark} % для цифр в закладках в pdf viewer'ов
+%
+%\usepackage{tocloft}
+%
+%\renewcommand{\cftsecaftersnum}{.}
+%\renewcommand{\cftsubsecaftersnum}{.}
+%
+%\setcounter{tocdepth}{4}
+%\setcounter{secnumdepth}{4}
+%
+%\renewcommand\cftsecleader{\cftdotfill{\cftdotsep}}
+%\renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
+%\renewcommand{\cftaftertoctitle}{\hfill}
+%
+%% листинги
+\usepackage{listings}
+\usepackage{color}
+%\usepackage{caption} % для подписей под листингами и таблиц
+%%\usepackage[scaled]{beramono}
+%
+%% графика
+%\usepackage[pdftex]{graphicx}
+%\graphicspath{{./fig/}} % папка с изображениями
+%%\usepackage[tikz]{bclogo}
+%%\usepackage{wrapfig}
+%%\usepackage{tikz}
+%%\usetikzlibrary{shapes.geometric,backgrounds,calc,positioning,arrows,
+%%                chains,decorations.markings,patterns,fadings,shapes.multipart,trees}
+%
+%%\usepackage{setspace} % для полуторного интервала
+%%\onehalfspacing % сам полуторный интервал
+%
+\usepackage{indentfirst} % отступ в первом абзаце
+%
+%% точки в секция и подсекциях
+%% \usepackage{secdot}
+%% \sectiondot{subsection}
+
+% Подавление висячих строк
+\clubpenalty=10000
+\widowpenalty=10000
+
+%% колонтитулы
+%%\usepackage{fancybox,fancyhdr}
+%%\pagestyle{fancy}
+%%\fancyhf{}
+%%\fancyhead[C]{\small{C++ and Qt}} % шапка верхнего колонтитула!!!
+%%\fancyfoot[C]{\small{\thepage}} % шапка нижнего колонтитула!!!
+%
+%% стили листингов кодов
+
+\definecolor{commentGreen}{rgb}{0,0.6,0}
+\lstdefinestyle{CPlusPlus}{
+  language=C++,
+  basicstyle=\small\ttfamily,
+  breakatwhitespace=true,
+  breaklines=true,
+  showstringspaces=false,
+  keywordstyle=\color{blue}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  commentstyle=\color{commentGreen}\ttfamily,
+  morecomment=[l][\color{magenta}]{\#},
+  numbers=left,
+  xleftmargin=1cm
+}
+\lstset{style=CPlusPlus}
+\lstset{inputencoding=utf8, extendedchars=\true}
+\lstset{escapeinside={(*@}{@*)}}
+
+\addto\captionsrussian{\renewcommand\chaptername{Раздел}}
+\newcommand{\chaptershort}[1]{
+   \markboth{\MakeUppercase{\chaptername{ }\thechapter.\hspace{1em}#1}}{}
+}
