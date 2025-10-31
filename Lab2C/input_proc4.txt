@@ -1,0 +1,4 @@
+PUSH 5
+PUSH 2
+SUB A
+
