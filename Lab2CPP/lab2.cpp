@@ -2,7 +2,7 @@
 #include <map>
 #include<fstream>
 #include "stack.h"
-
+ 
 
 using namespace std;
 
@@ -23,101 +23,66 @@ bool qwer(string& s, Stack* stack, Stack* call_stack, MAP& Arr, ifstream& file) 
 	if (s == "push") {
 		file >> value;
 		stack_push(stack, value);
+		stack_push(call_stack, 0);
 	}
 	else if (s == "pop") {
 		char c;
 		file >> c;
 
-		if (stack_empty(stack)) {
-			cout << "BAD POP";
-			return false;
-		}
-		if (stack_get(stack) == 9999){
+		if (stack_empty(stack) || stack_empty(call_stack) || stack_get(call_stack) == 1) {
 			cout << "BAD POP";
 			return false;
 		}
 
 		Arr[c] = stack_get(stack);
 		stack_pop(stack);
+		stack_pop(call_stack);
 	}
-	else if (s == "add"){
-		if (stack_empty(stack)) {
-			cout << "BAD ADD";
+	else if (s == "add" || s == "sub" || s == "mul") {
+
+		if (stack_empty(stack) || stack_empty(call_stack) || stack_get(call_stack) == 1) {
+			cout << "BAD " << (s == "add" ? "ADD" : s == "sub" ? "SUB" : "MUL");
 			return false;
 		}
 
 		int a = stack_get(stack);
 		stack_pop(stack);
+		stack_pop(call_stack);
 
-		if(stack_empty(stack)) {
-			cout << "BAD ADD";
+		if (stack_empty(stack) || stack_empty(call_stack) || stack_get(call_stack) == 1) {
+			cout << "BAD " << (s == "add" ? "ADD" : s == "sub" ? "SUB" : "MUL");
 			return false;
 		}
 
 		int b = stack_get(stack);
 		stack_pop(stack);
+		stack_pop(call_stack);
 
-		stack_push(stack, a + b);
-	}
-	else if (s == "sub") {
-		if (stack_empty(stack)) {
-			cout << "BAD SUB";
-			return false;
+		int res;
+		if (s == "add") {
+			res = a + b;
+		}
+		else if (s == "sub") {
+			res = a - b;
+		}
+		else {
+			res = a * b;
 		}
 
-		int a = stack_get(stack);
-		stack_pop(stack);
-
-		if (stack_empty(stack)) {
-			cout << "BAD SUB";
-			return false;
-		}
-
-		int b = stack_get(stack);
-		stack_pop(stack);
-
-		stack_push(stack, a - b);
-	}
-	else if (s == "mul") {
-		if (stack_empty(stack)) {
-			cout << "BAD MUL";
-			return false;
-		}
-
-		int a = stack_get(stack);
-		stack_pop(stack);
-
-		if (stack_empty(stack)) {
-			cout << "BAD MUL";
-			return false;
-		}
-
-		int b = stack_get(stack);
-		stack_pop(stack);
-
-		stack_push(stack, a * b);
+		stack_push(stack, res);
+		stack_push(call_stack, 0);
 	}
 	else if (s == "call"){
 		stack_push(stack, 9999);
 		stack_push(call_stack, 1);
 	}
 	else if (s == "ret") {
-		if (stack_empty(call_stack) || stack_empty(stack)) {
-			cout << "BAD RET";
-			return false;
-		}
-
-		if (stack_get(stack) != 9999) {
+		if (stack_empty(call_stack) || stack_empty(stack) || stack_get(call_stack) != 1){
 			cout << "BAD RET";
 			return false;
 		}
 
 		stack_pop(stack);
-		if (!stack_empty(stack) && stack_get(stack) == 9999) {
-			cout << "BAD RET";
-			return false;
-		}
-
 		stack_pop(call_stack);
 	}
 	return true;
