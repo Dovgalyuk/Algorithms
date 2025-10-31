@@ -1,23 +1,3 @@
-
-Запуск программы
-gcc -o lab1.exe Lab1C/lab1.c LibraryC/array.c -I LibraryC
-
-cd Lab1C
-../lab1.exe
-
-
-Запуск тестов
-
-gcc -o test_task4.exe LibraryC/Tests/test_task4.c LibraryC/array.c -I LibraryC
-gcc -o test_task5.exe LibraryC/Tests/test_task5.c LibraryC/array.c -I LibraryC
-
-./test_task4.exe
-./test_task5.exe
-
-
-
-
-
 # Algorithms
 
 [Как выполнять лабораторные работы](LABS.md)

@@ -1,38 +1,36 @@
-#include "array.h"
 #include <stdlib.h>
+#include "array.h"
 
-Array* array_create(size_t size) {
-    Array* arr = (Array*)malloc(sizeof(Array));
-    if (!arr) return NULL;
-    
-    arr->data = (int*)malloc(size * sizeof(int));
-    if (!arr->data) {
-        free(arr);
-        return NULL;
-    }
-    
-    arr->size = size;
-    return arr;
+typedef struct Array {
+    // remove this
+    Data d;
+} Array;
+
+// create array
+Array *array_create(size_t size, FFree f)
+{
+    return malloc(sizeof(Array));
 }
 
-void array_destroy(Array* arr) {
-    if (arr) {
-        free(arr->data);
-        free(arr);
-    }
+// delete array, free memory
+void array_delete(Array *arr)
+{
+    free(arr);
 }
 
-int array_get(Array* arr, size_t index) {
-    if (index >= arr->size) return 0;
-    return arr->data[index];
+// returns specified array element
+Data array_get(const Array *arr, size_t index)
+{
+    return (Data)0;
 }
 
-void array_set(Array* arr, size_t index, int value) {
-    if (index < arr->size) {
-        arr->data[index] = value;
-    }
+// sets the specified array element to the value
+void array_set(Array *arr, size_t index, Data value)
+{
 }
 
-size_t array_size(Array* arr) {
-    return arr->size;
+// returns array size
+size_t array_size(const Array *arr)
+{
+    return 0;
 }
