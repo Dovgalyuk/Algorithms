@@ -31,7 +31,7 @@ void test_array_access() {
 
     bool exception_thrown = false;
     try {
-        int x = arr[5];
+        (void)arr[5];
     }
     catch (const std::out_of_range&) {
         exception_thrown = true;
