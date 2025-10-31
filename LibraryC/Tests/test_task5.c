@@ -1,6 +1,7 @@
 #include "../array.h"
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void test_task5() {
     Array* arr = array_create(10);
