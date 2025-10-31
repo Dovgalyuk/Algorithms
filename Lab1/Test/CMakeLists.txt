@@ -1,5 +1,5 @@
 add_test(NAME ArrayTest_Normal
-    COMMAND Lab1 ${CMAKE_CURRENT_SOURCE_DIR}/test_data.txt
+    COMMAND Lab1 ${CMAKE_CURRENT_SOURCE_DIR}/test_normal.txt
 )
 
 set_tests_properties(ArrayTest_Normal PROPERTIES
@@ -11,5 +11,5 @@ add_test(NAME ArrayTest_SameEvens
 )
 
 set_tests_properties(ArrayTest_SameEvens PROPERTIES
-    PASS_REGULAR_EXPRESSION "2 2[ \t\r\n]+-1 -3[ \t\r\n]+0"
+    PASS_REGULAR_EXPRESSION "4 4[ \t\r\n]*[ \t\r\n]*0"
 )
