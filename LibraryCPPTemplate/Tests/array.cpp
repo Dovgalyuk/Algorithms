@@ -29,14 +29,14 @@ void test_array_access() {
     assert(arr[1] == 2);
     assert(arr[2] == 3);
 
-    bool exception_thrown = false;
+    // Простая проверка исключения без лишних переменных
     try {
         (void)arr[5];
+        assert(false && "Should have thrown exception");
     }
     catch (const std::out_of_range&) {
-        exception_thrown = true;
+        // Expected behavior
     }
-    assert(exception_thrown);
 
     std::cout << "Access tests passed!" << std::endl;
 }
