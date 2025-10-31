@@ -7,12 +7,12 @@ execute_process(
 )
 
 if(NOT EXIT_CODE EQUAL 0)
-    message(FATAL_ERROR "Тест завершился с ошибкой: ${EXIT_CODE}")
+    message(FATAL_ERROR "Test failed with error: ${EXIT_CODE}")
 endif()
 
 # Проверяем наличие ожидаемого вывода
 if(NOT ACTUAL_OUTPUT MATCHES "${EXPECTED_OUTPUT}")
-    message(FATAL_ERROR "Тест не прошел: ожидаемый вывод не найден.\nОжидалось: ${EXPECTED_OUTPUT}\nПолучено: ${ACTUAL_OUTPUT}")
+    message(FATAL_ERROR "Test failed: expected output not found.\nExpected: ${EXPECTED_OUTPUT}\nActual: ${ACTUAL_OUTPUT}")
 else()
-    message("Тест прошел успешно!")
+    message("Test passed successfully!")
 endif()

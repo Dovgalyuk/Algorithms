@@ -19,8 +19,8 @@ add_test(NAME Lab1_Test
 )
 
 # Проверка выходных данных
-set(TEST_EXPECTED_OUTPUT "Среднее значение: 5.4\nЭлемент, наиболее близкий к среднему: 5.1\nРазница: 0.3")
+set(TEST_EXPECTED_OUTPUT "Average value: 5.4\nElement closest to average: 5.1\nDifference: 0.3")
 add_test(NAME Lab1_Output_Validation
-    COMMAND ${CMAKE_COMMAND} -DTEST_COMMAND=$<TARGET_FILE:lab1> -DEXPECTED_OUTPUT="${TEST_EXPECTED_OUTPUT}" -P ${CMAKE_SOURCE_DIR}/../test_validation.cmake
+    COMMAND ${CMAKE_COMMAND} -DTEST_COMMAND=$<TARGET_FILE:lab1> -DEXPECTED_OUTPUT="${TEST_EXPECTED_OUTPUT}" -P ${CMAKE_SOURCE_DIR}/test_validation.cmake
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 )
