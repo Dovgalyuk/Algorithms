@@ -9,10 +9,11 @@ using namespace std;
 
 using Cell = pair<int, int>;
 using Cells = vector<Cell>;
+using Grid = vector<string>;
 
 // Функция для чтения прямоугольной сетки из файла.
 
-static bool read_grid(const string& filename, vector<string>& g) {
+static bool read_grid(const string& filename, Grid& g) {
     ifstream in(filename);
     if (!in.is_open())
         return false;
@@ -30,7 +31,7 @@ static bool read_grid(const string& filename, vector<string>& g) {
 
 // Функция для печати сетки в виде шестиугольной (соты).
 
-static void print_hex(const vector<string>& g) {
+static void print_hex(const Grid& g) {
     size_t H = g.size();
     size_t W = H ? g[0].size() : 0;
     if (!H || !W)
@@ -64,8 +65,8 @@ static void neighbors(int r, int c, size_t H, size_t W, Cells& out) {
             out.push_back({ rr, cc });
     };
 
-    push(r - 1, c - 1);
     push(r - 1, c);
+    push(r - 1, c + 1);
 
     push(r, c - 1);
     push(r, c + 1);
@@ -78,7 +79,7 @@ int main(int argc, char* argv[]) {
     if (argc < 2)
         return 0;
 
-    vector<string> g;
+    Grid g;
     if (!read_grid(argv[1], g))
         return 0;
 
