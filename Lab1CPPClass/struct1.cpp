@@ -24,24 +24,19 @@ void task4(Array& prarr) {
 }
 
 void task5(Array& prarr, Data a, Data b) {
-    Array temp(prarr.size());
     size_t write_index = 0;
     size_t asize = prarr.size();
 
     for (size_t i = 0; i < asize; i++) {
         Data current = prarr.get(i);
         if (current < a || current > b) {
-            temp.set(write_index, current);
+            prarr.set(write_index, current);
             write_index++;
         }
     }
 
     for (size_t i = write_index; i < asize; i++) {
-        temp.set(i, 0);
-    }
-
-    for (size_t i = 0; i < asize; i++) {
-        prarr.set(i, temp.get(i));
+        prarr.set(i, 0);
     }
 
     for (size_t i = 0; i < asize; i++) {

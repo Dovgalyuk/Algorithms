@@ -1,18 +1,6 @@
 #include "array.h"
 
-Array::Array(size_t size)
-{
-    if (size > 0) {
-        asize = size;
-        adata = new Data[size];
-    }
-    else {
-        adata = nullptr;
-        asize = 0;
-    }
-}
-
-Array::Array(const Array& a)
+void Array::copyFrom(const Array& a)
 {
     size_t new_size = a.size();
     if (new_size > 0) {
@@ -29,20 +17,28 @@ Array::Array(const Array& a)
     }
 }
 
+Array::Array(size_t size)
+{
+    if (size > 0) {
+        asize = size;
+        adata = new Data[size];
+    }
+    else {
+        adata = nullptr;
+        asize = 0;
+    }
+}
+
+Array::Array(const Array& a)
+{
+    copyFrom(a);
+}
+
 Array& Array::operator=(const Array& a)
 {
     if (this != &a) {
-        size_t new_size = a.size();
-
-        if (new_size > 0) {
-            Data* new_data = new Data[new_size];
-            for (size_t i = 0; i < new_size; ++i) {
-                new_data[i] = a.get(i);
-            }
-            delete[] adata;
-            adata = new_data;
-            asize = new_size;
-        }
+        delete[] adata;
+        copyFrom(a);
     }
     return *this;
 }

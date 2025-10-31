@@ -36,6 +36,9 @@ private:
     // private data should be here
     Data* adata;
     size_t asize;
+
+    // helper function to avoid code duplication
+    void copyFrom(const Array& a);
 };
 
 #endif
