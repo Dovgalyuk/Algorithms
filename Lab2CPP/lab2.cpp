@@ -15,8 +15,7 @@ string perevod(string text) {
 	return text;
 }
 
-bool qwer(string& s, Stack* stack,Stack* call_stack, MAP& Arr, ifstream& file) {
-
+bool qwer(string& s, Stack* stack, Stack* call_stack, MAP& Arr, ifstream& file) {
 	int value;
 
 	s = perevod(s);
