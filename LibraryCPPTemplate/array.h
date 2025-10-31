@@ -1,49 +1,108 @@
-#ifndef ARRAY_TEMPLATE_H
-#define ARRAY_TEMPLATE_H
+#ifndef ARRAY_H
+#define ARRAY_H
 
-template <typename Data> class Array
-{
+#include <iostream>
+#include <stdexcept>
+#include <algorithm>
+#include <cmath>
+
+template<typename T>
+class Array {
+private:
+    T* data;
+    size_t capacity;
+    size_t current_size;
+
 public:
-    // create array
-    explicit Array(size_t size)
-    {
+    // Конструкторы
+    explicit Array(size_t size = 0) : capacity(size), current_size(size) {
+        data = new T[capacity];
+        std::fill_n(data, capacity, T{});
     }
 
-    // copy constructor
-    Array(const Array &a)
-    {
+    Array(size_t size, const T& value) : capacity(size), current_size(size) {
+        data = new T[capacity];
+        std::fill_n(data, capacity, value);
     }
 
-    // assignment operator
-    Array &operator=(const Array &a)
-    {
+    // Конструктор копирования
+    Array(const Array& other) : capacity(other.capacity), current_size(other.current_size) {
+        data = new T[capacity];
+        std::copy(other.data, other.data + current_size, data);
+    }
+
+    // Оператор присваивания
+    Array& operator=(const Array& other) {
+        if (this != &other) {
+            delete[] data;
+            capacity = other.capacity;
+            current_size = other.current_size;
+            data = new T[capacity];
+            std::copy(other.data, other.data + current_size, data);
+        }
         return *this;
     }
 
-    // delete array, free memory
-    ~Array()
-    {
+    // Деструктор
+    ~Array() {
+        delete[] data;
     }
 
-    // returns specified array element
-    Data get(size_t index) const
-    {
-        return Data(0);
+    // Доступ к элементам
+    T& operator[](size_t index) {
+        if (index >= current_size) {
+            throw std::out_of_range("Index out of range");
+        }
+        return data[index];
     }
 
-    // sets the specified array element to the value
-    void set(size_t index, Data value)
-    {
+    const T& operator[](size_t index) const {
+        if (index >= current_size) {
+            throw std::out_of_range("Index out of range");
+        }
+        return data[index];
     }
 
-    // returns array size
-    size_t size() const
-    {
-        return 0;
+    T& at(size_t index) {
+        return operator[](index);
     }
 
-private:
-    // private data should be here
+    const T& at(size_t index) const {
+        return operator[](index);
+    }
+
+    // Размер и емкость
+    size_t size() const { return current_size; }
+    size_t max_size() const { return capacity; }
+    bool empty() const { return current_size == 0; }
+
+    // Итераторы
+    T* begin() { return data; }
+    const T* begin() const { return data; }
+    T* end() { return data + current_size; }
+    const T* end() const { return data + current_size; }
+
+    // Заполнение
+    void fill(const T& value) {
+        std::fill_n(data, current_size, value);
+    }
+
+    // Обмен
+    void swap(Array& other) {
+        std::swap(data, other.data);
+        std::swap(capacity, other.capacity);
+        std::swap(current_size, other.current_size);
+    }
+
+    // Операторы сравнения
+    bool operator==(const Array& other) const {
+        if (current_size != other.current_size) return false;
+        return std::equal(begin(), end(), other.begin());
+    }
+
+    bool operator!=(const Array& other) const {
+        return !(*this == other);
+    }
 };
 
-#endif
+#endif // ARRAY_H

@@ -1,6 +1,26 @@
-add_executable(Lab1C lab1.c)
-target_include_directories(Lab1C PUBLIC ../LibraryC)
-target_link_libraries(Lab1C LibraryC)
+cmake_minimum_required(VERSION 3.10)
+project(Lab1C)
 
-add_test(NAME TestLab1C COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-set_property(TEST TestLab1C PROPERTY PASS_REGULAR_EXPRESSION "1 2 3 4 5")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Основная программа
+add_executable(lab1 lab1.cpp)
+
+# Тестовые данные
+configure_file(input.txt input.txt COPYONLY)
+
+# Добавляем тест
+enable_testing()
+
+add_test(NAME Lab1_Test
+    COMMAND lab1
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+# Проверка выходных данных
+set(TEST_EXPECTED_OUTPUT "Среднее значение: 5.4\nЭлемент, наиболее близкий к среднему: 5.1\nРазница: 0.3")
+add_test(NAME Lab1_Output_Validation
+    COMMAND ${CMAKE_COMMAND} -DTEST_COMMAND=$<TARGET_FILE:lab1> -DEXPECTED_OUTPUT="${TEST_EXPECTED_OUTPUT}" -P ${CMAKE_SOURCE_DIR}/../test_validation.cmake
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
