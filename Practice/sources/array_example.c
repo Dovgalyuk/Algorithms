@@ -4,7 +4,7 @@
 
 int main() {
     setlocale(LC_ALL, "ru_RU.UTF-8");
-
+    
     Array* arr = array_create(5);
     
     for (int i = 0; i < 5; i++) {
