@@ -1,0 +1,9 @@
+add_executable(Laba1 ../Laba1.cpp)
+target_include_directories(Laba1 PRIVATE ../LibraryCPP)
+target_link_libraries(Laba1 LibraryCPP)
+
+add_test(NAME TestLaba1_Input1 COMMAND Laba1 ${CMAKE_CURRENT_SOURCE_DIR}/input1.txt)
+set_tests_properties(TestLaba1_Input1 PROPERTIES PASS_REGULAR_EXPRESSION "42")
+
+add_test(NAME TestLaba1_Input2 COMMAND Laba1 ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
+set_tests_properties(TestLaba1_Input2 PROPERTIES PASS_REGULAR_EXPRESSION "1 5 10 15 20")
