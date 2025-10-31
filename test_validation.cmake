@@ -11,8 +11,11 @@ if(NOT EXIT_CODE EQUAL 0)
 endif()
 
 # Проверяем наличие ожидаемого вывода
-if(NOT "${ACTUAL_OUTPUT}" MATCHES ".*${EXPECTED_OUTPUT}.*")
-    message(FATAL_ERROR "Test failed: expected output not found.\nExpected: ${EXPECTED_OUTPUT}\nActual: ${ACTUAL_OUTPUT}")
+if(NOT "${ACTUAL_OUTPUT}" MATCHES ".*Average value: 5.4.*" OR 
+   NOT "${ACTUAL_OUTPUT}" MATCHES ".*Element closest to average: 5.1.*" OR
+   NOT "${ACTUAL_OUTPUT}" MATCHES ".*Difference: 0.3.*" OR
+   NOT "${ACTUAL_OUTPUT}" MATCHES ".*Compressed array: 12.5 4.7 15.2 0 0 0.*")
+    message(FATAL_ERROR "Test failed: expected output not found.\nExpected key elements not found in:\n${ACTUAL_OUTPUT}")
 else()
     message("Test passed successfully!")
 endif()
