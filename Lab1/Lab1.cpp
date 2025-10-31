@@ -27,23 +27,34 @@ int main(int argc, char* argv[]) {
     }
     in.close();
 
-    bool first = true;
+    int pos_count = 0, neg_count = 0;
+    for (int i = 0; i < n; ++i) {
+        if (arr[i] > 0) ++pos_count;
+        else if (arr[i] < 0) ++neg_count;
+    }
+
+    Array<int> pos_arr(pos_count);
+    Array<int> neg_arr(neg_count);
+
+    int pi = 0, ni = 0;
     for (int i = 0; i < n; ++i) {
         if (arr[i] > 0) {
-            if (!first) std::cout << ' ';
-            std::cout << arr[i];
-            first = false;
+            pos_arr.set(pi++, arr[i]);
         }
+        else if (arr[i] < 0) {
+            neg_arr.set(ni++, arr[i]);
+        }
+    }
+
+    for (size_t i = 0; i < pos_arr.size(); ++i) {
+        if (i > 0) std::cout << ' ';
+        std::cout << pos_arr.get(i);
     }
     std::cout << '\n';
 
-    first = true;
-    for (int i = 0; i < n; ++i) {
-        if (arr[i] < 0) {
-            if (!first) std::cout << ' ';
-            std::cout << arr[i];
-            first = false;
-        }
+    for (size_t i = 0; i < neg_arr.size(); ++i) {
+        if (i > 0) std::cout << ' ';
+        std::cout << neg_arr.get(i);
     }
     std::cout << '\n';
 
@@ -51,7 +62,7 @@ int main(int argc, char* argv[]) {
     int even_count = 0;
     for (int i = 0; i < n; ++i) {
         if (arr[i] % 2 == 0) {
-            evens[even_count++] = arr[i];
+            evens.set(even_count++, arr[i]);
         }
     }
 
@@ -63,8 +74,8 @@ int main(int argc, char* argv[]) {
     int min_diff = INT_MAX;
     for (int i = 0; i < even_count; ++i) {
         for (int j = i + 1; j < even_count; ++j) {
-            if (evens[i] != evens[j]) {
-                int diff = std::abs(evens[i] - evens[j]);
+            if (evens.get(i) != evens.get(j)) {
+                int diff = std::abs(evens.get(i) - evens.get(j));
                 if (diff < min_diff) {
                     min_diff = diff;
                 }
