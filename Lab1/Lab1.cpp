@@ -27,22 +27,27 @@ int main(int argc, char* argv[]) {
     }
     in.close();
 
-    int pos_count = 0, neg_count = 0;
+    int pos_count = 0;
     for (int i = 0; i < n; ++i) {
-        if (arr[i] > 0) ++pos_count;
-        else if (arr[i] < 0) ++neg_count;
+        if (arr.get(i) > 0) ++pos_count;
+    }
+    Array<int> pos_arr(pos_count);
+    int pi = 0;
+    for (int i = 0; i < n; ++i) {
+        if (arr.get(i) > 0) {
+            pos_arr.set(pi++, arr.get(i));
+        }
     }
 
-    Array<int> pos_arr(pos_count);
-    Array<int> neg_arr(neg_count);
-
-    int pi = 0, ni = 0;
+    int neg_count = 0;
     for (int i = 0; i < n; ++i) {
-        if (arr[i] > 0) {
-            pos_arr.set(pi++, arr[i]);
-        }
-        else if (arr[i] < 0) {
-            neg_arr.set(ni++, arr[i]);
+        if (arr.get(i) < 0) ++neg_count;
+    }
+    Array<int> neg_arr(neg_count);
+    int ni = 0;
+    for (int i = 0; i < n; ++i) {
+        if (arr.get(i) < 0) {
+            neg_arr.set(ni++, arr.get(i));
         }
     }
 
@@ -61,8 +66,8 @@ int main(int argc, char* argv[]) {
     Array<int> evens(n);
     int even_count = 0;
     for (int i = 0; i < n; ++i) {
-        if (arr[i] % 2 == 0) {
-            evens.set(even_count++, arr[i]);
+        if (arr.get(i) % 2 == 0) {
+            evens.set(even_count++, arr.get(i));
         }
     }
 
