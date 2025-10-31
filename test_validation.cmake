@@ -11,7 +11,7 @@ if(NOT EXIT_CODE EQUAL 0)
 endif()
 
 # Проверяем наличие ожидаемого вывода
-if(NOT ACTUAL_OUTPUT MATCHES "${EXPECTED_OUTPUT}")
+if(NOT "${ACTUAL_OUTPUT}" MATCHES ".*${EXPECTED_OUTPUT}.*")
     message(FATAL_ERROR "Test failed: expected output not found.\nExpected: ${EXPECTED_OUTPUT}\nActual: ${ACTUAL_OUTPUT}")
 else()
     message("Test passed successfully!")
