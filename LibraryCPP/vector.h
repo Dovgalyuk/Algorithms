@@ -23,6 +23,10 @@ Data vector_get(const Vector *vector, size_t index);
 // Sets vector element with the specified index
 void vector_set(Vector *vector, size_t index, Data value);
 
+inline void vector_set(Vector* vector, size_t index, size_t value) {
+    vector_set(vector, index, static_cast<Data>(value));
+}
+
 // Retrieves current vector size
 size_t vector_size(const Vector *vector);
 

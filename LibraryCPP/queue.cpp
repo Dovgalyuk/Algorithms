@@ -1,34 +1,81 @@
 #include "queue.h"
+#include "vector.h"
+#include <cstddef>
 
-struct Queue
-{
+struct Queue {
+    Vector* buf;
+    size_t head;
+    size_t count;
 };
 
-Queue *queue_create()
-{
-    return new Queue;
+static size_t q_capacity(const Queue* q) {
+    return vector_size(q->buf);
 }
 
-void queue_delete(Queue *queue)
-{
-    // TODO: free queue items
-    delete queue;
+static size_t q_tail(const Queue* q) {
+    size_t cap = q_capacity(q);
+    return (q->head + q->count) % (cap ? cap : 1);
 }
 
-void queue_insert(Queue *queue, Data data)
-{
+static void q_grow(Queue* q) {
+    size_t cap = q_capacity(q);
+    size_t newcap = (cap == 0) ? 4 : cap * 2;
+
+    Vector* nb = vector_create();
+    vector_resize(nb, newcap);
+
+    for (size_t i = 0; i < q->count; ++i) {
+        Data x = vector_get(q->buf, (q->head + i) % cap);
+        vector_set(nb, i, x);
+    }
+
+    vector_delete(q->buf);
+    q->buf = nb;
+    q->head = 0;
 }
 
-Data queue_get(const Queue *queue)
-{
-    return (Data)0;
+Queue* queue_create() {
+    Queue* q = new Queue;
+    q->buf = vector_create();
+    vector_resize(q->buf, 4);
+    q->head = 0;
+    q->count = 0;
+    return q;
 }
 
-void queue_remove(Queue *queue)
-{
+void queue_delete(Queue* q) {
+    if (!q)
+        return;
+
+    vector_delete(q->buf);
+    delete q;
 }
 
-bool queue_empty(const Queue *queue)
-{
-    return true;
+void queue_insert(Queue* q, Data data) {
+    if (q->count == q_capacity(q))
+        q_grow(q);
+
+    size_t idx = q_tail(q);
+    vector_set(q->buf, idx, data);
+    ++q->count;
+}
+
+Data queue_get(const Queue* q) {
+    if (q->count == 0)
+        return (Data)0;
+
+    return vector_get(q->buf, q->head);
+}
+
+void queue_remove(Queue* q) {
+    if (q->count == 0)
+        return;
+
+    size_t cap = q_capacity(q);
+    q->head = (q->head + 1) % cap;
+    --q->count;
+}
+
+bool queue_empty(const Queue* q) {
+    return q->count == 0;
 }
