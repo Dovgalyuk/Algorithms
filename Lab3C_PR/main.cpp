@@ -65,14 +65,14 @@ static void neighbors(int r, int c, size_t H, size_t W, Cells& out) {
             out.push_back({ rr, cc });
     };
 
+    push(r - 1, c - 1);
     push(r - 1, c);
-    push(r - 1, c + 1);
 
     push(r, c - 1);
     push(r, c + 1);
 
+    push(r + 1, c - 1);
     push(r + 1, c);
-    push(r + 1, c + 1);
 }
 
 int main(int argc, char* argv[]) {
