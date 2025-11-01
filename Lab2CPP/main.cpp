@@ -49,8 +49,7 @@ int main(int argc, char** argv)
             return 0;
     }
 
-    // ќдин проход: лексинг, шунтирующий алгоритм, немедленна€ генераци€
-    Stack* op = stack_create();   //стек операторов: храним char как int
+    Stack* op = stack_create();
 
     for (size_t i = 0; i < s.size();)
     {
@@ -90,11 +89,10 @@ int main(int argc, char** argv)
                 }
                 if (!stack_empty(op) && stack_get(op) == static_cast<int>('('))
                 {
-                    stack_pop(op); // удалить '('
+                    stack_pop(op);
                 }
                 else
                 {
-                    //несоответствие скобок Ч можно просто завершить
                     stack_delete(op);
                     return 1;
                 }
@@ -122,14 +120,12 @@ int main(int argc, char** argv)
             }
             else
             {
-                // некорректный символ Ч просто выходим с ошибкой
                 stack_delete(op);
                 return 1;
             }
         }
     }
 
-    //ƒопечатываем оставшиес€ операторы
     while (!stack_empty(op))
     {
         int top = stack_get(op);
