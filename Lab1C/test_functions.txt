@@ -1,7 +1,7 @@
 bipush 100
 invokestatic 200
-bipush 5
 return
 bipush 10
 istore_0
-
+iload_0
+pop
