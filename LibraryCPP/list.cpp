@@ -1,61 +1,103 @@
-#include <cstddef>
 #include "list.h"
+#include <cassert>
+#include <cstddef>
 
-struct ListItem
-{
+struct ListItem {
+    Data value;
+    ListItem* prev;
+    ListItem* next;
 };
 
-struct List
-{
+struct List {
+    ListItem* head;
+    ListItem* tail;
+    std::size_t sz;
 };
 
-List *list_create()
-{
-    return new List;
+static ListItem* make_node(Data v, ListItem* p = nullptr, ListItem* n = nullptr) {
+    return new ListItem{v, p, n};
 }
 
-void list_delete(List *list)
-{
-    // TODO: free items
+List* list_create() {
+    auto* lst = new List;
+    lst->head = nullptr;
+    lst->tail = nullptr;
+    lst->sz = 0;
+    return lst;
+}
+
+void list_delete(List* list) {
+    if (!list) return;
+    auto* cur = list->head;
+    while (cur) {
+        auto* nxt = cur->next;
+        delete cur;
+        cur = nxt;
+    }
     delete list;
 }
 
-ListItem *list_first(List *list)
-{
-    return NULL;
+ListItem* list_first(List* list) {
+    return list ? list->head : nullptr;
 }
 
-Data list_item_data(const ListItem *item)
-{
-    return (Data)0;
+Data list_item_data(const ListItem* item) {
+    assert(item);
+    return item->value;
 }
 
-ListItem *list_item_next(ListItem *item)
-{
-    return NULL;
+ListItem* list_item_next(ListItem* item) {
+    return item ? item->next : nullptr;
 }
 
-ListItem *list_item_prev(ListItem *item)
-{
-    return NULL;
+ListItem* list_item_prev(ListItem* item) {
+    return item ? item->prev : nullptr;
 }
 
-ListItem *list_insert(List *list, Data data)
-{
-    return NULL;
+ListItem* list_insert(List* list, Data data) {
+    assert(list);
+    auto* node = make_node(data, nullptr, list->head);
+    if (list->head) list->head->prev = node;
+    list->head = node;
+    if (!list->tail) list->tail = node;
+    ++list->sz;
+    return node;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    return NULL;
+ListItem* list_insert_after(List* list, ListItem* item, Data data) {
+    assert(list);
+    if (!item) return list_insert(list, data);
+    auto* node = make_node(data, item, item->next);
+    if (item->next) item->next->prev = node;
+    item->next = node;
+    if (list->tail == item) list->tail = node;
+    ++list->sz;
+    return node;
 }
 
-ListItem *list_erase_first(List *list)
-{
-    return NULL;
+ListItem* list_erase_first(List* list) {
+    assert(list);
+    if (!list->head) return nullptr;
+    auto* del = list->head;
+    auto* ret = del->next;
+    if (ret) ret->prev = nullptr;
+    list->head = ret;
+    if (list->tail == del) list->tail = ret;
+    delete del;
+    --list->sz;
+    return ret;
 }
 
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    return NULL;
+ListItem* list_erase_next(List* list, ListItem* item) {
+    assert(list);
+    if (!item) return list_erase_first(list);
+    auto* del = item->next;
+    if (!del) return nullptr;
+    auto* ret = del->next;
+    item->next = ret;
+    if (ret) ret->prev = item;
+    if (list->tail == del) list->tail = item;
+    delete del;
+    --list->sz;
+    return ret;
 }
