@@ -7,7 +7,7 @@ struct Stack {
 };
 
 Stack* stack_create() {
-    auto* st = new Stack;
+    Stack* st = new Stack;
     st->list = list_create();
     return st;
 }
@@ -25,19 +25,21 @@ void stack_push(Stack* stack, Data data) {
 
 Data stack_get(const Stack* stack) {
     assert(stack);
-    auto* first = list_first(const_cast<List*>(stack->list));
-    assert(first && "stack_get on empty stack");
+    List* lst = const_cast<List*>(stack->list);
+    ListItem* first = list_first(lst);
+    assert(first);
     return list_item_data(first);
 }
 
 void stack_pop(Stack* stack) {
     assert(stack);
-    auto* first = list_first(stack->list);
-    assert(first && "stack_pop on empty stack");
+    ListItem* first = list_first(stack->list);
+    assert(first);
     list_erase_first(stack->list);
 }
 
 bool stack_empty(const Stack* stack) {
     if (!stack) return true;
-    return list_first(const_cast<List*>(stack->list)) == nullptr;
+    List* lst = const_cast<List*>(stack->list);
+    return list_first(lst) == nullptr;
 }
