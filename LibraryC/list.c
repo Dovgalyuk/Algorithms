@@ -9,7 +9,6 @@ typedef struct ListItem {
 
 typedef struct List {
     ListItem* head;
-    ListItem* tail;
     FFree* free_func;
 } List;
 
@@ -17,7 +16,6 @@ List *list_create(FFree f)
 {
     List* new_list = (List*)malloc(sizeof(List));
     new_list->head = NULL;
-    new_list->tail = NULL;
     new_list->free_func = f;
 
     return new_list;
@@ -94,9 +92,6 @@ ListItem *list_insert(List *list, Data data)
     if(list->head != NULL){
         list->head->prev = new_item;
     }
-    else{
-        list->tail = new_item;
-    }
     
     list->head = new_item;  
     return new_item;
@@ -126,9 +121,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     if(new_item->next != NULL){
         new_item->next->prev = new_item;
     }
-    else{
-        list->tail = new_item;
-    }
     return new_item;
 }
 
@@ -153,7 +145,6 @@ ListItem *list_erase_first(List *list)
     } else {
         // Список стал пустым
         list->head = NULL;
-        list->tail = NULL;
     }
     
     // Освобождаем память удаленного элемента
@@ -195,9 +186,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
     if (after_deleted != NULL) {
         
         after_deleted->prev = item;
-    } else {
-        
-        list->tail = item;
     }
     
     free(to_delete);

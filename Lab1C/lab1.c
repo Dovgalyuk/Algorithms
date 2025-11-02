@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "stack.h"
 #define MAX_LINE_LENGTH 100
 #define MAX_VARS 4 
@@ -10,6 +11,11 @@ typedef struct {
     int vars[MAX_VARS];     // Локальные переменные 
     int function_calls;     // Счетчик 
 } JavaMachine;
+
+// Forward declarations
+bool is_return_address(Data value);
+bool is_number(Data value);
+bool is_valid_operand(Data value);
 
 
 //создание новой машины
@@ -73,6 +79,14 @@ void handle_pop(JavaMachine* machine) {
         printf("Error: pop from empty stack\n");
         return;
     }
+    
+    // Проверяем, что верхний элемент не является адресом возврата
+    Data top = stack_get(machine->stack);
+    if (is_return_address(top)) {
+        printf("Error: pop with return address\n");
+        return;
+    }
+    
     // Удаляем верхний элемент из стека
     stack_pop(machine->stack);
     
@@ -93,18 +107,30 @@ void handle_iadd(JavaMachine* machine) {
         return;
     }
     
-    // Извлекаем первый элемент
+    // Проверяем что первый операнд не адрес возврата
     Data b = stack_get(machine->stack);
+    if (is_return_address(b)) {
+        printf("Error: iadd with return address\n");
+        return;
+    }
     stack_pop(machine->stack);
     
     // Проверяем, что после извлечения первого элемента стек не пустой
     if (stack_empty(machine->stack)) {
         printf("Error: iadd with only one element\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
         return;
     }
     
-    // Извлекаем второй элемент
+    // Проверяем второй операнд  не должен быть адресом возврата
     Data a = stack_get(machine->stack);
+    if (is_return_address(a)) {
+        printf("Error: iadd with return address\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
+        return;
+    }
     stack_pop(machine->stack);
     
     // Складываем и кладем результат в стек
@@ -128,18 +154,30 @@ void handle_isub(JavaMachine* machine) {
         return;
     }
     
-    // Извлекаем первый элемент
+    // Проверяем первый операнд - не должен быть адресом возврата
     Data b = stack_get(machine->stack);
+    if (is_return_address(b)) {
+        printf("Error: isub with return address\n");
+        return;
+    }
     stack_pop(machine->stack);
     
     // Проверяем, что после извлечения первого элемента стек не пустой
     if (stack_empty(machine->stack)) {
         printf("Error: isub with only one element\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
         return;
     }
     
-    // Извлекаем второй операнд
+    // Проверяем второй операнд - не должен быть адресом возврата
     Data a = stack_get(machine->stack);
+    if (is_return_address(a)) {
+        printf("Error: isub with return address\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
+        return;
+    }
     stack_pop(machine->stack);
     
 
@@ -164,18 +202,30 @@ void handle_imul(JavaMachine* machine) {
         return;
     }
     
-    // Извлекаем первый элемент
+    // Проверяем первый операнд - не должен быть адресом возврата
     Data b = stack_get(machine->stack);
+    if (is_return_address(b)) {
+        printf("Error: imul with return address\n");
+        return;
+    }
     stack_pop(machine->stack);
     
     // Проверяем, что после извлечения первого элемента стек не пустой
     if (stack_empty(machine->stack)) {
         printf("Error: imul with only one element\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
         return;
     }
 
-    // Извлекаем второй элемент
+    // Проверяем второй операнд - не должен быть адресом возврата
     Data a = stack_get(machine->stack);
+    if (is_return_address(a)) {
+        printf("Error: imul with return address\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
+        return;
+    }
     stack_pop(machine->stack);
     
     Data result = a * b;
@@ -199,18 +249,30 @@ void handle_iand(JavaMachine* machine) {
         return;
     }
     
-    // Извлекаем первый операнд 
+    // Проверяем первый операнд - не должен быть адресом возврата
     Data b = stack_get(machine->stack);
+    if (is_return_address(b)) {
+        printf("Error: iand with return address\n");
+        return;
+    }
     stack_pop(machine->stack);
     
     // Проверяем, что после извлечения первого элемента стек не пустой
     if (stack_empty(machine->stack)) {
         printf("Error: iand with only one element\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
         return;
     }
     
-    // Извлекаем второй операнд
+    // Проверяем второй операнд - не должен быть адресом возврата
     Data a = stack_get(machine->stack);
+    if (is_return_address(a)) {
+        printf("Error: iand with return address\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
+        return;
+    }
     stack_pop(machine->stack);
     
    
@@ -235,18 +297,30 @@ void handle_ior(JavaMachine* machine) {
         return;
     }
     
-    // Извлекаем первый операнд 
+    // Проверяем первый операнд - не должен быть адресом возврата
     Data b = stack_get(machine->stack);
+    if (is_return_address(b)) {
+        printf("Error: ior with return address\n");
+        return;
+    }
     stack_pop(machine->stack);
     
     // Проверяем, что после извлечения первого элемента стек не пустой
     if (stack_empty(machine->stack)) {
         printf("Error: ior with only one element\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
         return;
     }
     
-    // Извлекаем второй операнд
+    // Проверяем второй операнд - не должен быть адресом возврата
     Data a = stack_get(machine->stack);
+    if (is_return_address(a)) {
+        printf("Error: ior with return address\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
+        return;
+    }
     stack_pop(machine->stack);
     
     // побитовое ИЛИ
@@ -271,18 +345,30 @@ void handle_ixor(JavaMachine* machine) {
         return;
     }
     
-    // Извлекаем первый элемент
+    // Проверяем первый операнд - не должен быть адресом возврата
     Data b = stack_get(machine->stack);
+    if (is_return_address(b)) {
+        printf("Error: ixor with return address\n");
+        return;
+    }
     stack_pop(machine->stack);
     
     // Проверяем, что после извлечения первого элемента стек не пустой
     if (stack_empty(machine->stack)) {
         printf("Error: ixor with only one element\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
         return;
     }
     
-    // Извлекаем второй элемент
+    // Проверяем второй операнд - не должен быть адресом возврата
     Data a = stack_get(machine->stack);
+    if (is_return_address(a)) {
+        printf("Error: ixor with return address\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
+        return;
+    }
     stack_pop(machine->stack);
      
     Data result = a ^ b;
@@ -363,15 +449,20 @@ void handle_istore_0(JavaMachine* machine) {
         return;
     }
     
-    // Извлечение значение с верха стека
- Data value = stack_get(machine->stack);
-stack_pop(machine->stack);
- // Сохраняем в переменную 0
-machine->vars[0] = (int)value;
-
-machine->function_calls++;
-
-printf("istore_0\n");
+    // Извлекаем значение с верха стека и проверяем, что это не адрес возврата
+    Data value = stack_get(machine->stack);
+    if (is_return_address(value)) {
+        printf("Error: istore_0 with return address\n");
+        return;
+    }
+    stack_pop(machine->stack);
+    
+    // Сохраняем в переменную 0
+    machine->vars[0] = (int)value;
+    
+    machine->function_calls++;
+    
+    printf("istore_0\n");
 }
 
 void handle_istore_1(JavaMachine* machine) {
@@ -385,8 +476,12 @@ void handle_istore_1(JavaMachine* machine) {
         return;
     }
     
-    // Извлекаем значение с верха стека
+    // Извлекаем значение с верха стека и проверяем, что это не адрес возврата
     Data value = stack_get(machine->stack);
+    if (is_return_address(value)) {
+        printf("Error: istore_1 with return address\n");
+        return;
+    }
     stack_pop(machine->stack);
     
     // Сохраняем в переменную 1
@@ -407,8 +502,12 @@ void handle_istore_2(JavaMachine* machine) {
         return;
     }
     
-    // Извлекаем значение с верха стека
+    // Извлекаем значение с верха стека и проверяем, что это не адрес возврата
     Data value = stack_get(machine->stack);
+    if (is_return_address(value)) {
+        printf("Error: istore_2 with return address\n");
+        return;
+    }
     stack_pop(machine->stack);
     
     // Сохраняем в переменную 2
@@ -429,8 +528,12 @@ void handle_istore_3(JavaMachine* machine) {
         return;
     }
     
-    // Извлекаем значение с верха стека
+    // Извлекаем значение с верха стека и проверяем, что это не адрес возврата
     Data value = stack_get(machine->stack);
+    if (is_return_address(value)) {
+        printf("Error: istore_3 with return address\n");
+        return;
+    }
     stack_pop(machine->stack);
     
     // Сохраняем в переменную 3
@@ -453,18 +556,30 @@ void handle_swap(JavaMachine* machine) {
         return;
     }
     
-    // Извлекаем первый элемент
+    // Проверяем первый элемент - не должен быть адресом возврата
     Data b = stack_get(machine->stack);
+    if (is_return_address(b)) {
+        printf("Error: swap with return address\n");
+        return;
+    }
     stack_pop(machine->stack);
     
     // Проверяем, что после извлечения первого элемента стек не пустой
     if (stack_empty(machine->stack)) {
         printf("Error: swap with only one element\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
         return;
     }
     
-    // Извлекаем второй элемент
+    // Проверяем второй элемент - не должен быть адресом возврата
     Data a = stack_get(machine->stack);
+    if (is_return_address(a)) {
+        printf("Error: swap with return address\n");
+        // Возвращаем b обратно в стек
+        stack_push(machine->stack, b);
+        return;
+    }
     stack_pop(machine->stack);
     
     // свапаем
@@ -482,8 +597,8 @@ void handle_invokestatic(JavaMachine* machine, int address) {
         return; 
     }
     
-    // добавляем адрес возврата в стек
-    stack_push(machine->stack, (Data)address);
+    // добавляем адрес возврата в стек (сохраняем как адрес >= 1000 для отличия от обычных чисел)
+    stack_push(machine->stack, (Data)(address + 1000));
     
     machine->function_calls++;
 
@@ -502,13 +617,22 @@ void handle_return(JavaMachine* machine) {
         return;
     }
     
-    // Извлекаем адрес возврата из стека
+    // Читаем верхний элемент стека (пока не извлекаем)
     Data return_address = stack_get(machine->stack);
+    
+    // Проверяем, что это адрес возврата (>= 1000), а не обычное число
+    // ВАЖНО: проверка выполняется ДО извлечения элемента из стека
+    if (!is_return_address(return_address)) {
+        printf("Error: return with non-address value\n");
+        return;
+    }
+    
     stack_pop(machine->stack);
 
     machine->function_calls++;
     
-    printf("return %d\n", (int)return_address);
+    // Выводим исходный адрес (вычитаем 1000, которая была добавлена при invokestatic)
+    printf("return %d\n", (int)(return_address - 1000));
 }
 
 

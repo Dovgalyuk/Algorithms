@@ -1,7 +1,7 @@
-bipush 1
 bipush 2
-bipush 3
+bipush 2
 swap
 iadd
 istore_0
-
+iload_0
+pop
