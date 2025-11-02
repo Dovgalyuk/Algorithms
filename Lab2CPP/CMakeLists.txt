@@ -1,4 +1,4 @@
-add_executable(Lab2CPP lab2.cpp)
+add_executable(Lab2CPP main.cpp)
 target_include_directories(Lab2CPP PUBLIC ../LibraryCPP)
 target_link_libraries(Lab2CPP LibraryCPP)
 
