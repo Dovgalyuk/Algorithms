@@ -33,8 +33,7 @@ Data stack_get(const Stack* stack) {
 
 void stack_pop(Stack* stack) {
     assert(stack);
-    ListItem* first = list_first(stack->list);
-    assert(first);
+    assert(list_first(stack->list));
     list_erase_first(stack->list);
 }
 
