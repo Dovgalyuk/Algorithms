@@ -169,5 +169,5 @@ int main(int argc, char* argv[]) {
     }
 
     print_hex(g);
-    return 0;
+    return;
 }
