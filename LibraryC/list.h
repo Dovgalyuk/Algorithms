@@ -5,7 +5,12 @@
 
 // List
 // Stores integer or pointer to custom user data
+#ifdef __cplusplus
+// In C++ tests we pass raw pointers; use void* for seamless interop
+typedef void* Data;
+#else
 typedef uintptr_t Data;
+#endif
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
 
