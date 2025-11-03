@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 
     string line;
     if (!getline(input, line)) {
-        cerr << "Empty input" << endl;
+        cerr << "Empty input file" << endl;
         return 1;
     }
 
@@ -27,13 +27,13 @@ int main(int argc, char* argv[]) {
     while (iss >> token) {
         if (token == "+" || token == "-" || token == "*" || token == "/") {
             if (stack_empty(stk) || stack_empty(stk)) {  // Проверка на недостаток элементов
-                cerr << "Wrong expression" << endl;
+                cerr << "Invalid expression" << endl;
                 stack_delete(stk);
                 return 1;
             }
             Data b = stack_get(stk); stack_pop(stk);
             Data a = stack_get(stk); stack_pop(stk);
-            Data res;
+            Data res = 0;  // Инициализация для устранения предупреждения
             if (token == "+") res = a + b;
             else if (token == "-") res = a - b;
             else if (token == "*") res = a * b;
@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
                 Data num = stoi(token);
                 stack_push(stk, num);
             } catch (...) {
-                cerr << "Wrong number: " << token << endl;
+                cerr << "Invalid number: " << token << endl;
                 stack_delete(stk);
                 return 1;
             }
@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
     }
 
     if (stack_empty(stk)) {
-        cerr << "Empty exp" << endl;
+        cerr << "Empty expression" << endl;
     } else {
         cout << stack_get(stk) << endl;
     }
