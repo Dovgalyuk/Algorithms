@@ -27,6 +27,7 @@ private:
         }
         return 0;
     }
+
     static void process_operator(Stack* values, Stack* operators) {
         if (stack_empty(values)) throw runtime_error("Invalid expression");
         int b = stack_get(values); stack_pop(values);
@@ -46,6 +47,7 @@ public:
         Stack* operators = stack_create();
         istringstream iss(expression);
         char token;
+
         while (iss >> token) {
             if (isdigit(token)) {
                 iss.putback(token);
@@ -60,27 +62,31 @@ public:
                 while (!stack_empty(operators) && (char)stack_get(operators) != '(') {
                     process_operator(values, operators);
                 }
-                if (!stack_empty(operators) && (char)stack_get(operators) == '(') {
-                    stack_pop(operators);
-                }
-                else {
+                if (stack_empty(operators)) {
                     stack_delete(values);
                     stack_delete(operators);
                     throw runtime_error("Mismatched parentheses");
                 }
+                stack_pop(operators);
             }
             else if (token == '+' || token == '-' || token == '*' || token == '/') {
                 while (!stack_empty(operators) &&
-                    precedence((char)stack_get(operators)) >= precedence(token)) {
+                    precedence((char)stack_get(operators)) >= precedence(token) &&
+                    (char)stack_get(operators) != '(') {
                     process_operator(values, operators);
                 }
                 stack_push(operators, token);
             }
         }
-
         while (!stack_empty(operators)) {
+            if ((char)stack_get(operators) == '(') {
+                stack_delete(values);
+                stack_delete(operators);
+                throw runtime_error("Mismatched parentheses");
+            }
             process_operator(values, operators);
         }
+
         if (stack_empty(values)) {
             stack_delete(values);
             stack_delete(operators);
@@ -100,22 +106,18 @@ public:
         return result;
     }
 };
+void process_expression(const string& expression) {
+    try {
+        int result = Calculator::evaluate(expression);
+        cout << "Result: " << result << endl;
+    }
+    catch (const exception& e) {
+        cout << "Error: " << e.what() << endl;
+    }
+}
 
 int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        string expression;
-        cout << "Enter expression: ";
-        getline(cin, expression);
-        try {
-            int result = Calculator::evaluate(expression);
-            cout << "Result: " << result << endl;
-        }
-        catch (const exception& e) {
-            cout << "Error: " << e.what() << endl;
-            return 1;
-        }
-    }
-    else {
+    if (argc == 2) {
         ifstream fin(argv[1]);
         if (!fin) {
             cerr << "Cannot open input file: " << argv[1] << endl;
@@ -124,16 +126,18 @@ int main(int argc, char* argv[]) {
         string expression;
         while (getline(fin, expression)) {
             if (expression.empty()) continue;
-
             cout << "Expression: " << expression << endl;
-            try {
-                int result = Calculator::evaluate(expression);
-                cout << "Result: " << result << endl;
-            }
-            catch (const exception& e) {
-                cout << "Error: " << e.what() << endl;
-            }
+            process_expression(expression);
             cout << "-------------------" << endl;
+        }
+    }
+    else {
+        string expression;
+        cout << "Enter expression: ";
+        while (getline(cin, expression)) {
+            if (expression.empty()) break;
+            process_expression(expression);
+            cout << "Enter expression: ";
         }
     }
 
