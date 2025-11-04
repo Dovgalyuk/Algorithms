@@ -29,6 +29,9 @@ void list_delete(List *list)
 	ListItem *cur = list->head;
 	while (cur) {
 		ListItem *next = cur->next;
+		if (list->freeFn) {
+			list->freeFn((void*)cur->data);
+		}
         free(cur);
 		cur = next;
 	}
@@ -88,6 +91,9 @@ ListItem *list_insert(List *list, Data data)
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
     if (!list) return NULL;
+	if (item == NULL) {
+		return list_insert(list, data);
+	}
 	ListItem *node = (ListItem*)malloc(sizeof(ListItem));
     node->data = data;
     node->next = item->next;
