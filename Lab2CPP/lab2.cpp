@@ -15,7 +15,6 @@ private:
         if (op == '*' || op == '/') return 2;
         return 0;
     }
-
     static int apply_operation(int a, int b, char op) {
         switch (op) {
         case '+': return a + b;
@@ -27,7 +26,6 @@ private:
         }
         return 0;
     }
-
     static void process_operator(Stack* values, Stack* operators) {
         if (stack_empty(values)) throw runtime_error("Invalid expression");
         int b = stack_get(values); stack_pop(values);
@@ -40,7 +38,6 @@ private:
 
         stack_push(values, apply_operation(a, b, op));
     }
-
 public:
     static int evaluate(const string& expression) {
         Stack* values = stack_create();
@@ -115,7 +112,6 @@ void process_expression(const string& expression) {
         cout << "Error: " << e.what() << endl;
     }
 }
-
 int main(int argc, char* argv[]) {
     if (argc == 2) {
         ifstream fin(argv[1]);
