@@ -2,7 +2,7 @@
 #define VECTOR_H
 
 #include <cstddef>
-
+#include<stdexcept>
 // Change it to desired type
 typedef int Data;
 
@@ -36,6 +36,13 @@ public:
 
 private:
     // private data should be here
+
+    Data* data_;
+    size_t size_;
+    size_t vmestimost_;
+    void reserve(size_t new_vmestimost);
+
+
 };
 
 #endif
