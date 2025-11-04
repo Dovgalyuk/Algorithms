@@ -11,17 +11,29 @@ int precedence(char op) {
 }
 
 std::vector<std::string> generate_commands(const std::string& expr) {
-    std::vector<std::string> postfix;
+    std::vector<std::string> commands;
     Stack* op_stack = stack_create();
 
     for (char c : expr) {
         if (isdigit(c)) {
-            postfix.push_back(std::string(1, c));
+            commands.push_back("PUSH " + std::string(1, c));
         }
         else if (c == '+' || c == '-' || c == '*') {
             while (!stack_empty(op_stack) && precedence((char)stack_get(op_stack)) >= precedence(c)) {
-                postfix.push_back(std::string(1, (char)stack_get(op_stack)));
+                char op = (char)stack_get(op_stack);
                 stack_pop(op_stack);
+                commands.push_back("POP A");
+                commands.push_back("POP B");
+                if (op == '+') {
+                    commands.push_back("ADD A, B");
+                }
+                else if (op == '-') {
+                    commands.push_back("SUB A, B");
+                }
+                else if (op == '*') {
+                    commands.push_back("MUL A, B");
+                }
+                commands.push_back("PUSH A");
             }
             stack_push(op_stack, c);
         }
@@ -30,38 +42,41 @@ std::vector<std::string> generate_commands(const std::string& expr) {
         }
         else if (c == ')') {
             while (!stack_empty(op_stack) && (char)stack_get(op_stack) != '(') {
-                postfix.push_back(std::string(1, (char)stack_get(op_stack)));
+                char op = (char)stack_get(op_stack);
                 stack_pop(op_stack);
+                commands.push_back("POP A");
+                commands.push_back("POP B");
+                if (op == '+') {
+                    commands.push_back("ADD A, B");
+                }
+                else if (op == '-') {
+                    commands.push_back("SUB A, B");
+                }
+                else if (op == '*') {
+                    commands.push_back("MUL A, B");
+                }
+                commands.push_back("PUSH A");
             }
             if (!stack_empty(op_stack)) stack_pop(op_stack);
         }
     }
     while (!stack_empty(op_stack)) {
-        postfix.push_back(std::string(1, (char)stack_get(op_stack)));
+        char op = (char)stack_get(op_stack);
         stack_pop(op_stack);
+        commands.push_back("POP A");
+        commands.push_back("POP B");
+        if (op == '+') {
+            commands.push_back("ADD A, B");
+        }
+        else if (op == '-') {
+            commands.push_back("SUB A, B");
+        }
+        else if (op == '*') {
+            commands.push_back("MUL A, B");
+        }
+        commands.push_back("PUSH A");
     }
     stack_delete(op_stack);
-
-    std::vector<std::string> commands;
-    for (const auto& token : postfix) {
-        if (isdigit(token[0])) {
-            commands.push_back("PUSH " + token);
-        }
-        else {
-            commands.push_back("POP A");
-            commands.push_back("POP B");
-            if (token == "+") {
-                commands.push_back("ADD A, B");
-            }
-            else if (token == "-") {
-                commands.push_back("SUB A, B");
-            }
-            else if (token == "*") {
-                commands.push_back("MUL A, B");
-            }
-            commands.push_back("PUSH A");
-        }
-    }
     return commands;
 }
 
