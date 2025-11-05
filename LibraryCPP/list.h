@@ -10,7 +10,7 @@ typedef int Data;
 struct List;
 struct ListItem;
 
-// Creates new list
+// Creates new list	
 List *list_create();
 
 // Destroys the list and frees the memory
