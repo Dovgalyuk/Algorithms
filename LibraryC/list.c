@@ -9,7 +9,6 @@ typedef struct ListItem {
 
 typedef struct List {
     ListItem *head;
-	ListItem *tail;
 	FFree *freeFn;
 } List;
 
@@ -18,7 +17,6 @@ List *list_create(FFree f)
     List *list = (List*)malloc(sizeof(List));
 	if (!list) return NULL;
 	list->head = NULL;
-	list->tail = NULL;
 	list->freeFn = f;
 	return list;
 }
@@ -80,8 +78,6 @@ ListItem *list_insert(List *list, Data data)
 
     if (list->head) {
         list->head->prev = node;
-    } else {
-        list->tail = node;
     }
 
     list->head = node;
@@ -100,8 +96,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     node->prev = item;
     if (item->next) {
         item->next->prev = node;
-    } else {
-        list->tail = node;
     }
 	item->next = node;
 
@@ -120,8 +114,6 @@ ListItem *list_erase_first(List *list)
 
     if(newfirst){
         newfirst->prev=NULL;
-    } else {
-        list->tail = NULL;
     }
 
 	if (list->freeFn) {
@@ -144,8 +136,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
 
     if (newnext) {
         newnext->prev = item;
-    } else {
-        list->tail = item;
     }
 
 	if (list->freeFn) {
