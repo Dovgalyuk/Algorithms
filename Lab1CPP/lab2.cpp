@@ -1,7 +1,7 @@
 #include <iostream>
 #include<fstream>
-#include "../LibraryCPPClass/myvector.h"
-#include "../LibraryCPPClass/stack.h"
+#include "myvector.h"
+#include "stack.h"
 
 using namespace std;
 
@@ -14,7 +14,7 @@ struct Particle
 int main(int argc, char** argv) {
 	// тут проверки
 	if (argc < 2) {
-		cerr << "ispolzuem chasticy iz niput.txt";
+		cerr << "ispolzuem chasticy iz input.txt";
 		return 1;
 	}
 	//проверка на открытие файла
@@ -31,31 +31,19 @@ int main(int argc, char** argv) {
 		if (!(input >> n))
 			break;
 
-		Vector cords;
-		Vector charg;
+		Stack stack;
+
+		Vector left, right;
 
 		for (int i = 0; i < n; i++) {
 			int x;
 			char c;
 			input >> x >> c;
 
-			cords.resize(cords.size() + 1);
-			charg.resize(charg.size() + 1);
+			int charge = (c == '+') ? 1 : -1;
 
-			cords.set(cords.size() - 1, x);
-			charg.set(charg.size() - 1, c == '+' ? 1 : -1);
-		}
 
-		Stack stack;
-
-		Vector left, right;
-
-		for (size_t i = 0; i < cords.size(); i++)
-		{
-			int x = cords.get(i);
-			int charges = charg.get(i);
-
-			if (charges == 1) {
+			if (charge == 1) {
 				stack.push(x);//условие для положительной частицы.она движется в право.
 			}
 			else
@@ -82,5 +70,4 @@ int main(int argc, char** argv) {
 		}
 		cout << endl;
 	}
-
 }
