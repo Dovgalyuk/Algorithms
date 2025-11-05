@@ -15,6 +15,7 @@ private:
         if (op == '*' || op == '/') return 2;
         return 0;
     }
+
     static int apply_operation(int a, int b, char op) {
         switch (op) {
         case '+': return a + b;
@@ -26,6 +27,7 @@ private:
         }
         return 0;
     }
+
     static void process_operator(Stack* values, Stack* operators) {
         if (stack_empty(values)) throw runtime_error("Invalid expression");
         int b = stack_get(values); stack_pop(values);
@@ -38,6 +40,7 @@ private:
 
         stack_push(values, apply_operation(a, b, op));
     }
+
 public:
     static int evaluate(const string& expression) {
         Stack* values = stack_create();
@@ -75,6 +78,7 @@ public:
                 stack_push(operators, token);
             }
         }
+
         while (!stack_empty(operators)) {
             if ((char)stack_get(operators) == '(') {
                 stack_delete(values);
@@ -103,6 +107,7 @@ public:
         return result;
     }
 };
+
 void process_expression(const string& expression) {
     try {
         int result = Calculator::evaluate(expression);
@@ -112,29 +117,37 @@ void process_expression(const string& expression) {
         cout << "Error: " << e.what() << endl;
     }
 }
+void process_file(const string& filename) {
+    ifstream fin(filename);
+    if (!fin) {
+        cerr << "Cannot open input file: " << filename << endl;
+        return;
+    }
+
+    string expression;
+    while (getline(fin, expression)) {
+        if (expression.empty()) continue;
+        cout << "Expression: " << expression << endl;
+        process_expression(expression);
+        cout << "-------------------" << endl;
+    }
+}
+void process_interactive() {
+    string expression;
+    cout << "Enter expression: ";
+    while (getline(cin, expression)) {
+        if (expression.empty()) break;
+        process_expression(expression);
+        cout << "Enter expression: ";
+    }
+}
+
 int main(int argc, char* argv[]) {
     if (argc == 2) {
-        ifstream fin(argv[1]);
-        if (!fin) {
-            cerr << "Cannot open input file: " << argv[1] << endl;
-            return 1;
-        }
-        string expression;
-        while (getline(fin, expression)) {
-            if (expression.empty()) continue;
-            cout << "Expression: " << expression << endl;
-            process_expression(expression);
-            cout << "-------------------" << endl;
-        }
+        process_file(argv[1]);
     }
     else {
-        string expression;
-        cout << "Enter expression: ";
-        while (getline(cin, expression)) {
-            if (expression.empty()) break;
-            process_expression(expression);
-            cout << "Enter expression: ";
-        }
+        process_interactive();
     }
 
     return 0;
