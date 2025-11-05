@@ -38,9 +38,7 @@ void task_1(string input){
                 output += stack_get(stack);
                 stack_pop(stack);
             }
-            if(!stack_empty(stack) && stack_get(stack) == '('){
-                stack_pop(stack);
-            }
+            stack_pop(stack);
         } 
     }
 
