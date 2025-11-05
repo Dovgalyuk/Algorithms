@@ -1,0 +1,5 @@
+3 4 add peek
+10 6 sub mul peek
+28 5 mod peek
+10 peek
+

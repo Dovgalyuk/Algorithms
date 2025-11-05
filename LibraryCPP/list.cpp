@@ -10,7 +10,6 @@ struct ListItem {
 
 struct List {
     ListItem* head;
-    ListItem* tail;
     std::size_t sz;
 };
 
@@ -21,7 +20,6 @@ static ListItem* make_node(Data v, ListItem* p = nullptr, ListItem* n = nullptr)
 List* list_create() {
     auto* lst = new List;
     lst->head = nullptr;
-    lst->tail = nullptr;
     lst->sz = 0;
     return lst;
 }
@@ -57,32 +55,37 @@ ListItem* list_item_prev(ListItem* item) {
 ListItem* list_insert(List* list, Data data) {
     assert(list);
     auto* node = make_node(data, nullptr, list->head);
-    if (list->head) list->head->prev = node;
+    if (list->head)
+        list->head->prev = node;
     list->head = node;
-    if (!list->tail) list->tail = node;
     ++list->sz;
     return node;
 }
 
 ListItem* list_insert_after(List* list, ListItem* item, Data data) {
     assert(list);
-    if (!item) return list_insert(list, data);
+    if (!item)
+        return list_insert(list, data);
+
     auto* node = make_node(data, item, item->next);
-    if (item->next) item->next->prev = node;
+    if (item->next)
+        item->next->prev = node;
     item->next = node;
-    if (list->tail == item) list->tail = node;
     ++list->sz;
     return node;
 }
 
 ListItem* list_erase_first(List* list) {
     assert(list);
-    if (!list->head) return nullptr;
+    if (!list->head)
+        return nullptr;
+
     auto* del = list->head;
     auto* ret = del->next;
-    if (ret) ret->prev = nullptr;
+    if (ret)
+        ret->prev = nullptr;
     list->head = ret;
-    if (list->tail == del) list->tail = ret;
+
     delete del;
     --list->sz;
     return ret;
@@ -90,13 +93,18 @@ ListItem* list_erase_first(List* list) {
 
 ListItem* list_erase_next(List* list, ListItem* item) {
     assert(list);
-    if (!item) return list_erase_first(list);
+    if (!item)
+        return list_erase_first(list);
+
     auto* del = item->next;
-    if (!del) return nullptr;
+    if (!del)
+        return nullptr;
+
     auto* ret = del->next;
     item->next = ret;
-    if (ret) ret->prev = item;
-    if (list->tail == del) list->tail = item;
+    if (ret)
+        ret->prev = item;
+
     delete del;
     --list->sz;
     return ret;

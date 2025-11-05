@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
     bool first_out = true;
 
     int reg = 0;
-    ptrdiff_t loop_start = -1;
+    vector<pair<int, ptrdiff_t>> loops;
 
     auto skip_to_end = [&](size_t &i) {
         int depth = 1;
@@ -71,17 +71,21 @@ int main(int argc, char **argv) {
 
         const auto &op = t.text;
 
-        if (op == "add" || op == "sub" || op == "mul" || op == "div") {
-            if (stack_empty(st)) { stack_delete(st); return 2; }
-            int a = stack_get(st); stack_pop(st);
+        if (op == "add" || op == "sub" || op == "mul" || op == "div" || op == "mod") {
             if (stack_empty(st)) { stack_delete(st); return 2; }
             int b = stack_get(st); stack_pop(st);
+            if (stack_empty(st)) { stack_delete(st); return 2; }
+            int a = stack_get(st); stack_pop(st);
+
             if (op == "add") stack_push(st, a + b);
             else if (op == "sub") stack_push(st, a - b);
             else if (op == "mul") stack_push(st, a * b);
-            else {
+            else if (op == "div") {
                 if (b == 0) { stack_delete(st); return 3; }
                 stack_push(st, a / b);
+            } else if (op == "mod") {
+                if (b == 0) { stack_delete(st); return 3; }
+                stack_push(st, a % b);
             }
         }
         else if (op == "sqrt" || op == "sq") {
@@ -107,19 +111,29 @@ int main(int argc, char **argv) {
             if (stack_empty(st)) { skip_to_end(i); continue; }
             int a = stack_get(st); stack_pop(st);
             if (stack_empty(st)) { skip_to_end(i); continue; }
-            int b = stack_get(st);
-            if (a == b) stack_pop(st);
-            else skip_to_end(i);
+            int b = stack_get(st); stack_pop(st);
+
+            if (a == b) {
+                stack_push(st, a);
+            } else {
+                stack_push(st, a);
+                skip_to_end(i);
+            }
         }
         else if (op == "setr") {
             if (stack_empty(st)) { stack_delete(st); return 2; }
             reg = stack_get(st);
             stack_pop(st);
-            loop_start = i + 1;
+            loops.push_back({reg, (ptrdiff_t)i + 1});
         }
         else if (op == "repeat") {
-            if (loop_start >= 0 && reg-- > 0)
-                i = loop_start - 1;
+            if (!loops.empty()) {
+                auto &top = loops.back();
+                if (--top.first > 0)
+                    i = (size_t)top.second - 1;
+                else
+                    loops.pop_back();
+            }
         }
         else if (op == "end") {
         }
@@ -131,4 +145,5 @@ int main(int argc, char **argv) {
 
     cout << out.str() << "\n";
     stack_delete(st);
+    return 0;
 }
