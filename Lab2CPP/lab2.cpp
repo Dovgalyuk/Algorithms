@@ -37,11 +37,16 @@ void task_1(string input){
             while(!stack_empty(stack) && stack_get(stack) != '('){
                 output += stack_get(stack);
                 stack_pop(stack);
+            } 
+            if(stack_empty(stack) || stack_get(stack) != '('){
+                cout << "Выражение не коректно"<< endl;
+                stack_delete(stack);
+                return;
+            } else {
+               stack_pop(stack); 
             }
-            stack_pop(stack);
         } 
     }
-
     while(!stack_empty(stack)){
         output += stack_get(stack);
         stack_pop(stack);

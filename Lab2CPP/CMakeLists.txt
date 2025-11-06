@@ -17,3 +17,6 @@ set_tests_properties(TestLab2CPP3 PROPERTIES PASS_REGULAR_EXPRESSION "ABC[*]D/\\
 
 add_test(NAME TestLab2CPP4 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input4.txt)
 set_tests_properties(TestLab2CPP4 PROPERTIES PASS_REGULAR_EXPRESSION "AB\\+CD-[*]")
+
+add_test(NAME TestLab2CPP5 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input5.txt)
+set_tests_properties(TestLab2CPP5 PROPERTIES PASS_REGULAR_EXPRESSION ".*Выражение не коректно")
