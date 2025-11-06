@@ -87,7 +87,6 @@ public:
             }
             process_operator(values, operators);
         }
-
         if (stack_empty(values)) {
             stack_delete(values);
             stack_delete(operators);
@@ -95,7 +94,6 @@ public:
         }
         int result = stack_get(values);
         stack_pop(values);
-
         if (!stack_empty(values)) {
             stack_delete(values);
             stack_delete(operators);
@@ -107,7 +105,6 @@ public:
         return result;
     }
 };
-
 void process_expression(const string& expression) {
     try {
         int result = Calculator::evaluate(expression);
@@ -117,37 +114,42 @@ void process_expression(const string& expression) {
         cout << "Error: " << e.what() << endl;
     }
 }
-void process_file(const string& filename) {
-    ifstream fin(filename);
-    if (!fin) {
-        cerr << "Cannot open input file: " << filename << endl;
-        return;
-    }
-
+void process_input_stream(istream& input, bool is_interactive) {
     string expression;
-    while (getline(fin, expression)) {
-        if (expression.empty()) continue;
-        cout << "Expression: " << expression << endl;
+    while (true) {
+        if (is_interactive) {
+            cout << "Enter expression: ";
+        }
+
+        if (!getline(input, expression)) {
+            break;
+        }
+
+        if (expression.empty()) {
+            if (is_interactive) break;
+            else continue;
+        }
+        if (!is_interactive) {
+            cout << "Expression: " << expression << endl;
+        }
         process_expression(expression);
-        cout << "-------------------" << endl;
+
+        if (!is_interactive) {
+            cout << "-------------------" << endl;
+        }
     }
 }
-void process_interactive() {
-    string expression;
-    cout << "Enter expression: ";
-    while (getline(cin, expression)) {
-        if (expression.empty()) break;
-        process_expression(expression);
-        cout << "Enter expression: ";
-    }
-}
-
 int main(int argc, char* argv[]) {
     if (argc == 2) {
-        process_file(argv[1]);
+        ifstream fin(argv[1]);
+        if (!fin) {
+            cerr << "Cannot open input file: " << argv[1] << endl;
+            return 1;
+        }
+        process_input_stream(fin, false);
     }
     else {
-        process_interactive();
+        process_input_stream(cin, true);
     }
 
     return 0;
