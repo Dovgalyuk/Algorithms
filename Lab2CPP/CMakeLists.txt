@@ -16,3 +16,6 @@ set_tests_properties(TestLab2CPP_Input4 PROPERTIES PASS_REGULAR_EXPRESSION "AB\\
 
 add_test(NAME TestLab2CPP_Input5 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input4.txt)
 set_tests_properties(TestLab2CPP_Input5 PROPERTIES PASS_REGULAR_EXPRESSION "AB\\+C[*]")
+
+add_test(NAME TestLab2CPP_Input6 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input5.txt)
+set_tests_properties(TestLab2CPP_Input6 PROPERTIES PASS_REGULAR_EXPRESSION "AB\\+")
