@@ -1,0 +1,21 @@
+add_executable(Lab2CPP lab2.cpp)
+target_include_directories(Lab2CPP PUBLIC ../LibraryCPPTemplate)
+#target_link_libraries(Lab2CPP LibraryCPPTemplate)
+
+add_test(NAME Test0 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
+set_property(TEST Test0 PROPERTY PASS_REGULAR_EXPRESSION "YES")
+
+add_test(NAME Test1 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/test1.txt)
+set_property(TEST Test1 PROPERTY PASS_REGULAR_EXPRESSION "NO")
+
+add_test(NAME Test2 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/test2.txt)
+set_property(TEST Test2 PROPERTY PASS_REGULAR_EXPRESSION "NO")
+
+add_test(NAME Test3 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/test3.txt)
+set_property(TEST Test3 PROPERTY PASS_REGULAR_EXPRESSION "NO")
+
+add_test(NAME Test4 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/test4.txt)
+set_property(TEST Test4 PROPERTY PASS_REGULAR_EXPRESSION "YES")
+
+add_test(NAME Test5 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/test5.txt)
+set_property(TEST Test5 PROPERTY PASS_REGULAR_EXPRESSION "NO")

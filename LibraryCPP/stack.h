@@ -1,3 +1,4 @@
+/*
 #ifndef STACK_H
 #define STACK_H
 
@@ -30,3 +31,4 @@ void stack_pop(Stack *stack);
 bool stack_empty(const Stack *stack);
 
 #endif
+*/

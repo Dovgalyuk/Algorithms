@@ -1,3 +1,4 @@
+/*
 #ifndef VECTOR_H
 #define VECTOR_H
 
@@ -31,3 +32,4 @@ size_t vector_size(const Vector *vector);
 void vector_resize(Vector *vector, size_t size);
 
 #endif
+*/

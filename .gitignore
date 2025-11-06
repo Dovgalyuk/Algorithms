@@ -13,3 +13,7 @@ Release/*
 .vs/*
 build/*
 .vscode/*
+.idea/
+*.iml
+*.ipr
+*.iws

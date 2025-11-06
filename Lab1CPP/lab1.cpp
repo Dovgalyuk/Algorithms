@@ -19,7 +19,6 @@ Array *array_create_and_read(ifstream &input) {
 }
 
 void task1(Array* arr, size_t n){
-
     if (n >= 1) {
         array_set(arr, 0, 0);
     }
