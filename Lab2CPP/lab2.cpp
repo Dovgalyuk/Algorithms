@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include<fstream>
+#include<string>
 #include "stack.h"
  
 
@@ -16,12 +17,25 @@ string perevod(string text) {
 }
 
 bool qwer(string& s, Stack* stack, Stack* call_stack, MAP& Arr, ifstream& file) {
-	int value;
-
 	s = perevod(s);
 
 	if (s == "push") {
-		file >> value;
+		string count;
+		int value = 0;
+
+		file >> count;
+
+		if (isdigit(count[0])) {
+			value = stoi(count);
+		}
+		else if (Arr.find(count[0]) != Arr.end()) {
+			value = Arr[count[0]];
+		}
+		else {
+			cout << "BAD PUSH";
+			return false;
+		}
+
 		stack_push(stack, value);
 		stack_push(call_stack, 0);
 	}
