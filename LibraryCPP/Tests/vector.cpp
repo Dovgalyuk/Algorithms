@@ -12,7 +12,7 @@ int main()
         return 1;
     }
 
-    for (auto i = 0 ; i < vector_size(vector) ; ++i) //заменил size_t на auto из-за ошибки
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i) 
         vector_set(vector, i, i);
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
