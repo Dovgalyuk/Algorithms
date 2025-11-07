@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../LibraryCPPTemplate/vector.h"
+#include "vector.h"
 #include <string>
 
 typedef Vector<std::string> MyVector;

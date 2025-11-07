@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cctype>
 #include <string>
+#include <string_view>
 #include "stack.h"
 
 using namespace std;
@@ -41,7 +42,7 @@ int main(int argc, char **argv) {
                         return 1;
                     }
 
-                    string tagName = line.substr(start, end - start);
+                    string_view tagName = string_view(line).substr(start, end - start);
 
                     if (isClosing) {
                         if (stackTag.empty() || stackTag.get() != tagName) {
@@ -50,7 +51,7 @@ int main(int argc, char **argv) {
                         }
                         stackTag.pop();
                     } else {
-                        stackTag.push(tagName);
+                        stackTag.push(string(tagName));
                     }
 
                     i = end;
