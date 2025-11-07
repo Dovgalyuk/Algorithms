@@ -1,0 +1,2 @@
+PUSH 1
+POP B
