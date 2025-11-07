@@ -38,7 +38,7 @@ void task_1(string input){
                 output += stack_get(stack);
                 stack_pop(stack);
             } 
-            if(stack_empty(stack) || stack_get(stack) != '('){
+            if(stack_empty(stack)){
                 cout << "Выражение не коректно"<< endl;
                 stack_delete(stack);
                 return;
