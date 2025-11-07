@@ -46,6 +46,7 @@ public:
         registers[reg] = value;
         stack_pop(stack);
       }
+
     } else if (command == "ADD") {
       string reg;
       iss >> reg;
