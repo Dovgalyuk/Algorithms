@@ -40,10 +40,8 @@ int main(int argc, char** argv) {
 			char c;
 			input >> x >> c;
 
-			int charge = (c == '+') ? 1 : -1;
 
-
-			if (charge == 1) {
+			if (c == '+') {
 				stack.push(x);//условие для положительной частицы.она движется в право.
 			}
 			else
