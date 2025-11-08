@@ -86,7 +86,7 @@ int main(int argc, char* argv[]) {
             while (!stack_empty(ops) && static_cast<char>(stack_get(ops)) != '(') {
                 calculate(values, ops);
             }
-            if (!stack_empty(ops) && static_cast<char>(stack_get(ops)) == '(') {
+            if (!stack_empty(ops)) {
                 stack_pop(ops);
             }
             ++i;
