@@ -2,31 +2,22 @@
 #include<fstream>
 #include <map>
 #include <algorithm>
+#include <vector>
 #include "queue.h"
-#include "vector.h"	
 
 using namespace std;
 
-typedef map<string, Vector*> Graph;
-typedef map<string, string> Roditel;
-typedef map<string, bool> Visited;
+typedef map<size_t, vector<size_t>> Graph;
 
-void add_rebra_int_Graph(Graph& graph, string& a,string& b) {
-	if (!graph[a]) {
-		graph[a] = vector_create();
-	}
-	if (!graph[b]) {
-		graph[b] = vector_create();
-	}
-
-	vector_push_back(graph[a], b);
-	vector_push_back(graph[b], a);
+void add_rebra_int_Graph(Graph& graph, size_t& a, size_t& b) {
+	graph[a].push_back(b);
+	graph[b].push_back(a);
 }
 
 
-vector<string> bfs(Graph& graph, string& start, string& end) {
-	Visited visited;
-	Roditel roditel;
+vector<size_t> bfs(Graph& graph, size_t& start, size_t& end) {
+	map<size_t, bool> visited;
+	map<size_t, size_t> parent;
 	Queue* queue = queue_create();
 
 	queue_insert(queue, start);
@@ -34,35 +25,34 @@ vector<string> bfs(Graph& graph, string& start, string& end) {
 
 	while (!queue_empty(queue)) {
 
-		string tecuchie = queue_get(queue);
+		size_t tecuchie = queue_get(queue);
 		queue_remove(queue);
 
 		if (tecuchie == end) {
 			break;
 		}
 
-		for (size_t i = 0; i < vector_size(graph[tecuchie]); i++) {
+		for (size_t& v : graph[tecuchie]) {
 
-			string sledueshee = vector_get(graph[tecuchie], i);
+			if (!visited[v]) {
 
-			if (!visited[sledueshee]) {
-				visited[sledueshee] = true;
-				roditel[sledueshee] = tecuchie;
-
-				queue_insert(queue, sledueshee);
+				visited[v] = true;
+				parent[v] = tecuchie;
+				queue_insert(queue, v);
 			}
 		}
 	}
 	queue_delete(queue);
 
-	vector<string> path;
+	vector<size_t> path;
 	if (!visited[end]) {
 		return path;
 	}
 
-	for (string v = end; !v.empty(); v = roditel.count(v) ? roditel[v] : "") {
+	for (size_t v = end; v != start; v = parent[v])
 		path.push_back(v);
-	}
+	path.push_back(start);
+
 	reverse(path.begin(), path.end());
 	return path;
 }
@@ -71,42 +61,43 @@ int main(int argc, char** argv) {
 	(void)argc;
 
 	ifstream file1(argv[1]);
-	ofstream fout("output.txt");
+	ofstream file2("output.txt");
 
 	if (!file1.is_open()) {
 		return 1;
 	}
-	if (!fout.is_open()){
+	if (!file2.is_open()){
 		return 1;
 	}
 
 	Graph graph;
-	string a, b;
+	size_t a, b;
 	while (file1 >> a >> b) {
 		add_rebra_int_Graph(graph, a, b);
 	}
 
-	string start, end;
-	if (!file1 >> start >> end) {
+	size_t start, end;
+	if (!(file1 >> start >> end)) {
 		return 1;
 	}
-	vector<string> path = bfs(graph, start, end);
+	vector<size_t> path = bfs(graph, start, end);
 
 
 	if (path.empty()) {
-		fout << "No path";
+		file2 << "No path";
 	}
 	else {
 		for (size_t i = 0; i < path.size(); ++i) {
-			fout << path[i];
-			if (i + 1 < path.size()) fout << " ";
+
+			file2 << path[i];
+			if (i + 1 < path.size()){
+
+				file2 << " ";
+			}
 		}
 	}
 
-	fout.close();
-
-	for (auto& a : graph) {
-		vector_delete(a.second);
-	}
+	file1.close();
+	file2.close();
 	return 0;
 }

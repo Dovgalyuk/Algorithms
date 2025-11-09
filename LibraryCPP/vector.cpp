@@ -10,10 +10,10 @@ struct Vector
 Vector *vector_create()
 {
     Vector* vector = new Vector;
-    v->size = 0;
-	v->capacity = 4;
-	v->data = new Data[v->capacity];
-    return vector
+    vector->size = 0;
+	vector->capacity = 4;
+	vector->data = new Data[vector->capacity];
+	return vector;
 }
 
 void vector_delete(Vector *vector)
@@ -30,8 +30,8 @@ Data vector_get(const Vector *vector, size_t index)
 
 void vector_set(Vector *vector, size_t index, Data value)
 {
-	if (index < v->size) {
-		v->data[index] = value;
+	if (index < vector->size) {
+		vector->data[index] = value;
 	}
 }
 
@@ -42,16 +42,16 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-	if (size > v->capacity) {
-		while (v->capacity < size) {
-			v->capacity *= 2;
+	if (size > vector->capacity) {
+		while (vector->capacity < size) {
+			vector->capacity *= 2;
 		}
-		Data* new_data = new Data[v->capacity];
-		for (size_t i = 0; i < v->size; i++) {
-			new_data[i] = v->data[i];
+		Data* new_data = new Data[vector->capacity];
+		for (size_t i = 0; i < vector->size; i++) {
+			new_data[i] = vector->data[i];
 		}
-		delete[] v->data;
-		v->data = new_data;
+		delete[] vector->data;
+		vector->data = new_data;
 	}
-	v->size = size;
+	vector->size = size;
 }
