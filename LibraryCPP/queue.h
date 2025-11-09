@@ -2,8 +2,7 @@
 #define QUEUE_H
 
 // Queue
-
-#include "vector.h"
+#include<vector.h>
 // Stores integer values inside
 // Change it to desired type
 
