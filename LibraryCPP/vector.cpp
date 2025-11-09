@@ -30,9 +30,7 @@ Data vector_get(const Vector *vector, size_t index)
 
 void vector_set(Vector *vector, size_t index, Data value)
 {
-	if (index < vector->size) {
-		vector->data[index] = value;
-	}
+    vector->data[index] = value;
 }
 
 size_t vector_size(const Vector *vector)
@@ -43,13 +41,18 @@ size_t vector_size(const Vector *vector)
 void vector_resize(Vector *vector, size_t size)
 {
     if (size > vector->capacity) {
+
         while (vector->capacity < size) {
+
             vector->capacity *= 2;
         }
         Data* new_data = new Data[vector->capacity];
+
         for (size_t i = 0; i < vector->size; i++) {
+
             new_data[i] = vector->data[i];
         }
+
         delete[] vector->data;
         vector->data = new_data;
     }

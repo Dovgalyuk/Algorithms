@@ -1,103 +1,127 @@
 #include <iostream>
-#include<fstream>
+#include <fstream>
 #include <map>
-#include <algorithm>
 #include <vector>
 #include "queue.h"
 
 using namespace std;
 
+typedef map<string, size_t> City_Id;
+typedef map<size_t, string> Id_City;
 typedef map<size_t, vector<size_t>> Graph;
 
-void add_rebra_int_Graph(Graph& graph, size_t& a, size_t& b) {
-	graph[a].push_back(b);
-	graph[b].push_back(a);
+City_Id city_id;
+Id_City id_city;
+size_t next_id = 0;
+
+size_t Id_get_city(const string& name) {
+
+    if (city_id.count(name) == 0) {
+
+        city_id[name] = next_id;
+        id_city[next_id] = name;
+        next_id++;
+    }
+    return city_id[name];
 }
 
+vector<size_t> search_puti(Graph& graph, size_t start, size_t end) {
 
-vector<size_t> bfs(Graph& graph, size_t& start, size_t& end) {
-	map<size_t, bool> visited;
-	map<size_t, size_t> parent;
-	Queue* queue = queue_create();
+    bool had_directly = false;
 
-	queue_insert(queue, start);
-	visited[start] = true;
+    auto search_end_start = find(graph[start].begin(), graph[start].end(), end);
+    auto search_start_end = find(graph[end].begin(), graph[end].end(), start);
 
-	while (!queue_empty(queue)) {
+    if (search_end_start != graph[start].end()) {
 
-		size_t tecuchie = queue_get(queue);
-		queue_remove(queue);
+        graph[start].erase(search_end_start);
+        graph[end].erase(search_start_end);
+        had_directly = true;
+    }
 
-		if (tecuchie == end) {
-			break;
-		}
+    vector<int> visited(next_id, 0);
+    vector<size_t> parent(next_id, next_id);
 
-		for (size_t& v : graph[tecuchie]) {
+    Queue* queue = queue_create();
+    queue_insert(queue, start);
+    visited[start] = 1;
 
-			if (!visited[v]) {
+    while (!queue_empty(queue)) {
 
-				visited[v] = true;
-				parent[v] = tecuchie;
-				queue_insert(queue, v);
-			}
-		}
-	}
-	queue_delete(queue);
+        size_t vershin = queue_get(queue);
+        queue_remove(queue);
 
-	vector<size_t> path;
-	if (!visited[end]) {
-		return path;
-	}
+        if (vershin == end)
+            break;
 
-	for (size_t v = end; v != start; v = parent[v])
-		path.push_back(v);
-	path.push_back(start);
+        for (size_t sosedi : graph[vershin]) {
 
-	reverse(path.begin(), path.end());
-	return path;
+            if (!visited[sosedi]) {
+
+                visited[sosedi] = 1;
+                parent[sosedi] = vershin;
+                queue_insert(queue, sosedi);
+            }
+        }
+    }
+
+    queue_delete(queue);
+
+    if (!visited[end]) {
+        if (had_directly) 
+            return { start, end };
+        return {};
+    }
+
+    vector<size_t> path;
+    for (size_t i = end; i != next_id; i = parent[i]) {
+        path.push_back(i);
+
+        if (i == start)
+            break;
+    }
+    reverse(path.begin(), path.end());
+
+    return path;
 }
 
 int main(int argc, char** argv) {
 	(void)argc;
 
-	ifstream file1(argv[1]);
-	ofstream file2("output.txt");
+    ifstream file1(argv[1]);
+    if (!file1.is_open()){
+        return 1;
+    }
 
-	if (!file1.is_open()) {
-		return 1;
-	}
-	if (!file2.is_open()){
-		return 1;
-	}
+    Graph graph;
+    string a, b;
 
-	Graph graph;
-	size_t a, b;
-	while (file1 >> a >> b) {
-		add_rebra_int_Graph(graph, a, b);
-	}
+    while (file1 >> a >> b) {
 
-	size_t start, end;
-	if (!(file1 >> start >> end)) {
-		return 1;
-	}
-	vector<size_t> path = bfs(graph, start, end);
+        size_t id_a = Id_get_city(a);
+        size_t id_b = Id_get_city(b);
+
+        graph[id_a].push_back(id_b);
+        graph[id_b].push_back(id_a);
+    }
 
 
-	if (path.empty()) {
-		file2 << "No path";
-	}
-	else {
-		for (size_t i = 0; i < path.size(); ++i) {
+    size_t start = Id_get_city("Start");
+    size_t end = Id_get_city("End");
+    vector<size_t> path = search_puti(graph, start, end);
 
-			file2 << path[i];
-			if (i + 1 < path.size()){
+    if (path.empty()) {
+        cout << "No path";
+    }
+    else {
+        for (size_t i = 0; i < path.size(); i++) {
 
-				file2 << " ";
-			}
-		}
-	}
+            cout << id_city[path[i]];
+            if (i + 1 < path.size())
+                cout << " ";
+        }
+    }
 
-	file1.close();
-	file2.close();
-	return 0;
+    file1.close();
+    return 0;
 }
