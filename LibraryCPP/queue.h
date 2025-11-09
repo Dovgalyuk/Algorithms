@@ -3,9 +3,9 @@
 
 // Queue
 
+#include "vector.h"
 // Stores integer values inside
 // Change it to desired type
-typedef size_t Data;
 
 struct Queue;
 
