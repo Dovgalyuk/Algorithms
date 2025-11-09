@@ -2,8 +2,6 @@
 #include "array.h"
 #include "vector.h"
 #include "stack.h"
-#include <print>
-#include <sstream>
 
 int main(int argc, char* argv[])
 {
