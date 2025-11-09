@@ -1,11 +1,12 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include <string>
 // Queue
 
 // Stores integer values inside
 // Change it to desired type
-typedef int Data;
+typedef std::string Data;
 
 struct Queue;
 

@@ -1,11 +1,12 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include <string>
 // List
 
 // Stores integer values inside
 // Change it to desired type
-typedef int Data;
+typedef std::string Data;
 
 struct List;
 struct ListItem;
