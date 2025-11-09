@@ -24,3 +24,4 @@ add_subdirectory(LibraryCPPClass)
 
 add_subdirectory(Lab1CPPClass)
 add_subdirectory(Lab2CPPClass)
+add_subdirectory(Lab3CPPClass)
