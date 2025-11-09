@@ -142,7 +142,7 @@ void run(const Vector<std::string>& words, std::istream& input, std::ostream& ou
 				auto cond = stack.top(); stack.pop();
 				++ip;
 
-				if (cond == 0 && n <= ip) { 
+				if (cond == 0 && n <= (int)ip) { 
 					ip -= (n + 1); 
 				}
 				else { 
@@ -157,7 +157,7 @@ void run(const Vector<std::string>& words, std::istream& input, std::ostream& ou
 				auto cond = stack.top(); stack.pop();
 				++ip;
 
-				if (cond != 0 && n <= ip) {
+				if (cond != 0 && n <= (int)ip) {
 					ip -= (n + 1);
 				}
 				else {
