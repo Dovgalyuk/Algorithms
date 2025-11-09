@@ -12,11 +12,16 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item *next() { return _next; }
+        Item *prev() { return _prev; }
+        Data data() const { return _data; }
     private:
-        // internal data here
+        Item* _next;
+        Item* _prev;
+        Data _data;
+
+        Item(Data d): _next(nullptr), _prev(nullptr), _data(d) {}
+        friend class List;
     };
 
     // Creates new list
@@ -31,6 +36,10 @@ public:
     // Destroys the list and frees the memory
     ~List();
 
+    void clear();
+
+    void copy(const List &a);
+
     // Retrieves the first item from the list
     Item *first();
 
@@ -40,6 +49,8 @@ public:
     // Inserts new list item after the specified item
     // Inserts first element if item is null
     Item *insert_after(Item *item, Data data);
+
+    Item *erase(Item *item);
 
     // Deletes the first list item.
     // Returns pointer to the item next to the deleted one.
@@ -51,7 +62,8 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
-    // private data should be here
+    Item* _head = nullptr;
+    Item* _tail = nullptr;
 };
 
 #endif
