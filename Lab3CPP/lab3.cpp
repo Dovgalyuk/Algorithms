@@ -2,6 +2,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <algorithm>
 #include "queue.h"
 
 using namespace std;
