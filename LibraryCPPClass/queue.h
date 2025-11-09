@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include <cstddef>
+#include "list.h"
 
 // Change it to desired type
 typedef int Data;
@@ -13,10 +14,10 @@ public:
     Queue();
 
     // copy constructor
-    Queue(const Queue &a);
+    Queue(const Queue& a);
 
     // assignment operator
-    Queue &operator=(const Queue &a);
+    Queue& operator=(const Queue& a);
 
     // Deletes queue
     ~Queue();
@@ -37,6 +38,9 @@ public:
 
 private:
     // private data should be here
+    List alist;          // Основной список для хранения элементов
+    List::Item* atail;   // Указатель на последний элемент для быстрой вставки
+    void copyqueue(const Queue& a);
 };
 
 #endif
