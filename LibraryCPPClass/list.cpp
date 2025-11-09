@@ -27,46 +27,57 @@ List::Item *List::first()
     return _head;
 }
 
+List::Item *List::last() {
+    return _tail;
+}
+
+const List::Item *List::last() const {
+    return _tail;
+}
+
 List::Item *List::insert(Data data)
 {
-    return insert_after(nullptr, data);
+    Item *new_item = new Item(data);
+    new_item->_next = _head;
+    
+    if (_head) {
+        _head->_prev = new_item;
+    } else {
+        _tail = new_item;
+    }
+    _head = new_item;
+    return new_item;
+}
+
+List::Item *List::insert_end(Data data) {
+    Item *new_item = new Item(data);
+    
+    if (_tail) {
+        _tail->_next = new_item;
+        new_item->_prev = _tail;
+        _tail = new_item;
+    } else {
+        _head = _tail = new_item;
+    }
+    return new_item;
 }
 
 List::Item *List::insert_after(Item *item, Data data)
 {
-    Item* new_item = new Item(data);
- 
-    if (item)
-    {
-        new_item -> _next = item -> _next;
-        new_item -> _prev = item;
-        
-        if (item -> _next)
-        {
-            item -> _next -> _prev = new_item;
-        } else {
-            _tail = new_item;
-        }
-        
-        
-        item -> _next = new_item;
-        
-        return new_item;
+    if (!item) {
+        return insert(data);
     }
+
+    Item *new_item = new Item(data);
+    new_item->_next = item->_next;
+    new_item->_prev = item;
     
- 
-    if (!_head)
-    {
-        _head = new_item;
+    if (item->_next) {
+        item->_next->_prev = new_item;
+    } else {
         _tail = new_item;
     }
-    else
-    {
-        new_item->_next = _head;
-        _head->_prev = new_item;
-        _head = new_item;
-    }
-    
+    item->_next = new_item;
     return new_item;
 }
 

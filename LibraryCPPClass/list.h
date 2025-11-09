@@ -43,8 +43,13 @@ public:
     // Retrieves the first item from the list
     Item *first();
 
+    Item *last();
+    const Item *last() const;  
+
     // Inserts new list item into the beginning
     Item *insert(Data data);
+
+    Item *insert_end(Data data);
 
     // Inserts new list item after the specified item
     // Inserts first element if item is null
