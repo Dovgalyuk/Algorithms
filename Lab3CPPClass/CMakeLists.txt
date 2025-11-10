@@ -22,9 +22,10 @@ set(EXPECTED_OUTPUT "312456780
 ")
 
 # Создаем файл с ожидаемым выводом
-file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/expected_output.txt "${EXPECTED_OUTPUT}")
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/expected_output.txt "${EXPECTED_OUTPUT}")
+
 add_test(NAME TestLab31CPPClass COMMAND lab3cppclass 312456780 ${CMAKE_CURRENT_SOURCE_DIR}/output.txt)
 
 # Тест 2: Сравнение файлов
 add_test(NAME TestLab3CPPClass_Compare
-COMMAND ${CMAKE_COMMAND} -E compare_files ${CMAKE_CURRENT_SOURCE_DIR}/output.txt ${CMAKE_CURRENT_SOURCE_DIR}/expected_output.txt)
+COMMAND ${CMAKE_COMMAND} -E compare_files ${CMAKE_CURRENT_SOURCE_DIR}/output.txt ${CMAKE_CURRENT_BINARY_DIR}/expected_output.txt)

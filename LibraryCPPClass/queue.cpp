@@ -6,32 +6,21 @@ Queue::Queue() : atail(nullptr)
 
 void Queue::copyqueue(const Queue& a)
 {
-    alist = a.alist;
-
-    // ќбновл€ем указатель на хвост
-    if (a.atail != nullptr) {
-        // Ќаходим хвост в новом списке
-        List::Item* curr = alist.first();
-        while (curr != nullptr && curr->next() != nullptr) {
-            curr = curr->next();
-        }
-        atail = curr;
-    }
-    else {
-        atail = nullptr;
-    }
+	alist = a.alist;
+	List::Item* curr = alist.first();
+	while (curr != nullptr && curr->next() != nullptr) {
+		curr = curr->next();
+	}
+	atail = curr;
 }
 
 Queue::Queue(const Queue& a) 
 {
-    // implement or disable this function
-    
     copyqueue(a);
 }
 
 Queue& Queue::operator=(const Queue& a)
 {
-    // implement or disable this function
     if (this != &a) {
         copyqueue(a);
     }
@@ -40,20 +29,15 @@ Queue& Queue::operator=(const Queue& a)
 
 Queue::~Queue()
 {
-    // ƒеструктор List автоматически очистит пам€ть
-    // Ќе нужно €вно удал€ть atail, так как он €вл€етс€ частью alist
-
 }
 
 void Queue::insert(Data data)
 {
     if (empty()) {
-        // ≈сли очередь пуста, вставл€ем первый элемент
         alist.insert(data);
-        atail = alist.first(); // хвост указывает на единственный элемент
+        atail = alist.first();
     }
     else {
-        // ¬ставл€ем после хвоста и обновл€ем хвост
         atail = alist.insert_after(atail, data);
     }
 }
@@ -61,7 +45,6 @@ void Queue::insert(Data data)
 Data Queue::get() const
 {
     if (empty()) {
-        // ¬озвращаем значение по умолчанию, если очередь пуста
         return Data();
     }
     else {
@@ -74,8 +57,6 @@ void Queue::remove()
 {
     if (!empty()) {
         alist.erase_first();
-
-        // ≈сли после удалени€ очередь стала пустой, обновл€ем atail
         if (alist.first() == nullptr) {
             atail = nullptr;
         }
@@ -84,6 +65,5 @@ void Queue::remove()
 
 bool Queue::empty() const
 {
-    // »спользуем first() который возвращает const Item*
     return alist.first() == nullptr;
 }

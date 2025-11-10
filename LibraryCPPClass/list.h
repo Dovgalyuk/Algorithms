@@ -62,6 +62,7 @@ private:
     // private data should be here
     Item* aitem;
     void copyitems(const List& a);
+    void clearlist();
 };
 
 #endif
