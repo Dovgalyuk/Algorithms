@@ -2,12 +2,7 @@
 #include <cassert>
 #include <cstddef>
 
-struct Array
-{
-    size_t size;  
-    Data* data;
-    FFree* free_fn;  
-};
+
 
 // create array 
 Array *array_create(size_t size, FFree f)
