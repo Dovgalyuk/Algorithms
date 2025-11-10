@@ -39,10 +39,6 @@ void vector_set(Vector *vector, size_t index, Data value) {
 size_t vector_size(const Vector *vector) { return vector->size; }
 
 void vector_resize(Vector *vector, size_t size) {
-  if (size == vector->size) {
-    return;
-  }
-
   if (size <= vector->capacity) {
     vector->size = size;
     return;
