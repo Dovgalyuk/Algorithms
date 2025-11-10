@@ -27,25 +27,12 @@ size_t Id_get_city(const string& name) {
 }
 
 vector<size_t> search_puti(Graph& graph, size_t start, size_t end) {
-
-    bool had_directly = false;
-
-    auto search_end_start = find(graph[start].begin(), graph[start].end(), end);
-    auto search_start_end = find(graph[end].begin(), graph[end].end(), start);
-
-    if (search_end_start != graph[start].end()) {
-
-        graph[start].erase(search_end_start);
-        graph[end].erase(search_start_end);
-        had_directly = true;
-    }
-
-    vector<int> visited(next_id, 0);
+    vector<bool> visited(next_id, false);
     vector<size_t> parent(next_id, next_id);
 
     Queue* queue = queue_create();
     queue_insert(queue, start);
-    visited[start] = 1;
+    visited[start] = true;
 
     while (!queue_empty(queue)) {
 
@@ -59,7 +46,7 @@ vector<size_t> search_puti(Graph& graph, size_t start, size_t end) {
 
             if (!visited[sosedi]) {
 
-                visited[sosedi] = 1;
+                visited[sosedi] = true;
                 parent[sosedi] = vershin;
                 queue_insert(queue, sosedi);
             }
@@ -69,8 +56,6 @@ vector<size_t> search_puti(Graph& graph, size_t start, size_t end) {
     queue_delete(queue);
 
     if (!visited[end]) {
-        if (had_directly) 
-            return { start, end };
         return {};
     }
 
@@ -96,19 +81,28 @@ int main(int argc, char** argv) {
 
     Graph graph;
     string a, b;
+	vector<pair<string, string>> Krai;
 
     while (file1 >> a >> b) {
-
-        size_t id_a = Id_get_city(a);
-        size_t id_b = Id_get_city(b);
-
-        graph[id_a].push_back(id_b);
-        graph[id_b].push_back(id_a);
+		Krai.push_back({ a, b });
     }
 
+    string start_name = Krai.back().first;
+    string end_name = Krai.back().second;
+    Krai.pop_back();
 
-    size_t start = Id_get_city("Start");
-    size_t end = Id_get_city("End");
+	for (auto& x : Krai) {
+
+		size_t id_a = Id_get_city(x.first);
+		size_t id_b = Id_get_city(x.second);
+
+		graph[id_a].push_back(id_b);
+		graph[id_b].push_back(id_a);
+	}
+
+	size_t start = Id_get_city(start_name);
+	size_t end = Id_get_city(end_name);
+
     vector<size_t> path = search_puti(graph, start, end);
 
     if (path.empty()) {
