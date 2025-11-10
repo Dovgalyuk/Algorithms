@@ -46,7 +46,7 @@ int main(int argc, char **argv)
     if(!input)
     {
         printf("Случилась ошибка при открытии файла");
-        return;
+        return 1;
     }
     arr = array_create_and_read(input);
     task1(arr);
