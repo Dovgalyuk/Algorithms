@@ -5,7 +5,7 @@
 
 typedef void (*FFree)(void*);
 
-typedef int Data;
+typedef void* Data;
 
 struct Array
 {
