@@ -6,7 +6,12 @@
     ]
   },
   "ExpandedNodes": [
-    ""
+    "",
+    "\\LibraryC",
+    "\\LibraryCPP",
+    "\\LibraryCPP\\Tests",
+    "\\out"
   ],
+  "SelectedNode": "\\CMakeLists.txt",
   "PreviewInSolutionExplorer": false
 }
