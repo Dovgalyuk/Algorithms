@@ -1,0 +1,37 @@
+Start testing: Nov 11 02:29 Russia TZ 2 Standard Time
+----------------------------------------------------------
+Unable to find executable: TestArrayC
+1/2 Testing: TestArrayC
+1/2 Test: TestArrayC
+Command: ""
+Directory: C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp/LibraryC/Tests
+"TestArrayC" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"TestArrayC" end time: Nov 11 02:29 Russia TZ 2 Standard Time
+"TestArrayC" time elapsed: 00:00:00
+----------------------------------------------------------
+
+Unable to find executable: C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp/Lab1C/RelWithDebInfo/Lab1C.exe
+2/2 Testing: TestLab1C
+2/2 Test: TestLab1C
+Command: "" "C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1C/input.txt"
+Directory: C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp/Lab1C
+"TestLab1C" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression not found. Regex=[1 2 3 4 5
+]
+"TestLab1C" end time: Nov 11 02:29 Russia TZ 2 Standard Time
+"TestLab1C" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 11 02:29 Russia TZ 2 Standard Time

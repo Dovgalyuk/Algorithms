@@ -1,3 +1,3 @@
-TestLab1_Simples 1 0.0640222
-TestLab1_Shift 1 0.0171088
+TestLab1_Simples 2 0.00640395
+TestLab1_Shift 2 0.0045274
 ---
