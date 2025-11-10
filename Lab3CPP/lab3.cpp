@@ -8,7 +8,7 @@
 
 typedef std::map<std::string, List*> Graph;
 
-void add_road(std::map<std::string, List*>& graph, const std::string& a, const std::string& b) {
+void add_road(Graph& graph, const std::string& a, const std::string& b) {
     if (graph.find(a) == graph.end()) graph[a] = list_create();
     if (graph.find(b) == graph.end()) graph[b] = list_create();
 
