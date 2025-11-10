@@ -1,76 +1,53 @@
-#include <stdlib.h>
 #include "array.h"
+#include <stdio.h>  
+#include <stdlib.h>
 
-typedef struct Array {
-    // remove this
-    size_t size;
-    Data *data;
-} Array;
-
-
-// create array
-Array* array_create(size_t size)
+Array* array_create(size_t size, FFree f)  
 {
-    Array* arr = malloc(sizeof(Array));
-    if (!arr) return NULL;             
-
-    arr->size = size;
-    arr->data = malloc(size * sizeof(Data)); 
+    Array* arr = (Array*)malloc(sizeof(Array));
+    if (!arr) return NULL;
+    
+    arr->data = (Data*)malloc(size * sizeof(Data));
     if (!arr->data) {
         free(arr);
-        printf("Данные в массив не введены");
         return NULL;
     }
-
-    printf("Массив создан");
+    
+    arr->size = size;
+    arr->free_fn = f;
     return arr;
+}
+
+void array_destroy(Array* arr)
+{
+    if (!arr) return;
     
-}
-
-// delete array, free memory
-void array_delete(Array* arr)
-{
-    if (arr) {
-        free(arr->data); 
-        free(arr); 
-        printf("Память очищена");
-
+    if (arr->free_fn) {
+        for (size_t i = 0; i < arr->size; i++) {
+            arr->free_fn(arr->data[i]);
+        }
     }
-
     
-   
+    free(arr->data);
+    free(arr);
 }
 
-// returns specified array element
-Data array_get(const Array* arr, size_t index)
+Data array_get(const Array* arr, int index)
 {
-    if(index < arr->size)
-    {
-        return arr->data[index];
+    if (!arr || index < 0 || index >= arr->size) {
+        printf("Данные в массив не введены");
+        return (Data)0;  
     }
-
-    return (Data)0
+    return arr->data[index];
 }
 
-// sets the specified array element to the value
-void array_set(Array* arr, size_t index, Data value)
+void array_set(Array* arr, int index, Data value) 
 {
-     if(index < arr->size)
-    {
-        return arr->data[index] = value;
-    }
+    if (!arr || index < 0 || index >= arr->size) return;
+    arr->data[index] = value; 
 }
 
-// returns array size
 size_t array_size(const Array* arr)
 {
-
-    if(arr)
-    {
-        return arr->size;
-    }
-
-    return 0;
-   
-
+    return arr ? arr->size : 0;
 }
