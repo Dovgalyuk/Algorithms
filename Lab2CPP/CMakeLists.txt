@@ -9,3 +9,10 @@ add_test(NAME lab2_test1 COMMAND $<TARGET_FILE:lab2cpp_app> ${CMAKE_CURRENT_SOUR
 set_tests_properties(lab2_test1 PROPERTIES PASS_REGULAR_EXPRESSION "5 12 34")
 add_test(NAME lab2_test2 COMMAND $<TARGET_FILE:lab2cpp_app> ${CMAKE_CURRENT_SOURCE_DIR}/test2.txt)
 set_tests_properties(lab2_test2 PROPERTIES PASS_REGULAR_EXPRESSION "1 2 3 4 5")
+
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/big_input.txt "")
+foreach(i RANGE 1 100000)
+file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/big_input.txt "${i} ")
+endforeach()
+add_test(NAME lab2_test_big_array COMMAND $<TARGET_FILE:lab2cpp_app> ${CMAKE_CURRENT_BINARY_DIR}/big_input.txt)
+set_tests_properties(lab2_test_big_array PROPERTIES PASS_REGULAR_EXPRESSION "." TIMEOUT 30)
