@@ -92,8 +92,8 @@ int main(int argc, char* argv[])
 {
     if (argc < 2)
     {
-        cerr << "Укажите задачу: 1 - простые числа, 2 - сдвиг массива" << endl;
-        return 1;
+        task1();
+        return 0;
     }
 
     int choice = atoi(argv[1]);
