@@ -5,12 +5,12 @@
 
 
 // create array 
-Array *array_create(size_t size, FFree f)
+Array *array_create(size_t size)
 {
     Array* arr = new Array;
     arr->size = size;
     arr->data = new Data[size];
-    arr->free_fn = f;  
+    arr->free_fn = nullptr;  
     
     for (size_t i = 0; i < size; ++i)
         arr->data[i] = (Data)0;
