@@ -7,33 +7,10 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
-using State = uint32_t;
-
-State parse(const std::string& s)
+void print_state(const std::string& board, size_t step, size_t total_steps)
 {
-    State res = 0;
-    for (char c : s)
-    {
-        res = res * 10 + static_cast<State>(c - '0');
-    }
-    return res;
-}
-
-std::string state_to_string(State s)
-{
-    std::string res(9, '0');
-    for (int i = 8; i >= 0; --i)
-    {
-        res[i] = static_cast<char>('0' + (s % 10));
-        s /= 10;
-    }
-    return res;
-}
-
-void print_state(State s, size_t step, size_t total_steps)
-{
-    std::string board = state_to_string(s);
     std::cout << "Шаг " << step << ":\n";
     for (int row = 0; row < 3; ++row)
     {
@@ -86,16 +63,6 @@ bool can_swap(int from, int to)
     return (row_diff + col_diff) == 1;
 }
 
-size_t append_state(Vector& states, Vector& parents, State value, int parent_idx)
-{
-    size_t idx = states.size();
-    states.resize(idx + 1);
-    states.set(idx, static_cast<Data>(value));
-    parents.resize(idx + 1);
-    parents.set(idx, parent_idx);
-    return idx;
-}
-
 int main(int argc, char const* argv[])
 {
     if (argc < 2)
@@ -132,12 +99,12 @@ int main(int argc, char const* argv[])
 
     if (!is_solvable(input))
     {
-        std::cout << "No solution\n";
+        std::cout << "Нет решения\n";
         return 0;
     }
 
-    const State start = parse(input);
-    const State goal = 123456780;
+    const std::string start = input;
+    const std::string goal = "123456780";
 
     if (start == goal)
     {
@@ -145,11 +112,19 @@ int main(int argc, char const* argv[])
         return 0;
     }
 
-    Vector states;
     Vector parents;
+    std::vector<std::string> boards;
 
-    size_t start_idx = append_state(states, parents, start, -1);
-    std::unordered_map<State, size_t> visited;
+    auto append_state = [&](const std::string& board, int parent_idx) -> size_t {
+        size_t idx = boards.size();
+        boards.push_back(board);
+        parents.resize(idx + 1);
+        parents.set(idx, parent_idx);
+        return idx;
+        };
+
+    size_t start_idx = append_state(start, -1);
+    std::unordered_map<std::string, size_t> visited;
     visited[start] = start_idx;
 
     Queue q;
@@ -163,8 +138,7 @@ int main(int argc, char const* argv[])
     {
         size_t idx = static_cast<size_t>(q.get());
         q.remove();
-        State current = static_cast<State>(states.get(idx));
-        std::string board = state_to_string(current);
+        const std::string& board = boards[idx];
         int zero_pos = static_cast<int>(board.find('0'));
 
         for (int delta : moves)
@@ -177,18 +151,17 @@ int main(int argc, char const* argv[])
 
             std::string next_board = board;
             std::swap(next_board[zero_pos], next_board[next_zero]);
-            State next_state = parse(next_board);
 
-            if (visited.count(next_state))
+            if (visited.count(next_board))
             {
                 continue;
             }
 
-            size_t new_idx = append_state(states, parents, next_state, static_cast<int>(idx));
-            visited[next_state] = new_idx;
+            size_t new_idx = append_state(next_board, static_cast<int>(idx));
+            visited[next_board] = new_idx;
             q.insert(static_cast<Data>(new_idx));
 
-            if (next_state == goal)
+            if (next_board == goal)
             {
                 found = true;
                 goal_idx = new_idx;
@@ -204,7 +177,7 @@ int main(int argc, char const* argv[])
 
     if (!found)
     {
-        std::cout << "No solution\n";
+        std::cout << "Нет решения\n";
         return 0;
     }
 
@@ -214,7 +187,7 @@ int main(int argc, char const* argv[])
     {
         size_t sz = path.size();
         path.resize(sz + 1);
-        path.set(sz, states.get(cursor));
+        path.set(sz, static_cast<Data>(cursor));
 
         int parent_idx = parents.get(cursor);
         if (parent_idx < 0)
@@ -228,7 +201,8 @@ int main(int argc, char const* argv[])
     for (int i = static_cast<int>(path.size()) - 1; i >= 0; --i)
     {
         size_t step_idx = static_cast<size_t>(total_steps - 1 - i);
-        print_state(static_cast<State>(path.get(static_cast<size_t>(i))), step_idx, total_steps);
+        size_t board_idx = static_cast<size_t>(path.get(static_cast<size_t>(i)));
+        print_state(boards[board_idx], step_idx, total_steps);
     }
 
     return 0;
