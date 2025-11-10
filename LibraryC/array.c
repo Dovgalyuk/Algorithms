@@ -1,53 +1,38 @@
-#include "array.h"
-#include <stdio.h>  
-#include <stdlib.h>
+#ifndef ARRAY_H
+#define ARRAY_H
 
-Array* array_create(size_t size, FFree f)  
-{
-    Array* arr = (Array*)malloc(sizeof(Array));
-    if (!arr) return NULL;
-    
-    arr->data = (Data*)malloc(size * sizeof(Data));
-    if (!arr->data) {
-        free(arr);
-        return NULL;
-    }
-    
-    arr->size = size;
-    arr->free_fn = f;
-    return arr;
-}
+#include <stddef.h>
+#include <stdint.h>
 
-void array_destroy(Array* arr)
-{
-    if (!arr) return;
-    
-    if (arr->free_fn) {
-        for (size_t i = 0; i < arr->size; i++) {
-            arr->free_fn(arr->data[i]);
-        }
-    }
-    
-    free(arr->data);
-    free(arr);
-}
+// Non-resizeable array
+// Stores integer or pointer to custom user data
+typedef uintptr_t Data;
+// Custom function to free user pointers on delete
+typedef void (FFree)(void*);
 
-Data array_get(const Array* arr, int index)
-{
-    if (!arr || index < 0 || index >= arr->size) {
-        printf("Данные в массив не введены");
-        return (Data)0;  
-    }
-    return arr->data[index];
-}
+typedef struct Array Array;
 
-void array_set(Array* arr, int index, Data value) 
-{
-    if (!arr || index < 0 || index >= arr->size) return;
-    arr->data[index] = value; 
-}
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-size_t array_size(const Array* arr)
-{
-    return arr ? arr->size : 0;
+// create array
+Array *array_create(size_t size, FFree f);
+
+// delete array, free memory
+void array_delete(Array *arr);
+
+// returns specified array element
+Data array_get(const Array *arr, size_t index);
+
+// sets the specified array element to the value
+void array_set(Array *arr, size_t index, Data value);
+
+// returns array size
+size_t array_size(const Array *arr);
+
+#ifdef __cplusplus
 }
+#endif
+
+#endif
