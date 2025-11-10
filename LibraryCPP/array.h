@@ -3,6 +3,7 @@
 
 #include <cstddef>
 
+typedef void (*FFree)(void*);
 // Non-resizeable array
 
 // Stores integer values inside
