@@ -1,0 +1,37 @@
+Start testing: Nov 11 01:36 Russia TZ 2 Standard Time
+----------------------------------------------------------
+1/2 Testing: TestLab1_Simples
+1/2 Test: TestLab1_Simples
+Command: "C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp/build/Lab1Cpp.exe" "1"
+Directory: C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp
+"TestLab1_Simples" start time: Nov 11 01:36 Russia TZ 2 Standard Time
+Output:
+----------------------------------------------------------
+Simple: 2 3 5 7 11 
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[Simple: 2 3 5 7 11]
+"TestLab1_Simples" end time: Nov 11 01:36 Russia TZ 2 Standard Time
+"TestLab1_Simples" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/2 Testing: TestLab1_Shift
+2/2 Test: TestLab1_Shift
+Command: "C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp/build/Lab1Cpp.exe" "2"
+Directory: C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp
+"TestLab1_Shift" start time: Nov 11 01:36 Russia TZ 2 Standard Time
+Output:
+----------------------------------------------------------
+shift: 0 0 10 20 30 40 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[shift: 0 0 10 20 30 40]
+"TestLab1_Shift" end time: Nov 11 01:36 Russia TZ 2 Standard Time
+"TestLab1_Shift" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 11 01:36 Russia TZ 2 Standard Time
