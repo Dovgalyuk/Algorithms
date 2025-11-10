@@ -4,23 +4,6 @@
     #include "vector.h"
     #include "stack.h"
 
-
- /*   Array *array_create_and_read(std::ifstream &input)
-    {
-        int n;
-        input >> n;
-        
-        Array* arr = array_create(n);
-    
-        for(int i = 0; i < n; i++)
-        { 
-            int x;
-            input >> x;
-            array_set(arr, i, x);
-        }
-        return arr;
-    }
-*/
     Stack *stack_create_and_read(std::ifstream &input)
     {
         std::string line;
