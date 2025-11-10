@@ -10,7 +10,13 @@ typedef void (*FFree)(void*);
 // Change it to desired type
 typedef int Data;
 
-struct Array;
+struct Array
+{
+    size_t size;
+    Data* data;
+    FFree free_fn; 
+};
+
 
 // create array
 Array *array_create(size_t size);
