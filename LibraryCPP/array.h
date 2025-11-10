@@ -3,6 +3,7 @@
 
 #include <cstddef>
 
+typedef void (*FFree)(void*);
 
 typedef int Data;
 
@@ -10,6 +11,7 @@ struct Array
 {
     size_t size;
     Data* data;
+    FFree free_fn;
 };
 
 // create array
