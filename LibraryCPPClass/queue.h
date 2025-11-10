@@ -4,9 +4,6 @@
 #include <cstddef>
 #include "vector.h"
 
-// Change it to desired type
-typedef int Data;
-
 class Queue
 {
 public:

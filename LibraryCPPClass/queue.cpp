@@ -24,13 +24,6 @@ Queue::~Queue() {}
 
 void Queue::insert(Data data)
 {
-    if (_vector.size() == 0)
-    {
-        _vector.resize(1);
-        _head = 0;
-        _tail = 0;
-    }
-
     if (_count == _vector.size())
     {
         size_t new_capacity = _vector.size() * 2;
