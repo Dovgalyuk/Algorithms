@@ -31,21 +31,9 @@ std::string state_to_string(State s)
     return res;
 }
 
-enum class PrintFormat
-{
-    Linear,
-    Table
-};
-
-void print_state(State s, size_t step, size_t total_steps, PrintFormat format)
+void print_state(State s, size_t step, size_t total_steps)
 {
     std::string board = state_to_string(s);
-    if (format == PrintFormat::Linear)
-    {
-        std::cout << board << '\n';
-        return;
-    }
-
     std::cout << "Шаг " << step << ":\n";
     for (int row = 0; row < 3; ++row)
     {
@@ -56,31 +44,6 @@ void print_state(State s, size_t step, size_t total_steps, PrintFormat format)
     {
         std::cout << "---\n";
     }
-}
-
-bool is_valid_input(const std::string& s)
-{
-    if (s.size() != 9)
-    {
-        return false;
-    }
-
-    std::array<bool, 9> seen{};
-    for (char c : s)
-    {
-        if (c < '0' || c > '8')
-        {
-            return false;
-        }
-        size_t idx = static_cast<size_t>(c - '0');
-        if (seen[idx])
-        {
-            return false;
-        }
-        seen[idx] = true;
-    }
-
-    return true;
 }
 
 bool is_solvable(const std::string& s)
@@ -140,8 +103,6 @@ int main(int argc, char const* argv[])
         return 1;
     }
 
-    PrintFormat format = PrintFormat::Table;
-
     std::ifstream in(argv[1]);
     if (!in)
     {
@@ -149,9 +110,24 @@ int main(int argc, char const* argv[])
     }
 
     std::string input;
-    if (!(in >> input) || !is_valid_input(input))
+    if (!(in >> input) || input.size() != 9)
     {
         return 1;
+    }
+
+    std::array<bool, 9> seen{};
+    for (char c : input)
+    {
+        if (c < '0' || c > '8')
+        {
+            return 1;
+        }
+        size_t idx = static_cast<size_t>(c - '0');
+        if (seen[idx])
+        {
+            return 1;
+        }
+        seen[idx] = true;
     }
 
     if (!is_solvable(input))
@@ -165,7 +141,7 @@ int main(int argc, char const* argv[])
 
     if (start == goal)
     {
-        print_state(start, 0, 1, format);
+        print_state(start, 0, 1);
         return 0;
     }
 
@@ -252,7 +228,7 @@ int main(int argc, char const* argv[])
     for (int i = static_cast<int>(path.size()) - 1; i >= 0; --i)
     {
         size_t step_idx = static_cast<size_t>(total_steps - 1 - i);
-        print_state(static_cast<State>(path.get(static_cast<size_t>(i))), step_idx, total_steps, format);
+        print_state(static_cast<State>(path.get(static_cast<size_t>(i))), step_idx, total_steps);
     }
 
     return 0;
