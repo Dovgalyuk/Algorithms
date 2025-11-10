@@ -6,6 +6,8 @@
 #include "list.h"
 #include <vector>
 
+typedef std::map<std::string, List*> Graph;
+
 void add_road(std::map<std::string, List*>& graph, const std::string& a, const std::string& b) {
     if (graph.find(a) == graph.end()) graph[a] = list_create();
     if (graph.find(b) == graph.end()) graph[b] = list_create();
@@ -14,7 +16,7 @@ void add_road(std::map<std::string, List*>& graph, const std::string& a, const s
     list_insert(graph[b], a);
 }
 
-List* bfs(std::map<std::string, List*>& graph, const std::string& start, const std::string& end) {
+List* bfs(Graph& graph, const std::string& start, const std::string& end) {
     if (start == end) {
         List* path = list_create();
         list_insert(path, start);
@@ -98,7 +100,7 @@ int main(int argc, char* argv[]) {
     std::string end = roads.back().second;
     roads.pop_back();
 
-    std::map<std::string, List*> graph;
+    Graph graph;
     for (auto& road : roads) {
         add_road(graph, road.first, road.second);
     }

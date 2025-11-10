@@ -107,27 +107,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
 ListItem *list_erase_first(List *list)
 {
-    if(!list || !list->h) return nullptr;
-
-    ListItem* del = list->h;
-    ListItem* next = del->n;
-
-    if(del == next){
-        list->h = nullptr;
-        delete del;
-        return nullptr;
-    }
-
-    ListItem* prev = del->p;
-
-    prev->n = next;
-    next->p = prev;
-
-    list->h = next;
-
-    delete del;
-
-    return next;
+    return list_erase_next(list, nullptr);
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
