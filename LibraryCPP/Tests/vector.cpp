@@ -13,11 +13,11 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
+        vector_set(vector, i, static_cast<Data>(i));
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != (Data)i)
+        if (vector_get(vector, i) != static_cast<Data>(i))
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -45,7 +45,7 @@ int main()
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != (Data)i)
+        if (vector_get(vector, i) != static_cast<Data>(i))
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -57,11 +57,10 @@ int main()
         std::cout << vector_get(vector, i) << " ";
     std::cout << "\n";
 
-    // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector_resize(vector, i);
-        vector_set(vector, i - 1, i);
+        vector_set(vector, i - 1, static_cast<Data>(i));
     }
 
     long long sum = 0;
