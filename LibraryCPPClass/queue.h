@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include <cstddef>
+#include "vector.h"
 
 // Change it to desired type
 typedef int Data;
@@ -13,10 +14,10 @@ public:
     Queue();
 
     // copy constructor
-    Queue(const Queue &a);
+    Queue(const Queue& a);
 
     // assignment operator
-    Queue &operator=(const Queue &a);
+    Queue& operator=(const Queue& a);
 
     // Deletes queue
     ~Queue();
@@ -37,6 +38,10 @@ public:
 
 private:
     // private data should be here
+    Vector _vector;
+    size_t _head;
+    size_t _tail;
+    size_t _count;
 };
 
 #endif

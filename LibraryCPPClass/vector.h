@@ -13,10 +13,10 @@ public:
     Vector();
 
     // copy constructor
-    Vector(const Vector &a);
+    Vector(const Vector& a);
 
     // assignment operator
-    Vector &operator=(const Vector &a);
+    Vector& operator=(const Vector& a);
 
     // Deletes vector structure and internal data
     ~Vector();
@@ -36,6 +36,11 @@ public:
 
 private:
     // private data should be here
+    Data* _data;
+    size_t _capacity;
+    size_t _size;
+
+    void copy_from(const Data* data, size_t capacity, size_t size);
 };
 
 #endif
