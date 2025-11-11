@@ -1,4 +1,4 @@
-#include "../LibraryCPP/stack.h"
+#include "stack.h"
 #include <iostream>
 #include <string>
 #include <cstdlib>

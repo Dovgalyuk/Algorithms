@@ -5,19 +5,8 @@
 
 typedef int Data;
 
-struct ListItem
-{
-    Data data;
-    ListItem* next;
-    ListItem* prev;
-};
-
-struct List
-{
-    ListItem* head;
-    ListItem* tail;
-    size_t size;
-};
+struct ListItem;
+struct List;
 
 List *list_create();
 void list_delete(List *list);
