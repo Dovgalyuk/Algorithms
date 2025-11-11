@@ -10,11 +10,30 @@ int get_priority(char op) {
     return 0;
 }
 
+bool is_valid_character(char c) {
+    return (c >= 'A' && c <= 'Z') ||
+        (c >= 'a' && c <= 'z') ||
+        c == '+' || c == '-' || c == '*' || c == '/' ||
+        c == '(' || c == ')' ||
+        c == ' ' || c == '\t';
+}
+
 std::string infix_to_postfix(const std::string& infix) {
+    if (infix.empty()) {
+        return "error";
+    }
+
     Stack* stack = stack_create();
     std::string postfix;
 
     for (char c : infix) {
+        if (c == ' ' || c == '\t') continue;
+
+        if (!is_valid_character(c)) {
+            stack_delete(stack);
+            return "error";
+        }
+
         if (isalpha(c)) {
             postfix += c;
         }
@@ -25,6 +44,10 @@ std::string infix_to_postfix(const std::string& infix) {
             while (!stack_empty(stack) && stack_get(stack) != '(') {
                 postfix += stack_get(stack);
                 stack_pop(stack);
+            }
+            if (stack_empty(stack)) {
+                stack_delete(stack);
+                return "error";
             }
             stack_pop(stack);
         }
@@ -38,11 +61,22 @@ std::string infix_to_postfix(const std::string& infix) {
             stack_push(stack, c);
         }
     }
+
     while (!stack_empty(stack)) {
+        if (stack_get(stack) == '(') {
+            stack_delete(stack);
+            return "error";
+        }
         postfix += stack_get(stack);
         stack_pop(stack);
     }
+
     stack_delete(stack);
+
+    if (postfix.empty()) {
+        return "error";
+    }
+
     return postfix;
 }
 
