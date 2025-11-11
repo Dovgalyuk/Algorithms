@@ -30,3 +30,6 @@ add_test(NAME Lab2Cpp_Verify4 COMMAND ${CMAKE_COMMAND} -E compare_files ${CMAKE_
 
 add_test(NAME Lab2Cpp_Test5 COMMAND Lab2Cpp ${CMAKE_CURRENT_SOURCE_DIR}/input4.txt ${CMAKE_CURRENT_BINARY_DIR}/output5.txt)
 add_test(NAME Lab2Cpp_Verify5 COMMAND ${CMAKE_COMMAND} -E compare_files ${CMAKE_CURRENT_BINARY_DIR}/output5.txt ${CMAKE_CURRENT_SOURCE_DIR}/expected5.txt)
+
+add_test(NAME Lab2Cpp_Test6 COMMAND Lab2Cpp ${CMAKE_CURRENT_SOURCE_DIR}/input5.txt ${CMAKE_CURRENT_BINARY_DIR}/output6.txt)
+add_test(NAME Lab2Cpp_Verify6 COMMAND ${CMAKE_COMMAND} -E compare_files ${CMAKE_CURRENT_BINARY_DIR}/output6.txt ${CMAKE_CURRENT_SOURCE_DIR}/expected6.txt)
