@@ -1,11 +1,11 @@
 #include "queue.h"
 
-Queue::Queue() : _vector(), _head(0), _tail(0), _count(0)
+Queue::Queue() : _vector(), _head(0), _count(0)
 {
     _vector.resize(4);
 }
 
-Queue::Queue(const Queue& a) : _vector(a._vector), _head(a._head), _tail(a._tail), _count(a._count) {}
+Queue::Queue(const Queue& a) : _vector(a._vector), _head(a._head), _count(a._count) {}
 
 Queue& Queue::operator=(const Queue& a)
 {
@@ -13,7 +13,6 @@ Queue& Queue::operator=(const Queue& a)
     {
         _vector = a._vector;
         _head = a._head;
-        _tail = a._tail;
         _count = a._count;
     }
 
@@ -41,11 +40,10 @@ void Queue::insert(Data data)
 
         _vector = new_vector;
         _head = 0;
-        _tail = _count;
     }
 
-    _vector.set(_tail, data);
-    _tail = (_tail + 1) % _vector.size();
+    size_t tail = (_head + _count) % _vector.size();
+    _vector.set(tail, data);
     _count++;
 }
 

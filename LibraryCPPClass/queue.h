@@ -37,7 +37,6 @@ private:
     // private data should be here
     Vector _vector;
     size_t _head;
-    size_t _tail;
     size_t _count;
 };
 
