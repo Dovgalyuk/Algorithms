@@ -78,6 +78,7 @@ public:
                 stack_push(operators, token);
             }
         }
+
         while (!stack_empty(operators)) {
             if ((char)stack_get(operators) == '(') {
                 stack_delete(values);
@@ -86,7 +87,6 @@ public:
             }
             process_operator(values, operators);
         }
-
         if (stack_empty(values)) {
             stack_delete(values);
             stack_delete(operators);
@@ -94,7 +94,6 @@ public:
         }
         int result = stack_get(values);
         stack_pop(values);
-
         if (!stack_empty(values)) {
             stack_delete(values);
             stack_delete(operators);
@@ -115,7 +114,31 @@ void process_expression(const string& expression) {
         cout << "Error: " << e.what() << endl;
     }
 }
+void process_input_stream(istream& input, bool is_interactive) {
+    string expression;
+    while (true) {
+        if (is_interactive) {
+            cout << "Enter expression: ";
+        }
 
+        if (!getline(input, expression)) {
+            break;
+        }
+
+        if (expression.empty()) {
+            if (is_interactive) break;
+            else continue;
+        }
+        if (!is_interactive) {
+            cout << "Expression: " << expression << endl;
+        }
+        process_expression(expression);
+
+        if (!is_interactive) {
+            cout << "-------------------" << endl;
+        }
+    }
+}
 int main(int argc, char* argv[]) {
     if (argc == 2) {
         ifstream fin(argv[1]);
@@ -123,22 +146,10 @@ int main(int argc, char* argv[]) {
             cerr << "Cannot open input file: " << argv[1] << endl;
             return 1;
         }
-        string expression;
-        while (getline(fin, expression)) {
-            if (expression.empty()) continue;
-            cout << "Expression: " << expression << endl;
-            process_expression(expression);
-            cout << "-------------------" << endl;
-        }
+        process_input_stream(fin, false);
     }
     else {
-        string expression;
-        cout << "Enter expression: ";
-        while (getline(cin, expression)) {
-            if (expression.empty()) break;
-            process_expression(expression);
-            cout << "Enter expression: ";
-        }
+        process_input_stream(cin, true);
     }
 
     return 0;
