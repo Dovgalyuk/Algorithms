@@ -89,7 +89,7 @@ build rebuild_cache: phony CMakeFiles\rebuild_cache.util
 
 build cmake_object_order_depends_target_LibraryCPP: phony || .
 
-build LibraryCPP\CMakeFiles\LibraryCPP.dir\stack.cpp.obj: CXX_COMPILER__LibraryCPP_unscanned_Debug C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\stack.cpp || cmake_object_order_depends_target_LibraryCPP
+build LibraryCPP\CMakeFiles\LibraryCPP.dir\queue.cpp.obj: CXX_COMPILER__LibraryCPP_unscanned_Debug C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\queue.cpp || cmake_object_order_depends_target_LibraryCPP
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   INCLUDES = -IC:\Users\Admin\source\repos\Algorithms\LibraryCPP
   OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
@@ -97,7 +97,7 @@ build LibraryCPP\CMakeFiles\LibraryCPP.dir\stack.cpp.obj: CXX_COMPILER__LibraryC
   TARGET_COMPILE_PDB = LibraryCPP\CMakeFiles\LibraryCPP.dir\LibraryCPP.pdb
   TARGET_PDB = LibraryCPP\LibraryCPP.pdb
 
-build LibraryCPP\CMakeFiles\LibraryCPP.dir\list.cpp.obj: CXX_COMPILER__LibraryCPP_unscanned_Debug C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\list.cpp || cmake_object_order_depends_target_LibraryCPP
+build LibraryCPP\CMakeFiles\LibraryCPP.dir\vector.cpp.obj: CXX_COMPILER__LibraryCPP_unscanned_Debug C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\vector.cpp || cmake_object_order_depends_target_LibraryCPP
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   INCLUDES = -IC:\Users\Admin\source\repos\Algorithms\LibraryCPP
   OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
@@ -113,7 +113,7 @@ build LibraryCPP\CMakeFiles\LibraryCPP.dir\list.cpp.obj: CXX_COMPILER__LibraryCP
 #############################################
 # Link the static library LibraryCPP\LibraryCPP.lib
 
-build LibraryCPP\LibraryCPP.lib: CXX_STATIC_LIBRARY_LINKER__LibraryCPP_Debug LibraryCPP\CMakeFiles\LibraryCPP.dir\stack.cpp.obj LibraryCPP\CMakeFiles\LibraryCPP.dir\list.cpp.obj
+build LibraryCPP\LibraryCPP.lib: CXX_STATIC_LIBRARY_LINKER__LibraryCPP_Debug LibraryCPP\CMakeFiles\LibraryCPP.dir\queue.cpp.obj LibraryCPP\CMakeFiles\LibraryCPP.dir\vector.cpp.obj
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64
   OBJECT_DIR = LibraryCPP\CMakeFiles\LibraryCPP.dir
@@ -164,78 +164,78 @@ build LibraryCPP\rebuild_cache: phony LibraryCPP\CMakeFiles\rebuild_cache.util
 # =============================================================================
 
 # =============================================================================
-# Object build statements for EXECUTABLE target TestListCPP
+# Object build statements for EXECUTABLE target TestQueueCPP
 
 
 #############################################
-# Order-only phony target for TestListCPP
+# Order-only phony target for TestQueueCPP
 
-build cmake_object_order_depends_target_TestListCPP: phony || cmake_object_order_depends_target_LibraryCPP
+build cmake_object_order_depends_target_TestQueueCPP: phony || cmake_object_order_depends_target_LibraryCPP
 
-build LibraryCPP\Tests\CMakeFiles\TestListCPP.dir\list.cpp.obj: CXX_COMPILER__TestListCPP_unscanned_Debug C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\Tests\list.cpp || cmake_object_order_depends_target_TestListCPP
+build LibraryCPP\Tests\CMakeFiles\TestQueueCPP.dir\queue.cpp.obj: CXX_COMPILER__TestQueueCPP_unscanned_Debug C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\Tests\queue.cpp || cmake_object_order_depends_target_TestQueueCPP
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   INCLUDES = -IC:\Users\Admin\source\repos\Algorithms\LibraryCPP\Tests\.. -IC:\Users\Admin\source\repos\Algorithms\LibraryCPP
-  OBJECT_DIR = LibraryCPP\Tests\CMakeFiles\TestListCPP.dir
-  OBJECT_FILE_DIR = LibraryCPP\Tests\CMakeFiles\TestListCPP.dir
-  TARGET_COMPILE_PDB = LibraryCPP\Tests\CMakeFiles\TestListCPP.dir\
-  TARGET_PDB = LibraryCPP\Tests\TestListCPP.pdb
+  OBJECT_DIR = LibraryCPP\Tests\CMakeFiles\TestQueueCPP.dir
+  OBJECT_FILE_DIR = LibraryCPP\Tests\CMakeFiles\TestQueueCPP.dir
+  TARGET_COMPILE_PDB = LibraryCPP\Tests\CMakeFiles\TestQueueCPP.dir\
+  TARGET_PDB = LibraryCPP\Tests\TestQueueCPP.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target TestListCPP
+# Link build statements for EXECUTABLE target TestQueueCPP
 
 
 #############################################
-# Link the executable LibraryCPP\Tests\TestListCPP.exe
+# Link the executable LibraryCPP\Tests\TestQueueCPP.exe
 
-build LibraryCPP\Tests\TestListCPP.exe: CXX_EXECUTABLE_LINKER__TestListCPP_Debug LibraryCPP\Tests\CMakeFiles\TestListCPP.dir\list.cpp.obj | LibraryCPP\LibraryCPP.lib || LibraryCPP\LibraryCPP.lib
+build LibraryCPP\Tests\TestQueueCPP.exe: CXX_EXECUTABLE_LINKER__TestQueueCPP_Debug LibraryCPP\Tests\CMakeFiles\TestQueueCPP.dir\queue.cpp.obj | LibraryCPP\LibraryCPP.lib || LibraryCPP\LibraryCPP.lib
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = LibraryCPP\LibraryCPP.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  OBJECT_DIR = LibraryCPP\Tests\CMakeFiles\TestListCPP.dir
+  OBJECT_DIR = LibraryCPP\Tests\CMakeFiles\TestQueueCPP.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = LibraryCPP\Tests\CMakeFiles\TestListCPP.dir\
-  TARGET_FILE = LibraryCPP\Tests\TestListCPP.exe
-  TARGET_IMPLIB = LibraryCPP\Tests\TestListCPP.lib
-  TARGET_PDB = LibraryCPP\Tests\TestListCPP.pdb
+  TARGET_COMPILE_PDB = LibraryCPP\Tests\CMakeFiles\TestQueueCPP.dir\
+  TARGET_FILE = LibraryCPP\Tests\TestQueueCPP.exe
+  TARGET_IMPLIB = LibraryCPP\Tests\TestQueueCPP.lib
+  TARGET_PDB = LibraryCPP\Tests\TestQueueCPP.pdb
 
 # =============================================================================
-# Object build statements for EXECUTABLE target TestStackCPP
+# Object build statements for EXECUTABLE target TestVectorCPP
 
 
 #############################################
-# Order-only phony target for TestStackCPP
+# Order-only phony target for TestVectorCPP
 
-build cmake_object_order_depends_target_TestStackCPP: phony || cmake_object_order_depends_target_LibraryCPP
+build cmake_object_order_depends_target_TestVectorCPP: phony || cmake_object_order_depends_target_LibraryCPP
 
-build LibraryCPP\Tests\CMakeFiles\TestStackCPP.dir\stack.cpp.obj: CXX_COMPILER__TestStackCPP_unscanned_Debug C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\Tests\stack.cpp || cmake_object_order_depends_target_TestStackCPP
+build LibraryCPP\Tests\CMakeFiles\TestVectorCPP.dir\vector.cpp.obj: CXX_COMPILER__TestVectorCPP_unscanned_Debug C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\Tests\vector.cpp || cmake_object_order_depends_target_TestVectorCPP
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
   INCLUDES = -IC:\Users\Admin\source\repos\Algorithms\LibraryCPP\Tests\.. -IC:\Users\Admin\source\repos\Algorithms\LibraryCPP
-  OBJECT_DIR = LibraryCPP\Tests\CMakeFiles\TestStackCPP.dir
-  OBJECT_FILE_DIR = LibraryCPP\Tests\CMakeFiles\TestStackCPP.dir
-  TARGET_COMPILE_PDB = LibraryCPP\Tests\CMakeFiles\TestStackCPP.dir\
-  TARGET_PDB = LibraryCPP\Tests\TestStackCPP.pdb
+  OBJECT_DIR = LibraryCPP\Tests\CMakeFiles\TestVectorCPP.dir
+  OBJECT_FILE_DIR = LibraryCPP\Tests\CMakeFiles\TestVectorCPP.dir
+  TARGET_COMPILE_PDB = LibraryCPP\Tests\CMakeFiles\TestVectorCPP.dir\
+  TARGET_PDB = LibraryCPP\Tests\TestVectorCPP.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target TestStackCPP
+# Link build statements for EXECUTABLE target TestVectorCPP
 
 
 #############################################
-# Link the executable LibraryCPP\Tests\TestStackCPP.exe
+# Link the executable LibraryCPP\Tests\TestVectorCPP.exe
 
-build LibraryCPP\Tests\TestStackCPP.exe: CXX_EXECUTABLE_LINKER__TestStackCPP_Debug LibraryCPP\Tests\CMakeFiles\TestStackCPP.dir\stack.cpp.obj | LibraryCPP\LibraryCPP.lib || LibraryCPP\LibraryCPP.lib
+build LibraryCPP\Tests\TestVectorCPP.exe: CXX_EXECUTABLE_LINKER__TestVectorCPP_Debug LibraryCPP\Tests\CMakeFiles\TestVectorCPP.dir\vector.cpp.obj | LibraryCPP\LibraryCPP.lib || LibraryCPP\LibraryCPP.lib
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = LibraryCPP\LibraryCPP.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  OBJECT_DIR = LibraryCPP\Tests\CMakeFiles\TestStackCPP.dir
+  OBJECT_DIR = LibraryCPP\Tests\CMakeFiles\TestVectorCPP.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = LibraryCPP\Tests\CMakeFiles\TestStackCPP.dir\
-  TARGET_FILE = LibraryCPP\Tests\TestStackCPP.exe
-  TARGET_IMPLIB = LibraryCPP\Tests\TestStackCPP.lib
-  TARGET_PDB = LibraryCPP\Tests\TestStackCPP.pdb
+  TARGET_COMPILE_PDB = LibraryCPP\Tests\CMakeFiles\TestVectorCPP.dir\
+  TARGET_FILE = LibraryCPP\Tests\TestVectorCPP.exe
+  TARGET_IMPLIB = LibraryCPP\Tests\TestVectorCPP.lib
+  TARGET_PDB = LibraryCPP\Tests\TestVectorCPP.pdb
 
 
 #############################################
@@ -278,95 +278,95 @@ build LibraryCPP\Tests\rebuild_cache: phony LibraryCPP\Tests\CMakeFiles\rebuild_
 # =============================================================================
 
 # =============================================================================
-# Object build statements for EXECUTABLE target Lab2CPP
+# Object build statements for EXECUTABLE target Lab3CPP
 
 
 #############################################
-# Order-only phony target for Lab2CPP
+# Order-only phony target for Lab3CPP
 
-build cmake_object_order_depends_target_Lab2CPP: phony || cmake_object_order_depends_target_LibraryCPP
+build cmake_object_order_depends_target_Lab3CPP: phony || cmake_object_order_depends_target_LibraryCPP
 
-build Lab2CPP\CMakeFiles\Lab2CPP.dir\lab2.cpp.obj: CXX_COMPILER__Lab2CPP_unscanned_Debug C$:\Users\Admin\source\repos\Algorithms\Lab2CPP\lab2.cpp || cmake_object_order_depends_target_Lab2CPP
+build Lab3CPP\CMakeFiles\Lab3CPP.dir\lab3.cpp.obj: CXX_COMPILER__Lab3CPP_unscanned_Debug C$:\Users\Admin\source\repos\Algorithms\Lab3CPP\lab3.cpp || cmake_object_order_depends_target_Lab3CPP
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
-  INCLUDES = -IC:\Users\Admin\source\repos\Algorithms\Lab2CPP -IC:\Users\Admin\source\repos\Algorithms\Lab2CPP\..\LibraryCPP -IC:\Users\Admin\source\repos\Algorithms\LibraryCPP
-  OBJECT_DIR = Lab2CPP\CMakeFiles\Lab2CPP.dir
-  OBJECT_FILE_DIR = Lab2CPP\CMakeFiles\Lab2CPP.dir
-  TARGET_COMPILE_PDB = Lab2CPP\CMakeFiles\Lab2CPP.dir\
-  TARGET_PDB = Lab2CPP\Lab2CPP.pdb
+  INCLUDES = -IC:\Users\Admin\source\repos\Algorithms\Lab3CPP -IC:\Users\Admin\source\repos\Algorithms\Lab3CPP\..\LibraryCPP -IC:\Users\Admin\source\repos\Algorithms\LibraryCPP
+  OBJECT_DIR = Lab3CPP\CMakeFiles\Lab3CPP.dir
+  OBJECT_FILE_DIR = Lab3CPP\CMakeFiles\Lab3CPP.dir
+  TARGET_COMPILE_PDB = Lab3CPP\CMakeFiles\Lab3CPP.dir\
+  TARGET_PDB = Lab3CPP\Lab3CPP.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target Lab2CPP
+# Link build statements for EXECUTABLE target Lab3CPP
 
 
 #############################################
-# Link the executable Lab2CPP\Lab2CPP.exe
+# Link the executable Lab3CPP\Lab3CPP.exe
 
-build Lab2CPP\Lab2CPP.exe: CXX_EXECUTABLE_LINKER__Lab2CPP_Debug Lab2CPP\CMakeFiles\Lab2CPP.dir\lab2.cpp.obj | LibraryCPP\LibraryCPP.lib || LibraryCPP\LibraryCPP.lib
+build Lab3CPP\Lab3CPP.exe: CXX_EXECUTABLE_LINKER__Lab3CPP_Debug Lab3CPP\CMakeFiles\Lab3CPP.dir\lab3.cpp.obj | LibraryCPP\LibraryCPP.lib || LibraryCPP\LibraryCPP.lib
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = LibraryCPP\LibraryCPP.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  OBJECT_DIR = Lab2CPP\CMakeFiles\Lab2CPP.dir
+  OBJECT_DIR = Lab3CPP\CMakeFiles\Lab3CPP.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = Lab2CPP\CMakeFiles\Lab2CPP.dir\
-  TARGET_FILE = Lab2CPP\Lab2CPP.exe
-  TARGET_IMPLIB = Lab2CPP\Lab2CPP.lib
-  TARGET_PDB = Lab2CPP\Lab2CPP.pdb
+  TARGET_COMPILE_PDB = Lab3CPP\CMakeFiles\Lab3CPP.dir\
+  TARGET_FILE = Lab3CPP\Lab3CPP.exe
+  TARGET_IMPLIB = Lab3CPP\Lab3CPP.lib
+  TARGET_PDB = Lab3CPP\Lab3CPP.pdb
 
 
 #############################################
 # Utility command for test
 
-build Lab2CPP\CMakeFiles\test.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\Admin\source\repos\Algorithms\out\build\x64-Debug\Lab2CPP && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\ctest.exe" --force-new-ctest-process "
+build Lab3CPP\CMakeFiles\test.util: CUSTOM_COMMAND
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\Admin\source\repos\Algorithms\out\build\x64-Debug\Lab3CPP && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\ctest.exe" --force-new-ctest-process "
   DESC = Running tests...
   pool = console
   restat = 1
 
-build Lab2CPP\test: phony Lab2CPP\CMakeFiles\test.util
+build Lab3CPP\test: phony Lab3CPP\CMakeFiles\test.util
 
 
 #############################################
 # Utility command for edit_cache
 
-build Lab2CPP\CMakeFiles\edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\Admin\source\repos\Algorithms\out\build\x64-Debug\Lab2CPP && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+build Lab3CPP\CMakeFiles\edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\Admin\source\repos\Algorithms\out\build\x64-Debug\Lab3CPP && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
-build Lab2CPP\edit_cache: phony Lab2CPP\CMakeFiles\edit_cache.util
+build Lab3CPP\edit_cache: phony Lab3CPP\CMakeFiles\edit_cache.util
 
 
 #############################################
 # Utility command for rebuild_cache
 
-build Lab2CPP\CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\Admin\source\repos\Algorithms\out\build\x64-Debug\Lab2CPP && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -SC:\Users\Admin\source\repos\Algorithms -BC:\Users\Admin\source\repos\Algorithms\out\build\x64-Debug"
+build Lab3CPP\CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\Admin\source\repos\Algorithms\out\build\x64-Debug\Lab3CPP && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -SC:\Users\Admin\source\repos\Algorithms -BC:\Users\Admin\source\repos\Algorithms\out\build\x64-Debug"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
 
-build Lab2CPP\rebuild_cache: phony Lab2CPP\CMakeFiles\rebuild_cache.util
+build Lab3CPP\rebuild_cache: phony Lab3CPP\CMakeFiles\rebuild_cache.util
 
 # =============================================================================
 # Target aliases.
 
-build Lab2CPP: phony Lab2CPP\Lab2CPP.exe
+build Lab3CPP: phony Lab3CPP\Lab3CPP.exe
 
-build Lab2CPP.exe: phony Lab2CPP\Lab2CPP.exe
+build Lab3CPP.exe: phony Lab3CPP\Lab3CPP.exe
 
 build LibraryCPP: phony LibraryCPP\LibraryCPP.lib
 
 build LibraryCPP.lib: phony LibraryCPP\LibraryCPP.lib
 
-build TestListCPP: phony LibraryCPP\Tests\TestListCPP.exe
+build TestQueueCPP: phony LibraryCPP\Tests\TestQueueCPP.exe
 
-build TestListCPP.exe: phony LibraryCPP\Tests\TestListCPP.exe
+build TestQueueCPP.exe: phony LibraryCPP\Tests\TestQueueCPP.exe
 
-build TestStackCPP: phony LibraryCPP\Tests\TestStackCPP.exe
+build TestVectorCPP: phony LibraryCPP\Tests\TestVectorCPP.exe
 
-build TestStackCPP.exe: phony LibraryCPP\Tests\TestStackCPP.exe
+build TestVectorCPP.exe: phony LibraryCPP\Tests\TestVectorCPP.exe
 
 # =============================================================================
 # Folder targets.
@@ -376,14 +376,14 @@ build TestStackCPP.exe: phony LibraryCPP\Tests\TestStackCPP.exe
 #############################################
 # Folder: C:/Users/Admin/source/repos/Algorithms/out/build/x64-Debug
 
-build all: phony LibraryCPP\all Lab2CPP\all
+build all: phony LibraryCPP\all Lab3CPP\all
 
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/Admin/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP
+# Folder: C:/Users/Admin/source/repos/Algorithms/out/build/x64-Debug/Lab3CPP
 
-build Lab2CPP\all: phony Lab2CPP\Lab2CPP.exe
+build Lab3CPP\all: phony Lab3CPP\Lab3CPP.exe
 
 # =============================================================================
 
@@ -397,7 +397,7 @@ build LibraryCPP\all: phony LibraryCPP\LibraryCPP.lib LibraryCPP\Tests\all
 #############################################
 # Folder: C:/Users/Admin/source/repos/Algorithms/out/build/x64-Debug/LibraryCPP/Tests
 
-build LibraryCPP\Tests\all: phony LibraryCPP\Tests\TestListCPP.exe LibraryCPP\Tests\TestStackCPP.exe
+build LibraryCPP\Tests\all: phony LibraryCPP\Tests\TestQueueCPP.exe LibraryCPP\Tests\TestVectorCPP.exe
 
 # =============================================================================
 # Built-in targets
@@ -406,14 +406,14 @@ build LibraryCPP\Tests\all: phony LibraryCPP\Tests\TestListCPP.exe LibraryCPP\Te
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake C$:\Users\Admin\source\repos\Algorithms\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\Lab2CPP\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\Tests\CMakeLists.txt CMakeCache.txt CMakeFiles\3.31.6-msvc6\CMakeCCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeCXXCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeRCCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake C$:\Users\Admin\source\repos\Algorithms\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\Lab3CPP\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\Tests\CMakeLists.txt CMakeCache.txt CMakeFiles\3.31.6-msvc6\CMakeCCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeCXXCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeRCCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake C$:\Users\Admin\source\repos\Algorithms\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\Lab2CPP\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\Tests\CMakeLists.txt CMakeCache.txt CMakeFiles\3.31.6-msvc6\CMakeCCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeCXXCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeRCCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeSystem.cmake: phony
+build C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake C$:\Users\Admin\source\repos\Algorithms\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\Lab3CPP\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\CMakeLists.txt C$:\Users\Admin\source\repos\Algorithms\LibraryCPP\Tests\CMakeLists.txt CMakeCache.txt CMakeFiles\3.31.6-msvc6\CMakeCCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeCXXCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeRCCompiler.cmake CMakeFiles\3.31.6-msvc6\CMakeSystem.cmake: phony
 
 
 #############################################
