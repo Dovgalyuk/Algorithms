@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include "stack.h"
-
 using namespace std;
 
 struct Op {
@@ -60,11 +59,13 @@ int main() {
         }
         else if (op.name.rfind("iload_", 0) == 0) {
             int idx = op.name.back() - '0';
+            if (idx < 0 || idx > 3) error(st, vars, "invalid variable index", call_stack);
             stack_push(st, vars[idx]);
         }
         else if (op.name.rfind("istore_", 0) == 0) {
             if (stack_empty(st)) error(st, vars, "istore requires a value on the stack", call_stack);
             int idx = op.name.back() - '0';
+            if (idx < 0 || idx > 3) error(st, vars, "invalid variable index", call_stack);
             vars[idx] = stack_get(st);
             stack_pop(st);
         }
@@ -94,6 +95,7 @@ int main() {
         }
         else if (op.name == "invokestatic") {
             if (!op.has_arg) error(st, vars, "invokestatic requires an argument", call_stack);
+            if (op.arg < 0 || op.arg >= (int)program.size()) error(st, vars, "invalid call address", call_stack);
             stack_push(call_stack, pc + 1);
             pc = op.arg;
             continue;
@@ -106,6 +108,7 @@ int main() {
         }
         else if (op.name == "goto") {
             if (!op.has_arg) error(st, vars, "goto requires an argument", call_stack);
+            if (op.arg < 0 || op.arg >= (int)program.size()) error(st, vars, "invalid jump address", call_stack);
             pc = op.arg;
             continue;
         }

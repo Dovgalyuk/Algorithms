@@ -54,3 +54,14 @@ set_tests_properties(Test_StackMachine_4 PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     PASS_REGULAR_EXPRESSION "Error:"
 )
+
+add_test(
+    NAME Test_StackMachine_5
+    COMMAND bash -lc "$<TARGET_FILE:Lab2CPP> < ${CMAKE_CURRENT_SOURCE_DIR}/input_5.txt"
+)
+
+set_tests_properties(Test_StackMachine_5 PROPERTIES
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    PASS_REGULAR_EXPRESSION "Error:"
+)
+
