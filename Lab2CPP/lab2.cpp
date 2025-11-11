@@ -9,20 +9,21 @@ int get_priority(char op) {
     if (op == '*' || op == '/') return 2;
     return 0;
 }
-
 bool is_valid_character(char c) {
-    return (c >= 'A' && c <= 'Z') ||
-        (c >= 'a' && c <= 'z') ||
-        c == '+' || c == '-' || c == '*' || c == '/' ||
-        c == '(' || c == ')' ||
-        c == ' ' || c == '\t';
-}
-
-std::string infix_to_postfix(const std::string& infix) {
-    if (infix.empty()) {
-        return "error";
+    if (c >= 32 && c <= 126) {
+        return (c >= 'A' && c <= 'Z') ||
+            (c >= 'a' && c <= 'z') ||
+            c == '+' || c == '-' || c == '*' || c == '/' ||
+            c == '(' || c == ')' ||
+            c == ' ' || c == '\t';
     }
-
+    return false;
+}
+void infix_to_postfix(const std::string& infix) {
+    if (infix.empty()) {
+        std::cout << "error" << std::endl;
+        return;
+    }
     Stack* stack = stack_create();
     std::string postfix;
 
@@ -31,7 +32,8 @@ std::string infix_to_postfix(const std::string& infix) {
 
         if (!is_valid_character(c)) {
             stack_delete(stack);
-            return "error";
+            std::cout << "error" << std::endl;
+            return;
         }
 
         if (isalpha(c)) {
@@ -47,7 +49,8 @@ std::string infix_to_postfix(const std::string& infix) {
             }
             if (stack_empty(stack)) {
                 stack_delete(stack);
-                return "error";
+                std::cout << "error" << std::endl;
+                return;
             }
             stack_pop(stack);
         }
@@ -61,25 +64,24 @@ std::string infix_to_postfix(const std::string& infix) {
             stack_push(stack, c);
         }
     }
-
     while (!stack_empty(stack)) {
         if (stack_get(stack) == '(') {
             stack_delete(stack);
-            return "error";
+            std::cout << "error" << std::endl;
+            return;
         }
         postfix += stack_get(stack);
         stack_pop(stack);
     }
-
     stack_delete(stack);
 
     if (postfix.empty()) {
-        return "error";
+        std::cout << "error" << std::endl;
+        return;
     }
 
-    return postfix;
+    std::cout << postfix << std::endl;
 }
-
 int main(int argc, char** argv) {
     if (argc < 2) {
         std::cout << "Usage: " << argv[0] << " <input_file>" << std::endl;
@@ -93,8 +95,7 @@ int main(int argc, char** argv) {
     std::string expression;
     std::getline(input, expression);
 
-    std::string postfix = infix_to_postfix(expression);
-    std::cout << postfix << std::endl;
+    infix_to_postfix(expression);
 
     return 0;
 }
