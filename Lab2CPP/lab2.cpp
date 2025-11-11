@@ -11,20 +11,23 @@
 
         Stack* stack = stack_create();
         for(char c : line) {
-            stack_push(stack, c);
+            if (c == '(' || c == ')' || c == '\"' || c == '\'') 
+            {
+                stack_push(stack, c);
+            }
         }
         return stack;
     }
 
     bool check(Stack* stack) {
         Stack* new_stack = stack_create();
+        bool flag = true;
         Stack* temp_stack = stack_create();
         while (!stack_empty(stack)) {
             char c = stack_get(stack);
             stack_pop(stack);
             stack_push(temp_stack, c);
         }
-        bool flag = true;
         while (!stack_empty(temp_stack)) {
             char c = stack_get(temp_stack);
             stack_pop(temp_stack);
@@ -35,23 +38,28 @@
             else if (c == ')') {
                 if (stack_empty(new_stack) || stack_get(new_stack) != '(') {
                     flag = false;
-                } else {
+                    break;
+                }
+                stack_pop(new_stack);
+            }
+            else if (c == '\"') {
+                if (!stack_empty(new_stack) && stack_get(new_stack) == '\"') {
                     stack_pop(new_stack);
+                } else {
+                    stack_push(new_stack, '\"');
                 }
             }
-            else if (c == '\"' || c == '\'') {
-                if (!stack_empty(new_stack) && stack_get(new_stack) == c) {
+            else if (c == '\'') {
+                if (!stack_empty(new_stack) && stack_get(new_stack) == '\'') {
                     stack_pop(new_stack);
                 } else {
-                    stack_push(new_stack, c);
+                    stack_push(new_stack, '\'');
                 }
             }
         }
-        
-        if (flag && !stack_empty(new_stack)) {
+        if (!stack_empty(new_stack)) {
             flag = false;
         }
-        
         stack_delete(new_stack);
         stack_delete(temp_stack);
         return flag;
