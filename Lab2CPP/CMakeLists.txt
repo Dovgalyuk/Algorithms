@@ -28,4 +28,8 @@ add_test(NAME TestLab2CPP_Error_ParenOpen COMMAND Lab2CPP input_error2.txt)
 set_tests_properties(TestLab2CPP_Error_ParenOpen PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PASS_REGULAR_EXPRESSION "Error: Mismatched parentheses")
 
 add_test(NAME TestLab2CPP_Error_InvalidExpr COMMAND Lab2CPP input_error3.txt)
+<<<<<<< HEAD
 set_tests_properties(TestLab2CPP_Error_InvalidExpr PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PASS_REGULAR_EXPRESSION "Error: Invalid expression")
+=======
+set_tests_properties(TestLab2CPP_Error_InvalidExpr PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PASS_REGULAR_EXPRESSION "Error: Invalid expression")
+>>>>>>> c721aa54138aa21dbeaaa81b868b267544f98542
