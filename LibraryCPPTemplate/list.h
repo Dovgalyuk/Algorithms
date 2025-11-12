@@ -45,6 +45,26 @@ public:
 
     List() : head_(nullptr), tail_(nullptr), size_(0) {}
 
+    List(const List& other) : head_(nullptr), tail_(nullptr), size_(0) {
+        Item* current = other.head_;
+        while (current != nullptr) {
+            push_back(current->data());
+            current = current->next();
+        }
+    }
+
+    List& operator=(const List& other) {
+        if (this != &other) {
+            clear();
+            Item* current = other.head_;
+            while (current != nullptr) {
+                push_back(current->data());
+                current = current->next();
+            }
+        }
+        return *this;
+    }
+
     Item* first() {
         return head_;
     }
