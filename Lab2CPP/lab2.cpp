@@ -10,14 +10,11 @@ int get_priority(char op) {
     return 0;
 }
 bool is_valid_character(char c) {
-    if (c >= 32 && c <= 126) {
-        return (c >= 'A' && c <= 'Z') ||
-            (c >= 'a' && c <= 'z') ||
-            c == '+' || c == '-' || c == '*' || c == '/' ||
-            c == '(' || c == ')' ||
-            c == ' ' || c == '\t';
-    }
-    return false;
+    return (c >= 'A' && c <= 'Z') ||
+        (c >= 'a' && c <= 'z') ||
+        c == '+' || c == '-' || c == '*' || c == '/' ||
+        c == '(' || c == ')' ||
+        c == ' ' || c == '\t';
 }
 void infix_to_postfix(const std::string& infix) {
     if (infix.empty()) {
