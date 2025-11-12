@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     // array_delete(arr);
     // fclose(input);
 
-     if (argc < 2) return 1;
+    if (argc < 2) return 1;
     
     FILE *input = fopen(argv[1], "r");
     if (!input) return 1;

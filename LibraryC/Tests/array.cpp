@@ -1,11 +1,13 @@
 #include <iostream>
 #include "array.h"
 
+using namespace std;
+
 int main()
 {
     Array *arr = array_create(5, nullptr);
 
-    if (array_size(arr) != 10)
+    if (array_size(arr) != 5)
     {
         std::cout << "Invalid array size\n";
         array_delete(arr);
@@ -18,7 +20,7 @@ int main()
     }
     cout << endl;
 
-    cout << "Size: " << array_size(arr) << endl
+    cout << "Size: " << array_size(arr) << endl;
 
     array_delete(arr);
 

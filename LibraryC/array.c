@@ -1,10 +1,7 @@
 #include <stdlib.h>
 #include "array.h"
 
-typedef struct Array {
-    // remove this
-    size_t size;
-} Array;
+
 
 // create array
 Array *array_create(size_t size, FFree f)
