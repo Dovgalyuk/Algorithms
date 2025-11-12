@@ -21,19 +21,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-     - name: Create test input files
-      run: |
-        cd ${{github.workspace}}
-        echo "5" > input_fill.txt
-        echo "5" > input_shift.txt
-        echo "10 20 30 40 50" >> input_shift.txt
-        echo "right" >> input_shift.txt
-        echo "2" >> input_shift.txt
+   
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build 
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS_INIT="-fsanitize=address" -DCMAKE_C_FLAGS_INIT="-fsanitize=address" -DCMAKE_EXE_LINKER_FLAGS_INIT="-fsanitize=address"
+
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
