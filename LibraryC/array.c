@@ -1,16 +1,15 @@
 #include <stdlib.h>
 #include "array.h"
 
-
+typedef struct Array {
+    // remove this
+    Data d;
+} Array;
 
 // create array
 Array *array_create(size_t size, FFree f)
 {
-    Array* arr = (Array*)malloc(sizeof(Array));
-    if (arr) {
-        arr->size = size;
-    }
-    return arr;
+    return malloc(sizeof(Array));
 }
 
 // delete array, free memory
@@ -33,5 +32,5 @@ void array_set(Array *arr, size_t index, Data value)
 // returns array size
 size_t array_size(const Array *arr)
 {
-    return arr ? arr->size : 0;
+    return 0;
 }
