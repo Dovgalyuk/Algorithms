@@ -3,6 +3,7 @@
 
 #include <cstddef>
 using namespace std;
+
 template <typename Data>
 class List {
 public:
@@ -11,7 +12,8 @@ public:
         Item(Data data, Item* next = nullptr) : data_(data), next_(next) {}
 
         Item* next() { return next_; }
-        Data data() const { return data_; }
+        Data& data() { return data_; }
+        const Data& data() const { return data_; }
 
         void setNext(Item* next) { next_ = next; }
 
@@ -33,7 +35,7 @@ public:
             return current_ != other.current_;
         }
 
-        Data operator*() const {
+        const Data& operator*() const {
             return current_->data();
         }
 
@@ -93,7 +95,8 @@ public:
         Item* newItem = new Item(data);
         if (!head_) {
             head_ = tail_ = newItem;
-        } else {
+        }
+        else {
             tail_->setNext(newItem);
             tail_ = newItem;
         }
