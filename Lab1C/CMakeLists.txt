@@ -29,3 +29,7 @@ set_property(TEST TestLab1C_Functions PROPERTY PASS_REGULAR_EXPRESSION "stack:\n
 # Тест обработки ошибок
 add_test(NAME TestLab1C_Errors COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/test_errors.txt)
 set_property(TEST TestLab1C_Errors PROPERTY PASS_REGULAR_EXPRESSION "Error:")
+
+# доп тест
+add_test(NAME TestLab1C_Instructor COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/test_instructor.txt)
+set_property(TEST TestLab1C_Instructor PROPERTY PASS_REGULAR_EXPRESSION "Error: return with non-address value")
