@@ -2,5 +2,5 @@ add_executable(Lab2CPP lab.cpp)
 target_include_directories(Lab2CPP PUBLIC ../LibraryCPP)
 target_link_libraries(Lab2CPP LibraryCPP)
 
-#add_test(NAME TestLab1CPP COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-#set_tests_properties(TestLab1CPP PROPERTIES PASS_REGULAR_EXPRESSION "1 3 5 7 9.*1 2 0 0")
+add_test(NAME TestLab2CPP COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
+set_tests_properties(TestLab2CPP PROPERTIES PASS_REGULAR_EXPRESSION "YES.*NO")
