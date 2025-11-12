@@ -3,13 +3,17 @@
 
 typedef struct Array {
     // remove this
-    Data d;
+    size_t size;
 } Array;
 
 // create array
 Array *array_create(size_t size, FFree f)
 {
-    return malloc(sizeof(Array));
+    Array* arr = (Array*)malloc(sizeof(Array));
+    if (arr) {
+        arr->size = size;
+    }
+    return arr;
 }
 
 // delete array, free memory
@@ -32,5 +36,5 @@ void array_set(Array *arr, size_t index, Data value)
 // returns array size
 size_t array_size(const Array *arr)
 {
-    return 0;
+    return arr ? arr->size : 0;
 }
