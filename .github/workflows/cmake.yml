@@ -21,6 +21,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Create test input files
+      run: |
+        cd ${{github.workspace}}
+        echo "5" > input_fill.txt
+        echo "5" > input_shift.txt
+        echo "10 20 30 40 50" >> input_shift.txt
+        echo "right" >> input_shift.txt
+        echo "2" >> input_shift.txt
+
+
    
 
     - name: Configure CMake
