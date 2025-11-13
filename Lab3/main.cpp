@@ -1,7 +1,6 @@
 ﻿#include <fstream>
 #include <string>
 #include "Lab3.h"
-#include <print>
 
 int main(int argc, char* argv[])
 {
