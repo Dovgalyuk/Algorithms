@@ -1,10 +1,4 @@
 # ninja log v7
-33	125	7845173611574075	CMakeFiles/Lab1Cpp.dir/C_/Users/badvo/OneDrive/Документы/GitHub/Algorithms/LibraryCPP/array.cpp.obj	65d0ce31ae3de30c
-25	580	7845173611488944	CMakeFiles/Lab1Cpp.dir/main.cpp.obj	7d45881486847d11
-580	1012	7845173617036635	Lab1Cpp.exe	5979d6e92cff8417
-3	117	7845210428733729	build.ninja	2b7c7a7ef4715b11
-3	117	7845210428709792	C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp/build/cmake_install.cmake	2b7c7a7ef4715b11
-3	117	7845210428709792	C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp/build/CTestTestfile.cmake	2b7c7a7ef4715b11
-32	384	7845210429728911	CMakeFiles/Lab1Cpp.dir/C_/Users/badvo/OneDrive/Документы/GitHub/Algorithms/LibraryCPP/array.cpp.obj	65d0ce31ae3de30c
-27	577	7845210429668381	CMakeFiles/Lab1Cpp.dir/main.cpp.obj	7d45881486847d11
-578	726	7845210435177772	Lab1Cpp.exe	5979d6e92cff8417
+36	212	7847656638801778	CMakeFiles/Lab1Cpp.dir/C_/Users/badvo/OneDrive/Документы/GitHub/Algorithms/LibraryCPP/array.cpp.obj	65d0ce31ae3de30c
+26	808	7847656638696533	CMakeFiles/Lab1Cpp.dir/main.cpp.obj	7d45881486847d11
+809	1321	7847656646528923	Lab1Cpp.exe	5979d6e92cff8417
