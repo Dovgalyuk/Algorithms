@@ -14,3 +14,5 @@ Release/*
 build/*
 .vscode/*
 out/
+cmake-build-debug-system/
+.idea/
