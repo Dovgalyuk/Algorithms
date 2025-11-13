@@ -1,0 +1,8 @@
+push 5
+push 3
+sub     
+pop C
+push 2
+push 4
+mul     
+pop B
