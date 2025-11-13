@@ -4,7 +4,7 @@
 #include <cstddef>
 
 // Change it to desired type
-typedef int Data;
+typedef size_t Data;
 
 class Vector
 {
@@ -36,6 +36,9 @@ public:
 
 private:
     // private data should be here
+    Data* elements;
+    size_t capacity_value;
+    size_t size_value;
 };
 
 #endif

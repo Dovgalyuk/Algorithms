@@ -2,9 +2,10 @@
 #define STACK_H
 
 #include <cstddef>
+#include "vector.h"
 
 // Change it to desired type
-typedef int Data;
+typedef size_t Data;
 
 class Stack
 {
@@ -37,6 +38,7 @@ public:
 
 private:
     // private data should be here
+    Vector stack_data;
 };
 
 #endif

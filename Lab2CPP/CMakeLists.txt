@@ -1,0 +1,12 @@
+add_executable(Lab2CPP main.cpp)
+target_include_directories (Lab2CPP PUBLIC ../LibraryCPPClass)
+target_link_libraries(Lab2CPP LibraryCPPClass)
+
+add_test(NAME Test_1 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input1_2.txt)
+set_tests_properties(Test_1 PROPERTIES PASS_REGULAR_EXPRESSION "PUSH 1.*PUSH 2.*PUSH 3.*POP A.*POP B.*MUL A, B.*PUSH A.*POP A.*POP B.*ADD A, B.*PUSH A")
+add_test(NAME Test_2 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input2_2.txt)
+set_tests_properties(Test_2 PROPERTIES PASS_REGULAR_EXPRESSION "PUSH 1.*PUSH 2.*POP A.*POP B.*ADD A, B.*PUSH A.*PUSH 3.*POP A.*POP B.*MUL A, B.*PUSH A")
+add_test(NAME Test_3 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input3_2.txt)
+set_tests_properties(Test_3 PROPERTIES PASS_REGULAR_EXPRESSION "PUSH 2.*PUSH 3.*POP A.*POP B.*MUL A, B.*PUSH A.*PUSH 4.*PUSH 5.*POP A.*POP B.*MUL A, B.*PUSH A.*POP A.*POP B.*ADD A, B.*PUSH A")
+add_test(NAME Test_4 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input4_2.txt)
+set_tests_properties(Test_4 PROPERTIES PASS_REGULAR_EXPRESSION "PUSH 5.*PUSH 3.*POP A.*POP B.*ADD A, B.*PUSH A.*PUSH 2.*PUSH 1.*POP A.*POP B.*ADD A, B.*PUSH A.*POP A.*POP B.*MUL A, B.*PUSH A")
