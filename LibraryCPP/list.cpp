@@ -5,7 +5,6 @@ struct ListItem
 {
     Data data;
     ListItem* next;
-    ListItem* prev;
 };
 
 struct List
@@ -50,7 +49,9 @@ ListItem *list_item_next(ListItem *item)
 
 ListItem *list_item_prev(ListItem *item)
 {
-    return item ? item->prev : nullptr;
+    // Для односвязного списка предыдущий элемент недоступен
+    (void)item;
+    return nullptr;
 }
 
 ListItem *list_insert(List *list, Data data)
@@ -60,12 +61,6 @@ ListItem *list_insert(List *list, Data data)
     ListItem* new_item = new ListItem;
     new_item->data = data;
     new_item->next = list->head;
-    new_item->prev = nullptr;
-    
-    if (list->head) {
-        list->head->prev = new_item;
-    }
-    
     list->head = new_item;
     return new_item;
 }
@@ -81,12 +76,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     ListItem* new_item = new ListItem;
     new_item->data = data;
     new_item->next = item->next;
-    new_item->prev = item;
-    
-    if (item->next) {
-        item->next->prev = new_item;
-    }
-    
     item->next = new_item;
     return new_item;
 }
@@ -97,11 +86,6 @@ ListItem *list_erase_first(List *list)
     
     ListItem* old_head = list->head;
     list->head = old_head->next;
-    
-    if (list->head) {
-        list->head->prev = nullptr;
-    }
-    
     delete old_head;
     return list->head;
 }
@@ -118,11 +102,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
     
     ListItem* to_delete = item->next;
     item->next = to_delete->next;
-    
-    if (to_delete->next) {
-        to_delete->next->prev = item;
-    }
-    
     delete to_delete;
     return item->next;
 }

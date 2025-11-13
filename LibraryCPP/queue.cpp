@@ -1,15 +1,23 @@
 #include "queue.h"
 #include "list.h"
 
+struct ListItem
+{
+    Data data;
+    ListItem* next;
+};
+
 struct Queue
 {
     List* list;
+    ListItem* tail;
 };
 
 Queue *queue_create()
 {
     Queue* queue = new Queue;
     queue->list = list_create();
+    queue->tail = nullptr;
     return queue;
 }
 
@@ -23,18 +31,24 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue *queue, Data data)
 {
-    if (queue) {
-        // Для очереди вставляем в конец
-        if (list_first(queue->list) == nullptr) {
-            list_insert(queue->list, data);
-        } else {
-            // Находим последний элемент
-            ListItem* last = list_first(queue->list);
-            while (list_item_next(last)) {
-                last = list_item_next(last);
-            }
-            list_insert_after(queue->list, last, data);
+    if (!queue) return;
+    
+    if (queue->tail) {
+        // Добавляем в конец
+        queue->tail = list_insert_after(queue->list, queue->tail, data);
+    } else {
+        // Очередь пуста
+        ListItem* new_item = list_insert(queue->list, data);
+        queue->tail = new_item;
+    }
+    
+    // Если после вставки tail указывает на элемент без следующего, значит это конец
+    if (queue->tail) {
+        ListItem* current = queue->tail;
+        while (current && current->next) {
+            current = current->next;
         }
+        queue->tail = current;
     }
 }
 
@@ -48,9 +62,17 @@ Data queue_get(const Queue *queue)
 
 void queue_remove(Queue *queue)
 {
-    if (queue) {
-        list_erase_first(queue->list);
+    if (!queue) return;
+    
+    ListItem* first = list_first(queue->list);
+    if (!first) return;
+    
+    // Если удаляем единственный элемент
+    if (first == queue->tail) {
+        queue->tail = nullptr;
     }
+    
+    list_erase_first(queue->list);
 }
 
 bool queue_empty(const Queue *queue)
