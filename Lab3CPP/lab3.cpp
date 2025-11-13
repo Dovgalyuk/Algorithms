@@ -25,7 +25,7 @@ int main() {
     for (int i = 0; i < N; i++)
         cin >> board[i];
 
-    int sx, sy;
+    int sx = -1, sy = -1;
 
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
@@ -35,6 +35,11 @@ int main() {
             }
         }
     }
+
+    if (sx == -1 || sy == -1) {
+    cerr << "Error: K not found on board\n";
+    return 1;
+}
 
     int dist[N][N];
     for (int i = 0; i < N; i++)
