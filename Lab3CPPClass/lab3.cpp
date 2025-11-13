@@ -8,8 +8,11 @@ using namespace std;
 
 typedef int Data;
 
-vector<pair<int, int>> getNeighbors(int row, int col) {
-    vector<pair<int, int>> neighbors;
+typedef std::pair<int, int> Cell;
+typedef std::vector<Cell> NeighborList;
+
+NeighborList getNeighbors(int row, int col) {
+    NeighborList neighbors;
     
     if (row % 2 == 0) {
         neighbors.push_back({row - 1, col - 1});
