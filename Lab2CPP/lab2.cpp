@@ -4,29 +4,39 @@
     #include "vector.h"
     #include "stack.h"
 
-    bool check(const std::string& line) {
-        int round_brackets = 0;
-        bool double_quotes = false;
-        bool single_quotes = false;
+    bool check(const std::string& line)
+    {
+        Stack* stack = stack_create();
         
         for (char c : line) {
             if (c == '(') {
-                round_brackets++;
+                stack_push(stack, 'R');
             }
             else if (c == ')') {
-                if (round_brackets <= 0) {
+                if (stack_empty(stack) || stack_get(stack) != 'R') {
+                    stack_delete(stack);
                     return false;
                 }
-                round_brackets--;
+                stack_pop(stack);
             }
             else if (c == '\"') {
-                double_quotes = !double_quotes;
+                if (!stack_empty(stack) && stack_get(stack) == 'D') {
+                    stack_pop(stack);
+                } else {
+                    stack_push(stack, 'D');
+                }
             }
             else if (c == '\'') {
-                single_quotes = !single_quotes;
+                if (!stack_empty(stack) && stack_get(stack) == 'S') {
+                    stack_pop(stack);
+                } else {
+                    stack_push(stack, 'S');
+                }
             }
         }
-        return (round_brackets == 0) && !double_quotes && !single_quotes;
+        bool result = stack_empty(stack);
+        stack_delete(stack);
+        return result;
     }
 
     int main(int argc, char **argv)
@@ -42,5 +52,4 @@
             std::cout << "NO";
         }
         input.close();
-        
     }
