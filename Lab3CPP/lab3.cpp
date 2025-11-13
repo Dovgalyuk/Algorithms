@@ -88,8 +88,10 @@ int main(int argc, char* argv[]) {
 
     vector<string> output = board;
 
-    if (dist[end / cols][end % cols] == -1) {
-    
+    int er, ec;
+    decode(end, cols, er, ec);
+    if (dist[er][ec] == -1) {
+        
     }
     else {
         int cur = end;
@@ -97,7 +99,7 @@ int main(int argc, char* argv[]) {
             int r, c;
             decode(cur, cols, r, c);
             int step = dist[r][c];
-            output[r][c] = '0' + (step % 10); 
+            output[r][c] = '0' + (step % 10);
             cur = parent[r][c];
         }
     }
@@ -108,6 +110,7 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+
 
 
 
