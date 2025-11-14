@@ -134,10 +134,12 @@ public:
         Item* current = head_;
         while (current->next()) {
             if (current->next()->data() == data) {
-                erase_next(current);
-                return;
+                current = erase_next(current); 
+                if (!current) break;            
             }
-            current = current->next();
+            else {
+                current = current->next();      
+            }
         }
     }
 
