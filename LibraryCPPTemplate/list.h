@@ -7,18 +7,18 @@ public:
     class Item
     {
     public:
-        Item *next() { return next; }
-        Item *prev() { return prev; }
+        Item *next() { return next_; }
+        Item *prev() { return prev_; }
         Data& data() { return data_; }
         const Data& data() const { return data_; }
 
     private:
         // internal data here
-        Item *next = nullptr;
-		Item* prev = nullptr;
-		Data data;
+        Item *next_ = nullptr;
+		Item* prev_ = nullptr;
+		Data data_;
 
-		Item(Data d) : data(d) {}
+		Item(Data d) : data_(d) {}
 
 		friend class List<Data>;
     };
@@ -31,61 +31,60 @@ public:
     // copy constructor
     List(const List &a)
     {
-        first_ = list_ = nullptr;
-        Item* current = a.first();
+        first_ = last_ = nullptr;
+        Item* current = a.first_;
         Item* prevItem = nullptr;
 
         while (current) {
-            Item* newItem = new Item(current->data());
+            Item* newItem = new Item(current->data_);
 
             if (!first_) {
                 first_ = newItem;
             }
 
-            newItem->prev = prevItem;
+            newItem->prev_ = prevItem;
 
             if (prevItem) {
-                prevItem->next = newItem;
+                prevItem->next_ = newItem;
             }
 
             prevItem = newItem;
-            current = current->next();
+            current = current->next_;
         }
         last_ = prevItem;
 
     }
 
     // assignment operator
-    List &operator=(const List &a)
+    List& operator=(const List& a)
     {
         if (this != &a) {
-			return *this;
+
+            clear();
+            Item* current = a.first_;
+            Item* prevItem = nullptr;
+
+            while (current) {
+
+                Item* newItem = new Item(current->data_);
+
+                if (!first_) {
+                    first_ = newItem;
+                }
+
+                newItem->prev_ = prevItem;
+
+                if (prevItem) {
+                    prevItem->next_ = newItem;
+                }
+
+                prevItem = newItem;
+                current = current->next_;
+
+            }
+
+            last_ = prevItem;
         }
-
-		clear();
-		Item* current = a.first();
-		Item* prevItem = nullptr;
-
-		while (current) {
-
-			Item* newItem = new Item(current->data());
-
-			if (!first_) {
-				first_ = newItem;
-			}
-
-			newItem->prev = prevItem;
-
-			if (prevItem) {
-				prevItem->next = newItem;
-			}
-
-			prevItem = newItem;
-			current = current->next();
-
-		}
-
-		last_ = prevItem;
 		return *this;
         
     }
@@ -106,7 +105,7 @@ public:
     Item *insert(Data data)
     {
 		Item* newItem = new Item(data);
-		newItem->next = first_;
+		newItem->next_ = first_;
 
         if (first_) {
             first_->prev_ = newItem;

@@ -9,14 +9,26 @@ using namespace std;
 template<typename VLabel, typename ELabel>
 
 class Graph {
+
+public:
+
+	using VertexId = size_t;
+
+	struct Edge {
+
+		VertexId to;
+		ELabel label;
+		Edge(VertexId t, ELabel l = ELabel()) : to(t), label(l) {}
+	};
+
 private:
-	vector<List<Edge>> Arr;
+	vector<List<typename Graph<VLabel, ELabel>::Edge>> Arr;
 	vector<string> names;
 	vector<VLabel> vlabels;
 
 	int find_vertex(string& name) {
 
-		for (size_t i = 0; i < names.size(); i++) {
+		for (int i = 0; i < names.size(); i++) {
 
 			if (names[i] == name) {
 				return i;
@@ -27,14 +39,52 @@ private:
 	}
 public:
 
-	using VertexId = size_t;
+	class NeighborIterator {
 
-	struct Edge {
+	private:
+		typename List<Edge>::Item* current_;
 
-		VertexId to;
-		ELabel label;
+	public:
+		NeighborIterator(typename List<Edge>::Item* start = nullptr) : current_(start) {}
 
+		VertexId current() const {
+			if (current_) {
+				return current_->data().to;
+			}
+			else {
+				return VertexId(-1);
+			}
+		}
+
+		ELabel edge_data() const {
+			if (current_) {
+				return current_->data().label;
+			}
+			else {
+				return ELabel();
+			}
+		}
+		void next() {
+			if (current_) {
+				current_ = current_->next();
+			}
+		}
+
+		bool valid() const {
+			return current_ != nullptr;
+		}
 	};
+
+	NeighborIterator get_neighbors(const string& name) {
+
+		int u = find_vertex(name);
+		if (u < 0) {
+			return NeighborIterator(nullptr);
+		}
+
+		return NeighborIterator(Arr[u].first());
+	}
+
 
 	Graph(size_t n = 0) {
 
@@ -129,7 +179,7 @@ public:
 		return true;
 	}
 
-	bool adge_exists(string& from, string& to) {
+	bool edge_exists(string& from, string& to) {
 		int u = find_vertex(from);
 		int v = find_vertex(to);
 
@@ -235,7 +285,5 @@ public:
 	}
 
 };
-};
-
 
 #endif
