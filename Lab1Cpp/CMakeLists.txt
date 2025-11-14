@@ -1,7 +1,4 @@
 add_executable(Lab1Cpp lab1.cpp)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.txt
-               ${CMAKE_CURRENT_BINARY_DIR}/input.txt
-               COPYONLY)
 target_include_directories(Lab1Cpp PUBLIC ../LibraryCPP)
 target_link_libraries(Lab1Cpp LibraryCPP)
 
