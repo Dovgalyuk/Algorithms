@@ -7,58 +7,160 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item *next() { return next; }
+        Item *prev() { return prev; }
+        Data& data() { return data_; }
+        const Data& data() const { return data_; }
+
     private:
         // internal data here
+        Item *next = nullptr;
+		Item* prev = nullptr;
+		Data data;
+
+		Item(Data d) : data(d) {}
+
+		friend class List<Data>;
     };
 
     // Creates new list
-    List()
+    List() : first_(nullptr), last_(nullptr)
     {
     }
 
     // copy constructor
     List(const List &a)
     {
+        first_ = list_ = nullptr;
+        Item* current = a.first();
+        Item* prevItem = nullptr;
+
+        while (current) {
+            Item* newItem = new Item(current->data());
+
+            if (!first_) {
+                first_ = newItem;
+            }
+
+            newItem->prev = prevItem;
+
+            if (prevItem) {
+                prevItem->next = newItem;
+            }
+
+            prevItem = newItem;
+            current = current->next();
+        }
+        last_ = prevItem;
+
     }
 
     // assignment operator
     List &operator=(const List &a)
     {
-        return *this;
+        if (this != &a) {
+			return *this;
+        }
+
+		clear();
+		Item* current = a.first();
+		Item* prevItem = nullptr;
+
+		while (current) {
+
+			Item* newItem = new Item(current->data());
+
+			if (!first_) {
+				first_ = newItem;
+			}
+
+			newItem->prev = prevItem;
+
+			if (prevItem) {
+				prevItem->next = newItem;
+			}
+
+			prevItem = newItem;
+			current = current->next();
+
+		}
+
+		last_ = prevItem;
+		return *this;
+        
     }
 
     // Destroys the list and frees the memory
     ~List()
     {
+		clear();
     }
 
     // Retrieves the first item from the list
     Item *first()
     {
-        return nullptr;
+        return first_;
     }
 
     // Inserts new list item into the beginning
     Item *insert(Data data)
     {
-        return nullptr;
+		Item* newItem = new Item(data);
+		newItem->next = first_;
+
+        if (first_) {
+            first_->prev_ = newItem;
+        } else {
+            last_ = newItem;
+        }
+
+		first_ = newItem;
+		return newItem;
     }
 
     // Inserts new list item after the specified item
     // Inserts first element if item is null
     Item *insert_after(Item *item, Data data)
     {
-        return nullptr;
+        if (item == nullptr) {
+			return insert(data);
+        }
+
+		Item* newItem = new Item(data);
+		newItem->next_ = item->next_;
+		newItem->prev_ = item;
+
+		if (item->next_) {
+			item->next_->prev_ = newItem;
+		}
+        else {
+            last_ = newItem;
+        }
+
+		item->next_ = newItem;
+		return newItem;
     }
 
     // Deletes the first list item.
     // Returns pointer to the item next to the deleted one.
     Item *erase_first()
     {
-        return nullptr;
+        if (first_ == nullptr) {
+            return nullptr;
+        }
+
+		Item* next = first_->next_;
+		delete first_;
+
+		if (next) {
+			next->prev_ = nullptr;
+		}
+		else {
+			last_ = nullptr;
+		}
+
+		first_ = next;
+		return next;
     }
 
     // Deletes the list item following the specified one.
@@ -67,10 +169,47 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item)
     {
-        return nullptr;
+        if (item == nullptr) {
+			return erase_first();
+        }
+
+		Item* toDelete = item->next_;
+
+        if (!toDelete) {
+			return nullptr;
+        }
+
+		Item* next = toDelete->next_;
+		item->next_ = next;
+
+		if (next) {
+			next->prev_ = item;
+            }
+        else {
+            last_ = item;
+        }
+
+		delete toDelete;
+		return next;
     }
 private:
     // private data should be here
+	Item* first_;
+	Item* last_;
+
+	void clear() {
+		Item* current = first_;
+
+		while (current) {
+
+			Item* next = current->next_;
+
+			delete current;
+			current = next;
+		}
+
+		first_ = last_ =  nullptr;
+	}
 };
 
 #endif
