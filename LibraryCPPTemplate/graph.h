@@ -26,7 +26,7 @@ private:
 	vector<string> names;
 	vector<VLabel> vlabels;
 
-	int find_vertex(string& name) {
+	int find_vertex(const string& name) {
 
 		for (int i = 0; i < names.size(); i++) {
 
@@ -274,16 +274,6 @@ public:
 		}
 		return names[id];
 	}
-
-	List<Edge>& neighbors(string& name) {
-	
-		int u = find_vertex(name);
-		if (u < 0) {
-			throw out_of_range("Vertex not found");
-		}
-		return Arr[u];
-	}
-
 };
 
 #endif
