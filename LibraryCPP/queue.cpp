@@ -1,12 +1,6 @@
 #include "queue.h"
 #include "list.h"
 
-struct ListItem
-{
-    Data data;
-    ListItem* next;
-};
-
 struct Queue
 {
     List* list;
@@ -33,22 +27,14 @@ void queue_insert(Queue *queue, Data data)
 {
     if (!queue) return;
     
-    if (queue->tail) {
-        // Добавляем в конец
-        queue->tail = list_insert_after(queue->list, queue->tail, data);
+    if (queue_empty(queue)) {
+        // Очередь пуста - вставляем первый элемент
+        list_insert(queue->list, data);
+        queue->tail = list_first(queue->list);
     } else {
-        // Очередь пуста
-        ListItem* new_item = list_insert(queue->list, data);
-        queue->tail = new_item;
-    }
-    
-    // Если после вставки tail указывает на элемент без следующего, значит это конец
-    if (queue->tail) {
-        ListItem* current = queue->tail;
-        while (current && current->next) {
-            current = current->next;
-        }
-        queue->tail = current;
+        // Добавляем в конец и обновляем tail
+        list_insert_after(queue->list, queue->tail, data);
+        queue->tail = list_item_next(queue->tail);
     }
 }
 
@@ -64,11 +50,8 @@ void queue_remove(Queue *queue)
 {
     if (!queue) return;
     
-    ListItem* first = list_first(queue->list);
-    if (!first) return;
-    
-    // Если удаляем единственный элемент
-    if (first == queue->tail) {
+    // Если удаляем единственный элемент, сбрасываем tail
+    if (list_first(queue->list) == queue->tail) {
         queue->tail = nullptr;
     }
     

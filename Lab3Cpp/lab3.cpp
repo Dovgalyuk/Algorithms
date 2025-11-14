@@ -5,15 +5,14 @@
 #include <sstream>
 #include "queue.h"
 
-using namespace std;
+typedef std::vector<std::vector<int>> Graph;
 
-// Функция для поиска кратчайшего пути с помощью BFS
-int bfs_shortest_path(int vertices, int start, int finish, const vector<vector<int>>& graph) {
+int bfs_shortest_path(int vertices, int start, int finish, const Graph& graph) {
     if (start == finish) return 0;
     
     Queue* queue = queue_create();
-    vector<bool> visited(vertices + 1, false);
-    vector<int> distance(vertices + 1, -1);
+    std::vector<bool> visited(vertices + 1, false);
+    std::vector<int> distance(vertices + 1, -1);
     
     queue_insert(queue, start);
     visited[start] = true;
@@ -43,19 +42,19 @@ int bfs_shortest_path(int vertices, int start, int finish, const vector<vector<i
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
-        cerr << "Usage: " << argv[0] << " <input_file> <output_file>" << endl;
+        std::cerr << "Usage: " << argv[0] << " <input_file> <output_file>" << std::endl;
         return 1;
     }
     
-    ifstream inputFile(argv[1]);
+    std::ifstream inputFile(argv[1]);
     if (!inputFile.is_open()) {
-        cerr << "Error opening input file: " << argv[1] << endl;
+        std::cerr << "Error opening input file: " << argv[1] << std::endl;
         return 1;
     }
     
-    ofstream outputFile(argv[2]);
+    std::ofstream outputFile(argv[2]);
     if (!outputFile.is_open()) {
-        cerr << "Error opening output file: " << argv[2] << endl;
+        std::cerr << "Error opening output file: " << argv[2] << std::endl;
         inputFile.close();
         return 1;
     }
@@ -64,20 +63,20 @@ int main(int argc, char* argv[]) {
     inputFile >> vertices >> start >> finish;
     
     // Создаем список смежности
-    vector<vector<int>> graph(vertices + 1);
+    Graph graph(vertices + 1);
     
-    string line;
-    getline(inputFile, line); // Читаем оставшуюся часть первой строки
+    std::string line;
+    std::getline(inputFile, line);
     
-    while (getline(inputFile, line)) {
+    while (std::getline(inputFile, line)) {
         if (line.empty()) continue;
         
-        stringstream ss(line);
+        std::stringstream ss(line);
         int u, v;
         ss >> u >> v;
         
         graph[u].push_back(v);
-        graph[v].push_back(u); // Граф неориентированный
+        graph[v].push_back(u);
     }
     
     inputFile.close();

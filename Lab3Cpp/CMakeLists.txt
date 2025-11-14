@@ -6,10 +6,6 @@ if(TARGET LibraryCPP)
     target_include_directories(Lab3Cpp PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP)
 endif()
 
-configure_file(input.txt input.txt COPYONLY)
-configure_file(input1.txt input1.txt COPYONLY)
-configure_file(input2.txt input2.txt COPYONLY)
-
 enable_testing()
 
 # Основной тест
