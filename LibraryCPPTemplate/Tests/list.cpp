@@ -17,8 +17,6 @@ int main()
     list->insert(2);
     list->insert(3);
 
-    *list = *list;
-
     if (list->first()->data() != 3)
     {
         std::cout << "list_insert error\n";
