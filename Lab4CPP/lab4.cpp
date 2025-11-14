@@ -5,21 +5,24 @@
 #include <fstream>
 #include <sstream>
 using namespace std;
-void primMST(const Graph< string, int>& graph) {
+
+typedef Graph<string, int> StringIntGraph;
+
+void primMST(const StringIntGraph& graph) {  
     size_t n = graph.getVertexCount();
     if (n == 0) {
-         cout << "Graph is empty!" <<  endl;
+        cout << "Graph is empty!" << endl;
         return;
     }
 
     Vector<bool> inMST(n, false);
-    Vector<int> key(n,  numeric_limits<int>::max());
+    Vector<int> key(n, numeric_limits<int>::max());
     Vector<size_t> parent(n, static_cast<size_t>(-1));
 
     key.set(0, 0);
 
     for (size_t count = 0; count < n; ++count) {
-        int minKey =  numeric_limits<int>::max();
+        int minKey = numeric_limits<int>::max();
         size_t minIndex = 0;
 
         for (size_t v = 0; v < n; ++v) {
@@ -44,13 +47,12 @@ void primMST(const Graph< string, int>& graph) {
     }
 
     int totalWeight = 0;
-
     for (size_t i = 1; i < n; ++i) {
         if (parent.get(i) != static_cast<size_t>(-1)) {
             totalWeight += graph.getEdgeLabel(parent.get(i), i);
         }
     }
-     cout << totalWeight <<  endl;
+    cout << totalWeight << endl;
 }
 
 int main(int argc, char* argv[]) {
@@ -60,9 +62,9 @@ int main(int argc, char* argv[]) {
         filename = argv[1];
     }
 
-     ifstream inputFile(filename);
+    ifstream inputFile(filename);
     if (!inputFile.is_open()) {
-         cerr << "Error: cannot open file " << filename <<  endl;
+        cerr << "Error: cannot open file " << filename << endl;
         return 1;
     }
 
@@ -70,29 +72,29 @@ int main(int argc, char* argv[]) {
     inputFile >> vertexCount;
     inputFile.ignore();
 
-    Graph< string, int> graph(vertexCount);
+    StringIntGraph graph(vertexCount);  
 
     for (size_t i = 0; i < vertexCount; ++i) {
-         string label;
-         getline(inputFile, label);
+        string label;
+        getline(inputFile, label);
         graph.setVertexLabel(i, label);
     }
 
-     string line;
-    while ( getline(inputFile, line)) {
+    string line;
+    while (getline(inputFile, line)) {
         if (line.empty()) continue;
 
-         istringstream iss(line);
+        istringstream iss(line);
         size_t from, to;
         int weight;
 
         if (!(iss >> from >> to >> weight)) {
-             cerr << "Error: invalid edge format in line: " << line <<  endl;
+            cerr << "Error: invalid edge format in line: " << line << endl;
             continue;
         }
 
         if (from >= vertexCount || to >= vertexCount) {
-             cerr << "Error: vertex index out of range in line: " << line <<  endl;
+            cerr << "Error: vertex index out of range in line: " << line << endl;
             continue;
         }
 

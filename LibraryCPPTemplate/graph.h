@@ -14,6 +14,10 @@ private:
         E label;
 
         Edge(size_t t, const E& l) : to(t), label(l) {}
+
+        bool operator==(const Edge& other) const {
+            return to == other.to;  
+        }
     };
 
     Vector<V> vertexLabels;
@@ -45,18 +49,18 @@ public:
         adjLists.erase(index);
 
         for (size_t i = 0; i < adjLists.size(); ++i) {
-            List<Edge> newList;
-            for (auto it = adjLists[i].begin(); it != adjLists[i].end(); ++it) {
-                Edge edge = *it;
-                if (edge.to == index) {
-                    continue; 
+            for (auto it = adjLists[i].first(); it != nullptr; it = it->next()) {
+                if (it->data().to == index) {
+                    adjLists[i].erase(it->data());
+                    break;  
                 }
-                if (edge.to > index) {
-                    edge.to--; 
-                }
-                newList.push_back(edge);
             }
-            adjLists[i] = newList; 
+
+            for (auto it = adjLists[i].first(); it != nullptr; it = it->next()) {
+                if (it->data().to > index) {
+                    it->data().to--;  
+                }
+            }
         }
     }
 
@@ -64,10 +68,10 @@ public:
         checkIndex(from);
         checkIndex(to);
 
-        for (auto it = adjLists[from].begin(); it != adjLists[from].end(); ++it) {
-            if ((*it).to == to) {
-                removeEdge(from, to);
-                break;
+        for (auto it = adjLists[from].first(); it != nullptr; it = it->next()) {
+            if (it->data().to == to) {
+                it->data().label = label;
+                return;
             }
         }
 
@@ -78,14 +82,12 @@ public:
         checkIndex(from);
         checkIndex(to);
 
-        List<Edge> newList;
-        for (auto it = adjLists[from].begin(); it != adjLists[from].end(); ++it) {
-            Edge edge = *it;
-            if (edge.to != to) {
-                newList.push_back(edge);
+        for (auto it = adjLists[from].first(); it != nullptr; it = it->next()) {
+            if (it->data().to == to) {
+                adjLists[from].erase(it->data());
+                return;
             }
         }
-        adjLists[from] = newList;
     }
 
     bool hasEdge(size_t from, size_t to) const {
@@ -114,24 +116,13 @@ public:
         checkIndex(from);
         checkIndex(to);
 
-
-        List<Edge> newList;
-        bool found = false;
-
-        for (auto it = adjLists[from].begin(); it != adjLists[from].end(); ++it) {
-            Edge edge = *it;
-            if (edge.to == to) {
-                edge.label = label;
-                found = true;
+        for (auto it = adjLists[from].first(); it != nullptr; it = it->next()) {
+            if (it->data().to == to) {
+                it->data().label = label;
+                return;
             }
-            newList.push_back(edge);
         }
-
-        if (!found) {
-            throw  runtime_error("Edge does not exist");
-        }
-
-        adjLists[from] = newList;
+        throw runtime_error("Edge does not exist");
     }
 
     E getEdgeLabel(size_t from, size_t to) const {
