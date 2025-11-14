@@ -9,14 +9,7 @@
 // Change it to desired type
 typedef int Data;
 
-struct Vector
-{
-    size_t size;
-    size_t capacity;
-    Data* data;
-
-    Vector() : size(4), capacity(4), data(new Data[capacity]) {}
-};
+struct Vector;
 
 // Creates vector
 Vector *vector_create();

@@ -28,31 +28,29 @@ void queue_insert(Queue *queue, Data data)
     size_t capacity = vector_size(queue->data);
     if (queue->count == capacity)
     {
-        vector_resize(queue->data, queue->count * 2);
-
         Vector* temp = vector_create(); 
-        vector_resize(temp, queue->count);
+        vector_resize(temp, capacity * 2);
 
         for (size_t i = 0; i < queue->count; ++i) 
         { 
             size_t index = (queue->head + i) % capacity; 
-            temp->data[i] = queue->data->data[index]; 
+            vector_set(temp, i, vector_get(queue->data, index));
         }
-        for (size_t i = 0; i < queue->count; ++i)
-        {
-            queue->data->data[i] = temp->data[i];
-        }
+        
+        vector_delete(queue->data);
+        queue->data = temp;
+
         queue->head = 0; 
-        vector_delete(temp);
+        capacity = capacity * 2;
     }
     size_t tail = (queue->head + queue->count) % capacity;
-    queue->data->data[tail] = data;
+    vector_set(queue->data, tail, data);
     queue->count++;
 }
 
 Data queue_get(const Queue *queue)
 {
-    return queue->data->data[queue->head];
+    return vector_get(queue->data, queue->head);
 }
 
 void queue_remove(Queue *queue)

@@ -32,35 +32,35 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    string known[100];
+    char order[26];
     size_t kcount = 0;
-    known[kcount++] = start;
 
+    bool used[26] = { false };
+    if (!start.empty())
+        used[start[0] - 'A'] = true;
+    
     Queue* queue = queue_create();
-    queue_insert(queue, 0);
+    queue_insert(queue, (Data)start[0]);
 
     while (!queue_empty(queue)) {
-        int idx = queue_get(queue);
+        char cur = (char)queue_get(queue);
         queue_remove(queue);
-        string cur = known[idx];
 
         for (size_t i = 0; i < rcount; ++i) {
-            if (reactions[i].from == cur) {
-                string next = reactions[i].to;
-                bool seen = false;
-                for (size_t j = 0; j < kcount; ++j)
-                    if (known[j] == next) { seen = true; break; }
-
-                if (!seen) {
-                    known[kcount++] = next;
-                    queue_insert(queue, (Data)(kcount - 1));
+            if (!reactions[i].from.empty() && reactions[i].from[0] == cur) {
+                char next = reactions[i].to[0];
+                int id = next - 'A';
+                if (!used[id]) {
+                    used[id] = true;
+                    order[kcount++] = next;
+                    queue_insert(queue, (Data)next);
                 }
             }
         }
     }
 
-    for (size_t i = 1; i < kcount; ++i)
-        cout << known[i] << "\n";
+    for (size_t i = 0; i < kcount; ++i)
+        cout << order[i] << "\n";
 
     queue_delete(queue);
 
