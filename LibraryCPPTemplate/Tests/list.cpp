@@ -5,7 +5,7 @@ typedef List<int> MyList;
 
 int main()
 {
-    MyList *list = new MyList;
+    MyList* list = new MyList;
 
     if (!list)
     {
@@ -42,11 +42,14 @@ int main()
     MyList copy(*list);
 
     std::cout << "List: ";
-    for (auto item = list->first() ; item ; item = item->next())
+    for (auto item = list->first(); item; item = item->next())
     {
         std::cout << item->data() << " ";
     }
     std::cout << "\n";
 
     delete list;
+
+    std::cout << "All list tests passed!" << std::endl;
+    return 0;
 }
