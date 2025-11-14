@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <string>
 #include "queue.h"
@@ -18,12 +19,23 @@ void extract_data(Data d, int &x, int &y, int &step) {
     step = d & 0xFFFF;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
     const int N = 8;
     string board[N];
 
+    istream* input = &cin;  // по умолчанию stdin
+    ifstream file;
+    if (argc > 1) {          // если передан аргумент
+        file.open(argv[1]);
+        if (!file) {
+            cerr << "Cannot open file: " << argv[1] << endl;
+            return 1;
+        }
+        input = &file;       // читаем из файла
+    }
+
     for (int i = 0; i < N; i++)
-        cin >> board[i];
+        *input >> board[i];
 
     int sx = -1, sy = -1;
 
