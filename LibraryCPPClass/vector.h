@@ -39,6 +39,7 @@ private:
     Data* elements;
     size_t capacity_value;
     size_t size_value;
+    void copyFunc(const Vector& a);
 };
 
 #endif

@@ -4,11 +4,15 @@
 Vector::Vector() : elements(nullptr), capacity_value(0), size_value(0) {
 }
 
-Vector::Vector(const Vector& a) : capacity_value(a.capacity_value), size_value(a.size_value) {
+void Vector::copyFunc(const Vector& a) {
     elements = new Data[capacity_value];
     for (size_t i = 0; i < size_value; ++i) {
         elements[i] = a.elements[i];
     }
+}
+
+Vector::Vector(const Vector& a) : capacity_value(a.capacity_value), size_value(a.size_value) {
+    copyFunc(a);
 }
 
 Vector& Vector::operator=(const Vector& a) {
@@ -16,10 +20,7 @@ Vector& Vector::operator=(const Vector& a) {
         delete[] elements;
         capacity_value = a.capacity_value;
         size_value = a.size_value;
-        elements = new Data[capacity_value];
-        for (size_t i = 0; i < size_value; ++i) {
-            elements[i] = a.elements[i];
-        }
+        copyFunc(a);
     }
     return *this;
 }

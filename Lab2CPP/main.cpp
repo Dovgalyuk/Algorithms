@@ -8,13 +8,15 @@
 
 using namespace std;
 
+typedef vector<string> str_vector;
+
 int priority(char op) {
     if (op == '*') return 2;
     return 1;
 }
 
-vector<string> convertToAssembly(const string& expression) {
-    vector<string> assembly;
+str_vector convertToAssembly(const string& expression) {
+    str_vector assembly;
     Stack ops;
     string number;
 
@@ -43,6 +45,9 @@ vector<string> convertToAssembly(const string& expression) {
                     if (op == '+') {
                         assembly.push_back("ADD A, B");
                     }
+                    else if (op == '-') {
+                        assembly.push_back("SUB A, B");
+                    }
                     else {
                         assembly.push_back("MUL A, B");
                     }
@@ -50,7 +55,7 @@ vector<string> convertToAssembly(const string& expression) {
                 }
                 if (!ops.empty()) ops.pop();
             }
-            else if (c == '+' || c == '*') {
+            else if (c == '+' || c == '-' || c == '*') {
                 while (!ops.empty() && (char)ops.get() != '(' &&
                     priority((char)ops.get()) >= priority(c)) {
                     char op = (char)ops.get();
@@ -60,6 +65,9 @@ vector<string> convertToAssembly(const string& expression) {
                     assembly.push_back("POP B");
                     if (op == '+') {
                         assembly.push_back("ADD A, B");
+                    }
+                    else if (op == '-') {
+                        assembly.push_back("SUB A, B");
                     }
                     else {
                         assembly.push_back("MUL A, B");
@@ -84,6 +92,9 @@ vector<string> convertToAssembly(const string& expression) {
         if (op == '+') {
             assembly.push_back("ADD A, B");
         }
+        else if (op == '-') {
+            assembly.push_back("SUB A, B");
+        }
         else {
             assembly.push_back("MUL A, B");
         }
@@ -103,7 +114,7 @@ int main(int argc, char* argv[]) {
         string expression;
         getline(input, expression);
 
-        vector<string> result = convertToAssembly(expression);
+        str_vector result = convertToAssembly(expression);
         for (size_t i = 0; i < result.size(); ++i) {
             cout << result[i] << endl;
         }
