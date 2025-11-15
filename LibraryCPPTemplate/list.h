@@ -12,6 +12,7 @@ public:
         Item(Data data, Item* next = nullptr) : data_(data), next_(next) {}
 
         Item* next() { return next_; }
+        const Item* next() const { return next_; }
         Data& data() { return data_; }
         const Data& data() const { return data_; }
 
@@ -31,12 +32,26 @@ public:
             return *this;
         }
 
+        const_iterator operator++(int) {
+            const_iterator temp = *this;
+            ++(*this);
+            return temp;
+        }
+
         bool operator!=(const const_iterator& other) const {
             return current_ != other.current_;
         }
 
+        bool operator==(const const_iterator& other) const {
+            return current_ == other.current_;
+        }
+
         const Data& operator*() const {
             return current_->data();
+        }
+
+        const Data* operator->() const {
+            return &current_->data();
         }
 
     private:
@@ -65,9 +80,12 @@ public:
         return *this;
     }
 
-    Item* first() {
-        return head_;
+    ~List() {
+        clear();
     }
+
+    Item* first() { return head_; }
+    const Item* first() const { return head_; }
 
     Item* insert(Data data) {
         Item* newItem = new Item(data, head_);
@@ -124,29 +142,40 @@ public:
     }
 
     void erase(Data data) {
-        if (!head_) return;
-
-        if (head_->data() == data) {
-            erase_first();
-            return;
-        }
-
         Item* current = head_;
-        while (current->next()) {
-            if (current->next()->data() == data) {
-                current = erase_next(current); 
-                if (!current) break;            
+        Item* prev = nullptr;
+
+        while (current != nullptr) {
+            if (current->data() == data) {
+                if (prev == nullptr) {
+                    head_ = current->next();
+                    if (tail_ == current) tail_ = head_;
+                    delete current;
+                    current = head_;
+                }
+                else {
+                    prev->setNext(current->next());
+                    if (tail_ == current) tail_ = prev;
+                    delete current;
+                    current = prev->next();
+                }
+                size_--;
             }
             else {
-                current = current->next();      
+                prev = current;
+                current = current->next();
             }
         }
     }
 
     void clear() {
         while (head_) {
-            erase_first();
+            Item* temp = head_;
+            head_ = head_->next();
+            delete temp;
         }
+        head_ = tail_ = nullptr;
+        size_ = 0;
     }
 
     const_iterator begin() const { return const_iterator(head_); }
@@ -161,4 +190,4 @@ private:
     size_t size_;
 };
 
-#endif
+#endif 
