@@ -198,7 +198,6 @@ int main(int argc, char **argv){
             determinant_operator(stack, command);
         }        
     }
-
-    return 0;
     stack_delete(stack);
+    return 0;
 }
