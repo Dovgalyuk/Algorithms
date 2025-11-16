@@ -5,7 +5,8 @@ C:/Users/Momoe/Desktop/labD/2/Algorithms/out/build/x64-Debug/LibraryCPP/CMakeFil
 C:/Users/Momoe/Desktop/labD/2/Algorithms/out/build/x64-Debug/LibraryCPP/CMakeFiles/test.dir
 C:/Users/Momoe/Desktop/labD/2/Algorithms/out/build/x64-Debug/LibraryCPP/CMakeFiles/edit_cache.dir
 C:/Users/Momoe/Desktop/labD/2/Algorithms/out/build/x64-Debug/LibraryCPP/CMakeFiles/rebuild_cache.dir
-C:/Users/Momoe/Desktop/labD/2/Algorithms/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/TestArrayCPP.dir
+C:/Users/Momoe/Desktop/labD/2/Algorithms/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/TestStackCPP.dir
+C:/Users/Momoe/Desktop/labD/2/Algorithms/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/TestVectorCPP.dir
 C:/Users/Momoe/Desktop/labD/2/Algorithms/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/test.dir
 C:/Users/Momoe/Desktop/labD/2/Algorithms/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/edit_cache.dir
 C:/Users/Momoe/Desktop/labD/2/Algorithms/out/build/x64-Debug/LibraryCPP/Tests/CMakeFiles/rebuild_cache.dir

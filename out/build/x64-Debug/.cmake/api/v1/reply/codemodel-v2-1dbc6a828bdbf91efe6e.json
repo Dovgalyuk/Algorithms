@@ -50,7 +50,8 @@
 					"source" : "LibraryCPP/Tests",
 					"targetIndexes" : 
 					[
-						2
+						2,
+						3
 					]
 				},
 				{
@@ -85,7 +86,8 @@
 					[
 						0,
 						1,
-						2
+						2,
+						3
 					]
 				}
 			],
@@ -101,15 +103,22 @@
 				{
 					"directoryIndex" : 1,
 					"id" : "LibraryCPP::@4b3589622afbd1422885",
-					"jsonFile" : "target-LibraryCPP-Debug-3cda577ca64e684da692.json",
+					"jsonFile" : "target-LibraryCPP-Debug-23987442e69a267d89ee.json",
 					"name" : "LibraryCPP",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 2,
-					"id" : "TestArrayCPP::@f2b864f8dfe3321ad621",
-					"jsonFile" : "target-TestArrayCPP-Debug-ebebbc5d5f93a6b7858e.json",
-					"name" : "TestArrayCPP",
+					"id" : "TestStackCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestStackCPP-Debug-ee4856f9f93a701a7e79.json",
+					"name" : "TestStackCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "TestVectorCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestVectorCPP-Debug-7595f3357439620d7c54.json",
+					"name" : "TestVectorCPP",
 					"projectIndex" : 0
 				}
 			]
