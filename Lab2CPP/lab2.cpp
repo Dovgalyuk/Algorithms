@@ -71,7 +71,7 @@ void execute_instructions(const std::string& filename) {
             stack_push(stack, xadd);
         }
         else if (command == "call") {
-            stack_push(stack, -1); // -1 ���������� ����� ��������
+            stack_push(stack, -1); 
         }
         else if (command == "ret") {
             if (stack_empty(stack) || stack_get(stack) != -1) {
@@ -96,16 +96,10 @@ void execute_instructions(const std::string& filename) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc > 1) {
-        for (int i = 1; i < argc; i++) {
-            execute_instructions(argv[i]);
-        }
+    std::string filenames[] = { "input.txt", "input2.txt", "input3.txt", "input4.txt","input5.txt" };
+    for (int i = 0; i < 5; i++) {
+        execute_instructions(filenames[i]);
     }
-    else {
-        std::string filenames[] = { "input.txt", "input2.txt", "input3.txt", "input4.txt","input5.txt" };
-        for (int i = 0; i < 5; i++) {
-            execute_instructions(filenames[i]);
-        }
-    }
+    
     return 0;
 }
