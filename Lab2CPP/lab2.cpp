@@ -53,13 +53,10 @@ private:
         return 0;
     }
 
-    // Вспомогательная функция для проверки размера стека
     bool stack_has_at_least(int count) {
-        // Создаем временный стек для подсчета элементов
         Stack* temp = stack_create();
         int size = 0;
 
-        // Перемещаем элементы во временный стек и считаем
         while (!stack_empty(stack)) {
             stack_push(temp, stack_get(stack));
             stack_pop(stack);
@@ -67,7 +64,6 @@ private:
             if (size >= count) break;
         }
 
-        // Возвращаем элементы обратно
         while (!stack_empty(temp)) {
             stack_push(stack, stack_get(temp));
             stack_pop(temp);
