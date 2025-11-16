@@ -28,10 +28,10 @@ private:
 
 	int find_vertex(const string& name) {
 
-		for (int i = 0; i < names.size(); i++) {
+		for (size_t i = 0; i < names.size(); i++) {
 
 			if (names[i] == name) {
-				return i;
+				return (int)i;
 			}
 		}
 
@@ -123,7 +123,6 @@ public:
 		}
 
 		auto* It = Arr[u].first();
-		typedef typename List<Edge>::Item Item;
 
 		while (It) {
 
@@ -157,7 +156,6 @@ public:
 			}
 
 			auto* It = Arr[i].first();
-			typedef typename List<Edge>::Item Item;
 
 			while (It) {
 
@@ -225,7 +223,6 @@ public:
 		}
 
 		auto* It = Arr[u].first();
-		typedef typename List<Edge>::Item Item;
 
 		while (It) {
 
@@ -247,7 +244,7 @@ public:
 			return false;
 		}
 		auto* It = Arr[u].first();
-		typedef typename List<Edge>::Item Item;
+
 		while (It) {
 
 			if (It->data().to == (size_t)v) {
