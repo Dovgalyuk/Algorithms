@@ -96,10 +96,16 @@ void execute_instructions(const std::string& filename) {
 }
 
 int main(int argc, char* argv[]) {
-    std::string filenames[] = { "input.txt", "input2.txt", "input3.txt", "input4.txt","input5.txt" };
-    for (int i = 0; i < 5; i++) {
-        execute_instructions(filenames[i]);
+    if (argc > 1) {
+        for (int i = 1; i < argc; i++) {
+            execute_instructions(argv[i]);
+        }
     }
-    
+    else {
+        std::string filenames[] = { "input.txt", "input2.txt", "input3.txt", "input4.txt","input5.txt" };
+        for (int i = 0; i < 5; i++) {
+            execute_instructions(filenames[i]);
+        }
+    }
     return 0;
 }
