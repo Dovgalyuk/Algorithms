@@ -85,7 +85,6 @@ VectorData merge_sort_iterative(VectorData arr) {
     }
 
     stack_delete(stack);
-
     for (int size = 1; size < n; size *= 2) {
         for (int start = 0; start < n; start += 2 * size) {
             int mid = min(start + size, n);
@@ -100,17 +99,15 @@ VectorData merge_sort_iterative(VectorData arr) {
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        cerr << "Использование: " << argv[0] << " <input_file>" << endl;
+        cerr << "Using " << argv[0] << endl;
         return 1;
     }
-
     string filename = argv[1];
     VectorData numbers = read_numbers_from_file(filename);
     if (numbers.empty()) {
         cout << endl;
         return 0;
     }
-
     VectorData sorted = merge_sort_iterative(numbers);
     cout << vector_to_string(sorted) << endl;
 
