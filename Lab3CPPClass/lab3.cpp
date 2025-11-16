@@ -1,4 +1,3 @@
-// lab3.cpp - ИСПРАВЛЕННАЯ ВЕРСИЯ
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -6,6 +5,7 @@
 #include <stdexcept>
 #include <memory>
 #include "queue.h"
+#include <algorithm> 
 
 using namespace std;
 
