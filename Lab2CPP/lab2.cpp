@@ -71,7 +71,7 @@ void execute_instructions(const std::string& filename) {
             stack_push(stack, xadd);
         }
         else if (command == "call") {
-            stack_push(stack, -1); // -1 обозначает адрес возврата
+            stack_push(stack, -1); // -1 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         }
         else if (command == "ret") {
             if (stack_empty(stack) || stack_get(stack) != -1) {
@@ -102,8 +102,8 @@ int main(int argc, char* argv[]) {
         }
     }
     else {
-        std::string filenames[] = { "input.txt", "input2.txt", "input3.txt", "input4.txt" };
-        for (int i = 0; i < 4; i++) {
+        std::string filenames[] = { "input.txt", "input2.txt", "input3.txt", "input4.txt","input5.txt" };
+        for (int i = 0; i < 5; i++) {
             execute_instructions(filenames[i]);
         }
     }
