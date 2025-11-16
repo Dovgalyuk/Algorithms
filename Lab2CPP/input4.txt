@@ -8,4 +8,5 @@ sub
 pop B
 push 2
 push 3
-mul D
+mul 
+pop D
