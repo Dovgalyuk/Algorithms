@@ -104,8 +104,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     l->last = item;
     l->next = item->next;
 
-    ListItem* nextCurrent = item->next;
-
     if (item->next != NULL) 
         item->next->last = l;
     item->next = l;
