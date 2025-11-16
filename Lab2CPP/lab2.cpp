@@ -120,10 +120,10 @@ void rot(Stack* stack) {
         cout << "error rot\n";
         return;
     }
-//123
-    int a3 = stack_take(stack); //3
-    int a2 = stack_take(stack); //2
-    int a1 = stack_take(stack); //1
+
+    int a3 = stack_take(stack); 
+    int a2 = stack_take(stack); 
+    int a1 = stack_take(stack); 
 
     stack_push(stack, a2);
     stack_push(stack, a3);
@@ -183,10 +183,12 @@ int main(int argc, char **argv){
         }
         
         stroka = read_file(FILE);
+        FILE.close();
         ss << stroka;
         while(ss >> command){
             determinant_operator(stack, command);
         }   
+
     }
 
     else{
