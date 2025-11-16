@@ -93,7 +93,7 @@ public:
 		vlabels.resize(n);
 	}
 
-	VertexId add_vertex(string& name,VLabel& vlabel = VLabel()) {
+	VertexId add_vertex(string& name,VLabel vlabel = VLabel()) {
 
 		names.push_back(name);
 		Arr.emplace_back();
