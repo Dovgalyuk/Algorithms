@@ -1,0 +1,6 @@
+Ohona Pestovo 20
+Pestovo Novgorod 300
+Novgorod Ohona 280
+Ohona Borovichi 80
+Borovichi Pestovo 100
+Novgorod Borovichi 200
