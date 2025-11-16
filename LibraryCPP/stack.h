@@ -1,6 +1,8 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include "vector.h"
+
 // Stack
 
 // Stores integer values inside
@@ -22,11 +24,17 @@ void stack_push(Stack *stack, Data data);
 // Retrieves the last element from the stack
 Data stack_get(const Stack *stack);
 
+// Retrieves the last element from the stack and delete her
+Data stack_take(Stack *stack);
+
 // Removes the last element from the stack
 // Should be O(1)
 void stack_pop(Stack *stack);
 
 // Returns true if the stack is empty
 bool stack_empty(const Stack *stack);
+
+//Returns size stack
+int stack_size(const Stack *stack);
 
 #endif

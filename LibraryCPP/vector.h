@@ -2,6 +2,7 @@
 #define VECTOR_H
 
 #include <cstddef>
+#include <stdexcept>
 
 // Vector (dynamic array)
 
@@ -9,7 +10,12 @@
 // Change it to desired type
 typedef int Data;
 
-struct Vector;
+struct Vector
+{
+    int* arr;
+    size_t size;
+    size_t capacity;
+};
 
 // Creates vector
 Vector *vector_create();
