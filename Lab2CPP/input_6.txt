@@ -1,0 +1,5 @@
+invokestatic 2
+goto 4
+bipush 1
+return
+bipush 1

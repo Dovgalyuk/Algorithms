@@ -38,7 +38,7 @@ ListItem* list_item_next(ListItem* item) {
     return item ? item->next : nullptr;
 }
 
-ListItem* list_item_prev(ListItem* /*item*/) {
+ListItem* list_item_prev(ListItem*) {
     return nullptr;
 }
 
