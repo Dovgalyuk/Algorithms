@@ -24,22 +24,22 @@ int main(int argc, char* argv[]) {
     Stack* stk = stack_create();
     string token;
 
-    while (iss >> token) {
-        if (token == "+" || token == "-" || token == "*" || token == "/") {
-            if (stack_empty(stk) || stack_empty(stk)) {  // Проверка на недостаток элементов
-                cerr << "Invalid expression" << endl;
-                stack_delete(stk);
-                return 1;
-            }
-            Data b = stack_get(stk); stack_pop(stk);
-            Data a = stack_get(stk); stack_pop(stk);
-            Data res = 0;  // Инициализация для устранения предупреждения
-            if (token == "+") res = a + b;
-            else if (token == "-") res = a - b;
-            else if (token == "*") res = a * b;
-            else if (token == "/") res = a / b;
-            stack_push(stk, res);
-        } else {
+while (iss >> token) {
+    if (token == "+" || token == "-" || token == "*" || token == "/") {
+        if (stack_size(stk) < 2) {  // на неккоректные выражения
+            cerr << "Invalid expression" << endl;
+            stack_delete(stk);
+            return 1;
+        }
+        Data b = stack_get(stk); stack_pop(stk);
+        Data a = stack_get(stk); stack_pop(stk);
+        Data res = 0;  
+        if (token == "+") res = a + b;
+        else if (token == "-") res = a - b;
+        else if (token == "*") res = a * b;
+        else if (token == "/") res = a / b;
+        stack_push(stk, res);
+    } else {
             try {
                 Data num = stoi(token);
                 stack_push(stk, num);

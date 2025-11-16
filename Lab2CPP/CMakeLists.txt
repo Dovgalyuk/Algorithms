@@ -13,3 +13,6 @@ set_property(TEST TestLab2_3 PROPERTY PASS_REGULAR_EXPRESSION "1")
 
 add_test(NAME TestLab2_4 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input4.txt)
 set_property(TEST TestLab2_4 PROPERTY PASS_REGULAR_EXPRESSION "14")
+
+add_test(NAME TestLab2_Invalid COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input_invalid.txt)
+set_property(TEST TestLab2_Invalid PROPERTY PASS_REGULAR_EXPRESSION "Invalid expression")
