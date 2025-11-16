@@ -1,5 +1,4 @@
 ﻿#include <fstream>
-#include <string>
 #include "Lab3.h"
 
 int main(int argc, char* argv[])
@@ -27,7 +26,7 @@ int main(int argc, char* argv[])
 		std::exit(1);
 	}
 
-	Vector<Vector<int>> graph(n);
+	Graph graph(n);
 
 	int t, m;
 	while (input >> t >> m) {
@@ -41,17 +40,15 @@ int main(int argc, char* argv[])
 	if (auto [dist, parent] = bfs(n, start, finish, graph); dist[finish] == -1) {
 		output << "IMPOSSIBLE" << std::endl;
 	} else {
-		Vector<int> path;
+		IntVector path;
 		auto v = finish;
 		while (v != -1) {
 			path.push_back(v);
 			v = parent[v];
 		}
 
-		std::ranges::reverse(path);
-
-		for (std::size_t index{}; index < path.size(); ++index) {
-			if (index > 0) {
+		for (std::size_t index{ path.size() - 1}; index > 0; --index) {
+			if (index < path.size()) {
 				output << " ";
 			}
 			output << path[index] + 1;

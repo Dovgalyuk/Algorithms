@@ -15,9 +15,7 @@ public:
 
     // copy constructor
     Queue(const Queue &a) : data_(a.data_) {
-        while (tail_ != nullptr && tail_->next() != nullptr) {
-            tail_ = tail_->next();
-        }
+        tail_ = findTail(data_);
     }
 
     Queue(Queue &&a) noexcept : data_(std::move(a.data_)), tail_(a.tail_) { a.tail_ = nullptr; }
@@ -27,9 +25,7 @@ public:
     {
         if (this != &a) {
             data_ = a.data_;
-            while (tail_ != nullptr && tail_->next() != nullptr) {
-                tail_ = tail_->next();
-            }
+            tail_ = findTail(data_);
         }
         return *this;
     }
@@ -82,6 +78,9 @@ public:
             throw std::out_of_range("Queue is empty");
         }
         data_.erase_first();
+        if (data_.empty()) {
+            tail_ = nullptr;
+        }
     }
 
     // Returns true if the queue is empty
@@ -92,6 +91,16 @@ public:
 
 private:
     // private data should be here
+
+    static List<Data>::Item* findTail(List<Data>& lst) {
+        auto* item = lst.first();
+        if (!item) { return nullptr; }
+        while (item->next() != nullptr) {
+            item = item->next();
+        }
+        return item;
+    }
+
     List<Data> data_;
     List<Data>::Item* tail_ = nullptr;
 };

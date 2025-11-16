@@ -29,7 +29,8 @@ public:
 
     private:
         value_type data_;
-        Item* next_ = nullptr;};
+        Item* next_ = nullptr;
+    };
 
     using iterator = ListIterator<Item*>;
     using const_iterator = ListIterator<const Item*>;
@@ -104,7 +105,7 @@ public:
     // Inserts new list item into the beginning
     Item *insert(value_type data)
     {
-        auto newItem = new Item{ data };
+        auto newItem = new Item(data);
         newItem->setNext(head_);
         head_ = newItem;
         return newItem;
@@ -118,7 +119,7 @@ public:
             return insert(data);
         }
 
-        auto newItem = new Item{ data };
+        auto newItem = new Item(data);
         newItem->setNext(item->next());
 
         item->setNext(newItem);
@@ -206,7 +207,7 @@ public:
     explicit ListIterator(Item itemPtr) noexcept : current_(itemPtr) {}
 
     reference operator*() const noexcept {
-        return current_;
+        return current_->data();
     }
 
     pointer operator->() const noexcept {

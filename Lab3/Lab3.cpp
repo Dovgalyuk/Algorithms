@@ -1,8 +1,8 @@
 #include "Lab3.h"
 
-std::pair<Vector<int>, Vector<int>> bfs(int n, int start, int finish, Vector<Vector<int>>& graph) {
-    Vector<int> dist(n, - 1);
-    Vector<int> parent(n, -1);
+BFSResult bfs(int n, int start, int finish, Graph& graph) {
+    IntVector dist(n, - 1);
+    IntVector parent(n, -1);
     Queue<int> queue;
 
     dist[start] = 0;
