@@ -49,21 +49,27 @@ void vector_resize(Vector *vector, size_t size)
         return;
     }
 
-    size_t new_capacity = std::max(size, vector->capacity * 2);
-    if (new_capacity == 0) new_capacity = 1;
+    size_t new_capacity = vector->capacity * 2;
+    if (new_capacity < size) {
+        new_capacity = size;
+    }
 
-    Data* new_data = new Data[new_capacity];
+    if (new_capacity == 0) {
+        new_capacity = 1;
+    }
+
+    Data* new_arr = new Data[new_capacity];
     
     for (size_t i = 0; i < vector->size; i++) {
-        new_data[i] = vector->arr[i];
+        new_arr[i] = vector->arr[i];
     }
     
     for (size_t i = vector->size; i < size; i++) {
-        new_data[i] = 0;
+        new_arr[i] = 0;
     }
 
     delete[] vector->arr;
-    vector->arr = new_data;
+    vector->arr = new_arr;
     vector->size = size;
     vector->capacity = new_capacity;
 }
