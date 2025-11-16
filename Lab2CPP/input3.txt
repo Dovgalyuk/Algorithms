@@ -1,0 +1,3 @@
+push 1
+call
+pop A

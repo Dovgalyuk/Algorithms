@@ -96,13 +96,11 @@ void execute_instructions(const std::string& filename) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
-        return 1;
-    }
+    std::string filenames[] = { "file.txt", "file2.txt", "file3.txt", "file4.txt" };
 
-    std::string filename = argv[1];
-    execute_instructions(filename);
+    for (int i = 0; i < 4; i++) {
+        execute_instructions(filenames[i]);
+    }
 
     return 0;
 }

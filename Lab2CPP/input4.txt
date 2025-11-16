@@ -1,0 +1,11 @@
+push 1
+push 2
+add
+pop A
+push 3
+push 4
+sub
+pop B
+push 2
+push 3
+mul D
