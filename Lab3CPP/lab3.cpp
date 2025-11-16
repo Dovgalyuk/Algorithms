@@ -90,16 +90,15 @@ int main(int argc, char* argv[]) {
 
     int er, ec;
     decode(end, cols, er, ec);
-    if (dist[er][ec] == -1) {
-        
-    }
-    else {
+
+    if (dist[er][ec] != -1) {
         int cur = end;
         while (cur != -1) {
             int r, c;
             decode(cur, cols, r, c);
-            int step = dist[r][c];
-            output[r][c] = '0' + (step % 10);
+
+            output[r][c] = '0' + (dist[r][c] % 10);
+
             cur = parent[r][c];
         }
     }

@@ -25,7 +25,7 @@ void queue_delete(Queue *queue)
     delete queue;
 }
 
-void queue_insert(Queue *queue, Data data)
+void queue_insert(Queue* queue, Data data)
 {
     size_t capacity = vector_size(queue->vector);
 
@@ -39,13 +39,15 @@ void queue_insert(Queue *queue, Data data)
             vector_set(queue->vector, i, val);
         }
 
-        queue->head = 0;
+        queue->head = 0;  
     }
 
-    size_t tail = (queue->head + queue->count) % vector_size(queue->vector);
+    size_t capacity_after = vector_size(queue->vector);
+    size_t tail = (queue->head + queue->count) % capacity_after;
     vector_set(queue->vector, tail, data);
     queue->count++;
 }
+
 
 Data queue_get(const Queue *queue)
 {
