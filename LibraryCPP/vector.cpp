@@ -1,5 +1,5 @@
 #include "vector.h"
-#include <algorithm>
+
 
 Vector *vector_create()
 {
@@ -41,7 +41,6 @@ void vector_resize(Vector *vector, size_t size)
 {
     if (size <= vector->capacity) {
         if (size > vector->size) {
-            // Инициализируем новые элементы нулями
             for (size_t i = vector->size; i < size; i++) {
                 vector->arr[i] = 0;
             }
@@ -50,18 +49,15 @@ void vector_resize(Vector *vector, size_t size)
         return;
     }
 
-    // Нужно увеличить capacity
     size_t new_capacity = std::max(size, vector->capacity * 2);
     if (new_capacity == 0) new_capacity = 1;
 
     Data* new_data = new Data[new_capacity];
     
-    // Копируем старые данные
     for (size_t i = 0; i < vector->size; i++) {
         new_data[i] = vector->arr[i];
     }
     
-    // Инициализируем новые элементы нулями
     for (size_t i = vector->size; i < size; i++) {
         new_data[i] = 0;
     }
