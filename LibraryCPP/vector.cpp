@@ -19,7 +19,7 @@ void vector_delete(Vector *vector)
 Data vector_get(const Vector *vector, size_t index)
 {
     if (index >= vector->size) {
-        return -1;
+        throw std::out_of_range("Index out of range");
     }
     return vector->arr[index];
 }
