@@ -95,7 +95,7 @@ ListItem *list_erase_first(List *list)
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    return NULL; if (item == nullptr || item->next == nullptr)
+    if (item == nullptr || item->next == nullptr)
         return nullptr;                   
 
     ListItem* rm = item->next;      
