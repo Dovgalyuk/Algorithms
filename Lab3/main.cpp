@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 	}
 
 	if (auto [dist, parent] = bfs(n, start, finish, graph); dist[finish] == -1) {
-		output << "IMPOSSIBLE" << std::endl;
+		output << "IMPOSSIBLE";
 	} else {
 		IntVector path;
 		auto v = finish;
@@ -47,13 +47,12 @@ int main(int argc, char* argv[])
 			v = parent[v];
 		}
 
-		for (std::size_t index{ path.size() - 1}; index > 0; --index) {
+		for (std::size_t index{ path.size() }; index > 0; ) {
 			if (index < path.size()) {
 				output << " ";
 			}
-			output << path[index] + 1;
+			output << path[--index] + 1;
 		}
-		output << std::endl;
 	}
 
 	return 0;
