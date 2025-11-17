@@ -30,9 +30,8 @@ void stack_pop(Stack *stack) {
 
 bool stack_empty(const Stack *stack) {
     return vector_size(stack->vec) == 0;
-
+}
     // Реализация stack_size
 size_t stack_size(const Stack *stack) {
     return vector_size(stack->vec);
-}
 }
