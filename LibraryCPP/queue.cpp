@@ -29,22 +29,26 @@ void queue_insert(Queue* queue, Data data)
 {
     size_t capacity = vector_size(queue->vector);
 
-    if (queue->count == capacity) {
+    if (queue->count >= capacity) {
         size_t old_size = capacity;
-        vector_resize(queue->vector, old_size * 2);
+        size_t new_size = old_size * 2;
+
+        Vector* new_vector = vector_create();
+        vector_resize(new_vector, new_size);
 
         for (size_t i = 0; i < queue->count; ++i) {
             size_t from_idx = (queue->head + i) % old_size;
             Data val = vector_get(queue->vector, from_idx);
-            vector_set(queue->vector, i, val);
+            vector_set(new_vector, i, val);
         }
 
-        queue->head = 0;  
+        vector_delete(queue->vector);
+        queue->vector = new_vector;
+        queue->head = 0;
     }
 
-    size_t capacity_after = vector_size(queue->vector);
-    size_t tail = (queue->head + queue->count) % capacity_after;
-    vector_set(queue->vector, tail, data);
+    size_t insert_pos = (queue->head + queue->count) % vector_size(queue->vector);
+    vector_set(queue->vector, insert_pos, data);
     queue->count++;
 }
 
