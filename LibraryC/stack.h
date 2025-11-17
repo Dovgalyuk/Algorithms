@@ -6,7 +6,7 @@
 
 // Stack
 // Stores integer or pointer to custom user data
-typedef uintptr_t Data;
+typedef void* Data;
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
 

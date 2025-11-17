@@ -1,36 +1,61 @@
 #include <stdlib.h>
 #include "stack.h"
+#include "list.h"
 
 typedef struct Stack {
-    // remove this
-    Data d;
+    List* stack;
 } Stack;
 
 Stack *stack_create(FFree f)
 {
-    return malloc(sizeof(Stack));
+    Stack* st = malloc(sizeof(Stack));
+    if (st == NULL) 
+        return NULL;
+
+    st->stack = list_create(f);
+    if (st->stack == NULL) {
+        free(st);
+        return NULL;
+    }
+
+    return st;
 }
 
 void stack_delete(Stack *stack)
 {
-    // TODO: free stack elements
+    if (stack == NULL)
+        return;
+
+    list_delete(stack->stack);
+
     free(stack);
 }
 
 void stack_push(Stack *stack, Data data)
 {
+    if (stack == NULL || stack->stack == NULL) return;
+    list_insert(stack->stack, data);
 }
 
 Data stack_get(const Stack *stack)
 {
-    return (Data)0;
+    if (stack == NULL || stack->stack == NULL) return (Data)0;
+
+    ListItem* first = list_first(stack->stack);
+
+    return list_item_data(first);
 }
 
 void stack_pop(Stack *stack)
 {
+    if (stack == NULL || stack->stack == NULL) return;
+
+    if(list_first(stack->stack) != NULL)
+        list_erase_first(stack->stack);
 }
 
 bool stack_empty(const Stack *stack)
 {
-    return true;
+    if (stack == NULL || stack->stack == NULL || list_first(stack->stack) == NULL) return true;
+    else return false;
 }
