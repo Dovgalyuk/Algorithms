@@ -1,6 +1,8 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include "vector.h"
+
 #include <cstddef>
 
 // Change it to desired type
@@ -37,6 +39,7 @@ public:
 
 private:
     // private data should be here
+    Vector helper;
 };
 
 #endif

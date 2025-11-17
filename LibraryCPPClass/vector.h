@@ -34,8 +34,15 @@ public:
     // Should be O(1) on average
     void resize(size_t size);
 
+    void push_back(Data value);
+
 private:
     // private data should be here
+    Data* elements;
+    size_t volume;
+    size_t len;
+
+    void copy(const Vector& a);
 };
 
 #endif
