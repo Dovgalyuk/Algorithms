@@ -1,147 +1,250 @@
 #include <iostream>
-#include <sstream>
 #include <vector>
 #include <string>
+#include <sstream>
 #include "stack.h"
-
 using namespace std;
 
-struct Op {
-    string name;
-    int arg = 0;
-    bool has_arg = false;
-};
-
-void error(Stack* st, int vars[4], const string& msg = "", Stack* call_stack = nullptr) {
-    if (!msg.empty()) {
-        cout << "Error: " << msg << "\n";
-    }
-    cout << "stack:\n";
-    while (!stack_empty(st)) {
-        cout << stack_get(st) << "\n";
-        stack_pop(st);
-    }
-    cout << "vars:\n";
-    for (int i = 0; i < 4; ++i)
-        cout << vars[i] << "\n";
-    stack_delete(st);
-    exit(1);
-}
-
-int main() {
-    vector<Op> program;
+int main()
+{
+    vector<string> prog;
     string line;
-
-    while (getline(cin, line)) {
-        if (line.empty()) continue;
-        stringstream ss(line);
-        Op op;
-        ss >> op.name;
-        if (ss >> op.arg) op.has_arg = true;
-        program.push_back(op);
+    while (getline(cin, line))
+    {
+        if (!line.empty())
+            prog.push_back(line);
     }
 
-    int vars[4] = {0, 0, 0, 0};
     Stack* st = stack_create();
-    vector<bool> is_ret;
+    Stack* flags = stack_create();
+    int vars[4] = { 0, 0, 0, 0 };
+    int size = 0;
 
-    int pc = 0;
-    while (pc < (int)program.size()) {
-        const Op& op = program[pc];
+    vector<int> calls;
 
-        if (op.name == "bipush") {
-            if (!op.has_arg) error(st, vars, "bipush requires an argument");
-            stack_push(st, op.arg);
-            is_ret.push_back(false);
+    size_t ip = 0;
+    bool error = false;
+
+    while (ip < prog.size() && !error)
+    {
+        istringstream iss(prog[ip]);
+        string op;
+        iss >> op;
+        if (!iss)
+        {
+            cout << "error\n";
+            error = true;
+            break;
         }
-        else if (op.name == "pop") {
-            if (stack_empty(st)) error(st, vars, "pop requires at least one value on the stack");
-            if (is_ret.back()) error(st, vars, "pop with return address");
-            stack_pop(st);
-            is_ret.pop_back();
+
+        if (op == "bipush")
+        {
+            int x;
+            iss >> x;
+            stack_push(st, x);
+            stack_push(flags, 0);
+            size++;
+            ip++;
         }
-        else if (op.name.rfind("iload_", 0) == 0) {
-            int idx = op.name.back() - '0';
-            if (idx < 0 || idx > 3) error(st, vars, "invalid variable index");
+        else if (op == "pop")
+        {
+            if (size == 0)
+            {
+                cout << "error\n";
+                error = true;
+            }
+            else
+            {
+                int t = stack_get(flags);
+                stack_pop(flags);
+                stack_pop(st);
+                size--;
+
+                if (t == 1)
+                {
+                    cout << "error\n";
+                    error = true;
+                }
+                else
+                    ip++;
+            }
+        }
+        else if (op == "iadd" || op == "isub" || op == "imul" ||
+            op == "iand" || op == "ior" || op == "ixor")
+        {
+            if (size < 2)
+            {
+                cout << "error\n";
+                error = true;
+            }
+            else
+            {
+                int t1 = stack_get(flags);
+                int v1 = stack_get(st);
+                stack_pop(flags);
+                stack_pop(st);
+
+                int t2 = stack_get(flags);
+                int v2 = stack_get(st);
+                stack_pop(flags);
+                stack_pop(st);
+                size -= 2;
+
+                if (t1 == 1 || t2 == 1)
+                {
+                    cout << "error\n";
+                    error = true;
+                }
+                else
+                {
+                    int r = 0;
+                    if (op == "iadd")      r = v2 + v1;
+                    else if (op == "isub") r = v2 - v1;
+                    else if (op == "imul") r = v2 * v1;
+                    else if (op == "iand") r = v2 & v1;
+                    else if (op == "ior")  r = v2 | v1;
+                    else if (op == "ixor") r = v2 ^ v1;
+
+                    stack_push(st, r);
+                    stack_push(flags, 0);
+                    size++;
+                    ip++;
+                }
+            }
+        }
+        else if (op == "swap")
+        {
+            if (size < 2)
+            {
+                cout << "error\n";
+                error = true;
+            }
+            else
+            {
+                int t1 = stack_get(flags);
+                int v1 = stack_get(st);
+                stack_pop(flags);
+                stack_pop(st);
+
+                int t2 = stack_get(flags);
+                int v2 = stack_get(st);
+                stack_pop(flags);
+                stack_pop(st);
+
+                stack_push(st, v1);
+                stack_push(flags, t1);
+                stack_push(st, v2);
+                stack_push(flags, t2);
+
+                ip++;
+            }
+        }
+        else if (op.rfind("iload_", 0) == 0)
+        {
+            int idx = op[op.size() - 1] - '0';
             stack_push(st, vars[idx]);
-            is_ret.push_back(false);
+            stack_push(flags, 0);
+            size++;
+            ip++;
         }
-        else if (op.name.rfind("istore_", 0) == 0) {
-            if (stack_empty(st)) error(st, vars, "istore requires a value on the stack");
-            int idx = op.name.back() - '0';
-            if (idx < 0 || idx > 3) error(st, vars, "invalid variable index");
-            if (is_ret.back()) error(st, vars, "store of return address");
-            vars[idx] = stack_get(st);
-            stack_pop(st);
-            is_ret.pop_back();
-        }
-        else if (op.name == "swap") {
-            if (is_ret.size() < 2) error(st, vars, "swap requires at least two values on the stack");
-            int a = stack_get(st); stack_pop(st);
-            bool a_ret = is_ret.back(); is_ret.pop_back();
-            int b = stack_get(st); stack_pop(st);
-            bool b_ret = is_ret.back(); is_ret.pop_back();
-            stack_push(st, a); is_ret.push_back(a_ret);
-            stack_push(st, b); is_ret.push_back(b_ret);
-        }
-        else if (op.name == "iadd" || op.name == "isub" || op.name == "imul" ||
-                 op.name == "iand" || op.name == "ior" || op.name == "ixor") {
-            if (is_ret.size() < 2) error(st, vars, "Arithmetic operation requires at least two values on the stack");
-            if (is_ret.back() || is_ret[is_ret.size() - 2]) error(st, vars, "Arithmetic operation with return address");
-            int b = stack_get(st); stack_pop(st);
-            is_ret.pop_back();
-            int a = stack_get(st); stack_pop(st);
-            is_ret.pop_back();
-            int r = 0;
-            if (op.name == "iadd") r = a + b;
-            else if (op.name == "isub") r = a - b;
-            else if (op.name == "imul") r = a * b;
-            else if (op.name == "iand") r = a & b;
-            else if (op.name == "ior") r = a | b;
-            else if (op.name == "ixor") r = a ^ b;
-            stack_push(st, r);
-            is_ret.push_back(false);
-        }
-        else if (op.name == "invokestatic") {
-            if (!op.has_arg) error(st, vars, "invokestatic requires an argument");
-            if (op.arg < 0 || op.arg >= (int)program.size()) error(st, vars, "invalid call address");
-            stack_push(st, pc + 1);
-            is_ret.push_back(true);
-            pc = op.arg;
-            continue;
-        }
-        else if (op.name == "return") {
-            if (stack_empty(st)) error(st, vars, "return requires an address on the stack");
-            if (!is_ret.back()) error(st, vars, "return with ordinary value");
-            int addr = stack_get(st);
-            stack_pop(st);
-            is_ret.pop_back();
-            if (addr < 0 || addr >= (int)program.size()) error(st, vars, "invalid return address");
-            pc = addr;
-            continue;
-        }
-        else if (op.name == "goto") {
-            if (!op.has_arg) error(st, vars, "goto requires an argument");
-            if (op.arg < 0 || op.arg >= (int)program.size()) error(st, vars, "invalid jump address");
-            pc = op.arg;
-            continue;
-        }
-        else {
-            error(st, vars, "Unknown operation: " + op.name);
-        }
+        else if (op.rfind("istore_", 0) == 0)
+        {
+            if (size == 0)
+            {
+                cout << "error\n";
+                error = true;
+            }
+            else
+            {
+                int t = stack_get(flags);
+                int v = stack_get(st);
+                stack_pop(flags);
+                stack_pop(st);
+                size--;
 
-        ++pc;
+                if (t == 1)
+                {
+                    cout << "error\n";
+                    error = true;
+                }
+                else
+                {
+                    int idx = op[op.size() - 1] - '0';
+                    vars[idx] = v;
+                    ip++;
+                }
+            }
+        }
+        else if (op == "invokestatic")
+        {
+            int addr;
+            iss >> addr;
+
+            int ret = (int)(ip + 1);
+            stack_push(st, ret);
+            stack_push(flags, 1);
+            size++;
+
+            calls.push_back(addr);
+            ip = (size_t)addr;
+        }
+        else if (op == "return")
+        {
+            if (size == 0)
+            {
+                cout << "error\n";
+                error = true;
+            }
+            else
+            {
+                int t = stack_get(flags);
+                int v = stack_get(st);
+                stack_pop(flags);
+                stack_pop(st);
+                size--;
+
+                if (t != 1)
+                {
+                    cout << "error\n";
+                    error = true;
+                }
+                else
+                    ip = (size_t)v;
+            }
+        }
+        else
+        {
+            cout << "error\n";
+            error = true;
+        }
     }
 
-    cout << "stack:\n";
-    while (!stack_empty(st)) {
-        cout << stack_get(st) << "\n";
-        stack_pop(st);
-    }
+    if (!error)
+    {
+        if (!calls.empty())
+        {
+            cout << "calls:\n";
+            for (size_t i = 0; i < calls.size(); i++)
+                cout << calls[i] << "\n";
+        }
 
-    cout << "vars:\n";
-    for (int i = 0; i < 4; ++i)
-        cout << vars[i] << "\n";
+        cout << "stack:\n";
+        while (size > 0)
+        {
+            int t = stack_get(flags);
+            int v = stack_get(st);
+            (void)t;
+            stack_pop(flags);
+            stack_pop(st);
+            size--;
+            cout << v << "\n";
+        }
+
+        cout << "vars:\n";
+        for (int i = 0; i < 4; i++)
+            cout << vars[i] << "\n";
+    }
 
     stack_delete(st);
+    stack_delete(flags);
 }
