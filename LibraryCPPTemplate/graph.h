@@ -49,16 +49,24 @@ public:
         adjLists.erase(index);
 
         for (size_t i = 0; i < adjLists.size(); ++i) {
-            for (auto it = adjLists[i].first(); it != nullptr; it = it->next()) {
-                if (it->data().to == index) {
-                    adjLists[i].erase(it->data());
-                    break;  
-                }
-            }
+            typename List<Edge>::Item* prev = nullptr; 
+            typename List<Edge>::Item* current = adjLists[i].first();  
 
-            for (auto it = adjLists[i].first(); it != nullptr; it = it->next()) {
-                if (it->data().to > index) {
-                    it->data().to--;  
+            while (current != nullptr) {
+                if (current->data().to == index) {
+                    if (prev == nullptr) {
+                        current = adjLists[i].erase_first();
+                    }
+                    else {
+                        current = adjLists[i].erase_next(prev);
+                    }
+                }
+                else {
+                    if (current->data().to > index) {
+                        current->data().to--;
+                    }
+                    prev = current;
+                    current = current->next();
                 }
             }
         }
@@ -82,11 +90,21 @@ public:
         checkIndex(from);
         checkIndex(to);
 
-        for (auto it = adjLists[from].first(); it != nullptr; it = it->next()) {
-            if (it->data().to == to) {
-                adjLists[from].erase(it->data());
+        typename List<Edge>::Item* prev = nullptr;  
+        typename List<Edge>::Item* current = adjLists[from].first();  
+
+        while (current != nullptr) {
+            if (current->data().to == to) {
+                if (prev == nullptr) {
+                    adjLists[from].erase_first();
+                }
+                else {
+                    adjLists[from].erase_next(prev);
+                }
                 return;
             }
+            prev = current;
+            current = current->next();
         }
     }
 
