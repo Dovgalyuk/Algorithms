@@ -47,12 +47,12 @@ void stack_pop(Stack *stack)
 
 bool stack_empty(const Stack *stack)
 {
-    return stack->vector->size == 0;
+    return vector_size(stack->vector) == 0;
 }
 
 /*
 stack_size создан для проверки колличества элементов, так как stack_empty может быть не удобным
 */
 int stack_size(const Stack *stack){
-    return stack->vector->size;
+    return vector_size(stack->vector);
 }

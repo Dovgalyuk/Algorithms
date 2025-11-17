@@ -1,13 +1,14 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "vector.h"
 
 // Stack
 
 // Stores integer values inside
 // Change it to desired type
 typedef int Data;
+
+struct Vector;
 
 struct Stack;
 

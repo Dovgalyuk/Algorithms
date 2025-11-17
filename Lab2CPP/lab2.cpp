@@ -145,17 +145,9 @@ void determinant_operator(Stack *stack, string command){
     else if(command == "/") division(stack);
     else if(command == "%") remainder(stack);
 
-    else if(command == "1") stack_push(stack, 1);
-    else if(command == "2") stack_push(stack, 2);
-    else if(command == "3") stack_push(stack, 3);
-    else if(command == "4") stack_push(stack, 4);
-    else if(command == "5") stack_push(stack, 5);
-    else if(command == "6") stack_push(stack, 6);
-    else if(command == "7") stack_push(stack, 7);
-    else if(command == "8") stack_push(stack, 8);
-    else if(command == "9") stack_push(stack, 9);
-    else if(command == "0") stack_push(stack, 0);
-
+    else if(command[0] >= '0' && command[0] <= '9' && command.size() == 1){
+        stack_push(stack, stoi(command));
+    }
     else if(command == "dup") dup(stack);
     else if(command == "drop") drop(stack);
     else if(command == "swap") swap_stack(stack);
@@ -201,3 +193,4 @@ int main(int argc, char **argv){
     stack_delete(stack);
     return 0;
 }
+

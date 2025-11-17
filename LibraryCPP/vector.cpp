@@ -1,5 +1,12 @@
 #include "vector.h"
 
+struct Vector
+{
+    int* arr;
+    size_t size;
+    size_t capacity;
+};
+
 
 Vector *vector_create()
 {

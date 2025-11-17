@@ -11,12 +11,7 @@
 // Change it to desired type
 typedef int Data;
 
-struct Vector
-{
-    int* arr;
-    size_t size;
-    size_t capacity;
-};
+struct Vector;
 
 // Creates vector
 Vector *vector_create();
