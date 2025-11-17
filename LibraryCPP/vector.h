@@ -9,6 +9,7 @@
 // Change it to desired type
 typedef int Data;
 
+
 struct Vector;
 
 // Creates vector
