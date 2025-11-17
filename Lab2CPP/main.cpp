@@ -26,30 +26,45 @@ int main(int argc, char* argv[]) {
 
 while (iss >> token) {
     if (token == "+" || token == "-" || token == "*" || token == "/") {
-        if (stack_size(stk) < 2) {  // на неккоректные выражения
-            cerr << "Invalid expression" << endl;
+        
+        if (stack_empty(stk)) {
+            cerr << "Invalid expression" << endl;  //минимум один элемент перед a (вторым элементом; aka 1 2 +, - > b=1 - >...
             stack_delete(stk);
             return 1;
         }
-        Data b = stack_get(stk); stack_pop(stk);
-        Data a = stack_get(stk); stack_pop(stk);
+        Data b = stack_get(stk);   
+        stack_pop(stk);
+        if (stack_empty(stk)) {
+            cerr << "Invalid expression" << endl;    // стек пуст после b (второй операнд) - > элементов (<2) - > ошибка
+            stack_delete(stk);
+            return 1;
+        }
+        Data a = stack_get(stk); 
+        stack_pop(stk); //...- > a=1, b=2)
         Data res = 0;  
         if (token == "+") res = a + b;
         else if (token == "-") res = a - b;
         else if (token == "*") res = a * b;
-        else if (token == "/") res = a / b;
-        stack_push(stk, res);
-    } else {
-            try {
-                Data num = stoi(token);
-                stack_push(stk, num);
-            } catch (...) {
-                cerr << "Invalid number: " << token << endl;
+        else if (token == "/") {
+            if (b == 0) {
+                cerr << "Division by zero" << endl;
                 stack_delete(stk);
                 return 1;
             }
+            res = a / b;
+        }
+        stack_push(stk, res);
+    } else {
+        try {
+            Data num = stoi(token);
+            stack_push(stk, num);
+        } catch (...) {
+            cerr << "Invalid number: " << token << endl;
+            stack_delete(stk);
+            return 1;
         }
     }
+}
 
     if (stack_empty(stk)) {
         cerr << "Empty expression" << endl;

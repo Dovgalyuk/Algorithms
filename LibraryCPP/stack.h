@@ -29,7 +29,5 @@ void stack_pop(Stack *stack);
 // Returns true if the stack is empty
 bool stack_empty(const Stack *stack);
 
-// Returns the current stack size
-size_t stack_size(const Stack* stack);
 
 #endif
