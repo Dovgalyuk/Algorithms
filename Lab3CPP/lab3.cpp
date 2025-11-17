@@ -10,8 +10,9 @@ struct Point {
     int x, y;
     Point(int x = 0, int y = 0) : x(x), y(y) {}
 };
+typedef std::vector<std::string> Maze;
 
-int findNearestDigit(const std::vector<std::string>& maze, Point start) {
+int findNearestDigit(const Maze& maze, Point start) {
     int rows = maze.size();
     if (rows == 0) return -1;
     int cols = maze[0].size();
@@ -44,12 +45,12 @@ int findNearestDigit(const std::vector<std::string>& maze, Point start) {
             if (distance[x][y] < minDistance) {
                 minDistance = distance[x][y];
                 nearestDigit = digit;
+                break;
             }
             else if (distance[x][y] == minDistance && digit < nearestDigit) {
                 nearestDigit = digit;
             }
         }
-
         for (int i = 0; i < 4; ++i) {
             int nx = x + dx[i];
             int ny = y + dy[i];
@@ -64,25 +65,21 @@ int findNearestDigit(const std::vector<std::string>& maze, Point start) {
             }
         }
     }
-
     queue_delete(queue);
     return nearestDigit;
 }
-
 int main(int argc, char* argv[]) {
     std::string filename = "input.txt";
 
     if (argc > 1) {
         filename = argv[1];
     }
-
     std::ifstream inputFile(filename);
     if (!inputFile) {
         std::cerr << "Cannot open input file: " << filename << std::endl;
         return 1;
     }
-
-    std::vector<std::string> maze;
+    Maze maze;
     std::string line;
     Point start(-1, -1);
 
@@ -104,7 +101,6 @@ int main(int argc, char* argv[]) {
         std::cerr << "Start position 'X' not found in " << filename << "!" << std::endl;
         return 1;
     }
-
     int result = findNearestDigit(maze, start);
 
     if (result != -1) {
@@ -113,6 +109,5 @@ int main(int argc, char* argv[]) {
     else {
         std::cout << "No digits found in the maze!" << std::endl;
     }
-
     return 0;
 }
