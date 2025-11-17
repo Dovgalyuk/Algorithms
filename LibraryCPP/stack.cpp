@@ -32,7 +32,7 @@ Data stack_get(const Stack *stack)
         return (Data)0;
     }
     size_t last_index = vector_size(stack->vector) - 1;
-    return vector_get(stack->vector, last_index);
+    return vector_get(stack->vector, last_index); 
 }
 
 void stack_pop(Stack *stack)
