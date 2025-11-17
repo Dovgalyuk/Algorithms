@@ -61,7 +61,43 @@ int main()
         std::cout << vector.get(i) << " ";
     std::cout << "\n";
 
-    // Performance test
+    MyVector vector_pb;
+
+    for(size_t i = 0; i < 10; ++i)
+        vector_pb.push_back(i * 10);
+
+    if(vector_pb.size() != 10)
+    {
+        std::cout << "Invalid push back\n";
+        return 1; 
+    }
+
+    for(size_t i = 0; i < vector_pb.size(); ++i)
+    {
+        if(vector_pb.get(i) != (int)i * 10)
+        {
+            std::cout << "Invalid push_back value " << vector_pb[i] << "\n";
+            return 1;
+        }
+    }
+    
+    MyVector index_vec = vector_pb;
+
+    for(size_t i = 0; i < 5; ++i)
+    {
+        index_vec[i] = i;
+    }
+
+    for(size_t i = 0; i < index_vec.size(); ++i)
+    {
+        int exp = (i < 5) ? i : (int)i * 10;
+        if(index_vec[i] != exp)
+        {
+            std::cout << "Invalid index op at i " << i;
+            return 1;
+        }
+    }
+
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector.resize(i);

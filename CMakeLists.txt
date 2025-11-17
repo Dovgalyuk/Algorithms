@@ -15,4 +15,4 @@ add_subdirectory(LibraryCPP)
 add_subdirectory(LibraryCPPClass)
 add_subdirectory(LibraryCPPTemplate)
 
-add_subdirectory(Lab3CPP)
+add_subdirectory(Lab4CPP)
