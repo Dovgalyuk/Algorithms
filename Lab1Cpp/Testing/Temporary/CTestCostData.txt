@@ -1,5 +1,0 @@
-TestArrayC 0 0
-TestLab1C 0 0
----
-TestArrayC
-TestLab1C
