@@ -3,7 +3,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <map>
 #include "stack.h"
 
 using namespace std;
@@ -27,7 +26,7 @@ struct Instruction {
 class Processor {
 private:
     Stack* stack;
-    map<string, int> registers;
+    int regA, regB, regC, regD;  
     vector<Instruction> program;
     size_t pc;
     bool error;
@@ -45,7 +44,10 @@ private:
 
     int get_value(const string& str) {
         if (is_register(str)) {
-            return registers[str];
+            if (str == "A") return regA;
+            if (str == "B") return regB;
+            if (str == "C") return regC;
+            if (str == "D") return regD;
         }
         else if (is_number(str)) {
             return stoi(str);
@@ -53,30 +55,35 @@ private:
         return 0;
     }
 
-    bool stack_has_at_least(int count) {
-        Stack* temp = stack_create();
-        int size = 0;
-
-        while (!stack_empty(stack)) {
-            stack_push(temp, stack_get(stack));
-            stack_pop(stack);
-            size++;
-            if (size >= count) break;
-        }
-
-        while (!stack_empty(temp)) {
-            stack_push(stack, stack_get(temp));
-            stack_pop(temp);
-        }
-
-        stack_delete(temp);
-        return size >= count;
+    void set_register(const string& reg, int value) {
+        if (reg == "A") regA = value;
+        else if (reg == "B") regB = value;
+        else if (reg == "C") regC = value;
+        else if (reg == "D") regD = value;
     }
 
+    bool pop_two_operands(Data& a, Data& b) {
+        if (stack_empty(stack)) {
+            return false;
+        }
+        b = stack_get(stack);
+        stack_pop(stack);
+
+        if (stack_empty(stack)) {
+            
+            stack_push(stack, b);
+            return false;
+        }
+        a = stack_get(stack);
+        stack_pop(stack);
+        return true;
+    }
 public:
+    typedef std::vector<std::string> ProgramLines;
+
     Processor() {
         stack = stack_create();
-        registers = { {"A", 0}, {"B", 0}, {"C", 0}, {"D", 0} };
+        regA = regB = regC = regD = 0;
         pc = 0;
         error = false;
     }
@@ -85,7 +92,7 @@ public:
         stack_delete(stack);
     }
 
-    void load_program(const vector<string>& lines) {
+    void load_program(const ProgramLines& lines) {
         for (size_t i = 0; i < lines.size(); ++i) {
             istringstream iss(lines[i]);
             string command;
@@ -126,10 +133,10 @@ public:
             program.push_back(instr);
         }
     }
-
     bool execute() {
         pc = 0;
         error = false;
+        std::vector<Data> return_stack;  
 
         while (pc < program.size() && !error) {
             const Instruction& instr = program[pc];
@@ -149,95 +156,73 @@ public:
                     break;
                 }
 
-                Data top = stack_get(stack);
-                if (top < 0) {
-                    error = true;
-                    error_message = "Cannot pop return address";
-                    break;
-                }
-
+                
                 if (!is_register(instr.operand)) {
                     error = true;
                     error_message = "Invalid register: " + instr.operand;
                     break;
                 }
 
-                registers[instr.operand] = stack_get(stack);
+                set_register(instr.operand, stack_get(stack));
                 stack_pop(stack);
                 pc++;
                 break;
             }
 
             case InstructionType::ADD: {
-                if (!stack_has_at_least(2)) {
+                Data a, b;
+                if (!pop_two_operands(a, b)) {
                     error = true;
                     error_message = "Not enough operands for ADD";
                     break;
                 }
-
-                Data b = stack_get(stack);
-                stack_pop(stack);
-                Data a = stack_get(stack);
-                stack_pop(stack);
                 stack_push(stack, a + b);
                 pc++;
                 break;
             }
 
             case InstructionType::SUB: {
-                if (!stack_has_at_least(2)) {
+                Data a, b;
+                if (!pop_two_operands(a, b)) {
                     error = true;
                     error_message = "Not enough operands for SUB";
                     break;
                 }
-
-                Data b = stack_get(stack);
-                stack_pop(stack);
-                Data a = stack_get(stack);
-                stack_pop(stack);
                 stack_push(stack, a - b);
                 pc++;
                 break;
             }
 
             case InstructionType::MUL: {
-                if (!stack_has_at_least(2)) {
+                Data a, b;
+                if (!pop_two_operands(a, b)) {
                     error = true;
                     error_message = "Not enough operands for MUL";
                     break;
                 }
-
-                Data b = stack_get(stack);
-                stack_pop(stack);
-                Data a = stack_get(stack);
-                stack_pop(stack);
                 stack_push(stack, a * b);
                 pc++;
                 break;
             }
 
             case InstructionType::CALL: {
-                stack_push(stack, -(static_cast<Data>(pc) + 1));
-                pc++;
+                
+                return_stack.push_back(static_cast<Data>(pc) + 1);
+                
+                pc = get_value(instr.operand);
                 break;
             }
 
             case InstructionType::RET: {
-                if (stack_empty(stack)) {
+                if (return_stack.empty()) {
                     error = true;
-                    error_message = "BAD RET";
+                    error_message = "BAD RET - no return address";
                     break;
                 }
 
-                Data top = stack_get(stack);
-                if (top >= 0) {
-                    error = true;
-                    error_message = "BAD RET";
-                    break;
-                }
-
-                pc = -top;
-                stack_pop(stack);
+                
+                pc = return_stack.back();
+                return_stack.pop_back();
                 break;
             }
             }
@@ -247,10 +232,10 @@ public:
     }
 
     void print_registers() {
-        cout << "A = " << registers["A"] << endl;
-        cout << "B = " << registers["B"] << endl;
-        cout << "C = " << registers["C"] << endl;
-        cout << "D = " << registers["D"] << endl;
+        cout << "A = " << regA << endl;
+        cout << "B = " << regB << endl;
+        cout << "C = " << regC << endl;
+        cout << "D = " << regD << endl;
     }
 
     void print_error() {

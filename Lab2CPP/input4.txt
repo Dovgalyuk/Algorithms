@@ -1,3 +1,0 @@
-call
-pop A
-ret

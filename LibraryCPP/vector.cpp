@@ -3,6 +3,13 @@
 
 using namespace std;
 
+struct Vector  
+{
+    Data* data;
+    size_t size;
+    size_t capacity;
+};
+
 Vector* vector_create()
 {
     Vector* vector = new Vector;
@@ -62,11 +69,7 @@ void vector_resize(Vector* vector, size_t size)
 
 void vector_push_back(Vector* vector, Data value)
 {
-    if (vector->size == vector->capacity)
-        vector_resize(vector, vector->size + 1); 
-    else
-        vector->size++; 
-
+    vector_resize(vector, vector->size + 1);
     vector->data[vector->size - 1] = value;
 }
 

@@ -5,12 +5,7 @@
 
 typedef int Data;
 
-struct Vector
-{
-    Data* data;
-    size_t size;
-    size_t capacity;
-};
+struct Vector;  
 
 Vector* vector_create();
 void vector_delete(Vector* vector);
