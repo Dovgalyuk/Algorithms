@@ -3,7 +3,7 @@
 #include <string>
 #include "stack.h"
 
-const int INT_MIN = -2147483648
+const int INT_MIN = -2147483648;
 
 struct CPU {
     int A = 0;
