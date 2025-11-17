@@ -1,5 +1,7 @@
+#pragma once
 #ifndef STACK_H
 #define STACK_H
+#include "vector.h"
 
 #include <cstddef>
 
@@ -13,10 +15,10 @@ public:
     Stack();
 
     // copy constructor
-    Stack(const Stack &a);
+    Stack(const Stack& a);
 
     // assignment operator
-    Stack &operator=(const Stack &a);
+    Stack& operator=(const Stack& a);
 
     // Deletes the stack
     ~Stack();
@@ -37,6 +39,7 @@ public:
 
 private:
     // private data should be here
+    Vector sdata;
 };
 
 #endif
