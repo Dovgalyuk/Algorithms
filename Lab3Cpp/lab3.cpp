@@ -6,8 +6,8 @@
 using namespace std;
 
 struct Reaction {
-    string from;
-    string to;
+    char from;
+    char to;
 };
 
 int main(int argc, char* argv[]) {
@@ -26,8 +26,8 @@ int main(int argc, char* argv[]) {
     while (getline(input, line)) {
         size_t pos = line.find("->");
         if (pos != string::npos) {
-            reactions[rcount].from = line.substr(0, pos);
-            reactions[rcount].to = line.substr(pos + 2);
+            reactions[rcount].from = line[0];
+            reactions[rcount].to = line[pos + 2];
             rcount++;
         }
     }
@@ -47,8 +47,8 @@ int main(int argc, char* argv[]) {
         queue_remove(queue);
 
         for (size_t i = 0; i < rcount; ++i) {
-            if (!reactions[i].from.empty() && reactions[i].from[0] == cur) {
-                char next = reactions[i].to[0];
+            if (reactions[i].from == cur) {
+                char next = reactions[i].to;
                 int id = next - 'A';
                 if (!used[id]) {
                     used[id] = true;
