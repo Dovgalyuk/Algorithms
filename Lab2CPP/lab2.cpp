@@ -1,8 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <limits>
 #include "stack.h"
+
+const int INT_MIN = -2147483648
 
 struct CPU {
     int A = 0;
