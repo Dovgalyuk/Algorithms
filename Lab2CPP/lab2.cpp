@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <limits>
 #include "stack.h"
 
 struct CPU {
@@ -26,7 +27,7 @@ void execute_instructions(const std::string& filename) {
         else if (command == "pop") {
             char reg;
             infile >> reg;
-            if (stack_empty(stack) || stack_get(stack) == -1) {
+            if (stack_empty(stack) || stack_get(stack) == INT_MIN) {
                 std::cout << "BAD POP" << std::endl;
                 error = true;
                 break;
@@ -71,10 +72,10 @@ void execute_instructions(const std::string& filename) {
             stack_push(stack, xadd);
         }
         else if (command == "call") {
-            stack_push(stack, -1); 
+            stack_push(stack, INT_MIN); 
         }
         else if (command == "ret") {
-            if (stack_empty(stack) || stack_get(stack) != -1) {
+            if (stack_empty(stack) || stack_get(stack) != INT_MIN) {
                 std::cout << "BAD RET" << std::endl;
                 error = true;
                 break;
