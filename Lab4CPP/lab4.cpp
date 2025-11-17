@@ -35,12 +35,30 @@ GraphInt read_graph_from_file(const std::string& filename) {
     return graph;
 }
 
-void floyd_algorithm(GraphInt& graph) {
+void print_path(size_t i, size_t j, const Vector<Vector<int>>& n, const GraphInt& g)
+{
+    if(n[i][j] == -1)
+    {
+        std::cout << "No path";
+        return;
+    }
+
+    std::cout << g.get_vertex(i);
+
+    while(i != j){
+        i = n[i][j];
+        std::cout << " -> " << g.get_vertex(i);
+    }
+}
+
+void floyd_algorithm(GraphInt& graph) 
+{
     size_t n = graph.vertex_count();
     
     Vector<Vector<int>> dist;
     dist.resize(n);
-    for(size_t i = 0; i < n; i++) {
+    for(size_t i = 0; i < n; i++) 
+    {
         dist[i].resize(n);
         for(size_t j = 0; j < n; j++)
             dist[i][j] = INT_MAX;
@@ -48,20 +66,25 @@ void floyd_algorithm(GraphInt& graph) {
 
     Vector<Vector<int>> next;
     next.resize(n);
-    for(size_t i = 0; i < n; i++) {
+    for(size_t i = 0; i < n; i++) 
+    {
         next[i].resize(n);
         for(size_t j = 0; j < n; j++)
             next[i][j] = -1;
     }
 
     
-    for(size_t i = 0; i < n; i++) {
+    for(size_t i = 0; i < n; i++) 
+    {
         dist[i][i] = 0;
         next[i][i] = i;
         
-        for(size_t j = 0; j < n; j++) {
-            if(i != j && graph.has_edge(i, j)) {
-                try{
+        for(size_t j = 0; j < n; j++) 
+        {
+            if(i != j && graph.has_edge(i, j)) 
+            {
+                try
+                {
                     dist[i][j] = graph.get_edge(i, j);
                     next[i][j] = j;
                 }
@@ -101,6 +124,24 @@ void floyd_algorithm(GraphInt& graph) {
         }
         std::cout << "\n";
     }
+
+    for(size_t i = 0; i < n; i++){
+        for(size_t j = 0; j < n; j++){
+            if(i != j){
+                std::cout << graph.get_vertex(i) << " -> " 
+                        << graph.get_vertex(j) << ": ";
+
+                if(dist[i][j] == INT_MAX){
+                    std::cout << "No path\n";
+                }
+                else{
+                    print_path(i, j, next, graph);
+                    std::cout << " (len = " << dist[i][j] << ")\n";
+                }
+            }
+        }
+    }
+
 }
 
 int main(int argc, char* argv[]) {
