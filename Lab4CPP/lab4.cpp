@@ -6,13 +6,15 @@
 #include "graph.h"
 #include "vector.h"
 
-Graph<std::string, int> read_graph_from_file(const std::string& filename) {
+typedef Graph<std::string, int> GraphInt;
+
+GraphInt read_graph_from_file(const std::string& filename) {
     std::ifstream file(filename);
 
     int n;
     file >> n;
     
-    Graph<std::string, int> graph;
+    GraphInt graph;
     
     for(int i = 0; i < n; i++) {
         std::string vertex_name;
@@ -33,7 +35,7 @@ Graph<std::string, int> read_graph_from_file(const std::string& filename) {
     return graph;
 }
 
-void floyd_algorithm(Graph<std::string, int>& graph) {
+void floyd_algorithm(GraphInt& graph) {
     size_t n = graph.vertex_count();
     
     Vector<Vector<int>> dist;
@@ -106,7 +108,7 @@ int main(int argc, char* argv[]) {
         if(argc < 2) {
             return 1;
         }
-        Graph<std::string, int> graph = read_graph_from_file(argv[1]);
+        GraphInt graph = read_graph_from_file(argv[1]);
         floyd_algorithm(graph);
         
     } catch(const std::exception& e) {
