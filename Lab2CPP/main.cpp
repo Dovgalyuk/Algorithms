@@ -60,40 +60,39 @@ string vector_to_string(const VectorData& vec) {
 VectorData merge_sort_iterative(VectorData arr) {
     if (arr.size() <= 1) return arr;
 
-    struct Range {
+    struct Task {
         int start;
         int end;
+        bool do_merge;
     };
 
     int n = arr.size();
     VectorData temp(n);
-    vector<Range> storage;
-    Stack* stack = stack_create();
-    storage.push_back({ 0, n });
-    stack_push(stack, static_cast<Data>(storage.size() - 1));
 
+    vector<Task> storage;
+    Stack* stack = stack_create();
+    storage.push_back({ 0, n, false });
+    stack_push(stack, static_cast<Data>(storage.size() - 1));
     while (!stack_empty(stack)) {
         int idx = stack_get(stack);
         stack_pop(stack);
-        Range r = storage[idx];
-        if (r.end - r.start <= 1) continue;
-        int mid = r.start + (r.end - r.start) / 2;
-        storage.push_back({ r.start, mid });
-        storage.push_back({ mid, r.end });
-        stack_push(stack, static_cast<Data>(storage.size() - 1));
-        stack_push(stack, static_cast<Data>(storage.size() - 2));
-    }
-
-    stack_delete(stack);
-    for (int size = 1; size < n; size *= 2) {
-        for (int start = 0; start < n; start += 2 * size) {
-            int mid = min(start + size, n);
-            int end = min(start + 2 * size, n);
-
-            merge_range(arr, start, mid, end, temp);
+        Task t = storage[idx];
+        if (t.end - t.start <= 1) continue;
+        if (t.do_merge) {
+            merge_range(arr, t.start, (t.start + t.end) / 2, t.end, temp);
+        }
+        else {
+            int mid = t.start + (t.end - t.start) / 2;
+            storage.push_back({ t.start, t.end, true });
+            stack_push(stack, static_cast<Data>(storage.size() - 1));
+            storage.push_back({ mid, t.end, false });
+            storage.push_back({ t.start, mid, false });
+            stack_push(stack, static_cast<Data>(storage.size() - 2));
+            stack_push(stack, static_cast<Data>(storage.size() - 1));
         }
     }
 
+    stack_delete(stack);
     return arr;
 }
 
