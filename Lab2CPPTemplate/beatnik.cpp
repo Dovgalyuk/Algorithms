@@ -5,20 +5,19 @@
 #include <string>
 
 #include "stack.h"
-#include "vector.h"
 
 int getWordValue(const std::string& word) {
-    std::map<char,int> letter_scores = {
-        {'A',1},{'B',3},{'C',3},{'D',2},{'E',1},{'F',4},{'G',2},
-        {'H',4},{'I',1},{'J',8},{'K',5},{'L',1},{'M',3},{'N',1},
-        {'O',1},{'P',3},{'Q',10},{'R',1},{'S',1},{'T',1},{'U',1},
-        {'V',4},{'W',4},{'X',8},{'Y',4},{'Z',10}
+    int letter_scores[] = { 
+        1, 3, 3, 2, 1, 4, 2,
+        4, 1, 8, 5, 1, 3, 1,
+        1, 3, 10, 1, 1, 1, 1,
+        4, 4, 8, 4, 10
     };
 
     int sum = 0;
     for (char c : word) {
         if (isalpha(c)) {
-            sum += letter_scores[(char)toupper(c)];
+            sum += letter_scores[toupper(c) - 'A'];
         }
     }
 
@@ -36,9 +35,7 @@ int main(int argc, char** argv) {
 
     Stack<int> stack;
 
-    int ch;
-
-    Vector<std::string> scriptWords;
+    Vector<int> scriptWords;
     int counter = 0;
 
     std::string word;
@@ -46,16 +43,15 @@ int main(int argc, char** argv) {
         if ((int)scriptWords.size() <= counter + 1) {
             scriptWords.resize(counter + 1);
         }
-        scriptWords.set(counter, word);
+        scriptWords.set(counter, getWordValue(word));
         counter++;
     }
 
     for (size_t i = 0; i < scriptWords.size(); i++) {
-        int value = getWordValue(scriptWords.get(i));
-        switch (value) {
+        switch (scriptWords.get(i)) {
             case 5:
                 if (i + 1 < scriptWords.size()) {
-                    stack.push(getWordValue(scriptWords.get(++i)));
+                    stack.push(scriptWords.get(++i));
                 }
                 break;
             case 6:
@@ -73,8 +69,7 @@ int main(int argc, char** argv) {
                 }
                 break;
             case 8:
-                ch = inputFile.get();
-                stack.push(ch);
+                stack.push(inputFile.get());
                 break;
             case 9:
                 if (!stack.empty()) {
@@ -113,7 +108,7 @@ int main(int argc, char** argv) {
                     stack.pop();
                     if (n == 0) {
                         if (i + 1 < scriptWords.size()) {
-                            int skip = getWordValue(scriptWords.get(i + 1));
+                            int skip = scriptWords.get(i + 1);
                             i += skip + 1;
                             if (i >= scriptWords.size()) {
                                 i = scriptWords.size() - 1;
@@ -128,7 +123,7 @@ int main(int argc, char** argv) {
                     stack.pop();
                     if (n != 0) {
                         if (i + 1 < scriptWords.size()) {
-                            int skip = getWordValue(scriptWords.get(i + 1));
+                            int skip = scriptWords.get(i + 1);
                             i += skip + 1;
                             if (i >= scriptWords.size()) {
                                 i = scriptWords.size() - 1;
@@ -143,7 +138,7 @@ int main(int argc, char** argv) {
                     stack.pop();
                     if (n == 0) {
                         if (i + 1 < scriptWords.size()) {
-                            int skip = getWordValue(scriptWords.get(i + 1));
+                            int skip = scriptWords.get(i + 1);
                             if (skip > (int)i) {
                                 i = 0;
                             } else {
@@ -160,7 +155,7 @@ int main(int argc, char** argv) {
                     stack.pop();
                     if (n != 0) {
                         if (i + 1 < scriptWords.size()) {
-                            int skip = getWordValue(scriptWords.get(i + 1));
+                            int skip = scriptWords.get(i + 1);
                             if (skip > (int)i) {
                                 i = 0;
                             } else {
