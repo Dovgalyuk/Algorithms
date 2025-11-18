@@ -44,13 +44,14 @@
         delete[] maze;
     }
 
-
     int bfs(char** maze, int rows, int cols, int startX, int startY) {
         Queue* queue = queue_create();
         int count = 1;
         queue_insert(queue, startX);
         queue_insert(queue, startY);
-        maze[startY][startX] = 'x';
+        if (maze[startY][startX] == 'X') {
+            maze[startY][startX] = 'x';
+        }
         int dx[] = {0, 1, 0, -1};
         int dy[] = {-1, 0, 1, 0};
         while (!queue_empty(queue)) {
@@ -61,11 +62,13 @@
             for (int i = 0; i < 4; i++) {
                 int nx = x + dx[i];
                 int ny = y + dy[i];
-                if (nx >= 0 && ny >= 0 && ny < rows && nx < cols && maze[ny][nx] == '.') {
-                    count++;
-                    maze[ny][nx] = 'x';
-                    queue_insert(queue, nx);
-                    queue_insert(queue, ny);
+                if (nx >= 0 && ny >= 0 && ny < rows && nx < cols) {
+                    if (maze[ny][nx] == '.') {
+                        count++;
+                        maze[ny][nx] = 'x';
+                        queue_insert(queue, nx);
+                        queue_insert(queue, ny);
+                    }
                 }
             }
         }
@@ -80,7 +83,7 @@
         int rows, cols, startX, startY;
         readMaze(input, maze, rows, cols, startX, startY);
         input.close();
-        int count = bfs(maze, rows, cols, startX, startY);
+        int count = bfs(maze, rows, cols, startX, startY); 
         cout << count << endl;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {

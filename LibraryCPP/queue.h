@@ -5,7 +5,7 @@
 
 // Stores integer values inside
 // Change it to desired type
-typedef char Data;
+typedef int Data;
 
 struct Queue;
 

@@ -7,24 +7,23 @@ struct ListItem
     ListItem* next;
     ListItem* prev;
 };
+
 struct List
 {
     ListItem* head;
-    size_t size;
 };
 
 List *list_create()
 {
     List* list = new List;
     list->head = nullptr;
-    list->size = 0;
     return list;
 }
 
 void list_delete(List *list)
 {
     if (!list) return;
-    while (list->size > 0) 
+    while (list->head) 
     {
         list_erase_first(list);
     }
@@ -33,13 +32,13 @@ void list_delete(List *list)
 
 ListItem *list_first(List *list)
 {
-    if (!list || list->size == 0) return nullptr;
+    if (!list) return nullptr;
     return list->head;
 }
 
 Data list_item_data(const ListItem *item)
 {
-    if (!item) return '\0';
+    if (!item) return 0;
     return item->data;
 }
 
@@ -63,11 +62,9 @@ ListItem *list_insert(List *list, Data data)
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
     if (!list) return nullptr;
-    
     ListItem* new_item = new ListItem;
     new_item->data = data;
-    
-    if (list->size == 0) 
+    if (!list->head) 
     {
         new_item->next = new_item;
         new_item->prev = new_item;
@@ -89,7 +86,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
         item->next->prev = new_item;
         item->next = new_item;
     }
-    list->size++;
     return new_item;
 }
 
@@ -100,15 +96,13 @@ ListItem *list_erase_first(List *list)
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    if (!list || list->size == 0) return nullptr;
+    if (!list || !list->head) return nullptr;
     ListItem* to_delete = nullptr;
     ListItem* result = nullptr;
-    
     if (!item) 
     {
         to_delete = list->head;
-        
-        if (list->size == 1) 
+        if (to_delete->next == to_delete) 
         {
             list->head = nullptr;
             result = nullptr;
@@ -120,9 +114,7 @@ ListItem *list_erase_next(List *list, ListItem *item)
             to_delete->prev->next = list->head;
             list->head->prev = to_delete->prev;
         }
-    } 
-    else 
-    {
+    } else {
         to_delete = item->next;
         if (to_delete == list->head) 
         {
@@ -131,13 +123,11 @@ ListItem *list_erase_next(List *list, ListItem *item)
         result = to_delete->next;
         item->next = to_delete->next;
         to_delete->next->prev = item;
+        if (to_delete == to_delete->next) 
+        {
+            list->head = nullptr;
+        }
     }
     delete to_delete;
-    list->size--;
-    if (list->size == 0) 
-    {
-        list->head = nullptr;
-    }
-    
     return result;
 }
