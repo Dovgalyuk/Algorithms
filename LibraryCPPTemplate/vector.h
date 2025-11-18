@@ -136,9 +136,9 @@ private:
 
     void grow(size_t new_cap)
     {
-        if (new_cap < cap * 2)
+        if (new_cap < cap * 2)       
             new_cap = cap * 2;
-
+        
         Data* new_arr = new Data[new_cap];
 
         for (size_t i = 0; i < s; i++)

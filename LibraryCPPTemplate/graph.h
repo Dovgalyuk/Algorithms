@@ -6,8 +6,11 @@
 template<typename Vertex, typename Edge>
 class Graph 
 {
-    Vector<Vertex> vers;
-    Vector<Vector<Edge>> matrix;
+    typedef Vector<Vertex> VertexContainer;
+    typedef Vector<Vector<Edge>> Matrix;
+
+    VertexContainer vers;
+    Matrix matrix;
 
     Edge empty_val{};
 
@@ -56,7 +59,7 @@ public:
 
     size_t vertex_count() const { return vers.size(); }
 
-    Vector<Vertex> get_all_vertex() const { return vers; }
+    VertexContainer get_all_vertex() const { return vers; }
 
     void rem_edge(size_t from, size_t to)
     {
@@ -88,7 +91,7 @@ public:
 
     class NIterator 
     {
-        const Vector<Vector<Edge>>& matr;
+        const Matrix& matr;
         size_t row;
         size_t col;
         const Edge* empty;
@@ -100,7 +103,7 @@ public:
         }
 
     public: 
-        NIterator(const Vector<Vector<Edge>>& a, size_t r, size_t c, const Edge* e) : matr(a), row(r), col(c), empty(e)
+        NIterator(const Matrix& a, size_t r, size_t c, const Edge* e) : matr(a), row(r), col(c), empty(e)
         {
             skip();
         }

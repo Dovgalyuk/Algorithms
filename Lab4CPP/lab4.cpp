@@ -7,6 +7,7 @@
 #include "vector.h"
 
 typedef Graph<std::string, int> GraphInt;
+typedef Vector<Vector<int>> MatrixInt;
 
 GraphInt read_graph_from_file(const std::string& filename) {
     std::ifstream file(filename);
@@ -35,7 +36,7 @@ GraphInt read_graph_from_file(const std::string& filename) {
     return graph;
 }
 
-void print_path(size_t i, size_t j, const Vector<Vector<int>>& n, const GraphInt& g)
+void print_path(size_t i, size_t j, const MatrixInt& n, const GraphInt& g)
 {
     if(n[i][j] == -1)
     {
@@ -47,7 +48,7 @@ void print_path(size_t i, size_t j, const Vector<Vector<int>>& n, const GraphInt
 
     while(i != j){
         i = n[i][j];
-        std::cout << " -> " << g.get_vertex(i);
+        std::cout << "->" << g.get_vertex(i);
     }
 }
 
@@ -55,7 +56,7 @@ void floyd_algorithm(GraphInt& graph)
 {
     size_t n = graph.vertex_count();
     
-    Vector<Vector<int>> dist;
+    MatrixInt dist;
     dist.resize(n);
     for(size_t i = 0; i < n; i++) 
     {
@@ -64,7 +65,7 @@ void floyd_algorithm(GraphInt& graph)
             dist[i][j] = INT_MAX;
     }
 
-    Vector<Vector<int>> next;
+    MatrixInt next;
     next.resize(n);
     for(size_t i = 0; i < n; i++) 
     {
@@ -107,28 +108,11 @@ void floyd_algorithm(GraphInt& graph)
             }
         }
     }
-    std::cout << "\t";
-    for(size_t i = 0; i < n; i++) {
-        std::cout << graph.get_vertex(i) << "\t";
-    }
-    std::cout << "\n";
-    
-    for(size_t i = 0; i < n; i++) {
-        std::cout << graph.get_vertex(i) << "\t";
-        for(size_t j = 0; j < n; j++) {
-            if(dist[i][j] == INT_MAX) {
-                std::cout << "INF\t";
-            } else {
-                std::cout << dist[i][j] << "\t";
-            }
-        }
-        std::cout << "\n";
-    }
 
     for(size_t i = 0; i < n; i++){
         for(size_t j = 0; j < n; j++){
             if(i != j){
-                std::cout << graph.get_vertex(i) << " -> " 
+                std::cout << graph.get_vertex(i) << "->" 
                         << graph.get_vertex(j) << ": ";
 
                 if(dist[i][j] == INT_MAX){
@@ -136,12 +120,11 @@ void floyd_algorithm(GraphInt& graph)
                 }
                 else{
                     print_path(i, j, next, graph);
-                    std::cout << " (len = " << dist[i][j] << ")\n";
+                    std::cout << " (length = " << dist[i][j] << ")\n";
                 }
             }
         }
     }
-
 }
 
 int main(int argc, char* argv[]) {
