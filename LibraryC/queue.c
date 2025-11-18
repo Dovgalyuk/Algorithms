@@ -2,7 +2,7 @@
 #include "queue.h"
 
 typedef struct Queue {
-    Data d; // заглушка
+    Data d; 
 } Queue;
 
 Queue* queue_create(FFree f)

@@ -1,6 +1,5 @@
 #include "list.h"
 
-// Заглушки методов класса List
 
 List::List() {}
 

@@ -1,8 +1,8 @@
 #include "array.h"
 
-// «аглушка класса Array
+
 Array::Array(size_t size) {
-    (void)size; // убрать предупреждение
+    (void)size; 
 }
 
 Array::Array(const Array& a) {

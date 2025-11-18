@@ -2,7 +2,7 @@
 #include "stack.h"
 
 typedef struct Stack {
-    Data d; // заглушка
+    Data d;
 } Stack;
 
 Stack* stack_create(FFree f)

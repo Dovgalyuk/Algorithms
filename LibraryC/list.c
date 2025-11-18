@@ -2,11 +2,11 @@
 #include "list.h"
 
 typedef struct ListItem {
-    Data d; // заглушка
+    Data d; 
 } ListItem;
 
 typedef struct List {
-    Data d; // заглушка
+    Data d; 
 } List;
 
 List* list_create(FFree f)

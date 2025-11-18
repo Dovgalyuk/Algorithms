@@ -2,7 +2,7 @@
 #include "vector.h"
 
 typedef struct Vector {
-    Data d; // заглушка
+    Data d; 
 } Vector;
 
 Vector* vector_create(FFree f)
