@@ -19,7 +19,7 @@ void toPostfix(const std::string& input)
     {
         char c = input[i];
 
-        if (c >= 'A' && c <= 'Z')  // переменные
+        if (c >= 'A' && c <= 'Z')  
         {
             output += c;
         }

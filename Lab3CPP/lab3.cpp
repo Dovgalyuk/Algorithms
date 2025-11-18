@@ -1,74 +1,63 @@
-#include <fstream>
 #include <iostream>
-#include <string>
+#include <fstream>
+#include <vector>
 #include "queue.h"
 
 using namespace std;
 
-struct Node {
-    int x, y, step;
-};
-
-Data make_data(int x, int y, int step) {
-    return (x << 24) | (y << 16) | step;
+static inline int pack(int x, int y) {
+    return (x << 8) | y;
 }
 
-void extract_data(Data d, int &x, int &y, int &step) {
-    x = (d >> 24) & 0xFF;
-    y = (d >> 16) & 0xFF;
-    step = d & 0xFFFF;
+static inline void unpack(int d, int &x, int &y) {
+    x = (d >> 8) & 0xFF;
+    y = d & 0xFF;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char** argv) {
+    if (argc < 2) {
+        cerr << "No input file\n";
+        return 1;
+    }
+
+    ifstream fin(argv[1]);
+    if (!fin) {
+        cerr << "Cannot open file\n";
+        return 1;
+    }
+
     const int N = 8;
-    string board[N];
+    vector<string> board(N);
+    for (int i = 0; i < N; ++i) fin >> board[i];
 
-    istream* input = &cin;  // по умолчанию stdin
-    ifstream file;
-    if (argc > 1) {          // если передан аргумент
-        file.open(argv[1]);
-        if (!file) {
-            cerr << "Cannot open file: " << argv[1] << endl;
-            return 1;
-        }
-        input = &file;       // читаем из файла
-    }
+    int sx = -1, sy = -1, ex = -1, ey = -1;
 
     for (int i = 0; i < N; i++)
-        *input >> board[i];
-
-    int sx = -1, sy = -1;
-
-    for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
-            if (board[i][j] == 'K') {
-                sx = i;
-                sy = j;
-            }
+            if (board[i][j] == 'K') { sx = i; sy = j; }
+            if (board[i][j] == 'E') { ex = i; ey = j; }
         }
-    }
 
-    if (sx == -1 || sy == -1) {
-    cerr << "Error: K not found on board\n";
-    return 1;
-}
-
-    int dist[N][N];
-    for (int i = 0; i < N; i++)
-        for (int j = 0; j < N; j++)
-            dist[i][j] = -1;
+    vector<vector<int>> dist(N, vector<int>(N, -1));
+    vector<vector<pair<int,int>>> parent(N, vector<pair<int,int>>(N, {-1,-1}));
 
     Queue* q = queue_create();
-    queue_insert(q, make_data(sx, sy, 0));
+
     dist[sx][sy] = 0;
+    queue_insert(q, pack(sx, sy));
 
     int dx[8] = {-2,-2,-1,-1,1,1,2,2};
     int dy[8] = {-1,1,-2,2,-2,2,-1,1};
 
+    // --- BFS ---
     while (!queue_empty(q)) {
-        int x, y, step;
-        extract_data(queue_get(q), x, y, step);
+        int d = queue_get(q);
         queue_remove(q);
+
+        int x, y;
+        unpack(d, x, y);
+
+        if (x == ex && y == ey) break;
 
         for (int k = 0; k < 8; k++) {
             int nx = x + dx[k];
@@ -78,28 +67,42 @@ int main(int argc, char* argv[]) {
             if (board[nx][ny] == '#') continue;
             if (dist[nx][ny] != -1) continue;
 
-            dist[nx][ny] = step + 1;
-            queue_insert(q, make_data(nx, ny, step + 1));
+            dist[nx][ny] = dist[x][y] + 1;
+            parent[nx][ny] = {x, y};
+            queue_insert(q, pack(nx, ny));
         }
     }
 
     queue_delete(q);
 
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            if (board[i][j] == '#')
-                cout << '#';
-            else if (dist[i][j] == -1)
-                cout << '.';
-            else {
-                if (dist[i][j] < 10)
-                    cout << dist[i][j];
-                else
-                    cout << (dist[i][j] % 10);
-            }
+    // --- восстановление пути ---
+    vector<vector<char>> out(N, vector<char>(N));
+
+    // копируем доску
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < N; j++)
+            out[i][j] = board[i][j];
+
+    // если путь найден
+    if (dist[ex][ey] != -1) {
+        int x = ex, y = ey;
+        int step = dist[x][y];
+
+        while (!(x == sx && y == sy)) {
+            out[x][y] = (step < 10 ? '0' + step : '0' + (step % 10));
+            auto p = parent[x][y];
+            x = p.first; 
+            y = p.second;
+            step--;
         }
-        cout << "\n";
+
+        out[sx][sy] = '0';
     }
 
-    return 0;
+    // --- вывод ---
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++)
+            cout << out[i][j];
+        cout << "\n";
+    }
 }
