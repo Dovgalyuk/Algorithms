@@ -47,9 +47,6 @@ int findNearestDigit(const Maze& maze, Point start) {
                 nearestDigit = digit;
                 break;
             }
-            else if (distance[x][y] == minDistance && digit < nearestDigit) {
-                nearestDigit = digit;
-            }
         }
         for (int i = 0; i < 4; ++i) {
             int nx = x + dx[i];
