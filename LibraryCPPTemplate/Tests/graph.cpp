@@ -129,6 +129,7 @@ int main() {
 		return 1;
 	}
 
+
 	auto all_labels = graph->all_vertex_label();
 	if (all_labels.size() != 5)
 	{
