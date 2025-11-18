@@ -12,6 +12,7 @@ struct CPU {
 
 void execute_instructions(const std::string& filename) {
     Stack* stack = stack_create();
+    Stack* stack2 = stack_create();
     CPU cpu;
     std::ifstream infile(filename);
     std::string command;
@@ -22,11 +23,12 @@ void execute_instructions(const std::string& filename) {
         if (command == "push") {
             infile >> value;
             stack_push(stack, value);
+            stack_push(stack2, 1);
         }
         else if (command == "pop") {
             char reg;
             infile >> reg;
-            if (stack_empty(stack) || stack_get(stack) == -1) {
+            if (stack_empty(stack)||stack_get(stack2) == -1) {
                 std::cout << "BAD POP" << std::endl;
                 error = true;
                 break;
@@ -34,6 +36,7 @@ void execute_instructions(const std::string& filename) {
             else {
                 int popped_value = stack_get(stack);
                 stack_pop(stack);
+                stack_pop(stack2);
                 switch (reg) {
                 case 'A': cpu.A = popped_value; break;
                 case 'B': cpu.B = popped_value; break;
@@ -53,6 +56,9 @@ void execute_instructions(const std::string& filename) {
             stack_pop(stack);
             int xadd = x1 + x2;
             stack_push(stack, xadd);
+            stack_pop(stack2);
+            stack_pop(stack2);
+            stack_push(stack2, 1);
         }
         else if (command == "sub") {
             int x1 = stack_get(stack);
@@ -61,6 +67,9 @@ void execute_instructions(const std::string& filename) {
             stack_pop(stack);
             int xadd = x1 - x2;
             stack_push(stack, xadd);
+            stack_pop(stack2);
+            stack_pop(stack2);
+            stack_push(stack2, 1);
         }
         else if (command == "mul") {
             int x1 = stack_get(stack);
@@ -69,18 +78,23 @@ void execute_instructions(const std::string& filename) {
             stack_pop(stack);
             int xadd = x1 * x2;
             stack_push(stack, xadd);
+            stack_pop(stack2);
+            stack_pop(stack2);
+            stack_push(stack2, 1);
         }
         else if (command == "call") {
-            stack_push(stack, -1); 
+            stack_push(stack, -1);
+            stack_push(stack2, -1);
         }
         else if (command == "ret") {
-            if (stack_empty(stack) || stack_get(stack) != -1) {
+            if (stack_get(stack2) != -1) {
                 std::cout << "BAD RET" << std::endl;
                 error = true;
                 break;
             }
             else {
                 stack_pop(stack);
+                stack_pop(stack2);
             }
         }
     }
