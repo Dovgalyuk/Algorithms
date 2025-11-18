@@ -7,7 +7,12 @@ using namespace std;
 
 const double INF = 1e12;
 
-void build_matrix(Graph<string, double>& graph, vector<vector<double>>& dist, vector<vector<int>>& next, vector<string>& names) {
+typedef Graph<string, double> Graph1;
+typedef vector<vector<double>> Dist;
+typedef vector<vector<int>> Next;
+typedef vector<string> Names;
+
+void build_matrix(Graph1& graph, Dist& dist,Next& next , Names& names) {
 
 	size_t n = graph.vertex_count();
 	
@@ -35,7 +40,7 @@ void build_matrix(Graph<string, double>& graph, vector<vector<double>>& dist, ve
 	}
 }
 
-void floyd(vector<vector<double>>& dist, vector<vector<int>>& next) {
+void floyd(Dist& dist, Next& next) {
 
 	size_t n = dist.size();
 
@@ -55,21 +60,36 @@ void floyd(vector<vector<double>>& dist, vector<vector<int>>& next) {
 	}
 }
 
-void print_distans(vector<vector<double>>& dist, vector<string>& names) {
+void print_distans_puti(Next& next, Names& names, Dist& dist) {
 
 	size_t n = dist.size();
 
 	for (size_t i = 0; i < n; i++) {
 		for (size_t j = 0; j < n; j++) {
-
-			cout << names[i] << " to " << names[j] << ": ";
-
-			if (dist[i][j] == INF) {
+			
+			if (i == j){
+				continue;
+			}
+			if (dist[i][j] >= INF) {
 				cout << "INF\n";
+				continue;
 			}
-			else {
-				cout << dist[i][j] << "\n";
+
+			cout << "From " << names[i] << " to " << names[j] << ", distance: ";
+
+			cout << dist[i][j] << endl;
+
+			cout << "Path: " << names[i];
+
+			size_t current = i;
+
+			while (current != j && INF > dist[i][j]) {
+
+				current = next[current][j];
+				cout << " -> " << names[current];
+
 			}
+			cout << "\n\n";
 		}
 	}
 }	
@@ -77,7 +97,7 @@ void print_distans(vector<vector<double>>& dist, vector<string>& names) {
 int main(int argc, char* argv[]) {
 	(void)argc;
 
-	Graph<string, double> graph;
+	Graph1 graph;
 	map<string, bool> add;
 
 	ifstream file(argv[1]);	
@@ -106,12 +126,12 @@ int main(int argc, char* argv[]) {
 	file.close();
 
 
-	vector<vector<double>> dist;
-	vector<vector<int>> next;
-	vector<string> names;
+	Dist dist;
+	Next next; 
+	Names names;
 
 	build_matrix(graph, dist, next, names);
 	floyd(dist, next);
-	print_distans(dist, names);
+	print_distans_puti(next, names , dist);
 
 }

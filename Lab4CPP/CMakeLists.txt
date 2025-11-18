@@ -4,19 +4,38 @@ target_include_directories (Lab4CPP PUBLIC ../LibraryCPPTemplate)
 
 add_test(NAME TestLab4CPP_1 COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/input1.txt)
 set_tests_properties(TestLab4CPP_1 PROPERTIES PASS_REGULAR_EXPRESSION 
-"Ohona to Ohona: 0
-Ohona to Pestovo: 20
-Ohona to Novgorod: 320
-Ohona to Borovichi: 80
-Pestovo to Ohona: 580
-Pestovo to Pestovo: 0
-Pestovo to Novgorod: 300
-Pestovo to Borovichi: 500
-Novgorod to Ohona: 280
-Novgorod to Pestovo: 300
-Novgorod to Novgorod: 0
-Novgorod to Borovichi: 200
-Borovichi to Ohona: 680
-Borovichi to Pestovo: 100
-Borovichi to Novgorod: 400
-Borovichi to Borovichi: 0")
+"From Ohona to Pestovo, distance: 20
+Path: Ohona -> Pestovo
+
+From Ohona to Novgorod, distance: 320
+Path: Ohona -> Pestovo -> Novgorod
+
+From Ohona to Borovichi, distance: 80
+Path: Ohona -> Borovichi
+
+From Pestovo to Ohona, distance: 580
+Path: Pestovo -> Novgorod -> Ohona
+
+From Pestovo to Novgorod, distance: 300
+Path: Pestovo -> Novgorod
+
+From Pestovo to Borovichi, distance: 500
+Path: Pestovo -> Novgorod -> Borovichi
+
+From Novgorod to Ohona, distance: 280
+Path: Novgorod -> Ohona
+
+From Novgorod to Pestovo, distance: 300
+Path: Novgorod -> Ohona -> Pestovo
+
+From Novgorod to Borovichi, distance: 200
+Path: Novgorod -> Borovichi
+
+From Borovichi to Ohona, distance: 680
+Path: Borovichi -> Pestovo -> Novgorod -> Ohona
+
+From Borovichi to Pestovo, distance: 100
+Path: Borovichi -> Pestovo
+
+From Borovichi to Novgorod, distance: 400
+Path: Borovichi -> Pestovo -> Novgorod")

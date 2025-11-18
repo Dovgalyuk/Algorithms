@@ -18,16 +18,22 @@ int main() {
 	string city1 = "Ohona";
 	string city2 = "Pestovo";
 	string city3 = "Novgorod";
+	string city4 = "Moscow";
+	string city5 = "Piter";
 
 	string label1 = "Haval";
 	string label2= "Vesta";
 	string label3 = "Volga";
+	string label4 = "Lada";
+	string label5 = "BMW";
 
 	graph->add_vertex(city1, label1);
 	graph->add_vertex(city2, label2);
 	graph->add_vertex(city3, label3);
+	graph->add_vertex(city4, label4);
+	graph->add_vertex(city5, label5);
 
-	if (graph->vertex_count() != 3) {
+	if (graph->vertex_count() != 5) {
 		cout << "Add_vertex error\n";
 		return 1;
 	}
@@ -37,8 +43,38 @@ int main() {
 
 	int road1 = 100;
 	int road2 = 200;
+	int road3 = 300;
+	int road4 = 400;
+
+
+
+
 	graph->add_edge(city1, city2, road1);
 	graph->add_edge(city2, city3, road2);
+	graph->add_edge(city1, city4, road3);
+	graph->add_edge(city1, city5, road4);
+
+
+
+
+	auto it = graph->get_neighbors(city1);
+	int neighbor_count = 0;
+
+	while (it.valid()) {
+
+		neighbor_count++;
+		it.next();
+
+	}
+	if (neighbor_count != 3)
+	{
+		cout << "Neighbor_iterator error\n";
+		return 1;
+	}
+
+
+
+
 
 	if (!graph->edge_exists(city1, city2)) {
 		cout << "Add_edge error\n";
@@ -94,32 +130,11 @@ int main() {
 	}
 
 	auto all_labels = graph->all_vertex_label();
-	if (all_labels.size() != 3)
+	if (all_labels.size() != 5)
 	{
-		std::cout << "Get_all_vertex_labels error\n";
+		cout << "Get_all_vertex_labels error\n";
 		return 1;
 	}
-
-
-
-
-	auto it = graph->get_neighbors(city1);
-	int neighbor_count = 0;
-
-	while (it.valid()) {
-
-		neighbor_count++;
-		it.next();
-
-	}
-	if (neighbor_count != 1)
-	{
-		cout << "Neighbor_iterator error\n";
-		return 1;
-	}
-
-
-
 
 
 	graph->remove_edge(city1, city2);
@@ -130,7 +145,7 @@ int main() {
 	}
 
 	graph->remove_vertex(city3);
-	if (graph->vertex_count() != 2)
+	if (graph->vertex_count() != 4)
 	{
 		cout << "Remove_vertex error\n";
 		return 1;
