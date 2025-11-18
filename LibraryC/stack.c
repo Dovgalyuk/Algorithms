@@ -1,4 +1,6 @@
+#include <stdlib.h>
 #include "stack.h"
+#include "list.h"
 
 typedef struct Stack {
     List* stack;
