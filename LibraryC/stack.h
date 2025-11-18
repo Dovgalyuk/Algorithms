@@ -2,7 +2,7 @@
 #define STACK_H
 
 #include <stdbool.h>
-#include <stdint.h>
+#include "list.h"
 
 // Stack
 // Stores integer or pointer to custom user data
