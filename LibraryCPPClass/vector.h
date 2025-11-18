@@ -2,40 +2,25 @@
 #define VECTOR_H
 
 #include <cstddef>
+#include <stdexcept>
 
-// Change it to desired type
 typedef int Data;
 
-class Vector
-{
+class Vector {
+    Data* data;      
+    size_t sz;       
+    size_t cap;      
+
 public:
-    // Creates vector
     Vector();
-
-    // copy constructor
-    Vector(const Vector &a);
-
-    // assignment operator
-    Vector &operator=(const Vector &a);
-
-    // Deletes vector structure and internal data
+    Vector(const Vector& a);
+    Vector& operator=(const Vector& a);
     ~Vector();
 
-    // Retrieves vector element with the specified index
     Data get(size_t index) const;
-
-    // Sets vector element with the specified index
     void set(size_t index, Data value);
-
-    // Retrieves current vector size
     size_t size() const;
-
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
-    void resize(size_t size);
-
-private:
-    // private data should be here
+    void resize(size_t newSize);
 };
 
 #endif

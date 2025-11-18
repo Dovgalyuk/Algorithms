@@ -1,0 +1,8 @@
+bipush 6
+bipush 3
+imul
+istore_1
+bipush 12
+bipush 10
+iand
+istore_2

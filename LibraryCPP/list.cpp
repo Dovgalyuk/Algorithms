@@ -1,61 +1,73 @@
 #include <cstddef>
 #include "list.h"
 
-struct ListItem
-{
+// пустая реализация структуры ListItem и List
+struct ListItem {
+    // заглушка, можно добавить поля позже
 };
 
-struct List
-{
+struct List {
+    // заглушка, можно добавить поля позже
 };
 
-List *list_create()
-{
+// Создать список
+List* list_create() {
     return new List;
 }
 
-void list_delete(List *list)
-{
-    // TODO: free items
+// Удалить список
+void list_delete(List* list) {
     delete list;
 }
 
-ListItem *list_first(List *list)
-{
-    return NULL;
+// Вернуть первый элемент
+ListItem* list_first(List* list) {
+    (void)list;
+    return nullptr;
 }
 
-Data list_item_data(const ListItem *item)
-{
-    return (Data)0;
+// Получить данные элемента
+Data list_item_data(const ListItem* item) {
+    (void)item;
+    return 0;
 }
 
-ListItem *list_item_next(ListItem *item)
-{
-    return NULL;
+// Вернуть следующий элемент
+ListItem* list_item_next(ListItem* item) {
+    (void)item;
+    return nullptr;
 }
 
-ListItem *list_item_prev(ListItem *item)
-{
-    return NULL;
+// Вернуть предыдущий элемент
+ListItem* list_item_prev(ListItem* item) {
+    (void)item;
+    return nullptr;
 }
 
-ListItem *list_insert(List *list, Data data)
-{
-    return NULL;
+// Вставка элемента в начало списка
+ListItem* list_insert(List* list, Data data) {
+    (void)list;
+    (void)data;
+    return nullptr;
 }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    return NULL;
+// Вставка после указанного элемента
+ListItem* list_insert_after(List* list, ListItem* item, Data data) {
+    (void)list;
+    (void)item;
+    (void)data;
+    return nullptr;
 }
 
-ListItem *list_erase_first(List *list)
-{
-    return NULL;
+// Удалить первый элемент
+ListItem* list_erase_first(List* list) {
+    (void)list;
+    return nullptr;
 }
 
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    return NULL;
+// Удалить элемент после указанного
+ListItem* list_erase_next(List* list, ListItem* item) {
+    (void)list;
+    (void)item;
+    return nullptr;
 }

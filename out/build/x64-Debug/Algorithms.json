@@ -1,0 +1,126 @@
+[
+  {
+    "Name": "TestArrayC",
+    "Command": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/LibraryC/Tests/TestArrayC.exe",
+    "Arguments": [],
+    "WorkingDirectory": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/LibraryC/Tests",
+    "ProjectFile": "C:/Users/Кирилл/source/repos/Algorithms/LibraryC/Tests/CMakeLists.txt",
+    "LineNumber": 4,
+    "Environment": {},
+    "ExpectsFailure": false,
+    "PassRegularExpression": null,
+    "FailRegularExpression": null,
+    "TargetName": "TestArrayC.exe (LibraryC\\Tests\\TestArrayC.exe)",
+    "TimeoutInMs": -1
+  },
+  {
+    "Name": "TestLab1_Task1",
+    "Command": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab1C/Lab1C.exe",
+    "Arguments": [
+      "C:/Users/Кирилл/source/repos/Algorithms/Lab1C/input_t1.txt",
+      "task1"
+    ],
+    "WorkingDirectory": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab1C",
+    "ProjectFile": "C:/Users/Кирилл/source/repos/Algorithms/Lab1C/CMakeLists.txt",
+    "LineNumber": 5,
+    "Environment": {},
+    "ExpectsFailure": false,
+    "PassRegularExpression": [
+      "496 1274 2325 3165 4216 4995 6107 7068 7755 8959 9585 10850"
+    ],
+    "FailRegularExpression": null,
+    "TargetName": "Lab1C.exe (Lab1C\\Lab1C.exe)",
+    "TimeoutInMs": -1
+  },
+  {
+    "Name": "TestLab1_Task2",
+    "Command": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab1C/Lab1C.exe",
+    "Arguments": [
+      "C:/Users/Кирилл/source/repos/Algorithms/Lab1C/input_t2.txt",
+      "task2"
+    ],
+    "WorkingDirectory": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab1C",
+    "ProjectFile": "C:/Users/Кирилл/source/repos/Algorithms/Lab1C/CMakeLists.txt",
+    "LineNumber": 10,
+    "Environment": {},
+    "ExpectsFailure": false,
+    "PassRegularExpression": [
+      "1 6 7 8 9 .* 0 0 0 0"
+    ],
+    "FailRegularExpression": null,
+    "TargetName": "Lab1C.exe (Lab1C\\Lab1C.exe)",
+    "TimeoutInMs": -1
+  },
+  {
+    "Name": "Test1",
+    "Command": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP/Lab2.exe",
+    "Arguments": [
+      "C:/Users/Кирилл/source/repos/Algorithms/Lab2CPP/test1.txt"
+    ],
+    "WorkingDirectory": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP",
+    "ProjectFile": "C:/Users/Кирилл/source/repos/Algorithms/Lab2CPP/CMakeLists.txt",
+    "LineNumber": 30,
+    "Environment": {},
+    "ExpectsFailure": false,
+    "PassRegularExpression": [
+      "stack:.*1.*vars:.*5.*0.*0.*0"
+    ],
+    "FailRegularExpression": null,
+    "TargetName": "Lab2.exe (Lab2CPP\\Lab2.exe)",
+    "TimeoutInMs": -1
+  },
+  {
+    "Name": "Test2",
+    "Command": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP/Lab2.exe",
+    "Arguments": [
+      "C:/Users/Кирилл/source/repos/Algorithms/Lab2CPP/test2.txt"
+    ],
+    "WorkingDirectory": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP",
+    "ProjectFile": "C:/Users/Кирилл/source/repos/Algorithms/Lab2CPP/CMakeLists.txt",
+    "LineNumber": 35,
+    "Environment": {},
+    "ExpectsFailure": false,
+    "PassRegularExpression": [
+      "stack:.*vars:.*0.*18.*8.*0"
+    ],
+    "FailRegularExpression": null,
+    "TargetName": "Lab2.exe (Lab2CPP\\Lab2.exe)",
+    "TimeoutInMs": -1
+  },
+  {
+    "Name": "Test3",
+    "Command": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP/Lab2.exe",
+    "Arguments": [
+      "C:/Users/Кирилл/source/repos/Algorithms/Lab2CPP/test3.txt"
+    ],
+    "WorkingDirectory": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP",
+    "ProjectFile": "C:/Users/Кирилл/source/repos/Algorithms/Lab2CPP/CMakeLists.txt",
+    "LineNumber": 39,
+    "Environment": {},
+    "ExpectsFailure": false,
+    "PassRegularExpression": [
+      "stack:.*vars:.*5.*20.*0.*0"
+    ],
+    "FailRegularExpression": null,
+    "TargetName": "Lab2.exe (Lab2CPP\\Lab2.exe)",
+    "TimeoutInMs": -1
+  },
+  {
+    "Name": "Test4",
+    "Command": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP/Lab2.exe",
+    "Arguments": [
+      "C:/Users/Кирилл/source/repos/Algorithms/Lab2CPP/test4.txt"
+    ],
+    "WorkingDirectory": "C:/Users/Кирилл/source/repos/Algorithms/out/build/x64-Debug/Lab2CPP",
+    "ProjectFile": "C:/Users/Кирилл/source/repos/Algorithms/Lab2CPP/CMakeLists.txt",
+    "LineNumber": 43,
+    "Environment": {},
+    "ExpectsFailure": false,
+    "PassRegularExpression": [
+      "stack:.*vars:.*8.*7.*4.*0"
+    ],
+    "FailRegularExpression": null,
+    "TargetName": "Lab2.exe (Lab2CPP\\Lab2.exe)",
+    "TimeoutInMs": -1
+  }
+]

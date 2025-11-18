@@ -1,17 +1,19 @@
 #include "stack.h"
+#include "vector.h"
+#include <stdexcept>
 
 Stack::Stack()
 {
 }
 
-Stack::Stack(const Stack &a)
+Stack::Stack(const Stack& a)
 {
-    // implement or disable this function
+    vec = a.vec;
 }
 
-Stack &Stack::operator=(const Stack &a)
+Stack& Stack::operator=(const Stack& a)
 {
-    // implement or disable this function
+    vec = a.vec;
     return *this;
 }
 
@@ -21,18 +23,23 @@ Stack::~Stack()
 
 void Stack::push(Data data)
 {
+    vec.resize(vec.size() + 1);
+    vec.set(vec.size() - 1, data);
 }
 
 Data Stack::get() const
 {
-    return Data();
+    if (vec.size() == 0) throw std::runtime_error("stack_get on empty stack");
+    return vec.get(vec.size() - 1);
 }
 
 void Stack::pop()
 {
+    if (vec.size() == 0) throw std::runtime_error("stack_pop on empty stack");
+    vec.resize(vec.size() - 1);
 }
 
 bool Stack::empty() const
 {
-    return true;
+    return vec.size() == 0;
 }
