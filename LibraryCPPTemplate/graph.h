@@ -49,24 +49,11 @@ public:
         adjLists.erase(index);
 
         for (size_t i = 0; i < adjLists.size(); ++i) {
-            typename List<Edge>::Item* prev = nullptr; 
-            typename List<Edge>::Item* current = adjLists[i].first();  
+            removeEdge(i, index);
 
-            while (current != nullptr) {
-                if (current->data().to == index) {
-                    if (prev == nullptr) {
-                        current = adjLists[i].erase_first();
-                    }
-                    else {
-                        current = adjLists[i].erase_next(prev);
-                    }
-                }
-                else {
-                    if (current->data().to > index) {
-                        current->data().to--;
-                    }
-                    prev = current;
-                    current = current->next();
+            for (auto it = adjLists[i].first(); it != nullptr; it = it->next()) {
+                if (it->data().to > index) {
+                    it->data().to--;
                 }
             }
         }
