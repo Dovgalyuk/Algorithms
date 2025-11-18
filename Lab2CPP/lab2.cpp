@@ -7,7 +7,6 @@ int main(int argc, char** argv) {
     std::istream* in = &std::cin;
     std::ifstream file;
 
-    // Если передан аргумент - читаем команды из файла
     if (argc > 1) {
         file.open(argv[1]);
         if (!file.is_open()) {
