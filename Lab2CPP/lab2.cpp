@@ -3,8 +3,6 @@
 #include <string>
 #include "stack.h"
 
-const int INT_MIN = -2147483648;
-
 struct CPU {
     int A = 0;
     int B = 0;
@@ -30,11 +28,7 @@ void execute_instructions(const std::string& filename) {
         else if (command == "pop") {
             char reg;
             infile >> reg;
-<<<<<<< HEAD
-            if (stack_empty(stack)||stack_get(stack2) == -1) {
-=======
-            if (stack_empty(stack) || stack_get(stack) == INT_MIN) {
->>>>>>> 5565b1b3ed6da98f3f317ab03d32b6f7fd312e9a
+            if (stack_empty(stack) || stack_get(stack2) == -1) {
                 std::cout << "BAD POP" << std::endl;
                 error = true;
                 break;
@@ -55,7 +49,7 @@ void execute_instructions(const std::string& filename) {
                 }
             }
         }
-        else if(command == "add"){
+        else if (command == "add") {
             int x1 = stack_get(stack);
             stack_pop(stack);
             int x2 = stack_get(stack);
@@ -89,18 +83,11 @@ void execute_instructions(const std::string& filename) {
             stack_push(stack2, 1);
         }
         else if (command == "call") {
-<<<<<<< HEAD
             stack_push(stack, -1);
             stack_push(stack2, -1);
         }
         else if (command == "ret") {
             if (stack_get(stack2) != -1) {
-=======
-            stack_push(stack, INT_MIN); 
-        }
-        else if (command == "ret") {
-            if (stack_empty(stack) || stack_get(stack) != INT_MIN) {
->>>>>>> 5565b1b3ed6da98f3f317ab03d32b6f7fd312e9a
                 std::cout << "BAD RET" << std::endl;
                 error = true;
                 break;
