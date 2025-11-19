@@ -97,7 +97,7 @@ int main(int argc, char** argv)
     size_t ip = 0;
     size_t inputPos = 0;
 
-    while (ip < (int)script.size())
+    while (ip < script.size())
     {
         char cmd = script[ip];
 
