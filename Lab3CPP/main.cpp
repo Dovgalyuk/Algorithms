@@ -4,6 +4,7 @@
 #include <queue>
 #include <stack>
 #include <stdexcept>
+#include <algorithm>  
 
 #include "queue.h"
 #include "vector.h"
