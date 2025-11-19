@@ -8,11 +8,11 @@ class Graph
 {
     typedef Vector<Vertex> VertexContainer;
     typedef Vector<Vector<Edge>> Matrix;
+    typedef Vector<Vector<bool>> Exist;
 
     VertexContainer vers;
     Matrix matrix;
-
-    Edge empty_val{};
+    Exist ex;
 
 public: 
     Graph() = default;
@@ -27,13 +27,19 @@ public:
         vers.push_back(a);
 
         for(size_t i = 0; i < matrix.size(); i++)
-            matrix[i].push_back(empty_val);
-
+        {
+            matrix[i].push_back(Edge{});
+            ex[i].push_back(false);
+        }
         Vector<Edge> new_row;
+        Vector<bool> new_row_ex;
         for(size_t i = 0; i < vers.size(); i++)
-            new_row.push_back(empty_val);
-
+        {
+            new_row.push_back(Edge{});
+            new_row_ex.push_back(false);
+        }
         matrix.push_back(new_row);
+        ex.push_back(new_row_ex);
 
         return vers.size() - 1;
     }
@@ -44,9 +50,13 @@ public:
         if(index >= n) throw std::out_of_range("Ver index out of range");
 
         matrix.erase(index);
+        ex.erase(index);
 
         for(size_t i = 0; i < matrix.size(); i++)
+        {
             matrix[i].erase(index);
+            ex[i].erase(index);
+        }
 
         vers.erase(index);
     }
@@ -65,20 +75,26 @@ public:
     {
         if(from >= vers.size() || to >= vers.size())
             throw std::out_of_range("index out of range");
-        matrix[from][to] = empty_val;
+
+        ex[from][to] = false;
     }
 
     bool has_edge(size_t from, size_t to) const
     {
         if(from >= vers.size() || to >= vers.size())
             return false;
-        return matrix[from][to] != empty_val;
+
+        return ex[from][to];
     }
 
     Edge& get_edge(size_t from, size_t to)
     {
         if(from >= vers.size() || to >= vers.size()) 
             throw std::out_of_range("index out of range");
+
+        if(!ex[from][to])
+            throw std::logic_error("Not exist");
+
         return matrix[from][to];
     }
 
@@ -86,24 +102,25 @@ public:
     {
         if(from >= vers.size() || to >= vers.size()) 
             throw std::out_of_range("index out of range");
+
         matrix[from][to] = a;
+        ex[from][to] = true;
     }
 
     class NIterator 
     {
-        const Matrix& matr;
+        const Exist& exists;
         size_t row;
         size_t col;
-        const Edge* empty;
 
         void skip()
         {
-            while(col < matr[row].size() && matr[row][col] == *empty)
+            while(col < exists[row].size() && !exists[row][col])
                 ++col;
         }
 
     public: 
-        NIterator(const Matrix& a, size_t r, size_t c, const Edge* e) : matr(a), row(r), col(c), empty(e)
+        NIterator(const Exist& a, size_t r, size_t c) : exists(a), row(r), col(c)
         {
             skip();
         }
@@ -119,18 +136,18 @@ public:
 
         bool operator!=(const NIterator& a) const
         {
-            return row!= a.row || col != a.col || empty != a.empty;
+            return row!= a.row || col != a.col;
         }
     };
 
     NIterator begin_neig(size_t v) const 
     {
-        return NIterator(matrix, v, 0, &empty_val);
+        return NIterator(ex, v, 0);
     }
 
     NIterator end_neig(size_t v) const 
     {
-        return NIterator(matrix, v, matrix[v].size(), &empty_val);
+        return NIterator(ex, v, ex[v].size());
     }
 };
 

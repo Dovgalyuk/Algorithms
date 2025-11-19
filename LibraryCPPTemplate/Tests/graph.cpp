@@ -54,19 +54,33 @@ int main()
         return 1;
     }
 
+    size_t count_neig = 0;
+    bool has_n1 = false;
+    bool has_n2 = false;
+
     for (auto it = graph.begin_neig(0); it != graph.end_neig(0); ++it) 
     {
         size_t neigh = *it;
         try
         {
             std::cout << graph.get_vertex(neigh) << "(" << graph.get_edge(0, neigh) << ") ";
+            if(neigh == 1) has_n1 = true;
+            if(neigh == 2) has_n2 = true;
+            count_neig++;
         }
         catch(const std::out_of_range& e)
         {
             std::cout << graph.get_vertex(neigh) << "Error ";
+            return 1;
         }
     }
     std::cout << "\n";
+
+    if(count_neig != 2 || !has_n1 || !has_n2)
+    {
+        std::cout << "Invalid neighbors\n";
+        return 1;
+    }
 
     graph.rem_edge(0, 2);
     if (graph.has_edge(0, 2)) 
