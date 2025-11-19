@@ -12,11 +12,16 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item *next() { return m_next; }
+        Item *prev() { return m_prev; }
+        Data data() const { return m_data; }
     private:
         // internal data here
+        Item *m_next = nullptr;
+        Item *m_prev = nullptr;
+        Data m_data;
+        Item(Data d) : m_data(d) {}
+        friend class List;
     };
 
     // Creates new list
@@ -32,7 +37,7 @@ public:
     ~List();
 
     // Retrieves the first item from the list
-    Item *first();
+    Item* first() const;
 
     // Inserts new list item into the beginning
     Item *insert(Data data);
@@ -52,6 +57,11 @@ public:
     Item *erase_next(Item *item);
 private:
     // private data should be here
+    Item *m_first = nullptr;
+    Item *m_last = nullptr;
+
+    void clear();
+    void copy_from(const List& a);
 };
 
 #endif
