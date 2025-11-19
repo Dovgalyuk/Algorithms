@@ -56,21 +56,21 @@ int main() {
             if (!op.has_arg) error(st, flag_st, vars, "bipush requires an argument");
             stack_push(st, op.arg);
             stack_push(flag_st, 0);
-            ++depth;
+            depth++;
         }
         else if (op.name == "pop") {
             if (depth == 0) error(st, flag_st, vars, "pop requires at least one value on the stack");
             if (stack_get(flag_st) != 0) error(st, flag_st, vars, "pop with return address");
             stack_pop(st);
             stack_pop(flag_st);
-            --depth;
+            depth--;
         }
         else if (op.name.rfind("iload_", 0) == 0) {
             int idx = op.name.back() - '0';
             if (idx < 0 || idx > 3) error(st, flag_st, vars, "invalid variable index");
             stack_push(st, vars[idx]);
             stack_push(flag_st, 0);
-            ++depth;
+            depth++;
         }
         else if (op.name.rfind("istore_", 0) == 0) {
             if (depth == 0) error(st, flag_st, vars, "istore requires a value on the stack");
@@ -80,7 +80,7 @@ int main() {
             vars[idx] = stack_get(st);
             stack_pop(st);
             stack_pop(flag_st);
-            --depth;
+            depth--;
         }
         else if (op.name == "swap") {
             if (depth < 2) error(st, flag_st, vars, "swap requires at least two values on the stack");
@@ -121,14 +121,14 @@ int main() {
 
             stack_push(st, r);
             stack_push(flag_st, 0);
-            ++depth;
+            depth++;
         }
         else if (op.name == "invokestatic") {
             if (!op.has_arg) error(st, flag_st, vars, "invokestatic requires an argument");
             if (op.arg < 0 || op.arg >= (int)program.size()) error(st, flag_st, vars, "invalid call address");
             stack_push(st, pc + 1);
             stack_push(flag_st, 1);
-            ++depth;
+            depth++;
             pc = op.arg;
             continue;
         }
@@ -138,7 +138,7 @@ int main() {
             int addr = stack_get(st);
             stack_pop(st);
             stack_pop(flag_st);
-            --depth;
+            depth--;
             if (addr < 0 || addr >= (int)program.size()) error(st, flag_st, vars, "invalid return address");
             pc = addr;
             continue;
@@ -153,7 +153,7 @@ int main() {
             error(st, flag_st, vars, "Unknown operation: " + op.name);
         }
 
-        ++pc;
+        pc++;
     }
 
     cout << "stack:\n";
@@ -163,7 +163,7 @@ int main() {
     }
 
     cout << "vars:\n";
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 4; i++)
         cout << vars[i] << "\n";
 
     stack_delete(st);
