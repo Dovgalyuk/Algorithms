@@ -22,7 +22,7 @@ void error(Stack* st, Stack* flag_st, int vars[4], const string& msg = "") {
         stack_pop(st);
     }
     cout << "vars:\n";
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 4; i++)
         cout << vars[i] << "\n";
 
     stack_delete(st);
