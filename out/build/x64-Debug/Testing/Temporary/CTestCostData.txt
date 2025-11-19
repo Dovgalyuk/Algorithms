@@ -1,9 +1,0 @@
-TestArrayC 3 0.00356693
-TestLab1_Task1 0 0
-TestLab1_Task2 3 0.00275663
-Test1 3 0.00302453
-Test2 2 0.00440175
-Test3 1 0.0090286
-Test4 1 0.0094435
----
-TestLab1_Task1
