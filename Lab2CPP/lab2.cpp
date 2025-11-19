@@ -25,7 +25,8 @@ struct Instruction {
 
 class Processor {
 private:
-    Stack* stack;
+    Stack* stack;           
+    vector<int> return_stack; 
     int regA, regB, regC, regD;
     vector<Instruction> program;
     size_t pc;
@@ -120,6 +121,7 @@ public:
             }
             else if (command == "call") {
                 instr.type = InstructionType::CALL;
+                iss >> instr.operand;
             }
             else if (command == "ret") {
                 instr.type = InstructionType::RET;
@@ -137,18 +139,9 @@ public:
     bool execute() {
         pc = 0;
         error = false;
-        std::vector<Data> return_stack;
-        int instruction_count = 0;
-        const int MAX_INSTRUCTIONS = 1000; 
+        return_stack.clear(); 
 
         while (pc < program.size() && !error) {
-            instruction_count++;
-            if (instruction_count > MAX_INSTRUCTIONS) {
-                error = true;
-                error_message = "Execution timeout - possible infinite loop";
-                break;
-            }
-
             const Instruction& instr = program[pc];
 
             switch (instr.type) {
@@ -163,14 +156,12 @@ public:
                 if (stack_empty(stack)) {
                     error = true;
                     error_message = "Stack underflow";
-                    pc++; 
                     break;
                 }
 
                 if (!is_register(instr.operand)) {
                     error = true;
                     error_message = "Invalid register: " + instr.operand;
-                    pc++; 
                     break;
                 }
 
@@ -185,7 +176,6 @@ public:
                 if (!pop_two_operands(a, b)) {
                     error = true;
                     error_message = "Not enough operands for ADD";
-                    pc++; 
                     break;
                 }
                 stack_push(stack, a + b);
@@ -198,7 +188,6 @@ public:
                 if (!pop_two_operands(a, b)) {
                     error = true;
                     error_message = "Not enough operands for SUB";
-                    pc++; 
                     break;
                 }
                 stack_push(stack, a - b);
@@ -211,7 +200,6 @@ public:
                 if (!pop_two_operands(a, b)) {
                     error = true;
                     error_message = "Not enough operands for MUL";
-                    pc++; 
                     break;
                 }
                 stack_push(stack, a * b);
@@ -220,13 +208,16 @@ public:
             }
 
             case InstructionType::CALL: {
-                return_stack.push_back(static_cast<Data>(pc) + 1);
-                pc = get_value(instr.operand);
+                
+                return_stack.push_back(pc + 1);
 
-                if (pc >= program.size()) {
+                int target = get_value(instr.operand);
+                if (target < 0 || static_cast<size_t>(target) >= program.size()) {
                     error = true;
-                    error_message = "Invalid call address: " + to_string(pc);
+                    error_message = "Invalid call address: " + to_string(target);
+                    break;
                 }
+                pc = target;
                 break;
             }
 
@@ -234,7 +225,6 @@ public:
                 if (return_stack.empty()) {
                     error = true;
                     error_message = "BAD RET - no return address";
-                    pc++; 
                     break;
                 }
 
@@ -242,10 +232,6 @@ public:
                 return_stack.pop_back();
                 break;
             }
-            }
-
-            if (error) {
-                break;
             }
         }
 
@@ -295,7 +281,6 @@ int main(int argc, char* argv[]) {
     }
     else {
         processor.print_error();
-        return 1;
     }
 
     return 0;
