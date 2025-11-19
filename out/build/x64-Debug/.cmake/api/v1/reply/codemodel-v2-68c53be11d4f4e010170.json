@@ -51,11 +51,7 @@
 					},
 					"parentIndex" : 1,
 					"projectIndex" : 0,
-					"source" : "LibraryC/Tests",
-					"targetIndexes" : 
-					[
-						5
-					]
+					"source" : "LibraryC/Tests"
 				},
 				{
 					"build" : "LibraryCPP",
@@ -85,7 +81,12 @@
 					},
 					"parentIndex" : 3,
 					"projectIndex" : 0,
-					"source" : "LibraryCPP/Tests"
+					"source" : "LibraryCPP/Tests",
+					"targetIndexes" : 
+					[
+						5,
+						7
+					]
 				},
 				{
 					"build" : "LibraryCPPClass",
@@ -115,7 +116,12 @@
 					},
 					"parentIndex" : 5,
 					"projectIndex" : 0,
-					"source" : "LibraryCPPClass/Tests"
+					"source" : "LibraryCPPClass/Tests",
+					"targetIndexes" : 
+					[
+						6,
+						8
+					]
 				},
 				{
 					"build" : "LibraryCPPTemplate",
@@ -202,7 +208,10 @@
 						2,
 						3,
 						4,
-						5
+						5,
+						6,
+						7,
+						8
 					]
 				},
 				{
@@ -256,10 +265,31 @@
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 2,
-					"id" : "TestArrayC::@258c58ed07dec5af0266",
-					"jsonFile" : "target-TestArrayC-Debug-ec7c02848ab07a3ed79d.json",
-					"name" : "TestArrayC",
+					"directoryIndex" : 4,
+					"id" : "TestStackCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestStackCPP-Debug-ee7f55fecc3e1758d87e.json",
+					"name" : "TestStackCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "TestStackCPPClass::@57f63cd1dba2bf5e6593",
+					"jsonFile" : "target-TestStackCPPClass-Debug-d54c4f3ca61896c85256.json",
+					"name" : "TestStackCPPClass",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "TestVectorCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestVectorCPP-Debug-b5865cb5944032fcb2a0.json",
+					"name" : "TestVectorCPP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "TestVectorCPPClass::@57f63cd1dba2bf5e6593",
+					"jsonFile" : "target-TestVectorCPPClass-Debug-d0fdbfc022b1adb64ada.json",
+					"name" : "TestVectorCPPClass",
 					"projectIndex" : 0
 				}
 			]
