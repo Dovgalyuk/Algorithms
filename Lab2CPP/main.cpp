@@ -43,7 +43,7 @@ int main() {
         program.push_back(op);
     }
 
-    int vars[4] = {0, 0, 0, 0};
+    int vars[4] = { 0, 0, 0, 0 };
     Stack* st = stack_create();
     Stack* flag_st = stack_create();
     int depth = 0;
@@ -94,7 +94,7 @@ int main() {
             depth += 2;
         }
         else if (op.name == "iadd" || op.name == "isub" || op.name == "imul" ||
-                 op.name == "iand" || op.name == "ior" || op.name == "ixor") {
+            op.name == "iand" || op.name == "ior" || op.name == "ixor") {
             if (depth < 2) error(st, flag_st, vars, "Arithmetic operation requires at least two values on the stack");
 
             int top_flag = stack_get(flag_st);

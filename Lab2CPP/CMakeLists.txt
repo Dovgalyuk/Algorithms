@@ -52,7 +52,7 @@ add_test(
 
 set_tests_properties(Test_StackMachine_4 PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    PASS_REGULAR_EXPRESSION "error"
+    PASS_REGULAR_EXPRESSION "Error:"
 )
 
 add_test(
@@ -62,7 +62,7 @@ add_test(
 
 set_tests_properties(Test_StackMachine_5 PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    PASS_REGULAR_EXPRESSION "error"
+    PASS_REGULAR_EXPRESSION "Error:"
 )
 
 add_test(
@@ -72,5 +72,5 @@ add_test(
 
 set_tests_properties(Test_StackMachine_6 PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    PASS_REGULAR_EXPRESSION "error"
+    PASS_REGULAR_EXPRESSION "Error:"
 )
