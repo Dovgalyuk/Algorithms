@@ -1,4 +1,0 @@
-C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp/build/CMakeFiles/Lab1Cpp.dir
-C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp/build/CMakeFiles/test.dir
-C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp/build/CMakeFiles/edit_cache.dir
-C:/Users/badvo/OneDrive/Документы/GitHub/Algorithms/Lab1Cpp/build/CMakeFiles/rebuild_cache.dir
