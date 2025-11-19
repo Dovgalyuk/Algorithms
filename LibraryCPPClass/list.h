@@ -6,52 +6,66 @@
 // Change it to desired type
 typedef int Data;
 
-class List
-{
+class List {
 public:
-    class Item
-    {
-    public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
-    private:
-        // internal data here
-    };
+  class Item {
+  public:
+    Item *next() { return _next; }
+    Item *prev() { return _prev; }
+    Data data() const { return _data; }
 
-    // Creates new list
-    List();
+  private:
+    // internal data here
+    Data _data;
+    Item *_next;
+    Item *_prev;
 
-    // copy constructor
-    List(const List &a);
+    Item(Data data, Item *next = nullptr, Item *prev = nullptr)
+        : _data(data), _next(next), _prev(prev) {}
 
-    // assignment operator
-    List &operator=(const List &a);
+    void setNext(Item *next) { _next = next; }
+    void setPrev(Item *prev) { _prev = prev; }
+    void setData(Data data) { _data = data; }
 
-    // Destroys the list and frees the memory
-    ~List();
+    friend class List;
+  };
 
-    // Retrieves the first item from the list
-    Item *first();
+  // Creates new list
+  List();
 
-    // Inserts new list item into the beginning
-    Item *insert(Data data);
+  // copy constructor
+  List(const List &a);
 
-    // Inserts new list item after the specified item
-    // Inserts first element if item is null
-    Item *insert_after(Item *item, Data data);
+  // assignment operator
+  List &operator=(const List &a);
 
-    // Deletes the first list item.
-    // Returns pointer to the item next to the deleted one.
-    Item *erase_first();
+  // Destroys the list and frees the memory
+  ~List();
 
-    // Deletes the list item following the specified one.
-    // Deletes the first element when item is null.
-    // Returns pointer to the item next to the deleted one.
-    // Should be O(1)
-    Item *erase_next(Item *item);
+  // Retrieves the first item from the list
+  Item *first();
+  const Item *first() const;
+
+  // Inserts new list item into the beginning
+  Item *insert(Data data);
+
+  // Inserts new list item after the specified item
+  // Inserts first element if item is null
+  Item *insert_after(Item *item, Data data);
+
+  // Deletes the first list item.
+  // Returns pointer to the item next to the deleted one.
+  Item *erase_first();
+
+  // Deletes the list item following the specified one.
+  // Deletes the first element when item is null.
+  // Returns pointer to the item next to the deleted one.
+  // Should be O(1)
+  Item *erase_next(Item *item);
+
 private:
-    // private data should be here
+  // private data should be here
+  Item *_head = nullptr;
 };
 
 #endif
