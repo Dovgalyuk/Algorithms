@@ -94,8 +94,8 @@ int main(int argc, char** argv)
     Stack st;
     unordered_map<int, int> vars;
 
-    int ip = 0;
-    int inputPos = 0;
+    size_t ip = 0;
+    size_t inputPos = 0;
 
     while (ip < (int)script.size())
     {
