@@ -1,2 +1,4 @@
 push 1
+call
 ret
+pop
