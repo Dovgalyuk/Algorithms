@@ -32,7 +32,23 @@ int main() {
         cout << "remove_edge fail\n";
         return 1;
     }
-    
+
+    g.set_vertex_label(0, 10);
+
+    if (g.vertex_label(0) != 10) {
+        cout << "vertex_label fail\n";
+        return 1;
+    }
+
+    g.add_edge(1, 2, 7);
+    g.add_edge(2, 0, 3);
+    g.remove_vertex(2);
+
+    if (g.has_edge(1, 2) || g.has_edge(2, 0)) {
+        cout << "remove_vertex fail\n";
+        return 1;
+    }
+
     cout << "GraphOK\n";
     return 0;
 }

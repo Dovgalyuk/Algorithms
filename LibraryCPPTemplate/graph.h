@@ -12,7 +12,10 @@ template <class VLabel, class ELabel>
 class Graph {
 public:
     using VertexId = size_t;
-    using Edge = pair<VertexId, ELabel>;
+    struct Edge {
+        VertexId to;
+        ELabel label;
+    };
     using AdjList = List<Edge>;
 
     // Итератор для обхода соседей вершины.
@@ -24,8 +27,8 @@ public:
 
         bool valid() const { return it != nullptr; }
         void next() { if (it) it = it->next(); }
-        VertexId to() const { return it->data().first; }
-        const ELabel& edge_label() const { return it->data().second; }
+        VertexId to() const { return it->data().to; }
+        const ELabel& edge_label() const { return it->data().label; }
     };
 
     // Конструктор: создаёт граф из n пустых вершин.
@@ -52,15 +55,27 @@ public:
     // Функция для добавления ребра u->v с меткой.
 
     void add_edge(VertexId u, VertexId v, const ELabel& label = ELabel()) {
-        ensure_vertex(u); ensure_vertex(v);
-        g_[u].insert(Edge(v, label));
+        ensure_vertex(u);
+        ensure_vertex(v);
+
+        for (auto p = g_[u].first(); p; p = p->next()) {
+            if (p->data().to == v) {
+                p->data().label = label;
+                return;
+            }
+        }
+
+        Edge e;
+        e.to = v;
+        e.label = label;
+        g_[u].insert(e);
     }
 
     // Функция для проверки наличия ребра u->v.
 
     bool has_edge(VertexId u, VertexId v) const {
         for (auto p = g_[u].first(); p; p = p->next())
-            if (p->data().first == v)
+            if (p->data().to == v)
                 return true;
 
         return false;
@@ -71,7 +86,7 @@ public:
     void remove_edge(VertexId u, VertexId v) {
         typename AdjList::Item* prev = nullptr;
         for (auto p = g_[u].first(); p; p = p->next()) {
-            if (p->data().first == v) {
+            if (p->data().to == v) {
                 if (prev)
                     g_[u].erase_after(prev);
                 else
@@ -87,8 +102,8 @@ public:
 
     void set_edge_label(VertexId u, VertexId v, const ELabel& label) {
         for (auto p = g_[u].first(); p; p = p->next()) {
-            if (p->data().first == v) {
-                p->data().second = label;
+            if (p->data().to == v) {
+                p->data().label = label;
                 break;
             }
         }
@@ -98,8 +113,8 @@ public:
 
     ELabel edge_label(VertexId u, VertexId v) const {
         for (auto p = g_[u].first(); p; p = p->next())
-            if (p->data().first == v)
-                return p->data().second;
+            if (p->data().to == v)
+                return p->data().label;
 
         return ELabel();
     }
@@ -132,5 +147,5 @@ private:
     }
 
     vector<AdjList> g_;
-    vector<VLabel>  vlabel_;
+    vector<VLabel> vlabel_;
 };
