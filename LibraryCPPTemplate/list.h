@@ -1,6 +1,8 @@
 #ifndef LIST_TEMPLATE_H
 #define LIST_TEMPLATE_H
 
+#include <utility>
+
 template <typename Data> class List {
 public:
     class Item {
@@ -39,7 +41,7 @@ public:
             return *this;
 
         List tmp(a);
-        swap(m_head, tmp.m_head);
+        std::swap(m_head, tmp.m_head);
         return *this;
     }
 
