@@ -1,5 +1,12 @@
 #include "vector.h"
 
+struct Vector
+{
+    Data* data;
+    size_t size;
+    size_t capacity;
+};
+
 Vector *vector_create()
 {
     Vector* vec = new Vector;
@@ -34,6 +41,11 @@ void vector_set(Vector *vector, size_t index, Data value)
 size_t vector_size(const Vector *vector)
 {
     return vector->size;
+}
+
+size_t vector_capacity(const Vector* vector)
+{
+    return vector->capacity;
 }
 
 void vector_resize(Vector *vector, size_t size)
