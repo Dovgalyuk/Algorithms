@@ -13,11 +13,11 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
+        vector_set(vector, i, (Data)i);  // Явное преобразование типа
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != (Data)i)
+        if (vector_get(vector, i) != (Data)i)  // Явное преобразование типа
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -45,7 +45,7 @@ int main()
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != (Data)i)
+        if (vector_get(vector, i) != (Data)i)  // Явное преобразование типа
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -60,15 +60,16 @@ int main()
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
-        vector_resize(vector, i);
-        vector_set(vector, i - 1, i);
+        vector_resize(vector, (size_t)i);  // Явное преобразование типа
+        vector_set(vector, (size_t)(i - 1), (Data)i);  // Явное преобразование типа
     }
 
     long long sum = 0;
     for (int i = 0 ; i < 10000000 ; ++i)
-        sum += vector_get(vector, i);
+        sum += vector_get(vector, (size_t)i);  // Явное преобразование типа
 
     std::cout << sum << "\n";
 
     vector_delete(vector);
+    return 0;
 }

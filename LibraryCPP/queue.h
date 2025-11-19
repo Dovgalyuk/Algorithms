@@ -1,15 +1,23 @@
-#ifndef STACK_H
-#define STACK_H
+#ifndef QUEUE_H
+#define QUEUE_H
+
+#include "vector.h"
 
 typedef int Data;
 
-struct Stack;
+struct Queue
+{
+    Vector* vector;
+    size_t front;
+    size_t back;
+    size_t count;
+};
 
-Stack *stack_create();
-void stack_delete(Stack *stack);
-void stack_push(Stack *stack, Data data);
-Data stack_get(const Stack *stack);
-void stack_pop(Stack *stack);
-bool stack_empty(const Stack *stack);
+Queue* queue_create();
+void queue_delete(Queue* queue);
+void queue_insert(Queue* queue, Data data);
+Data queue_get(const Queue* queue);
+void queue_remove(Queue* queue);
+bool queue_empty(const Queue* queue);
 
 #endif
