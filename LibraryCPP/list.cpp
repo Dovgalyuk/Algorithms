@@ -56,36 +56,36 @@ ListItem *list_item_prev(ListItem *item)
 
 ListItem *list_insert(List *list, Data data)
 {
-    return list_insert_after(list, nullptr, data);
-}
-
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    if (!list) return nullptr;
+     if (!list) return nullptr;
     ListItem* new_item = new ListItem;
     new_item->data = data;
-    if (!list->head) 
-    {
+    if (!list->head) {
         new_item->next = new_item;
         new_item->prev = new_item;
         list->head = new_item;
-    } 
-    else if (!item) 
-    {
+    } else {
         ListItem* tail = list->head->prev;
         new_item->next = list->head;
         new_item->prev = tail;
         list->head->prev = new_item;
         tail->next = new_item;
         list->head = new_item;
-    } 
-    else 
-    {
-        new_item->next = item->next;
-        new_item->prev = item;
-        item->next->prev = new_item;
-        item->next = new_item;
     }
+    return new_item;
+}
+
+ListItem *list_insert_after(List *list, ListItem *item, Data data)
+{
+    if (!list) return nullptr;
+    if (!list->head || !item) {
+        return list_insert(list, data);
+    }
+    ListItem* new_item = new ListItem;
+    new_item->data = data;
+    new_item->next = item->next;
+    new_item->prev = item;
+    item->next->prev = new_item;
+    item->next = new_item;
     return new_item;
 }
 
@@ -98,36 +98,23 @@ ListItem *list_erase_next(List *list, ListItem *item)
 {
     if (!list || !list->head) return nullptr;
     ListItem* to_delete = nullptr;
-    ListItem* result = nullptr;
-    if (!item) 
-    {
+    if (!item) {
+        item = list->head->prev;
         to_delete = list->head;
-        if (to_delete->next == to_delete) 
-        {
-            list->head = nullptr;
-            result = nullptr;
-        } 
-        else 
-        {
-            list->head = to_delete->next;
-            result = list->head;
-            to_delete->prev->next = list->head;
-            list->head->prev = to_delete->prev;
-        }
     } else {
         to_delete = item->next;
-        if (to_delete == list->head) 
-        {
-            list->head = to_delete->next;
-        }
-        result = to_delete->next;
-        item->next = to_delete->next;
-        to_delete->next->prev = item;
-        if (to_delete == to_delete->next) 
-        {
-            list->head = nullptr;
-        }
     }
+    if (to_delete->next == to_delete) {
+        list->head = nullptr;
+        delete to_delete;
+        return nullptr;
+    }
+    item->next = to_delete->next;
+    to_delete->next->prev = item;
+    if (to_delete == list->head) {
+        list->head = to_delete->next;
+    }
+    ListItem* result = to_delete->next;
     delete to_delete;
     return result;
 }
