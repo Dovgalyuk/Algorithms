@@ -4,10 +4,12 @@
 #include <queue>
 #include <stack>
 #include <stdexcept>
-#include <algorithm>  
+#include <algorithm>
 
 #include "queue.h"
 #include "vector.h"
+
+typedef std::vector<int> Path;
 
 struct Graph {
     std::vector<std::vector<int>> adjacency_list;
@@ -26,7 +28,7 @@ void add_edge(Graph& graph, int u, int v) {
     graph.adjacency_list[v].push_back(u); 
 }
 
-std::vector<int> find_shortest_path(const Graph& graph, int start, int finish) {
+Path find_shortest_path(const Graph& graph, int start, int finish) {
     size_t n = graph.vertices_count;
     
     std::vector<bool> visited(n + 1, false);
@@ -56,7 +58,7 @@ std::vector<int> find_shortest_path(const Graph& graph, int start, int finish) {
     
     queue_delete(queue);
     
-    std::vector<int> path;
+    Path path;
     
     if (parent[finish] != -1 || start == finish) {
         int current = finish;
@@ -100,7 +102,7 @@ int main(int argc, char* argv[]) {
         add_edge(graph, u, v);
     }
     
-    std::vector<int> path = find_shortest_path(graph, start, finish);
+    Path path = find_shortest_path(graph, start, finish);
     
     if (path.empty()) {
         output << "IMPOSSIBLE\n";

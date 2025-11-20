@@ -2,6 +2,13 @@
 #include <algorithm>
 #include <stdexcept>
 
+struct Vector
+{
+    Data* data;
+    size_t size;
+    size_t capacity;
+};
+
 Vector* vector_create()
 {
     Vector* vector = new Vector;

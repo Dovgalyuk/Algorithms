@@ -5,13 +5,7 @@
 
 typedef int Data;
 
-struct Queue
-{
-    Vector* vector;
-    size_t front;
-    size_t back;
-    size_t count;
-};
+struct Queue;
 
 Queue* queue_create();
 void queue_delete(Queue* queue);
