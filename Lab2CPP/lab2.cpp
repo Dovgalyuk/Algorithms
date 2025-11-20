@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     }
 
     Stack st;
-    int vars[4] = { 0,0,0,0 };
+    int vars[4] = { 0, 0, 0, 0 };
     std::string op;
 
     while (*in >> op) {
@@ -29,52 +29,42 @@ int main(int argc, char** argv) {
             if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
             st.pop();
         }
-        else if (op == "iadd") {
-            int a = st.get(); st.pop();
-            int b = st.get(); st.pop();
-            st.push(a + b);
-        }
-        else if (op == "isub") {
-            int a = st.get(); st.pop();
-            int b = st.get(); st.pop();
-            st.push(b - a);
-        }
-        else if (op == "imul") {
-            int a = st.get(); st.pop();
-            int b = st.get(); st.pop();
-            st.push(a * b);
-        }
-        else if (op == "iand") {
-            int a = st.get(); st.pop();
-            int b = st.get(); st.pop();
-            st.push(a & b);
-        }
-        else if (op == "ior") {
-            int a = st.get(); st.pop();
-            int b = st.get(); st.pop();
-            st.push(a | b);
-        }
-        else if (op == "ixor") {
-            int a = st.get(); st.pop();
-            int b = st.get(); st.pop();
-            st.push(a ^ b);
-        }
-        else if (op == "iload_0") st.push(vars[0]);
-        else if (op == "iload_1") st.push(vars[1]);
-        else if (op == "iload_2") st.push(vars[2]);
-        else if (op == "iload_3") st.push(vars[3]);
-        else if (op == "istore_0") { vars[0] = st.get(); st.pop(); }
-        else if (op == "istore_1") { vars[1] = st.get(); st.pop(); }
-        else if (op == "istore_2") { vars[2] = st.get(); st.pop(); }
-        else if (op == "istore_3") { vars[3] = st.get(); st.pop(); }
         else if (op == "swap") {
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
             int a = st.get(); st.pop();
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
             int b = st.get(); st.pop();
             st.push(a); st.push(b);
         }
+        else if (op == "invokestatic") {
+            int addr; *in >> addr;
+            st.push(addr); 
+        }
+        else if (op == "return") {
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            st.pop(); 
+        }
+
         else {
-            std::cerr << "Unknown operation: " << op << "\n";
-            return 1;
+            int a, b;
+            if (op == "iadd") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(a + b); }
+            else if (op == "isub") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(b - a); }
+            else if (op == "imul") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(a * b); }
+            else if (op == "iand") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(a & b); }
+            else if (op == "ior") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(a | b); }
+            else if (op == "ixor") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(a ^ b); }
+            else if (op == "iload_0") st.push(vars[0]);
+            else if (op == "iload_1") st.push(vars[1]);
+            else if (op == "iload_2") st.push(vars[2]);
+            else if (op == "iload_3") st.push(vars[3]);
+            else if (op == "istore_0") { vars[0] = st.get(); st.pop(); }
+            else if (op == "istore_1") { vars[1] = st.get(); st.pop(); }
+            else if (op == "istore_2") { vars[2] = st.get(); st.pop(); }
+            else if (op == "istore_3") { vars[3] = st.get(); st.pop(); }
+            else {
+                std::cerr << "Unknown operation: " << op << "\n";
+                return 1;
+            }
         }
     }
 
@@ -85,8 +75,7 @@ int main(int argc, char** argv) {
     }
 
     std::cout << "vars:\n";
-    for (int i = 0; i < 4; i++)
-        std::cout << vars[i] << "\n";
+    for (int i = 0; i < 4; ++i) std::cout << vars[i] << "\n";
 
     return 0;
 }

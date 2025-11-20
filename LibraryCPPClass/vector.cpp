@@ -59,14 +59,15 @@ void Vector::resize(size_t newSize)
     if (newSize > cap) {
         size_t newcap = cap ? cap * 2 : 4;
         while (newcap < newSize) newcap *= 2;
+
         Data* newdata = new Data[newcap];
         for (size_t i = 0; i < sz; i++)
             newdata[i] = data[i];
-        for (size_t i = sz; i < newcap; i++)
-            newdata[i] = 0;
+
         delete[] data;
         data = newdata;
         cap = newcap;
     }
     sz = newSize;
 }
+

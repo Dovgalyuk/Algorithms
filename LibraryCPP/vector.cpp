@@ -47,10 +47,10 @@ void vector_resize(Vector* v, size_t new_size) {
 
         Data* newdata = new Data[newcap];
         for (size_t i = 0; i < v->sz; i++) {
-            newdata[i] = v->data[i];  // копируем существующие элементы
+            newdata[i] = v->data[i];  
         }
 
-        delete[] v->data; // освобождаем старый массив
+        delete[] v->data; 
         v->data = newdata;
         v->cap = newcap;
     }

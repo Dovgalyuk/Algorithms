@@ -31,3 +31,17 @@ set_tests_properties(Test3 PROPERTIES PASS_REGULAR_EXPRESSION "stack:.*vars:.*5.
 
 add_test(NAME Test4 COMMAND ${LAB2_EXE} ${TEST_DIR}/test4.txt)
 set_tests_properties(Test4 PROPERTIES PASS_REGULAR_EXPRESSION "stack:.*vars:.*8.*7.*4.*0")
+    
+add_test(NAME Test5Err COMMAND ${LAB2_EXE} ${TEST_DIR}/test5err.txt)
+set_tests_properties(Test5Err PROPERTIES WILL_FAIL TRUE)
+
+add_test(NAME Test6Err COMMAND ${LAB2_EXE} ${TEST_DIR}/test6err.txt)
+set_tests_properties(Test6Err PROPERTIES WILL_FAIL TRUE)
+
+add_test(NAME Test7Err COMMAND ${LAB2_EXE} ${TEST_DIR}/test7err.txt)
+set_tests_properties(Test7Err PROPERTIES WILL_FAIL TRUE)
+
+add_test(NAME Test8Err COMMAND ${LAB2_EXE} ${TEST_DIR}/test8err.txt)
+set_tests_properties(Test8Err PROPERTIES
+    PASS_REGULAR_EXPRESSION "Unknown operation"
+)

@@ -57,7 +57,6 @@ int main()
         std::cout << vector_get(vector, i) << " ";
     std::cout << "\n";
 
-    // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector_resize(vector, i);
