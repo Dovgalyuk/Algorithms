@@ -38,33 +38,49 @@ int main(int argc, char** argv) {
         }
         else if (op == "invokestatic") {
             int addr; *in >> addr;
-            st.push(addr); 
+            st.push(addr);
         }
         else if (op == "return") {
             if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
-            st.pop(); 
+            st.pop();
         }
+        else if (op == "iadd" || op == "isub" || op == "imul" ||
+            op == "iand" || op == "ior" || op == "ixor") {
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            int a = st.get(); st.pop();
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            int b = st.get(); st.pop();
 
+            if (op == "iadd") st.push(a + b);
+            else if (op == "isub") st.push(b - a);
+            else if (op == "imul") st.push(a * b);
+            else if (op == "iand") st.push(a & b);
+            else if (op == "ior") st.push(a | b);
+            else if (op == "ixor") st.push(a ^ b);
+        }
+        else if (op == "iload_0") st.push(vars[0]);
+        else if (op == "iload_1") st.push(vars[1]);
+        else if (op == "iload_2") st.push(vars[2]);
+        else if (op == "iload_3") st.push(vars[3]);
+        else if (op == "istore_0") {
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            vars[0] = st.get(); st.pop();
+        }
+        else if (op == "istore_1") {
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            vars[1] = st.get(); st.pop();
+        }
+        else if (op == "istore_2") {
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            vars[2] = st.get(); st.pop();
+        }
+        else if (op == "istore_3") {
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            vars[3] = st.get(); st.pop();
+        }
         else {
-            int a, b;
-            if (op == "iadd") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(a + b); }
-            else if (op == "isub") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(b - a); }
-            else if (op == "imul") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(a * b); }
-            else if (op == "iand") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(a & b); }
-            else if (op == "ior") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(a | b); }
-            else if (op == "ixor") { a = st.get(); st.pop(); b = st.get(); st.pop(); st.push(a ^ b); }
-            else if (op == "iload_0") st.push(vars[0]);
-            else if (op == "iload_1") st.push(vars[1]);
-            else if (op == "iload_2") st.push(vars[2]);
-            else if (op == "iload_3") st.push(vars[3]);
-            else if (op == "istore_0") { vars[0] = st.get(); st.pop(); }
-            else if (op == "istore_1") { vars[1] = st.get(); st.pop(); }
-            else if (op == "istore_2") { vars[2] = st.get(); st.pop(); }
-            else if (op == "istore_3") { vars[3] = st.get(); st.pop(); }
-            else {
-                std::cerr << "Unknown operation: " << op << "\n";
-                return 1;
-            }
+            std::cerr << "Unknown operation: " << op << "\n";
+            return 1;
         }
     }
 
