@@ -5,7 +5,13 @@ using namespace std;
 int main(int argc, char** argv)
 {
     if (argc > 1)
-        freopen(argv[1], "r", stdin);
+    {
+        if (freopen(argv[1], "r", stdin) == nullptr)
+        {
+            cerr << "Error opening file: " << argv[1] << endl;
+            return 1;
+        }
+    }
 
     int n, s, f;
     cin >> n >> s >> f;
