@@ -1,6 +1,0 @@
-PUSH 3
-POP A
-PUSH A
-PUSH 7
-MUL B
-
