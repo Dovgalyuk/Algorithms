@@ -3,58 +3,69 @@
 #include <stdexcept>
 
 struct Queue {
-    Vector* data;
-    size_t head;
-    size_t count;
-    size_t capacity;
+    Vector* buffer = nullptr;
+    size_t head = 0;
+    size_t tail = 0;
+    size_t count = 0;
 };
 
 Queue* queue_create() {
-    Queue* q = new Queue;
-    q->capacity = 4;
-    q->count = 0;
-    q->head = 0;
-    q->data = vector_create();
-    vector_resize(q->data, q->capacity);
+    Queue* q = new Queue();
+    q->buffer = vector_create();
     return q;
 }
 
-void queue_delete(Queue* q) {
-    if (!q) return;
-    vector_delete(q->data);
-    delete q;
-}
-
-void queue_insert(Queue* q, Data value) {
-    if (q->count == q->capacity) {
-        size_t new_capacity = q->capacity * 2;
-        Vector* new_data = vector_create();
-        vector_resize(new_data, new_capacity);
-        for (size_t i = 0; i < q->count; i++) {
-            size_t idx = (q->head + i) % q->capacity;
-            vector_set(new_data, i, vector_get(q->data, idx));
-        }
-        vector_delete(q->data);
-        q->data = new_data;
-        q->capacity = new_capacity;
-        q->head = 0;
+void queue_delete(Queue* queue) {
+    if (queue) {
+        vector_delete(queue->buffer);
+        delete queue;
     }
-    size_t idx = (q->head + q->count) % q->capacity;
-    vector_set(q->data, idx, value);
-    q->count++;
 }
 
-Data queue_get(const Queue* q) {
-    if (!q || q->count == 0) throw std::runtime_error("Queue empty");
-    return vector_get(q->data, q->head);
+void queue_insert(Queue* queue, Data data) {
+    if (!queue) return;
+
+    Vector* buf = queue->buffer;
+    size_t cap = vector_size(buf);
+
+    if (queue->count == cap) {
+        size_t new_cap = cap == 0 ? 8 : cap * 2;
+        vector_resize(buf, new_cap);
+
+        if (queue->head != 0) {
+            for (size_t i = queue->head; i < cap; ++i) {
+                Data val = vector_get(buf, i);
+                vector_set(buf, i - queue->head, val);
+            }
+            for (size_t i = 0; i < queue->tail; ++i) {
+                Data val = vector_get(buf, i);
+                vector_set(buf, i + (cap - queue->head), val);
+            }
+            queue->head = 0;
+            queue->tail = queue->count;
+        }
+    }
+
+    vector_set(buf, queue->tail, data);
+    queue->tail = (queue->tail + 1) % vector_size(buf);
+    ++queue->count;
 }
 
-void queue_remove(Queue* q) {
-    if (!q || q->count == 0) throw std::runtime_error("Queue empty");
-    q->head = (q->head + 1) % q->capacity;
-    q->count--;
+Data queue_get(const Queue* queue) {
+    if (!queue || queue->count == 0) {
+        throw std::out_of_range("queue_get: queue is empty");
+    }
+    return vector_get(queue->buffer, queue->head);
 }
 
-bool queue_empty(const Queue* q) {
-    return !q || q->count == 0;
+void queue_remove(Queue* queue) {
+    if (!queue || queue->count == 0) {
+        throw std::out_of_range("queue_remove: queue is empty");
+    }
+    queue->head = (queue->head + 1) % vector_size(queue->buffer);
+    --queue->count;
+}
+
+bool queue_empty(const Queue* queue) {
+    return !queue || queue->count == 0;
 }
