@@ -11,6 +11,28 @@ using namespace std;
 
 typedef vector<Data> VectorData;
 
+void push_task(Stack* stack, int start, int end, bool do_merge) {
+    stack_push(stack, static_cast<Data>(start));
+    stack_push(stack, static_cast<Data>(end));
+    stack_push(stack, static_cast<Data>(do_merge ? 1 : 0));
+}
+
+bool pop_task(Stack* stack, int& start, int& end, bool& do_merge) {
+    if (stack_empty(stack)) {
+        return false;
+    }
+
+    int merge_val = static_cast<int>(stack_get(stack));
+    stack_pop(stack);
+    do_merge = (merge_val != 0);
+    end = static_cast<int>(stack_get(stack));
+    stack_pop(stack);
+    start = static_cast<int>(stack_get(stack));
+    stack_pop(stack);
+
+    return true;
+}
+
 void merge_range(VectorData& arr, int start, int mid, int end, VectorData& temp) {
     int i = start, j = mid, k = start;
     while (i < mid && j < end) {
@@ -59,43 +81,29 @@ string vector_to_string(const VectorData& vec) {
 
 VectorData merge_sort_iterative(VectorData arr) {
     if (arr.size() <= 1) return arr;
-
-    struct Task {
-        int start;
-        int end;
-        bool do_merge;
-    };
-
     int n = arr.size();
     VectorData temp(n);
-
-    vector<Task> storage;
     Stack* stack = stack_create();
-    storage.push_back({ 0, n, false });
-    stack_push(stack, static_cast<Data>(storage.size() - 1));
+    push_task(stack, 0, n, false);
     while (!stack_empty(stack)) {
-        int idx = stack_get(stack);
-        stack_pop(stack);
-        Task t = storage[idx];
-        if (t.end - t.start <= 1) continue;
-        if (t.do_merge) {
-            merge_range(arr, t.start, (t.start + t.end) / 2, t.end, temp);
+        int start, end;
+        bool do_merge;
+        if (!pop_task(stack, start, end, do_merge)) continue;
+        if (end - start <= 1) continue;
+        if (do_merge) {
+            merge_range(arr, start, (start + end) / 2, end, temp);
         }
         else {
-            int mid = t.start + (t.end - t.start) / 2;
-            storage.push_back({ t.start, t.end, true });
-            stack_push(stack, static_cast<Data>(storage.size() - 1));
-            storage.push_back({ mid, t.end, false });
-            storage.push_back({ t.start, mid, false });
-            stack_push(stack, static_cast<Data>(storage.size() - 2));
-            stack_push(stack, static_cast<Data>(storage.size() - 1));
+            int mid = start + (end - start) / 2;
+            push_task(stack, start, end, true);
+            push_task(stack, mid, end, false);
+            push_task(stack, start, mid, false);
         }
     }
 
     stack_delete(stack);
     return arr;
 }
-
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         cerr << "Using " << argv[0] << endl;
