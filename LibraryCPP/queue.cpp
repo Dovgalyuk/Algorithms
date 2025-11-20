@@ -6,7 +6,6 @@ struct Queue
 {
     Vector* buffer;
     size_t head;
-    size_t tail;
     size_t size;
 };
 
@@ -16,7 +15,6 @@ Queue *queue_create()
     queue->buffer = vector_create();
     vector_resize(queue->buffer, 4);
     queue->head = 0;
-    queue->tail = 0;
     queue->size = 0;
     return queue;
 }
@@ -32,23 +30,30 @@ void queue_insert(Queue *queue, Data data)
 {
     if (!queue) return;
 
-    if (queue->size >= vector_size(queue->buffer)) {
-        size_t old_capacity = vector_size(queue->buffer);
-        size_t new_capacity = old_capacity * 2;
+    size_t capacity = vector_size(queue->buffer);
+    
+    if (queue->size >= capacity) {
+        size_t new_capacity = capacity * 2;
         
         vector_resize(queue->buffer, new_capacity);
         
-        if (queue->head > queue->tail) {
-            for (size_t i = 0; i < queue->tail; i++) {
-                vector_set(queue->buffer, old_capacity + i, vector_get(queue->buffer, i));
-                vector_set(queue->buffer, i, 0);
+        if (queue->head > 0 && queue->head + queue->size > capacity) {
+            size_t elements_to_move = capacity - queue->head;
+            for (size_t i = 0; i < elements_to_move; i++) {
+                size_t old_index = queue->head + i;
+                size_t new_index = new_capacity - elements_to_move + i;
+                Data value = vector_get(queue->buffer, old_index);
+                vector_set(queue->buffer, new_index, value);
+                vector_set(queue->buffer, old_index, 0);
             }
-            queue->tail = old_capacity + queue->tail;
+            queue->head = new_capacity - elements_to_move;
         }
+        
+        capacity = new_capacity;
     }
 
-    vector_set(queue->buffer, queue->tail, data);
-    queue->tail = (queue->tail + 1) % vector_size(queue->buffer);
+    size_t tail = (queue->head + queue->size) % capacity;
+    vector_set(queue->buffer, tail, data);
     queue->size++;
 }
 
@@ -66,12 +71,12 @@ void queue_remove(Queue *queue)
 
     vector_set(queue->buffer, queue->head, 0);
     
-    queue->head = (queue->head + 1) % vector_size(queue->buffer);
+    size_t capacity = vector_size(queue->buffer);
+    queue->head = (queue->head + 1) % capacity;
     queue->size--;
 
     if (queue->size == 0) {
         queue->head = 0;
-        queue->tail = 0;
     }
 }
 

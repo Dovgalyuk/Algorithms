@@ -13,7 +13,6 @@ struct Point {
 class MazeSolver {
 private:
     std::vector<std::string> maze;
-    std::vector<std::vector<int>> distance;
     std::vector<std::vector<bool>> visited;
     int rows, cols;
     Point start;
@@ -41,7 +40,6 @@ public:
         cols = lines[0].size();
         
         maze.resize(rows);
-        distance.resize(rows, std::vector<int>(cols, INT_MAX));
         visited.resize(rows, std::vector<bool>(cols, false));
         
         for (int i = 0; i < rows; ++i) {
@@ -63,7 +61,6 @@ public:
         if (targets.empty()) return '?';
         
         Queue* queue = queue_create();
-        distance[start.x][start.y] = 0;
         visited[start.x][start.y] = true;
         
         int start_index = start.x * cols + start.y;
@@ -72,9 +69,6 @@ public:
         int dx[] = {-1, 0, 1, 0};
         int dy[] = {0, 1, 0, -1};
         
-        char result = '?';
-        int min_distance = INT_MAX;
-        
         while (!queue_empty(queue)) {
             int current_index = queue_get(queue);
             queue_remove(queue);
@@ -82,14 +76,10 @@ public:
             int row = current_index / cols;
             int col = current_index % cols;
             char cell = maze[row][col];
-            int current_distance = distance[row][col];
             
             if (cell >= '0' && cell <= '9') {
-                if (current_distance < min_distance) {
-                    min_distance = current_distance;
-                    result = cell;
-                }
-                continue;
+                queue_delete(queue);
+                return cell;
             }
             
             for (int i = 0; i < 4; ++i) {
@@ -100,7 +90,6 @@ public:
                     maze[nx][ny] != '#' && !visited[nx][ny]) {
                     
                     visited[nx][ny] = true;
-                    distance[nx][ny] = current_distance + 1;
                     int neighbor_index = nx * cols + ny;
                     queue_insert(queue, neighbor_index);
                 }
@@ -108,7 +97,7 @@ public:
         }
         
         queue_delete(queue);
-        return result;
+        return '?';
     }
 };
 
