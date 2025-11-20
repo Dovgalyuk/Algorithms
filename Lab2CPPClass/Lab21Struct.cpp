@@ -1,7 +1,6 @@
 ﻿#include <iostream>
 #include <string>
 #include <fstream>
-#include <cctype>
 #include <stdexcept>
 #include "stack.h"
 
@@ -9,21 +8,25 @@ using namespace std;
 
 void processScript(Stack& stack, const string& script, const string& input) {
     size_t inputIndex = 0;
-    for (char cmd : script) {
+
+    for (size_t i = 0; i < script.length(); i++) {
+        char cmd = script[i];
+
         switch (cmd) {
         case '+': {
+            i++; 
             string str;
-            size_t pos = script.find('+', inputIndex);
-            if (pos == string::npos) {
-                str = script.substr(inputIndex);
-                inputIndex = script.length();
+            while (i < script.length()) {
+                char c = script[i];
+                if (c == '+' || c == '-' || c == '<' || c == '>' || c == '?' || c == '!') {
+                    i--;
+                    break;
+                }
+                str += c;
+                i++;
             }
-            else {
-                str = script.substr(inputIndex, pos - inputIndex);
-                inputIndex = pos + 1;
-            }
-            for (char c : str) {
-                stack.push(c);
+            for (int j = str.length() - 1; j >= 0; j--) {
+                stack.push(str[j]);
             }
             break;
         }
@@ -80,6 +83,42 @@ void processScript(Stack& stack, const string& script, const string& input) {
             }
             break;
         }
+        case '.': {
+            if (!stack.empty()) {
+                char top = stack.get();
+                stack.push(top);
+            }
+            break;
+        }
+        case '@': {
+            if (stack.empty()) break;
+            char top1 = stack.get();
+            stack.pop();
+            if (stack.empty()) {
+                stack.push(top1);
+                break;
+            }
+            char top2 = stack.get();
+            stack.pop();
+            stack.push(top1);
+            stack.push(top2);
+            break;
+        }
+        case '~': {
+            Stack temp;
+            while (!stack.empty()) {
+                temp.push(stack.get());
+                stack.pop();
+            }
+            stack = temp;
+            break;
+        }
+        case '^': {
+            if (!stack.empty()) {
+                stack.pop();
+            }
+            break;
+        }
         default:
             break;
         }
@@ -100,7 +139,8 @@ int main(int argc, char* argv[]) {
         cerr << "Cannot open script file: " << scriptFile << endl;
         return 1;
     }
-    string script((istreambuf_iterator<char>(scriptStream)), istreambuf_iterator<char>());
+    string script;
+    getline(scriptStream, script);
     scriptStream.close();
 
     ifstream inputStream(inputFile);
@@ -108,21 +148,16 @@ int main(int argc, char* argv[]) {
         cerr << "Cannot open input file: " << inputFile << endl;
         return 1;
     }
-    string input((istreambuf_iterator<char>(inputStream)), istreambuf_iterator<char>());
+    string input;
+    getline(inputStream, input);
     inputStream.close();
 
     Stack stack;
     try {
         processScript(stack, script, input);
 
-        Stack temp;
-        while (!stack.empty()) {
-            temp.push(stack.get());
-            stack.pop();
-        }
-        while (!temp.empty()) {
-            cout << (char)temp.get() << endl;
-            temp.pop();
+        if (!stack.empty()) {
+            cout << (char)stack.get() << endl;
         }
     }
     catch (const exception& e) {
