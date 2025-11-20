@@ -5,20 +5,15 @@ struct Queue
 {
     Vector *vec;
     size_t head;
-    size_t tail;
     size_t count;
 };
-
-const size_t INITIAL_QUEUE_SIZE = 4;
 
 Queue *queue_create()
 {
     Queue *q = new Queue;
     q->vec = vector_create();
-    vector_resize(q->vec, INITIAL_QUEUE_SIZE);
-    
+    vector_resize(q->vec, 4);
     q->head = 0;
-    q->tail = 0;
     q->count = 0;
     return q;
 }
@@ -47,7 +42,6 @@ void queue_expand(Queue *q) {
     q->vec = new_vec;
 
     q->head = 0;
-    q->tail = q->count;
 }
 
 void queue_insert(Queue *queue, Data data)
@@ -58,8 +52,8 @@ void queue_insert(Queue *queue, Data data)
         cap = vector_size(queue->vec);
     }
 
-    vector_set(queue->vec, queue->tail, data);
-    queue->tail = (queue->tail + 1) % cap;
+    size_t tail = (queue->head + queue->count) % cap;
+    vector_set(queue->vec, tail, data);
     queue->count++;
 }
 
