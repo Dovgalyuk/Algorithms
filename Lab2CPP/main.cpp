@@ -12,15 +12,19 @@ struct Op {
     bool has_arg = false;
 };
 
-void error(Stack* st, Stack* flag_st, int vars[4], const string& msg = "") {
+void error(Stack* st, Stack* flag_st, int vars[4], const string& error_type, const string& msg = "") {
+    cout << "Error: " << error_type;
     if (!msg.empty()) {
-        cout << "Error: " << msg << "\n";
+        cout << ": " << msg;
     }
+    cout << "\n";
+
     cout << "stack:\n";
     while (!stack_empty(st)) {
         cout << stack_get(st) << "\n";
         stack_pop(st);
     }
+
     cout << "vars:\n";
     for (int i = 0; i < 4; i++)
         cout << vars[i] << "\n";
@@ -53,37 +57,37 @@ int main() {
         const Op& op = program[pc];
 
         if (op.name == "bipush") {
-            if (!op.has_arg) error(st, flag_st, vars, "bipush requires an argument");
+            if (!op.has_arg) error(st, flag_st, vars, "Argument Error", "bipush requires an argument");
             stack_push(st, op.arg);
             stack_push(flag_st, 0);
             depth++;
         }
         else if (op.name == "pop") {
-            if (depth == 0) error(st, flag_st, vars, "pop requires at least one value on the stack");
-            if (stack_get(flag_st) != 0) error(st, flag_st, vars, "pop with return address");
+            if (depth == 0) error(st, flag_st, vars, "Stack Error", "pop requires at least one value on the stack");
+            if (stack_get(flag_st) != 0) error(st, flag_st, vars, "Return Address Error", "pop with return address");
             stack_pop(st);
             stack_pop(flag_st);
             depth--;
         }
         else if (op.name.rfind("iload_", 0) == 0) {
             int idx = op.name.back() - '0';
-            if (idx < 0 || idx > 3) error(st, flag_st, vars, "invalid variable index");
+            if (idx < 0 || idx > 3) error(st, flag_st, vars, "Variable Index Error", "invalid variable index");
             stack_push(st, vars[idx]);
             stack_push(flag_st, 0);
             depth++;
         }
         else if (op.name.rfind("istore_", 0) == 0) {
-            if (depth == 0) error(st, flag_st, vars, "istore requires a value on the stack");
+            if (depth == 0) error(st, flag_st, vars, "Stack Error", "istore requires a value on the stack");
             int idx = op.name.back() - '0';
-            if (idx < 0 || idx > 3) error(st, flag_st, vars, "invalid variable index");
-            if (stack_get(flag_st) != 0) error(st, flag_st, vars, "store of return address");
+            if (idx < 0 || idx > 3) error(st, flag_st, vars, "Variable Index Error", "invalid variable index");
+            if (stack_get(flag_st) != 0) error(st, flag_st, vars, "Return Address Error", "store with return address");
             vars[idx] = stack_get(st);
             stack_pop(st);
             stack_pop(flag_st);
             depth--;
         }
         else if (op.name == "swap") {
-            if (depth < 2) error(st, flag_st, vars, "swap requires at least two values on the stack");
+            if (depth < 2) error(st, flag_st, vars, "Stack Error", "swap requires at least two values on the stack");
             int a = stack_get(st); stack_pop(st);
             int af = stack_get(flag_st); stack_pop(flag_st);
             int b = stack_get(st); stack_pop(st);
@@ -94,8 +98,8 @@ int main() {
             depth += 2;
         }
         else if (op.name == "iadd" || op.name == "isub" || op.name == "imul" ||
-            op.name == "iand" || op.name == "ior" || op.name == "ixor") {
-            if (depth < 2) error(st, flag_st, vars, "Arithmetic operation requires at least two values on the stack");
+                 op.name == "iand" || op.name == "ior" || op.name == "ixor") {
+            if (depth < 2) error(st, flag_st, vars, "Arithmetic Operation Error", "Arithmetic operation requires at least two values on the stack");
 
             int top_flag = stack_get(flag_st);
             stack_pop(flag_st);
@@ -103,7 +107,7 @@ int main() {
             stack_push(flag_st, top_flag);
 
             if (top_flag != 0 || second_flag != 0)
-                error(st, flag_st, vars, "Arithmetic operation with return address");
+                error(st, flag_st, vars, "Return Address Error", "Arithmetic operation with return address");
 
             int b = stack_get(st); stack_pop(st);
             stack_pop(flag_st);
@@ -124,8 +128,8 @@ int main() {
             depth++;
         }
         else if (op.name == "invokestatic") {
-            if (!op.has_arg) error(st, flag_st, vars, "invokestatic requires an argument");
-            if (op.arg < 0 || op.arg >= (int)program.size()) error(st, flag_st, vars, "invalid call address");
+            if (!op.has_arg) error(st, flag_st, vars, "Argument Error", "invokestatic requires an argument");
+            if (op.arg < 0 || op.arg >= (int)program.size()) error(st, flag_st, vars, "Call Address Error", "invalid call address");
             stack_push(st, pc + 1);
             stack_push(flag_st, 1);
             depth++;
@@ -133,24 +137,24 @@ int main() {
             continue;
         }
         else if (op.name == "return") {
-            if (depth == 0) error(st, flag_st, vars, "return requires an address on the stack");
-            if (stack_get(flag_st) == 0) error(st, flag_st, vars, "return with ordinary value");
+            if (depth == 0) error(st, flag_st, vars, "Stack Error", "return requires an address on the stack");
+            if (stack_get(flag_st) == 0) error(st, flag_st, vars, "Return Address Error", "return with regular value");
             int addr = stack_get(st);
             stack_pop(st);
             stack_pop(flag_st);
             depth--;
-            if (addr < 0 || addr >= (int)program.size()) error(st, flag_st, vars, "invalid return address");
+            if (addr < 0 || addr >= (int)program.size()) error(st, flag_st, vars, "Address Error", "invalid return address");
             pc = addr;
             continue;
         }
         else if (op.name == "goto") {
-            if (!op.has_arg) error(st, flag_st, vars, "goto requires an argument");
-            if (op.arg < 0 || op.arg >= (int)program.size()) error(st, flag_st, vars, "invalid jump address");
+            if (!op.has_arg) error(st, flag_st, vars, "Argument Error", "goto requires an argument");
+            if (op.arg < 0 || op.arg >= (int)program.size()) error(st, flag_st, vars, "Jump Address Error", "invalid jump address");
             pc = op.arg;
             continue;
         }
         else {
-            error(st, flag_st, vars, "Unknown operation: " + op.name);
+            error(st, flag_st, vars, "Operation Error", "Unknown operation: " + op.name);
         }
 
         pc++;
