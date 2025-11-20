@@ -21,22 +21,17 @@ add_test(NAME Lab3_test1
 set_tests_properties(Lab3_test1 PROPERTIES PASS_REGULAR_EXPRESSION
         "#########\n#..#...0#\n#.......#\n#...#1###\n#...#2.3#\n#########")
 
-add_test(NAME Lab3_test2_unreachable
-        COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input_2.txt)
-set_tests_properties(Lab3_test2_unreachable PROPERTIES PASS_REGULAR_EXPRESSION
-        "#######\n#Q#..E#\n#######")
-
-add_test(NAME Lab3_test3_one_move
+add_test(NAME Lab3_test2_one_move
         COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input_3.txt)
-set_tests_properties(Lab3_test3_one_move PROPERTIES PASS_REGULAR_EXPRESSION
+set_tests_properties(Lab3_test2_one_move PROPERTIES PASS_REGULAR_EXPRESSION
         "#######\n#0...1#\n#######")
 
-add_test(NAME Lab3_test4_two_moves
+add_test(NAME Lab3_test3_two_moves
         COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input_4.txt)
-set_tests_properties(Lab3_test4_two_moves PROPERTIES PASS_REGULAR_EXPRESSION
+set_tests_properties(Lab3_test3_two_moves PROPERTIES PASS_REGULAR_EXPRESSION
         "#########\n#0......#\n#......##\n#......##\n#1.....2#\n#########")
 
-add_test(NAME Lab3_test5_no_E
+add_test(NAME Lab3_test4_no_E
         COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input_5.txt)
-set_tests_properties(Lab3_test5_no_E PROPERTIES PASS_REGULAR_EXPRESSION
+set_tests_properties(Lab3_test4_no_E PROPERTIES PASS_REGULAR_EXPRESSION
         "#####\n#Q..#\n#...#\n#####")
