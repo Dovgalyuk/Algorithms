@@ -25,8 +25,8 @@ struct Instruction {
 
 class Processor {
 private:
-    Stack* stack;           
-    vector<int> return_stack; 
+    Stack* stack;
+    Stack* return_stack; 
     int regA, regB, regC, regD;
     vector<Instruction> program;
     size_t pc;
@@ -38,9 +38,19 @@ private:
     }
 
     bool is_number(const string& str) {
-        istringstream iss(str);
-        int value;
-        return (iss >> value) && iss.eof();
+        if (str.empty()) return false;
+
+        
+        size_t start = 0;
+        if (str[0] == '-') {
+            if (str.length() == 1) return false;
+            start = 1;
+        }
+
+        for (size_t i = start; i < str.length(); i++) {
+            if (!isdigit(str[i])) return false;
+        }
+        return true;
     }
 
     int get_value(const string& str) {
@@ -79,11 +89,14 @@ private:
         return true;
     }
 
+    
+
 public:
     typedef std::vector<std::string> ProgramLines;
 
     Processor() {
         stack = stack_create();
+        return_stack = stack_create();  
         regA = regB = regC = regD = 0;
         pc = 0;
         error = false;
@@ -91,6 +104,7 @@ public:
 
     ~Processor() {
         stack_delete(stack);
+        stack_delete(return_stack);
     }
 
     void load_program(const ProgramLines& lines) {
@@ -104,11 +118,19 @@ public:
 
             if (command == "push") {
                 instr.type = InstructionType::PUSH;
-                iss >> instr.operand;
+                if (!(iss >> instr.operand)) {
+                    error = true;
+                    error_message = "Missing operand for PUSH";
+                    return;
+                }
             }
             else if (command == "pop") {
                 instr.type = InstructionType::POP;
-                iss >> instr.operand;
+                if (!(iss >> instr.operand)) {
+                    error = true;
+                    error_message = "Missing operand for POP";
+                    return;
+                }
             }
             else if (command == "add") {
                 instr.type = InstructionType::ADD;
@@ -121,7 +143,11 @@ public:
             }
             else if (command == "call") {
                 instr.type = InstructionType::CALL;
-                iss >> instr.operand;
+                if (!(iss >> instr.operand)) {
+                    error = true;
+                    error_message = "Missing operand for CALL";
+                    return;
+                }
             }
             else if (command == "ret") {
                 instr.type = InstructionType::RET;
@@ -139,7 +165,9 @@ public:
     bool execute() {
         pc = 0;
         error = false;
-        return_stack.clear(); 
+
+        while (!stack_empty(stack)) stack_pop(stack);
+        while (!stack_empty(return_stack)) stack_pop(return_stack);
 
         while (pc < program.size() && !error) {
             const Instruction& instr = program[pc];
@@ -208,8 +236,8 @@ public:
             }
 
             case InstructionType::CALL: {
-                
-                return_stack.push_back(pc + 1);
+           
+                stack_push(return_stack, pc + 1);
 
                 int target = get_value(instr.operand);
                 if (target < 0 || static_cast<size_t>(target) >= program.size()) {
@@ -222,14 +250,15 @@ public:
             }
 
             case InstructionType::RET: {
-                if (return_stack.empty()) {
+                if (stack_empty(return_stack)) {
                     error = true;
-                    error_message = "BAD RET - no return address";
+                    error_message = "BAD RET";
                     break;
                 }
 
-                pc = return_stack.back();
-                return_stack.pop_back();
+                
+                pc = stack_get(return_stack);
+                stack_pop(return_stack);
                 break;
             }
             }
