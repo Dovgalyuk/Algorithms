@@ -3,13 +3,6 @@
 #include "queue.h"
 #include "vector.h"
 
-struct Point
-{
-    int row;
-    int col;
-    int color;
-};
-
 int main(int argc, char **argv)
 {
     if (argc < 2)

@@ -6,7 +6,6 @@ struct Queue
 {
     Vector *vector;
     size_t front;
-    size_t back;
     size_t count;
 };
 
@@ -15,7 +14,6 @@ Queue *queue_create()
     Queue *queue = new Queue;
     queue->vector = vector_create();
     queue->front = 0;
-    queue->back = 0;
     queue->count = 0;
     // Инициализируем очередь с начальной ёмкостью
     vector_resize(queue->vector, 4);
@@ -50,13 +48,12 @@ void queue_insert(Queue *queue, Data data)
         vector_delete(queue->vector);
         queue->vector = new_vector;
         queue->front = 0;
-        queue->back = queue->count;
         capacity = capacity * 2;
     }
     
-    // Вставляем элемент в конец очереди
-    vector_set(queue->vector, queue->back, data);
-    queue->back = (queue->back + 1) % capacity;
+    // Вычисляем позицию для вставки: back = (front + count) % capacity
+    size_t back = (queue->front + queue->count) % capacity;
+    vector_set(queue->vector, back, data);
     queue->count++;
 }
 
