@@ -16,7 +16,7 @@ bool isOpening(char c) {
     return c == '(' || c == '[' || c == '{' || c == '<';
 }
 
-void task(string &input) {
+string task(string &input) {
     Stack<char> stack;
     bool isSuccess = true;
 
@@ -42,21 +42,25 @@ void task(string &input) {
         }
     }
 
-    if (isSuccess && stack.empty()) {
-        cout << "YES" << endl;
-    } else {
-        cout << "NO" << endl;
-    }
+    if (isSuccess && stack.empty())
+        return "YES";
+    else
+        return "NO";
 }
 
 int main(int argc, char **argv) {
 
     ifstream inputFile(argv[1]);
+    ofstream outputFile("output.txt");
 
     string line;
-    getline(inputFile, line);
+    string result;
 
-    task(line);
+    while (getline(inputFile, line)) {
+        result = task(line);
+        cout << result << endl;
+        outputFile << result << endl;
+    }
 
     return 0;
 }
