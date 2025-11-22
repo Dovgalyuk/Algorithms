@@ -1,33 +1,31 @@
 #ifndef GRAPH_TEMPLATE_H
 #define GRAPH_TEMPLATE_H
 
+#include <cstddef>
 #include <stdexcept>
 #include <vector>
+
 #include "list.h"
 
+// Интерфейс ориентированного графа с метками вершин и рёбер.
 template <typename VertexLabel, typename EdgeLabel> class Graph
 {
 public:
     using VertexIndex = size_t;
 
-    // Ребро, указывающее на вершину `to` и содержащее метку.
-    struct Edge
-    {
-        VertexIndex to = 0;
-        EdgeLabel label{};
-    };
+    struct Edge;
+    struct Vertex;
 
-    // Итератор по исходящим соседям вершины.
+    // Итератор для обхода соседей вершины.
     class NeighborIterator
     {
     public:
         NeighborIterator() : _item(nullptr) {}
         explicit NeighborIterator(typename List<Edge>::Item* item) : _item(item) {}
 
-        // Проверяет, указывает ли итератор на существующего соседа.
+        // Проверяет, указывает ли итератор на текущего соседа.
         bool valid() const { return _item != nullptr; }
-
-        // Переходит к следующему соседу при его наличии.
+        // Переходит к следующему соседу.
         void next()
         {
             if (_item)
@@ -43,7 +41,7 @@ public:
             return _item->data().to;
         }
 
-        // Доступ к метке текущего ребра с возможностью изменения.
+        // Доступ к метке ребра (можно менять).
         EdgeLabel& label()
         {
             ensure_item();
@@ -60,28 +58,20 @@ public:
     private:
         typename List<Edge>::Item* _item;
 
-        // Проверяет корректность итератора перед обращением к данным.
+        // Проверяет валидность итератора.
         void ensure_item() const
         {
             if (!_item)
             {
-                throw std::out_of_range("Iterator not valid");
+                throw std::out_of_range("Iterator is invalid");
             }
         }
     };
 
-    // Инициализирует граф `vertex_count` пустыми вершинами.
-    explicit Graph(size_t vertex_count = 0) : _vertices(vertex_count)
-    {
-    }
+    // Создает граф с заданным числом вершин.
+    explicit Graph(size_t vertex_count = 0) : _vertices(vertex_count) {}
 
-    // Возвращает текущее количество вершин.
-    size_t vertex_count() const
-    {
-        return _vertices.size();
-    }
-
-    // Добавляет вершину с меткой и возвращает её индекс.
+    // Добавляет вершину и возвращает ее индекс.
     VertexIndex add_vertex(const VertexLabel& label = VertexLabel())
     {
         Vertex vertex;
@@ -89,9 +79,8 @@ public:
         _vertices.push_back(vertex);
         return _vertices.size() - 1;
     }
-
-    // Удаляет вершину и все связанные с ней рёбра.
-    void remove_vertex(size_t index)
+    // Удаляет вершину и все инцидентные рёбра.
+    void remove_vertex(VertexIndex index)
     {
         validate_vertex(index);
         clear_edges(_vertices[index].edges);
@@ -121,8 +110,8 @@ public:
         }
     }
 
-    // Добавляет или обновляет ориентированное ребро from->to, возвращает true при создании.
-    bool add_edge(size_t from, size_t to, const EdgeLabel& label = EdgeLabel())
+    // Добавляет или обновляет ребро.
+    bool add_edge(VertexIndex from, VertexIndex to, const EdgeLabel& label = EdgeLabel())
     {
         validate_vertex(from);
         validate_vertex(to);
@@ -140,9 +129,8 @@ public:
         _vertices[from].edges.insert(edge);
         return true;
     }
-
-    // Удаляет ребро from->to, если оно существует.
-    bool remove_edge(size_t from, size_t to)
+    // Удаляет ребро from->to.
+    bool remove_edge(VertexIndex from, VertexIndex to)
     {
         validate_vertex(from);
         validate_vertex(to);
@@ -160,55 +148,50 @@ public:
             prev = item;
             item = item->next();
         }
-
         return false;
     }
-
-    // Проверяет наличие ребра from->to.
-    bool has_edge(size_t from, size_t to) const
+    // Проверяет наличие ребра между вершинами.
+    bool has_edge(VertexIndex from, VertexIndex to) const
     {
         validate_vertex(from);
         validate_vertex(to);
         return find_edge(from, to) != nullptr;
     }
 
-    // Задаёт метку существующего ребра.
-    void set_edge_label(size_t from, size_t to, const EdgeLabel& label)
+    // Устанавливает метку ребра.
+    void set_edge_label(VertexIndex from, VertexIndex to, const EdgeLabel& label)
     {
         Edge* edge = find_edge(from, to);
         if (!edge)
         {
-            throw std::out_of_range("Edge not exist");
+            throw std::out_of_range("Edge not found");
         }
         edge->label = label;
     }
-
-    // Возвращает метку ребра.
-    EdgeLabel get_edge_label(size_t from, size_t to) const
+    // Возвращает копию метки ребра.
+    EdgeLabel get_edge_label(VertexIndex from, VertexIndex to) const
     {
         const Edge* edge = find_edge(from, to);
         if (!edge)
         {
-            throw std::out_of_range("Edge not exist");
+            throw std::out_of_range("Edge not found");
         }
         return edge->label;
     }
 
-    // Обновляет метку указанной вершины.
-    void set_vertex_label(size_t vertex, const VertexLabel& label)
+    // Устанавливает метку вершины.
+    void set_vertex_label(VertexIndex vertex, const VertexLabel& label)
     {
         validate_vertex(vertex);
         _vertices[vertex].label = label;
     }
-
-    // Возвращает константную ссылку на метку вершины.
-    const VertexLabel& get_vertex_label(size_t vertex) const
+    // Возвращает ссылку на метку вершины.
+    const VertexLabel& get_vertex_label(VertexIndex vertex) const
     {
         validate_vertex(vertex);
         return _vertices[vertex].label;
     }
-
-    // Возвращает вектор меток всех вершин
+    // Собирает метки всех вершин в вектор.
     std::vector<VertexLabel> vertex_labels() const
     {
         std::vector<VertexLabel> labels;
@@ -220,21 +203,27 @@ public:
         return labels;
     }
 
-    // Возвращает итератор по соседям вершины
-    NeighborIterator neighbors(size_t vertex)
+    // Итератор по соседям (можно менять метки рёбер).
+    NeighborIterator neighbors(VertexIndex vertex)
+    {
+        validate_vertex(vertex);
+        return NeighborIterator(_vertices[vertex].edges.first());
+    }
+    // Константный итератор по соседям.
+    NeighborIterator neighbors(VertexIndex vertex) const
     {
         validate_vertex(vertex);
         return NeighborIterator(_vertices[vertex].edges.first());
     }
 
-    // NeighborIterator neighbors(size_t vertex) const
-    // {
-    //     validate_vertex(vertex);
-    //     return NeighborIterator(_vertices[vertex].edges.first());
-    // }
-
 private:
-    // Внутреннее представление вершины: метка и список смежности.
+    // Ребро графа.
+    struct Edge
+    {
+        VertexIndex to = 0;
+        EdgeLabel label{};
+    };
+    // Вершина графа.
     struct Vertex
     {
         VertexLabel label{};
@@ -243,8 +232,8 @@ private:
 
     std::vector<Vertex> _vertices;
 
-    // Бросает исключение, если индекс вершины вне диапазона.
-    void validate_vertex(size_t vertex) const
+    // Проверяет корректность индекса вершины.
+    void validate_vertex(VertexIndex vertex) const
     {
         if (vertex >= _vertices.size())
         {
@@ -252,7 +241,7 @@ private:
         }
     }
 
-    // Удаляет все рёбра из списка смежности.
+    // Удаляет все рёбра вершины.
     void clear_edges(List<Edge>& edges)
     {
         while (edges.first())
@@ -261,8 +250,8 @@ private:
         }
     }
 
-    // Находит и возвращает указатель на ребро from->to либо nullptr.
-    Edge* find_edge(size_t from, size_t to)
+    // Находит ребро from->to для изменения.
+    Edge* find_edge(VertexIndex from, VertexIndex to)
     {
         validate_vertex(from);
         validate_vertex(to);
@@ -279,7 +268,8 @@ private:
         return nullptr;
     }
 
-    const Edge* find_edge(size_t from, size_t to) const
+    // Находит ребро from->to только для чтения.
+    const Edge* find_edge(VertexIndex from, VertexIndex to) const
     {
         validate_vertex(from);
         validate_vertex(to);
@@ -296,7 +286,7 @@ private:
         return nullptr;
     }
 
-    // Удаляет элемент после `prev` (или первый, если prev == nullptr).
+    // Удаляет элемент списка смежности.
     typename List<Edge>::Item* remove_edge_item(List<Edge>& edges, typename List<Edge>::Item* prev)
     {
         if (!prev)
