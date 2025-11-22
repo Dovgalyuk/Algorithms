@@ -13,8 +13,18 @@ template <typename VertexLabel, typename EdgeLabel> class Graph
 public:
     using VertexIndex = size_t;
 
-    struct Edge;
-    struct Vertex;
+    // Ребро графа.
+    struct Edge
+    {
+        VertexIndex to = 0;
+        EdgeLabel label{};
+    };
+    // Вершина графа.
+    struct Vertex
+    {
+        VertexLabel label{};
+        List<Edge> edges;
+    };
 
     // Итератор для обхода соседей вершины.
     class NeighborIterator
@@ -217,21 +227,10 @@ public:
     }
 
 private:
-    // Ребро графа.
-    struct Edge
-    {
-        VertexIndex to = 0;
-        EdgeLabel label{};
-    };
-    // Вершина графа.
-    struct Vertex
-    {
-        VertexLabel label{};
-        List<Edge> edges;
-    };
-
     std::vector<Vertex> _vertices;
 
+
+    // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ:
     // Проверяет корректность индекса вершины.
     void validate_vertex(VertexIndex vertex) const
     {
