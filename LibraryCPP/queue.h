@@ -29,4 +29,16 @@ void queue_remove(Queue *queue);
 // Returns true if the queue is empty
 bool queue_empty(const Queue *queue);
 
+struct PriorityQueue;
+
+PriorityQueue* pqueue_create();
+
+void pqueue_delete(PriorityQueue* pq);
+
+bool pqueue_empty(const PriorityQueue* pq);
+
+void pqueue_push(PriorityQueue* pq, int v, const int* dist);
+
+int pqueue_pop(PriorityQueue* pq);
+
 #endif
