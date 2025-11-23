@@ -12,13 +12,32 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
+        Item *next() { return _next; }
         Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
-    private:
-        // internal data here
-    };
+        Data data() const { return _data;}
 
+        Item()
+        {
+            _data = 0;
+            _next = nullptr;
+        }
+
+        Item (Data data){this->_data = data;}
+
+        Item(Data data, Item* next){
+            this->_data = data;
+            this->_next = next;
+        }
+
+        void SetNext(Item* next){
+            this->_next = next;
+        }
+
+    private:
+        Data _data;
+        Item *_next;
+    };
+    
     // Creates new list
     List();
 
@@ -51,7 +70,7 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
-    // private data should be here
+    Item* _first;
 };
 
 #endif
