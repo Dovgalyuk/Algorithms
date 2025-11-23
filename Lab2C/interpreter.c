@@ -39,27 +39,56 @@ static void handle_clear_output(Interpreter *interp, const char *arg);
 static void handle_sleep(Interpreter *interp, const char *arg);
 
 static Instruction instructions[] = {
+    /* ~\ none - Sets the ~ to blank */
     {{'~', '\\'}, ARG_NONE, handle_clear_tilde},
+    /* ~( number - Sets the ~ value to the value of the variable with the
+       specified number */
     {{'~', '('}, ARG_NUMBER, handle_tilde_get_var},
+    /* =( number - Replaces the value of the variable with the specified number
+       to the ~ value */
     {{'=', '('}, ARG_NUMBER, handle_replace_var},
+    /* =) number - Deletes the variable with the specified number */
     {{'=', ')'}, ARG_NUMBER, handle_delete_var},
+    /* ?! value - Checks if the ~ value is not equal to the value, if so, it
+       runs the code in the if */
     {{'?', '!'}, ARG_STRING, handle_ifnot},
+    /* + value - Adds a character or string to the top of the stack */
     {{'+', '\0'}, ARG_STRING, handle_push},
+    /* - none - Removes the bottom of the stack */
     {{'-', '\0'}, ARG_NONE, handle_remove_bottom},
+    /* > text - Outputs text to the console */
     {{'>', '\0'}, ARG_STRING, handle_output},
+    /* ~ none - Returns the bottom of the stack */
     {{'~', '\0'}, ARG_NONE, handle_tilde},
+    /* < none - Reverses the stack */
     {{'<', '\0'}, ARG_NONE, handle_reverse},
+    /* : none - Combines the stack into one string */
     {{':', '\0'}, ARG_NONE, handle_concat},
+    /* ! number - Jumps to a certain index in the code */
     {{'!', '\0'}, ARG_NUMBER, handle_jump},
+    /* ? value - Checks if the ~ value is equal to the value, if so, it runs the
+       code in the if */
     {{'?', '\0'}, ARG_STRING, handle_if},
+    /* | none - End of ? statement */
     {{'|', '\0'}, ARG_NONE, handle_endif},
+    /* = none - Creates a variable with the value of ~ */
     {{'=', '\0'}, ARG_NONE, handle_create_var},
+    /* & operator - Does math on the last two items on the bottom of the stack
+       using the specified operator */
     {{'&', '\0'}, ARG_STRING, handle_math},
+    /* @ number - Returns the value of the variable with the specified number */
     {{'@', '\0'}, ARG_NUMBER, handle_get_var},
+    /* # none - Halts the program */
     {{'#', '\0'}, ARG_NONE, handle_halt},
+    /* _ none - Asks for the user input. Adds the input to the bottom of the
+       stack */
     {{'_', '\0'}, ARG_NONE, handle_input},
+    /* $ number - Gets a random number between 1 and the specified number. Only
+       whole numbers */
     {{'$', '\0'}, ARG_NUMBER, handle_random},
+    /* ^ none - Clears the output */
     {{'^', '\0'}, ARG_NONE, handle_clear_output},
+    /* ; seconds - Waits the specified number of seconds */
     {{';', '\0'}, ARG_NUMBER, handle_sleep},
     {{0, 0}, ARG_NONE, NULL}};
 
@@ -208,25 +237,6 @@ static void handle_push(Interpreter *interp, const char *arg) {
 
 static void handle_remove_bottom(Interpreter *interp, const char *arg) {
   (void)arg;
-
-  if (interp->tilde_value != (Data)0 && !stack_empty(interp->stack)) {
-    Data bottom = stack_get_bottom(interp->stack);
-    if (bottom == interp->tilde_value) {
-      bool tilde_in_vars = false;
-      for (size_t i = 0; i < MAX_VARIABLES; i++) {
-        if (interp->variables[i].exists &&
-            interp->variables[i].value == interp->tilde_value) {
-          tilde_in_vars = true;
-          break;
-        }
-      }
-
-      if (!tilde_in_vars) {
-        interp->tilde_value = (Data)0;
-      }
-    }
-  }
-
   stack_remove_bottom(interp->stack);
 }
 
@@ -251,14 +261,29 @@ static void handle_output(Interpreter *interp, const char *arg) {
 
 static void handle_tilde(Interpreter *interp, const char *arg) {
   (void)arg;
-  if (!stack_empty(interp->stack)) {
-    interp->tilde_value = stack_get_bottom(interp->stack);
+
+  if (interp->tilde_value != (Data)0) {
+    free((char *)interp->tilde_value);
+    interp->tilde_value = (Data)0;
+  }
+
+  if (stack_empty(interp->stack)) {
+    return;
+  }
+
+  Data bottom = stack_get_bottom(interp->stack);
+  char *copy = strdup((const char *)bottom);
+  if (copy) {
+    interp->tilde_value = (Data)copy;
   }
 }
 
 static void handle_clear_tilde(Interpreter *interp, const char *arg) {
   (void)arg;
-  interp->tilde_value = (Data)0;
+  if (interp->tilde_value != (Data)0) {
+    free((char *)interp->tilde_value);
+    interp->tilde_value = (Data)0;
+  }
 }
 
 static void handle_reverse(Interpreter *interp, const char *arg) {
@@ -268,22 +293,6 @@ static void handle_reverse(Interpreter *interp, const char *arg) {
 
 static void handle_concat(Interpreter *interp, const char *arg) {
   (void)arg;
-
-  if (interp->tilde_value != (Data)0) {
-    bool tilde_in_vars = false;
-    for (size_t i = 0; i < MAX_VARIABLES; i++) {
-      if (interp->variables[i].exists &&
-          interp->variables[i].value == interp->tilde_value) {
-        tilde_in_vars = true;
-        break;
-      }
-    }
-
-    if (!tilde_in_vars) {
-      interp->tilde_value = (Data)0;
-    }
-  }
-
   stack_concat(interp->stack);
 }
 
@@ -392,7 +401,16 @@ static void handle_tilde_get_var(Interpreter *interp, const char *arg) {
     return;
   }
 
-  interp->tilde_value = interp->variables[var_id].value;
+  if (interp->tilde_value != (Data)0) {
+    free((char *)interp->tilde_value);
+  }
+
+  char *copy = strdup((const char *)interp->variables[var_id].value);
+  if (copy) {
+    interp->tilde_value = (Data)copy;
+  } else {
+    interp->tilde_value = (Data)0;
+  }
 }
 
 static void handle_delete_var(Interpreter *interp, const char *arg) {
@@ -408,10 +426,6 @@ static void handle_delete_var(Interpreter *interp, const char *arg) {
 
   if (!interp->variables[var_id].exists) {
     return;
-  }
-
-  if (interp->tilde_value == interp->variables[var_id].value) {
-    interp->tilde_value = (Data)0;
   }
 
   free((char *)interp->variables[var_id].value);
@@ -635,6 +649,10 @@ void interpreter_delete(Interpreter *interp) {
 
   if (interp->stack) {
     stack_delete(interp->stack);
+  }
+
+  if (interp->tilde_value != (Data)0) {
+    free((char *)interp->tilde_value);
   }
 
   if (interp->free_fn) {
