@@ -1,0 +1,10 @@
+apple fruit
+car vehicle
+city moscow
+computer device
+book object
+water liquid
+fire element
+earth planet
+sun star
+moon satellite
