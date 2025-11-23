@@ -107,3 +107,13 @@ add_test(NAME TestLab2C_21_Random
          COMMAND Lab2C ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_21_random_script.txt
                        ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_21_random_input.txt)
 set_property(TEST TestLab2C_21_Random PROPERTY PASS_REGULAR_EXPRESSION "1")
+
+add_test(NAME TestLab2C_22_ClearOutput
+         COMMAND Lab2C ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_22_clear_output_script.txt
+                       ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_22_clear_output_input.txt)
+set_property(TEST TestLab2C_22_ClearOutput PROPERTY PASS_REGULAR_EXPRESSION "After")
+
+add_test(NAME TestLab2C_23_ReplaceVar
+         COMMAND Lab2C ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_23_replace_var_script.txt
+                       ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_23_replace_var_input.txt)
+set_property(TEST TestLab2C_23_ReplaceVar PROPERTY PASS_REGULAR_EXPRESSION "New")

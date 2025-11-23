@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 
 typedef enum { ARG_NONE, ARG_STRING, ARG_NUMBER } ArgType;
 
@@ -28,15 +29,19 @@ static void handle_endif(Interpreter *interp, const char *arg);
 static void handle_create_var(Interpreter *interp, const char *arg);
 static void handle_tilde_get_var(Interpreter *interp, const char *arg);
 static void handle_delete_var(Interpreter *interp, const char *arg);
+static void handle_replace_var(Interpreter *interp, const char *arg);
 static void handle_math(Interpreter *interp, const char *arg);
 static void handle_get_var(Interpreter *interp, const char *arg);
 static void handle_halt(Interpreter *interp, const char *arg);
 static void handle_input(Interpreter *interp, const char *arg);
 static void handle_random(Interpreter *interp, const char *arg);
+static void handle_clear_output(Interpreter *interp, const char *arg);
+static void handle_sleep(Interpreter *interp, const char *arg);
 
 static Instruction instructions[] = {
     {{'~', '\\'}, ARG_NONE, handle_clear_tilde},
     {{'~', '('}, ARG_NUMBER, handle_tilde_get_var},
+    {{'=', '('}, ARG_NUMBER, handle_replace_var},
     {{'=', ')'}, ARG_NUMBER, handle_delete_var},
     {{'?', '!'}, ARG_STRING, handle_ifnot},
     {{'+', '\0'}, ARG_STRING, handle_push},
@@ -54,6 +59,8 @@ static Instruction instructions[] = {
     {{'#', '\0'}, ARG_NONE, handle_halt},
     {{'_', '\0'}, ARG_NONE, handle_input},
     {{'$', '\0'}, ARG_NUMBER, handle_random},
+    {{'^', '\0'}, ARG_NONE, handle_clear_output},
+    {{';', '\0'}, ARG_NUMBER, handle_sleep},
     {{0, 0}, ARG_NONE, NULL}};
 
 long data_to_number(Data d) {
@@ -412,6 +419,35 @@ static void handle_delete_var(Interpreter *interp, const char *arg) {
   interp->variables[var_id].exists = false;
 }
 
+static void handle_replace_var(Interpreter *interp, const char *arg) {
+  if (!arg) {
+    return;
+  }
+
+  long var_id = atol(arg);
+  if (var_id < 0 || (size_t)var_id >= MAX_VARIABLES) {
+    fprintf(stderr, "Error: Variable ID %ld out of range\n", var_id);
+    return;
+  }
+
+  if (!interp->variables[var_id].exists) {
+    fprintf(stderr, "Error: Variable %ld doesn't exist\n", var_id);
+    return;
+  }
+
+  if (interp->tilde_value == (Data)0) {
+    return;
+  }
+
+  char *new_value = strdup((const char *)interp->tilde_value);
+  if (!new_value) {
+    return;
+  }
+
+  free((char *)interp->variables[var_id].value);
+  interp->variables[var_id].value = (Data)new_value;
+}
+
 static void handle_math(Interpreter *interp, const char *arg) {
   if (!arg || stack_empty(interp->stack)) {
     return;
@@ -535,6 +571,26 @@ static void handle_random(Interpreter *interp, const char *arg) {
 
   if (random_data != (Data)0) {
     stack_push(interp->stack, random_data);
+  }
+}
+
+static void handle_clear_output(Interpreter *interp, const char *arg) {
+  (void)interp;
+  (void)arg;
+  printf("\033[2J\033[H");
+  fflush(stdout);
+}
+
+static void handle_sleep(Interpreter *interp, const char *arg) {
+  (void)interp;
+
+  if (!arg) {
+    return;
+  }
+
+  long seconds = atol(arg);
+  if (seconds > 0) {
+    sleep((unsigned int)seconds);
   }
 }
 
