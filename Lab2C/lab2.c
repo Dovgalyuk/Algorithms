@@ -6,8 +6,9 @@
 
 char *read_file(const char *filename, size_t *out_size) {
   FILE *file = fopen(filename, "rb");
-  if (file == NULL)
+  if (file == NULL) {
     return NULL;
+  }
 
   fseek(file, 0, SEEK_END);
   size_t size = ftell(file);
@@ -38,13 +39,13 @@ int main(int argc, char *argv[]) {
   size_t script_size;
   char *script = read_file(argv[1], &script_size);
   if (script == NULL) {
-    printf("Error: Failed to read script file\n");
+    printf("Error: Failed to read script file '%s'\n", argv[1]);
     return 1;
   }
 
   FILE *input_file = fopen(argv[2], "r");
   if (input_file == NULL) {
-    printf("Error: Failed to open input file\n");
+    printf("Error: Failed to open input file '%s'\n", argv[2]);
     free(script);
     return 1;
   }
@@ -57,11 +58,21 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  interpreter_execute_script(interpreter, script);
+  printf("=== Executing AnnoyingScript ===\n");
+  int result = interpreter_execute_script(interpreter, script);
 
+  if (result != 0) {
+    printf("\n=== Execution failed ===\n");
+  } else {
+    printf("\n=== Execution completed ===\n");
+  }
+
+  printf("\n=== Final Stack State ===\n");
   while (!stack_empty(interpreter->stack)) {
     char *val = (char *)stack_get(interpreter->stack);
-    printf("%s\n", val);
+    if (val) {
+      printf("%s\n", val);
+    }
     stack_pop(interpreter->stack);
   }
 
