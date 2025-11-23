@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -78,7 +79,7 @@ static bool run_astar(GridGraph& graph,
         }
     }
 
-    if (!std::isfinite(g[goal]))
+    if (g[goal] == inf)
     {
         return false;
     }
@@ -132,7 +133,7 @@ int main(int argc, char** argv)
             }
         }
     }
-    if (!std::isfinite(min_cost))
+    if (min_cost == std::numeric_limits<double>::infinity())
     {
         min_cost = 0.0;
     }
