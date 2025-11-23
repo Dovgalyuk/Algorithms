@@ -21,7 +21,7 @@ void TestList(int element_count)
     
     List::Item* next = list.first();
 
-    while (next->next() != nullptr)
+    while (next != nullptr)
     {
         cout << next->data() <<" ";
         next = next->next();
@@ -29,8 +29,21 @@ void TestList(int element_count)
     cout << endl;
 }
 
-void TestStack(string s)
+void TestStack(const string& fileName)
 {
+    ifstream file(fileName);
+    if (!file.is_open())
+    {
+        cerr << "Error reading the file" << endl;
+        return;
+    }
+    
+    string s;
+
+    file >> s;
+
+    file.close();
+
     Stack st; 
     unordered_map<char, char> pairs = {
         {')', '('},
@@ -67,14 +80,14 @@ void TestStack(string s)
 
 int main(int argc, char* argv[])
 {
-    if (argc < 1)
+    if (argc < 2)
     {
         cout << "Help: "<<argv[0]<<"\n -list <5> -- test list\n"
                                    " -stack <fileName> -- test stack"<<endl;
         
         return 1;
     }
-
+    //TestStack("D:\\Программирование\\с++\\ALab\\Lab2CPP\\test.txt");
     
     string mode = argv[1];
 
