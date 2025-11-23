@@ -1,6 +1,3 @@
-#include <algorithm>
-#include <cmath>
-#include <functional>
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -11,187 +8,133 @@
 #include "graph.h"
 
 using GridGraph = Graph<std::string, double>;
+using Vertex = GridGraph::VertexIndex;
 
-struct AStarResult
+static Vertex cell_index(size_t row, size_t col, size_t cols)
 {
-    bool found = false;
-    double cost = 0.0;
-    std::vector<GridGraph::VertexIndex> path;
+    return static_cast<Vertex>(row * cols + col);
+}
+
+struct Node
+{
+    double priority;
+    Vertex vertex;
+    bool operator>(const Node& other) const { return priority > other.priority; }
 };
 
-static GridGraph::VertexIndex cell_index(size_t row, size_t col, size_t cols)
-{
-    return row * cols + col;
-}
-
-static std::string cell_name(size_t row, size_t col)
-{
-    return "cell_" + std::to_string(row) + "_" + std::to_string(col);
-}
-
-static AStarResult run_astar(GridGraph &graph,
-                             const std::vector<std::vector<double>> &costs,
-                             size_t rows,
-                             size_t cols,
-                             GridGraph::VertexIndex start,
-                             GridGraph::VertexIndex goal)
+static bool run_astar(GridGraph& graph,
+    size_t rows,
+    size_t cols,
+    Vertex start,
+    Vertex goal,
+    double min_cost,
+    std::vector<Vertex>& path,
+    double& total_cost)
 {
     const size_t total = rows * cols;
     const double inf = std::numeric_limits<double>::infinity();
-
-    std::vector<double> g_score(total, inf);
-    std::vector<double> f_score(total, inf);
-    std::vector<GridGraph::VertexIndex> came_from(total, total);
-
-    double min_move_cost = inf;
-    for (const auto &row : costs)
-    {
-        for (double value : row)
+    std::vector<double> g(total, inf);
+    std::vector<Vertex> parent(total, total);
+    auto heuristic = [&](Vertex v) -> double {
+        if (min_cost <= 0.0)
         {
-            if (value > 0.0 && value < min_move_cost)
-            {
-                min_move_cost = value;
-            }
+            return 0.0;
         }
-    }
-    if (!std::isfinite(min_move_cost))
+        size_t r1 = v / cols;
+        size_t c1 = v % cols;
+        size_t r2 = goal / cols;
+        size_t c2 = goal % cols;
+        return (std::abs(static_cast<long>(r1) - static_cast<long>(r2)) +
+            std::abs(static_cast<long>(c1) - static_cast<long>(c2))) *
+            min_cost;
+        };
+
+    std::priority_queue<Node, std::vector<Node>, std::greater<Node>> pq;
+    g[start] = 0.0;
+    pq.push({ heuristic(start), start });
+
+    while (!pq.empty())
     {
-        min_move_cost = 0.0;
-    }
-
-    auto heuristic = [&](GridGraph::VertexIndex idx) {
-        size_t row = idx / cols;
-        size_t col = idx % cols;
-        size_t goal_row = goal / cols;
-        size_t goal_col = goal % cols;
-        double manhattan = std::abs(static_cast<double>(static_cast<long long>(row) - static_cast<long long>(goal_row))) +
-                           std::abs(static_cast<double>(static_cast<long long>(col) - static_cast<long long>(goal_col)));
-        return manhattan * min_move_cost;
-    };
-
-    struct Node
-    {
-        double f;
-        GridGraph::VertexIndex idx;
-        bool operator>(const Node &other) const { return f > other.f; }
-    };
-
-    std::priority_queue<Node, std::vector<Node>, std::greater<Node>> open_set;
-
-    g_score[start] = 0.0;
-    f_score[start] = heuristic(start);
-    open_set.push({f_score[start], start});
-
-    while (!open_set.empty())
-    {
-        Node current = open_set.top();
-        open_set.pop();
-
-        if (current.idx == goal)
+        Node cur = pq.top();
+        pq.pop();
+        if (cur.vertex == goal)
         {
             break;
         }
-        if (current.f > f_score[current.idx])
+        if (cur.priority > g[cur.vertex] + heuristic(cur.vertex))
         {
             continue;
         }
-
-        for (auto it = graph.neighbors(current.idx); it.valid(); it.next())
+        for (auto it = graph.neighbors(cur.vertex); it.valid(); it.next())
         {
-            auto neighbor = it.vertex();
-            double tentative_g = g_score[current.idx] + it.label();
-            if (tentative_g < g_score[neighbor])
+            Vertex next = it.vertex();
+            double tentative = g[cur.vertex] + it.label();
+            if (tentative < g[next])
             {
-                came_from[neighbor] = current.idx;
-                g_score[neighbor] = tentative_g;
-                f_score[neighbor] = tentative_g + heuristic(neighbor);
-                open_set.push({f_score[neighbor], neighbor});
+                g[next] = tentative;
+                parent[next] = cur.vertex;
+                pq.push({ tentative + heuristic(next), next });
             }
         }
     }
 
-    AStarResult result;
-    if (!std::isfinite(g_score[goal]))
+    if (!std::isfinite(g[goal]))
     {
-        return result;
+        return false;
     }
 
-    result.found = true;
-    result.cost = g_score[goal];
-
-    std::vector<GridGraph::VertexIndex> path;
-    for (GridGraph::VertexIndex v = goal;; v = came_from[v])
+    total_cost = g[goal];
+    for (Vertex v = goal;; v = parent[v])
     {
         path.push_back(v);
         if (v == start)
         {
             break;
         }
-        if (came_from[v] >= total)
+        if (parent[v] >= total)
         {
-            result.found = false;
-            return result;
+            return false;
         }
     }
     std::reverse(path.begin(), path.end());
-    result.path = std::move(path);
-    return result;
+    return true;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-    std::istream *input = &std::cin;
+    std::istream* input = &std::cin;
     std::ifstream file;
     if (argc > 1)
     {
         file.open(argv[1]);
-        if (!file)
-        {
-            std::cout << "Failed to open input file\n";
-            return 1;
-        }
         input = &file;
     }
 
     size_t rows = 0;
     size_t cols = 0;
-    if (!(*input >> rows >> cols) || rows == 0 || cols == 0)
-    {
-        std::cout << "Invalid matrix size\n";
-        return 1;
-    }
+    *input >> rows >> cols;
 
-    size_t start_row = 0;
-    size_t start_col = 0;
-    size_t goal_row = 0;
-    size_t goal_col = 0;
-    if (!(*input >> start_row >> start_col >> goal_row >> goal_col))
-    {
-        std::cout << "Invalid start/goal coordinates\n";
-        return 1;
-    }
-    if (start_row >= rows || start_col >= cols || goal_row >= rows || goal_col >= cols)
-    {
-        std::cout << "Start or goal out of bounds\n";
-        return 1;
-    }
+    size_t sr = 0, sc = 0, gr = 0, gc = 0;
+    *input >> sr >> sc >> gr >> gc;
 
-    std::vector<std::vector<double>> costs(rows, std::vector<double>(cols, 0.0));
+    std::vector<double> costs(rows * cols, 0.0);
+    double min_cost = std::numeric_limits<double>::infinity();
     for (size_t r = 0; r < rows; ++r)
     {
         for (size_t c = 0; c < cols; ++c)
         {
-            if (!(*input >> costs[r][c]))
+            double value = 0.0;
+            *input >> value;
+            costs[cell_index(r, c, cols)] = value;
+            if (value > 0.0 && value < min_cost)
             {
-                std::cout << "Failed to read matrix\n";
-                return 1;
-            }
-            if (costs[r][c] < 0.0)
-            {
-                std::cout << "Negative costs are not supported\n";
-                return 1;
+                min_cost = value;
             }
         }
+    }
+    if (!std::isfinite(min_cost))
+    {
+        min_cost = 0.0;
     }
 
     GridGraph graph(rows * cols);
@@ -199,12 +142,12 @@ int main(int argc, char **argv)
     {
         for (size_t c = 0; c < cols; ++c)
         {
-            graph.set_vertex_label(cell_index(r, c, cols), cell_name(r, c));
+            graph.set_vertex_label(cell_index(r, c, cols), "cell_" + std::to_string(r) + "_" + std::to_string(c));
         }
     }
 
-    const int dr[4] = {-1, 1, 0, 0};
-    const int dc[4] = {0, 0, -1, 1};
+    const int dr[4] = { -1, 1, 0, 0 };
+    const int dc[4] = { 0, 0, -1, 1 };
     for (size_t r = 0; r < rows; ++r)
     {
         for (size_t c = 0; c < cols; ++c)
@@ -218,33 +161,27 @@ int main(int argc, char **argv)
                 {
                     continue;
                 }
-                size_t nr_idx = static_cast<size_t>(nr);
-                size_t nc_idx = static_cast<size_t>(nc);
-                auto to = cell_index(nr_idx, nc_idx, cols);
-                graph.add_edge(from, to, costs[nr_idx][nc_idx]);
+                auto to = cell_index(static_cast<size_t>(nr), static_cast<size_t>(nc), cols);
+                graph.add_edge(from, to, costs[to]);
             }
         }
     }
 
-    GridGraph::VertexIndex start = cell_index(start_row, start_col, cols);
-    GridGraph::VertexIndex goal = cell_index(goal_row, goal_col, cols);
+    Vertex start = cell_index(sr, sc, cols);
+    Vertex goal = cell_index(gr, gc, cols);
 
-    AStarResult result = run_astar(graph, costs, rows, cols, start, goal);
-    if (!result.found)
-    {
-        std::cout << "Path not found\n";
-        return 1;
-    }
+    std::vector<Vertex> path;
+    double total_cost = 0.0;
+    run_astar(graph, rows, cols, start, goal, min_cost, path, total_cost);
 
-    std::cout << "Total cost: " << result.cost << "\n";
-    std::cout << "Path: ";
-    for (size_t i = 0; i < result.path.size(); ++i)
+    std::cout << "Total cost: " << total_cost << "\nPath: ";
+    for (size_t i = 0; i < path.size(); ++i)
     {
         if (i)
         {
             std::cout << " -> ";
         }
-        std::cout << graph.get_vertex_label(result.path[i]);
+        std::cout << graph.get_vertex_label(path[i]);
     }
     std::cout << "\n";
     return 0;
