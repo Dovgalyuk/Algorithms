@@ -52,8 +52,7 @@ add_test(
 
 set_tests_properties(Test_StackMachine_4 PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    PASS_REGULAR_EXPRESSION "Error:"
-    FAIL_REGULAR_EXPRESSION "Error: Return Address Error: pop with return address"
+    PASS_REGULAR_EXPRESSION "Error: Return Address Error"
 )
 
 add_test(
@@ -63,8 +62,7 @@ add_test(
 
 set_tests_properties(Test_StackMachine_5 PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    PASS_REGULAR_EXPRESSION "Error:"
-    FAIL_REGULAR_EXPRESSION "Error: Arithmetic Operation Error: Arithmetic operation requires at least two values on the stack"
+    PASS_REGULAR_EXPRESSION "Error: Return Address Error"
 )
 
 add_test(
@@ -74,6 +72,5 @@ add_test(
 
 set_tests_properties(Test_StackMachine_6 PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    PASS_REGULAR_EXPRESSION "Error:"
-    FAIL_REGULAR_EXPRESSION "Error: Call Address Error: invalid call address"
+    PASS_REGULAR_EXPRESSION "Error: Return Address Error"
 )
