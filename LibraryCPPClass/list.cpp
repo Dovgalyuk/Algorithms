@@ -6,7 +6,8 @@ List::List()
     _first = nullptr;
 }
 
-void List::copy_recursive(Item* current) {
+void List::copy_recursive(Item* current)
+{
     if (current == nullptr) return;
     
     // Сначала копируем хвост списка
@@ -25,7 +26,8 @@ List::List(const List &a)
 
 List &List::operator=(const List &a)
 {
-    if (this != &a){
+    if (this != &a)
+    {
         List temp(a);  // Конструктор копирования создает правильный порядок
 
         Item* tm = _first;
@@ -58,7 +60,8 @@ List::Item *List::insert(Data data)
 
 List::Item *List::insert_after(Item *item, Data data)
 {
-    if(item == nullptr){
+    if(item == nullptr)
+    {
         return insert(data);
     }
 
@@ -70,7 +73,8 @@ List::Item *List::insert_after(Item *item, Data data)
 
 List::Item *List::erase_first()
 {
-    if(_first == nullptr){
+    if(_first == nullptr)
+    {
         return nullptr;
     }
 
@@ -83,12 +87,14 @@ List::Item *List::erase_first()
 
 List::Item *List::erase_next(Item *item)
 {
-    if (item == nullptr){
+    if (item == nullptr)
+    {
         return erase_first();
     }
 
     Item* toDelete = item->next();
-    if (toDelete == nullptr){
+    if (toDelete == nullptr)
+    {
         return nullptr;
     }
 

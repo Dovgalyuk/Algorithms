@@ -12,8 +12,9 @@ Stack::Stack(const Stack &a)
 
 Stack &Stack::operator=(const Stack &a)
 {
-    if(this != &a){
-         delete _list;
+    if(this != &a)
+    {
+        delete _list;
         _list = new List(*a._list);
     }
     return *this;
@@ -21,10 +22,11 @@ Stack &Stack::operator=(const Stack &a)
 
 Stack::~Stack()
 {
-     if (_list != nullptr) {
-            delete _list;
-            _list = nullptr;
-     }
+     if (_list != nullptr) 
+    {
+        delete _list;
+        _list = nullptr;
+    }
 }
 
 void Stack::push(Data data)
@@ -39,7 +41,8 @@ Data Stack::get() const
 
 void Stack::pop()
 {
-    if(!empty()){
+    if(!empty())
+    {
         _list->erase_first();
     }
 }

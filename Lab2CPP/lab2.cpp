@@ -9,7 +9,8 @@
 
 using namespace std;
 
-string ReadStringFromFile(const string& fileName){
+string ReadStringFromFile(const string& fileName)
+{
     ifstream file(fileName);
     if (!file.is_open())
     {
@@ -52,14 +53,15 @@ Array ReadArrayFromFile(const string& fileName)
     return arr;
 }
 
-void TestList(int element_count)
+void TestList(int element_count) // Test List insert, first, next, data
 {
     int start_value = 1;
 
     List list =  List();
         
-        // Заполнение списка
-    for (int i = 0; i < element_count; i++) {
+
+    for (int i = 0; i < element_count; i++)
+    {
         list.insert(start_value + i);
     }
     
@@ -73,7 +75,7 @@ void TestList(int element_count)
     cout << endl;
 }
 
-void TestStack(const string& fileName)
+void TestStack(const string& fileName) //Test Stack push, empty, pop
 {
     string s = ReadStringFromFile(fileName);
 
@@ -89,28 +91,28 @@ void TestStack(const string& fileName)
     bool isValid = false;
 
     for (char c : s)
-     {
+    {
         if (c == '(' || c == '[' || c == '{')
-        { //скобка открывающая
-            st.push(c); //добавляем в стек
+        { 
+            st.push(c); 
         } 
         else if (c == ')' || c == ']' || c == '}') 
-        { //скобка закрывающая
+        { 
             if (st.empty() || st.get() != pairs[c])
-            { //проверяем вершину стека
-                isValid = false; //не совпадает
+            { 
+                isValid = false; 
                 break;
             }
-            st.pop(); //удаляем вершину стека
+            st.pop(); 
         }
     }
 
     if (st.empty()) 
-    { //проверяем что стек пуст
+    {
         isValid = true;
     } 
   
-    //выводим ответ
+    
     if (isValid)
     {
         cout << "YES";
@@ -121,7 +123,7 @@ void TestStack(const string& fileName)
     }
 }
 
-void TestListCopy(string arg)
+void TestListCopy(string arg) // Test List copy and assingment operation
 {
     List listA = List();
     List listB = List();
@@ -150,7 +152,7 @@ void TestListCopy(string arg)
     cout<< (listB.first()->data() == listA.first()->data())<< endl;
 }
 
-void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileNameInput)
+void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileNameInput) //AS Interpreter
 {
     string script = ReadStringFromFile(fileNameScript);
     Array input = ReadArrayFromFile(fileNameInput);
@@ -288,7 +290,7 @@ void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileN
     }
 }
 
-int main(int argc, char* argv[])//
+int main(int argc, char* argv[])
 {
     if (argc < 2)
     {
@@ -299,8 +301,6 @@ int main(int argc, char* argv[])//
         return 1;
     }
     
-    //AnnoyingScriptInterpreter("D:\\Программирование\\с++\\ALab\\Lab2CPP\\Tests\\testscript8.txt", "D:\\Программирование\\с++\\ALab\\Lab2CPP\\Tests\\input2.txt");
-
     string mode = argv[1];
 
     if (mode == "-list")
