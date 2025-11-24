@@ -51,7 +51,7 @@ string task(string &input) {
 int main(int argc, char **argv) {
 
     ifstream inputFile(argv[1]);
-    ofstream outputFile("output.txt");
+    ofstream outputFile(argv[2]);
 
     string line;
     string result;
