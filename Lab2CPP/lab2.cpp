@@ -19,6 +19,7 @@ int main(int argc, char** argv) {
     Stack st;
     int vars[4] = { 0, 0, 0, 0 };
     std::string op;
+    int callDepth = 0;
 
     while (*in >> op) {
         if (op == "bipush") {
@@ -39,11 +40,21 @@ int main(int argc, char** argv) {
         else if (op == "invokestatic") {
             int addr; *in >> addr;
             st.push(addr);
+            callDepth++;
         }
         else if (op == "return") {
-            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            if (callDepth == 0) {
+                std::cerr << "Error: return without matching invokestatic\n";
+                return 1;
+            }
+            if (st.empty()) {
+                std::cerr << "Error: empty stack\n";
+                return 1;
+            }
             st.pop();
+            callDepth--;
         }
+
         else if (op == "iadd" || op == "isub" || op == "imul" ||
             op == "iand" || op == "ior" || op == "ixor") {
             if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }

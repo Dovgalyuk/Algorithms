@@ -1,7 +1,7 @@
 #include "vector.h"
 #include <cstdlib>
 #include <stdexcept>
-#include <algorithm> // для std::copy
+#include <algorithm> 
 
 struct Vector {
     Data* data;

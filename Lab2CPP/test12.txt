@@ -1,0 +1,4 @@
+invokestatic 111
+invokestatic 222
+return
+return

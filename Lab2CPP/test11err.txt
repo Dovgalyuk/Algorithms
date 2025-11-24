@@ -1,0 +1,3 @@
+invokestatic 123
+return
+return
