@@ -27,26 +27,22 @@ int main()
         std::cout << "setVertexTag/getVertexTag error\n";
         return 1;
     }
-
-    MyGraph::Edge edge1(0, 1);
-    MyGraph::Edge edge2(1, 2);
-    MyGraph::Edge edge3(0, 2);
     
-    graph->addEdge(edge1);
-    graph->addEdge(edge2);
-    graph->addEdge(edge3);
+    graph->addEdge(0, 1); 
+    graph->addEdge(1, 2); 
+    graph->addEdge(0, 2);
 
-    if (!graph->hasEdge(edge1))
+    if (!graph->hasEdge(0, 1))
     {
         std::cout << "addEdge/hasEdge error\n";
         return 1;
     }
 
-    graph->setEdgeTag(edge1, 10);
-    graph->setEdgeTag(edge2, 20);
-    graph->setEdgeTag(edge3, 30);
+    graph->setEdgeTag(0, 1, 10);
+    graph->setEdgeTag(1, 2, 20); 
+    graph->setEdgeTag(0, 2, 30); 
 
-    if (graph->getEdgeTag(edge1) != 10)
+    if (graph->getEdgeTag(0, 1) != 10)
     {
         std::cout << "setEdgeTag/getEdgeTag error\n";
         return 1;
@@ -75,18 +71,17 @@ int main()
         return 1;
     }
 
-    MyGraph::Edge edge4(2, 3);
-    graph->addEdge(edge4);
+    graph->addEdge(2, 3);
     
-    if (!graph->hasEdge(edge4))
+    if (!graph->hasEdge(2, 3))
     {
         std::cout << "addEdge to new vertex error\n";
         return 1;
     }
 
-    graph->removeEdge(edge3);
+    graph->removeEdge(0, 2);
     
-    if (graph->hasEdge(edge3))
+    if (graph->hasEdge(0, 2))
     {
         std::cout << "removeEdge error\n";
         return 1;
@@ -101,7 +96,7 @@ int main()
 
     graph->removeVertex(1);
     
-    if (graph->hasEdge(edge1) || graph->hasEdge(edge2))
+    if (graph->hasEdge(0, 1) || graph->hasEdge(1, 2))
     {
         std::cout << "removeVertex error - edges not removed\n";
         return 1;

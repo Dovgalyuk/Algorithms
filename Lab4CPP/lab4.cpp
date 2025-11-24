@@ -8,6 +8,8 @@
 
 const int INF = 1e9;
 
+typedef std::vector<int> Vector;
+
 struct Node 
 {
     int index;
@@ -34,9 +36,9 @@ int heuristic(int current, int finish, int cols)
     return abs(current_row - finish_row) + abs(current_col - finish_col);
 }
 
-std::vector<int> path(std::vector<int>& came_from, int start, int finish)
+Vector path(Vector& came_from, int start, int finish)
 {
-    std::vector<int> result;
+    Vector result;
     int current = finish;
     
     while (current != start) 
@@ -51,12 +53,12 @@ std::vector<int> path(std::vector<int>& came_from, int start, int finish)
     return result;
 }
 
-std::vector<int> astar(Graph<int, int>& graph, int start, int finish, int cols)
+Vector astar(Graph<int, int>& graph, int start, int finish, int cols)
 {
     std::priority_queue<Node, std::vector<Node>, std::greater<Node>> queue;
     
-    std::vector<int> came_from(graph.getVertexTags().size(), -1);
-    std::vector<int> cost(graph.getVertexTags().size(), INF);
+    Vector came_from(graph.getVertexTags().size(), -1);
+    Vector cost(graph.getVertexTags().size(), INF);
     
     cost[start] = 0;
     came_from[start] = start;
@@ -100,7 +102,7 @@ void task(std::ifstream& file)
     int rows, cols;
     file >> rows >> cols;
 
-    std::vector<std::vector<int>> matrix(rows, std::vector<int>(cols));
+    std::vector<Vector> matrix(rows, Vector(cols));
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < cols; j++){
             file >> matrix[i][j];
@@ -116,16 +118,10 @@ void task(std::ifstream& file)
     Graph<int, int> graph(rows * cols);
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < cols; j++){
+
             int index = i * cols + j;
             graph.setVertexTag(index, matrix[i][j]);
-        }
-    }
 
-    for (int i = 0; i < rows; i++){
-        for (int j = 0; j < cols; j++){
- 
-            int from = i * cols + j;
-            
             for (int k = 0; k < move_size; k++) 
             {
                 int x = i + moves[k][0];
@@ -135,14 +131,14 @@ void task(std::ifstream& file)
                 {
                     int to = x * cols + y;
 
-                    Graph<int, int>::Edge edge(from, to);
-                    graph.addEdge(edge);
+                    graph.addEdge(index, to);
                 }
             }
         }
     }
 
-    std::vector<int> result = astar(graph, start_index, finish_index, cols);
+    Vector result = astar(graph, start_index, finish_index, cols);
+    std::cout << "Path: " << std::endl;
     for (size_t i = 0; i < result.size(); i++) 
     {
         int row = result[i] / cols;
@@ -156,7 +152,7 @@ void task(std::ifstream& file)
     {
         cost += matrix[result[i] / cols][result[i] % cols];
     }
-    std::cout << cost << std::endl;
+    std::cout << "Cost: " << cost << std::endl;
 }
 
 int main(int argc, char **argv)

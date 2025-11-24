@@ -9,21 +9,21 @@ template <typename V, typename E> class Graph
 public:
     struct Edge
     {
-        size_t from, to;
+        size_t to;
 
-        Edge(size_t from, size_t to): from(from), to(to) {}
+        Edge(size_t to): to(to) {}
 
         bool operator==(Edge& other)
         {
-            return from == other.from && to == other.to;
+            return to == other.to;
         }
     };
 
     struct Iterator
     {
-        List<int>::Item* current;
+        typename List<Edge>::Item* current;
 
-        Iterator(List<int>::Item* start) : current(start) {}
+        Iterator(typename List<Edge>::Item* start) : current(start) {}
 
         Iterator& operator++() 
         {
@@ -37,7 +37,7 @@ public:
     
         int operator*()
         {
-            return current->data();
+            return current->data().to;
         }
     
         bool operator==(Iterator& other) 
@@ -71,7 +71,7 @@ public:
     void addVertex()
     {
         vertexs.push_back(V());
-        adjacency_list.push_back(List<int>());
+        adjacency_list.push_back(List<Edge>());
     }
 
     void setVertexTag(size_t index, V& tag)
@@ -94,32 +94,34 @@ public:
         return vertexs[index];
     }
 
-    void addEdge(Edge& edge)
+    void addEdge(size_t from, size_t to)
     {
-        if(edge.from >= vertexs.size() || edge.to >= vertexs.size()) 
+        if(from >= vertexs.size() || to >= vertexs.size()) 
         {
             return;
         }
         
-        adjacency_list[edge.from].insert(edge.to);
-        edges.push_back(std::make_pair(edge, E()));
+        Edge edge(to);
+
+        adjacency_list[from].insert(edge);
+        edges.push_back(std::make_pair(std::make_pair(from, to), E()));
     }
 
-    void setEdgeTag(Edge& edge, E tag)
+    void setEdgeTag(size_t from, size_t to, E tag)
     {
-        if(edge.from >= vertexs.size() || edge.to >= vertexs.size()) 
+        if(from >= vertexs.size() || to >= vertexs.size()) 
         {
             return;
         }
 
-        if(!hasEdge(edge))
+        if(!hasEdge(from, to))
         {
             return;
         }
 
         for(size_t i = 0; i < edges.size(); i++)
         {
-            if(edges[i].first == edge)
+            if(edges[i].first.first == from && edges[i].first.second == to)
             {
                 edges[i].second = tag;
                 break;
@@ -127,21 +129,21 @@ public:
         }
     }
 
-    E getEdgeTag(Edge& edge)
+    E getEdgeTag(size_t from, size_t to)
     {
-        if(edge.from >= vertexs.size() || edge.to >= vertexs.size()) 
+        if(from >= vertexs.size() || to >= vertexs.size()) 
         {
             return E();
         }
 
-        if(!hasEdge(edge))
+        if(!hasEdge(from, to))
         {
             return E();
         }
 
         for(size_t i = 0; i < edges.size(); i++)
         {
-            if(edges[i].first == edge)
+            if(edges[i].first.first == from && edges[i].first.second == to)
             {
                 return edges[i].second;
             }
@@ -150,11 +152,11 @@ public:
         return E();
     }
 
-    bool hasEdge(Edge& edge)
+    bool hasEdge(size_t from, size_t to)
     {   
         for(size_t i = 0; i < edges.size(); i++)
         {
-            if(edges[i].first == edge)
+            if(edges[i].first.first == from && edges[i].first.second == to)
             {
                 return true;
             }
@@ -168,27 +170,27 @@ public:
         return vertexs;
     }
 
-    void removeEdge(Edge& edge)
+    void removeEdge(size_t from, size_t to)
     {
-        if(!hasEdge(edge))
+        if(!hasEdge(from, to))
         {
             return;
         }
 
-        List<int>::Item* current = adjacency_list[edge.from].first();
-        List<int>::Item* prev = nullptr;
+        typename List<Edge>::Item* current = adjacency_list[from].first();
+        typename List<Edge>::Item* prev = nullptr;
 
         while(current != nullptr) 
         {
-            if((size_t)current->data() == edge.to) 
+            if(current->data().to == to) 
             {
                 if(prev == nullptr) 
                 {
-                    adjacency_list[edge.from].erase_first();
+                    adjacency_list[from].erase_first();
                 } 
                 else 
                 {
-                    adjacency_list[edge.from].erase_next(prev);
+                    adjacency_list[from].erase_next(prev);
                 }
 
                 break;
@@ -200,7 +202,7 @@ public:
 
         for(size_t i = 0; i < edges.size(); i++) 
         {
-            if(edges[i].first == edge) 
+            if(edges[i].first.first == from && edges[i].first.second == to)
             {
                 edges.erase(edges.begin() + i);
                 break;
@@ -219,10 +221,8 @@ public:
         {
             if(i != vertex) 
             {
-                Edge edge1(i, vertex);
-                Edge edge2(vertex, i);
-                removeEdge(edge1);  
-                removeEdge(edge2);
+                removeEdge(i, vertex);  
+                removeEdge(vertex, i);
             }
         }
 
@@ -232,8 +232,8 @@ public:
 
 private:
     std::vector<V> vertexs;
-    std::vector<std::pair<Edge, E>>edges;
-    std::vector<List<int>> adjacency_list;
+    std::vector<std::pair<std::pair<size_t, size_t>, E>> edges;
+    std::vector<List<Edge>> adjacency_list;
 };
 
 #endif
