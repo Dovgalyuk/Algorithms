@@ -1,5 +1,6 @@
 ﻿#include <fstream>
 #include <iostream>
+#include <string>
 #include <unordered_map>
 #include "list.h"
 #include "stack.h"
@@ -17,8 +18,7 @@ string ReadStringFromFile(const string& fileName){
     }
     
     string s;
-
-    file >> s;
+    getline(file, s);
 
     file.close();
 
@@ -34,8 +34,12 @@ Array ReadArrayFromFile(const string& fileName)
         return Array(0);
     }
     
-    size_t n;
+    size_t n = 0;
     file >> n;
+    if (n == 0)
+    {
+        return Array(0);
+    }
     Array arr(n);
     for (size_t i = 0; i < n; i++)
     {
@@ -73,6 +77,8 @@ void TestStack(const string& fileName)
 {
     string s = ReadStringFromFile(fileName);
 
+    if(s.empty()) return;
+    
     Stack st; 
     unordered_map<char, char> pairs = {
         {')', '('},
@@ -80,14 +86,18 @@ void TestStack(const string& fileName)
         {'}', '{'}
     };
     
+    bool isValid = false;
 
-    bool isValid = true;
-
-    for (char c : s) {
-        if (c == '(' || c == '[' || c == '{') { //скобка открывающая
+    for (char c : s)
+     {
+        if (c == '(' || c == '[' || c == '{')
+        { //скобка открывающая
             st.push(c); //добавляем в стек
-        } else if (c == ')' || c == ']' || c == '}') { //скобка закрывающая
-            if (st.empty() || st.get() != pairs[c]) { //проверяем вершину стека
+        } 
+        else if (c == ')' || c == ']' || c == '}') 
+        { //скобка закрывающая
+            if (st.empty() || st.get() != pairs[c])
+            { //проверяем вершину стека
                 isValid = false; //не совпадает
                 break;
             }
@@ -95,16 +105,49 @@ void TestStack(const string& fileName)
         }
     }
 
-    if (!st.empty()) { //проверяем что стек пуст
-        isValid = false;
+    if (st.empty()) 
+    { //проверяем что стек пуст
+        isValid = true;
     } 
   
     //выводим ответ
-    if (isValid){
+    if (isValid)
+    {
         cout << "YES";
-    } else{
+    } 
+    else
+    {
         cout << "NO";
     }
+}
+
+void TestListCopy(string arg)
+{
+    List listA = List();
+    List listB = List();
+
+    listA.insert(1);
+    listA.insert(2);
+    listA.insert(3);
+
+    listB.insert(5);
+    listB.insert(6);
+    listB.insert(7);
+    
+    if(arg == "-c")
+    {
+        listB = List(listA); 
+    }
+    else if (arg == "-a")
+    {
+        listB = listA;
+    }
+    else
+    {
+        listB = List();
+    }
+
+    cout<< (listB.first()->data() == listA.first()->data())<< endl;
 }
 
 void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileNameInput)
@@ -115,11 +158,9 @@ void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileN
     size_t inputIndex = 0;
     Stack stack;
     string tempValue;
-
     for(size_t i = 0; i< script.length(); i++)
     {
         char command = script[i];
-        
 
         switch (command)
         {
@@ -142,76 +183,108 @@ void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileN
         case '~':
         {
             i++;
-            if (script[i] == '/')
+            if (script[i] == '\\')
             { 
                 tempValue = "";
-                i++;
                 break;
             }
-
-            if(!stack.empty()) tempValue = (char)stack.get();
+            else
+            {
+                i--;
+            }
+            
+                
+            if(!stack.empty())
+            {
+                char ch = (char)stack.get();
+                if (isprint(ch)) {
+                    tempValue = ch;
+                } else {
+                    tempValue = to_string(ch);
+                }
+            } 
             break;
         }
         case '<':
         {
             if(!stack.empty())
             {
-                //char top = stack.get();
-                //stack.pop();
-                Stack temp;
+                Stack temp = Stack();
                 while (!stack.empty())
                 {
                     temp.push(stack.get());
                     stack.pop();
                 }
-               // stack.push(top);
-                while (!temp.empty())
-                {
-                    stack.push(temp.get());
-                    temp.pop();
-                }
-                
+
+                stack = temp;
             }
             break;
         }
         case '>':
         {
             i++;
+            string str;
             if(script[i] == '{')
             {
                 i++;
                 while (i < script.length() && script[i] != '}')
                 {
-                    cout << script[i];
+                    str += script[i];
                     i++;
                 }
             }
             else if(script[i] == '~')
             {
-                cout << tempValue;
+                 str = tempValue;
             }
             else
             {
-                cout << script[i];
+                str = script[i];
             }
+
+            cout<<"Console output: "<<str;
+            cout<<endl;
             i++;
             break;
         }
         case '_':
         {
-            stack.push(input.get(inputIndex));
-            inputIndex++;
+            if (input.size() > 0)
+            {
+                if (inputIndex < input.size())
+                {
+                    
+                    stack.push(input.get(inputIndex));
+                    inputIndex++; 
+                }
+            }
             break;
         }
         default:
             break;
         }
+
     }
 
+
+    // Вывод состояния стека
+    Stack temp;
     while (!stack.empty())
     {
-        cout << (char)stack.get()<<endl;
+        temp.push(stack.get());
         stack.pop();
+    }
+
+    
+    while (!temp.empty())
+    {
+        char ch = (char)temp.get();
+        if (isprint(ch)) {
+            cout << ch << endl;
+        } else {
+            cout << (int)ch << endl;
+        }
+        temp.pop();
     }
 }
 
@@ -219,20 +292,28 @@ int main(int argc, char* argv[])//
 {
     if (argc < 2)
     {
-        cout << "Help: "<<argv[0]<<"\n -list <5> -- test list\n"
+        cout << "Help: "<<argv[0]<<"\n -list [<5>]|-c|-a -- test list  <n> -  output of numbers from 1 to n| -c test copy| -p test assignment operator \n"
                                    " -stack <fileName> -- test stack\n"
                                    " -inter <scriptFile> <inputFile>"<<endl;
         
         return 1;
     }
     
-    //AnnoyingScriptInterpreter("D:\\Программирование\\с++\\ALab\\Lab2CPP\\Tests\\testscript1.txt", "D:\\Программирование\\с++\\ALab\\Lab2CPP\\Tests\\emptyInput.txt");
+    //AnnoyingScriptInterpreter("D:\\Программирование\\с++\\ALab\\Lab2CPP\\Tests\\testscript8.txt", "D:\\Программирование\\с++\\ALab\\Lab2CPP\\Tests\\input2.txt");
 
     string mode = argv[1];
 
     if (mode == "-list")
     {
-        TestList(atoi(argv[2]));
+        string test = argv[2];
+        if (test == "-c" || test == "-a")
+        {
+            TestListCopy(test);
+        }
+        else if (!test.empty())
+        {
+            TestList(atoi(argv[2]));
+        }
     }
     else if (mode == "-stack")
     {

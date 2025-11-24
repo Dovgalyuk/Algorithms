@@ -13,14 +13,18 @@ Stack::Stack(const Stack &a)
 Stack &Stack::operator=(const Stack &a)
 {
     if(this != &a){
-        *_list = *a._list;
+         delete _list;
+        _list = new List(*a._list);
     }
     return *this;
 }
 
 Stack::~Stack()
 {
-    delete _list;
+     if (_list != nullptr) {
+            delete _list;
+            _list = nullptr;
+     }
 }
 
 void Stack::push(Data data)

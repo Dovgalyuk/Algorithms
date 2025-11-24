@@ -13,6 +13,7 @@ public:
     {
     public:
         Item *next() { return _next; }
+        Item*& next_ref() { return _next; }
         Item *prev() { return nullptr; }
         Data data() const { return _data;}
 
@@ -70,6 +71,7 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
+    void copy_recursive(Item* current);
     Item* _first;
 };
 
