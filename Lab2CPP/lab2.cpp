@@ -2,7 +2,8 @@
 #include <iostream>
 #include <unordered_map>
 #include "list.h"
-#include "LibraryCPPClass/stack.h"
+#include "stack.h"
+#include "array.h"
 
 
 using namespace std;
@@ -12,7 +13,7 @@ string ReadStringFromFile(const string& fileName){
     if (!file.is_open())
     {
         cerr << "Error reading the file" << endl;
-        return;
+        return "";
     }
     
     string s;
@@ -22,6 +23,29 @@ string ReadStringFromFile(const string& fileName){
     file.close();
 
     return s;
+}
+
+Array ReadArrayFromFile(const string& fileName)
+{
+    ifstream file(fileName);
+    if (!file.is_open())
+    {
+        cerr << "Error reading the file" << endl;
+        return Array(0);
+    }
+    
+    size_t n;
+    file >> n;
+    Array arr(n);
+    for (size_t i = 0; i < n; i++)
+    {
+        Data val;
+        file >> val;
+        arr.set(i, val);
+    }
+
+    file.close();
+    return arr;
 }
 
 void TestList(int element_count)
@@ -86,38 +110,25 @@ void TestStack(const string& fileName)
 void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileNameInput)
 {
     string script = ReadStringFromFile(fileNameScript);
-    string input = ReadStringFromFile(fileNameInput);
+    Array input = ReadArrayFromFile(fileNameInput);
 
     size_t inputIndex = 0;
     Stack stack;
+    string tempValue;
 
     for(size_t i = 0; i< script.length(); i++)
     {
         char command = script[i];
+        
 
         switch (command)
         {
         case '+':
         {
             i++;
-            string str;
-
-            while (i < script.length())
-            {
-                char c = script[i];
-                if (c == '+' || c == '-' || c == '<' || c == '>' || c == '?' || c == '!')
-                {
-                    i--;
-                    break;
-                }
-                str += c;
-                i++;
-            }
-
-            for (int j = str.length()-1; j >= 0; j--)
-            {
-                stack.push(str[j]);
-            }            
+            
+            if(i >= script.length()) break;
+            stack.push(script[i]);
             break;
         }
         case '-':
@@ -126,6 +137,19 @@ void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileN
             {
                 stack.pop();
             }
+            break;
+        }
+        case '~':
+        {
+            i++;
+            if (script[i] == '/')
+            { 
+                tempValue = "";
+                i++;
+                break;
+            }
+
+            if(!stack.empty()) tempValue = (char)stack.get();
             break;
         }
         case '<':
@@ -152,21 +176,31 @@ void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileN
         }
         case '>':
         {
-            if(!stack.empty())
+            i++;
+            if(script[i] == '{')
             {
-                Stack temp;
-                while (!stack.empty())
+                i++;
+                while (i < script.length() && script[i] != '}')
                 {
-                    temp.push(stack.get());
-                    stack.pop();
+                    cout << script[i];
+                    i++;
                 }
-                while (!temp.empty())
-                {
-                    stack.push(temp.get());
-                    temp.pop();
-                }
-                
             }
+            else if(script[i] == '~')
+            {
+                cout << tempValue;
+            }
+            else
+            {
+                cout << script[i];
+            }
+            i++;
+            break;
+        }
+        case '_':
+        {
+            stack.push(input.get(inputIndex));
+            inputIndex++;
             break;
         }
         default:
@@ -174,9 +208,14 @@ void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileN
         }
     }
 
+    while (!stack.empty())
+    {
+        cout << (char)stack.get()<<endl;
+        stack.pop();
+    }
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char* argv[])//
 {
     if (argc < 2)
     {
@@ -187,6 +226,8 @@ int main(int argc, char* argv[])
         return 1;
     }
     
+    //AnnoyingScriptInterpreter("D:\\Программирование\\с++\\ALab\\Lab2CPP\\Tests\\testscript1.txt", "D:\\Программирование\\с++\\ALab\\Lab2CPP\\Tests\\emptyInput.txt");
+
     string mode = argv[1];
 
     if (mode == "-list")
