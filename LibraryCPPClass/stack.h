@@ -3,6 +3,8 @@
 
 #include <cstddef>
 #include "list.h"
+#include <string>
+#include <vector>
 
 // Change it to desired type
 typedef int Data;
@@ -35,6 +37,9 @@ public:
 
     // Returns true if the stack is empty
     bool empty() const;
+    void remove_bottom();
+    void reverse();
+    std::string join_to_string() const;
 
 private:
     // private data should be here
