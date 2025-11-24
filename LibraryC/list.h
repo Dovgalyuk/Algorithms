@@ -1,12 +1,7 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include <stdint.h>
-
-// List
-// Stores integer or pointer to custom user data
-typedef uintptr_t Data;
-// Custom function to free user pointers on delete
+typedef void* Data;
 typedef void (FFree)(void*);
 
 typedef struct List List;
@@ -23,17 +18,17 @@ List *list_create(FFree f);
 void list_delete(List *list);
 
 // Retrieves the first item from the list
-ListItem *list_first(List *list);
+ListItem *list_first(const List *list);
 
 // Extracts data from the list item
 Data list_item_data(const ListItem *item);
 
 // Returns list item following after the specified one
-ListItem *list_item_next(ListItem *item);
+ListItem *list_item_next(const ListItem *item);
 
 // Returns previous element for the specified item.
 // Not applicable for the singly linked lists.
-ListItem *list_item_prev(ListItem *item);
+ListItem *list_item_prev(const ListItem *item);
 
 // Inserts new list item into the beginning
 ListItem *list_insert(List *list, Data data);

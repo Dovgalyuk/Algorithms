@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <ctype.h>
 #include "stack.h"
 
@@ -64,11 +65,11 @@ int main(int argc, char **argv)
                 int score = word_score(word);
                 switch (score) {
                     case 8:
-                        stack_push(stack, (unsigned char)word[0]);
+                        stack_push(stack, (Data)(uintptr_t)(unsigned char)word[0]);
                         break;
                     case 5:
                         if (!stack_empty(stack)) {
-                            const unsigned char ch = (unsigned char)stack_get(stack);
+                            const unsigned char ch = (unsigned char)(uintptr_t)stack_get(stack);
                             putchar(ch);
                             stack_pop(stack);
                         }
@@ -76,7 +77,7 @@ int main(int argc, char **argv)
                     case 7: {
                         int in = fgetc(input);
                         if (in != EOF) {
-                            stack_push(stack, (unsigned char)in);
+                            stack_push(stack, (Data)(uintptr_t)(unsigned char)in);
                             stack_pop(stack);
                         }
                         break; }

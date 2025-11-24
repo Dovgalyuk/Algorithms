@@ -20,7 +20,7 @@ void list_delete(List *list)
     delete list;
 }
 
-ListItem *list_first(List *list)
+ListItem *list_first(const List *list)
 {
     return NULL;
 }
@@ -30,12 +30,12 @@ Data list_item_data(const ListItem *item)
     return (Data)0;
 }
 
-ListItem *list_item_next(ListItem *item)
+ListItem *list_item_next(const ListItem *item)
 {
     return NULL;
 }
 
-ListItem *list_item_prev(ListItem *item)
+ListItem *list_item_prev(const ListItem *item)
 {
     return NULL;
 }

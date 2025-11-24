@@ -4,10 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-// Stack
-// Stores integer or pointer to custom user data
-typedef uintptr_t Data;
-// Custom function to free user pointers on delete
+typedef void* Data;
 typedef void (FFree)(void*);
 
 typedef struct Stack Stack;
