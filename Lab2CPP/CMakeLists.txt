@@ -1,0 +1,18 @@
+add_executable(Lab2CPP lab2.cpp)
+target_include_directories(Lab2CPP PUBLIC ../LibraryCPP)
+target_link_libraries(Lab2CPP LibraryCPP)
+
+add_test(NAME TestLab2CPP COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
+set_property(TEST TestLab2CPP PROPERTY PASS_REGULAR_EXPRESSION "4 8\n9 10")
+
+add_test(NAME TestLab2CPP2 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
+set_property(TEST TestLab2CPP2 PROPERTY PASS_REGULAR_EXPRESSION "5 7")
+
+add_test(NAME TestLab2CPP3 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input3.txt)
+set_property(TEST TestLab2CPP3 PROPERTY PASS_REGULAR_EXPRESSION "2 3.*1 4.*5 6|2 3.*5 6.*1 4")
+
+add_test(NAME TestLab2CPP4 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input4.txt)
+set_property(TEST TestLab2CPP4 PROPERTY PASS_REGULAR_EXPRESSION "2 3")
+
+add_test(NAME TestLab2CPP5 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input5.txt)
+set_property(TEST TestLab2CPP5 PROPERTY PASS_REGULAR_EXPRESSION "3 4.*5 6.*2 7|2 4.*3 6.*5 7")

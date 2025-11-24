@@ -2,7 +2,7 @@
 #define STACK_H
 
 // Stack
-
+#include "vector.h"
 // Stores integer values inside
 // Change it to desired type
 typedef int Data;
