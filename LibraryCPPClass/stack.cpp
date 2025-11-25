@@ -48,12 +48,6 @@ void Stack::remove_bottom()
         return;
     }
 
-    List::Item* cur = first;
-    while (cur && cur->next() != last)
-        cur = cur->next();
-
-    if (!cur) return;
-
     list.erase(last);
 }
 

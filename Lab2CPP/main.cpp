@@ -69,7 +69,7 @@ int main(int argc, char** argv)
     size_t ip = 0;
     size_t inputPos = 0;
 
-    std::mt19937 rng((unsigned)chrono::high_resolution_clock::now().time_since_epoch().count());
+    mt19937 rng((unsigned)chrono::high_resolution_clock::now().time_since_epoch().count());
 
     while (ip < script.size())
     {
