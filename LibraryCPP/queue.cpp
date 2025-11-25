@@ -23,8 +23,14 @@ void queue_insert(Queue *queue, Data data)
 {
     if (queue_empty(queue))
         list_insert(queue->list, data);
-    else
-        list_insert_after(queue->list, queue->list->tail, data);
+    else {
+        ListItem* current = list_first(queue->list);
+        while (list_item_next(current) != nullptr) {
+            current = list_item_next(current);
+        }
+        list_insert_after(queue->list, current, data);
+    }
+        
 }
 
 Data queue_get(const Queue *queue)
