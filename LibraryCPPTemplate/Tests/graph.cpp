@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cassert>
 #include <memory>
 #include <random>
 #include "IGraph.h"
@@ -12,40 +11,40 @@ void testBasicOperations() {
     graph->setVertex(1, "B");
     graph->setVertex(2, "C");
 
-    assert(graph->getVertex(0) == "A");
-    assert(graph->getVertex(1) == "B");
-    assert(graph->getVertex(2) == "C");
+    if(graph->getVertex(0) != "A") std::exit(1);
+    if(graph->getVertex(1) != "B") std::exit(1);
+    if(graph->getVertex(2) != "C") std::exit(1);
 
     graph->addEdge(0, 1, 5);
     graph->addEdge(1, 2, 3);
     graph->addEdge(0, 2, 7);
 
-    assert(graph->hasEdge(0, 1) == true);
-    assert(graph->hasEdge(1, 2) == true);
-    assert(graph->hasEdge(0, 2) == true);
-    assert(graph->hasEdge(1, 0) == false);
+    if(graph->hasEdge(0, 1) != true) std::exit(1);
+    if(graph->hasEdge(1, 2) != true) std::exit(1);
+    if(graph->hasEdge(0, 2) != true) std::exit(1);
+    if(graph->hasEdge(1, 0) != false) std::exit(1);
 
-    assert(graph->getEdge(0, 1) == 5);
-    assert(graph->getEdge(1, 2) == 3);
-    assert(graph->getEdge(0, 2) == 7);
+    if(graph->getEdge(0, 1) != 5) std::exit(1);
+    if(graph->getEdge(1, 2) != 3) std::exit(1);
+    if(graph->getEdge(0, 2) != 7) std::exit(1);
 }
 
 void testVertexManagement() {
     const auto graph = std::make_shared<VectorGraph<std::string, int>>(2);
 
     const std::size_t newIdx = graph->addVertex("NewVertex");
-    assert(newIdx == 2);
-    assert(graph->vertexCount() == 3);
-    assert(graph->getVertex(2) == "NewVertex");
+    if(newIdx != 2) std::exit(1);
+    if(graph->vertexCount() != 3) std::exit(1);
+    if(graph->getVertex(2) != "NewVertex") std::exit(1);
 
     graph->setVertex(1, "UpdatedVertex");
-    assert(graph->getVertex(1) == "UpdatedVertex");
+    if(graph->getVertex(1) != "UpdatedVertex") std::exit(1);
 
     auto& allVertices = graph->getAllVertex();
-    assert(allVertices.size() == 3);
-    assert(allVertices[0] == "");
-    assert(allVertices[1] == "UpdatedVertex");
-    assert(allVertices[2] == "NewVertex");
+    if(allVertices.size() != 3) std::exit(1);
+    if(allVertices[0] != "") std::exit(1);
+    if(allVertices[1] != "UpdatedVertex") std::exit(1);
+    if(allVertices[2] != "NewVertex") std::exit(1);
 }
 
 void testEdgeOperations() {
@@ -55,18 +54,18 @@ void testEdgeOperations() {
     graph->addEdge(1, 2, 2.5);
     graph->addEdge(2, 0, 3.5);
 
-    assert(graph->getEdge(0, 1) == 1.5);
-    assert(graph->getEdge(1, 2) == 2.5);
-    assert(graph->getEdge(2, 0) == 3.5);
+    if(graph->getEdge(0, 1) != 1.5) std::exit(1);
+    if(graph->getEdge(1, 2) != 2.5) std::exit(1);
+    if(graph->getEdge(2, 0) != 3.5) std::exit(1);
 
     graph->setEdge(0, 1, 4.5);
-    assert(graph->getEdge(0, 1) == 4.5);
+    if(graph->getEdge(0, 1) != 4.5) std::exit(1);
 
     graph->deleteEdge(1, 2);
-    assert(graph->hasEdge(1, 2) == false);
+    if(graph->hasEdge(1, 2) != false) std::exit(1);
 
-    assert(graph->hasEdge(0, 1) == true);
-    assert(graph->hasEdge(2, 0) == true);
+    if(graph->hasEdge(0, 1) != true) std::exit(1);
+    if(graph->hasEdge(2, 0) != true) std::exit(1);
 }
 
 void testNeighborIteration() {
@@ -94,17 +93,17 @@ void testNeighborIteration() {
         std::cout << idx << " (" << vertex << ") weight: " << edge << std::endl;
     }
 
-    assert(neighborIndices.size() == 3);
-    assert(neighborWeights[0] == 1);
-    assert(neighborWeights[1] == 2);
-    assert(neighborWeights[2] == 3);
+    if(neighborIndices.size() != 3) std::exit(1);
+    if(neighborWeights[0] != 1) std::exit(1);
+    if(neighborWeights[1] != 2) std::exit(1);
+    if(neighborWeights[2] != 3) std::exit(1);
 
     std::cout << "Neighbors of vertex 1 (should be empty):" << std::endl;
     int emptyNeighborCount = 0;
     for (auto it = graph->begin(1); it != graph->end(1); ++it) {
         emptyNeighborCount++;
     }
-    assert(emptyNeighborCount == 0);
+    if(emptyNeighborCount != 0) std::exit(1);
 }
 
 void testGraphClone() {
@@ -118,20 +117,20 @@ void testGraphClone() {
 
     const auto cloned = original->clone();
 
-    assert(cloned->vertexCount() == 3);
-    assert(cloned->getVertex(0) == 100);
-    assert(cloned->getVertex(1) == 200);
-    assert(cloned->getVertex(2) == 300);
-    assert(cloned->hasEdge(0, 1) == true);
-    assert(cloned->hasEdge(1, 2) == true);
-    assert(cloned->getEdge(0, 1) == 1.5);
-    assert(cloned->getEdge(1, 2) == 2.5);
+    if(cloned->vertexCount() != 3) std::exit(1);
+    if(cloned->getVertex(0) != 100) std::exit(1);
+    if(cloned->getVertex(1) != 200) std::exit(1);
+    if(cloned->getVertex(2) != 300) std::exit(1);
+    if(cloned->hasEdge(0, 1) != true) std::exit(1);
+    if(cloned->hasEdge(1, 2) != true) std::exit(1);
+    if(cloned->getEdge(0, 1) != 1.5) std::exit(1);
+    if(cloned->getEdge(1, 2) != 2.5) std::exit(1);
 
     original->setVertex(0, 999);
     original->deleteEdge(1, 2);
 
-    assert(cloned->getVertex(0) == 100);
-    assert(cloned->hasEdge(1, 2) == true);
+    if(cloned->getVertex(0) != 100) std::exit(1);
+    if(cloned->hasEdge(1, 2) != true) std::exit(1);
 }
 
 void testErrorHandling() {
@@ -139,21 +138,21 @@ void testErrorHandling() {
 
     try {
         graph->getVertex(5);
-        assert(false);
+        std::exit(1);
     } catch (const std::exception& e) {
         std::cout << "Caught expected exception: " << e.what() << std::endl;
     }
 
     try {
         graph->addEdge(0, 5, 1);
-        assert(false);
+        std::exit(1);
     } catch (const std::out_of_range& e) {
         std::cout << "Caught expected out_of_range: " << e.what() << std::endl;
     }
 
     try {
         graph->getEdge(1, 0);
-        assert(false);
+        std::exit(1);
     } catch (const std::logic_error& e) {
         std::cout << "Caught expected logic_error: " << e.what() << std::endl;
     }
@@ -175,7 +174,7 @@ void testPerformance() {
         }
     }
 
-    assert(largeGraph->vertexCount() == largeSize);
+    if(largeGraph->vertexCount() != largeSize) std::exit(1);
 }
 
 void testDirectedGraphProperties() {
@@ -188,14 +187,14 @@ void testDirectedGraphProperties() {
     graph->addEdge(0, 1, 1);
     graph->addEdge(1, 0, 2);
 
-    assert(graph->hasEdge(0, 1) == true);
-    assert(graph->hasEdge(1, 0) == true);
-    assert(graph->getEdge(0, 1) == 1);
-    assert(graph->getEdge(1, 0) == 2);
+    if(graph->hasEdge(0, 1) != true) std::exit(1);
+    if(graph->hasEdge(1, 0) != true) std::exit(1);
+    if(graph->getEdge(0, 1) != 1) std::exit(1);
+    if(graph->getEdge(1, 0) != 2) std::exit(1);
 
     graph->deleteEdge(0, 1);
-    assert(graph->hasEdge(0, 1) == false);
-    assert(graph->hasEdge(1, 0) == true);
+    if(graph->hasEdge(0, 1) != false) std::exit(1);
+    if(graph->hasEdge(1, 0) != true) std::exit(1);
 }
 
 int main() {

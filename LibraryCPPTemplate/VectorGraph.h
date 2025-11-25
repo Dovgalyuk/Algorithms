@@ -169,11 +169,11 @@ public:
 		}
 	};
 
-	VectorGraph::NeighborIterator begin(std::size_t index) const override {
+	typename VectorGraph::NeighborIterator begin(std::size_t index) const override {
 		return typename VectorGraph::NeighborIterator(ConNeighborIterator(this, index, 0));
 	}
 
-	VectorGraph::NeighborIterator end(std::size_t index) const override {
+	typename VectorGraph::NeighborIterator end(std::size_t index) const override {
 		return typename VectorGraph::NeighborIterator(ConNeighborIterator(this, index, exists[index].size()));
 	}
 
