@@ -1,0 +1,10 @@
+add_executable(Lab3CPP main.cpp)
+target_include_directories (Lab3CPP PUBLIC ../LibraryCPP)
+target_link_libraries(Lab3CPP LibraryCPP)
+
+add_test(NAME Test_1 COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input1_3.txt)
+set_tests_properties(Test_1 PROPERTIES PASS_REGULAR_EXPRESSION "######.*#xxxX#.*#x####.*#xxxY#.*######")
+add_test(NAME Test_2 COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input2_3.txt)
+set_tests_properties(Test_2 PROPERTIES PASS_REGULAR_EXPRESSION "IMPOSSIBLE")
+add_test(NAME Test_3 COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input3_3.txt)
+set_tests_properties(Test_3 PROPERTIES PASS_REGULAR_EXPRESSION "######.*#Yxxx#.*####x#.*#Xxxx#.*######")
