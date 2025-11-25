@@ -3,7 +3,7 @@
 #include <string>
 #include "graph.h"
 #include "vector.h"
-#include "queue.h"
+#include "pqueue.h"
 
 using namespace std;
 
@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
 
     while (!pqueue_empty(pq))
     {
-        int u = pqueue_pop(pq);
+        int u = pqueue_pop(pq, dist);
 
         auto it = g.neighbors(static_cast<size_t>(u));
         while (it.valid())

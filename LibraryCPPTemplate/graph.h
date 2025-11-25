@@ -17,6 +17,33 @@ public:
         edge value;
     };
 
+    template<typename Lambd>
+    void remove(List<EdgeInfo>& edges, Lambd lambd)
+    {
+        typename List<EdgeInfo>::Item* prev = nullptr;
+        typename List<EdgeInfo>::Item* cur = edges.first();
+
+        while (cur != nullptr)
+        {
+            if (lambd(cur->data()))
+            {
+                if (prev == nullptr)
+                {
+                    cur = edges.erase_first();
+                }
+                else
+                {
+                    cur = edges.erase_next(prev);
+                }
+            }
+            else
+            {
+                prev = cur;
+                cur = cur->next();
+            }
+        }
+    }
+
     // Создание по количеству вершин
     explicit Graph(size_t count)
     {
@@ -86,28 +113,7 @@ public:
             if (!alive[i])
                 continue;
 
-            typename List<EdgeInfo>::Item* prev = nullptr;
-            typename List<EdgeInfo>::Item* cur = adj[i].first();
-
-            while (cur != nullptr)
-            {
-                if (cur->data().to == vertex_id)
-                {
-                    if (prev == nullptr)
-                    {
-                        cur = adj[i].erase_first();
-                    }
-                    else
-                    {
-                        cur = adj[i].erase_next(prev);
-                    }
-                }
-                else
-                {
-                    prev = cur;
-                    cur = cur->next();
-                }
-            }
+            remove(adj[i], [&](const EdgeInfo& e) { return e.to == vertex_id; });
         }
     }
 
@@ -148,28 +154,7 @@ public:
         if (!alive[from] || !alive[to])
             return;
 
-        typename List<EdgeInfo>::Item* prev = nullptr;
-        typename List<EdgeInfo>::Item* cur = adj[from].first();
-
-        while (cur != nullptr)
-        {
-            if (cur->data().to == to)
-            {
-                if (prev == nullptr)
-                {
-                    cur = adj[from].erase_first();
-                }
-                else
-                {
-                    cur = adj[from].erase_next(prev);
-                }
-            }
-            else
-            {
-                prev = cur;
-                cur = cur->next();
-            }
-        }
+        remove(adj[from], [&](const EdgeInfo& e) { return e.to == to; });
     }
 
     // Проверка ребра между вершинами

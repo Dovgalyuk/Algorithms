@@ -24,3 +24,9 @@
 # target_link_libraries(TestVectorCPP LibraryCPP)
 # add_test(TestVectorCPP TestVectorCPP)
 # set_tests_properties(TestVectorCPP PROPERTIES TIMEOUT 10)
+
+add_executable(TestPQueueCPP pqueue.cpp)
+target_include_directories(TestPQueueCPP PUBLIC ..)
+target_link_libraries(TestPQueueCPP LibraryCPP)
+add_test(TestPQueueCPP TestPQueueCPP)
+set_tests_properties(TestPQueueCPP PROPERTIES TIMEOUT 10)

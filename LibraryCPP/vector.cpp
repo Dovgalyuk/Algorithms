@@ -6,7 +6,7 @@ struct Vector
     size_t capacity;
     Data* data;
 
-    Vector() : size(4), capacity(4), data(new Data[capacity]) {}
+    Vector() : size(0), capacity(4), data(new Data[capacity]) {}
 };
 
 
