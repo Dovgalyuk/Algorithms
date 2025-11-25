@@ -28,7 +28,7 @@ void queue_insert(Queue* queue, Data data) {
     size_t cap = vector_size(buf);
 
     if (queue->count == cap) {
-        size_t new_cap = cap == 0 ? 8 : cap * 2;
+        size_t new_cap = (cap == 0) ? 8 : cap * 2;
         vector_resize(buf, new_cap);
 
         if (cap != 0 && queue->head != 0) {
@@ -36,11 +36,7 @@ void queue_insert(Queue* queue, Data data) {
                 Data val = vector_get(buf, (queue->head + i) % cap);
                 vector_set(buf, cap + i, val);
             }
-            for (size_t i = 0; i < queue->count; ++i) {
-                Data val = vector_get(buf, cap + i);
-                vector_set(buf, i, val);
-            }
-            queue->head = 0;
+            queue->head = cap;
         }
     }
 
@@ -60,7 +56,7 @@ Data queue_get(const Queue* queue) {
 
 void queue_remove(Queue* queue) {
     if (!queue || queue->count == 0) {
-        throw std::out_of_range("queue_remove: queue_remove: queue is empty");
+        throw std::out_of_range("queue_remove: queue is empty");
     }
     queue->head = (queue->head + 1) % vector_size(queue->buffer);
     --queue->count;
@@ -69,3 +65,4 @@ void queue_remove(Queue* queue) {
 bool queue_empty(const Queue* queue) {
     return !queue || queue->count == 0;
 }
+
