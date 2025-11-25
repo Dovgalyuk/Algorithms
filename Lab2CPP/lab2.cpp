@@ -26,7 +26,7 @@ struct Instruction {
 class Processor {
 private:
     Stack* stack;
-    Stack* return_stack; 
+    Stack* return_stack;
     int regA, regB, regC, regD;
     vector<Instruction> program;
     size_t pc;
@@ -40,7 +40,7 @@ private:
     bool is_number(const string& str) {
         if (str.empty()) return false;
 
-        
+
         size_t start = 0;
         if (str[0] == '-') {
             if (str.length() == 1) return false;
@@ -89,14 +89,14 @@ private:
         return true;
     }
 
-    
+
 
 public:
     typedef std::vector<std::string> ProgramLines;
 
     Processor() {
         stack = stack_create();
-        return_stack = stack_create();  
+        return_stack = stack_create();
         regA = regB = regC = regD = 0;
         pc = 0;
         error = false;
@@ -236,7 +236,7 @@ public:
             }
 
             case InstructionType::CALL: {
-           
+
                 stack_push(return_stack, pc + 1);
 
                 int target = get_value(instr.operand);
@@ -256,7 +256,7 @@ public:
                     break;
                 }
 
-                
+
                 pc = stack_get(return_stack);
                 stack_pop(return_stack);
                 break;

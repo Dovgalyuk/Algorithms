@@ -29,3 +29,6 @@ set_property(TEST Test6_MultipleRegisters PROPERTY PASS_REGULAR_EXPRESSION "C = 
 
 add_test(NAME Test7_CallPop COMMAND stack_processor ${CMAKE_CURRENT_SOURCE_DIR}/input7.txt)
 set_property(TEST Test7_CallPop PROPERTY PASS_REGULAR_EXPRESSION "Stack underflow")
+
+add_test(NAME Test8_InvalidCall COMMAND stack_processor ${CMAKE_CURRENT_SOURCE_DIR}/input8.txt)
+set_property(TEST Test8_InvalidCall PROPERTY PASS_REGULAR_EXPRESSION "A = 1")
