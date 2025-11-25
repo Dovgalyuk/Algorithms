@@ -26,7 +26,6 @@ struct Instruction {
 class Processor {
 private:
     Stack* stack;
-    Stack* return_stack;
     int regA, regB, regC, regD;
     vector<Instruction> program;
     size_t pc;
@@ -39,7 +38,6 @@ private:
 
     bool is_number(const string& str) {
         if (str.empty()) return false;
-
 
         size_t start = 0;
         if (str[0] == '-') {
@@ -73,30 +71,30 @@ private:
         else if (reg == "D") regD = value;
     }
 
-    bool pop_two_operands(Data& a, Data& b) {
-        if (stack_empty(stack)) {
-            return false;
-        }
-        b = stack_get(stack);
-        stack_pop(stack);
-
-        if (stack_empty(stack)) {
-            stack_push(stack, b);
-            return false;
-        }
-        a = stack_get(stack);
-        stack_pop(stack);
-        return true;
+    bool is_return_address(Data value) {
+        return value == -1;
     }
 
+    Data create_return_address(size_t address) {
+        
+        stack_push(stack, static_cast<Data>(address));
+        return -1;  
+    }
 
+    size_t extract_address(Data value) {
+        if (stack_empty(stack)) {
+            error = true;
+            error_message = "BAD RET";
+            return 0;
+        }
+        return static_cast<size_t>(stack_pop(stack));
+    }
 
 public:
     typedef std::vector<std::string> ProgramLines;
 
     Processor() {
         stack = stack_create();
-        return_stack = stack_create();
         regA = regB = regC = regD = 0;
         pc = 0;
         error = false;
@@ -104,10 +102,12 @@ public:
 
     ~Processor() {
         stack_delete(stack);
-        stack_delete(return_stack);
     }
 
     void load_program(const ProgramLines& lines) {
+        program.clear();
+        error = false;
+
         for (size_t i = 0; i < lines.size(); ++i) {
             istringstream iss(lines[i]);
             string command;
@@ -129,6 +129,11 @@ public:
                 if (!(iss >> instr.operand)) {
                     error = true;
                     error_message = "Missing operand for POP";
+                    return;
+                }
+                if (!is_register(instr.operand)) {
+                    error = true;
+                    error_message = "Invalid register for POP: " + instr.operand;
                     return;
                 }
             }
@@ -167,100 +172,142 @@ public:
         error = false;
 
         while (!stack_empty(stack)) stack_pop(stack);
-        while (!stack_empty(return_stack)) stack_pop(return_stack);
+        regA = regB = regC = regD = 0;
 
         while (pc < program.size() && !error) {
             const Instruction& instr = program[pc];
 
-            switch (instr.type) {
-            case InstructionType::PUSH: {
-                int value = get_value(instr.operand);
-                stack_push(stack, value);
-                pc++;
-                break;
-            }
-
-            case InstructionType::POP: {
-                if (stack_empty(stack)) {
-                    error = true;
-                    error_message = "Stack underflow";
+            try {
+                switch (instr.type) {
+                case InstructionType::PUSH: {
+                    int value = get_value(instr.operand);
+                    stack_push(stack, value);
+                    pc++;
                     break;
                 }
 
-                if (!is_register(instr.operand)) {
-                    error = true;
-                    error_message = "Invalid register: " + instr.operand;
+                case InstructionType::POP: {
+                    if (stack_empty(stack)) {
+                        error = true;
+                        error_message = "Stack underflow";
+                        break;
+                    }
+
+                   
+                    Data top_value = stack_get(stack);
+                    if (is_return_address(top_value)) {
+                        error = true;
+                        error_message = "Cannot POP return address";
+                        break;
+                    }
+
+                    Data value = stack_pop(stack);
+                    set_register(instr.operand, value);
+                    pc++;
                     break;
                 }
 
-                set_register(instr.operand, stack_get(stack));
-                stack_pop(stack);
-                pc++;
-                break;
-            }
+                case InstructionType::ADD: {
+                    if (stack_empty(stack)) {
+                        error = true;
+                        error_message = "Not enough operands for ADD";
+                        break;
+                    }
+                    Data b = stack_pop(stack);
 
-            case InstructionType::ADD: {
-                Data a, b;
-                if (!pop_two_operands(a, b)) {
-                    error = true;
-                    error_message = "Not enough operands for ADD";
-                    break;
-                }
-                stack_push(stack, a + b);
-                pc++;
-                break;
-            }
+                    if (stack_empty(stack)) {
+                        stack_push(stack, b);
+                        error = true;
+                        error_message = "Not enough operands for ADD";
+                        break;
+                    }
+                    Data a = stack_pop(stack);
 
-            case InstructionType::SUB: {
-                Data a, b;
-                if (!pop_two_operands(a, b)) {
-                    error = true;
-                    error_message = "Not enough operands for SUB";
-                    break;
-                }
-                stack_push(stack, a - b);
-                pc++;
-                break;
-            }
-
-            case InstructionType::MUL: {
-                Data a, b;
-                if (!pop_two_operands(a, b)) {
-                    error = true;
-                    error_message = "Not enough operands for MUL";
-                    break;
-                }
-                stack_push(stack, a * b);
-                pc++;
-                break;
-            }
-
-            case InstructionType::CALL: {
-
-                stack_push(return_stack, pc + 1);
-
-                int target = get_value(instr.operand);
-                if (target < 0 || static_cast<size_t>(target) >= program.size()) {
-                    error = true;
-                    error_message = "Invalid call address: " + to_string(target);
-                    break;
-                }
-                pc = target;
-                break;
-            }
-
-            case InstructionType::RET: {
-                if (stack_empty(return_stack)) {
-                    error = true;
-                    error_message = "BAD RET";
+                    stack_push(stack, a + b);
+                    pc++;
                     break;
                 }
 
+                case InstructionType::SUB: {
+                    if (stack_empty(stack)) {
+                        error = true;
+                        error_message = "Not enough operands for SUB";
+                        break;
+                    }
+                    Data b = stack_pop(stack);
 
-                pc = stack_get(return_stack);
-                stack_pop(return_stack);
-                break;
+                    if (stack_empty(stack)) {
+                        stack_push(stack, b);
+                        error = true;
+                        error_message = "Not enough operands for SUB";
+                        break;
+                    }
+                    Data a = stack_pop(stack);
+
+                    stack_push(stack, a - b);
+                    pc++;
+                    break;
+                }
+
+                case InstructionType::MUL: {
+                    if (stack_empty(stack)) {
+                        error = true;
+                        error_message = "Not enough operands for MUL";
+                        break;
+                    }
+                    Data b = stack_pop(stack);
+
+                    if (stack_empty(stack)) {
+                        stack_push(stack, b);
+                        error = true;
+                        error_message = "Not enough operands for MUL";
+                        break;
+                    }
+                    Data a = stack_pop(stack);
+
+                    stack_push(stack, a * b);
+                    pc++;
+                    break;
+                }
+
+                case InstructionType::CALL: {
+                    int target = get_value(instr.operand);
+                    if (target < 0 || static_cast<size_t>(target) >= program.size()) {
+                        error = true;
+                        error_message = "Invalid call address: " + to_string(target);
+                        break;
+                    }
+
+                    
+                    stack_push(stack, create_return_address(pc + 1));
+                    pc = target;
+                    break;
+                }
+
+                case InstructionType::RET: {
+                    if (stack_empty(stack)) {
+                        error = true;
+                        error_message = "BAD RET";
+                        break;
+                    }
+
+                    Data top_value = stack_pop(stack);
+                    if (!is_return_address(top_value)) {
+                        error = true;
+                        error_message = "BAD RET";
+                        break;
+                    }
+
+                    size_t return_addr = extract_address(top_value);
+                    pc = return_addr;
+                    break;
+                }
+                }
             }
+            catch (const exception& e) {
+                error = true;
+                error_message = "Runtime error: " + string(e.what());
+                break;
             }
         }
 
@@ -276,6 +323,10 @@ public:
 
     void print_error() {
         cout << error_message << endl;
+    }
+
+    bool has_error() const {
+        return error;
     }
 };
 
@@ -305,11 +356,17 @@ int main(int argc, char* argv[]) {
     Processor processor;
     processor.load_program(program);
 
+    if (processor.has_error()) {
+        processor.print_error();
+        return 1;
+    }
+
     if (processor.execute()) {
         processor.print_registers();
     }
     else {
         processor.print_error();
+        return 1;
     }
 
     return 0;

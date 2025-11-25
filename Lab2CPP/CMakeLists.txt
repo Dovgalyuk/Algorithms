@@ -28,7 +28,7 @@ add_test(NAME Test6_MultipleRegisters COMMAND stack_processor ${CMAKE_CURRENT_SO
 set_property(TEST Test6_MultipleRegisters PROPERTY PASS_REGULAR_EXPRESSION "C = 2")
 
 add_test(NAME Test7_CallPop COMMAND stack_processor ${CMAKE_CURRENT_SOURCE_DIR}/input7.txt)
-set_property(TEST Test7_CallPop PROPERTY PASS_REGULAR_EXPRESSION "Stack underflow")
+set_tests_properties(Test7_CallPop PROPERTIES PASS_REGULAR_EXPRESSION "Cannot POP return address")
 
 add_test(NAME Test8_CallReturn COMMAND stack_processor ${CMAKE_CURRENT_SOURCE_DIR}/input8.txt)
-set_property(TEST Test8_CallReturn PROPERTY PASS_REGULAR_EXPRESSION "A = 1")
+set_tests_properties(Test8_CallReturn PROPERTIES PASS_REGULAR_EXPRESSION "Cannot POP return address")

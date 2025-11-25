@@ -1,5 +1,7 @@
 #include "stack.h"
 #include "vector.h"
+#include <stdexcept>
+
 using namespace std;
 
 struct Stack
@@ -28,14 +30,18 @@ void stack_push(Stack* stack, Data data)
 Data stack_get(const Stack* stack)
 {
     if (vector_size(stack->vector) == 0)
-        return 0;
+        throw runtime_error("Stack is empty");
     return vector_get(stack->vector, vector_size(stack->vector) - 1);
 }
 
-void stack_pop(Stack* stack)
+Data stack_pop(Stack* stack)  
 {
-    if (vector_size(stack->vector) > 0)
-        vector_pop_back(stack->vector);
+    if (vector_size(stack->vector) == 0)
+        throw runtime_error("Stack underflow");
+    
+    Data value = stack_get(stack);
+    vector_pop_back(stack->vector);
+    return value;
 }
 
 bool stack_empty(const Stack* stack)
