@@ -8,7 +8,7 @@
 
 const int INF = 1e9;
 
-typedef std::vector<int> Vector;
+typedef std::vector<int> Vectors;
 
 struct Node 
 {
@@ -36,9 +36,9 @@ int heuristic(int current, int finish, int cols)
     return abs(current_row - finish_row) + abs(current_col - finish_col);
 }
 
-Vector path(Vector& came_from, int start, int finish)
+Vectors path(Vectors& came_from, int start, int finish)
 {
-    Vector result;
+    Vectors result;
     int current = finish;
     
     while (current != start) 
@@ -53,12 +53,12 @@ Vector path(Vector& came_from, int start, int finish)
     return result;
 }
 
-Vector astar(Graph<int, int>& graph, int start, int finish, int cols)
+Vectors astar(Graph<int, int>& graph, int start, int finish, int cols)
 {
     std::priority_queue<Node, std::vector<Node>, std::greater<Node>> queue;
     
-    Vector came_from(graph.getVertexTags().size(), -1);
-    Vector cost(graph.getVertexTags().size(), INF);
+    Vectors came_from(graph.getVertexTags().size(), -1);
+    Vectors cost(graph.getVertexTags().size(), INF);
     
     cost[start] = 0;
     came_from[start] = start;
@@ -102,7 +102,7 @@ void task(std::ifstream& file)
     int rows, cols;
     file >> rows >> cols;
 
-    std::vector<Vector> matrix(rows, Vector(cols));
+    std::vector<Vectors> matrix(rows, Vectors(cols));
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < cols; j++){
             file >> matrix[i][j];
@@ -137,14 +137,32 @@ void task(std::ifstream& file)
         }
     }
 
-    Vector result = astar(graph, start_index, finish_index, cols);
-    std::cout << "Path: " << std::endl;
-    for (size_t i = 0; i < result.size(); i++) 
-    {
-        int row = result[i] / cols;
-        int col = result[i] % cols;
+    Vectors result = astar(graph, start_index, finish_index, cols);
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++)
+        {
+            int index = i * cols + j;
+            bool isPath = false;
 
-        std::cout << "(" << row << ", " << col << ")" << std::endl;
+            for(size_t k = 0; k < result.size(); k++) 
+            {
+                if(result[k] == index) 
+                {
+                    isPath = true;
+                    break;
+                }
+            }
+
+            if(isPath)
+            {
+                std::cout << "[" << matrix[i][j] << "] ";
+            }
+            else
+            {
+                std::cout << " " << matrix[i][j] << "  ";
+            }
+        }
+        std::cout << std::endl;
     }
 
     int cost = 0;
@@ -152,7 +170,7 @@ void task(std::ifstream& file)
     {
         cost += matrix[result[i] / cols][result[i] % cols];
     }
-    std::cout << "Cost: " << cost << std::endl;
+    std::cout << cost << std::endl;
 }
 
 int main(int argc, char **argv)
