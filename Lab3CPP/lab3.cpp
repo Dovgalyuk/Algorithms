@@ -30,13 +30,13 @@ void lab3(const std::string& filename) {
 
     for (int i = 0; i < rowscol; i++) {
         pole[i] = new char[rowscol+1];
-        visited[i] = new char[rowscol];
+        visited[i] = new bool[rowscol];
         std::getline(file, line);
-        for (int j = 0; j < cols; j++) {
-            maze[i][j] = line[j];
+        for (int j = 0; j < rowscol; j++) {
+            pole[i][j] = line[j];
             visited[i][j] = false;
         }
-        maze[i][cols] = '\0';
+        pole[i][rowscol] = '\0';
     }
     file.close();
 
@@ -52,14 +52,14 @@ void lab3(const std::string& filename) {
         int pos = queue_get(queue);
         queue_remove(queue);
 
-        int x = pos / cols;  
-        int y = pos % cols;
+        int x = pos / rowscol;  
+        int y = pos % rowscol;
 
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
             
-            if (nx >= 0 && nx < rowscol && ny >= 0 && ny < cols && !volatile [nx][ny] && pole[nx][ny] != '#') {
+            if (nx >= 0 && nx < rowscol && ny >= 0 && ny < rowscol && !visited[nx][ny] && pole[nx][ny] != '#') {
                 visited[nx][ny] = true;
                 queue_insert(queue, nx * rowscol + ny);
                 o++;
@@ -100,13 +100,13 @@ void lab3(const std::string& filename) {
 int main(int argc, char* argv[]) {
     if (argc > 1) {
         for (int i = 1; i < argc; i++) {
-            execute_instructions(argv[i]);
+            lab3(argv[i]);
         }
     }
     else {
         std::string filenames[] = { "input.txt", "input2.txt"};
         for (int i = 0; i < 2; i++) {
-            execute_instructions(filenames[i]);
+            lab3(filenames[i]);
         }
     }
     return 0;
