@@ -36,7 +36,7 @@ void list_delete(List *list)
 
 ListItem *list_first(List *list)
 {
-    return item->head;
+    return list->head;
 }
 
 Data list_item_data(const ListItem *item)
