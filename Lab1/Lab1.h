@@ -37,7 +37,7 @@ namespace cl {
 			return { minElementIndex, maxElementIndex };
 		}
 
-		template<concepts::summable T, class Iterator>
+		template<class Iterator>
 		typename std::iterator_traits<Iterator>::value_type sum(Iterator begin, Iterator end) {
 			// return std::accumulate(begin, end, value_type{});
 
@@ -87,7 +87,7 @@ namespace cl {
 
 	}
 
-	std::pair<MoveDirection, int> readDirectionFromFile(std::fstream& file) {
+	inline std::pair<MoveDirection, int> readDirectionFromFile(std::fstream& file) {
 		std::string dirStr, stepStr;
 		if (!(file >> dirStr >> stepStr)) {
 			throw std::runtime_error("Failed to read direction and step from file");

@@ -1,18 +1,21 @@
 #ifndef VECTOR_TEMPLATE_H
 #define VECTOR_TEMPLATE_H
 
-#include <cstddef>
 #include <initializer_list>
 #include <concepts>
 #include <stdexcept>
 #include <utility>
-#include "concepts.h"
 #include "iterator.h"
 
 template <std::copyable Data> 
 class Vector
 {
 public:
+    using value_type = Data;
+    using reference = Data&;
+    using const_reference = const Data&;
+    using size_type = std::size_t;
+
     Vector() : data_(nullptr), size_(0), capacity_(0)
     {}
 
@@ -148,6 +151,10 @@ public:
         return data_[0];
     }
 
+    const Data& front() const {
+        return data_[0];
+    }
+
     Data& back() {
         return data_[size_ - 1];
     }
@@ -267,6 +274,15 @@ public:
         }
     }
 
+    iterator<Data> erase(iterator<Data> pos) {
+        if (pos == end()) {
+            throw std::out_of_range("Invalid iterator");
+        }
+
+        std::size_t index = std::distance(begin(), pos);
+        return eraseImpl(index, index + 1);
+    }
+
     iterator<Data> begin() noexcept {
         return iterator(data_);
     }
@@ -317,6 +333,22 @@ private:
 
         data_ = newData;
         capacity_ = size;
+    }
+
+    iterator<Data> eraseImpl(std::size_t first, std::size_t last) {
+        if (first >= last || last > size_) {
+            throw std::out_of_range("Invalid iterator");
+        }
+
+        Data* begin = data_ + first;
+        Data* mid = data_ + last;
+        Data* end = data_ + size_;
+
+        Data* newEnd = std::move(mid, end, begin);
+        std::destroy(newEnd, end);
+
+        size_ = newEnd - data_;
+        return iterator<Data>(begin);
     }
 
     Data* data_;

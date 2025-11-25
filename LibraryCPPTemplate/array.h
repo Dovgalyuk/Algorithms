@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <initializer_list>
 #include <string>
-#include <memory>
 #include <stdexcept>
 #include <iostream>
 #include <iterator>

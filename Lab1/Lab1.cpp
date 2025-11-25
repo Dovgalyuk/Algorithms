@@ -7,7 +7,7 @@ void firstTask(std::fstream& file) {
 
 	auto [min, max] = cl::algorithms::findMinMaxIndex<T>(array.begin(), array.end());
 	if (max < min) std::swap(max, min);
-	auto result = cl::algorithms::sum<T>(array.begin() + min, array.begin() + max);
+	auto result = cl::algorithms::sum(array.begin() + min, array.begin() + max);
 
 	std::cout << result << std::endl;
 }

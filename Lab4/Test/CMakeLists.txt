@@ -1,0 +1,23 @@
+set(LAB4_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
+set(LAB4_BUILD_TEST_DIR ${CMAKE_CURRENT_BINARY_DIR}/)
+
+set(TEST_NUMBERS 1 2 3 4 5)
+
+foreach(N ${TEST_NUMBERS})
+	set(INPUT_FILE    ${LAB4_TEST_DIR}/test${N}.txt)
+	set(EXPECTED_FILE ${LAB4_TEST_DIR}/test${N}-expected.txt)
+	set(OUTPUT_FILE   ${LAB4_BUILD_TEST_DIR}/output${N}.txt)
+
+	add_test(NAME Lab4Test${N}
+			COMMAND ${CMAKE_COMMAND}
+			-DPROGRAM=$<TARGET_FILE:Lab4>
+			-DINPUT=${INPUT_FILE}
+			-DOUTPUT=${OUTPUT_FILE}
+			-DEXPECTED=${EXPECTED_FILE}
+			-P ${LAB4_TEST_DIR}/run_test.cmake
+	)
+
+	set_tests_properties(Lab4Test${N} PROPERTIES
+			WORKING_DIRECTORY $<TARGET_FILE_DIR:Lab4>
+	)
+endforeach()

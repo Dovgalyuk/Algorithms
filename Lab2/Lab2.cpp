@@ -138,7 +138,7 @@ void run(const ScoreVector& scores, std::istream& input, std::ostream& output) {
 				auto cond = stack.top(); stack.pop();
 				++ip;
 
-				if (cond == 0 && n <= (int)ip) { 
+				if (cond == 0 && n <= static_cast<int>(ip)) {
 					ip -= (n + 1); 
 				}
 				else { 
@@ -153,7 +153,7 @@ void run(const ScoreVector& scores, std::istream& input, std::ostream& output) {
 				auto cond = stack.top(); stack.pop();
 				++ip;
 
-				if (cond != 0 && n <= (int)ip) {
+				if (cond != 0 && n <= static_cast<int>(ip)) {
 					ip -= (n + 1);
 				}
 				else {
