@@ -64,8 +64,33 @@ int main(int argc, char **argv)
                 word[wi] = '\0';
                 int score = word_score(word);
                 switch (score) {
+                    case 6:
+                        if (!stack_empty(stack)) {
+                            stack_pop(stack);
+                        }
+                        break;
                     case 8:
                         stack_push(stack, (Data)(uintptr_t)(unsigned char)word[0]);
+                        break;
+                    case 10:
+                        if (!stack_empty(stack)) {
+                            unsigned char top = (unsigned char)(uintptr_t)stack_get(stack);
+                            stack_push(stack, (Data)(uintptr_t)top);
+                        }
+                        break;
+                    case 11:
+                        if (!stack_empty(stack)) {
+                            unsigned char a = (unsigned char)(uintptr_t)stack_get(stack);
+                            stack_pop(stack);
+                            if (!stack_empty(stack)) {
+                                unsigned char b = (unsigned char)(uintptr_t)stack_get(stack);
+                                stack_pop(stack);
+                                stack_push(stack, (Data)(uintptr_t)a);
+                                stack_push(stack, (Data)(uintptr_t)b);
+                            } else {
+                                stack_push(stack, (Data)(uintptr_t)a);
+                            }
+                        }
                         break;
                     case 5:
                         if (!stack_empty(stack)) {
@@ -78,7 +103,6 @@ int main(int argc, char **argv)
                         int in = fgetc(input);
                         if (in != EOF) {
                             stack_push(stack, (Data)(uintptr_t)(unsigned char)in);
-                            stack_pop(stack);
                         }
                         break; }
                     case 9:
@@ -98,4 +122,3 @@ int main(int argc, char **argv)
     fclose(input);
     return 0;
 }
-
