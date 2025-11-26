@@ -93,9 +93,8 @@ void test_rbtree_1_million() {
     assert(t.count() == 1000000);
 
     for (int i = 0; i < 1000; i++) {
-        int idx = i * 1000;
-        assert(t.get("m" + std::to_string(idx), value));
-        assert(value == "value" + std::to_string(idx));
+        assert(t.get("m" + std::to_string(i * 1000), value));
+        assert(value == "value" + std::to_string(i * 1000));
     }
 
     for (int i = 0; i < 1000000; i++) {
