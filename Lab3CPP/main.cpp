@@ -68,7 +68,6 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    vector<vector<int>> distance(rows, vector<int>(cols, -1));
     vector<vector<Point>> previous(rows, vector<Point>(cols, Point(-1, -1)));
 
     int dx[] = { -1, 0, 1, 0 };
@@ -76,7 +75,7 @@ int main(int argc, char* argv[]) {
 
     Queue* queue = queue_create();
 
-    distance[start.x][start.y] = 0;
+    previous[start.x][start.y] = Point(start.x, start.y);
     queue_insert(queue, encode(start.x, start.y, (int)cols));
 
     bool found = false;
@@ -99,9 +98,8 @@ int main(int argc, char* argv[]) {
 
             if (isValid(nextX, nextY, (int)rows, (int)cols) &&
                 maze[nextX][nextY] != '#' &&
-                distance[nextX][nextY] == -1) {
+                previous[nextX][nextY].x == -1) {
 
-                distance[nextX][nextY] = distance[x][y] + 1;
                 previous[nextX][nextY] = Point(x, y);
                 queue_insert(queue, encode(nextX, nextY, (int)cols));
             }
