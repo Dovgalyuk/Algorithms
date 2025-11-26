@@ -37,9 +37,7 @@ void print_stack(Stack* stack) {
             printf("%s\n", (char*)top);
         } else {
             int* raw = (int*)top;
-            int* copy = malloc(sizeof(int));
-            *copy = *raw;
-            printf("%d\n", *copy);
+            printf("%d\n", *raw);
         }
 
         stack_pop(stack);
@@ -142,6 +140,8 @@ bool command_interpretation(FILE* f, Stack* stack, int* vars) {
                             stack_pop(stack);
                             int* res = math_operation(command, *a, *b);
                             stack_push(stack, res);
+                            free(a); 
+                            free(b);
                         } else {
                             return false;
                         }
