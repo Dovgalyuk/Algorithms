@@ -44,15 +44,12 @@ int task(ifstream &inputFile) {
     queue_remove(queue);
     int current_x, current_y;
     decodePoint(encoded, m, current_x, current_y);
-    int current_color = board[current_x][current_y];
-    if (current_color > max_color) {
-      max_color = current_color;
-    }
+    max_color = board[current_x][current_y];
     for (int i = 0; i < 4; i++) {
       int nx = current_x + dx[i];
       int ny = current_y + dy[i];
       if (nx >= 0 && nx < n && ny >= 0 && ny < m && board[nx][ny] == 0) {
-        board[nx][ny] = current_color + 1;
+        board[nx][ny] = max_color + 1;
         queue_insert(queue, encodePoint(nx, ny, m));
       }
     }
