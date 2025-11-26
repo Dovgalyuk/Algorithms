@@ -3,7 +3,7 @@
 
 using namespace std;
 
-struct Vector  
+struct Vector
 {
     Data* data;
     size_t size;

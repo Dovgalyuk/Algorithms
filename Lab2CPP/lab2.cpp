@@ -26,6 +26,7 @@ struct Instruction {
 class Processor {
 private:
     Stack* stack;
+    Stack* stack2; 
     int regA, regB, regC, regD;
     vector<Instruction> program;
     size_t pc;
@@ -71,30 +72,12 @@ private:
         else if (reg == "D") regD = value;
     }
 
-    bool is_return_address(Data value) {
-        return value == -1;
-    }
-
-    Data create_return_address(size_t address) {
-        
-        stack_push(stack, static_cast<Data>(address));
-        return -1;  
-    }
-
-    size_t extract_address(Data value) {
-        if (stack_empty(stack)) {
-            error = true;
-            error_message = "BAD RET";
-            return 0;
-        }
-        return static_cast<size_t>(stack_pop(stack));
-    }
-
 public:
     typedef std::vector<std::string> ProgramLines;
 
     Processor() {
         stack = stack_create();
+        stack2 = stack_create(); 
         regA = regB = regC = regD = 0;
         pc = 0;
         error = false;
@@ -102,6 +85,7 @@ public:
 
     ~Processor() {
         stack_delete(stack);
+        stack_delete(stack2);
     }
 
     void load_program(const ProgramLines& lines) {
@@ -171,7 +155,10 @@ public:
         pc = 0;
         error = false;
 
+        
         while (!stack_empty(stack)) stack_pop(stack);
+        while (!stack_empty(stack2)) stack_pop(stack2);
+
         regA = regB = regC = regD = 0;
 
         while (pc < program.size() && !error) {
@@ -182,6 +169,7 @@ public:
                 case InstructionType::PUSH: {
                     int value = get_value(instr.operand);
                     stack_push(stack, value);
+                    stack_push(stack2, 1); 
                     pc++;
                     break;
                 }
@@ -192,16 +180,14 @@ public:
                         error_message = "Stack underflow";
                         break;
                     }
-
-                   
-                    Data top_value = stack_get(stack);
-                    if (is_return_address(top_value)) {
+                    if (stack_get(stack2) == -1) {
                         error = true;
                         error_message = "Cannot POP return address";
                         break;
                     }
 
                     Data value = stack_pop(stack);
+                    stack_pop(stack2); 
                     set_register(instr.operand, value);
                     pc++;
                     break;
@@ -214,16 +200,18 @@ public:
                         break;
                     }
                     Data b = stack_pop(stack);
+                    stack_pop(stack2); 
 
                     if (stack_empty(stack)) {
-                        stack_push(stack, b);
                         error = true;
                         error_message = "Not enough operands for ADD";
                         break;
                     }
                     Data a = stack_pop(stack);
+                    stack_pop(stack2); 
 
                     stack_push(stack, a + b);
+                    stack_push(stack2, 1); 
                     pc++;
                     break;
                 }
@@ -235,16 +223,18 @@ public:
                         break;
                     }
                     Data b = stack_pop(stack);
+                    stack_pop(stack2); 
 
                     if (stack_empty(stack)) {
-                        stack_push(stack, b);
                         error = true;
                         error_message = "Not enough operands for SUB";
                         break;
                     }
                     Data a = stack_pop(stack);
+                    stack_pop(stack2); 
 
                     stack_push(stack, a - b);
+                    stack_push(stack2, 1); 
                     pc++;
                     break;
                 }
@@ -256,16 +246,18 @@ public:
                         break;
                     }
                     Data b = stack_pop(stack);
+                    stack_pop(stack2); 
 
                     if (stack_empty(stack)) {
-                        stack_push(stack, b);
                         error = true;
                         error_message = "Not enough operands for MUL";
                         break;
                     }
                     Data a = stack_pop(stack);
+                    stack_pop(stack2); 
 
                     stack_push(stack, a * b);
+                    stack_push(stack2, 1); 
                     pc++;
                     break;
                 }
@@ -279,7 +271,8 @@ public:
                     }
 
                     
-                    stack_push(stack, create_return_address(pc + 1));
+                    stack_push(stack, -1);
+                    stack_push(stack2, -1);
                     pc = target;
                     break;
                 }
@@ -290,16 +283,15 @@ public:
                         error_message = "BAD RET";
                         break;
                     }
-
-                    Data top_value = stack_pop(stack);
-                    if (!is_return_address(top_value)) {
+                    if (stack_get(stack2) != -1) {
                         error = true;
                         error_message = "BAD RET";
                         break;
                     }
 
-                    size_t return_addr = extract_address(top_value);
-                    pc = return_addr;
+                    stack_pop(stack);
+                    stack_pop(stack2);
+                    pc++;
                     break;
                 }
                 }

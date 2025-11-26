@@ -5,7 +5,7 @@
 
 typedef int Data;
 
-struct Vector;  
+struct Vector;
 
 Vector* vector_create();
 void vector_delete(Vector* vector);

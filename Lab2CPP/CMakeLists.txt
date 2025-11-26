@@ -32,3 +32,10 @@ set_tests_properties(Test7_CallPop PROPERTIES PASS_REGULAR_EXPRESSION "Cannot PO
 
 add_test(NAME Test8_CallReturn COMMAND stack_processor ${CMAKE_CURRENT_SOURCE_DIR}/input8.txt)
 set_tests_properties(Test8_CallReturn PROPERTIES PASS_REGULAR_EXPRESSION "Cannot POP return address")
+
+add_test(NAME Test9_te COMMAND stack_processor ${CMAKE_CURRENT_SOURCE_DIR}/input9.txt)
+set_tests_properties(Test9_te PROPERTIES PASS_REGULAR_EXPRESSION "BAD RET")
+
+add_test(NAME Test10_otr COMMAND stack_processor ${CMAKE_CURRENT_SOURCE_DIR}/input10.txt)
+set_tests_properties(Test10_otr PROPERTIES PASS_REGULAR_EXPRESSION "A = -1")
+
