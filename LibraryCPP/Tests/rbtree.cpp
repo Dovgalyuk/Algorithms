@@ -85,11 +85,18 @@ void test_rbtree_100000_elements() {
 
 void test_rbtree_1_million() {
     RBTree t;
+    std::string value;  
 
     for (int i = 0; i < 1000000; i++) {
         t.add("m" + std::to_string(i), "value" + std::to_string(i));
     }
     assert(t.count() == 1000000);
+
+    for (int i = 0; i < 1000; i++) {
+        int idx = i * 1000;
+        assert(t.get("m" + std::to_string(idx), value));
+        assert(value == "value" + std::to_string(idx));
+    }
 
     for (int i = 0; i < 1000000; i++) {
         t.del("m" + std::to_string(i));

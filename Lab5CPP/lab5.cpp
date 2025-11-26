@@ -39,7 +39,7 @@ void test() {
 }
 
 void speed() {
-    vector<int> n = { 1000, 5000, 10000 };
+    vector<int> n = { 1000, 5000, 10000, 50000, 100000 }; 
 
     cout << "size | time" << endl;
     cout << "-----|-----" << endl;
@@ -58,7 +58,7 @@ void speed() {
 }
 
 void comp() {
-    vector<int> n = { 1000, 5000, 10000 };
+    vector<int> n = { 1000, 5000, 10000, 50000, 100000 };  
 
     cout << "size | rbt | map" << endl;
     cout << "-----|-----|-----" << endl;
@@ -74,7 +74,7 @@ void comp() {
 
         auto s2 = chrono::high_resolution_clock::now();
         map<string, string> m;
-        for (auto& p : d) m[p.first] = p.second;
+        for (auto& p : d) m.insert({ p.first, p.second });      
         auto e2 = chrono::high_resolution_clock::now();
         auto t2 = chrono::duration_cast<chrono::microseconds>(e2 - s2);
 
@@ -115,14 +115,12 @@ void filetest(const string& fname) {
 
 int main(int argc, char* argv[]) {
     if (argc > 1) {
-        filetest(argv[1]);
+        filetest(argv[1]);  
     }
     else {
-        test();
+        test();            
         speed();
         comp();
-        filetest("input.txt");
     }
-
     return 0;
 }
