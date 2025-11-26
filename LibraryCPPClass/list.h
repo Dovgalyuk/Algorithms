@@ -71,7 +71,6 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
-    void copy_recursive(Item* current);
     Item* _first;
 };
 

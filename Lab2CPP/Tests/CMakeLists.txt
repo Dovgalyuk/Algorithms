@@ -1,14 +1,12 @@
-add_test(NAME TestListBasic COMMAND Lab2CPP -list 5)
-set_property(TEST TestListBasic PROPERTY PASS_REGULAR_EXPRESSION "5 4 3 2 1")
+add_executable(TestList list.cpp)
+target_include_directories(TestList PUBLIC ../../LibraryCPPClass)
+target_link_libraries(TestList LibraryCPPClass)
+add_test(TestList TestList)
 
-add_test(NAME TestListCopy COMMAND Lab2CPP -list -c)
-set_property(TEST TestListCopy PROPERTY PASS_REGULAR_EXPRESSION "1")
-
-add_test(NAME TestListAssignment COMMAND Lab2CPP -list -a)
-set_property(TEST TestListAssignment PROPERTY PASS_REGULAR_EXPRESSION "1")
-
-add_test(NAME TestStackBas COMMAND Lab2CPP -stack ${CMAKE_CURRENT_SOURCE_DIR}/test.txt)
-set_property(TEST TestStackBas PROPERTY PASS_REGULAR_EXPRESSION "YES")
+add_executable(TestStack stack.cpp)
+target_include_directories(TestStack PUBLIC ../../LibraryCPPClass)
+target_link_libraries(TestStack LibraryCPPClass)
+add_test(TestStack TestStack)
 
 add_test(NAME ASBase COMMAND Lab2CPP -inter ${CMAKE_CURRENT_SOURCE_DIR}/testscript1.txt ${CMAKE_CURRENT_SOURCE_DIR}/emptyInput.txt)
 set_property(TEST ASBase PROPERTY PASS_REGULAR_EXPRESSION "C\nB\nA")

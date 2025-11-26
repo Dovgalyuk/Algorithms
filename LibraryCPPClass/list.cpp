@@ -6,20 +6,18 @@ List::List()
     _first = nullptr;
 }
 
-void List::copy_recursive(Item* current)
-{
-    if (current == nullptr) return;
-    
-    // Сначала копируем хвост списка
-    copy_recursive(current->next());
-    // Затем вставляем текущий элемент (в обратном порядке)
-    insert(current->data());
-}
-
 List::List(const List &a)
 {
     _first = nullptr;
-    copy_recursive(a._first);
+    Item** ppNext = &_first;
+    Item* current = a._first;
+    
+    while (current != nullptr) {
+        *ppNext = new Item(current->data()); 
+        ppNext = &((*ppNext)->next_ref()); 
+        current = current->next();
+    }
+    *ppNext = nullptr; 
 }
 
 
@@ -28,7 +26,7 @@ List &List::operator=(const List &a)
 {
     if (this != &a)
     {
-        List temp(a);  // Конструктор копирования создает правильный порядок
+        List temp(a);
 
         Item* tm = _first;
         _first = temp._first;

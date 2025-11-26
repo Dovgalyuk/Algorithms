@@ -1,7 +1,6 @@
 ﻿#include <fstream>
 #include <iostream>
 #include <string>
-#include <unordered_map>
 #include "list.h"
 #include "stack.h"
 #include "array.h"
@@ -51,105 +50,6 @@ Array ReadArrayFromFile(const string& fileName)
 
     file.close();
     return arr;
-}
-
-void TestList(int element_count) // Test List insert, first, next, data
-{
-    int start_value = 1;
-
-    List list =  List();
-        
-
-    for (int i = 0; i < element_count; i++)
-    {
-        list.insert(start_value + i);
-    }
-    
-    List::Item* next = list.first();
-
-    while (next != nullptr)
-    {
-        cout << next->data() <<" ";
-        next = next->next();
-    }
-    cout << endl;
-}
-
-void TestStack(const string& fileName) //Test Stack push, empty, pop
-{
-    string s = ReadStringFromFile(fileName);
-
-    if(s.empty()) return;
-    
-    Stack st; 
-    unordered_map<char, char> pairs = {
-        {')', '('},
-        {']', '['},
-        {'}', '{'}
-    };
-    
-    bool isValid = false;
-
-    for (char c : s)
-    {
-        if (c == '(' || c == '[' || c == '{')
-        { 
-            st.push(c); 
-        } 
-        else if (c == ')' || c == ']' || c == '}') 
-        { 
-            if (st.empty() || st.get() != pairs[c])
-            { 
-                isValid = false; 
-                break;
-            }
-            st.pop(); 
-        }
-    }
-
-    if (st.empty()) 
-    {
-        isValid = true;
-    } 
-  
-    
-    if (isValid)
-    {
-        cout << "YES";
-    } 
-    else
-    {
-        cout << "NO";
-    }
-}
-
-void TestListCopy(string arg) // Test List copy and assingment operation
-{
-    List listA = List();
-    List listB = List();
-
-    listA.insert(1);
-    listA.insert(2);
-    listA.insert(3);
-
-    listB.insert(5);
-    listB.insert(6);
-    listB.insert(7);
-    
-    if(arg == "-c")
-    {
-        listB = List(listA); 
-    }
-    else if (arg == "-a")
-    {
-        listB = listA;
-    }
-    else
-    {
-        listB = List();
-    }
-
-    cout<< (listB.first()->data() == listA.first()->data())<< endl;
 }
 
 void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileNameInput) //AS Interpreter
@@ -294,33 +194,13 @@ int main(int argc, char* argv[])
 {
     if (argc < 2)
     {
-        cout << "Help: "<<argv[0]<<"\n -list [<5>]|-c|-a -- test list  <n> -  output of numbers from 1 to n| -c test copy| -p test assignment operator \n"
-                                   " -stack <fileName> -- test stack\n"
-                                   " -inter <scriptFile> <inputFile>"<<endl;
-        
+        cout << "Help: "<<argv[0]<<"\n -inter <scriptFile> <inputFile>"<<endl;
         return 1;
     }
-    
 
     string mode = argv[1];
 
-    if (mode == "-list")
-    {
-        string test = argv[2];
-        if (test == "-c" || test == "-a")
-        {
-            TestListCopy(test);
-        }
-        else if (!test.empty())
-        {
-            TestList(atoi(argv[2]));
-        }
-    }
-    else if (mode == "-stack")
-    {
-        TestStack(argv[2]);
-    }
-    else if (mode == "-inter")
+    if (mode == "-inter")
     {
         AnnoyingScriptInterpreter(argv[2], argv[3]);
     }
