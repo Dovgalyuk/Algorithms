@@ -14,7 +14,7 @@ void processScript(Stack& stack, const string& script, const string& input) {
 
         switch (cmd) {
         case '+': {
-            i++; 
+            i++;
             string str;
             while (i < script.length()) {
                 char c = script[i];
@@ -38,23 +38,6 @@ void processScript(Stack& stack, const string& script, const string& input) {
         }
         case '<': {
             if (!stack.empty()) {
-                char top = stack.get();
-                stack.pop();
-                Stack temp;
-                while (!stack.empty()) {
-                    temp.push(stack.get());
-                    stack.pop();
-                }
-                stack.push(top);
-                while (!temp.empty()) {
-                    stack.push(temp.get());
-                    temp.pop();
-                }
-            }
-            break;
-        }
-        case '>': {
-            if (!stack.empty()) {
                 Stack temp;
                 while (!stack.empty()) {
                     temp.push(stack.get());
@@ -70,6 +53,21 @@ void processScript(Stack& stack, const string& script, const string& input) {
             }
             break;
         }
+        case '>': {
+            i++;
+            string output_text;
+            while (i < script.length()) {
+                char c = script[i];
+                if (c == '+' || c == '-' || c == '<' || c == '>' || c == '?' || c == '!') {
+                    i--;
+                    break;
+                }
+                output_text += c;
+                i++;
+            }
+            cout << output_text;
+            break;
+        }
         case '?': {
             if (inputIndex < input.length()) {
                 stack.push(input[inputIndex]);
@@ -78,8 +76,18 @@ void processScript(Stack& stack, const string& script, const string& input) {
             break;
         }
         case '!': {
-            if (!stack.empty()) {
-                cout << (char)stack.get() << endl;
+            i++;
+            string index_str;
+            while (i < script.length() && isdigit(script[i])) {
+                index_str += script[i];
+                i++;
+            }
+            i--;
+            if (!index_str.empty()) {
+                int jump_index = stoi(index_str);
+                if (jump_index >= 0 && jump_index < (int)script.length()) {
+                    i = jump_index - 1;
+                }
             }
             break;
         }
@@ -165,4 +173,5 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    return 0;
 }
