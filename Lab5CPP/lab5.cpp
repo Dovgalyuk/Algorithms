@@ -39,7 +39,7 @@ void test() {
 }
 
 void speed() {
-    vector<int> n = { 1000, 5000, 10000, 50000, 100000 }; 
+    vector<int> n = { 1000, 5000, 10000, 50000, 100000, 500000, 1000000 };
 
     cout << "size | time" << endl;
     cout << "-----|-----" << endl;
@@ -58,7 +58,7 @@ void speed() {
 }
 
 void comp() {
-    vector<int> n = { 1000, 5000, 10000, 50000, 100000 };  
+    vector<int> n = { 1000, 5000, 10000, 50000, 100000, 500000, 1000000 };
 
     cout << "size | rbt | map" << endl;
     cout << "-----|-----|-----" << endl;

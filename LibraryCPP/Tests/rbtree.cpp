@@ -72,7 +72,7 @@ void test_rbtree_100000_elements() {
 
     for (int i = 0; i < 100000; i += 100) {
         assert(t.get("key_" + std::to_string(i), value));
-        assert(value == "val_" + std::to_string(i));
+        assert(value == "val_" + std::to_string(i));                
     }
 
     for (int i = 0; i < 100000; i++) {
