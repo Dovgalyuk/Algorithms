@@ -105,7 +105,8 @@ int main(int argc, char* argv[]) {
             if (names.get(k) == v_name) v = k;
         }
 
-        if (u != -1 && v != -1) {
+        if (u != (size_t)-1 && v != (size_t)-1)
+         {
             graph.add_edge(u, v, w);
             
             EdgeInfo e;
