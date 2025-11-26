@@ -66,11 +66,12 @@ int main(int argc, char* argv[]) {
     dist[start] = 0;
 
     PriorityQueue* pq = pqueue_create();
-    pqueue_push(pq, static_cast<int>(start), dist);
+    pqueue_set_dist(pq, dist);
+    pqueue_push(pq, static_cast<int>(start));
 
     while (!pqueue_empty(pq))
     {
-        int u = pqueue_pop(pq, dist);
+        int u = pqueue_pop(pq);
 
         auto it = g.neighbors(static_cast<size_t>(u));
         while (it.valid())
@@ -82,7 +83,7 @@ int main(int argc, char* argv[]) {
             {
                 dist[v] = dist[u] + w;
                 parent[v] = u;
-                pqueue_push(pq, static_cast<int>(v), dist);
+                pqueue_push(pq, static_cast<int>(v));
             }
 
             it.next();

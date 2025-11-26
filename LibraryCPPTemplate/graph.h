@@ -17,6 +17,60 @@ public:
         edge value;
     };
 
+    // Создание по количеству вершин
+    explicit Graph(size_t count)
+    {
+        vertex_count = count;
+        vertex_labels.resize(count);
+        alive.resize(count, true);
+        adj.resize(count);
+    }
+
+    // Конструктор копирования 
+    Graph(const Graph& g)
+    {
+        vertex_count = g.vertex_count;
+        vertex_labels = g.vertex_labels;
+        alive = g.alive;
+        adj = g.adj;
+    }
+
+    // Перегрузка оператора присваивания
+    Graph& operator=(const Graph& g)
+    {
+        if (this == &g)
+            return *this;
+
+        vertex_count = g.vertex_count;
+        vertex_labels = g.vertex_labels;
+        alive = g.alive;
+        adj = g.adj;
+
+        return *this;
+    }
+
+    // Деструктор
+    ~Graph()
+    {
+
+    }
+
+    // Возвращает количество вершин в графе
+    size_t get_vertex_count() const
+    {
+        return vertex_count;
+    }
+
+    // Добавляет вершину
+    size_t add_vertex(vertex value)
+    {
+        vertex_labels.push_back(value);
+        alive.push_back(true);
+        adj.push_back(List<EdgeInfo>());
+        vertex_count++;
+        return vertex_count - 1;
+    }
+
     template<typename Lambd>
     void remove(List<EdgeInfo>& edges, Lambd lambd)
     {
@@ -42,60 +96,6 @@ public:
                 cur = cur->next();
             }
         }
-    }
-
-    // Создание по количеству вершин
-    explicit Graph(size_t count)
-    {
-        vertex_count = count;
-        vertex_labels.resize(count);
-        alive.resize(count, true);
-        adj.resize(count);
-    }
-
-    // Конструктор копирования
-    Graph(const Graph& g)
-    {
-        vertex_count = g.vertex_count;
-        vertex_labels = g.vertex_labels;
-        alive = g.alive;
-        adj = g.adj;
-    }
-
-    // Перегрузка оператора присваивания
-    Graph& operator=(const Graph& g)
-    {
-        if (this == &g)
-            return *this;
-
-        vertex_count = g.vertex_count;
-        vertex_labels = g.vertex_labels;
-        alive = g.alive;
-        adj = g.adj;
-
-        return *this;
-    }
-
-    // Удаления графа
-    ~Graph()
-    {
-
-    }
-
-    // Возвращает количество вершин в графе
-    size_t get_vertex_count() const
-    {
-        return vertex_count;
-    }
-
-    // Добавляет вершину
-    size_t add_vertex(vertex value)
-    {
-        vertex_labels.push_back(value);
-        alive.push_back(true);
-        adj.push_back(List<EdgeInfo>());
-        vertex_count++;
-        return vertex_count - 1;
     }
 
     // Удаляет вершину по id

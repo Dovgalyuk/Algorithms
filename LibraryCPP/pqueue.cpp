@@ -4,18 +4,26 @@
 struct PriorityQueue
 {
     Vector* data;
+    const int* dist;
 };
 
 PriorityQueue* pqueue_create()
 {
     PriorityQueue* pq = new PriorityQueue;
     pq->data = vector_create();
+    pq->dist = nullptr;
     return pq;
 }
 
-static bool comp_dist(int a, int b, const int* dist)
+void pqueue_set_dist(PriorityQueue* pq, const int* dist)
 {
-    return dist[a] < dist[b];
+    pq->dist = dist;
+}
+
+
+static bool comp_dist(const PriorityQueue* pq, int a, int b)
+{
+    return pq->dist[a] < pq->dist[b];
 }
 
 void pqueue_delete(PriorityQueue* pq)
@@ -29,7 +37,7 @@ bool pqueue_empty(const PriorityQueue* pq)
     return vector_size(pq->data) == 0;
 }
 
-void pqueue_push(PriorityQueue* pq, int v, const int* dist)
+void pqueue_push(PriorityQueue* pq, int v)
 {
     size_t n = vector_size(pq->data);
     vector_resize(pq->data, n + 1);
@@ -42,7 +50,7 @@ void pqueue_push(PriorityQueue* pq, int v, const int* dist)
         int vi = vector_get(pq->data, i);
         int vp = vector_get(pq->data, parent);
 
-        if (!comp_dist(vi, vp, dist))
+        if (!comp_dist(pq, vi, vp))
             break;
 
         vector_set(pq->data, i, vp);
@@ -52,7 +60,7 @@ void pqueue_push(PriorityQueue* pq, int v, const int* dist)
     }
 }
 
-int pqueue_pop(PriorityQueue* pq, const int* dist)
+int pqueue_pop(PriorityQueue* pq)
 {
     size_t n = vector_size(pq->data);
 
@@ -74,7 +82,7 @@ int pqueue_pop(PriorityQueue* pq, const int* dist)
         {
             int vl = vector_get(pq->data, left);
             int vb = vector_get(pq->data, best);
-            if (comp_dist(vl, vb, dist))
+            if (comp_dist(pq, vl, vb))
                 best = left;
         }
 
@@ -82,7 +90,7 @@ int pqueue_pop(PriorityQueue* pq, const int* dist)
         {
             int vr = vector_get(pq->data, right);
             int vb = vector_get(pq->data, best);
-            if (comp_dist(vr, vb, dist))
+            if (comp_dist(pq, vr, vb))
                 best = right;
         }
 

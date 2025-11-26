@@ -13,26 +13,28 @@ int main()
 
     int dist1[3] = { 5, 3, 7 };
 
-    pqueue_push(pq, 0, dist1);
-    pqueue_push(pq, 1, dist1);
-    pqueue_push(pq, 2, dist1);
+    pqueue_set_dist(pq, dist1);
+
+    pqueue_push(pq, 0);
+    pqueue_push(pq, 1);
+    pqueue_push(pq, 2);
 
 
-    int a = pqueue_pop(pq, dist1);
+    int a = pqueue_pop(pq);
     if (a != 1)
     {
         std::cout << "Invalid pop order (expected 1, got " << a << ")\n";
         return 1;
     }
 
-    int b = pqueue_pop(pq, dist1);
+    int b = pqueue_pop(pq);
     if (b != 0)
     {
         std::cout << "Invalid pop order (expected 0, got " << b << ")\n";
         return 1;
     }
 
-    int c = pqueue_pop(pq, dist1);
+    int c = pqueue_pop(pq);
     if (c != 2)
     {
         std::cout << "Invalid pop order (expected 2, got " << c << ")\n";
@@ -47,17 +49,19 @@ int main()
 
     int dist2[5] = { 10, 8, 6, 4, 2 };
 
-    pqueue_push(pq, 0, dist2);
-    pqueue_push(pq, 1, dist2);
-    pqueue_push(pq, 2, dist2);
-    pqueue_push(pq, 3, dist2);
-    pqueue_push(pq, 4, dist2);
+    pqueue_set_dist(pq, dist2);
+
+    pqueue_push(pq, 0);
+    pqueue_push(pq, 1);
+    pqueue_push(pq, 2);
+    pqueue_push(pq, 3);
+    pqueue_push(pq, 4);
 
 
     int expected_order[5] = { 4, 3, 2, 1, 0 };
     for (int i = 0; i < 5; i++)
     {
-        int x = pqueue_pop(pq, dist2);
+        int x = pqueue_pop(pq);
         if (x != expected_order[i])
         {
             std::cout << "Invalid pop: expected " << expected_order[i]
@@ -73,14 +77,15 @@ int main()
     }
 
     int dist3[4] = { 100, 90, 80, 70 };
+    pqueue_set_dist(pq, dist3);
 
-    pqueue_push(pq, 2, dist3);
-    pqueue_push(pq, 0, dist3);
-    pqueue_push(pq, 1, dist3);
+    pqueue_push(pq, 2);
+    pqueue_push(pq, 0);
+    pqueue_push(pq, 1);
 
-    int x1 = pqueue_pop(pq, dist3);
-    int x2 = pqueue_pop(pq, dist3);
-    int x3 = pqueue_pop(pq, dist3);
+    int x1 = pqueue_pop(pq);
+    int x2 = pqueue_pop(pq);
+    int x3 = pqueue_pop(pq);
 
     if (!(x1 == 2 && x2 == 1 && x3 == 0))
     {
