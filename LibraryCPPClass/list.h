@@ -73,8 +73,11 @@ public:
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
     Item *erase_next(Item *item);
+
+    size_t Size();
 private:
     Item* _first;
+    size_t _size;
 };
 
 #endif

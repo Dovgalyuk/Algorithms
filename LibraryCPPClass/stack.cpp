@@ -57,3 +57,8 @@ bool Stack::empty() const
 {
     return _list->first()==nullptr;
 }
+
+size_t Stack::Size()
+{
+    return _list->Size();
+}

@@ -37,6 +37,8 @@ public:
     // Returns true if the stack is empty
     bool empty() const;
 
+    size_t Size();
+
 private:
     List* _list;
 };

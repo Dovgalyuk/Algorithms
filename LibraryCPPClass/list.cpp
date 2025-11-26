@@ -52,7 +52,7 @@ List::Item *List::insert(Data data)
 {
     Item* newItem = new Item(data, _first);
     _first = newItem;
-
+    _size++;
     return newItem;
 }
 
@@ -73,6 +73,7 @@ List::Item *List::insert_after(Item *item, Data data)
     Item* newItem = new Item(data, item->next());
     item->SetNext(newItem);
 
+    _size++;
     return newItem;
 }
 
@@ -93,6 +94,7 @@ List::Item *List::erase_first()
     delete _first;
     _first = nextItem;
 
+    _size--;
     return nextItem;
 }
 
@@ -112,6 +114,11 @@ List::Item *List::erase_next(Item *item)
     Item* nextAfterDelete = toDelete->next();
     item->SetNext(nextAfterDelete);
 
+    _size--;
     delete toDelete;
     return nextAfterDelete;
+}
+
+size_t List::Size(){
+    return _size;
 }
