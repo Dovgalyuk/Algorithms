@@ -30,8 +30,7 @@ public:
         const std::shared_ptr<IGraph<std::string, EdgeType>>& graph,
         const std::size_t start,
         const std::size_t goal,
-        std::size_t gridCols,
-        EdgeType minCost) {
+        std::size_t gridCols) {
 
         const std::size_t vertexCount = graph->vertexCount();
         Vector<Node> nodes(vertexCount);
@@ -40,7 +39,7 @@ public:
         Vector inOpenSet(vertexCount, false);
 
         nodes[start].g = 0;
-        nodes[start].h = heuristic(start, goal, gridCols, minCost);
+        nodes[start].h = heuristic(start, goal, gridCols);
         nodes[start].f = nodes[start].g + nodes[start].h;
         nodes[start].parent = start;
 
@@ -70,7 +69,7 @@ public:
                 if (const double tentativeG = nodes[currentIndex].g + edgeWeight; tentativeG < nodes[neighborIndex].g) {
                     nodes[neighborIndex].parent = currentIndex;
                     nodes[neighborIndex].g = tentativeG;
-                    nodes[neighborIndex].h = heuristic(neighborIndex, goal, gridCols, minCost);
+                    nodes[neighborIndex].h = heuristic(neighborIndex, goal, gridCols);
                     nodes[neighborIndex].f = nodes[neighborIndex].g + nodes[neighborIndex].h;
 
                     if (!inOpenSet[neighborIndex]) {
@@ -85,7 +84,7 @@ public:
     }
 
 private:
-    static Vector<std::size_t> reconstructPath(const Vector<Node>& nodes, std::size_t goal) {
+    static Vector<std::size_t> reconstructPath(const Vector<Node>& nodes, const std::size_t goal) {
         std::size_t length = 0;
         std::size_t current = goal;
         while (true) {
@@ -104,15 +103,14 @@ private:
         return path;
     }
 
-    static double heuristic(const std::size_t from, const std::size_t to, const std::size_t cols, const double minCost) {
-        if (minCost <= 0.0) return 0.0;
+    static double heuristic(const std::size_t from, const std::size_t to, const std::size_t cols) {
 
         const std::size_t fromRow = from / cols;
         const std::size_t fromCol = from % cols;
         const std::size_t toRow = to / cols;
         const std::size_t toCol = to % cols;
 
-        return (std::abs(static_cast<long>(fromRow) - static_cast<long>(toRow)) +
-                std::abs(static_cast<long>(fromCol) - static_cast<long>(toCol))) * minCost;
+        return std::abs(static_cast<long>(fromRow) - static_cast<long>(toRow)) +
+            std::abs(static_cast<long>(fromCol) - static_cast<long>(toCol));
     }
 };
