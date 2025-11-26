@@ -2,9 +2,10 @@
 #define LIST_H
 
 #include <cstddef>
+#include <string>
 
 // Change it to desired type
-typedef int Data;
+typedef std::string Data;
 
 class List
 {
@@ -19,7 +20,7 @@ public:
 
         Item()
         {
-            _data = 0;
+            _data = "";
             _next = nullptr;
         }
 
@@ -56,10 +57,12 @@ public:
 
     // Inserts new list item into the beginning
     Item *insert(Data data);
+    Item *insert(int data);
 
     // Inserts new list item after the specified item
     // Inserts first element if item is null
     Item *insert_after(Item *item, Data data);
+    Item *insert_after(Item *item, int data);
 
     // Deletes the first list item.
     // Returns pointer to the item next to the deleted one.

@@ -34,6 +34,12 @@ void Stack::push(Data data)
     _list->insert(data);
 }
 
+void Stack::push(int data)
+{
+    _list->insert(data);
+}
+
+
 Data Stack::get() const
 {
     return _list->first()->data();

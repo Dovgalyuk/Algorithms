@@ -56,6 +56,13 @@ List::Item *List::insert(Data data)
     return newItem;
 }
 
+List::Item *List::insert(int data)
+{
+    Data temp = std::to_string(data);
+
+    return insert(temp);
+}
+
 List::Item *List::insert_after(Item *item, Data data)
 {
     if(item == nullptr)
@@ -67,6 +74,12 @@ List::Item *List::insert_after(Item *item, Data data)
     item->SetNext(newItem);
 
     return newItem;
+}
+
+List::Item *List::insert_after(Item *item, int data)
+{
+    Data temp = std::to_string(data);
+    return insert_after(item, temp);
 }
 
 List::Item *List::erase_first()

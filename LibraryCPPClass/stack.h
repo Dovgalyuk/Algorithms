@@ -5,7 +5,7 @@
 #include "list.h"
 
 // Change it to desired type
-typedef int Data;
+typedef std::string Data;
 
 class Stack
 {
@@ -25,6 +25,7 @@ public:
     // Pushes data on top of the stack
     // Should be O(1) on average
     void push(Data data);
+    void push(int data);
 
     // Retrieves the last element from the stack
     Data get() const;

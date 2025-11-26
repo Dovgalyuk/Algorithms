@@ -19,11 +19,11 @@ int main()
     {
         if (c == '(' || c == '[' || c == '{')
         { 
-            st.push(c); 
+            st.push(std::string(1, c)); 
         } 
         else if (c == ')' || c == ']' || c == '}') 
         { 
-            if (st.empty() || st.get() != pairs[c])
+            if (st.empty() || st.get()[0] != pairs[c])
             { 
                 isValid = false; 
                 break;

@@ -2,9 +2,9 @@
 #define ARRAY_H
 
 #include <cstddef>
-
+#include <string>
 // Change it to desired type
-typedef int Data;
+typedef std::string Data;
 
 class Array
 {

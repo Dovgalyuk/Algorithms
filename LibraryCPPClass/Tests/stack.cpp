@@ -11,7 +11,7 @@ int main()
 
     stack = stack;
 
-    if (stack.get() != 3)
+    if (stack.get() != "3")
     {
         std::cout << "Invalid stack top after push\n";
         return 1;
@@ -20,7 +20,7 @@ int main()
     std::cout << "Get: " << stack.get() << "\n";
     stack.pop();
 
-    if (stack.get() != 2)
+    if (stack.get() != "2")
     {
         std::cout << "Invalid stack top after pop\n";
         return 1;
@@ -29,7 +29,7 @@ int main()
     std::cout << "Get: " << stack.get() << "\n";
     stack.pop();
 
-    if (stack.get() != 1)
+    if (stack.get() != "1")
     {
         std::cout << "Invalid stack top after pop\n";
         return 1;
@@ -39,7 +39,7 @@ int main()
     stack.push(4);
     stack.push(5);
 
-    if (stack.get() != 5)
+    if (stack.get() != "5")
     {
         std::cout << "Invalid stack top after push\n";
         return 1;

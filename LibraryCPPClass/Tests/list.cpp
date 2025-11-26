@@ -17,7 +17,7 @@ int main()
 
     *list = *list;
 
-    if (list->first()->data() != 3)
+    if (list->first()->data() != "3")
     {
         std::cout << "list_insert error\n";
         return 1;
@@ -25,7 +25,7 @@ int main()
 
     list->insert_after(list->first(), 4);
 
-    if (list->first()->next()->data() != 4)
+    if (list->first()->next()->data() != "4")
     {
         std::cout << "list_insert_after error\n";
         return 1;
@@ -33,7 +33,7 @@ int main()
 
     list->erase_first();
 
-    if (list->first()->data() != 4)
+    if (list->first()->data() != "4")
     {
         std::cout << "list_erase error\n";
         return 1;

@@ -69,9 +69,9 @@ void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileN
         case '+':
         {
             i++;
-            
+
             if(i >= script.length()) break;
-            stack.push(script[i]);
+            stack.push(string(1,script[i]));
             break;
         }
         case '-':
@@ -98,12 +98,7 @@ void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileN
                 
             if(!stack.empty())
             {
-                char ch = (char)stack.get();
-                if (isprint(ch)) {
-                    tempValue = ch;
-                } else {
-                    tempValue = to_string(ch);
-                }
+                tempValue = stack.get();
             } 
             break;
         }
@@ -180,12 +175,7 @@ void AnnoyingScriptInterpreter(const string& fileNameScript, const string& fileN
     
     while (!temp.empty())
     {
-        char ch = (char)temp.get();
-        if (isprint(ch)) {
-            cout << ch << endl;
-        } else {
-            cout << (int)ch << endl;
-        }
+        cout << temp.get() << endl;
         temp.pop();
     }
 }
