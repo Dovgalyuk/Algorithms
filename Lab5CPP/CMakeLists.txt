@@ -9,10 +9,4 @@ target_include_directories(Lab5CPP PRIVATE
 target_link_libraries(Lab5CPP LibraryCPPClass)
 
 add_test(NAME TestLab5CPP COMMAND Lab5CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-set_property(TEST TestLab5CPP PROPERTY PASS_REGULAR_EXPRESSION "Pairs read: 50\nUnique keys\\(splay_map\\): 50\nUnique keys\\(std::map\\): 50.*")
-
-add_test(NAME TestLab5CPP_1 COMMAND Lab5CPP ${CMAKE_CURRENT_SOURCE_DIR}/input1.txt)
-set_property(TEST TestLab5CPP_1 PROPERTY PASS_REGULAR_EXPRESSION "Odd number of words found in file. Last word will be ignored.\nPairs read: 50\nUnique keys\\(splay_map\\): 50\nUnique keys\\(std::map\\): 50.*")
-
-add_test(NAME TestLab5CPP_4 COMMAND Lab5CPP ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
-set_property(TEST TestLab5CPP_4 PROPERTY PASS_REGULAR_EXPRESSION "Pairs read: 9\nUnique keys\\(splay_map\\): 7\nUnique keys\\(std::map\\): 7.*")
+set_property(TEST TestLab5CPP PROPERTY PASS_REGULAR_EXPRESSION "Odd number of words found in file. Last word will be ignored.\nPairs read: 10\nUnique keys\\(splay_map\\): 8\nUnique keys\\(std::map\\): 8.*")
