@@ -200,7 +200,6 @@ bool command_interpretation(FILE* f, Stack* stack, int* vars) {
         else if (strcmp(command, "return") == 0) {
             if(adress_checking(stack_get(stack))) {
                 stack_pop(stack);
-                return true;
             }
             else {
                 return false;
@@ -235,5 +234,6 @@ int main(int argc, char** argv) {
     free(vars);
     stack_delete(stack);
     fclose(program);
+    
     return 0;
 }
