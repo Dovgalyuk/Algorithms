@@ -138,22 +138,19 @@ void task(std::ifstream& file)
     }
 
     Vectors result = astar(graph, start_index, finish_index, cols);
+
+    std::vector<bool> isPath(rows * cols, false);
+    for(size_t i = 0; i < result.size(); i++) 
+    {
+        isPath[result[i]] = true;
+    }
+
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < cols; j++)
         {
             int index = i * cols + j;
-            bool isPath = false;
 
-            for(size_t k = 0; k < result.size(); k++) 
-            {
-                if(result[k] == index) 
-                {
-                    isPath = true;
-                    break;
-                }
-            }
-
-            if(isPath)
+            if(isPath[index])
             {
                 std::cout << "[" << matrix[i][j] << "] ";
             }
