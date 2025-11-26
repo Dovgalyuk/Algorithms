@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <climits>
 #include "queue.h"
 
 struct Point { int x, y; };
