@@ -10,7 +10,7 @@
 using namespace std;
 
 vector<pair<string, string>> gen(int n) {
-    vector<pair<string, string>> d;
+    vector<pair<string, string>> d;    
     random_device rd;
     mt19937 gen(rd());
 
@@ -59,6 +59,8 @@ void speed() {
 
 void comp() {
     vector<int> n = { 1000, 5000, 10000, 50000, 100000, 500000, 1000000 };
+    ofstream csv("performance.csv");
+    csv << "Size,RBTree,std::map" << endl;
 
     cout << "size | rbt | map" << endl;
     cout << "-----|-----|-----" << endl;
@@ -79,7 +81,9 @@ void comp() {
         auto t2 = chrono::duration_cast<chrono::microseconds>(e2 - s2);
 
         cout << s << " | " << t1.count() << " | " << t2.count() << endl;
+        csv << s << "," << t1.count() << "," << t2.count() << endl;  
     }
+    csv.close();   
 }
 
 void filetest(const string& fname) {
@@ -115,10 +119,10 @@ void filetest(const string& fname) {
 
 int main(int argc, char* argv[]) {
     if (argc > 1) {
-        filetest(argv[1]);  
+        filetest(argv[1]);
     }
     else {
-        test();            
+        test();
         speed();
         comp();
     }
