@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "stack.h"
-#include <locale.h>
 
 #define STACK_ERROR -1
 
@@ -126,7 +125,7 @@ bool command_interpretation(FILE* f, Stack* stack, int* vars) {
                     *temp = *((int*)stack_get(stack));
                     stack_pop(stack);
                     if (!stack_empty(stack)) {
-                        bool second_is_address = adress_checking(stack);
+                        bool second_is_address = adress_checking(stack_get(stack));
                         stack_push(stack, temp);  
                         if (!second_is_address) {
                 // ==============================================================
@@ -146,8 +145,10 @@ bool command_interpretation(FILE* f, Stack* stack, int* vars) {
                             return false;
                         }
                     }
-                    else 
+                    else {
+                        stack_push(stack, temp); 
                         return false;
+                    }   
                 }
                 else 
                     return false;
@@ -234,6 +235,6 @@ int main(int argc, char** argv) {
     free(vars);
     stack_delete(stack);
     fclose(program);
-    
+
     return 0;
 }
