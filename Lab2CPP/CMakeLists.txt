@@ -54,4 +54,13 @@ add_test(NAME Test11Err COMMAND ${LAB2_EXE} ${TEST_DIR}/test11err.txt)
 set_tests_properties(Test11Err PROPERTIES PASS_REGULAR_EXPRESSION "Error: return without matching invokestatic\\n?")
 
 add_test(NAME Test12 COMMAND ${LAB2_EXE} ${TEST_DIR}/test12.txt)
-set_tests_properties(Test12 PROPERTIES PASS_REGULAR_EXPRESSION "stack:.*vars:.*0.*0.*0.*0")
+set_tests_properties(Test12 PROPERTIES PASS_REGULAR_EXPRESSION "Error: invalid stack state before return\\n?")
+
+add_test(NAME Test13 COMMAND ${LAB2_EXE} ${TEST_DIR}/test13err.txt)
+set_tests_properties(Test13 PROPERTIES PASS_REGULAR_EXPRESSION "Error: invalid stack state before return\\n?")
+
+add_test(NAME Test14 COMMAND ${LAB2_EXE} ${TEST_DIR}/test14err.txt)
+set_tests_properties(Test14 PROPERTIES PASS_REGULAR_EXPRESSION "Error: not enough elements on stack\\n?")
+
+add_test(NAME Test15 COMMAND ${LAB2_EXE} ${TEST_DIR}/test15err.txt)
+set_tests_properties(Test15 PROPERTIES PASS_REGULAR_EXPRESSION "Error: empty stack\\n?")
