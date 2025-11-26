@@ -2,9 +2,9 @@
 # target_include_directories(TestArrayCPPTemplate PUBLIC ..)
 # add_test(TestArrayCPPTemplate TestArrayCPPTemplate)
 
-# add_executable(TestListCPPTemplate list.cpp)
-# target_include_directories(TestListCPPTemplate PUBLIC ..)
-# add_test(TestListCPPTemplate TestListCPPTemplate)
+add_executable(TestListCPPTemplate list.cpp)
+target_include_directories(TestListCPPTemplate PUBLIC ..)
+add_test(TestListCPPTemplate TestListCPPTemplate)
 
 # add_executable(TestQueueCPPTemplate queue.cpp)
 # target_include_directories(TestQueueCPPTemplate PUBLIC ..)
@@ -19,3 +19,8 @@
 # target_include_directories(TestVectorCPPTemplate PUBLIC ..)
 # add_test(TestVectorCPPTemplate TestVectorCPPTemplate)
 # set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
+
+add_executable(TestDirGraphCPPTemplate dirgraph.cpp)
+target_include_directories(TestDirGraphCPPTemplate PUBLIC ..)
+add_test(TestDirGraphCPPTemplate TestDirGraphCPPTemplate)
+set_tests_properties(TestDirGraphCPPTemplate PROPERTIES PASS_REGULAR_EXPRESSION "All tests passed")
