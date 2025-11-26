@@ -1,0 +1,12 @@
+bipush 10      
+bipush 5       
+istore_0       
+iload_0        
+iadd                
+bipush 3       
+imul   
+bipush 1
+bipush 2
+pop         
+swap           
+         

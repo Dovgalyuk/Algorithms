@@ -1,0 +1,4 @@
+bipush 3
+bipush 7
+invokestatic
+iadd

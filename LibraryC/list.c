@@ -114,18 +114,23 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
 ListItem *list_erase_first(List *list)
 {
-    if(list == NULL || list->first == NULL)
+    if (!list || !list->first)
         return NULL;
 
-    ListItem* temp = list->first;
-    list->first = list->first->next;
-    if (list->first != NULL)
-        list->first->previous = NULL;
+    ListItem *toDelete = list->first;
+    ListItem *next = toDelete->next;
 
-    list->freeFunc((void*)temp->value);
-    free(temp);
+    list->first = next;
 
-    return list->first;
+    if (next)
+        next->previous = NULL;
+
+    if (list->freeFunc)
+        list->freeFunc(toDelete->value);
+
+    free(toDelete);
+
+    return next;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
@@ -148,5 +153,5 @@ ListItem *list_erase_next(List *list, ListItem *item)
     list->freeFunc((void*)to_delete->value);
     free(to_delete);
 
-    return item->next;
+    return item->next; 
 }

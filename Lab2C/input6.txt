@@ -1,0 +1,4 @@
+bipush 6
+bipush 9
+invokestatic
+istore_0
