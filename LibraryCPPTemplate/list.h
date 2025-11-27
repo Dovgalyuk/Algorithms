@@ -2,6 +2,7 @@
 #define LIST_TEMPLATE_H
 
 #include <memory>
+#include <stdexcept>
 
 template <typename Data>
 class List
@@ -28,7 +29,8 @@ public:
         Item(Node* n = nullptr) : node(n) {}
 
         Item* next() {
-            return (node && node->next) ? new Item(node->next.get()) : nullptr;
+            if (!node || !node->next) return nullptr;
+            return new Item(node->next.get());
         }
 
         Data& data() {
@@ -40,6 +42,10 @@ public:
         }
 
         Node* getNode() const { return node; }
+
+        static void deleteItem(Item* item) {
+            delete item;
+        }
     };
 
     List() : head(nullptr), list_size(0) {}
@@ -123,6 +129,50 @@ public:
             current = current->next.get();
         }
         return false;
+    }
+
+    class Iterator {
+    private:
+        Item* current;
+
+    public:
+        Iterator(Item* start = nullptr) : current(start) {}
+        ~Iterator() {
+            if (current) {
+                Item::deleteItem(current);
+            }
+        }
+
+        bool hasNext() const { return current != nullptr; }
+
+        Data& next() {
+            if (!current) throw std::runtime_error("No more items");
+            Data& result = current->data();
+            Item* next_item = current->next();
+            Item::deleteItem(current);
+            current = next_item;
+            return result;
+        }
+
+        Iterator(const Iterator&) = delete;
+        Iterator& operator=(const Iterator&) = delete;
+
+        Iterator(Iterator&& other) noexcept : current(other.current) {
+            other.current = nullptr;
+        }
+
+        Iterator& operator=(Iterator&& other) noexcept {
+            if (this != &other) {
+                if (current) Item::deleteItem(current);
+                current = other.current;
+                other.current = nullptr;
+            }
+            return *this;
+        }
+    };
+
+    Iterator getIterator() {
+        return Iterator(first());
     }
 };
 
