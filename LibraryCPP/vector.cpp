@@ -42,16 +42,15 @@ size_t vector_size(const Vector* vector)
     return vector->size;
 }
 
-void vector_resize(Vector* vector, size_t new_size)
-{
-    if (new_size <= vector->capacity) {
-        vector->size = new_size;
+void vector_resize(Vector* vector, size_t size) {
+    if (size <= vector->capacity) {
+        vector->size = size;
         return;
     }
 
-    size_t new_capacity = (vector->capacity == 0) ? 1 : vector->capacity * 2;
-    if (new_capacity < new_size) {
-        new_capacity = new_size;
+    size_t new_capacity = vector->capacity == 0 ? 1 : vector->capacity;
+    while (new_capacity < size) {
+        new_capacity *= 2;
     }
 
     Data* new_data = new Data[new_capacity];
@@ -60,12 +59,12 @@ void vector_resize(Vector* vector, size_t new_size)
         new_data[i] = vector->data[i];
     }
 
-    for (size_t i = vector->size; i < new_size; i++) {
+    for (size_t i = vector->size; i < size; i++) {
         new_data[i] = 0;
     }
 
     delete[] vector->data;
     vector->data = new_data;
-    vector->size = new_size;
+    vector->size = size;
     vector->capacity = new_capacity;
 }
