@@ -82,7 +82,7 @@ void task(std::ifstream& file) {
         if (line.empty()) break;
         if (width == 0) width = line.size();
         maze_str += line;
-        for (int x = 0; x < width; ++x) {
+        for (size_t x = 0; x < width; ++x) {
             if (line[x] == 'X') {
                 start = Point(static_cast<int>(x), static_cast<int>(height));
             }
