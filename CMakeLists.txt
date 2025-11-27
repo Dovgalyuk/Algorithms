@@ -16,3 +16,4 @@ endif()
 add_subdirectory(LibraryCPPTemplate)
 
 add_subdirectory(Lab1CPPTemplate)
+add_subdirectory(Lab2CPPTemplate)
