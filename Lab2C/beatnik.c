@@ -108,6 +108,111 @@ int main(int argc, char **argv)
                     case 9:
                         i = len + 1;
                         break;
+                    case 12:
+                        if (!stack_empty(stack)) {
+                            const unsigned char b = (unsigned char)(uintptr_t)stack_get(stack);
+                            stack_pop(stack);
+                            if (!stack_empty(stack)) {
+                                const unsigned char a = (unsigned char)(uintptr_t)stack_get(stack);
+                                stack_pop(stack);
+                                stack_push(stack, (Data)(uintptr_t)(unsigned char)(a + b));
+                            } else {
+                                stack_push(stack, (Data)(uintptr_t)b);
+                            }
+                        }
+                        break;
+                    case 13: {
+                        int num;
+                        if (fscanf(input, "%d", &num) == 1) {
+                            stack_push(stack, (Data)(uintptr_t)(unsigned char)num);
+                        }
+                        break; }
+                    case 14:
+                        if (!stack_empty(stack)) {
+                            unsigned char b = (unsigned char)(uintptr_t)stack_get(stack);
+                            stack_pop(stack);
+                            if (!stack_empty(stack)) {
+                                unsigned char a = (unsigned char)(uintptr_t)stack_get(stack);
+                                stack_pop(stack);
+                                stack_push(stack, (Data)(uintptr_t)(unsigned char)(a - b));
+                            } else {
+                                stack_push(stack, (Data)(uintptr_t)b);
+                            }
+                        }
+                        break;
+                    case 15:
+                        if (!stack_empty(stack)) {
+                            unsigned char b = (unsigned char)(uintptr_t)stack_get(stack);
+                            stack_pop(stack);
+                            if (!stack_empty(stack)) {
+                                unsigned char a = (unsigned char)(uintptr_t)stack_get(stack);
+                                stack_pop(stack);
+                                if (b != 0) {
+                                    stack_push(stack, (Data)(uintptr_t)(unsigned char)(a / b));
+                                } else {
+                                    stack_push(stack, (Data)(uintptr_t)a);
+                                    stack_push(stack, (Data)(uintptr_t)b);
+                                }
+                            } else {
+                                stack_push(stack, (Data)(uintptr_t)b);
+                            }
+                        }
+                        break;
+                    case 16:
+                        if (!stack_empty(stack)) {
+                            unsigned char b = (unsigned char)(uintptr_t)stack_get(stack);
+                            stack_pop(stack);
+                            if (!stack_empty(stack)) {
+                                unsigned char a = (unsigned char)(uintptr_t)stack_get(stack);
+                                stack_pop(stack);
+                                stack_push(stack, (Data)(uintptr_t)(unsigned char)(a * b));
+                            } else {
+                                stack_push(stack, (Data)(uintptr_t)b);
+                            }
+                        }
+                        break;
+                    case 17:
+                        if (!stack_empty(stack)) {
+                            unsigned char b = (unsigned char)(uintptr_t)stack_get(stack);
+                            stack_pop(stack);
+                            if (!stack_empty(stack)) {
+                                unsigned char a = (unsigned char)(uintptr_t)stack_get(stack);
+                                stack_pop(stack);
+                                if (b != 0) {
+                                    stack_push(stack, (Data)(uintptr_t)(unsigned char)(a % b));
+                                } else {
+                                    stack_push(stack, (Data)(uintptr_t)a);
+                                    stack_push(stack, (Data)(uintptr_t)b);
+                                }
+                            } else {
+                                stack_push(stack, (Data)(uintptr_t)b);
+                            }
+                        }
+                        break;
+                    case 18: case 19: case 20: case 21: case 22:
+                        if (!stack_empty(stack)) {
+                            unsigned char top = (unsigned char)(uintptr_t)stack_get(stack);
+                            if (top == 0) {
+                                wi = 0;
+                                while (i < len && (isalpha((unsigned char)buf[i]) ||
+                                       (!isalpha((unsigned char)buf[i]) && wi == 0))) {
+                                    if (isalpha((unsigned char)buf[i])) {
+                                        wi = 1;
+                                    } else if (wi > 0) {
+                                        break;
+                                    }
+                                    i++;
+                                }
+                            }
+                        }
+                        break;
+                    case 23:
+                        if (!stack_empty(stack)) {
+                            unsigned char num = (unsigned char)(uintptr_t)stack_get(stack);
+                            printf("%d", (int)num);
+                            stack_pop(stack);
+                        }
+                        break;
                     default:
                         break;
                 }
