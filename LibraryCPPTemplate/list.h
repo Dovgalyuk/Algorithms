@@ -1,76 +1,129 @@
 #ifndef LIST_TEMPLATE_H
 #define LIST_TEMPLATE_H
 
-template <typename Data> class List
+#include <memory>
+
+template <typename Data>
+class List
 {
+private:
+    struct Node
+    {
+        Data data;
+        std::unique_ptr<Node> next;
+
+        Node(const Data& d) : data(d), next(nullptr) {}
+    };
+
+    std::unique_ptr<Node> head;
+    size_t list_size;
+
 public:
     class Item
     {
-    public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
     private:
-        // internal data here
+        Node* node;
+
+    public:
+        Item(Node* n = nullptr) : node(n) {}
+
+        Item* next() {
+            return (node && node->next) ? new Item(node->next.get()) : nullptr;
+        }
+
+        Data& data() {
+            return node->data;
+        }
+
+        const Data& data() const {
+            return node->data;
+        }
+
+        Node* getNode() const { return node; }
     };
 
-    // Creates new list
-    List()
-    {
+    List() : head(nullptr), list_size(0) {}
+
+    List(const List& other) : head(nullptr), list_size(0) {
+        Node* current = other.head.get();
+        while (current) {
+            insert(current->data);
+            current = current->next.get();
+        }
     }
 
-    // copy constructor
-    List(const List &a)
-    {
-    }
-
-    // assignment operator
-    List &operator=(const List &a)
-    {
+    List& operator=(const List& other) {
+        if (this != &other) {
+            head = nullptr;
+            list_size = 0;
+            Node* current = other.head.get();
+            while (current) {
+                insert(current->data);
+                current = current->next.get();
+            }
+        }
         return *this;
     }
 
-    // Destroys the list and frees the memory
-    ~List()
-    {
+    ~List() = default;
+
+    Item* first() {
+        return head ? new Item(head.get()) : nullptr;
     }
 
-    // Retrieves the first item from the list
-    Item *first()
-    {
-        return nullptr;
+    Item* first() const {
+        return head ? new Item(head.get()) : nullptr;
     }
 
-    // Inserts new list item into the beginning
-    Item *insert(Data data)
-    {
-        return nullptr;
+    Item* insert(Data data) {
+        auto new_node = std::make_unique<Node>(data);
+        new_node->next = std::move(head);
+        head = std::move(new_node);
+        list_size++;
+        return new Item(head.get());
     }
 
-    // Inserts new list item after the specified item
-    // Inserts first element if item is null
-    Item *insert_after(Item *item, Data data)
-    {
-        return nullptr;
+    Item* insert_after(Item* item, Data data) {
+        if (!item || !item->getNode()) {
+            return insert(data);
+        }
+
+        auto new_node = std::make_unique<Node>(data);
+        new_node->next = std::move(item->getNode()->next);
+        item->getNode()->next = std::move(new_node);
+        list_size++;
+        return new Item(item->getNode()->next.get());
     }
 
-    // Deletes the first list item.
-    // Returns pointer to the item next to the deleted one.
-    Item *erase_first()
-    {
-        return nullptr;
+    Item* erase_first() {
+        if (!head) return nullptr;
+
+        head = std::move(head->next);
+        list_size--;
+        return head ? new Item(head.get()) : nullptr;
     }
 
-    // Deletes the list item following the specified one.
-    // Deletes the first element when item is null.
-    // Returns pointer to the item next to the deleted one.
-    // Should be O(1)
-    Item *erase_next(Item *item)
-    {
-        return nullptr;
+    Item* erase_next(Item* item) {
+        if (!item || !item->getNode() || !item->getNode()->next) {
+            return erase_first();
+        }
+
+        item->getNode()->next = std::move(item->getNode()->next->next);
+        list_size--;
+        return item->getNode()->next ? new Item(item->getNode()->next.get()) : nullptr;
     }
-private:
-    // private data should be here
+
+    bool empty() const { return !head; }
+    size_t size() const { return list_size; }
+
+    bool contains(const Data& data) const {
+        Node* current = head.get();
+        while (current) {
+            if (current->data == data) return true;
+            current = current->next.get();
+        }
+        return false;
+    }
 };
 
 #endif
