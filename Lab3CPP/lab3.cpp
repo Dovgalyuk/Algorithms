@@ -29,14 +29,13 @@ void lab3(const std::string& filename) {
     bool** visited = new bool* [rowscol];
 
     for (int i = 0; i < rowscol; i++) {
-        pole[i] = new char[rowscol+1];
+        pole[i] = new char[rowscol];
         visited[i] = new bool[rowscol];
         std::getline(file, line);
         for (int j = 0; j < rowscol; j++) {
             pole[i][j] = line[j];
             visited[i][j] = false;
         }
-        pole[i][rowscol] = '\0';
     }
     file.close();
 
@@ -80,7 +79,7 @@ void lab3(const std::string& filename) {
                 std::cout << pole[i][j];
             }
         }
-
+        std::cout << std::endl;
     }
 
     queue_delete(queue);
