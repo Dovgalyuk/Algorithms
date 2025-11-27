@@ -36,20 +36,19 @@ public:
     {
         size_t new_index = vertex_labels_.size();
         size_t new_size = new_index + 1;
+
         vertex_labels_.resize(new_size);
-        vertex_labels_.set(new_index, label);
+        vertex_labels_[new_index] = label;
 
         for (size_t i = 0; i < new_index; ++i)
         {
-            Vector<Edge> row = adj_matrix_.get(i);
-            row.resize(new_size);
-            adj_matrix_.set(i, row);
+            adj_matrix_[i].resize(new_size); 
         }
 
         Vector<Edge> new_row;
         new_row.resize(new_size);
         adj_matrix_.resize(new_size);
-        adj_matrix_.set(new_index, new_row);
+        adj_matrix_[new_index] = new_row;
 
         return new_index;
     }
@@ -61,49 +60,40 @@ public:
 
         for (size_t i = index; i < current_size - 1; ++i)
         {
-            vertex_labels_.set(i, vertex_labels_.get(i + 1));
+            vertex_labels_[i] = vertex_labels_[i + 1];
         }
         vertex_labels_.resize(current_size - 1);
 
         for (size_t i = index; i < current_size - 1; ++i)
         {
-            adj_matrix_.set(i, adj_matrix_.get(i + 1));
+            adj_matrix_[i] = adj_matrix_[i + 1];
         }
         adj_matrix_.resize(current_size - 1);
 
         for (size_t i = 0; i < adj_matrix_.size(); ++i)
         {
-            Vector<Edge> row = adj_matrix_.get(i);
+            Vector<Edge>& row = adj_matrix_[i];
             for (size_t j = index; j < row.size() - 1; ++j)
             {
-                row.set(j, row.get(j + 1));
+                row[j] = row[j + 1];
             }
             row.resize(row.size() - 1);
-            adj_matrix_.set(i, row);
         }
     }
 
     void add_edge(size_t from, size_t to, const ELabel& label)
     {
         if (from >= vertex_count() || to >= vertex_count()) return;
-
-        Vector<Edge> row = adj_matrix_.get(from);
-        Edge e;
+        Edge& e = adj_matrix_[from][to];
         e.exists = true;
         e.label = label;
-        row.set(to, e);
-        adj_matrix_.set(from, row);
     }
 
     void remove_edge(size_t from, size_t to)
     {
         if (from >= vertex_count() || to >= vertex_count()) return;
-
-        Vector<Edge> row = adj_matrix_.get(from);
-        Edge e = row.get(to);
+        Edge& e = adj_matrix_[from][to];
         e.exists = false;
-        row.set(to, e);
-        adj_matrix_.set(from, row);
     }
 
     bool has_edge(size_t from, size_t to) const
