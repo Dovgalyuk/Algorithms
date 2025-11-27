@@ -37,12 +37,12 @@ int main(int argc, char* argv[]) {
 
     for (size_t i = 0; i < M; ++i)
     {
-        string uName, vName;
+        string fName, tName;
         int w;
-        input >> uName >> vName >> w;
+        input >> fName >> tName >> w;
 
-        size_t u = find_vertex(names, N, uName);
-        size_t v = find_vertex(names, N, vName);
+        size_t u = find_vertex(names, N, fName);
+        size_t v = find_vertex(names, N, tName);
 
         g.add_edge(u, v, w);
     }
@@ -66,8 +66,7 @@ int main(int argc, char* argv[]) {
     dist[start] = 0;
 
     PriorityQueue* pq = pqueue_create();
-    pqueue_set_dist(pq, dist);
-    pqueue_push(pq, static_cast<int>(start));
+    pqueue_push(pq, static_cast<int>(start), dist[start]);
 
     while (!pqueue_empty(pq))
     {
@@ -83,7 +82,7 @@ int main(int argc, char* argv[]) {
             {
                 dist[v] = dist[u] + w;
                 parent[v] = u;
-                pqueue_push(pq, static_cast<int>(v));
+                pqueue_push(pq, static_cast<int>(v), dist[v]);
             }
 
             it.next();
@@ -113,20 +112,12 @@ int main(int argc, char* argv[]) {
         cur = static_cast<size_t>(parent[cur]);
     }
 
-    for (size_t i = 0; i < len / 2; ++i)
-    {
-        size_t j = len - 1 - i;
-        size_t tmp = path[i];
-        path[i] = path[j];
-        path[j] = tmp;
-    }
-
     cout << dist[finish] << "\n";
 
-    for (size_t i = 0; i < len; ++i)
+    for (size_t i = len; i > 0; --i)
     {
-        cout << names[path[i]];
-        if (i + 1 < len)
+        cout << names[path[i - 1]];
+        if (i > 1)
             cout << " ";
     }
     cout << "\n";

@@ -1,6 +1,5 @@
 #include <iostream>
 #include "pqueue.h"
-#include "vector.h"
 
 int main()
 {
@@ -13,12 +12,9 @@ int main()
 
     int dist1[3] = { 5, 3, 7 };
 
-    pqueue_set_dist(pq, dist1);
-
-    pqueue_push(pq, 0);
-    pqueue_push(pq, 1);
-    pqueue_push(pq, 2);
-
+    pqueue_push(pq, 0, dist1[0]); 
+    pqueue_push(pq, 1, dist1[1]); 
+    pqueue_push(pq, 2, dist1[2]); 
 
     int a = pqueue_pop(pq);
     if (a != 1)
@@ -49,14 +45,11 @@ int main()
 
     int dist2[5] = { 10, 8, 6, 4, 2 };
 
-    pqueue_set_dist(pq, dist2);
-
-    pqueue_push(pq, 0);
-    pqueue_push(pq, 1);
-    pqueue_push(pq, 2);
-    pqueue_push(pq, 3);
-    pqueue_push(pq, 4);
-
+    pqueue_push(pq, 0, dist2[0]);
+    pqueue_push(pq, 1, dist2[1]);
+    pqueue_push(pq, 2, dist2[2]);
+    pqueue_push(pq, 3, dist2[3]);
+    pqueue_push(pq, 4, dist2[4]);
 
     int expected_order[5] = { 4, 3, 2, 1, 0 };
     for (int i = 0; i < 5; i++)
@@ -77,11 +70,10 @@ int main()
     }
 
     int dist3[4] = { 100, 90, 80, 70 };
-    pqueue_set_dist(pq, dist3);
 
-    pqueue_push(pq, 2);
-    pqueue_push(pq, 0);
-    pqueue_push(pq, 1);
+    pqueue_push(pq, 2, dist3[2]);
+    pqueue_push(pq, 0, dist3[0]);
+    pqueue_push(pq, 1, dist3[1]);
 
     int x1 = pqueue_pop(pq);
     int x2 = pqueue_pop(pq);
