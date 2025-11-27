@@ -1,3 +1,3 @@
-add_library(LibraryCPPClass STATIC stack.cpp "myvector.cpp")
+add_library(LibraryCPPClass STATIC "myvector.cpp" "queue.cpp" "list.cpp")
 
 add_subdirectory(Tests)

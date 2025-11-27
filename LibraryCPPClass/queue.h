@@ -2,7 +2,7 @@
 #define QUEUE_H
 
 #include <cstddef>
-
+#include "list.h"
 // Change it to desired type
 typedef int Data;
 
@@ -37,6 +37,9 @@ public:
 
 private:
     // private data should be here
+    List list;
+    List::Item* tail;
+
 };
 
 #endif
