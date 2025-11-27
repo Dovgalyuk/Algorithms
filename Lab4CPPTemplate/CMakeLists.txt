@@ -4,4 +4,4 @@ target_include_directories(Lab4CPPTemplate PUBLIC ../LibraryCPPTemplate)
 add_test(NAME TestLab4CPPTemplate
          COMMAND Lab4CPPTemplate ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 set_tests_properties(TestLab4CPPTemplate PROPERTIES
-    PASS_REGULAR_EXPRESSION "Total cost: 7")
+    PASS_REGULAR_EXPRESSION "Total cost: 7(.|\\n)+Path: A1 -> A2 -> A3 -> B3 -> C3 -> C4")

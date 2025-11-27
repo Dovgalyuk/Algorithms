@@ -143,7 +143,10 @@ int main(int argc, char** argv)
     {
         for (size_t c = 0; c < cols; ++c)
         {
-            graph.set_vertex_label(cell_index(r, c, cols), "cell_" + std::to_string(r) + "_" + std::to_string(c));
+            char row_char = static_cast<char>('A' + (r % 26));
+            std::string label(1, row_char);
+            label += std::to_string(c + 1);
+            graph.set_vertex_label(cell_index(r, c, cols), label);
         }
     }
 
