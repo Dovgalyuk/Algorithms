@@ -30,8 +30,8 @@ void merge_sort(Vector* v) {
 
     constexpr size_t MAXN = 200000;
 
-    stack_push(st, (Data)(0 * MAXN + n));  // (left,right)
-    stack_push(st, (Data)(0 * 10 + 0));    // (mid,stage=0 — split)
+    stack_push(st, (Data)(0 * MAXN + n));  
+    stack_push(st, (Data)(0 * 10 + 0)); 
 
     while (!stack_empty(st)) {
 
@@ -48,14 +48,13 @@ void merge_sort(Vector* v) {
         int stage = packed_info % 10;
 
         if (stage == 0) {
-            // Разделяем
             if (right - left <= 1)
                 continue;
 
             mid = left + (right - left) / 2;
 
             stack_push(st, (Data)(left * MAXN + right));
-            stack_push(st, (Data)(mid * 10 + 1)); // stage=1 = MERGE
+            stack_push(st, (Data)(mid * 10 + 1));
 
             stack_push(st, (Data)(mid * MAXN + right));
             stack_push(st, (Data)(0 * 10 + 0));
@@ -64,7 +63,6 @@ void merge_sort(Vector* v) {
             stack_push(st, (Data)(0 * 10 + 0));
         }
         else {
-            // stage == 1 → MERGE
             merge(v, left, mid, right, temp);
         }
     }
