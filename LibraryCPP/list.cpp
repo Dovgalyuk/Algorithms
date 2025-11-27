@@ -1,61 +1,105 @@
-#include <cstddef>
 #include "list.h"
 
-struct ListItem
-{
-};
+void List::copy(const List &other) {
+    Item *current = other._head;
+    Item *prev_copy = nullptr;
 
-struct List
-{
-};
+    while (current != nullptr) {
+        Item *new_item = new Item(current->data());
 
-List *list_create()
-{
-    return new List;
+        if (prev_copy == nullptr) {
+            _head = new_item;
+        } else {
+            prev_copy->setNext(new_item);
+            new_item->setPrev(prev_copy);
+        }
+
+        prev_copy = new_item;
+        current = current->next();
+    }
 }
 
-void list_delete(List *list)
-{
-    // TODO: free items
-    delete list;
+List::List() : _head(nullptr) {}
+
+List::List(const List &a) : _head(nullptr) { copy(a); }
+
+List &List::operator=(const List &a) {
+    if (this != &a) {
+        while (_head) {
+            erase_first();
+        }
+
+        copy(a);
+    }
+    return *this;
 }
 
-ListItem *list_first(List *list)
-{
-    return NULL;
+List::~List() {
+    while (_head != nullptr) {
+        erase_first();
+    }
 }
 
-Data list_item_data(const ListItem *item)
-{
-    return (Data)0;
+List::Item *List::first() { return _head; }
+const List::Item *List::first() const { return _head; }
+
+List::Item *List::insert(Data data) {
+    Item *new_item = new Item(data, _head);
+
+    if (_head != nullptr) {
+        _head->setPrev(new_item);
+    }
+
+    _head = new_item;
+    return new_item;
 }
 
-ListItem *list_item_next(ListItem *item)
-{
-    return NULL;
+List::Item *List::insert_after(Item *item, Data data) {
+    if (item == nullptr) {
+        return insert(data);
+    }
+
+    Item *new_item = new Item(data, item->next(), item);
+    if (item->next() != nullptr) {
+        item->next()->setPrev(new_item);
+    }
+
+    item->setNext(new_item);
+    return new_item;
 }
 
-ListItem *list_item_prev(ListItem *item)
-{
-    return NULL;
+List::Item *List::erase_first() {
+    if (_head == nullptr) {
+        return nullptr;
+    }
+
+    Item *old_head = _head;
+    _head = _head->next();
+
+    if (_head != nullptr) {
+        _head->setPrev(nullptr);
+    }
+
+    delete old_head;
+    return _head;
 }
 
-ListItem *list_insert(List *list, Data data)
-{
-    return NULL;
-}
+List::Item *List::erase_next(Item *item) {
+    if (item == nullptr) {
+        return erase_first();
+    }
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    return NULL;
-}
+    if (item->next() == nullptr) {
+        return nullptr;
+    }
 
-ListItem *list_erase_first(List *list)
-{
-    return NULL;
-}
+    Item *to_delete = item->next();
+    item->setNext(to_delete->next());
 
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    return NULL;
+    if (to_delete->next() != nullptr) {
+        to_delete->next()->setPrev(item);
+    }
+
+    delete to_delete;
+    return item->next();
 }
