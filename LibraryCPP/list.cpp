@@ -116,3 +116,6 @@ ListItem *list_erase_next(List *list, ListItem *item) {
     list->size--;
     return next_item;
 }
+ListItem *list_insert_end(List *list, Data data) {
+    return list_insert_after(list, list->tail, data);
+}

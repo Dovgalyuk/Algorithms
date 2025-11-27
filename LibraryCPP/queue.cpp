@@ -37,3 +37,7 @@ void queue_remove(Queue *queue) {
 bool queue_empty(const Queue *queue) {
     return !list_first(queue->list);  // Пустой, если нет первого элемента
 }
+
+void queue_insert(Queue *queue, Data data) {
+    list_insert_end(queue->list, data);  // Вставка в конец без знания tail
+}
