@@ -27,8 +27,8 @@ int main(int argc, char** argv) {
         Vector matrix;
         matrix.resize(n * n);
 
-        for (size_t i = 0; i < n; i++) {
-            for (size_t j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 int x;
                 input >> x;
                 matrix.set(i * n + j, x);
@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
         Vector dist;
         dist.resize(n);
 
-        for (size_t i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             dist.set(i, -1);
         }
 
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
             int v = q.get();
             q.remove();
 
-            for (size_t u = 0; u < n; u++) {
+            for (int u = 0; u < n; u++) {
                 if (matrix.get(v * n + u) != 0 && dist.get(u) == -1) {
                     dist.set(u, dist.get(v) + 1);
                     q.insert((Data)u);
