@@ -2,6 +2,7 @@
 #define STACK_TEMPLATE_H
 
 #include "list.h"
+#include <stdexcept>
 
 template <typename Data> class Stack
 {
