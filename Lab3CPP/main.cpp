@@ -33,6 +33,10 @@ vector<string> read_maze(const string& filename, int& start_q, int& start_r) {
                 start_q = q;
                 start_r = r;
                 maze[r][q] = '.';
+            } else if (maze[r][q] == 'E') {  // для E
+                end_q = q;
+                end_r = r;
+                maze[r][q] = '.';  // Освободить для прохода
             }
         }
     }
@@ -68,7 +72,7 @@ int bfs_hex(const vector<string>& maze, int start_q, int start_r) {
         int cq = code / 1000;
         int cr = code % 1000;
         int cd = dist[cr][cq];
-        if (maze[cr][cq] == 'E') return cd;
+        if (cr == end_r && cq == end_q) return cd;
 
         for (int d = 0; d < 6; ++d) {
             int nq = cq + dirs[d][0];
@@ -86,8 +90,8 @@ int bfs_hex(const vector<string>& maze, int start_q, int start_r) {
 
 int main(int argc, char* argv[]) {
     string input_filename = (argc > 1) ? argv[1] : "input.txt";
-    int start_q = 0, start_r = 0;
-    auto maze = read_maze(input_filename, start_q, start_r);
+    int start_q = 0, start_r = 0, end_q = 0, end_r = 0;
+    auto maze = read_maze(input_filename, start_q, start_r, end_q, end_r);
     int path_len = bfs_hex(maze, start_q, start_r);
     cout << path_len << endl;
     return 0;
