@@ -1,34 +1,34 @@
 #include "queue.h"
+#include "list.h"
 
-struct Queue
-{
+struct Queue {
+    List *list;
 };
 
-Queue *queue_create()
-{
-    return new Queue;
+Queue *queue_create() {
+    Queue *queue = new Queue;
+    queue->list = list_create();
+    return queue;
 }
 
-void queue_delete(Queue *queue)
-{
-    // TODO: free queue items
+void queue_delete(Queue *queue) {
+    list_delete(queue->list);
     delete queue;
 }
 
-void queue_insert(Queue *queue, Data data)
-{
+void queue_insert(Queue *queue, Data data) {
+    list_insert_after(queue->list, nullptr, data);  // Вставка в конец
 }
 
-Data queue_get(const Queue *queue)
-{
-    return (Data)0;
+Data queue_get(const Queue *queue) {
+    ListItem *first = list_first(queue->list);
+    return list_item_data(first);
 }
 
-void queue_remove(Queue *queue)
-{
+void queue_remove(Queue *queue) {
+    list_erase_first(queue->list);  // Удаление из начала
 }
 
-bool queue_empty(const Queue *queue)
-{
-    return true;
+bool queue_empty(const Queue *queue) {
+    return !list_first(queue->list);  // Пустой, если нет первого элемента
 }
