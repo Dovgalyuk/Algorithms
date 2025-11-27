@@ -44,3 +44,9 @@ bool stack_empty(const Stack *stack)
 {
     return !stack || list_first(stack->list) == NULL;
 }
+
+size_t stack_size(const Stack *stack)
+{
+    if (!stack) return 0;
+    return list_size(stack->list);
+}

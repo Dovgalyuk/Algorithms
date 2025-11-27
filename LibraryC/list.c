@@ -121,3 +121,13 @@ ListItem *list_erase_next(List *list, ListItem *item)
     list_free_item(list, to_delete);
     return next;
 }
+
+size_t list_size(const List *list)
+{
+    if (!list) return 0;
+    size_t count = 0;
+    for (ListItem *it = list->head; it; it = it->next) {
+        count++;
+    }
+    return count;
+}

@@ -47,6 +47,9 @@ ListItem *list_erase_first(List *list);
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);
 
+// Returns the number of elements in the list
+size_t list_size(const List *list);
+
 #ifdef __cplusplus
 }
 #endif

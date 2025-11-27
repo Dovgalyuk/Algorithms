@@ -35,7 +35,7 @@ add_test(NAME BeatnikSubtraction COMMAND BeatnikC ${CMAKE_CURRENT_SOURCE_DIR}/re
 set_property(TEST BeatnikSubtraction PROPERTY PASS_REGULAR_EXPRESSION "^[\\s\\x00]*$")
 
 add_test(NAME BeatnikMultiplication COMMAND BeatnikC ${CMAKE_CURRENT_SOURCE_DIR}/resources/multiplication_script.txt ${CMAKE_CURRENT_SOURCE_DIR}/resources/multiplication_input.txt)
-set_property(TEST BeatnikMultiplication PROPERTY PASS_REGULAR_EXPRESSION "d")
+set_property(TEST BeatnikMultiplication PROPERTY PASS_REGULAR_EXPRESSION "p")
 
 add_test(NAME BeatnikDivision COMMAND BeatnikC ${CMAKE_CURRENT_SOURCE_DIR}/resources/division_script.txt ${CMAKE_CURRENT_SOURCE_DIR}/resources/division_input.txt)
 set_property(TEST BeatnikDivision PROPERTY PASS_REGULAR_EXPRESSION "^[\\s\\x00]*$")
