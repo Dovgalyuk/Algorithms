@@ -40,13 +40,17 @@ void cmp_with_random(int size)
 
     auto start = chrono::high_resolution_clock::now();
     Map splay_map;
+
     for(const auto& pair : test) splay_map.insert(pair.first, pair.second);
+
     auto end = chrono::high_resolution_clock::now();
     long long splay_time = chrono::duration_cast<chrono::microseconds>(end - start).count();
 
     start = chrono::high_resolution_clock::now();
     map<string, string> std_map;
+
     for(const auto& pair : test) std_map.insert(pair);
+    
     end = chrono::high_resolution_clock::now();
     long long std_time   = chrono::duration_cast<chrono::microseconds>(end - start).count();
 
@@ -56,7 +60,7 @@ void cmp_with_random(int size)
 
 void cmp()
 {
-    vector<size_t> sizes = {1000, 5000, 10000, 50000, 100000, 1000000, 10000000};
+    vector<size_t> sizes = {1000, 5000, 10000, 50000, 100000, 1000000, 5000000, 10000000};
 
     for(int s : sizes)
     {
@@ -85,120 +89,148 @@ void print_time()
     }
 }
 
-vector<long long> smooth(const vector<long long>& vals, int pts)
-{
-    vector<long long> result;
-    for(size_t i = 0; i < vals.size() - 1; i++)
-    {
-        result.push_back(vals[i]);
-        for(int j = 1; j < pts; j++)
-        {
-            long long s = vals[i] + (vals[i+1] - vals[i]) * j / pts;
-            result.push_back(s);
-        }
-    }
-    result.push_back(vals.back());
-    return result;
+
+
+int size_to_x(long long size, long long minSize, long long maxSize, int WIDTH) {
+    return 1 + int((size - minSize) * (WIDTH - 3) / double(maxSize - minSize));
 }
 
-void print_graph()
+int time_to_y(long long t, long long max_time, int HEIGHT) {
+    int y = HEIGHT - 2 - int(t * (HEIGHT - 3) / double(max_time));
+    if (y < 0) y = 0;
+    if (y > HEIGHT - 1) y = HEIGHT - 1;
+    return y;
+}
+
+void plot_series(const vector<long long>& sizes, const vector<long long>& times, char symbol,
+vector<vector<char>>& field, long long minSize, long long maxSize, long long max_time,
+int WIDTH, int HEIGHT) 
 {
-    vector<size_t> sizes;
-    vector<long long> splay_times;
-    vector<long long> std_times;
-    
+    if (sizes.empty()) return;
+
+    for (size_t i = 0; i < sizes.size(); i++) {
+        int x = size_to_x(sizes[i], minSize, maxSize, WIDTH);
+        int y = time_to_y(times[i], max_time, HEIGHT);
+
+        if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT) {
+            if (field[y][x] == ' ') field[y][x] = symbol;
+
+            else if (field[y][x] != symbol && field[y][x] != 'X') field[y][x] = 'X';
+        }
+
+        if (i + 1 < sizes.size()) {
+            int x2 = size_to_x(sizes[i + 1], minSize, maxSize, WIDTH);
+            long long t1 = times[i], t2 = times[i + 1];
+            int dx = x2 - x;
+            int steps = std::abs(dx);
+            
+            if (steps == 0) continue;
+            
+            for (int j = 1; j < steps; j++) {
+                int xi = x + (dx > 0 ? j : -j);
+                double frac = j / double(steps);
+                long long ti = llround(t1 + (t2 - t1) * frac);
+                int yi = time_to_y(ti, max_time, HEIGHT);
+                
+                if (xi >= 0 && xi < WIDTH && yi >= 0 && yi < HEIGHT) {
+                    if (field[yi][xi] == ' ') field[yi][xi] = symbol;
+
+                    else if (field[yi][xi] != symbol && field[yi][xi] != 'X') field[yi][xi] = 'X';
+                }
+            }
+        }
+    }
+}
+
+void print_graph() {
+    vector<long long> sizes_splay, splay_times;
+    vector<long long> sizes_std, std_times;
+
     for (auto& r : res) {
         if (r.l.find("(file)") != string::npos) continue;
-        
         size_t start = r.l.find('(') + 1;
         size_t end = r.l.find(')');
-        if (start != string::npos && end != string::npos) {
-            int size = stoi(r.l.substr(start, end - start));
-            
+        if (start != string::npos && end != string::npos && end > start) {
+            long long size = stoll(r.l.substr(start, end - start));
             if (r.l.find("Splay") != string::npos) {
-                sizes.push_back(size);
+                sizes_splay.push_back(size);
                 splay_times.push_back(r.time);
             } else if (r.l.find("std::map") != string::npos) {
+                sizes_std.push_back(size);
                 std_times.push_back(r.time);
             }
         }
     }
 
-    if (sizes.empty()) return;
+    if (sizes_splay.empty() && sizes_std.empty()) return;
+
+    long long minSize = LLONG_MAX, maxSize = 0;
+
+    for (auto s : sizes_splay) { minSize = min(minSize, s); maxSize = max(maxSize, s); }
+    for (auto s : sizes_std) { minSize = min(minSize, s); maxSize = max(maxSize, s); }
+
+    if (minSize == LLONG_MAX) minSize = 0;
+
+    if (minSize == maxSize) maxSize = minSize + 1;
+
+    long long max_time = 0;
+
+    for (auto t : splay_times) max_time = max(max_time, t);
+
+    for (auto t : std_times) max_time = max(max_time, t);
+
+    if (max_time == 0) max_time = 1;
 
     const int WIDTH = 80;
     const int HEIGHT = 25;
     const int LABEL_WIDTH = 12;
-    
+
     vector<vector<char>> field(HEIGHT, vector<char>(WIDTH, ' '));
-    
-    long long max_time = 0;
-    for (auto t : splay_times) max_time = max(max_time, t);
-    for (auto t : std_times) max_time = max(max_time, t);
-    
-    for (int x = 0; x < WIDTH; x++) field[HEIGHT-1][x] = '-'; 
-    for (int y = 0; y < HEIGHT; y++) field[y][0] = '|';       
-    field[HEIGHT-1][0] = '+'; 
-    
-    vector<long long> smooth_splay = smooth(splay_times, 3);
-    vector<long long> smooth_std = smooth(std_times, 3);
-    
-    for (size_t i = 0; i < smooth_splay.size(); i++) { 
-        int x = (i * (WIDTH - 2)) / smooth_splay.size() + 1; 
-        int y = HEIGHT - 2 - (smooth_splay[i] * (HEIGHT - 3)) / max_time; 
-        if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT) { 
-            field[y][x] = '*'; 
-        } 
-    }
 
-    for (size_t i = 0; i < smooth_std.size(); i++) {
-        int x = (i * (WIDTH - 2)) / smooth_std.size() + 1;
-        int y = HEIGHT - 2 - (smooth_std[i] * (HEIGHT - 3)) / max_time;
-        if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT) {
-            if (field[y][x] == ' ') {
-                field[y][x] = '+';
-            } else if (field[y][x] == '*') {
-                field[y][x] = 'X'; 
-            }
+    for (int x = 0; x < WIDTH; x++) field[HEIGHT-1][x] = '-';
+    for (int y = 0; y < HEIGHT; y++) field[y][0] = '|';
+    field[HEIGHT-1][0] = '+';
+
+    plot_series(sizes_splay, splay_times, '*', field, minSize, maxSize, max_time, WIDTH, HEIGHT);
+    plot_series(sizes_std, std_times, '+', field, minSize, maxSize, max_time, WIDTH, HEIGHT);
+
+    long long step = 1000000;
+    long long tickStart = (minSize + step - 1) / step * step;
+    long long tickEnd = (maxSize) / step * step;
+
+    for (long long t = tickStart; t <= tickEnd; t += step) {
+        int x = size_to_x(t, minSize, maxSize, WIDTH);
+        string label = to_string(t / 1000000) + "M";
+
+        if (x + (int)label.size() < WIDTH) {
+            for (size_t k = 0; k < label.size(); k++) field[HEIGHT-1][x + k] = label[k];
         }
     }
-    
-    for (size_t i = 0; i < sizes.size(); i++) {
-        int x = (i * (WIDTH - 2)) / (sizes.size() - 1) + 1;
-        string label = to_string(sizes[i] / 1000) + "K";
-        if (x + label.length() <= WIDTH) {
-            for (size_t j = 0; j < label.length(); j++) {
-                field[HEIGHT-1][x+j] = label[j];
-            }
-        }
-    }
-    
-    vector<string> y_labels(HEIGHT, string(LABEL_WIDTH, ' ')); 
 
-    vector<int> label_rows = {0, HEIGHT/4, HEIGHT/2, 3*HEIGHT/4, HEIGHT-1};
+    vector<string> y_labels(HEIGHT, string(LABEL_WIDTH, ' '));
+    vector<int> label_rows = {0, HEIGHT / 4, HEIGHT / 2, 3 * HEIGHT / 4, HEIGHT - 1};
+
     for (int y : label_rows) {
-        long long t = (long long)((HEIGHT - 1 - y) / (double)(HEIGHT - 1) * max_time);
-        string s = to_string(t) + " us";
-        if ((int)s.size() < LABEL_WIDTH)
-            s = string(LABEL_WIDTH - s.size(), ' ') + s;
+        long long tv = llround((HEIGHT - 1 - y) / double(HEIGHT - 1) * max_time);
+        string s = to_string(tv) + " us";
+
+        if ((int)s.size() < LABEL_WIDTH) s = string(LABEL_WIDTH - s.size(), ' ') + s;
         y_labels[y] = s;
     }
 
     cout << "\n\n\tTime\n\n";
-
     for (int y = 0; y < HEIGHT; y++) {
-        cout << y_labels[y] << " ";  
+        cout << y_labels[y] << " ";
 
-        for (int x = 0; x < WIDTH; x++)
-            cout << field[y][x];
-
-        if (y == HEIGHT - 1) cout << ">";
+        for (int x = 0; x < WIDTH; x++) cout << field[y][x];
+        
         cout << "\n";
     }
 
     cout << string(LABEL_WIDTH + WIDTH - 5, ' ') << "Data volume\n";
     cout << "* = Splay Tree   + = std::map   X = Both\n";
-    }
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -227,16 +259,17 @@ int main(int argc, char* argv[])
 
     auto start = chrono::high_resolution_clock::now();
     Map splay_map;
-    for(const auto& pair : data)
-    {
-        splay_map.insert(pair.first, pair.second);
-    }
+
+    for(const auto& pair : data) splay_map.insert(pair.first, pair.second);
+
     auto end = chrono::high_resolution_clock::now();
     long long splay_time = chrono::duration_cast<chrono::microseconds>(end - start).count();
 
     start = chrono::high_resolution_clock::now();
     map<string, string> std_map;
+
     for(const auto& pair : data) std_map.insert(pair);
+
     end = chrono::high_resolution_clock::now();
     long long std_time = chrono::duration_cast<chrono::microseconds>(end - start).count();
 

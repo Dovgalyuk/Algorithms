@@ -48,3 +48,4 @@ fuchsia pink
 crimson red
 forest green
 midnight black
+wolf
