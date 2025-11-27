@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <array.h>
+#include <../LibraryCPP/array.h>
 #include <climits>
 using namespace std;
 

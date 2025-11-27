@@ -10,7 +10,7 @@ using namespace std;
 void lower_case(string& s)  {
     for (char& c : s) {
         if (!isspace(static_cast<unsigned char>(c))) {
-            c = static_cast<unsigned char> (tolower(c));
+            c = tolower(static_cast<unsigned char> (c));
         }
     }
 }
@@ -69,6 +69,6 @@ int main(int argc, char **argv) {
         input.close();
         return 1;
     }
-    
+
     input.close();
 }
