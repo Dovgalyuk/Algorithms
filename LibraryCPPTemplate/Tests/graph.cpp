@@ -32,7 +32,6 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
             int neighbor = neighbors_iter.next();
 
             if (distance[neighbor] == -1) {
-
                 distance[neighbor] = distance[current] + 1;
                 predecessors[neighbor].push_back(current);
                 q.push(neighbor);
@@ -42,12 +41,12 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
             }
         }
     }
-    std::cout << "Distance to end: " << distance[end] << std::endl;
 
     std::vector<std::vector<int>> all_paths;
     if (distance[end] == -1) {
         return all_paths;
     }
+
     std::vector<int> current_path;
     std::function<void(int)> backtrack = [&](int node) {
         current_path.push_back(node);
