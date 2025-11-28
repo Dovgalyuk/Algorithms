@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
             stack.pop();
             if (value < 0 || stack.get() < 0) {
                 cout << "BAD ADD\n";
-                error == true;
+                error = true;
                 break;
             }
             value += stack.get();
@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
             stack.pop();
             if (value < 0 || stack.get() < 0) {
                 cout << "BAD SUB\n";
-                error == true;
+                error = true;
                 break;
             }
             value -= stack.get();
@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
             stack.pop();
             if (value < 0 || stack.get() < 0) {
                 cout << "BAD MUL\n";
-                error == true;
+                error = true;
                 break;
             }
             value *= stack.get();
