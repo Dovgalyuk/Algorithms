@@ -48,7 +48,6 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
     if (distance[end] == -1) {
         return all_paths;
     }
-
     std::vector<int> current_path;
     std::function<void(int)> backtrack = [&](int node) {
         current_path.push_back(node);
@@ -68,6 +67,56 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
     backtrack(end);
     return all_paths;
 }
+
+void testGraphFunctionality() {
+    std::cout << "=== Testing Graph Functionality ===" << std::endl;
+
+    Graph<std::string, int> graph(3);
+
+    graph.setVertexLabel(0, "A");
+    graph.setVertexLabel(1, "B");
+    graph.setVertexLabel(2, "C");
+
+    graph.addEdge(0, 1, 5);
+    graph.addEdge(1, 2, 3);
+    graph.addEdge(0, 2, 7);
+
+    std::cout << "Vertex count: " << graph.getVertexCount() << std::endl;
+    std::cout << "Has edge A->B: " << graph.hasEdge(0, 1) << std::endl;
+    std::cout << "Has edge B->A: " << graph.hasEdge(1, 0) << std::endl;
+    std::cout << "Edge weight A->B: " << graph.getEdgeLabel(0, 1) << std::endl;
+
+    auto neighbors = graph.getNeighbors(0);
+    std::cout << "Neighbors of A: ";
+    while (neighbors.hasNext()) {
+        int neighbor = neighbors.next();
+        std::cout << graph.getVertexLabel(neighbor) << " ";
+    }
+    std::cout << std::endl;
+
+    auto paths = graph.findAllShortestPaths(0, 2);
+    std::cout << "Found " << paths.size() << " shortest path(s) from A to C" << std::endl;
+
+    for (size_t i = 0; i < paths.size(); ++i) {
+        std::cout << "Path " << i + 1 << ": ";
+        for (size_t j = 0; j < paths[i].size(); ++j) {
+            std::cout << graph.getVertexLabel(paths[i][j]);
+            if (j < paths[i].size() - 1) {
+                std::cout << " -> ";
+            }
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << "Graph functionality test completed!" << std::endl;
+}
+
+#ifdef TEST_GRAPH
+int main() {
+    testGraphFunctionality();
+    return 0;
+}
+#endif
 
 template class Graph<std::string, int>;
 template class Graph<std::string, std::string>;
