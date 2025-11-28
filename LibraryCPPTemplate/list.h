@@ -60,8 +60,7 @@ public:
 
     List& operator=(const List& other) {
         if (this != &other) {
-            head = nullptr;
-            list_size = 0;
+            clear();
             Node* current = other.head.get();
             while (current) {
                 insert(current->data);
@@ -71,7 +70,16 @@ public:
         return *this;
     }
 
-    ~List() = default;
+    ~List() {
+        clear();
+    }
+
+    void clear() {
+        while (head) {
+            head = std::move(head->next);
+        }
+        list_size = 0;
+    }
 
     Item* first() {
         return head ? new Item(head.get()) : nullptr;
@@ -81,42 +89,41 @@ public:
         return head ? new Item(head.get()) : nullptr;
     }
 
-    Item* insert(Data data) {
+    void insert(Data data) {
         auto new_node = std::make_unique<Node>(data);
         new_node->next = std::move(head);
         head = std::move(new_node);
         list_size++;
-        return new Item(head.get());
     }
 
-    Item* insert_after(Item* item, Data data) {
+    void insert_after(Item* item, Data data) {
         if (!item || !item->getNode()) {
-            return insert(data);
+            insert(data);
+            return;
         }
 
         auto new_node = std::make_unique<Node>(data);
         new_node->next = std::move(item->getNode()->next);
         item->getNode()->next = std::move(new_node);
         list_size++;
-        return new Item(item->getNode()->next.get());
     }
 
-    Item* erase_first() {
-        if (!head) return nullptr;
+    bool erase_first() {
+        if (!head) return false;
 
         head = std::move(head->next);
         list_size--;
-        return head ? new Item(head.get()) : nullptr;
+        return true;
     }
 
-    Item* erase_next(Item* item) {
+    bool erase_next(Item* item) {
         if (!item || !item->getNode() || !item->getNode()->next) {
             return erase_first();
         }
 
         item->getNode()->next = std::move(item->getNode()->next->next);
         list_size--;
-        return item->getNode()->next ? new Item(item->getNode()->next.get()) : nullptr;
+        return true;
     }
 
     bool empty() const { return !head; }
@@ -170,6 +177,10 @@ public:
             return *this;
         }
     };
+
+    Iterator getIterator() const {
+        return Iterator(first());
+    }
 
     Iterator getIterator() {
         return Iterator(first());

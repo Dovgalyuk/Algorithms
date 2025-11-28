@@ -7,8 +7,8 @@
 
 template<typename VertexLabel, typename EdgeLabel>
 std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(int start, int end) const {
-    if (start < 0 || static_cast<size_t>(start) >= vertex_count ||
-        end < 0 || static_cast<size_t>(end) >= vertex_count) {
+    if (start < 0 || static_cast<size_t>(start) >= getVertexCount() ||
+        end < 0 || static_cast<size_t>(end) >= getVertexCount()) {
         return {};
     }
 
@@ -16,8 +16,8 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
         return { {start} };
     }
 
-    std::vector<int> distance(vertex_count, -1);
-    std::vector<std::vector<int>> predecessors(vertex_count);
+    std::vector<int> distance(getVertexCount(), -1);
+    std::vector<std::vector<int>> predecessors(getVertexCount());
     std::queue<int> q;
 
     distance[start] = 0;

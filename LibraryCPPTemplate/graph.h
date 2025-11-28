@@ -23,296 +23,179 @@ private:
     struct VertexData {
         VertexLabel label;
         List<Edge> edges;
+
+        VertexData() = default;
+        VertexData(const VertexLabel& lbl) : label(lbl) {}
     };
 
-    List<VertexData> vertices;
-    size_t vertex_count;
-
-    typename List<VertexData>::Item* getVertexItem(size_t index) const {
-        auto item = vertices.first();
-        for (size_t i = 0; i < index && item; ++i) {
-            auto next = item->next();
-            List<VertexData>::Item::deleteItem(item);
-            item = next;
-        }
-        return item;
-    }
+    std::vector<VertexData> vertices;
 
 public:
     class NeighborIterator {
     private:
-        typename List<Edge>::Item* current;
+        const Graph* graph;
+        size_t current_vertex;
+        typename List<Edge>::Iterator edge_iter;
 
     public:
-        NeighborIterator(typename List<Edge>::Item* start) : current(start) {}
-        ~NeighborIterator() {
-            if (current) {
-                List<Edge>::Item::deleteItem(current);
+        NeighborIterator(const Graph* g, size_t vertex) : graph(g), current_vertex(vertex) {
+            if (vertex < graph->vertices.size()) {
+                edge_iter = graph->vertices[vertex].edges.getIterator();
             }
         }
 
         bool hasNext() const {
-            return current != nullptr;
+            return edge_iter.hasNext();
         }
 
         int next() {
-            if (!current) throw std::runtime_error("No more neighbors");
-            int neighbor = current->data().to_vertex;
-            auto next_item = current->next();
-            List<Edge>::Item::deleteItem(current);
-            current = next_item;
-            return neighbor;
+            if (!hasNext()) throw std::runtime_error("No more neighbors");
+            Edge& edge = edge_iter.next();
+            return static_cast<int>(edge.to_vertex);
         }
 
         EdgeLabel getEdgeLabel() const {
-            if (!current) throw std::runtime_error("No current edge");
-            return current->data().label;
-        }
-
-        NeighborIterator(const NeighborIterator&) = delete;
-        NeighborIterator& operator=(const NeighborIterator&) = delete;
-
-        NeighborIterator(NeighborIterator&& other) noexcept : current(other.current) {
-            other.current = nullptr;
-        }
-
-        NeighborIterator& operator=(NeighborIterator&& other) noexcept {
-            if (this != &other) {
-                if (current) {
-                    List<Edge>::Item::deleteItem(current);
-                }
-                current = other.current;
-                other.current = nullptr;
-            }
-            return *this;
+            throw std::runtime_error("Not implemented in this iterator version");
         }
     };
 
-    Graph(size_t initial_vertices = 0) : vertex_count(0) {
+    Graph(size_t initial_vertices = 0) {
+        vertices.reserve(initial_vertices);
         for (size_t i = 0; i < initial_vertices; ++i) {
-            addVertex();
+            vertices.emplace_back();
         }
     }
 
     size_t addVertex() {
-        VertexData data;
-        data.label = VertexLabel();
-        vertices.insert(data);
-        return vertex_count++;
+        vertices.emplace_back();
+        return vertices.size() - 1;
     }
 
     size_t addVertex(const VertexLabel& label) {
-        VertexData data;
-        data.label = label;
-        vertices.insert(data);
-        return vertex_count++;
+        vertices.emplace_back(label);
+        return vertices.size() - 1;
     }
 
     bool setVertexLabel(size_t vertex, const VertexLabel& label) {
-        if (vertex >= vertex_count) return false;
-
-        auto vertex_item = getVertexItem(vertex);
-        if (!vertex_item) return false;
-
-        vertex_item->data().label = label;
-        List<VertexData>::Item::deleteItem(vertex_item);
+        if (vertex >= vertices.size()) return false;
+        vertices[vertex].label = label;
         return true;
     }
 
     VertexLabel getVertexLabel(size_t vertex) const {
-        if (vertex >= vertex_count) return VertexLabel();
-
-        auto vertex_item = getVertexItem(vertex);
-        if (!vertex_item) return VertexLabel();
-
-        VertexLabel label = vertex_item->data().label;
-        List<VertexData>::Item::deleteItem(vertex_item);
-        return label;
+        if (vertex >= vertices.size()) return VertexLabel();
+        return vertices[vertex].label;
     }
 
     bool addEdge(size_t from, size_t to, const EdgeLabel& label = EdgeLabel()) {
-        if (from >= vertex_count || to >= vertex_count) {
+        if (from >= vertices.size() || to >= vertices.size()) {
             return false;
         }
 
-        auto vertex_item = getVertexItem(from);
-        if (!vertex_item) return false;
-
-        bool edge_exists = false;
-        auto edge_item = vertex_item->data().edges.first();
-        while (edge_item && !edge_exists) {
-            if (edge_item->data().to_vertex == to) {
-                edge_exists = true;
+        auto iter = vertices[from].edges.getIterator();
+        while (iter.hasNext()) {
+            Edge& edge = iter.next();
+            if (edge.to_vertex == to) {
+                return false;
             }
-            auto next_edge = edge_item->next();
-            List<Edge>::Item::deleteItem(edge_item);
-            edge_item = next_edge;
         }
 
-        if (edge_exists) {
-            List<VertexData>::Item::deleteItem(vertex_item);
-            return false;
-        }
-
-        vertex_item->data().edges.insert(Edge(to, label));
-        List<VertexData>::Item::deleteItem(vertex_item);
+        vertices[from].edges.insert(Edge(to, label));
         return true;
     }
 
     bool removeEdge(size_t from, size_t to) {
-        if (from >= vertex_count || to >= vertex_count) {
+        if (from >= vertices.size() || to >= vertices.size()) {
             return false;
         }
 
-        auto vertex_item = getVertexItem(from);
-        if (!vertex_item) return false;
+        auto& edges = vertices[from].edges;
 
-        auto& edges_list = vertex_item->data().edges;
+        List<Edge> new_edges;
         bool removed = false;
+        auto iter = edges.getIterator();
 
-        auto first_edge = edges_list.first();
-        if (!first_edge) {
-            List<VertexData>::Item::deleteItem(vertex_item);
-            return false;
-        }
-
-        if (first_edge->data().to_vertex == to) {
-            edges_list.erase_first();
-            removed = true;
-            List<Edge>::Item::deleteItem(first_edge);
-        }
-        else {
-            auto prev_edge = first_edge;
-            auto current_edge = first_edge->next();
-
-            while (current_edge && !removed) {
-                if (current_edge->data().to_vertex == to) {
-                    edges_list.erase_next(prev_edge);
-                    removed = true;
-                    List<Edge>::Item::deleteItem(current_edge);
-                }
-                else {
-                    auto next_prev = current_edge;
-                    auto next_current = current_edge->next();
-                    List<Edge>::Item::deleteItem(prev_edge);
-                    prev_edge = next_prev;
-                    current_edge = next_current;
-                }
+        while (iter.hasNext()) {
+            Edge& edge = iter.next();
+            if (edge.to_vertex != to) {
+                new_edges.insert(edge);
             }
-            if (prev_edge) List<Edge>::Item::deleteItem(prev_edge);
+            else {
+                removed = true;
+            }
         }
 
-        List<VertexData>::Item::deleteItem(vertex_item);
+        if (removed) {
+            vertices[from].edges = std::move(new_edges);
+        }
+
         return removed;
     }
 
     bool removeVertex(size_t vertex) {
-        if (vertex >= vertex_count) return false;
+        if (vertex >= vertices.size()) return false;
 
-        for (size_t i = 0; i < vertex_count; ++i) {
+        for (size_t i = 0; i < vertices.size(); ++i) {
             if (i != vertex) {
                 removeEdge(i, vertex);
             }
         }
 
-        vertex_count--;
+        vertices.erase(vertices.begin() + vertex);
         return true;
     }
 
     bool hasEdge(size_t from, size_t to) const {
-        if (from >= vertex_count || to >= vertex_count) {
+        if (from >= vertices.size() || to >= vertices.size()) {
             return false;
         }
 
-        auto vertex_item = getVertexItem(from);
-        if (!vertex_item) return false;
-
-        bool found = false;
-        auto edge_item = vertex_item->data().edges.first();
-        while (edge_item && !found) {
-            if (edge_item->data().to_vertex == to) {
-                found = true;
+        auto iter = vertices[from].edges.getIterator();
+        while (iter.hasNext()) {
+            Edge& edge = iter.next();
+            if (edge.to_vertex == to) {
+                return true;
             }
-            auto next_edge = edge_item->next();
-            List<Edge>::Item::deleteItem(edge_item);
-            edge_item = next_edge;
         }
-
-        List<VertexData>::Item::deleteItem(vertex_item);
-        return found;
+        return false;
     }
 
     bool setEdgeLabel(size_t from, size_t to, const EdgeLabel& label) {
-        if (from >= vertex_count || to >= vertex_count) return false;
+        if (from >= vertices.size() || to >= vertices.size()) return false;
 
-        auto vertex_item = getVertexItem(from);
-        if (!vertex_item) return false;
-
-        bool found = false;
-        auto edge_item = vertex_item->data().edges.first();
-        while (edge_item && !found) {
-            if (edge_item->data().to_vertex == to) {
-                edge_item->data().label = label;
-                found = true;
-            }
-            auto next_edge = edge_item->next();
-            List<Edge>::Item::deleteItem(edge_item);
-            edge_item = next_edge;
+        if (removeEdge(from, to)) {
+            return addEdge(from, to, label);
         }
-
-        List<VertexData>::Item::deleteItem(vertex_item);
-        return found;
+        return false;
     }
 
     EdgeLabel getEdgeLabel(size_t from, size_t to) const {
-        if (from >= vertex_count || to >= vertex_count) return EdgeLabel();
+        if (from >= vertices.size() || to >= vertices.size()) return EdgeLabel();
 
-        auto vertex_item = getVertexItem(from);
-        if (!vertex_item) return EdgeLabel();
-
-        EdgeLabel label = EdgeLabel();
-        bool found = false;
-        auto edge_item = vertex_item->data().edges.first();
-        while (edge_item && !found) {
-            if (edge_item->data().to_vertex == to) {
-                label = edge_item->data().label;
-                found = true;
+        auto iter = vertices[from].edges.getIterator();
+        while (iter.hasNext()) {
+            Edge& edge = iter.next();
+            if (edge.to_vertex == to) {
+                return edge.label;
             }
-            auto next_edge = edge_item->next();
-            List<Edge>::Item::deleteItem(edge_item);
-            edge_item = next_edge;
         }
-
-        List<VertexData>::Item::deleteItem(vertex_item);
-        return label;
+        return EdgeLabel();
     }
 
     std::vector<VertexLabel> getAllVertexLabels() const {
         std::vector<VertexLabel> labels;
-        auto item = vertices.first();
-        while (item) {
-            labels.push_back(item->data().label);
-            auto next = item->next();
-            List<VertexData>::Item::deleteItem(item);
-            item = next;
+        labels.reserve(vertices.size());
+        for (const auto& vertex : vertices) {
+            labels.push_back(vertex.label);
         }
         return labels;
     }
 
     NeighborIterator getNeighbors(size_t vertex) const {
-        if (vertex >= vertex_count) {
-            return NeighborIterator(nullptr);
-        }
-
-        auto vertex_item = getVertexItem(vertex);
-        if (!vertex_item) return NeighborIterator(nullptr);
-
-        auto edges_item = vertex_item->data().edges.first();
-        List<VertexData>::Item::deleteItem(vertex_item);
-        return NeighborIterator(edges_item);
+        return NeighborIterator(this, vertex);
     }
 
-    size_t getVertexCount() const { return vertex_count; }
+    size_t getVertexCount() const { return vertices.size(); }
 
     std::vector<std::vector<int>> findAllShortestPaths(int start, int end) const;
 
@@ -320,4 +203,3 @@ public:
 };
 
 #endif
- 
