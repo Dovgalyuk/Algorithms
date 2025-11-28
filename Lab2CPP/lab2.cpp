@@ -28,39 +28,34 @@ void merge_sort(Vector* v) {
 
     Stack* st = stack_create();
 
-    constexpr size_t MAXN = 200000;
-
-    stack_push(st, (Data)(0 * MAXN + n));  
-    stack_push(st, (Data)(0 * 10 + 0)); 
+    stack_push(st, (Data)0);
+    stack_push(st, (Data)n);
+    stack_push(st, (Data)0);
 
     while (!stack_empty(st)) {
 
-        int packed_info = stack_get(st);
-        stack_pop(st);
+        size_t left = (size_t)stack_get(st); stack_pop(st);
+        size_t right = (size_t)stack_get(st); stack_pop(st);
+        int stage = (int)stack_get(st);    stack_pop(st);
 
-        int packed_range = stack_get(st);
-        stack_pop(st);
-
-        size_t left = packed_range / MAXN;
-        size_t right = packed_range % MAXN;
-
-        size_t mid = packed_info / 10;
-        int stage = packed_info % 10;
+        size_t mid = left + (right - left) / 2;
 
         if (stage == 0) {
+
             if (right - left <= 1)
                 continue;
 
-            mid = left + (right - left) / 2;
+            stack_push(st, (Data)1);
+            stack_push(st, (Data)right);
+            stack_push(st, (Data)left);
 
-            stack_push(st, (Data)(left * MAXN + right));
-            stack_push(st, (Data)(mid * 10 + 1));
+            stack_push(st, (Data)0);
+            stack_push(st, (Data)right);
+            stack_push(st, (Data)mid);
 
-            stack_push(st, (Data)(mid * MAXN + right));
-            stack_push(st, (Data)(0 * 10 + 0));
-
-            stack_push(st, (Data)(left * MAXN + mid));
-            stack_push(st, (Data)(0 * 10 + 0));
+            stack_push(st, (Data)0);
+            stack_push(st, (Data)mid);
+            stack_push(st, (Data)left);
         }
         else {
             merge(v, left, mid, right, temp);
@@ -70,6 +65,7 @@ void merge_sort(Vector* v) {
     stack_delete(st);
     vector_delete(temp);
 }
+
 
 void solve_file(const char* filename) {
     Vector* v = vector_create();
