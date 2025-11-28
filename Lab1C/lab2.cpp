@@ -27,6 +27,11 @@ int main(int argc, char **argv) {
         iss >> number;
 
         if (command == "push") {
+            if (stoi(number) == -1) {
+                cout << "BAD PUSH\n";
+                error = true;
+                break;
+            }
             stack.push(stoi(number));
         }
 
@@ -34,6 +39,7 @@ int main(int argc, char **argv) {
             if (stack.get() == -1) {
                 cout << "BAD POP\n";
                 error = true;
+                break;
             } else {
                 if (number == "A") {
                     a = stack.get();
@@ -62,6 +68,7 @@ int main(int argc, char **argv) {
             if (stack.get() != -1) {
                 cout << "BAD RET\n";
                 error = true;
+                break;
             } else {
                 stack.pop();
             }
@@ -70,6 +77,11 @@ int main(int argc, char **argv) {
         if (command == "add") {
             int value = stack.get();
             stack.pop();
+            if (value < 0 || stack.get() < 0) {
+                cout << "BAD ADD\n";
+                error == true;
+                break;
+            }
             value += stack.get();
             stack.pop();
             stack.push(value);
@@ -78,7 +90,15 @@ int main(int argc, char **argv) {
         if (command == "sub") {
             int value = stack.get();
             stack.pop();
+            if (value < 0 || stack.get() < 0) {
+                cout << "BAD SUB\n";
+                error == true;
+                break;
+            }
             value -= stack.get();
+            if (value < 0) {
+                value = 0;
+            }
             stack.pop();
             stack.push(value);
         }
@@ -86,6 +106,11 @@ int main(int argc, char **argv) {
         if (command == "mul") {
             int value = stack.get();
             stack.pop();
+            if (value < 0 || stack.get() < 0) {
+                cout << "BAD MUL\n";
+                error == true;
+                break;
+            }
             value *= stack.get();
             stack.pop();
             stack.push(value);
