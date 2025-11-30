@@ -112,20 +112,21 @@ int main(int argc, char* argv[]) {
     }
 
     Vector<EdgeInfo> all_edges;
-    all_edges.resize(m * 2); 
+    all_edges.resize(m); 
     size_t edge_count = 0;
 
     for (size_t i = 0; i < graph.vertex_count(); ++i) {
         auto it = graph.get_neighbor_iterator(i);
         while (it.has_next()) {
             size_t neighbor = it.next();
+            
             if (i < neighbor) {
                 EdgeInfo e;
                 e.u = i;
                 e.v = neighbor;
                 e.weight = graph.get_edge_label(i, neighbor);
 
-                if (edge_count < all_edges.size()) {
+                if (edge_count < (size_t)m) {
                     all_edges[edge_count] = e;
                     edge_count++;
                 }
