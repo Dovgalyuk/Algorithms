@@ -18,11 +18,12 @@ static Vertex cell_index(size_t row, size_t col, size_t cols)
 
 struct Node
 {
-    double priority;
+    double priority; // f = g + h для вершины
     Vertex vertex;
     bool operator>(const Node& other) const { return priority > other.priority; }
 };
 
+// Реализация A*: хранит g-стоимости и родителей, возвращает найденный путь
 static bool run_astar(GridGraph& graph,
     size_t rows,
     size_t cols,
@@ -119,7 +120,7 @@ int main(int argc, char** argv)
     *input >> sr >> sc >> gr >> gc;
 
     std::vector<double> costs(rows * cols, 0.0);
-    double min_cost = std::numeric_limits<double>::infinity();
+    double min_cost = std::numeric_limits<double>::infinity(); // нужен для эвристики Манхэттена
     for (size_t r = 0; r < rows; ++r)
     {
         for (size_t c = 0; c < cols; ++c)
@@ -146,7 +147,7 @@ int main(int argc, char** argv)
             char row_char = static_cast<char>('A' + (r % 26));
             std::string label(1, row_char);
             label += std::to_string(c + 1);
-            graph.set_vertex_label(cell_index(r, c, cols), label);
+            graph.set_vertex_label(cell_index(r, c, cols), label); // подпись вершины для читабельного вывода
         }
     }
 
@@ -166,7 +167,7 @@ int main(int argc, char** argv)
                     continue;
                 }
                 auto to = cell_index(static_cast<size_t>(nr), static_cast<size_t>(nc), cols);
-                graph.add_edge(from, to, costs[to]);
+                graph.add_edge(from, to, costs[to]); // вес перехода равен стоимости клетки назначения
             }
         }
     }
