@@ -182,39 +182,32 @@ private:
             node->_right = remove_node(node->_right, key, deleted);
         }
         else {
+            // Узел найден
             deleted = true;
+
             Node* left = node->_left;
             Node* right = node->_right;
 
+            // Нет правого ребенка (или лист)
             if (!right) {
                 delete node;
                 return left;
             }
 
-            Node* min = find_min(right);
-
-            Node* new_root = new Node(min->_key);
-            new_root->_left = left;
-            std::string min_key = min->_key;
-
-            node->_key = min_key;
-
+            // Нет левого ребенка
             if (!left) {
-                Node* r = right;
                 delete node;
-                return r;
+                return right;
             }
 
-            if (!right) {
-                Node* l = left;
-                delete node;
-                return l;
-            }
-
+            // Есть оба ребенка
+            // Находим минимум справа
             Node* min_right = find_min(right);
 
+            // Копируем данные
             node->_key = min_right->_key;
 
+            // Удаляем узел-преемник рекурсивно
             node->_right = remove_min_helper(node->_right);
         }
 
