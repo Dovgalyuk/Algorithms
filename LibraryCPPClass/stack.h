@@ -18,6 +18,7 @@ public:
     Data get() const;
     void pop();
     bool empty() const;
+	size_t size() const;
 };
 
 #endif

@@ -43,3 +43,7 @@ bool Stack::empty() const
 {
     return vec.size() == 0;
 }
+
+size_t Stack::size() const {
+    return vec.size();
+}

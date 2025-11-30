@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include "stack.h"
+#include "vector.h"
 
 int main(int argc, char** argv) {
     std::istream* in = &std::cin;
@@ -19,8 +20,11 @@ int main(int argc, char** argv) {
     Stack st;
     int vars[4] = { 0, 0, 0, 0 };
     std::string op;
-    int callDepth = 0;
+
     int stackCount = 0;
+
+    Vector callFrameAddr;
+    Vector callFrameSize; 
 
     while (*in >> op) {
         if (op == "bipush") {
@@ -41,24 +45,37 @@ int main(int argc, char** argv) {
         }
         else if (op == "invokestatic") {
             int addr; *in >> addr;
+
+            callFrameAddr.resize(callFrameAddr.size() + 1);
+            callFrameAddr.set(callFrameAddr.size() - 1, addr);
+
+            callFrameSize.resize(callFrameSize.size() + 1);
+            callFrameSize.set(callFrameSize.size() - 1, stackCount);
+
             st.push(addr);
-            callDepth++;
             stackCount++;
         }
         else if (op == "return") {
-            if (callDepth == 0) {
+            if (callFrameAddr.size() == 0) {
                 std::cerr << "Error: return without matching invokestatic\n";
                 return 1;
             }
-            if (stackCount != 1) {
+
+            size_t frameIdx = callFrameAddr.size() - 1;
+            int expectedStackSize = callFrameSize.get(frameIdx) + 1;
+            int returnAddr = callFrameAddr.get(frameIdx);
+
+            if (stackCount != expectedStackSize || st.get() != returnAddr) {
                 std::cerr << "Error: invalid stack state before return\n";
                 return 1;
             }
-            st.pop();
-            callDepth--;
-            stackCount--;
-        }
 
+            st.pop();
+            stackCount--;
+
+            callFrameAddr.resize(frameIdx);
+            callFrameSize.resize(frameIdx);
+        }
         else if (op == "iadd" || op == "isub" || op == "imul" ||
             op == "iand" || op == "ior" || op == "ixor") {
             if (stackCount < 2) { std::cerr << "Error: not enough elements on stack\n"; return 1; }
@@ -66,31 +83,43 @@ int main(int argc, char** argv) {
             int b = st.get(); st.pop();
             stackCount -= 2;
 
-            if (op == "iadd") st.push(a + b);
-            else if (op == "isub") st.push(b - a);
-            else if (op == "imul") st.push(a * b);
-            else if (op == "iand") st.push(a & b);
-            else if (op == "ior") st.push(a | b);
-            else if (op == "ixor") st.push(a ^ b);
+            int res = 0;
+            if (op == "iadd") res = a + b;
+            else if (op == "isub") res = b - a;
+            else if (op == "imul") res = a * b;
+            else if (op == "iand") res = a & b;
+            else if (op == "ior") res = a | b;
+            else if (op == "ixor") res = a ^ b;
 
+            st.push(res);
             stackCount++;
         }
-
         else if (op == "iload_0") { st.push(vars[0]); stackCount++; }
         else if (op == "iload_1") { st.push(vars[1]); stackCount++; }
         else if (op == "iload_2") { st.push(vars[2]); stackCount++; }
         else if (op == "iload_3") { st.push(vars[3]); stackCount++; }
-
-        else if (op == "istore_0") { if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; } vars[0] = st.get(); st.pop(); stackCount--; }
-        else if (op == "istore_1") { if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; } vars[1] = st.get(); st.pop(); stackCount--; }
-        else if (op == "istore_2") { if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; } vars[2] = st.get(); st.pop(); stackCount--; }
-        else if (op == "istore_3") { if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; } vars[3] = st.get(); st.pop(); stackCount--; }
-
+        else if (op == "istore_0") {
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            vars[0] = st.get(); st.pop(); stackCount--;
+        }
+        else if (op == "istore_1") {
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            vars[1] = st.get(); st.pop(); stackCount--;
+        }
+        else if (op == "istore_2") {
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            vars[2] = st.get(); st.pop(); stackCount--;
+        }
+        else if (op == "istore_3") {
+            if (st.empty()) { std::cerr << "Error: empty stack\n"; return 1; }
+            vars[3] = st.get(); st.pop(); stackCount--;
+        }
         else {
             std::cerr << "Unknown operation: " << op << "\n";
             return 1;
         }
     }
+
     std::cout << "stack:\n";
     while (!st.empty()) {
         std::cout << st.get() << "\n";
