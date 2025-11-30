@@ -3,7 +3,7 @@
 
 int main()
 {
-    Queue *queue = queue_create();
+    Queue* queue = queue_create();
 
     queue_insert(queue, 1);
     queue_insert(queue, 2);
@@ -42,7 +42,7 @@ int main()
     }
 
     // Performance test
-    for (int i = 1 ; i <= 10000000 ; ++i)
+    for (int i = 1; i <= 10000000; ++i)
     {
         queue_insert(queue, i);
     }

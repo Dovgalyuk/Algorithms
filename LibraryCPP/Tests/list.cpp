@@ -3,7 +3,7 @@
 
 int main()
 {
-    List *list = list_create();
+    List* list = list_create();
 
     if (!list)
     {
@@ -37,12 +37,18 @@ int main()
         return 1;
     }
 
+    
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
-    {
-        std::cout << list_item_data(item) << " ";
+    if (list_first(list)) {
+        ListItem* current = list_first(list);
+        ListItem* start = current;
+        do {
+            std::cout << list_item_data(current) << " ";
+            current = list_item_next(current);
+        } while (current && current != start); 
     }
     std::cout << "\n";
 
     list_delete(list);
+    return 0;
 }
