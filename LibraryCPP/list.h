@@ -7,8 +7,18 @@
 // Change it to desired type
 typedef int Data;
 
-struct List;
-struct ListItem;
+struct ListItem
+{
+    Data value;
+    ListItem* next;
+    ListItem* prev;
+};
+
+struct List
+{
+    ListItem* head ;
+    ListItem* tail ;
+};
 
 // Creates new list
 List *list_create();
@@ -34,7 +44,7 @@ ListItem *list_insert(List *list, Data data);
 
 // Inserts new list item after the specified item
 // Inserts first element if item is null
-ListItem *list_insert_after(List *list, ListItem *item, Data data);
+ListItem *list_insert_after(List *list, ListItem *pos, Data data);
 
 // Deletes the first list item.
 // Returns pointer to the item next to the deleted one.
@@ -44,6 +54,6 @@ ListItem *list_erase_first(List *list);
 // Deletes the first element when item is null.
 // Returns pointer to the item next to the deleted one.
 // Should be O(1)
-ListItem *list_erase_next(List *list, ListItem *item);
+ListItem *list_erase_next(List *list, ListItem *pos);
 
 #endif

@@ -13,7 +13,7 @@ Array *array_create(size_t size)
     arr->data = new int[size];
     arr->size = size;
     return arr;
-}
+} 
 
 void array_delete(Array *arr)
 {

@@ -13,7 +13,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-
     ifstream file(argv[1]);
     if (!file.is_open()) {
         cerr << "Error: Could not open file" << endl;
