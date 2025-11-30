@@ -23,3 +23,7 @@ add_test(TestListCPPTemplate TestListCPPTemplate)
 add_executable(TestGraphCPPTemplate graph.cpp)
 target_include_directories(TestGraphCPPTemplate PUBLIC ..)
 add_test(NAME TestGraphCPPTemplate COMMAND TestGraphCPPTemplate)
+
+add_executable(TestStringContainerCPPTemplate stringContainer.cpp)
+target_include_directories(TestStringContainerCPPTemplate PUBLIC ..)
+add_test(TestStringContainerCPPTemplate TestStringContainerCPPTemplate)
