@@ -7,14 +7,7 @@ Queue::Queue() : list(), tail(nullptr)
 Queue::Queue(const Queue &a) : list(a.list), tail(nullptr)
 {
     // implement or disable this function
-    auto* it = list.first();
-
-    if (it) {
-        while (it->next()) it = it->next();
-        tail = it;
-    }
-
-
+    tail = list.last();
 }
 
 Queue &Queue::operator=(const Queue &a)
@@ -22,17 +15,8 @@ Queue &Queue::operator=(const Queue &a)
     // implement or disable this function
     if (this != &a) {
         list = a.list;
-        tail = nullptr;
-
-        auto* it = list.first();
-
-        if (it) {
-            while (it->next()) it = it->next();
-            tail = it;
-        }
+        tail = list.last();
     }
-
-
     return *this;
 }
 
@@ -59,8 +43,8 @@ Data Queue::get() const
 
 void Queue::remove()
 {
-    auto* f = list.first();
-    auto* new_first = list.erase_first();
+    List::Item* f = list.first();
+    List::Item* new_first = list.erase_first();
     if (f == tail)
     {
         tail = new_first;

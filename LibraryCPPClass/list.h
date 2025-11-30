@@ -41,8 +41,8 @@ public:
     ~List();
 
     // Retrieves the first item from the list
-    Item *first() { return head; }
-    const Item* first() const { return head; }
+    Item *first() { return head;}
+    const Item* first() const { return head;}
 
     // Inserts new list item into the beginning
     Item *insert(Data data);
@@ -60,9 +60,13 @@ public:
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
     Item *erase_next(Item *item);
+
+    Item* last() const;
 private:
     // private data should be here
     Item *head;
+    void clear();
+    void copy_from(const List& a);
 
 };
 
