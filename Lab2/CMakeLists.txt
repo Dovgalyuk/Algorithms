@@ -18,7 +18,7 @@ enable_testing()
 
 # Простой тест (запуск)
 add_test(NAME Test1
-    COMMAND beatnik
+    COMMAND ${PROJECT_NAME}
         ${CMAKE_SOURCE_DIR}/tests/test1_script.txt
         ${CMAKE_SOURCE_DIR}/tests/test1_input.txt
 )
@@ -26,7 +26,7 @@ add_test(NAME Test1
 # Опционально: тест на вывод
 add_custom_command(
     OUTPUT test1_output.txt
-    COMMAND beatnik ${CMAKE_SOURCE_DIR}/tests/test1_script.txt ${CMAKE_SOURCE_DIR}/tests/test1_input.txt > test1_output.txt
+    COMMAND ${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/tests/test1_script.txt ${CMAKE_SOURCE_DIR}/tests/test1_input.txt > test1_output.txt
     VERBATIM
 )
 
