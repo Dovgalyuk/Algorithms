@@ -3,14 +3,26 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <utility>  // Для pair
+#include <algorithm> // Для reverse
 
 using namespace std;
 
-typedef pair<int, int> Pos;  // q, r
+// Typedefs
+using Maze = vector<string>;
+using DistMap = vector<vector<int>>;
 
-vector<string> read_maze(const string& filename, int& start_q, int& start_r, int& end_q, int& end_r) {  // Добавлены параметры для end
-    vector<string> maze;
+
+int encode(int q, int r) {
+    return q * 1000 + r;
+}
+
+void decode(int code, int &q, int &r) {
+    q = code / 1000;
+    r = code % 1000;
+}
+
+Maze read_maze(const string& filename, int& start_q, int& start_r, int& end_q, int& end_r) {
+    Maze maze;
     ifstream input(filename);
     if (!input.is_open()) {
         cerr << "Cannot open " << filename << endl;
@@ -18,81 +30,141 @@ vector<string> read_maze(const string& filename, int& start_q, int& start_r, int
     }
     string line;
     while (getline(input, line)) {
+        if (!line.empty() && line.back() == '\r') line.pop_back();
         maze.push_back(line);
     }
     if (maze.empty()) return maze;
+
     int rows = maze.size();
     int cols = maze[0].size();
+
     for (int r = 0; r < rows; ++r) {
-        if (maze[r].size() != static_cast<size_t>(cols)) {
-            cerr << "Invalid maze: uneven row lengths" << endl;
-            exit(1);
-        }
         for (int q = 0; q < cols; ++q) {
             if (maze[r][q] == 'S') {
                 start_q = q;
                 start_r = r;
-                maze[r][q] = '.';
-            } else if (maze[r][q] == 'E') {  // Обработка E
+            } else if (maze[r][q] == 'E') {
                 end_q = q;
                 end_r = r;
-                maze[r][q] = '.';  // Освободить для прохода
             }
         }
     }
     return maze;
 }
 
-bool is_valid(const vector<string>& maze, int q, int r, vector<vector<bool>>& visited) {
+bool is_valid(const Maze& maze, int q, int r, const DistMap& dist) {
     int rows = maze.size();
     if (rows == 0) return false;
     int cols = maze[0].size();
+    
     if (q < 0 || q >= cols || r < 0 || r >= rows) return false;
     if (maze[r][q] == '#') return false;
-    if (visited[r][q]) return false;
+    if (dist[r][q] != -1) return false; // Уже посетили
+    
     return true;
 }
 
-int bfs_hex(const vector<string>& maze, int start_q, int start_r, int end_q, int end_r) {  // Добавлены параметры для end
+void print_path(int end_q, int end_r, const DistMap& dist) {
+    // 6 соседей 
+    int dirs[6][2] = {{1, 0}, {0, -1}, {-1, 1}, {-1, 0}, {0, 1}, {1, -1}};
+    
+    vector<string> path_coords;
+    int curr_q = end_q;
+    int curr_r = end_r;
+    int curr_dist = dist[curr_r][curr_q];
+
+    if (curr_dist == -1) {
+        cout << "No path found" << endl;
+        return;
+    }
+
+    while (curr_dist > 0) {
+        path_coords.push_back("(" + to_string(curr_q) + "," + to_string(curr_r) + ")");
+        
+        // Ищем родителя(клетки, от которой пришли)
+        bool found_prev = false;
+        for (int d = 0; d < 6; ++d) {
+            int nq = curr_q + dirs[d][0];
+            int nr = curr_r + dirs[d][1];
+            
+            // Проверка границ
+            if (nr >= 0 && nr < (int)dist.size() && nq >= 0 && nq < (int)dist[0].size()) {
+                if (dist[nr][nq] == curr_dist - 1) {
+                    curr_q = nq;
+                    curr_r = nr;
+                    curr_dist--;
+                    found_prev = true;
+                    break;
+                }
+            }
+        }
+        if (!found_prev) break;
+    }
+    
+    path_coords.push_back("(" + to_string(curr_q) + "," + to_string(curr_r) + ")"); // старт
+
+    //путь от старта к концу
+    cout << "Path: ";
+    for (int i = path_coords.size() - 1; i >= 0; --i) {
+        cout << path_coords[i] << (i > 0 ? " -> " : "");
+    }
+    cout << endl;
+}
+
+void bfs_hex(const Maze& maze, int start_q, int start_r, int end_q, int end_r) {
     int rows = maze.size();
-    if (rows == 0) return -1;
+    if (rows == 0) return;
     int cols = maze[0].size();
-    vector<vector<bool>> visited(rows, vector<bool>(cols, false));
-    vector<vector<int>> dist(rows, vector<int>(cols, -1));
+
+    // visited удален
+    DistMap dist(rows, vector<int>(cols, -1));
+
     Queue *q = queue_create();
-    queue_insert(q, start_q * 1000 + start_r);  // Кодируем позицию как int (q*1000 + r)
-    visited[start_r][start_q] = true;
+    queue_insert(q, encode(start_q, start_r));
     dist[start_r][start_q] = 0;
 
-    int dirs[6][2] = {{1, 0}, {0, -1}, {-1, 1}, {-1, 0}, {0, 1}, {1, -1}};  // Шестиугольные соседи
+    int dirs[6][2] = {{1, 0}, {0, -1}, {-1, 1}, {-1, 0}, {0, 1}, {1, -1}};
+    bool found = false;
 
     while (!queue_empty(q)) {
         int code = queue_get(q);
         queue_remove(q);
-        int cq = code / 1000;
-        int cr = code % 1000;
-        int cd = dist[cr][cq];
-        if (cr == end_r && cq == end_q) return cd;  // Проверка по координатам E
+        
+        int cq, cr;
+        decode(code, cq, cr);
+
+        if (cq == end_q && cr == end_r) {
+            found = true;
+            break;
+        }
+        
 
         for (int d = 0; d < 6; ++d) {
             int nq = cq + dirs[d][0];
             int nr = cr + dirs[d][1];
-            if (is_valid(maze, nq, nr, visited)) {
-                visited[nr][nq] = true;
-                dist[nr][nq] = cd + 1;
-                queue_insert(q, nq * 1000 + nr);
+
+            if (is_valid(maze, nq, nr, dist)) {
+                dist[nr][nq] = dist[cr][cq] + 1;
+                queue_insert(q, encode(nq, nr));
             }
         }
     }
     queue_delete(q);
-    return -1;  // Нет пути
+
+    if (found) {
+        cout << dist[end_r][end_q] << endl; // длина пути
+        print_path(end_q, end_r, dist);     // координаты пути
+    } else {
+        cout << "No path found" << endl;
+    }
 }
 
 int main(int argc, char* argv[]) {
     string input_filename = (argc > 1) ? argv[1] : "input.txt";
-    int start_q = 0, start_r = 0, end_q = 0, end_r = 0;  // Объявление end_q и end_r
-    auto maze = read_maze(input_filename, start_q, start_r, end_q, end_r);  // Передача 4 аргументов
-    int path_len = bfs_hex(maze, start_q, start_r, end_q, end_r);  // Передача end в bfs_hex
-    cout << path_len << endl;
+    int start_q = 0, start_r = 0, end_q = 0, end_r = 0;
+    
+    Maze maze = read_maze(input_filename, start_q, start_r, end_q, end_r);
+    bfs_hex(maze, start_q, start_r, end_q, end_r);
+    
     return 0;
 }
