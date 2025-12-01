@@ -1,7 +1,7 @@
 #ifndef BEATNIK_INTERPRETER_H
 #define BEATNIK_INTERPRETER_H
 
-#include "Stack.h"      // Ваш шаблонный Stack<char>
+#include "stack.h"      // Ваш шаблонный Stack<char>
 #include <iostream>
 #include <fstream>
 #include <cctype>

@@ -5,11 +5,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ”казываем путь к заголовочным файлам из LibraryCPPtemplate
-include_directories(${CMAKE_SOURCE_DIR}/../LibraryCPPtemplate)
 
-add_executable(beatnik
+add_executable(${PROJECT_NAME}
     main.cpp
 )
+
+target_include_directories(${PROJECT_NAME} PUBLIC ../LibraryCPPTemplate)
+target_link_libraries(${PROJECT_NAME} LibraryCPPTemplate)
 
 # ƒл€ тестов
 enable_testing()
