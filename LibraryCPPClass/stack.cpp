@@ -1,17 +1,14 @@
 #include "stack.h"
 
-Stack::Stack()
-{
-}
+Stack::Stack() : m_list() {}
 
-Stack::Stack(const Stack &a)
-{
-    // implement or disable this function
-}
+Stack::Stack(const Stack &a) : m_list(a.m_list) {}
 
 Stack &Stack::operator=(const Stack &a)
 {
-    // implement or disable this function
+    if (this != &a) {
+        m_list = a.m_list;
+    }
     return *this;
 }
 
@@ -21,18 +18,26 @@ Stack::~Stack()
 
 void Stack::push(Data data)
 {
+    m_list.insert(data);
 }
 
 Data Stack::get() const
 {
-    return Data();
+    if (empty())
+        throw std::runtime_error("Stack is empty");
+
+    return m_list.first()->data();
 }
 
 void Stack::pop()
 {
+    if (empty())
+        throw std::runtime_error("Stack is empty");
+
+    m_list.erase_first();
 }
 
 bool Stack::empty() const
 {
-    return true;
+    return m_list.first() == nullptr;
 }
