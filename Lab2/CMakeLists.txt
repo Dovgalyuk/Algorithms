@@ -6,12 +6,9 @@ add_executable(Lab2
  )
 
 target_include_directories(Lab2 PUBLIC ../LibraryCPPTemplate)
-#target_link_libraries(Lab2 LibraryCPPTemplate)
 
-#
 target_include_directories(Lab2 PUBLIC ../LibraryCPPtemplate)
 
-# Тесты для stack и list
 add_executable(stack_test tests/stack_test.cpp)
 add_executable(list_test tests/list_test.cpp)
 
@@ -20,7 +17,6 @@ target_include_directories(list_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../Libr
 
 add_test(NAME StackTest COMMAND stack_test)
 add_test(NAME ListTest COMMAND list_test)
-#
 
 add_subdirectory("tests")
 

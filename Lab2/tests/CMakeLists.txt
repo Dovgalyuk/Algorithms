@@ -1,11 +1,9 @@
-﻿# Тест 1: оригинальный пример — "Hello, aunts!..." → "H"
-add_test(NAME BeatnikOriginal
+﻿add_test(NAME BeatnikOriginal
     COMMAND Lab2
         ${CMAKE_CURRENT_SOURCE_DIR}/test1_script.txt
         ${CMAKE_CURRENT_SOURCE_DIR}/test1_input.txt
 )
 
-# Тест 2: проверка вывода через сравнение файлов
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/output1.txt
     COMMAND Lab2
@@ -24,7 +22,6 @@ add_test(NAME BeatnikOriginalVerify
         ${CMAKE_CURRENT_SOURCE_DIR}/expected_output.txt
 )
 
-# Тест 3: простой — команда <5 → завершение без ошибки
 add_test(NAME BeatnikStop
     COMMAND Lab2
         ${CMAKE_CURRENT_SOURCE_DIR}/simple_script.txt
