@@ -1,7 +1,4 @@
-﻿target_include_directories(Lab2 PUBLIC ../LibraryCPPTemplate)
-target_link_libraries(Lab2 LibraryCPPTemplate)
-
-add_test(NAME BeatnikOriginal
+﻿add_test(NAME BeatnikOriginal
     COMMAND Lab2
         ${CMAKE_CURRENT_SOURCE_DIR}/test1_script.txt
         ${CMAKE_CURRENT_SOURCE_DIR}/test1_input.txt
