@@ -1,13 +1,12 @@
-#ifndef BEATNIK_INTERPRETER_H
+п»ї#ifndef BEATNIK_INTERPRETER_H
 #define BEATNIK_INTERPRETER_H
 
-#include "stack.h"      // Ваш шаблонный Stack<char>
+#include "stack.h"
 #include <iostream>
 #include <fstream>
 #include <cctype>
-#include <cstdlib>      // для exit
+#include <cstdlib>
 
-// Вспомогательная функция: вычисление стоимости слова по Scrabble
 int scrabbleScore(const char* word) {
     if (!word) return 0;
     int score = 0;
@@ -35,7 +34,6 @@ int scrabbleScore(const char* word) {
         else if (c == 'Q' || c == 'Z') {
             score += 10;
         }
-        // Игнорируем всё остальное (цифры, пунктуация и т.д.)
     }
     return score;
 }
@@ -45,7 +43,6 @@ private:
     Stack<char> stack;
     std::ifstream input_stream;
 
-    // Безопасное извлечение из стека
     char safePop() {
         if (stack.empty()) {
             std::cerr << "Error: Stack underflow" << std::endl;
@@ -56,13 +53,12 @@ private:
         return c;
     }
 
-    // Безопасное чтение символа из входного файла
-    char readInputChar() {
+    unsigned char readInputChar() {
         if (!input_stream.good()) {
             std::cerr << "Error: Input file exhausted" << std::endl;
             std::exit(1);
         }
-        return static_cast<char>(input_stream.get());
+        return static_cast<unsigned char>(input_stream.get());
     }
 
 public:
@@ -87,49 +83,46 @@ public:
             std::exit(1);
         }
 
-        // Массив слов (макс. 1000 слов, каждое до 100 символов — достаточно для тестов)
         const int MAX_WORDS = 1000;
         const int MAX_WORD_LEN = 100;
         char words[MAX_WORDS][MAX_WORD_LEN];
         int word_count = 0;
 
-        // Чтение всех слов из скрипта
         while (script_file >> words[word_count]) {
             word_count++;
             if (word_count >= MAX_WORDS) break;
         }
         script_file.close();
 
-        int ip = 0; // instruction pointer
+        int ip = 0;
         while (ip < word_count) {
             int score = scrabbleScore(words[ip]);
-            ip++; // переходим к следующему слову (для команд, требующих "следующее слово")
+            ip++;
 
             if (score < 5) {
-                return; // остановка программы
+                return;
             }
 
             if (score == 5) {
-                char c = readInputChar();
-                stack.push(c);
+                if (ip >= word_count) {
+                    std::cerr << "Error: No next word for command 5" << std::endl;
+                    std::exit(1);
+                }
+                int nextScore = scrabbleScore(words[ip]);
+                stack.push(static_cast<char>(nextScore));
+                ip++;
             }
             else if (score == 6) {
-                safePop(); // отбрасываем
+                safePop();
             }
             else if (score == 7) {
-                char a = safePop();
-                char b = safePop();
-                unsigned char res = (static_cast<unsigned char>(a) + static_cast<unsigned char>(b)) % 256;
-                stack.push(static_cast<char>(res));
+                unsigned char a = static_cast<unsigned char>(safePop());
+                unsigned char b = static_cast<unsigned char>(safePop());
+                stack.push(static_cast<char>((a + b) % 256));
             }
             else if (score == 8) {
-                char a = safePop(); // верх стека (первый)
-                char b = safePop(); // следующий (второй)
-                // Вычисляем: a - b (как в спецификации: "из первого вычитается второе")
-                int diff = static_cast<int>(static_cast<unsigned char>(a)) -
-                    static_cast<int>(static_cast<unsigned char>(b));
-                unsigned char res = static_cast<unsigned char>((diff % 256 + 256) % 256);
-                stack.push(static_cast<char>(res));
+                unsigned char c = readInputChar();
+                stack.push(static_cast<char>(c));
             }
             else if (score == 9) {
                 char c = safePop();
@@ -137,34 +130,49 @@ public:
                 std::cout.flush();
             }
             else if (score == 10) {
-                char c = safePop();
-                if (static_cast<unsigned char>(c) == 0) {
-                    if (ip < word_count) {
-                        ip++; // пропустить следующее слово
-                    }
+                unsigned char a = static_cast<unsigned char>(safePop());
+                unsigned char b = static_cast<unsigned char>(safePop());
+                int diff = static_cast<int>(b) - static_cast<int>(a);
+                unsigned char res = static_cast<unsigned char>((diff % 256 + 256) % 256);
+                stack.push(static_cast<char>(res));
+            }
+            else if (score == 11) {
+                unsigned char a = static_cast<unsigned char>(safePop());
+                unsigned char b = static_cast<unsigned char>(safePop());
+                stack.push(static_cast<char>(a));
+                stack.push(static_cast<char>(b));
+            }
+            else if (score == 12) {
+                unsigned char a = static_cast<unsigned char>(safePop());
+                stack.push(static_cast<char>(a));
+                stack.push(static_cast<char>(a));
+            }
+            else if (score == 13) {
+                unsigned char n = static_cast<unsigned char>(safePop());
+                if (n == 0) {
+                    ip += (n + 1);
                 }
             }
-            else if (score >= 11 && score <= 17) {
-                if (ip >= word_count) {
-                    std::cerr << "Error: No next word for jump command" << std::endl;
-                    std::exit(1);
+            else if (score == 14) {
+                unsigned char n = static_cast<unsigned char>(safePop());
+                if (n != 0) {
+                    ip += (n + 1);
                 }
-                int nextScore = scrabbleScore(words[ip]);
-                ip++; // потребляем следующее слово
-                ip += nextScore; // переход: ip += nextScore (уже увеличили ip выше)
-                // Защита от выхода за границы
-                if (ip < 0) ip = 0;
-                if (ip > word_count) ip = word_count;
             }
-            else if (score >= 18) {
-                if (ip >= word_count) {
-                    std::cerr << "Error: No next word to push" << std::endl;
-                    std::exit(1);
+            else if (score == 15) {
+                unsigned char n = static_cast<unsigned char>(safePop());
+                if (n == 0 && ip >= n) {
+                    ip -= n;
                 }
-                char firstChar = words[ip][0];
-                if (firstChar == '\0') firstChar = '\0';
-                stack.push(firstChar);
-                ip++; // потребляем следующее слово
+            }
+            else if (score == 16) {
+                unsigned char n = static_cast<unsigned char>(safePop());
+                if (n != 0 && ip >= n) {
+                    ip -= n;
+                }
+            }
+            else if (score == 17) {
+                return;
             }
         }
     }
