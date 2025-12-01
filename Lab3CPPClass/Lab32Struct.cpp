@@ -35,10 +35,10 @@ vector<string> readMaze(const string& filename) {
 }
 
 pair<int, int> findPosition(const vector<string>& maze, char target) {
-    for (int i = 0; i < maze.size(); ++i) {
-        for (int j = 0; j < maze[i].size(); ++j) {
+    for (size_t i = 0; i < maze.size(); ++i) {
+        for (size_t j = 0; j < maze[i].size(); ++j) {
             if (maze[i][j] == target) {
-                return { i, j };
+                return { (int)i, (int)j };
             }
         }
     }
@@ -46,7 +46,9 @@ pair<int, int> findPosition(const vector<string>& maze, char target) {
 }
 
 bool isValid(int x, int y, const vector<string>& maze) {
-    return x >= 0 && x < maze.size() && y >= 0 && y < maze[0].size() && maze[x][y] != '#';
+    return x >= 0 && x < (int)maze.size() &&
+        y >= 0 && y < (int)maze[0].size() &&
+        maze[x][y] != '#';
 }
 
 string getPath(const vector<Position>& positions, int index) {
@@ -59,9 +61,9 @@ string getPath(const vector<Position>& positions, int index) {
 }
 
 vector<Position> findPath(const vector<string>& maze) {
-    int rows = maze.size();
+    int rows = (int)maze.size();
     if (rows == 0) return {};
-    int cols = maze[0].size();
+    int cols = (int)maze[0].size();
 
     auto start = findPosition(maze, 'Q');
     auto end = findPosition(maze, 'E');
@@ -75,7 +77,7 @@ vector<Position> findPath(const vector<string>& maze) {
     vector<Position> positions;
 
     positions.push_back({ start.first, start.second, -1, '\0' });
-    queue.insert(positions.size() - 1);
+    queue.insert((int)positions.size() - 1);
     visited[start.first][start.second] = true;
 
     while (!queue.empty()) {
@@ -96,7 +98,7 @@ vector<Position> findPath(const vector<string>& maze) {
                 if (!visited[new_x][new_y]) {
                     visited[new_x][new_y] = true;
                     positions.push_back({ new_x, new_y, current_index, moves[i] });
-                    queue.insert(positions.size() - 1);
+                    queue.insert((int)positions.size() - 1);
 
                     if (new_x == end.first && new_y == end.second) {
                         return positions;
@@ -113,9 +115,9 @@ vector<Position> findPath(const vector<string>& maze) {
 
 void printSolution(const vector<string>& maze, const vector<Position>& positions, const pair<int, int>& end_pos, const string& output_file) {
     int end_index = -1;
-    for (int i = 0; i < positions.size(); ++i) {
+    for (size_t i = 0; i < positions.size(); ++i) {
         if (positions[i].x == end_pos.first && positions[i].y == end_pos.second) {
-            end_index = i;
+            end_index = (int)i;
             break;
         }
     }
