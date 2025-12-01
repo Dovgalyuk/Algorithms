@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -46,18 +47,6 @@ Maze read_maze(const string& filename, int& start_q, int& start_r) {
     return maze;
 }
 
-bool is_valid(const Maze& maze, int q, int r, const DistMap& dist) {
-    int rows = maze.size();
-    if (rows == 0) return false;
-    int cols = maze[0].size();
-    
-    if (q < 0 || q >= cols || r < 0 || r >= rows) return false;
-    if (maze[r][q] == '#') return false;
-    if (dist[r][q] != -1) return false;
-    
-    return true;
-}
-
 void get_neighbors(int r, int dirs[6][2]) {
     dirs[0][0] = 1;  dirs[0][1] = 0;
     dirs[1][0] = -1; dirs[1][1] = 0;
@@ -73,6 +62,54 @@ void get_neighbors(int r, int dirs[6][2]) {
         dirs[4][0] = -1; dirs[4][1] = 1;
         dirs[5][0] = 0;  dirs[5][1] = 1;
     }
+}
+
+
+bool is_slit_blocked(const Maze& maze, int cq, int cr, int nq, int nr) {
+    if (abs(cq - nq) != 1 || abs(cr - nr) != 1) return false;
+
+    int rows = maze.size();
+    int cols = maze[0].size();
+
+    int r_wall1, q_wall1;
+    int r_wall2, q_wall2;
+    
+    if (cr % 2 == 0) { 
+        r_wall1 = cr; 
+        q_wall1 = nq; 
+        
+        r_wall2 = nr; 
+        q_wall2 = cq;
+    } else {
+        r_wall1 = cr; 
+        q_wall1 = cq; 
+        
+        r_wall2 = nr; 
+        q_wall2 = nq;
+    }
+
+    auto is_wall = [&](int r, int q) {
+        if (r < 0 || r >= rows || q < 0 || q >= cols) return false;
+        return maze[r][q] == '#';
+    };
+
+    if (is_wall(r_wall1, q_wall1) && is_wall(r_wall2, q_wall2)) {
+        return true;
+    }
+    
+    return false;
+}
+
+bool is_valid(const Maze& maze, int q, int r, const DistMap& dist) {
+    int rows = maze.size();
+    if (rows == 0) return false;
+    int cols = maze[0].size();
+    
+    if (q < 0 || q >= cols || r < 0 || r >= rows) return false;
+    if (maze[r][q] == '#') return false;
+    if (dist[r][q] != -1) return false;
+    
+    return true;
 }
 
 void print_path(int end_q, int end_r, const DistMap& dist) {
@@ -113,6 +150,7 @@ void print_path(int end_q, int end_r, const DistMap& dist) {
     cout << endl;
 }
 
+
 void bfs_hex(const Maze& maze, int start_q, int start_r) {
     int rows = maze.size();
     if (rows == 0) {
@@ -152,13 +190,17 @@ void bfs_hex(const Maze& maze, int start_q, int start_r) {
             int nr = cr + dirs[d][1];
 
             if (is_valid(maze, nq, nr, dist)) {
+               
+                if (is_slit_blocked(maze, cq, cr, nq, nr)) {
+                    continue; 
+                }
+
                 dist[nr][nq] = dist[cr][cq] + 1;
                 queue_insert(q, encode(nq, nr));
             }
         }
     }
     queue_delete(q);
-    
 
     if (found) {
         cout << dist[end_r][end_q] << endl;
