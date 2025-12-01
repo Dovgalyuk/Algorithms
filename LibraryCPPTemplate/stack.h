@@ -1,58 +1,51 @@
 #ifndef STACK_TEMPLATE_H
 #define STACK_TEMPLATE_H
 
-template <typename Data> class Stack
+#include "List.h"
+
+template <typename Data>
+class Stack
 {
 public:
-    // Creates empty stack
-    Stack()
-    {
-    }
+    Stack() {}
 
-    // copy constructor
-    Stack(const Stack &a)
-    {
-        // implement or disable this function
-    }
+    Stack(const Stack& a) : list_(a.list_) {}
 
-    // assignment operator
-    Stack &operator=(const Stack &a)
+    Stack& operator=(const Stack& a)
     {
-        // implement or disable this function
+        if (this != &a) {
+            list_ = a.list_;
+        }
         return *this;
     }
 
-    // Deletes the stack
-    ~Stack()
-    {
-    }
+    ~Stack() {}
 
-    // Pushes data on top of the stack
-    // Should be O(1) on average
     void push(Data data)
     {
+        list_.insert(data);
     }
 
-    // Retrieves the last element from the stack
     Data get() const
     {
+        if (list_.first()) {
+            return list_.first()->data();
+        }
         return Data();
     }
 
-    // Removes the last element from the stack
-    // Should be O(1)
     void pop()
     {
+        list_.erase_first();
     }
 
-    // Returns true if the stack is empty
     bool empty() const
     {
-        return true;
+        return list_.first() == nullptr;
     }
 
 private:
-    // private data should be here
+    List<Data> list_;
 };
 
-#endif
+#endif // STACK_TEMPLATE_H
