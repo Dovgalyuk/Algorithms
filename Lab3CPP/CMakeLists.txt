@@ -1,5 +1,6 @@
+add_library(LibraryCPP STATIC list.cpp queue.cpp)
+
 add_executable(Lab3CPP main.cpp)
-target_include_directories(Lab3CPP PUBLIC ../LibraryCPP)
 target_link_libraries(Lab3CPP LibraryCPP)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.txt ${CMAKE_CURRENT_BINARY_DIR}/input.txt COPYONLY)
