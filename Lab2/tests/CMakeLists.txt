@@ -1,4 +1,7 @@
-﻿add_test(NAME BeatnikOriginal
+﻿add_test(NAME StackTest COMMAND Lab2 --test-stack)
+add_test(NAME ListTest COMMAND Lab2 --test-list)
+
+add_test(NAME BeatnikOriginal
     COMMAND Lab2
         ${CMAKE_CURRENT_SOURCE_DIR}/test1_script.txt
         ${CMAKE_CURRENT_SOURCE_DIR}/test1_input.txt
@@ -26,4 +29,4 @@ add_test(NAME BeatnikStop
     COMMAND Lab2
         ${CMAKE_CURRENT_SOURCE_DIR}/simple_script.txt
         ${CMAKE_CURRENT_SOURCE_DIR}/empty.txt
-)   
+)
