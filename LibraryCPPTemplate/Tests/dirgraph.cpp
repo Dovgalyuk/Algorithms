@@ -36,11 +36,15 @@ int main() {
     if (!graph.edgeExists(v0, v1)) return 1;
 
     std::cout << "Neighbors of vertex " << v0 << ": ";
+    bool hasNeighbor = false;
     for (auto it = graph.neighborsBegin(v0); it != graph.neighborsEnd(v0); ++it) {
         std::cout << *it << " ";
+        if (*it == v1) hasNeighbor = true;
     }
     std::cout << std::endl;
 
-    std::cout << "All tests passed";
+    if (!hasNeighbor) return 1; 
+
+    std::cout << "All tests passed" << std::endl;
     return 0;
 }

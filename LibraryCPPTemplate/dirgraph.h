@@ -40,55 +40,22 @@ public:
         return id;
     }
 
-    // Remove vertex from the graph - упрощенная версия
+    // Remove vertex from the graph 
     void removeVertex(VertexId v) {
         checkVertex(v);
 
-        adjacencyLists[v] = List<Edge>(); 
+        adjacencyLists[v] = List<Edge>();
 
         for (size_t i = 0; i < adjacencyLists.size(); ++i) {
-            if (i == v) continue;
-
-            List<Edge>& neighbors = adjacencyLists[i];
-            typename List<Edge>::Item* current = neighbors.first();
-            typename List<Edge>::Item* prevItem = nullptr;
-
-            while (current != nullptr) {
-                if (current->data().to == v) {
-
-                    if (prevItem == nullptr) {
-                        neighbors.erase_first();
-                        current = neighbors.first();
-                    }
-                    else {
-                        current = neighbors.erase_next(prevItem);
-                    }
-                }
-                else if (current->data().to > v) {
-
-                    Edge correctedEdge(current->data().to - 1, current->data().label);
-
-                    if (prevItem == nullptr) {
-                        neighbors.erase_first();
-                        neighbors.insert(correctedEdge);
-                        current = neighbors.first();
-                    }
-                    else {
-                        typename List<Edge>::Item* nextItem = current->next();
-                        neighbors.erase_next(prevItem);
-                        neighbors.insert_after(prevItem, correctedEdge);
-                        current = nextItem;
-                    }
-                }
-                else {
-                    prevItem = current;
-                    current = current->next();
-                }
+            if (i != v && edgeExists(i, v)) {
+                removeEdge(i, v);
             }
         }
 
+    
         vertexMarks.erase(vertexMarks.begin() + v);
         adjacencyLists.erase(adjacencyLists.begin() + v);
+
     }
 
     // Add edge between two vertices
@@ -154,12 +121,10 @@ public:
         checkVertex(to);
 
         typename List<Edge>::Item* current = adjacencyLists[from].first();
+
         while (current != nullptr) {
             if (current->data().to == to) {
-                // Remove and reinsert with new mark
-                Edge newEdge(to, mark);
-                removeEdge(from, to);
-                adjacencyLists[from].insert(newEdge);
+                current->data().label = mark; 
                 return;
             }
             current = current->next();
