@@ -9,7 +9,5 @@ int main(int argc, char* argv[]) {
     }
     BeatnikInterpreter interpreter(argv[2]);
     interpreter.run(argv[1]);
-    //BeatnikInterpreter interpreter("./test1_input.txt");
-    //interpreter.run("./test1_script.txt");
     return 0;
 }
