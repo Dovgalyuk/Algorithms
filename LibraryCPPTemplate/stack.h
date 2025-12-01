@@ -1,7 +1,7 @@
 #ifndef STACK_TEMPLATE_H
 #define STACK_TEMPLATE_H
 
-#include "List.h"
+#include "list.h"
 
 template <typename Data>
 class Stack
