@@ -1,34 +1,68 @@
 #include "queue.h"
+#include "list.h"
 
 struct Queue
 {
+    List* list;
+    ListItem* tail; 
 };
 
-Queue *queue_create()
+Queue* queue_create()
 {
-    return new Queue;
+    Queue* queue = new Queue;
+    queue->list = list_create();
+    queue->tail = nullptr;
+    return queue;
 }
 
-void queue_delete(Queue *queue)
+void queue_delete(Queue* queue)
 {
-    // TODO: free queue items
+    if (!queue) return;
+
+    list_delete(queue->list);
     delete queue;
 }
 
-void queue_insert(Queue *queue, Data data)
+void queue_insert(Queue* queue, Data data)
 {
+    if (!queue) return;
+
+    if (queue_empty(queue)) {
+       
+        list_insert(queue->list, data);
+     
+        queue->tail = list_first(queue->list);
+    }
+    else {
+ 
+        queue->tail = list_insert_after(queue->list, queue->tail, data);
+    }
 }
 
-Data queue_get(const Queue *queue)
+Data queue_get(const Queue* queue)
 {
-    return (Data)0;
+    if (!queue) return 0;
+    ListItem* first = list_first(queue->list);
+    if (!first) return 0;
+
+    return list_item_data(first);
 }
 
-void queue_remove(Queue *queue)
+void queue_remove(Queue* queue)
 {
+    if (!queue) return;
+
+    ListItem* head = list_first(queue->list);
+
+    if (head == queue->tail) {
+        queue->tail = nullptr;
+    }
+
+    list_erase_first(queue->list);
 }
 
-bool queue_empty(const Queue *queue)
+bool queue_empty(const Queue* queue)
 {
-    return true;
+    if (!queue) return true;
+    return list_first(queue->list) == nullptr;
 }

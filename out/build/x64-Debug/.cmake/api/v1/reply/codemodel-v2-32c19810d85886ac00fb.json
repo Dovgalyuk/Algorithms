@@ -51,20 +51,19 @@
 					"targetIndexes" : 
 					[
 						2,
-						3,
-						4
+						3
 					]
 				},
 				{
-					"build" : "Lab2CPP",
-					"jsonFile" : "directory-Lab2CPP-Debug-34b702e9095bcaa0e5a6.json",
+					"build" : "Lab3CPP",
+					"jsonFile" : "directory-Lab3CPP-Debug-3c0c00434fb615ca0895.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
 					},
 					"parentIndex" : 0,
 					"projectIndex" : 0,
-					"source" : "Lab2CPP",
+					"source" : "Lab3CPP",
 					"targetIndexes" : 
 					[
 						0
@@ -88,8 +87,7 @@
 						0,
 						1,
 						2,
-						3,
-						4
+						3
 					]
 				}
 			],
@@ -97,37 +95,30 @@
 			[
 				{
 					"directoryIndex" : 3,
-					"id" : "Lab2CPP::@e0a064ab7e0e3ebc24bb",
-					"jsonFile" : "target-Lab2CPP-Debug-c9ab3d7ac3b298c119ed.json",
-					"name" : "Lab2CPP",
+					"id" : "Lab3CPP::@d6f6b3d9254c7dcd80fd",
+					"jsonFile" : "target-Lab3CPP-Debug-13a1a6de998a75f43270.json",
+					"name" : "Lab3CPP",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "LibraryCPP::@4b3589622afbd1422885",
-					"jsonFile" : "target-LibraryCPP-Debug-957d354f5478e3a991a9.json",
+					"jsonFile" : "target-LibraryCPP-Debug-9aec597336de2ce01a51.json",
 					"name" : "LibraryCPP",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 2,
-					"id" : "TestArrayCPP::@f2b864f8dfe3321ad621",
-					"jsonFile" : "target-TestArrayCPP-Debug-4b3041876405ee210837.json",
-					"name" : "TestArrayCPP",
+					"id" : "TestListCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestListCPP-Debug-036994f9af0fe480b5dd.json",
+					"name" : "TestListCPP",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 2,
-					"id" : "TestStackCPP::@f2b864f8dfe3321ad621",
-					"jsonFile" : "target-TestStackCPP-Debug-cde0f3472441e561c957.json",
-					"name" : "TestStackCPP",
-					"projectIndex" : 0
-				},
-				{
-					"directoryIndex" : 2,
-					"id" : "TestVectorCPP::@f2b864f8dfe3321ad621",
-					"jsonFile" : "target-TestVectorCPP-Debug-122eb2a1fe87b205532f.json",
-					"name" : "TestVectorCPP",
+					"id" : "TestQueueCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestQueueCPP-Debug-7ac16e111a18fe5e9996.json",
+					"name" : "TestQueueCPP",
 					"projectIndex" : 0
 				}
 			]

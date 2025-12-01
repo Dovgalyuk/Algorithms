@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "LibraryCPP/Tests/TestStackCPP.exe"
+			"path" : "Lab3CPP/Lab3CPP.exe"
 		},
 		{
-			"path" : "LibraryCPP/Tests/TestStackCPP.pdb"
+			"path" : "Lab3CPP/Lab3CPP.pdb"
 		}
 	],
 	"backtrace" : 2,
@@ -22,7 +22,7 @@
 		"files" : 
 		[
 			"C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
-			"LibraryCPP/Tests/CMakeLists.txt",
+			"Lab3CPP/CMakeLists.txt",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
@@ -33,7 +33,7 @@
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 17,
+				"line" : 1,
 				"parent" : 0
 			},
 			{
@@ -45,7 +45,7 @@
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 19,
+				"line" : 3,
 				"parent" : 0
 			},
 			{
@@ -60,7 +60,7 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 18,
+				"line" : 2,
 				"parent" : 0
 			}
 		]
@@ -89,7 +89,7 @@
 			[
 				{
 					"backtrace" : 6,
-					"path" : "C:/Users/Vanek/source/repos/Algorithms3/LibraryCPP/Tests/.."
+					"path" : "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/../LibraryCPP"
 				}
 			],
 			"language" : "CXX",
@@ -106,7 +106,7 @@
 			"id" : "LibraryCPP::@4b3589622afbd1422885"
 		}
 	],
-	"id" : "TestStackCPP::@f2b864f8dfe3321ad621",
+	"id" : "Lab3CPP::@d6f6b3d9254c7dcd80fd",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -131,12 +131,12 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "TestStackCPP",
-	"nameOnDisk" : "TestStackCPP.exe",
+	"name" : "Lab3CPP",
+	"nameOnDisk" : "Lab3CPP.exe",
 	"paths" : 
 	{
-		"build" : "LibraryCPP/Tests",
-		"source" : "LibraryCPP/Tests"
+		"build" : "Lab3CPP",
+		"source" : "Lab3CPP"
 	},
 	"sourceGroups" : 
 	[
@@ -153,7 +153,7 @@
 		{
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,
-			"path" : "LibraryCPP/Tests/stack.cpp",
+			"path" : "Lab3CPP/lab3.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
