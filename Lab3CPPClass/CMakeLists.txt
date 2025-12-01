@@ -15,7 +15,8 @@ set_tests_properties(
     Lab3_SimpleMaze 
     Lab3_MediumMaze 
     Lab3_NoPathMaze 
-    PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/Algorithms/Lab3CPPClass
+    PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
 
 set_tests_properties(Lab3_SimpleMaze Lab3_MediumMaze Lab3_NoPathMaze PROPERTIES WILL_FAIL FALSE)
