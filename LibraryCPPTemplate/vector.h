@@ -58,14 +58,15 @@ public:
     // Retrieves vector element with the specified index
     Data get(size_t index) const
     {
-        if (index >= size_v)
-        {
-            throw std::out_of_range("ERROR: index out of range");
-        }
-        else
-        {
-            return data[index];
-        }
+         if (index >= size_v)
+         {
+             throw std::out_of_range("ERROR: index out of range");
+         }
+         else
+         {
+        return data[index];
+         }
+       
 
     }
 

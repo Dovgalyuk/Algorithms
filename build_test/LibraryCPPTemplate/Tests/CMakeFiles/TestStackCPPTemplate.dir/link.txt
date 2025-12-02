@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -fdiagnostics-color=never -Wl,--enable-auto-import CMakeFiles/TestStackCPPTemplate.dir/stack.cpp.o -o TestStackCPPTemplate.exe -Wl,--out-implib,libTestStackCPPTemplate.dll.a -Wl,--major-image-version,0,--minor-image-version,0

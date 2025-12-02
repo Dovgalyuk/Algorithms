@@ -1,0 +1,15 @@
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/CMakeFiles/test.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/CMakeFiles/edit_cache.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/CMakeFiles/rebuild_cache.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LibraryCPPTemplate/CMakeFiles/test.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LibraryCPPTemplate/CMakeFiles/edit_cache.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LibraryCPPTemplate/CMakeFiles/rebuild_cache.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LibraryCPPTemplate/Tests/CMakeFiles/TestListCPPTemplate.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LibraryCPPTemplate/Tests/CMakeFiles/TestQueueCPPTemplate.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LibraryCPPTemplate/Tests/CMakeFiles/test.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LibraryCPPTemplate/Tests/CMakeFiles/edit_cache.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LibraryCPPTemplate/Tests/CMakeFiles/rebuild_cache.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LAB3CPP/CMakeFiles/LAB3CPP.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LAB3CPP/CMakeFiles/test.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LAB3CPP/CMakeFiles/edit_cache.dir
+/c/Users/mamul/OneDrive/Desktop/Программирование/C++/Dovgaluk/Algorithms/LAB3CPP/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"/c/Users/mamul/OneDrive/Desktop/\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435/C++/Dovgaluk/Algorithms/cmake_install.cmake",
+		"/c/Users/mamul/OneDrive/Desktop/\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435/C++/Dovgaluk/Algorithms/LibraryCPPTemplate/cmake_install.cmake",
+		"/c/Users/mamul/OneDrive/Desktop/\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435/C++/Dovgaluk/Algorithms/LibraryCPPTemplate/Tests/cmake_install.cmake",
+		"/c/Users/mamul/OneDrive/Desktop/\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435/C++/Dovgaluk/Algorithms/LAB3CPP/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

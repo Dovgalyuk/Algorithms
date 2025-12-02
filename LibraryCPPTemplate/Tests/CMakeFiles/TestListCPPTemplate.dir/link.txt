@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -Wl,--enable-auto-import CMakeFiles/TestListCPPTemplate.dir/list.cpp.o -o TestListCPPTemplate.exe -Wl,--out-implib,libTestListCPPTemplate.dll.a -Wl,--major-image-version,0,--minor-image-version,0

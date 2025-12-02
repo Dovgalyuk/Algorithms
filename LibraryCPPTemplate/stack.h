@@ -45,10 +45,10 @@ public:
     // Retrieves the last element from the stack
     Data get() const
     {
-        if (box.size() == 0)
-        {
-            throw std::out_of_range("ERROR: index out of range");
-        }
+        // if (box.size() == 0)
+        // {
+        //     throw std::out_of_range("ERROR: index out of range");
+        // }
         return box.get(box.size() - 1);
     }
 
