@@ -1,32 +1,28 @@
 #include <iostream>
-#include <iostream>
 #include <fstream>
 #include <vector>
 #include "queue.h"
 
 using namespace std;
 
-
 typedef vector<vector<int>> Graph;
+typedef vector<int> DistanceVector;
 
-vector<int> bfs(const Graph& graph, int start) {
+DistanceVector bfs(const Graph& graph, int start) {
     int n = graph.size();
-    vector<int> distances(n, -1);
-    vector<bool> visited(n, false);
+    DistanceVector distances(n, -1);
 
     Queue* queue = queue_create();
     queue_insert(queue, start);
     distances[start] = 0;
-    visited[start] = true;
 
     while (!queue_empty(queue)) {
         int current = queue_get(queue);
         queue_remove(queue);
 
         for (int neighbor = 0; neighbor < n; ++neighbor) {
-            if (graph[current][neighbor] == 1 && !visited[neighbor]) {
+            if (graph[current][neighbor] == 1 && distances[neighbor] == -1) {
                 distances[neighbor] = distances[current] + 1;
-                visited[neighbor] = true;
                 queue_insert(queue, neighbor);
             }
         }
@@ -43,18 +39,15 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-
     ifstream input(argv[1]);
     if (!input.is_open()) {
         cerr << "Error: Cannot open input file " << argv[1] << endl;
         return 1;
     }
 
-
     int n;
     input >> n;
 
-   
     Graph graph(n, vector<int>(n));
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
@@ -63,9 +56,7 @@ int main(int argc, char* argv[]) {
     }
     input.close();
 
-
-    vector<int> distances = bfs(graph, 0);
-
+    DistanceVector distances = bfs(graph, 0);
 
     for (int i = 0; i < n; ++i) {
         cout << distances[i] << endl;

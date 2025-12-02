@@ -5,9 +5,7 @@
 
 typedef int Data;
 
-struct Queue {
-    List* list;
-};
+struct Queue;
 
 Queue* queue_create();
 void queue_delete(Queue* queue);

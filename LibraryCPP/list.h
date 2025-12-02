@@ -3,17 +3,8 @@
 
 typedef int Data;
 
+struct List;
 struct ListItem;
-
-struct List {
-    ListItem* head;
-};
-
-struct ListItem {
-    ListItem* next;
-    ListItem* prev;
-    Data data;
-};
 
 List* list_create();
 void list_delete(List* list);

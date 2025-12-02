@@ -1,5 +1,9 @@
 #include "queue.h"
 
+struct Queue {
+    List* list;
+};
+
 Queue* queue_create()
 {
     Queue* queue = new Queue;
