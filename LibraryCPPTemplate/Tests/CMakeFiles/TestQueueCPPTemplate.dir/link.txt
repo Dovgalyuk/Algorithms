@@ -1,1 +1,0 @@
-/usr/bin/c++.exe -Wl,--enable-auto-import CMakeFiles/TestQueueCPPTemplate.dir/queue.cpp.o -o TestQueueCPPTemplate.exe -Wl,--out-implib,libTestQueueCPPTemplate.dll.a -Wl,--major-image-version,0,--minor-image-version,0

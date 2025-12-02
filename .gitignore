@@ -19,4 +19,9 @@ LibraryCPPClass/
 LibraryCPP/
 LibraryC/
 build_test/*
-Tests/*
+LibraryCPPTemplate/Tests/*
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+CTestTestfile.cmake

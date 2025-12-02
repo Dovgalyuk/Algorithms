@@ -1,1 +1,0 @@
-/usr/bin/c++.exe -Wl,--enable-auto-import CMakeFiles/LAB3CPP.dir/main.cpp.o -o LAB3CPP.exe -Wl,--out-implib,libLAB3CPP.dll.a -Wl,--major-image-version,0,--minor-image-version,0
