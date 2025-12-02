@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
         iss >> number;
 
         if (command == "push") {
-            if (stoi(number) == -1) {
+            if (stoi(number) < 0) {
                 cout << "BAD PUSH\n";
                 error = true;
                 break;
