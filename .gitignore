@@ -16,3 +16,7 @@ build/*
 .idea
 out/
 LibraryCPPClass/
+LibraryCPP/
+LibraryC/
+build_test/*
+
