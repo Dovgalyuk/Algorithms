@@ -11,17 +11,27 @@
 using GridGraph = Graph<std::string, double>;
 using Vertex = GridGraph::VertexIndex;
 
-static Vertex cell_index(size_t row, size_t col, size_t cols)
-{
+static Vertex cell_index(size_t row, size_t col, size_t cols) {
     return static_cast<Vertex>(row * cols + col);
 }
 
-struct Node
-{
+struct Node {
     double priority; // f = g + h для вершины
     Vertex vertex;
     bool operator>(const Node& other) const { return priority > other.priority; }
 };
+
+// Манхэттенская эвристика
+double heuristic(Vertex v, Vertex goal, size_t cols, double min_cost) {
+    if (min_cost <= 0) return 0.0;
+
+    long r1 = v / cols;
+    long c1 = v % cols;
+    long r2 = goal / cols;
+    long c2 = goal % cols;
+
+    return (std::abs(r1 - r2) + std::abs(c1 - c2)) * min_cost;
+}
 
 // Реализация A*: хранит g-стоимости и родителей, возвращает найденный путь
 static bool run_astar(GridGraph& graph,
@@ -37,65 +47,44 @@ static bool run_astar(GridGraph& graph,
     const double inf = std::numeric_limits<double>::infinity();
     std::vector<double> g(total, inf);
     std::vector<Vertex> parent(total, total);
-    auto heuristic = [&](Vertex v) -> double {
-        if (min_cost <= 0.0)
-        {
-            return 0.0;
-        }
-        size_t r1 = v / cols;
-        size_t c1 = v % cols;
-        size_t r2 = goal / cols;
-        size_t c2 = goal % cols;
-        return (std::abs(static_cast<long>(r1) - static_cast<long>(r2)) +
-            std::abs(static_cast<long>(c1) - static_cast<long>(c2))) *
-            min_cost;
-        };
 
     std::priority_queue<Node, std::vector<Node>, std::greater<Node>> pq;
     g[start] = 0.0;
-    pq.push({ heuristic(start), start });
+    pq.push({ heuristic(start, goal, cols, min_cost), start });
 
-    while (!pq.empty())
-    {
+    while (!pq.empty()) {
         Node cur = pq.top();
         pq.pop();
-        if (cur.vertex == goal)
-        {
+        if (cur.vertex == goal) {
             break;
         }
-        if (cur.priority > g[cur.vertex] + heuristic(cur.vertex))
-        {
+
+        // Ленивое удаление: если нашли более короткий путь
+        // к этой вершине ранее, пропускаем старую запись
+        if (cur.priority > g[cur.vertex] + heuristic(cur.vertex, goal, cols, min_cost)) {
             continue;
         }
-        for (auto it = graph.neighbors(cur.vertex); it.valid(); it.next())
-        {
+        for (auto it = graph.neighbors(cur.vertex); it.valid(); it.next()) {
             Vertex next = it.vertex();
-            double tentative = g[cur.vertex] + it.label();
-            if (tentative < g[next])
-            {
-                g[next] = tentative;
+            double new_cost = g[cur.vertex] + it.label();
+            if (new_cost < g[next]) {
+                g[next] = new_cost;
                 parent[next] = cur.vertex;
-                pq.push({ tentative + heuristic(next), next });
+                double priority = new_cost + heuristic(next, goal, cols, min_cost);
+                pq.push({ priority, next });
             }
         }
     }
 
-    if (g[goal] == inf)
-    {
+    if (g[goal] == inf) {
         return false;
     }
 
     total_cost = g[goal];
-    for (Vertex v = goal;; v = parent[v])
-    {
+    for (Vertex v = goal;; v = parent[v]) {
         path.push_back(v);
-        if (v == start)
-        {
+        if (v == start) {
             break;
-        }
-        if (parent[v] >= total)
-        {
-            return false;
         }
     }
     std::reverse(path.begin(), path.end());

@@ -7,7 +7,8 @@
 
 #include "list.h"
 
-template <typename VertexLabel, typename EdgeLabel> class Graph
+template <typename VertexLabel, typename EdgeLabel>
+class Graph
 {
 public:
     using VertexIndex = size_t;
@@ -17,6 +18,8 @@ public:
     {
         VertexIndex to = 0;
         EdgeLabel label{};
+
+        Edge(VertexIndex i, const EdgeLabel& l) : to(i), label(l) {}
     };
 
     // Вершина (label - метка, edges - список исходящих ребер)
@@ -30,8 +33,9 @@ public:
     class NeighborIterator
     {
     public:
-        NeighborIterator() : _item(nullptr) {}
-        explicit NeighborIterator(typename List<Edge>::Item* item) : _item(item) {}
+        using ListItem = typename List<Edge>::Item;
+
+        NeighborIterator(ListItem* item) : _item(item) {}
 
         // Проверяет, указывает ли итератор на реального соседа
         bool valid() const { return _item != nullptr; }
@@ -47,28 +51,17 @@ public:
         // Возвращает индекс текущей соседней вершины
         VertexIndex vertex() const
         {
-            ensure_item();
             return _item->data().to;
         }
 
         // Возвращает метку ребра, ведущего к соседу
         const EdgeLabel& label() const
         {
-            ensure_item();
             return _item->data().label;
         }
 
     private:
-        typename List<Edge>::Item* _item;
-
-        // Бросает исключение, если итератор невалиден
-        void ensure_item() const
-        {
-            if (!_item)
-            {
-                throw std::out_of_range("Iterator is invalid");
-            }
-        }
+        ListItem* _item;
     };
 
     // Создаёт граф с указанным числом пустых вершин
@@ -85,123 +78,114 @@ public:
     // Удаляет вершину и обновляет рёбра
     void remove_vertex(VertexIndex index)
     {
-        validate_vertex(index);
-        clear_edges(_vertices[index].edges);
+        if (index >= _vertices.size()) return;
+        // Удаляем саму вершину из вектора (это сдвинет все последующие вершины в векторе)
         _vertices.erase(_vertices.begin() + index);
 
-        for (auto& vertex : _vertices)
-        {
-            typename List<Edge>::Item* prev = nullptr;
+        // Проходим по всем оставшимся вершинам и чистим ссылки на удаленную
+        for (auto& vertex : _vertices) {
             auto* item = vertex.edges.first();
-            while (item)
-            {
+            while (item) {
                 Edge& edge = item->data();
-                if (edge.to == index)
-                {
-                    item = remove_edge_item(vertex.edges, prev);
+                auto* next_item = item->next();
+
+                if (edge.to == index) {
+                    // Ребро вело в удаленную вершину -> удаляем ребро
+                    if (item == vertex.edges.first())
+                        vertex.edges.erase_first();
+                    else
+                        vertex.edges.erase_next(item->prev());
                 }
-                else
-                {
-                    if (edge.to > index)
-                    {
-                        edge.to -= 1;
-                    }
-                    prev = item;
-                    item = item->next();
+                else if (edge.to > index) {
+                    // Ребро вело в вершину, которая сместилась -> корректируем индекс
+                    edge.to -= 1;
                 }
+
+                item = next_item;
             }
         }
     }
 
     // Добавляет/обновляет ориентированное ребро from->to
-    bool add_edge(VertexIndex from, VertexIndex to, const EdgeLabel& label = EdgeLabel())
+    void add_edge(VertexIndex from, VertexIndex to, const EdgeLabel& label = EdgeLabel())
     {
-        validate_vertex(from);
-        validate_vertex(to);
-
-        Edge* existing = find_edge(from, to);
-        if (existing)
-        {
-            existing->label = label;
-            return false;
+        // Ищем, существует ли ребро
+        auto* item = _vertices[from].edges.first();
+        while (item) {
+            if (item->data().to == to) {
+                item->data().label = label;
+                return;
+            }
+            item = item->next();
         }
 
-        Edge edge;
-        edge.to = to;
-        edge.label = label;
-        _vertices[from].edges.insert(edge);
-        return true;
+        // Не нашли — добавляем новое
+        _vertices[from].edges.insert(Edge(to, label));
     }
     // Удаляет ребро from->to, если оно существует
-    bool remove_edge(VertexIndex from, VertexIndex to)
+    void remove_edge(VertexIndex from, VertexIndex to)
     {
-        validate_vertex(from);
-        validate_vertex(to);
-
-        auto& edges = _vertices[from].edges;
-        typename List<Edge>::Item* prev = nullptr;
-        auto* item = edges.first();
-        while (item)
-        {
-            if (item->data().to == to)
-            {
-                remove_edge_item(edges, prev);
-                return true;
+        auto* item = _vertices[from].edges.first();
+        while (item) {
+            if (item->data().to == to) {
+                if (item == _vertices[from].edges.first())
+                    _vertices[from].edges.erase_first();
+                else
+                    _vertices[from].edges.erase_next(item->prev());
+                return;
             }
-            prev = item;
+            item = item->next();
+        }
+    }
+    // Проверяет наличие ребра из from в to
+    bool has_edge(VertexIndex from, VertexIndex to) const {
+        if (from >= _vertices.size()) return false;
+
+        auto* item = _vertices[from].edges.first();
+        while (item) {
+            if (item->data().to == to) return true;
             item = item->next();
         }
         return false;
     }
-    // Проверяет наличие ребра из from в to
-    bool has_edge(VertexIndex from, VertexIndex to) const
-    {
-        validate_vertex(from);
-        validate_vertex(to);
-        return find_edge(from, to) != nullptr;
-    }
 
     // Устанавливает метку существующего ребра
-    void set_edge_label(VertexIndex from, VertexIndex to, const EdgeLabel& label)
-    {
-        Edge* edge = find_edge(from, to);
-        if (!edge)
-        {
-            throw std::out_of_range("Edge not found");
+    void set_edge_label(VertexIndex from, VertexIndex to, const EdgeLabel& label) {
+        auto* item = _vertices[from].edges.first();
+        while (item) {
+            if (item->data().to == to) {
+                item->data().label = label;
+                return;
+            }
+            item = item->next();
         }
-        edge->label = label;
     }
     // Возвращает копию метки ребра
-    EdgeLabel get_edge_label(VertexIndex from, VertexIndex to) const
-    {
-        const Edge* edge = find_edge(from, to);
-        if (!edge)
-        {
-            throw std::out_of_range("Edge not found");
+    EdgeLabel get_edge_label(VertexIndex from, VertexIndex to) const {
+        auto* item = _vertices[from].edges.first();
+        while (item) {
+            if (item->data().to == to) return item->data().label;
+            item = item->next();
         }
-        return edge->label;
+        return EdgeLabel();
     }
 
     // Изменяет метку вершины
     void set_vertex_label(VertexIndex vertex, const VertexLabel& label)
     {
-        validate_vertex(vertex);
         _vertices[vertex].label = label;
     }
     // Возвращает метку вершины
-    const VertexLabel& get_vertex_label(VertexIndex vertex) const
-    {
-        validate_vertex(vertex);
-        return _vertices[vertex].label;
+    VertexLabel get_vertex_label(VertexIndex index) const {
+        return _vertices[index].label;
     }
     // Возвращает метки всех вершин
     std::vector<VertexLabel> vertex_labels() const
     {
         std::vector<VertexLabel> labels;
         labels.reserve(_vertices.size());
-        for (const auto& vertex : _vertices)
-        {
-            labels.push_back(vertex.label);
+        for (const auto& v : _vertices) {
+            labels.push_back(v.label);
         }
         return labels;
     }
@@ -209,73 +193,11 @@ public:
     // Возвращает итератор по исходящим соседям вершины
     NeighborIterator neighbors(VertexIndex vertex)
     {
-        validate_vertex(vertex);
         return NeighborIterator(_vertices[vertex].edges.first());
     }
 
 private:
     std::vector<Vertex> _vertices;
-    // Проверяет корректность индекса вершины
-    void validate_vertex(VertexIndex vertex) const
-    {
-        if (vertex >= _vertices.size())
-        {
-            throw std::out_of_range("Vertex index out of range");
-        }
-    }
-
-    // Удаляет все рёбра из списка смежности
-    void clear_edges(List<Edge>& edges)
-    {
-        while (edges.first())
-        {
-            edges.erase_first();
-        }
-    }
-
-    // Находит ребро from->to и возвращает указатель
-    Edge* find_edge(VertexIndex from, VertexIndex to)
-    {
-        validate_vertex(from);
-        auto* item = _vertices[from].edges.first();
-        while (item)
-        {
-            Edge& edge = item->data();
-            if (edge.to == to)
-            {
-                return &edge;
-            }
-            item = item->next();
-        }
-        return nullptr;
-    }
-
-    // Константная версия поиска ребра
-    const Edge* find_edge(VertexIndex from, VertexIndex to) const
-    {
-        validate_vertex(from);
-        auto* item = _vertices[from].edges.first();
-        while (item)
-        {
-            const Edge& edge = item->data();
-            if (edge.to == to)
-            {
-                return &edge;
-            }
-            item = item->next();
-        }
-        return nullptr;
-    }
-
-    // Удаляет элемент списка смежности, возвращая следующий
-    typename List<Edge>::Item* remove_edge_item(List<Edge>& edges, typename List<Edge>::Item* prev)
-    {
-        if (!prev)
-        {
-            return edges.erase_first();
-        }
-        return edges.erase_next(prev);
-    }
 };
 
 #endif
