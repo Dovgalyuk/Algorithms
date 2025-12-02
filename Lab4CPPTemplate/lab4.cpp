@@ -126,10 +126,8 @@ int main(int argc, char* argv[]) {
                 e.v = neighbor;
                 e.weight = graph.get_edge_label(i, neighbor);
 
-                if (edge_count < (size_t)m) {
-                    all_edges[edge_count] = e;
-                    edge_count++;
-                }
+                all_edges[edge_count] = e;
+                edge_count++;
             }
         }
     }
