@@ -25,8 +25,15 @@
 # add_test(TestVectorCPP TestVectorCPP)
 # set_tests_properties(TestVectorCPP PROPERTIES TIMEOUT 10)
 
-add_executable(TestPQueueCPP pqueue.cpp)
-target_include_directories(TestPQueueCPP PUBLIC ..)
-target_link_libraries(TestPQueueCPP LibraryCPP)
-add_test(TestPQueueCPP TestPQueueCPP)
-set_tests_properties(TestPQueueCPP PROPERTIES TIMEOUT 10)
+# add_executable(TestPQueueCPP pqueue.cpp)
+# target_include_directories(TestPQueueCPP PUBLIC ..)
+# target_link_libraries(TestPQueueCPP LibraryCPP)
+# add_test(TestPQueueCPP TestPQueueCPP)
+# set_tests_properties(TestPQueueCPP PROPERTIES TIMEOUT 10)
+
+add_executable(TestStringSetCPP strset.cpp)
+target_include_directories(TestStringSetCPP PUBLIC ..)
+target_link_libraries(TestStringSetCPP LibraryCPP)
+add_test(TestStringSetCPP TestStringSetCPP)
+set_tests_properties(TestStringSetCPP PROPERTIES TIMEOUT 10)
+
