@@ -65,6 +65,7 @@ public:
 private:
     // private data should be here
     Item *head;
+    Item* tail;
     void clear();
     void copy_from(const List& a);
 

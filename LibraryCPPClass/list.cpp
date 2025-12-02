@@ -1,11 +1,11 @@
 #include <cstddef>
 #include "list.h"
 
-List::List() : head(nullptr)
+List::List() : head(nullptr), tail(nullptr)
 {
 }
 
-List::List(const List &a) : head(nullptr)
+List::List(const List &a) : head(nullptr), tail(nullptr)
 {
     copy_from(a);
 }
@@ -50,12 +50,15 @@ void List::copy_from(const List& a) {
         cur = cur->next_;
 
     }
+    tail = last;
 }
 
 
 List::Item *List::insert(Data data)
 {
     head = new Item(data, head);
+    if (!tail)
+        tail = head;
     return head;
 }
 
@@ -68,6 +71,8 @@ List::Item *List::insert_after(Item *item, Data data)
 
     Item* node = new Item(data, item->next_);
     item->next_ = node;
+    if (item == tail)
+        tail = node;
     return node;
 }
 
@@ -80,6 +85,8 @@ List::Item *List::erase_first()
     Item* next = head->next_;
     delete head;
     head = next;
+    if (!head)
+        tail = nullptr;
     return head;
 }
 
@@ -95,18 +102,15 @@ List::Item *List::erase_next(Item *item)
         return nullptr;
 
     item->next_ = target->next_;
+
+    if (target == tail)
+        tail = item;
+
     delete target;
     return item->next_;
 
 
 }
 List::Item* List::last() const {
-    Item* cur = head;
-    if (!cur)
-        return nullptr;
-
-    while (cur->next_)
-        cur = cur->next_;
-
-    return cur;
+    return tail;
 }
