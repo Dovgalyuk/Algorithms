@@ -1,6 +1,7 @@
 #ifndef DIRGRAPH_WITH_LIST_H
 #define DIRGRAPH_WITH_LIST_H
 
+#include "vector.h"
 #include "list.h"
 #include <vector>
 #include <stdexcept>
@@ -15,7 +16,7 @@ private:
         Edge(size_t t, const edge& l = edge()) : to(t), label(l) {}
     };
 
-    std::vector<vertex> vertexMarks;
+    Vector<vertex> vertexMarks;
     std::vector<List<Edge>> adjacencyLists;
 
     void checkVertex(size_t v) const {
@@ -35,7 +36,8 @@ public:
     // Add new vertex to the graph
     VertexId addVertex(const vertex& mark = vertex()) {
         VertexId id = vertexMarks.size();
-        vertexMarks.push_back(mark);
+        vertexMarks.resize(id + 1);
+        vertexMarks.set(id, mark);
         adjacencyLists.push_back(List<Edge>());
         return id;
     }
@@ -47,15 +49,17 @@ public:
         adjacencyLists[v] = List<Edge>();
 
         for (size_t i = 0; i < adjacencyLists.size(); ++i) {
-            if (i != v && edgeExists(i, v)) {
-                removeEdge(i, v);
-            }
+            removeEdge(i, v);
         }
 
-    
-        vertexMarks.erase(vertexMarks.begin() + v);
-        adjacencyLists.erase(adjacencyLists.begin() + v);
+        // Shift all elements after v in vertexMarks
+        for (size_t i = v; i + 1 < vertexMarks.size(); ++i) {
+            vertexMarks.set(i, vertexMarks.get(i + 1));
+        }
+        vertexMarks.resize(vertexMarks.size() - 1);
 
+        // Remove from adjacencyLists
+        adjacencyLists.erase(adjacencyLists.begin() + v);
     }
 
     // Add edge between two vertices
@@ -124,7 +128,7 @@ public:
 
         while (current != nullptr) {
             if (current->data().to == to) {
-                current->data().label = mark; 
+                current->data().label = mark;
                 return;
             }
             current = current->next();
@@ -150,17 +154,17 @@ public:
     // Set label for vertex
     void setVertexMark(VertexId v, const vertex& mark) {
         checkVertex(v);
-        vertexMarks[v] = mark;
+        vertexMarks.set(v, mark);
     }
 
     // Get label of vertex
     vertex getVertexMark(VertexId v) const {
         checkVertex(v);
-        return vertexMarks[v];
+        return vertexMarks.get(v);
     }
 
     // Get labels of all vertices
-    std::vector<vertex> getAllVertexMarks() const {
+    Vector<vertex> getAllVertexMarks() const {
         return vertexMarks;
     }
 
