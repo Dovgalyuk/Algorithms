@@ -21,9 +21,7 @@ vector<string> generacia_test(size_t count) {
 }
 
 
-long long test_bloom(int data_size) {
-
-	FilterBloom* filter = f_create(data_size * 10, 7);
+long long test_bloom(FilterBloom* filter , int data_size) {
 
 	auto test_data = generacia_test(data_size);
 
@@ -62,31 +60,58 @@ long long test_unordered_set(int data_size) {
 
 void complexity_test() {
 
-	vector<int> sizes = { 1000, 2000, 4000 , 8000 , 16000 };
+	vector<int> sizes = { 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000 };
 
 	for (int a : sizes) {
 		
-		long long bloom_time = test_bloom(a);
+		long long bloom_time_fast = test_bloom(f_create_fast(a * 10, 7), a);
+		long long bloom_time_slow = test_bloom(f_create_slow(a * 10, 7), a);
 		long long uset_time = test_unordered_set(a);
 
-		double bloom_per_op = (double)bloom_time / a;
+		double bloom_per_op_fast = (double)bloom_time_fast / a;
+		double bloom_per_op_slow = (double)bloom_time_slow / a;
 		double set_per_op = (double)uset_time / a;
 
-		cout << "Size " << a << ": Bloom time per op: " << bloom_per_op << " ms, Unordered_set time per op: " << set_per_op << " ms" << endl;
+		cout << "Size : " << a << " Fast = " << bloom_per_op_fast << " ms, Slow = " << bloom_per_op_slow <<  " ms, Set = " << set_per_op << " ms" << endl;
 	}
 }
 
 void performance_graph_data() {
 
-	vector<int> sizes = { 1000, 5000, 10000, 50000, 100000 };
+	vector<int> sizes = { 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000 };
 
 	for (int a : sizes) {
 
-		long long bloom_time = test_bloom(a);
+		long long bloom_time_fast = test_bloom(f_create_fast(a * 10, 7), a);
+		long long bloom_time_slow = test_bloom(f_create_slow(a * 10, 7), a);
 		long long uset_time = test_unordered_set(a);
 
-		cout << a << " , " << bloom_time << " , " << uset_time << endl;
+
+		long long fast_stars = bloom_time_fast / 100;// 100 ms
+		long long slow_stars = bloom_time_slow / 100;
+		long long set_stars = uset_time / 100;
+
+		cout << a << "," << bloom_time_fast << "," << bloom_time_slow << "," << uset_time << endl;
+
+		cout << "F:";
+		for (long long i = 0; i < fast_stars && i < 20; i++) {
+			cout << "*";
+		}
+
+		cout << " S:";
+		for (long long i = 0; i < slow_stars && i < 20; i++) {
+			cout << "*";
+		}
+
+		cout << " U:";
+		for (long long i = 0; i < set_stars && i < 20; i++){
+			cout << "*";
+		}
+		cout << endl;
+
 	}
+
+
 }
 
 int main(int argc, char** argv) {
@@ -102,12 +127,14 @@ int main(int argc, char** argv) {
 	input >> data_size;
 
 
-	long long bloom_time = test_bloom(data_size);
+	long long bloom_time_fast = test_bloom(f_create_fast(data_size * 10, 7), data_size);
+	long long bloom_time_slow = test_bloom(f_create_slow(data_size * 10, 7), data_size);
 	long long uset_time = test_unordered_set(data_size);
 
 	cout << "Data size: " << data_size << endl;
-	cout << "Bloom filter insert time: " << (bloom_time ? "PASS" : "FAIL") << endl;
-	cout << "Unordered_set insert time: " << (uset_time ? "PASS" : "FAIL") << endl;
+	cout << "Fast Bloom filter time: " << bloom_time_fast << " ms" << endl;
+	cout << "Slow Bloom filter time: " << bloom_time_slow << " ms" << endl;
+	cout << "Unordered_set time: " << uset_time << " ms" << endl;
 
 	
 	cout << "\nComplexity analysis" << endl;

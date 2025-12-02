@@ -30,5 +30,4 @@ add_executable(TestFilterBloomCPP filter_bloom.cpp)
 target_include_directories(TestFilterBloomCPP  PUBLIC ..)
 target_link_libraries(TestFilterBloomCPP  LibraryCPP)
 add_test(TestFilterBloomCPP  TestFilterBloomCPP )
-set_tests_properties(TestFilterBloomCPP  PROPERTIES TIMEOUT 10)
 	

@@ -1,17 +1,19 @@
 #include <filter_bloom.h>
 #include <iostream>
+#include <chrono>
+#include <string>
 
 using namespace std;
+using namespace std::chrono;
 
-int main() {
+const int NUM = 1000000;
 
-	FilterBloom* filter = f_create(1000, 3);
-
-    if (!filter)
-    {
-        cout << "Filter creation error\n";
-        return 1;
-    }
+bool test(FilterBloom* filter , const string& name) {
+	if (!filter)
+	{
+		cout << name <<" filter creation error\n";
+		return 1;
+	}
 
 	string value1 = "hello";
 	string value2 = "world";
@@ -48,6 +50,63 @@ int main() {
 		return 1;
 	}
 
+	double fp_rate1 = estimate_false_positives(filter, 1000);
+	cout << "False positive: " << fp_rate1 * 100 << "%" << endl;
+
+	FilterBloom* filter2;
+	if (name == "Fast") {
+		filter2 = f_create_fast(1000, 3);
+	}
+	else {
+		filter2 = f_create_slow(1000, 3);
+	}
+	double fn_rate2 = estimate_false_negatives(filter2, 1000);
+	cout << "False negative: " << fn_rate2 * 100 << "%" << endl;
+	f_delete(filter2);
+
+	if (fn_rate2 > 0.0) {
+		cout << "Filter has false negatives!" << endl;
+	}
+
 	f_delete(filter);
 
+	return false;
+}
+
+void performance_test(FilterBloom* filter , int num ,const string& name) {
+
+	cout << "\n" << name << " performance:" << endl;
+
+	auto start = high_resolution_clock::now();
+
+	for (int i = 0; i < num; i++) {
+		string val = "perf_test_" + to_string(i);
+		f_insert(filter, val);
+	}
+
+	auto end = high_resolution_clock::now();
+	auto duration = duration_cast<milliseconds>(end - start);
+	
+	cout << name << " - Insert " << num << " elements: " << duration.count() << " ms" << endl;
+	cout << name << " - Time per operation: " << (double)duration.count() / num << " ms" << endl;
+
+	f_delete(filter);
+}
+
+
+
+int main() {
+
+	if (test(f_create_fast(1000, 3), "Fast")) {
+		return 1;
+	}
+	
+	if (test(f_create_slow(1000, 3), "Slow")) {
+		return 1;
+	}
+
+	performance_test(f_create_fast(NUM, 7), NUM, "Fast filter");
+	performance_test(f_create_slow(NUM, 7), NUM, "Slow filter");
+
+	return 0;
 }
