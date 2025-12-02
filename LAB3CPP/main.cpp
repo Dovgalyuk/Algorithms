@@ -241,21 +241,7 @@ int main (int argc, char *argv[])
     }
     
     pair<size_t, size_t> indext_exit = bfs(maze, m, d);
-    for (size_t i = 0; i < m.size(); i++)
-    {
-        for (size_t j = 0; j < m.get(i).size(); j++)
-        {
-            if (m.get(i).get(j) == -1)
-            {
-                cout << '#' << " ";
-            }
-            else
-            {
-                cout << m.get(i).get(j) << " ";
-            }
-        }
-        cout << endl;
-    }
+  
     Vector<pair<size_t,size_t>> box = rebuild_way(m, indext_exit, maze);
     change_maze(maze, box, m);
      return 0;
