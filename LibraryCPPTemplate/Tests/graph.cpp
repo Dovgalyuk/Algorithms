@@ -87,24 +87,51 @@ template class Graph<std::string, std::string>;
 template class Graph<int, int>;
 
 #ifdef TEST_GRAPH_STANDALONE
-int main() {
+#include <vector>
+#include <string>
+
+void testGraphLibrary() {
     std::cout << "=== Testing Graph Library ===" << std::endl;
 
-    Graph<std::string, int> graph(3);
+    Graph<std::string, int> graph(5);
 
-    graph.setVertexLabel(0, "X");
-    graph.setVertexLabel(1, "Y");
-    graph.setVertexLabel(2, "Z");
+    graph.setVertexLabel(0, "A");
+    graph.setVertexLabel(1, "B");
+    graph.setVertexLabel(2, "C");
+    graph.setVertexLabel(3, "D");
+    graph.setVertexLabel(4, "E");
 
-    graph.addEdge(0, 1, 10);
-    graph.addEdge(1, 2, 20);
+    graph.addEdge(0, 1, 5);
+    graph.addEdge(0, 2, 3);
+    graph.addEdge(1, 3, 2);
+    graph.addEdge(2, 3, 1);
+    graph.addEdge(2, 4, 4);
+    graph.addEdge(3, 4, 6);
 
     std::cout << "Vertex count: " << graph.getVertexCount() << std::endl;
-    std::cout << "Has edge X->Y: " << graph.hasEdge(0, 1) << std::endl;
-    std::cout << "Edge weight X->Y: " << graph.getEdgeLabel(0, 1) << std::endl;
+    std::cout << "Has edge A->B: " << graph.hasEdge(0, 1) << std::endl;
+    std::cout << "Has edge B->A: " << graph.hasEdge(1, 0) << std::endl;
 
-    auto paths = graph.findAllShortestPaths(0, 2);
-    std::cout << "Found " << paths.size() << " shortest path(s) from X to Z" << std::endl;
+    auto labels = graph.getAllVertexLabels();
+    std::cout << "Vertex labels: ";
+    for (size_t i = 0; i < labels.size(); ++i) {
+        std::cout << labels.get(i) << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Neighbors of A: ";
+    auto neighbors = graph.getNeighbors(0);
+    while (neighbors.hasNext()) {
+        int neighbor = neighbors.next();
+        std::cout << graph.getVertexLabel(neighbor) << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Edge A->B weight: " << graph.getEdgeLabel(0, 1) << std::endl;
+    std::cout << "Edge C->D weight: " << graph.getEdgeLabel(2, 3) << std::endl;
+
+    auto paths = graph.findAllShortestPaths(0, 4);
+    std::cout << "\nFound " << paths.size() << " shortest path(s) from A to E" << std::endl;
 
     for (size_t i = 0; i < paths.size(); ++i) {
         std::cout << "Path " << i + 1 << ": ";
@@ -114,10 +141,12 @@ int main() {
                 std::cout << " -> ";
             }
         }
-        std::cout << std::endl;
+        std::cout << " (Length: " << paths[i].size() - 1 << ")" << std::endl;
     }
+}
 
-    std::cout << "TestGraphCPPTemplate completed successfully!" << std::endl;
+int main() {
+    testGraphLibrary();
     return 0;
 }
 #endif

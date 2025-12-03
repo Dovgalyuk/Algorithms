@@ -4,6 +4,7 @@
 #include <string>
 #include "graph.h"
 
+// Тестовая функция, которая будет запускаться при запуске без аргументов
 void testGraphLibrary() {
     std::cout << "=== Testing Graph Library ===" << std::endl;
 
@@ -28,8 +29,9 @@ void testGraphLibrary() {
 
     auto labels = graph.getAllVertexLabels();
     std::cout << "Vertex labels: ";
+
     for (size_t i = 0; i < labels.size(); ++i) {
-        std::cout << labels.get(i) << " ";
+        std::cout << labels[i] << " ";
     }
     std::cout << std::endl;
 
@@ -134,7 +136,6 @@ bool findShortestPaths(const std::string& inputFile, const std::string& startVer
 
 int main(int argc, char* argv[]) {
     if (argc == 1) {
-
         testGraphLibrary();
     }
     else if (argc == 4) {
@@ -144,7 +145,6 @@ int main(int argc, char* argv[]) {
         findShortestPaths(inputFile, startVertex, endVertex);
     }
     else {
-
         std::cout << "Usage:" << std::endl;
         std::cout << "  Testing: lab4" << std::endl;
         std::cout << "  Find paths: lab4 input.txt start_vertex end_vertex" << std::endl;
