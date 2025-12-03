@@ -1,0 +1,12 @@
+False positive: 0%
+False negative: 0%
+False positive: 0%
+False negative: 0%
+
+Fast filter performance:
+Fast filter - Insert 1000000 elements: 3159 ms
+Fast filter - Time per operation: 0.003159 ms
+
+Slow filter performance:
+Slow filter - Insert 1000000 elements: 11640 ms
+Slow filter - Time per operation: 0.01164 ms

@@ -2,16 +2,17 @@
 #include <iostream>
 #include <chrono>
 #include <string>
+#include <fstream>
 
 using namespace std;
 using namespace std::chrono;
 
 const int NUM = 1000000;
 
-bool test(FilterBloom* filter , const string& name) {
+bool test(FilterBloom* filter , const string& name, ofstream& file) {
 	if (!filter)
 	{
-		cout << name <<" filter creation error\n";
+		file << name << " filter creation error\n";
 		return 1;
 	}
 
@@ -23,17 +24,17 @@ bool test(FilterBloom* filter , const string& name) {
 	f_insert(filter, value2);
 
 	if (!f_contains(filter, value1)) {
-		cout << "f_insert or f_contains error for value1\n";
+		file << "f_insert or f_contains error for value1\n";
 		return 1;
 	}
 
 	if (!f_contains(filter, value2)) {
-		cout << "f_insert or f_contains error for value2\n";
+		file << "f_insert or f_contains error for value2\n";
 		return 1;
 	}
 
 	if (f_contains(filter, value3)) {
-		cout << "f_contains false positive for value3\n";
+		file << "f_contains false positive for value3\n";
 		return 1;
 	}
 
@@ -41,17 +42,17 @@ bool test(FilterBloom* filter , const string& name) {
 	f_remove(filter, value1);
 
 	if (f_contains(filter, value1)) {
-		cout << "f_remove or f_contains error for value1\n";
+		file << "f_remove or f_contains error for value1\n";
 		return 1;
 	}
 
 	if (!f_contains(filter, value2)) {
-		cout << "f_contains error for value2 after removing value1\n";
+		file << "f_contains error for value2 after removing value1\n";
 		return 1;
 	}
 
 	double fp_rate1 = estimate_false_positives(filter, 1000);
-	cout << "False positive: " << fp_rate1 * 100 << "%" << endl;
+	file << "False positive: " << fp_rate1 * 100 << "%" << endl;
 
 	FilterBloom* filter2;
 	if (name == "Fast") {
@@ -61,11 +62,11 @@ bool test(FilterBloom* filter , const string& name) {
 		filter2 = f_create_slow(1000, 3);
 	}
 	double fn_rate2 = estimate_false_negatives(filter2, 1000);
-	cout << "False negative: " << fn_rate2 * 100 << "%" << endl;
+	file << "False negative: " << fn_rate2 * 100 << "%" << endl;
 	f_delete(filter2);
 
 	if (fn_rate2 > 0.0) {
-		cout << "Filter has false negatives!" << endl;
+		file << "Filter has false negatives!" << endl;
 	}
 
 	f_delete(filter);
@@ -73,9 +74,9 @@ bool test(FilterBloom* filter , const string& name) {
 	return false;
 }
 
-void performance_test(FilterBloom* filter , int num ,const string& name) {
+void performance_test(FilterBloom* filter , int num ,const string& name , ofstream& file) {
 
-	cout << "\n" << name << " performance:" << endl;
+	file << "\n" << name << " performance:" << endl;
 
 	auto start = high_resolution_clock::now();
 
@@ -87,8 +88,8 @@ void performance_test(FilterBloom* filter , int num ,const string& name) {
 	auto end = high_resolution_clock::now();
 	auto duration = duration_cast<milliseconds>(end - start);
 	
-	cout << name << " - Insert " << num << " elements: " << duration.count() << " ms" << endl;
-	cout << name << " - Time per operation: " << (double)duration.count() / num << " ms" << endl;
+	file << name << " - Insert " << num << " elements: " << duration.count() << " ms" << endl;
+	file << name << " - Time per operation: " << (double)duration.count() / num << " ms" << endl;
 
 	f_delete(filter);
 }
@@ -97,16 +98,22 @@ void performance_test(FilterBloom* filter , int num ,const string& name) {
 
 int main() {
 
-	if (test(f_create_fast(1000, 3), "Fast")) {
+	ofstream file("../../../LibraryCPP/Tests/result.txt");
+
+	if (!file.is_open()) {
+		return 1;
+	}
+	if (test(f_create_fast(1000, 3), "Fast" , file)) {
 		return 1;
 	}
 	
-	if (test(f_create_slow(1000, 3), "Slow")) {
+	if (test(f_create_slow(1000, 3), "Slow" , file)) {
 		return 1;
 	}
 
-	performance_test(f_create_fast(NUM, 7), NUM, "Fast filter");
-	performance_test(f_create_slow(NUM, 7), NUM, "Slow filter");
+	performance_test(f_create_fast(NUM, 7), NUM, "Fast filter" , file);
+	performance_test(f_create_slow(NUM, 7), NUM, "Slow filter" , file);
 
+	file.close();
 	return 0;
 }

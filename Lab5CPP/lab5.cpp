@@ -58,7 +58,7 @@ long long test_unordered_set(int data_size) {
 	return time;
 }
 
-void complexity_test() {
+void complexity_test(ofstream& file) {
 
 	vector<int> sizes = { 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000 };
 
@@ -72,11 +72,11 @@ void complexity_test() {
 		double bloom_per_op_slow = (double)bloom_time_slow / a;
 		double set_per_op = (double)uset_time / a;
 
-		cout << "Size : " << a << " Fast = " << bloom_per_op_fast << " ms, Slow = " << bloom_per_op_slow <<  " ms, Set = " << set_per_op << " ms" << endl;
+		file << "Size : " << a << " Fast = " << bloom_per_op_fast << " ms, Slow = " << bloom_per_op_slow <<  " ms, Set = " << set_per_op << " ms" << endl;
 	}
 }
 
-void performance_graph_data() {
+void performance_graph_data(ofstream& file) {
 
 	vector<int> sizes = { 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000 };
 
@@ -91,23 +91,23 @@ void performance_graph_data() {
 		long long slow_stars = bloom_time_slow / 100;
 		long long set_stars = uset_time / 100;
 
-		cout << a << "," << bloom_time_fast << "," << bloom_time_slow << "," << uset_time << endl;
+		file << a << "," << bloom_time_fast << "," << bloom_time_slow << "," << uset_time << endl;
 
-		cout << "F:";
+		file << "F:";
 		for (long long i = 0; i < fast_stars && i < 20; i++) {
-			cout << "*";
+			file << "*";
 		}
 
-		cout << " S:";
+		file << " S:";
 		for (long long i = 0; i < slow_stars && i < 20; i++) {
-			cout << "*";
+			file << "*";
 		}
 
-		cout << " U:";
+		file << " U:";
 		for (long long i = 0; i < set_stars && i < 20; i++){
-			cout << "*";
+			file << "*";
 		}
-		cout << endl;
+		file << endl;
 
 	}
 
@@ -118,31 +118,36 @@ int main(int argc, char** argv) {
 	(void)argc;
 
 	ifstream input(argv[1]);
+	ofstream file("../../Lab5CPP/result.txt");
 
-	if (!input.is_open()) {
+	if (!input.is_open() || !file.is_open()) {
 		return 1;
 	}
+
 
 	int data_size;
 	input >> data_size;
 
 
+	cout << "Data size: " << data_size;
+
 	long long bloom_time_fast = test_bloom(f_create_fast(data_size * 10, 7), data_size);
 	long long bloom_time_slow = test_bloom(f_create_slow(data_size * 10, 7), data_size);
 	long long uset_time = test_unordered_set(data_size);
 
-	cout << "Data size: " << data_size << endl;
-	cout << "Fast Bloom filter time: " << bloom_time_fast << " ms" << endl;
-	cout << "Slow Bloom filter time: " << bloom_time_slow << " ms" << endl;
-	cout << "Unordered_set time: " << uset_time << " ms" << endl;
+	file << "Data size: " << data_size << endl;
+	file << "Fast Bloom filter time: " << bloom_time_fast << " ms" << endl;
+	file << "Slow Bloom filter time: " << bloom_time_slow << " ms" << endl;
+	file << "Unordered_set time: " << uset_time << " ms" << endl;
 
 	
-	cout << "\nComplexity analysis" << endl;
-	complexity_test();
+	file << "\nComplexity analysis" << endl;
+	complexity_test(file);
 
-	cout << "\nPerformance data for graphing:" << endl;
-	performance_graph_data();
+	file << "\nPerformance data for graphing:" << endl;
+	performance_graph_data(file);
 
+	file.close();
 	input.close();
 }
 

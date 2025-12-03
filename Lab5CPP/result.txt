@@ -1,0 +1,38 @@
+Data size: 5000
+Fast Bloom filter time: 9 ms
+Slow Bloom filter time: 50 ms
+Unordered_set time: 4 ms
+
+Complexity analysis
+Size : 1000 Fast = 0.001 ms, Slow = 0.008 ms, Set = 0 ms
+Size : 2000 Fast = 0.0015 ms, Slow = 0.0085 ms, Set = 0.0005 ms
+Size : 5000 Fast = 0.002 ms, Slow = 0.0096 ms, Set = 0.0008 ms
+Size : 10000 Fast = 0.0016 ms, Slow = 0.0108 ms, Set = 0.0009 ms
+Size : 20000 Fast = 0.0019 ms, Slow = 0.0114 ms, Set = 0.001 ms
+Size : 50000 Fast = 0.00168 ms, Slow = 0.01168 ms, Set = 0.00114 ms
+Size : 100000 Fast = 0.00166 ms, Slow = 0.01062 ms, Set = 0.00127 ms
+Size : 200000 Fast = 0.001725 ms, Slow = 0.01076 ms, Set = 0.0012 ms
+Size : 500000 Fast = 0.001744 ms, Slow = 0.01025 ms, Set = 0.001242 ms
+Size : 1000000 Fast = 0.001837 ms, Slow = 0.011 ms, Set = 0.001363 ms
+
+Performance data for graphing:
+1000,1,7,0
+F: S: U:
+2000,3,19,2
+F: S: U:
+5000,10,46,3
+F: S: U:
+10000,21,106,10
+F: S:* U:
+20000,31,208,19
+F: S:** U:
+50000,86,516,55
+F: S:***** U:
+100000,186,1084,119
+F:* S:********** U:*
+200000,333,2062,243
+F:*** S:******************** U:**
+500000,825,5612,704
+F:******** S:******************** U:*******
+1000000,1943,11330,1371
+F:******************* S:******************** U:*************
