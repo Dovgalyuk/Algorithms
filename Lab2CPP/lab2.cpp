@@ -9,7 +9,7 @@ struct Particle {
 };
 
 void solve_particles(const std::string& filename) {
-    Stack* plus_stack = stack_create();  // Только один стек для индексов
+    Stack* plus_stack = stack_create();  // ?????? ???? ???? ??? ????????
     std::ifstream infile(filename);
 
     int N;
@@ -21,7 +21,7 @@ void solve_particles(const std::string& filename) {
 
     for (int i = 0; i < N; ++i) {
         if (arr[i].charge == '+') {
-            stack_push(plus_stack, i);  // Сохраняем только индекс
+            stack_push(plus_stack, i);  // ????????? ?????? ??????
         }
         else if (arr[i].charge == '-') {
             if (!stack_empty(plus_stack)) {

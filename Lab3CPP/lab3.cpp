@@ -1,107 +1,75 @@
 #include <iostream>
-#include <string>
 #include <fstream>
+#include <string>
 #include "queue.h"
-
-const int INF = 1000000000;
 
 struct Point {
     int x, y;
     Point() : x(0), y(0) {}
-    Point(int x, int y) : x(x), y(y) {}
-};
+    Point(int x, int y) : x(x), y(y) {}};
 
-const int move_size = 4;
-const Point move[move_size] = { Point(-1,0), Point(1,0), Point(0,-1), Point(0,1) };
+const int INF = 1000000000;
+const int MAX_SIZE = 100; 
 
-char fnd(char* maze, int height, int width, Point start) {
-    int* dist = new int[height * width];
-    for (int i = 0; i < height * width; ++i) {
-        dist[i] = INF;
+void task(std::istream& in) {
+    std::string maze[MAX_SIZE];
+    std::string line;
+    Point start = { -1, -1 };
+    int H = 0;
+    while (std::getline(in, line) && H < MAX_SIZE) {
+        if (!line.empty()) {
+            maze[H] = line;
+            H++;
+        }
     }
 
-    Queue* queue = queue_create();
+    int W = static_cast<int>(maze[0].size());
 
-    int startIndex = start.y * width + start.x;
-    dist[startIndex] = 0;
-    queue_insert(queue, startIndex);
+    for (int y = 0; y < H; ++y) {
+        for (int x = 0; x < W; ++x) {
+            if (maze[y][x] == 'X') {
+                start.x = x;
+                start.y = y;
+                break;
+            }
+        }
+        if (start.x != -1) break;
+    }
+    int dist[MAX_SIZE][MAX_SIZE];
+    for (int y = 0; y < H; ++y) {
+        for (int x = 0; x < W; ++x) {
+            dist[y][x] = INF;
+        }
+    }
 
-    char result = '-';
+    Queue* q = queue_create();
+    queue_insert(q, start.y * W + start.x);
+    dist[start.y][start.x] = 0;
 
-    while (!queue_empty(queue)) {
-        int current = queue_get(queue);
-        queue_remove(queue);
+    const int dx[4] = { -1, 1, 0, 0 };
+    const int dy[4] = { 0, 0, -1, 1 };
+    int ans = -1;
 
-        int cur_x = current % width;
-        int cur_y = current / width;
-
-        char current_char = maze[current];
-        if (current_char >= '0' && current_char <= '9') {
-            result = current_char;
+    while (!queue_empty(q)) {
+        int v = queue_get(q);
+        queue_remove(q);
+        int y = v / W, x = v % W;
+        if (isdigit(maze[y][x])) {
+            ans = maze[y][x] - '0';
             break;
         }
-
-        int cur_dist = dist[current];
-
-        for (int i = 0; i < move_size; i++) {
-            int new_x = cur_x + move[i].x;
-            int new_y = cur_y + move[i].y;
-
-            if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) {
-                continue;
-            }
-
-            int newIndex = new_y * width + new_x;
-            char c = maze[newIndex];
-
-            if (c == '#') {
-                continue;
-            }
-
-            int new_dist = cur_dist + 1;
-            if (new_dist < dist[newIndex]) {
-                dist[newIndex] = new_dist;
-                queue_insert(queue, newIndex);
+        for (int d = 0; d < 4; ++d) {
+            int nx = x + dx[d], ny = y + dy[d];
+            if (nx < 0 || nx >= W || ny < 0 || ny >= H) continue;
+            if (maze[ny][nx] == '#') continue;
+            if (dist[ny][nx] == INF) {
+                dist[ny][nx] = dist[y][x] + 1;
+                queue_insert(q, ny * W + nx);
             }
         }
     }
-
-    queue_delete(queue);
-    delete[] dist;
-    return result;
-}
-
-void task(std::ifstream& file) {
-    std::string line;
-    size_t width = 0, height = 0;
-    std::string maze_str;
-
-    Point start(-1, -1);
-
-    while (std::getline(file, line)) {
-        if (line.empty()) break;
-        if (width == 0) width = line.size();
-        maze_str += line;
-        for (size_t x = 0; x < width; ++x) {
-            if (line[x] == 'X') {
-                start = Point(static_cast<int>(x), static_cast<int>(height));
-            }
-        }
-        height++;
-    }
-
-    int w = static_cast<int>(width);
-    int h = static_cast<int>(height);
-
-    char* maze = new char[w * h];
-    for (int i = 0; i < w * h; ++i) {
-        maze[i] = maze_str[i];
-    }
-
-    char result = fnd(maze, h, w, start);
-    std::cout << result << std::endl;
-
-    delete[] maze;
+    queue_delete(q);
+    std::cout << ans << std::endl;
 }
 
 int main(int argc, char** argv) {
