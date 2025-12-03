@@ -62,14 +62,13 @@ public:
     }
 };
 
-template<class vertex, class edge>
-using NeighborIterator = typename DirGraph<vertex, edge>::NeighborIterator;
+typedef typename DirGraph<string, int>::NeighborIterator NeighborIterator;
 
 vector<EdgeKruskal> getAllEdges(const DirGraph<string, int>& graph) {
     vector<EdgeKruskal> edges;
     for (size_t from = 0; from < graph.getVertexCount(); ++from) {
-        NeighborIterator<string, int> it = graph.neighborsBegin(from);
-        NeighborIterator<string, int> end = graph.neighborsEnd(from);
+        NeighborIterator it = graph.neighborsBegin(from);
+        NeighborIterator end = graph.neighborsEnd(from);
 
         for (; it != end; ++it) {
             size_t to = *it;
