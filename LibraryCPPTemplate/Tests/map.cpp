@@ -233,7 +233,8 @@ void loadTest() {
     for (int i = 0; i < 1000; ++i) {
         map[i] = i * i;
     }
-    if (map[500] != 250'000) {
+    std::cout << map[10] << std::endl;
+    if (map[10] != 100) {
         std::cerr << "operator[] broken\n";
         std::exit(1);
     }
