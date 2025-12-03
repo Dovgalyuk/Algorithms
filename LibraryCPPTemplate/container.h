@@ -1,61 +1,58 @@
 #ifndef STRING_CONTAINER_TEMPLATE_H
 #define STRING_CONTAINER_TEMPLATE_H
 
-#include <string>
-#include <algorithm>
-#include <iostream>
-
 // Класс контейнера для хранения строк на основе АВЛ-дерева
-class StringContainer {
+template <typename KeyType>
+class Container {
 public:
     // Вложенный класс узла дерева
     class Node {
     public:
-        const std::string& key() const { return _key; }
+        const KeyType& key() const { return _key; }
         int height() const { return _height; }
         Node* left() const { return _left; }
         Node* right() const { return _right; }
 
     private:
-        std::string _key;
+        KeyType _key;
         Node* _left = nullptr;
         Node* _right = nullptr;
         int _height = 1;
 
-        Node(const std::string& k) : _key(k), _left(nullptr), _right(nullptr), _height(1) {}
-        friend class StringContainer;
+        Node(const KeyType& k) : _key(k), _left(nullptr), _right(nullptr), _height(1) {}
+        friend class Container;
     };
 
-    StringContainer() : _root(nullptr) {}
-    StringContainer(const StringContainer& other) : _root(nullptr) {
+    Container() : _root(nullptr) {}
+    Container(const Container& other) : _root(nullptr) {
         if (other._root) _root = copy_recursive(other._root);
     }
-    StringContainer& operator=(const StringContainer& other) {
+    Container& operator=(const Container& other) {
         if (this != &other) {
             clear();
             if (other._root) _root = copy_recursive(other._root);
         }
         return *this;
     }
-    ~StringContainer() {
+    ~Container() {
         clear();
     }
 
     // Добавляет строку в контейнер
-    void insert(const std::string& value) {
+    void insert(const KeyType& value) {
         _root = insert_node(_root, value);
     }
 
     // Удаляет строку из контейнера
     // Возвращает true, если значение было найдено и удалено
-    bool remove(const std::string& value) {
+    bool remove(const KeyType& value) {
         bool deleted = false;
         _root = remove_node(_root, value, deleted);
         return deleted;
     }
 
     // Проверяет наличие строки в контейнере
-    bool find(const std::string& value) const {
+    bool find(const KeyType& value) const {
         Node* current = _root;
         while (current) {
             if (value == current->_key) return true;
@@ -153,7 +150,7 @@ private:
         return n;
     }
 
-    Node* insert_node(Node* node, const std::string& key) {
+    Node* insert_node(Node* node, const KeyType& key) {
         if (!node) return new Node(key);
 
         if (key < node->_key)
@@ -172,7 +169,7 @@ private:
         return current;
     }
 
-    Node* remove_node(Node* node, const std::string& key, bool& deleted) {
+    Node* remove_node(Node* node, const KeyType& key, bool& deleted) {
         if (!node) return nullptr;
 
         if (key < node->_key) {

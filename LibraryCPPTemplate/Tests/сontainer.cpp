@@ -1,11 +1,9 @@
 #include <iostream>
 #include <string>
-#include <vector>
-#include <algorithm>
-#include <cmath>
-#include "stringContainer.h"
 
-typedef StringContainer MyContainer;
+#include "container.h"
+
+typedef Container<std::string> MyContainer;
 
 int main() {
     MyContainer* container = new MyContainer;
