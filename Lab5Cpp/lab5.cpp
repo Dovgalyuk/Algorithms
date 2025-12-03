@@ -33,6 +33,40 @@ vector<string> random_data(int count)
     return data;
 }
 
+long long measure_stringset_insert(const vector<string>& data)
+{
+    auto start = chrono::high_resolution_clock::now();
+
+    StringSet* myset = string_set_create();
+    for (const auto& key : data)
+        string_set_insert(myset, key);
+    string_set_delete(myset);
+
+    auto end = chrono::high_resolution_clock::now();
+    return chrono::duration_cast<chrono::microseconds>(end - start).count();
+}
+
+long long measure_stdset_insert(const vector<string>& data)
+{
+    auto start = chrono::high_resolution_clock::now();
+
+    std::set<string> stdset;
+    for (const auto& key : data)
+        stdset.insert(key);
+
+    auto end = chrono::high_resolution_clock::now();
+    return chrono::duration_cast<chrono::microseconds>(end - start).count();
+}
+
+void run_test(const string& suffix, const vector<string>& data)
+{
+    long long t_my = measure_stringset_insert(data);
+    long long t_std = measure_stdset_insert(data);
+
+    res.push_back({ "StringSet " + suffix, t_my });
+    res.push_back({ "std::set " + suffix, t_std });
+}
+
 void cmp_with_random(int size)
 {
     auto test = random_data(size);
@@ -89,6 +123,7 @@ void print_time()
     }
 }
 
+
 int main(int argc, char* argv[])
 {
     string filename = "input.txt";
@@ -104,23 +139,7 @@ int main(int argc, char* argv[])
 
     cout << "File test: \"" << filename << "\", words = " << words.size() << "\n";
 
-    auto start = chrono::high_resolution_clock::now();
-    StringSet* myset = string_set_create();
-    for (const auto& key : words)
-        string_set_insert(myset, key);
-    auto end = chrono::high_resolution_clock::now();
-    long long t_my = chrono::duration_cast<chrono::microseconds>(end - start).count();
-    string_set_delete(myset);
-
-    start = chrono::high_resolution_clock::now();
-    std::set<string> stdset;
-    for (const auto& key : words)
-        stdset.insert(key);
-    end = chrono::high_resolution_clock::now();
-    long long t_std = chrono::duration_cast<chrono::microseconds>(end - start).count();
-
-    res.push_back({ "StringSet (file)", t_my });
-    res.push_back({ "std::set (file)",  t_std });
+    run_test("(file)", words);
 
     cmp_random_all();
 
