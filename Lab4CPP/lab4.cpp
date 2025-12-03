@@ -42,17 +42,19 @@ int main(int argc, char* argv[]) {
 
     const double INF = std::numeric_limits<double>::infinity();
     std::vector<std::vector<double>> dist(N, std::vector<double>(N, INF));
+    std::vector<std::vector<std::vector<size_t>>> paths(N,
+        std::vector<std::vector<size_t>>(N));
 
     for (size_t i = 0; i < N; ++i) {
         dist[i][i] = 0;
-        for (size_t j = 0; j < N; ++j) {
-            if (i == j) continue;
+        paths[i][i] = { i };
+
+        for (auto it = g.beginNeighbors(i); it != g.endNeighbors(i); ++it) {
+            size_t j = *it;
             auto opt = g.getEdgeLabel(i, j);
             if (opt) {
                 dist[i][j] = opt.value();
-            }
-            else {
-                dist[i][j] = INF;
+                paths[i][j] = { i, j };
             }
         }
     }
@@ -60,22 +62,40 @@ int main(int argc, char* argv[]) {
     for (size_t k = 0; k < N; ++k) {
         for (size_t i = 0; i < N; ++i) {
             for (size_t j = 0; j < N; ++j) {
-                if (dist[i][k] < INF && dist[k][j] < INF) {
-                    dist[i][j] = std::min(dist[i][j], dist[i][k] + dist[k][j]);
+                if (dist[i][k] < INF && dist[k][j] < INF &&
+                    dist[i][j] > dist[i][k] + dist[k][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+
+                    paths[i][j] = paths[i][k];
+                    paths[i][j].insert(paths[i][j].end(),
+                        paths[k][j].begin() + 1, paths[k][j].end());
                 }
             }
         }
     }
 
-    double max_shortest = 0;
+    double max_length = 0;
+    std::vector<size_t> longest_path;
+
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
-            if (dist[i][j] < INF && dist[i][j] > max_shortest) {
-                max_shortest = dist[i][j];
+            if (dist[i][j] < INF && dist[i][j] > max_length) {
+                max_length = dist[i][j];
+                longest_path = paths[i][j];
             }
         }
     }
-    std::cout << max_shortest << std::endl;
+
+    if (!longest_path.empty()) {
+        for (size_t i = 0; i < longest_path.size(); ++i) {
+            if (i > 0) std::cout << "->";
+            std::cout << index_to_name[longest_path[i]];
+        }
+        std::cout << std::endl;
+    }
+    else {
+        std::cout << "No path found" << std::endl;
+    }
 
     return 0;
 }

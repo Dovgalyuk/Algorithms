@@ -30,9 +30,6 @@ public:
         for (size_t i = 0; i < num_vertices_; ++i) {
             adjacency_matrix_[i].resize(num_vertices_);
         }
-        for (size_t i = 0; i < num_vertices_ - 1; ++i) {
-            adjacency_matrix_[i].resize(num_vertices_);
-        }
     }
 
     void addVertex(const VertexLabel& label) {
@@ -138,7 +135,8 @@ public:
         }
 
         void advanceToNext() {
-            while (current_ < graph_.num_vertices_ && !graph_.adjacency_matrix_[vertex_][current_].has_value()) {
+            while (current_ < graph_.num_vertices_ &&
+                !graph_.adjacency_matrix_[vertex_][current_].has_value()) {
                 ++current_;
             }
         }
