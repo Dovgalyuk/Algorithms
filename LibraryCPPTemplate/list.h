@@ -3,6 +3,8 @@
 
 #include <memory>
 #include <stdexcept>
+#include <functional>
+#include <iostream>
 
 template <typename Data>
 class List
@@ -138,29 +140,54 @@ public:
         return false;
     }
 
-    class Iterator {
+    class SimpleIterator {
     private:
         Node* current;
 
     public:
-        Iterator(Node* start = nullptr) : current(start) {}
+        SimpleIterator(Node* start = nullptr) : current(start) {}
 
-        bool hasNext() const { return current != nullptr; }
+        bool hasNext() const {
+            return current != nullptr;
+        }
 
-        Data& next() {
+        Data next() {
             if (!current) throw std::runtime_error("No more items");
-            Data& result = current->data;
+            Data result = current->data;
             current = current->next.get();
             return result;
         }
+
+        Data& peek() {
+            if (!current) throw std::runtime_error("No current item");
+            return current->data;
+        }
+
+        const Data& peek() const {
+            if (!current) throw std::runtime_error("No current item");
+            return current->data;
+        }
+
+        void advance() {
+            if (!current) throw std::runtime_error("No more items");
+            current = current->next.get();
+        }
     };
 
-    Iterator getIterator() const {
-        return Iterator(head.get());
+    SimpleIterator getSimpleIterator() {
+        return SimpleIterator(head.get());
     }
 
-    Iterator getIterator() {
-        return Iterator(head.get());
+    SimpleIterator getSimpleIterator() const {
+        return SimpleIterator(const_cast<Node*>(head.get()));
+    }
+
+    void forEach(const std::function<void(const Data&)>& func) const {
+        Node* current = head.get();
+        while (current) {
+            func(current->data);
+            current = current->next.get();
+        }
     }
 };
 

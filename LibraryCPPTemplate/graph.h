@@ -2,7 +2,7 @@
 #define GRAPH_H
 
 #include "list.h"
-#include <vector>
+#include "vector.h"
 #include <string>
 #include <stdexcept>
 #include <functional>
@@ -28,19 +28,20 @@ private:
         VertexData(const VertexLabel& lbl) : label(lbl) {}
     };
 
-    std::vector<VertexData> vertices;
+    Vector<VertexData> vertices;
 
 public:
     class NeighborIterator {
     private:
         const Graph* graph;
         size_t current_vertex;
-        typename List<Edge>::Iterator edge_iter;
+        typename List<Edge>::SimpleIterator edge_iter;
 
     public:
         NeighborIterator(const Graph* g, size_t vertex) : graph(g), current_vertex(vertex) {
             if (vertex < graph->vertices.size()) {
-                edge_iter = graph->vertices[vertex].edges.getIterator();
+                VertexData vertex_data = graph->vertices[vertex];
+                edge_iter = vertex_data.edges.getSimpleIterator();
             }
         }
 
@@ -50,7 +51,7 @@ public:
 
         int next() {
             if (!hasNext()) throw std::runtime_error("No more neighbors");
-            Edge& edge = edge_iter.next();
+            Edge edge = edge_iter.next();
             return static_cast<int>(edge.to_vertex);
         }
 
@@ -60,19 +61,18 @@ public:
     };
 
     Graph(size_t initial_vertices = 0) {
-        vertices.resize(initial_vertices);
         for (size_t i = 0; i < initial_vertices; ++i) {
-            vertices[i] = VertexData();
+            vertices.push_back(VertexData());
         }
     }
 
     size_t addVertex() {
-        vertices.emplace_back();
+        vertices.push_back(VertexData());
         return vertices.size() - 1;
     }
 
     size_t addVertex(const VertexLabel& label) {
-        vertices.emplace_back(label);
+        vertices.push_back(VertexData(label));
         return vertices.size() - 1;
     }
 
@@ -92,9 +92,10 @@ public:
             return false;
         }
 
-        auto iter = vertices[from].edges.getIterator();
+        VertexData fromVertex = vertices[from];
+        auto iter = fromVertex.edges.getSimpleIterator();
         while (iter.hasNext()) {
-            Edge& edge = iter.next();
+            Edge edge = iter.next();
             if (edge.to_vertex == to) {
                 return false;
             }
@@ -109,20 +110,28 @@ public:
             return false;
         }
 
-        auto& edges = vertices[from].edges;
+        VertexData fromVertex = vertices[from];
+        auto& edges = fromVertex.edges;
 
         List<Edge> new_edges;
-        auto iter = edges.getIterator();
+        bool removed = false;
+        auto iter = edges.getSimpleIterator();
 
         while (iter.hasNext()) {
             Edge edge = iter.next();
             if (edge.to_vertex != to) {
                 new_edges.insert(edge);
             }
+            else {
+                removed = true;
+            }
         }
 
-        vertices[from].edges = std::move(new_edges);
-        return true;
+        if (removed) {
+            vertices[from].edges = std::move(new_edges);
+        }
+
+        return removed;
     }
 
     bool removeVertex(size_t vertex) {
@@ -134,23 +143,28 @@ public:
             }
         }
 
-        vertices.erase(vertices.begin() + vertex);
-
+        Vector<VertexData> new_vertices;
         for (size_t i = 0; i < vertices.size(); ++i) {
-            List<Edge> updated_edges;
-            auto iter = vertices[i].edges.getIterator();
+            if (i != vertex) {
 
-            while (iter.hasNext()) {
-                Edge edge = iter.next();
-                if (edge.to_vertex > vertex) {
-                    edge.to_vertex--;
+                VertexData data = vertices[i];
+                List<Edge> updated_edges;
+                auto iter = data.edges.getSimpleIterator();
+
+                while (iter.hasNext()) {
+                    Edge edge = iter.next();
+                    if (edge.to_vertex > vertex) {
+                        edge.to_vertex--;
+                    }
+                    updated_edges.insert(edge);
                 }
-                updated_edges.insert(edge);
-            }
 
-            vertices[i].edges = std::move(updated_edges);
+                data.edges = std::move(updated_edges);
+                new_vertices.push_back(data);
+            }
         }
 
+        vertices = std::move(new_vertices);
         return true;
     }
 
@@ -159,9 +173,10 @@ public:
             return false;
         }
 
-        auto iter = vertices[from].edges.getIterator();
+        VertexData fromVertex = vertices[from];
+        auto iter = fromVertex.edges.getSimpleIterator();
         while (iter.hasNext()) {
-            Edge& edge = iter.next();
+            Edge edge = iter.next();
             if (edge.to_vertex == to) {
                 return true;
             }
@@ -181,9 +196,10 @@ public:
     EdgeLabel getEdgeLabel(size_t from, size_t to) const {
         if (from >= vertices.size() || to >= vertices.size()) return EdgeLabel();
 
-        auto iter = vertices[from].edges.getIterator();
+        VertexData fromVertex = vertices[from];
+        auto iter = fromVertex.edges.getSimpleIterator();
         while (iter.hasNext()) {
-            Edge& edge = iter.next();
+            Edge edge = iter.next();
             if (edge.to_vertex == to) {
                 return edge.label;
             }
@@ -191,11 +207,10 @@ public:
         return EdgeLabel();
     }
 
-    std::vector<VertexLabel> getAllVertexLabels() const {
-        std::vector<VertexLabel> labels;
-        labels.reserve(vertices.size());
-        for (const auto& vertex : vertices) {
-            labels.push_back(vertex.label);
+    Vector<VertexLabel> getAllVertexLabels() const {
+        Vector<VertexLabel> labels;
+        for (size_t i = 0; i < vertices.size(); ++i) {
+            labels.push_back(vertices[i].label);
         }
         return labels;
     }

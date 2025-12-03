@@ -5,7 +5,7 @@ typedef List<int> MyList;
 
 int main()
 {
-    MyList *list = new MyList;
+    MyList* list = new MyList;
 
     if (!list)
     {
@@ -19,36 +19,59 @@ int main()
 
     *list = *list;
 
-    if (list->first()->data() != 3)
     {
-        std::cout << "list_insert error\n";
+        auto iter = list->getSimpleIterator();
+        if (!iter.hasNext() || iter.peek() != 3)
+        {
+            std::cout << "list_insert error\n";
+            delete list;
+            return 1;
+        }
+    }
+
+    auto first_item = list->first();
+    if (!first_item)
+    {
+        std::cout << "list_first error\n";
+        delete list;
         return 1;
     }
 
-    list->insert_after(list->first(), 4);
+    list->insert_after(first_item, 4);
+    MyList::Item::deleteItem(first_item);
 
-    if (list->first()->next()->data() != 4)
     {
-        std::cout << "list_insert_after error\n";
-        return 1;
+        auto iter = list->getSimpleIterator();
+        iter.next();
+        if (!iter.hasNext() || iter.peek() != 4)
+        {
+            std::cout << "list_insert_after error\n";
+            delete list;
+            return 1;
+        }
     }
 
     list->erase_first();
 
-    if (list->first()->data() != 4)
     {
-        std::cout << "list_erase error\n";
-        return 1;
+        auto iter = list->getSimpleIterator();
+        if (!iter.hasNext() || iter.peek() != 4)
+        {
+            std::cout << "list_erase error\n";
+            delete list;
+            return 1;
+        }
     }
 
     MyList copy(*list);
 
     std::cout << "List: ";
-    for (auto item = list->first() ; item ; item = item->next())
-    {
-        std::cout << item->data() << " ";
-    }
+    list->forEach([](int value) {
+        std::cout << value << " ";
+        });
     std::cout << "\n";
 
     delete list;
+
+    return 0;
 }

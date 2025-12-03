@@ -4,7 +4,6 @@
 #include <string>
 #include "graph.h"
 
-// Тестовая функция, которая будет запускаться при запуске без аргументов
 void testGraphLibrary() {
     std::cout << "=== Testing Graph Library ===" << std::endl;
 
@@ -29,8 +28,8 @@ void testGraphLibrary() {
 
     auto labels = graph.getAllVertexLabels();
     std::cout << "Vertex labels: ";
-    for (const auto& label : labels) {
-        std::cout << label << " ";
+    for (size_t i = 0; i < labels.size(); ++i) {
+        std::cout << labels.get(i) << " ";
     }
     std::cout << std::endl;
 
@@ -45,7 +44,6 @@ void testGraphLibrary() {
     std::cout << "Edge A->B weight: " << graph.getEdgeLabel(0, 1) << std::endl;
     std::cout << "Edge C->D weight: " << graph.getEdgeLabel(2, 3) << std::endl;
 
-    // Тестирование поиска путей
     auto paths = graph.findAllShortestPaths(0, 4);
     std::cout << "\nFound " << paths.size() << " shortest path(s) from A to E" << std::endl;
 
@@ -74,7 +72,6 @@ bool findShortestPaths(const std::string& inputFile, const std::string& startVer
     Graph<std::string, int> graph;
     std::vector<std::string> vertexNames;
 
-    // Читаем названия вершин и добавляем их в граф
     for (int i = 0; i < vertexCount; ++i) {
         std::string name;
         file >> name;
@@ -85,7 +82,6 @@ bool findShortestPaths(const std::string& inputFile, const std::string& startVer
     int edgeCount;
     file >> edgeCount;
 
-    // Читаем ребра
     for (int i = 0; i < edgeCount; ++i) {
         std::string from, to;
         int weight;
@@ -103,7 +99,6 @@ bool findShortestPaths(const std::string& inputFile, const std::string& startVer
     }
     file.close();
 
-    // Находим индексы начальной и конечной вершин
     int startIndex = -1, endIndex = -1;
     for (int i = 0; i < vertexCount; ++i) {
         if (graph.getVertexLabel(i) == startVertex) startIndex = i;
@@ -124,7 +119,6 @@ bool findShortestPaths(const std::string& inputFile, const std::string& startVer
         return false;
     }
 
-    // Выводим все найденные пути
     for (size_t i = 0; i < paths.size(); ++i) {
         std::cout << "Path " << i + 1 << ": ";
         for (size_t j = 0; j < paths[i].size(); ++j) {
@@ -140,18 +134,17 @@ bool findShortestPaths(const std::string& inputFile, const std::string& startVer
 
 int main(int argc, char* argv[]) {
     if (argc == 1) {
-        // Запуск в тестовом режиме без аргументов
+
         testGraphLibrary();
     }
     else if (argc == 4) {
-        // Запуск с файлом и вершинами
         std::string inputFile = argv[1];
         std::string startVertex = argv[2];
         std::string endVertex = argv[3];
         findShortestPaths(inputFile, startVertex, endVertex);
     }
     else {
-        // Неправильное количество аргументов
+
         std::cout << "Usage:" << std::endl;
         std::cout << "  Testing: lab4" << std::endl;
         std::cout << "  Find paths: lab4 input.txt start_vertex end_vertex" << std::endl;

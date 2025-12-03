@@ -32,6 +32,10 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
         while (neighbors_iter.hasNext()) {
             int neighbor = neighbors_iter.next();
 
+            if (neighbor < 0 || static_cast<size_t>(neighbor) >= getVertexCount()) {
+                continue;
+            }
+
             if (distance[neighbor] == -1) {
 
                 distance[neighbor] = distance[current] + 1;
