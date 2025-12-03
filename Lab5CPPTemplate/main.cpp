@@ -8,7 +8,7 @@
 #include <algorithm>
 
 #include "dataGenerator.h"
-#include "stringContainer.h"
+#include "container.h"
 
 // Чтение файла для теста
 std::vector<std::string> loadData(const std::string& filename) {
@@ -29,7 +29,7 @@ std::vector<std::string> loadData(const std::string& filename) {
 
 // Тестирование stringContainer
 long long benchmarkStringContainer(const std::vector<std::string>& data) {
-    StringContainer sc;
+    Container<std::string> sc;
     auto start = std::chrono::high_resolution_clock::now();
 
     for (const auto& s : data) {
@@ -81,7 +81,10 @@ void printResultsTable(
 
 int main()
 {
-    const std::vector<size_t> sizes = { 10000, 50000, 100000, 2000000 };
+    const std::vector<size_t> sizes = {
+        10'000, 50'000, 100'000, 200'000,
+        500'000, 1'000'000, 2'000'000
+    };
     std::vector<long long> avlTime;
     std::vector<long long> setTime;
 
