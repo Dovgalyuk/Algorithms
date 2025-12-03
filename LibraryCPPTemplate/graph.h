@@ -40,7 +40,8 @@ public:
     public:
         NeighborIterator(const Graph* g, size_t vertex) : graph(g), current_vertex(vertex) {
             if (vertex < graph->vertices.size()) {
-                VertexData vertex_data = graph->vertices[vertex];
+                // Получаем ссылку на VertexData, а не копию
+                const VertexData& vertex_data = graph->vertices[vertex];
                 edge_iter = vertex_data.edges.getSimpleIterator();
             }
         }
@@ -51,7 +52,7 @@ public:
 
         int next() {
             if (!hasNext()) throw std::runtime_error("No more neighbors");
-            Edge edge = edge_iter.next();
+            Edge edge = edge_iter.next(); // Получаем копию Edge
             return static_cast<int>(edge.to_vertex);
         }
 
@@ -92,10 +93,11 @@ public:
             return false;
         }
 
-        VertexData fromVertex = vertices[from];
+        // Получаем ссылку на VertexData, а не копию
+        VertexData& fromVertex = vertices[from];
         auto iter = fromVertex.edges.getSimpleIterator();
         while (iter.hasNext()) {
-            Edge edge = iter.next();
+            Edge edge = iter.next(); // Получаем копию
             if (edge.to_vertex == to) {
                 return false;
             }
@@ -110,7 +112,7 @@ public:
             return false;
         }
 
-        VertexData fromVertex = vertices[from];
+        VertexData& fromVertex = vertices[from];
         auto& edges = fromVertex.edges;
 
         List<Edge> new_edges;
@@ -173,7 +175,7 @@ public:
             return false;
         }
 
-        VertexData fromVertex = vertices[from];
+        const VertexData& fromVertex = vertices[from];
         auto iter = fromVertex.edges.getSimpleIterator();
         while (iter.hasNext()) {
             Edge edge = iter.next();
@@ -196,7 +198,7 @@ public:
     EdgeLabel getEdgeLabel(size_t from, size_t to) const {
         if (from >= vertices.size() || to >= vertices.size()) return EdgeLabel();
 
-        VertexData fromVertex = vertices[from];
+        const VertexData& fromVertex = vertices[from];
         auto iter = fromVertex.edges.getSimpleIterator();
         while (iter.hasNext()) {
             Edge edge = iter.next();
