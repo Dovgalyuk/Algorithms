@@ -47,7 +47,7 @@ int main() {
     delete container;
     container = new MyContainer;
 
-    const int N = 10000;
+    const int N = 1'000'000;
     for (int i = 0; i < N; ++i) {
         std::string s = std::to_string(i);
         while (s.length() < 6) s = "0" + s;
