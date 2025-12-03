@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <functional>
 #include <iostream>
+#include <climits>
 
 template<typename VertexLabel, typename EdgeLabel>
 std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(int start, int end) const {
@@ -16,6 +17,7 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
         return { {start} };
     }
 
+    // Используем BFS для поиска кратчайших путей по количеству ребер
     std::vector<int> distance(getVertexCount(), -1);
     std::vector<std::vector<int>> predecessors(getVertexCount());
     std::queue<int> q;
@@ -27,74 +29,85 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
         int current = q.front();
         q.pop();
 
+        // Получаем всех соседей текущей вершины
         auto neighbors_iter = getNeighbors(current);
         while (neighbors_iter.hasNext()) {
             int neighbor = neighbors_iter.next();
 
             if (distance[neighbor] == -1) {
+                // Первое посещение вершины
                 distance[neighbor] = distance[current] + 1;
                 predecessors[neighbor].push_back(current);
                 q.push(neighbor);
             }
             else if (distance[neighbor] == distance[current] + 1) {
+                // Альтернативный путь той же длины
                 predecessors[neighbor].push_back(current);
             }
         }
     }
 
-    std::vector<std::vector<int>> all_paths;
+    // Если конечная вершина не достижима
     if (distance[end] == -1) {
-        return all_paths;
+        return {};
     }
 
+    // Восстанавливаем все кратчайшие пути с помощью backtracking
+    std::vector<std::vector<int>> all_paths;
     std::vector<int> current_path;
+
     std::function<void(int)> backtrack = [&](int node) {
         current_path.push_back(node);
+
         if (node == start) {
+            // Найден полный путь
             std::vector<int> path = current_path;
             std::reverse(path.begin(), path.end());
             all_paths.push_back(path);
         }
         else {
+            // Рекурсивно проходим по всем предшественникам
             for (int pred : predecessors[node]) {
                 backtrack(pred);
             }
         }
+
         current_path.pop_back();
         };
 
     backtrack(end);
+
+    // Сортируем пути для стабильного порядка вывода
+    std::sort(all_paths.begin(), all_paths.end());
+
     return all_paths;
 }
 
-void testGraphFunctionality() {
-    std::cout << "=== Testing Graph Functionality ===" << std::endl;
+// Явные инстанцирования шаблонов
+template class Graph<std::string, int>;
+template class Graph<std::string, std::string>;
+template class Graph<int, int>;
+
+// Главная функция для TestGraphCPPTemplate
+#ifdef TEST_GRAPH_STANDALONE
+int main() {
+    std::cout << "=== Testing Graph Library ===" << std::endl;
 
     Graph<std::string, int> graph(3);
 
-    graph.setVertexLabel(0, "A");
-    graph.setVertexLabel(1, "B");
-    graph.setVertexLabel(2, "C");
+    graph.setVertexLabel(0, "X");
+    graph.setVertexLabel(1, "Y");
+    graph.setVertexLabel(2, "Z");
 
-    graph.addEdge(0, 1, 5);
-    graph.addEdge(1, 2, 3);
-    graph.addEdge(0, 2, 7);
+    graph.addEdge(0, 1, 10);
+    graph.addEdge(1, 2, 20);
 
     std::cout << "Vertex count: " << graph.getVertexCount() << std::endl;
-    std::cout << "Has edge A->B: " << graph.hasEdge(0, 1) << std::endl;
-    std::cout << "Has edge B->A: " << graph.hasEdge(1, 0) << std::endl;
-    std::cout << "Edge weight A->B: " << graph.getEdgeLabel(0, 1) << std::endl;
-
-    auto neighbors = graph.getNeighbors(0);
-    std::cout << "Neighbors of A: ";
-    while (neighbors.hasNext()) {
-        int neighbor = neighbors.next();
-        std::cout << graph.getVertexLabel(neighbor) << " ";
-    }
-    std::cout << std::endl;
+    std::cout << "Has edge X->Y: " << graph.hasEdge(0, 1) << std::endl;
+    std::cout << "Edge weight X->Y: " << graph.getEdgeLabel(0, 1) << std::endl;
 
     auto paths = graph.findAllShortestPaths(0, 2);
-    std::cout << "Found " << paths.size() << " shortest path(s) from A to C" << std::endl;
+    std::cout << "Found " << paths.size() << " shortest path(s) from X to Z" << std::endl;
 
     for (size_t i = 0; i < paths.size(); ++i) {
         std::cout << "Path " << i + 1 << ": ";
@@ -107,16 +120,7 @@ void testGraphFunctionality() {
         std::cout << std::endl;
     }
 
-    std::cout << "Graph functionality test completed!" << std::endl;
-}
-
-#ifdef TEST_GRAPH
-int main() {
-    testGraphFunctionality();
+    std::cout << "TestGraphCPPTemplate completed successfully!" << std::endl;
     return 0;
 }
 #endif
-
-template class Graph<std::string, int>;
-template class Graph<std::string, std::string>;
-template class Graph<int, int>;

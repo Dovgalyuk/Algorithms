@@ -60,9 +60,9 @@ public:
     };
 
     Graph(size_t initial_vertices = 0) {
-        vertices.reserve(initial_vertices);
+        vertices.resize(initial_vertices);
         for (size_t i = 0; i < initial_vertices; ++i) {
-            vertices.emplace_back();
+            vertices[i] = VertexData();
         }
     }
 
@@ -135,13 +135,32 @@ public:
     bool removeVertex(size_t vertex) {
         if (vertex >= vertices.size()) return false;
 
+        // Удаляем входящие ребра
         for (size_t i = 0; i < vertices.size(); ++i) {
             if (i != vertex) {
                 removeEdge(i, vertex);
             }
         }
 
+        // Удаляем вершину
         vertices.erase(vertices.begin() + vertex);
+
+        // Обновляем индексы в ребрах
+        for (size_t i = 0; i < vertices.size(); ++i) {
+            List<Edge> updated_edges;
+            auto iter = vertices[i].edges.getIterator();
+
+            while (iter.hasNext()) {
+                Edge edge = iter.next();
+                if (edge.to_vertex > vertex) {
+                    edge.to_vertex--;
+                }
+                updated_edges.insert(edge);
+            }
+
+            vertices[i].edges = std::move(updated_edges);
+        }
+
         return true;
     }
 
