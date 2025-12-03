@@ -212,7 +212,15 @@ public:
                 newCapacity *= 2;
             }
 
-            this->reserve(newCapacity);
+            reserve(newCapacity);
+        }
+
+        if (size > size_) {
+            for (std::size_t i = size_; i < size; ++i)
+                std::construct_at(data_ + i);
+        } else if (size < size_) {
+            for (std::size_t i = size; i < size_; ++i)
+                std::destroy_at(data_ + i);
         }
 
         size_ = size;

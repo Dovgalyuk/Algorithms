@@ -6,7 +6,7 @@
 
 template<class EdgeType>
 class AStar {
-    using TDVector = Vector<Vector<EdgeType>>;
+    using TDVector = Vector<Vector<EdgeType> >;
 
     struct Node {
         EdgeType f = std::numeric_limits<EdgeType>::infinity();
@@ -27,11 +27,10 @@ class AStar {
 
 public:
     static Vector<std::size_t> findPath(
-        const std::shared_ptr<IGraph<std::string, EdgeType>>& graph,
+        const std::shared_ptr<IGraph<std::string, EdgeType> > &graph,
         const std::size_t start,
         const std::size_t goal,
         std::size_t gridCols) {
-
         const std::size_t vertexCount = graph->vertexCount();
         Vector<Node> nodes(vertexCount);
 
@@ -84,7 +83,7 @@ public:
     }
 
 private:
-    static Vector<std::size_t> reconstructPath(const Vector<Node>& nodes, const std::size_t goal) {
+    static Vector<std::size_t> reconstructPath(const Vector<Node> &nodes, const std::size_t goal) {
         std::size_t length = 0;
         std::size_t current = goal;
         while (true) {
@@ -104,13 +103,12 @@ private:
     }
 
     static double heuristic(const std::size_t from, const std::size_t to, const std::size_t cols) {
-
         const std::size_t fromRow = from / cols;
         const std::size_t fromCol = from % cols;
         const std::size_t toRow = to / cols;
         const std::size_t toCol = to % cols;
 
         return std::abs(static_cast<long>(fromRow) - static_cast<long>(toRow)) +
-            std::abs(static_cast<long>(fromCol) - static_cast<long>(toCol));
+               std::abs(static_cast<long>(fromCol) - static_cast<long>(toCol));
     }
 };

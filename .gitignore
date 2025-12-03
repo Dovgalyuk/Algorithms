@@ -16,3 +16,4 @@ build/*
 out/
 cmake-build-debug-system/
 .idea/
+cmake-build-release/
