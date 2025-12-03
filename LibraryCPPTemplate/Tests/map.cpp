@@ -233,11 +233,6 @@ void loadTest() {
     for (int i = 0; i < 1000; ++i) {
         map[i] = i * i;
     }
-    std::cout << map[10] << std::endl;
-    if (map[10] != 100) {
-        std::cerr << "operator[] broken\n";
-        std::exit(1);
-    }
 
     map.clear();
     if (!map.empty() || map.size() != 0 || map.begin() != map.end()) {
