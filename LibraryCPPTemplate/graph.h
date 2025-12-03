@@ -112,40 +112,30 @@ public:
         auto& edges = vertices[from].edges;
 
         List<Edge> new_edges;
-        bool removed = false;
         auto iter = edges.getIterator();
 
         while (iter.hasNext()) {
-            Edge& edge = iter.next();
+            Edge edge = iter.next();
             if (edge.to_vertex != to) {
                 new_edges.insert(edge);
             }
-            else {
-                removed = true;
-            }
         }
 
-        if (removed) {
-            vertices[from].edges = std::move(new_edges);
-        }
-
-        return removed;
+        vertices[from].edges = std::move(new_edges);
+        return true;
     }
 
     bool removeVertex(size_t vertex) {
         if (vertex >= vertices.size()) return false;
 
-        // Удаляем входящие ребра
         for (size_t i = 0; i < vertices.size(); ++i) {
             if (i != vertex) {
                 removeEdge(i, vertex);
             }
         }
 
-        // Удаляем вершину
         vertices.erase(vertices.begin() + vertex);
 
-        // Обновляем индексы в ребрах
         for (size_t i = 0; i < vertices.size(); ++i) {
             List<Edge> updated_edges;
             auto iter = vertices[i].edges.getIterator();

@@ -1,20 +1,16 @@
-# Тесты для шаблонных библиотек
 
-# Тест для Graph
+
 add_executable(TestGraphCPPTemplate graph.cpp)
 target_include_directories(TestGraphCPPTemplate PUBLIC ..)
-# Включаем main() в graph.cpp для TestGraphCPPTemplate
 target_compile_definitions(TestGraphCPPTemplate PRIVATE TEST_GRAPH_STANDALONE)
 add_test(NAME TestGraphCPPTemplate COMMAND TestGraphCPPTemplate)
 set_tests_properties(TestGraphCPPTemplate PROPERTIES TIMEOUT 10)
 
-# Тест для List (уже есть в list.cpp)
 add_executable(TestListCPPTemplate list.cpp)
 target_include_directories(TestListCPPTemplate PUBLIC ..)
 add_test(NAME TestListCPPTemplate COMMAND TestListCPPTemplate)
 set_tests_properties(TestListCPPTemplate PROPERTIES TIMEOUT 10)
 
-# Закомментированные тесты (если понадобятся)
 # add_executable(TestArrayCPPTemplate array.cpp)
 # target_include_directories(TestArrayCPPTemplate PUBLIC ..)
 # add_test(NAME TestArrayCPPTemplate COMMAND TestArrayCPPTemplate)

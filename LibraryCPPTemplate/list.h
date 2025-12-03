@@ -85,7 +85,7 @@ public:
         return head ? new Item(head.get()) : nullptr;
     }
 
-    Item* first() const {
+    const Item* first() const {
         return head ? new Item(head.get()) : nullptr;
     }
 
@@ -140,50 +140,27 @@ public:
 
     class Iterator {
     private:
-        Item* current;
+        Node* current;
 
     public:
-        Iterator(Item* start = nullptr) : current(start) {}
-        ~Iterator() {
-            if (current) {
-                Item::deleteItem(current);
-            }
-        }
+        Iterator(Node* start = nullptr) : current(start) {}
 
         bool hasNext() const { return current != nullptr; }
 
         Data& next() {
             if (!current) throw std::runtime_error("No more items");
-            Data& result = current->data();
-            Item* next_item = current->next();
-            Item::deleteItem(current);
-            current = next_item;
+            Data& result = current->data;
+            current = current->next.get();
             return result;
-        }
-
-        Iterator(const Iterator&) = delete;
-        Iterator& operator=(const Iterator&) = delete;
-
-        Iterator(Iterator&& other) noexcept : current(other.current) {
-            other.current = nullptr;
-        }
-
-        Iterator& operator=(Iterator&& other) noexcept {
-            if (this != &other) {
-                if (current) Item::deleteItem(current);
-                current = other.current;
-                other.current = nullptr;
-            }
-            return *this;
         }
     };
 
     Iterator getIterator() const {
-        return Iterator(first());
+        return Iterator(head.get());
     }
 
     Iterator getIterator() {
-        return Iterator(first());
+        return Iterator(head.get());
     }
 };
 

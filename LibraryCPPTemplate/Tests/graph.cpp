@@ -17,7 +17,6 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
         return { {start} };
     }
 
-    // Используем BFS для поиска кратчайших путей по количеству ребер
     std::vector<int> distance(getVertexCount(), -1);
     std::vector<std::vector<int>> predecessors(getVertexCount());
     std::queue<int> q;
@@ -29,30 +28,27 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
         int current = q.front();
         q.pop();
 
-        // Получаем всех соседей текущей вершины
         auto neighbors_iter = getNeighbors(current);
         while (neighbors_iter.hasNext()) {
             int neighbor = neighbors_iter.next();
 
             if (distance[neighbor] == -1) {
-                // Первое посещение вершины
+
                 distance[neighbor] = distance[current] + 1;
                 predecessors[neighbor].push_back(current);
                 q.push(neighbor);
             }
             else if (distance[neighbor] == distance[current] + 1) {
-                // Альтернативный путь той же длины
+
                 predecessors[neighbor].push_back(current);
             }
         }
     }
 
-    // Если конечная вершина не достижима
     if (distance[end] == -1) {
         return {};
     }
 
-    // Восстанавливаем все кратчайшие пути с помощью backtracking
     std::vector<std::vector<int>> all_paths;
     std::vector<int> current_path;
 
@@ -60,13 +56,13 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
         current_path.push_back(node);
 
         if (node == start) {
-            // Найден полный путь
+
             std::vector<int> path = current_path;
             std::reverse(path.begin(), path.end());
             all_paths.push_back(path);
         }
         else {
-            // Рекурсивно проходим по всем предшественникам
+
             for (int pred : predecessors[node]) {
                 backtrack(pred);
             }
@@ -77,18 +73,15 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
 
     backtrack(end);
 
-    // Сортируем пути для стабильного порядка вывода
     std::sort(all_paths.begin(), all_paths.end());
 
     return all_paths;
 }
 
-// Явные инстанцирования шаблонов
 template class Graph<std::string, int>;
 template class Graph<std::string, std::string>;
 template class Graph<int, int>;
 
-// Главная функция для TestGraphCPPTemplate
 #ifdef TEST_GRAPH_STANDALONE
 int main() {
     std::cout << "=== Testing Graph Library ===" << std::endl;
