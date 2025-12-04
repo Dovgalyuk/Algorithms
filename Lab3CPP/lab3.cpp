@@ -3,18 +3,13 @@
 #include <string>
 #include "queue.h"
 
-struct Point {
-    int x, y;
-    Point() : x(0), y(0) {}
-    Point(int x, int y) : x(x), y(y) {}};
-
 const int INF = 1000000000;
 const int MAX_SIZE = 100; 
 
 void task(std::istream& in) {
     std::string maze[MAX_SIZE];
     std::string line;
-    Point start = { -1, -1 };
+    int start_x = -1, start_y = -1;
     int H = 0;
     while (std::getline(in, line) && H < MAX_SIZE) {
         if (!line.empty()) {
@@ -28,12 +23,12 @@ void task(std::istream& in) {
     for (int y = 0; y < H; ++y) {
         for (int x = 0; x < W; ++x) {
             if (maze[y][x] == 'X') {
-                start.x = x;
-                start.y = y;
+                start_x = x;
+                start_y = y;
                 break;
             }
         }
-        if (start.x != -1) break;
+        if (start_x != -1) break;
     }
     int dist[MAX_SIZE][MAX_SIZE];
     for (int y = 0; y < H; ++y) {
@@ -43,8 +38,8 @@ void task(std::istream& in) {
     }
 
     Queue* q = queue_create();
-    queue_insert(q, start.y * W + start.x);
-    dist[start.y][start.x] = 0;
+    queue_insert(q, start_y * W + start_x);
+    dist[start_y][start_x] = 0;
 
     const int dx[4] = { -1, 1, 0, 0 };
     const int dy[4] = { 0, 0, -1, 1 };
