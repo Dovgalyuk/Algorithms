@@ -1,6 +1,8 @@
 #ifndef CONTAINER_TEMPLATE_H
 #define CONTAINER_TEMPLATE_H
 
+#include <algorithm>
+
 // Класс контейнера для хранения строк на основе АВЛ-дерева
 template <typename KeyType>
 class Container {
