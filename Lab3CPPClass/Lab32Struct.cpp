@@ -13,99 +13,96 @@ struct Position {
     char move;
 };
 
-const int dx[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
-const int dy[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-const char moves[8] = { '1', '2', '3', '4', '5', '6', '7', '8' };
+typedef vector<string> Maze;
+typedef vector<Position> PositionList;
+typedef pair<int, int> Coord;
+typedef vector<vector<bool>> Visited;
 
-vector<string> readMaze(const string& filename) {
-    vector<string> maze;
+typedef int Delta[8];
+typedef char MoveCode[8];
+
+const Delta dx = { -1, -1, -1,  0, 0, 1, 1, 1 };
+const Delta dy = { -1,  0,  1, -1, 1, -1, 0, 1 };
+const MoveCode moves = { '1','2','3','4','5','6','7','8' };
+
+Maze readMaze(const string& filename) {
     ifstream file(filename);
+    if (!file) {
+        cerr << "Error: cannot open file " << filename << endl;
+        return {};
+    }
+
+    Maze maze;
     string line;
-
-    if (!file.is_open()) {
-        cerr << "Ошибка: не удалось открыть файл " << filename << endl;
-        return maze;
-    }
-
-    while (getline(file, line)) {
+    while (getline(file, line))
         maze.push_back(line);
-    }
 
     return maze;
 }
 
-pair<int, int> findPosition(const vector<string>& maze, char target) {
-    for (size_t i = 0; i < maze.size(); ++i) {
-        for (size_t j = 0; j < maze[i].size(); ++j) {
-            if (maze[i][j] == target) {
+Coord findPosition(const Maze& maze, char target) {
+    for (size_t i = 0; i < maze.size(); ++i)
+        for (size_t j = 0; j < maze[i].size(); ++j)
+            if (maze[i][j] == target)
                 return { (int)i, (int)j };
-            }
-        }
-    }
+
     return { -1, -1 };
 }
 
-bool isValid(int x, int y, const vector<string>& maze) {
-    return x >= 0 && x < (int)maze.size() &&
-        y >= 0 && y < (int)maze[0].size() &&
+inline bool isValid(int x, int y, const Maze& maze) {
+    return x >= 0 && y >= 0 &&
+        x < (int)maze.size() &&
+        y < (int)maze[0].size() &&
         maze[x][y] != '#';
 }
 
-string getPath(const vector<Position>& positions, int index) {
+string getPath(const PositionList& pos, int index) {
     string path;
-    while (index != -1 && positions[index].move != '\0') {
-        path = positions[index].move + path;
-        index = positions[index].prev_index;
+    while (index != -1 && pos[index].move) {
+        path = pos[index].move + path;
+        index = pos[index].prev_index;
     }
     return path;
 }
 
-vector<Position> findPath(const vector<string>& maze) {
-    int rows = (int)maze.size();
-    if (rows == 0) return {};
-    int cols = (int)maze[0].size();
+PositionList findPath(const Maze& maze) {
+    Coord start = findPosition(maze, 'Q');
+    Coord end = findPosition(maze, 'E');
 
-    auto start = findPosition(maze, 'Q');
-    auto end = findPosition(maze, 'E');
-
-    if (start.first == -1 || end.first == -1) {
+    if (start.first == -1 || end.first == -1)
         return {};
-    }
 
-    Queue queue;
-    vector<vector<bool>> visited(rows, vector<bool>(cols, false));
-    vector<Position> positions;
+    Queue q;
+    Visited visited(maze.size(), vector<bool>(maze[0].size(), false));
+    PositionList pos;
 
-    positions.push_back({ start.first, start.second, -1, '\0' });
-    queue.insert((int)positions.size() - 1);
+    pos.push_back({ start.first, start.second, -1, 0 });
+    q.insert(0);
     visited[start.first][start.second] = true;
 
-    while (!queue.empty()) {
-        int current_index = queue.get();
-        queue.remove();
+    while (!q.empty()) {
+        int idx = q.get();
+        q.remove();
 
-        Position current = positions[current_index];
+        Position cur = pos[idx];
+        if (cur.x == end.first && cur.y == end.second)
+            return pos;
 
-        if (current.x == end.first && current.y == end.second) {
-            return positions;
-        }
+        for (int i = 0; i < 8; i++) {
+            int x = cur.x + dx[i];
+            int y = cur.y + dy[i];
 
-        for (int i = 0; i < 8; ++i) {
-            int new_x = current.x + dx[i];
-            int new_y = current.y + dy[i];
+            while (isValid(x, y, maze)) {
+                if (!visited[x][y]) {
+                    visited[x][y] = true;
+                    pos.push_back({ x, y, idx, moves[i] });
+                    q.insert((int)pos.size() - 1);
 
-            while (isValid(new_x, new_y, maze)) {
-                if (!visited[new_x][new_y]) {
-                    visited[new_x][new_y] = true;
-                    positions.push_back({ new_x, new_y, current_index, moves[i] });
-                    queue.insert((int)positions.size() - 1);
-
-                    if (new_x == end.first && new_y == end.second) {
-                        return positions;
-                    }
+                    if (x == end.first && y == end.second)
+                        return pos;
                 }
-                new_x += dx[i];
-                new_y += dy[i];
+                x += dx[i];
+                y += dy[i];
             }
         }
     }
@@ -113,98 +110,81 @@ vector<Position> findPath(const vector<string>& maze) {
     return {};
 }
 
-void printSolution(const vector<string>& maze, const vector<Position>& positions, const pair<int, int>& end_pos, const string& output_file) {
+void printSolution(const Maze& maze, const PositionList& pos,
+    const Coord& end_pos, const string& output_file)
+{
     int end_index = -1;
-    for (size_t i = 0; i < positions.size(); ++i) {
-        if (positions[i].x == end_pos.first && positions[i].y == end_pos.second) {
+    for (size_t i = 0; i < pos.size(); i++)
+        if (pos[i].x == end_pos.first && pos[i].y == end_pos.second)
             end_index = (int)i;
-            break;
-        }
-    }
 
-    if (end_index == -1) {
-        cout << "Путь не найден" << endl;
-        ofstream out(output_file);
-        if (out.is_open()) {
-            out << "Путь не найден" << endl;
-        }
+    ofstream out(output_file);
+    if (!out) {
+        cerr << "Error: cannot write to file: " << output_file << endl;
         return;
     }
 
-    string path = getPath(positions, end_index);
-    cout << "Путь найден: " << path << endl;
-    cout << "Длина пути: " << path.length() << " ходов" << endl;
-
-    vector<string> maze_with_path = maze;
-    int current_index = end_index;
-
-    while (current_index != -1) {
-        Position pos = positions[current_index];
-        if (maze_with_path[pos.x][pos.y] != 'Q' && maze_with_path[pos.x][pos.y] != 'E') {
-            maze_with_path[pos.x][pos.y] = '*';
-        }
-        current_index = pos.prev_index;
+    if (end_index == -1) {
+        cout << "Path not found\n";
+        out << "Path not found\n";
+        return;
     }
 
-    cout << "Лабиринт с путем:" << endl;
-    for (const auto& row : maze_with_path) {
-        cout << row << endl;
+    string path = getPath(pos, end_index);
+
+    cout << "Path found: " << path << "\n";
+    cout << "Path length: " << path.length() << " moves\n";
+
+    out << "Path: " << path << "\n";
+    out << "Path length: " << path.length() << " moves\n";
+
+    Maze result = maze;
+    int cur = end_index;
+
+    while (cur != -1) {
+        Position p = pos[cur];
+        if (result[p.x][p.y] != 'Q' && result[p.x][p.y] != 'E')
+            result[p.x][p.y] = '*';
+        cur = p.prev_index;
     }
 
-    ofstream out(output_file);
-    if (out.is_open()) {
-        out << "Путь: " << path << endl;
-        out << "Длина пути: " << path.length() << " ходов" << endl;
-        out << "Лабиринт с путем:" << endl;
-        for (const auto& row : maze_with_path) {
-            out << row << endl;
-        }
-        out.close();
-    }
-    else {
-        cerr << "Ошибка: не удалось открыть файл для записи: " << output_file << endl;
+    cout << "Maze with path:\n";
+    out << "Maze with path:\n";
+
+    for (auto& row : result) {
+        cout << row << "\n";
+        out << row << "\n";
     }
 }
 
 int main(int argc, char* argv[]) {
     if (argc < 3) {
-        cout << "Использование: " << argv[0] << " <входной_файл> <выходной_файл>" << endl;
+        cout << "Usage: " << argv[0] << " <input_file> <output_file>\n";
         return 1;
     }
 
-    string input_file = argv[1];
-    string output_file = argv[2];
+    string input = argv[1];
+    string output = argv[2];
 
-    cout << "Чтение лабиринта из файла: " << input_file << endl;
-    vector<string> maze = readMaze(input_file);
+    Maze maze = readMaze(input);
 
     if (maze.empty()) {
-        cout << "Ошибка: не удалось прочитать лабиринт или файл пуст." << endl;
+        cout << "Error: failed to read maze.\n";
         return 1;
     }
 
-    cout << "Размер лабиринта: " << maze.size() << "x" << maze[0].size() << endl;
-
-    auto start = findPosition(maze, 'Q');
-    auto end = findPosition(maze, 'E');
+    Coord start = findPosition(maze, 'Q');
+    Coord end = findPosition(maze, 'E');
 
     if (start.first == -1) {
-        cout << "Ошибка: стартовая позиция 'Q' не найдена" << endl;
+        cout << "Error: start 'Q' not found.\n";
         return 1;
     }
-
     if (end.first == -1) {
-        cout << "Ошибка: конечная позиция 'E' не найдена" << endl;
+        cout << "Error: finish 'E' not found.\n";
         return 1;
     }
 
-    cout << "Старт: (" << start.first << ", " << start.second << ")" << endl;
-    cout << "Финиш: (" << end.first << ", " << end.second << ")" << endl;
-
-    cout << "Поиск пути..." << endl;
-    vector<Position> positions = findPath(maze);
-
-    printSolution(maze, positions, end, output_file);
-
-    return 0;
+    PositionList pos = findPath(maze);
+    printSolution(maze, pos, end, output);
 }

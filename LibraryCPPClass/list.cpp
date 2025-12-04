@@ -1,41 +1,42 @@
-#include <cstddef>
 #include "list.h"
 
-List::List()
+List::List() : aitem(nullptr) {}
+
+void List::copyitems(const List& a)
 {
-    aitem = nullptr;
-}
+    Item* src = a.aitem;
+    Item* prev = nullptr;
 
-void List::copyitems(const List& a) {
-    Item* current = a.aitem;
-    Item* last_inserted = nullptr;
-    while (current != nullptr) {
-        Item* new_item = new Item(current->data());
-        if (aitem == nullptr) {
+    while (src != nullptr)
+    {
+        Item* new_item = new Item(src->data(), prev, nullptr);
+
+        if (prev)
+            prev->setNext(new_item);
+        else
             aitem = new_item;
-        }
-        else {
-            last_inserted->setNext(new_item);
-        }
-        last_inserted = new_item;
-        current = current->next();
+
+        prev = new_item;
+        src = src->next();
     }
 }
 
-void List::clearlist() {
-    while (aitem != nullptr) {
+void List::clearlist()
+{
+    while (aitem)
         erase_first();
-    }
 }
 
 List::List(const List& a)
 {
+    aitem = nullptr;
     copyitems(a);
 }
 
 List& List::operator=(const List& a)
 {
-    if (this != &a) {
+    if (this != &a)
+    {
         clearlist();
         copyitems(a);
     }
@@ -52,51 +53,65 @@ List::Item* List::first()
     return aitem;
 }
 
+const List::Item* List::first() const
+{
+    return aitem;
+}
+
 List::Item* List::insert(Data data)
 {
-    Item* new_item = new Item(data, aitem);
+    Item* new_item = new Item(data, nullptr, aitem);
+
+    if (aitem)
+        aitem->setPrev(new_item);
+
     aitem = new_item;
     return new_item;
 }
 
 List::Item* List::insert_after(Item* item, Data data)
 {
-    if (item == nullptr) {
+    if (item == nullptr)
         return insert(data);
-    }
-    Item* new_item = new Item(data, item->next());
+
+    Item* next = item->next();
+    Item* new_item = new Item(data, item, next);
+
     item->setNext(new_item);
+    if (next)
+        next->setPrev(new_item);
+
     return new_item;
 }
 
 List::Item* List::erase_first()
 {
-    if (aitem == nullptr) {
+    if (!aitem)
         return nullptr;
-    }
-    Item* temp = aitem;
-    aitem = aitem->next();
-    Item* result = aitem;
-    delete temp;
-    return result;
+
+    Item* next = aitem->next();
+    if (next)
+        next->setPrev(nullptr);
+
+    delete aitem;
+    aitem = next;
+    return aitem;
 }
 
 List::Item* List::erase_next(Item* item)
 {
-    if (item == nullptr) {
+    if (item == nullptr)
         return erase_first();
-    }
-    if (item->next() == nullptr) {
-        return nullptr;
-    }
-    Item* temp = item->next();
-    Item* next_after_deleted = temp->next();
-    item->setNext(next_after_deleted);
-    delete temp;
-    return next_after_deleted;
-}
 
-const List::Item* List::first() const
-{
-    return aitem;
+    Item* victim = item->next();
+    if (!victim)
+        return nullptr;
+
+    Item* after = victim->next();
+    item->setNext(after);
+    if (after)
+        after->setPrev(item);
+
+    delete victim;
+    return after;
 }
