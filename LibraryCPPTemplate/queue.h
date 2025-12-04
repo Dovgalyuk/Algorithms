@@ -52,7 +52,7 @@ public:
         }
         else
         {
-            l.insert_after(l.first()->f_prev(), data);
+            l.insert_after(l.last(), data);
         }
     }
 

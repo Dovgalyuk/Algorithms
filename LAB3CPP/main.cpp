@@ -6,17 +6,26 @@
 #include <fstream>
 using namespace std;
 
+typedef pair<size_t,size_t> Point;
 
 
-Vector<Vector<int>> create_distance_matrix(Vector<string> &maze)
+Vector<Vector<int>> create_distance_matrix(const Vector<string> &maze)
 {
 
     if (maze.size() == 0 )
     {
         return Vector<Vector<int>>();
     }
+    
     size_t rows = maze.size();
     size_t cols = maze.get(static_cast<size_t>(0)).size();
+    for (size_t i = 1; i < maze.size(); i++)
+    {
+        if (maze.get(i).size()!=cols)
+        {
+            return Vector<Vector<int>>();
+        }
+    }
     Vector<Vector<int>> distances;
     distances.resize(rows);
 
@@ -34,7 +43,7 @@ Vector<Vector<int>> create_distance_matrix(Vector<string> &maze)
 
     return distances;
 }
-bool isTrue(int next_i, int next_j,Vector<string> &maze)
+bool isTrue(int next_i, int next_j,const Vector<string> &maze)
 {
     if (next_i < 0 || next_i >= static_cast<int>(maze.size()))
     {
@@ -51,7 +60,7 @@ bool isTrue(int next_i, int next_j,Vector<string> &maze)
     }
     return true;
 }
-void change_maze(Vector<string>& maze,Vector<pair<size_t,size_t>> &indexes,Vector<Vector<int>> &dis)
+void change_maze(Vector<string>& maze,Vector<Point> &indexes,Vector<Vector<int>> &dis)
 {
     for (size_t i=0;i<indexes.size();i++)
     {
@@ -81,13 +90,13 @@ void change_maze(Vector<string>& maze,Vector<pair<size_t,size_t>> &indexes,Vecto
         cout<<endl;
     }
 }
-Vector<pair<size_t,size_t>> rebuild_way(Vector<Vector<int>> &dis, pair<size_t,size_t> indext_exit, Vector<string> &maze )
+Vector<Point> rebuild_way(Vector<Vector<int>> &dis, Point indext_exit, const Vector<string> &maze )
 {
     
     int i_dis[] = {-1, -1, -1, 0, 0, 1, 1, 1};
     int j_dis[] = {-1, 0, 1, -1, 1, -1, 0, 1};
     
-    Vector<pair<size_t,size_t>> way;
+    Vector<Point> way;
   
     way.resize(way.size() + 1);
     way.set(way.size() - 1, indext_exit); // Добавляю первый индекс (Е - выход)
@@ -127,7 +136,7 @@ Vector<pair<size_t,size_t>> rebuild_way(Vector<Vector<int>> &dis, pair<size_t,si
     return way;
 }
 
-pair<size_t,size_t> bfs(Vector<string>&maze,Vector<Vector<int>> &dis, Queue<pair<size_t, size_t>> &d) //НАЧИНАЕМ ПОИСК В ШИРИНУ
+Point bfs(const Vector<string>&maze,Vector<Vector<int>> &dis, Queue<Point> &d) //НАЧИНАЕМ ПОИСК В ШИРИНУ
 {
     //Направления куда идти
     int i_dis []= {-1,-1,-1,0,0,1,1,1};
@@ -171,7 +180,7 @@ pair<size_t,size_t> bfs(Vector<string>&maze,Vector<Vector<int>> &dis, Queue<pair
             
         }
     }
-    return make_pair(0, 0);
+    return make_pair(static_cast<size_t>(-1), static_cast<size_t>(-1));
 }
 
 int main (int argc, char *argv[])
@@ -216,8 +225,12 @@ int main (int argc, char *argv[])
     reader.close();
    
     Vector<Vector<int>> m = create_distance_matrix(maze);
-
-    Queue<pair<size_t, size_t>> d;
+    if (m.size()==0)
+    {
+        cout << "Error"<<endl;
+        return 1;
+    }
+    Queue<Point> d;
     bool isFind = false;
     for (size_t i = 0; i < maze.size(); i++)
     {
@@ -239,10 +252,15 @@ int main (int argc, char *argv[])
             break;
         }
     }
-    
-    pair<size_t, size_t> indext_exit = bfs(maze, m, d);
+    const size_t ERROR = static_cast<size_t>(-1);
+    Point indext_exit = bfs(maze, m, d);
+    if (indext_exit.first == ERROR)
+    {
+        cout<<"Error: Exit not found "<<endl;
+        return 1;
+    }
   
-    Vector<pair<size_t,size_t>> box = rebuild_way(m, indext_exit, maze);
+    Vector<Point> box = rebuild_way(m, indext_exit, maze);
     change_maze(maze, box, m);
-     return 0;
+    return 0;
 }
