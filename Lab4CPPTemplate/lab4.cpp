@@ -62,18 +62,16 @@ public:
     }
 };
 
-typedef typename DirGraph<string, int>::NeighborIterator NeighborIterator;
-
 vector<EdgeKruskal> getAllEdges(const DirGraph<string, int>& graph) {
     vector<EdgeKruskal> edges;
     for (size_t from = 0; from < graph.getVertexCount(); ++from) {
-        NeighborIterator it = graph.neighborsBegin(from);
-        NeighborIterator end = graph.neighborsEnd(from);
+        typename DirGraph<string, int>::NeighborIterator it = graph.neighborsBegin(from);
+        typename DirGraph<string, int>::NeighborIterator end = graph.neighborsEnd(from);
 
         for (; it != end; ++it) {
             size_t to = *it;
 
-            if (from < to) {  
+            if (from < to) {
                 int weight = graph.getEdgeMark(from, to);
                 edges.emplace_back(from, to, weight);
             }
