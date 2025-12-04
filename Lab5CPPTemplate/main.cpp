@@ -29,11 +29,11 @@ std::vector<std::string> loadData(const std::string& filename) {
 
 // Тестирование stringContainer
 long long benchmarkStringContainer(const std::vector<std::string>& data) {
-    Container<std::string> sc;
+    Container<std::string> c;
     auto start = std::chrono::high_resolution_clock::now();
 
     for (const auto& s : data) {
-        sc.insert(s);
+        c.insert(s);
     }
 
     auto end = std::chrono::high_resolution_clock::now();
@@ -79,8 +79,7 @@ void printResultsTable(
     std::cout << std::endl;
 }
 
-int main()
-{
+int main() {
     const std::vector<size_t> sizes = {
         10'000, 50'000, 100'000, 200'000,
         500'000, 1'000'000, 2'000'000

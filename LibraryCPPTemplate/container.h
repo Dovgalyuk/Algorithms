@@ -1,5 +1,5 @@
-#ifndef STRING_CONTAINER_TEMPLATE_H
-#define STRING_CONTAINER_TEMPLATE_H
+#ifndef CONTAINER_TEMPLATE_H
+#define CONTAINER_TEMPLATE_H
 
 // Класс контейнера для хранения строк на основе АВЛ-дерева
 template <typename KeyType>

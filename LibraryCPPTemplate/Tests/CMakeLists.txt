@@ -24,6 +24,6 @@ add_executable(TestGraphCPPTemplate graph.cpp)
 target_include_directories(TestGraphCPPTemplate PUBLIC ..)
 add_test(NAME TestGraphCPPTemplate COMMAND TestGraphCPPTemplate)
 
-add_executable(TestContainerCPPTemplate сontainer.cpp)
+add_executable(TestContainerCPPTemplate container.cpp)
 target_include_directories(TestContainerCPPTemplate PUBLIC ..)
 add_test(TestContainerCPPTemplate TestContainerCPPTemplate)
