@@ -4,22 +4,12 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <random>
-#include <algorithm>
 #include <iostream>
-#include <iomanip>
-
-enum class DataMode {
-    RANDOM,
-    SORTED
-};
+#include <random>
 
 class DataGenerator {
 public:
-    static void generateFile(
-        const std::string& filename, size_t count,
-        DataMode mode, size_t strLen = 10)
-    {
+    static void generateFile(const std::string& filename, size_t count, size_t strLen = 10) {
         std::vector<std::string> dataset;
         dataset.reserve(count);
 
@@ -28,11 +18,6 @@ public:
         // Генерация данных
         for (size_t i = 0; i < count; ++i) {
             dataset.push_back(generateRandomString(strLen, rng));
-        }
-
-        // Отсортированный набор (для проверки вырождения дерева O(N*N))
-        if (mode == DataMode::SORTED) {
-            std::sort(dataset.begin(), dataset.end());
         }
 
         std::ofstream outFile(filename);
