@@ -27,8 +27,8 @@ std::vector<std::string> loadData(const std::string& filename) {
     return data;
 }
 
-// Тестирование stringContainer
-long long benchmarkStringContainer(const std::vector<std::string>& data) {
+// Тестирование container на основе AVL-дерева
+long long benchmarkContainer(const std::vector<std::string>& data) {
     Container<std::string> c;
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -90,11 +90,11 @@ int main() {
     for (size_t n : sizes) {
         std::string filename = "bench_data_" + std::to_string(n) + ".txt";
 
-        DataGenerator::generateFile(filename, n, DataMode::RANDOM);
+        DataGenerator::generateFile(filename, n);
 
         std::vector<std::string> data = loadData(filename);
 
-        long long t1 = benchmarkStringContainer(data);
+        long long t1 = benchmarkContainer(data);
         long long t2 = benchmarkStdSet(data);
 
         avlTime.push_back(t1);
