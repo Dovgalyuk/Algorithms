@@ -51,11 +51,8 @@ int main(int argc, char* argv[]) {
 
         for (auto it = g.beginNeighbors(i); it != g.endNeighbors(i); ++it) {
             size_t j = *it;
-            auto opt = g.getEdgeLabel(i, j);
-            if (opt) {
-                dist[i][j] = opt.value();
-                paths[i][j] = { i, j };
-            }
+            dist[i][j] = it.getEdgeLabel().value();
+            paths[i][j] = { i, j };
         }
     }
 

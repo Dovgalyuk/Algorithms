@@ -158,6 +158,13 @@ public:
         size_t operator*() const {
             return current_;
         }
+
+        std::optional<EdgeLabel> getEdgeLabel() const {
+            if (current_ < graph_.num_vertices_) {
+                return graph_.adjacency_matrix_[vertex_][current_];
+            }
+            return std::nullopt;
+        }
     };
 
     NeighborIterator beginNeighbors(size_t vertex) const {

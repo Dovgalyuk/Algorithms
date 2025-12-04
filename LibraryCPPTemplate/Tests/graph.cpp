@@ -2,6 +2,7 @@
 #include "vector.h"
 #include <iostream>
 #include <cassert>
+#include <set>
 
 int main() {
     Graph<std::string, double> g(3);
@@ -57,13 +58,28 @@ int main() {
     g.addEdge(0, 1, 1.0);
 
     size_t neighbor_count = 0;
+    std::set<size_t> neighbors_found;
+    std::set<double> edge_labels_found;
+
     for (auto it = g.beginNeighbors(0); it != g.endNeighbors(0); ++it) {
         neighbor_count++;
+        neighbors_found.insert(*it);
+        edge_labels_found.insert(it.getEdgeLabel().value());
     }
 
     if (neighbor_count != 3) {
         std::cerr << "Iterator test failed: expected 3 neighbors, got "
             << neighbor_count << std::endl;
+        return 1;
+    }
+
+    if (neighbors_found != std::set<size_t>{1, 2, 3}) {
+        std::cerr << "Wrong neighbors found" << std::endl;
+        return 1;
+    }
+
+    if (edge_labels_found != std::set<double>{1.0, 3.0, 4.0}) {
+        std::cerr << "Wrong edge labels found" << std::endl;
         return 1;
     }
 
