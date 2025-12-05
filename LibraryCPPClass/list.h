@@ -25,61 +25,36 @@ public:
         // Returns stored data
         Data data() const { return adata; }
 
-        // Sets pointer to the next item
-        void setNext(Item* next) { nextitem = next; }
-
-        // Sets pointer to the previous item
-        void setPrev(Item* prev) { previtem = prev; }
-
     private:
-        // Stored value
         Data adata;
-
-        // Pointers to previous and next items (doubly-linked list)
         Item* previtem;
         Item* nextitem;
+
+        // Only List is allowed to modify internal links
+        void setNext(Item* next) { nextitem = next; }
+        void setPrev(Item* prev) { previtem = prev; }
+
+        friend class List;
     };
 
-    // Creates an empty list
     List();
-
-    // Copy constructor
     List(const List& a);
-
-    // Assignment operator
     List& operator=(const List& a);
-
-    // Destroys the list and frees memory
     ~List();
 
-    // Returns pointer to the first item in the list
     Item* first();
     const Item* first() const;
 
-    // Inserts a new item at the beginning of the list
     Item* insert(Data data);
-
-    // Inserts a new item after the specified one.
-    // If 'item' is null, inserts at the beginning.
     Item* insert_after(Item* item, Data data);
 
-    // Removes the first item.
-    // Returns the item that follows the removed one.
     Item* erase_first();
-
-    // Removes the item after the specified one.
-    // If 'item' is null, removes the first item.
-    // Returns the item that follows the removed one.
     Item* erase_next(Item* item);
 
 private:
-    // Pointer to the first item in the list
     Item* aitem;
 
-    // Copies items from another list
     void copyitems(const List& a);
-
-    // Removes all items from the list
     void clearlist();
 };
 

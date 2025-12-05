@@ -7,23 +7,36 @@
 
 using namespace std;
 
+typedef vector<string> Maze;
+
 struct Position {
     int x, y;
     int prev_index;
     char move;
 };
 
-typedef vector<string> Maze;
 typedef vector<Position> PositionList;
 typedef pair<int, int> Coord;
 typedef vector<vector<bool>> Visited;
 
-typedef int Delta[8];
-typedef char MoveCode[8];
+enum Move {
+    UP_LEFT = '1',
+    UP = '2',
+    UP_RIGHT = '3',
+    LEFT = '4',
+    RIGHT = '5',
+    DOWN_LEFT = '6',
+    DOWN = '7',
+    DOWN_RIGHT = '8'
+};
 
-const Delta dx = { -1, -1, -1,  0, 0, 1, 1, 1 };
-const Delta dy = { -1,  0,  1, -1, 1, -1, 0, 1 };
-const MoveCode moves = { '1','2','3','4','5','6','7','8' };
+const int dx[8] = { -1, -1, -1,  0, 0, 1, 1, 1 };
+const int dy[8] = { -1,  0,  1, -1, 1, -1, 0, 1 };
+const Move moves[8] = {
+    UP_LEFT, UP, UP_RIGHT,
+    LEFT, RIGHT,
+    DOWN_LEFT, DOWN, DOWN_RIGHT
+};
 
 Maze readMaze(const string& filename) {
     ifstream file(filename);
@@ -39,6 +52,7 @@ Maze readMaze(const string& filename) {
 
     return maze;
 }
+
 
 Coord findPosition(const Maze& maze, char target) {
     for (size_t i = 0; i < maze.size(); ++i)
@@ -64,6 +78,7 @@ string getPath(const PositionList& pos, int index) {
     }
     return path;
 }
+
 
 PositionList findPath(const Maze& maze) {
     Coord start = findPosition(maze, 'Q');
@@ -109,6 +124,7 @@ PositionList findPath(const Maze& maze) {
 
     return {};
 }
+
 
 void printSolution(const Maze& maze, const PositionList& pos,
     const Coord& end_pos, const string& output_file)
@@ -157,6 +173,7 @@ void printSolution(const Maze& maze, const PositionList& pos,
     }
 }
 
+
 int main(int argc, char* argv[]) {
     if (argc < 3) {
         cout << "Usage: " << argv[0] << " <input_file> <output_file>\n";
@@ -187,4 +204,6 @@ int main(int argc, char* argv[]) {
 
     PositionList pos = findPath(maze);
     printSolution(maze, pos, end, output);
+
+    return 0;
 }
