@@ -92,7 +92,7 @@ public:
     // Should be O(1) on average
     void resize(size_t new_size) {
         if (new_size > capacity_) {
-
+            
             size_t new_capacity = new_size * 2;
             if (new_capacity < 4) new_capacity = 4;
             reallocate(new_capacity);
@@ -100,7 +100,7 @@ public:
 
         if (new_size > size_) {
             for (size_t i = size_; i < new_size; ++i) {
-                data_[i] = Data();
+                data_[i] = Data(); // default initialization
             }
         }
 

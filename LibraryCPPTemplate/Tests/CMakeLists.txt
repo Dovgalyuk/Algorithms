@@ -1,5 +1,4 @@
 
-
 add_executable(TestGraphCPPTemplate graph.cpp)
 target_include_directories(TestGraphCPPTemplate PUBLIC ..)
 target_compile_definitions(TestGraphCPPTemplate PRIVATE TEST_GRAPH_STANDALONE)

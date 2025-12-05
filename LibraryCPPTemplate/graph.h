@@ -6,6 +6,11 @@
 #include <string>
 #include <stdexcept>
 #include <functional>
+#include <iostream>
+#include <queue>
+#include <algorithm>
+#include <vector>
+#include <climits>
 
 template<typename VertexLabel, typename EdgeLabel>
 class Graph {
@@ -40,7 +45,7 @@ public:
     public:
         NeighborIterator(const Graph* g, size_t vertex) : graph(g), current_vertex(vertex) {
             if (vertex < graph->vertices.size()) {
-                // Получаем ссылку на VertexData, а не копию
+
                 const VertexData& vertex_data = graph->vertices[vertex];
                 edge_iter = vertex_data.edges.getSimpleIterator();
             }
@@ -52,8 +57,23 @@ public:
 
         int next() {
             if (!hasNext()) throw std::runtime_error("No more neighbors");
-            Edge edge = edge_iter.next(); // Получаем копию Edge
-            return static_cast<int>(edge.to_vertex);
+
+            try {
+                Edge edge = edge_iter.next();
+
+                if (edge.to_vertex >= graph->vertices.size()) {
+                    std::cerr << "ERROR: Invalid neighbor index: " << edge.to_vertex
+                        << " for vertex " << current_vertex
+                        << " (total vertices: " << graph->vertices.size() << ")" << std::endl;
+                    throw std::runtime_error("Invalid neighbor index in edge");
+                }
+
+                return static_cast<int>(edge.to_vertex);
+            }
+            catch (const std::exception& e) {
+                std::cerr << "ERROR in NeighborIterator::next(): " << e.what() << std::endl;
+                throw;
+            }
         }
 
         EdgeLabel getEdgeLabel() const {
@@ -90,14 +110,15 @@ public:
 
     bool addEdge(size_t from, size_t to, const EdgeLabel& label = EdgeLabel()) {
         if (from >= vertices.size() || to >= vertices.size()) {
+            std::cerr << "ERROR: Cannot add edge from " << from << " to " << to
+                << " (vertices: " << vertices.size() << ")" << std::endl;
             return false;
         }
 
-        // Получаем ссылку на VertexData, а не копию
         VertexData& fromVertex = vertices[from];
         auto iter = fromVertex.edges.getSimpleIterator();
         while (iter.hasNext()) {
-            Edge edge = iter.next(); // Получаем копию
+            Edge edge = iter.next();
             if (edge.to_vertex == to) {
                 return false;
             }
@@ -227,5 +248,117 @@ public:
 
     ~Graph() = default;
 };
+
+template<typename VertexLabel, typename EdgeLabel>
+std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(int start, int end) const {
+
+    if (start < 0 || static_cast<size_t>(start) >= getVertexCount()) {
+        std::cerr << "ERROR: Invalid start vertex index: " << start
+            << " (vertex count: " << getVertexCount() << ")" << std::endl;
+        return {};
+    }
+
+    if (end < 0 || static_cast<size_t>(end) >= getVertexCount()) {
+        std::cerr << "ERROR: Invalid end vertex index: " << end
+            << " (vertex count: " << getVertexCount() << ")" << std::endl;
+        return {};
+    }
+
+    if (start == end) {
+        return { {start} };
+    }
+
+    std::vector<int> distance(getVertexCount(), -1);
+    std::vector<std::vector<int>> predecessors(getVertexCount());
+    std::queue<int> q;
+
+    distance[start] = 0;
+    q.push(start);
+
+    while (!q.empty()) {
+        int current = q.front();
+        q.pop();
+
+        auto neighbors_iter = getNeighbors(current);
+        int neighbor_count = 0;
+
+        while (neighbors_iter.hasNext()) {
+            neighbor_count++;
+            try {
+                int neighbor = neighbors_iter.next();
+
+                if (neighbor < 0 || static_cast<size_t>(neighbor) >= getVertexCount()) {
+                    std::cerr << "WARNING: Invalid neighbor index returned: " << neighbor
+                        << " for vertex " << current
+                        << " (vertex count: " << getVertexCount() << ")" << std::endl;
+                    continue;
+                }
+
+                if (distance[neighbor] == -1) {
+
+                    distance[neighbor] = distance[current] + 1;
+                    predecessors[neighbor].push_back(current);
+                    q.push(neighbor);
+                }
+                else if (distance[neighbor] == distance[current] + 1) {
+
+                    predecessors[neighbor].push_back(current);
+                }
+            }
+            catch (const std::exception& e) {
+                std::cerr << "ERROR processing neighbors of vertex " << current << ": "
+                    << e.what() << std::endl;
+            }
+        }
+
+        if (neighbor_count == 0) {
+
+        }
+    }
+
+    if (distance[end] == -1) {
+        return {};
+    }
+
+    std::vector<std::vector<int>> all_paths;
+    std::vector<int> current_path;
+
+    std::function<void(int)> backtrack = [&](int node) {
+
+        if (node < 0 || static_cast<size_t>(node) >= getVertexCount()) {
+            std::cerr << "ERROR: Invalid vertex index in backtrack: " << node << std::endl;
+            return;
+        }
+
+        current_path.push_back(node);
+
+        if (node == start) {
+
+            std::vector<int> path = current_path;
+            std::reverse(path.begin(), path.end());
+            all_paths.push_back(path);
+        }
+        else {
+
+            for (int pred : predecessors[node]) {
+
+                if (pred < 0 || static_cast<size_t>(pred) >= getVertexCount()) {
+                    std::cerr << "WARNING: Invalid predecessor index: " << pred
+                        << " for vertex " << node << std::endl;
+                    continue;
+                }
+                backtrack(pred);
+            }
+        }
+
+        current_path.pop_back();
+        };
+
+    backtrack(end);
+
+    std::sort(all_paths.begin(), all_paths.end());
+
+    return all_paths;
+}
 
 #endif

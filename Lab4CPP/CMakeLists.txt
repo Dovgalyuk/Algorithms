@@ -4,22 +4,14 @@ project(Lab4)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(Lab4Program
-    ${CMAKE_CURRENT_SOURCE_DIR}/lab4.cpp
-    ${CMAKE_SOURCE_DIR}/LibraryCPPTemplate/Tests/graph.cpp
-)
+add_executable(Lab4Program lab4.cpp)
 
 target_include_directories(Lab4Program PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/LibraryCPPTemplate
+    ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPPTemplate
 )
 
-target_compile_definitions(Lab4Program PRIVATE -DNO_GRAPH_MAIN)
-
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.txt ${CMAKE_CURRENT_BINARY_DIR}/input.txt COPYONLY)
-
-add_test(NAME TestLab4CPP COMMAND Lab4Program)
-set_property(TEST TestLab4CPP PROPERTY PASS_REGULAR_EXPRESSION "Testing Graph Library")
 
 add_test(NAME TestLab4CPP_Paths COMMAND Lab4Program ${CMAKE_CURRENT_BINARY_DIR}/input.txt A E)
 set_property(TEST TestLab4CPP_Paths PROPERTY PASS_REGULAR_EXPRESSION "Shortest Paths")
