@@ -7,14 +7,14 @@
 using namespace std;
 
 typedef pair<size_t,size_t> Point;
+typedef Vector<Vector<int>> Matrix;
 
-
-Vector<Vector<int>> create_distance_matrix(const Vector<string> &maze)
+Matrix create_distance_matrix(const Vector<string> &maze)
 {
 
     if (maze.size() == 0 )
     {
-        return Vector<Vector<int>>();
+        return Matrix();
     }
     
     size_t rows = maze.size();
@@ -23,10 +23,10 @@ Vector<Vector<int>> create_distance_matrix(const Vector<string> &maze)
     {
         if (maze.get(i).size()!=cols)
         {
-            return Vector<Vector<int>>();
+            return Matrix();
         }
     }
-    Vector<Vector<int>> distances;
+    Matrix distances;
     distances.resize(rows);
 
     for (size_t i = 0; i < rows; i++)
@@ -60,7 +60,7 @@ bool isTrue(int next_i, int next_j,const Vector<string> &maze)
     }
     return true;
 }
-void change_maze(Vector<string>& maze,Vector<Point> &indexes,Vector<Vector<int>> &dis)
+void change_maze(Vector<string>& maze,Vector<Point> &indexes,Matrix &dis)
 {
     for (size_t i=0;i<indexes.size();i++)
     {
@@ -90,7 +90,7 @@ void change_maze(Vector<string>& maze,Vector<Point> &indexes,Vector<Vector<int>>
         cout<<endl;
     }
 }
-Vector<Point> rebuild_way(Vector<Vector<int>> &dis, Point indext_exit, const Vector<string> &maze )
+Vector<Point> rebuild_way(Matrix &dis, Point indext_exit, const Vector<string> &maze )
 {
     
     int i_dis[] = {-1, -1, -1, 0, 0, 1, 1, 1};
@@ -136,7 +136,7 @@ Vector<Point> rebuild_way(Vector<Vector<int>> &dis, Point indext_exit, const Vec
     return way;
 }
 
-Point bfs(const Vector<string>&maze,Vector<Vector<int>> &dis, Queue<Point> &d) //НАЧИНАЕМ ПОИСК В ШИРИНУ
+Point bfs(const Vector<string>&maze,Matrix &dis, Queue<Point> &d) //НАЧИНАЕМ ПОИСК В ШИРИНУ
 {
     //Направления куда идти
     int i_dis []= {-1,-1,-1,0,0,1,1,1};
@@ -224,7 +224,7 @@ int main (int argc, char *argv[])
     }
     reader.close();
    
-    Vector<Vector<int>> m = create_distance_matrix(maze);
+    Matrix m = create_distance_matrix(maze);
     if (m.size()==0)
     {
         cout << "Error"<<endl;
