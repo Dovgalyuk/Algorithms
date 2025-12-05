@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <map>
+#include <sstream>
 
 using namespace std;
 
@@ -64,21 +65,18 @@ public:
 
 vector<EdgeKruskal> getAllEdges(const DirGraph<string, int>& graph) {
     vector<EdgeKruskal> edges;
-    for (size_t from = 0; from < graph.getVertexCount(); ++from) {
-        typename DirGraph<string, int>::NeighborIterator it = graph.neighborsBegin(from);
-        typename DirGraph<string, int>::NeighborIterator end = graph.neighborsEnd(from);
-
-        for (; it != end; ++it) {
-            size_t to = *it;
-
-            if (from < to) {
-                int weight = graph.getEdgeMark(from, to);
-                edges.emplace_back(from, to, weight);
+    for (size_t i = 0; i < graph.getVertexCount(); ++i) {
+        for (auto it = graph.neighborsBegin(i); it != graph.neighborsEnd(i); ++it) {
+            size_t j = *it;
+            if (i < j) { 
+                int weight = graph.getEdgeMark(i, j);
+                edges.emplace_back(i, j, weight);
             }
         }
     }
     return edges;
 }
+
 
 vector<EdgeKruskal> kruskalMST(DirGraph<string, int>& graph) {
     size_t n = graph.getVertexCount();
@@ -116,42 +114,35 @@ int main(int argc, char* argv[]) {
     map<string, size_t> vertexMap;
     string line;
 
+    getline(file, line);
+
     while (getline(file, line)) {
-        if (!line.empty()) {
-            size_t pos1 = line.find(' ');
-            if (pos1 != string::npos) {
-                size_t pos2 = line.find(' ', pos1 + 1);
-                if (pos2 != string::npos) {
-                    string vertex1 = line.substr(0, pos1);
-                    string vertex2 = line.substr(pos1 + 1, pos2 - pos1 - 1);
-                    int weight = stoi(line.substr(pos2 + 1));
+        if (line.empty()) continue;
 
-                    if (vertexMap.find(vertex1) == vertexMap.end()) {
-                        size_t id = graph.addVertex(vertex1);
-                        vertexMap[vertex1] = id;
-                    }
-                    if (vertexMap.find(vertex2) == vertexMap.end()) {
-                        size_t id = graph.addVertex(vertex2);
-                        vertexMap[vertex2] = id;
-                    }
+        istringstream iss(line);
+        string v1, v2;
+        int weight;
 
-                    size_t fromId = vertexMap[vertex1];
-                    size_t toId = vertexMap[vertex2];
-                    graph.addEdge(fromId, toId, weight);
-                    graph.addEdge(toId, fromId, weight);
-                }
+        if (iss >> v1 >> v2 >> weight) {
+
+            if (vertexMap.find(v1) == vertexMap.end()) {
+                vertexMap[v1] = graph.addVertex(v1);
             }
+
+            if (vertexMap.find(v2) == vertexMap.end()) {
+                vertexMap[v2] = graph.addVertex(v2);
+            }
+
+            size_t fromId = vertexMap[v1];
+            size_t toId = vertexMap[v2];
+            graph.addEdge(fromId, toId, weight);
+            graph.addEdge(toId, fromId, weight);
         }
     }
 
     file.close();
 
     vector<EdgeKruskal> mst = kruskalMST(graph);
-
-    int totalWeight = 0;
-    for (const auto& e : mst) {
-        totalWeight += e.weight;
-    }
 
     for (const auto& e : mst) {
         cout << graph.getVertexMark(e.from) << " "
@@ -161,3 +152,4 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+
