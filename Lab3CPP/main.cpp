@@ -5,6 +5,8 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <utility>
+#include <cctype>
 
 using namespace std;
 
@@ -64,7 +66,6 @@ void get_neighbors(int r, int dirs[6][2]) {
     }
 }
 
-
 bool is_slit_blocked(const Maze& maze, int cq, int cr, int nq, int nr) {
     if (abs(cq - nq) != 1 || abs(cr - nr) != 1) return false;
 
@@ -112,22 +113,20 @@ bool is_valid(const Maze& maze, int q, int r, const DistMap& dist) {
     return true;
 }
 
-void print_path(int end_q, int end_r, const DistMap& dist) {
-    vector<string> path_coords;
+vector<pair<int, int>> get_path(int end_q, int end_r, const DistMap& dist) {
+    vector<pair<int, int>> path;
     int curr_q = end_q;
     int curr_r = end_r;
     int curr_dist = dist[curr_r][curr_q];
     int dirs[6][2];
 
     while (curr_dist > 0) {
-        path_coords.push_back("(" + to_string(curr_q) + "," + to_string(curr_r) + ")");
+        path.push_back({curr_q, curr_r});
         get_neighbors(curr_r, dirs);
-
         bool found_prev = false;
         for (int d = 0; d < 6; ++d) {
             int nq = curr_q + dirs[d][0];
             int nr = curr_r + dirs[d][1];
-            
             if (nr >= 0 && nr < (int)dist.size() && nq >= 0 && nq < (int)dist[0].size()) {
                 if (dist[nr][nq] == curr_dist - 1) {
                     curr_q = nq;
@@ -140,16 +139,65 @@ void print_path(int end_q, int end_r, const DistMap& dist) {
         }
         if (!found_prev) break;
     }
-    
-    path_coords.push_back("(" + to_string(curr_q) + "," + to_string(curr_r) + ")");
+    path.push_back({curr_q, curr_r});
+    reverse(path.begin(), path.end());
+    return path;
+}
 
+void print_path(const vector<pair<int, int>>& path) {
     cout << "Path: ";
-    for (int i = path_coords.size() - 1; i >= 0; --i) {
-        cout << path_coords[i] << (i > 0 ? " -> " : "");
+    for (size_t i = 0; i < path.size(); ++i) {
+        cout << "(" << path[i].first << "," << path[i].second << ")";
+        if (i < path.size() - 1) {
+            cout << " -> ";
+        }
     }
     cout << endl;
 }
 
+void print_hex_maze(const Maze& maze, const vector<pair<int, int>>& path) {
+    int rows = maze.size();
+    if (rows == 0) return;
+    int cols = maze[0].size();
+
+    // Подготовка: заменяем путь на 'x', кроме S и E
+    vector<vector<char>> display(rows, vector<char>(cols));
+    for (int r = 0; r < rows; ++r) {
+        for (int q = 0; q < cols; ++q) {
+            display[r][q] = maze[r][q];
+            auto pos = make_pair(q, r);
+            if (find(path.begin(), path.end(), pos) != path.end() && 
+                maze[r][q] != 'S' && maze[r][q] != 'E') {
+                display[r][q] = 'x';
+            }
+        }
+    }
+
+    // Выводим верхнюю границу
+    for (int q = 0; q < cols; ++q) {
+        cout << " / \\";
+    }
+    cout << '\n';
+
+    // Выводим каждую строку лабиринта
+    for (int r = 0; r < rows; ++r) {
+        string indent(2 * r, ' ');
+        
+        // Средняя часть (содержимое)
+        cout << indent;
+        for (int q = 0; q < cols; ++q) {
+            cout << "| " << display[r][q] << "  ";
+        }
+        cout << "|\n";
+
+        // Нижняя граница
+        cout << indent;
+        for (int q = 0; q < cols; ++q) {
+            cout << " \\ /";
+        }
+        cout << '\n';
+    }
+}
 
 void bfs_hex(const Maze& maze, int start_q, int start_r) {
     int rows = maze.size();
@@ -190,7 +238,6 @@ void bfs_hex(const Maze& maze, int start_q, int start_r) {
             int nr = cr + dirs[d][1];
 
             if (is_valid(maze, nq, nr, dist)) {
-               
                 if (is_slit_blocked(maze, cq, cr, nq, nr)) {
                     continue; 
                 }
@@ -204,7 +251,10 @@ void bfs_hex(const Maze& maze, int start_q, int start_r) {
 
     if (found) {
         cout << dist[end_r][end_q] << endl;
-        print_path(end_q, end_r, dist);
+        auto path = get_path(end_q, end_r, dist);
+        print_path(path);
+        cout << "Maze with path:" << endl;
+        print_hex_maze(maze, path);
     } else {
         cout << -1 << endl;
     }
