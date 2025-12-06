@@ -7,6 +7,7 @@
 #include <cmath>
 #include <utility>
 #include <cctype>
+#include <cstdio>
 
 using namespace std;
 
@@ -261,10 +262,14 @@ void bfs_hex(const Maze& maze, int start_q, int start_r) {
 }
 
 int main(int argc, char* argv[]) {
-    const char* test_output = getenv("TEST_OUTPUT");
-    if (test_output) {
-        freopen(test_output, "w", stdout);
+const char* test_output = getenv("TEST_OUTPUT");
+if (test_output) {
+    FILE* result = freopen(test_output, "w", stdout);
+    if (!result) {
+        std::cerr << "Error: Failed to redirect stdout to " << test_output << std::endl;
+        return 1;
     }
+}
     
     string input_filename = (argc > 1) ? argv[1] : "input.txt";
     int start_q = 0, start_r = 0;
