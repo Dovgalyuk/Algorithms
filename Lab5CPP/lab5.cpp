@@ -113,12 +113,13 @@ void filetest(const string& fname) {
     cout << "size: " << t.count() << endl;
 
     string val;
-    if (t.get("apple", val)) cout << "apple: " << val << endl;
-    if (t.get("city", val)) cout << "city: " << val << endl;
+    if (t.get("test_key", val)) cout << "test_key: " << val << endl;
+    if (t.get("example", val)) cout << "example: " << val << endl;
 
-    t.del("car");
-    cout << "del car, size: " << t.count() << endl;
+    t.del("remove_me");
+    cout << "del remove_me, size: " << t.count() << endl;
 }
+
 
 int main(int argc, char* argv[]) {
     if (argc > 1) {
