@@ -280,7 +280,7 @@ if (found) {
         cout << -1 << endl;
     }
 
-
+}
 
 int main(int argc, char* argv[]) {
 const char* test_output = getenv("TEST_OUTPUT");
