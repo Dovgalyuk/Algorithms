@@ -114,6 +114,30 @@ bool is_valid(const Maze& maze, int q, int r, const DistMap& dist) {
     
     return true;
 }
+vector<pair<int,int>> reconstruct_path(const DistMap& dist, int end_q, int end_r) {
+    vector<pair<int,int>> path;
+    int cq = end_q, cr = end_r;
+    while (dist[cr][cq] != -1) {
+        path.emplace_back(cq, cr);
+        if (dist[cr][cq] == 0) break;
+
+        int dirs[6][2] = {{1,0},{0,-1},{-1,1},{-1,0},{0,1},{1,-1}};
+        bool found = false;
+        for (int d = 0; d < 6; ++d) {
+            int nq = cq + dirs[d][0];
+            int nr = cr + dirs[d][1];
+            if (nq >= 0 && nq < (int)dist[0].size() && nr >= 0 && nr < (int)dist.size() &&
+                dist[nr][nq] == dist[cr][cq] - 1) {
+                cq = nq; cr = nr;
+                found = true;
+                break;
+            }
+        }
+        if (!found) break;
+    }
+    reverse(path.begin(), path.end()); // от S к E
+    return path;
+}
 
 vector<pair<int, int>> get_path(int end_q, int end_r, const DistMap& dist) {
     vector<pair<int, int>> path;
@@ -188,6 +212,7 @@ void print_hex_maze(const Maze& maze, const vector<pair<int,int>>& path) {
         }
         cout << " " << endl;
     }
+}
 
 void bfs_hex(const Maze& maze, int start_q, int start_r) {
     int rows = maze.size();
@@ -255,30 +280,7 @@ if (found) {
         cout << -1 << endl;
     }
 
-vector<pair<int,int>> reconstruct_path(const DistMap& dist, int end_q, int end_r) {
-    vector<pair<int,int>> path;
-    int cq = end_q, cr = end_r;
-    while (dist[cr][cq] != -1) {
-        path.emplace_back(cq, cr);
-        if (dist[cr][cq] == 0) break;
 
-        int dirs[6][2] = {{1,0},{0,-1},{-1,1},{-1,0},{0,1},{1,-1}};
-        bool found = false;
-        for (int d = 0; d < 6; ++d) {
-            int nq = cq + dirs[d][0];
-            int nr = cr + dirs[d][1];
-            if (nq >= 0 && nq < (int)dist[0].size() && nr >= 0 && nr < (int)dist.size() &&
-                dist[nr][nq] == dist[cr][cq] - 1) {
-                cq = nq; cr = nr;
-                found = true;
-                break;
-            }
-        }
-        if (!found) break;
-    }
-    reverse(path.begin(), path.end()); // от S к E
-    return path;
-}
 
 int main(int argc, char* argv[]) {
 const char* test_output = getenv("TEST_OUTPUT");
