@@ -7,35 +7,50 @@ public:
     class Item
     {
     public:
-        Item *next() { return m_next; }
-        Item *prev() { return m_prev; }
+        Item* next()
+        {
+            return (m_next && m_next->isSentinel) ? nullptr : m_next;
+        }
+
+        Item* prev()
+        {
+            return (m_prev && m_prev->isSentinel) ? nullptr : m_prev;
+        }
+
         Data data() const { return m_data; }
+
     private:
         // internal data here
         Item* m_next;
         Item* m_prev;
         Data  m_data;
+        bool  isSentinel = false;
 
         friend class List;
     };
 
     // Creates new list
-    List() :
-        m_head(nullptr), m_tail(nullptr)
+    List()
     {
+        m_head = new Item;
+        m_head->isSentinel = true;
+        m_head->m_next = m_head;
+        m_head->m_prev = m_head;
     }
 
     // copy constructor
     List(const List& a)
-        : m_head(nullptr), m_tail(nullptr)
     {
-        for (Item* it = a.m_head; it != nullptr; it = it->m_next) {
-            insert_after(m_tail, it->m_data);
-        }
+        m_head = new Item;
+        m_head->isSentinel = true;
+        m_head->m_next = m_head;
+        m_head->m_prev = m_head;
+
+        copy_from(a);
     }
 
     // assignment operator
-    List &operator=(const List &a)
+    List& operator=(const List& a)
     {
         if (this != &a) {
             clear();
@@ -47,138 +62,108 @@ public:
     // Destroys the list and frees the memory
     ~List()
     {
-        while (m_head)
-        {
-            Item* it = m_head;
-            m_head = m_head->m_next;
-            delete it;
-        }
-        m_tail = nullptr;
+        clear();
+        delete m_head;
     }
 
     // Retrieves the first item from the list
-    Item *first()
+    Item* first()
     {
-        return m_head;
+        Item* f = m_head->m_next;
+        return (f->isSentinel) ? nullptr : f;
     }
 
     Item* first() const
     {
-        return m_head;
+        Item* f = m_head->m_next;
+        return (f->isSentinel) ? nullptr : f;
     }
 
     Item* last()
     {
-        return m_tail;
+        Item* l = m_head->m_prev;
+        return (l->isSentinel) ? nullptr : l;
     }
 
     // Inserts new list item into the beginning
-    Item *insert(Data data)
+    Item* insert(Data data)
     {
-        Item* newItem = new Item;
-        newItem->m_data = data;
-        newItem->m_next = m_head;
-        newItem->m_prev = nullptr;
-
-        if (m_head != nullptr) {
-            m_head->m_prev = newItem;
-        }
-        else {
-            m_tail = newItem;
-        }
-
-        return (m_head = newItem);
+        return insert_after(nullptr, data);
     }
 
 
     // Inserts new list item after the specified item
     // Inserts first element if item is null
-    Item *insert_after(Item *item, Data data)
+    Item* insert_after(Item* item, Data data)
     {
         if (item == nullptr) {
-            return insert(data);
+            item = m_head;
         }
 
         Item* newItem = new Item;
         newItem->m_data = data;
-        newItem->m_prev = item;
+        newItem->isSentinel = false;
+
         newItem->m_next = item->m_next;
+        newItem->m_prev = item;
 
-        if (item->m_next != nullptr) {
-            item->m_next->m_prev = newItem;
-        }
-        else {
-            m_tail = newItem;
-        }
+        item->m_next->m_prev = newItem;
+        item->m_next = newItem;
 
-        return (item->m_next = newItem);
+        return newItem;
     }
 
     // Deletes the first list item.
     // Returns pointer to the item next to the deleted one.
-    Item *erase_first()
+    Item* erase_first()
     {
-        if (m_head != nullptr) {
-            Item* next = m_head->m_next;
-            delete m_head;
-
-            m_head = next;
-
-            if (m_head == nullptr) {
-                m_tail = nullptr;
-            }
-            else {
-                m_head->m_prev = nullptr;
-            }
-
-            return m_head;
-        }
-
-        return nullptr;
+        return erase_next(nullptr);
     }
 
     // Deletes the list item following the specified one.
     // Deletes the first element when item is null.
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
-    Item *erase_next(Item *item)
+    Item* erase_next(Item* item)
     {
-        if (item == nullptr) {
-            return erase_first();
-        }
+        if (item == nullptr) item = m_head;
 
-        Item* itemToDelete = item->m_next;
-        if (itemToDelete == nullptr)
+        Item* victim = item->m_next;
+
+        if (victim->isSentinel) {
             return nullptr;
-
-        item->m_next = itemToDelete->m_next;
-        if (item->m_next != nullptr) {
-            item->m_next->m_prev = item;
-        }
-        else {
-            m_tail = item;
         }
 
-        delete itemToDelete;
-        return item->m_next;
+        item->m_next = victim->m_next;
+        victim->m_next->m_prev = item;
+
+        Item* after = item->m_next;
+        Item* result = (after->isSentinel) ? nullptr : after;
+
+        delete victim;
+        return result;
     }
 
 private:
     // private data should be here
     Item* m_head;
-    Item* m_tail;
 
     void clear()
     {
-        while (m_head) {
-            erase_first();
+        Item* it = m_head->m_next;
+        while (!it->isSentinel) {
+            Item* next = it->m_next;
+            delete it;
+            it = next;
         }
+        m_head->m_next = m_head;
+        m_head->m_prev = m_head;
     }
 
     void copy_from(const List& a)
     {
-        for (Item* it = a.m_head; it; it = it->m_next) {
-            insert_after(m_tail, it->m_data);
+        for (Item* it = a.first(); it; it = it->next()) {
+            insert_after(last(), it->data());
         }
     }
 };
