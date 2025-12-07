@@ -9,6 +9,84 @@ using namespace std::chrono;
 
 const int NUM = 1000000;
 
+void draw_graph(ofstream& file, const string& label, double value) {
+
+	file << label << ": [";
+
+	int bars = (int)(value * 20);
+
+	if (bars > 20){
+		bars = 20;
+	}
+
+	for (int i = 0; i < 20; i++) {
+		file << (i < bars ? "#" : " ");
+	}
+
+	file << "] " << value * 100 << "%";
+
+}
+
+void build_fp_graph(ofstream& file, const string& filter_name) {
+	file << endl << filter_name << " - false_positives graph\n";
+
+	for (int elements = 100; elements <= 900; elements += 200) {
+
+		FilterBloom* filter;
+
+		if (filter_name == "Fast") {
+			filter = f_create_fast(1000, 3);
+		}
+		else {
+			filter = f_create_slow(1000, 3);
+		}
+
+		for (int i = 0; i < elements; i++) {
+			string val = "test_" + to_string(i);
+			f_insert(filter, val);
+		}
+
+		double fp = estimate_false_positives(filter, 1000);
+		draw_graph(file, to_string(elements) + " elem", fp);
+		file << "\n";
+
+		f_delete(filter);
+	}
+}
+
+void build_fn_graph(ofstream& file, const string& filter_name) {
+	file << endl << filter_name  << " - false_negatives graph\n";
+
+	for (int removals = 100; removals <= 500; removals += 100) {
+
+		FilterBloom* filter;
+
+		if (filter_name == "Fast") {
+			filter = f_create_fast(2000, 3);
+		}
+		else {
+			filter = f_create_slow(2000, 3);
+		}
+
+		for (int i = 0; i < 1000; i++) {
+			string val = "item_" + to_string(i);
+			f_insert(filter, val);
+		}
+
+		for (int i = 0; i < removals; i++) {
+			string val = "item_" + to_string(i);
+			f_remove(filter, val);
+		}
+
+		double fn = estimate_false_negatives(filter, 1000);
+		draw_graph(file, to_string(removals) + " rem", fn);
+		file << "\n";
+
+		f_delete(filter);
+
+	}
+}
+
 bool test(FilterBloom* filter , const string& name, ofstream& file) {
 	if (!filter)
 	{
@@ -51,25 +129,10 @@ bool test(FilterBloom* filter , const string& name, ofstream& file) {
 		return 1;
 	}
 
-	double fp_rate1 = estimate_false_positives(filter, 1000);
-	file << "False positive: " << fp_rate1 * 100 << "%" << endl;
-
-	FilterBloom* filter2;
-	if (name == "Fast") {
-		filter2 = f_create_fast(1000, 3);
-	}
-	else {
-		filter2 = f_create_slow(1000, 3);
-	}
-	double fn_rate2 = estimate_false_negatives(filter2, 1000);
-	file << "False negative: " << fn_rate2 * 100 << "%" << endl;
-	f_delete(filter2);
-
-	if (fn_rate2 > 0.0) {
-		file << "Filter has false negatives!" << endl;
-	}
-
 	f_delete(filter);
+
+	build_fp_graph(file, name);
+	build_fn_graph(file, name);
 
 	return false;
 }

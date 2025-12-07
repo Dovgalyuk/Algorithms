@@ -61,6 +61,7 @@ long long test_unordered_set(int data_size) {
 void complexity_test(ofstream& file) {
 
 	vector<int> sizes = { 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000 };
+	vector<long long> bloom_times_fast, bloom_times_slow, uset_times;
 
 	for (int a : sizes) {
 		
@@ -68,12 +69,64 @@ void complexity_test(ofstream& file) {
 		long long bloom_time_slow = test_bloom(f_create_slow(a * 10, 7), a);
 		long long uset_time = test_unordered_set(a);
 
-		double bloom_per_op_fast = (double)bloom_time_fast / a;
-		double bloom_per_op_slow = (double)bloom_time_slow / a;
-		double set_per_op = (double)uset_time / a;
+		bloom_times_fast.push_back(bloom_time_fast);	
+		bloom_times_slow.push_back(bloom_time_slow);
+		uset_times.push_back(uset_time);
 
-		file << "Size : " << a << " Fast = " << bloom_per_op_fast << " ms, Slow = " << bloom_per_op_slow <<  " ms, Set = " << set_per_op << " ms" << endl;
 	}
+
+	long long max_time = 0;
+	for (int i = 0; i < sizes.size(); i++) {
+		max_time = max(max_time, max(bloom_times_fast[i], max(bloom_times_slow[i], uset_times[i])));
+	}
+
+	const int width = 100;
+
+	for (int i = 0; i < sizes.size(); i++) {
+
+		if (sizes[i] < 1000000) file << " ";
+		if (sizes[i] < 100000) file << " ";
+		if (sizes[i] < 10000) file << " ";
+		if (sizes[i] < 1000) file << " ";
+		file << sizes[i] << " | ";
+
+		int f_pos = (int)((double)bloom_times_fast[i] / max_time * (width - 1));
+		int s_pos = (int)((double)bloom_times_slow[i] / max_time * (width - 1));
+		int u_pos = (int)((double)uset_times[i] / max_time * (width - 1));
+
+		for (int j = 0; j <= width; j++) {
+
+			if (j == f_pos && j == s_pos && j == u_pos) {
+				file << "X"; // все три
+			}
+			else if (j == f_pos && j == s_pos) {
+				file << "#"; //fast и slow
+			}
+			else if (j == f_pos && j == u_pos) {
+				file << "$"; // fast и set
+			}
+			else if (j == s_pos && j == u_pos) {
+				file << "&"; //slow и set
+			}
+			else if (j == f_pos) {
+				file << "*"; // fast
+			}
+			else if (j == s_pos) {
+				file << "+"; //slow
+			}
+			else if (j == u_pos) {
+				file << "@"; //set
+			}
+			else {
+				file << " ";
+			}
+		}
+
+		file << "\n";
+	}
+
+	file << "\n* = Fast Bloom, + = Slow Bloom, @ = Unordered_set\n";
+	file << "X = All three, # = Fast+Slow, $ = Fast+Set, & = Slow+Set\n";
 }
 
 void performance_graph_data(ofstream& file) {

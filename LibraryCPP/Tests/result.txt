@@ -1,12 +1,36 @@
-False positive: 0%
-False negative: 0%
-False positive: 0%
-False negative: 0%
+
+Fast - false_positives graph
+100 elem: [                    ] 1.6%
+300 elem: [####                ] 21.9%
+500 elem: [##########          ] 51.8%
+700 elem: [#############       ] 69.2%
+900 elem: [################    ] 82.2%
+
+Fast - false_negatives graph
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Slow - false_positives graph
+100 elem: [##                  ] 10.3%
+300 elem: [#######             ] 35.1%
+500 elem: [##########          ] 52.6%
+700 elem: [############        ] 63.2%
+900 elem: [################    ] 80.5%
+
+Slow - false_negatives graph
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
 
 Fast filter performance:
-Fast filter - Insert 1000000 elements: 3159 ms
-Fast filter - Time per operation: 0.003159 ms
+Fast filter - Insert 1000000 elements: 4150 ms
+Fast filter - Time per operation: 0.00415 ms
 
 Slow filter performance:
-Slow filter - Insert 1000000 elements: 11640 ms
-Slow filter - Time per operation: 0.01164 ms
+Slow filter - Insert 1000000 elements: 15057 ms
+Slow filter - Time per operation: 0.015057 ms
