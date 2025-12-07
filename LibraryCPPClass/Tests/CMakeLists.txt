@@ -24,3 +24,9 @@
 # target_link_libraries(TestVectorCPPClass LibraryCPPClass)
 # add_test(TestVectorCPPClass TestVectorCPPClass)
 # set_tests_properties(TestVectorCPPClass PROPERTIES TIMEOUT 10)
+
+add_executable(TestAVLCPPClass avl.cpp)
+target_include_directories(TestAVLCPPClass PUBLIC ..)
+target_link_libraries(TestAVLCPPClass LibraryCPPClass)
+add_test(TestAVLCPPClass TestAVLCPPClass)
+set_tests_properties(TestAVLCPPClass PROPERTIES TIMEOUT 10)
