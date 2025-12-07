@@ -76,13 +76,13 @@ void complexity_test(ofstream& file) {
 	}
 
 	long long max_time = 0;
-	for (int i = 0; i < sizes.size(); i++) {
+	for (size_t i = 0; i < sizes.size(); i++) {
 		max_time = max(max_time, max(bloom_times_fast[i], max(bloom_times_slow[i], uset_times[i])));
 	}
 
 	const int width = 100;
 
-	for (int i = 0; i < sizes.size(); i++) {
+	for (size_t i = 0; i < sizes.size(); i++) {
 
 		if (sizes[i] < 1000000) file << " ";
 		if (sizes[i] < 100000) file << " ";
