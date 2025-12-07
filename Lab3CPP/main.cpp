@@ -157,49 +157,37 @@ void print_path(const vector<pair<int, int>>& path) {
     cout << endl;
 }
 
-void print_hex_maze(const Maze& maze, const vector<pair<int, int>>& path) {
+void print_hex_maze(const Maze& maze, const vector<pair<int,int>>& path) {
     int rows = maze.size();
-    if (rows == 0) return;
     int cols = maze[0].size();
-
-    // Подготовка: заменяем путь на 'x', кроме S и E
-    vector<vector<char>> display(rows, vector<char>(cols));
-    for (int r = 0; r < rows; ++r) {
-        for (int q = 0; q < cols; ++q) {
-            display[r][q] = maze[r][q];
-            auto pos = make_pair(q, r);
-            if (find(path.begin(), path.end(), pos) != path.end() && 
-                maze[r][q] != 'S' && maze[r][q] != 'E') {
-                display[r][q] = 'x';
-            }
+    vector<string> grid = maze;
+    for (auto [q, r] : path) {
+        if (grid[r][q] != 'S' && grid[r][q] != 'E') {
+            grid[r][q] = 'x';
         }
     }
 
-    // Выводим верхнюю границу
-    for (int q = 0; q < cols; ++q) {
-        cout << " / \\";
-    }
-    cout << '\n';
+    // Верхняя граница
+    cout << " ";
+    for (int q = 0; q < cols; ++q) cout << "/ \\";
+    cout << " " << endl;
 
-    // Выводим каждую строку лабиринта
     for (int r = 0; r < rows; ++r) {
-        string indent(2 * r, ' ');
-        
-        // Средняя часть (содержимое)
-        cout << indent;
+        //нечёт стрк
+        if (r % 2 == 1) cout << " ";
+        cout << "|";
         for (int q = 0; q < cols; ++q) {
-            cout << "| " << display[r][q] << "  ";
+            cout << " " << grid[r][q] << " |";
         }
-        cout << "|\n";
+        cout << endl;
 
         // Нижняя граница
-        cout << indent;
+        cout << " ";
         for (int q = 0; q < cols; ++q) {
-            cout << " \\ /";
+            cout << "\\ /";
         }
-        cout << '\n';
+        cout << " " << endl;
     }
-}
 
 void bfs_hex(const Maze& maze, int start_q, int start_r) {
     int rows = maze.size();
@@ -251,15 +239,45 @@ void bfs_hex(const Maze& maze, int start_q, int start_r) {
     }
     queue_delete(q);
 
-    if (found) {
+if (found) {
         cout << dist[end_r][end_q] << endl;
-        auto path = get_path(end_q, end_r, dist);
-        print_path(path);
+
+        auto path = reconstruct_path(dist, end_q, end_r);
+        cout << "Path:";
+        for (size_t i = 0; i < path.size(); ++i) {
+            auto [q, r] = path[i];
+            cout << " (" << q << "," << r << ")";
+        }
+        cout << endl;
         cout << "Maze with path:" << endl;
         print_hex_maze(maze, path);
     } else {
         cout << -1 << endl;
     }
+
+vector<pair<int,int>> reconstruct_path(const DistMap& dist, int end_q, int end_r) {
+    vector<pair<int,int>> path;
+    int cq = end_q, cr = end_r;
+    while (dist[cr][cq] != -1) {
+        path.emplace_back(cq, cr);
+        if (dist[cr][cq] == 0) break;
+
+        int dirs[6][2] = {{1,0},{0,-1},{-1,1},{-1,0},{0,1},{1,-1}};
+        bool found = false;
+        for (int d = 0; d < 6; ++d) {
+            int nq = cq + dirs[d][0];
+            int nr = cr + dirs[d][1];
+            if (nq >= 0 && nq < (int)dist[0].size() && nr >= 0 && nr < (int)dist.size() &&
+                dist[nr][nq] == dist[cr][cq] - 1) {
+                cq = nq; cr = nr;
+                found = true;
+                break;
+            }
+        }
+        if (!found) break;
+    }
+    reverse(path.begin(), path.end()); // от S к E
+    return path;
 }
 
 int main(int argc, char* argv[]) {
