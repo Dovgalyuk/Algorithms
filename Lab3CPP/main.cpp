@@ -60,30 +60,9 @@ void get_neighbors(int r, int dirs[6][2]) {
     }
 }
 bool is_slit_blocked(const Maze& maze, int cq, int cr, int nq, int nr) {
-    if (abs(cq - nq) != 1 || abs(cr - nr) != 1) return false;
-    int rows = maze.size();
-    int cols = maze[0].size();
-    int r_wall1, q_wall1;
-    int r_wall2, q_wall2;
-    if (cr % 2 == 0) {
-        r_wall1 = cr;
-        q_wall1 = nq;
-        r_wall2 = nr;
-        q_wall2 = cq;
-    }
-    else {
-        r_wall1 = cr;
-        q_wall1 = cq;
-        r_wall2 = nr;
-        q_wall2 = nq;
-    }
-    auto is_wall = [&](int r, int q) {
-        if (r < 0 || r >= rows || q < 0 || q >= cols) return false;
-        return maze[r][q] == '#';
-        };
-    if (is_wall(r_wall1, q_wall1) && is_wall(r_wall2, q_wall2)) {
+    if (abs(cq - nq) == 1 && abs(cr - nr) == 1)
         return true;
-    }
+
     return false;
 }
 bool is_valid(const Maze& maze, int q, int r, const DistMap& dist) {
@@ -159,7 +138,6 @@ void print_hex_maze(const Maze& maze, const vector<pair<int, int>>& path) {
     int rows = maze.size();
     if (rows == 0) return;
     int cols = maze[0].size();
-    // Создаем матрицу для отображения
     vector<vector<char>> display(rows, vector<char>(cols));
     for (int r = 0; r < rows; ++r) {
         for (int q = 0; q < cols; ++q) {
