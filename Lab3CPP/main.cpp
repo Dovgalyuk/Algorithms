@@ -254,10 +254,11 @@ const char* test_output = getenv("TEST_OUTPUT");
         }
     }
     
-        int start_q = 0, start_r = 0;
-        Maze maze = read_maze(input_filename, start_q, start_r);
-        bfs_hex(maze, start_q, start_r);
-        cout << endl;
+    string input_filename = (argc > 1) ? argv[1] : "input.txt";
+    int start_q = 0, start_r = 0;
+    
+    Maze maze = read_maze(input_filename, start_q, start_r);
+    bfs_hex(maze, start_q, start_r);
     
     return 0;
 }
