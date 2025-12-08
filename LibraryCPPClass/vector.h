@@ -2,6 +2,7 @@
 #define VECTOR_H
 
 #include <cstddef>
+#include <algorithm>
 
 // Change it to desired type
 typedef int Data;
@@ -35,7 +36,9 @@ public:
     void resize(size_t size);
 
 private:
-    // private data should be here
+    size_t _size;
+    size_t _capacity;
+    Data* _data;
 };
 
 #endif
