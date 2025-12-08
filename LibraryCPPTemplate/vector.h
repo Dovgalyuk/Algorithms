@@ -15,15 +15,7 @@ public:
     // copy constructor
     Vector(const Vector &a) : capacity_value(a.capacity_value), size_value(a.size_value)
     {
-        if (capacity_value > 0) {
-            elements = new Data[capacity_value];
-            for (size_t i = 0; i < size_value; ++i) {
-                elements[i] = a.elements[i];
-            }
-        }
-        else {
-            elements = nullptr;
-        }
+        copyFunc(a);
     }
 
     // assignment operator
@@ -33,15 +25,7 @@ public:
             delete[] elements;
             capacity_value = a.capacity_value;
             size_value = a.size_value;
-            if (capacity_value > 0) {
-                elements = new Data[capacity_value];
-                for (size_t i = 0; i < size_value; ++i) {
-                    elements[i] = a.elements[i];
-                }
-            }
-            else {
-                elements = nullptr;
-            }
+            copyFunc(a);
         }
         return *this;
     }
@@ -53,7 +37,14 @@ public:
     }
 
     // Retrieves vector element with the specified index
-    Data get(size_t index) const
+    Data& get(size_t index)
+    {
+        if (index >= size_value) {
+            throw std::out_of_range("Index out of range");
+        }
+        return elements[index];
+    }
+    const Data& get(size_t index) const
     {
         if (index >= size_value) {
             throw std::out_of_range("Index out of range");
@@ -102,6 +93,18 @@ public:
 
 private:
     // private data should be here
+    void copyFunc(const Vector& a)
+    {
+        if (capacity_value > 0) {
+            elements = new Data[capacity_value];
+            for (size_t i = 0; i < size_value; ++i) {
+                elements[i] = a.elements[i];
+            }
+        }
+        else {
+            elements = nullptr;
+        }
+    }
     Data* elements;
     size_t capacity_value;
     size_t size_value;

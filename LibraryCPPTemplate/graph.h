@@ -15,12 +15,11 @@ public:
 
         for (size_t i = 0; i < count; ++i) {
             exists.set(i, true);
-            Vector<EdgeLabel> row;
+            Vector<EdgeLabel>& row = edges.get(i);
             row.resize(count);
             for (size_t j = 0; j < count; ++j) {
                 row.set(j, EdgeLabel());
             }
-            edges.set(i, row);
         }
     }
 
@@ -57,18 +56,16 @@ public:
 
         edges.resize(vertex_count);
 
-        for (size_t i = 0; i < vertex_count; ++i) {
-            Vector<EdgeLabel> row = edges.get(i);
+        for (size_t i = 0; i < vertex_count - 1; ++i) {
+            Vector<EdgeLabel>& row = edges.get(i);
             row.resize(vertex_count);
-            edges.set(i, row);
         }
 
-        Vector<EdgeLabel> new_row;
+        Vector<EdgeLabel>& new_row = edges.get(new_index);
         new_row.resize(vertex_count);
         for (size_t j = 0; j < vertex_count; ++j) {
             new_row.set(j, EdgeLabel());
         }
-        edges.set(new_index, new_row);
 
         return new_index;
     }
@@ -82,13 +79,11 @@ public:
         vertex_labels.set(vertex_id, VertexLabel());
 
         for (size_t i = 0; i < vertex_count; ++i) {
-            Vector<EdgeLabel> row = edges.get(vertex_id);
+            Vector<EdgeLabel>& row = edges.get(vertex_id);
             row.set(i, EdgeLabel());
-            edges.set(vertex_id, row);
 
-            row = edges.get(i);
-            row.set(vertex_id, EdgeLabel());
-            edges.set(i, row);
+            Vector<EdgeLabel>& new_row = edges.get(i);
+            new_row.set(vertex_id, EdgeLabel());
         }
     }
 
@@ -117,18 +112,16 @@ public:
     void add_edge(size_t from, size_t to, EdgeLabel value) {
         if (from < vertex_count && to < vertex_count &&
             exists.get(from) && exists.get(to)) {
-            Vector<EdgeLabel> row = edges.get(from);
+            Vector<EdgeLabel>& row = edges.get(from);
             row.set(to, value);
-            edges.set(from, row);
         }
     }
 
     void remove_edge(size_t from, size_t to) {
         if (from < vertex_count && to < vertex_count &&
             exists.get(from) && exists.get(to)) {
-            Vector<EdgeLabel> row = edges.get(from);
+            Vector<EdgeLabel>& row = edges.get(from);
             row.set(to, EdgeLabel());
-            edges.set(from, row);
         }
     }
 
@@ -146,9 +139,8 @@ public:
     void set_edge_label(size_t from, size_t to, EdgeLabel value) {
         if (from < vertex_count && to < vertex_count &&
             exists.get(from) && exists.get(to) && has_edge(from, to)) {
-            Vector<EdgeLabel> row = edges.get(from);
+            Vector<EdgeLabel>& row = edges.get(from);
             row.set(to, value);
-            edges.set(from, row);
         }
     }
 

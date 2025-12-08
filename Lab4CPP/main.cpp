@@ -5,62 +5,89 @@
 
 using namespace std;
 
-struct QueueItem {
+struct HeapItem {
     int vertex;
     int distance;
-    QueueItem* next;
 };
 
 struct PriorityQueue {
-    QueueItem* front;
+    Vector<HeapItem> heap;
 };
 
-void pq_push(PriorityQueue* pq, int vertex, int distance) {
-    QueueItem* new_item = new QueueItem;
-    new_item->vertex = vertex;
-    new_item->distance = distance;
-    new_item->next = nullptr;
+PriorityQueue* pq_create() {
+    PriorityQueue* pq = new PriorityQueue;
+    return pq;
+}
 
-    if (pq->front == nullptr || pq->front->distance > distance) {
-        new_item->next = pq->front;
-        pq->front = new_item;
-    }
-    else {
-        QueueItem* current = pq->front;
-        while (current->next != nullptr && current->next->distance <= distance) {
-            current = current->next;
+void pq_push(PriorityQueue* pq, int vertex, int distance) {
+    HeapItem item;
+    item.vertex = vertex;
+    item.distance = distance;
+    
+    pq->heap.resize(pq->heap.size() + 1);
+    size_t index = pq->heap.size() - 1;
+    pq->heap.set(index, item);
+
+    while (index > 0) {
+        size_t parent = (index - 1) / 2;
+        if (pq->heap.get(parent).distance > pq->heap.get(index).distance) {
+            HeapItem temp = pq->heap.get(parent);
+            pq->heap.set(parent, pq->heap.get(index));
+            pq->heap.set(index, temp);
+            index = parent;
         }
-        new_item->next = current->next;
-        current->next = new_item;
+        else {
+            break;
+        }
     }
 }
 
 int pq_pop(PriorityQueue* pq) {
-    if (pq->front == nullptr) {
+    if (pq->heap.size() == 0) {
         return -1;
     }
-    int vertex = pq->front->vertex;
-    QueueItem* temp = pq->front;
-    pq->front = pq->front->next;
-    delete temp;
+    int vertex = pq->heap.get(0).vertex;
+
+    if (pq->heap.size() > 1) {
+        pq->heap.set(0, pq->heap.get(pq->heap.size() - 1));
+        pq->heap.resize(pq->heap.size() - 1);
+        
+        int index = 0;
+        while (true) {
+            int left = 2 * index + 1;
+            int right = 2 * index + 2;
+            int smallest = index;
+
+            if (left < pq->heap.size() && pq->heap.get(left).distance < pq->heap.get(smallest).distance) {
+                smallest = left;
+            }
+            if (right < pq->heap.size() && pq->heap.get(right).distance < pq->heap.get(smallest).distance) {
+                smallest = right;
+            }
+
+            if (smallest != index) {
+                HeapItem temp = pq->heap.get(index);
+                pq->heap.set(index, pq->heap.get(smallest));
+                pq->heap.set(smallest, temp);
+                index = smallest;
+            }
+            else {
+                break;
+            }
+        }
+    }
+    else {
+        pq->heap.resize(0);
+    }
     return vertex;
 }
 
 bool pq_empty(PriorityQueue* pq) {
-    return pq->front == nullptr;
+    return pq->heap.size() == 0;
 }
 
 void pq_delete(PriorityQueue* pq) {
-    while (!pq_empty(pq)) {
-        pq_pop(pq);
-    }
     delete pq;
-}
-
-PriorityQueue* pq_create() {
-    PriorityQueue* pq = new PriorityQueue;
-    pq->front = nullptr;
-    return pq;
 }
 
 size_t find_index(const string* names, size_t n, const string& name)
