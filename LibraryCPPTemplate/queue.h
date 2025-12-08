@@ -1,58 +1,41 @@
 #ifndef QUEUE_TEMPLATE_H
 #define QUEUE_TEMPLATE_H
 
-template <typename Data> class Queue
-{
-public:
-    // Create empty queue
-    Queue()
-    {
-    }
+#include "vector.h"
+#include <stdexcept>
 
-    // copy constructor
-    Queue(const Queue &a)
-    {
-        // implement or disable this function
-    }
+using namespace std;
 
-    // assignment operator
-    Queue &operator=(const Queue &a)
-    {
-        // implement or disable this function
-        return *this;
-    }
-
-    // Deletes queue
-    ~Queue()
-    {
-    }
-
-    // Includes new element into the queue
-    // Should be O(1) on average
-    void insert(Data data)
-    {
-    }
-
-    // Retrieves first element from the queue
-    Data get() const
-    {
-        return Data();
-    }
-
-    // Removes first element from the queue
-    // Should be O(1) on average
-    void remove()
-    {
-    }
-
-    // Returns true if the queue is empty
-    bool empty() const
-    {
-        return true;
-    }
-
+template <typename T> class Queue {
 private:
-    // private data should be here
+  Vector<T> data_;
+
+public:
+  void push(const T &item) { data_.push_back(item); }
+
+  void pop() {
+    if (empty())
+      throw out_of_range("Queue is empty");
+    for (size_t i = 1; i < data_.size(); i++)
+      data_[i - 1] = data_[i];
+    data_.pop_back();
+  }
+
+  T &front() {
+    if (empty())
+      throw out_of_range("Queue is empty");
+    return data_[0];
+  }
+
+  const T &front() const {
+    if (empty())
+      throw out_of_range("Queue is empty");
+    return data_[0];
+  }
+
+  bool empty() const { return data_.empty(); }
+
+  size_t size() const { return data_.size(); }
 };
 
 #endif
