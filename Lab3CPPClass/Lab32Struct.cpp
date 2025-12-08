@@ -19,24 +19,9 @@ typedef vector<Position> PositionList;
 typedef pair<int, int> Coord;
 typedef vector<vector<bool>> Visited;
 
-enum Move {
-    UP_LEFT = '1',
-    UP = '2',
-    UP_RIGHT = '3',
-    LEFT = '4',
-    RIGHT = '5',
-    DOWN_LEFT = '6',
-    DOWN = '7',
-    DOWN_RIGHT = '8'
-};
-
 const int dx[8] = { -1, -1, -1,  0, 0, 1, 1, 1 };
 const int dy[8] = { -1,  0,  1, -1, 1, -1, 0, 1 };
-const Move moves[8] = {
-    UP_LEFT, UP, UP_RIGHT,
-    LEFT, RIGHT,
-    DOWN_LEFT, DOWN, DOWN_RIGHT
-};
+const char moves[8] = { '1','2','3','4','5','6','7','8' };
 
 Maze readMaze(const string& filename) {
     ifstream file(filename);
