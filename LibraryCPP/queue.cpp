@@ -40,7 +40,7 @@ void queue_insert(Queue* queue, Data data)
         Vector* new_buf = vector_create();
         vector_resize(new_buf, old_capacity * 2);
 
-        for (size_t i = 0; i < queue->count; i++)
+        for (size_t i = 0; i < queue->count; i++) 
         {
             size_t idx = (queue->head + i) % old_capacity;
             vector_set(new_buf, i, vector_get(queue->buf, idx));

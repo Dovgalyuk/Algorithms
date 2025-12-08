@@ -6,52 +6,94 @@
 template <typename Data> class Vector
 {
 public:
-    // Creates vector
-    Vector()
+    Vector(): m_data(nullptr), m_size(0), m_capacity(0) {}
+
+    Vector(const Vector& a): m_data(nullptr), m_size(0), m_capacity(0)
     {
+        if (a.m_size > 0)
+        {
+            m_data = new Data[a.m_size];
+            for (size_t i = 0; i < a.m_size; i++)
+            {
+                m_data[i] = a.m_data[i];
+            }
+            m_size = a.m_size;
+            m_capacity = a.m_size;
+        }
     }
 
-    // copy constructor
-    Vector(const Vector &a)
+    Vector& operator=(const Vector& a)
     {
-    }
+        if (this != &a)
+        {
+            Data* new_data = nullptr;
+            if (a.m_size > 0)
+            {
+                new_data = new Data[a.m_size];
+                for (size_t i = 0; i < a.m_size; i++)
+                {
+                    new_data[i] = a.m_data[i];
+                }
+            }
 
-    // assignment operator
-    Vector &operator=(const Vector &a)
-    {
+            delete[] m_data;
+            m_data = new_data;
+            m_size = a.m_size;
+            m_capacity = a.m_size;
+        }
         return *this;
     }
 
-    // Deletes vector structure and internal data
     ~Vector()
     {
+        delete[] m_data;
     }
 
-    // Retrieves vector element with the specified index
     Data get(size_t index) const
     {
-        return Data();
+        return m_data[index];
     }
 
-    // Sets vector element with the specified index
     void set(size_t index, Data value)
     {
+        m_data[index] = value;
     }
 
-    // Retrieves current vector size
     size_t size() const
     {
-        return 0;
+        return m_size;
     }
 
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
-    void resize(size_t size)
+    void resize(size_t new_size)
     {
+        if (new_size <= m_capacity)
+        {
+            m_size = new_size;
+            return;
+        }
+
+        size_t new_capacity = (m_capacity == 0) ? 1 : m_capacity;
+        while (new_capacity < new_size)
+        {
+            new_capacity *= 2;
+        }
+
+        Data* new_data = new Data[new_capacity];
+        for (size_t i = 0; i < m_size; i++)
+        {
+            new_data[i] = m_data[i];
+        }
+
+        delete[] m_data;
+        m_data = new_data;
+        m_capacity = new_capacity;
+        m_size = new_size;
     }
 
 private:
-    // private data should be here
+    Data* m_data;
+    size_t m_size;
+    size_t m_capacity;
 };
 
 #endif

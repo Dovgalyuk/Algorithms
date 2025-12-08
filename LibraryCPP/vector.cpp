@@ -42,7 +42,8 @@ void vector_resize(Vector* vector, size_t new_size)
     if (new_size > vector->capacity)
     {
         size_t new_cap = vector->capacity == 0 ? 1 : vector->capacity;
-        while (new_cap < new_size) new_cap *= 2;
+        while (new_cap < new_size)
+            new_cap *= 2;
 
         Data* new_data = new Data[new_cap];
         for (size_t i = 0; i < vector->size; i++)
