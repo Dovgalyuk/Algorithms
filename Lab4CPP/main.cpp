@@ -52,16 +52,17 @@ int pq_pop(PriorityQueue* pq) {
         pq->heap.set(0, pq->heap.get(pq->heap.size() - 1));
         pq->heap.resize(pq->heap.size() - 1);
         
-        int index = 0;
+        size_t index = 0;
+        size_t heap_size = pq->heap.size();
         while (true) {
-            int left = 2 * index + 1;
-            int right = 2 * index + 2;
-            int smallest = index;
+            size_t left = 2 * index + 1;
+            size_t right = 2 * index + 2;
+            size_t smallest = index;
 
-            if (left < pq->heap.size() && pq->heap.get(left).distance < pq->heap.get(smallest).distance) {
+            if (left < heap_size && pq->heap.get(left).distance < pq->heap.get(smallest).distance) {
                 smallest = left;
             }
-            if (right < pq->heap.size() && pq->heap.get(right).distance < pq->heap.get(smallest).distance) {
+            if (right < heap_size && pq->heap.get(right).distance < pq->heap.get(smallest).distance) {
                 smallest = right;
             }
 
