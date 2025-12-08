@@ -30,8 +30,8 @@ private:
     int cnt;
 
     void clear(Node* n);
-    int height(Node* n);
-    int balance(Node* n);
+    static int height(Node* n);
+    static int balance(Node* n);
     Node* rightRotate(Node* y);
     Node* leftRotate(Node* x);
     Node* add(Node* n, const std::string& k, const std::string& v);
