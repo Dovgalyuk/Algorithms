@@ -1,17 +1,9 @@
 #include "vector.h"
 
-Vector::Vector()
-{
-    _size = 0;
-    _capacity = 0;
-    _data = nullptr;
-}
+Vector::Vector() : _size(0), _capacity(0), _data(nullptr) {}
 
-Vector::Vector(const Vector &a)
+Vector::Vector(const Vector &a) : _size(0), _capacity(0), _data(nullptr)
 {
-    _size = 0;
-    _capacity = 0;
-    _data = nullptr;
     *this = a;
 }
 
@@ -45,7 +37,7 @@ Data Vector::get(size_t index) const
 {
     if (index >= _size)
     {
-
+        throw std::runtime_error("Out of Range!");
     }
     return _data[index];
 }
@@ -54,7 +46,7 @@ void Vector::set(size_t index, Data value)
 {
     if (index >= _size)
     {
-        throw  "Out of Range!";
+        throw std::runtime_error("Out of Range!");
     }
     _data[index] = value;
 }

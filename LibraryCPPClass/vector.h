@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <algorithm>
+#include <stdexcept>
 
 // Change it to desired type
 typedef int Data;
