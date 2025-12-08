@@ -21,6 +21,7 @@ int main(int argc, char** argv)
     for (int i = 0; i < n; i++)
         for (int j = 0; j < n; j++)
             cin >> g[i][j];
+
     int dist[200];
     for (int i = 0; i < n; i++) 
         dist[i] = -1;
@@ -36,7 +37,7 @@ int main(int argc, char** argv)
 
         for (int to = 0; to < n; to++)
         {
-            if (g[v][to] != 0 && dist[to] == -1)
+            if (g[v][to] != 0 && dist[to] == -1) 
             {
                 dist[to] = dist[v] + 1;
                 queue_insert(q, to);
