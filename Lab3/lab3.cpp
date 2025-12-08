@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
     std::ifstream in(argv[1]);
     if (!in) return 1;
 
-    std::vector<std::string> maze;
+    Maze maze;
     std::string line;
 
     while (std::getline(in, line))
