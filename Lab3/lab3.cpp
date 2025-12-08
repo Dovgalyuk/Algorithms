@@ -5,7 +5,9 @@
 
 #include "queue.h"
 
-char findDigit(std::vector<std::string> maze) {
+typedef std::vector<std::string> Maze;
+
+char findDigit(Maze maze) {
     
     if (maze.empty()) return 0;
 

@@ -102,7 +102,6 @@ public:
 
         Item* newItem = new Item;
         newItem->m_data = data;
-        newItem->isSentinel = false;
 
         newItem->m_next = item->m_next;
         newItem->m_prev = item;
