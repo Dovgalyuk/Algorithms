@@ -12,3 +12,14 @@ set_tests_properties(TestLab3CPP PROPERTIES PASS_REGULAR_EXPRESSION
 
 add_test(NAME TestLab3CPP_2 COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/test2_input.txt)
 set_tests_properties(TestLab3CPP_2 PROPERTIES PASS_REGULAR_EXPRESSION "IMPOSSIBLE")
+
+add_test(NAME TestLab3CPP_3 COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/test3_input.txt)
+set_tests_properties(TestLab3CPP_3 PROPERTIES PASS_REGULAR_EXPRESSION 
+"######
+#..xX#
+###x##
+#..xY#
+######")
+
+add_test(NAME TestLab3CPP_4 COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/test4_input.txt)
+set_tests_properties(TestLab3CPP_4 PROPERTIES PASS_REGULAR_EXPRESSION "IMPOSSIBLE")

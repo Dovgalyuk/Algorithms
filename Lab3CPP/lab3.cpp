@@ -11,28 +11,19 @@ struct Point {
     Point(int x = 0, int y = 0) : x(x), y(y) {}
 };
 
-bool isValid(int x, int y, int rows, int cols) {
-    return x >= 0 && x < rows && y >= 0 && y < cols;
-}
 
 void bfs(vector<string>& maze, Point start, Point end) {
-  
+
     int rows = static_cast<int>(maze.size());
     if (rows == 0) return;
     int cols = static_cast<int>(maze[0].size());
 
-   
-    int dx[] = { -1, 0, 1, 0 };
-    int dy[] = { 0, 1, 0, -1 };
-
-    vector<vector<bool>> visited(rows, vector<bool>(cols, false));
     vector<vector<Point>> parent(rows, vector<Point>(cols, Point(-1, -1)));
 
     Queue* queue = queue_create();
 
-
     queue_insert(queue, start.x * cols + start.y);
-    visited[start.x][start.y] = true;
+    parent[start.x][start.y] = start; 
 
     bool found = false;
 
@@ -48,12 +39,23 @@ void bfs(vector<string>& maze, Point start, Point end) {
             break;
         }
 
-        for (int i = 0; i < 4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
+      
+        Point dirs[4] = {
+            Point(-1, 0),
+            Point(0, 1),
+            Point(1, 0),
+            Point(0, -1)
+        };
 
-            if (isValid(nx, ny, rows, cols) && !visited[nx][ny] && maze[nx][ny] != '#') {
-                visited[nx][ny] = true;
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dirs[i].x;
+            int ny = y + dirs[i].y;
+
+            if (nx >= 0 && nx < rows &&
+                ny >= 0 && ny < cols &&
+                maze[nx][ny] != '#' &&
+                parent[nx][ny].x == -1)  
+            {
                 parent[nx][ny] = Point(x, y);
                 queue_insert(queue, nx * cols + ny);
             }
@@ -80,6 +82,8 @@ void bfs(vector<string>& maze, Point start, Point end) {
 
     queue_delete(queue);
 }
+
+
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
