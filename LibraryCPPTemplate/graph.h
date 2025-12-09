@@ -9,7 +9,6 @@
 #include <iostream>
 #include <queue>
 #include <algorithm>
-#include <vector>
 #include <climits>
 
 template<typename VertexLabel, typename EdgeLabel>
@@ -45,7 +44,6 @@ public:
     public:
         NeighborIterator(const Graph* g, size_t vertex) : graph(g), current_vertex(vertex) {
             if (vertex < graph->vertices.size()) {
-
                 const VertexData& vertex_data = graph->vertices[vertex];
                 edge_iter = vertex_data.edges.getSimpleIterator();
             }
@@ -55,7 +53,7 @@ public:
             return edge_iter.hasNext();
         }
 
-        int next() {
+        size_t next() {
             if (!hasNext()) throw std::runtime_error("No more neighbors");
 
             try {
@@ -68,7 +66,7 @@ public:
                     throw std::runtime_error("Invalid neighbor index in edge");
                 }
 
-                return static_cast<int>(edge.to_vertex);
+                return edge.to_vertex;
             }
             catch (const std::exception& e) {
                 std::cerr << "ERROR in NeighborIterator::next(): " << e.what() << std::endl;
@@ -169,17 +167,21 @@ public:
         Vector<VertexData> new_vertices;
         for (size_t i = 0; i < vertices.size(); ++i) {
             if (i != vertex) {
-
                 VertexData data = vertices[i];
                 List<Edge> updated_edges;
-                auto iter = data.edges.getSimpleIterator();
 
+                auto iter = data.edges.getSimpleIterator();
                 while (iter.hasNext()) {
                     Edge edge = iter.next();
                     if (edge.to_vertex > vertex) {
-                        edge.to_vertex--;
+
+                        Edge updated_edge(edge.to_vertex - 1, edge.label);
+                        updated_edges.insert(updated_edge);
                     }
-                    updated_edges.insert(edge);
+                    else if (edge.to_vertex < vertex) {
+
+                        updated_edges.insert(edge);
+                    }
                 }
 
                 data.edges = std::move(updated_edges);
@@ -244,64 +246,72 @@ public:
 
     size_t getVertexCount() const { return vertices.size(); }
 
-    std::vector<std::vector<int>> findAllShortestPaths(int start, int end) const;
+    Vector<Vector<size_t>> findAllShortestPaths(size_t start, size_t end) const;
 
     ~Graph() = default;
 };
 
 template<typename VertexLabel, typename EdgeLabel>
-std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(int start, int end) const {
-
-    if (start < 0 || static_cast<size_t>(start) >= getVertexCount()) {
+Vector<Vector<size_t>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(size_t start, size_t end) const {
+    if (start >= getVertexCount()) {
         std::cerr << "ERROR: Invalid start vertex index: " << start
             << " (vertex count: " << getVertexCount() << ")" << std::endl;
-        return {};
+        return Vector<Vector<size_t>>();
     }
 
-    if (end < 0 || static_cast<size_t>(end) >= getVertexCount()) {
+    if (end >= getVertexCount()) {
         std::cerr << "ERROR: Invalid end vertex index: " << end
             << " (vertex count: " << getVertexCount() << ")" << std::endl;
-        return {};
+        return Vector<Vector<size_t>>();
     }
 
     if (start == end) {
-        return { {start} };
+        Vector<Vector<size_t>> result;
+        Vector<size_t> single_path;
+        single_path.push_back(start);
+        result.push_back(single_path);
+        return result;
     }
 
-    std::vector<int> distance(getVertexCount(), -1);
-    std::vector<std::vector<int>> predecessors(getVertexCount());
-    std::queue<int> q;
+    Vector<int> distance;
+    distance.resize(getVertexCount());
+    for (size_t i = 0; i < getVertexCount(); ++i) {
+        distance.set(i, -1);
+    }
 
-    distance[start] = 0;
+    Vector<Vector<size_t>> predecessors;
+    predecessors.resize(getVertexCount());
+
+    std::queue<size_t> q;
+
+    distance.set(start, 0);
     q.push(start);
 
     while (!q.empty()) {
-        int current = q.front();
+        size_t current = q.front();
         q.pop();
 
         auto neighbors_iter = getNeighbors(current);
-        int neighbor_count = 0;
 
         while (neighbors_iter.hasNext()) {
-            neighbor_count++;
             try {
-                int neighbor = neighbors_iter.next();
+                size_t neighbor = neighbors_iter.next();
 
-                if (neighbor < 0 || static_cast<size_t>(neighbor) >= getVertexCount()) {
+                if (neighbor >= getVertexCount()) {
                     std::cerr << "WARNING: Invalid neighbor index returned: " << neighbor
                         << " for vertex " << current
                         << " (vertex count: " << getVertexCount() << ")" << std::endl;
                     continue;
                 }
 
-                if (distance[neighbor] == -1) {
+                int current_dist = distance.get(current);
 
-                    distance[neighbor] = distance[current] + 1;
+                if (distance.get(neighbor) == -1) {
+                    distance.set(neighbor, current_dist + 1);
                     predecessors[neighbor].push_back(current);
                     q.push(neighbor);
                 }
-                else if (distance[neighbor] == distance[current] + 1) {
-
+                else if (distance.get(neighbor) == current_dist + 1) {
                     predecessors[neighbor].push_back(current);
                 }
             }
@@ -310,22 +320,17 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
                     << e.what() << std::endl;
             }
         }
-
-        if (neighbor_count == 0) {
-
-        }
     }
 
-    if (distance[end] == -1) {
-        return {};
+    if (distance.get(end) == -1) {
+        return Vector<Vector<size_t>>();
     }
 
-    std::vector<std::vector<int>> all_paths;
-    std::vector<int> current_path;
+    Vector<Vector<size_t>> all_paths;
+    Vector<size_t> current_path;
 
-    std::function<void(int)> backtrack = [&](int node) {
-
-        if (node < 0 || static_cast<size_t>(node) >= getVertexCount()) {
+    std::function<void(size_t)> backtrack = [&](size_t node) {
+        if (node >= getVertexCount()) {
             std::cerr << "ERROR: Invalid vertex index in backtrack: " << node << std::endl;
             return;
         }
@@ -334,15 +339,17 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
 
         if (node == start) {
 
-            std::vector<int> path = current_path;
-            std::reverse(path.begin(), path.end());
+            Vector<size_t> path;
+            for (int i = static_cast<int>(current_path.size()) - 1; i >= 0; --i) {
+                path.push_back(current_path[i]);
+            }
             all_paths.push_back(path);
         }
         else {
-
-            for (int pred : predecessors[node]) {
-
-                if (pred < 0 || static_cast<size_t>(pred) >= getVertexCount()) {
+            const Vector<size_t>& preds = predecessors[node];
+            for (size_t i = 0; i < preds.size(); ++i) {
+                size_t pred = preds[i];
+                if (pred >= getVertexCount()) {
                     std::cerr << "WARNING: Invalid predecessor index: " << pred
                         << " for vertex " << node << std::endl;
                     continue;
@@ -351,12 +358,37 @@ std::vector<std::vector<int>> Graph<VertexLabel, EdgeLabel>::findAllShortestPath
             }
         }
 
-        current_path.pop_back();
+        if (current_path.size() > 0) {
+            current_path.erase(current_path.size() - 1);
+        }
         };
 
     backtrack(end);
 
-    std::sort(all_paths.begin(), all_paths.end());
+    if (all_paths.size() > 0) {
+        std::vector<Vector<size_t>> temp_paths;
+        for (size_t i = 0; i < all_paths.size(); ++i) {
+            temp_paths.push_back(all_paths[i]);
+        }
+
+        std::sort(temp_paths.begin(), temp_paths.end(),
+            [](const Vector<size_t>& a, const Vector<size_t>& b) {
+                if (a.size() != b.size()) {
+                    return a.size() < b.size();
+                }
+                for (size_t i = 0; i < a.size(); ++i) {
+                    if (a[i] != b[i]) {
+                        return a[i] < b[i];
+                    }
+                }
+                return false;
+            });
+
+        all_paths.clear();
+        for (const auto& path : temp_paths) {
+            all_paths.push_back(path);
+        }
+    }
 
     return all_paths;
 }

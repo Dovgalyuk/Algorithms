@@ -20,20 +20,35 @@ private:
 
         Data* new_data = new Data[new_capacity];
 
-        // Копируем существующие элементы
         for (size_t i = 0; i < size_; ++i) {
             new_data[i] = data_[i];
         }
 
-        // Освобождаем старую память
         delete[] data_;
         data_ = new_data;
         capacity_ = new_capacity;
     }
 
 public:
-    // Creates vector
+    // Creates empty vector
     Vector() : data_(nullptr), size_(0), capacity_(0) {}
+
+    // Creates vector with specified size
+    Vector(size_t initial_size) : data_(nullptr), size_(0), capacity_(0) {
+        if (initial_size > 0) {
+            resize(initial_size);
+        }
+    }
+
+    // Creates vector with specified size and initial value
+    Vector(size_t initial_size, const Data& initial_value) : data_(nullptr), size_(0), capacity_(0) {
+        if (initial_size > 0) {
+            resize(initial_size);
+            for (size_t i = 0; i < size_; ++i) {
+                data_[i] = initial_value;
+            }
+        }
+    }
 
     // copy constructor
     Vector(const Vector& a) : data_(nullptr), size_(0), capacity_(0) {
@@ -92,7 +107,6 @@ public:
     // Should be O(1) on average
     void resize(size_t new_size) {
         if (new_size > capacity_) {
-            
             size_t new_capacity = new_size * 2;
             if (new_capacity < 4) new_capacity = 4;
             reallocate(new_capacity);
