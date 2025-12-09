@@ -72,6 +72,15 @@ int main() {
     assert(graph2.addEdge(B, D, 1));
     assert(graph2.addEdge(C, D, 1));
 
+    assert(graph2.hasEdge(A, B));
+    assert(graph2.hasEdge(A, C));
+    assert(graph2.hasEdge(B, D));
+    assert(graph2.hasEdge(C, D));
+    assert(graph2.getEdgeLabel(A, B) == 1);
+    assert(graph2.getEdgeLabel(A, C) == 1);
+    assert(graph2.getEdgeLabel(B, D) == 1);
+    assert(graph2.getEdgeLabel(C, D) == 1);
+
     auto paths2 = graph2.findAllShortestPaths(A, D);
     std::cout << "Found " << paths2.size() << " shortest path(s) from A to D" << std::endl;
 
@@ -112,6 +121,8 @@ int main() {
 
     std::cout << "After removal - Vertex count: " << graph3.getVertexCount() << std::endl;
     assert(graph3.getVertexCount() == 3);
+    assert(!graph3.hasEdge(v0, v1));
+    assert(!graph3.hasEdge(v1, v2));
 
     auto paths3 = graph3.findAllShortestPaths(0, 2);
     std::cout << "Found " << paths3.size() << " path(s) from 0 to 2 after removal" << std::endl;
@@ -121,10 +132,10 @@ int main() {
     Graph<std::string, int> graph4;
 
     size_t g4_a = graph4.addVertex("A");
-    graph4.addVertex("B");
+    size_t g4_b = graph4.addVertex("B");
     size_t g4_c = graph4.addVertex("C");
 
-    graph4.addEdge(g4_a, 1);
+    graph4.addEdge(g4_a, g4_b);
 
     auto paths4 = graph4.findAllShortestPaths(g4_a, g4_c);
     std::cout << "Paths from A to C in disconnected graph: " << paths4.size() << std::endl;
