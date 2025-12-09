@@ -1,0 +1,28 @@
+=== Performance Graph (Insertion Time vs Data Size) ===
+
+Method      | Graph (Visualization)
+----------------------------------------------------------------
+
+Data Size: 10000
+Splay Tree  : [                                                  ] 0.0114s
+std::set    : [                                                  ] 0.0126s
+
+Data Size: 50000
+Splay Tree  : [#                                                 ] 0.0709s
+std::set    : [#                                                 ] 0.0800s
+
+Data Size: 100000
+Splay Tree  : [###                                               ] 0.1533s
+std::set    : [###                                               ] 0.1393s
+
+Data Size: 500000
+Splay Tree  : [######################                            ] 0.9991s
+std::set    : [##################                                ] 0.8371s
+
+Data Size: 1000000
+Splay Tree  : [##################################################] 2.2471s
+std::set    : [#########################################         ] 1.8481s
+
+Analysis:
+std::set (Red-Black Tree) usually performs better on random data inserts
+due to lower overhead compared to Splay Tree rotations.

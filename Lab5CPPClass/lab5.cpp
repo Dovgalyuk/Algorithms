@@ -48,7 +48,7 @@ int main() {
         return 1;
     }
 
-    std::vector<size_t> sizes = {1000, 5000, 10000, 20000, 50000, 100000};
+    std::vector<size_t> sizes = {10000, 50000, 100000, 500000, 1000000};
     double max_time = 0.0;
     
     struct Result {

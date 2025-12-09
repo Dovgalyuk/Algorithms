@@ -41,7 +41,7 @@ void test_correctness() {
 // Нагрузочное тестирование
 void test_performance_sorted() {
     SplayTree st;
-    const int N = 20000;
+    const int N = 1000000;
     
     std::vector<std::string> data;
     data.reserve(N);
