@@ -7,10 +7,18 @@ SplayTree::~SplayTree() {
 }
 
 void SplayTree::delete_tree(Node* node) {
-    if (!node) return;
-    delete_tree(node->left);
-    delete_tree(node->right);
-    delete node;
+    while (node) {
+        if (node->left) {
+            Node* left = node->left;
+            node->left = left->right;
+            left->right = node;
+            node = left;
+        } else {
+            Node* right = node->right;
+            delete node;
+            node = right;
+        }
+    }
 }
 
 void SplayTree::rotate_right(Node*& node) {
@@ -28,35 +36,50 @@ void SplayTree::rotate_left(Node*& node) {
 }
 
 void SplayTree::splay(Node*& root, const std::string& key) {
-    if (!root || root->key == key) return;
+    if (!root) return;
 
-    if (key < root->key) {
-        if (!root->left) return;
-        // Zig-Zig (Left Left)
-        if (key < root->left->key) {
-            splay(root->left->left, key);
-            rotate_right(root);
+    Node header("");
+    Node* leftTreeMax = &header;
+    Node* rightTreeMin = &header;
+        
+    Node* t = root;
+    header.left = header.right = nullptr;
+    
+    while (true) {
+        if (key < t->key) {
+            if (!t->left) break;
+            if (key < t->left->key) {
+                // Zig-Zig: Rotate right first
+                rotate_right(t);
+                if (!t->left) break;
+            }
+            // Link to Right Tree
+            rightTreeMin->left = t;
+            rightTreeMin = t;
+            t = t->left;
+        } else if (key > t->key) {
+            if (!t->right) break;
+            if (key > t->right->key) {
+                // Zig-Zig: Rotate left first
+                rotate_left(t);
+                if (!t->right) break;
+            }
+            // Link to Left Tree
+            leftTreeMax->right = t;
+            leftTreeMax = t;
+            t = t->right;
+        } else {
+            break; // Found
         }
-        // Zig-Zag (Left Right)
-        else if (key > root->left->key) {
-            splay(root->left->right, key);
-            if (root->left->right) rotate_left(root->left);
-        }
-        if (root->left) rotate_right(root);
-    } else {
-        if (!root->right) return;
-        // Zag-Zag (Right Right)
-        if (key > root->right->key) {
-            splay(root->right->right, key);
-            rotate_left(root);
-        }
-        // Zag-Zig (Right Left)
-        else if (key < root->right->key) {
-            splay(root->right->left, key);
-            if (root->right->left) rotate_right(root->right);
-        }
-        if (root->right) rotate_left(root);
     }
+    
+    // Assemble
+    leftTreeMax->right = t->left;
+    rightTreeMin->left = t->right;
+    t->left = header.right;
+    t->right = header.left;
+    
+    root = t;
 }
 
 void SplayTree::insert(const std::string& key) {
@@ -64,8 +87,10 @@ void SplayTree::insert(const std::string& key) {
         root_ = new Node(key);
         return;
     }
+
     splay(root_, key);
-    if (root_->key == key) return; // Элемент уже есть
+
+    if (root_->key == key) return; // Уже есть
 
     Node* new_node = new Node(key);
     if (key < root_->key) {
@@ -88,17 +113,20 @@ bool SplayTree::contains(const std::string& key) {
 
 void SplayTree::remove(const std::string& key) {
     if (!root_) return;
-    splay(root_, key);
+    
+    splay(root_, key); // Если элемент есть, он теперь в корне
+
     if (root_->key != key) return;
 
     Node* temp = root_;
     if (!root_->left) {
         root_ = root_->right;
     } else {
-        Node* left_max = root_->left;
-        splay(left_max, key);
-        left_max->right = root_->right;
-        root_ = left_max;
+        // Splay max element in left subtree
+        Node* left_root = root_->left;
+        splay(left_root, key); // Ключ key гарантированно больше всех в левом поддереве, поэтому splay поднимет MAX
+        left_root->right = root_->right;
+        root_ = left_root;
     }
     delete temp;
 }
