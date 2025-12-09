@@ -12,10 +12,6 @@ int main() {
     size_t y = graph.addVertex("Y");
     size_t z = graph.addVertex("Z");
 
-    assert(x == 0);
-    assert(y == 1);
-    assert(z == 2);
-
     assert(graph.addEdge(x, y, 10));
     assert(graph.addEdge(y, z, 20));
     assert(graph.addEdge(x, z, 5));

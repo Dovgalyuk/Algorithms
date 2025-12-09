@@ -117,16 +117,11 @@ public:
             return false;
         }
 
-        VertexData& fromVertex = vertices[from];
-        auto iter = fromVertex.edges.getSimpleIterator();
-        while (iter.hasNext()) {
-            Edge edge = iter.next();
-            if (edge.to_vertex == to) {
-                return false;
-            }
+        if (hasEdge(from, to)) {
+            return false;
         }
 
-        fromVertex.edges.insert(Edge(to, label));
+        vertices[from].edges.insert(Edge(to, label));
         return true;
     }
 
@@ -181,7 +176,6 @@ public:
                         updated_edges.insert(updated_edge);
                     }
                     else if (edge.to_vertex < vertex) {
-
                         updated_edges.insert(edge);
                     }
                 }
@@ -194,7 +188,6 @@ public:
         vertices = std::move(new_vertices);
         return true;
     }
-
     bool hasEdge(size_t from, size_t to) const {
         if (from >= vertices.size() || to >= vertices.size()) {
             return false;
@@ -210,6 +203,7 @@ public:
         }
         return false;
     }
+
     bool setEdgeLabel(size_t from, size_t to, const EdgeLabel& label) {
         if (from >= vertices.size() || to >= vertices.size()) return false;
 
@@ -368,7 +362,6 @@ Vector<Vector<size_t>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(size_
             current_path.erase(current_path.size() - 1);
         }
         };
-
     backtrack(end);
 
     if (all_paths.size() > 0) {
@@ -398,5 +391,4 @@ Vector<Vector<size_t>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(size_
 
     return all_paths;
 }
-
 #endif

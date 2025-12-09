@@ -104,7 +104,6 @@ public:
     }
 
     // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
     void resize(size_t new_size) {
         if (new_size > capacity_) {
             size_t new_capacity = new_size * 2;
@@ -114,34 +113,30 @@ public:
 
         if (new_size > size_) {
             for (size_t i = size_; i < new_size; ++i) {
-                data_[i] = Data(); // default initialization
+                data_[i] = Data();
             }
         }
 
         size_ = new_size;
     }
-
     Data& operator[](size_t index) {
         if (index >= size_) {
             throw std::out_of_range("Vector index out of range");
         }
         return data_[index];
     }
-
     const Data& operator[](size_t index) const {
         if (index >= size_) {
             throw std::out_of_range("Vector index out of range");
         }
         return data_[index];
     }
-
     void push_back(const Data& value) {
         if (size_ >= capacity_) {
             reallocate(capacity_ == 0 ? 4 : capacity_ * 2);
         }
         data_[size_++] = value;
     }
-
     void insert(size_t index, const Data& value) {
         if (index > size_) {
             throw std::out_of_range("Vector index out of range");
@@ -158,7 +153,6 @@ public:
         data_[index] = value;
         ++size_;
     }
-
     void erase(size_t index) {
         if (index >= size_) {
             throw std::out_of_range("Vector index out of range");
@@ -189,5 +183,4 @@ public:
         }
     }
 };
-
 #endif
