@@ -6,35 +6,20 @@
 template <typename Data> class Vector
 {
 public:
-    Vector(): m_data(nullptr), m_size(0), m_capacity(0) {}
+    Vector() : m_data(nullptr), m_size(0), m_capacity(0) {}
 
-    Vector(const Vector& a): m_data(nullptr), m_size(0), m_capacity(0)
+    Vector(const Vector& a) : m_data(nullptr), m_size(0), m_capacity(0)
     {
-        if (a.m_size > 0)
-        {
-            m_data = new Data[a.m_size];
-            for (size_t i = 0; i < a.m_size; i++)
-            {
-                m_data[i] = a.m_data[i];
-            }
-            m_size = a.m_size;
-            m_capacity = a.m_size;
-        }
+        m_data = copy_data(a.m_data, a.m_size);
+        m_size = a.m_size;
+        m_capacity = a.m_size;
     }
 
     Vector& operator=(const Vector& a)
     {
         if (this != &a)
         {
-            Data* new_data = nullptr;
-            if (a.m_size > 0)
-            {
-                new_data = new Data[a.m_size];
-                for (size_t i = 0; i < a.m_size; i++)
-                {
-                    new_data[i] = a.m_data[i];
-                }
-            }
+            Data* new_data = copy_data(a.m_data, a.m_size);
 
             delete[] m_data;
             m_data = new_data;
@@ -91,6 +76,21 @@ public:
     }
 
 private:
+    Data* copy_data(const Data* src, size_t size)
+    {
+        if (size == 0)
+        {
+            return nullptr;
+        }
+
+        Data* new_data = new Data[size];
+        for (size_t i = 0; i < size; ++i)
+        {
+            new_data[i] = src[i];
+        }
+        return new_data;
+    }
+
     Data* m_data;
     size_t m_size;
     size_t m_capacity;

@@ -13,7 +13,7 @@ public:
         size_t from;
         size_t index;
 
-        Iterator(const Graph* g, size_t v): graph(g), from(v), index(0)
+        Iterator(const Graph* g, size_t v) : graph(g), from(v), index(0)
         {
             move_to_next();
         }
@@ -53,7 +53,7 @@ public:
         }
     };
 
-    explicit Graph(size_t verticesCount = 0): m_vertexCount(0)
+    explicit Graph(size_t verticesCount = 0) : m_vertexCount(0)
     {
         init(verticesCount);
     }
@@ -62,7 +62,9 @@ public:
         : m_vertexCount(other.m_vertexCount),
         m_vertexData(other.m_vertexData),
         m_adj(other.m_adj),
-        m_edgeData(other.m_edgeData) {}
+        m_edgeData(other.m_edgeData)
+    {
+    }
 
     Graph& operator=(const Graph& other)
     {
@@ -111,16 +113,10 @@ public:
             }
         }
 
-        Vector<VertexData> newVertexData;
-        newVertexData.resize(newN);
-        for (size_t i = 0; i < oldN; i++)
-        {
-            newVertexData.set(i, m_vertexData.get(i));
-        }
-
         m_adj = newAdj;
         m_edgeData = newEdgeData;
-        m_vertexData = newVertexData;
+
+        m_vertexData.resize(newN);
         m_vertexCount = newN;
 
         return oldN;
