@@ -40,21 +40,25 @@ public:
         const Graph* graph;
         size_t current_vertex;
         typename List<Edge>::SimpleIterator edge_iter;
+        bool valid;
 
     public:
-        NeighborIterator(const Graph* g, size_t vertex) : graph(g), current_vertex(vertex) {
+        NeighborIterator(const Graph* g, size_t vertex) : graph(g), current_vertex(vertex), valid(false) {
             if (vertex < graph->vertices.size()) {
                 const VertexData& vertex_data = graph->vertices[vertex];
                 edge_iter = vertex_data.edges.getSimpleIterator();
+                valid = true;
             }
         }
 
         bool hasNext() const {
-            return edge_iter.hasNext();
+            return valid && edge_iter.hasNext();
         }
 
         size_t next() {
-            if (!hasNext()) throw std::runtime_error("No more neighbors");
+            if (!valid || !edge_iter.hasNext()) {
+                throw std::runtime_error("No more neighbors");
+            }
 
             try {
                 Edge edge = edge_iter.next();
@@ -122,7 +126,7 @@ public:
             }
         }
 
-        vertices[from].edges.insert(Edge(to, label));
+        fromVertex.edges.insert(Edge(to, label));
         return true;
     }
 
@@ -132,11 +136,9 @@ public:
         }
 
         VertexData& fromVertex = vertices[from];
-        auto& edges = fromVertex.edges;
-
         List<Edge> new_edges;
         bool removed = false;
-        auto iter = edges.getSimpleIterator();
+        auto iter = fromVertex.edges.getSimpleIterator();
 
         while (iter.hasNext()) {
             Edge edge = iter.next();
@@ -149,7 +151,7 @@ public:
         }
 
         if (removed) {
-            vertices[from].edges = std::move(new_edges);
+            fromVertex.edges = std::move(new_edges);
         }
 
         return removed;
@@ -208,12 +210,18 @@ public:
         }
         return false;
     }
-
     bool setEdgeLabel(size_t from, size_t to, const EdgeLabel& label) {
         if (from >= vertices.size() || to >= vertices.size()) return false;
 
-        if (removeEdge(from, to)) {
-            return addEdge(from, to, label);
+        VertexData& fromVertex = vertices[from];
+        auto iter = fromVertex.edges.getSimpleIterator();
+        while (iter.hasNext()) {
+            Edge& edge = const_cast<Edge&>(iter.peek());
+            if (edge.to_vertex == to) {
+                edge.label = label;
+                return true;
+            }
+            iter.advance();
         }
         return false;
     }
@@ -321,7 +329,6 @@ Vector<Vector<size_t>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(size_
             }
         }
     }
-
     if (distance.get(end) == -1) {
         return Vector<Vector<size_t>>();
     }
@@ -338,7 +345,6 @@ Vector<Vector<size_t>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(size_
         current_path.push_back(node);
 
         if (node == start) {
-
             Vector<size_t> path;
             for (int i = static_cast<int>(current_path.size()) - 1; i >= 0; --i) {
                 path.push_back(current_path[i]);
