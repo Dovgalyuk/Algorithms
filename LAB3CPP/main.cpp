@@ -8,8 +8,9 @@ using namespace std;
 
 typedef pair<size_t,size_t> Point;
 typedef Vector<Vector<int>> Matrix;
+typedef Vector<string> Maze;
 
-Matrix create_distance_matrix(const Vector<string> &maze)
+Matrix create_distance_matrix(const Maze &maze)
 {
 
     if (maze.size() == 0 )
@@ -43,7 +44,7 @@ Matrix create_distance_matrix(const Vector<string> &maze)
 
     return distances;
 }
-bool isTrue(int next_i, int next_j,const Vector<string> &maze)
+bool isTrue(int next_i, int next_j, const Maze &maze)
 {
     if (next_i < 0 || next_i >= static_cast<int>(maze.size()))
     {
@@ -60,7 +61,7 @@ bool isTrue(int next_i, int next_j,const Vector<string> &maze)
     }
     return true;
 }
-void change_maze(Vector<string>& maze,Vector<Point> &indexes,Matrix &dis)
+void change_maze(Maze &maze, Vector<Point> &indexes, Matrix &dis)
 {
     for (size_t i=0;i<indexes.size();i++)
     {
@@ -90,7 +91,7 @@ void change_maze(Vector<string>& maze,Vector<Point> &indexes,Matrix &dis)
         cout<<endl;
     }
 }
-Vector<Point> rebuild_way(Matrix &dis, Point indext_exit, const Vector<string> &maze )
+Vector<Point> rebuild_way(Matrix &dis, Point indext_exit, const Maze &maze)
 {
     
     int i_dis[] = {-1, -1, -1, 0, 0, 1, 1, 1};
@@ -136,7 +137,7 @@ Vector<Point> rebuild_way(Matrix &dis, Point indext_exit, const Vector<string> &
     return way;
 }
 
-Point bfs(const Vector<string>&maze,Matrix &dis, Queue<Point> &d) //НАЧИНАЕМ ПОИСК В ШИРИНУ
+Point bfs(const Maze &maze, Matrix &dis, Queue<Point> &d) // НАЧИНАЕМ ПОИСК В ШИРИНУ
 {
     //Направления куда идти
     int i_dis []= {-1,-1,-1,0,0,1,1,1};
@@ -185,8 +186,8 @@ Point bfs(const Vector<string>&maze,Matrix &dis, Queue<Point> &d) //НАЧИНА
 
 int main (int argc, char *argv[])
 {
-   
-    Vector<string> maze;
+
+    Maze maze;
     string line;
     if (argc <2)
     {
