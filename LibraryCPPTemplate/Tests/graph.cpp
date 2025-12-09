@@ -95,7 +95,8 @@ int main() {
     for (size_t i = 0; i < paths2.size(); ++i) {
         std::cout << "Path " << i + 1 << ": ";
         for (size_t j = 0; j < paths2[i].size(); ++j) {
-            std::cout << graph2.getVertexLabel(paths2[i][j]);
+            size_t vertex = paths2[i][j];
+            std::cout << graph2.getVertexLabel(vertex);
             if (j < paths2[i].size() - 1) {
                 std::cout << " -> ";
             }
