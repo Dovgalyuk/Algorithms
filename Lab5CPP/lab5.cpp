@@ -28,15 +28,24 @@ long long test_avl(std::string& filename)
     std::ifstream f(filename);
     std::string k, v;
     AVL t;
-    
-    auto start = std::chrono::high_resolution_clock::now();
+
+    std::vector<std::string> keys;
+    std::vector<std::string> values;
+
     while(f >> k >> v) 
     {
-        t.add(k, v);
+        keys.push_back(k);
+        values.push_back(v);
+    }
+
+    f.close();
+    
+    auto start = std::chrono::high_resolution_clock::now();
+    for(size_t i = 0; i < keys.size(); i++)
+    {
+        t.add(keys[i], values[i]);
     }
     auto end = std::chrono::high_resolution_clock::now();
-    
-    f.close();
 
     return std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
@@ -46,22 +55,31 @@ long long test_map(std::string& filename)
     std::ifstream f(filename);
     std::string k, v;
     std::map<std::string, std::string> m;
-    
-    auto start = std::chrono::high_resolution_clock::now();
+
+    std::vector<std::string> keys;
+    std::vector<std::string> values;
+
     while(f >> k >> v) 
     {
-        m.insert({k, v});
+        keys.push_back(k);
+        values.push_back(v);
+    }
+
+    f.close();
+    
+    auto start = std::chrono::high_resolution_clock::now();
+    for(size_t i = 0; i < keys.size(); i++)
+    {
+        m.insert({keys[i], values[i]});
     }
     auto end = std::chrono::high_resolution_clock::now();
-    
-    f.close();
 
     return std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
 
 int main() 
 {
-    std::vector<int> sizes = {1000, 5000, 10000, 50000, 100000, 500000, 1000000};
+    std::vector<int> sizes = {1000, 5000, 10000, 50000, 100000, 250000, 500000, 750000, 1000000};
     
     std::cout << "Size\tAVL (ms)\tmap (ms)" << std::endl;
     

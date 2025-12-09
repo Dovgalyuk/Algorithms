@@ -27,7 +27,7 @@ private:
 
     node* root;
 
-    int height(node* p);
+    static int height(node* p);
     int bfactor(node* p);
     void fixheight(node* p);
     node* rotateright(node* p);

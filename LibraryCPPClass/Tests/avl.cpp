@@ -122,10 +122,10 @@ void test_avl_1_million()
         t.add("key_" + std::to_string(i), "value_" + std::to_string(i));
     }
 
-    for(int i = 0; i < 1000; i++) 
+    for(int i = 0; i < 1000000; i++) 
     {
-        check(t.get("key_" + std::to_string(i * 1000), value));
-        check(value == "value_" + std::to_string(i * 1000));
+        check(t.get("key_" + std::to_string(i), value));
+        check(value == "value_" + std::to_string(i));
     }
 
     for(int i = 0; i < 1000000; i++) 
