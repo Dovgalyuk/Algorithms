@@ -46,7 +46,6 @@ int main() {
     std::cout << "Found " << paths.size() << " shortest path(s) from X to Z" << std::endl;
 
     assert(paths.size() == 1);
-
     assert(paths[0].size() == 2);
     assert(paths[0][0] == x);
     assert(paths[0][1] == z);
@@ -64,14 +63,14 @@ int main() {
     Graph<std::string, int> graph2;
 
     size_t A = graph2.addVertex("A");
-    graph2.addVertex("B");
-    graph2.addVertex("C");
+    size_t B = graph2.addVertex("B");
+    size_t C = graph2.addVertex("C");
     size_t D = graph2.addVertex("D");
 
-    assert(graph2.addEdge(A, 1, 1));
-    assert(graph2.addEdge(A, 2, 1));
-    assert(graph2.addEdge(1, D, 1));
-    assert(graph2.addEdge(2, D, 1));
+    assert(graph2.addEdge(A, B, 1));
+    assert(graph2.addEdge(A, C, 1));
+    assert(graph2.addEdge(B, D, 1));
+    assert(graph2.addEdge(C, D, 1));
 
     auto paths2 = graph2.findAllShortestPaths(A, D);
     std::cout << "Found " << paths2.size() << " shortest path(s) from A to D" << std::endl;

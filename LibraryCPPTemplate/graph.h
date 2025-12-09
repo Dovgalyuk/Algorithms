@@ -20,7 +20,7 @@ private:
         Edge(size_t to, const EdgeLabel& lbl = EdgeLabel()) : to_vertex(to), label(lbl) {}
 
         bool operator==(const Edge& other) const {
-            return to_vertex == other.to_vertex;
+            return to_vertex == other.to_vertex && label == other.label;
         }
     };
 
@@ -38,12 +38,11 @@ public:
     class NeighborIterator {
     private:
         const Graph* graph;
-        size_t current_vertex;
         typename List<Edge>::SimpleIterator edge_iter;
         bool valid;
 
     public:
-        NeighborIterator(const Graph* g, size_t vertex) : graph(g), current_vertex(vertex), valid(false) {
+        NeighborIterator(const Graph* g, size_t vertex) : graph(g), valid(false) {
             if (vertex < graph->vertices.size()) {
                 const VertexData& vertex_data = graph->vertices[vertex];
                 edge_iter = vertex_data.edges.getSimpleIterator();
@@ -60,26 +59,20 @@ public:
                 throw std::runtime_error("No more neighbors");
             }
 
-            try {
-                Edge edge = edge_iter.next();
+            Edge edge = edge_iter.next();
 
-                if (edge.to_vertex >= graph->vertices.size()) {
-                    std::cerr << "ERROR: Invalid neighbor index: " << edge.to_vertex
-                        << " for vertex " << current_vertex
-                        << " (total vertices: " << graph->vertices.size() << ")" << std::endl;
-                    throw std::runtime_error("Invalid neighbor index in edge");
-                }
+            if (edge.to_vertex >= graph->vertices.size()) {
+                std::cerr << "ERROR: Invalid neighbor index: " << edge.to_vertex
+                    << " (total vertices: " << graph->vertices.size() << ")" << std::endl;
+                throw std::runtime_error("Invalid neighbor index in edge");
+            }
 
-                return edge.to_vertex;
-            }
-            catch (const std::exception& e) {
-                std::cerr << "ERROR in NeighborIterator::next(): " << e.what() << std::endl;
-                throw;
-            }
+            return edge.to_vertex;
         }
 
         EdgeLabel getEdgeLabel() const {
-            throw std::runtime_error("Not implemented in this iterator version");
+            if (!valid) throw std::runtime_error("Iterator not valid");
+            return edge_iter.peek().label;
         }
     };
 
@@ -171,7 +164,6 @@ public:
                 while (iter.hasNext()) {
                     Edge edge = iter.next();
                     if (edge.to_vertex > vertex) {
-
                         Edge updated_edge(edge.to_vertex - 1, edge.label);
                         updated_edges.insert(updated_edge);
                     }
@@ -188,6 +180,7 @@ public:
         vertices = std::move(new_vertices);
         return true;
     }
+
     bool hasEdge(size_t from, size_t to) const {
         if (from >= vertices.size() || to >= vertices.size()) {
             return false;
@@ -208,16 +201,25 @@ public:
         if (from >= vertices.size() || to >= vertices.size()) return false;
 
         VertexData& fromVertex = vertices[from];
+        List<Edge> new_edges;
+        bool found = false;
+
         auto iter = fromVertex.edges.getSimpleIterator();
         while (iter.hasNext()) {
-            Edge& edge = const_cast<Edge&>(iter.peek());
+            Edge edge = iter.next();
             if (edge.to_vertex == to) {
+
                 edge.label = label;
-                return true;
+                found = true;
             }
-            iter.advance();
+            new_edges.insert(edge);
         }
-        return false;
+
+        if (found) {
+            fromVertex.edges = std::move(new_edges);
+        }
+
+        return found;
     }
 
     EdgeLabel getEdgeLabel(size_t from, size_t to) const {
@@ -323,6 +325,7 @@ Vector<Vector<size_t>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(size_
             }
         }
     }
+
     if (distance.get(end) == -1) {
         return Vector<Vector<size_t>>();
     }
@@ -362,6 +365,7 @@ Vector<Vector<size_t>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(size_
             current_path.erase(current_path.size() - 1);
         }
         };
+
     backtrack(end);
 
     if (all_paths.size() > 0) {
@@ -391,4 +395,5 @@ Vector<Vector<size_t>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(size_
 
     return all_paths;
 }
+
 #endif
