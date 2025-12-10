@@ -89,10 +89,10 @@ int main()
         std::cout << "Invalid initial vertex count\n";
         return 1;
     }
-    for (int i = 0; i < testsize; i++) {
+    for (size_t i = 0; i < testsize; i++) {
         testdigraph.setvertlabel(i, std::to_string(i));
     }
-    for (int i = 0; i < testsize; i++) {
+    for (size_t i = 0; i < testsize; i++) {
         size_t vertexlabe = std::stoull(testdigraph.getvertexlabel(i));
         if (vertexlabe != i) {
             std::cout << "Invalid initial vertex lable\n";
@@ -100,7 +100,7 @@ int main()
         }
     }
     Vector<std::string> resgetallvertexlabels = testdigraph.getallvertexlabels();
-    for (int i = 0; i < testsize; i++) {
+    for (size_t i = 0; i < testsize; i++) {
         size_t vertexlabe = std::stoull(resgetallvertexlabels.get(i));
         if (vertexlabe != i) {
             std::cout << "Invalid vertex lable\n";
