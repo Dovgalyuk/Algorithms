@@ -9,7 +9,9 @@ using namespace std;
 typedef pair<size_t,size_t> Point;
 typedef Vector<Vector<int>> Matrix;
 typedef Vector<string> Maze;
-
+typedef Queue<Point> Point_Queue;
+typedef Vector<Point> Point_Vector;
+typedef Vector<int> DistanceRow;
 Matrix create_distance_matrix(const Maze &maze)
 {
 
@@ -61,7 +63,7 @@ bool isTrue(int next_i, int next_j, const Maze &maze)
     }
     return true;
 }
-void change_maze(Maze &maze, Vector<Point> &indexes, Matrix &dis)
+void change_maze(Maze &maze, Point_Vector &indexes, Matrix &dis)
 {
     for (size_t i=0;i<indexes.size();i++)
     {
@@ -91,14 +93,14 @@ void change_maze(Maze &maze, Vector<Point> &indexes, Matrix &dis)
         cout<<endl;
     }
 }
-Vector<Point> rebuild_way(Matrix &dis, Point indext_exit, const Maze &maze)
+Point_Vector rebuild_way(Matrix &dis, Point indext_exit, const Maze &maze)
 {
     
     int i_dis[] = {-1, -1, -1, 0, 0, 1, 1, 1};
     int j_dis[] = {-1, 0, 1, -1, 1, -1, 0, 1};
-    
-    Vector<Point> way;
-  
+
+    Point_Vector way;
+
     way.resize(way.size() + 1);
     way.set(way.size() - 1, indext_exit); // Добавляю первый индекс (Е - выход)
     while (dis.get(indext_exit.first).get(indext_exit.second)>0) //Идем по волнам пока не будет 0 
@@ -137,7 +139,7 @@ Vector<Point> rebuild_way(Matrix &dis, Point indext_exit, const Maze &maze)
     return way;
 }
 
-Point bfs(const Maze &maze, Matrix &dis, Queue<Point> &d) // НАЧИНАЕМ ПОИСК В ШИРИНУ
+Point bfs(const Maze &maze, Matrix &dis, Point_Queue &d) // НАЧИНАЕМ ПОИСК В ШИРИНУ
 {
     //Направления куда идти
     int i_dis []= {-1,-1,-1,0,0,1,1,1};
@@ -231,7 +233,7 @@ int main (int argc, char *argv[])
         cout << "Error"<<endl;
         return 1;
     }
-    Queue<Point> d;
+    Point_Queue d;
     bool isFind = false;
     for (size_t i = 0; i < maze.size(); i++)
     {
@@ -261,7 +263,7 @@ int main (int argc, char *argv[])
         return 1;
     }
   
-    Vector<Point> box = rebuild_way(m, indext_exit, maze);
+    Point_Vector box = rebuild_way(m, indext_exit, maze);
     change_maze(maze, box, m);
     return 0;
 }
