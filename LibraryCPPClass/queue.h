@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include <cstddef>
+#include "vector.h"
 
 // Change it to desired type
 typedef int Data;
@@ -37,6 +38,13 @@ public:
 
 private:
     // private data should be here
+    Vector buffer;   // underlying storage
+    size_t head;     // index of front element
+    size_t tail;     // index one past last element
+    size_t count;    // number of elements
+
+    void grow_if_needed();
+    void copy_from(const Queue& a);
 };
 
 #endif

@@ -26,16 +26,23 @@ public:
 
     // Sets vector element with the specified index
     void set(size_t index, Data value);
+    void set(size_t index, size_t value) { set(index, (Data)value); }
 
     // Retrieves current vector size
     size_t size() const;
 
     // Changes the vector size (may increase or decrease)
     // Should be O(1) on average
-    void resize(size_t size);
+    void resize(size_t new_size);
 
 private:
     // private data should be here
+    Data *m_data;
+    size_t m_size;
+    size_t m_capacity;
+
+    void ensure_capacity(size_t min_capacity);
+    void copy_from(const Vector& a);
 };
 
 #endif
