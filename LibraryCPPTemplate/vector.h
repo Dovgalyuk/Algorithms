@@ -52,7 +52,16 @@ public:
     }
 
     // Retrieves vector element with the specified index
-    Data get(size_t index) const
+    Data& get(size_t index)
+    {
+        if (index >= m_size) {
+            throw std::out_of_range("Index out of range");
+        }
+        return m_data[index];
+    }
+
+    // Retrieves vector element with the specified index
+    const Data& get(size_t index) const
     {
         if (index >= m_size) {
             throw std::out_of_range("Index out of range");
