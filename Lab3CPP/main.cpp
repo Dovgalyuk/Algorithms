@@ -88,10 +88,10 @@ int main(int argc, char** argv)
     }
 
     Coord sr = -1, sc = -1, er = -1, ec = -1;
-    for (Coord r = 0; r < rows; r++) {
-        for (Coord c = 0; c < cols; c++) {
-            if (grid[r][c] == 'S') { sr = static_cast<Coord>(r); sc = static_cast<Coord>(c); }
-            if (grid[r][c] == 'E') { er = static_cast<Coord>(r); ec = static_cast<Coord>(c); }
+    for (Coord r = 0; r < static_cast<Coord>(rows); r++) {
+        for (Coord c = 0; c < static_cast<Coord>(cols); c++) {
+            if (grid[r][c] == 'S') { sr = r; sc = c; }
+            if (grid[r][c] == 'E') { er = r; ec = c; }
         }
     }
 
