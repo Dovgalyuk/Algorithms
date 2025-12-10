@@ -63,9 +63,12 @@ int main(int argc, char** argv)
     const int INF = numeric_limits<int>::max() / 4;
 
     vector<vector<int>> dist(N, vector<int>(N, INF));
+    vector<vector<int>> next(N, vector<int>(N, -1));
+
     for (size_t i = 0; i < N; i++)
     {
         dist[i][i] = 0;
+        next[i][i] = static_cast<int>(i);
     }
 
     for (size_t i = 0; i < N; i++)
@@ -75,6 +78,7 @@ int main(int argc, char** argv)
             if (g.hasEdge(i, j))
             {
                 dist[i][j] = g.getEdgeData(i, j);
+                next[i][j] = static_cast<int>(j);
             }
         }
     }
@@ -92,24 +96,37 @@ int main(int argc, char** argv)
                 if (dist[i][k] + dist[k][j] < dist[i][j])
                 {
                     dist[i][j] = dist[i][k] + dist[k][j];
+                    next[i][j] = next[i][k];
                 }
             }
         }
     }
 
-    cout << "All-pairs shortest path distances:\n";
+    cout << "All-pairs shortest paths:\n";
     for (size_t i = 0; i < N; i++)
     {
         for (size_t j = 0; j < N; j++)
         {
-            if (dist[i][j] == INF)
-                cout << "INF";
-            else
-                cout << dist[i][j];
+            if (i == j)
+                continue;
 
-            if (j + 1 < N)
-                cout << " ";
+            cout << g.getVertexData(i) << " -> " << g.getVertexData(j) << ": ";
+            if (next[i][j] == -1)
+            {
+                cout << "no path\n";
+            }
+            else
+            {
+                size_t u = i;
+                cout << g.getVertexData(u);
+                while (u != j)
+                {
+                    int v = next[u][j];
+                    u = static_cast<size_t>(v);
+                    cout << " " << g.getVertexData(u);
+                }
+                cout << " (" << dist[i][j] << ")\n";
+            }
         }
-        cout << "\n";
     }
 }
