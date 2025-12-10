@@ -28,8 +28,8 @@ private:
     node* root;
 
     static int height(node* p);
-    int bfactor(node* p);
-    void fixheight(node* p);
+    static int bfactor(node* p);
+    static void fixheight(node* p);
     node* rotateright(node* p);
     node* rotateleft(node* q);
     node* balance(node* p);
