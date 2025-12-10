@@ -20,7 +20,7 @@ private:
         Edge(size_t to, const EdgeLabel& lbl = EdgeLabel()) : to_vertex(to), label(lbl) {}
 
         bool operator==(const Edge& other) const {
-            return to_vertex == other.to_vertex && label == other.label;
+            return to_vertex == other.to_vertex;
         }
     };
 
@@ -139,7 +139,7 @@ public:
         }
 
         if (removed) {
-            fromVertex.edges = std::move(new_edges);
+            fromVertex.edges = new_edges;
         }
 
         return removed;
@@ -172,12 +172,12 @@ public:
                     }
                 }
 
-                data.edges = std::move(updated_edges);
+                data.edges = updated_edges;
                 new_vertices.push_back(data);
             }
         }
 
-        vertices = std::move(new_vertices);
+        vertices = new_vertices;
         return true;
     }
 
@@ -188,12 +188,14 @@ public:
 
         const VertexData& fromVertex = vertices[from];
         auto iter = fromVertex.edges.getSimpleIterator();
+
         while (iter.hasNext()) {
             Edge edge = iter.next();
             if (edge.to_vertex == to) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -208,7 +210,6 @@ public:
         while (iter.hasNext()) {
             Edge edge = iter.next();
             if (edge.to_vertex == to) {
-
                 edge.label = label;
                 found = true;
             }
@@ -216,7 +217,7 @@ public:
         }
 
         if (found) {
-            fromVertex.edges = std::move(new_edges);
+            fromVertex.edges = new_edges;
         }
 
         return found;
@@ -250,63 +251,57 @@ public:
 
     size_t getVertexCount() const { return vertices.size(); }
 
-    Vector<Vector<size_t>> findAllShortestPaths(size_t start, size_t end) const;
+    Vector<Vector<size_t>> findAllShortestPaths(size_t start, size_t end) const {
+        if (start >= getVertexCount()) {
+            std::cerr << "ERROR: Invalid start vertex index: " << start
+                << " (vertex count: " << getVertexCount() << ")" << std::endl;
+            return Vector<Vector<size_t>>();
+        }
 
-    ~Graph() = default;
-};
+        if (end >= getVertexCount()) {
+            std::cerr << "ERROR: Invalid end vertex index: " << end
+                << " (vertex count: " << getVertexCount() << ")" << std::endl;
+            return Vector<Vector<size_t>>();
+        }
 
-template<typename VertexLabel, typename EdgeLabel>
-Vector<Vector<size_t>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(size_t start, size_t end) const {
-    if (start >= getVertexCount()) {
-        std::cerr << "ERROR: Invalid start vertex index: " << start
-            << " (vertex count: " << getVertexCount() << ")" << std::endl;
-        return Vector<Vector<size_t>>();
-    }
+        if (start == end) {
+            Vector<Vector<size_t>> result;
+            Vector<size_t> single_path;
+            single_path.push_back(start);
+            result.push_back(single_path);
+            return result;
+        }
 
-    if (end >= getVertexCount()) {
-        std::cerr << "ERROR: Invalid end vertex index: " << end
-            << " (vertex count: " << getVertexCount() << ")" << std::endl;
-        return Vector<Vector<size_t>>();
-    }
+        Vector<int> distance;
+        distance.resize(getVertexCount());
+        for (size_t i = 0; i < getVertexCount(); ++i) {
+            distance.set(i, -1);
+        }
 
-    if (start == end) {
-        Vector<Vector<size_t>> result;
-        Vector<size_t> single_path;
-        single_path.push_back(start);
-        result.push_back(single_path);
-        return result;
-    }
+        Vector<Vector<size_t>> predecessors;
+        predecessors.resize(getVertexCount());
 
-    Vector<int> distance;
-    distance.resize(getVertexCount());
-    for (size_t i = 0; i < getVertexCount(); ++i) {
-        distance.set(i, -1);
-    }
+        std::queue<size_t> q;
 
-    Vector<Vector<size_t>> predecessors;
-    predecessors.resize(getVertexCount());
+        distance.set(start, 0);
+        q.push(start);
 
-    std::queue<size_t> q;
+        while (!q.empty()) {
+            size_t current = q.front();
+            q.pop();
 
-    distance.set(start, 0);
-    q.push(start);
+            auto neighbors_iter = getNeighbors(current);
 
-    while (!q.empty()) {
-        size_t current = q.front();
-        q.pop();
-
-        auto neighbors_iter = getNeighbors(current);
-
-        while (neighbors_iter.hasNext()) {
-            try {
+            Vector<size_t> neighbors;
+            while (neighbors_iter.hasNext()) {
                 size_t neighbor = neighbors_iter.next();
-
-                if (neighbor >= getVertexCount()) {
-                    std::cerr << "WARNING: Invalid neighbor index returned: " << neighbor
-                        << " for vertex " << current
-                        << " (vertex count: " << getVertexCount() << ")" << std::endl;
-                    continue;
+                if (neighbor < getVertexCount()) {
+                    neighbors.push_back(neighbor);
                 }
+            }
+
+            for (size_t i = 0; i < neighbors.size(); ++i) {
+                size_t neighbor = neighbors[i];
 
                 int current_dist = distance.get(current);
 
@@ -316,84 +311,96 @@ Vector<Vector<size_t>> Graph<VertexLabel, EdgeLabel>::findAllShortestPaths(size_
                     q.push(neighbor);
                 }
                 else if (distance.get(neighbor) == current_dist + 1) {
-                    predecessors[neighbor].push_back(current);
-                }
-            }
-            catch (const std::exception& e) {
-                std::cerr << "ERROR processing neighbors of vertex " << current << ": "
-                    << e.what() << std::endl;
-            }
-        }
-    }
-
-    if (distance.get(end) == -1) {
-        return Vector<Vector<size_t>>();
-    }
-
-    Vector<Vector<size_t>> all_paths;
-    Vector<size_t> current_path;
-
-    std::function<void(size_t)> backtrack = [&](size_t node) {
-        if (node >= getVertexCount()) {
-            std::cerr << "ERROR: Invalid vertex index in backtrack: " << node << std::endl;
-            return;
-        }
-
-        current_path.push_back(node);
-
-        if (node == start) {
-            Vector<size_t> path;
-            for (int i = static_cast<int>(current_path.size()) - 1; i >= 0; --i) {
-                path.push_back(current_path[i]);
-            }
-            all_paths.push_back(path);
-        }
-        else {
-            const Vector<size_t>& preds = predecessors[node];
-            for (size_t i = 0; i < preds.size(); ++i) {
-                size_t pred = preds[i];
-                if (pred >= getVertexCount()) {
-                    std::cerr << "WARNING: Invalid predecessor index: " << pred
-                        << " for vertex " << node << std::endl;
-                    continue;
-                }
-                backtrack(pred);
-            }
-        }
-
-        if (current_path.size() > 0) {
-            current_path.erase(current_path.size() - 1);
-        }
-        };
-
-    backtrack(end);
-
-    if (all_paths.size() > 0) {
-        std::vector<Vector<size_t>> temp_paths;
-        for (size_t i = 0; i < all_paths.size(); ++i) {
-            temp_paths.push_back(all_paths[i]);
-        }
-
-        std::sort(temp_paths.begin(), temp_paths.end(),
-            [](const Vector<size_t>& a, const Vector<size_t>& b) {
-                if (a.size() != b.size()) {
-                    return a.size() < b.size();
-                }
-                for (size_t i = 0; i < a.size(); ++i) {
-                    if (a[i] != b[i]) {
-                        return a[i] < b[i];
+                    bool exists = false;
+                    for (size_t j = 0; j < predecessors[neighbor].size(); ++j) {
+                        if (predecessors[neighbor][j] == current) {
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (!exists) {
+                        predecessors[neighbor].push_back(current);
                     }
                 }
-                return false;
-            });
-
-        all_paths.clear();
-        for (const auto& path : temp_paths) {
-            all_paths.push_back(path);
+            }
         }
+
+        if (distance.get(end) == -1) {
+            return Vector<Vector<size_t>>();
+        }
+
+        Vector<Vector<size_t>> all_paths;
+        Vector<size_t> current_path;
+
+        std::function<void(size_t)> backtrack = [&](size_t node) {
+            if (node >= getVertexCount()) {
+                std::cerr << "ERROR: Invalid vertex index in backtrack: " << node << std::endl;
+                return;
+            }
+
+            current_path.push_back(node);
+
+            if (node == start) {
+                Vector<size_t> path;
+                for (int i = static_cast<int>(current_path.size()) - 1; i >= 0; --i) {
+                    path.push_back(current_path[i]);
+                }
+                all_paths.push_back(path);
+            }
+            else {
+                const Vector<size_t>& preds = predecessors[node];
+                std::vector<size_t> sorted_preds;
+                for (size_t i = 0; i < preds.size(); ++i) {
+                    sorted_preds.push_back(preds[i]);
+                }
+                std::sort(sorted_preds.begin(), sorted_preds.end());
+
+                for (size_t pred : sorted_preds) {
+                    if (pred >= getVertexCount()) {
+                        std::cerr << "WARNING: Invalid predecessor index: " << pred
+                            << " for vertex " << node << std::endl;
+                        continue;
+                    }
+                    backtrack(pred);
+                }
+            }
+
+            if (current_path.size() > 0) {
+                current_path.erase(current_path.size() - 1);
+            }
+            };
+
+        backtrack(end);
+
+        if (all_paths.size() > 0) {
+            std::vector<Vector<size_t>> temp_paths;
+            for (size_t i = 0; i < all_paths.size(); ++i) {
+                temp_paths.push_back(all_paths[i]);
+            }
+
+            std::sort(temp_paths.begin(), temp_paths.end(),
+                [](const Vector<size_t>& a, const Vector<size_t>& b) {
+                    if (a.size() != b.size()) {
+                        return a.size() < b.size();
+                    }
+                    for (size_t i = 0; i < a.size(); ++i) {
+                        if (a[i] != b[i]) {
+                            return a[i] < b[i];
+                        }
+                    }
+                    return false;
+                });
+
+            all_paths.clear();
+            for (const auto& path : temp_paths) {
+                all_paths.push_back(path);
+            }
+        }
+
+        return all_paths;
     }
 
-    return all_paths;
-}
+    ~Graph() = default;
+};
 
 #endif

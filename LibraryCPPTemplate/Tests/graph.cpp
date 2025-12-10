@@ -12,14 +12,27 @@ int main() {
     size_t y = graph.addVertex("Y");
     size_t z = graph.addVertex("Z");
 
-    assert(graph.addEdge(x, y, 10));
-    assert(graph.addEdge(y, z, 20));
-    assert(graph.addEdge(x, z, 5));
+    std::cout << "Added vertices: X=" << x << ", Y=" << y << ", Z=" << z << std::endl;
+
+    std::cout << "Adding edge X->Y with weight 10... ";
+    bool edge1 = graph.addEdge(x, y, 10);
+    std::cout << (edge1 ? "success" : "failed") << std::endl;
+    assert(edge1);
+
+    std::cout << "Adding edge Y->Z with weight 20... ";
+    bool edge2 = graph.addEdge(y, z, 20);
+    std::cout << (edge2 ? "success" : "failed") << std::endl;
+    assert(edge2);
+
+    std::cout << "Adding edge X->Z with weight 5... ";
+    bool edge3 = graph.addEdge(x, z, 5);
+    std::cout << (edge3 ? "success" : "failed") << std::endl;
+    assert(edge3);
 
     std::cout << "Vertex count: " << graph.getVertexCount() << std::endl;
     assert(graph.getVertexCount() == 3);
 
-    std::cout << "Has edge X->Y: " << graph.hasEdge(x, y) << std::endl;
+    std::cout << "Has edge X->Y: " << (graph.hasEdge(x, y) ? "true" : "false") << std::endl;
     assert(graph.hasEdge(x, y) == true);
     assert(graph.hasEdge(x, z) == true);
     assert(graph.hasEdge(y, z) == true);
@@ -45,50 +58,94 @@ int main() {
     auto paths = graph.findAllShortestPaths(x, z);
     std::cout << "Found " << paths.size() << " shortest path(s) from X to Z" << std::endl;
 
+    if (paths.size() > 0) {
+        std::cout << "Path: ";
+        for (size_t j = 0; j < paths[0].size(); ++j) {
+            std::cout << graph.getVertexLabel(paths[0][j]);
+            if (j < paths[0].size() - 1) {
+                std::cout << " -> ";
+            }
+        }
+        std::cout << " (Length: " << paths[0].size() - 1 << ")" << std::endl;
+    }
+
     assert(paths.size() == 1);
     assert(paths[0].size() == 2);
     assert(paths[0][0] == x);
     assert(paths[0][1] == z);
 
-    std::cout << "Path: ";
-    for (size_t j = 0; j < paths[0].size(); ++j) {
-        std::cout << graph.getVertexLabel(paths[0][j]);
-        if (j < paths[0].size() - 1) {
-            std::cout << " -> ";
-        }
-    }
-    std::cout << " (Length: " << paths[0].size() - 1 << ")" << std::endl;
-
     std::cout << "\n=== Test 2: Multiple shortest paths of equal length ===" << std::endl;
     Graph<std::string, int> graph2;
 
     size_t A = graph2.addVertex("A");
-    graph2.addVertex("B");
-    graph2.addVertex("C");
+    size_t B = graph2.addVertex("B");
+    size_t C = graph2.addVertex("C");
     size_t D = graph2.addVertex("D");
 
-    assert(graph2.addEdge(A, 1, 1));
-    assert(graph2.addEdge(A, 2, 1));
-    assert(graph2.addEdge(1, D, 1));
-    assert(graph2.addEdge(2, D, 1));
+    std::cout << "Added vertices: A=" << A << ", B=" << B << ", C=" << C << ", D=" << D << std::endl;
+
+    std::cout << "Adding edge A->B... ";
+    bool ab = graph2.addEdge(A, B, 1);
+    std::cout << (ab ? "success" : "failed") << std::endl;
+    assert(ab);
+
+    std::cout << "Adding edge A->C... ";
+    bool ac = graph2.addEdge(A, C, 1);
+    std::cout << (ac ? "success" : "failed") << std::endl;
+    assert(ac);
+
+    std::cout << "Adding edge B->D... ";
+    bool bd = graph2.addEdge(B, D, 1);
+    std::cout << (bd ? "success" : "failed") << std::endl;
+    assert(bd);
+
+    std::cout << "Adding edge C->D... ";
+    bool cd = graph2.addEdge(C, D, 1);
+    std::cout << (cd ? "success" : "failed") << std::endl;
+    assert(cd);
+
+    std::cout << "\nVerifying edges:" << std::endl;
+    std::cout << "  A->B: " << (graph2.hasEdge(A, B) ? "exists" : "MISSING!") << std::endl;
+    std::cout << "  A->C: " << (graph2.hasEdge(A, C) ? "exists" : "MISSING!") << std::endl;
+    std::cout << "  B->D: " << (graph2.hasEdge(B, D) ? "exists" : "MISSING!") << std::endl;
+    std::cout << "  C->D: " << (graph2.hasEdge(C, D) ? "exists" : "MISSING!") << std::endl;
+
+    std::cout << "\nVerifying neighbors:" << std::endl;
+    std::cout << "  Neighbors of A: ";
+    auto neighborsA = graph2.getNeighbors(A);
+    while (neighborsA.hasNext()) {
+        size_t n = neighborsA.next();
+        std::cout << n << "(" << graph2.getVertexLabel(n) << ") ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "  Neighbors of B: ";
+    auto neighborsB = graph2.getNeighbors(B);
+    while (neighborsB.hasNext()) {
+        size_t n = neighborsB.next();
+        std::cout << n << "(" << graph2.getVertexLabel(n) << ") ";
+    }
+    std::cout << std::endl;
 
     auto paths2 = graph2.findAllShortestPaths(A, D);
-    std::cout << "Found " << paths2.size() << " shortest path(s) from A to D" << std::endl;
+    std::cout << "\nFound " << paths2.size() << " shortest path(s) from A to D" << std::endl;
+
+    if (paths2.size() > 0) {
+        for (size_t i = 0; i < paths2.size(); ++i) {
+            std::cout << "Path " << i + 1 << ": ";
+            for (size_t j = 0; j < paths2[i].size(); ++j) {
+                std::cout << graph2.getVertexLabel(paths2[i][j]);
+                if (j < paths2[i].size() - 1) {
+                    std::cout << " -> ";
+                }
+            }
+            std::cout << " (Length: " << paths2[i].size() - 1 << ")" << std::endl;
+        }
+    }
 
     assert(paths2.size() == 2);
     assert(paths2[0].size() == 3);
     assert(paths2[1].size() == 3);
-
-    for (size_t i = 0; i < paths2.size(); ++i) {
-        std::cout << "Path " << i + 1 << ": ";
-        for (size_t j = 0; j < paths2[i].size(); ++j) {
-            std::cout << graph2.getVertexLabel(paths2[i][j]);
-            if (j < paths2[i].size() - 1) {
-                std::cout << " -> ";
-            }
-        }
-        std::cout << std::endl;
-    }
 
     std::cout << "\n=== Test 3: Vertex removal ===" << std::endl;
     Graph<std::string, int> graph3;
@@ -113,10 +170,10 @@ int main() {
     std::cout << "After removal - Vertex count: " << graph3.getVertexCount() << std::endl;
     assert(graph3.getVertexCount() == 3);
 
-    assert(graph3.hasEdge(0, 1));
+    assert(graph3.hasEdge(0, 1) == true);
 
     auto paths3 = graph3.findAllShortestPaths(0, 2);
-    std::cout << "Found " << paths3.size() << " path(s) from 0 to 3 after removal" << std::endl;
+    std::cout << "Found " << paths3.size() << " path(s) from 0 to 2 after removal" << std::endl;
     assert(!paths3.empty());
 
     std::cout << "\n=== Test 4: No path exists ===" << std::endl;

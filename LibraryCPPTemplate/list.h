@@ -53,21 +53,45 @@ public:
     List() : head(nullptr), list_size(0) {}
 
     List(const List& other) : head(nullptr), list_size(0) {
+        // Копируем в обратном порядке, чтобы сохранить порядок
+        std::vector<Data> temp;
         Node* current = other.head.get();
         while (current) {
-            insert(current->data);
+            temp.push_back(current->data);
             current = current->next.get();
         }
+        // Вставляем в обратном порядке, чтобы получить правильный порядок
+        for (auto it = temp.rbegin(); it != temp.rend(); ++it) {
+            insert(*it);
+        }
+    }
+
+    List(List&& other) noexcept : head(std::move(other.head)), list_size(other.list_size) {
+        other.list_size = 0;
     }
 
     List& operator=(const List& other) {
         if (this != &other) {
             clear();
+            std::vector<Data> temp;
             Node* current = other.head.get();
             while (current) {
-                insert(current->data);
+                temp.push_back(current->data);
                 current = current->next.get();
             }
+            for (auto it = temp.rbegin(); it != temp.rend(); ++it) {
+                insert(*it);
+            }
+        }
+        return *this;
+    }
+
+    List& operator=(List&& other) noexcept {
+        if (this != &other) {
+            clear();
+            head = std::move(other.head);
+            list_size = other.list_size;
+            other.list_size = 0;
         }
         return *this;
     }
