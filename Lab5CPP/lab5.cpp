@@ -9,7 +9,7 @@
 
 using namespace std;
 
-vector<pair<string, string>> gen(int n) {
+vector<pair<string, string>> generateData(int n) {
     vector<pair<string, string>> d;
     random_device rd;
     mt19937 gen(rd());
@@ -22,7 +22,7 @@ vector<pair<string, string>> gen(int n) {
     return d;
 }
 
-void test() {
+void basicTest() {
     AVLTree t;
     string v;
 
@@ -38,14 +38,14 @@ void test() {
     if (t.count() == 2) cout << "+ size ok" << endl;
 }
 
-void speed() {
+void speedTest() {
     vector<int> n = { 1000, 5000, 10000, 50000, 100000, 500000, 1000000 };
 
     cout << "size | time" << endl;
     cout << "-----|-----" << endl;
 
     for (int s : n) {
-        auto d = gen(s);
+        auto d = generateData(s);
 
         auto start = chrono::high_resolution_clock::now();
         AVLTree t;
@@ -57,7 +57,7 @@ void speed() {
     }
 }
 
-void comp() {
+void compareWithMap() {
     vector<int> n = { 1000, 5000, 10000, 50000, 100000, 500000, 1000000 };
     ofstream csv("performance.csv");
     csv << "Size;AVLTree;std::map" << endl;
@@ -69,7 +69,7 @@ void comp() {
     csv << "0;0;0" << endl;
 
     for (int s : n) {
-        auto d = gen(s);
+        auto d = generateData(s);
 
         auto s1 = chrono::high_resolution_clock::now();
         AVLTree t;
@@ -89,7 +89,7 @@ void comp() {
     csv.close();
 }
 
-void filetest(const string& fname) {
+void fileTest(const string& fname) {
     ifstream f(fname);
     if (!f.is_open()) {
         cout << "no file: " << fname << endl;
@@ -123,12 +123,12 @@ void filetest(const string& fname) {
 
 int main(int argc, char* argv[]) {
     if (argc > 1) {
-        filetest(argv[1]);
+        fileTest(argv[1]);
     }
     else {
-        test();
-        speed();
-        comp();
+        basicTest();
+        speedTest();
+        compareWithMap();
     }
     return 0;
 }

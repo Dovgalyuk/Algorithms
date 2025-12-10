@@ -29,15 +29,15 @@ private:
     Node* root;
     int cnt;
 
-    void clear(Node* n);
+    static void clear(Node* n);
     static int height(Node* n);
     static int balance(Node* n);
-    Node* rightRotate(Node* y);
-    Node* leftRotate(Node* x);
-    Node* add(Node* n, const std::string& k, const std::string& v);
-    Node* minNode(Node* n);
-    Node* del(Node* n, const std::string& k);
-    bool get(Node* n, const std::string& k, std::string& v);
+    static Node* rightRotate(Node* y);
+    static Node* leftRotate(Node* x);
+    static Node* add(Node* n, const std::string& k, const std::string& v);
+    static Node* minNode(Node* n);
+    static Node* del(Node* n, const std::string& k);
+    static bool get(Node* n, const std::string& k, std::string& v);
 };
 
 #endif
