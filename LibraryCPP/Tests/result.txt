@@ -224,9 +224,9 @@ Slow - false_negatives graph (21 hash functions)
 500 rem: [                    ] 0%
 
 Fast filter performance:
-Fast filter - Insert 1000000 elements: 4563 ms
-Fast filter - Time per operation: 0.004563 ms
+Fast filter - Insert 1000000 elements: 4649 ms
+Fast filter - Time per operation: 0.004649 ms
 
 Slow filter performance:
-Slow filter - Insert 1000000 elements: 15528 ms
-Slow filter - Time per operation: 0.015528 ms
+Slow filter - Insert 1000000 elements: 17018 ms
+Slow filter - Time per operation: 0.017018 ms
