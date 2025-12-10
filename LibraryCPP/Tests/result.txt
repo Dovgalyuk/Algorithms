@@ -1,26 +1,222 @@
 
-Fast - false_positives graph
-100 elem: [                    ] 1.6%
-300 elem: [####                ] 21.9%
-500 elem: [##########          ] 51.8%
-700 elem: [#############       ] 69.2%
-900 elem: [################    ] 82.2%
+Fast - false_positives graph (1 hash functions)
+100 elem: [###                 ] 17.4%
+300 elem: [#######             ] 38.2%
+500 elem: [###########         ] 56.8%
+700 elem: [#############       ] 66.2%
+900 elem: [###############     ] 75.4%
 
-Fast - false_negatives graph
+Fast - false_negatives graph (1 hash functions)
 100 rem: [                    ] 0%
 200 rem: [                    ] 0%
 300 rem: [                    ] 0%
 400 rem: [                    ] 0%
 500 rem: [                    ] 0%
 
-Slow - false_positives graph
+Fast - false_positives graph (3 hash functions)
+100 elem: [                    ] 1.6%
+300 elem: [####                ] 21.9%
+500 elem: [##########          ] 51.8%
+700 elem: [#############       ] 69.2%
+900 elem: [################    ] 82.2%
+
+Fast - false_negatives graph (3 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Fast - false_positives graph (6 hash functions)
+100 elem: [                    ] 0.9%
+300 elem: [######              ] 32.9%
+500 elem: [##############      ] 73.9%
+700 elem: [##################  ] 91.9%
+900 elem: [################### ] 99.1%
+
+Fast - false_negatives graph (6 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Fast - false_positives graph (9 hash functions)
+100 elem: [                    ] 0.7%
+300 elem: [#########           ] 49.8%
+500 elem: [#################   ] 86.5%
+700 elem: [################### ] 95.3%
+900 elem: [####################] 100%
+
+Fast - false_negatives graph (9 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Fast - false_positives graph (12 hash functions)
+100 elem: [                    ] 1.1%
+300 elem: [#############       ] 65%
+500 elem: [################### ] 97.9%
+700 elem: [####################] 100%
+900 elem: [####################] 100%
+
+Fast - false_negatives graph (12 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Fast - false_positives graph (15 hash functions)
+100 elem: [                    ] 1.4%
+300 elem: [################    ] 80.7%
+500 elem: [################### ] 99.2%
+700 elem: [####################] 100%
+900 elem: [####################] 100%
+
+Fast - false_negatives graph (15 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Fast - false_positives graph (18 hash functions)
+100 elem: [                    ] 3.6%
+300 elem: [##################  ] 90.9%
+500 elem: [################### ] 98.8%
+700 elem: [####################] 100%
+900 elem: [####################] 100%
+
+Fast - false_negatives graph (18 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Fast - false_positives graph (21 hash functions)
+100 elem: [#                   ] 5.1%
+300 elem: [##################  ] 94%
+500 elem: [####################] 100%
+700 elem: [####################] 100%
+900 elem: [####################] 100%
+
+Fast - false_negatives graph (21 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Slow - false_positives graph (1 hash functions)
+100 elem: [#                   ] 7.5%
+300 elem: [####                ] 22.9%
+500 elem: [#####               ] 29.9%
+700 elem: [#######             ] 37%
+900 elem: [##########          ] 51%
+
+Slow - false_negatives graph (1 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Slow - false_positives graph (3 hash functions)
 100 elem: [##                  ] 10.3%
 300 elem: [#######             ] 35.1%
 500 elem: [##########          ] 52.6%
 700 elem: [############        ] 63.2%
 900 elem: [################    ] 80.5%
 
-Slow - false_negatives graph
+Slow - false_negatives graph (3 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Slow - false_positives graph (6 hash functions)
+100 elem: [#####               ] 26.5%
+300 elem: [#############       ] 65.1%
+500 elem: [################    ] 80.8%
+700 elem: [#################   ] 89.7%
+900 elem: [################### ] 96.7%
+
+Slow - false_negatives graph (6 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Slow - false_positives graph (9 hash functions)
+100 elem: [#######             ] 37.1%
+300 elem: [################    ] 84.6%
+500 elem: [##################  ] 92%
+700 elem: [################### ] 96.2%
+900 elem: [################### ] 98.5%
+
+Slow - false_negatives graph (9 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Slow - false_positives graph (12 hash functions)
+100 elem: [#####               ] 29.3%
+300 elem: [#################   ] 86%
+500 elem: [##################  ] 94.2%
+700 elem: [################### ] 98.2%
+900 elem: [####################] 100%
+
+Slow - false_negatives graph (12 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Slow - false_positives graph (15 hash functions)
+100 elem: [######              ] 30.5%
+300 elem: [################    ] 84.2%
+500 elem: [##################  ] 94.4%
+700 elem: [################### ] 98%
+900 elem: [####################] 100%
+
+Slow - false_negatives graph (15 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Slow - false_positives graph (18 hash functions)
+100 elem: [#########           ] 46.8%
+300 elem: [##################  ] 94.7%
+500 elem: [####################] 100%
+700 elem: [####################] 100%
+900 elem: [####################] 100%
+
+Slow - false_negatives graph (18 hash functions)
+100 rem: [                    ] 0%
+200 rem: [                    ] 0%
+300 rem: [                    ] 0%
+400 rem: [                    ] 0%
+500 rem: [                    ] 0%
+
+Slow - false_positives graph (21 hash functions)
+100 elem: [######              ] 33.1%
+300 elem: [####################] 100%
+500 elem: [####################] 100%
+700 elem: [####################] 100%
+900 elem: [####################] 100%
+
+Slow - false_negatives graph (21 hash functions)
 100 rem: [                    ] 0%
 200 rem: [                    ] 0%
 300 rem: [                    ] 0%
@@ -28,9 +224,9 @@ Slow - false_negatives graph
 500 rem: [                    ] 0%
 
 Fast filter performance:
-Fast filter - Insert 1000000 elements: 4150 ms
-Fast filter - Time per operation: 0.00415 ms
+Fast filter - Insert 1000000 elements: 4563 ms
+Fast filter - Time per operation: 0.004563 ms
 
 Slow filter performance:
-Slow filter - Insert 1000000 elements: 15057 ms
-Slow filter - Time per operation: 0.015057 ms
+Slow filter - Insert 1000000 elements: 15528 ms
+Slow filter - Time per operation: 0.015528 ms

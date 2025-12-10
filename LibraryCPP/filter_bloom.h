@@ -17,7 +17,4 @@ bool f_contains(FilterBloom* filter, string& value);
 
 void f_remove(FilterBloom* filter, string& value);
 
-double estimate_false_positives(FilterBloom* filter, int num_tests = 1000);
-double estimate_false_negatives(FilterBloom* filter, int num_tests = 1000);
-
 #endif

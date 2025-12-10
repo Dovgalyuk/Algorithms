@@ -3,11 +3,48 @@
 #include <chrono>
 #include <string>
 #include <fstream>
-
+#include <vector>
 using namespace std;
 using namespace std::chrono;
 
 const int NUM = 1000000;
+
+double estimate_false_positives(FilterBloom* filter, int num_tests) {
+	int false_count = 0;
+
+	for (int i = 0; i < num_tests; i++) {
+
+		string test_str = "false_test_" + to_string(i);
+
+		if (f_contains(filter, test_str)) {
+			false_count++;
+		}
+	}
+
+	return (double)false_count / num_tests;
+}
+
+double estimate_false_negatives(FilterBloom* filter, int num_tests) {
+
+	int false_negatives = 0;
+	vector<string> added_elements;
+
+	for (int i = 0; i < num_tests; i++) {
+
+		string elem = "test_" + to_string(i);
+		f_insert(filter, elem);
+		added_elements.push_back(elem);
+	}
+
+	for (auto& a : added_elements) {
+
+		if (!f_contains(filter, a)) {
+			false_negatives++;
+		}
+	}
+
+	return (double)false_negatives / num_tests;
+}
 
 void draw_graph(ofstream& file, const string& label, double value) {
 
@@ -27,18 +64,18 @@ void draw_graph(ofstream& file, const string& label, double value) {
 
 }
 
-void build_fp_graph(ofstream& file, const string& filter_name) {
-	file << endl << filter_name << " - false_positives graph\n";
+void build_fp_graph(ofstream& file, const string& filter_name, int count_hash) {
+	file << endl << filter_name << " - false_positives graph (" << count_hash << " hash functions)\n";
 
 	for (int elements = 100; elements <= 900; elements += 200) {
 
 		FilterBloom* filter;
 
 		if (filter_name == "Fast") {
-			filter = f_create_fast(1000, 3);
+			filter = f_create_fast(1000, count_hash);
 		}
 		else {
-			filter = f_create_slow(1000, 3);
+			filter = f_create_slow(1000, count_hash);
 		}
 
 		for (int i = 0; i < elements; i++) {
@@ -54,18 +91,18 @@ void build_fp_graph(ofstream& file, const string& filter_name) {
 	}
 }
 
-void build_fn_graph(ofstream& file, const string& filter_name) {
-	file << endl << filter_name  << " - false_negatives graph\n";
+void build_fn_graph(ofstream& file, const string& filter_name, int count_hash) {
+	file << endl << filter_name << " - false_negatives graph (" << count_hash << " hash functions)\n";
 
 	for (int removals = 100; removals <= 500; removals += 100) {
 
 		FilterBloom* filter;
 
 		if (filter_name == "Fast") {
-			filter = f_create_fast(2000, 3);
+			filter = f_create_fast(2000, count_hash);
 		}
 		else {
-			filter = f_create_slow(2000, 3);
+			filter = f_create_slow(2000, count_hash);
 		}
 
 		for (int i = 0; i < 1000; i++) {
@@ -130,9 +167,13 @@ bool test(FilterBloom* filter , const string& name, ofstream& file) {
 	}
 
 	f_delete(filter);
+	vector<int> count_hash = { 1 , 3 , 6 , 9 , 12 , 15 , 18, 21 };
+	
+	for (int a : count_hash) {
 
-	build_fp_graph(file, name);
-	build_fn_graph(file, name);
+		build_fp_graph(file, name, a);
+		build_fn_graph(file, name , a);
+	}
 
 	return false;
 }
