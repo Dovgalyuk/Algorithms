@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <limits>
+#include <cstdint>
 
 #include "graph.h"
 
