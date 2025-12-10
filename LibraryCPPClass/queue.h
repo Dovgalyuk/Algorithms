@@ -35,16 +35,17 @@ public:
 
     // Returns true if the queue is empty
     bool empty() const;
+    size_t size() const {return count;}
 
 private:
     // private data should be here
     Vector buffer;   // underlying storage
     size_t head;     // index of front element
-    size_t tail;     // index one past last element
     size_t count;    // number of elements
 
     void grow_if_needed();
     void copy_from(const Queue& a);
+    size_t tail() const { return (head + count) % buffer.size(); }
 };
 
 #endif

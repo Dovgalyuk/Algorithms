@@ -7,8 +7,8 @@
 #include "vector.h"
 
 using namespace std;
+typedef int Coord;
 
-// Чтение лабиринта из файла
 vector<string> read_input_file(const string& filename) {
     ifstream in(filename);
     if (!in.is_open())
@@ -25,37 +25,32 @@ vector<string> read_input_file(const string& filename) {
     return lines;
 }
 
-// Вывод лабиринта в шестиугольных ячейках с корректными нижними границами
 void print_hex_maze(const vector<string>& grid) {
-    int rows = static_cast<int>(grid.size());
-    int cols = static_cast<int>(grid[0].size());
+    Coord rows = static_cast<Coord>(grid.size());
+    Coord cols = static_cast<Coord>(grid[0].size());
 
-    for (int r = 0; r < rows; ++r) {
+    for (Coord r = 0; r < rows; ++r) {
         string shift(r * 3, ' ');
 
-        // Верхняя граница только для первой строки
         if (r == 0) {
             cout << shift;
-            for (int c = 0; c < cols; ++c) cout << " / \\";
+            for (Coord c = 0; c < cols; ++c) cout << " / \\";
             cout << "\n";
         }
 
-        // Содержимое ячеек
         cout << shift;
-        for (int c = 0; c < cols; ++c) {
+        for (Coord c = 0; c < cols; ++c) {
             cout << "|" << grid[r][c] << "|";
             if (c != cols - 1) cout << " ";
         }
         cout << "\n";
 
-        // Нижняя граница каждой строки
         cout << shift;
-        for (int c = 0; c < cols; ++c) {
+        for (Coord c = 0; c < cols; ++c) {
             cout << " \\ /";
             if (c != cols - 1) cout << " ";
         }
 
-        // Промежуточные строки (кроме последней) завершаем дополнительным backslash
         if (r != rows - 1) cout << " \\";
         cout << "\n";
     }
@@ -92,11 +87,11 @@ int main(int argc, char** argv)
         }
     }
 
-    int sr = -1, sc = -1, er = -1, ec = -1;
-    for (size_t r = 0; r < rows; r++) {
-        for (size_t c = 0; c < cols; c++) {
-            if (grid[r][c] == 'S') { sr = static_cast<int>(r); sc = static_cast<int>(c); }
-            if (grid[r][c] == 'E') { er = static_cast<int>(r); ec = static_cast<int>(c); }
+    Coord sr = -1, sc = -1, er = -1, ec = -1;
+    for (Coord r = 0; r < rows; r++) {
+        for (Coord c = 0; c < cols; c++) {
+            if (grid[r][c] == 'S') { sr = static_cast<Coord>(r); sc = static_cast<Coord>(c); }
+            if (grid[r][c] == 'E') { er = static_cast<Coord>(r); ec = static_cast<Coord>(c); }
         }
     }
 
@@ -110,22 +105,20 @@ int main(int argc, char** argv)
     Vector prev;
     prev.resize(total);
     for (size_t i = 0; i < total; i++)
-        prev.set(static_cast<int>(i), -1);
-
-    auto inside = [&](int r, int c) { return r >= 0 && r < static_cast<int>(rows) && c >= 0 && c < static_cast<int>(cols); };
-    auto free_cell = [&](int r, int c) { return grid[r][c] != '#'; };
+        prev.set(static_cast<Coord>(i), -1);
 
     Queue q;
-    int start = sr * static_cast<int>(cols) + sc;
+    Coord start = sr * static_cast<Coord>(cols) + sc;
     prev.set(start, start);
     q.insert(start);
 
-    auto add = [&](int r, int c, int dr, int dc, int cur) {
-        int nr = r + dr, nc = c + dc;
-        if (!inside(nr, nc)) return;
-        if (!free_cell(nr, nc)) return;
+    auto add = [&](Coord r, Coord c, Coord dr, Coord dc, Coord cur) {
+        Coord nr = r + dr, nc = c + dc;
+        if (nr < 0 || nr >= static_cast<Coord>(rows) ||
+            nc < 0 || nc >= static_cast<Coord>(cols)) return;
+        if (grid[nr][nc] == '#') return;
 
-        int id = nr * static_cast<int>(cols) + nc;
+        Coord id = nr * static_cast<int>(cols) + nc;
         if (prev.get(id) != -1) return;
 
         prev.set(id, cur);
@@ -135,33 +128,35 @@ int main(int argc, char** argv)
     bool found = false;
 
     while (!q.empty()) {
-        int cur = q.get();
+        Coord cur = q.get();
         q.remove();
 
-        int r = cur / static_cast<int>(cols);
-        int c = cur % static_cast<int>(cols);
+        Coord r = cur / static_cast<Coord>(cols);
+        Coord c = cur % static_cast<Coord>(cols);
 
         if (r == er && c == ec) {
             found = true;
             break;
         }
-
-            if ((r % 2) == 0) {
-                add(r, c, -1, 0, cur);
-                add(r, c, -1, 1, cur);
-                add(r, c, 0, -1, cur);
-                add(r, c, 0, 1, cur);
-                add(r, c, 1, 0, cur);
-                add(r, c, 1, 1, cur);
-            }
-            else {
-                add(r, c, -1, -1, cur);
-                add(r, c, -1, 0, cur);
-                add(r, c, 0, -1, cur);
-                add(r, c, 0, 1, cur);
-                add(r, c, 1, -1, cur);
-                add(r, c, 1, 0, cur);
-            }
+        /*This is necessary for correct operation with a hexagonal grid. 
+        In such a grid, even and odd rows have different neighboring positions due to the checkerboard pattern of the cells.
+        Without this check, the algorithm will search for a path in a square grid, which will produce an incorrect result for the given maze format.*/
+        if ((r % 2) == 0) {
+            add(r, c, -1, 0, cur);
+            add(r, c, -1, 1, cur);
+            add(r, c, 0, -1, cur);
+            add(r, c, 0, 1, cur);
+            add(r, c, 1, 0, cur);
+            add(r, c, 1, 1, cur);
+        }
+        else {
+            add(r, c, -1, -1, cur);
+            add(r, c, -1, 0, cur);
+            add(r, c, 0, -1, cur);
+            add(r, c, 0, 1, cur);
+            add(r, c, 1, -1, cur);
+            add(r, c, 1, 0, cur);
+        }
     }
 
     if (!found) {
@@ -169,22 +164,20 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    // Восстановление пути и пометка 'x'
-    int cur = er * static_cast<int>(cols) + ec;
+    Coord cur = er * static_cast<Coord>(cols) + ec;
     while (true) {
-        int p = prev.get(cur);
+        Coord p = prev.get(cur);
         if (p == cur) break;
 
-        if (cur != start && cur != (er * static_cast<int>(cols) + ec)) {
-            int r = cur / static_cast<int>(cols);
-            int c = cur % static_cast<int>(cols);
+        if (cur != start && cur != (er * static_cast<Coord>(cols) + ec)) {
+            Coord r = cur / static_cast<Coord>(cols);
+            Coord c = cur % static_cast<Coord>(cols);
             grid[r][c] = 'x';
         }
 
         cur = p;
     }
 
-    // Вывод лабиринта в шестиугольных ячейках
     print_hex_maze(grid);
 
     return 0;

@@ -1,7 +1,7 @@
 #include "queue.h"
 #include <stdexcept>
 
-Queue::Queue() : buffer(), head(0), tail(0), count(0)
+Queue::Queue() : buffer(), head(0), count(0)
 {
     buffer.resize(4);
 }
@@ -9,11 +9,10 @@ Queue::Queue() : buffer(), head(0), tail(0), count(0)
 void Queue::copy_from(const Queue& a)
 {
     head = a.head;
-    tail = a.tail;
     count = a.count;
     buffer = a.buffer;
 }
-Queue::Queue(const Queue &a) : buffer(), head(0), tail(0), count(0)
+Queue::Queue(const Queue &a) : buffer(), head(0), count(0)
 {
     // implement or disable this function
     copy_from(a);
@@ -37,10 +36,9 @@ void Queue::insert(Data data)
     // put at tail
     if (buffer.size() == 0) {
         buffer.resize(1);
-        head = tail = 0;
+        head = count = 0;
     }
-    buffer.set(tail, data);
-    tail = (tail + 1) % buffer.size();
+    buffer.set(tail(), data);
     ++count;
 }
 
@@ -56,8 +54,7 @@ void Queue::remove()
     head = (head + 1) % buffer.size();
     --count;
     if (count == 0) {
-        // reset pointers to keep indices small
-        head = tail = 0;
+        head = 0;
     }
 }
 
@@ -68,17 +65,15 @@ bool Queue::empty() const
 
 void Queue::grow_if_needed()
 {
-    if (count < buffer.size()) return; // there is at least one free slot
-    // need to grow: allocate new vector with double capacity
+    if (count < buffer.size()) return;
     size_t newcap = (buffer.size() == 0) ? 1 : buffer.size() * 2;
     Vector newbuf;
     newbuf.resize(newcap);
-    // copy existing elements in order into newbuf starting at 0
+
     for (size_t i = 0; i < count; ++i) {
         size_t idx = (head + i) % buffer.size();
         newbuf.set(i, buffer.get(idx));
     }
     buffer = newbuf;
     head = 0;
-    tail = count % buffer.size();
 }
