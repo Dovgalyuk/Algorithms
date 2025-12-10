@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <climits>
 #include <fstream>
 #include "vector.h"
 #include "graph.h"
@@ -88,7 +89,7 @@ int main(int argc, char* argv[])
                 primgraph.setvertlabel(i, vertlabe);
             }
             for (size_t i = 0; i < asize1; i++) {
-                for (int j = 0; j < asize1; j++) {
+                for (size_t j = 0; j < asize1; j++) {
                     int weight;
                     in >> weight;
                     if (weight != 0) {
