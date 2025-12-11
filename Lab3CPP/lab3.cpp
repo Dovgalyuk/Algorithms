@@ -8,16 +8,13 @@ int bfs(int n, int start, int finish, int** graph) {
     if (start == finish) return 0;
     
     Queue* q = queue_create();
-    bool* visited = new bool[n];
     int* distances = new int[n];
     
     for (int i = 0; i < n; i++) {
-        visited[i] = false;
         distances[i] = -1;
     }
     
-    visited[start - 1] = true;
-    distances[start - 1] = 0;
+    distances[start-1] = 0;
     queue_insert(q, start);
     
     while (!queue_empty(q)) {
@@ -25,31 +22,31 @@ int bfs(int n, int start, int finish, int** graph) {
         queue_remove(q);
         
         for (int i = 0; i < n; i++) {
-            if (graph[current - 1][i] == 1 && !visited[i]) {
-                visited[i] = true;
-                distances[i] = distances[current - 1] + 1;
-                queue_insert(q, i+1);
+            if (graph[current-1][i] == 1 && distances[i] == -1) {
+                distances[i] = distances[current-1] + 1;
                 
                 if (i+1 == finish) {
                     int result = distances[i];
                     queue_delete(q);
-                    delete[] visited;
                     delete[] distances;
                     return result;
                 }
+                
+                queue_insert(q, i+1);
             }
         }
     }
     
     queue_delete(q);
-    delete[] visited;
     delete[] distances;
     return -1;
 }
 
 int main(int argc, char** argv) {
-    if (argc < 2)
+    if (argc < 2) {
+        cout << "Usage: " << argv[0] << " <input_file>" << endl;
         return 1;
+    }
     
     ifstream input(argv[1]);
     
@@ -64,9 +61,9 @@ int main(int argc, char** argv) {
     int** graph = new int*[n];
     for (int i = 0; i < n; i++) {
         graph[i] = new int[n];
-        for (int j = 0; j < n; j++)
+        for (int j = 0; j < n; j++) {
             input >> graph[i][j];
-
+        }
     }
     
     int result = bfs(n, start, finish, graph);
