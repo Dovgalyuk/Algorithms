@@ -21,7 +21,6 @@ typedef vector<vector<bool>> Visited;
 
 const int dx[8] = { -1, -1, -1,  0, 0, 1, 1, 1 };
 const int dy[8] = { -1,  0,  1, -1, 1, -1, 0, 1 };
-const char moves[8] = { '1','2','3','4','5','6','7','8' };
 
 Maze readMaze(const string& filename) {
     ifstream file(filename);
@@ -37,7 +36,6 @@ Maze readMaze(const string& filename) {
 
     return maze;
 }
-
 
 Coord findPosition(const Maze& maze, char target) {
     for (size_t i = 0; i < maze.size(); ++i)
@@ -63,7 +61,6 @@ string getPath(const PositionList& pos, int index) {
     }
     return path;
 }
-
 
 PositionList findPath(const Maze& maze) {
     Coord start = findPosition(maze, 'Q');
@@ -95,7 +92,8 @@ PositionList findPath(const Maze& maze) {
             while (isValid(x, y, maze)) {
                 if (!visited[x][y]) {
                     visited[x][y] = true;
-                    pos.push_back({ x, y, idx, moves[i] });
+                    pos.push_back({ x, y, idx, char('1' + i) });
+
                     q.insert((int)pos.size() - 1);
 
                     if (x == end.first && y == end.second)
@@ -109,7 +107,6 @@ PositionList findPath(const Maze& maze) {
 
     return {};
 }
-
 
 void printSolution(const Maze& maze, const PositionList& pos,
     const Coord& end_pos, const string& output_file)
@@ -157,7 +154,6 @@ void printSolution(const Maze& maze, const PositionList& pos,
         out << row << "\n";
     }
 }
-
 
 int main(int argc, char* argv[]) {
     if (argc < 3) {
