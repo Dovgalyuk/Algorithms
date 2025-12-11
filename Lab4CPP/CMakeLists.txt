@@ -14,4 +14,4 @@ target_include_directories(Lab4Program PUBLIC
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.txt ${CMAKE_CURRENT_BINARY_DIR}/input.txt COPYONLY)
 
 add_test(NAME TestLab4CPP_Paths COMMAND Lab4Program ${CMAKE_CURRENT_BINARY_DIR}/input.txt A E)
-set_property(TEST TestLab4CPP_Paths PROPERTY PASS_REGULAR_EXPRESSION "Shortest Paths")
+set_property(TEST TestLab4CPP_Paths PROPERTY PASS_REGULAR_EXPRESSION "Shortest Paths from A to E.*Path 1:.*A -> C -> E")
