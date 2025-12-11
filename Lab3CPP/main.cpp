@@ -8,14 +8,16 @@
 
 using namespace std;
 typedef int Coord;
+typedef vector<string> Vec;
+typedef string STR;
 
-vector<string> read_input_file(const string& filename) {
+Vec read_input_file(const STR& filename) {
     ifstream in(filename);
     if (!in.is_open())
         throw runtime_error("Cannot open file: " + filename);
 
-    vector<string> lines;
-    string line;
+    Vec lines;
+    STR line;
     while (getline(in, line)) {
         if (!line.empty() && line.back() == '\r')
             line.pop_back();
@@ -25,12 +27,12 @@ vector<string> read_input_file(const string& filename) {
     return lines;
 }
 
-void print_hex_maze(const vector<string>& grid) {
+void print_hex_maze(const Vec& grid) {
     Coord rows = static_cast<Coord>(grid.size());
     Coord cols = static_cast<Coord>(grid[0].size());
 
     for (Coord r = 0; r < rows; ++r) {
-        string shift(r * 3, ' ');
+        STR shift(r * 3, ' ');
 
         if (r == 0) {
             cout << shift;
@@ -63,7 +65,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    vector<string> grid;
+    Vec grid;
     try {
         grid = read_input_file(argv[1]);
     }
@@ -95,7 +97,7 @@ int main(int argc, char** argv)
         }
     }
 
-    if (sr == -1 || er == -1) {
+    if (sr == -1 || er == -1) { 
         cerr << "Start (S) or End (E) not found" << endl;
         return 1;
     }
@@ -112,19 +114,6 @@ int main(int argc, char** argv)
     prev.set(start, start);
     q.insert(start);
 
-    auto add = [&](Coord r, Coord c, Coord dr, Coord dc, Coord cur) {
-        Coord nr = r + dr, nc = c + dc;
-        if (nr < 0 || nr >= static_cast<Coord>(rows) ||
-            nc < 0 || nc >= static_cast<Coord>(cols)) return;
-        if (grid[nr][nc] == '#') return;
-
-        Coord id = nr * static_cast<int>(cols) + nc;
-        if (prev.get(id) != -1) return;
-
-        prev.set(id, cur);
-        q.insert(id);
-        };
-
     bool found = false;
 
     while (!q.empty()) {
@@ -138,24 +127,24 @@ int main(int argc, char** argv)
             found = true;
             break;
         }
-        /*This is necessary for correct operation with a hexagonal grid. 
-        In such a grid, even and odd rows have different neighboring positions due to the checkerboard pattern of the cells.
-        Without this check, the algorithm will search for a path in a square grid, which will produce an incorrect result for the given maze format.*/
-        if ((r % 2) == 0) {
-            add(r, c, -1, 0, cur);
-            add(r, c, -1, 1, cur);
-            add(r, c, 0, -1, cur);
-            add(r, c, 0, 1, cur);
-            add(r, c, 1, 0, cur);
-            add(r, c, 1, 1, cur);
-        }
-        else {
-            add(r, c, -1, -1, cur);
-            add(r, c, -1, 0, cur);
-            add(r, c, 0, -1, cur);
-            add(r, c, 0, 1, cur);
-            add(r, c, 1, -1, cur);
-            add(r, c, 1, 0, cur);
+
+        const Coord dr[6] = { -1, -1, 0, 0, 1, 1 };
+        const Coord dc[6] = { 0, 1, -1, 1, -1, 0 };
+
+        for (int i = 0; i < 6; ++i) {
+            Coord nr = r + dr[i];
+            Coord nc = c + dc[i];
+
+            if (nr < 0 || nr >= static_cast<Coord>(rows) ||
+                nc < 0 || nc >= static_cast<Coord>(cols)) continue;
+
+            if (grid[nr][nc] == '#') continue;
+
+            Coord id = nr * static_cast<Coord>(cols) + nc;
+            if (prev.get(id) != -1) continue;
+
+            prev.set(id, cur);
+            q.insert(id);
         }
     }
 
