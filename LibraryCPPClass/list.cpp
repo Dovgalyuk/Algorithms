@@ -35,15 +35,15 @@ List &List::operator=(const List &a)
             this->erase_first();
         }
 
-        Item* lastCopy = this->insert(a.head_->data());
+        if(a.head_ != NULL){
+            Item* lastCopy = this->insert(a.head_->data());
+            Item* current = a.head_->next();
 
-        Item* current = a.head_->next();
-
-        while(current != NULL){
-            lastCopy = this->insert_after(lastCopy, current->data());
-            current = current->next();
+            while(current != NULL){
+                lastCopy = this->insert_after(lastCopy, current->data());
+                current = current->next();
+            }
         }
-        
     }
     return *this;
 }
@@ -76,7 +76,7 @@ List::Item *List::insert(Data data)
     }
 
     this->head_ = newItem;
-    this->size_ ++;
+    this->size_++;
 
     return newItem;
 }
@@ -87,19 +87,20 @@ List::Item *List::insert_after(Item *item, Data data)
         return insert(data);
     }
 
+    Item *newItem = new Item(data);
     
-
-    Item *newItem = new Item(data, NULL, item);
+    newItem->setNextPtr(item->next());
+    newItem->setPrevPtr(item);
+    
     if(item->next() != NULL){
-        Item *nextItem = item->next();
-        newItem->setNextPtr(nextItem);
-        nextItem->setPrevPtr(newItem);
-    }
-
-    if(newItem->next() == NULL){
-        this->tail_ = newItem;
+        item->next()->setPrevPtr(newItem);
     }
     item->setNextPtr(newItem);
+    
+    if(this->tail_ == item){
+        this->tail_ = newItem;
+    }
+    
     this->size_++;
     return newItem;
 }
@@ -110,39 +111,47 @@ List::Item *List::erase_first()
         return NULL;
     }
 
-    if(this->head_->next() == NULL){
-        this->head_ = NULL;
-        this->tail_ = NULL;
-        this->size_--;
-        return NULL;
+    Item *toDelete = this->head_;
+    this->head_ = this->head_->next();
+    
+    if(this->head_ != NULL){
+        this->head_->setPrevPtr(NULL);
     }
-
-    Item *newHead = this->head_->next();
-    delete this->head_;
-    this->head_ = newHead;
-    this->head_->setPrevPtr(NULL);
+    else {
+        this->tail_ = NULL;
+    }
+    
+    delete toDelete;
     this->size_--;
+    
     return this->head_;
 }
 
 List::Item *List::erase_next(Item *item)
 {
     if(item == NULL){
+        return erase_first();
+    }
+    
+    if(item->next() == NULL){
         return NULL;
     }
-
-    if(item->next() == NULL || item->prev() == NULL){
-        delete item;
-        this->head_ = NULL;
-        this->tail_ = NULL;
-        this->size_ --;
-        return NULL;
+    
+    Item *toDelete = item->next();
+    Item *nextAfterDelete = toDelete->next();
+    item->setNextPtr(nextAfterDelete);
+    
+    if(nextAfterDelete != NULL){
+        nextAfterDelete->setPrevPtr(item);
     }
-
-    Item *nextItem = item->next();
-    item->setNextPtr(nextItem->next());
-    delete nextItem;
-    return item->next();
+    else {
+        this->tail_ = item;
+    }
+    
+    delete toDelete;
+    this->size_--;
+    
+    return nextAfterDelete;
 }
 // обеспечивает добавление одного элемента O(1) так как он добавляет его в конец (для очереди)
 List::Item *List::get_end_item() const {
@@ -150,5 +159,8 @@ List::Item *List::get_end_item() const {
 }
 
 Data List::data_head() const {
-    return head_->data();
+    if(this->head_ != NULL){
+        return head_->data();
+    }
+    return Data();
 }
