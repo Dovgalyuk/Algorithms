@@ -1,6 +1,7 @@
 #ifndef LIST_H
 #define LIST_H
 
+
 // List
 
 // Stores integer values inside
@@ -16,9 +17,10 @@ List *list_create();
 // Destroys the list and frees the memory
 void list_delete(List *list);
 
-// Retrieves the first item from the list
+// Retrieves the first item from the list   
 ListItem *list_first(List *list);
 
+ListItem *list_last(List *list);
 // Extracts data from the list item
 Data list_item_data(const ListItem *item);
 
@@ -35,6 +37,9 @@ ListItem *list_insert(List *list, Data data);
 // Inserts new list item after the specified item
 // Inserts first element if item is null
 ListItem *list_insert_after(List *list, ListItem *item, Data data);
+
+ListItem *list_insert_back(List *list, Data data);
+
 
 // Deletes the first list item.
 // Returns pointer to the item next to the deleted one.

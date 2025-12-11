@@ -1,6 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include "list.h"
 // Queue
 
 // Stores integer values inside
