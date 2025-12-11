@@ -30,15 +30,15 @@ private:
     static int height(node* p);
     static int bfactor(node* p);
     static void fixheight(node* p);
-    node* rotateright(node* p);
-    node* rotateleft(node* q);
-    node* balance(node* p);
-    node* findmin(node* p);
-    node* removemin(node* p);
-    node* insert(node* p, const std::string& k, const std::string& v);
-    node* remove(node* p, const std::string& k);
-    node* find(node* p, const std::string& k);
-    void clear(node* p);
+    static node* rotateright(node* p);
+    static node* rotateleft(node* q);
+    static node* balance(node* p);
+    static node* findmin(node* p);
+    static node* removemin(node* p);
+    static node* insert(node* p, const std::string& k, const std::string& v);
+    static node* remove(node* p, const std::string& k);
+    static node* find(node* p, const std::string& k);
+    static void clear(node* p);
 };
 
 #endif
