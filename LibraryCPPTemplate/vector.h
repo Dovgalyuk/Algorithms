@@ -77,30 +77,57 @@ public:
     return data_[i];
   }
 
+  const T &get(size_t i) const {
+    if (i >= size_) {
+      throw out_of_range("Vector index out of range");
+    }
+    return data_[i];
+  }
+
+  T &get(size_t i) {
+    if (i >= size_) {
+      throw out_of_range("Vector index out of range");
+    }
+    return data_[i];
+  }
+
+  void set(size_t i, const T &val) {
+    if (i >= size_) {
+      throw out_of_range("Vector index out of range");
+    }
+    data_[i] = val;
+  }
+
   size_t size() const { return size_; }
 
   void resize(size_t n, const T &val = T()) {
     if (n <= size_) {
       size_ = n;
-    } else {
-      if (n > capacity_) {
-        T *new_data = new T[n];
-        for (size_t i = 0; i < size_; i++) {
-          new_data[i] = data_[i];
-        }
-        for (size_t i = size_; i < n; i++) {
-          new_data[i] = val;
-        }
-        delete[] data_;
-        data_ = new_data;
-        capacity_ = n;
-      } else {
-        for (size_t i = size_; i < n; i++) {
-          data_[i] = val;
-        }
-      }
-      size_ = n;
+      return;
     }
+
+    if (n > capacity_) {
+      size_t new_cap = (capacity_ == 0) ? 1 : capacity_;
+      while (new_cap < n) {
+        new_cap *= 2;
+      }
+
+      T *new_data = new T[new_cap];
+      for (size_t i = 0; i < size_; i++) {
+        new_data[i] = data_[i];
+      }
+      for (size_t i = size_; i < n; i++) {
+        new_data[i] = val;
+      }
+      delete[] data_;
+      data_ = new_data;
+      capacity_ = new_cap;
+    } else {
+      for (size_t i = size_; i < n; i++) {
+        data_[i] = val;
+      }
+    }
+    size_ = n;
   }
 
   void pop_back() {

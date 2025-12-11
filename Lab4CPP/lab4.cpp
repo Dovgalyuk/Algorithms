@@ -1,55 +1,35 @@
 #include "graph.h"
-#include "queue.h"
-#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 using namespace std;
 
-vector<string> bfsShortestPath(const Graph &g, const string &start,
-                               const string &target) {
-  if (!g.hasVertex(start) || !g.hasVertex(target)) {
-    return {};
+void findAllSimplePaths(const Graph<string> &g, const string &current,
+                        const string &target, vector<string> &currentPath,
+                        unordered_set<string> &visited,
+                        vector<vector<string>> &allPaths) {
+  if (current == target) {
+    allPaths.push_back(currentPath);
+    return;
   }
 
-  unordered_map<string, bool> visited;
-  unordered_map<string, string> parent;
-  Queue<string> q;
-
-  q.push(start);
-  visited[start] = true;
-  parent[start] = "";
-
-  while (!q.empty()) {
-    string u = q.front();
-    q.pop();
-
-    if (u == target)
-      break;
-
-    for (auto it = g.beginNeighbors(u); it != g.endNeighbors(u); ++it) {
-      string v = *it;
-      if (!visited[v]) {
-        visited[v] = true;
-        parent[v] = u;
-        q.push(v);
-      }
+  for (auto it = g.beginNeighbors(current); it != g.endNeighbors(current);
+       ++it) {
+    string neighbor = *it;
+    if (visited.find(neighbor) != visited.end()) {
+      continue;
     }
-  }
 
-  if (!visited[target])
-    return {};
-
-  vector<string> path;
-  for (string at = target; !at.empty(); at = parent[at]) {
-    path.push_back(at);
+    visited.insert(neighbor);
+    currentPath.push_back(neighbor);
+    findAllSimplePaths(g, neighbor, target, currentPath, visited, allPaths);
+    currentPath.pop_back();
+    visited.erase(neighbor);
   }
-  reverse(path.begin(), path.end());
-  return path;
 }
 
 int main(int argc, char *argv[]) {
@@ -64,14 +44,15 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  Graph g;
+  Graph<string> g;
   string line;
 
-  getline(fin, line);
-  istringstream vss(line);
-  string name;
-  while (vss >> name) {
-    g.addVertex(name);
+  if (getline(fin, line) && !line.empty()) {
+    istringstream vss(line);
+    string name;
+    while (vss >> name) {
+      g.addVertex(name);
+    }
   }
 
   while (getline(fin, line)) {
@@ -87,18 +68,28 @@ int main(int argc, char *argv[]) {
   string start = "A";
   string target = "E";
 
-  auto path = bfsShortestPath(g, start, target);
+  if (!g.hasVertex(start) || !g.hasVertex(target)) {
+    cout << "No path found.\n";
+    return 0;
+  }
 
-  if (path.empty()) {
+  vector<vector<string>> allPaths;
+  vector<string> currentPath = {start};
+  unordered_set<string> visited = {start};
+
+  findAllSimplePaths(g, start, target, currentPath, visited, allPaths);
+
+  if (allPaths.empty()) {
     cout << "No path found.\n";
   } else {
-    cout << "Shortest path: ";
-    for (size_t i = 0; i < path.size(); i++) {
-      if (i > 0)
-        cout << " -> ";
-      cout << path[i];
+    for (const auto &path : allPaths) {
+      for (size_t i = 0; i < path.size(); i++) {
+        if (i > 0)
+          cout << " -> ";
+        cout << path[i];
+      }
+      cout << "\n";
     }
-    cout << "\n";
   }
 
   return 0;
