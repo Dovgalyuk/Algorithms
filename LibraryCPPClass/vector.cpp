@@ -1,10 +1,13 @@
 #include "vector.h"
 
-Vector::Vector() : _size(0), _capacity(0), _data(nullptr) {}
+Vector::Vector() :  _data(nullptr), _size(0), _capacity(0) {}
 
-Vector::Vector(const Vector &a) : _size(0), _capacity(0), _data(nullptr)
+Vector::Vector(const Vector &a) : _data(nullptr), _size(0), _capacity(0)
 {
-    *this = a;
+    if(a._capacity > 0)
+    {
+        copy_from(a._size, a._capacity, a._data);
+    }
 }
 
 Vector &Vector::operator=(const Vector &a)
@@ -12,17 +15,13 @@ Vector &Vector::operator=(const Vector &a)
     if (this != &a)
     {
         delete[] _data;
-
-        _size = a._size;
-        _capacity = a._capacity;
-        if(_capacity > 0)
+        _data = nullptr;
+        _size = 0;
+        _capacity = 0;
+        
+        if(a._capacity > 0)
         {
-            _data = new Data[_capacity];
-            std::copy(a._data, a._data + _size, _data);
-        }
-        else
-        {
-            _data = nullptr;
+            copy_from(a._size, a._capacity, a._data);
         }
     }
     return *this;
@@ -35,20 +34,16 @@ Vector::~Vector()
 
 Data Vector::get(size_t index) const
 {
-    if (index >= _size)
-    {
-        throw std::runtime_error("Out of Range!");
-    }
-    return _data[index];
+    if (index <_size) return _data[index];
+    else return Data();
 }
 
 void Vector::set(size_t index, Data value)
 {
-    if (index >= _size)
+    if (index < _size)
     {
-        throw std::runtime_error("Out of Range!");
+        _data[index] = value;
     }
-    _data[index] = value;
 }
 
 size_t Vector::size() const
@@ -58,34 +53,30 @@ size_t Vector::size() const
 
 void Vector::resize(size_t size)
 {
-    if(size == _size)
-    {
-        return;
-    }
 
     if (size > _capacity)
     {
-        size_t new_capacity = std::max(size, _capacity*2);
-        if (new_capacity == 0) new_capacity = 1;
+        size_t new_capacity;
+        if(_capacity == 0) new_capacity = 2;
+        else new_capacity = _capacity;
+        
+       while (new_capacity < size)
+       {
+            new_capacity *= 2;
+       }
 
-        Data* new_data = new Data[new_capacity];
-
-        if (_data != nullptr && _size > 0)
-        {
-            std::copy(_data, _data + _size, new_data);
-        }
+        Data* new_data = new Data[new_capacity];           
             
-            
-        for (size_t i = _size; i < size; ++i)
+        for (size_t i = 0; i < _size; i++)
         {
-            new_data[i] = Data();
+            new_data[i] = _data[i];
         }
 
         delete[] _data;
         _data = new_data;
         _capacity = new_capacity;
     }
-    else if (size > _size)
+    if (size > _size)
     {
         for (size_t i = _size; i < size; ++i)
         {
@@ -94,4 +85,15 @@ void Vector::resize(size_t size)
     }
 
     _size = size;
+}
+
+void Vector::copy_from(size_t size, size_t capacity, const Data* data)
+{
+    _data = new Data[capacity];
+    _capacity = capacity;
+    _size = size;
+    for (size_t i = 0; i< size; i++)
+    {
+        _data[i] = data[i];
+    }
 }

@@ -2,7 +2,6 @@
 #define VECTOR_H
 
 #include <cstddef>
-#include <algorithm>
 #include <stdexcept>
 
 // Change it to desired type
@@ -40,6 +39,8 @@ private:
     size_t _size;
     size_t _capacity;
     Data* _data;
+
+    void copy_from(size_t size, size_t capacity, const Data* data);
 };
 
 #endif

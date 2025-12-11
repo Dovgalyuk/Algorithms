@@ -39,9 +39,8 @@ public:
 
 private:
     Vector _vector;
-    size_t _size;
+    size_t _count;
     size_t _head;
-    size_t _tail;
 };
 
 #endif
