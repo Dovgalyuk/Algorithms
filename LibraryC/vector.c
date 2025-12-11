@@ -1,23 +1,22 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include "vector.h"
 
 typedef struct Vector {
     Data* d;
     size_t size;
-    size_t copacity;
+    size_t capacity;
     FFree* freeFunc;
 } Vector;
 
 Vector *vector_create(FFree f)
 {
     Vector* vec = (Vector*)malloc(sizeof(Vector));
-    if(vec == NULL) 
+    if (vec == NULL)
         return NULL;
-
-    vec->d = NULL;
+    
+    vec->capacity = 0;
     vec->size = 0;
-    vec->copacity = 0;
+    vec->d = NULL;
     vec->freeFunc = f;
 
     return vec;
@@ -25,36 +24,40 @@ Vector *vector_create(FFree f)
 
 void vector_delete(Vector *vector)
 {
-    if(vector == NULL)
+    if (vector == NULL)
         return;
 
-    if(vector->freeFunc != NULL) {
-        for(size_t i = 0; i < vector->size; i++) {
-            vector->freeFunc((void*)vector->d[i]);
+    if (vector->d != NULL) {
+        for (size_t i = 0; i < vector->capacity; i++ ) {
+            if(vector->d[i] != NULL) {
+                vector->freeFunc((void*)vector->d[i]);
+            }
         }
     }
+
     free(vector->d);
     free(vector);
 }
 
 Data vector_get(const Vector *vector, size_t index)
 {
-    if(vector == NULL || index >= vector->size || vector->d[index] == NULL)
+    if(vector == NULL || index >= vector->size )
         return (Data)0;
 
+    if(vector->d[index] == NULL)
+        return VECTOR_EMPTY;
 
     return vector->d[index];
 }
 
 void vector_set(Vector *vector, size_t index, Data value)
 {
-    if(vector == NULL || index >= vector->size)
+    if (vector == NULL || index > vector->size)
         return;
 
-    if (vector->freeFunc != NULL && vector->d[index] != VECTOR_EMPTY ) {
+    if(vector->freeFunc != NULL && vector->d[index] != NULL)
         vector->freeFunc((void*)vector->d[index]);
-    }
-    
+
     vector->d[index] = value;
 }
 
@@ -68,37 +71,40 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-    if(vector == NULL || vector->size == size)
+    if (vector == NULL || vector->size == size)
         return;
-    
-    if(size < vector->size) {
-        if(vector->freeFunc != NULL) {
-            for(size_t i = size; i < vector->size; i++) {
-                if(vector->d[i] != VECTOR_EMPTY) {
-                    vector->freeFunc(vector->d[i]);
-                    vector->d[i] = NULL;
-                }
+
+    if (size < vector->size) {
+        for (size_t i = size; i < vector->size; i++) {
+            if(vector->d[i] != NULL) {
+                vector->freeFunc((void*)vector->d[i]);
             }
         }
     }
-    else if (size > vector->copacity) {
-        size_t temp_copacity = (vector->copacity > 0) ? vector->copacity : (size_t)1 ;
-        
-        while (size > temp_copacity) {
-            temp_copacity *= 2;
-        } 
     
-        Data *temp_arr = (Data*)realloc(vector->d, temp_copacity * sizeof(Data));
-        if (temp_arr == NULL)
-            return;
-    
-        vector->d = temp_arr;
-        for (size_t i = vector->copacity; i < temp_copacity; i++) {
-            vector->d[i] = VECTOR_EMPTY;
+    else if(size > vector->size) {
+        if (size > vector->capacity) {
+            
+            size_t new_capacity = vector->capacity;
+            if(new_capacity == 0) new_capacity = 1;
+
+            while (new_capacity < size) {
+                new_capacity *= 2;
+            }
+
+            Data* temp = (Data*)realloc(vector->d, new_capacity * sizeof(Data));
+            if(temp == NULL)
+                return;
+
+            vector->d = temp;
+            for (size_t i = vector->capacity; i < new_capacity; i++) {
+                vector->d[i] = NULL;
+            }
+            vector->capacity = new_capacity;
         }
-        
-        vector->copacity = temp_copacity;
-    
+        for (size_t i = vector->size; i < size; i++) {
+            vector->d[i] = NULL;
+        } 
     }
     vector->size = size;
 }

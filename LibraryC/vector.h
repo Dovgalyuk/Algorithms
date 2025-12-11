@@ -10,7 +10,7 @@ typedef void* Data;
 
 // Value for empty element of vector
 static const int VECTOR_EMPTY_VALUE = 0;
-#define VECTOR_EMPTY ((Data)&VECTOR_EMPTY_VALUE)
+#define VECTOR_EMPTY ((Data)(&VECTOR_EMPTY_VALUE))
 
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
