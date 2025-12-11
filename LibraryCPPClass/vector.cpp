@@ -80,7 +80,7 @@ void Vector::resize(size_t size)
     {
         for (size_t i = _size; i < size; ++i)
         {
-            _data[i] = 0;
+            _data[i] = -1;
         }
     }
 

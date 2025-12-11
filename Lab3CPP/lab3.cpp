@@ -1,209 +1,220 @@
-﻿#include "queue.h"
-#include "vector.h"
-
-#include <algorithm>
-#include <array>
-#include <fstream>
+﻿#include <fstream>
 #include <iostream>
 #include <string>
-#include <unordered_map>
 #include <vector>
+#include <unordered_map>
+#include <algorithm>
+#include "vector.h"
+#include "queue.h"
 
-void print_state(const std::string& board, size_t step, size_t total_steps)
-{
-    std::cout << "Шаг " << step << ":\n";
-    for (int row = 0; row < 3; ++row)
-    {
-        int base = row * 3;
-        std::cout << board[base] << ' ' << board[base + 1] << ' ' << board[base + 2] << '\n';
-    }
-    if (step + 1 < total_steps)
-    {
-        std::cout << "---\n";
-    }
-}
 
-bool is_solvable(const std::string& s)
+class PuzzleSolver
 {
-    int inversions = 0;
-    for (size_t i = 0; i < s.size(); ++i)
-    {
-        if (s[i] == '0')
+public:
+        bool solve(const std::string& start_state) 
         {
-            continue;
-        }
-        for (size_t j = i + 1; j < s.size(); ++j)
-        {
-            if (s[j] == '0')
+            if (start_state == goal_state) return true;
+            
+            // Инициализация
+            Queue q;
+            state_to_index.clear();
+            states.clear();
+            
+            int start_index = 0;
+            states.push_back(start_state);
+            state_to_index[start_state] = start_index;
+            
+            parents.resize(1);
+            
+            q.insert(start_index);
+            
+            while (!q.empty()) 
             {
-                continue;
+                int current_index = q.get();
+                q.remove();
+                
+                std::string current_state = states[current_index];
+                
+                auto neighbors = get_neighbors(current_state);
+                
+                for (const auto& neighbor_pair : neighbors)
+                {
+                    const std::string& neighbor = neighbor_pair.first;
+                    
+                    // Если достигли цель
+                    if (neighbor == goal_state) 
+                    {
+                        size_t new_index = states.size();
+                        states.push_back(neighbor);
+                        parents.resize(states.size());
+                        
+                        parents.set(new_index, current_index);
+                        return true;
+                    }
+                    
+                    // Если состояние еще не посещено
+                    if (state_to_index.find(neighbor) == state_to_index.end()) 
+                    {
+                        size_t new_index = states.size();
+                        states.push_back(neighbor);
+                        state_to_index[neighbor] = (int)new_index;
+                        
+                        parents.resize(states.size());
+                        parents.set(new_index, current_index);
+                        
+                        q.insert((int)new_index);
+                    }
+                }
             }
-            if (s[i] > s[j])
+            
+            return false;
+        }   
+
+        void print_solution_path() 
+        {
+            auto path = get_solution_path();
+            
+            if (path.empty()) {
+                std::cout << "No solution found!\n";
+                return;
+            }
+            
+            for (const auto& state : path) 
             {
-                ++inversions;
+                for (int i = 0; i < state.size(); i++)
+                {
+                    if (i == 0 || i == 3 || i == 6)
+                    {
+                        std::cout <<"|"<< state[i] << "-";
+                    }
+                    if (i == 2 || i == 5 || i == 8)
+                    {
+                        std::cout << state[i] << "|\n";
+                    }
+                    if (i == 1 || i == 4 || i == 7)
+                    {
+                        std::cout << state[i] << "-";
+                    }
+                }
+
+                std::cout << " -----\n";
             }
         }
-    }
-    return (inversions % 2) == 0;
-}
-
-bool can_swap(int from, int to)
-{
-    if (to < 0 || to >= 9)
-    {
-        return false;
-    }
-
-    int from_row = from / 3;
-    int from_col = from % 3;
-    int to_row = to / 3;
-    int to_col = to % 3;
-    int row_diff = from_row > to_row ? from_row - to_row : to_row - from_row;
-    int col_diff = from_col > to_col ? from_col - to_col : to_col - from_col;
-    return (row_diff + col_diff) == 1;
-}
-
-int main() //int argc, char const* argv[]
-{
-    // if (argc < 2)
-    // {
-    //     return 1;
-    // }
-
-    // std::ifstream in(argv[1]);
-    // if (!in)
-    // {
-    //     return 1;
-    // }
-
-    std::string input = "312456780";
-    // if (!(in >> input) || input.size() != 9)
-    // {
-    //     return 1;
-    // }
-
-    std::array<bool, 9> seen{};
-    for (char c : input)
-    {
-        if (c < '0' || c > '8')
-        {
-            return 1;
-        }
-        size_t idx = static_cast<size_t>(c - '0');
-        if (seen[idx])
-        {
-            return 1;
-        }
-        seen[idx] = true;
-    }
-
-    if (!is_solvable(input))
-    {
-        std::cout << "Нет решения\n";
-        return 0;
-    }
-
-    const std::string start = input;
-    const std::string goal = "123456780";
-
-    if (start == goal)
-    {
-        print_state(start, 0, 1);
-        return 0;
-    }
-
+        
+private:
+    const std::string goal_state = "123456780";
+    
+    std::unordered_map<std::string, int> state_to_index;
+    std::vector<std::string> states;
     Vector parents;
-    std::vector<std::string> boards;
-
-    auto append_state = [&](const std::string& board, int parent_idx) -> size_t {
-        size_t idx = boards.size();
-        boards.push_back(board);
-        parents.resize(idx + 1);
-        parents.set(idx, parent_idx);
-        return idx;
-        };
-
-    size_t start_idx = append_state(start, -1);
-    std::unordered_map<std::string, size_t> visited;
-    visited[start] = start_idx;
-
-    Queue q;
-    q.insert(static_cast<Data>(start_idx));
-
-    const int moves[] = { -1, 1, -3, 3 };
-    bool found = false;
-    size_t goal_idx = start_idx;
-
-    while (!q.empty())
+    
+    int find_zero(const std::string& state) 
     {
-        size_t idx = static_cast<size_t>(q.get());
-        q.remove();
-        const std::string& board = boards[idx];
-        int zero_pos = static_cast<int>(board.find('0'));
-
-        for (int delta : moves)
-        {
-            int next_zero = zero_pos + delta;
-            if (!can_swap(zero_pos, next_zero))
-            {
-                continue;
-            }
-
-            std::string next_board = board;
-            std::swap(next_board[zero_pos], next_board[next_zero]);
-
-            if (visited.count(next_board))
-            {
-                continue;
-            }
-
-            size_t new_idx = append_state(next_board, static_cast<int>(idx));
-            visited[next_board] = new_idx;
-            q.insert(static_cast<Data>(new_idx));
-
-            if (next_board == goal)
-            {
-                found = true;
-                goal_idx = new_idx;
-                break;
-            }
+        for (int i = 0; i < 9; i++) {
+            if (state[i] == '0') return i;
         }
-
-        if (found)
-        {
-            break;
+        return -1;
+    }
+    
+    std::string swap(const std::string& state, int i, int j)
+    {
+        std::string new_state = state;
+        std::swap(new_state[i], new_state[j]);
+        return new_state;
+    }
+    
+    std::vector<std::pair<std::string, int>> get_neighbors(const std::string& state) 
+    {
+        std::vector<std::pair<std::string, int>> neighbors;
+        int zero_pos = find_zero(state);
+        int row = zero_pos / 3;
+        int col = zero_pos % 3;
+        
+        // Определяем возможные ходы и соответствующие индексы
+        if (row > 0) {  // Вверх (0 меняется с элементом выше)
+            neighbors.emplace_back(swap(state, zero_pos, zero_pos - 3), zero_pos - 3);
         }
-    }
-
-    if (!found)
-    {
-        std::cout << "Нет решения\n";
-        return 0;
-    }
-
-    Vector path;
-    size_t cursor = goal_idx;
-    while (true)
-    {
-        size_t sz = path.size();
-        path.resize(sz + 1);
-        path.set(sz, static_cast<Data>(cursor));
-
-        int parent_idx = parents.get(cursor);
-        if (parent_idx < 0)
-        {
-            break;
+        if (row < 2) {  // Вниз (0 меняется с элементом ниже)
+            neighbors.emplace_back(swap(state, zero_pos, zero_pos + 3), zero_pos + 3);
         }
-        cursor = static_cast<size_t>(parent_idx);
+        if (col > 0) {  // Влево (0 меняется с элементом слева)
+            neighbors.emplace_back(swap(state, zero_pos, zero_pos - 1), zero_pos - 1);
+        }
+        if (col < 2) {  // Вправо (0 меняется с элементом справа)
+            neighbors.emplace_back(swap(state, zero_pos, zero_pos + 1), zero_pos + 1);
+        }
+        
+        return neighbors;
     }
 
-    size_t total_steps = path.size();
-    for (int i = static_cast<int>(path.size()) - 1; i >= 0; --i)
+    std::vector<std::string> get_solution_path()
     {
-        size_t step_idx = static_cast<size_t>(total_steps - 1 - i);
-        size_t board_idx = static_cast<size_t>(path.get(static_cast<size_t>(i)));
-        print_state(boards[board_idx], step_idx, total_steps);
+        std::vector<std::string> path;
+            
+        if (states.empty() || states.back() != goal_state)
+        {
+            return path;
+        }
+            
+        // Восстанавливаем путь от конечного состояния к начальному
+        std::vector<int> indices;
+        size_t current = states.size() - 1;
+            
+        while (current != -1) 
+        {
+            indices.push_back((int)current);
+            current = parents.get(current);
+        }
+            
+        // Переворачиваем путь (от начального к конечному)
+        for (int i = (int)indices.size() - 1; i >= 0; i--)
+        {
+            path.push_back(states[indices[i]]);
+        }
+            
+        return path;
+    }
+};
+
+
+int main(int argc, char** argv)
+{
+    if (argc < 2)
+    {
+        return 1;
     }
 
+    std::ifstream in(argv[1]);
+    if (!in)
+    {
+        return 1;
+    }
+
+    std::string start_state;
+    if (!(in >> start_state) || start_state.size() != 9)
+    {
+        return 1;
+    }
+    
+    if (start_state.length() != 9) 
+    {
+        return 1;
+    }
+    
+    // Проверка, что строка содержит только цифры 0-8 и все цифры разные
+    std::string sorted = start_state;
+    std::sort(sorted.begin(), sorted.end());
+    if (sorted != "012345678")
+    {
+        return 1;
+    }
+    
+    PuzzleSolver solver;
+    
+    if (solver.solve(start_state))
+    {
+        solver.print_solution_path();
+    }
+    
     return 0;
 }
