@@ -36,9 +36,9 @@ public:
     void resize(size_t size);
 
 private:
+    Data* _data;
     size_t _size;
     size_t _capacity;
-    Data* _data;
 
     void copy_from(const Data* data, size_t size, size_t capacity);
 };
