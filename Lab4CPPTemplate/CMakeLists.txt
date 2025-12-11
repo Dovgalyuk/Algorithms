@@ -4,5 +4,6 @@ target_include_directories(Lab4CPP PUBLIC ../LibraryCPPTemplate)
 add_test(NAME TestLab4CPP COMMAND $<TARGET_FILE:Lab4CPP> ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 set_property(TEST TestLab4CPP PROPERTY PASS_REGULAR_EXPRESSION ".*A B 1.*B C 2.*C D 3.*")
 
-
+add_test(NAME TestLab4CPP2 COMMAND $<TARGET_FILE:Lab4CPP> ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
+set_property(TEST TestLab4CPP2 PROPERTY PASS_REGULAR_EXPRESSION "A B 4")
 

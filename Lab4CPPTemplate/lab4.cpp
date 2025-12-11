@@ -9,18 +9,21 @@
 
 using namespace std;
 
+// Structure to store edge info for Kruskal's algorithm
 struct EdgeKruskal {
-    size_t from;
-    size_t to;
-    int weight;
+    size_t from;    // start vertex id
+    size_t to;      // end vertex id
+    int weight;     // edge weight
 
     EdgeKruskal(size_t f, size_t t, int w) : from(f), to(t), weight(w) {}
 
+    // For sorting edges by weight
     bool operator<(const EdgeKruskal& other) const {
         return weight < other.weight;
     }
 };
 
+// Disjoint set (union-find) data structure for Kruskal
 class DisjointSet {
 private:
     vector<size_t> parent;
@@ -35,6 +38,7 @@ public:
         }
     }
 
+    // Find root of set containing x with path compression
     size_t find(size_t x) {
         if (parent[x] != x) {
             parent[x] = find(parent[x]);
@@ -42,14 +46,16 @@ public:
         return parent[x];
     }
 
+    // Unite two sets, return true if merged
     bool unite(size_t x, size_t y) {
         size_t px = find(x);
         size_t py = find(y);
 
         if (px == py) {
-            return false;
+            return false; // already in same set
         }
 
+        // Union by rank
         if (rank[px] < rank[py]) {
             parent[px] = py;
         }
@@ -63,46 +69,50 @@ public:
     }
 };
 
+// Get all edges of the graph as vector of EdgeKruskal
 vector<EdgeKruskal> getAllEdges(const DirGraph<string, int>& graph) {
     vector<EdgeKruskal> edges;
-    for (size_t i = 0; i < graph.getVertexCount(); ++i) {
+    size_t n = graph.getVertexCount();
+
+    // Iterate over all vertices
+    for (size_t i = 0; i < n; ++i) {
+        // Iterate over all neighbors of vertex i
         for (auto it = graph.neighborsBegin(i); it != graph.neighborsEnd(i); ++it) {
             size_t j = *it;
-            if (i < j) { 
-                int weight = graph.getEdgeMark(i, j);
-                edges.emplace_back(i, j, weight);
-            }
+            int weight = graph.getEdgeMark(i, j);
+            edges.emplace_back(i, j, weight);
         }
     }
     return edges;
 }
 
-
+// Compute MST with Kruskal algorithm on given graph
 vector<EdgeKruskal> kruskalMST(DirGraph<string, int>& graph) {
     size_t n = graph.getVertexCount();
     if (n < 2) return {};
 
+    // Get all edges and sort by weight ascending (stonks)
     vector<EdgeKruskal> edges = getAllEdges(graph);
     sort(edges.begin(), edges.end());
 
     DisjointSet dsu(n);
     vector<EdgeKruskal> mst;
 
+    // Iterate edges, add to MST if they connect two different sets
     for (const auto& edge : edges) {
         if (dsu.unite(edge.from, edge.to)) {
             mst.push_back(edge);
             if (mst.size() == n - 1) {
-                break;
+                break; // MST complete
             }
         }
     }
-
     return mst;
 }
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        return 1;
+        return 1; 
     }
 
     ifstream file(argv[1]);
@@ -111,11 +121,10 @@ int main(int argc, char* argv[]) {
     }
 
     DirGraph<string, int> graph;
-    map<string, size_t> vertexMap;
+    map<string, size_t> vertexMap; // Map vertex name to id
     string line;
 
-    getline(file, line);
-
+    // Read each line: "vertex1 vertex2 weight"
     while (getline(file, line)) {
         if (line.empty()) continue;
 
@@ -124,26 +133,27 @@ int main(int argc, char* argv[]) {
         int weight;
 
         if (iss >> v1 >> v2 >> weight) {
-
+            // Add vertex if not exists
             if (vertexMap.find(v1) == vertexMap.end()) {
                 vertexMap[v1] = graph.addVertex(v1);
             }
-
             if (vertexMap.find(v2) == vertexMap.end()) {
                 vertexMap[v2] = graph.addVertex(v2);
             }
 
             size_t fromId = vertexMap[v1];
             size_t toId = vertexMap[v2];
+            // Add edge in both directions to simulate undirected graph!!!
             graph.addEdge(fromId, toId, weight);
             graph.addEdge(toId, fromId, weight);
         }
     }
-
     file.close();
 
+    // Find minimal spanning tree edges with Kruskal
     vector<EdgeKruskal> mst = kruskalMST(graph);
 
+    // Output MST edges with vertex names and weights
     for (const auto& e : mst) {
         cout << graph.getVertexMark(e.from) << " "
             << graph.getVertexMark(e.to) << " "
@@ -152,4 +162,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-

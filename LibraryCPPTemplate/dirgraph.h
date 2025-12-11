@@ -46,20 +46,27 @@ public:
     void removeVertex(VertexId v) {
         checkVertex(v);
 
-        adjacencyLists[v] = List<Edge>();
-
         for (size_t i = 0; i < adjacencyLists.size(); ++i) {
             removeEdge(i, v);
         }
 
-        // Shift all elements after v in vertexMarks
-        for (size_t i = v; i + 1 < vertexMarks.size(); ++i) {
-            vertexMarks.set(i, vertexMarks.get(i + 1));
+        size_t last = vertexMarks.size() - 1;
+        if (v < last) {
+            vertexMarks.set(v, vertexMarks.get(last));
+            adjacencyLists[v] = std::move(adjacencyLists[last]);
         }
-        vertexMarks.resize(vertexMarks.size() - 1);
+        vertexMarks.resize(last);
+        adjacencyLists.pop_back();
 
-        // Remove from adjacencyLists
-        adjacencyLists.erase(adjacencyLists.begin() + v);
+        for (size_t i = 0; i < adjacencyLists.size(); ++i) {
+            auto* it = adjacencyLists[i].first();
+            while (it != nullptr) {
+                if (it->data().to > v) {
+                    it->data().to--;
+                }
+                it = it->next();
+            }
+        }
     }
 
     // Add edge between two vertices

@@ -10,7 +10,8 @@ public:
         const Item* next() const { return nxt; }
         Item* prev() { return prv; }
         const Item* prev() const { return prv; }
-        Data data() const { return dt; }
+        Data& data() { return dt; }             
+        const Data& data() const { return dt; }
     private:
         friend class List<Data>;
         Item* nxt = nullptr;
