@@ -138,6 +138,14 @@ public:
         return;
     }
 
+    void push_back(const Data& value)
+    {
+        size_t newsize = size() + 1;
+        resize(newsize);
+        set(newsize - 1, value);
+    }
+
+
 private:
     // private data should be here
     Data* adata;

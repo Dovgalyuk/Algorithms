@@ -17,39 +17,14 @@ private:
     bool validvertid(size_t v) const {
         return v < countvert();
     }
-    // Changing the size of the adjacency matrix
-    void resizematrix(size_t new_size) {
-        // Сохраняем старый размер
-        size_t old_size = admatrix.size();
-        admatrix.resize(new_size);
-        for (size_t i = 0; i < new_size; ++i) {
-            if (i < old_size) {
-                admatrix[i].resize(new_size);
-                for (size_t j = old_size; j < new_size; ++j) {
-                    admatrix[i][j] = EdgeLabel{};
-                }
-            }
-            else {
-                admatrix[i] = Vector<EdgeLabel>(new_size, EdgeLabel{});
-            }
-        }
-    }
 public:
     Digraph() = default;
 
-    explicit Digraph(size_t pcountvert) {
-        if (pcountvert > 0) {
-            admatrix = Vector<Vector<EdgeLabel>>(pcountvert);
-            for (size_t i = 0; i < pcountvert; ++i) {
-                admatrix[i] = Vector<EdgeLabel>(pcountvert, EdgeLabel{});
-            }
-            vertlabels = Vector<VertexLabel>(pcountvert);
-        }
+    explicit Digraph(size_t pcountvert) : admatrix(pcountvert, Vector<EdgeLabel>(pcountvert, EdgeLabel{}))
+        , vertlabels(pcountvert) {
     }
 
-    Digraph(const Digraph& other)
-        : admatrix(other.admatrix),
-        vertlabels(other.vertlabels) {
+    Digraph(const Digraph& other) : admatrix(other.admatrix), vertlabels(other.vertlabels) {
     }
 
     Digraph& operator=(const Digraph& other) {
@@ -59,14 +34,19 @@ public:
         }
         return *this;
     }
+
     // Add a vertex
     size_t addvertex() {
-        size_t new_vertex_count = countvert() + 1;
-        resizematrix(new_vertex_count);
-        vertlabels.resize(new_vertex_count);
-        vertlabels.set(new_vertex_count - 1, VertexLabel{});
-        return new_vertex_count - 1;
+        size_t old_size = countvert();
+        for (size_t i = 0; i < old_size; ++i) {
+            admatrix[i].push_back(EdgeLabel{});
+        }
+        Vector<EdgeLabel> admatrixnewline(old_size + 1, EdgeLabel{});
+        admatrix.push_back(admatrixnewline);
+        vertlabels.push_back(VertexLabel{});
+        return old_size;
     }
+
     // Set a label for a vertex
     bool setvertlabel(size_t v, const VertexLabel& label) {
         if (!validvertid(v)) {
@@ -124,6 +104,18 @@ public:
             return VertexLabel{};
         }
         return vertlabels[v];
+    }
+
+    int getvertexlabelid(const VertexLabel& v) const {
+        int res = -1;
+        size_t vertlablessize = vertlabels.size();
+        for (size_t i = 0; i < vertlablessize; i++) {
+            if (v == getvertexlabel(i)) {
+                res = (int)i;
+                break;
+            }
+        }
+        return res;
     }
 
     // Delete an edge

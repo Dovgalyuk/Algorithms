@@ -68,6 +68,39 @@ MyGraph primMSTGraph(const MyGraph& primgraph) {
     return mstGraph;
 }
 
+MyGraph readgraphfromfile(string prargv) {
+    ifstream in(prargv);
+    if (!in.is_open()) {
+        MyGraph prprimgraph;
+        return prprimgraph;
+    }
+    else {
+        size_t asize1 = 0;
+        in >> asize1;
+        MyGraph prprimgraph(asize1);
+        for (size_t i = 0; i < asize1; i++) {
+            string vertlabe;
+            in >> vertlabe;
+            prprimgraph.setvertlabel(i, vertlabe);
+        }
+        size_t edgesize = 0;
+        in >> edgesize;
+        for (size_t i = 0; i < edgesize; i++) {
+            string vertexfrom;
+            string vertexto;
+            int weight;
+            in >> vertexfrom >> vertexto >> weight;
+            int vertexfromid = prprimgraph.getvertexlabelid(vertexfrom);
+            int vertextoid = prprimgraph.getvertexlabelid(vertexto);
+            if (vertexfromid >= 0 && vertextoid >= 0) {
+                prprimgraph.addedge((size_t)vertexfromid, (size_t)vertextoid, weight);
+                prprimgraph.addedge((size_t)vertextoid, (size_t)vertexfromid, weight);
+            }
+        }
+        in.close();
+        return prprimgraph;
+    }
+}
 
 int main(int argc, char* argv[])
 {
@@ -75,73 +108,47 @@ int main(int argc, char* argv[])
         cerr << "Usage: " << argv[0] << " <input_filename> <output_filename>" << endl;
         return 1;
     }
-    size_t asize1 = 0;
-    ifstream in(argv[1]);
-    if (in.is_open()) {
-        in >> asize1;
-        if (asize1 > 0) {
-            MyGraph primgraph(asize1);
-
-
-            for (size_t i = 0; i < asize1; i++) {
-                string vertlabe;
-                in >> vertlabe;
-                primgraph.setvertlabel(i, vertlabe);
+    MyGraph primgraph = readgraphfromfile(argv[1]);
+    primgraph.printadmatrix();
+    int originalTotalWeight = 0;
+    for (size_t i = 0; i < primgraph.countvert(); ++i) {
+        for (auto it = primgraph.nbegin(i); it != primgraph.nend(i); ++it) {
+            if (i < it.neighborid()) {
+                originalTotalWeight += it.edgelabel();
             }
-            for (size_t i = 0; i < asize1; i++) {
-                for (size_t j = 0; j < asize1; j++) {
-                    int weight;
-                    in >> weight;
-                    if (weight != 0) {
-                        primgraph.addedge(i, j, weight);
-                        primgraph.addedge(j, i, weight);
-                    }
-                }
-            }
-            primgraph.printadmatrix();
-            int originalTotalWeight = 0;
-            for (size_t i = 0; i < primgraph.countvert(); ++i) {
-                for (auto it = primgraph.nbegin(i); it != primgraph.nend(i); ++it) {
-                    if (i < it.neighborid()) {
-                        originalTotalWeight += it.edgelabel();
-                    }
-                }
-            }
-            std::cout << "Original graph total weight: " << originalTotalWeight << endl;
-
-            MyGraph mstGraph = primMSTGraph(primgraph);
-            std::cout << "MST Graph adjacency matrix:" << endl;
-            mstGraph.printadmatrix();
-            int mstTotalWeight = 0;
-            for (size_t i = 0; i < mstGraph.countvert(); ++i) {
-                for (auto it = mstGraph.nbegin(i); it != mstGraph.nend(i); ++it) {
-                    if (i < it.neighborid()) {
-                        mstTotalWeight += it.edgelabel();
-                    }
-                }
-            }
-            std::cout << "MST total weight: " << mstTotalWeight << endl;
-            ofstream out(argv[2]);
-
-            if (!out.is_open()) {
-                cerr << "Error: Cannot open output file " << argv[2] << endl;
-                return 1;
-            }
-            out << mstGraph.countvert() << endl;
-            Vector<string> vlabels = mstGraph.getallvertexlabels();
-            for (size_t i = 0; i < mstGraph.countvert(); i++) {
-                out << vlabels[i] << endl;
-            }
-            for (size_t i = 0; i < mstGraph.countvert(); i++) {
-                for (size_t j = 0; j < mstGraph.countvert(); j++) {
-                    out << mstGraph.getedgelabel(i, j) << " ";
-                }
-                out << endl;
-            }
-            out.close();
         }
-        in.close();
-
     }
+    std::cout << "Original graph total weight: " << originalTotalWeight << endl;
+
+    MyGraph mstGraph = primMSTGraph(primgraph);
+    std::cout << "MST Graph adjacency matrix:" << endl;
+    mstGraph.printadmatrix();
+    int mstTotalWeight = 0;
+    for (size_t i = 0; i < mstGraph.countvert(); ++i) {
+        for (auto it = mstGraph.nbegin(i); it != mstGraph.nend(i); ++it) {
+            if (i < it.neighborid()) {
+                mstTotalWeight += it.edgelabel();
+            }
+        }
+    }
+    std::cout << "MST total weight: " << mstTotalWeight << endl;
+    ofstream out(argv[2]);
+
+    if (!out.is_open()) {
+        cerr << "Error: Cannot open output file " << argv[2] << endl;
+        return 1;
+    }
+    out << mstGraph.countvert() << endl;
+    Vector<string> vlabels = mstGraph.getallvertexlabels();
+    for (size_t i = 0; i < mstGraph.countvert(); i++) {
+        out << vlabels[i] << endl;
+    }
+    for (size_t i = 0; i < mstGraph.countvert(); i++) {
+        for (size_t j = 0; j < mstGraph.countvert(); j++) {
+            out << mstGraph.getedgelabel(i, j) << " ";
+        }
+        out << endl;
+    }
+    out.close();
     return 0;
 }

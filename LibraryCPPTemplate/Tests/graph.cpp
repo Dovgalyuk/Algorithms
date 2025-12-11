@@ -8,7 +8,6 @@ typedef Digraph<std::string, int> MyGraph;
 
 int main()
 {
-
     MyGraph digraph(6);
 
     if (digraph.countvert() != 6)
@@ -42,13 +41,19 @@ int main()
         std::cout << "Invalid edge\n";
         return 1;
     }
+    digraph.printadmatrix();
     for (auto it = digraph.nbegin(4); it != digraph.nend(4); ++it) {
         int weight = it.edgelabel();
+        size_t cneighbor = it.neighborid();
         if (weight == 0) {
             std::cout << "Invalid iterator\n";
+            return 1;
+        }
+        if (cneighbor != 3 && cneighbor != 5) {
+            std::cout << "Invalid neighbor\n";
+            return 1;
         }
     }
-    digraph.printadmatrix();
 
     MyGraph copydigraph = digraph;
     size_t newvertex = copydigraph.addvertex();
