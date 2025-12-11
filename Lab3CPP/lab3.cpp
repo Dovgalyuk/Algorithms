@@ -81,7 +81,7 @@ public:
             
             for (const auto& state : path) 
             {
-                for (int i = 0; i < state.size(); i++)
+                for (size_t i = 0; i < state.size(); i++)
                 {
                     if (i == 0 || i == 3 || i == 6)
                     {
@@ -100,7 +100,7 @@ public:
                 std::cout << " -----\n";
             }
         }
-        
+
 private:
     const std::string goal_state = "123456780";
     
@@ -158,7 +158,7 @@ private:
             
         // Восстанавливаем путь от конечного состояния к начальному
         std::vector<int> indices;
-        size_t current = states.size() - 1;
+        int current = (int)states.size() - 1;
             
         while (current != -1) 
         {
