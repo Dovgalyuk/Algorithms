@@ -20,3 +20,27 @@ set_tests_properties(TestLab3CPP_3 PROPERTIES  PASS_REGULAR_EXPRESSION "######
 ######" _BACKTRACE_TRIPLES "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;16;add_test;C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;0;")
 add_test(TestLab3CPP_4 "C:/Users/Vanek/source/repos/Algorithms3/out/build/x64-Debug/Lab3CPP/Lab3CPP.exe" "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/test4_input.txt")
 set_tests_properties(TestLab3CPP_4 PROPERTIES  PASS_REGULAR_EXPRESSION "IMPOSSIBLE" _BACKTRACE_TRIPLES "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;24;add_test;C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;0;")
+add_test(TestLab3CPP_5 "C:/Users/Vanek/source/repos/Algorithms3/out/build/x64-Debug/Lab3CPP/Lab3CPP.exe" "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/test5_input.txt")
+set_tests_properties(TestLab3CPP_5 PROPERTIES  PASS_REGULAR_EXPRESSION "######
+#..xX#
+#.#x##
+#..xY#
+######" _BACKTRACE_TRIPLES "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;27;add_test;C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;0;")
+add_test(TestLab3CPP_6 "C:/Users/Vanek/source/repos/Algorithms3/out/build/x64-Debug/Lab3CPP/Lab3CPP.exe" "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/test6_input.txt")
+set_tests_properties(TestLab3CPP_6 PROPERTIES  PASS_REGULAR_EXPRESSION "######
+#...X#
+#.##x#
+#Yxxx#
+######" _BACKTRACE_TRIPLES "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;35;add_test;C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;0;")
+add_test(TestLab3CPP_7 "C:/Users/Vanek/source/repos/Algorithms3/out/build/x64-Debug/Lab3CPP/Lab3CPP.exe" "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/test7_input.txt")
+set_tests_properties(TestLab3CPP_7 PROPERTIES  PASS_REGULAR_EXPRESSION "######
+#X...#
+#x##.#
+#Y...#
+######" _BACKTRACE_TRIPLES "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;44;add_test;C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;0;")
+add_test(TestLab3CPP_8 "C:/Users/Vanek/source/repos/Algorithms3/out/build/x64-Debug/Lab3CPP/Lab3CPP.exe" "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/test8_input.txt")
+set_tests_properties(TestLab3CPP_8 PROPERTIES  PASS_REGULAR_EXPRESSION "######
+#....#
+#....#
+#YxxX#
+######" _BACKTRACE_TRIPLES "C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;53;add_test;C:/Users/Vanek/source/repos/Algorithms3/Lab3CPP/CMakeLists.txt;0;")

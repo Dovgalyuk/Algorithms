@@ -6,19 +6,26 @@
 
 using namespace std;
 
+
+
 struct Point {
-    int x, y;
+    int x;
+    int y;
     Point(int x = 0, int y = 0) : x(x), y(y) {}
 };
 
 
-void bfs(vector<string>& maze, Point start, Point end) {
+typedef vector<string> Maze;
+typedef vector<vector<Point>> Parents;
+
+
+void bfs(Maze& maze, Point start, Point end) {
 
     int rows = static_cast<int>(maze.size());
     if (rows == 0) return;
     int cols = static_cast<int>(maze[0].size());
 
-    vector<vector<Point>> parent(rows, vector<Point>(cols, Point(-1, -1)));
+    Parents parent(rows, vector<Point>(cols, Point(-1, -1)));
 
     Queue* queue = queue_create();
 
@@ -97,7 +104,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    vector<string> maze;
+    Maze maze;
     string line;
 
     while (getline(input, line)) {
