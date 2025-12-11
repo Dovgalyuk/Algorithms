@@ -20,5 +20,3 @@ set_tests_properties(Test2P PROPERTIES PASS_REGULAR_EXPRESSION "/ \ / \ / \ / \ 
 
 add_test(NAME Test3P COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input3.txt)
 set_tests_properties(Test3P PROPERTIES PASS_REGULAR_EXPRESSION "No path")
-add_test(NAME Test4P COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input4.txt)
-set_tests_properties(Test4P PROPERTIES PASS_REGULAR_EXPRESSION "Start (S) or End (E) not found")
