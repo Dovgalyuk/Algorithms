@@ -40,7 +40,7 @@ private:
     size_t _capacity;
     Data* _data;
 
-    void copy_from(size_t size, size_t capacity, const Data* data);
+    void copy_from(const Data* data, size_t size, size_t capacity);
 };
 
 #endif

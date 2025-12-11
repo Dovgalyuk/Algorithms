@@ -6,7 +6,7 @@ Vector::Vector(const Vector &a) : _data(nullptr), _size(0), _capacity(0)
 {
     if(a._capacity > 0)
     {
-        copy_from(a._size, a._capacity, a._data);
+        copy_from(a._data, a._size, a._capacity);
     }
 }
 
@@ -21,7 +21,7 @@ Vector &Vector::operator=(const Vector &a)
         
         if(a._capacity > 0)
         {
-            copy_from(a._size, a._capacity, a._data);
+            copy_from(a._data, a._size, a._capacity);
         }
     }
     return *this;
@@ -35,7 +35,7 @@ Vector::~Vector()
 Data Vector::get(size_t index) const
 {
     if (index <_size) return _data[index];
-    else return Data();
+    else return 0;
 }
 
 void Vector::set(size_t index, Data value)
@@ -80,14 +80,14 @@ void Vector::resize(size_t size)
     {
         for (size_t i = _size; i < size; ++i)
         {
-            _data[i] = Data();
+            _data[i] = 0;
         }
     }
 
     _size = size;
 }
 
-void Vector::copy_from(size_t size, size_t capacity, const Data* data)
+void Vector::copy_from(const Data* data, size_t size, size_t capacity)
 {
     _data = new Data[capacity];
     _capacity = capacity;
