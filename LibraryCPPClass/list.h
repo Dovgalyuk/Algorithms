@@ -12,12 +12,21 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item(Data data, Item* next = nullptr, Item* prev = nullptr): data_(data), prev_(prev), next_(next) {}
+
+        Item *next() { return next_; }
+        Item *prev() { return prev_; }
+        Data data() const { return data_; }
+
+        void setNextPtr(Item *next);
+        void setPrevPtr(Item *prev);
+
     private:
         // internal data here
-    };
+        Data data_;
+        Item *prev_;
+        Item *next_;
+   };
 
     // Creates new list
     List();
@@ -45,13 +54,25 @@ public:
     // Returns pointer to the item next to the deleted one.
     Item *erase_first();
 
+    // Returns true if the list is empty
+    bool list_empty() const;
+
     // Deletes the list item following the specified one.
     // Deletes the first element when item is null.
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
     Item *erase_next(Item *item);
+
+    // Returns the element from the end
+    Item *get_end_item() const;
+
+    Data data_head() const;
+
 private:
     // private data should be here
+    Item* head_; 
+    Item* tail_;
+    size_t size_; 
 };
 
 #endif

@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include <cstddef>
+#include "list.h"
 
 // Change it to desired type
 typedef int Data;
@@ -32,11 +33,16 @@ public:
     // Should be O(1) on average
     void remove();
 
+    // Retrieves first element from the queue and removes her
+    // Also O(1) on average
+    Data take();
+
     // Returns true if the queue is empty
     bool empty() const;
 
 private:
     // private data should be here
+    List list;
 };
 
 #endif

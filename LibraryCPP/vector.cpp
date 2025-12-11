@@ -11,7 +11,7 @@ struct Vector
 Vector *vector_create()
 {
     Vector *vector = new Vector;
-    vector->arr = nullptr;
+    vector->arr = NULL;
     vector->size = 0;
     vector->capacity = 0;
     return vector;
