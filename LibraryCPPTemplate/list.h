@@ -85,7 +85,7 @@ public:
     }
 
     // Retrieves the first item from the list
-    Item *first()
+    Item *first() const
     {
         return mHead;
     }
