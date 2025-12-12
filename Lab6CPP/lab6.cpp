@@ -12,100 +12,120 @@ using namespace std;
 
 struct Node 
 {
-    int left;
-    int right;
+    Node* left;
+    Node* right;
     char op;
     long long val;
     bool is_leaf;
+
+    Node(long long v) : left(nullptr), right(nullptr), op('\0'), val(v), is_leaf(true){}
+    Node(Node* l, Node* r, char o, long long v) : left(l), right(r), op(o), val(v), is_leaf(false){}
 };
 
-vector<Node> pool;
+vector<Node*> del; 
 
-struct MinMax 
+void clean() 
 {
-    long long mn;
-    int mn_id;
-    long long mx;
-    int mx_id;
-};
+    for (Node* node : del) 
+    {
+        delete node;
+    }
+    del.clear();
+}
 
 typedef pair<long long, string> RSol;
 typedef RSol (*SolveF)();
-typedef map<pair<int,int>, MinMax> DP;
 typedef pair<RSol, long long> TRSol;
 
 vector<int> nums;
 vector<char> ops;
 
-int make_node(int L, int R, char op, long long val) 
+Node* make_num(int x) 
 {
-    pool.push_back({L, R, op, val, false});
-    return pool.size() - 1;
+    Node* node = new Node(x);
+    del.push_back(node);
+    return node;
 }
 
-int make_num(int x) 
+Node* make_node(Node* L, Node* R, char op, long long val) 
 {
-    pool.push_back({-1, -1, '\0', x, true});
-    return (int)pool.size() - 1;
+    Node* node = new Node(L, R, op, val);
+    del.push_back(node);
+    return node;
 }
 
-string str(int id) 
+string str(Node* node) 
 {
-    const Node &n = pool[id];
-    if(n.is_leaf) return to_string(n.val);
-    return "(" + str(n.left) + n.op + str(n.right) + ")";
+    if (!node) return "";
+    if (node->is_leaf) return to_string(node->val);
+    return "(" + str(node->left) + node->op + str(node->right) + ")";
 }
+
+struct MinMax 
+{
+    long long mn;
+    Node* mn_node;
+    long long mx;
+    Node* mx_node;
+};
 
 void app_op(const MinMax& L, const MinMax& R, char op, MinMax& res)
 {
-    auto upd = [&](long long val, int id)
+    auto upd = [&](long long val, Node* node)
     {
-        if(val < res.mn) { res.mn = val; res.mn_id = id; }
-        if(val > res.mx) { res.mx = val; res.mx_id = id; }
+        if (val < res.mn) 
+        { 
+            res.mn = val; 
+            res.mn_node = node; 
+        }
+        if (val > res.mx) 
+        { 
+            res.mx = val; 
+            res.mx_node = node; 
+        }
     };
 
     switch (op) 
     {
-            case '+': 
-            {
-                long long v1 = L.mn + R.mn;
-                upd(v1, make_node(L.mn_id, R.mn_id, '+', v1));
-                long long v2 = L.mx + R.mx;
-                upd(v2, make_node(L.mx_id, R.mx_id, '+', v2));
-                break;
-            }
-            case '-': 
-            {
-                long long v1 = L.mn - R.mx;
-                upd(v1, make_node(L.mn_id, R.mx_id, '-', v1));
-                long long v2 = L.mx - R.mn;
-                upd(v2, make_node(L.mx_id, R.mn_id, '-', v2));
-                break;
-            }
-            case '*': 
-            {
-                long long v1 = L.mn * R.mn;
-                upd(v1, make_node(L.mn_id, R.mn_id, '*', v1));
-                long long v2 = L.mn * R.mx;
-                upd(v2, make_node(L.mn_id, R.mx_id, '*', v2));
-                long long v3 = L.mx * R.mn;
-                upd(v3, make_node(L.mx_id, R.mn_id, '*', v3));
-                long long v4 = L.mx * R.mx;
-                upd(v4, make_node(L.mx_id, R.mx_id, '*', v4));
-                break;
-            }
+        case '+': 
+        {
+            long long v1 = L.mn + R.mn;
+            upd(v1, make_node(L.mn_node, R.mn_node, '+', v1));
+            
+            long long v2 = L.mx + R.mx;
+            upd(v2, make_node(L.mx_node, R.mx_node, '+', v2));
+            break;
         }
+        case '-': 
+        {
+            long long v1 = L.mn - R.mx;
+            upd(v1, make_node(L.mn_node, R.mx_node, '-', v1));
+            
+            long long v2 = L.mx - R.mn;
+            upd(v2, make_node(L.mx_node, R.mn_node, '-', v2));
+            break;
+        }
+        case '*': 
+        {
+            long long v1 = L.mn * R.mn;
+            upd(v1, make_node(L.mn_node, R.mn_node, '*', v1));
+        
+            long long v2 = L.mx * R.mx;
+            upd(v2, make_node(L.mx_node, R.mx_node, '*', v2));
+            break;
+        }
+    }
 }
 
 MinMax solve(int l, int r) 
 {
     if (l == r) 
     {
-        int id = make_num(nums[l]);
-        return {nums[l], id, nums[l], id};
+        Node* node = make_num(nums[l]);
+        return {nums[l], node, nums[l], node};
     }
 
-    MinMax res{LLONG_MAX, -1, LLONG_MIN, -1};
+    MinMax res{LLONG_MAX, nullptr, LLONG_MIN, nullptr};
 
     for (int k = l; k < r; k++) 
     {
@@ -118,6 +138,7 @@ MinMax solve(int l, int r)
     return res;
 }
 
+typedef map<pair<int, int>, MinMax> DP;
 DP mem;
 
 MinMax solDP(int l, int r) 
@@ -127,11 +148,11 @@ MinMax solDP(int l, int r)
 
     if (l == r) 
     {
-        int id = make_num(nums[l]);
-        return {nums[l], id, nums[l], id};
+        Node* node = make_num(nums[l]);
+        return {nums[l], node, nums[l], node};
     }
 
-    MinMax res{LLONG_MAX, -1, LLONG_MIN, -1};
+    MinMax res{LLONG_MAX, nullptr, LLONG_MIN, nullptr};
 
     for (int k = l; k < r; k++) 
     {
@@ -173,18 +194,17 @@ void parse_expr(const string& s)
 
 RSol run_solve_rec() 
 {
-    pool.clear();
+    mem.clear();  
     MinMax r = solve(0, nums.size()-1);
-    string expr = str(r.mx_id);
+    string expr = str(r.mx_node);
     return { r.mx, clean_expr(expr) };
 }
 
 RSol run_dp() 
 {
-    pool.clear();
     mem.clear();
     MinMax r = solDP(0, nums.size() - 1);
-    return { r.mx, clean_expr(str(r.mx_id)) };
+    return { r.mx, clean_expr(str(r.mx_node)) };
 }
 
 TRSol meas_time(SolveF func)
@@ -212,7 +232,7 @@ int time_to_y(long long t, long long max_time, int HEIGHT)
 void plot_series(const vector<long long>& sizes, const vector<long long>& times, char symbol,
                  vector<vector<char>>& field, long long minSize, long long maxSize,
                  long long max_time, int WIDTH, int HEIGHT) 
-                 {
+{
     if (sizes.empty()) return;
 
     for (size_t i = 0; i < sizes.size(); i++) {
@@ -237,7 +257,7 @@ void plot_series(const vector<long long>& sizes, const vector<long long>& times,
                 int yi = time_to_y(ti, max_time, HEIGHT);
                 if (xi >= 0 && xi < WIDTH && yi >= 0 && yi < HEIGHT) {
                     if (field[yi][xi] == ' ') field[yi][xi] = symbol;
-                    else if (field[yi][xi] != symbol && field[yi][xi] != 'X') field[yi][xi] = 'X';
+                    else if (field[yi][xi] != symbol && field[y][xi] != 'X') field[yi][xi] = 'X';
                 }
             }
         }
@@ -246,7 +266,7 @@ void plot_series(const vector<long long>& sizes, const vector<long long>& times,
 
 void print_graph(const vector<int>& sizes, const vector<long long>& times_sol,
                  const vector<long long>& times_dp) 
-                 {
+{
     const int WIDTH = 80;
     const int HEIGHT = 25;
 
@@ -264,6 +284,7 @@ void print_graph(const vector<int>& sizes, const vector<long long>& times_sol,
 
     plot_series(vector<long long>(sizes.begin(), sizes.end()), times_sol, '*',
                 field, minSize, maxSize, max_time, WIDTH, HEIGHT);
+                
     plot_series(vector<long long>(sizes.begin(), sizes.end()), times_dp, '+',
                 field, minSize, maxSize, max_time, WIDTH, HEIGHT);
 
@@ -335,8 +356,13 @@ int main(int argc, char** argv)
 
         cout << "Expr: " << e << "\n";
         cout << " Sol: " << res1.first << " = " << res1.second << " time = " << t1 << " us\n";
-        cout << " SolDP: " << res2.first << " = " << res2.second << " time = " << t2 << " us\n";
-        cout << "\n";
+        cout << " SolDP: " << res2.first << " = " << res2.second << " time = " << t2 << " us\n\n";
+
+        mem.clear(); 
     }
+
+    clean();
+    
     print_graph(sizes, times_sol, times_dp);
+    return 0;
 }
