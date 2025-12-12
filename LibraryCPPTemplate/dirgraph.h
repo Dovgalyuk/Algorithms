@@ -1,5 +1,5 @@
-#ifndef DIRGRAPH_WITH_LIST_H
-#define DIRGRAPH_WITH_LIST_H
+#ifndef DIRGRAPH_TEMPLATE_H
+#define DIRGRAPH_TEMPLATE_H
 
 #include "vector.h"
 #include "list.h"
@@ -26,6 +26,8 @@ private:
 
 public:
     typedef size_t VertexId;
+    typedef typename List<Edge>::Item ListItem;   
+    typedef const typename List<Edge>::Item ConstListItem; 
 
     // Constructor. Creates graph with specified number of vertices
     DirGraph(size_t vertexCount = 0) {
@@ -59,7 +61,7 @@ public:
         adjacencyLists.pop_back();
 
         for (size_t i = 0; i < adjacencyLists.size(); ++i) {
-            auto* it = adjacencyLists[i].first();
+            ListItem* it = adjacencyLists[i].first();
             while (it != nullptr) {
                 if (it->data().to > v) {
                     it->data().to--;
@@ -74,7 +76,7 @@ public:
         checkVertex(from);
         checkVertex(to);
 
-        typename List<Edge>::Item* current = adjacencyLists[from].first();
+        ConstListItem* current = adjacencyLists[from].first();
         while (current != nullptr) {
             if (current->data().to == to) {
                 return false; // edge already exists
@@ -93,8 +95,8 @@ public:
         checkVertex(to);
 
         List<Edge>& neighbors = adjacencyLists[from];
-        typename List<Edge>::Item* current = neighbors.first();
-        typename List<Edge>::Item* prevItem = nullptr;
+        ListItem* current = neighbors.first();
+        ListItem* prevItem = nullptr;
 
         while (current != nullptr) {
             if (current->data().to == to) {
@@ -116,7 +118,7 @@ public:
         checkVertex(from);
         checkVertex(to);
 
-        const typename List<Edge>::Item* current = adjacencyLists[from].first();
+        ConstListItem* current = adjacencyLists[from].first();
         while (current != nullptr) {
             if (current->data().to == to) {
                 return true;
@@ -131,7 +133,7 @@ public:
         checkVertex(from);
         checkVertex(to);
 
-        typename List<Edge>::Item* current = adjacencyLists[from].first();
+        ListItem* current = adjacencyLists[from].first();
 
         while (current != nullptr) {
             if (current->data().to == to) {
@@ -148,7 +150,7 @@ public:
         checkVertex(from);
         checkVertex(to);
 
-        const typename List<Edge>::Item* current = adjacencyLists[from].first();
+        ConstListItem* current = adjacencyLists[from].first();
         while (current != nullptr) {
             if (current->data().to == to) {
                 return current->data().label;
@@ -183,10 +185,10 @@ public:
     // Iterator for neighbors of a vertex
     class NeighborIterator {
     private:
-        const typename List<Edge>::Item* current;
+        ConstListItem* current;
 
     public:
-        NeighborIterator(const typename List<Edge>::Item* start) : current(start) {}
+        NeighborIterator(ConstListItem* start) : current(start) {}
 
         bool operator!=(const NeighborIterator& other) const {
             return current != other.current;
