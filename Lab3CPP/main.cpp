@@ -98,7 +98,7 @@ int main(int argc, char** argv)
     }
 
     if (sr == -1 || er == -1) { 
-        cerr << "Start (S) or End (E) not found" << endl;
+        cout << "Start (S) or End (E) not found" << endl;
         return 1;
     }
 
