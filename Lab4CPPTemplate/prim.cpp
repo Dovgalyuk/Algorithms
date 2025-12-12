@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdint>
+#include <map>
 
 #include "graph.h"
 
@@ -79,25 +80,35 @@ int main(int argc, char** argv) {
 
     MyGraph g(n);
 
-    for (size_t i = 0; i < n; i++) {
-        g.setVertexLabel(i, "v" + std::to_string(i));
-    }
+    std::map<std::string, size_t> v_id;
 
     for (size_t i = 0; i < m; i++) {
-        size_t u, v;
+        std::string a, b;
         int w;
-        inputFile >> u >> v >> w;
+        inputFile >> a >> b >> w;
+
+        if (!v_id.count(a)) {
+            v_id[a] = g.addVertex();
+            g.setVertexLabel(v_id[a], a);
+        }
+        if (!v_id.count(b)) {
+            v_id[b] = g.addVertex();
+            g.setVertexLabel(v_id[b], b);
+        }
+
+        size_t u = v_id[a];
+        size_t v = v_id[b];
+
         g.addEdge(u, v, w);
         g.addEdge(v, u, w);
     }
-
     MyGraph mst = primMST(g);
 
     for (size_t i = 0; i < mst.size(); i++) {
         for (auto it = mst.neighbors_begin(i); it != mst.neighbors_end(i); ++it) {
             size_t to = *it;
             if (i < to) {
-                std::cout << i << "-" << to << std::endl;
+                std::cout << mst.getVertexLabel(i) << "-" << mst.getVertexLabel(to) << std::endl;
             }
         }
     }

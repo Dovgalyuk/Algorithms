@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <algorithm>
 #include "graph.h"
 
 int main() {
@@ -31,12 +33,37 @@ int main() {
     g->removeEdge(v0, v1);
     if (g->edgeExists(v0, v1)) { std::cout << "Edge should be removed\n"; return 1; }
 
+    std::vector<std::string> expected = {"C"};
+    std::vector<std::string> found;
+
     std::cout << "Neighbors of vertex B: ";
     for (auto it = g->neighbors_begin(v1); it != g->neighbors_end(v1); ++it) {
         size_t neighbor = *it;
-        std::cout << g->getVertexLabel(neighbor) << " ";
+
+        if (!g->edgeExists(v1, neighbor)) {
+            std::cout << "Iterator returned non-adjacent vertex!\n";
+            return 1;
+        }
+
+        found.push_back(g->getVertexLabel(neighbor));
+
+        int w = g->getEdgeLabel(v1, neighbor);
+        std::cout << "  neighbor: " << g->getVertexLabel(neighbor)
+                << " weight = " << w << "\n";
     }
-    std::cout << std::endl;
+    
+    if (found.size() != expected.size()) {
+        std::cout << "Invalid number of neighbors! Expected "
+                << expected.size() << ", got " << found.size() << "\n";
+        return 1;
+    }
+
+    std::sort(found.begin(), found.end());
+    std::sort(expected.begin(), expected.end());
+    if (found != expected) {
+        std::cout << "Neighbors mismatch!\n";
+        return 1;
+    }
 
     g->removeVertex(v2);
     if (g->size() != 2) { std::cout << "Vertex removal failed\n"; return 1; }

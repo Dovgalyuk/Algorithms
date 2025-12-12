@@ -74,8 +74,6 @@ public:
         size_t old_size = m_v;
         size_t new_size = m_v + 1;
 
-        std::cout << m_adj.size() << std::endl;
-
         m_VertexLabels.resize(new_size);
         m_adj.resize(new_size);
         m_EdgesLabels.resize(new_size);
