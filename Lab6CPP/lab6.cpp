@@ -194,7 +194,6 @@ void parse_expr(const string& s)
 
 RSol run_solve_rec() 
 {
-    mem.clear();  
     MinMax r = solve(0, nums.size()-1);
     string expr = str(r.mx_node);
     return { r.mx, clean_expr(expr) };
