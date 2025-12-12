@@ -7,6 +7,9 @@
 #include "vector.h"
 #include "queue.h"
 
+typedef std::vector<std::pair<std::string, int>> NeighborsList;
+typedef std::unordered_map<std::string, size_t> Map;
+typedef std::vector<std::string> StringVector;
 
 class PuzzleSolver
 {
@@ -53,11 +56,11 @@ public:
                     }
                     
                     // Если состояние еще не посещено
-                    if (state_to_index.find(neighbor) == state_to_index.end()) 
+                    if (!state_to_index.contains(neighbor)) 
                     {
                         size_t new_index = states.size();
                         states.push_back(neighbor);
-                        state_to_index[neighbor] = (int)new_index;
+                        state_to_index[neighbor] = new_index;
                         
                         parents.resize(states.size());
                         parents.set(new_index, current_index);
@@ -81,22 +84,19 @@ public:
             
             for (const auto& state : path) 
             {
-                for (size_t i = 0; i < state.size(); i++)
+                for (int row = 0; row < 3; row++) 
                 {
-                    if (i == 0 || i == 3 || i == 6)
+                    std::cout << "|";
+                    for (int col = 0; col < 3; col++) 
                     {
-                        std::cout <<"|"<< state[i] << "-";
+                        char cell = state[row * 3 + col];
+                        std::cout << cell;
+                        if (col < 2) {
+                            std::cout << "-";
+                        }
                     }
-                    if (i == 2 || i == 5 || i == 8)
-                    {
-                        std::cout << state[i] << "|\n";
-                    }
-                    if (i == 1 || i == 4 || i == 7)
-                    {
-                        std::cout << state[i] << "-";
-                    }
+                    std::cout << "|\n";
                 }
-
                 std::cout << " -----\n";
             }
         }
@@ -104,28 +104,26 @@ public:
 private:
     const std::string goal_state = "123456780";
     
-    std::unordered_map<std::string, int> state_to_index;
-    std::vector<std::string> states;
+    Map state_to_index;
+    StringVector states;
     Vector parents;
     
     int find_zero(const std::string& state) 
     {
-        for (int i = 0; i < 9; i++) {
-            if (state[i] == '0') return i;
-        }
+        size_t pos = state.find('0');
+        if(pos != std::string::npos) return (int)pos;
         return -1;
     }
     
-    std::string swap(const std::string& state, int i, int j)
+    std::string swap(std::string state, int i, int j)
     {
-        std::string new_state = state;
-        std::swap(new_state[i], new_state[j]);
-        return new_state;
+        std::swap(state[i], state[j]); 
+        return state;
     }
     
-    std::vector<std::pair<std::string, int>> get_neighbors(const std::string& state) 
+    NeighborsList get_neighbors(const std::string& state) 
     {
-        std::vector<std::pair<std::string, int>> neighbors;
+        NeighborsList neighbors;
         int zero_pos = find_zero(state);
         int row = zero_pos / 3;
         int col = zero_pos % 3;
@@ -147,9 +145,9 @@ private:
         return neighbors;
     }
 
-    std::vector<std::string> get_solution_path()
+    StringVector get_solution_path()
     {
-        std::vector<std::string> path;
+        StringVector path;
             
         if (states.empty() || states.back() != goal_state)
         {
