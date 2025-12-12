@@ -8,7 +8,8 @@
 
 using namespace std;
 
-template <typename T = string> class Graph {
+template <typename VertexLabel = string, typename EdgeLabel = string>
+class Graph {
 public:
   class NeighborIterator {
     const Graph *graph_;
@@ -31,26 +32,26 @@ public:
       }
     }
 
-    T operator*() const { return graph_->index_to_name_[current_]; }
+    VertexLabel operator*() const { return graph_->index_to_name_[current_]; }
   };
 
 private:
   Vector<Vector<bool>> adjacency_matrix_;
-  Vector<T> vertex_labels_;
-  Vector<Vector<T>> edge_labels_;
-  unordered_map<T, size_t> name_to_index_;
-  Vector<T> index_to_name_;
+  Vector<VertexLabel> vertex_labels_;
+  Vector<Vector<EdgeLabel>> edge_labels_;
+  unordered_map<VertexLabel, size_t> name_to_index_;
+  Vector<VertexLabel> index_to_name_;
   size_t vertex_count_;
 
   void expand(size_t new_size) {
     if (new_size <= vertex_count_)
       return;
     adjacency_matrix_.resize(new_size);
-    vertex_labels_.resize(new_size, T{});
+    vertex_labels_.resize(new_size, VertexLabel{});
     edge_labels_.resize(new_size);
     for (size_t i = 0; i < new_size; i++) {
       adjacency_matrix_[i].resize(new_size, false);
-      edge_labels_[i].resize(new_size, T{});
+      edge_labels_[i].resize(new_size, EdgeLabel{});
     }
     vertex_count_ = new_size;
   }
@@ -58,7 +59,7 @@ private:
 public:
   explicit Graph(size_t n = 0) : vertex_count_(0) { expand(n); }
 
-  void addVertex(const T &name) {
+  void addVertex(const VertexLabel &name) {
     if (name_to_index_.find(name) != name_to_index_.end())
       return;
     name_to_index_[name] = vertex_count_;
@@ -66,82 +67,80 @@ public:
     expand(vertex_count_ + 1);
   }
 
-  void addEdge(const T &from, const T &to) {
-    if (name_to_index_.find(from) == name_to_index_.end() ||
-        name_to_index_.find(to) == name_to_index_.end())
+  void addEdge(const VertexLabel &from, const VertexLabel &to) {
+    if (!hasVertex(from) || !hasVertex(to))
       return;
-    size_t i = name_to_index_[from];
-    size_t j = name_to_index_[to];
+    size_t i = name_to_index_.at(from);
+    size_t j = name_to_index_.at(to);
     adjacency_matrix_[i][j] = true;
   }
 
-  void removeEdge(const T &from, const T &to) {
-    if (name_to_index_.find(from) == name_to_index_.end() ||
-        name_to_index_.find(to) == name_to_index_.end())
+  void removeEdge(const VertexLabel &from, const VertexLabel &to) {
+    if (!hasVertex(from) || !hasVertex(to))
       return;
-    size_t i = name_to_index_[from];
-    size_t j = name_to_index_[to];
+    size_t i = name_to_index_.at(from);
+    size_t j = name_to_index_.at(to);
     adjacency_matrix_[i][j] = false;
   }
 
-  bool hasEdge(const T &from, const T &to) const {
-    if (name_to_index_.find(from) == name_to_index_.end() ||
-        name_to_index_.find(to) == name_to_index_.end())
+  bool hasEdge(const VertexLabel &from, const VertexLabel &to) const {
+    if (!hasVertex(from) || !hasVertex(to))
       return false;
     size_t i = name_to_index_.at(from);
     size_t j = name_to_index_.at(to);
     return adjacency_matrix_[i][j];
   }
 
-  bool hasVertex(const T &name) const {
+  bool hasVertex(const VertexLabel &name) const {
     return name_to_index_.find(name) != name_to_index_.end();
   }
 
-  void setVertexLabel(const T &name, const T &label) {
+  void setVertexLabel(const VertexLabel &name, const VertexLabel &label) {
     if (!hasVertex(name))
       return;
-    vertex_labels_[name_to_index_[name]] = label;
+    vertex_labels_[name_to_index_.at(name)] = label;
   }
 
-  T getVertexLabel(const T &name) const {
+  VertexLabel getVertexLabel(const VertexLabel &name) const {
     if (!hasVertex(name))
-      return T{};
+      return VertexLabel{};
     return vertex_labels_[name_to_index_.at(name)];
   }
 
-  void setEdgeLabel(const T &from, const T &to, const T &label) {
+  void setEdgeLabel(const VertexLabel &from, const VertexLabel &to,
+                    const EdgeLabel &label) {
     if (!hasVertex(from) || !hasVertex(to))
       return;
-    size_t i = name_to_index_[from];
-    size_t j = name_to_index_[to];
+    size_t i = name_to_index_.at(from);
+    size_t j = name_to_index_.at(to);
     edge_labels_[i][j] = label;
   }
 
-  T getEdgeLabel(const T &from, const T &to) const {
+  EdgeLabel getEdgeLabel(const VertexLabel &from, const VertexLabel &to) const {
     if (!hasVertex(from) || !hasVertex(to))
-      return T{};
+      return EdgeLabel{};
     size_t i = name_to_index_.at(from);
     size_t j = name_to_index_.at(to);
     return edge_labels_[i][j];
   }
 
-  vector<T> getAllVertexLabels() const {
-    vector<T> labels;
+  vector<VertexLabel> getAllVertexLabels() const {
+    vector<VertexLabel> labels;
     for (size_t i = 0; i < vertex_count_; i++) {
       labels.push_back(vertex_labels_[i]);
     }
     return labels;
   }
 
-  vector<T> getVertexNames() const {
-    vector<T> names;
+  vector<VertexLabel> getVertexNames() const {
+    vector<VertexLabel> names;
     for (size_t i = 0; i < index_to_name_.size(); i++) {
       names.push_back(index_to_name_[i]);
     }
     return names;
   }
 
-  NeighborIterator beginNeighbors(const T &v) const {
+  NeighborIterator beginNeighbors(const VertexLabel &v) const {
     if (!hasVertex(v)) {
       return NeighborIterator(this, 0, vertex_count_);
     }
@@ -153,14 +152,16 @@ public:
     return NeighborIterator(this, vid, start);
   }
 
-  NeighborIterator endNeighbors(const T &v) const {
+  NeighborIterator endNeighbors(const VertexLabel &v) const {
     size_t vid = hasVertex(v) ? name_to_index_.at(v) : 0;
     return NeighborIterator(this, vid, vertex_count_);
   }
 
-  size_t getVertexIndex(const T &name) const { return name_to_index_.at(name); }
+  size_t getVertexIndex(const VertexLabel &name) const {
+    return name_to_index_.at(name);
+  }
 
   size_t vertexCount() const { return name_to_index_.size(); }
 };
 
-#endif
+#endif // GRAPH_TEMPLATE_H
