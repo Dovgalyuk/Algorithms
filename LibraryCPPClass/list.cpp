@@ -9,11 +9,11 @@ void List::Item::setPrevPtr(Item* prev){
     this->prev_ = prev;
 }
 
-List::List() : head_(NULL), tail_(NULL), size_(0)
+List::List() : head_(NULL), tail_(NULL)
 {
 }
 
-List::List(const List &a) : head_(NULL), tail_(NULL), size_(0)
+List::List(const List &a) : head_(NULL), tail_(NULL)
 {
     if(a.head_ == NULL){
         return;
@@ -76,7 +76,6 @@ List::Item *List::insert(Data data)
     }
 
     this->head_ = newItem;
-    this->size_++;
 
     return newItem;
 }
@@ -101,7 +100,6 @@ List::Item *List::insert_after(Item *item, Data data)
         this->tail_ = newItem;
     }
     
-    this->size_++;
     return newItem;
 }
 
@@ -122,7 +120,6 @@ List::Item *List::erase_first()
     }
     
     delete toDelete;
-    this->size_--;
     
     return this->head_;
 }
@@ -149,7 +146,6 @@ List::Item *List::erase_next(Item *item)
     }
     
     delete toDelete;
-    this->size_--;
     
     return nextAfterDelete;
 }

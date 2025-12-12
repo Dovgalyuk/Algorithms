@@ -1,39 +1,47 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "../LibraryCPPClass/queue.h"
+#include "queue.h"
 
 using namespace std;
 
-// Для улучшения читаемочти кода
-#define X first
-#define Y second
+typedef vector<string> Maze;
+
+struct Point
+{
+    int x, y;
+    Point(): x(0), y(0){}
+    Point(int x_, int y_): x(x_), y(y_){}
+    bool operator==(const Point &other) const{
+        return this->x == other.x && this->y == other.y;
+    }
+};
 
 // Одна функция для нахождения начала и конца, для улучшния читабельности кода сделал их
 const char START = 'Q';
 const char END = 'E';
 
-pair<int, int> find_point(const vector<string>& maze, char point) {
+Point find_point(const Maze& maze, char point) {
     for (size_t i = 0; i < maze.size(); i++) {
         for (size_t j = 0; j < maze[i].size(); j++) {
             if (maze[i][j] == point) {
-                return {i, j};
+                return {static_cast<int>(i), static_cast<int>(j)};
             }
         }
     }
     return {-1, -1};
 }
-// Это перевод с pair в int, но используется только в очереди, такчто будет pair to queue
-int ptoq(pair<int, int> pos, int cols) {
-    return pos.X * cols + pos.Y;
+// Это перевод с Point в int, но используется только в очереди, так что будет Point to queue
+int ptoq(Point pos, int cols) {
+    return pos.x * cols + pos.y;
 }
 
-int bfs(const vector<string>& maze, pair<int, int> start, pair<int, int> end) {
-    if (start.X == -1 || end.X == -1) {
+int bfs(const Maze& maze, Point start, Point end) {
+    if (start.x == -1 || end.x == -1) {
         return 0;
     }
-    
-    if (start == end) return 1;
+    // сделал для теста, чтобы показать, что выполняется условие на которое вы показали. Для удобства взял string
+    string complete = "Не выполнилось";
 
     int rows = maze.size();
     int cols = maze[0].size();
@@ -43,18 +51,18 @@ int bfs(const vector<string>& maze, pair<int, int> start, pair<int, int> end) {
     vector<vector<bool>> inQueue(rows, vector<bool>(cols, false));
     
     // 8 направлений движения ферзя (x,y)
-    const pair<int, int> moveQueen[8] = {
+    const Point moveQueen[8] = {
         {-1,-1}, {-1,0}, {-1,1},
-        {0,-1},  /* Q */  {0,1},
+        {0,-1},  /* Q */ {0,1},
         {1,-1},  {1,0},  {1,1}
     };
     
     Queue q;
-    dist[start.X][start.Y] = 0;
-    count[start.X][start.Y] = 1;
+    dist[start.x][start.y] = 0;
+    count[start.x][start.y] = 1;
     
     q.insert(ptoq(start, cols));
-    inQueue[start.X][start.Y] = true;
+    inQueue[start.x][start.y] = true;
     
     while (!q.empty()) {
         int currentIndex = q.take();
@@ -62,13 +70,13 @@ int bfs(const vector<string>& maze, pair<int, int> start, pair<int, int> end) {
         int y = currentIndex / cols;
         int x = currentIndex % cols;
         inQueue[y][x] = false;
-        
+
         int d = dist[y][x];
         int c = count[y][x];
         
         for (const auto& dir : moveQueen) {
-            int dy = dir.X;
-            int dx = dir.Y;
+            int dy = dir.x;
+            int dx = dir.y;
             
 
             for (int step = 1; ; step++) {
@@ -84,7 +92,7 @@ int bfs(const vector<string>& maze, pair<int, int> start, pair<int, int> end) {
                     dist[ny][nx] = newDistant;
                     count[ny][nx] = c;
                     
-                    if (!inQueue[ny][nx] && !(ny == end.X && nx == end.Y)) {
+                    if (!inQueue[ny][nx] && !(ny == end.x && nx == end.y)) {
                         q.insert(ptoq({ny, nx}, cols));
                         inQueue[ny][nx] = true;
                     }
@@ -94,14 +102,15 @@ int bfs(const vector<string>& maze, pair<int, int> start, pair<int, int> end) {
                     if (!inQueue[ny][nx]) {
                         q.insert(ptoq({ny, nx}, cols));
                         inQueue[ny][nx] = true;
+                        complete = "Выполнилось";
                     }
                 }
 
             }
         }
     }
-    
-    return count[end.X][end.Y];
+    cout << complete << endl;
+    return count[end.x][end.y];
 }
 
 int main(int argc, char **argv) {
@@ -116,7 +125,7 @@ int main(int argc, char **argv) {
         return 1;
     }
     
-    vector<string> maze;
+    Maze maze;
     string line;
     while (getline(file, line)) {
         maze.push_back(line);

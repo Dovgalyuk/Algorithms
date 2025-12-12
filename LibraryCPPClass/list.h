@@ -72,7 +72,6 @@ private:
     // private data should be here
     Item* head_; 
     Item* tail_;
-    size_t size_; 
 };
 
 #endif
