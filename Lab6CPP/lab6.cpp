@@ -340,6 +340,7 @@ int main(int argc, char** argv)
 
     for(const auto& e : exprs) 
     {
+        clean();
         parse_expr(e);
         sizes.push_back(nums.size());
 
@@ -348,6 +349,7 @@ int main(int argc, char** argv)
         long long t1 = meas1.second;
         times_sol.push_back(t1);
 
+        clean();
         auto meas2 = meas_time(run_dp);
         auto res2 = meas2.first;
         long long t2 = meas2.second;
