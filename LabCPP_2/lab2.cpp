@@ -69,7 +69,7 @@ string infixToPostfix(string& expression)
 
         if (isdigit(ch))
         {
-            std::string number(1, ch);
+            string number(1, ch);
             // Читаем последующие цифры
             while (i + 1 < expression.length() && isdigit(expression[i + 1]))
             {
@@ -225,5 +225,7 @@ int main(int argc, char **argv)
         cout << "Постфиксное выражение: " << postfixExpr << endl;
         cout << "Результат: " << Calc(postfixExpr) << endl;
     }
+
+    input.close();
     return 0;
 }
