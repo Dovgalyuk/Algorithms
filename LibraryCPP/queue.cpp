@@ -1,93 +1,61 @@
+#include "list.h"
 #include "queue.h"
-#include "vector.h"
+
 
 struct Queue
 {
-    Vector *vector;
-    size_t head;
-    size_t tail;
+    List *list;
+    ListItem *tail;
 };
 
 Queue *queue_create()
 {
     Queue *queue = new Queue;
-    queue -> vector = vector_create();
-
-    queue -> head = 0;
-    queue -> tail = 0;
+    queue -> list = list_create();
+    queue->tail = nullptr;
     return queue;
 }
 
 void queue_delete(Queue *queue)
 {
     // TODO: free queue items
-    if(queue)
+    if (queue)
     {
-        vector_delete(queue -> vector);
+        list_delete(queue -> list);
         delete queue;
-    }
-}
-
-size_t queue_size(const Queue *queue)
-{
-    size_t capacity = vector_capacity(queue -> vector);
-    if (queue -> tail >= queue -> head)
-    {
-        return queue -> tail - queue -> head;
-    }
-    else
-    {
-        return capacity - queue -> head + queue -> tail;
-    }
-}
-
-void queue_expand(Queue *queue)
-{
-    size_t old_capacity = vector_capacity(queue -> vector);
-    size_t new_capacity = old_capacity * 2;
-    vector_resize(queue -> vector, new_capacity);
-
-    if (queue -> head > queue -> tail)
-    {
-        for (size_t i = 0; i < queue -> tail; ++i)
-        {
-            vector_set(queue -> vector, i + old_capacity, vector_get(queue -> vector, i));  
-        }
-        queue -> tail += old_capacity;
     }
 }
 
 void queue_insert(Queue *queue, Data data)
 {
-    size_t capacity = vector_capacity(queue->vector);
-    size_t size = queue_size(queue);
-
-    if (size == capacity - 1)
+    if (queue->tail == nullptr)
     {
-        queue_expand(queue);
-        capacity = vector_capacity(queue -> vector);
+        list_insert(queue->list, data);
+        queue->tail = list_first(queue->list);
     }
-
-    vector_set(queue -> vector, queue -> tail, data);
-    queue -> tail = (queue -> tail + 1) % capacity;
+    else
+    {
+        list_insert_after(queue->list, queue->tail, data);
+        queue->tail = list_item_next(queue->tail);
+    }
 }
 
 Data queue_get(const Queue *queue)
 {
-    return vector_get(queue -> vector, queue -> head);
+    ListItem *first = list_first(queue->list);
+    
+    if(!first)
+        return 0;
+
+    return list_item_data(first);
 }
 
 void queue_remove(Queue *queue)
 {
-    if (queue_empty(queue))
-    {
-        return;
-    }
-    size_t capacity = vector_capacity(queue -> vector);
-    queue -> head = (queue -> head + 1) % capacity;
+    list_erase_first(queue->list);
 }
 
 bool queue_empty(const Queue *queue)
 {
-    return queue -> head == queue -> tail;
+    return (list_first(queue->list) == nullptr);
 }
