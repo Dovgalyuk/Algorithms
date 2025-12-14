@@ -19,3 +19,6 @@ set_property(TEST diagonal_movement PROPERTY PASS_REGULAR_EXPRESSION "1")
 
 add_test(NAME hard_movment_test COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/test/test6.txt)
 set_property(TEST hard_movment_test PROPERTY PASS_REGULAR_EXPRESSION "2")
+
+add_test(NAME test_unnecessary_function COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/test/test7.txt)
+set_property(TEST hard_movment_test PROPERTY PASS_REGULAR_EXPRESSION "2")

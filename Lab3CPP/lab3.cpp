@@ -40,7 +40,8 @@ int bfs(const Maze& maze, Point start, Point end) {
     if (start.x == -1 || end.x == -1) {
         return 0;
     }
-    
+    // сделал для теста, чтобы показать, что выполняется условие на которое вы показали. Для удобства взял string
+
     int rows = maze.size();
     int cols = maze[0].size();
     
@@ -90,7 +91,7 @@ int bfs(const Maze& maze, Point start, Point end) {
                     dist[ny][nx] = newDistant;
                     count[ny][nx] = c;
                     
-                    if (!inQueue[ny][nx] && !(ny == end.x && nx == end.y)) {
+                    if (!inQueue[ny][nx]) {
                         q.insert(ptoq({ny, nx}, cols));
                         inQueue[ny][nx] = true;
                     }
