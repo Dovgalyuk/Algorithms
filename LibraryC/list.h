@@ -7,7 +7,7 @@
 // Stores integer or pointer to custom user data
 typedef uintptr_t Data;
 // Custom function to free user pointers on delete
-typedef void (FFree)(void*);
+typedef void(FFree)(void *);
 
 typedef struct List List;
 typedef struct ListItem ListItem;
@@ -24,6 +24,9 @@ void list_delete(List *list);
 
 // Retrieves the first item from the list
 ListItem *list_first(List *list);
+
+// Retrieves the last item from the list
+ListItem *list_last(List *list);
 
 // Extracts data from the list item
 Data list_item_data(const ListItem *item);
@@ -51,6 +54,9 @@ ListItem *list_erase_first(List *list);
 // Returns pointer to the item next to the deleted one.
 // Should be O(1)
 ListItem *list_erase_next(List *list, ListItem *item);
+
+// Inserts new list item at the tail
+ListItem *list_insert_tail(List *list, Data data);
 
 #ifdef __cplusplus
 }
