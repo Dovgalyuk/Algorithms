@@ -13,11 +13,9 @@ List::List() : head_(NULL), tail_(NULL)
 {
 }
 
-List::List(const List &a) : head_(NULL), tail_(NULL)
-{
-    if(a.head_ == NULL){
-        return;
-    }
+// Добавлена функция копирования
+void List::copy(const List& a){
+    
     Item* lastCopy = this->insert(a.head_->data());
 
     Item* current = a.head_->next();
@@ -28,21 +26,26 @@ List::List(const List &a) : head_(NULL), tail_(NULL)
     }
 }
 
+// Добавил еще одну функцию, так как повторялась удаление листа
+void List::delete_list() {
+    while(this->erase_first() != NULL);
+}
+
+List::List(const List &a) : head_(NULL), tail_(NULL)
+{
+    if(a.head_ == NULL){
+        return;
+    }
+    copy(a);
+}
+
 List &List::operator=(const List &a)
 {
     if(this != &a){
-        while(head_ != NULL){
-            this->erase_first();
-        }
+        this->delete_list();
 
         if(a.head_ != NULL){
-            Item* lastCopy = this->insert(a.head_->data());
-            Item* current = a.head_->next();
-
-            while(current != NULL){
-                lastCopy = this->insert_after(lastCopy, current->data());
-                current = current->next();
-            }
+            copy(a);
         }
     }
     return *this;
@@ -50,9 +53,7 @@ List &List::operator=(const List &a)
 
 List::~List()
 {
-    while (head_ != NULL) {
-        erase_first();
-    }
+    this->delete_list();
 }
 
 List::Item *List::first()

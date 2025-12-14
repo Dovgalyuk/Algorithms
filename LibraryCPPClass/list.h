@@ -67,11 +67,17 @@ public:
     Item *get_end_item() const;
 
     Data data_head() const;
+    
+    // Deletes all item from list
+    void delete_list();
 
 private:
     // private data should be here
     Item* head_; 
     Item* tail_;
+    // for only list
+    void copy(const List& a);
+
 };
 
 #endif
