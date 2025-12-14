@@ -7,51 +7,26 @@ template <typename Data> class Queue
 {
 public:
     // Create empty queue
-    Queue()
-    {
-        buffer_.resize(4);
-        head_ = 0;
-        tail_ = 0;
-        count_ = 0;
-    }
-
-    // copy constructor
-    Queue(const Queue &a)
-    {
-        buffer_ = a.buffer_;
-        head_ = a.head_;
-        tail_ = a.tail_;
-        count_ = a.count_;
-    }
-
-    // assignment operator
-    Queue &operator=(const Queue &a)
-    {
-        if (this == &a)
-            return *this;
-
-        buffer_ = a.buffer_;
-        head_ = a.head_;
-        tail_ = a.tail_;
-        count_ = a.count_;
-        return *this;
-    }
-
-    // Deletes queue
-    ~Queue()
-    {
-    }
-
+    Queue() : head_(0), size_(0) {}
+    
     // Includes new element into the queue
     // Should be O(1) on average
     void insert(Data data)
     {
-        if (count_ == buffer_.size())
-            expand();
+        if (size_ == buffer_.size())
+        {
+            size_t newSize = buffer_.size() == 0 ? 1 : buffer_.size() * 2;
+            Vector<Data> newBuffer;
+            newBuffer.resize(newSize);
 
-        buffer_.set(tail_, data);
-        tail_ = (tail_ + 1) % buffer_.size();
-        ++count_;
+            for (size_t i = 0; i < size_; ++i)
+                newBuffer.set(i, buffer_.get((head_ + i) % buffer_.size()));
+
+            buffer_ = newBuffer;
+            head_ = 0;
+        }
+        buffer_.set((head_ + size_) % buffer_.size(), data);
+        ++size_;
     }
 
     // Retrieves first element from the queue
@@ -64,35 +39,19 @@ public:
     // Should be O(1) on average
     void remove()
     {
-        head_ = (head_ + 1) % buffer_.size();
-        --count_;
+        ++head_;
+        --size_;
+        if (head_ == buffer_.size())
+            head_ = 0;
     }
 
     // Returns true if the queue is empty
-    bool empty() const
-    {
-        return count_ == 0;
-    }
+    bool empty() const { return size_ == 0; }
 
 private:
     Vector<Data> buffer_;
     size_t head_;
-    size_t tail_;
-    size_t count_;
-
-    void expand()
-    {
-        size_t oldSize = buffer_.size();
-        Vector<Data> newBuffer;
-        newBuffer.resize(oldSize * 2);
-
-        for (size_t i = 0; i < count_; ++i)
-            newBuffer.set(i, buffer_.get((head_ + i) % oldSize));
-
-        buffer_ = newBuffer;
-        head_ = 0;
-        tail_ = count_;
-    }
+    size_t size_;
 };
 
 #endif

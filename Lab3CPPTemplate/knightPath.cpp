@@ -7,11 +7,6 @@
 #include <algorithm>
 #include <fstream>
 
-struct Pos
-{
-    int r, c;
-};
-
 int main(int argc, char* argv[])
 {
     if (argc != 3)
@@ -29,64 +24,77 @@ int main(int argc, char* argv[])
     int n = static_cast<int>(board.size());
     int m = static_cast<int>(board[0].size());
 
-    Pos start{-1,-1}, end{-1,-1};
+    int startR = -1, startC = -1;
+    int endR = -1, endC = -1;
+
     for (int i = 0; i < n; ++i)
     {
         for (int j = 0; j < m; ++j)
         {
-            if (board[i][j] == 'K')
-                start = {i,j};
-            if (board[i][j] == 'E')
-                end = {i,j};
+            if (board[i][j] == 'K') 
+            { 
+                startR = i; 
+                startC = j;
+            }
+            if (board[i][j] == 'E') 
+            {
+                endR = i;
+                endC = j;
+            }
         }
     }
-        
 
     const int dr[8] = { -2,-2,-1,-1,1,1,2,2 };
     const int dc[8] = { -1,1,-2,2,-2,2,-1,1 };
 
-    std::vector<int> parent(n*m, -1);
-    auto id = [&](int r,int c){ return r*m+c; };
-    std::vector<char> visited(n*m, 0);
-
-    Queue<Pos> q;
-    q.insert(start);
-    visited[id(start.r,start.c)] = 1;
+    std::vector<std::vector<int>> parent(n, std::vector<int>(m, -1));
+    std::vector<std::vector<bool>> visited(n, std::vector<bool>(m, false));
+    Queue<std::pair<int,int>> q;
+    q.insert({startR, startC});
+    visited[startR][startC] = true;
 
     while (!q.empty())
     {
-        Pos cur = q.get(); q.remove();
-        if (cur.r == end.r && cur.c == end.c)
+        auto pos = q.get(); q.remove();
+        int r = pos.first;
+        int c = pos.second;
+
+        if (r == endR && c == endC)
             break;
 
-        for (int k=0;k<8;k++)
+        for (int k = 0; k < 8; ++k)
         {
-            int nr=cur.r+dr[k], nc=cur.c+dc[k];
-            if (nr<0||nr>=n||nc<0||nc>=m)
+            int nr = r + dr[k], nc = c + dc[k];
+
+            if (nr < 0 || nr >= n || nc < 0 || nc >= m)
+                continue;
+                
+            if (board[nr][nc] == '#' || visited[nr][nc])
                 continue;
 
-            if (board[nr][nc]=='#')
-                continue;
-
-            if (visited[id(nr,nc)])
-                continue;
-
-            visited[id(nr,nc)] = 1;
-            parent[id(nr,nc)] = id(cur.r,cur.c);
-            q.insert({nr,nc});
+            visited[nr][nc] = true;
+            parent[nr][nc] = r * m + c;
+            q.insert({nr, nc});
         }
     }
 
     std::vector<int> path;
-    for (int cur=id(end.r,end.c); cur!=-1; cur=parent[cur])
+    int cur = endR * m + endC;
+    while (cur != -1)
+    {
         path.push_back(cur);
+        int r = cur / m;
+        int c = cur % m;
+        cur = parent[r][c];
+    }
     std::reverse(path.begin(), path.end());
 
-    for (size_t i=0;i<path.size();i++)
+    for (size_t step = 0; step < path.size(); ++step)
     {
-        int flat = path[i];
-        int r = flat / m, c = flat % m;
-        board[r][c] = char('0' + i%10);
+        int flat = path[step];
+        int r = flat / m;
+        int c = flat % m;
+        board[r][c] = char('0' + (step % 10));
     }
 
     for (size_t i = 0; i < board.size(); ++i)

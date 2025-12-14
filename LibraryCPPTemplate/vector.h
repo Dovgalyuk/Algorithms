@@ -9,31 +9,14 @@ template <typename Data> class Vector
 public:
     Vector() : data_(nullptr), size_(0), capacity_(0) {}
 
-    Vector(const Vector &a) : size_(a.size_), capacity_(a.capacity_)
-    {
-        if (capacity_ == 0)
-            data_ = nullptr;
-        else
-        {
-            data_ = new Data[capacity_];
-            for (size_t i = 0; i < size_; ++i)
-                data_[i] = a.data_[i];
-        }
-    }
+    Vector(const Vector &a) { copyFrom(a); }
 
     Vector &operator=(const Vector &a)
     {
-        if (this == &a) return *this;
-        delete[] data_;
-        size_ = a.size_;
-        capacity_ = a.capacity_;
-        if (capacity_ == 0)
-            data_ = nullptr;
-        else
+        if (this != &a)
         {
-            data_ = new Data[capacity_];
-            for (size_t i = 0; i < size_; ++i)
-                data_[i] = a.data_[i];
+            delete[] data_;
+            copyFrom(a);
         }
         return *this;
     }
@@ -80,6 +63,20 @@ public:
     }
 
 private:
+    void copyFrom(const Vector &a)
+    {
+        size_ = a.size_;
+        capacity_ = a.capacity_;
+        if (capacity_ == 0)
+            data_ = nullptr;
+        else
+        {
+            data_ = new Data[capacity_];
+            for (size_t i = 0; i < size_; ++i)
+                data_[i] = a.data_[i];
+        }
+    }
+
     Data *data_;
     size_t size_;
     size_t capacity_;
