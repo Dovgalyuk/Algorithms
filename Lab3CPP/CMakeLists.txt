@@ -20,3 +20,6 @@ add_test(NAME Test5P COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input5.txt)
 set_tests_properties(Test5P PROPERTIES PASS_REGULAR_EXPRESSION " / \ / \ / \ / \ / \ / \.*|#| |#| |#| |x| |x| |#|.*\ /  \ /  \ /  \ /  \ /  \ / \.*|S| |x| |x| |#| |x| |#|
     .*\ /  \ /  \ /  \ /  \ /  \ / \.*|.| |#| |.| |#| |x| |.|.*\ /  \ /  \ /  \ /  \ /  \ / \.*|#| |#| |#| |#| |x| |.|.*\ /  \ /  \ /  \ /  \ /  \ / \.*|.| |.| |#| |x| |.| |#|
      .*\ /  \ /  \ /  \ /  \ /  \ / \.*|E| |x| |x| |#| |.| |#|.*\ /  \ /  \ /  \ /  \ /  \ /")
+
+add_test(NAME Test6P COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/input6.txt)
+set_tests_properties(Test6P PROPERTIES PASS_REGULAR_EXPRESSION "All lines must have equal length")

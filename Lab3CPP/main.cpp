@@ -84,7 +84,7 @@ int main(int argc, char** argv)
 
     for (const auto& row : grid) {
         if (row.size() != cols) {
-            cerr << "All lines must have equal length" << endl;
+            cout << "All lines must have equal length" << endl;
             return 1;
         }
     }
