@@ -55,20 +55,11 @@ public:
             neighbors.push_back(Position(row, col + 1));
         }
         
-        if (row % 2 == 0) {
-            if (row > 0) {
-                neighbors.push_back(Position(row - 1, col));
-            }
-            if (row < height - 1) {
-                neighbors.push_back(Position(row + 1, col));
-            }
-        } else {
-            if (row > 0) {
-                neighbors.push_back(Position(row - 1, col));
-            }
-            if (row < height - 1) {
-                neighbors.push_back(Position(row + 1, col));
-            }
+        if (row > 0) {
+            neighbors.push_back(Position(row - 1, col));
+        }
+        if (row < height - 1) {
+            neighbors.push_back(Position(row + 1, col));
         }
         
         return neighbors;
