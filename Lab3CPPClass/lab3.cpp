@@ -152,7 +152,7 @@ public:
         Position start = maze_.getStart();
         Position end = maze_.getEnd();
         
-        vector<vector<int>> distance(height, vector<int>(width, -1));
+        vector<vector<bool>> visited(height, vector<bool>(width, false));
         
         vector<vector<Position>> parent(
             height, vector<Position>(width, Position(-1, -1))
@@ -160,7 +160,7 @@ public:
         
         Queue queue;
         queue.insert(PositionEncoder::encode(start, width));
-        distance[start.row][start.col] = 0;
+        visited[start.row][start.col] = true;
         
         while (!queue.empty()) {
             int encoded = queue.get();
@@ -178,11 +178,8 @@ public:
                 neighborStrategy_->getNeighbors(current, height, width);
             
             for (const Position& neighbor : neighbors) {
-                if (maze_.isWalkable(neighbor) && 
-                    distance[neighbor.row][neighbor.col] == -1) {
-                    
-                    distance[neighbor.row][neighbor.col] = 
-                        distance[current.row][current.col] + 1;
+                if (maze_.isWalkable(neighbor) && !visited[neighbor.row][neighbor.col]) {
+                    visited[neighbor.row][neighbor.col] = true;
                     parent[neighbor.row][neighbor.col] = current;
                     queue.insert(PositionEncoder::encode(neighbor, width));
                 }
