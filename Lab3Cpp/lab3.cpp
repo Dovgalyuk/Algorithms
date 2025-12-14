@@ -43,21 +43,21 @@ int main(int, char **argv)
         }
     }
     
-    int dist[100][100];
     int parent_row[100][100];
     int parent_col[100][100];
+    char visited[100][100];
     
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < cols; j++)
         {
-            dist[i][j] = -1;
+            visited[i][j] = 0;
         }
     }
     
     Queue *q = queue_create();
     queue_insert(q, start_row * 1000 + start_col);
-    dist[start_row][start_col] = 0;
+    visited[start_row][start_col] = 1;
     
     int dr[] = {-1, 1, 0, 0};
     int dc[] = {0, 0, -1, 1};
@@ -77,9 +77,9 @@ int main(int, char **argv)
             
             if (new_row >= 0 && new_row < rows && new_col >= 0 && new_col < cols)
             {
-                if ((maze[new_row][new_col] == '.' || maze[new_row][new_col] == 'Y') && dist[new_row][new_col] == -1)
+                if ((maze[new_row][new_col] == '.' || maze[new_row][new_col] == 'Y') && !visited[new_row][new_col])
                 {
-                    dist[new_row][new_col] = dist[cur_row][cur_col] + 1;
+                    visited[new_row][new_col] = 1;
                     parent_row[new_row][new_col] = cur_row;
                     parent_col[new_row][new_col] = cur_col;
                     queue_insert(q, new_row * 1000 + new_col);
@@ -90,7 +90,7 @@ int main(int, char **argv)
     
     queue_delete(q);
     
-    if (dist[end_row][end_col] == -1)
+    if (!visited[end_row][end_col])
     {
         std::cout << "IMPOSSIBLE" << std::endl;
     }
