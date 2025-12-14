@@ -91,7 +91,7 @@ int bfs(const Maze& maze, Point start, Point end) {
                     dist[ny][nx] = newDistant;
                     count[ny][nx] = c;
                     
-                    if (!inQueue[ny][nx]) {
+                    if (!(ny == end.x && nx == end.y)) {
                         q.insert(ptoq({ny, nx}, cols));
                         inQueue[ny][nx] = true;
                     }
