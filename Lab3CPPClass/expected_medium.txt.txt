@@ -1,0 +1,10 @@
+Path found: 57
+Path length: 2 moves
+Maze with path:
+#######
+#Q***.#
+#*###*#
+#*#**.#
+#*#.#*#
+#***E*#
+#######

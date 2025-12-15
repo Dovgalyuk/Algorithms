@@ -1,0 +1,7 @@
+Path: 5
+Path length: 1 moves
+Maze with path:
+#####
+#Q*E#
+#...#
+#####
