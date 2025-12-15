@@ -107,11 +107,34 @@ void app_op(const MinMax& L, const MinMax& R, char op, MinMax& res)
         }
         case '*': 
         {
-            long long v1 = L.mn * R.mn;
-            upd(v1, make_node(L.mn_node, R.mn_node, '*', v1));
-        
-            long long v2 = L.mx * R.mx;
-            upd(v2, make_node(L.mx_node, R.mx_node, '*', v2));
+            long long vs[] = { L.mn * R.mn, L.mn * R.mx, L.mx * R.mn, L.mx * R.mx };
+
+            Node* Lp[] = { L.mn_node, L.mn_node, L.mx_node, L.mx_node };
+
+            Node* Rp[] = { R.mn_node, R.mx_node, R.mn_node, R.mx_node };
+
+            int mn = 0, mx = 0;
+            for(int i = 1; i < 4; i++)
+            {
+                if(vs[i] < vs[mn]) mn = i;
+                if(vs[i] > vs[mx]) mx = i;
+            }
+
+            Node* minn = make_node(Lp[mn], Rp[mn], '*', vs[mn]);
+            Node* maxn = make_node(Lp[mx], Rp[mx], '*', vs[mx]);
+
+            if(vs[mn] < res.mn)
+            {
+                res.mn = vs[mn];
+                res.mn_node = minn;
+            }
+
+            if(vs[mx] > res.mx)
+            {
+                res.mx = vs[mx];
+                res.mx_node = maxn;
+            }
+            
             break;
         }
     }
