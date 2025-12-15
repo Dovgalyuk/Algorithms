@@ -10,7 +10,7 @@ public:
         const Item* next() const { return nxt; }
         Item* prev() { return prv; }
         const Item* prev() const { return prv; }
-        Data& data() { return dt; }             
+        Data& data() { return dt; }
         const Data& data() const { return dt; }
     private:
         friend class List<Data>;
@@ -21,24 +21,27 @@ public:
         Item(Data val) : nxt(nullptr), prv(nullptr), dt(val) {}
     };
 
+    typedef Item* ItemPtr;
+    typedef const Item* ConstItemPtr;
+
     // Creates new list
     List() : head(nullptr), tail(nullptr) {}
 
-    // copy constructor
+    // Copy constructor
     List(const List& a) : head(nullptr), tail(nullptr) {
-        Item* cur = a.head;
+        ItemPtr cur = a.head;
         while (cur != nullptr) {
             insert(cur->data());
             cur = cur->next();
         }
     }
 
-    // assignment operator
+    // Assignment operator
     List& operator=(const List& a) {
         if (this == &a)
             return *this;
         clear();
-        Item* cur = a.head;
+        ItemPtr cur = a.head;
         while (cur != nullptr) {
             insert(cur->data());
             cur = cur->next();
@@ -52,18 +55,18 @@ public:
     }
 
     // Retrieves the first item from the list
-    Item* first() {
+    ItemPtr first() {
         return head;
     }
 
     // Const version of first()
-    const Item* first() const {
+    ConstItemPtr first() const {
         return head;
     }
 
     // Inserts new list item into the beginning
-    Item* insert(Data data) {
-        Item* newItem = new Item(data);
+    ItemPtr insert(Data data) {
+        ItemPtr newItem = new Item(data);
         if (head == nullptr) {
             head = tail = newItem;
         }
@@ -77,11 +80,11 @@ public:
 
     // Inserts new list item after the specified item
     // Inserts first element if item is null
-    Item* insert_after(Item* item, Data data) {
+    ItemPtr insert_after(ItemPtr item, Data data) {
         if (item == nullptr) {
             return insert(data);
         }
-        Item* newItem = new Item(data);
+        ItemPtr newItem = new Item(data);
         newItem->prv = item;
         newItem->nxt = item->nxt;
         if (item->nxt != nullptr) {
@@ -96,16 +99,16 @@ public:
 
     // Deletes the first list item.
     // Returns pointer to the item next to the deleted one.
-    Item* erase_first() {
+    ItemPtr erase_first() {
         if (head == nullptr)
             return nullptr;
-        Item* toDelete = head;
+        ItemPtr toDelete = head;
         head = head->nxt;
         if (head != nullptr)
             head->prv = nullptr;
         else
             tail = nullptr;
-        Item* nextItem = head;
+        ItemPtr nextItem = head;
         delete toDelete;
         return nextItem;
     }
@@ -113,12 +116,12 @@ public:
     // Deletes the list item following the specified one.
     // Deletes the first element when item is null.
     // Returns pointer to the item next to the deleted one.
-    Item* erase_next(Item* item) {
+    ItemPtr erase_next(ItemPtr item) {
         if (item == nullptr) {
             // Erase first
             return erase_first();
         }
-        Item* toDelete = item->nxt;
+        ItemPtr toDelete = item->nxt;
         if (toDelete == nullptr)
             return nullptr;
         item->nxt = toDelete->nxt;
@@ -128,14 +131,14 @@ public:
         else {
             tail = item;
         }
-        Item* nextItem = toDelete->nxt;
+        ItemPtr nextItem = toDelete->nxt;
         delete toDelete;
         return nextItem;
     }
 
 private:
-    Item* head;
-    Item* tail;
+    ItemPtr head;
+    ItemPtr tail;
 
     void clear() {
         while (head != nullptr) {
