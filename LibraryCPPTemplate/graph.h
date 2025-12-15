@@ -91,6 +91,75 @@ public:
     return adjacency_matrix_[i][j];
   }
 
+  void removeVertex(const VertexLabel &name) {
+    if (!hasVertex(name))
+      return;
+
+    size_t vid = name_to_index_.at(name);
+    size_t old_size = vertex_count_;
+
+    size_t new_size = old_size - 1;
+
+    if (new_size == 0) {
+      adjacency_matrix_ = Vector<Vector<bool>>();
+      edge_labels_ = Vector<Vector<EdgeLabel>>();
+      vertex_labels_ = Vector<VertexLabel>();
+      index_to_name_ = Vector<VertexLabel>();
+      name_to_index_.clear();
+      vertex_count_ = 0;
+      return;
+    }
+
+    Vector<VertexLabel> new_index_to_name;
+    new_index_to_name.resize(new_size);
+
+    Vector<VertexLabel> new_vertex_labels;
+    new_vertex_labels.resize(new_size);
+
+    Vector<Vector<bool>> new_adj_matrix;
+    new_adj_matrix.resize(new_size);
+    for (size_t i = 0; i < new_size; i++) {
+      new_adj_matrix[i].resize(new_size, false);
+    }
+
+    Vector<Vector<EdgeLabel>> new_edge_labels;
+    new_edge_labels.resize(new_size);
+    for (size_t i = 0; i < new_size; i++) {
+      new_edge_labels[i].resize(new_size, EdgeLabel{});
+    }
+
+    size_t new_i = 0;
+    for (size_t old_i = 0; old_i < old_size; ++old_i) {
+      if (old_i == vid)
+        continue;
+
+      new_index_to_name[new_i] = index_to_name_[old_i];
+      new_vertex_labels[new_i] = vertex_labels_[old_i];
+
+      name_to_index_[index_to_name_[old_i]] = new_i;
+
+      size_t new_j = 0;
+      for (size_t old_j = 0; old_j < old_size; ++old_j) {
+        if (old_j == vid)
+          continue;
+        new_adj_matrix[new_i][new_j] = adjacency_matrix_[old_i][old_j];
+        new_edge_labels[new_i][new_j] = edge_labels_[old_i][old_j];
+        new_j++;
+      }
+
+      new_i++;
+    }
+
+    // === 3. Удаляем саму вершину из name_to_index_ ===
+    name_to_index_.erase(name);
+
+    // === 4. Заменяем старые структуры новыми ===
+    index_to_name_ = new_index_to_name;
+    vertex_labels_ = new_vertex_labels;
+    adjacency_matrix_ = new_adj_matrix;
+    edge_labels_ = new_edge_labels;
+    vertex_count_ = new_size;
+  }
   bool hasVertex(const VertexLabel &name) const {
     return name_to_index_.find(name) != name_to_index_.end();
   }
@@ -164,4 +233,4 @@ public:
   size_t vertexCount() const { return name_to_index_.size(); }
 };
 
-#endif // GRAPH_TEMPLATE_H
+#endif
