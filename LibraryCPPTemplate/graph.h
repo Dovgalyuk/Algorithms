@@ -97,7 +97,6 @@ public:
 
     size_t vid = name_to_index_.at(name);
     size_t old_size = vertex_count_;
-
     size_t new_size = old_size - 1;
 
     if (new_size == 0) {
@@ -129,24 +128,22 @@ public:
     }
 
     size_t new_i = 0;
-    for (size_t old_i = 0; old_i < old_size; ++old_i) {
+    for (size_t old_i = 0; old_i < old_size; old_i++) {
       if (old_i == vid)
         continue;
 
       new_index_to_name[new_i] = index_to_name_[old_i];
       new_vertex_labels[new_i] = vertex_labels_[old_i];
-
       name_to_index_[index_to_name_[old_i]] = new_i;
 
       size_t new_j = 0;
-      for (size_t old_j = 0; old_j < old_size; ++old_j) {
+      for (size_t old_j = 0; old_j < old_size; old_j++) {
         if (old_j == vid)
           continue;
         new_adj_matrix[new_i][new_j] = adjacency_matrix_[old_i][old_j];
         new_edge_labels[new_i][new_j] = edge_labels_[old_i][old_j];
         new_j++;
       }
-
       new_i++;
     }
 
@@ -158,6 +155,7 @@ public:
     edge_labels_ = new_edge_labels;
     vertex_count_ = new_size;
   }
+
   bool hasVertex(const VertexLabel &name) const {
     return name_to_index_.find(name) != name_to_index_.end();
   }
