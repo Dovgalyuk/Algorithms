@@ -150,10 +150,8 @@ public:
       new_i++;
     }
 
-    // === 3. Удаляем саму вершину из name_to_index_ ===
     name_to_index_.erase(name);
 
-    // === 4. Заменяем старые структуры новыми ===
     index_to_name_ = new_index_to_name;
     vertex_labels_ = new_vertex_labels;
     adjacency_matrix_ = new_adj_matrix;
