@@ -87,11 +87,11 @@ int main(int argc, char** argv) {
         int w;
         inputFile >> a >> b >> w;
 
-        if (!v_id.contains(a)) {
+        if (v_id.find(a) == v_id.end()) {
             v_id[a] = g.addVertex();
             g.setVertexLabel(v_id[a], a);
         }
-        if (!v_id.contains(b)) {
+        if (v_id.find(b) == v_id.end()) {
             v_id[b] = g.addVertex();
             g.setVertexLabel(v_id[b], b);
         }
