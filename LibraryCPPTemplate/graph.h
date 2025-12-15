@@ -13,7 +13,7 @@ class Graph
 public:
     using VertexIndex = size_t;
 
-    // Ребро (to - вершина, label - метка)
+    // Ребро (to - вершина, label - стоимость прохода)
     struct Edge
     {
         VertexIndex to = 0;
@@ -54,7 +54,7 @@ public:
             return _item->data().to;
         }
 
-        // Возвращает метку ребра, ведущего к соседу
+        // Возвращает метку ребра
         const EdgeLabel& label() const
         {
             return _item->data().label;
@@ -79,10 +79,10 @@ public:
     void remove_vertex(VertexIndex index)
     {
         if (index >= _vertices.size()) return;
-        // Удаляем саму вершину из вектора (это сдвинет все последующие вершины в векторе)
+        // Удаляем вершину (это сдвинет все остальные вершины в векторе)
         _vertices.erase(_vertices.begin() + index);
 
-        // Проходим по всем оставшимся вершинам и чистим ссылки на удаленную
+        // Проходим по другим вершинам и чистим ссылки на удаленную
         for (auto& vertex : _vertices) {
             auto* item = vertex.edges.first();
             while (item) {
@@ -119,7 +119,7 @@ public:
             item = item->next();
         }
 
-        // Не нашли — добавляем новое
+        // Если не нашли -> добавляем новое
         _vertices[from].edges.insert(Edge(to, label));
     }
     // Удаляет ребро from->to, если оно существует
@@ -149,17 +149,6 @@ public:
         return false;
     }
 
-    // Устанавливает метку существующего ребра
-    void set_edge_label(VertexIndex from, VertexIndex to, const EdgeLabel& label) {
-        auto* item = _vertices[from].edges.first();
-        while (item) {
-            if (item->data().to == to) {
-                item->data().label = label;
-                return;
-            }
-            item = item->next();
-        }
-    }
     // Возвращает копию метки ребра
     EdgeLabel get_edge_label(VertexIndex from, VertexIndex to) const {
         auto* item = _vertices[from].edges.first();

@@ -29,13 +29,6 @@ int main()
         return 1;
     }
 
-    graph.set_edge_label(start, goal, 3);
-    if (graph.get_edge_label(start, goal) != 3)
-    {
-        std::cout << "edge relabel failed\n";
-        return 1;
-    }
-
     graph.set_vertex_label(mid, "middle");
     if (graph.get_vertex_label(mid) != "middle")
     {
