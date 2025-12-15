@@ -65,7 +65,7 @@ public:
         return false;
     }
 
-    // Возвращает корень дерева (для отладки или визуализации)
+    // Возвращает корень дерева
     const Node* root() const {
         return _root;
     }
@@ -83,22 +83,26 @@ public:
 
 private:
     Node* _root = nullptr;
-
     // Вспомогательные функции для АВЛ-дерева:
+
+    // Возвращает высоту узла или 0, если узел nullptr
     int height(Node* n) const {
         return n ? n->_height : 0;
     }
 
+    // Вычисляет разницу высот (левое - правое). >1 или <-1 требует балансировки
     int balance_factor(Node* n) const {
         return n ? height(n->_left) - height(n->_right) : 0;
     }
 
+    // Пересчитывает высоту узла, беря максимум от детей + 1
     void update_height(Node* n) {
         if (n) {
             n->_height = 1 + std::max(height(n->_left), height(n->_right));
         }
     }
 
+    // Малый правый поворот (для исправления перевеса слева)
     Node* rotate_right(Node* y) {
         Node* x = y->_left;
         Node* T2 = x->_right;
@@ -112,6 +116,7 @@ private:
         return x;
     }
 
+    // Малый левый поворот (для исправления перевеса справа)
     Node* rotate_left(Node* x) {
         Node* y = x->_right;
         Node* T2 = y->_left;
@@ -125,25 +130,26 @@ private:
         return y;
     }
 
+    // Проверяет баланс-фактор и при необходимости выполняет повороты (LL, LR, RR, RL)
     Node* balance(Node* n) {
         update_height(n);
         int bf = balance_factor(n);
 
-        // Left Left Case
+        // Left Left случай
         if (bf > 1 && balance_factor(n->_left) >= 0)
             return rotate_right(n);
 
-        // Left Right Case
+        // Left Right случай
         if (bf > 1 && balance_factor(n->_left) < 0) {
             n->_left = rotate_left(n->_left);
             return rotate_right(n);
         }
 
-        // Right Right Case
+        // Right Right случай
         if (bf < -1 && balance_factor(n->_right) <= 0)
             return rotate_left(n);
 
-        // Right Left Case
+        // Right Left случай
         if (bf < -1 && balance_factor(n->_right) > 0) {
             n->_right = rotate_right(n->_right);
             return rotate_left(n);
@@ -152,6 +158,7 @@ private:
         return n;
     }
 
+    // Рекурсивно вставляет ключ и балансирует дерево при возврате (снизу вверх)
     Node* insert_node(Node* node, const KeyType& key) {
         if (!node) return new Node(key);
 
@@ -165,12 +172,14 @@ private:
         return balance(node);
     }
 
+    // Ищет самый левый узел (минимум) в поддереве
     Node* find_min(Node* node) {
         Node* current = node;
         while (current->_left) current = current->_left;
         return current;
     }
 
+    // Рекурсивно удаляет узел по ключу и перебалансирует дерево
     Node* remove_node(Node* node, const KeyType& key, bool& deleted) {
         if (!node) return nullptr;
 
@@ -181,31 +190,22 @@ private:
             node->_right = remove_node(node->_right, key, deleted);
         }
         else {
-            // Узел найден
+            // Удаление узла: если 2 ребенка, заменяем на минимум справа и удаляем его
             deleted = true;
 
             Node* left = node->_left;
             Node* right = node->_right;
 
             // Нет правого ребенка (или лист)
-            if (!right) {
-                delete node;
-                return left;
-            }
+            if (!right) { delete node; return left; }
 
             // Нет левого ребенка
-            if (!left) {
-                delete node;
-                return right;
-            }
+            if (!left) { delete node; return right; }
 
-            // Есть оба ребенка
-            // Находим минимум справа
+            // Есть оба ребенка -> находим минимум справа
             Node* min_right = find_min(right);
-
             // Копируем данные
             node->_key = min_right->_key;
-
             // Удаляем узел-преемник рекурсивно
             node->_right = remove_min_helper(node->_right);
         }
@@ -213,6 +213,7 @@ private:
         return balance(node);
     }
 
+    // Вспомогательная функция для удаления минимального узла справа (при удалении с двумя детьми)
     Node* remove_min_helper(Node* node) {
         if (!node->_left) {
             Node* right = node->_right;
@@ -223,6 +224,7 @@ private:
         return balance(node);
     }
 
+    // Рекурсивно удаляет все узлы (освобождает память)
     void clear_tree(Node* n) {
         if (n) {
             clear_tree(n->_left);
@@ -231,6 +233,7 @@ private:
         }
     }
 
+    // Создает полную копию дерева
     Node* copy_recursive(Node* n) {
         if (!n) return nullptr;
         Node* new_node = new Node(n->_key);
