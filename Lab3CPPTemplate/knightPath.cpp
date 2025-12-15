@@ -21,37 +21,35 @@ int main(int argc, char* argv[])
         if (!line.empty())
             board.push_back(line);
 
-    int n = static_cast<int>(board.size());
-    int m = static_cast<int>(board[0].size());
+    int n = (int)board.size();
+    int m = (int)board[0].size();
 
     int startR = -1, startC = -1;
     int endR = -1, endC = -1;
 
     for (int i = 0; i < n; ++i)
-    {
         for (int j = 0; j < m; ++j)
         {
-            if (board[i][j] == 'K') 
-            { 
-                startR = i; 
+            if (board[i][j] == 'K')
+            {
+                startR = i;
                 startC = j;
             }
-            if (board[i][j] == 'E') 
+            else if (board[i][j] == 'E')
             {
                 endR = i;
                 endC = j;
             }
         }
-    }
 
-    const int dr[8] = { -2,-2,-1,-1,1,1,2,2 };
-    const int dc[8] = { -1,1,-2,2,-2,2,-1,1 };
+    const int dr[8] = { -2,-2,-1,-1, 1, 1, 2, 2 };
+    const int dc[8] = { -1, 1,-2, 2,-2, 2,-1, 1 };
 
     std::vector<std::vector<int>> parent(n, std::vector<int>(m, -1));
-    std::vector<std::vector<bool>> visited(n, std::vector<bool>(m, false));
     Queue<std::pair<int,int>> q;
+
     q.insert({startR, startC});
-    visited[startR][startC] = true;
+    parent[startR][startC] = -2;
 
     while (!q.empty())
     {
@@ -64,15 +62,16 @@ int main(int argc, char* argv[])
 
         for (int k = 0; k < 8; ++k)
         {
-            int nr = r + dr[k], nc = c + dc[k];
+            int nr = r + dr[k];
+            int nc = c + dc[k];
 
             if (nr < 0 || nr >= n || nc < 0 || nc >= m)
                 continue;
-                
-            if (board[nr][nc] == '#' || visited[nr][nc])
+            if (board[nr][nc] == '#')
+                continue;
+            if (parent[nr][nc] != -1)
                 continue;
 
-            visited[nr][nc] = true;
             parent[nr][nc] = r * m + c;
             q.insert({nr, nc});
         }
@@ -80,27 +79,29 @@ int main(int argc, char* argv[])
 
     std::vector<int> path;
     int cur = endR * m + endC;
-    while (cur != -1)
+
+    while (cur != -2)
     {
         path.push_back(cur);
         int r = cur / m;
         int c = cur % m;
         cur = parent[r][c];
     }
+
     std::reverse(path.begin(), path.end());
 
-    for (size_t step = 0; step < path.size(); ++step)
+    for (int i = 0; i < (int)path.size(); ++i)
     {
-        int flat = path[step];
-        int r = flat / m;
-        int c = flat % m;
-        board[r][c] = char('0' + (step % 10));
+        int r = path[i] / m;
+        int c = path[i] % m;
+        board[r][c] = char('0' + (i % 10));
     }
 
-    for (size_t i = 0; i < board.size(); ++i)
+    for (int i = 0; i < n; ++i)
     {
         output << board[i];
-        if (i + 1 < board.size()) output << '\n';
+        if (i + 1 < n)
+            output << '\n';
     }
 
     return 0;
