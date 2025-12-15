@@ -122,19 +122,10 @@ void app_op(const MinMax& L, const MinMax& R, char op, MinMax& res)
 
             Node* minn = make_node(Lp[mn], Rp[mn], '*', vs[mn]);
             Node* maxn = make_node(Lp[mx], Rp[mx], '*', vs[mx]);
-
-            if(vs[mn] < res.mn)
-            {
-                res.mn = vs[mn];
-                res.mn_node = minn;
-            }
-
-            if(vs[mx] > res.mx)
-            {
-                res.mx = vs[mx];
-                res.mx_node = maxn;
-            }
             
+            upd(vs[mn], minn);
+            upd(vs[mx], maxn);
+
             break;
         }
     }
