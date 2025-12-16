@@ -1,0 +1,4 @@
+# ninja log v6
+17	51	7838747198017796	clean	8c45b54705a541e8
+81	1396	7838747199403132	LibraryCPPClass/CMakeFiles/LibraryCPPClass.dir/myvector.cpp.obj	ba4b128aa68ead33
+100	1438	7838747199610810	LibraryCPPClass/Tests/CMakeFiles/TestStackCPPClass.dir/stack.cpp.obj	7ded4be94024267f
