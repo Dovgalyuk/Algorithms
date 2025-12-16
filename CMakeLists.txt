@@ -10,5 +10,4 @@ else()
 endif()
 
 add_subdirectory(LibraryCPPTemplate)
-add_subdirectory(LibraryCPPTemplate/Tests)
 add_subdirectory(Lab4CPP)

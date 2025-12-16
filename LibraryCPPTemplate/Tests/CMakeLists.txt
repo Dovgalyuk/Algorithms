@@ -1,5 +1,7 @@
 project(LibraryCPPTemplateTests)
 
+include_directories(..)
+
 add_executable(TestVector vector.cpp)
 add_executable(TestGraph graph.cpp)
 
