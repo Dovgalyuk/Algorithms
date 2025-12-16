@@ -1,4 +1,4 @@
-[file name]: LibraryCPPTemplate / Tests / graph.cpp
+[file name]: LibraryCPPTemplate / graph.cpp
 [file content begin]
 #include <iostream>
 #include <string>
@@ -57,7 +57,7 @@ int main() {
         ++neighborCount;
     }
 
-    if (neighborCount != 2) { 
+    if (neighborCount != 2) {
         std::cerr << "FAIL: Iterator found wrong number of neighbors\n";
         return 1;
     }

@@ -1,3 +1,5 @@
+[file name]: CMakeLists.txt
+[file content begin]
 cmake_minimum_required(VERSION 3.15)
 project(Algorithms)
 
@@ -19,3 +21,4 @@ add_subdirectory(LibraryCPPTemplate)
 #add_subdirectory(Lab2CPP)
 #add_subdirectory(Lab3CPP)
 add_subdirectory(Lab4CPP)
+[file content end]
