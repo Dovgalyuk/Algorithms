@@ -28,8 +28,10 @@ int bfs(int n, int start, int finish, int** graph) {
                 distances[i] = distances[current - 1] + 1;
                 
                 if (i + 1 == finish) {
-                    found = true;
-                    break;
+                    int result = distances[i];
+                    queue_delete(q);
+                    delete[] distances;
+                    return result;
                 }
                 
                 queue_insert(q, i + 1);
