@@ -1,5 +1,3 @@
-[file name]: LibraryCPPTemplate / vector.h
-[file content begin]
 #pragma once
 #ifndef VECTOR_TEMPLATE_H
 #define VECTOR_TEMPLATE_H
@@ -182,4 +180,3 @@ public:
 };
 
 #endif // VECTOR_TEMPLATE_H
-[file content end]

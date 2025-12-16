@@ -1,5 +1,3 @@
-[file name]: LibraryCPPTemplate / graph.cpp
-[file content begin]
 #include <iostream>
 #include <string>
 #include "vector.h"
@@ -120,4 +118,3 @@ int main() {
     std::cout << "\nALL TESTS PASSED!\n";
     return 0;
 }
-[file content end]

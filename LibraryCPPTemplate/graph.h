@@ -1,5 +1,3 @@
-[file name]: LibraryCPPTemplate / graph.h
-[file content begin]
 #pragma once
 #ifndef GRAPH_H
 #define GRAPH_H
@@ -102,7 +100,7 @@ public:
         }
 
         if (adjacencyMatrix[from][to] == EdgeLabel{}) {
-            return false; 
+            return false;
         }
 
         adjacencyMatrix[from][to] = EdgeLabel{};
@@ -123,7 +121,7 @@ public:
         }
 
         if (adjacencyMatrix[from][to] == EdgeLabel{}) {
-            return false; 
+            return false;
         }
 
         adjacencyMatrix[from][to] = label;
@@ -268,4 +266,3 @@ public:
 };
 
 #endif // GRAPH_H
-[file content end]

@@ -61,7 +61,6 @@ int main()
         std::cout << vector.get(i) << " ";
     std::cout << "\n";
 
-    // Performance test
     for (int i = 1; i <= 10000000; ++i)
     {
         vector.resize(i);
@@ -84,4 +83,6 @@ int main()
         sum += vector.get(i);
 
     std::cout << sum << "\n";
+
+    return 0;
 }

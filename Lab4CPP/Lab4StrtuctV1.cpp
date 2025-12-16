@@ -1,5 +1,3 @@
-[file name]: Lab4CPP / Lab4StrtuctV1.cpp
-[file content begin]
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -184,4 +182,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-[file content end]
