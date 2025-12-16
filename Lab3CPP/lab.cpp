@@ -25,8 +25,9 @@ struct Graph {
     }
 
     CityList getNeighbors(const string& city) {
-        if (adj.contains(city)) {
-            return adj[city];
+        auto it = adj.find(city);
+        if (it != adj.end()) {
+            return it->second;
         }
         return {};
     }
@@ -56,7 +57,8 @@ Path bfsShortestPath(Graph& graph, const string& start, const string& end) {
 
         CityList neighbors = graph.getNeighbors(current);
         for (const string& neighbor : neighbors) {
-            if (!parent.contains(neighbor)) {
+            // Используем find() вместо contains() для совместимости
+            if (parent.find(neighbor) == parent.end()) {
                 parent[neighbor] = current;
                 
                 if (neighbor == end) {
@@ -64,7 +66,8 @@ Path bfsShortestPath(Graph& graph, const string& start, const string& end) {
                     break;
                 }
                 
-                if (!cityIndex.contains(neighbor)) {
+                // Используем find() вместо contains() для совместимости
+                if (cityIndex.find(neighbor) == cityIndex.end()) {
                     cityIndex[neighbor] = cities.size();
                     cities.push_back(neighbor);
                 }
