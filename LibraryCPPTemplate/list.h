@@ -17,7 +17,16 @@ public:
             return (m_prev && m_prev->isSentinel) ? nullptr : m_prev;
         }
 
-        Data data() const { return m_data; }
+        Data& data()
+        {
+            return m_data;
+        }
+
+        const Data& data() const
+        {
+            return m_data;
+        }
+
 
     private:
         // internal data here

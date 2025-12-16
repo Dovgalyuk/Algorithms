@@ -68,6 +68,18 @@ public:
         return m_data[index];
     }
 
+    Data& operator[](size_t index)
+    {
+        check_index(index);
+        return m_data[index];
+    }
+
+    const Data& operator[](size_t index) const
+    {
+        check_index(index);
+        return m_data[index];
+    }
+
     template <typename Value>
     void set(size_t index, Value&& value)
     {
