@@ -86,6 +86,13 @@ public:
         }
     }
 
+    void push_back(Data value)
+    {
+        size_t currentSize = size();
+        resize(currentSize + 1);
+        set(currentSize, value);
+    }
+
 private:
     Data* mData;
     size_t mSize;
