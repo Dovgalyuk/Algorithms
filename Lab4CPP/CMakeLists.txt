@@ -1,26 +1,37 @@
-cmake_minimum_required(VERSION 3.10)
-project(Lab4CPP)
+add_executable(lab4cppclass Lab4StrtuctV1.cpp)
+target_include_directories(lab4cppclass PUBLIC ../LibraryCPPTemplate)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Test for BFS shortest path
+set(EXPECTED_OUTPUT "Adjacency matrix (7 vertices):
+The adjacency matrix (7 vertexes):
+A\t    . 	7 	 . 	5 	 . 	 . 	 . 	
+B\t    7 	 . 	 . 	 . 	7 	 . 	 . 	
+C\t    . 	 . 	 . 	 . 	5 	 . 	 . 	
+D\t    5 	 . 	 . 	 . 	 . 	6 	 . 	
+E\t    . 	7 	5 	 . 	 . 	 . 	9 	
+F\t    . 	 . 	 . 	6 	 . 	 . 	 . 	
+G\t    . 	 . 	 . 	 . 	9 	 . 	 . 	
+Shortest path from A to G:
+Distance (edges): 3
+Path: A -> B -> E -> G
+")
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/expected_output.txt "${EXPECTED_OUTPUT}")
 
-add_executable(FindShortestPaths main.cpp)
+add_test(NAME TestLab4CPPClass COMMAND lab4cppclass ${CMAKE_CURRENT_SOURCE_DIR}/input.txt A G)
+set_tests_properties(TestLab4CPPClass PROPERTIES TIMEOUT 10)
 
-target_link_libraries(FindShortestPaths LibraryCPPTemplate::GraphLibrary)
+add_test(NAME TestLab4CPPClass_Compare
+    COMMAND ${CMAKE_COMMAND} -E compare_files 
+    ${CMAKE_CURRENT_BINARY_DIR}/output.txt 
+    ${CMAKE_CURRENT_BINARY_DIR}/expected_output.txt)
 
-enable_testing()
+# Test for vector
+add_executable(TestVectorCPPTemplate vector.cpp)
+target_include_directories(TestVectorCPPTemplate PUBLIC ..)
+add_test(TestVectorCPPTemplate TestVectorCPPTemplate)
+set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
 
-set(TEST_INPUT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_input.txt)
-set(TEST_EXPECTED_FILE ${CMAKE_CURRENT_SOURCE_DIR}/test_expected_output.txt)
-set(TEST_OUTPUT_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_output.txt)
-
-add_test(NAME FindPathsTest
-    COMMAND ${CMAKE_COMMAND}
-        -DPROGRAM=$<TARGET_FILE:FindShortestPaths>
-        -DINPUT=${TEST_INPUT_FILE}
-        -DSTART=A
-        -DEND=E
-        -DOUTPUT=${TEST_OUTPUT_FILE}
-        -DEXPECTED=${TEST_EXPECTED_FILE}
-        -P ${CMAKE_CURRENT_SOURCE_DIR}/run_test.cmake
-)
+# Test for graph
+add_executable(TestGraphCPPTemplate graph.cpp)
+target_include_directories(TestGraphCPPTemplate PUBLIC ..)
+add_test(TestGraphCPPTemplate TestGraphCPPTemplate)

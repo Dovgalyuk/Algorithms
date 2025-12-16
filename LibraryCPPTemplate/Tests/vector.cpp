@@ -14,12 +14,12 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector.size() ; ++i)
-        vector.set(i, i);
+    for (size_t i = 0; i < vector.size(); ++i)
+        vector.set(i, (int)i);
 
     vector = vector;
 
-    for (size_t i = 0 ; i < vector.size() ; ++i)
+    for (size_t i = 0; i < vector.size(); ++i)
     {
         if (vector.get(i) != (int)i)
         {
@@ -36,7 +36,7 @@ int main()
     }
 
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector.size() ; ++i)
+    for (size_t i = 0; i < vector.size(); ++i)
         std::cout << vector.get(i) << " ";
     std::cout << "\n";
 
@@ -47,7 +47,7 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector.size() ; ++i)
+    for (size_t i = 0; i < vector.size(); ++i)
     {
         if (vector.get(i) != (int)i)
         {
@@ -57,12 +57,12 @@ int main()
     }
 
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector.size() ; ++i)
+    for (size_t i = 0; i < vector.size(); ++i)
         std::cout << vector.get(i) << " ";
     std::cout << "\n";
 
     // Performance test
-    for (int i = 1 ; i <= 10000000 ; ++i)
+    for (int i = 1; i <= 10000000; ++i)
     {
         vector.resize(i);
         vector.set(i - 1, i);
@@ -70,7 +70,7 @@ int main()
 
     MyVector copy = vector;
 
-    for (int i = 0 ; i < 10000000 ; ++i)
+    for (int i = 0; i < 10000000; ++i)
     {
         if (vector.get(i) != copy.get(i))
         {
@@ -80,7 +80,7 @@ int main()
     }
 
     long long sum = 0;
-    for (int i = 0 ; i < 10000000 ; ++i)
+    for (int i = 0; i < 10000000; ++i)
         sum += vector.get(i);
 
     std::cout << sum << "\n";
