@@ -1,0 +1,3 @@
+project(LibraryCPPTemplate)
+add_library(LibraryCPPTemplate INTERFACE)
+target_include_directories(LibraryCPPTemplate INTERFACE .)
