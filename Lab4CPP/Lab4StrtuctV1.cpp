@@ -1,124 +1,149 @@
+[file name]: Lab4CPP / Lab4StrtuctV1.cpp
+[file content begin]
 #include <iostream>
 #include <string>
-#include <climits>
 #include <fstream>
 #include "vector.h"
 #include "graph.h"
 
 using namespace std;
 
-typedef Vector<int> MyVector;
-typedef Digraph<std::string, int> MyGraph;
+typedef Vector<int> IntVector;
+typedef Digraph<string, int> StringGraph;
 
-void bfsShortestPath(const MyGraph& graph, int start, int target,
-    int& distance, MyVector& path) {
-    size_t n = graph.countvert();
+struct BFSResult {
+    bool found;
+    int distance;
+    IntVector path;
+};
+
+BFSResult bfsShortestPath(const StringGraph& graph, int start, int target) {
+    BFSResult result;
+    result.found = false;
+    result.distance = -1;
+
+    size_t n = graph.countVertices();
     if (start < 0 || start >= (int)n || target < 0 || target >= (int)n) {
-        distance = -1;
-        return;
+        return result;
     }
 
     if (start == target) {
-        distance = 0;
-        path.push_back(start);
-        return;
+        result.found = true;
+        result.distance = 0;
+        result.path.push_back(start);
+        return result;
     }
 
-    MyVector visited(n, 0);
-    MyVector parent(n, -1);
-    MyVector queue;
+    IntVector visited(n, 0);
+    IntVector distance(n, -1);
+    IntVector parent(n, -1);
+    IntVector queue;
 
     visited[start] = 1;
+    distance[start] = 0;
     queue.push_back(start);
 
-    bool found = false;
     size_t front = 0;
 
-    while (front < queue.size() && !found) {
+    while (front < queue.size()) {
         int current = queue[front];
-        front++;
+        ++front;
 
-        for (auto it = graph.nbegin(current); it != graph.nend(current); ++it) {
-            int neighbor = (int)it.neighborid();
+        for (auto it = graph.neighborBegin(current); it != graph.neighborEnd(current); ++it) {
+            int neighbor = static_cast<int>(it.getNeighborId());
+
             if (!visited[neighbor]) {
                 visited[neighbor] = 1;
+                distance[neighbor] = distance[current] + 1;
                 parent[neighbor] = current;
                 queue.push_back(neighbor);
 
                 if (neighbor == target) {
-                    found = true;
-                    break;
+                    result.found = true;
+                    result.distance = distance[neighbor];
+
+                    int node = target;
+                    while (node != -1) {
+                        result.path.push_back(node);
+                        node = parent[node];
+                    }
+
+                    IntVector reversedPath(result.path.size());
+                    for (size_t i = 0; i < result.path.size(); ++i) {
+                        reversedPath[i] = result.path[result.path.size() - 1 - i];
+                    }
+                    result.path = reversedPath;
+
+                    return result;
                 }
             }
         }
     }
 
-    if (!found) {
-        distance = -1;
-        return;
-    }
-
-    distance = 0;
-    int node = target;
-    while (node != -1) {
-        path.push_back(node);
-        node = parent[node];
-        if (node != -1) distance++;
-    }
-
-    MyVector reversedPath(path.size());
-    for (size_t i = 0; i < path.size(); ++i) {
-        reversedPath[i] = path[path.size() - 1 - i];
-    }
-    path = reversedPath;
+    return result;
 }
 
-MyGraph readgraphfromfile(string prargv) {
-    ifstream in(prargv);
+StringGraph readGraphFromFile(const string& filename) {
+    ifstream in(filename);
     if (!in.is_open()) {
-        MyGraph prprimgraph;
-        return prprimgraph;
+        cerr << "Error: Cannot open file " << filename << endl;
+        return StringGraph(0);
     }
-    else {
-        size_t asize1 = 0;
-        in >> asize1;
-        MyGraph prprimgraph(asize1);
-        for (size_t i = 0; i < asize1; i++) {
-            string vertlabe;
-            in >> vertlabe;
-            prprimgraph.setvertlabel(i, vertlabe);
-        }
-        size_t edgesize = 0;
-        in >> edgesize;
-        for (size_t i = 0; i < edgesize; i++) {
-            string vertexfrom;
-            string vertexto;
-            int weight;
-            in >> vertexfrom >> vertexto >> weight;
-            int vertexfromid = prprimgraph.getvertexlabelid(vertexfrom);
-            int vertextoid = prprimgraph.getvertexlabelid(vertexto);
-            if (vertexfromid >= 0 && vertextoid >= 0) {
-                prprimgraph.addedge((size_t)vertexfromid, (size_t)vertextoid, weight);
-            }
-        }
-        in.close();
-        return prprimgraph;
+
+    size_t vertexCount;
+    in >> vertexCount;
+
+    StringGraph graph(vertexCount);
+
+    for (size_t i = 0; i < vertexCount; ++i) {
+        string label;
+        in >> label;
+        graph.setVertexLabel(i, label);
     }
+
+    size_t edgeCount;
+    in >> edgeCount;
+
+    for (size_t i = 0; i < edgeCount; ++i) {
+        string fromLabel, toLabel;
+        int weight;
+        in >> fromLabel >> toLabel >> weight;
+
+        int fromId = graph.getVertexId(fromLabel);
+        int toId = graph.getVertexId(toLabel);
+
+        if (fromId != -1 && toId != -1) {
+            graph.addEdge(fromId, toId, weight);
+        }
+        else {
+            cerr << "Warning: Invalid vertex labels in edge " << i + 1 << endl;
+        }
+    }
+
+    in.close();
+    return graph;
 }
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     if (argc < 4) {
-        cerr << "Usage: " << argv[0] << " <input_filename> <start_vertex> <target_vertex>" << endl;
+        cerr << "Usage: " << argv[0] << " <input_file> <start_vertex> <target_vertex>" << endl;
+        cerr << "Example: " << argv[0] << " input.txt A G" << endl;
         return 1;
     }
 
-    MyGraph graph = readgraphfromfile(argv[1]);
+    string inputFile = argv[1];
     string startLabel = argv[2];
     string targetLabel = argv[3];
 
-    int startId = graph.getvertexlabelid(startLabel);
-    int targetId = graph.getvertexlabelid(targetLabel);
+    StringGraph graph = readGraphFromFile(inputFile);
+
+    if (graph.countVertices() == 0) {
+        cerr << "Error: Failed to read graph from file" << endl;
+        return 1;
+    }
+
+    int startId = graph.getVertexId(startLabel);
+    int targetId = graph.getVertexId(targetLabel);
 
     if (startId == -1) {
         cerr << "Error: Start vertex '" << startLabel << "' not found" << endl;
@@ -130,28 +155,33 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    cout << "Adjacency matrix (" << graph.countvert() << " vertices):\n";
-    graph.printadmatrix();
+    cout << "Graph loaded successfully from " << inputFile << endl;
+    cout << "Number of vertices: " << graph.countVertices() << endl;
+    cout << "\n";
 
-    int distance;
-    MyVector path;
-    bfsShortestPath(graph, startId, targetId, distance, path);
+    graph.printAdjacencyMatrix();
+    cout << "\n";
 
-    if (distance == -1) {
+    cout << "Searching shortest path from '" << startLabel << "' to '" << targetLabel << "'..." << endl;
+    BFSResult result = bfsShortestPath(graph, startId, targetId);
+
+    if (!result.found) {
         cout << "No path found from " << startLabel << " to " << targetLabel << endl;
     }
     else {
-        cout << "Shortest path from " << startLabel << " to " << targetLabel << ":\n";
-        cout << "Distance (edges): " << distance << "\n";
+        cout << "Shortest path found!" << endl;
+        cout << "Distance (number of edges): " << result.distance << endl;
         cout << "Path: ";
-        for (size_t i = 0; i < path.size(); ++i) {
-            cout << graph.getvertexlabel(path[i]);
-            if (i != path.size() - 1) {
+
+        for (size_t i = 0; i < result.path.size(); ++i) {
+            cout << graph.getVertexLabel(result.path[i]);
+            if (i != result.path.size() - 1) {
                 cout << " -> ";
             }
         }
-        cout << "\n";
+        cout << endl;
     }
 
     return 0;
 }
+[file content end]

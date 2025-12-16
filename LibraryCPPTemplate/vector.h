@@ -1,173 +1,185 @@
+[file name]: LibraryCPPTemplate / vector.h
+[file content begin]
 #pragma once
 #ifndef VECTOR_TEMPLATE_H
 #define VECTOR_TEMPLATE_H
 
 #include <cstddef>
 #include <stdexcept>
+#include <algorithm>
 
 template <typename Data>
-class Vector
-{
+class Vector {
+private:
+    Data* data;
+    size_t currentSize;
+    size_t currentCapacity;
+
+    void reallocate(size_t newCapacity) {
+        Data* newData = new Data[newCapacity];
+
+        size_t elementsToCopy = std::min(currentSize, newCapacity);
+        for (size_t i = 0; i < elementsToCopy; ++i) {
+            newData[i] = data[i];
+        }
+
+        delete[] data;
+        data = newData;
+        currentCapacity = newCapacity;
+        currentSize = elementsToCopy;
+    }
+
 public:
-    // Creates vector
-    Vector()
-    {
-        adata = nullptr;
-        asize = 0;
-        acapacity = 0;
-    }
+    Vector() : data(nullptr), currentSize(0), currentCapacity(0) {}
 
-    // Creates vector with given size
-    Vector(size_t size) : asize(size), acapacity(size) {
+    explicit Vector(size_t size) : currentSize(size), currentCapacity(size) {
         if (size > 0) {
-            adata = new Data[size];
+            data = new Data[size];
             for (size_t i = 0; i < size; ++i) {
-                adata[i] = Data();
+                data[i] = Data();
             }
         }
         else {
-            adata = nullptr;
+            data = nullptr;
         }
     }
 
-    // Creates vector with given size and initial value
-    Vector(size_t size, const Data& initial_value) : asize(size), acapacity(size) {
+    Vector(size_t size, const Data& initialValue)
+        : currentSize(size), currentCapacity(size) {
         if (size > 0) {
-            adata = new Data[size];
+            data = new Data[size];
             for (size_t i = 0; i < size; ++i) {
-                adata[i] = initial_value;
+                data[i] = initialValue;
             }
         }
         else {
-            adata = nullptr;
+            data = nullptr;
         }
     }
 
-    // copy constructor
-    Vector(const Vector& a)
-    {
-        copyadata(a);
+    Vector(const Vector& other)
+        : currentSize(other.currentSize), currentCapacity(other.currentCapacity) {
+        if (currentCapacity > 0) {
+            data = new Data[currentCapacity];
+            for (size_t i = 0; i < currentSize; ++i) {
+                data[i] = other.data[i];
+            }
+        }
+        else {
+            data = nullptr;
+        }
     }
 
-    // assignment operator
-    Vector& operator=(const Vector& a)
-    {
-        if (this != &a) {
-            delete[] adata;
-            copyadata(a);
+    Vector& operator=(const Vector& other) {
+        if (this != &other) {
+            delete[] data;
+
+            currentSize = other.currentSize;
+            currentCapacity = other.currentCapacity;
+
+            if (currentCapacity > 0) {
+                data = new Data[currentCapacity];
+                for (size_t i = 0; i < currentSize; ++i) {
+                    data[i] = other.data[i];
+                }
+            }
+            else {
+                data = nullptr;
+            }
         }
         return *this;
     }
 
-    // Deletes vector structure and internal data
-    ~Vector()
-    {
-        delete[] adata;
+    ~Vector() {
+        delete[] data;
     }
 
-    // Retrieves vector element with the specified index
-    Data get(size_t index) const
-    {
-        if (index < asize) {
-            return adata[index];
-        }
-        else {
-            throw std::out_of_range("Vector index out of range");
-        }
-    }
-
-    // Sets vector element with the specified index
-    void set(size_t index, const Data& value)
-    {
-        if (index < asize) {
-            adata[index] = value;
-        }
-        else {
-            throw std::out_of_range("Vector index out of range");
-        }
-    }
-
-    // Access element by reference (for modification)
     Data& operator[](size_t index) {
-        if (index < asize) {
-            return adata[index];
-        }
-        else {
+        if (index >= currentSize) {
             throw std::out_of_range("Vector index out of range");
         }
+        return data[index];
     }
 
-    // Access element by const reference (for reading)
     const Data& operator[](size_t index) const {
-        if (index < asize) {
-            return adata[index];
-        }
-        else {
+        if (index >= currentSize) {
             throw std::out_of_range("Vector index out of range");
         }
+        return data[index];
     }
 
-    // Retrieves current vector size
-    size_t size() const
-    {
-        return asize;
+    Data get(size_t index) const {
+        return (*this)[index];
     }
 
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
-    void resize(size_t size)
-    {
-        if (size <= acapacity) {
-            asize = size;
+    void set(size_t index, const Data& value) {
+        (*this)[index] = value;
+    }
+
+    size_t size() const {
+        return currentSize;
+    }
+
+    size_t capacity() const {
+        return currentCapacity;
+    }
+
+    bool empty() const {
+        return currentSize == 0;
+    }
+
+    void resize(size_t newSize) {
+        if (newSize > currentCapacity) {
+            size_t newCapacity = std::max(newSize, currentCapacity * 2);
+            if (newCapacity == 0) newCapacity = 1;
+            reallocate(newCapacity);
         }
-        else {
-            size_t new_capacity = size * 2;
-            Data* new_data = new Data[new_capacity];
-            for (size_t i = 0; i < asize; i++) {
-                new_data[i] = adata[i];
+
+        if (newSize > currentSize) {
+            for (size_t i = currentSize; i < newSize; ++i) {
+                data[i] = Data();
             }
-            // Initialize new elements with default value
-            for (size_t i = asize; i < size; i++) {
-                new_data[i] = Data();
-            }
-            delete[] adata;
-            adata = new_data;
-            asize = size;
-            acapacity = new_capacity;
         }
-        return;
+
+        currentSize = newSize;
     }
 
-    void push_back(const Data& value)
-    {
-        size_t newsize = size() + 1;
-        resize(newsize);
-        set(newsize - 1, value);
+    void push_back(const Data& value) {
+        if (currentSize >= currentCapacity) {
+            size_t newCapacity = currentCapacity == 0 ? 1 : currentCapacity * 2;
+            reallocate(newCapacity);
+        }
+
+        data[currentSize] = value;
+        ++currentSize;
     }
 
+    void pop_back() {
+        if (currentSize > 0) {
+            --currentSize;
+        }
+    }
 
-private:
-    // private data should be here
-    Data* adata;
-    size_t asize;
-    size_t acapacity;
-    void copyadata(const Vector& a)
-    {
-        if (a.size() > 0) {
-            asize = a.size();
-            acapacity = a.acapacity;
-            Data* new_data = new Data[acapacity];
-            for (size_t i = 0; i < asize; i++) {
-                new_data[i] = a.get(i);
-            }
-            adata = new_data;
-        }
-        else {
-            adata = nullptr;
-            asize = 0;
-            acapacity = 0;
-        }
+    void clear() {
+        currentSize = 0;
+    }
+
+    Data* begin() {
+        return data;
+    }
+
+    Data* end() {
+        return data + currentSize;
+    }
+
+    const Data* begin() const {
+        return data;
+    }
+
+    const Data* end() const {
+        return data + currentSize;
     }
 };
 
-#endif
+#endif // VECTOR_TEMPLATE_H
+[file content end]

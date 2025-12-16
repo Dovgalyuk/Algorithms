@@ -1,253 +1,271 @@
+[file name]: LibraryCPPTemplate / graph.h
+[file content begin]
 #pragma once
 #ifndef GRAPH_H
 #define GRAPH_H
 
 #include <stdexcept>
 #include <cstddef>
+#include <iostream>
 #include "vector.h"
 
 template<typename VertexLabel = int, typename EdgeLabel = int>
 class Digraph {
 private:
-    // The adjacency matrix
-    Vector<Vector<EdgeLabel>> admatrix;
-    // Vertex labels
-    Vector<VertexLabel> vertlabels;
-    // Verifying the validity of the vertex label
-    bool validvertid(size_t v) const {
-        return v < countvert();
+    Vector<Vector<EdgeLabel>> adjacencyMatrix;
+    Vector<VertexLabel> vertexLabels;
+
+    bool isValidVertex(size_t v) const {
+        return v < countVertices();
     }
+
 public:
     Digraph() = default;
 
-    explicit Digraph(size_t pcountvert) : admatrix(pcountvert, Vector<EdgeLabel>(pcountvert, EdgeLabel{}))
-        , vertlabels(pcountvert) {
+    explicit Digraph(size_t vertexCount)
+        : adjacencyMatrix(vertexCount, Vector<EdgeLabel>(vertexCount, EdgeLabel{}))
+        , vertexLabels(vertexCount, VertexLabel{}) {
     }
 
-    Digraph(const Digraph& other) : admatrix(other.admatrix), vertlabels(other.vertlabels) {
+    Digraph(const Digraph& other) = default;
+    Digraph& operator=(const Digraph& other) = default;
+
+    size_t addVertex() {
+        size_t oldSize = countVertices();
+
+        for (size_t i = 0; i < oldSize; ++i) {
+            adjacencyMatrix[i].push_back(EdgeLabel{});
+        }
+
+        Vector<EdgeLabel> newRow(oldSize + 1, EdgeLabel{});
+        adjacencyMatrix.push_back(newRow);
+
+        vertexLabels.push_back(VertexLabel{});
+
+        return oldSize;
     }
 
-    Digraph& operator=(const Digraph& other) {
-        if (this != &other) {
-            admatrix = other.admatrix;
-            vertlabels = other.vertlabels;
+    bool removeVertex(size_t vertex) {
+        if (!isValidVertex(vertex)) {
+            return false;
         }
-        return *this;
-    }
 
-    // Add a vertex
-    size_t addvertex() {
-        size_t old_size = countvert();
-        for (size_t i = 0; i < old_size; ++i) {
-            admatrix[i].push_back(EdgeLabel{});
-        }
-        Vector<EdgeLabel> admatrixnewline(old_size + 1, EdgeLabel{});
-        admatrix.push_back(admatrixnewline);
-        vertlabels.push_back(VertexLabel{});
-        return old_size;
-    }
-
-    // Set a label for a vertex
-    bool setvertlabel(size_t v, const VertexLabel& label) {
-        if (!validvertid(v)) {
-            return false;
-        }
-        vertlabels[v] = label;
-        return true;
-    }
-
-    // Add an edge with a label
-    bool addedge(size_t from, size_t to, const EdgeLabel& label) {
-        if (!validvertid(from) || !validvertid(to)) {
-            return false;
-        }
-        if (admatrix[from][to] != EdgeLabel{}) {
-            return false;
-        }
-        admatrix[from][to] = label;
-        return true;
-    }
-    // Check if there is an edge between the vertices
-    bool hasedge(size_t from, size_t to) const {
-        if (!validvertid(from) || !validvertid(to)) {
-            return false;
-        }
-        return admatrix[from][to] != EdgeLabel{};
-    }
-    // Set a label for an edge
-    bool setedgelabel(size_t from, size_t to, const EdgeLabel& label) {
-        if (!validvertid(from) || !validvertid(to)) {
-            return false;
-        }
-        if (admatrix[from][to] == EdgeLabel{}) {
-            return false;
-        }
-        admatrix[from][to] = label;
-        return true;
-    }
-
-    // Get a label for an edge
-    EdgeLabel getedgelabel(size_t from, size_t to) const {
-        if (!validvertid(from) || !validvertid(to)) {
-            return EdgeLabel{};
-        }
-        EdgeLabel label = admatrix[from][to];
-        if (label == EdgeLabel{}) {
-            return EdgeLabel{};
-        }
-        return label;
-    }
-
-    // Get the label for the vertex
-    VertexLabel getvertexlabel(size_t v) const {
-        if (!validvertid(v)) {
-            return VertexLabel{};
-        }
-        return vertlabels[v];
-    }
-
-    int getvertexlabelid(const VertexLabel& v) const {
-        int res = -1;
-        size_t vertlablessize = vertlabels.size();
-        for (size_t i = 0; i < vertlablessize; i++) {
-            if (v == getvertexlabel(i)) {
-                res = (int)i;
-                break;
-            }
-        }
-        return res;
-    }
-
-    // Delete an edge
-    bool removeedge(size_t from, size_t to) {
-        if (!validvertid(from) || !validvertid(to)) {
-            return false;
-        }
-        if (admatrix[from][to] == EdgeLabel{}) {
-            return false;
-        }
-        admatrix[from][to] = EdgeLabel{};
-        return true;
-    }
-    // Delete vertex
-    bool removevertex(size_t v) {
-        if (!validvertid(v)) {
-            return false;
-        }
-        if (countvert() == 0) {
-            return false;
-        }
-        if (countvert() == 1) {
-            admatrix.resize(0);
-            vertlabels.resize(0);
+        size_t newSize = countVertices() - 1;
+        if (newSize == 0) {
+            adjacencyMatrix.resize(0);
+            vertexLabels.resize(0);
             return true;
         }
-        size_t new_size = countvert() - 1;
-        Vector<Vector<EdgeLabel>> new_matrix(new_size);
-        Vector<VertexLabel> new_labels(new_size);
-        size_t new_i = 0;
-        for (size_t i = 0; i < countvert(); i++) {
-            if (i == v) continue;
-            Vector<EdgeLabel> new_row(new_size);
-            size_t new_j = 0;
-            for (size_t j = 0; j < countvert(); j++) {
-                if (j == v) continue;
-                new_row[new_j] = admatrix[i][j];
-                new_j++;
+
+        Vector<Vector<EdgeLabel>> newMatrix(newSize);
+        Vector<VertexLabel> newLabels(newSize);
+
+        size_t newRowIndex = 0;
+        for (size_t i = 0; i < countVertices(); ++i) {
+            if (i == vertex) continue;
+
+            Vector<EdgeLabel> newRow(newSize);
+            size_t newColIndex = 0;
+
+            for (size_t j = 0; j < countVertices(); ++j) {
+                if (j == vertex) continue;
+                newRow[newColIndex] = adjacencyMatrix[i][j];
+                ++newColIndex;
             }
-            new_matrix[new_i] = new_row;
-            new_labels[new_i] = vertlabels[i];
-            new_i++;
+
+            newMatrix[newRowIndex] = newRow;
+            newLabels[newRowIndex] = vertexLabels[i];
+            ++newRowIndex;
         }
-        admatrix = new_matrix;
-        vertlabels = new_labels;
+
+        adjacencyMatrix = newMatrix;
+        vertexLabels = newLabels;
         return true;
     }
-    // Get the labels of all vertices as a vector
-    Vector<VertexLabel> getallvertexlabels() const {
-        return vertlabels;
+
+    bool addEdge(size_t from, size_t to, const EdgeLabel& label = EdgeLabel{}) {
+        if (!isValidVertex(from) || !isValidVertex(to)) {
+            return false;
+        }
+
+        if (adjacencyMatrix[from][to] != EdgeLabel{}) {
+            return false;
+        }
+
+        adjacencyMatrix[from][to] = label;
+        return true;
     }
-    size_t countvert() const {
-        return vertlabels.size();
+
+    bool removeEdge(size_t from, size_t to) {
+        if (!isValidVertex(from) || !isValidVertex(to)) {
+            return false;
+        }
+
+        if (adjacencyMatrix[from][to] == EdgeLabel{}) {
+            return false; 
+        }
+
+        adjacencyMatrix[from][to] = EdgeLabel{};
+        return true;
     }
-    void printadmatrix(std::ostream& os = std::cout) const {
-        os << "The adjacency matrix (" << countvert() << " vertexes):\n";
-        for (size_t i = 0; i < countvert(); ++i) {
-            os << vertlabels.get(i) << '\t' << "  ";
-            for (size_t j = 0; j < countvert(); ++j) {
-                EdgeLabel label = admatrix[i][j];
+
+    bool hasEdge(size_t from, size_t to) const {
+        if (!isValidVertex(from) || !isValidVertex(to)) {
+            return false;
+        }
+
+        return adjacencyMatrix[from][to] != EdgeLabel{};
+    }
+
+    bool setEdgeLabel(size_t from, size_t to, const EdgeLabel& label) {
+        if (!isValidVertex(from) || !isValidVertex(to)) {
+            return false;
+        }
+
+        if (adjacencyMatrix[from][to] == EdgeLabel{}) {
+            return false; 
+        }
+
+        adjacencyMatrix[from][to] = label;
+        return true;
+    }
+
+    EdgeLabel getEdgeLabel(size_t from, size_t to) const {
+        if (!isValidVertex(from) || !isValidVertex(to)) {
+            return EdgeLabel{};
+        }
+
+        return adjacencyMatrix[from][to];
+    }
+
+    bool setVertexLabel(size_t vertex, const VertexLabel& label) {
+        if (!isValidVertex(vertex)) {
+            return false;
+        }
+
+        vertexLabels[vertex] = label;
+        return true;
+    }
+
+    VertexLabel getVertexLabel(size_t vertex) const {
+        if (!isValidVertex(vertex)) {
+            return VertexLabel{};
+        }
+
+        return vertexLabels[vertex];
+    }
+
+    int getVertexId(const VertexLabel& label) const {
+        for (size_t i = 0; i < vertexLabels.size(); ++i) {
+            if (vertexLabels[i] == label) {
+                return static_cast<int>(i);
+            }
+        }
+        return -1;
+    }
+
+    Vector<VertexLabel> getAllVertexLabels() const {
+        return vertexLabels;
+    }
+
+    size_t countVertices() const {
+        return vertexLabels.size();
+    }
+
+    void printAdjacencyMatrix(std::ostream& os = std::cout) const {
+        os << "Adjacency matrix (" << countVertices() << " vertices):\n";
+
+        os << "\t";
+        for (size_t j = 0; j < countVertices(); ++j) {
+            os << vertexLabels[j] << "\t";
+        }
+        os << "\n";
+
+        for (size_t i = 0; i < countVertices(); ++i) {
+            os << vertexLabels[i] << "\t";
+            for (size_t j = 0; j < countVertices(); ++j) {
+                EdgeLabel label = adjacencyMatrix[i][j];
                 if (label == EdgeLabel{}) {
-                    os << " . " << '\t';
+                    os << ".\t";
                 }
                 else {
-                    os << " " << label << '\t';
+                    os << label << "\t";
                 }
             }
             os << "\n";
         }
     }
 
-public:
-    class NIterator {
+    class NeighborIterator {
     private:
-        const Digraph* ngraph;
-        size_t svert;
-        size_t currneighbor;
-        void nextneighbor() {
-            while (currneighbor < ngraph->countvert()) {
-                if (ngraph->admatrix[svert][currneighbor] != EdgeLabel{}) {
+        const Digraph* graph;
+        size_t sourceVertex;
+        size_t currentNeighbor;
+
+        void findNextNeighbor() {
+            while (currentNeighbor < graph->countVertices()) {
+                if (graph->adjacencyMatrix[sourceVertex][currentNeighbor] != EdgeLabel{}) {
                     return;
                 }
-                ++currneighbor;
+                ++currentNeighbor;
             }
         }
 
     public:
-        using value_type = std::pair<size_t, EdgeLabel>;
-        NIterator(const Digraph* graph, size_t source, size_t start = 0)
-            : ngraph(graph), svert(source), currneighbor(start) {
-            if (currneighbor < ngraph->countvert()) {
-                if (ngraph->admatrix[svert][currneighbor] == EdgeLabel{}) {
-                    nextneighbor();
-                }
+        NeighborIterator(const Digraph* g, size_t source, size_t start = 0)
+            : graph(g), sourceVertex(source), currentNeighbor(start) {
+            if (currentNeighbor < graph->countVertices() &&
+                graph->adjacencyMatrix[sourceVertex][currentNeighbor] == EdgeLabel{}) {
+                findNextNeighbor();
             }
         }
-        value_type operator*() const {
-            return std::make_pair(
-                currneighbor,
-                ngraph->admatrix[svert][currneighbor]
-            );
+
+        size_t getNeighborId() const {
+            return currentNeighbor;
         }
-        NIterator& operator++() {
-            ++currneighbor;
-            nextneighbor();
+
+        EdgeLabel getEdgeLabel() const {
+            return graph->adjacencyMatrix[sourceVertex][currentNeighbor];
+        }
+
+        NeighborIterator& operator++() {
+            ++currentNeighbor;
+            findNextNeighbor();
             return *this;
         }
-        bool operator==(const NIterator& other) const {
-            return ngraph == other.ngraph &&
-                svert == other.svert &&
-                currneighbor == other.currneighbor;
+
+        NeighborIterator operator++(int) {
+            NeighborIterator temp = *this;
+            ++(*this);
+            return temp;
         }
-        bool operator!=(const NIterator& other) const {
+
+        bool operator==(const NeighborIterator& other) const {
+            return graph == other.graph &&
+                sourceVertex == other.sourceVertex &&
+                currentNeighbor == other.currentNeighbor;
+        }
+
+        bool operator!=(const NeighborIterator& other) const {
             return !(*this == other);
         }
-        size_t neighborid() const {
-            return currneighbor;
-        }
-        EdgeLabel edgelabel() const {
-            return ngraph->admatrix[svert][currneighbor];
+
+        std::pair<size_t, EdgeLabel> operator*() const {
+            return { currentNeighbor, graph->adjacencyMatrix[sourceVertex][currentNeighbor] };
         }
     };
-    NIterator nbegin(size_t vertex) const {
-        if (!validvertid(vertex)) {
-            return NIterator(this, vertex, countvert());
+
+    NeighborIterator neighborBegin(size_t vertex) const {
+        if (!isValidVertex(vertex)) {
+            return NeighborIterator(this, vertex, countVertices());
         }
-        return NIterator(this, vertex, 0);
-    }
-    NIterator nend(size_t vertex) const {
-        return NIterator(this, vertex, countvert());
+        return NeighborIterator(this, vertex, 0);
     }
 
+    NeighborIterator neighborEnd(size_t vertex) const {
+        return NeighborIterator(this, vertex, countVertices());
+    }
 };
 
 #endif // GRAPH_H
+[file content end]

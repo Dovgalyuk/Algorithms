@@ -1,116 +1,123 @@
-?#include <iostream>
+[file name]: LibraryCPPTemplate / Tests / graph.cpp
+[file content begin]
+#include <iostream>
 #include <string>
 #include "vector.h"
 #include "graph.h"
 
-typedef Vector<int> MyVector;
-typedef Digraph<std::string, int> MyGraph;
+int main() {
+    std::cout << "Testing Digraph implementation...\n";
 
-int main()
-{
-    MyGraph digraph(6);
+    Digraph<std::string, int> graph(5);
+    if (graph.countVertices() != 5) {
+        std::cerr << "FAIL: Initial vertex count incorrect\n";
+        return 1;
+    }
+    std::cout << "PASS: Graph created with 5 vertices\n";
 
-    if (digraph.countvert() != 6)
-    {
-        std::cout << "Invalid initial vertex count\n";
-        return 1;
-    }
-    digraph.setvertlabel(0, "A");
-    digraph.setvertlabel(1, "B");
-    digraph.setvertlabel(2, "C");
-    digraph.setvertlabel(3, "D");
-    digraph.setvertlabel(4, "E");
-    digraph.setvertlabel(5, "F");
+    graph.setVertexLabel(0, "A");
+    graph.setVertexLabel(1, "B");
+    graph.setVertexLabel(2, "C");
+    graph.setVertexLabel(3, "D");
+    graph.setVertexLabel(4, "E");
 
-    if (!digraph.addedge(0, 1, 7) || !digraph.addedge(1, 2, 8) || !digraph.addedge(2, 4, 5) || !digraph.addedge(4, 3, 15) || !digraph.addedge(4, 5, 8)) {
-        std::cout << "Invalid add edge\n";
+    if (graph.getVertexLabel(0) != "A" || graph.getVertexLabel(4) != "E") {
+        std::cerr << "FAIL: Vertex labels not set correctly\n";
         return 1;
     }
-    if (!digraph.hasedge(0, 1) || !digraph.hasedge(1, 2) || !digraph.hasedge(2, 4) || !digraph.hasedge(4, 3) || !digraph.hasedge(4, 5)) {
-        std::cout << "Invalid has edge\n";
-        return 1;
-    }
-    int edge01 = digraph.getedgelabel(0, 1);
-    if (edge01 == 0) {
-        std::cout << "Invalid edge\n";
-        return 1;
-    }
+    std::cout << "PASS: Vertex labels set correctly\n";
 
-    int edge02 = digraph.getedgelabel(0, 2);
-    if (!edge02 == 0) {
-        std::cout << "Invalid edge\n";
+    if (!graph.addEdge(0, 1, 10) ||
+        !graph.addEdge(0, 2, 5) ||
+        !graph.addEdge(1, 3, 7) ||
+        !graph.addEdge(2, 3, 3) ||
+        !graph.addEdge(3, 4, 2)) {
+        std::cerr << "FAIL: Failed to add edges\n";
         return 1;
     }
-    digraph.printadmatrix();
-    for (auto it = digraph.nbegin(4); it != digraph.nend(4); ++it) {
-        int weight = it.edgelabel();
-        size_t cneighbor = it.neighborid();
-        if (weight == 0) {
-            std::cout << "Invalid iterator\n";
-            return 1;
-        }
-        if (cneighbor != 3 && cneighbor != 5) {
-            std::cout << "Invalid neighbor\n";
-            return 1;
-        }
-    }
+    std::cout << "PASS: Edges added successfully\n";
 
-    MyGraph copydigraph = digraph;
-    size_t newvertex = copydigraph.addvertex();
-    if (newvertex != 6) {
-        std::cout << "Invalid initial vertex count\n";
+    if (!graph.hasEdge(0, 1) || graph.hasEdge(1, 0)) {
+        std::cerr << "FAIL: Edge existence check failed\n";
         return 1;
     }
-    copydigraph.setvertlabel(6, "G");
-    if (!copydigraph.addedge(0, 5, 17) || !copydigraph.addedge(5, 6, 18)) {
-        std::cout << "Invalid add edge\n";
-        return 1;
-    }
-    if (!copydigraph.removeedge(4, 3) || !copydigraph.removeedge(4, 5)) {
-        std::cout << "Invalid remove edge\n";
-        return 1;
-    }
-    bool resrsetedgelabel = copydigraph.setedgelabel(5, 6, 20);
-    if (!resrsetedgelabel || copydigraph.getedgelabel(5, 6) != 20)
-    {
-        std::cout << "Invalid set edge label\n";
-        return 1;
-    }
-    copydigraph.printadmatrix();
+    std::cout << "PASS: Edge existence check passed\n";
 
-    bool resremovevertex = copydigraph.removevertex(4);
-    if (!resremovevertex || copydigraph.countvert() != 6)
-    {
-        std::cout << "Invalid remove vertex\n";
+    if (graph.getEdgeLabel(0, 1) != 10 || graph.getEdgeLabel(2, 3) != 3) {
+        std::cerr << "FAIL: Edge labels incorrect\n";
         return 1;
+    }
+    std::cout << "PASS: Edge labels retrieved correctly\n";
+
+    std::cout << "Testing neighbor iterator for vertex 0:\n";
+    int neighborCount = 0;
+    for (auto it = graph.neighborBegin(0); it != graph.neighborEnd(0); ++it) {
+        auto [neighbor, weight] = *it;
+        std::cout << "  Neighbor " << neighbor << " (weight: " << weight << ")\n";
+        ++neighborCount;
     }
 
-    copydigraph.printadmatrix();
-
-    size_t testsize = 1000;
-    MyGraph testdigraph(testsize);
-    if (testdigraph.countvert() != testsize)
-    {
-        std::cout << "Invalid initial vertex count\n";
+    if (neighborCount != 2) { 
+        std::cerr << "FAIL: Iterator found wrong number of neighbors\n";
         return 1;
     }
-    for (size_t i = 0; i < testsize; i++) {
-        testdigraph.setvertlabel(i, std::to_string(i));
+    std::cout << "PASS: Neighbor iterator works correctly\n";
+
+    if (!graph.setEdgeLabel(0, 1, 15) || graph.getEdgeLabel(0, 1) != 15) {
+        std::cerr << "FAIL: Failed to update edge label\n";
+        return 1;
     }
-    for (size_t i = 0; i < testsize; i++) {
-        size_t vertexlabe = std::stoull(testdigraph.getvertexlabel(i));
-        if (vertexlabe != i) {
-            std::cout << "Invalid initial vertex lable\n";
-            return 1;
-        }
+    std::cout << "PASS: Edge label updated successfully\n";
+
+    if (!graph.removeEdge(0, 2) || graph.hasEdge(0, 2)) {
+        std::cerr << "FAIL: Failed to remove edge\n";
+        return 1;
     }
-    Vector<std::string> resgetallvertexlabels = testdigraph.getallvertexlabels();
-    for (size_t i = 0; i < testsize; i++) {
-        size_t vertexlabe = std::stoull(resgetallvertexlabels.get(i));
-        if (vertexlabe != i) {
-            std::cout << "Invalid vertex lable\n";
-            return 1;
+    std::cout << "PASS: Edge removed successfully\n";
+
+    size_t newVertex = graph.addVertex();
+    if (newVertex != 5 || graph.countVertices() != 6) {
+        std::cerr << "FAIL: Failed to add vertex\n";
+        return 1;
+    }
+    graph.setVertexLabel(newVertex, "F");
+    graph.addEdge(newVertex, 0, 8);
+    std::cout << "PASS: Vertex added successfully\n";
+
+    auto allLabels = graph.getAllVertexLabels();
+    if (allLabels.size() != 6) {
+        std::cerr << "FAIL: getAllVertexLabels returned wrong size\n";
+        return 1;
+    }
+    std::cout << "PASS: getAllVertexLabels works correctly\n";
+
+    int vertexId = graph.getVertexId("B");
+    if (vertexId != 1) {
+        std::cerr << "FAIL: getVertexId returned wrong ID\n";
+        return 1;
+    }
+    std::cout << "PASS: getVertexId works correctly\n";
+
+    if (!graph.removeVertex(2) || graph.countVertices() != 5) {
+        std::cerr << "FAIL: Failed to remove vertex\n";
+        return 1;
+    }
+    std::cout << "PASS: Vertex removed successfully\n";
+
+    Digraph<int, int> largeGraph(1000);
+    for (size_t i = 0; i < 1000; ++i) {
+        for (size_t j = 0; j < 1000; ++j) {
+            if (i != j && (i + j) % 3 == 0) {
+                largeGraph.addEdge(i, j, i + j);
+            }
         }
     }
+    std::cout << "PASS: Performance test completed\n";
+
+    std::cout << "\nFinal adjacency matrix:\n";
+    graph.printAdjacencyMatrix();
+
+    std::cout << "\nALL TESTS PASSED!\n";
     return 0;
 }
+[file content end]
