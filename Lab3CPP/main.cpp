@@ -7,163 +7,150 @@
 
 using namespace std;
 
-
-bool is_valid(int r, int c, int h, int w, const vector<string>& map) {
-    return r >= 0 && r < h && c >= 0 && c < w && map[r][c] != '#';
-}
-
-int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        cout << "Usage: " << argv[0] << " <input_file>" << endl;
+int main(int argc, char** argv) {
+    if (argc != 2) {
         return 1;
     }
 
-    ifstream file(argv[1]);
-    if (!file.is_open()) {
-        cout << "Error opening file: " << argv[1] << endl;
+    string filename = argv[1];
+    ifstream input_file(filename);
+    if (!input_file) {
         return 1;
     }
 
-    vector<string> map;
+    vector<string> maze;
     string line;
-    while (getline(file, line)) {
-        if (!line.empty() && line.back() == '\r') {
-            line.pop_back();
-        }
-        map.push_back(line);
+    while (getline(input_file, line)) {
+        maze.push_back(line);
     }
-    file.close();
+    input_file.close();
 
-    int h = (int)map.size();
-    if (h == 0) return 0;
-    int w = (int)map[0].size();
+    int height = maze.size();
+    if (height == 0) {
+        return 1;
+    }
+    int width = maze[0].size();
 
-    int start_r = -1, start_c = -1;
-    int end_r = -1, end_c = -1;
-
-    for (int r = 0; r < h; ++r) {
-        for (int c = 0; c < w; ++c) {
-            if (map[r][c] == 'S') {
-                start_r = r;
-                start_c = c;
-            } else if (map[r][c] == 'E') {
-                end_r = r;
-                end_c = c;
+    int start_row = -1;
+    int start_col = -1;
+    for (int row = 0; row < height; ++row) {
+        if (maze[row].size() != static_cast<size_t>(width)) {
+            return 1;
+        }
+        for (int col = 0; col < width; ++col) {
+            if (maze[row][col] == 'S') {
+                start_row = row;
+                start_col = col;
             }
         }
     }
 
-    if (start_r == -1 || end_r == -1) {
-        cout << "Start or End point not found." << endl;
+    if (start_row == -1) {
         return 1;
     }
 
-    Queue* q = queue_create();
-    vector<int> parent(h * w, -1);
+    vector<vector<int>> distances(height, vector<int>(width, -1));
+    vector<vector<pair<int, int>>> predecessors(height, vector<pair<int, int>>(width, make_pair(-1, -1)));
 
-    int start_id = start_r * w + start_c;
-    int end_id = end_r * w + end_c;
+    Queue* queue_instance = queue_create();
+    distances[start_row][start_col] = 0;
+    queue_insert(queue_instance, start_row * width + start_col);
 
-    queue_insert(q, start_id);
-    parent[start_id] = start_id;
+    const int direction_rows[] = { -1, -1, 0, 0, 1, 1 };
+    const int direction_cols[] = { 0, 1, -1, 1, -1, 0 };
 
-    bool found = false;
+    pair<int, int> end_position = make_pair(-1, -1);
+    bool path_found = false;
 
-    while (!queue_empty(q)) {
-        int curr_id = queue_get(q);
-        queue_remove(q);
+    while (!queue_empty(queue_instance)) {
+        int encoded_position = queue_get(queue_instance);
+        queue_remove(queue_instance);
 
-        if (curr_id == end_id) {
-            found = true;
+        int current_row = encoded_position / width;
+        int current_col = encoded_position % width;
+
+        if (maze[current_row][current_col] == 'E') {
+            path_found = true;
+            end_position = make_pair(current_row, current_col);
             break;
         }
 
-        int r = curr_id / w;
-        int c = curr_id % w;
+        for (int direction = 0; direction < 6; ++direction) {
+            int next_row = current_row + direction_rows[direction];
+            int next_col = current_col + direction_cols[direction];
 
-        int dr[6] = {0, 0, -1, -1, 1, 1};
-        int dc[6];
-
-        dc[0] = -1;
-        dc[1] = 1;
-
-        if (r % 2 == 0) {
-            dc[2] = -1;
-            dc[3] = 0;
-            dc[4] = -1;
-            dc[5] = 0;
-        } else {
-            dc[2] = 0;
-            dc[3] = 1;
-            dc[4] = 0;
-            dc[5] = 1;
-        }
-
-        for (int i = 0; i < 6; ++i) {
-            int nr = r + dr[i];
-            int nc = c + dc[i];
-
-            if (is_valid(nr, nc, h, w, map)) {
-                int next_id = nr * w + nc;
-                if (parent[next_id] == -1) {
-                    parent[next_id] = curr_id;
-                    queue_insert(q, next_id);
-                }
+            if (next_row >= 0 && next_row < height && next_col >= 0 && next_col < width &&
+                distances[next_row][next_col] == -1 && maze[next_row][next_col] != '#') {
+                distances[next_row][next_col] = distances[current_row][current_col] + 1;
+                predecessors[next_row][next_col] = make_pair(current_row, current_col);
+                queue_insert(queue_instance, next_row * width + next_col);
             }
         }
     }
 
-    queue_delete(q);
+    queue_delete(queue_instance);
 
-    if (found) {
-        vector<int> path;
-        int curr = end_id;
-        while (curr != start_id) {
-            path.push_back(curr);
-            curr = parent[curr];
+    if (!path_found) {
+        cout << -1 << endl;
+        return 0;
+    }
+
+    vector<pair<int, int>> path_positions;
+    pair<int, int> current_position = end_position;
+    while (current_position.first != -1) {
+        path_positions.push_back(current_position);
+        if (current_position.first == start_row && current_position.second == start_col) {
+            break;
         }
-        path.push_back(start_id);
-        reverse(path.begin(), path.end());
+        current_position = predecessors[current_position.first][current_position.second];
+    }
+    reverse(path_positions.begin(), path_positions.end());
 
-        cout << (int)path.size() - 1 << endl;
+    int path_length = path_positions.size();
+    cout << path_length << endl;
 
-        cout << "Path: ";
-        for (int i = 0; i < (int)path.size(); ++i) {
-            int r = path[i] / w;
-            int c = path[i] % w;
-            cout << "(" << c << "," << r << ")";
-            if (i < (int)path.size() - 1) {
-                cout << " -> ";
-            }
-            if (map[r][c] != 'S' && map[r][c] != 'E') {
-                map[r][c] = 'x';
-            }
+    cout << "Path: ";
+    for (size_t index = 0; index < path_positions.size(); ++index) {
+        pair<int, int> position = path_positions[index];
+        cout << "(" << position.second << "," << position.first << ")";
+        if (index < path_positions.size() - 1) {
+            cout << " -> ";
         }
-        cout << endl;
+    }
+    cout << endl;
 
-        cout << "Maze with path:" << endl;
+    for (size_t index = 1; index < path_positions.size() - 1; ++index) {
+        pair<int, int> position = path_positions[index];
+        maze[position.first][position.second] = 'x';
+    }
 
-        cout << " ";
-        for (int c = 0; c < w; ++c) cout << " / \\";
-        cout << endl;
+    cout << "Maze with path:" << endl;
 
-        for (int r = 0; r < h; ++r) {
-            for (int s = 0; s < 2 * r + 1; ++s) cout << " ";
-            
-            cout << "|";
-            for (int c = 0; c < w; ++c) {
-                cout << " " << map[r][c] << " |";
-            }
-            cout << endl;
+    // Print top border with indent 0
+    string top_border = " /";
+    for (int column = 1; column < width; ++column) {
+        top_border += " \\ /";
+    }
+    top_border += " \\";
+    cout << top_border << endl;
 
-            for (int s = 0; s < 2 * r + 1; ++s) cout << " ";
-            for (int c = 0; c < w; ++c) {
-                cout << " \\ /";
-            }
-            cout << endl;
+    const int indent_increment = 2;
+    for (int row = 0; row < height; ++row) {
+        // Print cell line
+        string cell_line = string(row * indent_increment, ' ') + "|";
+        for (int column = 0; column < width; ++column) {
+            char display_char = (maze[row][column] == '.') ? ' ' : maze[row][column];
+            cell_line += " " + string(1, display_char) + " |";
         }
-    } else {
-        cout << "-1" << endl;
+        cout << cell_line << endl;
+
+        // Print bottom border
+        string bottom_border = string(row * indent_increment, ' ') + " \\";
+        for (int column = 1; column < width; ++column) {
+            bottom_border += " / \\";
+        }
+        bottom_border += " /";
+        cout << bottom_border << endl;
     }
 
     return 0;
