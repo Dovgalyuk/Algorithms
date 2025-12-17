@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(Algorithms)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+target_compile_features(Lab3CPP PRIVATE cxx_std_20)
 
 enable_testing()
 set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
