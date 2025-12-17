@@ -65,7 +65,7 @@ public:
             if (it == rh.end()) std::exit(1);
             rhSink += it->second.size();
         }
-        (void) rhSink;
+        (void)rhSink;
         rhFind = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - start).count();
 
         start = Clock::now();
@@ -74,7 +74,7 @@ public:
             if (it == stdm.end()) std::exit(1);
             stdSink += it->second.size();
         }
-        (void) stdSink;
+        (void)stdSink;
         stdFind = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - start).count();
 
         start = Clock::now();
