@@ -11,9 +11,6 @@ long long ExhaustiveSolver::solve() {
         return 0;
     }
 
-    best_cost_ = std::numeric_limits<long long>::max();
-    best_expr_ = "";
-
     recursiveSearch(0, n_ - 1);
 
     return best_cost_;
