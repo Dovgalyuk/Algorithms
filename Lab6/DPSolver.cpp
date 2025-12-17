@@ -8,15 +8,15 @@ DPSolver::DPSolver(const MatrixChain& chain)
 }
 
 long long DPSolver::solve() {
-    for (int i = 0; i < n_; ++i) {
+    for (auto i{ 0 }; i < n_; ++i) {
         dp_[i][i] = 0;
     }
 
-    for (int len = 2; len <= n_; ++len) {
-        for (int i = 0; i <= n_ - len; ++i) {
-            const int j = i + len - 1;
-            for (int k = i; k < j; ++k) {
-                const long long cost = dp_[i][k] + dp_[k + 1][j]
+    for (auto len{ 2 }; len <= n_; ++len) {
+        for (auto i{ 0 }; i <= n_ - len; ++i) {
+            const auto j = i + len - 1;
+            for (auto k{ i }; k < j; ++k) {
+                const auto cost = dp_[i][k] + dp_[k + 1][j]
                     + static_cast<long long>(p_[i]) * p_[k + 1] * p_[j + 1];
 
                 if (cost < dp_[i][j]) {

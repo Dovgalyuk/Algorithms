@@ -28,7 +28,7 @@ std::pair<long long, std::string> ExhaustiveSolver::recursiveSearch(const int i,
     long long min_cost = std::numeric_limits<long long>::max();
     std::string best_expr;
 
-    for (int k = i; k < j; ++k) {
+    for (auto k{ i }; k < j; ++k) {
         auto [left_cost, left_expr] = recursiveSearch(i, k);
         auto [right_cost, right_expr] = recursiveSearch(k + 1, j);
 

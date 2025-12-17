@@ -5,7 +5,7 @@ std::string stripOuterParentheses(const std::string& s) {
         return s;
 
     int balance{};
-    for (size_t i = 0; i < s.size(); ++i) {
+    for (auto i{ 0 }; i < s.size(); ++i) {
         if (s[i] == '(') {
             ++balance;
         } else if (s[i] == ')') {
