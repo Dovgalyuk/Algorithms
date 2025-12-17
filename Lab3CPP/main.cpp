@@ -1,242 +1,147 @@
-#include "queue.h"
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <vector>
-#include <algorithm>
-#include <cmath>
-#include <utility>
-#include <cctype>
-#include <cstdio>
-#include <cstdlib>
-using namespace std;
-using Maze = vector<string>;
-using DistMap = vector<vector<int>>;
-int encode(int q, int r) {
-    return q * 1000 + r;
-}
-void decode(int code, int& q, int& r) {
-    q = code / 1000;
-    r = code % 1000;
-}
-Maze read_maze(const string& filename, int& start_q, int& start_r) {
-    Maze maze;
-    ifstream input(filename);
-    if (!input.is_open()) {
-        exit(1);
-    }
-    string line;
-    while (getline(input, line)) {
-        if (!line.empty() && line.back() == '\r') line.pop_back();
-        maze.push_back(line);
-    }
-    if (maze.empty()) return maze;
-    int rows = maze.size();
-    int cols = maze[0].size();
-    for (int r = 0; r < rows; ++r) {
-        for (int q = 0; q < cols; ++q) {
-            if (maze[r][q] == 'S') {
-                start_q = q;
-                start_r = r;
-            }
-        }
-    }
-    return maze;
-}
-void get_neighbors(int r, int dirs[6][2]) {
-    dirs[0][0] = 1; dirs[0][1] = 0;
-    dirs[1][0] = -1; dirs[1][1] = 0;
-    if (r % 2 == 0) {
-        dirs[2][0] = 0; dirs[2][1] = -1;
-        dirs[3][0] = 1; dirs[3][1] = -1;
-        dirs[4][0] = 0; dirs[4][1] = 1;
-        dirs[5][0] = 1; dirs[5][1] = 1;
-    }
-    else {
-        dirs[2][0] = -1; dirs[2][1] = -1;
-        dirs[3][0] = 0; dirs[3][1] = -1;
-        dirs[4][0] = -1; dirs[4][1] = 1;
-        dirs[5][0] = 0; dirs[5][1] = 1;
-    }
-}
-bool is_slit_blocked(const Maze& maze, int cq, int cr, int nq, int nr) {
-    if (abs(cq - nq) == 1 && abs(cr - nr) == 1)
-        return true;
+#include <string>
+#include "queue.h"
 
-    return false;
-}
-bool is_valid(const Maze& maze, int q, int r, const DistMap& dist) {
-    int rows = maze.size();
-    if (rows == 0) return false;
-    int cols = maze[0].size();
-    if (q < 0 || q >= cols || r < 0 || r >= rows) return false;
-    if (maze[r][q] == '#') return false;
-    if (dist[r][q] != -1) return false;
-    return true;
-}
-vector<pair<int, int>> reconstruct_path(const DistMap& dist, int end_q, int end_r) {
-    vector<pair<int, int>> path;
-    int cq = end_q, cr = end_r;
-    while (dist[cr][cq] != -1) {
-        path.emplace_back(cq, cr);
-        if (dist[cr][cq] == 0) break;
-        int dirs[6][2] = { {1,0},{0,-1},{-1,1},{-1,0},{0,1},{1,-1} };
-        bool found = false;
-        for (int d = 0; d < 6; ++d) {
-            int nq = cq + dirs[d][0];
-            int nr = cr + dirs[d][1];
-            if (nq >= 0 && nq < (int)dist[0].size() && nr >= 0 && nr < (int)dist.size() &&
-                dist[nr][nq] == dist[cr][cq] - 1) {
-                cq = nq; cr = nr;
-                found = true;
-                break;
-            }
-        }
-        if (!found) break;
-    }
-    reverse(path.begin(), path.end());
-    return path;
-}
-vector<pair<int, int>> get_path(int end_q, int end_r, const DistMap& dist) {
-    vector<pair<int, int>> path;
-    int curr_q = end_q;
-    int curr_r = end_r;
-    int curr_dist = dist[curr_r][curr_q];
-    int dirs[6][2];
-    while (curr_dist > 0) {
-        path.push_back({ curr_q, curr_r });
-        get_neighbors(curr_r, dirs);
-        bool found_prev = false;
-        for (int d = 0; d < 6; ++d) {
-            int nq = curr_q + dirs[d][0];
-            int nr = curr_r + dirs[d][1];
-            if (nr >= 0 && nr < (int)dist.size() && nq >= 0 && nq < (int)dist[0].size()) {
-                if (dist[nr][nq] == curr_dist - 1) {
-                    curr_q = nq;
-                    curr_r = nr;
-                    curr_dist--;
-                    found_prev = true;
-                    break;
-                }
-            }
-        }
-        if (!found_prev) break;
-    }
-    path.push_back({ curr_q, curr_r });
-    reverse(path.begin(), path.end());
-    return path;
-}
-void print_path(const vector<pair<int, int>>& path) {
-    cout << "Path:";
-    for (size_t i = 0; i < path.size(); ++i) {
-        if (i > 0) cout << " ->";
-        cout << " (" << path[i].first << "," << path[i].second << ")";
-    }
-    cout << endl;
-}
-void print_hex_maze(const Maze& maze, const vector<pair<int, int>>& path) {
-    int rows = maze.size();
-    if (rows == 0) return;
-    int cols = maze[0].size();
-    vector<vector<char>> display(rows, vector<char>(cols));
-    for (int r = 0; r < rows; ++r) {
-        for (int q = 0; q < cols; ++q) {
-            display[r][q] = maze[r][q];
-            auto pos = make_pair(q, r);
-            if (find(path.begin(), path.end(), pos) != path.end() &&
-                maze[r][q] != 'S' && maze[r][q] != 'E') {
-                display[r][q] = 'x';
-            }
-        }
-    }
-    // Верхняя граница
-    for (int q = 0; q < cols; ++q) {
-        cout << " / \\";
-    }
-    cout << '\n';
-    // Основное содержимое
-    for (int r = 0; r < rows; ++r) {
-        string indent(2 * r, ' ');
-        // Строка с ячейками
-        cout << indent;
-        for (int q = 0; q < cols; ++q) {
-            cout << "| " << display[r][q] << " ";
-        }
-        cout << "|\n";
-        // Нижняя граница
-        cout << indent;
-        for (int q = 0; q < cols; ++q) {
-            cout << " \\ /";
-        }
-        cout << '\n';
-    }
-}
-void bfs_hex(const Maze& maze, int start_q, int start_r) {
-    int rows = maze.size();
-    if (rows == 0) {
-        cout << -1 << endl;
-        return;
-    }
-    int cols = maze[0].size();
-    DistMap dist(rows, vector<int>(cols, -1));
-    Queue* q = queue_create();
-    queue_insert(q, encode(start_q, start_r));
-    dist[start_r][start_q] = 0;
-    int end_q = -1, end_r = -1;
-    bool found = false;
-    int dirs[6][2];
-    while (!queue_empty(q)) {
-        int code = queue_get(q);
-        queue_remove(q);
-        int cq, cr;
-        decode(code, cq, cr);
-        if (maze[cr][cq] == 'E') {
-            found = true;
-            end_q = cq;
-            end_r = cr;
-            break;
-        }
-        get_neighbors(cr, dirs);
-        for (int d = 0; d < 6; ++d) {
-            int nq = cq + dirs[d][0];
-            int nr = cr + dirs[d][1];
-            if (is_valid(maze, nq, nr, dist)) {
-                if (is_slit_blocked(maze, cq, cr, nq, nr)) {
-                    continue;
-                }
-                dist[nr][nq] = dist[cr][cq] + 1;
-                queue_insert(q, encode(nq, nr));
-            }
-        }
-    }
-    queue_delete(q);
-    if (found) {
-        cout << dist[end_r][end_q] << endl;
-        auto path = get_path(end_q, end_r, dist);
-        print_path(path);
-        cout << "Maze with path:" << endl;
-        print_hex_maze(maze, path);
-    }
-    else {
-        cout << -1 << endl;
-    }
+using namespace std;
+//проверкa выхода за границы
+bool is_valid(int r, int c, int h, int w, const vector<string>& map) {
+    return r >= 0 && r < h && c >= 0 && c < w && map[r][c] != '#';
 }
 
 int main(int argc, char* argv[]) {
-const char* test_output = getenv("TEST_OUTPUT");
-    if (test_output) {
-        FILE* result = freopen(test_output, "w", stdout);
-        if (!result) {
-            std::cerr << "Error: Failed to redirect stdout to " << test_output << std::endl;
-            return 1;
+    if (argc < 2) {
+        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
+        return 1;
+    }
+    ifstream file(argv[1]);
+    if (!file.is_open()) {
+        cerr << "Error opening file: " << argv[1] << endl;
+        return 1;
+    }
+
+    vector<string> map;
+    string line;
+    while (getline(file, line)) {
+        if (!line.empty() && line.back() == '\r') {
+            line.pop_back();
+        }
+        map.push_back(line);
+    }
+    file.close();
+
+    if (map.empty()) return 0;
+
+    int h = map.size();
+    int w = map[0].size();
+    int start_r = -1, start_c = -1;
+    int end_r = -1, end_c = -1;
+
+    // Поиск  S и E
+    for (int r = 0; r < h; ++r) {
+        for (int c = 0; c < w; ++c) {
+            if (map[r][c] == 'S') {
+                start_r = r;
+                start_c = c;
+            }
+            else if (map[r][c] == 'E') {
+                end_r = r;
+                end_c = c;
+            }
         }
     }
-    
-    string input_filename = (argc > 1) ? argv[1] : "input.txt";
-    int start_q = 0, start_r = 0;
-    
-    Maze maze = read_maze(input_filename, start_q, start_r);
-    bfs_hex(maze, start_q, start_r);
-    
+
+    if (start_r == -1 || end_r == -1) {
+        cerr << "Start or End point not found." << endl;
+        return 1;
+    }
+
+    // BFS
+    Queue* q = queue_create();
+
+    // Массив хранения предков
+    // -1 - > клетка не посещена
+    vector<int> parent(h * w, -1);
+
+    // Преобразуем 2D координаты в 1D индекс
+    int start_id = start_r * w + start_c;
+    int end_id = end_r * w + end_c;
+
+    queue_insert(q, start_id);
+    parent[start_id] = start_id; 
+
+    bool found = false;
+
+    while (!queue_empty(q)) {
+        int curr_id = queue_get(q);
+        queue_remove(q);
+
+        if (curr_id == end_id) {
+            found = true;
+            break;
+        }
+
+        int r = curr_id / w;
+        int c = curr_id % w;
+
+        // переделана полностью функция get_neighbors
+        int dr[6] = { 0, 0, -1, -1, 1, 1 };
+        int dc[6];
+
+        dc[0] = -1; // Left
+        dc[1] = 1;  
+
+        if (r % 2 == 0) {
+            // Чет
+            dc[2] = -1; // Top-Left
+            dc[3] = 0;  // Top-Right
+            dc[4] = -1; // Bottom-Left
+            dc[5] = 0;  // Bottom-Right
+        }
+        else {
+            // Нечеn
+            dc[2] = 0;  // Top-Left
+            dc[3] = 1;  // Top-Right
+            dc[4] = 0;  // Bottom-Left
+            dc[5] = 1;  // Bottom-Right
+        }
+
+        for (int i = 0; i < 6; ++i) {
+            int nr = r + dr[i];
+            int nc = c + dc[i];
+
+            if (is_valid(nr, nc, h, w, map)) {
+                int next_id = nr * w + nc;
+                if (parent[next_id] == -1) {
+                    parent[next_id] = curr_id;
+                    queue_insert(q, next_id);
+                }
+            }
+        }
+    }
+
+    queue_delete(q);
+
+    if (found) {
+        // Восстановление пути
+        int curr = parent[end_id]; 
+        while (curr != start_id) {
+            int r = curr / w;
+            int c = curr % w;
+            if (map[r][c] != 'S' && map[r][c] != 'E') {
+                map[r][c] = 'x';
+            }
+            curr = parent[curr];
+        }
+
+        for (const auto& row_str : map) {
+            cout << row_str << endl;
+        }
+    }
+    else {
+        cout << "-1" << endl;
+    }
+
     return 0;
 }
