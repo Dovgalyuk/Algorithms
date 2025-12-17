@@ -17,7 +17,7 @@ MatrixChain::MatrixChain(const Matrix& matrices) {
     dims_.reserve(matrices.size() + 1);
     dims_.push_back(matrices[0].first);
 
-    for (auto i{ 0 }; i < matrices.size(); ++i) {
+    for (std::size_t i{ 0 }; i < matrices.size(); ++i) {
         dims_.push_back(matrices[i].second);
 
         if (i > 0 && matrices[i - 1].second != matrices[i].first) {
