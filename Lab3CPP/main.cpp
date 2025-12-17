@@ -2,22 +2,25 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include "queue.h"
 
 using namespace std;
-//проверкa выхода за границы
+
+
 bool is_valid(int r, int c, int h, int w, const vector<string>& map) {
     return r >= 0 && r < h && c >= 0 && c < w && map[r][c] != '#';
 }
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
+        cout << "Usage: " << argv[0] << " <input_file>" << endl;
         return 1;
     }
+
     ifstream file(argv[1]);
     if (!file.is_open()) {
-        cerr << "Error opening file: " << argv[1] << endl;
+        cout << "Error opening file: " << argv[1] << endl;
         return 1;
     }
 
@@ -31,21 +34,19 @@ int main(int argc, char* argv[]) {
     }
     file.close();
 
-    if (map.empty()) return 0;
+    int h = (int)map.size();
+    if (h == 0) return 0;
+    int w = (int)map[0].size();
 
-    int h = map.size();
-    int w = map[0].size();
     int start_r = -1, start_c = -1;
     int end_r = -1, end_c = -1;
 
-    // Поиск  S и E
     for (int r = 0; r < h; ++r) {
         for (int c = 0; c < w; ++c) {
             if (map[r][c] == 'S') {
                 start_r = r;
                 start_c = c;
-            }
-            else if (map[r][c] == 'E') {
+            } else if (map[r][c] == 'E') {
                 end_r = r;
                 end_c = c;
             }
@@ -53,23 +54,18 @@ int main(int argc, char* argv[]) {
     }
 
     if (start_r == -1 || end_r == -1) {
-        cerr << "Start or End point not found." << endl;
+        cout << "Start or End point not found." << endl;
         return 1;
     }
 
-    // BFS
     Queue* q = queue_create();
-
-    // Массив хранения предков
-    // -1 - > клетка не посещена
     vector<int> parent(h * w, -1);
 
-    // Преобразуем 2D координаты в 1D индекс
     int start_id = start_r * w + start_c;
     int end_id = end_r * w + end_c;
 
     queue_insert(q, start_id);
-    parent[start_id] = start_id; 
+    parent[start_id] = start_id;
 
     bool found = false;
 
@@ -85,26 +81,22 @@ int main(int argc, char* argv[]) {
         int r = curr_id / w;
         int c = curr_id % w;
 
-        // переделана полностью функция get_neighbors
-        int dr[6] = { 0, 0, -1, -1, 1, 1 };
+        int dr[6] = {0, 0, -1, -1, 1, 1};
         int dc[6];
 
-        dc[0] = -1; // Left
-        dc[1] = 1;  
+        dc[0] = -1;
+        dc[1] = 1;
 
         if (r % 2 == 0) {
-            // Чет
-            dc[2] = -1; // Top-Left
-            dc[3] = 0;  // Top-Right
-            dc[4] = -1; // Bottom-Left
-            dc[5] = 0;  // Bottom-Right
-        }
-        else {
-            // Нечеn
-            dc[2] = 0;  // Top-Left
-            dc[3] = 1;  // Top-Right
-            dc[4] = 0;  // Bottom-Left
-            dc[5] = 1;  // Bottom-Right
+            dc[2] = -1;
+            dc[3] = 0;
+            dc[4] = -1;
+            dc[5] = 0;
+        } else {
+            dc[2] = 0;
+            dc[3] = 1;
+            dc[4] = 0;
+            dc[5] = 1;
         }
 
         for (int i = 0; i < 6; ++i) {
@@ -124,22 +116,53 @@ int main(int argc, char* argv[]) {
     queue_delete(q);
 
     if (found) {
-        // Восстановление пути
-        int curr = parent[end_id]; 
+        vector<int> path;
+        int curr = end_id;
         while (curr != start_id) {
-            int r = curr / w;
-            int c = curr % w;
+            path.push_back(curr);
+            curr = parent[curr];
+        }
+        path.push_back(start_id);
+        reverse(path.begin(), path.end());
+
+        cout << (int)path.size() - 1 << endl;
+
+        cout << "Path: ";
+        for (int i = 0; i < (int)path.size(); ++i) {
+            int r = path[i] / w;
+            int c = path[i] % w;
+            cout << "(" << c << "," << r << ")";
+            if (i < (int)path.size() - 1) {
+                cout << " -> ";
+            }
             if (map[r][c] != 'S' && map[r][c] != 'E') {
                 map[r][c] = 'x';
             }
-            curr = parent[curr];
         }
+        cout << endl;
 
-        for (const auto& row_str : map) {
-            cout << row_str << endl;
+        cout << "Maze with path:" << endl;
+
+        cout << " ";
+        for (int c = 0; c < w; ++c) cout << " / \\";
+        cout << endl;
+
+        for (int r = 0; r < h; ++r) {
+            for (int s = 0; s < 2 * r; ++s) cout << " ";
+            
+            cout << "|";
+            for (int c = 0; c < w; ++c) {
+                cout << " " << map[r][c] << " |";
+            }
+            cout << endl;
+
+            for (int s = 0; s < 2 * r + 1; ++s) cout << " ";
+            for (int c = 0; c < w; ++c) {
+                cout << " \\ /";
+            }
+            cout << endl;
         }
-    }
-    else {
+    } else {
         cout << "-1" << endl;
     }
 
