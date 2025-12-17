@@ -148,7 +148,7 @@ int main(int argc, char* argv[]) {
         cout << endl;
 
         for (int r = 0; r < h; ++r) {
-            for (int s = 0; s < 2 * r; ++s) cout << " ";
+            for (int s = 0; s < 2 * r + 1; ++s) cout << " ";
             
             cout << "|";
             for (int c = 0; c < w; ++c) {
