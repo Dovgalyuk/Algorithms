@@ -12,8 +12,7 @@
 int main(int argc, char *argv[]) {
     try {
         std::string inputFile;
-        Benchmark::run();
-        std::exit(0);
+
         for (auto i{1}; i < argc; ++i) {
             if (const std::string arg = argv[i]; arg == "--benchmark" || arg == "-b") {
                 Benchmark::run();
