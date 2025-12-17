@@ -24,3 +24,13 @@
 # target_link_libraries(TestVectorCPPClass LibraryCPPClass)
 # add_test(TestVectorCPPClass TestVectorCPPClass)
 # set_tests_properties(TestVectorCPPClass PROPERTIES TIMEOUT 10)
+
+add_executable(TestStringCPPClass MyString.cpp)
+target_include_directories(TestStringCPPClass PUBLIC ..)
+target_link_libraries(TestStringCPPClass LibraryCPPClass)
+add_test(TestStringCPPClass TestStringCPPClass)
+
+add_executable(TestSubstringCPPClass substring.cpp)
+target_include_directories(TestSubstringCPPClass PUBLIC ..)
+target_link_libraries(TestSubstringCPPClass LibraryCPPClass)
+add_test(TestSubstringCPPClass TestSubstringCPPClass)
