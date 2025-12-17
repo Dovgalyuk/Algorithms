@@ -4,7 +4,7 @@ add_executable(Lab4CPP Lab4StrtuctV1.cpp)
 target_link_libraries(Lab4CPP LibraryCPPTemplate)
 
 add_test(NAME TestLab4CPP_Basic
-    COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt A G)
+    COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt A D)
     
 add_test(NAME TestLab4CPP_Short
     COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt A B)
