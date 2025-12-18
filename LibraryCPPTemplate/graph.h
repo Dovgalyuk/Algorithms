@@ -48,36 +48,28 @@ public:
             return false;
         }
 
-        size_t newSize = countVertices() - 1;
-        if (newSize == 0) {
-            adjacencyMatrix.resize(0);
-            vertexLabels.resize(0);
-            return true;
+        size_t oldSize = countVertices();
+        if (oldSize == 0) {
+            return false;
         }
 
-        Vector<Vector<EdgeLabel>> newMatrix(newSize);
-        Vector<VertexLabel> newLabels(newSize);
-
-        size_t newRowIndex = 0;
-        for (size_t i = 0; i < countVertices(); ++i) {
-            if (i == vertex) continue;
-
-            Vector<EdgeLabel> newRow(newSize);
-            size_t newColIndex = 0;
-
-            for (size_t j = 0; j < countVertices(); ++j) {
-                if (j == vertex) continue;
-                newRow[newColIndex] = adjacencyMatrix[i][j];
-                ++newColIndex;
+        for (size_t i = vertex; i + 1 < adjacencyMatrix.size(); ++i) {
+            adjacencyMatrix[i] = adjacencyMatrix[i + 1];
+        }
+        adjacencyMatrix.pop_back();
+        
+        for (size_t i = 0; i < adjacencyMatrix.size(); ++i) {
+            for (size_t j = vertex; j + 1 < adjacencyMatrix[i].size(); ++j) {
+                adjacencyMatrix[i][j] = adjacencyMatrix[i][j + 1];
             }
-
-            newMatrix[newRowIndex] = newRow;
-            newLabels[newRowIndex] = vertexLabels[i];
-            ++newRowIndex;
+            adjacencyMatrix[i].pop_back();
         }
+        
+        for (size_t i = vertex; i + 1 < vertexLabels.size(); ++i) {
+            vertexLabels[i] = vertexLabels[i + 1];
+        }
+        vertexLabels.pop_back();
 
-        adjacencyMatrix = newMatrix;
-        vertexLabels = newLabels;
         return true;
     }
 
