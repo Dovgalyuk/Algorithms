@@ -5,8 +5,13 @@
 
 using namespace std;
 
-Vector<int> bfs(int start, size_t n, const Vector<int> &matrix, Vector<bool> &visited) {
-    Vector<int> component;
+typedef Vector<int> Graph;
+typedef Vector<int> Component;
+typedef Vector<Component> ComponentsList;
+typedef Vector<bool> Visited;
+
+Component bfs(int start, size_t n, const Graph &matrix, Visited &visited) {
+    Component component;
 
     Queue<int> q;
     q.insert(start);
@@ -40,7 +45,7 @@ int main(int argc, char **argv) {
     size_t N;
     inputFile >> N;
 
-    Vector<int> matrix;
+    Graph matrix;
     matrix.resize(N * N);
     for (size_t i = 0; i < N * N; i++) {
         int value;
@@ -48,14 +53,14 @@ int main(int argc, char **argv) {
         matrix.set(i, value);
     }
 
-    Vector<bool> visited;
+    Visited visited;
     visited.resize(N);
     for (size_t i = 0; i < N; i++) visited.set(i, false);
 
-    Vector<Vector<int>> allComponents;
+    ComponentsList allComponents;
     for (size_t i = 0; i < N; i++) {
         if (!visited.get(i)) {
-            Vector<int> component = bfs(i, N, matrix, visited);
+            Component component = bfs(i, N, matrix, visited);
             allComponents.push_back(component);
         }
     }
@@ -64,7 +69,7 @@ int main(int argc, char **argv) {
     cout << allComponents.size() << endl;
 
     for (size_t i = 0; i < allComponents.size(); i++) {
-        Vector<int> comp = allComponents.get(i);
+        Component comp = allComponents.get(i);
         
         for (size_t j = 0; j < comp.size(); j++) {
             outputFile << comp.get(j) << " ";
