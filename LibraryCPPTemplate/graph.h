@@ -95,14 +95,8 @@ std::size_t Graph<E, V>::addVertex(const V &label)
     }
     edges_ = std::move(newEdges);
 
-    Vector<V> newLabels;
-    newLabels.resize(newN);
-    for (std::size_t i = 0; i < oldN; ++i)
-    {
-        newLabels.get(i) = vertexLabels_.get(i);
-    }
-    newLabels.get(newN - 1) = label;
-    vertexLabels_ = std::move(newLabels);
+    vertexLabels_.resize(newN);
+    vertexLabels_.get(newN - 1) = label;
 
     n_ = newN;
     return newN - 1;
@@ -111,17 +105,14 @@ std::size_t Graph<E, V>::addVertex(const V &label)
 template <typename E, typename V>
 void Graph<E, V>::removeVertex(size_type v)
 {
-    if (v >= n_)
-    {
-        return;
-    }
-    if (n_ == 0)
+    if (v >= n_ || n_ == 0)
     {
         return;
     }
 
     std::size_t oldN = n_;
     std::size_t newN = oldN - 1;
+
     if (newN == 0)
     {
         n_ = 0;
@@ -151,18 +142,11 @@ void Graph<E, V>::removeVertex(size_type v)
     }
     edges_ = std::move(newEdges);
 
-    Vector<V> newLabels;
-    newLabels.resize(newN);
-    for (std::size_t i = 0; i < oldN; ++i)
+    for (std::size_t i = v + 1; i < oldN; ++i)
     {
-        if (i == v)
-        {
-            continue;
-        }
-        std::size_t newI = i < v ? i : i - 1;
-        newLabels.get(newI) = vertexLabels_.get(i);
+        vertexLabels_.get(i - 1) = std::move(vertexLabels_.get(i));
     }
-    vertexLabels_ = std::move(newLabels);
+    vertexLabels_.resize(newN);
 
     n_ = newN;
 }
@@ -313,4 +297,3 @@ typename Graph<E, V>::NeighborIterator Graph<E, V>::neighborsEnd(size_type v) co
 }
 
 #endif
-
