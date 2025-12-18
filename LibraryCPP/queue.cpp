@@ -49,7 +49,15 @@ Data queue_get(const Queue *queue)
 
 void queue_remove(Queue *queue)
 {
-    list_erase_first(queue->list);
+    if (queue_empty(queue))
+        return;
+    
+    if (queue->tail == list_first(queue->list)) {
+        list_erase_first(queue->list);
+        queue->tail = nullptr;
+    } 
+    else
+        list_erase_first(queue->list);
 }
 
 bool queue_empty(const Queue *queue)
