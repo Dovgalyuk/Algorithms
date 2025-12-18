@@ -2,7 +2,6 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <algorithm>
 #include <cstdlib>  // For getenv
 #include "queue.h"
 
@@ -91,8 +90,21 @@ int main(int argc, char** argv) {
 
     queue_delete(queue_instance);
 
+    ostream* out_stream = &cout;
+    ofstream file_stream;
+    const char* test_output_path = getenv("TEST_OUTPUT");
+    if (test_output_path) {
+        file_stream.open(test_output_path);
+        if (file_stream.is_open()) {
+            out_stream = &file_stream;
+        }
+    }
+
     if (!path_found) {
-        cout << -1 << endl;
+        *out_stream << -1 << endl;
+        if (file_stream.is_open()) {
+            file_stream.close();
+        }
         return 0;
     }
 
@@ -105,28 +117,15 @@ int main(int argc, char** argv) {
         }
         current_position = predecessors[current_position.first][current_position.second];
     }
-    reverse(path_positions.begin(), path_positions.end());
 
     int path_length = path_positions.size();
-
-    // Set up output stream based on environment variable
-    ostream* out_stream = &cout;
-    ofstream file_stream;
-    const char* test_output_path = getenv("TEST_OUTPUT");
-    if (test_output_path) {
-        file_stream.open(test_output_path);
-        if (file_stream.is_open()) {
-            out_stream = &file_stream;
-        }
-    }
-
     *out_stream << path_length << endl;
 
     *out_stream << "Path: ";
-    for (size_t index = 0; index < path_positions.size(); ++index) {
+    for (int index = path_positions.size() - 1; index >= 0; --index) {
         pair<int, int> position = path_positions[index];
         *out_stream << "(" << position.second << "," << position.first << ")";
-        if (index < path_positions.size() - 1) {
+        if (index > 0) {
             *out_stream << " -> ";
         }
     }
@@ -139,7 +138,7 @@ int main(int argc, char** argv) {
 
     *out_stream << "Maze with path:" << endl;
 
-    // Print top border with indent 0
+
     string top_border = " /";
     for (int column = 1; column < width; ++column) {
         top_border += " \\ /";
@@ -149,7 +148,6 @@ int main(int argc, char** argv) {
 
     const int indent_increment = 2;
     for (int row = 0; row < height; ++row) {
-        // Print cell line
         string cell_line = string(row * indent_increment, ' ') + "|";
         for (int column = 0; column < width; ++column) {
             char display_char = (maze[row][column] == '.') ? ' ' : maze[row][column];
@@ -157,7 +155,6 @@ int main(int argc, char** argv) {
         }
         *out_stream << cell_line << endl;
 
-        // Print bottom border
         string bottom_border = string(row * indent_increment, ' ') + " \\";
         for (int column = 1; column < width; ++column) {
             bottom_border += " / \\";
