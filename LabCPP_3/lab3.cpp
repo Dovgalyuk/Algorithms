@@ -39,26 +39,6 @@ using namespace std;
 const int BOARD_SIZE = 8;
 const int BOARD_AREA = BOARD_SIZE * BOARD_SIZE;
 
-struct Cell 
-{
-    int index;               // номер клетки 0..63
-    int parent;              // индекс предыдущей клетки, -1 если старт
-    int visitedOrder;        // порядковый номер посещения
-    bool isObstacle;         // препятствие
-    bool isTarget;           // финиш
-    char symbol;             // отображение
-    bool visited;            // метка посещения
-};
-
-// Проверяет, возможен ли ход коня между startPos и endPos
-bool moveCheck(int startPos, int endPos)
-{
-    int dx = abs((startPos % 8) - (endPos % 8));
-    int dy = abs((startPos / 8) - (endPos / 8));
-
-    return ((dx == 1 && dy == 2)) || ((dx == 2 && dy == 1));
-}
-
 // Создает очередь с возможными ходами коня из данной клетки
 Queue *getKnightMoves(int startPos, bool obstacles[])
 {
@@ -84,7 +64,7 @@ Queue *getKnightMoves(int startPos, bool obstacles[])
 }
 
 // Восстановливает путь
-void reconstructPath(int start, int end, int *parents, int *visitOrder, int *visitCount, int *path, int &pathLen)
+void reconstructPath(int start, int end, int *parents, int *path, int &pathLen)
 {
     int current = end;
     int idx = 0;
@@ -103,10 +83,6 @@ void reconstructPath(int start, int end, int *parents, int *visitOrder, int *vis
         path[idx - 1 - i] = tmp;
     }
     pathLen = idx;
-
-    // нумеруем посещенные клетки
-    for (int i=0; i<pathLen; i++)
-        visitOrder[path[i]] = i;
 }
 
 // Считывает поле из файла
@@ -171,20 +147,16 @@ int main(int argc, char **argv)
 
     // Переменные для BFS
     int parents[BOARD_AREA];
-    int visitOrder[BOARD_AREA];
     for (int i=0; i<BOARD_AREA; i++)
-    {
-        parents[i] = -1; // ?
-        visitOrder[i] = 0;
-    }
-    bool visited[BOARD_AREA] = {};
+        parents[i] = -1;
+
+    bool visited[BOARD_AREA] = {}; // -
 
     // Очередь BFS
     Queue *q = queue_create();
     queue_insert(q, startPos);
-    visited[startPos] = true;
+    visited[startPos] = true; // -
     parents[startPos] = -1;
-    int visitCount = 0;
     int path[BOARD_AREA];
     int pathLen = 0;
     bool found = false;
@@ -196,7 +168,7 @@ int main(int argc, char **argv)
         if (current == endPos)
         {
             // нашли путь
-            reconstructPath(startPos, endPos, parents, visitOrder, &visitCount, path, pathLen);
+            reconstructPath(startPos, endPos, parents, path, pathLen);
             found = true;
             break;
         }
@@ -207,9 +179,9 @@ int main(int argc, char **argv)
         {
             int nextPos = queue_get(movesQ);
             queue_remove(movesQ);
-            if (!visited[nextPos])
+            if (!visited[nextPos]) // проверка parent
             {
-                visited[nextPos] = true;
+                visited[nextPos] = true; // -
                 parents[nextPos] = current;
                 queue_insert(q, nextPos);
             }
