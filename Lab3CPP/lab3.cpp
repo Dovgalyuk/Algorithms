@@ -15,11 +15,10 @@ int bfs(int n, int start, int finish, int** graph) {
     
     distances[start - 1] = 0;
     queue_insert(q, start);
-    
-    bool found = false;
+
     
 
-    while (!queue_empty(q) && !found) {
+    while (!queue_empty(q)) {
         int current = queue_get(q);
         queue_remove(q);
         
@@ -39,11 +38,10 @@ int bfs(int n, int start, int finish, int** graph) {
         }
     }
     
-    int result = distances[finish - 1 ];
     queue_delete(q);
     delete[] distances;
     
-    return result;
+    return -1;
 }
 
 int main(int argc, char** argv) {
