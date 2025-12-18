@@ -49,9 +49,20 @@ int main() {
 
     std::cout << "Testing neighbor iterator for vertex 0:\n";
     int neighborCount = 0;
+    bool neighbor1Found = false;
+    bool neighbor2Found = false;
+    
     for (auto it = graph.neighborBegin(0); it != graph.neighborEnd(0); ++it) {
         auto [neighbor, weight] = *it;
         std::cout << "  Neighbor " << neighbor << " (weight: " << weight << ")\n";
+        
+        if (neighbor == 1 && weight == 10) {
+            neighbor1Found = true;
+        }
+        if (neighbor == 2 && weight == 5) {
+            neighbor2Found = true;
+        }
+        
         ++neighborCount;
     }
 
@@ -59,7 +70,12 @@ int main() {
         std::cerr << "FAIL: Iterator found wrong number of neighbors\n";
         return 1;
     }
-    std::cout << "PASS: Neighbor iterator works correctly\n";
+    
+    if (!neighbor1Found || !neighbor2Found) {
+        std::cerr << "FAIL: Neighbor iterator did not find expected neighbors\n";
+        return 1;
+    }
+    std::cout << "PASS: Neighbor iterator works correctly with correct neighbors\n";
 
     if (!graph.setEdgeLabel(0, 1, 15) || graph.getEdgeLabel(0, 1) != 15) {
         std::cerr << "FAIL: Failed to update edge label\n";
