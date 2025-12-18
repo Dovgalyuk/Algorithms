@@ -69,6 +69,51 @@ int main() {
     return 1;
   }
 
+  g.removeVertex("B");
+
+  if (g.hasVertex("B")) {
+    cout << "Vertex B should have been removed\n";
+    return 1;
+  }
+
+  if (!g.hasVertex("A") || !g.hasVertex("C")) {
+    cout << "Vertices A or C were unexpectedly removed\n";
+    return 1;
+  }
+
+  if (g.hasEdge("A", "B") || g.hasEdge("B", "C")) {
+    cout << "Edges involving removed vertex B should not exist\n";
+    return 1;
+  }
+
+  if (g.hasEdge("A", "C")) {
+    cout << "Unexpected edge A->C found after removing B\n";
+    return 1;
+  }
+
+  bool hasAnyNeighbor = false;
+  for (auto it = g.beginNeighbors("A"); it != g.endNeighbors("A"); ++it) {
+    hasAnyNeighbor = true;
+    break;
+  }
+  if (hasAnyNeighbor) {
+    cout << "Vertex A should have no neighbors after removing B\n";
+    return 1;
+  }
+
+  if (g.vertexCount() != 2) {
+    cout << "Expected 2 vertices after removing B, got " << g.vertexCount()
+         << "\n";
+    return 1;
+  }
+
+  auto names = g.getVertexNames();
+  if (names.size() != 2 || (names[0] != "A" && names[0] != "C") ||
+      (names[1] != "A" && names[1] != "C") || names[0] == names[1]) {
+    cout << "Vertex name list is inconsistent after removal\n";
+    return 1;
+  }
+
   cout << "All graph tests passed!\n";
   return 0;
 }
