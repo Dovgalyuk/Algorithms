@@ -1,6 +1,6 @@
 #include "graph.h"
-#include <algorithm>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <limits>
 #include <map>
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
     vector<size_t> parent(N, N);
     vector<bool> used(N, false);
 
-    priority_queue<pair<double,size_t>, vector<pair<double,size_t>>, greater<pair<double,size_t>>> pq;
+    priority_queue<pair<double, size_t>, vector<pair<double, size_t>>, greater<pair<double, size_t>>> pq;
     dist[start] = 0.0;
     pq.push({0.0, start});
 
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
     }
 
     vector<size_t> path;
-    for (size_t v = finish; ; )
+    for (size_t v = finish;;)
     {
         path.push_back(v);
         if (v == start)
@@ -101,16 +101,15 @@ int main(int argc, char* argv[])
         }
     }
 
-    reverse(path.begin(), path.end());
-
     cout.setf(ios::fixed);
     cout.precision(6);
     cout << "Distance: " << dist[finish] << '\n';
     cout << "Path: ";
-    for (size_t i = 0; i < path.size(); ++i)
+    for (auto it = path.rbegin(); it != path.rend(); ++it)
     {
-        if (i > 0) cout << ' ';
-        cout << g.getVertexLabel(path[i]);
+        if (it != path.rbegin())
+            cout << ' ';
+        cout << g.getVertexLabel(*it);
     }
     cout << '\n';
 
