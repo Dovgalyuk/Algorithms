@@ -34,10 +34,7 @@ void queue_insert(Queue *queue, Data data)
         queue->tail = list_first(queue->list);
     }
     else
-    {
-        list_insert_after(queue->list, queue->tail, data);
-        queue->tail = list_item_next(queue->tail);
-    }
+        queue->tail = list_insert_after(queue->list, queue->tail, data);
 }
 
 Data queue_get(const Queue *queue)
