@@ -1,34 +1,46 @@
 #include "DPSolver.h"
 
-DPSolver::DPSolver(const MatrixChain& chain)
-        : p_(chain.dims()),
-          n_(chain.size()),
-          split_(n_, Vector<int>(n_, -1)) {
-    dp_.resize(n_, Vector<long long>(n_, std::numeric_limits<long long>::max()));
+DPSolver::DPSolver(const MatrixChain &chain)
+    : dims_(chain.dims()),
+      n_(chain.size()),
+      split_(n_, Vector<int>(n_, -1)) {
+    dp_.resize(n_, Vector<long long>(n_, -1));
 }
 
 long long DPSolver::solve() {
-    for (auto i{ 0 }; i < n_; ++i) {
-        dp_[i][i] = 0;
+    bestCost_ = recursiveDP(0, n_ - 1);
+    return bestCost_;
+}
+
+long long DPSolver::recursiveDP(const int i, const int j) {
+    if (i == j) {
+        return 0;
     }
 
-    for (auto len{ 2 }; len <= n_; ++len) {
-        for (auto i{ 0 }; i <= n_ - len; ++i) {
-            const auto j = i + len - 1;
-            for (auto k{ i }; k < j; ++k) {
-                const auto cost = dp_[i][k] + dp_[k + 1][j]
-                    + static_cast<long long>(p_[i]) * p_[k + 1] * p_[j + 1];
+    if (dp_[i][j] != -1) {
+        return dp_[i][j];
+    }
 
-                if (cost < dp_[i][j]) {
-                    dp_[i][j] = cost;
-                    split_[i][j] = k;
-                }
-            }
+    long long minCost = std::numeric_limits<long long>::max();
+    int bestSplit = -1;
+
+    for (auto k{i}; k < j; ++k) {
+        const auto leftCost = recursiveDP(i, k);
+        const auto rightCost = recursiveDP(k + 1, j);
+
+        const auto currentCost = leftCost + rightCost +
+                                 static_cast<long long>(dims_[i]) * dims_[k + 1] * dims_[j + 1];
+
+        if (currentCost < minCost) {
+            minCost = currentCost;
+            bestSplit = k;
         }
     }
 
-    best_cost_ = dp_[0][n_ - 1];
-    return best_cost_;
+    dp_[i][j] = minCost;
+    split_[i][j] = bestSplit;
+
+    return minCost;
 }
 
 [[nodiscard]] std::string DPSolver::getExpression() const {
@@ -37,12 +49,12 @@ long long DPSolver::solve() {
 
 std::string DPSolver::buildExpression(const int i, const int j) const {
     if (i == j) {
-        return std::to_string(p_[i]) + "x" + std::to_string(p_[i + 1]);
+        return std::to_string(dims_[i]) + "x" + std::to_string(dims_[i + 1]);
     }
 
     const auto k = split_[i][j];
 
-    const std::string left  = buildExpression(i, k);
+    const std::string left = buildExpression(i, k);
     const std::string right = buildExpression(k + 1, j);
 
     if (i == 0 && j == n_ - 1) {

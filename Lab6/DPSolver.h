@@ -15,10 +15,11 @@ public:
 
 private:
     [[nodiscard]] std::string buildExpression(int i, int j) const;
+    long long recursiveDP(int i, int j);
 
-    const Vector<int>& p_;
+    const Vector<int>& dims_;
     int n_{};
-    long long best_cost_{};
+    long long bestCost_{};
     TDVector<long long> dp_;
     TDVector<int> split_;
 };

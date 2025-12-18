@@ -13,11 +13,11 @@ long long ExhaustiveSolver::solve() {
 
     recursiveSearch(0, n_ - 1);
 
-    return best_cost_;
+    return bestCost_;
 }
 
 [[nodiscard]] std::string ExhaustiveSolver::getExpression() const {
-    return stripOuterParentheses(best_expr_);
+    return stripOuterParentheses(bestExpr_);
 }
 
 std::pair<long long, std::string> ExhaustiveSolver::recursiveSearch(const int i, const int j) {
@@ -25,26 +25,26 @@ std::pair<long long, std::string> ExhaustiveSolver::recursiveSearch(const int i,
         return {0, std::to_string(dims_[i]) + "x" + std::to_string(dims_[i + 1])};
     }
 
-    long long min_cost = std::numeric_limits<long long>::max();
-    std::string best_expr;
+    long long minCost = std::numeric_limits<long long>::max();
+    std::string bestExpr;
 
     for (auto k{ i }; k < j; ++k) {
-        auto [left_cost, left_expr] = recursiveSearch(i, k);
-        auto [right_cost, right_expr] = recursiveSearch(k + 1, j);
+        auto [leftCost, leftExpr] = recursiveSearch(i, k);
+        auto [rightCost, rightExpr] = recursiveSearch(k + 1, j);
 
-        const long long current_cost = left_cost + right_cost +
+        const long long currentСost = leftCost + rightCost +
             static_cast<long long>(dims_[i]) * dims_[k + 1] * dims_[j + 1];
 
-        if (current_cost < min_cost) {
-            min_cost = current_cost;
-            best_expr = "(" + left_expr + "*" + right_expr + ")";
+        if (currentСost < minCost) {
+            minCost = currentСost;
+            bestExpr = "(" + leftExpr + "*" + rightExpr + ")";
         }
     }
 
     if (i == 0 && j == n_ - 1) {
-        best_cost_ = min_cost;
-        best_expr_ = best_expr;
+        bestCost_ = minCost;
+        bestExpr_ = bestExpr;
     }
 
-    return {min_cost, best_expr};
+    return {minCost, bestExpr};
 }

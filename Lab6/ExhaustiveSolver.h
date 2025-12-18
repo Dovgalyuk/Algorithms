@@ -18,6 +18,6 @@ private:
 
     const Vector<int>& dims_;
     int n_;
-    long long best_cost_{std::numeric_limits<long long>::max()};
-    std::string best_expr_{};
+    long long bestCost_{};
+    std::string bestExpr_{};
 };
