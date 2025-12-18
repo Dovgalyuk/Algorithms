@@ -11,10 +11,15 @@ class StringSlice
 public:
     StringSlice(const String& source, std::size_t start, std::size_t length);
 
+    operator String() const;
+
     std::size_t size() const;
     const char* data() const;
     const char* c_str() const;
+
     char operator[](std::size_t index) const;
+    bool operator==(const StringSlice& other) const;
+    bool operator<(const StringSlice& other) const;
 
     void print() const;
 

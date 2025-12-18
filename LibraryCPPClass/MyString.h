@@ -1,7 +1,10 @@
 #ifndef MYSTRING_H
 #define MYSTRING_H
 
+#include "substring.h"
 #include <cstddef> 
+
+class StringSlice;
 
 class String
 {
@@ -10,6 +13,10 @@ public:
 	String();
 
     String(const String& a);
+
+    String(const char* s);
+
+    String(const StringSlice& sl);
 
     ~String();
     
@@ -30,6 +37,7 @@ public:
     bool operator<(const String& other) const;
     bool operator>(const String& other) const;
 
+    char& operator[](std::size_t index);
     char operator[](std::size_t index) const;
 
     // изменение размера

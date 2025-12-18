@@ -22,6 +22,34 @@ String::String(const String& a)
     }
 }
 
+String::String(const char* s)
+{
+    size_ = 0;
+    while (s[size_] != '\0')
+        ++size_;
+
+    capacity_ = size_ + 1;
+    data_ = new char[capacity_];
+
+    for (std::size_t i = 0; i < size_; ++i)
+        data_[i] = s[i];
+
+    data_[size_] = '\0';
+}
+
+String::String(const StringSlice& sl)
+{
+    size_ = sl.size();
+
+    capacity_ = size_ + 1;
+    data_ = new char[capacity_];
+
+    for (std::size_t i = 0; i < size_; ++i)
+        data_[i] = sl[i];
+
+    data_[size_] = '\0';
+}
+
 String::~String()
 {
     delete[] data_;
@@ -57,7 +85,7 @@ String& String::operator=(const String& a)
     delete[] data_;
 
     size_ = a.size_;
-    capacity_ = a.capacity_;
+    capacity_ = size_ + 1;
 
     data_ = new char[capacity_];
 
@@ -161,6 +189,11 @@ bool String::operator<(const String& other) const
 bool String::operator>(const String& other) const
 {
     return compare(other) > 0;
+}
+
+char& String::operator[](std::size_t index)
+{
+    return data_[index];
 }
 
 char String::operator[](size_t index) const

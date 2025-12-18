@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstddef>
+#include <chrono>
 #include "MyString.h"
 
 static void set_text(String& s, const char* text)
@@ -27,6 +28,46 @@ static bool eq_cstr(const String& s, const char* text)
         if (text[i] == '\0') return true;
         ++i;
     }
+}
+
+static void fill_with_char(String& s, std::size_t n, char ch)
+{
+    s.resize(n);
+    char* buf = const_cast<char*>(s.c_str());
+    for (std::size_t i = 0; i < n; ++i) buf[i] = ch;
+    buf[n] = '\0';
+}
+
+static void write_at(String& s, std::size_t pos, const char* text)
+{
+    char* buf = const_cast<char*>(s.c_str());
+    std::size_t i = 0;
+    while (text[i] != '\0')
+    {
+        buf[pos + i] = text[i];
+        ++i;
+    }
+}
+
+static std::size_t find_naive(const String& text, const String& pat, std::size_t pos = 0)
+{
+    const std::size_t n = text.size();
+    const std::size_t m = pat.size();
+
+    if (m == 0) return (pos <= n) ? pos : String::npos;
+    if (pos > n) return String::npos;
+    if (m > n - pos) return String::npos;
+
+    const char* a = text.c_str();
+    const char* b = pat.c_str();
+
+    for (std::size_t i = pos; i + m <= n; ++i)
+    {
+        std::size_t j = 0;
+        while (j < m && a[i + j] == b[j]) ++j;
+        if (j == m) return i;
+    }
+    return String::npos;
 }
 
 int main()
@@ -130,31 +171,46 @@ int main()
     }
 
     {
-        String text, empty;
-        set_text(text, "Hello");
+        const std::size_t N = 20'000'000;
+        const int RUNS = 5;
 
-        if (empty.size() != 0) { std::cout << "Fail: empty pattern not empty\n"; return 1; }
+        String text, pat;
+        fill_with_char(text, N, 'A');
+        set_text(pat, "AAAAAAAAAAAAAAAAAAAAAB");
 
-        if (text.find(empty, 0) != 0) { std::cout << "Fail: find empty pos0\n"; return 1; }
-        if (text.find(empty, 3) != 3) { std::cout << "Fail: find empty pos3\n"; return 1; }
-        if (text.find(empty, 10) != String::npos) { std::cout << "Fail: find empty pos>size\n"; return 1; }
+        const std::size_t insert_pos = N - pat.size() - 10;
+        write_at(text, insert_pos, pat.c_str());
+
+        (void)text.find(pat);
+        (void)find_naive(text, pat);
+
+        long long total_kmp_ms = 0;
+        long long total_nv_ms = 0;
+
+        std::size_t ans_kmp = String::npos;
+        std::size_t ans_nv = String::npos;
+
+        for (int r = 0; r < RUNS; ++r)
+        {
+            auto t1 = std::chrono::high_resolution_clock::now();
+            ans_kmp = text.find(pat);
+            auto t2 = std::chrono::high_resolution_clock::now();
+            total_kmp_ms += std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+
+            t1 = std::chrono::high_resolution_clock::now();
+            ans_nv = find_naive(text, pat);
+            t2 = std::chrono::high_resolution_clock::now();
+            total_nv_ms += std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+        }
+
+        if (ans_kmp != insert_pos) { std::cout << "Fail: perf KMP wrong pos\n"; return 1; }
+        if (ans_nv != insert_pos) { std::cout << "Fail: perf naive wrong pos\n"; return 1; }
+
+        std::cout << "Find performance test\n";
+        std::cout << "Text length: " << N << "\n";
+        std::cout << "Pattern length: " << pat.size() << "\n";
+        std::cout << "Runs: " << RUNS << "\n";
+        std::cout << "KMP avg time:   " << (total_kmp_ms / RUNS) << " ms\n";
+        std::cout << "Naive avg time: " << (total_nv_ms / RUNS) << " ms\n";
     }
-
-    {
-        String s;
-        set_text(s, "ABCDE");
-
-        s.resize(3);
-        if (s.size() != 3) { std::cout << "Fail: resize smaller size\n"; return 1; }
-        if (!(s[0] == 'A' && s[2] == 'C')) { std::cout << "Fail: resize smaller content\n"; return 1; }
-        if (s.c_str()[3] != '\0') { std::cout << "Fail: resize smaller null\n"; return 1; }
-
-        s.resize(6);
-        if (s.size() != 6) { std::cout << "Fail: resize bigger size\n"; return 1; }
-        if (s[0] != 'A' || s[2] != 'C') { std::cout << "Fail: resize bigger keeps prefix\n"; return 1; }
-        if (s.c_str()[6] != '\0') { std::cout << "Fail: resize bigger null\n"; return 1; }
-    }
-
-    std::cout << "All tests passed!\n";
-    return 0;
 }

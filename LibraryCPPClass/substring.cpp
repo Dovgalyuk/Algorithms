@@ -11,6 +11,20 @@ StringSlice::StringSlice(const String& src, size_t str, size_t lng)
     }
 }
 
+StringSlice::operator String() const
+{
+    String result;
+    result.resize(length);
+
+    for (size_t i = 0; i < length; ++i)
+    {
+        result[i] = (*this)[i];
+    }
+
+    return result;
+}
+
+
 size_t StringSlice::size() const
 {
     return length;
@@ -33,6 +47,37 @@ char StringSlice::operator[](size_t index) const
     }
     return source[start + index];
 }
+
+bool StringSlice::operator==(const StringSlice& other) const
+{
+    if (length != other.length)
+        return false;
+
+    for (size_t i = 0; i < length; ++i)
+    {
+        if ((*this)[i] != other[i])
+            return false;
+    }
+
+    return true;
+}
+
+
+bool StringSlice::operator<(const StringSlice& other) const
+{
+    size_t min_len = (length < other.length) ? length : other.length;
+
+    for (size_t i = 0; i < min_len; ++i)
+    {
+        if ((*this)[i] < other[i])
+            return true;
+        if ((*this)[i] > other[i])
+            return false;
+    }
+
+    return length < other.length;
+}
+
 
 void StringSlice::print() const
 {
