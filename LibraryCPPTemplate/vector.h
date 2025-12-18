@@ -27,23 +27,7 @@ private:
         currentSize = elementsToCopy;
     }
 
-public:
-    Vector() : data(nullptr), currentSize(0), currentCapacity(0) {}
-
-    explicit Vector(size_t size) : currentSize(size), currentCapacity(size) {
-        if (size > 0) {
-            data = new Data[size];
-            for (size_t i = 0; i < size; ++i) {
-                data[i] = Data();
-            }
-        }
-        else {
-            data = nullptr;
-        }
-    }
-
-    Vector(size_t size, const Data& initialValue)
-        : currentSize(size), currentCapacity(size) {
+    void constructor(size_t size, const Data& initialValue) {
         if (size > 0) {
             data = new Data[size];
             for (size_t i = 0; i < size; ++i) {
@@ -55,17 +39,34 @@ public:
         }
     }
 
-    Vector(const Vector& other)
-        : currentSize(other.currentSize), currentCapacity(other.currentCapacity) {
-        if (currentCapacity > 0) {
-            data = new Data[currentCapacity];
-            for (size_t i = 0; i < currentSize; ++i) {
+    void copy(const Vector& other) {
+        if (other.currentCapacity > 0) {
+            data = new Data[other.currentCapacity];
+            for (size_t i = 0; i < other.currentSize; ++i) {
                 data[i] = other.data[i];
             }
         }
         else {
             data = nullptr;
         }
+    }
+
+
+public:
+    Vector() : data(nullptr), currentSize(0), currentCapacity(0) {}
+
+    explicit Vector(size_t size) : currentSize(size), currentCapacity(size) {
+        constructor(size, Data());
+    }
+
+    Vector(size_t size, const Data& initialValue)
+        : currentSize(size), currentCapacity(size) {
+        constructor(size, initialValue);
+    }
+
+    Vector(const Vector& other)
+        : currentSize(other.currentSize), currentCapacity(other.currentCapacity) {
+        copy(other);
     }
 
     Vector& operator=(const Vector& other) {
@@ -75,15 +76,7 @@ public:
             currentSize = other.currentSize;
             currentCapacity = other.currentCapacity;
 
-            if (currentCapacity > 0) {
-                data = new Data[currentCapacity];
-                for (size_t i = 0; i < currentSize; ++i) {
-                    data[i] = other.data[i];
-                }
-            }
-            else {
-                data = nullptr;
-            }
+            copy(other);
         }
         return *this;
     }
