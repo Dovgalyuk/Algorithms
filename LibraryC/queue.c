@@ -9,7 +9,6 @@ typedef struct Queue {
     size_t head;    // Index of pointer to first element
     size_t tail;    // Index of pointer to place to insert next element
     size_t count;   // Element counter
-    FFree* freeFunc;
 } Queue;
 
 Queue *queue_create(FFree f)
@@ -29,8 +28,6 @@ Queue *queue_create(FFree f)
     q->head = 0;
     q->tail = 0;
     q->count = 0;
-    q->freeFunc = f;
-
     return q;
 }
 
@@ -44,35 +41,29 @@ void queue_delete(Queue *queue)
     free(queue);
 }
 
-void queue_insert(Queue *queue, Data data)
-{
-    if (queue == NULL){
-        return;
-    }
+void queue_insert(Queue *queue, Data data) {
+    if (queue == NULL) return;
 
     size_t size = vector_size(queue->vector);
 
-    vector_set(queue->vector, queue->tail, data);
-    queue->count++;
-
-    if(queue->count == size) {
-        size_t new_size = size*2;
+    if (queue->count == size) {
+        size_t old_size = size;
+        size_t new_size = old_size * 2;
         vector_resize(queue->vector, new_size);
 
-        if (queue->tail < queue->head) {
-            size_t i = 0;
-            for (; i <= queue->tail ; i++) {
-                memcpy(vector_get(queue->vector, i), vector_get(queue->vector, size + i), sizeof(Data));
-                vector_set(queue->vector, i, NULL);
+        if (queue->tail <= queue->head && queue->count > 0) {
+            for (size_t i = 0; i < queue->tail; i++) {
+                Data d = vector_get(queue->vector, i);
+                vector_set(queue->vector, old_size + i, d);
             }
-            queue->tail = (queue->tail + size) % new_size;
+            queue->tail = old_size + queue->tail;
         }
         size = new_size;
-
     }
 
+    vector_set(queue->vector, queue->tail, data);
     queue->tail = (queue->tail + 1) % size;
-    
+    queue->count++;
 }
 
 Data queue_get(const Queue *queue)
@@ -85,6 +76,7 @@ Data queue_get(const Queue *queue)
     if(element == NULL) {
         return VECTOR_EMPTY;
     }
+    
     return element;
 }
 

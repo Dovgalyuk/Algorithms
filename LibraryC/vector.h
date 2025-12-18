@@ -8,12 +8,11 @@
 // Stores integer or pointer to custom user data
 typedef void* Data;
 
-// Value for empty element of vector
-static const int VECTOR_EMPTY_VALUE = 0;
-#define VECTOR_EMPTY ((Data)(&VECTOR_EMPTY_VALUE))
-
 // Custom function to free user pointers on delete
 typedef void (FFree)(void*);
+
+extern const int empty_value;
+#define VECTOR_EMPTY ((Data)(&empty_value))
 
 typedef struct Vector Vector;
 
