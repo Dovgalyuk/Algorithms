@@ -165,6 +165,7 @@ int main(int argc, char **argv)
     while (!queue_empty(q))
     {
         int current = queue_get(q);
+        queue_remove(q);
         if (current == endPos)
         {
             // нашли путь
@@ -187,7 +188,6 @@ int main(int argc, char **argv)
             }
         }
         queue_delete(movesQ);
-        queue_remove(q);
     }
 
     // Вывод результата
