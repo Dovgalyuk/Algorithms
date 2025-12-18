@@ -52,7 +52,7 @@ int main(void) {
   State *current = solution;
   while (current != NULL) {
     State *parent = current->parent;
-    state_free(current);
+    free(current);
     current = parent;
   }
 

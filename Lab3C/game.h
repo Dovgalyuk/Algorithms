@@ -10,7 +10,6 @@ typedef struct State {
 } State;
 
 State *state_create(int *board, State *parent, char move);
-void state_free(State *state);
 State *solve_puzzle(int *initial_board);
 
 #endif

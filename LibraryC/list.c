@@ -181,21 +181,5 @@ ListItem *list_insert_tail(List *list, Data data) {
     return NULL;
   }
 
-  ListItem *new_item = malloc(sizeof(ListItem));
-  if (new_item == NULL) {
-    return NULL;
-  }
-
-  new_item->data = data;
-  new_item->next = NULL;
-
-  if (list->tail == NULL) {
-    list->head = new_item;
-    list->tail = new_item;
-  } else {
-    list->tail->next = new_item;
-    list->tail = new_item;
-  }
-
-  return new_item;
+  return list_insert_after(list, list->tail, data);
 }

@@ -1,8 +1,10 @@
 #include "game.h"
-#include "../LibraryC/queue.h"
+#include "queue.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define MAX_STATES 362880
 
 State *state_create(int *board, State *parent, char move) {
   State *s = malloc(sizeof(State));
@@ -12,11 +14,6 @@ State *state_create(int *board, State *parent, char move) {
   s->parent = parent;
   s->last_move = move;
   return s;
-}
-
-void state_free(State *state) {
-  if (state)
-    free(state);
 }
 
 static bool state_is_goal(const int *board) {
@@ -32,43 +29,72 @@ static int find_empty(const int *board) {
   return -1;
 }
 
+static const int factorials[9] = {1, 1, 2, 6, 24, 120, 720, 5040, 40320};
+
+static int board_to_rank(const int *board) {
+  int rank = 0;
+
+  for (int i = 0; i < 9; i++) {
+    int count = 0;
+    for (int j = i + 1; j < 9; j++) {
+      if (board[j] < board[i]) {
+        count++;
+      }
+    }
+    rank += count * factorials[8 - i];
+  }
+
+  return rank;
+}
+
 typedef struct {
-  State *states[181440];
+  State *states[MAX_STATES];
   int count;
 } VisitedSet;
 
 static VisitedSet *visited_create(void) {
   VisitedSet *v = malloc(sizeof(VisitedSet));
+
+  if (v == NULL) {
+    return NULL;
+  }
+
+  for (int i = 0; i < MAX_STATES; i++) {
+    v->states[i] = NULL;
+  }
   v->count = 0;
   return v;
 }
 
 static bool visited_contains(VisitedSet *v, const int *board) {
-  for (int i = 0; i < v->count; i++) {
-    if (memcmp(v->states[i]->board, board, 9 * sizeof(int)) == 0)
-      return true;
-  }
-  return false;
+  int rank = board_to_rank(board);
+  return v->states[rank] != NULL;
 }
 
 static void visited_add(VisitedSet *v, State *state) {
-  if (v->count < 181440)
-    v->states[v->count++] = state;
+  int rank = board_to_rank(state->board);
+  if (v->states[rank] == NULL) {
+    v->states[rank] = state;
+    v->count++;
+  }
 }
 
 static void visited_free(VisitedSet *v, State *solution) {
   if (v) {
-    for (int i = 0; i < v->count; i++) {
-      State *s = v->states[i];
-      bool in_solution = false;
-      for (State *c = solution; c != NULL; c = c->parent) {
-        if (c == s) {
-          in_solution = true;
-          break;
+    for (int i = 0; i < MAX_STATES; i++) {
+      if (v->states[i] != NULL) {
+        State *s = v->states[i];
+        bool in_solution = false;
+        for (State *c = solution; c != NULL; c = c->parent) {
+          if (c == s) {
+            in_solution = true;
+            break;
+          }
+        }
+        if (!in_solution) {
+          free(s);
         }
       }
-      if (!in_solution)
-        state_free(s);
     }
     free(v);
   }
