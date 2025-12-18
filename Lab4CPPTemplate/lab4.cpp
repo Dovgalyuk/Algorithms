@@ -9,6 +9,9 @@
 
 using namespace std;
 
+typedef DirGraph<string, int> Graph;
+typedef Graph::VertexId VertexId;
+
 // Structure to store edge info for Kruskal's algorithm
 struct EdgeKruskal {
     size_t from;    // start vertex id
@@ -69,16 +72,14 @@ public:
     }
 };
 
-// Get all edges of the graph as vector of EdgeKruskal
-vector<EdgeKruskal> getAllEdges(const DirGraph<string, int>& graph) {
+vector<EdgeKruskal> getAllEdges(const Graph& graph) {
     vector<EdgeKruskal> edges;
     size_t n = graph.getVertexCount();
 
     // Iterate over all vertices
     for (size_t i = 0; i < n; ++i) {
-        // Iterate over all neighbors of vertex i
         for (auto it = graph.neighborsBegin(i); it != graph.neighborsEnd(i); ++it) {
-            size_t j = *it;
+            VertexId j = *it;
             int weight = graph.getEdgeMark(i, j);
             edges.emplace_back(i, j, weight);
         }
@@ -86,8 +87,7 @@ vector<EdgeKruskal> getAllEdges(const DirGraph<string, int>& graph) {
     return edges;
 }
 
-// Compute MST with Kruskal algorithm on given graph
-vector<EdgeKruskal> kruskalMST(DirGraph<string, int>& graph) {
+vector<EdgeKruskal> kruskalMST(Graph& graph) {
     size_t n = graph.getVertexCount();
     if (n < 2) return {};
 
@@ -112,7 +112,7 @@ vector<EdgeKruskal> kruskalMST(DirGraph<string, int>& graph) {
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        return 1; 
+        return 1;
     }
 
     ifstream file(argv[1]);
@@ -120,8 +120,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    DirGraph<string, int> graph;
-    map<string, size_t> vertexMap; // Map vertex name to id
+    Graph graph;
+    map<string, VertexId> vertexMap; 
     string line;
 
     // Read each line: "vertex1 vertex2 weight"
@@ -141,8 +141,8 @@ int main(int argc, char* argv[]) {
                 vertexMap[v2] = graph.addVertex(v2);
             }
 
-            size_t fromId = vertexMap[v1];
-            size_t toId = vertexMap[v2];
+            VertexId fromId = vertexMap[v1];
+            VertexId toId = vertexMap[v2];
             // Add edge in both directions to simulate undirected graph!!!
             graph.addEdge(fromId, toId, weight);
             graph.addEdge(toId, fromId, weight);
