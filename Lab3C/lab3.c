@@ -6,10 +6,8 @@
 #include "vector.h"
 #include "queue.h"
 
-#define INF 1e9
-
 typedef struct {
-    int x, y, value, paths_count;
+    size_t x, y, value, paths_count;
 } Point;
 
 void my_delete(void* d){
@@ -46,7 +44,7 @@ void get_file_string_size(FILE* file, size_t* c, size_t* r) {
     *r = rows;
 }
 
-char** maze_read(FILE* file, int* start_y, int* start_x, size_t* len_y, size_t* len_x) {
+char** maze_read(FILE* file, size_t* start_y, size_t* start_x, size_t* len_y, size_t* len_x) {
     if (file == NULL) return NULL;
     
     size_t cols = 0;
@@ -183,12 +181,11 @@ int main(int argc, char** argv)
     FILE* maze_file = fopen(argv[1], "r");
     Point start;
     size_t len_y, len_x;
-    size_t last_layer_size;
     char** maze = maze_read(maze_file, &start.y, &start.x, &len_y, &len_x);
 
     // Count number of shortest paths and print result
     size_t shortest_paths = bfs_for_maze(maze, start, len_y, len_x);
-    printf("%lu", shortest_paths);
+    printf("%zu", shortest_paths);
     if (shortest_paths == 0) {
         printf(", There are no paths.");
     }
