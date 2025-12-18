@@ -91,6 +91,11 @@ int main()
         ++neighbourCount;
         neighboursBeforeRemoval.next();
     }
+    if (neighbourCount != 2 || !hasSelfLoop || !hasEdgeToOne)
+    {
+        std::cerr << "failed" << std::endl;
+        return 1;
+    }
     assert(neighbourCount == 2);
     assert(hasSelfLoop);
     assert(hasEdgeToOne);
@@ -119,6 +124,11 @@ int main()
         neighboursAfterRemoval.next();
     }
 
+    if (neighbourCount != 1 || !hasSelfLoop || hasEdgeToOne)
+    {
+        std::cerr << "failed" << std::endl;
+        return 1;
+    }
     assert(neighbourCount == 1);
     assert(hasSelfLoop);
     assert(!hasEdgeToOne);
