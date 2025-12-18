@@ -3,6 +3,7 @@
 #include <fstream>
 #include "vector.h"
 #include "graph.h"
+#include "queue.h"
 
 using namespace std;
 
@@ -15,70 +16,83 @@ struct BFSResult {
     IntVector path;
 };
 
-BFSResult bfsShortestPath(const StringGraph& graph, int start, int target) {
-    BFSResult result;
-    result.found = false;
-    result.distance = -1;
+struct AllShortestPathsResult {
+    IntVector distances;
+    Vector<IntVector> parents;
+    int pathCount;
+};
 
+AllShortestPathsResult bfsAllShortestPathsBetween(const StringGraph& graph, int start, int target) {
+    AllShortestPathsResult result;
     size_t n = graph.countVertices();
-    if (start < 0 || start >= (int)n || target < 0 || target >= (int)n) {
+    result.pathCount = 0;
+    
+    if (start < 0 || start >= static_cast<int>(n) || target < 0 || target >= static_cast<int>(n)) {
+        result.distances = IntVector(n, -1);
+        result.parents = Vector<IntVector>(n);
         return result;
     }
-
-    if (start == target) {
-        result.found = true;
-        result.distance = 0;
-        result.path.push_back(start);
-        return result;
-    }
-
-    IntVector visited(n, 0);
-    IntVector distance(n, -1);
-    IntVector parent(n, -1);
-    IntVector queue;
-
-    visited[start] = 1;
-    distance[start] = 0;
-    queue.push_back(start);
-
-    size_t front = 0;
-
-    while (front < queue.size()) {
-        int current = queue[front];
-        ++front;
-
+    
+    result.distances = IntVector(n, -1);
+    result.parents = Vector<IntVector>(n);
+    
+    Queue<int> queue;
+    result.distances[start] = 0;
+    queue.insert(start);
+    
+    bool targetFound = false;
+    int targetDistance = -1;
+    
+    while (!queue.empty() && !(targetFound && queue.get() > targetDistance)) {
+        int current = queue.get();
+        queue.remove();
+        
+        if (targetFound && result.distances[current] > targetDistance) {
+            break;
+        }
+        
         for (auto it = graph.neighborBegin(current); it != graph.neighborEnd(current); ++it) {
             int neighbor = static_cast<int>(it.getNeighborId());
-
-            if (!visited[neighbor]) {
-                visited[neighbor] = 1;
-                distance[neighbor] = distance[current] + 1;
-                parent[neighbor] = current;
-                queue.push_back(neighbor);
-
+            
+            if (result.distances[neighbor] == -1) {
+                result.distances[neighbor] = result.distances[current] + 1;
+                result.parents[neighbor].push_back(current);
+                queue.insert(neighbor);
+                
                 if (neighbor == target) {
-                    result.found = true;
-                    result.distance = distance[neighbor];
-
-                    int node = target;
-                    while (node != -1) {
-                        result.path.push_back(node);
-                        node = parent[node];
-                    }
-
-                    IntVector reversedPath(result.path.size());
-                    for (size_t i = 0; i < result.path.size(); ++i) {
-                        reversedPath[i] = result.path[result.path.size() - 1 - i];
-                    }
-                    result.path = reversedPath;
-
-                    return result;
+                    targetFound = true;
+                    targetDistance = result.distances[neighbor];
                 }
+            } 
+            else if (result.distances[neighbor] == result.distances[current] + 1) {
+                result.parents[neighbor].push_back(current);
             }
         }
     }
-
+    
     return result;
+}
+
+void countPathsRecursive(const AllShortestPathsResult& result, int current, int start, int& count) {
+    if (current == start) {
+        count++;
+        return;
+    }
+    
+    for (size_t i = 0; i < result.parents[current].size(); ++i) {
+        int parent = result.parents[current][i];
+        countPathsRecursive(result, parent, start, count);
+    }
+}
+
+int countAllShortestPaths(const AllShortestPathsResult& result, int start, int target) {
+    if (result.distances[target] == -1) {
+        return 0;
+    }
+    
+    int count = 0;
+    countPathsRecursive(result, target, start, count);
+    return count;
 }
 
 StringGraph readGraphFromFile(const string& filename) {
@@ -125,7 +139,7 @@ StringGraph readGraphFromFile(const string& filename) {
 int main(int argc, char* argv[]) {
     if (argc < 4) {
         cerr << "Usage: " << argv[0] << " <input_file> <start_vertex> <target_vertex>" << endl;
-        cerr << "Example: " << argv[0] << " input.txt A G" << endl;
+        cerr << "Example: " << argv[0] << " input.txt A D" << endl;
         return 1;
     }
 
@@ -160,24 +174,16 @@ int main(int argc, char* argv[]) {
     graph.printAdjacencyMatrix();
     cout << "\n";
 
-    cout << "Searching shortest path from '" << startLabel << "' to '" << targetLabel << "'..." << endl;
-    BFSResult result = bfsShortestPath(graph, startId, targetId);
+    cout << "Finding all shortest paths from '" << startLabel << "' to '" << targetLabel << "'..." << endl;
+    AllShortestPathsResult result = bfsAllShortestPathsBetween(graph, startId, targetId);
+    
+    int pathCount = countAllShortestPaths(result, startId, targetId);
 
-    if (!result.found) {
+    if (result.distances[targetId] == -1) {
         cout << "No path found from " << startLabel << " to " << targetLabel << endl;
-    }
-    else {
-        cout << "Shortest path found!" << endl;
-        cout << "Distance (number of edges): " << result.distance << endl;
-        cout << "Path: ";
-
-        for (size_t i = 0; i < result.path.size(); ++i) {
-            cout << graph.getVertexLabel(result.path[i]);
-            if (i != result.path.size() - 1) {
-                cout << " -> ";
-            }
-        }
-        cout << endl;
+    } else {
+        cout << "Shortest distance: " << result.distances[targetId] << " edge(s)" << endl;
+        cout << "Number of shortest paths: " << pathCount << endl;
     }
 
     return 0;
