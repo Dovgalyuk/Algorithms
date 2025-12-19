@@ -41,6 +41,36 @@ int main()
         return 1;
     }
 
+    MyList orderedList;
+    auto* first = orderedList.insert(1);
+    auto* second = orderedList.insert_after(first, 2);
+    auto* third = orderedList.insert_after(second, 3);
+
+    auto* returned = orderedList.erase_next(first);
+    if (returned != third || returned->data() != 3)
+    {
+        std::cout << "value error";
+        return 1;
+    }
+
+    if (first->next() != third || third->prev() != first)
+    {
+        std::cout << "fail after erase_next";
+        return 1;
+    }
+
+    MyList copiedList(orderedList);
+    if (!copiedList.first() || copiedList.first()->data() != 1)
+    {
+        std::cout << "miss head";
+        return 1;
+    }
+    if (!copiedList.first()->next() || copiedList.first()->next()->data() != 3)
+    {
+        std::cout << "miss tail";
+        return 1;
+    }
+
     MyList copy(*list);
 
     std::cout << "List: ";
