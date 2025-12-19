@@ -50,11 +50,7 @@ public:
     // Destroys the list and frees the memory
     ~List()
     {
-        while (mHead != nullptr) {
-            Item *temp = mHead;
-            mHead = mHead->mNext;
-            delete temp;
-        }
+        deleteList();
     }
 
     // Retrieves the first item from the list
