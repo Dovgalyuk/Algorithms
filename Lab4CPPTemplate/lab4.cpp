@@ -26,6 +26,8 @@ struct EdgeKruskal {
     }
 };
 
+typedef vector<EdgeKruskal> EdgeVector;
+
 // Disjoint set (union-find) data structure for Kruskal
 class DisjointSet {
 private:
@@ -72,8 +74,8 @@ public:
     }
 };
 
-vector<EdgeKruskal> getAllEdges(const Graph& graph) {
-    vector<EdgeKruskal> edges;
+EdgeVector getAllEdges(const Graph& graph) {
+    EdgeVector edges;  
     size_t n = graph.getVertexCount();
 
     // Iterate over all vertices
@@ -87,16 +89,16 @@ vector<EdgeKruskal> getAllEdges(const Graph& graph) {
     return edges;
 }
 
-vector<EdgeKruskal> kruskalMST(Graph& graph) {
+EdgeVector kruskalMST(Graph& graph) {
     size_t n = graph.getVertexCount();
     if (n < 2) return {};
 
     // Get all edges and sort by weight ascending (stonks)
-    vector<EdgeKruskal> edges = getAllEdges(graph);
+    EdgeVector edges = getAllEdges(graph);  
     sort(edges.begin(), edges.end());
 
     DisjointSet dsu(n);
-    vector<EdgeKruskal> mst;
+    EdgeVector mst;  
 
     // Iterate edges, add to MST if they connect two different sets
     for (const auto& edge : edges) {
@@ -121,7 +123,7 @@ int main(int argc, char* argv[]) {
     }
 
     Graph graph;
-    map<string, VertexId> vertexMap; 
+    map<string, VertexId> vertexMap;
     string line;
 
     // Read each line: "vertex1 vertex2 weight"
@@ -151,7 +153,7 @@ int main(int argc, char* argv[]) {
     file.close();
 
     // Find minimal spanning tree edges with Kruskal
-    vector<EdgeKruskal> mst = kruskalMST(graph);
+    EdgeVector mst = kruskalMST(graph);  
 
     // Output MST edges with vertex names and weights
     for (const auto& e : mst) {
