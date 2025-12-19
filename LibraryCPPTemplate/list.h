@@ -34,42 +34,15 @@ public:
     // copy constructor
     List(const List &a)
     {
-        mHead = nullptr;
-        if (a.mHead == nullptr) return;
-
-        mHead = new Item(a.mHead->mData);
-        Item* current = mHead;
-        Item* source = a.mHead->mNext;
-
-        while (source != nullptr) {
-            current->mNext = new Item(source->mData);
-            current = current->mNext;
-            source = source->mNext;
-        }
+        copyCon(a);
     }
 
     // assignment operator
     List &operator=(const List &a)
     {
         if (this != &a) {
-
-            while (mHead != nullptr) {
-                Item *temp = mHead;
-                mHead = mHead->mNext;
-                delete temp;
-            }
-
-            if (a.mHead) {
-                mHead = new Item(a.mHead->mData);
-                Item* current = mHead;
-                Item* source = a.mHead->mNext;
-
-                while (source) {
-                    current->mNext = new Item(source->mData);
-                    current = current->mNext;
-                    source = source->mNext;
-                }
-            }
+            deleteList();
+            copyCon(a);
         }
         return *this;
     }
@@ -152,6 +125,32 @@ public:
 private:
     // private data should be here
     Item *mHead;
+
+    void deleteList()
+    {
+        while (mHead != nullptr) {
+            Item *temp = mHead;
+            mHead = mHead->mNext;
+            delete temp;
+        }
+    }
+
+    void copyCon(const List &a)
+    {
+        mHead = nullptr;
+        if (a.mHead == nullptr) return;
+
+        mHead = new Item(a.mHead->mData);
+        Item* current = mHead;
+        Item* source = a.mHead->mNext;
+
+        while (source != nullptr) {
+            current->mNext = new Item(source->mData);
+            current = current->mNext;
+            source = source->mNext;
+        }
+    }
+
 };
 
 #endif
