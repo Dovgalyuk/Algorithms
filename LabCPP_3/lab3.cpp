@@ -69,11 +69,13 @@ void reconstructPath(int start, int end, int *parents, int *path, int &pathLen)
     int current = end;
     int idx = 0;
 
-    while (current != -1)
+    while (current != start)
     {
         path[idx++] = current;
         current = parents[current];
     }
+
+    path[idx++] = start;
 
     // реверсируем
     for (int i=0; i<idx/2; i++)
@@ -145,18 +147,14 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    // Переменные для BFS
     int parents[BOARD_AREA];
     for (int i=0; i<BOARD_AREA; i++)
         parents[i] = -1;
 
-    bool visited[BOARD_AREA] = {}; // -
-
     // Очередь BFS
     Queue *q = queue_create();
     queue_insert(q, startPos);
-    visited[startPos] = true; // -
-    parents[startPos] = -1;
+    parents[startPos] = startPos;
     int path[BOARD_AREA];
     int pathLen = 0;
     bool found = false;
@@ -180,9 +178,9 @@ int main(int argc, char **argv)
         {
             int nextPos = queue_get(movesQ);
             queue_remove(movesQ);
-            if (!visited[nextPos]) // проверка parent
+
+            if (parents[nextPos] == -1)
             {
-                visited[nextPos] = true; // -
                 parents[nextPos] = current;
                 queue_insert(q, nextPos);
             }
