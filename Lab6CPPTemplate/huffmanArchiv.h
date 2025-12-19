@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <cstdint>
 
 #include "customPriorityQueue.h"
 
