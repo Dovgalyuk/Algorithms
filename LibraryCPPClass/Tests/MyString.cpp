@@ -1,7 +1,16 @@
 #include <iostream>
 #include <cstddef>
 #include <chrono>
+#include <vector>
+#include <iomanip>
 #include "MyString.h"
+
+struct Res {
+    const char* label;
+    long long time;
+};
+
+static std::vector<Res> res;
 
 static void set_text(String& s, const char* text)
 {
@@ -29,6 +38,7 @@ static bool eq_cstr(const String& s, const char* text)
         ++i;
     }
 }
+
 
 static void fill_with_char(String& s, std::size_t n, char ch)
 {
@@ -69,6 +79,72 @@ static std::size_t find_naive(const String& text, const String& pat, std::size_t
     }
     return String::npos;
 }
+
+static long long measure_kmp_find(const String& text, const String& pat, int runs)
+{
+    std::size_t sink = 0;
+
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < runs; ++i)
+        sink ^= text.find(pat);
+    auto end = std::chrono::high_resolution_clock::now();
+
+    if (sink == 123456789u) std::cout << "";
+
+    return std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / runs;
+}
+
+static long long measure_naive_find(const String& text, const String& pat, int runs)
+{
+    std::size_t sink = 0;
+
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < runs; ++i)
+        sink ^= find_naive(text, pat);
+    auto end = std::chrono::high_resolution_clock::now();
+
+    if (sink == 123456789u) std::cout << "";
+
+    return std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / runs;
+}
+
+static void print_time()
+{
+    std::cout << "\nResults (microseconds):\n\n";
+    for (auto& r : res)
+    {
+        std::cout << std::left << std::setw(28) << r.label << " | "
+            << std::right << std::setw(12) << r.time << " us\n";
+    }
+}
+
+static void perf_case(const char* label, std::size_t N, const char* pat_cstr, int runs)
+{
+    String text, pat;
+    fill_with_char(text, N, 'A');
+    set_text(pat, pat_cstr);
+
+    std::size_t insert_pos = N - pat.size() - 10;
+    write_at(text, insert_pos, pat.c_str());
+
+    if (text.find(pat) != insert_pos)
+    {
+        std::cout << "Fail: perf wrong pos (KMP)\n";
+        std::exit(1);
+    }
+    if (find_naive(text, pat) != insert_pos)
+    {
+        std::cout << "Fail: perf wrong pos (Naive)\n";
+        std::exit(1);
+    }
+
+    long long t_kmp = measure_kmp_find(text, pat, runs);
+    long long t_naive = measure_naive_find(text, pat, runs);
+
+    res.push_back({ label, t_kmp });
+    res.push_back({ "Naive (same case)", t_naive });
+}
+
 
 int main()
 {
@@ -171,46 +247,17 @@ int main()
     }
 
     {
-        const std::size_t N = 20'000'000;
         const int RUNS = 5;
 
-        String text, pat;
-        fill_with_char(text, N, 'A');
-        set_text(pat, "AAAAAAAAAAAAAAAAAAAAAB");
+        perf_case("KMP find (N=100000)", 100'000, "AAAAAAAAAAAAAAAAAAAAAB", RUNS);
+        perf_case("KMP find (N=500000)", 500'000, "AAAAAAAAAAAAAAAAAAAAAB", RUNS);
+        perf_case("KMP find (N=1000000)", 1'000'000, "AAAAAAAAAAAAAAAAAAAAAB", RUNS);
+        perf_case("KMP find (N=5000000)", 5'000'000, "AAAAAAAAAAAAAAAAAAAAAB", RUNS);
+        perf_case("KMP find (N=10000000)", 10'000'000, "AAAAAAAAAAAAAAAAAAAAAB", RUNS);
 
-        const std::size_t insert_pos = N - pat.size() - 10;
-        write_at(text, insert_pos, pat.c_str());
-
-        (void)text.find(pat);
-        (void)find_naive(text, pat);
-
-        long long total_kmp_ms = 0;
-        long long total_nv_ms = 0;
-
-        std::size_t ans_kmp = String::npos;
-        std::size_t ans_nv = String::npos;
-
-        for (int r = 0; r < RUNS; ++r)
-        {
-            auto t1 = std::chrono::high_resolution_clock::now();
-            ans_kmp = text.find(pat);
-            auto t2 = std::chrono::high_resolution_clock::now();
-            total_kmp_ms += std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-
-            t1 = std::chrono::high_resolution_clock::now();
-            ans_nv = find_naive(text, pat);
-            t2 = std::chrono::high_resolution_clock::now();
-            total_nv_ms += std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-        }
-
-        if (ans_kmp != insert_pos) { std::cout << "Fail: perf KMP wrong pos\n"; return 1; }
-        if (ans_nv != insert_pos) { std::cout << "Fail: perf naive wrong pos\n"; return 1; }
-
-        std::cout << "Find performance test\n";
-        std::cout << "Text length: " << N << "\n";
-        std::cout << "Pattern length: " << pat.size() << "\n";
-        std::cout << "Runs: " << RUNS << "\n";
-        std::cout << "KMP avg time:   " << (total_kmp_ms / RUNS) << " ms\n";
-        std::cout << "Naive avg time: " << (total_nv_ms / RUNS) << " ms\n";
+        print_time();
     }
+
+    std::cout << "All tests passed!\n";
+    return 0;
 }

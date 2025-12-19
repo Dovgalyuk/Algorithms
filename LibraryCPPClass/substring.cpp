@@ -13,15 +13,7 @@ StringSlice::StringSlice(const String& src, size_t str, size_t lng)
 
 StringSlice::operator String() const
 {
-    String result;
-    result.resize(length);
-
-    for (size_t i = 0; i < length; ++i)
-    {
-        result[i] = (*this)[i];
-    }
-
-    return result;
+    return String(*this);
 }
 
 
