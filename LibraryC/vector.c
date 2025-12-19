@@ -30,10 +30,12 @@ void vector_delete(Vector *vector)
     if (vector == NULL)
         return;
 
-    if (vector->d != NULL && vector->freeFunc != NULL) {
-        for (size_t i = 0; i < vector->size; i++) {
-            if(vector->d[i] != NULL) {
-                vector->freeFunc(vector->d[i]);
+    if (vector->d != NULL ) {
+        if (vector->freeFunc != NULL) {
+            for (size_t i = 0; i < vector->size; i++) {
+                if(vector->d[i] != NULL) {
+                    vector->freeFunc(vector->d[i]);
+                }
             }
         }
         free(vector->d);
