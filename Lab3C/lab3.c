@@ -91,7 +91,6 @@ size_t bfs_for_maze(char** maze, const Point start, const size_t len_y, const si
     
     Queue* q = queue_create(NULL);      // Queue doen't clear memory, 'dist' does it
 
-    size_t min_steps_to_E = UINT_MAX; 
     size_t shortest_paths_to_E = 0;
 
     // Start point initialization
@@ -109,13 +108,8 @@ size_t bfs_for_maze(char** maze, const Point start, const size_t len_y, const si
         
         // 'E' foundet
         if (maze[current->y][current->x] == 'E') {
-            if(current->value < min_steps_to_E) {
-                min_steps_to_E = current->value;
-                shortest_paths_to_E = current->paths_count;
-            } else if (current->value == min_steps_to_E) {
-                shortest_paths_to_E += current->paths_count;
-            }
-            continue;
+            shortest_paths_to_E = current->paths_count;
+            break;
         } 
         
         // Usual point
@@ -155,8 +149,7 @@ size_t bfs_for_maze(char** maze, const Point start, const size_t len_y, const si
                     
                     // Visited, update paths count
                     else {
-                        Data d = vector_get(dist, idx);
-                        Point* existing = (Point*)d;
+                        Point* existing = (Point*)vector_get(dist, idx);;
                         if (existing->value == new_dist) {
                             existing->paths_count += current->paths_count;
                         }
