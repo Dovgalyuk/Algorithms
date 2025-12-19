@@ -1,6 +1,7 @@
 #include "avltree.h"
 #include <algorithm>
 #include <iostream>
+#include <cassert>
 
 AVLTree::AVLTree() : root(nullptr), size_(0) {}
 
@@ -8,23 +9,23 @@ AVLTree::~AVLTree() {
     clear();
 }
 
-int AVLTree::height(const std::shared_ptr<Node>& node) const {
+int AVLTree::height(const Node* node) const {
     return node ? node->height : 0;
 }
 
-int AVLTree::balanceFactor(const std::shared_ptr<Node>& node) const {
+int AVLTree::balanceFactor(const Node* node) const {
     return node ? height(node->left) - height(node->right) : 0;
 }
 
-void AVLTree::updateHeight(std::shared_ptr<Node>& node) {
+void AVLTree::updateHeight(Node* node) {
     if (node) {
         node->height = std::max(height(node->left), height(node->right)) + 1;
     }
 }
 
-std::shared_ptr<AVLTree::Node> AVLTree::rotateRight(std::shared_ptr<Node>& y) {
-    std::shared_ptr<Node> x = y->left;
-    std::shared_ptr<Node> T2 = x->right;
+AVLTree::Node* AVLTree::rotateRight(Node* y) {
+    Node* x = y->left;
+    Node* T2 = x->right;
 
     x->right = y;
     y->left = T2;
@@ -35,9 +36,9 @@ std::shared_ptr<AVLTree::Node> AVLTree::rotateRight(std::shared_ptr<Node>& y) {
     return x;
 }
 
-std::shared_ptr<AVLTree::Node> AVLTree::rotateLeft(std::shared_ptr<Node>& x) {
-    std::shared_ptr<Node> y = x->right;
-    std::shared_ptr<Node> T2 = y->left;
+AVLTree::Node* AVLTree::rotateLeft(Node* x) {
+    Node* y = x->right;
+    Node* T2 = y->left;
 
     y->left = x;
     x->right = T2;
@@ -48,7 +49,9 @@ std::shared_ptr<AVLTree::Node> AVLTree::rotateLeft(std::shared_ptr<Node>& x) {
     return y;
 }
 
-std::shared_ptr<AVLTree::Node> AVLTree::balance(std::shared_ptr<Node>& node) {
+AVLTree::Node* AVLTree::balance(Node* node) {
+    if (!node) return nullptr;
+
     updateHeight(node);
 
     int bf = balanceFactor(node);
@@ -75,15 +78,18 @@ std::shared_ptr<AVLTree::Node> AVLTree::balance(std::shared_ptr<Node>& node) {
 }
 
 bool AVLTree::insert(const std::string& key) {
-    size_t oldSize = size_;
+    if (contains(key)) {
+        return false;
+    }
+
+    size_++;
     root = insert(root, key);
-    return size_ > oldSize;
+    return true;
 }
 
-std::shared_ptr<AVLTree::Node> AVLTree::insert(std::shared_ptr<Node>& node, const std::string& key) {
+AVLTree::Node* AVLTree::insert(Node* node, const std::string& key) {
     if (!node) {
-        size_++;
-        return std::make_shared<Node>(key);
+        return new Node(key);
     }
 
     if (key < node->key) {
@@ -93,8 +99,6 @@ std::shared_ptr<AVLTree::Node> AVLTree::insert(std::shared_ptr<Node>& node, cons
         node->right = insert(node->right, key);
     }
     else {
-        node->count++;
-        size_++;
         return node;
     }
 
@@ -102,14 +106,16 @@ std::shared_ptr<AVLTree::Node> AVLTree::insert(std::shared_ptr<Node>& node, cons
 }
 
 bool AVLTree::remove(const std::string& key) {
-    if (!root) return false;
+    if (!contains(key)) {
+        return false;
+    }
 
-    size_t oldSize = size_;
+    size_--;
     root = remove(root, key);
-    return size_ < oldSize;
+    return true;
 }
 
-std::shared_ptr<AVLTree::Node> AVLTree::remove(std::shared_ptr<Node>& node, const std::string& key) {
+AVLTree::Node* AVLTree::remove(Node* node, const std::string& key) {
     if (!node) {
         return nullptr;
     }
@@ -121,29 +127,14 @@ std::shared_ptr<AVLTree::Node> AVLTree::remove(std::shared_ptr<Node>& node, cons
         node->right = remove(node->right, key);
     }
     else {
-        if (node->count > 1) {
-
-            node->count--;
-            size_--;
-            return node;
-        }
-
         if (!node->left || !node->right) {
-            std::shared_ptr<Node> temp = node->left ? node->left : node->right;
-
-            if (!temp) {
-                node = nullptr;
-            }
-            else {
-                node = temp;
-            }
-            size_--;
+            Node* temp = node->left ? node->left : node->right;
+            delete node;
+            node = temp;
         }
         else {
-            std::shared_ptr<Node> temp = findMin(node->right);
+            Node* temp = findMin(node->right);
             node->key = temp->key;
-            node->count = temp->count;
-
             node->right = remove(node->right, temp->key);
         }
     }
@@ -155,15 +146,14 @@ std::shared_ptr<AVLTree::Node> AVLTree::remove(std::shared_ptr<Node>& node, cons
     return balance(node);
 }
 
-std::shared_ptr<AVLTree::Node> AVLTree::findMin(std::shared_ptr<Node>& node) {
+AVLTree::Node* AVLTree::findMin(Node* node) {
     return node->left ? findMin(node->left) : node;
 }
 
-std::shared_ptr<AVLTree::Node> AVLTree::removeMin(std::shared_ptr<Node>& node) {
+AVLTree::Node* AVLTree::removeMin(Node* node) {
     if (!node->left) {
-        std::shared_ptr<Node> temp = node->right;
-        node = nullptr;
-        size_--;
+        Node* temp = node->right;
+        delete node;
         return temp;
     }
 
@@ -175,7 +165,7 @@ bool AVLTree::contains(const std::string& key) const {
     return contains(root, key);
 }
 
-bool AVLTree::contains(const std::shared_ptr<Node>& node, const std::string& key) const {
+bool AVLTree::contains(const Node* node, const std::string& key) const {
     if (!node) {
         return false;
     }
@@ -205,11 +195,11 @@ void AVLTree::clear() {
     size_ = 0;
 }
 
-void AVLTree::clear(std::shared_ptr<Node>& node) {
+void AVLTree::clear(Node* node) {
     if (node) {
         clear(node->left);
         clear(node->right);
-        node.reset();
+        delete node;
     }
 }
 
@@ -220,12 +210,10 @@ std::vector<std::string> AVLTree::getAllElements() const {
     return result;
 }
 
-void AVLTree::inOrderTraversal(const std::shared_ptr<Node>& node, std::vector<std::string>& result) const {
+void AVLTree::inOrderTraversal(const Node* node, std::vector<std::string>& result) const {
     if (node) {
         inOrderTraversal(node->left, result);
-        for (int i = 0; i < node->count; ++i) {
-            result.push_back(node->key);
-        }
+        result.push_back(node->key);
         inOrderTraversal(node->right, result);
     }
 }
@@ -235,10 +223,10 @@ int AVLTree::getHeight() const {
 }
 
 bool AVLTree::isBalanced() const {
-    return isBalanced(root);
+    return isBalancedRecursive(root);
 }
 
-bool AVLTree::isBalanced(const std::shared_ptr<Node>& node) const {
+bool AVLTree::isBalancedRecursive(const Node* node) const {
     if (!node) {
         return true;
     }
@@ -248,14 +236,14 @@ bool AVLTree::isBalanced(const std::shared_ptr<Node>& node) const {
         return false;
     }
 
-    return isBalanced(node->left) && isBalanced(node->right);
+    return isBalancedRecursive(node->left) && isBalancedRecursive(node->right);
 }
 
 bool AVLTree::isBST() const {
-    return isBST(root, "", "");
+    return isBSTRecursive(root, "", "");
 }
 
-bool AVLTree::isBST(const std::shared_ptr<Node>& node, const std::string& min, const std::string& max) const {
+bool AVLTree::isBSTRecursive(const Node* node, const std::string& min, const std::string& max) const {
     if (!node) {
         return true;
     }
@@ -264,5 +252,5 @@ bool AVLTree::isBST(const std::shared_ptr<Node>& node, const std::string& min, c
         return false;
     }
 
-    return isBST(node->left, min, node->key) && isBST(node->right, node->key, max);
+    return isBSTRecursive(node->left, min, node->key) && isBSTRecursive(node->right, node->key, max);
 }

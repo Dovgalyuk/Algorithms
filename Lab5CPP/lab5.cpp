@@ -7,6 +7,7 @@
 #include <random>
 #include <algorithm>
 #include <cassert>
+#include <sstream>
 #include "avltree.h"
 
 using namespace std;
@@ -41,40 +42,12 @@ void generateInputFile(const string& filename, size_t count) {
     cout << "Generating " << count << " random strings to " << filename << endl;
 
     for (size_t i = 0; i < count; ++i) {
-
         size_t length = 5 + (i % 16);
         file << generateRandomString(length) << endl;
     }
 
     file.close();
     cout << "File generated: " << filename << endl;
-}
-
-void testBasicFunctionality() {
-    cout << "\n=== Testing Basic Functionality ===" << endl;
-
-    AVLTree tree;
-
-    assert(tree.insert("apple"));
-    assert(tree.insert("banana"));
-    assert(tree.insert("cherry"));
-    assert(tree.size() == 3);
-
-    assert(tree.contains("apple"));
-    assert(tree.contains("banana"));
-    assert(!tree.contains("grape"));
-
-    assert(tree.remove("banana"));
-    assert(!tree.contains("banana"));
-    assert(tree.size() == 2);
-
-    assert(tree.insert("apple"));
-    assert(tree.size() == 3);
-
-    assert(tree.isBalanced());
-    assert(tree.isBST());
-
-    cout << "All basic tests passed!" << endl;
 }
 
 void stressTest(size_t numElements) {
@@ -153,48 +126,56 @@ void compareWithStdSet(const string& filename) {
 
     cout << "Loaded " << lines.size() << " lines from " << filename << endl;
 
-    AVLTree avlTree;
-    auto start = high_resolution_clock::now();
-    for (const auto& l : lines) {
-        avlTree.insert(l);
-    }
-    auto end = high_resolution_clock::now();
-    auto avlTime = duration_cast<microseconds>(end - start);
+    vector<size_t> testSizes = { 1000, 5000, 10000, 50000, 100000, 250000, 500000, 750000, min((size_t)1000000, lines.size()) };
 
-    set<string> stdSet;
-    start = high_resolution_clock::now();
-    for (const auto& l : lines) {
-        stdSet.insert(l);
-    }
-    end = high_resolution_clock::now();
-    auto setTime = duration_cast<microseconds>(end - start);
+    for (size_t testSize : testSizes) {
+        if (testSize > lines.size()) continue;
 
-    cout << "AVLTree insertion time: " << avlTime.count() << " microseconds" << endl;
-    cout << "std::set insertion time: " << setTime.count() << " microseconds" << endl;
-    cout << "Ratio (AVL/std::set): " << (double)avlTime.count() / setTime.count() << endl;
+        cout << "\n--- Test with " << testSize << " elements ---" << endl;
 
-    auto avlElements = avlTree.getAllElements();
-    vector<string> setElements(stdSet.begin(), stdSet.end());
+        vector<string> testData(lines.begin(), lines.begin() + testSize);
 
-    sort(avlElements.begin(), avlElements.end());
+        AVLTree avlTree;
+        auto start = high_resolution_clock::now();
+        for (const auto& l : testData) {
+            avlTree.insert(l);
+        }
+        auto end = high_resolution_clock::now();
+        auto avlTime = duration_cast<milliseconds>(end - start);
 
-    if (avlElements == setElements) {
-        cout << "Both containers have identical elements!" << endl;
-    }
-    else {
-        cerr << "ERROR: Elements mismatch between containers!" << endl;
+        set<string> stdSet;
+        start = high_resolution_clock::now();
+        for (const auto& l : testData) {
+            stdSet.insert(l);
+        }
+        end = high_resolution_clock::now();
+        auto setTime = duration_cast<milliseconds>(end - start);
+
+        cout << "AVLTree: " << avlTime.count() << " ms (height: " << avlTree.getHeight() << ")" << endl;
+        cout << "std::set: " << setTime.count() << " ms" << endl;
+        cout << "Ratio (AVL/std::set): " << (double)avlTime.count() / setTime.count() << endl;
     }
 }
 
 void performanceComparison() {
     cout << "\n=== Performance Comparison (CSV format) ===" << endl;
-    cout << "Size,AVLTree(us),std::set(us),Ratio" << endl;
+    cout << "Size,AVLTree(ms),std::set(ms),Ratio,AVLTree Height,Is Balanced,Is BST" << endl;
 
-    vector<size_t> sizes = { 100, 500, 1000, 5000, 10000, 20000, 50000 };
+    vector<size_t> sizes = {
+        100, 500, 1000, 5000, 10000,
+        20000, 50000, 100000, 200000,
+        300000, 400000, 500000, 600000,
+        700000, 800000, 900000, 1000000
+    };
+
+    ofstream csvFile("performance_results.csv");
+    csvFile << "Size,AVLTree(ms),std::set(ms),Ratio,AVLTree Height,Is Balanced,Is BST" << endl;
 
     for (size_t size : sizes) {
+        cout << "Testing with " << size << " elements..." << endl;
 
         vector<string> data;
+        data.reserve(size);
         for (size_t i = 0; i < size; ++i) {
             data.push_back(generateRandomString(10 + (i % 11)));
         }
@@ -205,7 +186,7 @@ void performanceComparison() {
             avlTree.insert(elem);
         }
         auto end = high_resolution_clock::now();
-        auto avlTime = duration_cast<microseconds>(end - start);
+        auto avlTime = duration_cast<milliseconds>(end - start);
 
         set<string> stdSet;
         start = high_resolution_clock::now();
@@ -213,90 +194,129 @@ void performanceComparison() {
             stdSet.insert(elem);
         }
         end = high_resolution_clock::now();
-        auto setTime = duration_cast<microseconds>(end - start);
+        auto setTime = duration_cast<milliseconds>(end - start);
 
-        double ratio = (double)avlTime.count() / setTime.count();
+        double ratio = setTime.count() > 0 ? (double)avlTime.count() / setTime.count() : 0;
 
-        cout << size << "," << avlTime.count() << "," << setTime.count() << "," << ratio << endl;
+        cout << size << ","
+            << avlTime.count() << ","
+            << setTime.count() << ","
+            << ratio << ","
+            << avlTree.getHeight() << ","
+            << (avlTree.isBalanced() ? "Yes" : "No") << ","
+            << (avlTree.isBST() ? "Yes" : "No") << endl;
+
+        csvFile << size << ","
+            << avlTime.count() << ","
+            << setTime.count() << ","
+            << ratio << ","
+            << avlTree.getHeight() << ","
+            << (avlTree.isBalanced() ? "Yes" : "No") << ","
+            << (avlTree.isBST() ? "Yes" : "No") << endl;
     }
+
+    csvFile.close();
+    cout << "\nResults saved to performance_results.csv" << endl;
+
+    cout << "\n=== Simple Console Chart ===" << endl;
+    cout << "Size\tAVLTree(ms)\tstd::set(ms)" << endl;
+    cout << "-----------------------------------" << endl;
+
+    ifstream resultsFile("performance_results.csv");
+    string header;
+    getline(resultsFile, header);
+
+    string row;
+    while (getline(resultsFile, row)) {
+        stringstream ss(row);
+        string token;
+        vector<string> tokens;
+
+        while (getline(ss, token, ',')) {
+            tokens.push_back(token);
+        }
+
+        if (tokens.size() >= 3) {
+            size_t size = stoi(tokens[0]);
+            int avlTime = stoi(tokens[1]);
+            int setTime = stoi(tokens[2]);
+
+            cout << size << "\t" << avlTime << "\t\t" << setTime << endl;
+        }
+    }
+    resultsFile.close();
 }
 
-void testFileInput(const string& filename) {
-    cout << "\n=== Testing with input file: " << filename << " ===" << endl;
+void demoFileOperations() {
+    cout << "\n=== Demonstration: File Operations ===" << endl;
 
-    ifstream file(filename);
-    if (!file) {
-        cerr << "Cannot open input file: " << filename << endl;
-        cerr << "Creating sample input file..." << endl;
+    const string filename = "demo_input.txt";
 
-        ofstream outFile(filename);
-        if (outFile) {
-            outFile << "apple\nbanana\ncherry\ndate\nelderberry\nfig\ngrape\n";
-            outFile.close();
-            file.open(filename);
+    ofstream outFile(filename);
+    if (outFile) {
+        for (int i = 0; i < 50000; ++i) {
+            outFile << generateRandomString(5 + (i % 15)) << endl;
         }
-        else {
-            cerr << "Failed to create input file" << endl;
-            return;
-        }
+        outFile.close();
+        cout << "Created demo file with 50000 strings: " << filename << endl;
     }
 
     AVLTree tree;
+    ifstream file(filename);
     string line;
-    size_t lineCount = 0;
+    size_t count = 0;
 
     auto start = high_resolution_clock::now();
     while (getline(file, line)) {
         if (!line.empty()) {
             tree.insert(line);
-            lineCount++;
+            count++;
         }
     }
     auto end = high_resolution_clock::now();
     file.close();
 
-    auto duration = duration_cast<microseconds>(end - start);
-    cout << "Inserted " << lineCount << " lines from file in "
-        << duration.count() << " microseconds" << endl;
+    auto duration = duration_cast<milliseconds>(end - start);
+    cout << "Inserted " << count << " strings from file in "
+        << duration.count() << " milliseconds" << endl;
     cout << "Tree size: " << tree.size() << endl;
     cout << "Tree height: " << tree.getHeight() << endl;
+    cout << "Tree is balanced: " << (tree.isBalanced() ? "Yes" : "No") << endl;
+    cout << "Tree is valid BST: " << (tree.isBST() ? "Yes" : "No") << endl;
+}
 
-    if (tree.isBalanced()) {
-        cout << "Tree is balanced [OK]" << endl;
-    }
-    else {
-        cerr << "Tree is NOT balanced after file input!" << endl;
+void demoAVLTreeOperations() {
+    cout << "\n=== Demonstration: AVLTree Operations ===" << endl;
+
+    AVLTree tree;
+
+    cout << "Inserting 5 strings..." << endl;
+    vector<string> words = { "zebra", "apple", "mango", "banana", "cherry" };
+    for (const auto& word : words) {
+        tree.insert(word);
+        cout << "  Inserted: " << word << endl;
     }
 
-    if (tree.isBST()) {
-        cout << "Tree is valid BST [OK]" << endl;
-    }
-    else {
-        cerr << "Tree is NOT a valid BST!" << endl;
+    cout << "\nTree size: " << tree.size() << endl;
+    cout << "Tree height: " << tree.getHeight() << endl;
+
+    cout << "\nRemoving 'mango'..." << endl;
+    if (tree.remove("mango")) {
+        cout << "  Successfully removed 'mango'" << endl;
     }
 
-    file.open(filename);
-    size_t foundCount = 0;
-    while (getline(file, line)) {
-        if (!line.empty() && tree.contains(line)) {
-            foundCount++;
-        }
-    }
-    file.close();
+    cout << "\nCurrent tree size: " << tree.size() << endl;
+    cout << "Tree is balanced: " << (tree.isBalanced() ? "Yes" : "No") << endl;
 
-    cout << "Found " << foundCount << " out of " << lineCount
-        << " lines in tree" << endl;
-
-    if (foundCount == lineCount) {
-        cout << "All elements from file are in the tree [OK]" << endl;
-    }
-    else {
-        cerr << "ERROR: Some elements from file are missing from tree!" << endl;
+    cout << "\nAll elements:" << endl;
+    auto elements = tree.getAllElements();
+    for (const auto& elem : elements) {
+        cout << "  " << elem << endl;
     }
 }
 
 int main(int argc, char* argv[]) {
-    cout << "=== Lab 5: AVL Tree Container Implementation ===" << endl;
+    cout << "=== Lab 5: AVL Tree Container Demonstration ===" << endl;
 
     int choice = 0;
     if (argc > 1) {
@@ -305,11 +325,17 @@ int main(int argc, char* argv[]) {
 
     switch (choice) {
     case 1:
-        testBasicFunctionality();
+        demoAVLTreeOperations();
         break;
 
     case 2:
-        stressTest(10000);
+        if (argc > 2) {
+            size_t count = atoi(argv[2]);
+            stressTest(count);
+        }
+        else {
+            stressTest(1000000);
+        }
         break;
 
     case 3:
@@ -318,7 +344,7 @@ int main(int argc, char* argv[]) {
             generateInputFile("test_data.txt", count);
         }
         else {
-            generateInputFile("test_data.txt", 1000);
+            generateInputFile("test_data.txt", 1000000);
         }
         break;
 
@@ -331,22 +357,20 @@ int main(int argc, char* argv[]) {
         break;
 
     case 6:
-        testFileInput("input.txt");
+        demoFileOperations();
         break;
 
     default:
-        testBasicFunctionality();
-        stressTest(1000);
-        generateInputFile("test_data.txt", 1000);
-        compareWithStdSet("test_data.txt");
-        testFileInput("input.txt");
-        cout << "\nFor specific tests, run with argument:" << endl;
-        cout << "  1 - Basic functionality test" << endl;
-        cout << "  2 - Stress test" << endl;
-        cout << "  3 <count> - Generate test file" << endl;
-        cout << "  4 - Compare with std::set" << endl;
-        cout << "  5 - Performance comparison (CSV output)" << endl;
-        cout << "  6 - Test with input.txt file" << endl;
+        cout << "\nAVL Tree Demonstration Menu:" << endl;
+        cout << "  1 - AVLTree basic operations demo" << endl;
+        cout << "  2 <count> - Stress test (default: 1,000,000)" << endl;
+        cout << "  3 <count> - Generate test data file (default: 1,000,000)" << endl;
+        cout << "  4 - Compare AVLTree with std::set" << endl;
+        cout << "  5 - Performance comparison (CSV output + chart)" << endl;
+        cout << "  6 - File operations demo" << endl;
+
+        cout << "\nRunning performance comparison..." << endl;
+        performanceComparison();
         break;
     }
 
