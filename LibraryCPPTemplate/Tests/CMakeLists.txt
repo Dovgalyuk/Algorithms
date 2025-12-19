@@ -27,3 +27,7 @@ add_test(NAME TestGraphCPPTemplate COMMAND TestGraphCPPTemplate)
 add_executable(TestContainerCPPTemplate container.cpp)
 target_include_directories(TestContainerCPPTemplate PUBLIC ..)
 add_test(TestContainerCPPTemplate TestContainerCPPTemplate)
+
+add_executable(TestCustomPQ_CPPTemplate customPriorityQueue.cpp)
+target_include_directories(TestCustomPQ_CPPTemplate PUBLIC ..)
+add_test(TestCustomPQ_CPPTemplate TestCustomPQ_CPPTemplate)
