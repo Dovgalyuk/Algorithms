@@ -7,7 +7,6 @@
 typedef struct Queue {
     Vector* vector; // Container for data
     size_t head;    // Index of pointer to first element
-    size_t tail;    // Index of pointer to place to insert next element
     size_t count;   // Element counter
 } Queue;
 
@@ -26,7 +25,6 @@ Queue *queue_create(FFree f)
 
     vector_resize(q->vector, (size_t)1);
     q->head = 0;
-    q->tail = 0;
     q->count = 0;
     return q;
 }
@@ -46,23 +44,24 @@ void queue_insert(Queue *queue, Data data) {
 
     size_t size = vector_size(queue->vector);
 
+    size_t tail = (queue->head + queue->count) % size;
+    
     if (queue->count == size) {
         size_t old_size = size;
         size_t new_size = old_size * 2;
         vector_resize(queue->vector, new_size);
 
-        if (queue->tail <= queue->head && queue->count > 0) {
-            for (size_t i = 0; i < queue->tail; i++) {
+        if (tail <= queue->head) {
+            for (size_t i = 0; i < tail; i++) {
                 Data d = vector_get(queue->vector, i);
-                vector_set(queue->vector, old_size + i, d);
+                vector_set(queue->vector, old_size + i, d);                 
             }
-            queue->tail = old_size + queue->tail;
+            tail = old_size + tail;
         }
         size = new_size;
     }
 
-    vector_set(queue->vector, queue->tail, data);
-    queue->tail = (queue->tail + 1) % size;
+    vector_set(queue->vector, tail, data);
     queue->count++;
 }
 
@@ -72,12 +71,7 @@ Data queue_get(const Queue *queue)
         return (Data)0;
     }
 
-    Data element = vector_get(queue->vector, queue->head);
-    if(element == NULL) {
-        return VECTOR_EMPTY;
-    }
-    
-    return element;
+    return vector_get(queue->vector, queue->head);
 }
 
 void queue_remove(Queue *queue)

@@ -10,10 +10,6 @@ typedef struct {
     size_t x, y, value, paths_count;
 } Point;
 
-void my_delete(void* d){
-    free((Point*)d);
-}
-
 void get_file_string_size(FILE* file, size_t* c, size_t* r) {
     size_t columns = 0;
     size_t rows = 0;
@@ -33,7 +29,7 @@ void get_file_string_size(FILE* file, size_t* c, size_t* r) {
         }
     }
 
-    // Processing last line if it doesn't end with \n
+    // Processing last line if it doesn't end with '\n'
     if (current_columns > 0) {
         if (rows == 0) columns = current_columns;
         rows++;
@@ -45,28 +41,28 @@ void get_file_string_size(FILE* file, size_t* c, size_t* r) {
 }
 
 char** maze_read(FILE* file, size_t* start_y, size_t* start_x, size_t* len_y, size_t* len_x) {
-    if (file == NULL) return NULL;
+    if (file == NULL) 
+        return NULL;
     
     size_t cols = 0;
     size_t rows = 0;
 
-    // Получаем размеры (функция должна корректно делать rewind)
     get_file_string_size(file, &cols, &rows);
     
-    // Выделяем память под массив указателей на строки
     char** maze = (char**)malloc(rows * sizeof(char*));
-    if (maze == NULL) return NULL;
+    if (maze == NULL) 
+        return NULL;
 
     for (size_t i = 0; i < rows; i++) {
         maze[i] = (char*)malloc((cols + 1) * sizeof(char));
         
-        size_t j = 0;
-        while (j < cols) {
+        for (size_t j = 0; j < cols;) {
             int c = fgetc(file);
             if (c == EOF) break;
             
-            // Игнорируем символы переноса строки при чтении данных строки
-            if (c == '\n' || c == '\r') continue;
+            // Ignoring line breaks when reading line data
+            if (c == '\n' || c == '\r') 
+                continue;
 
             maze[i][j] = (char)c;
             
@@ -74,9 +70,11 @@ char** maze_read(FILE* file, size_t* start_y, size_t* start_x, size_t* len_y, si
                 *start_x = (int)j;
                 *start_y = (int)i;                
             }
+
+            // Doesn't increase if '\n' or '\r' are encountered
             j++;
         }
-        maze[i][cols] = '\0'; // Завершаем строку
+        maze[i][cols] = '\0'; 
     }
 
     *len_x = cols;
@@ -86,14 +84,14 @@ char** maze_read(FILE* file, size_t* start_y, size_t* start_x, size_t* len_y, si
 }
 
 size_t bfs_for_maze(char** maze, const Point start, const size_t len_y, const size_t len_x) {
-    Vector* dist = vector_create(my_delete);
+    Vector* dist = vector_create(free);
     if (dist == NULL)
         return 0;
-    
     vector_resize(dist, len_y * len_x); 
-    Queue* q = queue_create(NULL);      // Queue doen't clear memory, dist does it
+    
+    Queue* q = queue_create(NULL);      // Queue doen't clear memory, 'dist' does it
 
-    size_t min_steps_to_E = ULONG_MAX; 
+    size_t min_steps_to_E = UINT_MAX; 
     size_t shortest_paths_to_E = 0;
 
     // Start point initialization
@@ -104,17 +102,27 @@ size_t bfs_for_maze(char** maze, const Point start, const size_t len_y, const si
     start_node->paths_count = 1;
     vector_set(dist, start.y * len_x + start.x, start_node);
     queue_insert(q, start_node);
-
+    
     while(!queue_empty(q)) {
         Point* current = (Point*)queue_get(q);
         queue_remove(q);
-
-        // If path is shorter than current, skip
-        if (current->value >= min_steps_to_E) continue;
-
+        
+        // 'E' foundet
+        if (maze[current->y][current->x] == 'E') {
+            if(current->value < min_steps_to_E) {
+                min_steps_to_E = current->value;
+                shortest_paths_to_E = current->paths_count;
+            } else if (current->value == min_steps_to_E) {
+                shortest_paths_to_E += current->paths_count;
+            }
+            continue;
+        } 
+        
+        // Usual point
         for (int dy = -1; dy <= 1; dy++) {
             for (int dx = -1; dx <= 1; dx++) {
-                if (dx == 0 && dy == 0) continue;
+                if (dx == 0 && dy == 0) 
+                    continue;
 
                 // Stepping
                 for (int step = 1; ; step++) {
@@ -122,31 +130,20 @@ size_t bfs_for_maze(char** maze, const Point start, const size_t len_y, const si
                     int nx = current->x + dx * step;
 
                     // Checking boundaries
-                    if (ny < 0 || ny >= (int)len_y || nx < 0 || nx >= (int)len_x) break;
+                    if (ny < 0 || ny >= (int)len_y || nx < 0 || nx >= (int)len_x)   
+                        break;
                     
                     // Сhecking wall
-                    if (maze[ny][nx] == '#') break;
+                    if (maze[ny][nx] == '#') 
+                        break;
 
                     size_t new_dist = current->value + 1;
 
-                    // 'E' foundet
-                    if (maze[ny][nx] == 'E') {
-                        if (new_dist < min_steps_to_E) {
-                            min_steps_to_E = new_dist;
-                            shortest_paths_to_E = current->paths_count;
-                        } else if (new_dist == min_steps_to_E) {
-                            shortest_paths_to_E += current->paths_count;
-                        }
-                        // Not steppint any further
-                        break; 
-                    }
-
-                    size_t idx = (size_t)ny * len_x + (size_t)nx;
                     // Next step
-                    Data d = vector_get(dist, idx);
-
+                    size_t idx = (size_t)ny * len_x + (size_t)nx;
+                    
                     // Not visited
-                    if (d == VECTOR_EMPTY) {
+                    if (vector_cell_is_empty(dist, idx)) {
                         Point* next = (Point*)malloc(sizeof(Point));
                         next->x = nx;
                         next->y = ny;
@@ -158,6 +155,7 @@ size_t bfs_for_maze(char** maze, const Point start, const size_t len_y, const si
                     
                     // Visited, update paths count
                     else {
+                        Data d = vector_get(dist, idx);
                         Point* existing = (Point*)d;
                         if (existing->value == new_dist) {
                             existing->paths_count += current->paths_count;

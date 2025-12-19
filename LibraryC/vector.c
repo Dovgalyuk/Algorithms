@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include "vector.h"
 
-const int empty_value = 0;
+// Values for returning empty vector cell
+static const int empty_value = 0;
 
 typedef struct Vector {
     Data* d;
@@ -35,9 +36,9 @@ void vector_delete(Vector *vector)
                 vector->freeFunc(vector->d[i]);
             }
         }
+        free(vector->d);
     }
 
-    free(vector->d);
     free(vector);
 }
 
@@ -47,7 +48,7 @@ Data vector_get(const Vector *vector, size_t index)
         return (Data)0;
 
     if(vector->d[index] == NULL)
-        return VECTOR_EMPTY;
+        return (Data)&empty_value;
 
     return vector->d[index];
 }
@@ -89,7 +90,7 @@ void vector_resize(Vector *vector, size_t size)
         }
     } 
     else if (size > vector->capacity) {
-        size_t new_capacity = vector->capacity == 0 ? 1 : vector->capacity;
+        size_t new_capacity = (vector->capacity == 0 ? 1 : vector->capacity);
         while (new_capacity < size) {
             new_capacity *= 2;
         }
@@ -112,4 +113,11 @@ void vector_resize(Vector *vector, size_t size)
     }
 
     vector->size = size;
+}
+
+bool vector_cell_is_empty (Vector* vector, size_t index) {
+    if (vector->d[index] == NULL)
+        return true;
+    else
+        return false;
 }
