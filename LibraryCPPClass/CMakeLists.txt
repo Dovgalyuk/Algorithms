@@ -1,2 +1,2 @@
-add_library(LibraryCPPClass STATIC stack.cpp vector.cpp)
+add_library(LibraryCPPClass STATIC RBTree.cpp)
 add_subdirectory(Tests)

@@ -1,0 +1,10 @@
+brand mercedes
+model gt63s
+country germany
+year 2019
+colour grey
+transmission auto
+drive awd
+hp 639
+price 13500000
+range 700
