@@ -43,59 +43,65 @@ public:
     // Класс для побитовой записи
     class BitWrite {
     public:
-        explicit BitWrite(std::ostream& os) : _out(os), _buffer(0), _bit_count(0) {}
+        explicit BitWrite(std::ostream& os) : _out(os) {}
 
         // Записывает один бит
         void write_bit(bool bit) {
-            _buffer = _buffer << 1 | (bit ? 1 : 0);
+            _buffer = (_buffer << 1) | bit;
             _bit_count++;
             if (_bit_count == 8) {
-                _out.put(static_cast<char>(_buffer));
+                _out.put(_buffer);
                 _bit_count = 0;
-                _buffer = 0;
+            }
+        }
+
+        // Записывает один байт
+        void write_byte(unsigned char byte) {
+            for (int i = 7; i >= 0; --i) {
+                write_bit((byte >> i) & 1);
             }
         }
 
         // Сбрасывает буфер (дописывает нули)
         void flush() {
-            if (_bit_count > 0) {
-                _buffer = _buffer << (8 - _bit_count);
-                _out.put(static_cast<char>(_buffer));
-                _bit_count = 0;
-                _buffer = 0;
-            }
+            if (_bit_count) _out.put(_buffer << (8 - _bit_count));
         }
 
     private:
         std::ostream& _out;
-        unsigned char _buffer;
-        int _bit_count;
+        unsigned char _buffer = 0;
+        int _bit_count = 0;
     };
 
     // Класс для побитового чтения
     class BitRead {
     public:
-        explicit BitRead(std::istream& is) : _in(is), _buffer(0), _bit_count(0) {}
+        explicit BitRead(std::istream& is) : _in(is) {}
 
         // Читает один бит
         bool read_bit() {
             if (_bit_count == 0) {
-                char c;
+                _buffer = _in.get();
 
-                if (!_in.get(c)) return false;
-
-                _buffer = static_cast<unsigned char>(c);
                 _bit_count = 8;
             }
-            bool bit = (_buffer >> ((_bit_count - 1)) & 1);
-            _bit_count--;
-            return bit;
+            return (_buffer >> --_bit_count) & 1;
+        }
+
+        // Читает один байт
+        unsigned char read_byte() {
+            unsigned char byte = 0;
+            for (int i = 0; i < 8; ++i) {
+                byte = (byte << 1) | read_bit();
+            }
+
+            return byte;
         }
 
     private:
         std::istream& _in;
-        unsigned char _buffer;
-        int _bit_count;
+        unsigned char _buffer = 0;
+        int _bit_count = 0;
     };
 
     HuffmanArchiv() = default;
@@ -122,7 +128,7 @@ public:
 
         if (pq.size() == 1) {
             Node* child = pq.top(); pq.pop();
-            pq.push(new Node(child->freq, child, nullptr));
+            pq.push(new Node(child->freq, child, new Node(0, 0)));
         }
 
         while (pq.size() > 1) {
@@ -141,18 +147,12 @@ public:
         // 4. Запись заголовка
         out.write(reinterpret_cast<const char*>(&total_chars), sizeof(total_chars));
 
-        uint16_t table_size = static_cast<uint16_t>(frequencies.size());
-        out.write(reinterpret_cast<const char*>(&table_size), sizeof(table_size));
-
-        for (const auto& pair : frequencies) {
-            out.put(static_cast<char>(pair.first));
-            out.write(reinterpret_cast<const char*>(&pair.second), sizeof(pair.second));
-        }
+        BitWrite bw(out);
+        write_tree(root, bw);
 
         // 5. Запись тела
         in.clear();
         in.seekg(0);
-        BitWrite bw(out);
 
         while (in.get(byte)) {
             const auto& code = codes[static_cast<unsigned char>(byte)];
@@ -172,50 +172,27 @@ public:
         in.read(reinterpret_cast<char*>(&total_chars), sizeof(total_chars));
         if (in.gcount() != sizeof(total_chars)) return;
 
-        uint16_t table_size = 0;
-        in.read(reinterpret_cast<char*>(&table_size), sizeof(table_size));
-        if (table_size == 0) return;
-
-        std::map<unsigned char, uint64_t> frequencies;
-        for (int i = 0; i < table_size; ++i) {
-            char ch;
-            uint64_t freq;
-            in.get(ch);
-            in.read(reinterpret_cast<char*>(&freq), sizeof(freq));
-            frequencies[static_cast<unsigned char>(ch)] = freq;
-        }
-
-        // 2. Восстановление дерева
-        CustomPriorityQueue<Node*, NodeCompare> pq;
-        for (const auto& pair : frequencies) {
-            pq.push(new Node(pair.first, pair.second));
-        }
-
-        if (pq.size() == 1) {
-            Node* child = pq.top(); pq.pop();
-            pq.push(new Node(child->freq, child, nullptr));
-        }
-
-        while (pq.size() > 1) {
-            Node* left = pq.top(); pq.pop();
-            Node* right = pq.top(); pq.pop();
-            pq.push(new Node(left->freq + right->freq, left, right));
-        }
-
-        Node* root = pq.top();
-
-        // 3. Декодирование
         BitRead br(in);
+
+        // 2. Восстановление дерева и расшифровка
+        Node* root = read_tree(br);
+
         Node* current = root;
         uint64_t decoded_count = 0;
 
         while (decoded_count < total_chars) {
             bool bit = br.read_bit();
+
             if (bit == 0) {
                 current = current->left;
             }
-            else if (current) {
+            else {
                 current = current->right;
+            }
+
+            if (!current) {
+                delete root;
+                return;
             }
 
             if (current->is_leaf()) {
@@ -246,6 +223,33 @@ private:
         code.push_back(true);
         generate_codes(root->right, code, map);
         code.pop_back();
+    }
+
+    // Рекурсивная запись дерева
+    void write_tree(Node* node, BitWrite& bw) {
+        if (node->is_leaf()) {
+            bw.write_bit(true);
+            bw.write_byte(node->ch);
+        }
+        else {
+            bw.write_bit(false);
+            write_tree(node->left, bw);
+            write_tree(node->right, bw);
+        }
+    }
+
+    // Рекурсивное чтение дерева
+    Node* read_tree(BitRead& br) {
+        bool is_leaf = br.read_bit();
+        if (is_leaf) {
+            unsigned char ch = br.read_byte();
+            return new Node(ch, 0);
+        }
+        else {
+            Node* left = read_tree(br);
+            Node* right = read_tree(br);
+            return new Node(0, left, right);
+        }
     }
 };
 
