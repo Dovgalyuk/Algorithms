@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "vector.h"
+#include "vectorT.h"
 #include "graph.h"
 #include "queue.h"
 
@@ -36,16 +36,16 @@ AllShortestPathsResult bfsAllShortestPathsBetween(const StringGraph& graph, int 
     result.distances = IntVector(n, -1);
     result.parents = Vector<IntVector>(n);
     
-    Queue<int> queue;
+    Queue* queue = queue_create();
     result.distances[start] = 0;
-    queue.insert(start);
+    queue_insert(queue, start);
     
     bool targetFound = false;
     int targetDistance = -1;
     
-    while (!queue.empty() && !(targetFound && queue.get() > targetDistance)) {
-        int current = queue.get();
-        queue.remove();
+    while (!queue_empty(queue)) {
+        int current = static_cast<int>(queue_get(queue));
+        queue_remove(queue);
         
         if (targetFound && result.distances[current] > targetDistance) {
             break;
@@ -57,7 +57,7 @@ AllShortestPathsResult bfsAllShortestPathsBetween(const StringGraph& graph, int 
             if (result.distances[neighbor] == -1) {
                 result.distances[neighbor] = result.distances[current] + 1;
                 result.parents[neighbor].push_back(current);
-                queue.insert(neighbor);
+                queue_insert(queue, neighbor);
                 
                 if (neighbor == target) {
                     targetFound = true;
@@ -70,6 +70,7 @@ AllShortestPathsResult bfsAllShortestPathsBetween(const StringGraph& graph, int 
         }
     }
     
+    queue_delete(queue);
     return result;
 }
 
@@ -126,7 +127,6 @@ StringGraph readGraphFromFile(const string& filename) {
 
         if (fromId != -1 && toId != -1) {
             graph.addEdge(fromId, toId, weight);
-            graph.addEdge(toId, fromId, weight); 
         }
         else {
             cerr << "Warning: Invalid vertex labels in edge " << i + 1 << endl;
@@ -135,6 +135,26 @@ StringGraph readGraphFromFile(const string& filename) {
 
     in.close();
     return graph;
+}
+
+void printAllPaths(const StringGraph& graph, const AllShortestPathsResult& result, 
+                   int current, int start, Vector<string>& currentPath) {
+    currentPath.push_back(graph.getVertexLabel(current));
+    
+    if (current == start) {
+        for (int i = currentPath.size() - 1; i >= 0; --i) {
+            cout << currentPath[i];
+            if (i > 0) cout << "-";
+        }
+        cout << endl;
+    } else {
+        const IntVector& parents = result.parents[current];
+        for (size_t i = 0; i < parents.size(); ++i) {
+            printAllPaths(graph, result, parents[i], start, currentPath);
+        }
+    }
+    
+    currentPath.pop_back();
 }
 
 int main(int argc, char* argv[]) {
@@ -169,16 +189,14 @@ int main(int argc, char* argv[]) {
     }
 
     AllShortestPathsResult result = bfsAllShortestPathsBetween(graph, startId, targetId);
-
-    int pathCount = countAllShortestPaths(result, startId, targetId);
-
+    
     if (result.distances[targetId] == -1) {
         cout << "No path found from " << startLabel << " to " << targetLabel << endl;
+        return 0;
     }
-    else {
-        cout << "Shortest distance: " << result.distances[targetId] << " edge(s)" << endl;
-        cout << "Number of shortest paths: " << pathCount << endl;
-    }
+    
+    Vector<string> currentPath;
+    printAllPaths(graph, result, targetId, startId, currentPath);
 
     return 0;
 }
