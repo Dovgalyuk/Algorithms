@@ -14,7 +14,6 @@ public:
     operator String() const;
 
     std::size_t size() const;
-    const char* data() const;
     const char* c_str() const;
 
     char operator[](std::size_t index) const;
@@ -22,7 +21,6 @@ public:
     bool operator<(const StringSlice& other) const;
 
     void print() const;
-
 private:
     const String& source;
     std::size_t start;

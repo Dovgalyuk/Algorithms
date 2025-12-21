@@ -44,9 +44,9 @@ int main()
             return 1;
         }
 
-        if (sl.data() != src.c_str() + 7)
+        if (sl.c_str() != src.c_str() + 7)
         {
-            std::cout << "Fail: data() pointer\n";
+            std::cout << "Fail: c_str() pointer\n";
             return 1;
         }
 

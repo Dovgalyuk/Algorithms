@@ -22,14 +22,9 @@ size_t StringSlice::size() const
     return length;
 }
 
-const char* StringSlice::data() const
-{
-    return source.c_str() + start;
-}
-
 const char* StringSlice::c_str() const
 {
-    return data();
+    return source.c_str() + start;
 }
 
 char StringSlice::operator[](size_t index) const
