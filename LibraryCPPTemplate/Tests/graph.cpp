@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "vector.h"
+#include "vectorT.h"
 #include "graph.h"
 
 int main() {
