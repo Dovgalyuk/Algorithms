@@ -1,5 +1,5 @@
-#ifndef QUEUE_TEMPLATE_H
-#define QUEUE_TEMPLATE_H
+#ifndef QUEUE_TEMPLATET_H
+#define QUEUE_TEMPLATET_H
 
 template <typename Data> class Queue
 {
