@@ -126,6 +126,7 @@ StringGraph readGraphFromFile(const string& filename) {
 
         if (fromId != -1 && toId != -1) {
             graph.addEdge(fromId, toId, weight);
+            graph.addEdge(toId, fromId, weight); 
         }
         else {
             cerr << "Warning: Invalid vertex labels in edge " << i + 1 << endl;
