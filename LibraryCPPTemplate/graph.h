@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <cstddef>
 #include <iostream>
-#include "vector.h"
+#include "vectorT.h"
 
 template<typename VertexLabel = int, typename EdgeLabel = int>
 class Digraph {
