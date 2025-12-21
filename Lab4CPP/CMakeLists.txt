@@ -33,28 +33,6 @@ add_test(NAME TestLab4CPP_NoPath
 add_test(NAME TestLab4CPP_CompleteGraph
     COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/input5.txt A E)
 
-set_tests_properties(
-    TestLab4CPP_Basic
-    TestLab4CPP_Short
-    TestLab4CPP_Same
-    TestLab4CPP_MultiplePaths1
-    TestLab4CPP_MultiplePaths2
-    TestLab4CPP_NoPath
-    TestLab4CPP_CompleteGraph
-    PROPERTIES TIMEOUT 10)
-
-add_executable(Lab4StructV1 Lab4StrtuctV1.cpp)
-
-target_include_directories(Lab4StructV1 
-    PRIVATE 
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP
-    ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPPTemplate
-)
-
-target_link_libraries(Lab4StructV1 LibraryCPPTemplate)
-target_link_libraries(Lab4StructV1 LibraryCPP)
-
 add_test(NAME Test1_MultiplePaths_output_test COMMAND Lab4StructV1 
     ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt A D)
 set_tests_properties(Test1_MultiplePaths_output_test PROPERTIES
@@ -86,6 +64,13 @@ set_tests_properties(Test6_inputTXT_output_test PROPERTIES
     PASS_REGULAR_EXPRESSION "A")
 
 set_tests_properties(
+    TestLab4CPP_Basic
+    TestLab4CPP_Short
+    TestLab4CPP_Same
+    TestLab4CPP_MultiplePaths1
+    TestLab4CPP_MultiplePaths2
+    TestLab4CPP_NoPath
+    TestLab4CPP_CompleteGraph
     Test1_MultiplePaths_output_test
     Test2_FourPaths_output_test
     Test3_CompleteGraph_output_test
