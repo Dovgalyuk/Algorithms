@@ -167,21 +167,14 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    cout << "Graph loaded successfully from " << inputFile << endl;
-    cout << "Number of vertices: " << graph.countVertices() << endl;
-    cout << "\n";
-
-    graph.printAdjacencyMatrix();
-    cout << "\n";
-
-    cout << "Finding all shortest paths from '" << startLabel << "' to '" << targetLabel << "'..." << endl;
     AllShortestPathsResult result = bfsAllShortestPathsBetween(graph, startId, targetId);
-    
+
     int pathCount = countAllShortestPaths(result, startId, targetId);
 
     if (result.distances[targetId] == -1) {
         cout << "No path found from " << startLabel << " to " << targetLabel << endl;
-    } else {
+    }
+    else {
         cout << "Shortest distance: " << result.distances[targetId] << " edge(s)" << endl;
         cout << "Number of shortest paths: " << pathCount << endl;
     }
