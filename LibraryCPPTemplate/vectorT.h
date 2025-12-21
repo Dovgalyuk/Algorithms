@@ -1,6 +1,6 @@
 #pragma once
-#ifndef VECTOR_TEMPLATE_H
-#define VECTOR_TEMPLATE_H
+#ifndef VECTOR_TEMPLATET_H
+#define VECTOR_TEMPLATET_H
 
 #include <cstddef>
 #include <stdexcept>
@@ -172,4 +172,4 @@ public:
     }
 };
 
-#endif // VECTOR_TEMPLATE_H
+#endif // VECTOR_TEMPLATET_H
