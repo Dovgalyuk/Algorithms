@@ -41,5 +41,5 @@ add_test(NAME Lab3_CheckMediumOutput
 
 add_test(NAME Lab3_CheckNoPathOutput
     COMMAND ${CMAKE_COMMAND} -E compare_files
-        ${CMAKE_CURRENT_BINARY_DIR}/no_path_output.txt
+        ${CMAKE_CURRENT_BINARY_DIR}/nopath_output.txt
         ${CMAKE_CURRENT_SOURCE_DIR}/expected_nopath_maze.txt)
