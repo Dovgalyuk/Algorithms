@@ -133,7 +133,7 @@ void printSolution(const Maze& maze, const PositionList& pos,
     cout << "Path found: " << path << "\n";
     cout << "Path length: " << path.length() << " moves\n";
 
-    out << "Path: " << path << "\n";
+    out << "Path found: " << path << "\n";
     out << "Path length: " << path.length() << " moves\n";
 
     Maze result = maze;
