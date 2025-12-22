@@ -11,6 +11,7 @@
 
 using WeightedGraph = Graph<std::string, double>;
 using Vertex = WeightedGraph::Vertex;
+using DistanceVector = Vector<double>;
 
 struct QueueEntry
 {
@@ -22,6 +23,8 @@ struct QueueEntry
         return distance > other.distance;
     }
 };
+
+using PriorityQueue = std::priority_queue<QueueEntry, std::vector<QueueEntry>, std::greater<QueueEntry>>;
 
 struct GraphInput
 {
@@ -64,16 +67,16 @@ static GraphInput readGraph(std::istream& input)
     return graphInput;
 }
 
-static Vector<double> dijkstra(const WeightedGraph& graph, Vertex source)
+static DistanceVector dijkstra(const WeightedGraph& graph, Vertex source)
 {
     constexpr auto inf = std::numeric_limits<double>::infinity();
     const Vertex n = graph.verticesCount();
 
-    Vector<double> dist(n);
+    DistanceVector dist(n);
     for (Vertex i = 0; i < n; ++i) dist.set(i, inf);
     dist.set(source, 0.0);
 
-    std::priority_queue<QueueEntry, std::vector<QueueEntry>, std::greater<QueueEntry>> pq;
+    PriorityQueue pq;
     pq.push(QueueEntry{ source, 0.0 });
 
     while (!pq.empty())
@@ -103,7 +106,7 @@ static Vector<double> dijkstra(const WeightedGraph& graph, Vertex source)
     return dist;
 }
 
-static void printResult(const Vector<double>& distances, Vertex target)
+static void printResult(const DistanceVector& distances, Vertex target)
 {
     const double distance = distances[target];
 

@@ -167,7 +167,7 @@ public:
             }
 
             List<Edge> moved = m_adjacency[lastIndex];
-            adjustSelfReferences(moved, lastIndex, vertex);
+            replaceDestination(moved, lastIndex, vertex);
             m_adjacency[vertex] = moved;
             m_vertices[vertex] = m_vertices[lastIndex];
         }
@@ -264,11 +264,6 @@ private:
                 item->data().to = to;
             }
         }
-    }
-
-    static void adjustSelfReferences(List<Edge>& adjacency, Vertex from, Vertex to)
-    {
-        replaceDestination(adjacency, from, to);
     }
 
     Vector<VertexLabel> m_vertices;

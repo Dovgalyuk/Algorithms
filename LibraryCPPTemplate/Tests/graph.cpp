@@ -13,16 +13,36 @@ int main()
     graph1.setVertexLabel(0, "A");
     graph1.setVertexLabel(1, "B");
 
-    assert(graph1.verticesCount() == 2);
+    if (graph1.verticesCount() != 2)
+    {
+        std::cerr << "fail vertices count" << std::endl;
+        return 1;
+    }
     graph1.addEdge(0, 1, 5);
-    assert(graph1.hasEdge(0, 1));
-    assert(graph1.getEdgeLabel(0, 1) == 5);
+    if (!graph1.hasEdge(0, 1))
+    {
+        std::cerr << "fail has edge A->B" << std::endl;
+        return 1;
+    }
+    if (graph1.getEdgeLabel(0, 1) != 5)
+    {
+        std::cerr << "fail edge weight A->B" << std::endl;
+        return 1;
+    }
 
     graph1.setEdgeLabel(0, 1, 7);
-    assert(graph1.getEdgeLabel(0, 1) == 7);
+    if (graph1.getEdgeLabel(0, 1) != 7)
+    {
+        std::cerr << "fail updated edge weight A->B" << std::endl;
+        return 1;
+    }
 
     graph1.removeEdge(0, 1);
-    assert(!graph1.hasEdge(0, 1));
+    if (graph1.hasEdge(0, 1))
+    {
+        std::cerr << "fail remove edge A->B" << std::endl;
+        return 1;
+    }
 
     GraphType graph2(1);
     graph2.setVertexLabel(0, "A");
@@ -34,8 +54,16 @@ int main()
     graph2.addEdge(0, c, 4);
 
     auto labels = graph2.getAllVertexLabels();
-    assert(labels.size() == 3);
-    assert(labels.get(1) == "B");
+    if (labels.size() != 3)
+    {
+        std::cerr << "fail labels size" << std::endl;
+        return 1;
+    }
+    if (labels.get(1) != "B")
+    {
+        std::cerr << "fail label B" << std::endl;
+        return 1;
+    }
 
     auto it = graph2.neighbours(0);
     int totalWeight = 0;
@@ -44,7 +72,11 @@ int main()
         totalWeight += it.edgeLabel();
         it.next();
     }
-    assert(totalWeight == 7);
+    if (totalWeight != 7)
+    {
+        std::cerr << "fail total weight from A" << std::endl;
+        return 1;
+    }
 
     GraphType graph3(3);
     graph3.setVertexLabel(0, "A");
@@ -57,10 +89,26 @@ int main()
 
     graph3.removeVertex(1);
 
-    assert(graph3.verticesCount() == 2);
-    assert(graph3.getVertexLabel(1) == "C");
-    assert(graph3.hasEdge(1, 0));
-    assert(!graph3.hasEdge(0, 1));
+    if (graph3.verticesCount() != 2)
+    {
+        std::cerr << "fail vertices count" << std::endl;
+        return 1;
+    }
+    if (graph3.getVertexLabel(1) != "C")
+    {
+        std::cerr << "fail vertex labels shifted" << std::endl;
+        return 1;
+    }
+    if (!graph3.hasEdge(1, 0))
+    {
+        std::cerr << "fail edge from C to A" << std::endl;
+        return 1;
+    }
+    if (graph3.hasEdge(0, 1))
+    {
+        std::cerr << "fail remove edges to delete vertex" << std::endl;
+        return 1;
+    }
 
     GraphType graph4(3);
     graph4.setVertexLabel(0, "A");
@@ -96,14 +144,34 @@ int main()
         std::cerr << "failed" << std::endl;
         return 1;
     }
-    assert(neighbourCount == 2);
-    assert(hasSelfLoop);
-    assert(hasEdgeToOne);
+    if (neighbourCount != 2)
+    {
+        std::cerr << "fail neighbours before remove count" << std::endl;
+        return 1;
+    }
+    if (!hasSelfLoop)
+    {
+        std::cerr << "fail loop before remove" << std::endl;
+        return 1;
+    }
+    if (!hasEdgeToOne)
+    {
+        std::cerr << "fail edge to vertex" << std::endl;
+        return 1;
+    }
 
     graph4.removeVertex(1);
 
-    assert(graph4.verticesCount() == 2);
-    assert(graph4.getVertexLabel(1) == "C");
+    if (graph4.verticesCount() != 2)
+    {
+        std::cerr << "fail vertices count" << std::endl;
+        return 1;
+    }
+    if (graph4.getVertexLabel(1) != "C")
+    {
+        std::cerr << "fail vertex labels shifted" << std::endl;
+        return 1;
+    }
 
     auto neighboursAfterRemoval = graph4.neighbours(0);
     neighbourCount = 0;
@@ -129,7 +197,19 @@ int main()
         std::cerr << "failed" << std::endl;
         return 1;
     }
-    assert(neighbourCount == 1);
-    assert(hasSelfLoop);
-    assert(!hasEdgeToOne);
+    if (neighbourCount != 1)
+    {
+        std::cerr << "faile after remove" << std::endl;
+        return 1;
+    }
+    if (!hasSelfLoop)
+    {
+        std::cerr << "faile loop after remove" << std::endl;
+        return 1;
+    }
+    if (hasEdgeToOne)
+    {
+        std::cerr << "fail edge to remove vertex" << std::endl;
+        return 1;
+    }
 }
