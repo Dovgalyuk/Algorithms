@@ -108,8 +108,10 @@ PositionList findPath(const Maze& maze) {
     return {};
 }
 
-void printSolution(const Maze& maze, const PositionList& pos,
-    const Coord& end_pos, const string& output_file)
+void printSolution(const Maze& maze,
+    const PositionList& pos,
+    const Coord& end_pos,
+    const string& output_file)
 {
     int end_index = -1;
     for (size_t i = 0; i < pos.size(); i++)
@@ -117,43 +119,37 @@ void printSolution(const Maze& maze, const PositionList& pos,
             end_index = (int)i;
 
     ofstream out(output_file);
-    if (!out) {
-        cerr << "Error: cannot write to file: " << output_file << endl;
-        return;
-    }
+    if (!out) return;
 
     if (end_index == -1) {
-        cout << "Path not found\n";
         out << "Path not found\n";
         return;
     }
 
-    string path = getPath(pos, end_index);
-
-    cout << "Path found: " << path << "\n";
-    cout << "Path length: " << path.length() << " moves\n";
+    string path;
+    int cur = end_index;
+    while (cur != -1 && pos[cur].move) {
+        path = pos[cur].move + path;
+        cur = pos[cur].prev_index;
+    }
 
     out << "Path found: " << path << "\n";
     out << "Path length: " << path.length() << " moves\n";
-
-    Maze result = maze;
-    int cur = end_index;
-
-    while (cur != -1) {
-        Position p = pos[cur];
-        if (result[p.x][p.y] != 'Q' && result[p.x][p.y] != 'E')
-            result[p.x][p.y] = '*';
-        cur = p.prev_index;
-    }
-
-    cout << "Maze with path:\n";
     out << "Maze with path:\n";
 
-    for (auto& row : result) {
-        cout << row << "\n";
-        out << row << "\n";
+    Maze result = maze;
+    cur = end_index;
+    while (cur != -1) {
+        if (result[pos[cur].x][pos[cur].y] != 'Q' &&
+            result[pos[cur].x][pos[cur].y] != 'E')
+            result[pos[cur].x][pos[cur].y] = '*';
+        cur = pos[cur].prev_index;
     }
+
+    for (const auto& row : result)
+        out << row << "\n";
 }
+
 
 int main(int argc, char* argv[]) {
     if (argc < 3) {
