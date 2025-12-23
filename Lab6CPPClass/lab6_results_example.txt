@@ -1,0 +1,31 @@
+=== Performance Graph (Search Time vs Text Length) ===
+Pattern Length: 52 chars (Search at the end)
+
+Method          | Graph (Visualization)
+----------------------------------------------------------------
+
+Text Length: 500000
+Custom (BM)     : [#                                                 ] 0.00007s
+std::string     : [##                                                ] 0.00011s
+
+Text Length: 1000000
+Custom (BM)     : [###                                               ] 0.00014s
+std::string     : [####                                              ] 0.00018s
+
+Text Length: 2000000
+Custom (BM)     : [#######                                           ] 0.00029s
+std::string     : [##########                                        ] 0.00038s
+
+Text Length: 5000000
+Custom (BM)     : [##################                                ] 0.00070s
+std::string     : [########################                          ] 0.00092s
+
+Text Length: 10000000
+Custom (BM)     : [######################################            ] 0.00142s
+std::string     : [##################################################] 0.00185s
+
+Analysis:
+1. Boyer-Moore (Custom) effectively skips characters, showing performance
+   comparable to or better than std::string on long patterns.
+2. std::string::find usually employs optimized SIMD instructions (AVX/SSE),
+   making it extremely fast despite algorithm complexity.

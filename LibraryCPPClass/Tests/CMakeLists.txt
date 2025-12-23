@@ -30,3 +30,8 @@ target_include_directories(TestSplayContainerCPPClass PUBLIC ..)
 target_link_libraries(TestSplayContainerCPPClass LibraryCPPClass)
 add_test(TestSplayContainerCPPClass TestSplayContainerCPPClass)
 set_tests_properties(TestSplayContainerCPPClass PROPERTIES TIMEOUT 10)
+
+add_executable(TestStringCPPClass string_test.cpp)
+target_include_directories(TestStringCPPClass PUBLIC ..)
+target_link_libraries(TestStringCPPClass LibraryCPPClass)
+add_test(TestStringCPPClass TestStringCPPClass)
