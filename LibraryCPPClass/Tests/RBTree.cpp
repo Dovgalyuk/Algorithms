@@ -71,6 +71,50 @@ void test_10000() {
     cout << "10000 elements test passed" << endl;
 }
 
+void test_100000() {
+    RBTree t;
+    string value;
+
+    for (int i = 0; i < 100000; i++) {
+        t.insert("key_" + to_string(i), "val_" + to_string(i));
+    }
+    check(t.size() == 100000, "size 100000");
+
+    for (int i = 0; i < 100000; i = i + 1000) {
+        check(t.find("key_" + to_string(i), value), "find key_" + to_string(i));
+        check(value == "val_" + to_string(i), "val_" + to_string(i) + " correct");
+    }
+
+    for (int i = 0; i < 100000; i++) {
+        t.remove("key_" + to_string(i));
+    }
+    check(t.size() == 0, "empty after remove 100000");
+
+    cout << "100000 elements test passed" << endl;
+}
+
+void test_1000000() {
+    RBTree t;
+    string value;
+
+    for (int i = 0; i < 1000000; i++) {
+        t.insert("m" + to_string(i), "value" + to_string(i));
+    }
+    check(t.size() == 1000000, "size 1000000");
+
+    for (int i = 0; i < 1000; i++) {
+        check(t.find("m" + to_string(i * 1000), value), "find m" + to_string(i * 1000));
+        check(value == "value" + to_string(i * 1000), "value" + to_string(i * 1000) + " correct");
+    }
+
+    for (int i = 0; i < 1000000; i++) {
+        t.remove("m" + to_string(i));
+    }
+    check(t.size() == 0, "empty after remove 1000000");
+
+    cout << "1000000 elements test passed" << endl;
+}
+
 void test_updates() {
     RBTree t;
     string value;
@@ -117,6 +161,8 @@ int main() {
     test_updates();
     test_1000();
     test_10000();
+    test_100000();
+    test_1000000();
     test_mixed();
 
     cout << "\nAll tests passed!" << endl;

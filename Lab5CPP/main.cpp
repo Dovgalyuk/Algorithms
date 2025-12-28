@@ -39,8 +39,8 @@ void test() {
 }
 
 void speed() {
-    int sizes[] = { 1000, 5000, 10000, 50000, 100000, 500000, 1000000 };
-    int sizes_count = 7;
+    int sizes[] = { 1000, 5000, 10000, 50000, 100000, 250000, 500000, 750000, 1000000 };
+    int sizes_count = 9;
 
     cout << "\nspeed test:" << endl;
     cout << "size time" << endl;
@@ -62,8 +62,8 @@ void speed() {
 }
 
 void mapvsrbtree() {
-    int sizes[] = { 1000, 5000, 10000, 50000, 100000, 500000, 1000000 };
-    int sizes_count = 7;
+    int sizes[] = { 1000, 5000, 10000, 50000, 100000, 250000, 500000, 750000, 1000000 };
+    int sizes_count = 9;
 
     ofstream csv_file("сравнение.csv");
 
