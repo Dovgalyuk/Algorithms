@@ -103,7 +103,7 @@ void printSolution(const Maze& maze,
             end_idx = (int)i;
 
     if (end_idx == -1) {
-        out << "Path not found";
+        out << "Path not found\n";
         return;
     }
 
@@ -111,22 +111,21 @@ void printSolution(const Maze& maze,
     for (int i = end_idx; pos[i].prev != -1; i = pos[i].prev)
         path_len++;
 
-    out << "Path found: " << pos.size() << "\n";
+    out << "Path found: " << end_idx << "\n";
     out << "Path length: " << path_len << " moves\n";
     out << "Maze with path:\n";
 
     Maze result = maze;
 
-    if (path_len > 1) {
-        int cur = pos[end_idx].prev;
+    int cur = end_idx;
+    while (pos[cur].prev != -1) {
+        cur = pos[cur].prev;
         if (result[pos[cur].x][pos[cur].y] != 'Q')
             result[pos[cur].x][pos[cur].y] = '*';
     }
 
     for (size_t i = 0; i < result.size(); i++) {
-        out << result[i];
-        if (i + 1 < result.size())
-            out << "\n";
+        out << result[i] << "\n";
     }
 }
 
