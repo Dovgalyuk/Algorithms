@@ -123,8 +123,11 @@ void printSolution(const Maze& maze,
             result[pos[cur].x][pos[cur].y] = '*';
     }
 
-    for (const auto& row : result)
-        out << row << "\n";
+    for (size_t i = 0; i < result.size(); i++) {
+        out << result[i];
+        if (i + 1 < result.size())
+            out << "\n";
+    }
 }
 
 int main(int argc, char* argv[]) {
