@@ -16,6 +16,7 @@ struct Position {
 typedef vector<Position> PositionList;
 typedef pair<int, int> Coord;
 typedef vector<vector<bool>> Visited;
+
 const int dx[8] = { -1,-1,-1, 0,0, 1,1,1 };
 const int dy[8] = { -1, 0, 1,-1,1,-1,0,1 };
 
@@ -43,9 +44,7 @@ inline bool isValid(int x, int y, const Maze& maze) {
         maze[x][y] != '#';
 }
 
-PositionList findPath(const Maze& maze, int& visited_count) {
-    visited_count = 0;
-
+PositionList findPath(const Maze& maze) {
     Coord start = findPosition(maze, 'Q');
     Coord end = findPosition(maze, 'E');
 
@@ -59,7 +58,6 @@ PositionList findPath(const Maze& maze, int& visited_count) {
     pos.push_back({ start.first, start.second, -1 });
     q.insert(0);
     visited[start.first][start.second] = true;
-    visited_count++;
 
     while (!q.empty()) {
         int idx = q.get();
@@ -76,7 +74,6 @@ PositionList findPath(const Maze& maze, int& visited_count) {
             while (isValid(x, y, maze)) {
                 if (!visited[x][y]) {
                     visited[x][y] = true;
-                    visited_count++;
                     pos.push_back({ x, y, idx });
                     q.insert((int)pos.size() - 1);
 
@@ -95,7 +92,6 @@ PositionList findPath(const Maze& maze, int& visited_count) {
 void printSolution(const Maze& maze,
     const PositionList& pos,
     const Coord& end,
-    int visited_count,
     const string& output_file)
 {
     ofstream out(output_file);
@@ -115,7 +111,7 @@ void printSolution(const Maze& maze,
     for (int i = end_idx; pos[i].prev != -1; i = pos[i].prev)
         path_len++;
 
-    out << "Path found: " << visited_count << "\n";
+    out << "Path found: " << pos.size() << "\n";
     out << "Path length: " << path_len << " moves\n";
     out << "Maze with path:\n";
 
@@ -129,7 +125,6 @@ void printSolution(const Maze& maze,
 
     for (const auto& row : result)
         out << row << "\n";
-
 }
 
 int main(int argc, char* argv[]) {
@@ -137,15 +132,12 @@ int main(int argc, char* argv[]) {
         return 1;
 
     Maze maze = readMaze(argv[1]);
-
-    int visited_count = 0;
-    PositionList pos = findPath(maze, visited_count);
+    PositionList pos = findPath(maze);
 
     printSolution(
         maze,
         pos,
         findPosition(maze, 'E'),
-        visited_count,
         argv[2]
     );
 
