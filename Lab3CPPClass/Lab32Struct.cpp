@@ -111,8 +111,9 @@ void printSolution(const Maze& maze,
     for (int i = end_idx; pos[i].prev != -1; i = pos[i].prev)
         path_len++;
 
-    out << "Path found: " << end_idx << "\n";
+    out << "Path found: " << pos.size() << "\n";
     out << "Path length: " << path_len << " moves\n";
+
     out << "Maze with path:\n";
 
     Maze result = maze;
