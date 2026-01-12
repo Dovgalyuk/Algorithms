@@ -16,7 +16,6 @@ struct Position {
 typedef vector<Position> PositionList;
 typedef pair<int, int> Coord;
 typedef vector<vector<bool>> Visited;
-
 const int dx[8] = { -1,-1,-1, 0,0, 1,1,1 };
 const int dy[8] = { -1, 0, 1,-1,1,-1,0,1 };
 
@@ -90,7 +89,7 @@ PositionList findPath(const Maze& maze, int& visited_count) {
         }
     }
 
-    return {};
+    return pos;
 }
 
 void printSolution(const Maze& maze,
@@ -102,18 +101,13 @@ void printSolution(const Maze& maze,
     ofstream out(output_file);
     if (!out) return;
 
-    if (pos.empty()) {
-        out << "Path not found\n";
-        return;
-    }
-
     int end_idx = -1;
     for (size_t i = 0; i < pos.size(); i++)
         if (pos[i].x == end.first && pos[i].y == end.second)
             end_idx = (int)i;
 
     if (end_idx == -1) {
-        out << "Path not found\n";
+        out << "Path not found";
         return;
     }
 
@@ -127,15 +121,17 @@ void printSolution(const Maze& maze,
 
     Maze result = maze;
 
-    int cur = end_idx;
-    if (pos[cur].prev != -1) {
-        cur = pos[cur].prev;
+    if (path_len > 1) {
+        int cur = pos[end_idx].prev;
         if (result[pos[cur].x][pos[cur].y] != 'Q')
             result[pos[cur].x][pos[cur].y] = '*';
     }
 
-    for (const auto& row : result)
-        out << row << "\n";
+    for (size_t i = 0; i < result.size(); i++) {
+        out << result[i];
+        if (i + 1 < result.size())
+            out << "\n";
+    }
 }
 
 int main(int argc, char* argv[]) {
