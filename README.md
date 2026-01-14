@@ -110,7 +110,7 @@ https://www.youtube.com/watch?v=9ev9Y-hJhj4
 
 ## Алгоритм A*
 
-https://neerc.ifmo.ru/wiki/index.php?title=%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_A*
+[Алгоритм A*](https://neerc.ifmo.ru/wiki/index.php?title=%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_A*)
 
 ## Топологическая сортировка
 
