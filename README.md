@@ -1,4 +1,4 @@
-# Algorithms
+# Algorithms.
 
 [Как выполнять лабораторные работы](LABS.md)
 
