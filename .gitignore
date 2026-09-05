@@ -13,3 +13,9 @@ Release/*
 .vs/*
 build/*
 .vscode/*
+**/CMakeCache.txt
+**/CMakeFiles/
+**/CMakeScripts/
+**/cmake_install.cmake
+**/Makefile
+**/CTestTestfile.cmake
