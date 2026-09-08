@@ -1,5 +1,11 @@
-add_executable(Lab1CPP lab1.cpp)
-target_include_directories(Lab1CPP PUBLIC ../LibraryCPP)
-target_link_libraries(Lab1CPP LibraryCPP)
-add_test(NAME TestLab1CPP COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-set_property(TEST TestLab1CPP PROPERTY PASS_REGULAR_EXPRESSION "1 2 3 4 5")
+add_executable(Task1
+        Task1/task1.cpp
+        reader/reader.cpp
+        Tests/tests.cpp)
+add_executable(Task2
+        Task2/task2.cpp
+        reader/reader.cpp)
+target_include_directories(Task1 PUBLIC ../LibraryCPP reader)
+target_include_directories(Task2 PUBLIC ../LibraryCPP reader)
+target_link_libraries(Task1 LibraryCPP)
+target_link_libraries(Task2 LibraryCPP)

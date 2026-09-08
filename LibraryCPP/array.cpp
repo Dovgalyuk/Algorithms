@@ -28,12 +28,18 @@ void array_delete(Array *arr)
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
+    if (!arr || index > arr->size) {
+        return Data();
+    }
     return arr->array[index];
 }
 
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
+    if (!arr || index > arr->size) {
+        return;
+    }
     arr->array[index] = value;
 }
 

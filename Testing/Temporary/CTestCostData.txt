@@ -1,5 +1,0 @@
-TestArrayCPP 0 0
-TestLab1CPP 0 0
----
-TestArrayCPP
-TestLab1CPP
