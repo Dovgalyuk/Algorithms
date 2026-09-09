@@ -6,7 +6,7 @@ Array *read_file_and_create_array(std::ifstream &file) {
 
     Array *arr = array_create(count);
 
-    double number;
+    int number;
     for (size_t i = 0; i < count; i++){
         if (file >> number) {
             array_set(arr, i, number);

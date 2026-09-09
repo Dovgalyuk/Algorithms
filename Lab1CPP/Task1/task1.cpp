@@ -10,7 +10,7 @@ double task1(Array *arr) {
     double elect_cond = 0;
 
     for (size_t i = 0; i < count; i++) {
-        double val = array_get(arr, i);
+        int val = array_get(arr, i);
 
         if (val == 0) {
             return 0;

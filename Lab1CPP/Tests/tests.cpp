@@ -9,15 +9,15 @@ int main() {
 
     Array *arr = array_create(5);
 
-    array_set(arr, 0, 4.5);
-    array_set(arr, 1, 7.3);
-    array_set(arr, 2, 12.4);
-    array_set(arr, 3, 9.2);
-    array_set(arr, 4, 3.4);
+    array_set(arr, 0, 45);
+    array_set(arr, 1, 73);
+    array_set(arr, 2, 14);
+    array_set(arr, 3, 92);
+    array_set(arr, 4, 34);
 
     double result = task1(arr);
 
-    if (std::abs(result - 1.187) < 0.01) {
+    if (std::abs(result - 6.774) < 0.01) {
         std::cout << "Test 1 task1 passed" << '\n';
         passed++;
     } else {
@@ -33,7 +33,7 @@ int main() {
 
     result = task1(arr);
 
-    if (result == 0.0) {
+    if (result == 0) {
         std::cout << "Test 2 task1 passed" << '\n';
         passed++;
     } else {
@@ -61,12 +61,12 @@ int main() {
     Array *arr2 = array_create(3);
 
     array_set(arr2, 0, 0);
-    array_set(arr2, 1, 2.3);
-    array_set(arr2, 2, 0.3);
+    array_set(arr2, 1, 23);
+    array_set(arr2, 2, 3);
 
     result = task1(arr2);
 
-    if (result == 0.0) {
+    if (result == 0) {
         std::cout << "Test 4 task1 passed" << '\n';
         passed++;
     } else {

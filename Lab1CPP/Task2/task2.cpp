@@ -9,13 +9,13 @@ size_t task2(Array *arr) {
     }
 
     size_t begin = 0, start = 0, end = 5;
-    double maxsumm = 0;
+    int maxsumm = 0;
 
     for (size_t i = 0; i < 5; i++) {
         maxsumm += array_get(arr, i);
     }
 
-    double summ = maxsumm;
+    int summ = maxsumm;
 
     while (end < count) {
         summ = summ - array_get(arr, start) + array_get(arr, end);

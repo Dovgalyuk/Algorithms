@@ -7,7 +7,7 @@
 
 // Stores integer values inside
 // Change it to desired type
-typedef double Data;
+typedef int Data;
 
 struct Array;
 
