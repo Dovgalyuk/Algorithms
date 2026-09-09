@@ -1,9 +1,9 @@
-#include <iostream>
-#include <fstream>
 #include "array.h"
-#include "reader.h"
+#include "task2.h"
 
-size_t task2(Array *arr, size_t count) {
+size_t task2(Array *arr) {
+    size_t count = array_size(arr);
+
     if (count < 5) {
         return 0;
     }
@@ -28,24 +28,4 @@ size_t task2(Array *arr, size_t count) {
     }
 
     return begin;
-}
-
-int main() {
-    std::ifstream input("input.txt");
-    Array *arr = read_file_and_create_array(input);
-    input.close();
-
-    size_t res = task2(arr, array_size(arr));
-
-    std::ofstream output("output.txt");
-    if (output.is_open()) {
-        for (size_t i = 0; i < 5; i++) {
-            output << array_get(arr, res) << " ";
-            res++;
-        }
-    }
-    output.close();
-    array_delete(arr);
-
-    return 0;
 }
