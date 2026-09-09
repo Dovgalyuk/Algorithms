@@ -1,34 +1,55 @@
-#include "array.h"
+﻿#include "array.h"
 
 struct Array
 {
+    Data* data;
+    size_t size;
 };
 
 // create array
-Array *array_create(size_t size)
+// выделение памяти под массив указанного размера
+Array* array_create(size_t size)
 {
-    return new Array;
+    Array* arr = new Array;
+    arr->size = size;
+    arr->data = new Data[size](); // заполнение элементов массива нулями
+    return arr;
 }
 
 // delete array, free memory
-void array_delete(Array *arr)
+// освобождение выделенной памяти 
+void array_delete(Array* arr)
 {
-    delete arr;
+    if (arr) {
+        delete[] arr->data;
+        delete arr;
+    }
 }
 
 // returns specified array element
-Data array_get(const Array *arr, size_t index)
+// возврат элемента массива
+Data array_get(const Array* arr, size_t index)
 {
-    return (Data)0;
+    if (!arr || index >= arr->size) {
+        return (Data)0;
+    }
+    return arr->data[index];
 }
 
 // sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value)
+// присвоение значения
+void array_set(Array* arr, size_t index, Data value)
 {
+    if (!arr || index >= arr->size) {
+        return;
+    }
+    arr->data[index] = value;
 }
 
 // returns array size
-size_t array_size(const Array *arr)
+// возврат размера массива
+size_t array_size(const Array* arr)
 {
-    return 0;
+    return arr ? arr->size : 0;
 }
+
