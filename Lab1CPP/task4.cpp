@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
     std::ifstream input(argv[1]);
     if(!input){
-        std::cout << "Косяк"; return 1;
+        std::cout << "Failed!"; return 1;
     }
     size_t n; input>>n;
     Array *arr = array_create(n);
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     for(size_t i =0; i < poz_count; ++i){
         std::cout << array_get(positive, i) << " ";
     }
-    std::cout << "Тфп: ";
+    std::cout << "Neg: ";
     for(size_t i =0; i < neg_count; ++i){
         std::cout << array_get(negative, i) << " ";
     }
