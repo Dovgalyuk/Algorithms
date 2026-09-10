@@ -1,6 +1,6 @@
 #include <fstream>
 #include <iostream>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 #include <limits>
 
 using namespace std;
@@ -51,17 +51,19 @@ int main(int argc, char* argv[])
     Array* arr = array_create(size);
 
     int index = 0;
-    long long number = 1;
+    int number = 1;
 
-    while (index < size && number <= numeric_limits<int>::max())
+    while (index < size)
     {
-        int value = static_cast<int>(number);
-
-        if (is_palindrome(static_cast<int>(number)))
+        if (is_palindrome(number))
         {
-            array_set(arr, index, value);
+            array_set(arr, index, number);
             ++index;
         }
+
+        if (number == numeric_limits<int>::max())
+            break;
+
         ++number;
     }
 

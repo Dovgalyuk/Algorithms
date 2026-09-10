@@ -1,6 +1,6 @@
 #include <fstream>
 #include <iostream>
-#include "../LibraryCPP/array.h"
+#include "array.h"
 
 
 using namespace std;
@@ -42,14 +42,21 @@ int main(int argc, char* argv[])
         array_set(arr, i, value);
     }
 
+    size_t groups = 0;
 
-    // for (int i = 0; i < size; ++i)
-    // {
-    //     if (i > 0)
-    //         cout << " ";
+    if (size > 0)
+    {
+        groups = 1;
 
-    //     cout << array_get(arr, i);
-    // }
+        for (int i = 1; i < size; ++i)
+        {
+            if (array_get(arr, i) != array_get(arr, i - 1))
+                ++groups;
+        }
+    }
+
+    Array* result = array_create(groups * 2);
+    size_t position = 0;
 
     if (size > 0)
     {
@@ -65,19 +72,26 @@ int main(int argc, char* argv[])
             }
             else
             {
-                cout << current << " " << count << "\n";
+                array_set(result, position, current);
+                array_set(result, position + 1, count);
+                position += 2;
 
                 current = value;
                 count = 1;
             }
         }
 
-        // Output the last value and its count
-        cout << current << " " << count << "\n";
+        // последняя группа
+        array_set(result, position, current);
+        array_set(result, position + 1, count);
     }
 
-    cout << "\n";
+   for (size_t i = 0; i < array_size(result); i += 2)
+    {
+        cout << array_get(result, i) << ' ' << array_get(result, i + 1) << '\n';
+    }
 
     array_delete(arr);
+    array_delete(result);
     return 0;
 }
