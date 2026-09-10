@@ -14,7 +14,12 @@ int main() {
     std::ofstream output("output.txt");
     if (output.is_open()) {
         for (size_t i = 0; i < 5; i++) {
-            output << array_get(arr, res) << " ";
+            output << array_get(arr, res);
+
+            if (i != 4) {
+                output << " ";
+            }
+
             res++;
         }
     }
