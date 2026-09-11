@@ -32,7 +32,7 @@ set_property(TEST Test2Lab1CPP_Task1 PROPERTY PASS_REGULAR_EXPRESSION
 )
 
 # Тест 3
-add_test(NAME TestLab1CPP_Task2 COMMAND Lab1CPP_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
+add_test(NAME TestLab1CPP_Task2 COMMAND Lab1CPP_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/input3.txt)
 set_property(TEST TestLab1CPP_Task2 PROPERTY PASS_REGULAR_EXPRESSION 
 [=[\[0\] = 1
 \[1\] = 2
@@ -47,7 +47,7 @@ set_property(TEST TestLab1CPP_Task2 PROPERTY PASS_REGULAR_EXPRESSION
 )
 
 # Тест 4
-add_test(NAME Test2Lab1CPP_Task2 COMMAND Lab1CPP_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
+add_test(NAME Test2Lab1CPP_Task2 COMMAND Lab1CPP_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/input4.txt)
 set_property(TEST Test2Lab1CPP_Task2 PROPERTY PASS_REGULAR_EXPRESSION 
 [=[\[0\] = 1
 \[1\] = 2
