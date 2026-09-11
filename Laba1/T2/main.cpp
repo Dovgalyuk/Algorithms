@@ -17,7 +17,7 @@ Array* array_read(std::ifstream& input) {
 void T2(Array* arr) {
     int size = array_size(arr);
     const int MAX_VALUE = 1000;
-    int freq[1001] = {0};
+    int freq[MAX_VALUE+1] = {0};
 
     for (int i = 0; i < size; ++i) {
         int val = array_get(arr, i);
