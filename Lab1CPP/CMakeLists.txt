@@ -10,25 +10,25 @@ target_link_libraries(Lab1CPP_Task2 LibraryCPP)
 add_test(NAME TestLab1CPP_Task1 COMMAND Lab1CPP_Task1 ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 set_property(TEST TestLab1CPP_Task1 PROPERTY PASS_REGULAR_EXPRESSION 
 [=[\[0\] = 2
-\[1\] = 4
-\[2\] = 6
-\[3\] = 8
-\[4\] = 10
-\[5\] = 12
-\[6\] = 14
-\[7\] = 16
-\[8\] = 18
-\[9\] = 20]=]
+\[1\] = 3
+\[2\] = 5
+\[3\] = 7
+\[4\] = 11
+\[5\] = 13
+\[6\] = 17
+\[7\] = 19
+\[8\] = 23
+\[9\] = 29]=]
 )
 
 # Тест 2
 add_test(NAME Test2Lab1CPP_Task1 COMMAND Lab1CPP_Task1 ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
 set_property(TEST Test2Lab1CPP_Task1 PROPERTY PASS_REGULAR_EXPRESSION 
 [=[\[0\] = 2
-\[1\] = 4
-\[2\] = 6
-\[3\] = 8
-\[4\] = 10]=]
+\[1\] = 3
+\[2\] = 5
+\[3\] = 7
+\[4\] = 11]=]
 )
 
 # Тест 3

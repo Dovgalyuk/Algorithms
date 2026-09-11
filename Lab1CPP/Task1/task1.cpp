@@ -1,10 +1,29 @@
 #include <iostream>
 #include <fstream>
+#include <cmath>
 #include "../tasks.h"
 
 using namespace std;
 
-void task1(const char* filename)
+bool isPrime(int n)
+{
+  if (n < 2)
+  {
+    return false;
+  }
+
+  for (int i = 2; i <= std::sqrt(n); ++i)
+  {
+    if (n % i == 0)
+    {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+void task1(const char *filename)
 {
   ifstream in(filename);
 
@@ -25,14 +44,20 @@ void task1(const char* filename)
 
   in.close();
 
-  int* arr = new int[size];
+  int *arr = new int[size];
 
-  for(int i = 0; i < size; i++)
+  int index = 0;
+
+  for (int currentNumber = 2; index < size; ++currentNumber)
   {
-    arr[i] = 2 * (i + 1);
+    if (isPrime(currentNumber))
+    {
+      arr[index] = currentNumber;
+      ++index;
+    }
   }
 
-  for(int i = 0; i < size; i++)
+  for (int i = 0; i < size; i++)
   {
     cout << "[" << i << "]" << " = " << arr[i] << endl;
   }
