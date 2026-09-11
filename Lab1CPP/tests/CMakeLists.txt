@@ -6,7 +6,7 @@ add_test(
 set_tests_properties(
     Task4Test1
     PROPERTIES
-    PASS_REGULAR_EXPRESSION "Poz: 1 2 3 4 5 6 7 8 9"
+    PASS_REGULAR_EXPRESSION "Poz: 1 2 3 4 5 6 7 8 9 Neg:"
 )
 
 
@@ -18,7 +18,7 @@ add_test(
 set_tests_properties(
     Task4Test2
     PROPERTIES
-    PASS_REGULAR_EXPRESSION "Poz: 2 7 4 8"
+    PASS_REGULAR_EXPRESSION "Poz: 2 7 4 8 Neg: -5 -10 -3"
 )
 
 
@@ -30,7 +30,7 @@ add_test(
 set_tests_properties(
     Task4Test3
     PROPERTIES
-    PASS_REGULAR_EXPRESSION "Poz:"
+    PASS_REGULAR_EXPRESSION "Poz: Neg: -1 -2 -3 -4 -5 -6"
 )
 
 
@@ -54,7 +54,7 @@ add_test(
 set_tests_properties(
     Task5Test2
     PROPERTIES
-    PASS_REGULAR_EXPRESSION "Max sum:"
+    PASS_REGULAR_EXPRESSION "Max sum: 20"
 )
 
 

@@ -25,23 +25,20 @@ int main(int argc, char *argv[])
         input >> value;
         array_set(arr, i, value);
     }
-    int max_sum = 0;
+    int current_sum = 0;
     for (size_t i = 0; i < 5; ++i)
     {
-        max_sum += array_get(arr, i);
+        current_sum += array_get(arr, i);
     }
-    size_t max_index = 0;
-    for (size_t i = 1; i <= n - 5; ++i)
+    int max_sum = current_sum; size_t max_index = 0;
+    for (size_t i = 5; i < n; ++i)
     {
-        int sum = 0;
-        for (size_t j = 0; j < 5; ++j)
+        current_sum -= array_get(arr, i - 5);
+        current_sum += array_get(arr, i);
+        if (current_sum > max_sum)
         {
-            sum += array_get(arr, i + j);
-        }
-        if (sum > max_sum)
-        {
-            max_sum = sum;
-            max_index = i;
+            max_sum = current_sum;
+            max_index = i - 4;
         }
     }
     std::cout << "Max sum: " << max_sum << "\n";
