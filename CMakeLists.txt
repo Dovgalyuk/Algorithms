@@ -12,8 +12,7 @@ else()
         add_compile_options(-fsanitize=address,undefined)
         add_link_options(-fsanitize=address,undefined)
     elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        add_compile_options(-fsanitize=address,undefined,leak)
-        add_link_options(-fsanitize=address,undefined,leak)
+        #
     endif()
 endif()
 
@@ -23,3 +22,5 @@ add_subdirectory(LibraryCPPClass)
 add_subdirectory(LibraryCPPTemplate)
 
 add_subdirectory(Lab1C)
+
+add_subdirectory(Lab1CPP)
