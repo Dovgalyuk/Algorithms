@@ -52,6 +52,11 @@ int main(int argc, char **argv)
         return 0;
     }
 
+    // Если каждый элемент уникален, массив будет в два раза больше
+    size_t rle_capacity = size * 2;
+    Array *rle_arr = array_create(rle_capacity);
+    size_t rle_index = 0;
+
     // RLE-сжатие - группировка подряд идущих одинаковых элементов
     // current — текущее значение группы, count — количество повторов
     Data current = array_get(arr, 0);
@@ -68,17 +73,34 @@ int main(int argc, char **argv)
         }
         else
         {
-            // Элемент отличается — выводится группа (значение, количество)
-            std::cout << current << ' ' << count << ' ';
+            // Элемент отличается — записывается группа (значение, количество) в rle_arr
+            array_set(rle_arr, rle_index, current);
+            ++rle_index;
+            array_set(rle_arr, rle_index, static_cast<Data>(count));
+            ++rle_index;
+
             // Начинается новая группа
             current = val;
             count = 1;
         }
     }
-    // Вывод последней группы
-    std::cout << current << ' ' << count << std::endl;
+    // Запись последней группы
+    array_set(rle_arr, rle_index, current);
+    ++rle_index;
+    array_set(rle_arr, rle_index, static_cast<Data>(count));
+    ++rle_index;
 
-    // Освобождение памяти выделенной под массив
+    // Вывод массива в одну строку через пробел
+    for (size_t i = 0; i < rle_index; ++i)
+    {
+        if (i > 0)
+            std::cout << ' ';
+        std::cout << array_get(rle_arr, i);
+    }
+    std::cout << std::endl;
+
+    // Освобождение памяти выделенной под оба массива
     array_delete(arr);
+    array_delete(rle_arr);
     return 0;
 }
