@@ -1,0 +1,129 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						3
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "LibraryC",
+					"childIndexes" : 
+					[
+						2
+					],
+					"jsonFile" : "directory-LibraryC-Debug-9c63ba562690c16d60d6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "LibraryC",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "LibraryC/Tests",
+					"jsonFile" : "directory-LibraryC.Tests-Debug-f29a3a703750704fc8dc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "LibraryC/Tests",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "Lab1C",
+					"jsonFile" : "directory-Lab1C-Debug-42e6e8c49d67c6e886b2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Lab1C",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					],
+					"name" : "Algorithms",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "Lab1C::@c050f807fd595b3ba8be",
+					"jsonFile" : "target-Lab1C-Debug-b3c95c16022bab826760.json",
+					"name" : "Lab1C",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "LibraryC::@05a76b2f4dbe82cfc264",
+					"jsonFile" : "target-LibraryC-Debug-5e125109dfb6d696e1fb.json",
+					"name" : "LibraryC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "TestArrayC::@258c58ed07dec5af0266",
+					"jsonFile" : "target-TestArrayC-Debug-b2b90b70674f1dc2842c.json",
+					"name" : "TestArrayC",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/ilava/OneDrive/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/Algorithms/out/build/x64-Debug",
+		"source" : "C:/Users/ilava/OneDrive/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/Algorithms"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}

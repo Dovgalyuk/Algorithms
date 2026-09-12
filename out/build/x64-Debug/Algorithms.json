@@ -1,0 +1,18 @@
+[
+  {
+    "Name": "TestLab1C",
+    "Command": "C:/Users/ilava/OneDrive/Рабочий стол/Algorithms/out/build/x64-Debug/Lab1C/Lab1C.exe",
+    "Arguments": [
+      "C:/Users/ilava/OneDrive/Рабочий стол/Algorithms/Lab1C/input.txt"
+    ],
+    "WorkingDirectory": "C:/Users/ilava/OneDrive/Рабочий стол/Algorithms/out/build/x64-Debug/Lab1C",
+    "ProjectFile": "C:/Users/ilava/OneDrive/Рабочий стол/Algorithms/Lab1C/CMakeLists.txt",
+    "LineNumber": 6,
+    "Environment": {},
+    "ExpectsFailure": false,
+    "PassRegularExpression": null,
+    "FailRegularExpression": null,
+    "TargetName": "Lab1C.exe (Lab1C\\Lab1C.exe)",
+    "TimeoutInMs": -1
+  }
+]
