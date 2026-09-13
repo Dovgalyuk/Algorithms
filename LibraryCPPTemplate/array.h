@@ -48,7 +48,7 @@ public:
 
 	Data get(size_t index) const
 	{
-		if (0 <= index && index < length)
+		if (index < length)
 		{
 			return arr[index];
 		}
@@ -58,7 +58,7 @@ public:
 
 	void set(size_t index, Data value)
 	{
-		if (0 <= index && index < length)
+		if (index < length)
 		{
 			arr[index] = value;
 		}
