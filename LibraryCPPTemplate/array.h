@@ -1,49 +1,79 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
 
-template <typename Data> class Array
+template <typename Data>
+class Array
 {
 public:
-    // create array
-    explicit Array(size_t size)
-    {
-    }
+	explicit Array(size_t size)
+	{
+		if (size > 0)
+		{
+			length = size;
+			arr = new Data[length];
+		}
+		else
+			throw std::invalid_argument("array size is specified incorrectly");
+	}
 
-    // copy constructor
-    Array(const Array &a)
-    {
-    }
+	Array(const Array &a)
+	{
+		length = a.length;
+		arr = new Data[length];
+		for (size_t i = 0; i < length; i++)
+		{
+			arr[i] = a.arr[i];
+		}
+	}
 
-    // assignment operator
-    Array &operator=(const Array &a)
-    {
-        return *this;
-    }
+	Array &operator=(const Array &a)
+	{
+		if (this != &a)
+		{
+			length = a.length;
+			arr = new Data[length];
+			delete[] arr;
+			for (size_t i = 0; i < length; i++)
+			{
+				arr[i] = a.arr[i];
+			}
+		}
+		return *this;
+	}
 
-    // delete array, free memory
-    ~Array()
-    {
-    }
+	~Array()
+	{
+		delete[] arr;
+	}
 
-    // returns specified array element
-    Data get(size_t index) const
-    {
-        return Data(0);
-    }
+	Data get(size_t index) const
+	{
+		if (0 <= index && index < length)
+		{
+			return arr[index];
+		}
+		else
+			throw std::out_of_range("array subscript out of range");
+	}
 
-    // sets the specified array element to the value
-    void set(size_t index, Data value)
-    {
-    }
+	void set(size_t index, Data value)
+	{
+		if (0 <= index && index < length)
+		{
+			arr[index] = value;
+		}
+		else
+			throw std::out_of_range("array subscript out of range");
+	}
 
-    // returns array size
-    size_t size() const
-    {
-        return 0;
-    }
+	size_t size() const
+	{
+		return length;
+	}
 
 private:
-    // private data should be here
+	Data *arr;
+	size_t length;
 };
 
 #endif
