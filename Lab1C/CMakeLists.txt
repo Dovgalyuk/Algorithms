@@ -4,8 +4,6 @@ project(Lab1C)
 
 enable_testing()
 
-add_subdirectory(../LibraryC LibraryC_build)
-
 add_executable(Lab1C lab1.c)
 
 target_include_directories(Lab1C PUBLIC ../LibraryC)
