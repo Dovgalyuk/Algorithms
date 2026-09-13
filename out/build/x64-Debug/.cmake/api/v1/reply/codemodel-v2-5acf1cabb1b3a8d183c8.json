@@ -20,49 +20,49 @@
 					"source" : "."
 				},
 				{
-					"build" : "LibraryC",
+					"build" : "LibraryCPP",
 					"childIndexes" : 
 					[
 						2
 					],
-					"jsonFile" : "directory-LibraryC-Debug-9c63ba562690c16d60d6.json",
+					"jsonFile" : "directory-LibraryCPP-Debug-8c2b2f26cf0865286634.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
 					},
 					"parentIndex" : 0,
 					"projectIndex" : 0,
-					"source" : "LibraryC",
+					"source" : "LibraryCPP",
 					"targetIndexes" : 
 					[
 						1
 					]
 				},
 				{
-					"build" : "LibraryC/Tests",
-					"jsonFile" : "directory-LibraryC.Tests-Debug-f29a3a703750704fc8dc.json",
+					"build" : "LibraryCPP/Tests",
+					"jsonFile" : "directory-LibraryCPP.Tests-Debug-b42857901d3b9ccab6ce.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
 					},
 					"parentIndex" : 1,
 					"projectIndex" : 0,
-					"source" : "LibraryC/Tests",
+					"source" : "LibraryCPP/Tests",
 					"targetIndexes" : 
 					[
 						2
 					]
 				},
 				{
-					"build" : "Lab1C",
-					"jsonFile" : "directory-Lab1C-Debug-42e6e8c49d67c6e886b2.json",
+					"build" : "Lab1CPP",
+					"jsonFile" : "directory-Lab1CPP-Debug-29101424b4bd4882b731.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
 					},
 					"parentIndex" : 0,
 					"projectIndex" : 0,
-					"source" : "Lab1C",
+					"source" : "Lab1CPP",
 					"targetIndexes" : 
 					[
 						0
@@ -93,23 +93,23 @@
 			[
 				{
 					"directoryIndex" : 3,
-					"id" : "Lab1C::@c050f807fd595b3ba8be",
-					"jsonFile" : "target-Lab1C-Debug-b3c95c16022bab826760.json",
-					"name" : "Lab1C",
+					"id" : "Lab1CPP::@ee6367d4ac0702ad1401",
+					"jsonFile" : "target-Lab1CPP-Debug-478f99d2616b4912bbda.json",
+					"name" : "Lab1CPP",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
-					"id" : "LibraryC::@05a76b2f4dbe82cfc264",
-					"jsonFile" : "target-LibraryC-Debug-5e125109dfb6d696e1fb.json",
-					"name" : "LibraryC",
+					"id" : "LibraryCPP::@4b3589622afbd1422885",
+					"jsonFile" : "target-LibraryCPP-Debug-18e52659bdf31c6c8c16.json",
+					"name" : "LibraryCPP",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 2,
-					"id" : "TestArrayC::@258c58ed07dec5af0266",
-					"jsonFile" : "target-TestArrayC-Debug-b2b90b70674f1dc2842c.json",
-					"name" : "TestArrayC",
+					"id" : "TestArrayCPP::@f2b864f8dfe3321ad621",
+					"jsonFile" : "target-TestArrayCPP-Debug-6bbf6623243d9fd895be.json",
+					"name" : "TestArrayCPP",
 					"projectIndex" : 0
 				}
 			]

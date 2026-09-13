@@ -190,13 +190,13 @@
 			"path" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.31/Modules/Platform/Linker/Windows-MSVC.cmake"
 		},
 		{
-			"path" : "LibraryC/CMakeLists.txt"
+			"path" : "LibraryCPP/CMakeLists.txt"
 		},
 		{
-			"path" : "LibraryC/Tests/CMakeLists.txt"
+			"path" : "LibraryCPP/Tests/CMakeLists.txt"
 		},
 		{
-			"path" : "Lab1C/CMakeLists.txt"
+			"path" : "Lab1CPP/CMakeLists.txt"
 		}
 	],
 	"kind" : "cmakeFiles",

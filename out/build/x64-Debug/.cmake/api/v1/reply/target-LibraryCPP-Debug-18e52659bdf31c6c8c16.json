@@ -12,7 +12,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "LibraryC/LibraryC.lib"
+			"path" : "LibraryCPP/LibraryCPP.lib"
 		}
 	],
 	"backtrace" : 2,
@@ -27,7 +27,7 @@
 		"files" : 
 		[
 			"C:/Users/ilava/Desktop/vcpkg/scripts/buildsystems/vcpkg.cmake",
-			"LibraryC/CMakeLists.txt",
+			"LibraryCPP/CMakeLists.txt",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
@@ -64,7 +64,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /Zi /Ob0 /Od /RTC1 -MDd"
+					"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd"
 				},
 				{
 					"backtrace" : 4,
@@ -78,20 +78,20 @@
 					"fragment" : "-WX"
 				}
 			],
-			"language" : "C",
+			"language" : "CXX",
 			"sourceIndexes" : 
 			[
 				0
 			]
 		}
 	],
-	"id" : "LibraryC::@05a76b2f4dbe82cfc264",
-	"name" : "LibraryC",
-	"nameOnDisk" : "LibraryC.lib",
+	"id" : "LibraryCPP::@4b3589622afbd1422885",
+	"name" : "LibraryCPP",
+	"nameOnDisk" : "LibraryCPP.lib",
 	"paths" : 
 	{
-		"build" : "LibraryC",
-		"source" : "LibraryC"
+		"build" : "LibraryCPP",
+		"source" : "LibraryCPP"
 	},
 	"sourceGroups" : 
 	[
@@ -108,7 +108,7 @@
 		{
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,
-			"path" : "LibraryC/array.c",
+			"path" : "LibraryCPP/array.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

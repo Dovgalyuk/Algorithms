@@ -8,7 +8,7 @@
 	"installers" : [],
 	"paths" : 
 	{
-		"build" : "LibraryC/Tests",
-		"source" : "LibraryC/Tests"
+		"build" : "LibraryCPP",
+		"source" : "LibraryCPP"
 	}
 }
