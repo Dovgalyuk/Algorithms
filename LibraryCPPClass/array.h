@@ -2,6 +2,7 @@
 #define ARRAY_H
 
 #include <cstddef>
+#include <stddef.h>
 
 // Change it to desired type
 typedef int Data;
@@ -32,6 +33,8 @@ public:
 
 private:
     // private data should be here
+    Data* elements;
+    size_t array_size;
 };
 
 #endif
