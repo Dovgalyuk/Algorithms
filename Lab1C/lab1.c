@@ -62,7 +62,7 @@ void task1(Array *arr)
     printf("\n");
 }
 
-void task2(Array *arr, int a, int b)
+void task2(Array *arr, Data a, Data b)
 {
     size_t n = array_size(arr);
     size_t write = 0;
@@ -101,13 +101,13 @@ int main(int argc, char **argv)
     task1(arr);
     array_delete(arr);
 
-    
+    /* Create another array here */
     arr = array_create_and_read(input);
 
-    int a, b;
-    fscanf(input, "%d %d", &a, &b);
+    size_t a, b;
+    fscanf(input, "%zu %zu", &a, &b);
 
-    task2(arr, a, b);
+    task2(arr, (Data)a, (Data)b);
 
     array_delete(arr);
     fclose(input);
