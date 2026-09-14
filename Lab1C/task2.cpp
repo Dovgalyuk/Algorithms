@@ -23,9 +23,9 @@ void task2(Array* arr)
     if (!arr) return;
     size_t n = array_size(arr);
     int raznica = -1, vr_raznica;
-    for (int i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; i++) {
         if (array_get(arr, i) % 2 != 0) continue;
-        for (int j = i + 1; j < n; j++) {
+        for (size_t j = i + 1; j < n; j++) {
             if (array_get(arr, j) % 2 != 0) continue;
             if (array_get(arr, i) == array_get(arr, j)) continue;
             vr_raznica = array_get(arr, i) - array_get(arr, j);

@@ -25,21 +25,21 @@ void task1(Array* arr)
 {
     if (!arr) return;
     size_t n = array_size(arr);
-    int max_i = 0, min_i = 0;
+    size_t max_i = 0, min_i = 0;
     int sum = 0;
-    for (int i = 1;i < n;i++) {
+    for (size_t i = 1; i < n; i++) {
         if (array_get(arr, max_i) < array_get(arr, i))
             max_i = i;
         if (array_get(arr, min_i) > array_get(arr, i))
             min_i = i;
     }
     if (min_i > max_i) {
-        for (int i = max_i + 1; i < min_i;i++) {
+        for (size_t i = max_i + 1; i < min_i; i++) {
             sum += array_get(arr, i);
         }
     }
     else {
-        for (int i = min_i + 1; i < max_i;i++) {
+        for (size_t i = min_i + 1; i < max_i; i++) {
             sum += array_get(arr, i);
         }
     }
