@@ -1,25 +1,7 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <algorithm>
-#include <cstddef>
-
-template <typename T>
-class Array {
-private:
-    T* data;
-    size_t sz;
-
-public:
-    explicit Array(size_t size) : sz(size), data(new T[size]{}) {}
-    ~Array() { delete[] data; }
-
-    Array(const Array&) = delete;
-    Array& operator=(const Array&) = delete;
-
-    T& operator[](size_t index) { return data[index]; }
-    const T& operator[](size_t index) const { return data[index]; }
-    size_t size() const { return sz; }
-};
+#include "array.h" // Подключаем контейнер из LibraryC
 
 void process_task2(const char* filename) {
     std::ifstream in(filename);
@@ -29,10 +11,7 @@ void process_task2(const char* filename) {
     }
 
     size_t n;
-    if (!(in >> n)) {
-        std::cerr << "Некорректный формат файла\n";
-        return;
-    }
+    if (!(in >> n)) return;
 
     Array<int> arr(n);
     size_t even_count = 0;
@@ -48,13 +27,15 @@ void process_task2(const char* filename) {
     }
 
     Array<int> evens(even_count);
-    for (size_t i = 0, j = 0; i < n; ++i) if (arr[i] % 2 == 0) evens[j++] = arr[i];
+    for (size_t i = 0, j = 0; i < n; ++i) {
+        if (arr[i] % 2 == 0) evens[j++] = arr[i];
+    }
 
     std::sort(&evens[0], &evens[0] + evens.size());
 
     int min_diff = -1;
     for (size_t i = 1; i < evens.size(); ++i) {
-        if (evens[i] != evens[i - 1]) { 
+        if (evens[i] != evens[i - 1]) {
             int diff = evens[i] - evens[i - 1];
             if (min_diff == -1 || diff < min_diff) min_diff = diff;
         }
@@ -65,11 +46,7 @@ void process_task2(const char* filename) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        std::cerr << "Использование: " << argv[0] << " <путь_к_файлу>\n";
-        return 1;
-    }
-
+    if (argc < 2) return 1;
     process_task2(argv[1]);
     return 0;
 }
