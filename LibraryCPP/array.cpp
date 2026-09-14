@@ -24,7 +24,7 @@ Data array_get(const Array *arr, size_t index)
     if (index < arr->size) {
         return arr->data[index];
     }
-    return -1;
+    return (Data)0;
 }
 
 void array_set(Array *arr, size_t index, Data value)
