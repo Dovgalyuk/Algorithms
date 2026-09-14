@@ -10,12 +10,12 @@ struct Array
 Array *array_create(size_t size)
 {
     Array* arr = new Array;
-    (*arr).size = size;
-    if ((*arr).size > 0) {
-        (*arr).data = new Data[size]();
+    arr->size = size;
+    if (arr->size > 0) {
+        arr->data = new Data[size]();
     }
     else
-        (*arr).data = nullptr;
+        arr->data = nullptr;
     return arr;
 }
 
@@ -23,7 +23,7 @@ Array *array_create(size_t size)
 void array_delete(Array *arr)
 {
     if (arr) {
-        delete[](*arr).data;
+        delete[] arr->data;
         delete arr;
     }
 }
@@ -31,17 +31,17 @@ void array_delete(Array *arr)
 // returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    if (!arr || index >= (*arr).size) {
+    if (!arr || index >= arr->size) {
         return Data(0);
     }
-    return (*arr).data[index];
+    return arr->data[index];
 }
 
 // sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
-    if (arr && index < (*arr).size) {
-        (*arr).data[index] = value;
+    if (arr && index < arr->size) {
+        arr->data[index] = value;
     }
 }
 
@@ -51,5 +51,5 @@ size_t array_size(const Array *arr)
     if (!arr)
         return 0;
     else
-        return (*arr).size;
+        return arr->size;
 }

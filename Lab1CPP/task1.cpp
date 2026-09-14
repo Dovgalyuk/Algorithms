@@ -1,22 +1,24 @@
-#include <stdio.h>
-#include "array.h"
-#include <fstream>
 #include <iostream>
+#include <fstream>
+#include "array.h"
 
-Array* array_create_and_read(FILE* input)
+Array* array_create_and_read(std::ifstream& input)
 {
     int n;
-    fscanf(input, "%d", &n);
-    /* Create array */
-    Array* arr = array_create(n);
-    /* Read array data */
-    for (int i = 0; i < n; ++i)
+    if (input >> n)
     {
-        int x;
-        fscanf(input, "%d", &x);
-        array_set(arr, i, x);
+        Array* arr = array_create(n);
+        for (int i = 0; i < n; ++i)
+        {
+            int x;
+            if (input >> x)
+            {
+                array_set(arr, i, x);
+            }
+        }
+        return arr;
     }
-    return arr;
+    return nullptr;
 }
 
 void task1(Array* arr)
@@ -46,10 +48,21 @@ void task1(Array* arr)
 
 int main(int argc, char** argv)
 {
-    Array* arr = NULL;
-    FILE* input = fopen(argv[1], "r");
-    arr = array_create_and_read(input);
+    if (argc < 2)
+    {
+        return 1;
+    }
+
+    std::ifstream input(argv[1]);
+    if (!input.is_open())
+    {
+        return 1;
+    }
+
+    Array* arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
-    fclose(input);
+
+    input.close();
+    return 0;
 }
