@@ -4,44 +4,55 @@ project(Lab1C)
 
 enable_testing()
 
-add_executable(Lab1C lab1.c)
+add_executable(Task1 task1.c)
 
-target_include_directories(Lab1C PUBLIC ../LibraryC)
+target_include_directories(Task1 PUBLIC ../LibraryC)
 
-target_link_libraries(Lab1C LibraryC)
+target_link_libraries(Task1 LibraryC)
 
-add_test(NAME TestLab1C
-    COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input.txt
+
+add_executable(Task2 task2.c)
+
+target_include_directories(Task2 PUBLIC ../LibraryC)
+
+target_link_libraries(Task2 LibraryC)
+
+
+add_test(NAME Task1Test1
+    COMMAND Task1 ${CMAKE_CURRENT_SOURCE_DIR}/task1test1.txt
 )
 
 set_property(
-    TEST TestLab1C
+    TEST Task1Test1
+    PROPERTY PASS_REGULAR_EXPRESSION "1 3 5"
+)
+
+
+add_test(NAME Task1Test2
+    COMMAND Task1 ${CMAKE_CURRENT_SOURCE_DIR}/task1test2.txt
+)
+
+set_property(
+    TEST Task1Test2
+    PROPERTY PASS_REGULAR_EXPRESSION "1 2 3"
+)
+
+
+add_test(NAME Task2Test1
+    COMMAND Task2 ${CMAKE_CURRENT_SOURCE_DIR}/task2test1.txt
+)
+
+set_property(
+    TEST Task2Test1
     PROPERTY PASS_REGULAR_EXPRESSION "1 4 0 0"
 )
 
-add_test(NAME Test1
-    COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/test1.txt
+
+add_test(NAME Task2Test2
+    COMMAND Task2 ${CMAKE_CURRENT_SOURCE_DIR}/task2test2.txt
 )
 
 set_property(
-    TEST Test1
-   
-    PROPERTY PASS_REGULAR_EXPRESSION "1 4 0 0"
-)
-add_test(NAME Test2
-    COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/test2.txt
-)
-
-set_property(
-    TEST Test2
+    TEST Task2Test2
     PROPERTY PASS_REGULAR_EXPRESSION "5 25 0 0 0"
-)
-
-add_test(NAME Test3
-    COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/test3.txt
-)
-
-set_property(
-    TEST Test3
-    PROPERTY PASS_REGULAR_EXPRESSION "0 0 0 0 0 0"
 )
