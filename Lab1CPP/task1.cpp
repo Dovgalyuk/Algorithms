@@ -58,15 +58,15 @@ void task1(Array *arr, std::ofstream &output)
     }
 
     for (int i = 0; i <= max_; i++) 
-{
-    int val = array_get(arr, i);
-    if (val == 0) continue;     
-
-    for (int j = val * val - 2; j <= max_; j += val) 
     {
-        array_set(arr, j, 0);
+        int val = array_get(arr, i);
+        if (val == 0) continue;     
+
+        for (int j = val * val - 2; j <= max_; j += val) 
+        {
+            array_set(arr, j, 0);
+        }
     }
-}
         
     size_t writePos = 2; 
     for (size_t i = 2; i < size; i++) 
