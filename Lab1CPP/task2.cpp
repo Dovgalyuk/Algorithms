@@ -35,14 +35,10 @@ void task2(Array<int> *arr)
 		for (size_t j = 0; j < size_arr; j++)
 		{
             if (i == j || arr->get(j) == 0)
-			{
+			{	
 				count++;
 				continue;
 			}
-
-            else if(arr->get(j)==arr->get(i)){
-                continue;
-            }
 
 			else if (arr->get(i) % arr->get(j) == 0)
 			{
