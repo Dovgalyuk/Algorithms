@@ -36,33 +36,12 @@ void task1(Array *arr, std::ofstream &output)
             max_ = val;
     }
 
-    if (max_ < 2) 
-    {
-        for (size_t i = 0; i < size; i++)
-        {
-            int n = array_get(arr, i);
-            if (n < 2) 
-            {
-                array_set(arr, i, 0);
-            }
-        }
-        // Вывод результата
-        for (size_t i = 0; i < size; i++) 
-        {
-            output << array_get(arr, i) << " ";
-            std::cout << array_get(arr, i) << " ";
-        }
-        output << std::endl;
-        std::cout << std::endl;
-        return;
-    }
-
-    for (int i = 0; i <= max_; i++) 
+    for (int i = 0; i <= max_-2; i++) 
     {
         int val = array_get(arr, i);
         if (val == 0) continue;     
 
-        for (int j = val * val - 2; j <= max_; j += val) 
+        for (int j = val * val - 2; j <= max_-2; j += val) 
         {
             array_set(arr, j, 0);
         }
