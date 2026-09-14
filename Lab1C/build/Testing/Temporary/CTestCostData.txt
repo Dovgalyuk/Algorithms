@@ -1,5 +1,0 @@
-Task1_Test1 2 0.0236984
-Task1_Test2 2 0.0073837
-Task2_Test1 2 0.020617
-Task2_Test2 2 0.00683715
----
