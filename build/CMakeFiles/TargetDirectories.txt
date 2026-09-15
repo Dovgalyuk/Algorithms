@@ -1,0 +1,5 @@
+D:/Dovgalyuk/build/CMakeFiles/task1.dir
+D:/Dovgalyuk/build/CMakeFiles/task2.dir
+D:/Dovgalyuk/build/CMakeFiles/test.dir
+D:/Dovgalyuk/build/CMakeFiles/edit_cache.dir
+D:/Dovgalyuk/build/CMakeFiles/rebuild_cache.dir

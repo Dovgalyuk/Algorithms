@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="(empty)"
+	BuildStamp="20260914-1543-Experimental"
+	Name="(empty)"
+	Generator="ctest-4.4.1"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Windows"
+	Hostname="YOLOVV"
+	OSRelease="10.0.26200"
+	OSVersion="Windows 10"
+	OSPlatform="AMD64"
+	Is64Bits="1"
+	VendorString=""
+	VendorID="Unknown Manufacturer"
+	FamilyID="0"
+	ModelID="0"
+	ModelName=""
+	ProcessorCacheSize="0"
+	NumberOfLogicalCPU="4"
+	NumberOfPhysicalCPU="4"
+	TotalVirtualMemory="11264"
+	TotalPhysicalMemory="16304"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="3600.000000"
+	>
+	<Testing>
+		<StartDateTime>Sep 15 14:28 RTZ 2 ([NON-UTF-8-BYTE-0xE7][NON-UTF-8-BYTE-0xE8][NON-UTF-8-BYTE-0xEC][NON-UTF-8-BYTE-0xE0])</StartDateTime>
+		<StartTestTime>1789471736</StartTestTime>
+		<TestList/>
+		<EndDateTime>Sep 15 14:28 RTZ 2 ([NON-UTF-8-BYTE-0xE7][NON-UTF-8-BYTE-0xE8][NON-UTF-8-BYTE-0xEC][NON-UTF-8-BYTE-0xE0])</EndDateTime>
+		<EndTestTime>1789471736</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

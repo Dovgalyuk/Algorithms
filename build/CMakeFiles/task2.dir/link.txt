@@ -1,0 +1,3 @@
+C:\Users\cloud\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\cmake.exe -E rm -f CMakeFiles\task2.dir/objects.a
+C:\Users\cloud\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\ar.exe qc CMakeFiles\task2.dir/objects.a @CMakeFiles\task2.dir\objects1.rsp
+C:\Users\cloud\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\task2.dir/objects.a -Wl,--no-whole-archive -o task2.exe -Wl,--out-implib,libtask2.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\task2.dir\linkLibs.rsp
