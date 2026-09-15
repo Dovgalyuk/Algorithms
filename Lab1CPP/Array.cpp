@@ -21,7 +21,6 @@ Array *array_create_and_read(ifstream &input)
     return arr;
 }
 
-// Задача 1: элемент, наиболее близкий к среднему значению
 void task1(Array *arr)
 {
     size_t n = array_size(arr);
@@ -54,7 +53,7 @@ void task1(Array *arr)
          << " (index " << bestIndex << ")" << endl;
 }
 
-// Задача 2: самое частое число (диапазон [0; 1000]) за O(N)
+
 void task2(Array *arr)
 {
     const int MAX_VALUE = 1000;

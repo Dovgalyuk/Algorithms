@@ -1,6 +1,5 @@
 #include "array.h"
 
-// Динамический массив с неизменяемым размером
 struct Array
 {
     Data   *data;
