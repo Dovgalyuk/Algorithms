@@ -21,29 +21,16 @@ Array *array_create_and_read(std::ifstream &input)
 void task1(Array *arr, std::ofstream &output)
 { 
     size_t size = array_size(arr);
-    if (size == 0) {
-        output << std::endl;
-        std::cout << std::endl;
-        return;
-    }
+    if (size == 0) { return; }
 
-    int max_ = array_get(arr, 0);
-
-    for (size_t i = 1; i < size; i++)
+    for (size_t i = 0; i < size; i++)
     {
         int val = array_get(arr, i);
-        if (max_ < val)
-            max_ = val;
-    }
+        if (val < 2) continue;
 
-    for (int i = 0; i <= max_-2; i++) 
-    {
-        int val = array_get(arr, i);
-        if (val == 0) continue;     
-
-        for (int j = val * val - 2; j <= max_-2; j += val) 
+        for (size_t j = val * val - 2; j < size; j += val)
         {
-            array_set(arr, j, 0);
+            array_set(arr, (int)j, 0);
         }
     }
         
