@@ -9,11 +9,10 @@ static int tf = 0;
 void assert(bool expr, char* msg){
     if (expr) tp++;
     else tf++;
-    printf(msg);
-    printf("\n");
+    printf("%s\n", msg);
 }
 
-int main() {
+int main(void) {
     List *list = list_create(NULL);
     assert(list != NULL, "list created empty");
     assert(list_first(list) == NULL, "list created empty");

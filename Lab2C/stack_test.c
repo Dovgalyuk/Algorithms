@@ -8,12 +8,11 @@ static int tf = 0;
 void assert(bool expr, char* msg){
     if (expr) tp++;
     else tf++;
-    printf(msg);
-    printf("\n");
+    printf("%s\n", msg);
 }
 
 
-int main() {
+int main(void) {
     Stack *stack = stack_create(NULL);
     assert(stack != NULL, "stack not null");
     assert(stack_empty(stack) == true, "new stack is empty");

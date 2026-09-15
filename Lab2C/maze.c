@@ -201,7 +201,7 @@ int execute_command(Maze *maze, char cmd, FILE *input) {
             while ((ch = fgetc(input)) != EOF && ch != '\n') {
                 stack_push(temp, ch);
             }
-            if (!stack_empty(temp) && stack_get(temp) == "\r") stack_pop(temp);
+            if (!stack_empty(temp) && stack_get(temp) == '\r') stack_pop(temp);
             if (ferror(input)) {
                 stack_delete(temp);
                 return -1;
