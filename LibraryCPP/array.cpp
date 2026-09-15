@@ -3,16 +3,14 @@
 
 #include <stdexcept>
 
-struct Array
-{
-    size_t size;
+
+struct Array{
     Data* data;
+    std::size_t size;
 };
 
 
-// create array
-Array* array_create(size_t size)
-{
+Array* array_create(std::size_t size){
     Array* arr = new Array;
 
     arr->size = size;
@@ -21,10 +19,7 @@ Array* array_create(size_t size)
     return arr;
 }
 
-
-// delete array, free memory
-void array_delete(Array* arr)
-{
+void array_delete(Array* arr){
     if (arr != nullptr)
     {
         delete[] arr->data;
@@ -32,17 +27,12 @@ void array_delete(Array* arr)
     }
 }
 
-
-// returns specified array element
-Data array_get(const Array* arr, size_t index)
-{
-    if (arr == nullptr)
-    {
-        throw std::invalid_argument("Null array");
+Data array_get(const Array* arr, std::size_t index){
+    if (arr == nullptr){
+        throw std::invalid_argument("Array is null");
     }
 
-    if (index >= arr->size)
-    {
+    if (index >= arr->size){
         throw std::out_of_range("Array index out of range");
     }
 
@@ -50,16 +40,12 @@ Data array_get(const Array* arr, size_t index)
 }
 
 
-// sets the specified array element to the value
-void array_set(Array* arr, size_t index, Data value)
-{
-    if (arr == nullptr)
-    {
-        throw std::invalid_argument("Null array");
+void array_set(Array* arr, std::size_t index, Data value){
+    if (arr == nullptr){
+        throw std::invalid_argument("Array is null");
     }
 
-    if (index >= arr->size)
-    {
+    if (index >= arr->size){
         throw std::out_of_range("Array index out of range");
     }
 
@@ -67,14 +53,9 @@ void array_set(Array* arr, size_t index, Data value)
 }
 
 
-// returns array size
-size_t array_size(const Array* arr)
-{
-    if (arr == nullptr)
-    {
-        throw std::invalid_argument("Null array");
+std::size_t array_size(const Array* arr){
+    if (arr == nullptr){
+        throw std::invalid_argument("Array is null");
     }
-
     return arr->size;
 }
-
