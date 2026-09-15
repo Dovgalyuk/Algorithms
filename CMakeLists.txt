@@ -17,9 +17,9 @@ else()
     endif()
 endif()
 
+add_subdirectory(LibraryCPP)
 add_subdirectory(Lab1CPP)
 #add_subdirectory(LibraryC)
-#add_subdirectory(LibraryCPP)
 #add_subdirectory(LibraryCPPClass)
 #add_subdirectory(LibraryCPPTemplate)
 
