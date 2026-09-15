@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
+#include <stdbool.h>
 
 static int tp = 0;
 static int tf = 0;
