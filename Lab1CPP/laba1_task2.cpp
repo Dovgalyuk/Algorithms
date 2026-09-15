@@ -4,31 +4,31 @@
 
 using namespace std;
 
-Array<int>* chtenieArray(ifstream& in) {
+Array* chtenieArray(ifstream& in) {
 	int n;
 	in >> n;
 	if (!in) {
 		return nullptr;
 	}
-	Array<int>* arr = new Array<int>(n);
+	Array* arr = array_create(n);
 	for (int i = 0; i < n; i++) {
 		int x;
 		in >> x;
 
-		arr->set(i, x);
+		array_set(arr, i, x);
 	}
 	return arr;
 }
 
 
-void task2(const Array<int>* arr) {
+void task2(const Array* arr) {
 	const int maximum_znach = 1000;
 
 	int kolvo[maximum_znach + 1] = { 0 };
 
-	size_t razmer = arr->size();
+	size_t razmer = array_size(arr);
 	for (size_t i = 0; i < razmer; i++) {
-		int chislo = arr->get(i);
+		int chislo = array_get(arr, i);
 		if (chislo >= 0 && chislo <= maximum_znach) {
 			kolvo[chislo]++;
 		}
@@ -62,11 +62,11 @@ int main(int arg1, char* arg2[])
 	}
 
 
-	Array<int>* mas2 = chtenieArray(input);
+	Array* mas2 = chtenieArray(input);
 
 	if (mas2) {
 		task2(mas2);
-		delete mas2;
+		array_delete(mas2);
 	}
 
 	input.close();
