@@ -23,7 +23,6 @@ void print_array(const Array* arr)
 void task1(ifstream& input)
 {
     size_t n;
-
     if (!(input >> n)) {
         cerr << "Ошибка чтения размера массива" << endl;
         return;
