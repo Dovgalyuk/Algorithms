@@ -1,78 +1,64 @@
-
 #include "array.h"
 
 #include <stdexcept>
 
 struct Array
 {
-    size_t size;
-    Data* data;
+    int* data;
+    std::size_t size;
 };
 
-// Create array.
-Array* array_create(size_t size)
+Array* array_create(std::size_t size)
 {
-    Array* arr = new Array;
+    Array* array = new Array;
 
-    arr->size = size;
-    arr->data = new Data[size]();
+    array->size = size;
 
-    return arr;
+    if (size > 0)
+        array->data = new int[size]{};
+    else
+        array->data = nullptr;
+
+    return array;
 }
 
-// Delete array, free memory.
-void array_delete(Array** arr)
+void array_delete(Array** array)
 {
-    if (arr == nullptr || *arr == nullptr)
-    {
+    if (array == nullptr || *array == nullptr)
         return;
-    }
 
-    delete[] (*arr)->data;
-    delete *arr;
+    delete[] (*array)->data;
+    delete *array;
 
-    *arr = nullptr;
+    *array = nullptr;
 }
 
-// Returns specified array element.
-Data array_get(const Array* arr, size_t index)
+std::size_t array_size(const Array* array)
 {
-    if (arr == nullptr)
-    {
-        throw std::invalid_argument("Array is null");
-    }
+    if (array == nullptr)
+        throw std::invalid_argument("Null array");
 
-    if (index >= arr->size)
-    {
+    return array->size;
+}
+
+void array_set(Array* array, std::size_t index, int value)
+{
+    if (array == nullptr)
+        throw std::invalid_argument("Null array");
+
+    if (index >= array->size)
         throw std::out_of_range("Array index out of range");
-    }
 
-    return arr->data[index];
+    array->data[index] = value;
 }
 
-// Sets the specified array element to the value.
-void array_set(Array* arr, size_t index, Data value)
+int array_get(const Array* array, std::size_t index)
 {
-    if (arr == nullptr)
-    {
-        throw std::invalid_argument("Array is null");
-    }
+    if (array == nullptr)
+        throw std::invalid_argument("Null array");
 
-    if (index >= arr->size)
-    {
+    if (index >= array->size)
         throw std::out_of_range("Array index out of range");
-    }
 
-    arr->data[index] = value;
-}
-
-// Returns array size.
-size_t array_size(const Array* arr)
-{
-    if (arr == nullptr)
-    {
-        throw std::invalid_argument("Array is null");
-    }
-
-    return arr->size;
+    return array->data[index];
 }

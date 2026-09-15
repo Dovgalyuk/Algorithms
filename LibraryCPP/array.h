@@ -1,29 +1,16 @@
-
 #ifndef ARRAY_H
 #define ARRAY_H
 
 #include <cstddef>
 
-// Non-resizeable array.
-// Stores integer values inside.
-typedef int Data;
-
 struct Array;
 
-// Create array with fixed size.
-Array* array_create(size_t size);
+Array* array_create(std::size_t size);
+void array_delete(Array** array);
 
-// Delete array and free memory.
-void array_delete(Array** arr);
+std::size_t array_size(const Array* array);
 
-// Returns specified array element.
-Data array_get(const Array* arr, size_t index);
-
-// Sets the specified array element to the value.
-void array_set(Array* arr, size_t index, Data value);
-
-// Returns array size.
-size_t array_size(const Array* arr);
+void array_set(Array* array, std::size_t index, int value);
+int array_get(const Array* array, std::size_t index);
 
 #endif
-

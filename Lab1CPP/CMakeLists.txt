@@ -1,83 +1,102 @@
+cmake_minimum_required(VERSION 3.15)
 
-cmake_minimum_required(VERSION 3.16)
-
-project(Lab1 LANGUAGES CXX)
+project(lab1)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(lab1
-    lab1.cpp
+enable_testing()
+
+
+# ============================================================
+# Программы
+# ============================================================
+
+add_executable(task1
+    task1.cpp
     array.cpp
     array.h
 )
 
-enable_testing()
-
-add_test(
-    NAME sieve_test_1
-    COMMAND ${CMAKE_COMMAND}
-        -DPROGRAM=$<TARGET_FILE:lab1>
-        -DMODE=sieve
-        -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/tests/sieve_1.txt
-        -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/tests/sieve_1.expected
-        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/sieve_1.actual
-        -P ${CMAKE_CURRENT_SOURCE_DIR}/test.cmake
+add_executable(task2
+    task2.cpp
+    array.cpp
+    array.h
 )
 
-add_test(
-    NAME sieve_test_2
-    COMMAND ${CMAKE_COMMAND}
-        -DPROGRAM=$<TARGET_FILE:lab1>
-        -DMODE=sieve
-        -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/tests/sieve_2.txt
-        -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/tests/sieve_2.expected
-        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/sieve_2.actual
-        -P ${CMAKE_CURRENT_SOURCE_DIR}/test.cmake
-)
+
+# ============================================================
+# Тесты task1
+# ============================================================
 
 add_test(
-    NAME sieve_test_3
-    COMMAND ${CMAKE_COMMAND}
-        -DPROGRAM=$<TARGET_FILE:lab1>
-        -DMODE=sieve
-        -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/tests/sieve_3.txt
-        -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/tests/sieve_3.expected
-        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/sieve_3.actual
-        -P ${CMAKE_CURRENT_SOURCE_DIR}/test.cmake
+    NAME Task1Test1
+    COMMAND task1
+            ${CMAKE_SOURCE_DIR}/tests/task1_input1.txt
 )
+
+set_tests_properties(Task1Test1 PROPERTIES
+    PASS_REGULAR_EXPRESSION
+    "2 3 5 7 0 0 0 0 0 0"
+)
+
 
 add_test(
-    NAME mindiff_test_1
-    COMMAND ${CMAKE_COMMAND}
-        -DPROGRAM=$<TARGET_FILE:lab1>
-        -DMODE=mindiff
-        -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/tests/mindiff_1.txt
-        -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/tests/mindiff_1.expected
-        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/mindiff_1.actual
-        -P ${CMAKE_CURRENT_SOURCE_DIR}/test.cmake
+    NAME Task1Test2
+    COMMAND task1
+            ${CMAKE_SOURCE_DIR}/tests/task1_input2.txt
 )
+
+set_tests_properties(Task1Test2 PROPERTIES
+    PASS_REGULAR_EXPRESSION
+    "2 3 5 7 11 13 17 19 0 0 0 0 0 0 0 0 0 0 0 0"
+)
+
+
+# ============================================================
+# Тесты task2
+# ============================================================
 
 add_test(
-    NAME mindiff_test_2
-    COMMAND ${CMAKE_COMMAND}
-        -DPROGRAM=$<TARGET_FILE:lab1>
-        -DMODE=mindiff
-        -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/tests/mindiff_2.txt
-        -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/tests/mindiff_2.expected
-        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/mindiff_2.actual
-        -P ${CMAKE_CURRENT_SOURCE_DIR}/test.cmake
+    NAME Task2Test1
+    COMMAND task2
+            ${CMAKE_SOURCE_DIR}/tests/task2_input1.txt
 )
+
+set_tests_properties(Task2Test1 PROPERTIES
+    PASS_REGULAR_EXPRESSION "^2$"
+)
+
 
 add_test(
-    NAME mindiff_test_3
-    COMMAND ${CMAKE_COMMAND}
-        -DPROGRAM=$<TARGET_FILE:lab1>
-        -DMODE=mindiff
-        -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/tests/mindiff_3.txt
-        -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/tests/mindiff_3.expected
-        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/mindiff_3.actual
-        -P ${CMAKE_CURRENT_SOURCE_DIR}/test.cmake
+    NAME Task2Test2
+    COMMAND task2
+            ${CMAKE_SOURCE_DIR}/tests/task2_input2.txt
 )
 
+set_tests_properties(Task2Test2 PROPERTIES
+    PASS_REGULAR_EXPRESSION "^2$"
+)
+
+
+add_test(
+    NAME Task2Test3
+    COMMAND task2
+            ${CMAKE_SOURCE_DIR}/tests/task2_input3.txt
+)
+
+set_tests_properties(Task2Test3 PROPERTIES
+    PASS_REGULAR_EXPRESSION "^6$"
+)
+
+
+# ============================================================
+# Автоматический запуск тестов после сборки
+# ============================================================
+
+add_custom_target(run_tests ALL
+    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
+    DEPENDS task1 task2
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running all tests..."
+)
