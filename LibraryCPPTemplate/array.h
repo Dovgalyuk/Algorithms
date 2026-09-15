@@ -1,5 +1,5 @@
 #pragma once
-
+#include <utility>
 #include <cstddef>
 #include <stdexcept>
 
@@ -36,20 +36,10 @@ public:
             return *this;
         }
 
-        T* newData = nullptr;
+        Array copy(other);
 
-        if (other.size_ > 0) {
-            newData = new T[other.size_];
-
-            for (std::size_t i = 0; i < other.size_; ++i) {
-                newData[i] = other.data_[i];
-            }
-        }
-
-        delete[] data_;
-
-        data_ = newData;
-        size_ = other.size_;
+        std::swap(data_, copy.data_);
+        std::swap(size_, copy.size_);
 
         return *this;
     }
