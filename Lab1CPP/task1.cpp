@@ -30,7 +30,7 @@ void task1(Array *arr, std::ofstream &output)
 
         for (size_t j = val * val - 2; j < size; j += val)
         {
-            array_set(arr, (int)j, 0);
+            array_set(arr, j, 0);
         }
     }
         
