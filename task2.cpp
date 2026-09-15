@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 
-// Читает последовательность чисел, сжимает одинаковые значения и сохраняет результат.
+
 int main(int argc, char* argv[]) {
     if (argc < 3) {
         std::cerr << "Usage: task2 <input_file> <output_file>\n";
@@ -17,29 +17,26 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    size_t count;
-    if (!(input >> count) || count == 0) {
-        return 0; // Пустой массив или ошибка ввода
+    size_t n;
+    if (!(input >> n) || n == 0) {
+        return 0; 
     }
 
-    // Заполняем массив
-    arr<int> values(count);
-    for (size_t i = 0; i < count; ++i) {
-        input >> values[i];
+    arr<int> nums(n);
+    for (size_t i = 0; i < n; ++i) {
+        input >> nums[i];
     }
 
-    // Сжатие RLE: один понятный цикл
-    size_t repetitions = 1;
-    for (size_t i = 1; i < values.size(); ++i) {
-        if (values[i] == values[i - 1]) {
-            ++repetitions;
+    size_t repeat = 1;
+    for (size_t i = 1; i < nums.size(); ++i) {
+        if (nums[i] == nums[i - 1]) {
+            ++repeat;
         } else {
-            output << values[i - 1] << ' ' << repetitions << '\n';
-            repetitions = 1;
+            output << nums[i - 1] << ' ' << repeat << '\n';
+            repeat = 1;
         }
     }
-    // Выводим последний элемент и его повторы
-    output << values[values.size() - 1] << ' ' << repetitions << '\n';
+    output << nums[nums.size() - 1] << ' ' << repeat << '\n';
 
     return 0;
 }

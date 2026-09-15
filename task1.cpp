@@ -2,15 +2,12 @@
 #include <fstream>
 #include <iostream>
 
-// Читает оценки из файла, подсчитывает их количество и записывает результат.
 int main(int argc, char* argv[]) {
-    // 1. Проверяем аргументы командной строки
     if (argc < 3) {
         std::cerr << "Usage: task1 <input_file> <output_file>\n";
         return 1;
     }
 
-    // 2. Открываем файлы
     std::ifstream input(argv[1]);
     std::ofstream output(argv[2]);
 
@@ -19,32 +16,28 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // 3. Читаем количество элементов
-    size_t count;
-    if (!(input >> count)) {
+    size_t n;
+    if (!(input >> n)) {
         return 1;
     }
 
-    // 4. Создаём массив и заполняем его
-    arr<int> marks(count);
-    for (size_t i = 0; i < count; ++i) {
-        input >> marks[i];
+    arr<int> nums(n);
+    for (size_t i = 0; i < n; ++i) {
+        input >> nums[i];
     }
 
-    // 5. Обрабатываем данные из массива
-    int twos = 0, threes = 0, fours = 0, fives = 0;
-    for (size_t i = 0; i < marks.size(); ++i) {
-        if (marks[i] == 2) ++twos;
-        else if (marks[i] == 3) ++threes;
-        else if (marks[i] == 4) ++fours;
-        else if (marks[i] == 5) ++fives;
+    int two = 0, three = 0, four = 0, five = 0;
+    for (size_t i = 0; i < nums.size(); ++i) {
+        if (nums[i] == 2) ++two;
+        else if (nums[i] == 3) ++three;
+        else if (nums[i] == 4) ++four;
+        else if (nums[i] == 5) ++five;
     }
 
-    // 6. Выводим результат
-    output << "5: " << fives << '\n';
-    output << "4: " << fours << '\n';
-    output << "3: " << threes << '\n';
-    output << "2: " << twos << '\n';
+    output << "5: " << five << '\n';
+    output << "4: " << four << '\n';
+    output << "3: " << three << '\n';
+    output << "2: " << two << '\n';
 
     return 0;
 }

@@ -1,17 +1,17 @@
-Start testing: Sep 14 10:31 RTZ 2 (çèìà)
+Start testing: Sep 15 14:54 RTZ 2 (çèìà)
 ----------------------------------------------------------
 1/8 Testing: grades_test
 1/8 Test: grades_test
 Command: "D:/Dovgalyuk/build/task1.exe" "D:/Dovgalyuk/tests/grades_input.txt" "D:/Dovgalyuk/build/grades_output.txt"
 Directory: D:/Dovgalyuk/build
-"grades_test" start time: Sep 14 10:31 RTZ 2 (çèìà)
+"grades_test" start time: Sep 15 14:54 RTZ 2 (çèìà)
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.09 sec
+Test time =   0.02 sec
 ----------------------------------------------------------
 Test Passed.
-"grades_test" end time: Sep 14 10:31 RTZ 2 (çèìà)
+"grades_test" end time: Sep 15 14:54 RTZ 2 (çèìà)
 "grades_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -19,14 +19,14 @@ Test Passed.
 2/8 Test: grades_check
 Command: "C:/Users/cloud/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/bin/cmake.exe" "-E" "compare_files" "D:/Dovgalyuk/build/grades_output.txt" "D:/Dovgalyuk/tests/grades_expected.txt"
 Directory: D:/Dovgalyuk/build
-"grades_check" start time: Sep 14 10:31 RTZ 2 (çèìà)
+"grades_check" start time: Sep 15 14:54 RTZ 2 (çèìà)
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.05 sec
+Test time =   0.04 sec
 ----------------------------------------------------------
 Test Passed.
-"grades_check" end time: Sep 14 10:31 RTZ 2 (çèìà)
+"grades_check" end time: Sep 15 14:54 RTZ 2 (çèìà)
 "grades_check" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -34,14 +34,14 @@ Test Passed.
 3/8 Test: grades_test_2
 Command: "D:/Dovgalyuk/build/task1.exe" "D:/Dovgalyuk/tests/grades_input_2.txt" "D:/Dovgalyuk/build/grades_output_2.txt"
 Directory: D:/Dovgalyuk/build
-"grades_test_2" start time: Sep 14 10:31 RTZ 2 (çèìà)
+"grades_test_2" start time: Sep 15 14:54 RTZ 2 (çèìà)
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.02 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"grades_test_2" end time: Sep 14 10:31 RTZ 2 (çèìà)
+"grades_test_2" end time: Sep 15 14:54 RTZ 2 (çèìà)
 "grades_test_2" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -49,14 +49,14 @@ Test Passed.
 4/8 Test: grades_check_2
 Command: "C:/Users/cloud/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/bin/cmake.exe" "-E" "compare_files" "D:/Dovgalyuk/build/grades_output_2.txt" "D:/Dovgalyuk/tests/grades_expected_2.txt"
 Directory: D:/Dovgalyuk/build
-"grades_check_2" start time: Sep 14 10:31 RTZ 2 (çèìà)
+"grades_check_2" start time: Sep 15 14:54 RTZ 2 (çèìà)
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.05 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"grades_check_2" end time: Sep 14 10:31 RTZ 2 (çèìà)
+"grades_check_2" end time: Sep 15 14:54 RTZ 2 (çèìà)
 "grades_check_2" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -64,14 +64,14 @@ Test Passed.
 5/8 Test: rle_test
 Command: "D:/Dovgalyuk/build/task2.exe" "D:/Dovgalyuk/tests/rle_input.txt" "D:/Dovgalyuk/build/rle_output.txt"
 Directory: D:/Dovgalyuk/build
-"rle_test" start time: Sep 14 10:31 RTZ 2 (çèìà)
+"rle_test" start time: Sep 15 14:54 RTZ 2 (çèìà)
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.05 sec
+Test time =   0.04 sec
 ----------------------------------------------------------
 Test Passed.
-"rle_test" end time: Sep 14 10:31 RTZ 2 (çèìà)
+"rle_test" end time: Sep 15 14:54 RTZ 2 (çèìà)
 "rle_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -79,14 +79,14 @@ Test Passed.
 6/8 Test: rle_check
 Command: "C:/Users/cloud/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/bin/cmake.exe" "-E" "compare_files" "D:/Dovgalyuk/build/rle_output.txt" "D:/Dovgalyuk/tests/rle_expected.txt"
 Directory: D:/Dovgalyuk/build
-"rle_check" start time: Sep 14 10:31 RTZ 2 (çèìà)
+"rle_check" start time: Sep 15 14:54 RTZ 2 (çèìà)
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.04 sec
+Test time =   0.05 sec
 ----------------------------------------------------------
 Test Passed.
-"rle_check" end time: Sep 14 10:31 RTZ 2 (çèìà)
+"rle_check" end time: Sep 15 14:54 RTZ 2 (çèìà)
 "rle_check" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -94,14 +94,14 @@ Test Passed.
 7/8 Test: rle_test_2
 Command: "D:/Dovgalyuk/build/task2.exe" "D:/Dovgalyuk/tests/rle_input_2.txt" "D:/Dovgalyuk/build/rle_output_2.txt"
 Directory: D:/Dovgalyuk/build
-"rle_test_2" start time: Sep 14 10:31 RTZ 2 (çèìà)
+"rle_test_2" start time: Sep 15 14:54 RTZ 2 (çèìà)
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.01 sec
+Test time =   0.02 sec
 ----------------------------------------------------------
 Test Passed.
-"rle_test_2" end time: Sep 14 10:31 RTZ 2 (çèìà)
+"rle_test_2" end time: Sep 15 14:54 RTZ 2 (çèìà)
 "rle_test_2" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -109,15 +109,15 @@ Test Passed.
 8/8 Test: rle_check_2
 Command: "C:/Users/cloud/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/bin/cmake.exe" "-E" "compare_files" "D:/Dovgalyuk/build/rle_output_2.txt" "D:/Dovgalyuk/tests/rle_expected_2.txt"
 Directory: D:/Dovgalyuk/build
-"rle_check_2" start time: Sep 14 10:31 RTZ 2 (çèìà)
+"rle_check_2" start time: Sep 15 14:54 RTZ 2 (çèìà)
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.04 sec
 ----------------------------------------------------------
 Test Passed.
-"rle_check_2" end time: Sep 14 10:31 RTZ 2 (çèìà)
+"rle_check_2" end time: Sep 15 14:54 RTZ 2 (çèìà)
 "rle_check_2" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Sep 14 10:31 RTZ 2 (çèìà)
+End testing: Sep 15 14:54 RTZ 2 (çèìà)

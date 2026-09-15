@@ -5,60 +5,52 @@
 #include <stdexcept>
 
 template <typename T>
-// Шаблонный динамический массив с проверкой границ и поддержкой копирования.
 class arr {
 private:
-	std::size_t length;
+	std::size_t len;
 	T* data;
 
 public:
-	// Выделяет память под заданное количество элементов.
-	explicit arr(std::size_t size) : length(size), data(new T[size]) {}
+	explicit arr(std::size_t n) : len(n), data(new T[n]) {}
 
-	// Создаёт независимую копию другого массива вместе со всеми элементами.
-	arr(const arr& other) : length(other.length), data(new T[other.length]) {
-		for (std::size_t i = 0; i < length; ++i) {
-			data[i] = other.data[i];
+	arr(const arr& copy) : len(copy.len), data(new T[copy.len]) {
+		for (std::size_t i = 0; i < len; ++i) {
+			data[i] = copy.data[i];
 		}
 	}
 
-	// Освобождает память, выделенную для элементов массива.
 	~arr() {
 		delete[] data;
 	}
 
-	// Копирует элементы другого массива, если размеры массивов совпадают.
-	arr& operator=(const arr& other) {
-		if (this != &other) {
-			if (length != other.length) {
+	arr& operator=(const arr& copy) {
+		if (this != &copy) {
+			if (len != copy.len) {
 				throw std::invalid_argument("Вышли за пределы диапазона");
 			}
-			for (std::size_t i = 0; i < length; ++i) {
-				data[i] = other.data[i];
+			for (std::size_t i = 0; i < len; ++i) {
+				data[i] = copy.data[i];
 			}
 		}
 		return *this;
 	}
 
-	// Возвращает количество элементов в массиве.
 	std::size_t size() const {
-		return length;
+		return len;
 	}
 
-	// Возвращает изменяемый элемент по индексу после проверки границ.
-	T& operator[](std::size_t index) {
-		if (index >= length) {
+	T& operator[](std::size_t i) {
+		if (i >= len) {
 			throw std::out_of_range("Массив вышел за пределы диапазона!");
 		}
-		return data[index];
+		return data[i];
 	}
 
-	// Возвращает неизменяемый элемент по индексу после проверки границ.
-	const T& operator[](std::size_t index) const {
-		if (index >= length) {
+	const T& operator[](std::size_t i) const {
+		if (i >= len) {
 			throw std::out_of_range("Массив вышел за пределы диапазона!");
 		}
-		return data[index];
+		return data[i];
 	}
 };
 
