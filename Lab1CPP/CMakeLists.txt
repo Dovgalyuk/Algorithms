@@ -21,37 +21,37 @@ add_test(NAME Task1_Test1
         COMMAND task1 ${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_1
 )
 set_property(TEST Task1_Test1 PROPERTY PASS_REGULAR_EXPRESSION
-        "Среднее арифметическое положительных:.*8"
+        "Среднее арифметическое положительных:.*8\\.66667.*Среднее арифметическое отрицательных:.*-7\\.33333"
 )
 add_test(NAME Task1_Test2
         COMMAND task1 ${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_2
 )
 set_property(TEST Task1_Test2 PROPERTY PASS_REGULAR_EXPRESSION
-        "Среднее арифметическое положительных:.*17"
+        "Среднее арифметическое положительных:.*17.*Среднее арифметическое отрицательных:.*-5"
 )
 add_test(NAME Task1_Test3
         COMMAND task1 ${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_3
 )
 set_property(TEST Task1_Test3 PROPERTY PASS_REGULAR_EXPRESSION
-        "Среднее арифметическое отрицательных:.*-20"
+        "Среднее арифметическое положительных:.*5.*Среднее арифметическое отрицательных:.*-20\\.3333"
 )
 add_test(NAME Task1_Test4
         COMMAND task1 ${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_4
 )
 set_property(TEST Task1_Test4 PROPERTY PASS_REGULAR_EXPRESSION
-        "Среднее арифметическое положительных:.*9"
+        "Среднее арифметическое положительных:.*9.*Среднее арифметическое отрицательных:.*-12"
 )
 add_test(NAME Task1_Test5
         COMMAND task1 ${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_5
 )
 set_property(TEST Task1_Test5 PROPERTY PASS_REGULAR_EXPRESSION
-        "Среднее арифметическое положительных:.*88"
+        "Среднее арифметическое положительных:.*88.*Среднее арифметическое отрицательных:.*-7"
 )
 add_test(NAME Task1_Test6
         COMMAND task1 ${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_6
 )
 set_property(TEST Task1_Test6 PROPERTY PASS_REGULAR_EXPRESSION
-        "Среднее арифметическое положительных:.*550000"
+        "Среднее арифметическое положительных:.*550000.*Среднее арифметическое отрицательных:.*-750000"
 )
 add_test(NAME Task2_Test1
         COMMAND task2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/task2_1

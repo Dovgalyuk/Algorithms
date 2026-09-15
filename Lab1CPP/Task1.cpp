@@ -17,16 +17,8 @@ void Task1(Array *arr) {
             sumPos += val;
         }
     }
-
-    if (countPos > 0)
-        cout << "Среднее арифметическое положительных: " << sumPos / countPos << endl;
-    else
-        cout << "Положительных элементов нет" << endl;
-
-    if (countNeg > 0)
-        cout << "Среднее арифметическое отрицательных: " << sumNeg / countNeg << endl;
-    else
-        cout << "Отрицательных элементов нет" << endl;
+    cout << "Среднее арифметическое положительных: " << sumPos / countPos << endl;
+    cout << "Среднее арифметическое отрицательных: " << sumNeg / countNeg << endl;
 }
 
 int main(int argc, char** argv) {
