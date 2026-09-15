@@ -1,7 +1,7 @@
-#include "../tasks.h"
 #include <fstream>
 #include <iostream>
-#include "../../LibraryCPP/array.h"
+#include "tasks.h"
+#include "array.h"
 
 using namespace std;
 
@@ -41,9 +41,18 @@ void task2(const char *filename)
   for (int i = 0; i < size; i++)
   {
     int value;
+    
     if (!(in >> value))
     {
       cout << "There is not enough data in the file to populate the array\n";
+      array_delete(arr);
+      array_delete(array_counter);
+      return;
+    }
+    
+    if (value < 0 || value > 1000)
+    {
+      cout << "Incorrect value\n";
       array_delete(arr);
       array_delete(array_counter);
       return;
@@ -73,7 +82,6 @@ void task2(const char *filename)
   in.close();
 
   cout << "Most frequent number = " << most_frequent << endl;
-  cout << "Count = " << max_count << endl;
 
   array_delete(arr);
   array_delete(array_counter);

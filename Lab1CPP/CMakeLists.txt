@@ -1,10 +1,25 @@
-add_executable(Lab1CPP_Task1 Task1/task1.cpp Tests/main_task1.cpp)
-target_include_directories(Lab1CPP_Task1 PUBLIC ../LibraryCPP)
-target_link_libraries(Lab1CPP_Task1 LibraryCPP)
+add_executable(Lab1CPP_Task1
+    Task1/task1.cpp
+    Tests/main_task1.cpp
+)
 
-add_executable(Lab1CPP_Task2 Task2/task2.cpp Tests/main_task2.cpp)
-target_include_directories(Lab1CPP_Task2 PUBLIC ../LibraryCPP)
-target_link_libraries(Lab1CPP_Task2 LibraryCPP)
+target_link_libraries(Lab1CPP_Task1 PRIVATE LibraryCPP)
+
+target_include_directories(Lab1CPP_Task1 PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+
+add_executable(Lab1CPP_Task2
+    Task2/task2.cpp
+    Tests/main_task2.cpp
+)
+
+target_link_libraries(Lab1CPP_Task2 PRIVATE LibraryCPP)
+
+target_include_directories(Lab1CPP_Task2 PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 # Тест 1
 add_test(NAME TestLab1CPP_Task1 COMMAND Lab1CPP_Task1 ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
@@ -33,10 +48,8 @@ set_property(TEST Test2Lab1CPP_Task1 PROPERTY PASS_REGULAR_EXPRESSION
 
 # Тест 3
 add_test(NAME TestLab1CPP_Task2 COMMAND Lab1CPP_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/input3.txt)
-set_property(TEST TestLab1CPP_Task2 PROPERTY PASS_REGULAR_EXPRESSION 
-2)
+set_property(TEST TestLab1CPP_Task2 PROPERTY PASS_REGULAR_EXPRESSION "Most frequent number = 2")
 
 # Тест 4
 add_test(NAME Test2Lab1CPP_Task2 COMMAND Lab1CPP_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/input4.txt)
-set_property(TEST Test2Lab1CPP_Task2 PROPERTY PASS_REGULAR_EXPRESSION 
-3)
+set_property(TEST Test2Lab1CPP_Task2 PROPERTY PASS_REGULAR_EXPRESSION "Most frequent number = 3")

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#include "../tasks.h"
-#include "../../LibraryCPP/array.h"
+#include "tasks.h"
+#include "array.h"
 
 using namespace std;
 
