@@ -3,8 +3,6 @@ project(Lab1 CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_subdirectory(../LibraryCPP ${CMAKE_BINARY_DIR}/LibraryCPP)
-
 add_library(Lab1 STATIC lab1.cpp)
 target_include_directories(Lab1 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
