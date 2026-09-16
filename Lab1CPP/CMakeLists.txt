@@ -1,5 +1,5 @@
 add_executable(Lab1_Task1 lab1_task1.cpp)
-add_executable(Lab1_task2 lab1_task2.cpp)
+add_executable(Lab1_Task2 lab1_task2.cpp)
 
 foreach(TARGET Lab1_Task1 Lab1_Task2)
     target_link_libraries(${TARGET} LibraryCPP)
