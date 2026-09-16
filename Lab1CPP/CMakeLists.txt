@@ -8,5 +8,5 @@ endforeach()
 
 enable_testing()
 
-add_test(NAME Lab1_Task1_Test COMMAND Lab1_Task1 ${CMAKE_CURRENT_SOURCE_DIR}/input_task1 result_task1)
-add_test(NAME Lab1_Task2_Test COMMAND Lab1_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/input_task2 result_task2)
+add_test(NAME Lab1_Task1_Test COMMAND Lab1_Task1 ${CMAKE_CURRENT_SOURCE_DIR}/input_1 result_1)
+add_test(NAME Lab1_Task2_Test COMMAND Lab1_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/input_2 result_2)
