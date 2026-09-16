@@ -1,5 +1,5 @@
-D:/Dovgalyuk/build/CMakeFiles/task1.dir
-D:/Dovgalyuk/build/CMakeFiles/task2.dir
-D:/Dovgalyuk/build/CMakeFiles/test.dir
-D:/Dovgalyuk/build/CMakeFiles/edit_cache.dir
-D:/Dovgalyuk/build/CMakeFiles/rebuild_cache.dir
+C:/Users/cloud/Algorithms/build/CMakeFiles/task1.dir
+C:/Users/cloud/Algorithms/build/CMakeFiles/task2.dir
+C:/Users/cloud/Algorithms/build/CMakeFiles/test.dir
+C:/Users/cloud/Algorithms/build/CMakeFiles/edit_cache.dir
+C:/Users/cloud/Algorithms/build/CMakeFiles/rebuild_cache.dir

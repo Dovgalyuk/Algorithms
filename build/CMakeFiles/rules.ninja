@@ -61,7 +61,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = C:\Users\cloud\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\cmake.exe --regenerate-during-build -SD:\Dovgalyuk -BD:\Dovgalyuk\build
+  command = C:\Users\cloud\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\cmake.exe --regenerate-during-build -SC:\Users\cloud\Algorithms -BC:\Users\cloud\Algorithms\build
   description = Re-running CMake...
   generator = 1
 

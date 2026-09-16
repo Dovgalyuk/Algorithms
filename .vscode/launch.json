@@ -3,5 +3,34 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": []
+    "configurations": [
+        {
+            "name": "Запустить task1",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/task1.exe",
+            "args": [
+                "${workspaceFolder}/input1.txt",
+                "${workspaceFolder}/output1.txt"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "externalConsole": false,
+            "MIMode": "gdb"
+        },
+        {
+            "name": "Запустить task2",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/task2.exe",
+            "args": [
+                "${workspaceFolder}/input2.txt",
+                "${workspaceFolder}/output2.txt"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "externalConsole": false,
+            "MIMode": "gdb"
+        }
+    ]
 }
