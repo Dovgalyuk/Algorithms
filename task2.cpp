@@ -4,15 +4,20 @@
 
 
 int main(int argc, char* argv[]) {
-    if (argc < 3) {
-        std::cerr << "Usage: task2 <input_file> <output_file>\n";
+    if (argc < 2 || argc > 3) {
+        std::cerr << "Usage: task2 <input_file> [output_file]\n";
         return 1;
     }
 
     std::ifstream input(argv[1]);
-    std::ofstream output(argv[2]);
+    std::ofstream file_output;
+    std::ostream* output = &std::cout;
+    if (argc == 3) {
+        file_output.open(argv[2]);
+        output = &file_output;
+    }
 
-    if (!input.is_open() || !output.is_open()) {
+    if (!input.is_open() || !output->good()) {
         std::cerr << "Ошибка при открытии файла\n";
         return 1;
     }
@@ -32,11 +37,11 @@ int main(int argc, char* argv[]) {
         if (nums[i] == nums[i - 1]) {
             ++repeat;
         } else {
-            output << nums[i - 1] << ' ' << repeat << '\n';
+            *output << nums[i - 1] << ' ' << repeat << '\n';
             repeat = 1;
         }
     }
-    output << nums[nums.size() - 1] << ' ' << repeat << '\n';
+    *output << nums[nums.size() - 1] << ' ' << repeat << '\n';
 
     return 0;
 }

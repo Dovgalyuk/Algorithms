@@ -1,9 +1,0 @@
-grades_test 1 0.0570197
-grades_check 1 0.0584439
-grades_test_2 1 0.0184011
-grades_check_2 1 0.048724
-rle_test 1 0.251066
-rle_check 1 0.0367286
-rle_test_2 1 0.0137377
-rle_check_2 1 0.0452068
----

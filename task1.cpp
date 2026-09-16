@@ -3,15 +3,20 @@
 #include <iostream>
 
 int main(int argc, char* argv[]) {
-    if (argc < 3) {
-        std::cerr << "Usage: task1 <input_file> <output_file>\n";
+    if (argc < 2 || argc > 3) {
+        std::cerr << "Usage: task1 <input_file> [output_file]\n";
         return 1;
     }
 
     std::ifstream input(argv[1]);
-    std::ofstream output(argv[2]);
+    std::ofstream file_output;
+    std::ostream* output = &std::cout;
+    if (argc == 3) {
+        file_output.open(argv[2]);
+        output = &file_output;
+    }
 
-    if (!input.is_open() || !output.is_open()) {
+    if (!input.is_open() || !output->good()) {
         std::cerr << "Error opening files\n";
         return 1;
     }
@@ -34,10 +39,10 @@ int main(int argc, char* argv[]) {
         else if (nums[i] == 5) ++five;
     }
 
-    output << "5: " << five << '\n';
-    output << "4: " << four << '\n';
-    output << "3: " << three << '\n';
-    output << "2: " << two << '\n';
+    *output << "5: " << five << '\n';
+    *output << "4: " << four << '\n';
+    *output << "3: " << three << '\n';
+    *output << "2: " << two << '\n';
 
     return 0;
 }
