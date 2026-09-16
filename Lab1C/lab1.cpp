@@ -3,11 +3,12 @@
 
 Array* array_create_and_read(FILE* input) {
     int n;
-    fscanf(input, "%d", &n);
+    if (fscanf(input, "%d", &n) != 1) return NULL;
+
     Array* arr = array_create(n);
     for (int i = 0; i < n; ++i) {
         int x;
-        fscanf(input, "%d", &x);
+        if (fscanf(input, "%d", &x) != 1) return NULL;
         array_set(arr, i, x);
     }
     return arr;
@@ -42,12 +43,15 @@ void task2(Array* arr) {
 
 int main(int argc, char** argv) {
     FILE* input = fopen(argv[1], "r");
+    
     Array* arr = array_create_and_read(input);
     task1(arr);
     array_delete(arr);
+
     arr = array_create_and_read(input);
     task2(arr);
     array_delete(arr);
+
     fclose(input);
     return 0;
 }
