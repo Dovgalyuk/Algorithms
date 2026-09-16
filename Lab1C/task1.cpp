@@ -1,38 +1,62 @@
 ﻿#include <iostream>
 #include <fstream>
-#include "array.h" // Подключаем контейнер из LibraryC
+#include "array.h"
 
-void process_task1(const char* filename) {
-    std::ifstream in(filename);
-    if (!in.is_open()) {
-        std::cerr << "Ошибка открытия файла: " << filename << "\n";
-        return;
+Array* array_create_and_read(std::ifstream& input)
+{
+    int n = 0;
+    if (input >> n) {
+        Array* arr = array_create(n);
+        for (int i = 0; i < n; ++i) {
+            int x = 0;
+            if (input >> x) {
+                array_set(arr, i, x);
+            }
+        }
+        return arr;
     }
+    return nullptr;
+}
 
-    size_t n;
-    if (!(in >> n)) return;
+void task1(Array* arr)
+{
+    if (!arr) return;
+    size_t n = array_size(arr);
 
-    Array<int> arr(n);
     size_t even_count = 0;
-
     for (size_t i = 0; i < n; ++i) {
-        in >> arr[i];
-        if (arr[i] % 2 == 0) even_count++;
+        if (array_get(arr, i) % 2 == 0) {
+            even_count++;
+        }
     }
 
-    Array<int> even_indices(even_count);
-    for (size_t i = 0, j = 0; i < n; ++i) {
-        if (arr[i] % 2 == 0) even_indices[j++] = static_cast<int>(i);
+    Array* even_indices = array_create(even_count);
+
+    size_t idx = 0;
+    for (size_t i = 0; i < n; ++i) {
+        if (array_get(arr, i) % 2 == 0) {
+            array_set(even_indices, idx++, static_cast<Data>(i));
+        }
     }
 
-    for (size_t i = 0; i < even_indices.size(); ++i) {
-        std::cout << even_indices[i] << (i + 1 == even_indices.size() ? "" : " ");
+    for (size_t i = 0; i < array_size(even_indices); ++i) {
+        std::cout << array_get(even_indices, i) << (i + 1 == array_size(even_indices) ? "" : " ");
     }
     std::cout << "\n";
 }
 
-int main(int argc, char* argv[]) {
-    if (argc < 2) return 1;
-    process_task1(argv[1]);
+int main(int argc, char** argv)
+{
+    if (argc < 2) {
+        return 1;
+    }
+    std::ifstream input(argv[1]);
+    if (!input.is_open()) {
+        return 1;
+    }
+    Array* arr = array_create_and_read(input);
+    task1(arr);
+    array_delete(arr);
+    input.close();
     return 0;
 }
