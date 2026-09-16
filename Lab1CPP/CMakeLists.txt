@@ -1,10 +1,12 @@
-# Создаем исполняемый файл
-add_executable(Lab1CPP lab1.cpp)
-target_link_libraries(Lab1CPP LibraryCPP)
-target_include_directories(Lab1CPP PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP)
+add_executable(Lab1_Task1 lab1_task1.cpp)
+add_executable(Lab1_task2 lab1_task2.cpp)
 
-# Включаем поддержку тестов
+foreach(TARGET Lab1_Task1 Lab1_Task2)
+    target_link_libraries(${TARGET} LibraryCPP)
+    target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP)
+endforeach()
+
 enable_testing()
 
-add_test(NAME Lab1CPP_Test
-        COMMAND Lab1CPP ${CMAKE_CURRENT_SOURCE_DIR}/input result)
+add_test(NAME Lab1_Task1_Test COMMAND Lab1_Task1 ${CMAKE_CURRENT_SOURCE_DIR}/input_task1 result_task1)
+add_test(NAME Lab1_Task2_Test COMMAND Lab1_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/input_task2 result_task2)

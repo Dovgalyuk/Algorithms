@@ -6,29 +6,14 @@
 using namespace std;
 
 // Читает из файла количество элементов и заполняет ими массив
-Array *array_create_and_read(ifstream &input)
-{
-    int n = 0;
-    input >> n;
-
-    Array *arr = array_create((size_t)n);
-
-    for (int i = 0; i < n; ++i)
-    {
-        int x = 0;
-        input >> x;
-        array_set(arr, i, x);
-    }
-
-    return arr;
-}
+Array *array_create_and_read(ifstream &input);
 
 struct Decades
 {
     long long sum = 0;
     size_t cnt = 0;
 
-    double average() const // Считает среднее арифметическое
+    double average() const
     {
         return cnt == 0 ? 0.0 : static_cast<double>(sum) / static_cast<double>(cnt);
     }
@@ -57,7 +42,7 @@ void computeDecades(const Array *data, Decades decades[3])
     }
 }
 
-// Задание 1: передаем ostream (это может быть cout или ofstream)
+
 void task1(const Array *arr, ostream &out)
 {
     Decades decades[3];
@@ -72,33 +57,11 @@ void task1(const Array *arr, ostream &out)
         << decades[1].average() << " " << decades[2].average() << endl;
 }
 
-// Задание 2: передаем ostream
-void task2(const Array *arr, ostream &out)
-{
-    size_t n = array_size(arr);
-    int MAX = 0, b = 0;
-
-    // Инициализируем MAX минимальным значением на случай отрицательных чисел
-    if (n >= 5) {
-        MAX = array_get(arr, 0) + array_get(arr, 1) + array_get(arr, 2) +
-              array_get(arr, 3) + array_get(arr, 4);
-    }
-
-    for (size_t i = 0; i + 4 < n; i++)
-    {
-        b = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2)
-            + array_get(arr, i + 3) + array_get(arr, i + 4);
-        MAX = max(b, MAX);
-    }
-
-    out << MAX << endl;
-    out << "MaxSum: sum=" << MAX << endl;
-}
 int main(int argc, char **argv)
 {
 
     string in_path = (argc >= 2) ? argv[1] : "test_1";
-    string out_path = (argc >= 3) ? argv[2] : "result";
+    string out_path = (argc >= 3) ? argv[2] : "result_1";
 
     ifstream input(in_path);
     if (!input.is_open())
@@ -171,13 +134,23 @@ int main(int argc, char **argv)
         array_delete(arr);
     }
 
-
-    arr = array_create_and_read(input);
-    if (arr != nullptr) {
-        task2(arr, out);
-        array_delete(arr);
-    }
-
     input.close();
     return 0;
+}
+
+Array *array_create_and_read(ifstream &input)
+{
+    int n = 0;
+    input >> n;
+
+    Array *arr = array_create((size_t)n);
+
+    for (int i = 0; i < n; ++i)
+    {
+        int x = 0;
+        input >> x;
+        array_set(arr, i, x);
+    }
+
+    return arr;
 }
