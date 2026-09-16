@@ -10,6 +10,8 @@ typedef struct Maze Maze;
 Maze* maze_load(const char *filename);
 void maze_free(Maze *maze);
 char maze_get(const Maze *maze, int x, int y);
+int maze_get_x(const Maze *maze);
+int maze_get_y(const Maze *maze);
 bool maze_is_wall(const Maze *maze, int x, int y);
 int execute_command(Maze *maze, char cmd, FILE *input);
 void check_rat_alive(Maze *maze);

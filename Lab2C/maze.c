@@ -9,8 +9,7 @@
 #define MAX_STEPS_WITHOUT_FOOD 10
 #define OVERFEED_INTERVAL 4
 
-typedef struct
-{
+struct Maze{
     char** grid;
     int w;
     int h;
@@ -23,7 +22,7 @@ typedef struct
     int food_count;
     int last_food_step;
     int step;
-} Maze;
+};
 
 Maze* maze_load(const char *filename) {
     FILE *f = fopen(filename, "r");
@@ -91,6 +90,11 @@ Maze* maze_load(const char *filename) {
     maze->A = 0;
     maze->B = 0;
     maze->stack = stack_create(NULL);
+    if (!maze->stack) {
+        printf("stack not created\n");
+        maze_free(maze);
+        return NULL;
+    }
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
             if (maze->grid[y][x] == 'S') {
@@ -123,6 +127,16 @@ char maze_get(const Maze *maze, int x, int y){
     if (x < 0 || x >= maze->w) return ' ';
     if (y < 0 || y >= maze->h) return ' ';
     return maze->grid[y][x];
+}
+
+int maze_get_x(const Maze *maze){
+    if (!maze) return -1;
+    return maze->x;
+}
+
+int maze_get_y(const Maze *maze){
+    if (!maze) return -1;
+    return maze->y;
 }
 
 bool maze_is_wall(const Maze *maze, int x, int y){

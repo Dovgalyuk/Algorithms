@@ -13,11 +13,7 @@ int main(int argc, char **argv)
         printf("maze didnt load - %s\n", argv[1]);
         return -1;
     }
-    if (!maze->stack) {
-        printf("stack not created\n");
-        maze_free(maze);
-        return -2;
-    }
+    
     FILE *input = fopen(argv[2], "r");
     if (!input) {
         maze_free(maze);
@@ -25,10 +21,10 @@ int main(int argc, char **argv)
     }
     int res = -4;
     while (1) {
-        char cmd = maze_get(maze, maze->x, maze->y);
+        char cmd = maze_get(maze, maze_get_x(maze), maze_get_y(maze));
         int status = execute_command(maze, cmd, input);
         if (status == -1) {
-            printf("read command (%c) error at %d, %d\n", cmd, maze->x, maze->y);
+            printf("read command (%c) error at %d, %d\n", cmd, maze_get_x(maze), maze_get_y(maze));
             break;
         }
         if (status == 1) {
@@ -37,7 +33,7 @@ int main(int argc, char **argv)
         }
         check_rat_alive(maze);
         if (!move_rat(maze)) {
-            printf("Rat stuck at %d, %d\n", maze->x, maze->y);
+            printf("Rat stuck at %d, %d\n", maze_get_x(maze), maze_get_y(maze));
             break;
         }
     }
