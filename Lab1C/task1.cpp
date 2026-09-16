@@ -25,10 +25,10 @@ void task1(Array *arr)
     long long sum = 0;
     size_t n = array_size(arr);
     for (size_t i = 0; i < n; i++) {
-        int t = array_get(arr, i);
+        int t = std::abs(array_get(arr, i));
         int digits_sum = 0;
         while (t != 0) {
-            digits_sum += std::abs(t % 10);
+            digits_sum += t % 10;
             t /= 10;
         }
         sum += digits_sum;
