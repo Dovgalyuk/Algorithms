@@ -4,43 +4,34 @@ void task1(Array* arr, ofstream& output)
 {
     size_t size = array_size(arr);
     if (size == 0) return;
-    Array* temp_arr = array_create(size);
-    for (size_t i = 0; i < size; i++)
-    {
-        array_set(temp_arr, i, 1);
-    }
-    array_set(temp_arr, 0, 0);
+    array_set(arr, 0, 0);
     for (size_t j = 1; j < size; j++)
     {
-        if (array_get(temp_arr, j) == 1)
+        size_t x = array_get(arr, j);
+        if (x > 0)
         {
-            int x = array_get(arr, j);
-            for (size_t i = j + 1; i < size; i++)
+            size_t y = j;
+            y += x;
+            while (y<size) 
             {
-                int y = array_get(arr, i);
-                if (y % x == 0)
-                {
-                    array_set(temp_arr, i, 0);
-                }
+                array_set(arr, y, 0);
+                y += x;
             }
         }
     }
-    size_t index = 0;
-
     for (size_t i = 0; i < size; i++)
     {
-        if (array_get(temp_arr, i) == 1)
+        if (array_get(arr, i) > 0)
         {
-            int prime = array_get(arr, i);
-            array_set(arr, index, prime);
-            index++;
+            size_t j = i;
+            while (j > 0 && (array_get(arr, (j - 1)) == 0)) 
+            {
+                j--;
+            }
+            array_set(arr, j, array_get(arr, i));
+            array_set(arr, i, 0);
         }
     }
-    for (size_t i = index; i < size; i++)
-    {
-        array_set(arr, i, 0);
-    }
-    array_delete(temp_arr);
     array_print(cout, arr);
     array_print(output, arr);
 }
