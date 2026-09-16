@@ -311,14 +311,9 @@ int main(int argc, char **argv) {
             }
         }
 
-        // ^ — очистка экрана (в консоли ничего не делаем)
         // ^ — очистка экрана
         else if (cmd == '^') {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            cout << "\033[2J\033[1;1H";
         }
 
         // ;seconds — пауза на seconds секунд
