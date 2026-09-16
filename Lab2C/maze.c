@@ -9,6 +9,22 @@
 #define MAX_STEPS_WITHOUT_FOOD 10
 #define OVERFEED_INTERVAL 4
 
+typedef struct
+{
+    char** grid;
+    int w;
+    int h;
+    int x;
+    int y;
+    int dir; // 0-up 1-right 2-down 3-left
+    Data A, B;
+    Stack *stack; 
+    int steps_after_food;
+    int food_count;
+    int last_food_step;
+    int step;
+} Maze;
+
 Maze* maze_load(const char *filename) {
     FILE *f = fopen(filename, "r");
     if (!f) return NULL;

@@ -10,7 +10,6 @@ typedef struct ListItem {
 typedef struct List {
     ListItem *head;
     ListItem *tail;
-    size_t size;
     FFree *freefunc;
 } List;
 
@@ -21,7 +20,6 @@ List *list_create(FFree f)
     list->head = NULL;
     list->tail = NULL;
     list->freefunc = f;
-    list->size = 0;
     return list;
 }
 
@@ -91,7 +89,6 @@ ListItem *list_insert(List *list, Data data) // new head
     else list->tail = item;
     
     list->head = item;
-    list->size++;
     return item;
 }
 
@@ -107,13 +104,12 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     item->next = newitem;
     if (newitem->next) newitem->next->prev = newitem;
     else list->tail = newitem;
-    list->size++;
     return newitem;
 }
 
 ListItem *list_erase_first(List *list) // del head of list, return new head
 {
-    if (!list || list->size == 0) return NULL;
+    if (!list || !list->head) return NULL;
     ListItem *del = list->head;
     list->head = del->next;
     if (list->freefunc) {
@@ -122,7 +118,6 @@ ListItem *list_erase_first(List *list) // del head of list, return new head
     if (list->head) list->head->prev = NULL;
     else list->tail = NULL;
     free(del);
-    list->size--;
     return list->head;
 }
 
@@ -139,7 +134,6 @@ ListItem *list_erase_next(List *list, ListItem *item) // del next to given, retu
             list->freefunc((void*)del->d);
         }
         free(del);
-        list->size--;
     }
     return item->next;
 }

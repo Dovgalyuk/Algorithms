@@ -5,21 +5,7 @@
 #include <stdbool.h>
 #include "stack.h"
 
-typedef struct
-{
-    char** grid;
-    int w;
-    int h;
-    int x;
-    int y;
-    int dir; // 0-up 1-right 2-down 3-left
-    Data A, B;
-    Stack *stack; 
-    int steps_after_food;
-    int food_count;
-    int last_food_step;
-    int step;
-} Maze;
+typedef struct Maze Maze;
 
 Maze* maze_load(const char *filename);
 void maze_free(Maze *maze);
