@@ -78,7 +78,6 @@ int main(int argc, char **argv)
     }
     else
     {
-
         string s;
         while (true)
         {
@@ -96,23 +95,6 @@ int main(int argc, char **argv)
             }
         }
     }
-
-    // bool writing;
-    // string s;
-    // while (true) {
-    //     cout << "Zapisat rezultat v fayl?(y/n): ";
-    //     cin >> s;
-    //
-    //     if (s == "y" || s == "yes" || s == "da") {
-    //         writing = true;
-    //         break;
-    //     } else if (s == "n" || s == "net" || s == "no") {
-    //         writing = false;
-    //         break;
-    //     } else {
-    //         cout << "Nekorrektnyy vvod, poprobuyte eshche raz" << endl;
-    //     }
-    // }
 
     ofstream file_output;
     if (writing)
