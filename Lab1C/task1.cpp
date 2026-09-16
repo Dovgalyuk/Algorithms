@@ -43,6 +43,8 @@ void task1(Array* arr)
         std::cout << array_get(even_indices, i) << (i + 1 == array_size(even_indices) ? "" : " ");
     }
     std::cout << "\n";
+
+    array_delete(even_indices);
 }
 
 int main(int argc, char** argv)
