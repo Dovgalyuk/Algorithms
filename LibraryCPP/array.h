@@ -3,10 +3,6 @@
 
 #include <cstddef>
 
-// Non-resizeable array
-
-// Stores integer values inside
-// Change it to desired type
 typedef int Data;
 
 struct Array;
