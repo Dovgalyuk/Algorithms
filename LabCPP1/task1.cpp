@@ -19,18 +19,22 @@ void task1(Array* arr, ofstream& output)
             }
         }
     }
+    size_t j = 0;
     for (size_t i = 0; i < size; i++)
     {
-        if (array_get(arr, i) > 0)
+        int value = array_get(arr, i);
+        if (value > 0)
         {
-            size_t j = i;
-            while (j > 0 && (array_get(arr, (j - 1)) == 0)) 
+            if (i != j)
             {
-                j--;
+                array_set(arr, j, value);
             }
-            array_set(arr, j, array_get(arr, i));
-            array_set(arr, i, 0);
+            j++;
         }
+    }
+    for (size_t k = j; k < size; k++)
+    {
+        array_set(arr, k, 0);
     }
     array_print(cout, arr);
     array_print(output, arr);
