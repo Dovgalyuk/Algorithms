@@ -5,14 +5,23 @@
 #include <stdexcept>
 
 template <typename Data>
-class Array
-{
+class Array{
+private:
+    Data* data;
+   std::size_t count;
+
+    void copyData(const Array& a){
+        for (std::size_t i =0; i < count;i++){
+            data[i]=a.data[i];
+        }
+    }
+
 public:
     // Создание массива заданного размера
-    explicit Array(size_t size)
+   explicit Array(std::size_t size)
     {
         count = size;
-        data = new Data[count]();
+        data = new Data[count];
     }
 
     // Создание копии массива
@@ -22,10 +31,8 @@ public:
         count = a.count;
         data = new Data[count];
         
-        for (size_t i = 0; i < count; i++)
-        {
-            data[i] = a.data[i];
-        }
+        copyData(a);
+
     }
 
     // Копирование элементов без изменения размера
@@ -41,10 +48,7 @@ public:
             throw std::invalid_argument("Разные размеры массивов");
         }
 
-        for (size_t i = 0; i < count; i++)
-        {
-            data[i] = a.data[i];
-        }
+        copyData(a);
 
         return *this;
     }
@@ -67,7 +71,7 @@ public:
     }
 
     // Изменение элемента
-    void set(size_t index, Data value)
+    void set(size_t index, const Data& value)
     {
         if (index >= count)
         {
@@ -82,10 +86,6 @@ public:
     {
         return count;
     }
-
-private:
-    Data* data;
-    size_t count;
 };
 
 #endif

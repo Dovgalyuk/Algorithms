@@ -37,6 +37,9 @@ file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_test9.txt"
 file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_test10.txt"
     "4\n-5 10 -2 0\n2 1\n")
 
+file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_test11.txt"
+"2\n-2147483648 2147483647\n1 2\n")
+
 file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/tests/task2_test1.txt"
     "5\n2 8 5 12 7\n")
 
@@ -116,6 +119,11 @@ add_test(NAME Task1_Test10 COMMAND Lab1CPPTask1
     "${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_test10.txt")
 set_property(TEST Task1_Test10 PROPERTY
     PASS_REGULAR_EXPRESSION "^0 0 3 5[\r\n]*$")
+    
+add_test(NAME Task1_Test11 COMMAND Lab1CPPTask1
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_test11.txt")
+set_property(TEST Task1_Test11 PROPERTY
+    PASS_REGULAR_EXPRESSION "Переполнение int")
 
 add_test(NAME Task2_Test1 COMMAND Lab1CPPTask2
     "${CMAKE_CURRENT_SOURCE_DIR}/tests/task2_test1.txt")
