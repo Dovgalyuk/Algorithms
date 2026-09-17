@@ -60,7 +60,7 @@ public:
         return array_size;
     }
 
-private: // хранит размер, хранит адрес
+private:
     size_t array_size;
     Data* data; 
 };
