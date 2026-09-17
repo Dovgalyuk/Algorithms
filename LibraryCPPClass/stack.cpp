@@ -47,3 +47,7 @@ bool Stack::empty() const
 {
     return helper.size() == 0;
 }
+
+size_t Stack::size() const {
+    return helper.size();
+}

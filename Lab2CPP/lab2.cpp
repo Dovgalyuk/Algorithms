@@ -5,7 +5,6 @@
 #include <thread>
 #include <chrono>
 #include "stack.h"
-#include "vector.h"
 using namespace std;
 
 // Читаем весь файл в строку
@@ -14,29 +13,6 @@ string read_file(const string& filename) {
     if (!file.is_open()) return "";
     return string((istreambuf_iterator<char>(file)),
                   istreambuf_iterator<char>());
-}
-
-// Возвращает содержимое стека как Vector в порядке [низ ... верх].
-// Стек после вызова остаётся в исходном состоянии.
-Vector stack_to_vec(Stack& s) {
-    Vector v;
-    while (!s.empty()) {
-        v.push_back(s.get());
-        s.pop();
-    }
-    v.reverse();
-    for (size_t i = 0; i < v.size(); i++) {
-        s.push(v.get(i));
-    }
-    return v;
-}
-
-// Заполняет стек элементами вектора в порядке низ -> верх
-void vec_to_stack(const Vector& v, Stack& s) {
-    s = Stack();
-    for (size_t i = 0; i < v.size(); i++) {
-        s.push(v.get(i));
-    }
 }
 
 // Пропускает блок if до соответствующего |
@@ -101,10 +77,7 @@ int main(int argc, char **argv) {
     size_t ip = 0; // указатель на текущий символ скрипта
 
     // 100 ячеек для переменных интерпретатора, изначально пустые
-    Vector variables;
-    for (int i = 0; i < 100; i++) {
-        variables.push_back("");
-    }
+    string variables[100];
 
     while (ip < code.size()) {
         char cmd = code[ip];
@@ -122,15 +95,21 @@ int main(int argc, char **argv) {
             stack.push(value);
         }
 
-        // - — удаляем нижний элемент. Через Vector: пропускаем первый
+        // - — удаляем нижний элемент.
+        // Перекладываем в temp - нижний элемент окажется наверху.
+        // Убираем его и перекладываем обратно
         else if (cmd == '-') {
-            Vector v = stack_to_vec(stack);
-            if (v.size() > 0) {
-                Vector temp;
-                for (size_t i = 1; i < v.size(); i++) {
-                    temp.push_back(v.get(i));
-                }
-                vec_to_stack(temp, stack);
+            Stack temp;
+            while (!stack.empty()){
+                temp.push(stack.get());
+                stack.pop();
+            }
+            if (!temp.empty()){
+                temp.pop();
+            }
+            while (!temp.empty()){
+                stack.push(temp.get());
+                temp.pop();
             }
         }
 
@@ -156,30 +135,53 @@ int main(int argc, char **argv) {
         else if (cmd == '~' && ip + 1 < code.size() && code[ip+1] == '(') {
             ip += 2;
             int idx = parse_number(code, ip);
-            if (idx >= 0 && idx < (int)variables.size()) {
-                tilde = variables.get(idx);
+            if (idx >= 0 && idx < 100) {
+                tilde = variables[idx];
             }
         }
 
         // ~ — берём нижний элемент стека в ~
+        // Перекладываем стек в temp, при этом порядок переворачивается.
+        // Нижний элемент исходного стека оказывается наверху temp.
+        // Читаем его и возвращаем элементы обратно.
         else if (cmd == '~') {
-            Vector v = stack_to_vec(stack);
-            if (v.size() > 0) tilde = v.get(0);
+            Stack temp;
+            while (!stack.empty()) {
+                temp.push(stack.get());
+                stack.pop();
+            }
+            if (!temp.empty()) {
+                tilde = temp.get();
+            }
+            while (!temp.empty()) {
+                stack.push(temp.get());
+                temp.pop();
+            }
         }
 
         // < — разворачиваем стек
+        // Перекладываем в temp, он получится развернутым
         else if (cmd == '<') {
-            Vector v = stack_to_vec(stack);
-            v.reverse();
-            vec_to_stack(v, stack);
+            Stack temp;
+            while (!stack.empty()) {
+                temp.push(stack.get());
+                stack.pop();
+            }
+            stack = temp;
         }
 
         // : — склеиваем весь стек в одну строку
+        //  Перекладываем в temp: там элементы идут в порядке низ -> верх
         else if (cmd == ':') {
-            Vector v = stack_to_vec(stack);
+            Stack temp;
+            while (!stack.empty()) {
+                temp.push(stack.get());
+                stack.pop();
+            }
             string combined;
-            for (size_t i = 0; i < v.size(); i++) {
-                combined += v.get(i);
+            while (!temp.empty()) {
+                combined += temp.get();
+                temp.pop();
             }
             stack = Stack();
             stack.push(combined);
@@ -217,8 +219,8 @@ int main(int argc, char **argv) {
         else if (cmd == '=' && ip + 1 < code.size() && code[ip+1] == '(') {
             ip += 2;
             int idx = parse_number(code, ip);
-            if (idx >= 0 && idx < (int)variables.size()) {
-                variables.set(idx, tilde);
+            if (idx >= 0 && idx < 100) {
+                variables[idx] = tilde;
             }
         }
 
@@ -226,16 +228,16 @@ int main(int argc, char **argv) {
         else if (cmd == '=' && ip + 1 < code.size() && code[ip+1] == ')') {
             ip += 2;
             int idx = parse_number(code, ip);
-            if (idx >= 0 && idx < (int)variables.size()) {
-                variables.set(idx, "");
+            if (idx >= 0 && idx < 100) {
+                variables[idx] = "";
             }
         }
 
         // = — создаём переменную со значением ~ (первая свободная)
         else if (cmd == '=') {
-            for (size_t i = 0; i < variables.size(); i++) {
-                if (variables.get(i) == "") {
-                    variables.set(i, tilde);
+            for (int i = 0; i < 100; i++) {
+                if (variables[i] == "") {
+                    variables[i] = tilde;
                     break;
                 }
             }
@@ -245,34 +247,50 @@ int main(int argc, char **argv) {
         else if (cmd == '@') {
             ip++;
             int idx = parse_number(code, ip);
-            if (idx >= 0 && idx < (int)variables.size()) {
-                tilde = variables.get(idx);
+            if (idx >= 0 && idx < 100) {
+                tilde = variables[idx];
             }
         }
 
         // &op — арифметика на двух нижних элементах стека
+        // Перекладываем в temp: два верхних temp - это два нижних исходного
         else if (cmd == '&') {
             ip++;
-            if (ip < code.size()) {
+            if(ip < code.size()) {
                 char op = code[ip];
-                Vector v = stack_to_vec(stack);
-                if (v.size() >= 2) {
-                    int x = stoi(v.get(0));
-                    int y = stoi(v.get(1));
+                Stack temp;
+                while (!stack.empty()) {
+                    temp.push(stack.get());
+                    stack.pop();
+                }
+                if (temp.size() >= 2) {
+                    int x = stoi(temp.get());
+                    temp.pop();
+                    int y = stoi(temp.get());
+                    temp.pop();
+
                     int result = 0;
-                    if      (op == '+') result = x + y;
+                    if (op == '+') result = x + y;
                     else if (op == '-') result = x - y;
                     else if (op == '*') result = x * y;
                     else if (op == '/') result = (y != 0) ? x / y : 0;
                     else if (op == '%') result = (y != 0) ? x % y : 0;
 
-                    // результат + оставшиеся элементы
-                    Vector temp;
-                    temp.push_back(to_string(result));
-                    for (size_t i = 2; i < v.size(); i++) {
-                        temp.push_back(v.get(i));
+                    // Кладем результат вниз, остаток - сверху
+                    Stack back;
+                    back.push(to_string(result));
+                    while (!temp.empty()) {
+                        back.push(temp.get());
+                        temp.pop();
                     }
-                    vec_to_stack(temp, stack);
+                    // Разворачиваем обратно в основной стек
+                    stack = back;
+                } else {
+                    // НЕ хватило элементов - вернуть как было
+                    while (!temp.empty()) {
+                        stack.push(temp.get());
+                        temp.pop();
+                    }
                 }
             }
         }
@@ -283,22 +301,26 @@ int main(int argc, char **argv) {
         }
 
         // _ — читаем строку из файла данных, кладём в низ стека
+        // Перекладываем в temp, кладем input в пустой stack, возвращаем всё обратно
         else if (cmd == '_') {
             string input;
-            // читаем до конца строки или конца файла
             while (data_pos < data.size() && data[data_pos] != '\n') {
                 input += data[data_pos];
                 data_pos++;
             }
-            if (data_pos < data.size()) data_pos++;   // пропустить \n
+            if (data_pos < data.size()) data_pos++;
 
-            Vector v = stack_to_vec(stack);
-            Vector temp;
-            temp.push_back(input);
-            for (size_t i = 0; i < v.size(); i++) {
-                temp.push_back(v.get(i));
+            Stack temp;
+            while (!stack.empty()) {
+                temp.push(stack.get());
+                stack.pop();
             }
-            vec_to_stack(temp, stack);
+            stack = Stack();
+            stack.push(input);
+            while (!temp.empty()) {
+                stack.push(temp.get());
+                temp.pop();
+            }
         }
 
         // $number — кладём случайное число от 1 до number
@@ -333,9 +355,15 @@ int main(int argc, char **argv) {
     }
 
     // Состояние стека после скрипта: печатаем снизу вверх
-    Vector v = stack_to_vec(stack);
-    for (size_t i = 0; i < v.size(); i++) {
-        cout << v.get(i) << "\n";
+    // Перекладываем в temp: там элементы в нужном порядке
+    Stack temp;
+    while (!stack.empty()) {
+        temp.push(stack.get());
+        stack.pop();
+    }
+    while (!temp.empty()) {
+        cout << temp.get() << '\n';
+        temp.pop();
     }
 
     return 0;
