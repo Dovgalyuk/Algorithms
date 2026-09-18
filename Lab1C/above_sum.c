@@ -26,7 +26,7 @@ static Array *read_array(FILE *input)
             array_delete(arr);
             return NULL;
         }
-        array_set(arr, i, (Data)(intptr_t)value);
+        array_set(arr, i, (Data)value);
     }
 
     return arr;
@@ -57,12 +57,12 @@ int main(int argc, char **argv)
 
     int64_t sum = 0;
     for (size_t i = 0; i < array_size(arr); ++i)
-        sum += (int)(intptr_t)array_get(arr, i);
+        sum += (int)array_get(arr, i);
 
     size_t count = 0;
     for (size_t i = 0; i < array_size(arr); ++i)
     {
-        if ((int64_t)(int)(intptr_t)array_get(arr, i) > sum)
+        if ((int)array_get(arr, i) > sum)
             ++count;
     }
 
@@ -70,7 +70,7 @@ int main(int argc, char **argv)
     int first = 1;
     for (size_t i = 0; i < array_size(arr); ++i)
     {
-        if ((int64_t)(int)(intptr_t)array_get(arr, i) > sum)
+        if ((int)array_get(arr, i) > sum)
         {
             printf("%s%zu", first ? "" : " ", i + 1);
             first = 0;

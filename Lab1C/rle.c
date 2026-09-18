@@ -26,7 +26,7 @@ static Array *read_array(FILE *input)
             array_delete(arr);
             return NULL;
         }
-        array_set(arr, i, (Data)(intptr_t)value);
+        array_set(arr, i, (Data)value);
     }
 
     return arr;
@@ -58,12 +58,12 @@ int main(int argc, char **argv)
     const size_t size = array_size(arr);
     if (size != 0)
     {
-        int current = (int)(intptr_t)array_get(arr, 0);
+        int current = (int)array_get(arr, 0);
         size_t count = 1;
 
         for (size_t i = 1; i < size; ++i)
         {
-            const int value = (int)(intptr_t)array_get(arr, i);
+            const int value = (int)array_get(arr, i);
             if (value == current)
             {
                 ++count;
