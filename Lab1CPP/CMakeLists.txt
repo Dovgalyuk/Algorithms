@@ -23,8 +23,10 @@ file(GLOB TASK1_TEST_FILES "${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_*.txt" "${CM
 foreach(TEST_FILE ${TASK1_TEST_FILES})
     get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
     string(TOLOWER "${TEST_NAME}" LOWER_TEST_NAME)
-    
-    add_test(NAME "${LOWER_TEST_NAME}" COMMAND task1 "${TEST_FILE}")
+
+    add_test(NAME "${LOWER_TEST_NAME}" COMMAND task1)
+    set_property(TEST "${LOWER_TEST_NAME}" PROPERTY ENVIRONMENT "INPUT_FILE=${TEST_FILE}")
+    set_tests_properties("${LOWER_TEST_NAME}" PROPERTIES ATTACHED_FILES "${TEST_FILE}")
 
     if(LOWER_TEST_NAME STREQUAL "task1_test1")
         set_property(TEST "${LOWER_TEST_NAME}" PROPERTY PASS_REGULAR_EXPRESSION "1 1 6 24 120")
@@ -42,7 +44,7 @@ foreach(TEST_FILE ${TASK2_TEST_FILES})
     get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
     string(TOLOWER "${TEST_NAME}" LOWER_TEST_NAME)
 
-    add_test(NAME "${LOWER_TEST_NAME}" COMMAND task2 "${TEST_FILE}")
+    add_test(NAME "${LOWER_TEST_NAME}" COMMAND task2)
 
     if(LOWER_TEST_NAME STREQUAL "task2_test1")
         set_property(TEST "${LOWER_TEST_NAME}" PROPERTY PASS_REGULAR_EXPRESSION "2 3 5")
