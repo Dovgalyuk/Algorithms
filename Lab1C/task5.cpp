@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include "C:\Users\timof\Algorithms\LibraryCPP\array.h"
-#include "C:\Users\timof\Algorithms\LibraryCPP\array.cpp"
+#include "array.h"
+
 
 Array *array_create_and_read(std::ifstream& input)
 {

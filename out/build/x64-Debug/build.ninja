@@ -630,11 +630,11 @@ build LibraryCPPTemplate\Tests\rebuild_cache: phony LibraryCPPTemplate\Tests\CMa
 #############################################
 # Order-only phony target for Lab1C_task4
 
-build cmake_object_order_depends_target_Lab1C_task4: phony || cmake_object_order_depends_target_LibraryC
+build cmake_object_order_depends_target_Lab1C_task4: phony || cmake_object_order_depends_target_LibraryCPP
 
 build Lab1C\CMakeFiles\Lab1C_task4.dir\task4.cpp.obj: CXX_COMPILER__Lab1C_task4_unscanned_Debug C$:\Users\timof\Algorithms\Lab1C\task4.cpp || cmake_object_order_depends_target_Lab1C_task4
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
-  INCLUDES = -IC:\Users\timof\Algorithms\Lab1C\..\LibraryC
+  INCLUDES = -IC:\Users\timof\Algorithms\Lab1C\..\LibraryCPP
   OBJECT_DIR = Lab1C\CMakeFiles\Lab1C_task4.dir
   OBJECT_FILE_DIR = Lab1C\CMakeFiles\Lab1C_task4.dir
   TARGET_COMPILE_PDB = Lab1C\CMakeFiles\Lab1C_task4.dir\
@@ -648,10 +648,10 @@ build Lab1C\CMakeFiles\Lab1C_task4.dir\task4.cpp.obj: CXX_COMPILER__Lab1C_task4_
 #############################################
 # Link the executable Lab1C\Lab1C_task4.exe
 
-build Lab1C\Lab1C_task4.exe: CXX_EXECUTABLE_LINKER__Lab1C_task4_Debug Lab1C\CMakeFiles\Lab1C_task4.dir\task4.cpp.obj | LibraryC\LibraryC.lib || LibraryC\LibraryC.lib
+build Lab1C\Lab1C_task4.exe: CXX_EXECUTABLE_LINKER__Lab1C_task4_Debug Lab1C\CMakeFiles\Lab1C_task4.dir\task4.cpp.obj | LibraryCPP\LibraryCPP.lib || LibraryCPP\LibraryCPP.lib
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = LibraryC\LibraryC.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = LibraryCPP\LibraryCPP.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = Lab1C\CMakeFiles\Lab1C_task4.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -667,11 +667,11 @@ build Lab1C\Lab1C_task4.exe: CXX_EXECUTABLE_LINKER__Lab1C_task4_Debug Lab1C\CMak
 #############################################
 # Order-only phony target for Lab1C_task5
 
-build cmake_object_order_depends_target_Lab1C_task5: phony || cmake_object_order_depends_target_LibraryC
+build cmake_object_order_depends_target_Lab1C_task5: phony || cmake_object_order_depends_target_LibraryCPP
 
 build Lab1C\CMakeFiles\Lab1C_task5.dir\task5.cpp.obj: CXX_COMPILER__Lab1C_task5_unscanned_Debug C$:\Users\timof\Algorithms\Lab1C\task5.cpp || cmake_object_order_depends_target_Lab1C_task5
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd /W4 /WX -WX
-  INCLUDES = -IC:\Users\timof\Algorithms\Lab1C\..\LibraryC
+  INCLUDES = -IC:\Users\timof\Algorithms\Lab1C\..\LibraryCPP
   OBJECT_DIR = Lab1C\CMakeFiles\Lab1C_task5.dir
   OBJECT_FILE_DIR = Lab1C\CMakeFiles\Lab1C_task5.dir
   TARGET_COMPILE_PDB = Lab1C\CMakeFiles\Lab1C_task5.dir\
@@ -685,10 +685,10 @@ build Lab1C\CMakeFiles\Lab1C_task5.dir\task5.cpp.obj: CXX_COMPILER__Lab1C_task5_
 #############################################
 # Link the executable Lab1C\Lab1C_task5.exe
 
-build Lab1C\Lab1C_task5.exe: CXX_EXECUTABLE_LINKER__Lab1C_task5_Debug Lab1C\CMakeFiles\Lab1C_task5.dir\task5.cpp.obj | LibraryC\LibraryC.lib || LibraryC\LibraryC.lib
+build Lab1C\Lab1C_task5.exe: CXX_EXECUTABLE_LINKER__Lab1C_task5_Debug Lab1C\CMakeFiles\Lab1C_task5.dir\task5.cpp.obj | LibraryCPP\LibraryCPP.lib || LibraryCPP\LibraryCPP.lib
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = LibraryC\LibraryC.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = LibraryCPP\LibraryCPP.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = Lab1C\CMakeFiles\Lab1C_task5.dir
   POST_BUILD = cd .
   PRE_LINK = cd .

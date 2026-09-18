@@ -1,7 +1,7 @@
 
 add_executable(Lab1C_task4 task4.cpp)
-target_include_directories(Lab1C_task4 PUBLIC ../LibraryC)
-target_link_libraries(Lab1C_task4 LibraryC)
+target_include_directories(Lab1C_task4 PUBLIC ../LibraryCPP)
+target_link_libraries(Lab1C_task4 LibraryCPP)
 
 add_test(NAME Test1_task4 COMMAND Lab1C_task4 ${CMAKE_CURRENT_SOURCE_DIR}/input41.txt)
 set_property(TEST Test1_task4 PROPERTY PASS_REGULAR_EXPRESSION "^3")
@@ -26,8 +26,8 @@ set_property(TEST Test7_task4 PROPERTY PASS_REGULAR_EXPRESSION "^0")
 
 
 add_executable(Lab1C_task5 task5.cpp)
-target_include_directories(Lab1C_task5 PUBLIC ../LibraryC)
-target_link_libraries(Lab1C_task5 LibraryC)
+target_include_directories(Lab1C_task5 PUBLIC ../LibraryCPP)
+target_link_libraries(Lab1C_task5 LibraryCPP)
 
 add_test(NAME Test1_task5 COMMAND Lab1C_task5 ${CMAKE_CURRENT_SOURCE_DIR}/input51.txt)
 set_property(TEST Test1_task5 PROPERTY PASS_REGULAR_EXPRESSION "^12 56 -89 0 0 0")
