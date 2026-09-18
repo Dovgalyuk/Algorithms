@@ -1,14 +1,13 @@
 #ifndef APFEL_H
 #define APFEL_H
 
-#include <iostream>
-#include <fstream>
 #include "array.h"
+#include <istream>
 
-using namespace std;
+Array* read_array(std::istream& stream);
 
-void print_array(ostream& out, Array* arr);
-Array* array_create_and_read(ifstream& input);
-void print_error(const char* message, ofstream& output);
+void process_task1(Array* arr);
+
+void process_task2(Array* arr);
 
 #endif
