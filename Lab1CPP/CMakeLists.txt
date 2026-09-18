@@ -24,11 +24,7 @@ foreach(TEST_FILE ${TASK1_TESTS})
     get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
     string(TOLOWER "${TEST_NAME}" LOWER_NAME)
 
-    add_test(NAME "${LOWER_NAME}" COMMAND task1)
-
-    if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.9)
-        set_tests_properties("${LOWER_NAME}" PROPERTIES StandardInputFile "${TEST_FILE}")
-    endif()
+    add_test(NAME "${LOWER_NAME}" COMMAND task1 "${TEST_FILE}")
 
     if(LOWER_NAME STREQUAL "task1_test1")
         set_property(TEST "${LOWER_NAME}" PROPERTY PASS_REGULAR_EXPRESSION "1 1 6 24 120")
@@ -46,11 +42,7 @@ foreach(TEST_FILE ${TASK2_TESTS})
     get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
     string(TOLOWER "${TEST_NAME}" LOWER_NAME)
 
-    add_test(NAME "${LOWER_NAME}" COMMAND task2)
-
-    if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.9)
-        set_tests_properties("${LOWER_NAME}" PROPERTIES StandardInputFile "${TEST_FILE}")
-    endif()
+    add_test(NAME "${LOWER_NAME}" COMMAND task2 "${TEST_FILE}")
 
     if(LOWER_NAME STREQUAL "task2_test1")
         set_property(TEST "${LOWER_NAME}" PROPERTY PASS_REGULAR_EXPRESSION "2 3 5")
