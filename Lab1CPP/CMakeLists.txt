@@ -8,5 +8,33 @@ endforeach()
 
 enable_testing()
 
-add_test(NAME Lab1_Task1_Test COMMAND Lab1_Task1 ${CMAKE_CURRENT_SOURCE_DIR}/input_1 result_1)
-add_test(NAME Lab1_Task2_Test COMMAND Lab1_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/input_2 result_2)
+set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Test)
+
+foreach(i RANGE 1 8)
+    add_test(
+            NAME Lab1_Task1_Run_${i}
+            COMMAND Lab1_Task1 ${TEST_DIR}/input_${i} ${CMAKE_CURRENT_BINARY_DIR}/result_${i}
+    )
+    add_test(
+            NAME Lab1_Task1_Check_${i}
+            COMMAND ${CMAKE_COMMAND} -E compare_files
+            ${CMAKE_CURRENT_BINARY_DIR}/result_${i}
+            ${TEST_DIR}/expected_${i}
+    )
+    set_tests_properties(Lab1_Task1_Check_${i} PROPERTIES DEPENDS Lab1_Task1_Run_${i})
+endforeach()
+
+
+foreach(i RANGE 9 15)
+    add_test(
+            NAME Lab1_Task2_Run_${i}
+            COMMAND Lab1_Task2 ${TEST_DIR}/input_${i} ${CMAKE_CURRENT_BINARY_DIR}/result_${i}
+    )
+    add_test(
+            NAME Lab1_Task2_Check_${i}
+            COMMAND ${CMAKE_COMMAND} -E compare_files --ignore-eol
+            ${CMAKE_CURRENT_BINARY_DIR}/result_${i}
+            ${TEST_DIR}/expected_${i}
+    )
+    set_tests_properties(Lab1_Task2_Check_${i} PROPERTIES DEPENDS Lab1_Task2_Run_${i})
+endforeach()

@@ -48,76 +48,45 @@ void task1(const Array *arr, ostream &out)
     Decades decades[3];
     computeDecades(arr, decades);
 
-    out << fixed << setprecision(2);
-    for (int i = 0; i < 3; i++)
-        out << "   " << i + 1 << " decada: " << decades[i].average() << endl;
-    out << endl;
-
-    out << "Decade: " << decades[0].average() << " "
-        << decades[1].average() << " " << decades[2].average() << endl;
+    out << fixed << setprecision(2)
+        << decades[0].average() << " "
+        << decades[1].average() << " "
+        << decades[2].average() << "\n";
 }
 
 int main(int argc, char **argv)
 {
 
-    string in_path = (argc >= 2) ? argv[1] : "test_1";
-    string out_path = (argc >= 3) ? argv[2] : "result_1";
-
-    ifstream input(in_path);
-    if (!input.is_open())
-    {
-        cout << "Fayl ne otkrylsya: " << in_path << "\n";
+    if (argc < 3) {
+        cerr << "Oshibka: Nedostatochno argumentov!" << endl;
+        cerr << "Ispolzovanie: " << argv[0] << " <input_file> <output_file>" << endl;
         return 1;
     }
 
+    string in_path = argv[1];
+    string out_path = argv[2];
 
-    bool writing = false;
-    if (argc >= 3)
-    {
-        writing = true;
-    }
-    else
-    {
-        string s;
-        while (true)
-        {
-            cout << "Zapisat rezultat v fayl?(y/n): ";
-            cin >> s;
 
-            if (s == "y" || s == "yes" || s == "da") {
-                writing = true;
-                break;
-            } else if (s == "n" || s == "net" || s == "no") {
-                writing = false;
-                break;
-            } else {
-                cout << "Nekorrektnyy vvod, poprobuyte eshche raz\n";
-            }
-        }
+    ifstream input(in_path);
+    if (!input.is_open()) {
+        cerr << "Fayl dlya chteniya ne otkrylsya: " << in_path << endl;
+        return 1;
     }
 
-    ofstream file_output;
-    if (writing)
-    {
-        file_output.open(out_path);
-        if (!file_output.is_open()) {
-            cout << "Cannot open output file. Fallback to console.\n";
-        } else {
-            cout << "Resultaty budut zapisany v " << out_path << "\n\n";
-        }
+    ofstream file_output(out_path, ios::binary);
+    if (!file_output.is_open()) {
+        cerr << "Fayl dlya zapisi ne otkrylsya: " << out_path << endl;
+        return 1;
     }
-
-
-    ostream &out = file_output.is_open() ? file_output : cout;
 
     Array *arr = array_create_and_read(input);
     if (arr != nullptr) {
-        task1(arr, out);
+        task1(arr, file_output);
         array_delete(arr);
     }
 
     input.close();
-    return 0;
+    file_output.close();
 }
 
 Array *array_create_and_read(ifstream &input)
