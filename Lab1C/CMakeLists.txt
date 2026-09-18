@@ -1,6 +1,50 @@
-add_executable(Lab1C lab1.c)
-target_include_directories(Lab1C PUBLIC ../LibraryC)
-target_link_libraries(Lab1C LibraryC)
+add_executable(Lab1C_4 task4.cpp)
+target_include_directories(Lab1C_4 PUBLIC ../LibraryCPP)
+target_link_libraries(Lab1C_4 LibraryCPP)
 
-add_test(NAME TestLab1C COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
-set_property(TEST TestLab1C PROPERTY PASS_REGULAR_EXPRESSION "1 2 3 4 5")
+add_test(NAME Test1Lab1C_4 COMMAND Lab1C_4 ${CMAKE_CURRENT_SOURCE_DIR}/input4_1.txt)
+set_property(TEST Test1Lab1C_4 PROPERTY PASS_REGULAR_EXPRESSION "-9 3 -28")
+
+add_test(NAME Test2Lab1C_4 COMMAND Lab1C_4 ${CMAKE_CURRENT_SOURCE_DIR}/input4_2.txt)
+set_property(TEST Test2Lab1C_4 PROPERTY PASS_REGULAR_EXPRESSION "12 -31 8 13 1 -25 6")
+
+add_test(NAME Test3Lab1C_4 COMMAND Lab1C_4 ${CMAKE_CURRENT_SOURCE_DIR}/input4_3.txt)
+set_property(TEST Test3Lab1C_4 PROPERTY PASS_REGULAR_EXPRESSION "-29 -94 -34 -53 -82")
+
+add_test(NAME Test4Lab1C_4 COMMAND Lab1C_4 ${CMAKE_CURRENT_SOURCE_DIR}/input4_4.txt)
+set_property(TEST Test4Lab1C_4 PROPERTY PASS_REGULAR_EXPRESSION "1 1 1 1 2 2 5 -19 7 7 3 4 5 8")
+
+add_test(NAME Test5Lab1C_4 COMMAND Lab1C_4 ${CMAKE_CURRENT_SOURCE_DIR}/input4_5.txt)
+set_property(TEST Test5Lab1C_4 PROPERTY PASS_REGULAR_EXPRESSION "No")
+
+add_test(NAME Test6Lab1C_4 COMMAND Lab1C_4 ${CMAKE_CURRENT_SOURCE_DIR}/input4_6.txt)
+set_property(TEST Test6Lab1C_4 PROPERTY PASS_REGULAR_EXPRESSION "Error")
+
+add_test(NAME Test7Lab1C_4 COMMAND Lab1C_4 ${CMAKE_CURRENT_SOURCE_DIR}/input4_7.txt)
+set_property(TEST Test7Lab1C_4 PROPERTY PASS_REGULAR_EXPRESSION "Error")
+
+
+add_executable(Lab1C_5 task5.cpp)
+target_include_directories(Lab1C_5 PUBLIC ../LibraryCPP)
+target_link_libraries(Lab1C_5 LibraryCPP)
+
+add_test(NAME Test1Lab1C_5 COMMAND Lab1C_5 ${CMAKE_CURRENT_SOURCE_DIR}/input5_1.txt)
+set_property(TEST Test1Lab1C_5 PROPERTY PASS_REGULAR_EXPRESSION "3 1 2 2 4 3 1 4")
+
+add_test(NAME Test2Lab1C_5 COMMAND Lab1C_5 ${CMAKE_CURRENT_SOURCE_DIR}/input5_2.txt)
+set_property(TEST Test2Lab1C_5 PROPERTY PASS_REGULAR_EXPRESSION "1 1 1 2 1 3 1 4 1 5 1 6")
+
+add_test(NAME Test3Lab1C_5 COMMAND Lab1C_5 ${CMAKE_CURRENT_SOURCE_DIR}/input5_3.txt)
+set_property(TEST Test3Lab1C_5 PROPERTY PASS_REGULAR_EXPRESSION "7 5")
+
+add_test(NAME Test4Lab1C_5 COMMAND Lab1C_5 ${CMAKE_CURRENT_SOURCE_DIR}/input5_4.txt)
+set_property(TEST Test4Lab1C_5 PROPERTY PASS_REGULAR_EXPRESSION "1 42")
+
+add_test(NAME Test5Lab1C_5 COMMAND Lab1C_5 ${CMAKE_CURRENT_SOURCE_DIR}/input5_5.txt)
+set_property(TEST Test5Lab1C_5 PROPERTY PASS_REGULAR_EXPRESSION "2 9")
+
+add_test(NAME Test6Lab1C_5 COMMAND Lab1C_5 ${CMAKE_CURRENT_SOURCE_DIR}/input5_6.txt)
+set_property(TEST Test6Lab1C_5 PROPERTY PASS_REGULAR_EXPRESSION "3 -1 2 0 3 5")
+
+add_test(NAME Test7Lab1C_5 COMMAND Lab1C_5 ${CMAKE_CURRENT_SOURCE_DIR}/input5_7.txt)
+set_property(TEST Test7Lab1C_5 PROPERTY PASS_REGULAR_EXPRESSION "1 1 1 2 1 1 1 2 1 1 1 2 1 1 1 2 1 1 1 2")
