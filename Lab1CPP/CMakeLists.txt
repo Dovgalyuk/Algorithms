@@ -31,3 +31,21 @@
 
  add_test(NAME TestLab2_InvalidSize COMMAND Lab1CPP_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/lab2_out_of_bounds.txt)
  set_property(TEST TestLab2_InvalidSize PROPERTY WILL_FAIL TRUE)
+
+ add_test(NAME TestLab1_Zeros COMMAND Lab1CPP_Task1 ${CMAKE_CURRENT_SOURCE_DIR}/tests/lab1_zeros.txt)
+ set_property(TEST TestLab1_Zeros PROPERTY PASS_REGULAR_EXPRESSION "0")
+
+ add_test(NAME TestLab1_SingleElement COMMAND Lab1CPP_Task1 ${CMAKE_CURRENT_SOURCE_DIR}/tests/lab1_singleelement.txt)
+ set_property(TEST TestLab1_SingleElement PROPERTY PASS_REGULAR_EXPRESSION "27")
+
+ add_test(NAME TestLab1_LargeNumbers COMMAND Lab1CPP_Task1 ${CMAKE_CURRENT_SOURCE_DIR}/tests/lab1_large_numbers.txt)
+ set_property(TEST TestLab1_LargeNumbers PROPERTY PASS_REGULAR_EXPRESSION "54")
+
+ add_test(NAME TestLab1_MixedSigns COMMAND Lab1CPP_Task1 ${CMAKE_CURRENT_SOURCE_DIR}/tests/lab1_mixedsigns.txt)
+ set_property(TEST TestLab1_MixedSigns PROPERTY PASS_REGULAR_EXPRESSION "15")
+
+ add_test(NAME TestLab2_SingleElement COMMAND Lab1CPP_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/lab2_singleelement.txt)
+
+ add_test(NAME TestLab2_OrderPreservation COMMAND Lab1CPP_Task2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/lab2_orderpreservation.txt)
+ set_property(TEST TestLab2_OrderPreservation PROPERTY PASS_REGULAR_EXPRESSION "99 55 12")
+

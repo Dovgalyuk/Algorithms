@@ -1,5 +1,6 @@
 #include <iostream>
 #include "array.h"
+using namespace std;
 
 int main()
 {
@@ -25,5 +26,25 @@ int main()
         }
     }
 
+    array_set(arr, 10, 100);
+
+    if (array_get(arr, 10) != 0) {
+        cout << "Out of bounds test failed\n";
+        array_delete(arr);
+        return 1;
+    }
+
+    Array* arr0 = array_create(0);
+
+    if (array_size(arr0) != 0) {
+        cout << "Test failed, empty array\n";
+        array_delete(arr0);
+        array_delete(arr);
+        return 1;
+    }
     array_delete(arr);
+    array_delete(arr0);
+
+    cout << "All array tests passed!\n";
+    return 0;
 }
