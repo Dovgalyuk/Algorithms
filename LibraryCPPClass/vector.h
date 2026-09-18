@@ -30,6 +30,8 @@ public:
 
     void reverse();
 
+    void insert(size_t index, Data value);
+
 private:
     Data* elements;
     size_t volume; // сколько памяти выделено

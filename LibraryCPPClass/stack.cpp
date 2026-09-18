@@ -51,3 +51,33 @@ bool Stack::empty() const
 size_t Stack::size() const {
     return helper.size();
 }
+
+Data Stack::bottom() const {
+    if (helper.size() == 0) {
+        throw std::out_of_range("Stack::bottom: stack is empty");
+    }
+    return helper.get(0); // первый элемент вектора — это низ
+}
+
+void Stack::remove_bottom() {
+    if (helper.size() == 0) {
+        throw std::out_of_range("Stack::remove_bottom: stack is empty");
+    }
+    // Удаляем первый элемент вектора: сдвигаем все влево
+    for (size_t i = 0; i + 1 < helper.size(); i++) {
+        helper.set(i, helper.get(i + 1));
+    }
+    helper.resize(helper.size() - 1);
+}
+
+Data Stack::join_to_string() const {
+    std::string combined;
+    for (size_t i = helper.size(); i > 0; i--) {
+        combined += helper.get(i - 1);
+    }
+    return combined;
+}
+
+void Stack::push_bottom(Data data) {
+    helper.insert(0, data);
+}

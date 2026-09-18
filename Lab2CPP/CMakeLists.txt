@@ -129,3 +129,52 @@ add_test(NAME TestLab2CPP_23_ReplaceVar
     COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_23_replace_var_script.txt
                     ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_23_replace_var_input.txt)
 set_property(TEST TestLab2CPP_23_ReplaceVar PROPERTY PASS_REGULAR_EXPRESSION "Old|New")
+
+
+# Примеры со страницы AnnoyingScript
+
+# Hello, World (простой)
+add_test(NAME TestLab2CPP_24_HelloWorld
+    COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_24_hello_world_script.txt
+                    ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_24_hello_world_input.txt)
+set_property(TEST TestLab2CPP_24_HelloWorld
+    PROPERTY PASS_REGULAR_EXPRESSION "Hello, World")
+
+# Hello, World (сложный)
+add_test(NAME TestLab2CPP_25_HelloWorldComplex
+    COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_25_hello_world_complex_script.txt
+                    ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_25_hello_world_complex_input.txt)
+set_property(TEST TestLab2CPP_25_HelloWorldComplex
+    PROPERTY PASS_REGULAR_EXPRESSION "Hello World")
+
+# Cat Program
+add_test(NAME TestLab2CPP_26_Cat
+    COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_26_cat_script.txt
+                    ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_26_cat_input.txt)
+set_property(TEST TestLab2CPP_26_Cat
+    PROPERTY PASS_REGULAR_EXPRESSION "Hello")
+
+# Truth Machine (вход 0)
+add_test(NAME TestLab2CPP_27_TruthMachine
+    COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_27_truth_machine_script.txt
+                    ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_27_truth_machine_input.txt)
+set_property(TEST TestLab2CPP_27_TruthMachine
+    PROPERTY PASS_REGULAR_EXPRESSION "0")
+
+# Calculator
+add_test(NAME TestLab2CPP_28_Calculator
+    COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_28_calculator_script.txt
+                    ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_28_calculator_input.txt)
+set_property(TEST TestLab2CPP_28_Calculator
+    PROPERTY PASS_REGULAR_EXPRESSION "Calculator.*8")
+set_property(TEST TestLab2CPP_28_Calculator
+    PROPERTY TIMEOUT 5)
+
+# Number Guessing Game
+add_test(NAME TestLab2CPP_29_GuessingGame
+    COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_29_guessing_script.txt
+                    ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_29_guessing_input.txt)
+set_property(TEST TestLab2CPP_29_GuessingGame
+    PROPERTY PASS_REGULAR_EXPRESSION "Correct!")
+set_property(TEST TestLab2CPP_29_GuessingGame
+    PROPERTY TIMEOUT 10)

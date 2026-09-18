@@ -88,3 +88,16 @@ void Vector::reverse()
         elements[len - 1 - i] = tmp;
     }
 }
+
+void Vector::insert(size_t index, Data value) {
+    if (index > len) {
+        throw std::out_of_range("Vector::insert: index out of range");
+    }
+    resize(len + 1);
+    // Сдвигаем элементы вправо, освобождая место в позиции index
+    for (size_t i = len - 1; i > index; i--) {
+        elements[i] = elements[i - 1];
+    }
+    elements[index] = value;
+}
+
