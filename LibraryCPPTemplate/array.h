@@ -1,49 +1,56 @@
 #ifndef ARRAY_TEMPLATE_H
 #define ARRAY_TEMPLATE_H
 
+#include <cstddef>
+
 template <typename Data> class Array
 {
 public:
-    // create array
-    explicit Array(size_t size)
+    explicit Array(size_t size) : _size(size), _data(new Data[size])
     {
     }
 
-    // copy constructor
-    Array(const Array &a)
+    Array(const Array &a) : _size(a._size), _data(new Data[a._size])
     {
+        for (size_t i = 0; i < _size; i++)
+            _data[i] = a._data[i];
     }
 
-    // assignment operator
     Array &operator=(const Array &a)
     {
+        if (this != &a) {
+            delete[] _data;
+            _size = a._size;
+            _data = new Data[_size];
+            for (size_t i = 0; i < _size; i++)
+                _data[i] = a._data[i];
+        }
         return *this;
     }
 
-    // delete array, free memory
     ~Array()
     {
+        delete[] _data;
     }
 
-    // returns specified array element
     Data get(size_t index) const
     {
-        return Data(0);
+        return _data[index];
     }
 
-    // sets the specified array element to the value
     void set(size_t index, Data value)
     {
+        _data[index] = value;
     }
 
-    // returns array size
     size_t size() const
     {
-        return 0;
+        return _size;
     }
 
 private:
-    // private data should be here
+    size_t _size;
+    Data *_data;
 };
 
 #endif
