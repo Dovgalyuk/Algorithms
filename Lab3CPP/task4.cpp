@@ -9,12 +9,14 @@ const int kMaxValue = 1000;
 Array *array_create_and_read(FILE *input)
 {
     int n;
-    std::fscanf(input, "%d", &n);
+    if (std::fscanf(input, "%d", &n) != 1)
+        n = 0;
     Array *arr = array_create((size_t)n);
     for (int i = 0; i < n; ++i)
     {
-        int x;
-        std::fscanf(input, "%d", &x);
+        int x = 0;
+        if (std::fscanf(input, "%d", &x) != 1)
+            x = 0;
         array_set(arr, (size_t)i, x);
     }
     return arr;
@@ -59,7 +61,7 @@ int main(int argc, char **argv)
     FILE *input = std::fopen(argv[1], "r");
     if (!input)
         return 1;
-    FILE *output = std::fopen(argv[2], "wb");
+    FILE *output = std::fopen(argv[2], "w");
     if (!output)
     {
         std::fclose(input);
