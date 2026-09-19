@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cstdlib>   // std::abs для int
 
 #include "array.h"
 
@@ -7,7 +8,7 @@ int main(int argc, char* argv[])
 {
     if (argc != 2)
     {
-        std::cerr << "Usage: task1 <input_file>\n";
+        std::cerr << "Usage: task2 <input_file>\n";
         return 1;
     }
 
@@ -28,70 +29,62 @@ int main(int argc, char* argv[])
     }
 
     Array* arr = array_create(n);
-    Array* crossed = array_create(n);
-
-    // Заполняем массив натуральными числами
-    // 1, 2, 3, ..., n
-    for (std::size_t i = 0; i < n; ++i)
+    if (!arr)
     {
-        array_set(arr, i, static_cast<int>(i + 1));
-        array_set(crossed, i, 0);
+        std::cerr << "Cannot allocate array\n";
+        return 1;
     }
 
-    if (n > 0)
-        array_set(crossed, 0, 1); // 1 не является простым
-
-    // Решето Эратосфена
-    for (std::size_t p = 2; p * p <= n; ++p)
+    // Читаем n чисел из файла
+    for (std::size_t i = 0; i < n; ++i)
     {
-        if (array_get(crossed, p - 1) == 0)
+        int value;
+        if (!(input >> value))
         {
-            for (std::size_t multiple = p * p;
-                 multiple <= n;
-                 multiple += p)
-            {
-                array_set(crossed, multiple - 1, 1);
-            }
+            std::cerr << "Invalid input: expected " << n << " numbers\n";
+            array_delete(&arr);
+            return 1;
+        }
+        array_set(arr, i, value);
+    }
+
+    // Ищем минимальную разность между РАЗЛИЧНЫМИ по значению
+    // чётными элементами массива.
+    int best = -1; // -1 означает "ещё не найдено"
+
+    for (std::size_t i = 0; i < n; ++i)
+    {
+        int a = array_get(arr, i);
+
+        if (a % 2 != 0)
+            continue;
+
+        for (std::size_t j = i + 1; j < n; ++j)
+        {
+            int b = array_get(arr, j);
+
+            if (b % 2 != 0)
+                continue;
+
+            if (a == b)          // игнорируем одинаковые значения
+                continue;
+
+            int diff = std::abs(a - b);
+
+            if (best == -1 || diff < best)
+                best = diff;
         }
     }
 
-    // Переносим простые числа в начало
-    std::size_t writeIndex = 0;
-
-    for (std::size_t i = 0; i < n; ++i)
+    if (best == -1)
     {
-        if (array_get(crossed, i) == 0)
-        {
-            array_set(
-                arr,
-                writeIndex,
-                array_get(arr, i)
-            );
-
-            ++writeIndex;
-        }
+        std::cerr << "No suitable even elements found\n";
+        array_delete(&arr);
+        return 1;
     }
 
-    // Оставшиеся элементы заполняем нулями
-    while (writeIndex < n)
-    {
-        array_set(arr, writeIndex, 0);
-        ++writeIndex;
-    }
+    std::cout << best << '\n';
 
-    // Вывод массива
-    for (std::size_t i = 0; i < n; ++i)
-    {
-        if (i > 0)
-            std::cout << ' ';
-
-        std::cout << array_get(arr, i);
-    }
-
-    std::cout << '\n';
-
-    array_delete(&crossed);
     array_delete(&arr);
-
     return 0;
 }

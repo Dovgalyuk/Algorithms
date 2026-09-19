@@ -32,21 +32,18 @@ add_executable(task2
 add_test(
     NAME Task1Test1
     COMMAND task1
-            ${CMAKE_SOURCE_DIR}/tests/task1_input1.txt
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_input1.txt
 )
-
 set_tests_properties(Task1Test1 PROPERTIES
     PASS_REGULAR_EXPRESSION
     "2 3 5 7 0 0 0 0 0 0"
 )
 
-
 add_test(
     NAME Task1Test2
     COMMAND task1
-            ${CMAKE_SOURCE_DIR}/tests/task1_input2.txt
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/task1_input2.txt
 )
-
 set_tests_properties(Task1Test2 PROPERTIES
     PASS_REGULAR_EXPRESSION
     "2 3 5 7 11 13 17 19 0 0 0 0 0 0 0 0 0 0 0 0"
@@ -60,33 +57,28 @@ set_tests_properties(Task1Test2 PROPERTIES
 add_test(
     NAME Task2Test1
     COMMAND task2
-            ${CMAKE_SOURCE_DIR}/tests/task2_input1.txt
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/task2_input1.txt
 )
-
 set_tests_properties(Task2Test1 PROPERTIES
-    PASS_REGULAR_EXPRESSION "^2$"
+    PASS_REGULAR_EXPRESSION "^2[ \t\r\n]*$"
 )
-
 
 add_test(
     NAME Task2Test2
     COMMAND task2
-            ${CMAKE_SOURCE_DIR}/tests/task2_input2.txt
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/task2_input2.txt
 )
-
 set_tests_properties(Task2Test2 PROPERTIES
-    PASS_REGULAR_EXPRESSION "^2$"
+    PASS_REGULAR_EXPRESSION "^2[ \t\r\n]*$"
 )
-
 
 add_test(
     NAME Task2Test3
     COMMAND task2
-            ${CMAKE_SOURCE_DIR}/tests/task2_input3.txt
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/task2_input3.txt
 )
-
 set_tests_properties(Task2Test3 PROPERTIES
-    PASS_REGULAR_EXPRESSION "^6$"
+    PASS_REGULAR_EXPRESSION "^6[ \t\r\n]*$"
 )
 
 
