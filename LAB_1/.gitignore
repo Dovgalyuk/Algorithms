@@ -1,0 +1,10 @@
+.vs/
+.idea/
+x64/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+LAB_1/array.h
+LAB_1/array.cpp
+LAB_1/CMakeList.txt
+LAB_1/input1.txt
