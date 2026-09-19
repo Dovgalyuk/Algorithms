@@ -5,14 +5,16 @@
 Array *array_create_and_read(FILE *input)
 {
     int n;
-    fscanf(input, "%d", &n);
+    if (fscanf(input, "%d", &n) != 1)
+        return array_create(0);
     // Создаётся массив нужного размера
     Array *arr = array_create(n);
     // Считываются элементы массива из файла
     for (int i = 0; i < n; ++i)
     {
         int x;
-        fscanf(input, "%d", &x);
+        if (fscanf(input, "%d", &x) != 1)
+            break;
         array_set(arr, i, x);
     }
     return arr;
