@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include "array.h"
 
-typedef struct Array {
+typedef struct Array
+{
     // remove this
     Data d;
 } Array;
