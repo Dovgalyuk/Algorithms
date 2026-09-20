@@ -7,7 +7,6 @@ private:
     int size;
 
 public:
-    // Конструктор: выделяет память под n элементов
     Array(int n) {
         size = n;
         if (size > 0) {
@@ -17,7 +16,6 @@ public:
         }
     }
 
-    // Деструктор: освобождает память
     ~Array() {
         delete[] data;
     }
@@ -26,7 +24,6 @@ public:
         return size;
     }
 
-    // Перегрузка квадратных скобок для доступа по индексу: arr[i]
     int& operator[](int index) {
         return data[index];
     }
