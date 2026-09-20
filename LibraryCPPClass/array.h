@@ -31,7 +31,8 @@ public:
     size_t size() const;
 
 private:
-    // private data should be here
+    Data* data_;   // блок памяти с элементами
+    size_t size_;
 };
 
 #endif
