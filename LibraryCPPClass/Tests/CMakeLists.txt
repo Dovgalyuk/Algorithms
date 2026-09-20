@@ -1,7 +1,12 @@
-# add_executable(TestArrayCPPClass array.cpp)
-# target_include_directories(TestArrayCPPClass PUBLIC ..)
-# target_link_libraries(TestArrayCPPClass LibraryCPPClass)
-# add_test(TestArrayCPPClass TestArrayCPPClass)
+add_executable(TestArrayCPPClass array.cpp)
+
+target_link_libraries(TestArrayCPPClass PRIVATE LibraryCPPClass)
+
+target_include_directories(TestArrayCPPClass PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/..
+)
+
+add_test(NAME TestArrayCPPClass COMMAND TestArrayCPPClass)
 
 # add_executable(TestListCPPClass list.cpp)
 # target_include_directories(TestListCPPClass PUBLIC ..)
