@@ -3,15 +3,13 @@
 #include <fstream>
 #include <stdexcept>
 
-using namespace std;
-
 static void process_task2(Array* arr, ostream& out) {
     size_t size = array_size(arr);
     bool first = true;
     for (size_t i = 0; i < size; ++i) {
         Data elem = array_get(arr, i);
         if (elem <= 0) {
-            throw std::invalid_argument("Non-positive element found");
+            throw invalid_argument("Non-positive element found");
         }
         bool divisible = false;
         for (size_t j = 0; j < size; ++j) {

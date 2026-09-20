@@ -3,14 +3,12 @@
 #include <fstream>
 #include <stdexcept>
 
-using namespace std;
-
 static unsigned long long factorial(Data n) {
     if (n < 0) {
-        throw std::invalid_argument("Negative value for factorial");
+        throw invalid_argument("Negative value for factorial");
     }
     if (n > 20) {
-        throw std::out_of_range("Factorial value causes integer overflow");
+        throw out_of_range("Factorial value causes integer overflow");
     }
     unsigned long long res = 1;
     for (Data i = 1; i <= n; ++i) {

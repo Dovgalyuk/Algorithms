@@ -4,6 +4,8 @@
 #include "array.h"
 #include <istream>
 
-Array* read_array(std::istream& stream);
+using namespace std;
+
+Array* read_array(istream& stream);
 
 #endif

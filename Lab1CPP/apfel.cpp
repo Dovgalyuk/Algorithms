@@ -1,6 +1,6 @@
 #include "apfel.h"
 
-Array* read_array(std::istream& stream) {
+Array* read_array(istream& stream) {
     long long signed_size;
     if (!(stream >> signed_size) || signed_size <= 0) {
         return nullptr;
