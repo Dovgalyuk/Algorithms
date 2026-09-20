@@ -10,7 +10,7 @@ Array::Array(const Array& a)
 {
     array_size = a.array_size;
     data = new Data[array_size];
-    for (int i = 0; i < array_size; i++) {
+    for (size_t i = 0; i < array_size; i++){
         data[i] = a.data[i];
     }
 }
@@ -20,12 +20,16 @@ Array& Array::operator=(const Array& a)
     if (this == &a) {
         return *this;
     }
+
     delete[] data;
+
     array_size = a.array_size;
     data = new Data[array_size];
-    for (int i = 0; i < array_size; i++) {
+
+    for (size_t i = 0; i < array_size; i++) {
         data[i] = a.data[i];
     }
+
     return *this;
 }
 
