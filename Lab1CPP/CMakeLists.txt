@@ -3,12 +3,10 @@ project(Practice2)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Исполняемые файлы
 add_executable(test_array test.cpp Array.h)
 add_executable(task1 task1.cpp Array.h)
 add_executable(task2 task2.cpp Array.h)
 
-# Включаем тестирование
 enable_testing()
 
 # 1. Тест базового контейнера
