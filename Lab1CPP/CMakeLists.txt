@@ -5,7 +5,6 @@ project(Lab1CPP)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Подключаем библиотеку Array из соседней папки LibraryCPP
 add_library(array_lib
     ../LibraryCPP/array.cpp
 )
@@ -14,21 +13,15 @@ target_include_directories(array_lib PUBLIC
     ../LibraryCPP
 )
 
-# Задание 1
+
 add_executable(task1 task1.cpp)
 target_link_libraries(task1 array_lib)
 
-# Задание 2
+
 add_executable(task2 task2.cpp)
 target_link_libraries(task2 array_lib)
 
-# =========================
-# ТЕСТЫ
-# =========================
-
 enable_testing()
-
-# ---------- task1 ----------
 
 add_test(
     NAME task1_test1
@@ -60,7 +53,6 @@ set_tests_properties(task1_test3 PROPERTIES
     "Первый массив:[ \t]*\n1 3 5 7 9[ \t]*\nИндексы четных элементов:"
 )
 
-# ---------- task2 ----------
 
 add_test(
     NAME task2_test1

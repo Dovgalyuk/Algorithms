@@ -27,18 +27,13 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    // Считываем размер массива
     size_t n;
     input >> n;
 
-    // Создаём массив
     Array* arr = array_create(n);
 
-    // Массив для подсчёта количества вхождений
-    // Числа находятся в диапазоне от 0 до 1000
     int count[1001] = {};
 
-    // Заполняем массив и одновременно считаем вхождения
     for (size_t i = 0; i < n; i++)
     {
         int value;
@@ -50,7 +45,6 @@ int main(int argc, char* argv[])
 
     input.close();
 
-    // Выводим элементы, которые встречаются только один раз
     cout << "Элементы, встречающиеся только один раз:" << endl;
 
     for (size_t i = 0; i < n; i++)
@@ -65,7 +59,6 @@ int main(int argc, char* argv[])
 
     cout << endl;
 
-    // Освобождаем память
     array_delete(arr);
 
     return 0;

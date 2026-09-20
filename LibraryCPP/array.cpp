@@ -6,7 +6,6 @@ struct Array
     size_t size;
 };
 
-// Создание массива
 Array* array_create(size_t size)
 {
     Array* arr = new Array();
@@ -17,7 +16,6 @@ Array* array_create(size_t size)
     return arr;
 }
 
-// Удаление массива
 void array_delete(Array* arr)
 {
     if (arr == nullptr)
@@ -29,7 +27,6 @@ void array_delete(Array* arr)
     delete arr;
 }
 
-// Получение элемента
 Data array_get(const Array* arr, size_t index)
 {
     if (arr == nullptr || arr->data == nullptr || index >= arr->size)
@@ -40,7 +37,6 @@ Data array_get(const Array* arr, size_t index)
     return arr->data[index];
 }
 
-// Установка элемента
 void array_set(Array* arr, size_t index, Data value)
 {
     if (arr == nullptr || arr->data == nullptr || index >= arr->size)
@@ -51,7 +47,6 @@ void array_set(Array* arr, size_t index, Data value)
     arr->data[index] = value;
 }
 
-// Получение размера
 size_t array_size(const Array* arr)
 {
     if (arr == nullptr)

@@ -27,14 +27,11 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    // Считываем размер первого массива
     size_t n;
     input >> n;
 
-    // Создаём первый массив
     Array* arr = array_create(n);
 
-    // Заполняем первый массив числами из файла
     for (size_t i = 0; i < n; i++)
     {
         Data value;
@@ -45,7 +42,6 @@ int main(int argc, char* argv[])
 
     input.close();
 
-    // Считаем количество чётных элементов
     size_t evenCount = 0;
 
     for (size_t i = 0; i < array_size(arr); i++)
@@ -56,11 +52,8 @@ int main(int argc, char* argv[])
         }
     }
 
-    // Создаём второй массив.
-    // Его размер равен количеству чётных элементов.
     Array* indexes = array_create(evenCount);
 
-    // Записываем индексы чётных элементов
     size_t j = 0;
 
     for (size_t i = 0; i < array_size(arr); i++)
@@ -72,7 +65,6 @@ int main(int argc, char* argv[])
         }
     }
 
-    // Вывод первого массива
     cout << "Первый массив:" << endl;
 
     for (size_t i = 0; i < array_size(arr); i++)
@@ -82,7 +74,6 @@ int main(int argc, char* argv[])
 
     cout << endl;
 
-    // Вывод второго массива
     cout << "Индексы четных элементов:" << endl;
 
     for (size_t i = 0; i < array_size(indexes); i++)
@@ -92,7 +83,6 @@ int main(int argc, char* argv[])
 
     cout << endl;
 
-    // Освобождаем память
     array_delete(arr);
     array_delete(indexes);
 
