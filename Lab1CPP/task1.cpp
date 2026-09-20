@@ -53,38 +53,6 @@ void task1(Array *arr)
          << " (index " << bestIndex << ")" << endl;
 }
 
-
-void task2(Array *arr)
-{
-    const int MAX_VALUE = 1000;
-    static int counter[MAX_VALUE + 1];
-
-    for (int i = 0; i <= MAX_VALUE; ++i)
-        counter[i] = 0;
-
-    size_t n = array_size(arr);
-    for (size_t i = 0; i < n; ++i)
-    {
-        int v = array_get(arr, i);
-        if (v >= 0 && v <= MAX_VALUE)
-            counter[v]++;
-    }
-
-    int bestValue = 0;
-    int bestCount = 0;
-    for (int v = 0; v <= MAX_VALUE; ++v)
-    {
-        if (counter[v] > bestCount)
-        {
-            bestCount = counter[v];
-            bestValue = v;
-        }
-    }
-
-    cout << "Most frequent element: " << bestValue
-         << " (occurs " << bestCount << " times)" << endl;
-}
-
 int main(int argc, char **argv)
 {
     if (argc < 2) {
@@ -100,12 +68,6 @@ int main(int argc, char **argv)
 
     Array *arr = array_create_and_read(input);
     task1(arr);
-    array_delete(arr);
-
-    input.clear();
-    input.seekg(0);
-    arr = array_create_and_read(input);
-    task2(arr);
     array_delete(arr);
 
     input.close();
