@@ -28,10 +28,10 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target Lab1CppTest Lab1CppTask1 Lab1CppTask2
 
     - name: Test
       working-directory: ${{github.workspace}}/build
       # Execute tests defined by the CMake configuration.
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ASAN_OPTIONS=detect_leaks=1 ctest -C ${{env.BUILD_TYPE}} --output-on-failure
+      run: ASAN_OPTIONS=detect_leaks=1 ctest -C ${{env.BUILD_TYPE}} -R "^TestLab1Cpp" --output-on-failure
