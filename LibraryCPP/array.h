@@ -3,27 +3,24 @@
 
 #include <cstddef>
 
-// Non-resizeable array
-
-// Stores integer values inside
-// Change it to desired type
+// Тип данных, хранящихся в массиве
 typedef int Data;
 
 struct Array;
 
-// create array
-Array *array_create(size_t size);
+// Создание массива фиксированного размера
+Array* array_create(size_t size);
 
-// delete array, free memory
-void array_delete(Array *arr);
+// Удаление массива и освобождение памяти
+void array_delete(Array* arr);
 
-// returns specified array element
-Data array_get(const Array *arr, size_t index);
+// Получение элемента массива по индексу
+Data array_get(const Array* arr, size_t index);
 
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value);
+// Изменение элемента массива
+void array_set(Array* arr, size_t index, Data value);
 
-// returns array size
-size_t array_size(const Array *arr);
+// Получение размера массива
+size_t array_size(const Array* arr);
 
 #endif
