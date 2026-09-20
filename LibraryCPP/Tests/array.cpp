@@ -1,15 +1,13 @@
 #include <iostream>
 #include "array.h"
 
-using namespace std;
-
 int main()
 {
     Array *arr = array_create(10);
 
     if (array_size(arr) != 10)
     {
-        cout << "Invalid array size\n";
+        std::cout << "Invalid array size\n";
         array_delete(arr);
         return 1;
     }
@@ -21,7 +19,7 @@ int main()
     {
         if (array_get(arr, i) != i * 2)
         {
-            cout << "Invalid array element " << i << "\n";
+            std::cout << "Invalid array element " << i << "\n";
             array_delete(arr);
             return 1;
         }
