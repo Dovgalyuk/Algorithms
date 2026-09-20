@@ -13,3 +13,9 @@ Release/*
 .vs/*
 build/*
 .vscode/*
+out/
+build/
+.vs/
+*.exe
+*.pdb
+*.obj
