@@ -1,0 +1,5 @@
+push 10
+pop A
+push 20
+pop B
+ret

@@ -1,0 +1,5 @@
+push 10
+pop A
+push A
+push 5
+exec

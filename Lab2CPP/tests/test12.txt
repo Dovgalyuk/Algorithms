@@ -1,0 +1,5 @@
+push 5
+push 10
+add
+pop A
+push Z

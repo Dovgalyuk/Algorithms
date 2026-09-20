@@ -1,0 +1,8 @@
+push 10
+push 20
+push 30
+push 40
+pop D
+pop C
+pop B
+pop A
