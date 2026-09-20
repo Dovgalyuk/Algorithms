@@ -6,46 +6,52 @@ using namespace std;
 
 
 int main(int args, char* argv[]) {
-	if (args < 2){
-		return 1;
-	}
 
-	ifstream input(argv[1]);
+    if (args < 2) {
+        return 1;
+    }
 
-	int n;
-	input >> n;
+    ifstream input(argv[1]);
 
-	Array* arr = array_create(n);
-	for (size_t  i = 0; i < n; i++) {
-		int x;
-		input >> x;
-		array_set(arr, i, x);
-	}
+    size_t n;
+    input >> n;
 
-	long long sum = 0;
+    Array* arr = array_create(n, nullptr);
 
-	for (size_t  i = 0; i < n; i++) {
-		sum += array_get(arr, i);
-	}
+    for (size_t i = 0; i < n; i++) {
+        int x;
+        input >> x;
+        array_set(arr, i, (Data)x);
+    }
 
-	int count = 0;
 
-	for (size_t i = 0; i < n; i++) {
-		if (array_get(arr, i) > sum) {
-			count++;
-		}
-	}
+    long long sum = 0;
 
-	cout << count;
+    for (size_t i = 0; i < n; i++) {
+        sum += (int)array_get(arr, i);
+    }
 
-	for (size_t i = 0; i < n; i++) {
-		if (array_get(arr, i) > sum) {
-			cout << " " << i;
-		}
-	}
 
-	cout << "\n";
-	array_delete(arr);
+    size_t count = 0;
 
-	return 0;
+    for (size_t i = 0; i < n; i++) {
+        if ((int)array_get(arr, i) > sum) {
+            count++;
+        }
+    }
+
+
+    cout << count;
+
+    for (size_t i = 0; i < n; i++) {
+        if ((int)array_get(arr, i) > sum) {
+            cout << " " << i;
+        }
+    }
+
+    cout << "\n";
+
+    array_delete(arr);
+
+    return 0;
 }
