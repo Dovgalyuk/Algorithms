@@ -7,9 +7,15 @@ add_test(NAME CheckContainer COMMAND test_array)
 set_tests_properties(CheckContainer PROPERTIES PASS_REGULAR_EXPRESSION "10 20 30 40 50")
 
 # 2. Тест разворота массива (task1)
-add_test(NAME CheckReverse COMMAND task1 "${CMAKE_CURRENT_SOURCE_DIR}/input1.txt")
-set_tests_properties(CheckReverse PROPERTIES PASS_REGULAR_EXPRESSION "5 4 3 2 1")
+add_test(NAME CheckReverse COMMAND task1)
+set_tests_properties(CheckReverse PROPERTIES 
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    PASS_REGULAR_EXPRESSION "5 4 3 2 1"
+)
 
 # 3. Тест поиска элементов (task2)
-add_test(NAME CheckTwoOccurrences COMMAND task2 "${CMAKE_CURRENT_SOURCE_DIR}/input2.txt")
-set_tests_properties(CheckTwoOccurrences PROPERTIES PASS_REGULAR_EXPRESSION "5")
+add_test(NAME CheckTwoOccurrences COMMAND task2)
+set_tests_properties(CheckTwoOccurrences PROPERTIES 
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    PASS_REGULAR_EXPRESSION "5"
+)
