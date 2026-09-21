@@ -10,18 +10,26 @@ Array *array_create_and_read(ifstream &input);
 void task2(const Array *arr, ostream &out)
 {
     size_t n = array_size(arr);
-    int MAX = 0, b = 0;
-
-    for (size_t i = 0; i + 4 < n; i++)
+    if (n < 5)
     {
-        b = array_get(arr, i) + array_get(arr, i + 1) + array_get(arr, i + 2)
-            + array_get(arr, i + 3) + array_get(arr, i + 4);
-        MAX = max(b, MAX);
+        out << 0 << endl;
+        return;
+    }
+
+    int sum = 0;
+    for (size_t i = 0; i < 5; i++)
+        sum += array_get(arr, i);
+
+    int MAX = sum;
+
+    for (size_t i = 5; i < n; i++)
+    {
+        sum += array_get(arr, i) - array_get(arr, i - 5);
+        MAX = max(sum, MAX);
     }
 
     out << MAX << endl;
 }
-
 int main(int argc, char **argv) {
 
     if (argc < 3) {
