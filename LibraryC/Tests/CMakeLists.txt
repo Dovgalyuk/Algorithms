@@ -1,0 +1,26 @@
+add_executable(TestArrayC array.cpp)
+target_include_directories(TestArrayC PUBLIC ..)
+target_link_libraries(TestArrayC LibraryC)
+add_test(TestArrayC TestArrayC)
+
+# add_executable(TestListC list.cpp)
+# target_include_directories(TestListC PUBLIC ..)
+# target_link_libraries(TestListC LibraryC)
+# add_test(TestListC TestListC)
+
+# add_executable(TestQueueC queue.cpp)
+# target_include_directories(TestQueueC PUBLIC ..)
+# target_link_libraries(TestQueueC LibraryC)
+# add_test(TestQueueC TestQueueC)
+# set_tests_properties(TestQueueC PROPERTIES TIMEOUT 10)
+
+# add_executable(TestStackC stack.cpp)
+# target_include_directories(TestStackC PUBLIC ..)
+# target_link_libraries(TestStackC LibraryC)
+# add_test(TestStackC TestStackC)
+
+# add_executable(TestVectorC vector.cpp)
+# target_include_directories(TestVectorC PUBLIC ..)
+# target_link_libraries(TestVectorC LibraryC)
+# add_test(TestVectorC TestVectorC)
+# set_tests_properties(TestVectorC PROPERTIES TIMEOUT 10)
