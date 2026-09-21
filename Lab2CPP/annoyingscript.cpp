@@ -6,8 +6,6 @@
 
 #include "stack.h"
 
-// ===================== Состояние =====================
-
 static Stack* st = nullptr;
 static std::string tilde;
 static std::vector<std::string> vars;
