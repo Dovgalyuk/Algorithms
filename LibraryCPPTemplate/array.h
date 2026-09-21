@@ -1,49 +1,84 @@
-#ifndef ARRAY_TEMPLATE_H
-#define ARRAY_TEMPLATE_H
+#ifndef ARRAY_H
+#define ARRAY_H
 
-template <typename Data> class Array
+#include <cstddef>
+
+template <typename Data>
+class Array
 {
+private:
+    Data* data;
+    size_t array_size;
+
 public:
-    // create array
-    explicit Array(size_t size)
+
+    // создание массива заданного размера
+    Array(size_t size)
     {
+        array_size = size;
+        data = new Data[array_size];
     }
 
-    // copy constructor
-    Array(const Array &a)
+
+    // конструктор копирования
+    Array(const Array& other)
     {
+        array_size = other.array_size;
+        data = new Data[array_size];
+
+        for (size_t i = 0; i < array_size; i++)
+        {
+            data[i] = other.data[i];
+        }
     }
 
-    // assignment operator
-    Array &operator=(const Array &a)
+
+    // оператор присваивания
+    Array& operator=(const Array& other)
     {
+        if (this != &other)
+        {
+            delete[] data;
+
+            array_size = other.array_size;
+            data = new Data[array_size];
+
+            for (size_t i = 0; i < array_size; i++)
+            {
+                data[i] = other.data[i];
+            }
+        }
+
         return *this;
     }
 
-    // delete array, free memory
+
+    // освобождение памяти
     ~Array()
     {
+        delete[] data;
     }
 
-    // returns specified array element
+
+    // получить элемент
     Data get(size_t index) const
     {
-        return Data(0);
+        return data[index];
     }
 
-    // sets the specified array element to the value
+
+    // изменить элемент
     void set(size_t index, Data value)
     {
+        data[index] = value;
     }
 
-    // returns array size
+
+    // получить размер
     size_t size() const
     {
-        return 0;
+        return array_size;
     }
-
-private:
-    // private data should be here
 };
 
 #endif
