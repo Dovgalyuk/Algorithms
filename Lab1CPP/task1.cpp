@@ -10,7 +10,7 @@ using namespace std;
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(int argc, charаа* argv[])
 {
     const char* filename = "input.txt";
 
