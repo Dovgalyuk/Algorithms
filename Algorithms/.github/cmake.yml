@@ -1,0 +1,31 @@
+name: CMake
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  BUILD_TYPE: RelWithDebInfo
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Configure CMake
+      # Переходим в папку Algorithms, где лежит главный CMakeLists.txt
+      working-directory: ${{github.workspace}}/Algorithms
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_C_COMPILER=clang
+
+    - name: Build
+      # Компилируем проект из папки build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      # Запускаем только тесты, которые содержат в имени "Lab1" или "CPP", чтобы пропустить Си-тесты
+      run: ASAN_OPTIONS=detect_leaks=1 ctest -C ${{env.BUILD_TYPE}} -R "(Lab1|CPP)" --output-on-failure
