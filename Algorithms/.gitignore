@@ -1,0 +1,16 @@
+*.opensdf
+*.sdf
+*.suo
+*.user
+*.filters
+*.obj
+*.exe
+ipch/*
+*/Debug/*
+*/Release/*
+Debug/*
+Release/*
+.vs/*
+build/*
+build-*/
+.vscode/*
