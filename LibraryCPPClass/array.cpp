@@ -12,15 +12,22 @@ Array::Array(size_t size)
     }
 }
 
+Data *Array::copyData(const Array &a)
+{
+    Data *result = new Data[a.size_];
+
+    for (size_t i = 0; i < a.size_; i++)
+    {
+        result[i] = a.data_[i];
+    }
+
+    return result;
+}
+
 Array::Array(const Array &a)
 {
+    data_ = copyData(a);
     size_ = a.size_;
-    data_ = new Data[size_];
-
-    for (size_t i = 0; i < size_; ++i)
-    {
-        data_[i] = a.data_[i];
-    }
 }
 
 Array &Array::operator=(const Array &a)
@@ -29,15 +36,11 @@ Array &Array::operator=(const Array &a)
     {
         return *this;
     }
-    
-    Data *copy = new Data[a.size_];
-    for (size_t i = 0; i < a.size_; ++i)
-    {
-        copy[i] = a.data_[i];
-    }
+
+    Data *newData = copyData(a);
 
     delete[] data_;
-    data_ = copy;
+    data_ = newData;
     size_ = a.size_;
     return *this;
 }
