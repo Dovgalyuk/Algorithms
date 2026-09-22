@@ -33,6 +33,8 @@ Data array_get(const Array *arr, size_t index)
 
 void array_set(Array *arr, size_t index, Data value)
 {
+    if (arr->f && arr->data[index])
+        arr->f((void *)arr->data[index]);
     arr->data[index] = value;
 }
 
