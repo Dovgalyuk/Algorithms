@@ -4,7 +4,7 @@
 #include <fstream>
 #include "stack.h"
 
-static bool is_number(const std::string& str)
+bool is_number(const std::string& str)
 {
     if (str.empty()) return false;
     size_t start = 0;
