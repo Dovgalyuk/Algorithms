@@ -19,7 +19,7 @@ set_property(TEST TestTask1_Two PROPERTY PASS_REGULAR_EXPRESSION "2\\.500000")
 add_test(NAME TestTask1_Four COMMAND lab1_task1 ${CMAKE_CURRENT_SOURCE_DIR}/input1_3.txt)
 set_property(TEST TestTask1_Four PROPERTY PASS_REGULAR_EXPRESSION "0\\.250000")
 
-add_test(NAME TestTask1_Three COMMAND lab1_task1 ${CMAKE_CURRENT_SOURCE_DIR}/input1.txt)
+add_test(NAME TestTask1_Three COMMAND lab1_task1 ${CMAKE_CURRENT_SOURCE_DIR}/input1_4.txt)
 set_property(TEST TestTask1_Three PROPERTY PASS_REGULAR_EXPRESSION "5\\.454545")
 
 # - Тесты для задачи 2 -
@@ -33,5 +33,5 @@ set_property(TEST TestTask2_Single PROPERTY PASS_REGULAR_EXPRESSION "\\(42,1\\)"
 add_test(NAME TestTask2_AllDiff COMMAND lab1_task2 ${CMAKE_CURRENT_SOURCE_DIR}/input2_3.txt)
 set_property(TEST TestTask2_AllDiff PROPERTY PASS_REGULAR_EXPRESSION "\\(1,1\\) \\(2,1\\) \\(3,1\\)")
 
-add_test(NAME TestTask2_Runs COMMAND lab1_task2 ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
+add_test(NAME TestTask2_Runs COMMAND lab1_task2 ${CMAKE_CURRENT_SOURCE_DIR}/input2_4.txt)
 set_property(TEST TestTask2_Runs PROPERTY PASS_REGULAR_EXPRESSION "\\(1,2\\) \\(2,1\\) \\(3,1\\)")
