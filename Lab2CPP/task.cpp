@@ -16,9 +16,10 @@ void separation(std::string &command, std::string &value)
     command = command.substr(0, space);
 }
 
-void push(Stack<std::string> &stack, int *reg, const std::string& value)
+void push(Stack<std::string> &stack, int *reg, const std::string &value)
 {
-    if(value.empty()){
+    if (value.empty())
+    {
         throw std::runtime_error("BAD PUSH");
     }
 
@@ -34,7 +35,8 @@ void push(Stack<std::string> &stack, int *reg, const std::string& value)
         {
             stack.push(std::to_string(reg[index]));
         }
-        else{
+        else
+        {
             throw std::runtime_error("BAD PUSH");
         }
     }
@@ -42,82 +44,61 @@ void push(Stack<std::string> &stack, int *reg, const std::string& value)
 
 void pop(Stack<std::string> &stack, int *reg, const std::string &value)
 {
-    if (stack.empty() || value.empty()|| stack.get() == "ADDR")
+    if (stack.empty() || value.empty() || !std::isalpha(value[0]) || stack.get() == "ADDR")
     {
         throw std::runtime_error("BAD POP");
     }
 
-    else if (std::isalpha(value[0]))
-    {
-        size_t index = value[0] - 'A';
+    size_t index = value[0] - 'A';
 
-        if (index < 4)
-        {
-            reg[index] = std::stoi(stack.get());
-            stack.pop();
-            return;
-        }
+    if (index < 4)
+    {
+        reg[index] = std::stoi(stack.get());
+        stack.pop();
+    }
+}
+
+int operand(Stack<std::string> &stack, const std::string &operation)
+{
+    if (stack.empty() || stack.get() == "ADDR")
+    {
+        throw std::runtime_error("BAD " + operation);
     }
 
-    throw std::runtime_error("BAD POP");
+    int a = std::stoi(stack.get());
+    stack.pop();
+
+    return a;
 }
 
 void add(Stack<std::string> &stack)
 {
+    const std::string operation = "ADD";
 
-    if(stack.empty() || stack.get()=="ADDR"){
-        throw std::runtime_error("BAD ADD");
-    }
+    int a1 = operand(stack, operation);
+    int a2 = operand(stack, operation);
 
-    int a1 = std::stoi(stack.get());
-    stack.pop();
-
-    if(stack.empty() || stack.get()=="ADDR"){
-        throw std::runtime_error("BAD ADD");
-    }
-
-    int a2 = std::stoi(stack.get());
-    stack.pop();
-
-    stack.push(std::to_string(a1+a2));
+    stack.push(std::to_string(a1 + a2));
 }
 
 void sub(Stack<std::string> &stack)
 {
-    if(stack.empty() || stack.get()=="ADDR"){
-        throw std::runtime_error("BAD SUB");
-    }
+    const std::string operation = "SUB";
 
-    int a1 = std::stoi(stack.get());
-    stack.pop();
+    int a1 = operand(stack, operation);
+    int a2 = operand(stack, operation);
 
-    if(stack.empty() || stack.get()=="ADDR"){
-        throw std::runtime_error("BAD SUB");
-    }
-
-    int a2 = std::stoi(stack.get());
-    stack.pop();
-
-    stack.push(std::to_string(a2-a1));
+    stack.push(std::to_string(a2 - a1));
 }
 
 void mul(Stack<std::string> &stack)
 {
-    if(stack.empty() || stack.get()=="ADDR"){
-        throw std::runtime_error("BAD MUL");
-    }
+    const std::string operation = "MUL";
 
-    int a1 = std::stoi(stack.get());
-    stack.pop();
+    int a1 = operand(stack, operation);
+    int a2 = operand(stack, operation);
 
-    if(stack.empty() || stack.get()=="ADDR"){
-        throw std::runtime_error("BAD MUL");
-    }
-
-    int a2 = std::stoi(stack.get());
-    stack.pop();
-
-    stack.push(std::to_string(a1*a2));
+    stack.push(std::to_string(a1 * a2));
 }
 
 void call(Stack<std::string> &stack)
@@ -127,16 +108,13 @@ void call(Stack<std::string> &stack)
 
 void ret(Stack<std::string> &stack)
 {
-    if(stack.empty()){
+    if (stack.empty() || stack.get() != "ADDR")
+    {
         throw std::runtime_error("BAD RET");
     }
 
-    else if(stack.get()=="ADDR"){
-        stack.pop();
-        return;
-    }
-
-    throw std::runtime_error("BAD RET");
+    stack.pop();
+    return;
 }
 
 int main(int argc, char *argv[])
@@ -157,53 +135,59 @@ int main(int argc, char *argv[])
 
         std::string command;
         std::string value;
-        try{
-
-        while (std::getline(input_file, command))
+        try
         {
-            separation(command, value);
-            if(command.empty()) {
-                continue;
-            }
-            else if (command == "push")
-            {
-                push(proc_stack, reg, value);
-            }
-            else if (command == "pop")
-            {
-                pop(proc_stack, reg, value);
-            }
-            else if (command == "add")
-            {
-                add(proc_stack);
-            }
-            else if (command == "sub")
-            {
-                sub(proc_stack);
-            }
-            else if (command == "mul")
-            {
-                mul(proc_stack);
-            }
-            else if (command == "call")
-            {
-                call(proc_stack);
-            }
-            else if (command == "ret")
-            {
-                ret(proc_stack);
-            }
-            else{
-                throw std::runtime_error("BAD COM");
-            }
-        }}
-        catch(const std::runtime_error& e){
 
-            std::cerr<<e.what();
+            while (std::getline(input_file, command))
+            {
+                separation(command, value);
+                if (command.empty())
+                {
+                    continue;
+                }
+                else if (command == "push")
+                {
+                    push(proc_stack, reg, value);
+                }
+                else if (command == "pop")
+                {
+                    pop(proc_stack, reg, value);
+                }
+                else if (command == "add")
+                {
+                    add(proc_stack);
+                }
+                else if (command == "sub")
+                {
+                    sub(proc_stack);
+                }
+                else if (command == "mul")
+                {
+                    mul(proc_stack);
+                }
+                else if (command == "call")
+                {
+                    call(proc_stack);
+                }
+                else if (command == "ret")
+                {
+                    ret(proc_stack);
+                }
+                else
+                {
+                    throw std::runtime_error("BAD COM");
+                }
+            }
+        }
+        catch (const std::runtime_error &e)
+        {
+
+            std::cerr << e.what();
 
             return 1;
         }
-        catch(...){
+        catch (...)
+        {
 
             return 1;
         }

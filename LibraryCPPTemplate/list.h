@@ -39,7 +39,7 @@ public:
         last_ptr = nullptr;
     }
 
-    List(const List &a): List()
+    List(const List &a) : List()
     {
         Item *item = a.first_ptr;
         while (item != nullptr)
@@ -53,16 +53,16 @@ public:
     {
         if (this != &a)
         {
-            while (first_ptr != nullptr)
-            {
-                erase_first();
-            }
-            Item *new_item = a.first_ptr;
-            while (new_item != nullptr)
-            {
-                insert_after(last_ptr, new_item->inf);
-                new_item = new_item->next_ptr;
-            }
+            List tmp(a);
+
+            Item *tmp_first = first_ptr;
+            Item *tmp_last = last_ptr;
+
+            first_ptr = tmp.first_ptr;
+            last_ptr = tmp.last_ptr;
+
+            tmp.first_ptr = tmp_first;
+            tmp.last_ptr = tmp_last;
         }
         return *this;
     }
@@ -165,10 +165,12 @@ public:
 
         Item *after_delete = delete_item->next_ptr;
 
-        if(after_delete !=nullptr){
+        if (after_delete != nullptr)
+        {
             after_delete->prev_ptr = item;
         }
-        else{
+        else
+        {
             last_ptr = item;
         }
 
