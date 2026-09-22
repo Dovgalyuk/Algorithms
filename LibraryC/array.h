@@ -1,38 +1,42 @@
-#ifndef ARRAY_H
-#define ARRAY_H
+#include <stdlib.h>
+#include "array.h"
 
-#include <stddef.h>
-#include <stdint.h>
+typedef struct Array {
+    Data *data;
+    size_t size;
+    FFree *f;
+} Array;
 
-// Non-resizeable array
-// Stores integer or pointer to custom user data
-typedef uintptr_t Data;
-// Custom function to free user pointers on delete
-typedef void (FFree)(void*);
-
-typedef struct Array Array;
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-// create array
-Array *array_create(size_t size, FFree f);
-
-// delete array, free memory
-void array_delete(Array *arr);
-
-// returns specified array element
-Data array_get(const Array *arr, size_t index);
-
-// sets the specified array element to the value
-void array_set(Array *arr, size_t index, Data value);
-
-// returns array size
-size_t array_size(const Array *arr);
-
-#ifdef __cplusplus
+Array *array_create(size_t size, FFree *f)
+{
+    Array *arr = (Array *)malloc(sizeof(Array));
+    arr->data = (Data *)malloc(sizeof(Data) * size);
+    arr->size = size;
+    arr->f = f;
+    return arr;
 }
-#endif
 
-#endif
+void array_delete(Array *arr)
+{
+    if (arr->f) {
+        for (size_t i = 0; i < arr->size; i++)
+            arr->f((void *)arr->data[i]);
+    }
+    free(arr->data);
+    free(arr);
+}
+
+Data array_get(const Array *arr, size_t index)
+{
+    return arr->data[index];
+}
+
+void array_set(Array *arr, size_t index, Data value)
+{
+    arr->data[index] = value;
+}
+
+size_t array_size(const Array *arr)
+{
+    return arr->size;
+}
