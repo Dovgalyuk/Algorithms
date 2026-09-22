@@ -31,7 +31,10 @@ public:
     size_t size() const;
 
 private:
-    // private data should be here
+    size_t len;
+    Data* contents;
 };
+
+Array* array_create_and_read(FILE* input);
 
 #endif
