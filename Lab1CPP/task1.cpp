@@ -1,21 +1,16 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include "array.h"
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
-    setlocale(LC_ALL, "Russian");
-
-    string filename = "input1.txt";
-    if (argc > 1) {
-        filename = argv[1];
+int main(int argc, char** argv) {
+    if (argc < 2) {
+        return 1;
     }
 
-    ifstream file(filename);
+    ifstream file(argv[1]);
     if (!file.is_open()) {
-        cout << "Ошибка: не удалось открыть файл " << filename << endl;
         return 1;
     }
 
@@ -30,7 +25,7 @@ int main(int argc, char* argv[]) {
     }
     file.close();
 
-    // Разворот на месте без второго массива
+    // Разворот на месте двумя указателями
     int left = 0;
     int right = n - 1;
     while (left < right) {
@@ -41,7 +36,7 @@ int main(int argc, char* argv[]) {
         right--;
     }
 
-    cout << "Перевернутый массив: ";
+    // Вывод развернутого массива
     for (int i = 0; i < n; i++) {
         cout << array_get(arr, i) << " ";
     }
