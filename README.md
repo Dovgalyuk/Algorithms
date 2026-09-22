@@ -1,5 +1,32 @@
 # Algorithms
 
+## Лабораторная работа 1 на C++
+
+Реализация массива: `Algorithms/LibraryCPPTemplate/array.h`.
+Программы, входные данные и эталоны: `Algorithms/Lab1CPP/`.
+Корневой CMake подключает эту реализацию и все 28 тестов:
+2 проверки массива, 12 проверок результатов задач и 14 проверок ошибок.
+
+Сборка и проверка из корня репозитория в Windows:
+
+```powershell
+cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+cmake --build build --config Debug
+ctest --test-dir build -C Debug --output-on-failure --no-tests=error
+```
+
+Примеры запуска из корня репозитория:
+
+```powershell
+.\build\Lab1CPP\Debug\Lab1CPPMonthly.exe .\Algorithms\Lab1CPP\examples\monthly_constant.txt
+.\build\Lab1CPP\Debug\Lab1CPPCompress.exe .\Algorithms\Lab1CPP\examples\compress_mixed.txt
+```
+
+[Описание алгоритмов, форматов данных и тестов](Algorithms/Lab1CPP/README.md).
+Команды в этом отдельном описании рассчитаны на запуск из папки `Algorithms`.
+Незавершённые шаблоны других лабораторных подключаются только при
+`-DBUILD_STARTER_EXAMPLES=ON`; к готовой лабораторной на C++ они не относятся.
+
 [Как выполнять лабораторные работы](LABS.md)
 
 # Структура каталогов
