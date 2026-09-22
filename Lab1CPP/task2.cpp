@@ -1,34 +1,37 @@
 #include <iostream>
 #include <fstream>
-#include "Array.h"
+#include "array.h"
 
 using namespace std;
 
-int main() {
-    setlocale(LC_ALL, "Russian");
+int main(int argc, char** argv) {
+    if (argc < 2) {
+        return 1;
+    }
 
-    ifstream file("input2.txt");
+    ifstream file(argv[1]);
     if (!file.is_open()) {
-        cout << "Ошибка: не удалось открыть файл input2.txt" << endl;
         return 1;
     }
 
     int n;
     file >> n;
 
-    Array arr(n);
+    Array* arr = array_create(n);
     int counts[1001] = {0};
 
-    // Заполнение и подсчет за один проход O(N)
+    // Чтение, сохранение в массив LibraryCPP и подсчет частоты
     for (int i = 0; i < n; i++) {
-        file >> arr[i];
-        if (arr[i] >= 0 && arr[i] <= 1000) {
-            counts[arr[i]]++;
+        int val;
+        file >> val;
+        array_set(arr, i, val);
+        if (val >= 0 && val <= 1000) {
+            counts[val]++;
         }
     }
     file.close();
 
-    cout << "Числа, встречающиеся ровно 2 раза: ";
+    // Вывод чисел, встречающихся ровно 2 раза
     for (int val = 0; val <= 1000; val++) {
         if (counts[val] == 2) {
             cout << val << " ";
@@ -36,5 +39,6 @@ int main() {
     }
     cout << endl;
 
+    array_delete(arr);
     return 0;
 }
