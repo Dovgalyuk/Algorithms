@@ -4,10 +4,10 @@
 typedef struct Array {
     Data *data;
     size_t size;
-    FFree f;
+    FFree *f;
 } Array;
 
-Array *array_create(size_t size, FFree f)
+Array *array_create(size_t size, FFree *f)
 {
     Array *arr = (Array *)malloc(sizeof(Array));
     arr->data = (Data *)malloc(sizeof(Data) * size);
@@ -20,7 +20,7 @@ void array_delete(Array *arr)
 {
     if (arr->f) {
         for (size_t i = 0; i < arr->size; i++)
-            arr->f(arr->data[i]);
+            arr->f((void *)arr->data[i]);
     }
     free(arr->data);
     free(arr);
