@@ -1,15 +1,21 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "array.h"
 
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "Russian");
 
-    ifstream file("input1.txt");
+    string filename = "input1.txt";
+    if (argc > 1) {
+        filename = argv[1];
+    }
+
+    ifstream file(filename);
     if (!file.is_open()) {
-        cout << "Ошибка: не удалось открыть файл input1.txt" << endl;
+        cout << "Ошибка: не удалось открыть файл " << filename << endl;
         return 1;
     }
 
