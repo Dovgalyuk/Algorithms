@@ -18,35 +18,59 @@ target_include_directories(
 
 add_test(
     NAME FastestTest1
-    COMMAND Fastest ${CMAKE_CURRENT_SOURCE_DIR}/input/fastest_1.txt
+    COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:Fastest>
+    -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/input/fastest_1.txt
+    -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/expected/fastest_1.txt
+    -P ${CMAKE_SOURCE_DIR}/check_output.cmake
 )
 
 
 add_test(
     NAME FastestTest2
-    COMMAND Fastest ${CMAKE_CURRENT_SOURCE_DIR}/input/fastest_2.txt
+    COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:Fastest>
+    -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/input/fastest_2.txt
+    -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/expected/fastest_2.txt
+    -P ${CMAKE_SOURCE_DIR}/check_output.cmake
 )
 
 
 add_test(
     NAME FastestTest3
-    COMMAND Fastest ${CMAKE_CURRENT_SOURCE_DIR}/input/fastest_3.txt
+    COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:Fastest>
+    -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/input/fastest_3.txt
+    -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/expected/fastest_3.txt
+    -P ${CMAKE_SOURCE_DIR}/check_output.cmake
 )
 
 
 add_test(
     NAME MaxFiveSumTest1
-    COMMAND MaxFiveSum ${CMAKE_CURRENT_SOURCE_DIR}/input/sum_1.txt
+    COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:MaxFiveSum>
+    -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/input/sum_1.txt
+    -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/expected/sum_1.txt
+    -P ${CMAKE_SOURCE_DIR}/check_output.cmake
 )
 
 
 add_test(
     NAME MaxFiveSumTest2
-    COMMAND MaxFiveSum ${CMAKE_CURRENT_SOURCE_DIR}/input/sum_2.txt
+    COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:MaxFiveSum>
+    -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/input/sum_2.txt
+    -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/expected/sum_2.txt
+    -P ${CMAKE_SOURCE_DIR}/check_output.cmake
 )
 
 
 add_test(
     NAME MaxFiveSumTest3
-    COMMAND MaxFiveSum ${CMAKE_CURRENT_SOURCE_DIR}/input/sum_3.txt
+    COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:MaxFiveSum>
+    -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/input/sum_3.txt
+    -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/expected/sum_3.txt
+    -P ${CMAKE_SOURCE_DIR}/check_output.cmake
 )
