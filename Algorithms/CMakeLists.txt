@@ -25,5 +25,5 @@ if (BUILD_STARTER_EXAMPLES)
     add_subdirectory(Lab1C)
 endif()
 
-add_subdirectory(Algorithms/LibraryCPPTemplate LibraryCPPTemplate)
-add_subdirectory(Algorithms/Lab1CPP Lab1CPP)
+add_subdirectory(LibraryCPPTemplate)
+add_subdirectory(Lab1CPP)
