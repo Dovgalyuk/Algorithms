@@ -1,19 +1,18 @@
 #include <iostream>
 #include <string>
-#include <cctype>
 #include <fstream>
 #include "stack.h"
 
-bool is_number(const std::string& str)
+static bool is_number(const std::string& str)
 {
     if (str.empty()) return false;
-    size_t start = 0;
+    size_t idx = 0;
     if (str[0] == '-' || str[0] == '+') {
         if (str.length() == 1) return false;
-        start = 1;
+        idx = 1;
     }
-    for (size_t i = start; i < str.length(); i++) {
-        if (!std::isdigit(static_cast<unsigned char>(str[i]))) return false;
+    for (size_t i = idx; i < str.length(); i++) {
+        if (str[i] < '0' || str[i] > '9') return false;
     }
     return true;
 }
@@ -32,7 +31,7 @@ int main(int argc, char* argv[])
     while (file >> str)
     {
         if (is_number(str)) {
-            Data val = static_cast<Data>(std::stoi(str));
+            Data val = std::stoi(str);
             stack_push(stack, val);
         }
         else if (str == "+")
