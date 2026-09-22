@@ -71,8 +71,8 @@ public:
     }
 
 private:
-    Data* m_data;
     size_t m_size;
+    Data* m_data;
 };
 
 #endif
