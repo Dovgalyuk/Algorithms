@@ -10,7 +10,7 @@ Array::Array(size_t size)
 Array::Array(const Array &a)
 {
     contents = new Data[a.len];
-    for (int i = 0; i < a.len; i++)
+    for (size_t i = 0; i < a.len; i++)
         contents[i] = a.contents[i];
 }
 
@@ -19,7 +19,7 @@ Array &Array::operator=(const Array &a)
     if (this != &a) {
         delete[] contents;
         contents = new Data[a.len];
-        for (int i = 0; i < a.len; i++)
+        for (size_t i = 0; i < a.len; i++)
             contents[i] = a.contents[i];
     }
     return *this;
@@ -50,7 +50,7 @@ Array* array_create_and_read(FILE* input)
 {
     int n;
     if(fscanf(input, "%d", &n) != 1)
-        return;
+        return NULL;
     /* Create array */
     Array* arr = new Array(n);
     /* Read array data */
@@ -58,7 +58,7 @@ Array* array_create_and_read(FILE* input)
     {
         int x;
         if (fscanf(input, "%d", &x) != 1)
-            return;
+            return NULL;
         arr->set(i, x);
     }
     return arr;
