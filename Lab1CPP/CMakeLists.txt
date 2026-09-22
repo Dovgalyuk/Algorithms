@@ -1,21 +1,55 @@
-add_executable(test_array test.cpp Array.h)
-add_executable(task1 task1.cpp Array.h)
-add_executable(task2 task2.cpp Array.h)
+add_executable(task1 task1.cpp)
+target_include_directories(task1 PRIVATE ../LibraryCPP)
+target_link_libraries(task1 PRIVATE LibraryCPP)
 
-# 1. Тест базового контейнера
-add_test(NAME CheckContainer COMMAND test_array)
-set_tests_properties(CheckContainer PROPERTIES PASS_REGULAR_EXPRESSION "10 20 30 40 50")
+add_executable(task2 task2.cpp)
+target_include_directories(task2 PRIVATE ../LibraryCPP)
+target_link_libraries(task2 PRIVATE LibraryCPP)
 
-# 2. Тест разворота массива (task1)
-add_test(NAME CheckReverse COMMAND task1)
-set_tests_properties(CheckReverse PROPERTIES 
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    PASS_REGULAR_EXPRESSION "5 4 3 2 1"
+enable_testing()
+
+# Тесты для task1
+add_test(
+    NAME test1_1
+    COMMAND task1 ${CMAKE_CURRENT_SOURCE_DIR}/input1.txt
 )
 
-# 3. Тест поиска элементов (task2)
-add_test(NAME CheckTwoOccurrences COMMAND task2)
-set_tests_properties(CheckTwoOccurrences PROPERTIES 
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    PASS_REGULAR_EXPRESSION "5"
+set_property(
+    TEST test1_1
+    PROPERTY PASS_REGULAR_EXPRESSION
+    "5 4 3 2 1"
+)
+
+add_test(
+    NAME test1_2
+    COMMAND task1 ${CMAKE_CURRENT_SOURCE_DIR}/input1_2.txt
+)
+
+set_property(
+    TEST test1_2
+    PROPERTY PASS_REGULAR_EXPRESSION
+    "40 30 20 10"
+)
+
+# Тесты для task2
+add_test(
+    NAME test2_1
+    COMMAND task2 ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt
+)
+
+set_property(
+    TEST test2_1
+    PROPERTY PASS_REGULAR_EXPRESSION
+    "5"
+)
+
+add_test(
+    NAME test2_2
+    COMMAND task2 ${CMAKE_CURRENT_SOURCE_DIR}/input2_2.txt
+)
+
+set_property(
+    TEST test2_2
+    PROPERTY PASS_REGULAR_EXPRESSION
+    "3 7"
 )
