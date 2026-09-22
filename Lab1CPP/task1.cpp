@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "Array.h"
+#include "array.h"
 
 using namespace std;
 
@@ -16,9 +16,11 @@ int main() {
     int n;
     file >> n;
 
-    Array arr(n);
+    Array* arr = array_create(n);
     for (int i = 0; i < n; i++) {
-        file >> arr[i];
+        int val;
+        file >> val;
+        array_set(arr, i, val);
     }
     file.close();
 
@@ -26,18 +28,19 @@ int main() {
     int left = 0;
     int right = n - 1;
     while (left < right) {
-        int temp = arr[left];
-        arr[left] = arr[right];
-        arr[right] = temp;
+        int temp = array_get(arr, left);
+        array_set(arr, left, array_get(arr, right));
+        array_set(arr, right, temp);
         left++;
         right--;
     }
 
     cout << "Перевернутый массив: ";
     for (int i = 0; i < n; i++) {
-        cout << arr[i] << " ";
+        cout << array_get(arr, i) << " ";
     }
     cout << endl;
 
+    array_delete(arr);
     return 0;
 }
