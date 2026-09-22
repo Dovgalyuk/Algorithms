@@ -1,8 +1,8 @@
-# add_executable(TestArrayCPP array.cpp)
-# target_include_directories(TestArrayCPP PUBLIC ..)
-# target_link_libraries(TestArrayCPP LibraryCPP)
-# add_test(TestArrayCPP TestArrayCPP)
-
+add_executable(TestArrayCPP array.cpp)
+target_include_directories(TestArrayCPP PUBLIC ..)
+target_link_libraries(TestArrayCPP LibraryCPP)
+add_test(NAME TestArrayCPP COMMAND TestArrayCPP)
+set_property(TEST TestArrayCPP PROPERTY PASS_REGULAR_EXPRESSION "1")
 # add_executable(TestListCPP list.cpp)
 # target_include_directories(TestListCPP PUBLIC ..)
 # target_link_libraries(TestListCPP LibraryCPP)
