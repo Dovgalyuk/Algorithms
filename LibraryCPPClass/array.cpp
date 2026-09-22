@@ -49,14 +49,16 @@ size_t Array::size() const
 Array* array_create_and_read(FILE* input)
 {
     int n;
-    fscanf(input, "%d", &n);
+    if(fscanf(input, "%d", &n) != 1)
+        return;
     /* Create array */
     Array* arr = new Array(n);
     /* Read array data */
     for (int i = 0; i < n; ++i)
     {
         int x;
-        fscanf(input, "%d", &x);
+        if (fscanf(input, "%d", &x) != 1)
+            return;
         arr->set(i, x);
     }
     return arr;

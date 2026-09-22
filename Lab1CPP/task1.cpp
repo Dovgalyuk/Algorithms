@@ -6,7 +6,7 @@
 void task1(Array *arr)
 {
     int sum = 0;
-    for (int i = 0; i < arr->size(); i++)
+    for (size_t i = 0; i < arr->size(); i++)
         sum += arr->get(i);
     double average = sum / double(arr->size());
     double dif(sum);

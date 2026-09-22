@@ -4,7 +4,7 @@
 
 void task2(Array* arr)
 {
-    for (int i = 0; i < arr->size(); i++) {
+    for (size_t i = 0; i < arr->size(); i++) {
         int elem = arr->get(i);
         if (elem) {
             bool can_divide = 0;
