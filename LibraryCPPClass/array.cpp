@@ -8,9 +8,15 @@ Array::Array(size_t size)
 
 Array::Array(const Array& a)
 {
+    copyFrom(a);
+}
+
+void Array::copyFrom(const Array& a)
+{
     array_size = a.array_size;
     data = new Data[array_size];
-    for (size_t i = 0; i < array_size; i++){
+
+    for (size_t i = 0; i < array_size; i++) {
         data[i] = a.data[i];
     }
 }
@@ -23,12 +29,7 @@ Array& Array::operator=(const Array& a)
 
     delete[] data;
 
-    array_size = a.array_size;
-    data = new Data[array_size];
-
-    for (size_t i = 0; i < array_size; i++) {
-        data[i] = a.data[i];
-    }
+    copyFrom(a);
 
     return *this;
 }

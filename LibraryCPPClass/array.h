@@ -34,6 +34,8 @@ private:
     Data* data;
     size_t array_size;
 
+    void copyFrom(const Array& a);
+
 };
 
 #endif
