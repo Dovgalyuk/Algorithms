@@ -10,7 +10,7 @@ typedef struct Array {
 Array *array_create(size_t size, FFree *f)
 {
     Array *arr = (Array *)malloc(sizeof(Array));
-    arr->data = (Data *)malloc(sizeof(Data) * size);
+    arr->data = (Data *)calloc(size, sizeof(Data));
     arr->size = size;
     arr->f = f;
     return arr;
