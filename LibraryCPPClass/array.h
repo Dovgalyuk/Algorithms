@@ -3,35 +3,30 @@
 
 #include <cstddef>
 
-// Change it to desired type
 typedef int Data;
 
 class Array
 {
 public:
-    // create array
     explicit Array(size_t size);
 
-    // copy constructor
     Array(const Array &a);
 
-    // assignment operator
     Array &operator=(const Array &a);
 
-    // delete array, free memory
     ~Array();
 
-    // returns specified array element
     Data get(size_t index) const;
 
-    // sets the specified array element to the value
     void set(size_t index, Data value);
 
-    // returns array size
+    Data &operator[](size_t index);
+
     size_t size() const;
 
 private:
-    // private data should be here
+    Data *data;
+    size_t array_size;
 };
 
 #endif
