@@ -3,7 +3,6 @@
 
 #include <cstddef>
 
-// Change it to desired type
 typedef int Data;
 
 class List
@@ -12,49 +11,39 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item *next() {
+            if (m_next == nullptr) return nullptr;
+            return m_next->m_isBarrier ? nullptr : m_next;
+        }
+        Item *prev() {
+            if (m_prev == nullptr) return nullptr;
+            return m_prev->m_isBarrier ? nullptr : m_prev;
+        }
+        Data data() const { return m_data; }
+
+        friend class List;
     private:
-        // internal data here
+        Item *m_next = nullptr;
+        Item *m_prev = nullptr;
+        Data m_data = 0;
+        bool m_isBarrier = false;
     };
-
-    // Creates new list
+    
     List();
-
-    // copy constructor
     List(const List &a);
-
-    // assignment operator
     List &operator=(const List &a);
-
-    // Destroys the list and frees the memory
     ~List();
 
-    // Retrieves the first item from the list
     Item *first();
-
-    // Retrieves the last item of the list
     Item *last();
-
-    // Inserts new list item into the beginning
     Item *insert(Data data);
-
-    // Inserts new list item after the specified item
-    // Inserts first element if item is null
     Item *insert_after(Item *item, Data data);
-
-    // Deletes the first list item.
-    // Returns pointer to the item next to the deleted one.
     Item *erase_first();
-
-    // Deletes the list item following the specified one.
-    // Deletes the first element when item is null.
-    // Returns pointer to the item next to the deleted one.
-    // Should be O(1)
     Item *erase_next(Item *item);
+
 private:
-    // private data should be here
+    Item *m_barrier;
+    void clear();
 };
 
 #endif
