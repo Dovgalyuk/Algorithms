@@ -17,27 +17,14 @@ void RLE(Array* arr, ofstream& output)
         }
         else
         {
-            if (count != 1) {
-                cout << current << " " << count << " ";
-                output << current << " " << count << " ";
-                current = x;
-                count = 1;
-            }
-            else {
-                cout << current << " ";
-                output << current << " ";
-                current = x;
-            }
+            cout << current << " " << count << " ";
+            output << current << " " << count << " ";
+            current = x;
+            count = 1;
         }
     }
-    if (count != 1) {
-        cout << current << " " << count << endl;
-        output << current << " " << count << endl;
-    }
-    else {
-        cout << current << endl;
-        output << current << endl;
-    }
+    cout << current << " " << count << endl;
+    output << current << " " << count << endl;
 }
 
 int main(int argc, char** argv)
