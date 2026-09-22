@@ -20,14 +20,14 @@ Array *array_create_and_read(FILE *input)
 void task1(Array *arr)
 {
     for (size_t i = 0; i < array_size(arr); i++)
-        printf("%d ", array_get(arr, i));
+        printf("%lu ", (unsigned long)array_get(arr, i));
     printf("\n");
 }
 
 void task2(Array *arr)
 {
     for (size_t i = 0; i < array_size(arr); i++)
-        printf("%d ", array_get(arr, i));
+        printf("%lu ", (unsigned long)array_get(arr, i));
     printf("\n");
 }
 
