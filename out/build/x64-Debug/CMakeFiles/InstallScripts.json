@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/admin/source/repos/Algorithms/out/build/x64-Debug/cmake_install.cmake",
+		"C:/Users/admin/source/repos/Algorithms/out/build/x64-Debug/LibraryCPPTemplate/cmake_install.cmake",
+		"C:/Users/admin/source/repos/Algorithms/out/build/x64-Debug/LibraryCPPTemplate/Tests/cmake_install.cmake",
+		"C:/Users/admin/source/repos/Algorithms/out/build/x64-Debug/Lab1CPP/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -1,0 +1,8 @@
+TestArrayCPPTemplate 5 0.0016733
+TestSieveByInput1 3 0.00731333
+TestSieveByInput2 2 0.00424275
+TestSieveByInput3 2 0.0041709
+TestNonDivisibleByInput1 1 0.0223959
+TestNonDivisibleByInput2 1 0.0088417
+TestNonDivisibleByInput3 1 0.0087413
+---
