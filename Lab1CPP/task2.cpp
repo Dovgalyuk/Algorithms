@@ -20,8 +20,8 @@ int main(int argc, char **argv)
         counts.set(x, counts.get(x) +1);
     }
 
-    for (int i=0;i<n;i++) {
-        if (counts.get(arr.get(i)) ==1) std::cout << arr.get(i) << " ";
+    for (int i=0;i<=1000;i++) {
+        if (counts.get(i) ==1) std::cout << i << " ";
     }
     std::cout << "\n";
     input.close();

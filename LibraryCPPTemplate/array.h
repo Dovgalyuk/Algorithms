@@ -14,9 +14,7 @@ public:
     // copy constructor
     Array(const Array &a)
     {
-        size_=a.size_;
-        data_=new Data[size_];
-        for (size_t i=0;i<size_;i++) data_[i]= a.data_[i];
+        copyarr(a);
     }
 
     // assignment operator
@@ -24,9 +22,7 @@ public:
     {
         if (this != &a) {
             delete[] data_;
-            size_ =a.size_;
-            data_= new Data[size_];
-            for (size_t i=0;i<size_;i++) data_[i]= a.data_[i];
+            copyarr(a);
         }
         return *this;
     }
@@ -56,7 +52,11 @@ public:
     }
 
 private:
-    // private data should be here
+    void copyarr(const Array &a) {
+        size_ = a.size_;
+        data_ = new Data[size_];
+        for (size_t i=0; i <size_;i++) data_[i]= a.data_[i];
+    }
     Data* data_;
     size_t size_;
 };
