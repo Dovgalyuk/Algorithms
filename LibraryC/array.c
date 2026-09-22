@@ -2,35 +2,35 @@
 #include "array.h"
 
 typedef struct Array {
-    // remove this
-    Data d;
+    Data *data;
+    size_t size;
 } Array;
 
-// create array
 Array *array_create(size_t size, FFree f)
 {
-    return malloc(sizeof(Array));
+    Array *arr = (Array *)malloc(sizeof(Array));
+    arr->data = (Data *)malloc(sizeof(Data) * size);
+    arr->size = size;
+    return arr;
 }
 
-// delete array, free memory
 void array_delete(Array *arr)
 {
+    free(arr->data);
     free(arr);
 }
 
-// returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    return (Data)0;
+    return arr->data[index];
 }
 
-// sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
+    arr->data[index] = value;
 }
 
-// returns array size
 size_t array_size(const Array *arr)
 {
-    return 0;
+    return arr->size;
 }
