@@ -8,7 +8,7 @@ void task2(Array* arr)
         int elem = arr->get(i);
         if (elem) {
             bool can_divide = 0;
-            for (int k = 0; k < arr->size(); k++) {
+            for (size_t k = 0; k < arr->size(); k++) {
                 if (!(arr->get(k)) || (elem == arr->get(k))) continue;
                 if (!(elem % arr->get(k))) {
                     can_divide = 1;
