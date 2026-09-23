@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 		filetask1 >> Arre[i];
 	}
     int maxSum = 0, startIndex = 0;
-	for (int i = 0; i + 4 < Arre.size(); ++i) {
+	for (int i = 0; i + 4 < n; ++i) {
 		int currentSum = 0;
 		for (int j = i; j < i + 5; ++j){
 			currentSum += Arre[j];
