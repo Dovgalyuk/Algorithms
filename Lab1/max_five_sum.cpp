@@ -10,7 +10,6 @@ int main(int argc, char* argv[])
     if (argc < 2)
         return 1;
 
-
     ifstream file(argv[1]);
 
     if (!file)
@@ -23,7 +22,6 @@ int main(int argc, char* argv[])
 
     Array<int> numbers(n);
 
-
     for (int i = 0; i < n; i++)
     {
         int value;
@@ -32,35 +30,35 @@ int main(int argc, char* argv[])
     }
 
 
-    int maxSum = numbers.get(0)
-               + numbers.get(1)
-               + numbers.get(2)
-               + numbers.get(3)
-               + numbers.get(4);
+    int currentSum = 0;
+
+    for (int i = 0; i < 5; i++)
+    {
+        currentSum += numbers.get(i);
+    }
 
 
+    int maxSum = currentSum;
     int position = 0;
 
 
-    for (int i = 1; i <= n - 5; i++)
+    for (int i = 5; i < n; i++)
     {
-        int sum = 0;
+        currentSum += numbers.get(i);
+        currentSum -= numbers.get(i - 5);
 
-        for (int j = 0; j < 5; j++)
+
+        if (currentSum > maxSum)
         {
-            sum += numbers.get(i + j);
-        }
-
-
-        if (sum >= maxSum)
-        {
-            maxSum = sum;
-            position = i;
+            maxSum = currentSum;
+            position = i - 4;
         }
     }
 
 
-    cout << "Максимальная сумма: " << maxSum << endl;
+    cout << "Максимальная сумма: "
+         << maxSum << endl;
+
 
     cout << "Позиции пяти элементов: "
          << position + 1 << "-"
@@ -72,9 +70,7 @@ int main(int argc, char* argv[])
     for (int i = 0; i < 5; i++)
     {
         if (i != 0)
-        {
             cout << " ";
-        }
 
         cout << numbers.get(position + i);
     }
