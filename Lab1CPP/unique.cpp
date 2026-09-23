@@ -4,34 +4,33 @@
 
 using namespace std;
 
-// Прочитать целое число из файла, создать массив такой размерности и заполнить его числами из файла. В массиве найти элементы, которые в нем встречаются только один раз.
-// На входе могут быть числа в диапазоне от 0 до 1000. Программа должна работать за время O(N). Вывести результат на экран или в файл.
-
-int main() {
-    ifstream fin("input_unique.txt");
-    if (!fin.is_open()) {
-        cout << "Ошибка открытия файла\n";
-        return 1;
-    }
+int main(int argc, char* argv[]) {
+    string filename = (argc > 1) ? argv[1] : "input_unique1.txt";
+    ifstream fin(filename);
+    if (!fin.is_open()) return 1;
     int n;
     fin >> n;
-    Array<int> arr(n);
-    for (int i = 0; i < n; i++) fin >> arr[i];
+    Array arr(n);
+    for (size_t i = 0; i < arr.size(); i++) {
+        int val;
+        fin >> val;
+        arr.set(i, val);
+    }
     int freq[1001] = {0};
-    for (int i = 0; i < arr.getSize(); i++) {
-        int x = arr[i];
-        if (x >= 0 && x <= 1000)  freq[x]++;
+    for (size_t i = 0; i < arr.size(); i++) {
+        int x = arr.get(i);
+        if (x >= 0 && x <= 1000) freq[x]++;
     }
     bool found = false;
-    for (int i = 0; i < arr.getSize(); i++) {
-        int x = arr[i];
+    for (size_t i = 0; i < arr.size(); i++) {
+        int x = arr.get(i);
         if (x >= 0 && x <= 1000 && freq[x] == 1) {
             cout << x << " ";
             found = true;
         }
     }
-    if (!found) cout << "Нет уникальных";
-    cout << '\n';
+    if (!found) cout << "No unique elements";
+    cout << endl;
 
     return 0;
 }
