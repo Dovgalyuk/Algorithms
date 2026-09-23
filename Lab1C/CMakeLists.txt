@@ -17,7 +17,7 @@ add_test(NAME TestTask1_Test2 COMMAND Lab1Task1 ${CMAKE_CURRENT_SOURCE_DIR}/test
 set_property(TEST TestTask1_Test2 PROPERTY PASS_REGULAR_EXPRESSION "76")  # Единственное чётное число 4 на 76 индексе
 
 add_test(NAME TestTask1_Test6 COMMAND Lab1Task1 ${CMAKE_CURRENT_SOURCE_DIR}/test6.txt)
-set_property(TEST TestTask1_Test6 PROPERTY PASS_REGULAR_EXPRESSION "37")  #2, 4 и 8 чётные из 37 индексов
+set_property(TEST TestTask1_Test6 PROPERTY PASS_REGULAR_EXPRESSION "37")  #2 на индексе 20, 4 на индексе 31 и 8 на индексе 37
 
 add_test(NAME TestTask2 COMMAND Lab1Task2 ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
 
