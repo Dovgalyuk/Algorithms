@@ -17,14 +17,16 @@ Array::Array(const Array &a)
 
 Array &Array::operator=(const Array &a)
 {
-    if (this == &a) {
-        return *this;
-    }
-    delete [] elements;
-    array_size = a.array_size;
-    elements = new Data[array_size];
-    for (size_t i = 0;i<array_size;i++) {
-        elements[i] = a.elements[i];
+    if (this != &a) {
+        Array copy(a);
+
+        size_t temp_size = array_size;
+        array_size = copy.array_size;
+        copy.array_size = temp_size;
+
+        Data* temp_elements = elements;
+        elements = copy.elements;
+        copy.elements = temp_elements;
     }
     return *this;
 
