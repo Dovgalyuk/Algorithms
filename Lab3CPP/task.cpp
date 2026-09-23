@@ -62,17 +62,17 @@ void BFS(const Vector<std::string> &map, const Coordinate &start_pos, const size
             const int new_y = current.y + delta_y[d];
             const int new_z = current.z + delta_z[d];
 
-            if (new_x < 0 || new_x >= (const int)X)
+            if (new_x < 0 || new_x >= static_cast<int>X)
             {
                 continue;
             }
 
-            if (new_y < 0 || new_y >= (const int)Y)
+            if (new_y < 0 || new_y >= static_cast<int>Y)
             {
                 continue;
             }
 
-            if (new_z < 0 || new_z >= (const int)Z)
+            if (new_z < 0 || new_z >= static_cast<int>Z)
             {
                 continue;
             }
