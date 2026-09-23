@@ -1,5 +1,6 @@
 #include "array.h"
 #include <stdexcept>
+#include <utility>
 
 Array::Array(size_t size) : data(new Data[size]), array_size(size)
 {
@@ -9,8 +10,7 @@ Array::Array(size_t size) : data(new Data[size]), array_size(size)
 
 Array::Array(const Array &a) : data(new Data[a.array_size]), array_size(a.array_size)
 {
-    for (size_t i = 0; i < array_size; ++i)
-        data[i] = a.data[i];
+    copyForm(a);
 }
 
 Array &Array::operator=(const Array &a)
@@ -18,13 +18,9 @@ Array &Array::operator=(const Array &a)
     if (this == &a)
         return *this;
 
-    Data* new_data = new Data[a.array_size];
-    for (size_t i = 0; i < a.array_size; ++i)
-        new_data[i] = a.data[i];
-
-    delete[] data;
-    data = new_data;
-    array_size = a.array_size;
+    Array temp(a);
+    std::swap(data, temp.data);
+    std::swap(array_size, temp.array_size);
 
     return *this;
 }
@@ -51,4 +47,10 @@ void Array::set(size_t index, Data value)
 size_t Array::size() const
 {
     return array_size;
+}
+
+void Array::copyForm(const Array& a)
+{
+    for (size_t i = 0; i < array_size; ++i)
+        data[i] = a.data[i];
 }

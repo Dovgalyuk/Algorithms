@@ -1,7 +1,6 @@
 #include "array.h"
 #include <iostream>
 #include <fstream>
-#include <vector>
 
 int main(int argc, char* argv[])
 {
@@ -29,7 +28,23 @@ int main(int argc, char* argv[])
 		arr.set(i, x);
 	}
 
-	std::vector<int> result;
+	size_t count = 0;
+	for (size_t i = 0; i < n; ++i) {
+		bool isDivisible = false;
+		for (size_t j = 0; j < n; ++j) {
+			if (i == j) continue;
+			int other = arr.get(j);
+			if (other != 0 && arr.get(i) % other == 0) {
+				isDivisible = true;
+				break;
+			}
+		}
+		if (!isDivisible)  ++count;
+	}
+
+	Array result(count);
+
+	size_t idx = 0;
 	for (size_t i = 0; i < n; ++i) {
 		bool isDivisible = false;
 		for (size_t j = 0; j < n; ++j) {
@@ -41,12 +56,12 @@ int main(int argc, char* argv[])
 			}
 		}
 		if (!isDivisible) {
-			result.push_back(arr.get(i));
+			result.set(idx++, arr.get(i));
 		}
 	}
 
 	for (size_t i = 0; i < result.size(); ++i) {
-		std::cout << result[i] << (i + 1 == result.size() ? "" : " ");
+		std::cout << result.get(i) << (i + 1 == result.size() ? "" : " ");
 	}
 	std::cout << std::endl;
 	return 0;

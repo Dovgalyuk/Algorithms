@@ -33,6 +33,7 @@ public:
 private:
     Data* data;
     size_t array_size;
+    void copyForm(const Array& a);
 };
 
 #endif

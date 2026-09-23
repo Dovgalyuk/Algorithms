@@ -29,12 +29,16 @@ int main(int argc, char* argv[])
 	}
 
 	int signChanges = 0;
-	for (size_t i = 1; i < n; ++i) {
-		int prev = arr.get(i - 1);
-		int curr = arr.get(i);
-		if ((prev > 0 && curr < 0) || (prev < 0 && curr > 0)) {
+	int lastSign = 0;
+
+	for (size_t i = 0; i < n; ++i) {
+		int value = arr.get(i);
+		if (value == 0) continue;
+		int currentSign = (value > 0) ? 1 : -1;
+		if (lastSign != 0 && currentSign != lastSign) {
 			++signChanges;
 		}
+		lastSign = currentSign;
 	}
 
 	std::cout << signChanges << std::endl;
