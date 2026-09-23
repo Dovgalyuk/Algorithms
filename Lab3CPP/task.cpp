@@ -36,7 +36,7 @@ void BFS(const Vector<std::string> &map, const Coordinate &start_pos, const size
     Vector<bool> visited;
     visited.resize(X * Y * Z);
 
-    const size_t start_index = ((size_t)start_pos.z * Y + start_pos.y) * X + start_pos.x;
+    const size_t start_index = ((size_t)start_pos.z * Y + (size_t)start_pos.y) * X + (size_t)start_pos.x;
     visited.set(start_index, true);
 
     int delta_x[6] = {1, -1, 0, 0, 0, 0};
@@ -62,22 +62,22 @@ void BFS(const Vector<std::string> &map, const Coordinate &start_pos, const size
             const int new_y = current.y + delta_y[d];
             const int new_z = current.z + delta_z[d];
 
-            if (new_x < 0 || new_x >= static_cast<int>X)
+            if (new_x < 0 || new_x >= (int)X)
             {
                 continue;
             }
 
-            if (new_y < 0 || new_y >= static_cast<int>Y)
+            if (new_y < 0 || new_y >= (int)Y)
             {
                 continue;
             }
 
-            if (new_z < 0 || new_z >= static_cast<int>Z)
+            if (new_z < 0 || new_z >= (int)Z)
             {
                 continue;
             }
 
-            const size_t new_index = ((size_t)new_z * Y + new_y) * X + new_x;
+            const size_t new_index = ((size_t)new_z * Y + (size_t)new_y) * X + (size_t)new_x;
 
             if (visited.get(new_index))
             {
