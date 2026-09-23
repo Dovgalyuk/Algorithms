@@ -9,7 +9,10 @@ class Array
 {
 public:
     Array(size_t size);
+    Array(const Array& a);
+    Array& operator=(const Array& a);
     ~Array();
+
     Data get(size_t index) const;
     void set(size_t index, Data value);
     size_t size() const;
