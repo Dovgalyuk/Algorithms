@@ -1,0 +1,14 @@
+execute_process(
+    COMMAND ${EXE}
+    INPUT_FILE ${INPUT}
+    OUTPUT_VARIABLE ACTUAL
+)
+
+file(READ ${EXPECTED} EXPECTED_CONTENT)
+
+string(STRIP "${ACTUAL}" ACTUAL)
+string(STRIP "${EXPECTED_CONTENT}" EXPECTED_CONTENT)
+
+if(NOT "${ACTUAL}" STREQUAL "${EXPECTED_CONTENT}")
+    message(FATAL_ERROR "Test failed!\nExpected:\n${EXPECTED_CONTENT}\nActual:\n${ACTUAL}")
+endif()

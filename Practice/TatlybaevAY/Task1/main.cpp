@@ -21,11 +21,12 @@ int main()
         summa2 += osadki.get(i);
 
     if (summa1 > summa2)
-        std::cout << "Больше осадков выпало в первой половине месяца\n";
+        std::cout << "First half\n";
     else if (summa2 > summa1)
-        std::cout << "Больше осадков выпало во второй половине месяца\n";
+        std::cout << "Second half\n";
     else
-        std::cout << "Осадки в обеих половинах равны\n";
+        std::cout << "Equal\n";
+
 
     // декаты 1- 10 11 - 20 21 - 30
     int dekada[3] = {0, 0, 0};
@@ -37,7 +38,7 @@ int main()
         if (dekada[i] > dekada[maxDekada])
             maxDekada = i;
 
-    std::cout << "Больше всего осадков выпало в " << (maxDekada + 1) << " декаде\n";
-
+    std::cout << "Decade " << (maxDekada + 1) << "\n";
+    
     return 0;
 }
