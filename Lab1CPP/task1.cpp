@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include "array.h"
-#include <cstdlib>
 
 Array *array_create_and_read(std::ifstream &input)
 {
@@ -31,40 +30,6 @@ void task1(Array *arr)
             std::cout << array_get(arr,i) <<" ";
     }
     std::cout << "\n";
-
-}
-
-void task2(Array *arr)
-{
-    bool found = false;
-    int min_diff = 0;
-
-
-    size_t n = array_size(arr);
-    for(size_t i = 0;i < n;++i){
-        for (size_t j = i + 1;j < n;j++) {
-            int a = array_get(arr,i);
-            int b = array_get(arr, j);
-
-            if(a % 2 == 0 && b % 2 == 0){
-                int diff = a - b;
-                if(a<b) {
-                    diff = b - a; }
-                if(!found || diff < min_diff) {
-                    found = true;
-                    min_diff = diff;
-                }
-                
-
-            }
-        }
-    }
-    if(found){
-         std::cout << "минимальная разность:" << min_diff <<"\n";
-    } else {
-        std::cout << "четных нет" << "\n";
-    }
-   
 }
 
 int main(int argc, char **argv)
@@ -74,10 +39,6 @@ int main(int argc, char **argv)
 
     Array *arr = array_create_and_read(input);
     task1(arr);
-    array_delete(arr);
-
-    arr = array_create_and_read(input);
-    task2(arr);
     array_delete(arr);
 
     return 0;
