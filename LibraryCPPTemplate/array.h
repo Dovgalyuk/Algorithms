@@ -2,6 +2,7 @@
 #define ARRAY_H
 
 #include <cstddef>
+#include <utility>
 
 
 template <typename Data>
@@ -16,9 +17,7 @@ private:
     void copy(const Array& other)
     {
         array_size = other.array_size;
-
         data = new Data[array_size];
-
 
         for (size_t i = 0; i < array_size; i++)
         {
@@ -46,8 +45,10 @@ public:
     {
         if (this != &other)
         {
-            delete[] data;
-            copy(other);
+            Array temp(other);
+
+            std::swap(data, temp.data);
+            std::swap(array_size, temp.array_size);
         }
 
         return *this;

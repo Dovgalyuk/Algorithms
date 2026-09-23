@@ -8,17 +8,13 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     if (argc < 2)
-    {
         return 1;
-    }
 
 
     ifstream file(argv[1]);
 
     if (!file)
-    {
         return 1;
-    }
 
 
     int n;
@@ -42,9 +38,7 @@ int main(int argc, char* argv[])
     for (int i = 1; i < n; i++)
     {
         if (speed.get(i) > maxSpeed)
-        {
             maxSpeed = speed.get(i);
-        }
     }
 
 
@@ -57,21 +51,21 @@ int main(int argc, char* argv[])
         if (speed.get(i) == maxSpeed)
         {
             if (first == -1)
-            {
                 first = i + 1;
-            }
 
             last = i + 1;
         }
     }
 
 
-    cout << "Максимальная скорость: " << maxSpeed << endl;
+    cout << "Максимальная скорость: "
+         << maxSpeed << endl;
 
 
     if (first == last)
     {
-        cout << "Номер автомобиля: " << first << endl;
+        cout << "Номер автомобиля: "
+             << first << endl;
     }
     else
     {
