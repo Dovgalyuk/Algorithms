@@ -1,58 +1,86 @@
 #ifndef QUEUE_TEMPLATE_H
 #define QUEUE_TEMPLATE_H
 
-template <typename Data> class Queue
+#include <exception>
+#include "vector.h"
+
+template <typename Data>
+class Queue
 {
 public:
-    // Create empty queue
-    Queue()
+    Queue() : first(0), length(0)
     {
     }
 
-    // copy constructor
-    Queue(const Queue &a)
+    Queue(const Queue &a) : queue(a.queue), first(a.first), length(a.length)
     {
-        // implement or disable this function
     }
 
-    // assignment operator
     Queue &operator=(const Queue &a)
     {
-        // implement or disable this function
+        if (this != &a)
+        {
+            queue = a.queue;
+            first = a.first;
+            length = a.length;
+        }
         return *this;
     }
 
-    // Deletes queue
     ~Queue()
     {
     }
 
-    // Includes new element into the queue
-    // Should be O(1) on average
     void insert(Data data)
     {
+        if (length == queue.size())
+        {
+            size_t old_size = queue.size();
+            size_t new_size = old_size == 0 ? 1 : old_size * 2;
+
+            queue.resize(new_size);
+            if (first > 0)
+            {
+                for (size_t i = 0; i < first; i++)
+                {
+                    queue.set(old_size + i, queue.get(i));
+                    queue.set(i, Data());
+                }
+            }
+        }
+        queue.set((first + length) % queue.size(), data);
+        length++;
     }
 
-    // Retrieves first element from the queue
     Data get() const
     {
-        return Data();
+        if (empty())
+        {
+            throw std::out_of_range("queue subscript out of range");
+        }
+        return queue.get(first);
     }
 
-    // Removes first element from the queue
-    // Should be O(1) on average
     void remove()
     {
+        if (empty())
+        {
+            throw std::out_of_range("queue subscript out of range");
+        }
+        queue.set(first, Data());
+        first = (first + 1) % queue.size();
+        length--;
     }
 
-    // Returns true if the queue is empty
     bool empty() const
     {
-        return true;
+        return length == 0;
     }
 
 private:
-    // private data should be here
+    Vector<Data> queue;
+    size_t first;
+    size_t length;
 };
 
 #endif
