@@ -28,7 +28,7 @@ public:
         Data m_data = 0;
         bool m_isBarrier = false;
     };
-    
+
     List();
     List(const List &a);
     List &operator=(const List &a);
@@ -44,6 +44,7 @@ public:
 private:
     Item *m_barrier;
     void clear();
+    void copyFrom(const List &a);
 };
 
 #endif

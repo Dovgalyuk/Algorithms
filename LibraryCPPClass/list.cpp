@@ -2,38 +2,37 @@
 
 List::List() {
     m_barrier = new Item();
-    m_barrier->m_isBarrier = true; 
+    m_barrier->m_isBarrier = true;
     m_barrier->m_next = m_barrier;
     m_barrier->m_prev = m_barrier;
 }
 
 List::List(const List &a) {
     m_barrier = new Item();
+    m_barrier->m_isBarrier = true;
     m_barrier->m_next = m_barrier;
     m_barrier->m_prev = m_barrier;
-
-    Item *cur = a.m_barrier->m_next;
-    while (cur != a.m_barrier) {
-        insert_after(last(), cur->m_data);
-        cur = cur->m_next;
-    }
+    copyFrom(a);
 }
 
 List &List::operator=(const List &a) {
     if (this == &a) return *this;
     clear();
-
-    Item *cur = a.m_barrier->m_next;
-    while (cur != a.m_barrier) {
-        insert_after(last(), cur->m_data);
-        cur = cur->m_next;
-    }
+    copyFrom(a);
     return *this;
 }
 
 List::~List() {
     clear();
     delete m_barrier;
+}
+
+void List::copyFrom(const List &a) {
+    Item *cur = a.m_barrier->m_next;
+    while (cur != a.m_barrier) {
+        insert_after(last(), cur->m_data);
+        cur = cur->m_next;
+    }
 }
 
 void List::clear() {
@@ -56,7 +55,6 @@ List::Item *List::last() {
 }
 
 List::Item *List::insert(Data data) {
-    // вставка в начало (после барьера)
     return insert_after(m_barrier, data);
 }
 

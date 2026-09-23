@@ -192,8 +192,6 @@ static void printMaze(const std::vector<std::vector<char>> &grid,
                     if (j > 0) std::cout << " ";
                     std::cout << "\\ /";
                 }
-                // завершающий \ — только если следующий ряд не последний
-                if (r + 1 < H - 1) std::cout << " \\";
             }
             std::cout << "\n";
         }
