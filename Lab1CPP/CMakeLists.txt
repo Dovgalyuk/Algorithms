@@ -23,7 +23,7 @@ add_test(NAME Fib_5 COMMAND Lab1_Fibonacci "${CMAKE_CURRENT_SOURCE_DIR}/input_fi
 set_property(TEST Fib_5 PROPERTY PASS_REGULAR_EXPRESSION "0 1 1 2 3")
 
 add_test(NAME Unique_1 COMMAND Lab1_Unique "${CMAKE_CURRENT_SOURCE_DIR}/input_unique1.txt")
-set_property(TEST Unique_1 PROPERTY PASS_REGULAR_EXPRESSION "999 42")
+set_property(TEST Unique_1 PROPERTY PASS_REGULAR_EXPRESSION "42 999")
 
 add_test(NAME Unique_2 COMMAND Lab1_Unique "${CMAKE_CURRENT_SOURCE_DIR}/input_unique2.txt")
 set_property(TEST Unique_2 PROPERTY PASS_REGULAR_EXPRESSION "3 1000")
