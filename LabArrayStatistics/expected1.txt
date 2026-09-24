@@ -1,0 +1,3 @@
+Positive: 4
+Negative: 3
+Zero: 3
