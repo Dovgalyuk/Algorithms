@@ -14,24 +14,34 @@ struct Position {
     bool operator!=(const Position &o) const { return !(*this == o); }
 };
 
-// соседи в гексагональной сетке (even-r offset)
+// соседи в гексагональной сетке
+// левый/правый: всегда в той же строке
+// верхний/нижний: если соседняя строка шире, её ячейки сдвинуты влево и граничат (c, c+1) 
+// если уже: сдвинуты вправо, граничат (c-1, c).
 static std::vector<Position> getNeighbors(int r, int c, int H,
                                           const std::vector<std::vector<char>> &grid) {
-    static const int dirs[2][6][2] = {
-        // чётный ряд
-        {{-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, 0}, {1, 1}},
-        // нечётный ряд
-        {{-1, -1}, {-1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 0}}
-    };
     std::vector<Position> res;
-    int parity = r & 1;
-    for (int i = 0; i < 6; ++i) {
-        int nr = r + dirs[parity][i][0];
-        int nc = c + dirs[parity][i][1];
+
+    if (c - 1 >= 0) res.push_back(Position(r, c - 1));
+    if (c + 1 < (int)grid[r].size()) res.push_back(Position(r, c + 1));
+
+    for (int dr : {-1, 1}) {
+        int nr = r + dr;
         if (nr < 0 || nr >= H) continue;
-        if (nc < 0 || nc >= (int)grid[nr].size()) continue;
-        res.push_back(Position(nr, nc));
+
+        if ((int)grid[nr].size() >= (int)grid[r].size()) {
+            if (c < (int)grid[nr].size())
+                res.push_back(Position(nr, c));
+            if (c + 1 < (int)grid[nr].size())
+                res.push_back(Position(nr, c + 1));
+        } else {
+            if (c - 1 >= 0 && c - 1 < (int)grid[nr].size())
+                res.push_back(Position(nr, c - 1));
+            if (c < (int)grid[nr].size())
+                res.push_back(Position(nr, c));
+        }
     }
+
     return res;
 }
 
@@ -54,8 +64,8 @@ static Position bidirectionalBFS(const std::vector<std::vector<char>> &grid,
 
     qE.insert(encode(end.r, end.c));
     distE[end.r][end.c] = 0;
-
-    // если S и E совпали, то сразу выходим, иначе BFS найдёт «путь» длиной 0 не там
+    
+    // S и E совпадают — путь длины 0, сразу возвращаем
     if (start == end) return start;
 
     while (!qS.empty() && !qE.empty()) {
