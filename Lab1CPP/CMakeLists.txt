@@ -2,15 +2,11 @@ cmake_minimum_required(VERSION 3.10)
 
 project(lab1)
 
-add_library(Array array.cpp)
-
-target_include_directories(Array PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
 add_executable(zadanie1 zadanie1.cpp)
-target_link_libraries(zadanie1 Array)
+target_link_libraries(zadanie1 LibraryCPP)
 
 add_executable(zadanie2 zadanie2.cpp)
-target_link_libraries(zadanie2 Array)
+target_link_libraries(zadanie2 LibraryCPP)
 
 enable_testing()
 
