@@ -1,0 +1,16 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c/Algorithms/build/cmake_install.cmake",
+		"C:/Users/\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c/Algorithms/build/LibraryC/cmake_install.cmake",
+		"C:/Users/\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c/Algorithms/build/LibraryC/Tests/cmake_install.cmake",
+		"C:/Users/\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c/Algorithms/build/LibraryCPP/cmake_install.cmake",
+		"C:/Users/\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c/Algorithms/build/LibraryCPP/Tests/cmake_install.cmake",
+		"C:/Users/\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c/Algorithms/build/LibraryCPPClass/cmake_install.cmake",
+		"C:/Users/\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c/Algorithms/build/LibraryCPPClass/Tests/cmake_install.cmake",
+		"C:/Users/\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c/Algorithms/build/LibraryCPPTemplate/cmake_install.cmake",
+		"C:/Users/\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c/Algorithms/build/LibraryCPPTemplate/Tests/cmake_install.cmake",
+		"C:/Users/\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c/Algorithms/build/Lab1C/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
