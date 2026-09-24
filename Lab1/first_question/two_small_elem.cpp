@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 
     
 
-    std::cout << min1 << " " << min2 << "\n";
+    std::cout << min1 << " " << min2;
 
     array_delete(arr);
 

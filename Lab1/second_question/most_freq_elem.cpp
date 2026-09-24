@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
 
     Data result = find_most_frequent(arr);
 
-    std::cout << result << "\n";
+    std::cout << result;
 
     array_delete(arr);
 
