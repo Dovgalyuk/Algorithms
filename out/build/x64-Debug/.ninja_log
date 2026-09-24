@@ -1,6 +1,0 @@
-# ninja log v7
-70	722	8118975750563915	LibraryC/Tests/CMakeFiles/TestArrayC.dir/array.cpp.obj	c38ff4fb6ca4e3a6
-32	897	8118982289124080	Lab1CPP/Tests/CMakeFiles/TestArrayCPP.dir/array.cpp.obj	35928bfab8dddf11
-33	137	8118983134053895	Lab1CPP/CMakeFiles/Lab1CPP.dir/array.cpp.obj	c5e5ec2241bc4c8f
-138	288	8118983135113246	Lab1CPP/Lab1CPP.lib	9483c31535fa947e
-289	810	8118983136629814	Lab1CPP/Tests/TestArrayCPP.exe	7b81aa57a0e9e061
