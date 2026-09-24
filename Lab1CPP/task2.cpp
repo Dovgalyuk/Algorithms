@@ -24,12 +24,17 @@ void task2(Array *arr)
     size_t n = array_size(arr);
     for (size_t i = 0; i < n; ++i)
     {
+        int a = array_get(arr, i);
+        if (a % 2 != 0)
+        {
+            continue;
+        }
+
         for (size_t j = i + 1; j < n; ++j)
         {
-            int a = array_get(arr, i);
             int b = array_get(arr, j);
 
-            if (a % 2 == 0 && b % 2 == 0)
+            if (b % 2 == 0)
             {
                 int diff = a - b;
                 if (a < b)
