@@ -28,7 +28,7 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target Lab1CppTest Lab1CppTask1 Lab1CppTask2
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target TestArrayCPP Lab1CppTask1 Lab1CppTask2
 
     - name: Test
       working-directory: ${{github.workspace}}/build
