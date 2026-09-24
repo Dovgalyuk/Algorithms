@@ -1,20 +1,10 @@
-add_executable(Lab1CppTask1 task1.cpp array.cpp)
-add_executable(Lab1CppTask2 task2.cpp array.cpp)
-add_executable(Lab1CppTest test.cpp array.cpp)
+add_executable(Lab1CppTask1 task1.cpp)
+target_include_directories(Lab1CppTask1 PRIVATE ../LibraryCPP)
+target_link_libraries(Lab1CppTask1 PRIVATE LibraryCPP)
 
-target_include_directories(Lab1CppTask1 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(Lab1CppTask2 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(Lab1CppTest PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-add_test(
-    NAME TestLab1CppArray
-    COMMAND Lab1CppTest
-)
-
-set_property(
-    TEST TestLab1CppArray
-    PROPERTY PASS_REGULAR_EXPRESSION "1 2 3 4 5"
-)
+add_executable(Lab1CppTask2 task2.cpp)
+target_include_directories(Lab1CppTask2 PRIVATE ../LibraryCPP)
+target_link_libraries(Lab1CppTask2 PRIVATE LibraryCPP)
 
 add_test(
     NAME TestLab1CppTask1_1
