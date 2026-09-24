@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
     int n;
     input >> n;
 
-    Array* arr = array_create(n, nullptr);
+    Array* arr = array_create(n);
 
     for (int i = 0; i < n; ++i)
     {

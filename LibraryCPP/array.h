@@ -1,49 +1,29 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
 
+// Non-resizeable array
 
-// элемент массива
-typedef uintptr_t Data;
+// Stores integer values inside
+// Change it to desired type
+typedef int Data;
 
+struct Array;
 
-// функция освобождения пользовательских данных
-typedef void (*FFree)(void*);
+// create array
+Array* array_create(size_t size);
 
+// delete array, free memory
+void array_delete(Array* arr);
 
-typedef struct Array Array;
+// returns specified array element
+Data array_get(const Array* arr, size_t index);
 
+// sets the specified array element to the value
+void array_set(Array* arr, size_t index, Data value);
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-
-	// создание массива фиксированного размера
-	Array* array_create(size_t size, FFree f);
-
-
-	// удаление массива
-	void array_delete(Array* arr);
-
-
-	// получить элемент
-	Data array_get(const Array* arr, size_t index);
-
-
-	// установить элемент
-	void array_set(Array* arr, size_t index, Data value);
-
-
-	// получить размер
-	size_t array_size(const Array* arr);
-
-
-#ifdef __cplusplus
-}
-#endif
-
+// returns array size
+size_t array_size(const Array* arr);
 
 #endif

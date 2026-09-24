@@ -16,7 +16,7 @@ int main(int args, char* argv[]) {
     size_t n;
     input >> n;
 
-    Array* arr = array_create(n, nullptr);
+    Array* arr = array_create(n);
 
     for (size_t i = 0; i < n; i++) {
         int x;
