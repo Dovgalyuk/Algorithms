@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "array.h"
 
 using namespace std;
@@ -19,18 +20,18 @@ int main(int argc, char* argv[]) {
     int freq[1001] = {0};
     for (size_t i = 0; i < arr.size(); i++) {
         int x = arr.get(i);
-        if (x >= 0 && x <= 1000) freq[x]++;
+        if (x >= 0 && x <= 1000) {
+            freq[x]++;
+        }
     }
     bool found = false;
-    for (size_t i = 0; i < arr.size(); i++) {
-        int x = arr.get(i);
-        if (x >= 0 && x <= 1000 && freq[x] == 1) {
-            cout << x << " ";
+    for (int i = 0; i <= 1000; i++) {
+        if (freq[i] == 1) {
+            cout << i << " ";
             found = true;
         }
     }
     if (!found) cout << "No unique elements";
     cout << endl;
-
     return 0;
 }

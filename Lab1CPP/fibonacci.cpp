@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "array.h"
 
 using namespace std;
@@ -13,10 +14,8 @@ int main(int argc, char* argv[]) {
     Array arr(n);
     if (n > 0) arr.set(0, 0);
     if (n > 1) arr.set(1, 1);
-    for (size_t i = 2; i < arr.size(); i++)
-        arr.set(i, arr.get(i - 1) + arr.get(i - 2));
-    for (size_t i = 0; i < arr.size(); i++)
-        cout << arr.get(i) << " ";
+    for (size_t i = 2; i < arr.size(); i++) arr.set(i, arr.get(i - 1) + arr.get(i - 2));
+    for (size_t i = 0; i < arr.size(); i++) cout << arr.get(i) << " ";
     cout << endl;
     return 0;
 }
