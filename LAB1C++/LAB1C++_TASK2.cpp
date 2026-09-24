@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 	for (int i = 0; i < n; ++i){
 		filetask1 >> Arre[i];
 	}
-    int maxSum = 0, startIndex = 0;
+    int maxSum = 0;
 	for (int i = 0; i + 4 < n; ++i) {
 		int currentSum = 0;
 		for (int j = i; j < i + 5; ++j){
@@ -31,7 +31,6 @@ int main(int argc, char *argv[])
 		}
 		if (currentSum > maxSum) {
 			maxSum = currentSum;
-			startIndex = i;
 		}
 		}
 	cout << "The maximum sum of 5 adjacent elements: " << maxSum << endl;
