@@ -1,5 +1,5 @@
 add_executable(Task1_TatlybaevAY ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
-target_include_directories(Task1_TatlybaevAY PRIVATE ${CMAKE_SOURCE_DIR})
+target_include_directories(Task1_TatlybaevAY PRIVATE ${CMAKE_SOURCE_DIR}/LibraryCPPTemplate)
 
 add_test(NAME Task1_TatlybaevAY_test1
     COMMAND ${CMAKE_COMMAND}

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../../LibraryCPPTemplate/array.h"
+#include "array.h"
 
 int main()
 {
