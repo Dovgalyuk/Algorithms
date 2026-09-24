@@ -8,19 +8,19 @@ Array::Array(size_t size) {
 Array::Array(const Array& a) {
     size_ = a.size_;
     data_ = new Data[size_];
-    for (size_t i = 0; i < size_; ++i) {
-        data_[i] = a.data_[i];
-    }
+    for (size_t i = 0; i < size_; i++)  data_[i] = a.data_[i];
+
 }
 
 Array& Array::operator=(const Array& a) {
     if (this != &a) {
-        delete[] data_;
-        size_ = a.size_;
-        data_ = new Data[size_];
-        for (size_t i = 0; i < size_; ++i) {
-            data_[i] = a.data_[i];
-        }
+        Array temp(a);
+        Data* temp_data = data_;
+        data_ = temp.data_;
+        temp.data_ = temp_data;
+        size_t temp_size = size_;
+        size_ = temp.size_;
+        temp.size_ = temp_size;
     }
     return *this;
 }
