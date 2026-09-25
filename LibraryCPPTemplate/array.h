@@ -1,49 +1,74 @@
-#ifndef ARRAY_TEMPLATE_H
-#define ARRAY_TEMPLATE_H
+#pragma once
+#include <utility>
+#include <cstddef>
+#include <stdexcept>
 
-template <typename Data> class Array
-{
+template <typename T>
+class Array {
+private:
+    T* data_;
+    std::size_t size_;
+
 public:
-    // create array
-    explicit Array(size_t size)
+    explicit Array(std::size_t size)
+        : data_(nullptr), size_(size)
     {
+        if (size_ > 0) {
+            data_ = new T[size_];
+        }
     }
 
-    // copy constructor
-    Array(const Array &a)
+    Array(const Array& other)
+        : data_(nullptr), size_(other.size_)
     {
+        if (size_ > 0) {
+            data_ = new T[size_];
+
+            for (std::size_t i = 0; i < size_; ++i) {
+                data_[i] = other.data_[i];
+            }
+        }
     }
 
-    // assignment operator
-    Array &operator=(const Array &a)
+    Array& operator=(const Array& other)
     {
+        if (this == &other) {
+            return *this;
+        }
+
+        Array copy(other);
+
+        std::swap(data_, copy.data_);
+        std::swap(size_, copy.size_);
+
         return *this;
     }
 
-    // delete array, free memory
     ~Array()
     {
+        delete[] data_;
     }
 
-    // returns specified array element
-    Data get(size_t index) const
+    std::size_t size() const
     {
-        return Data(0);
+        return size_;
     }
 
-    // sets the specified array element to the value
-    void set(size_t index, Data value)
+    T get(std::size_t index) const
     {
+        if (index >= size_) {
+            throw std::out_of_range("Array index is out of range");
+        }
+
+        return data_[index];
     }
 
-    // returns array size
-    size_t size() const
+    void set(std::size_t index, const T& value)
     {
-        return 0;
-    }
+        if (index >= size_) {
+            throw std::out_of_range("Array index is out of range");
+        }
 
-private:
-    // private data should be here
+        data_[index] = value;
+    }
 };
-
-#endif
