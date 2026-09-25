@@ -7,10 +7,9 @@ Array *array_create_and_read(FILE *input)
     int n;
     if (fscanf(input, "%d", &n) != 1)
         return NULL;
-    /* Create array */
+
     Array *arr = array_create((size_t)n);
-    /* Read array data */
-    for (int i = 0 ; i < n ; ++i)
+    for (int i = 0; i < n; ++i)
     {
         int x;
         if (fscanf(input, "%d", &x) != 1)
@@ -27,19 +26,22 @@ int main(int argc, char **argv)
     FILE *input = fopen(argv[1], "r");
     if (!input) return 1;
 
+    /* Пропускаем первую задачу: читаем первый массив */
     Array *arr = array_create_and_read(input);
     if (!arr) { fclose(input); return 1; }
-    task1(arr);
     array_delete(arr);
 
+    /* Читаем сдвиг */
     int shift;
     if (fscanf(input, "%d", &shift) != 1) {
         fclose(input);
         return 1;
     }
 
+    /* Читаем второй массив */
     arr = array_create_and_read(input);
     if (!arr) { fclose(input); return 1; }
+
     task2(arr, shift);
     array_delete(arr);
 
