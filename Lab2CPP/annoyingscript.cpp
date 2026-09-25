@@ -1,20 +1,18 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
 #include <cctype>
 
 #include "stack.h"
 
 static Stack* st = nullptr;
 static std::string tilde;
-static std::vector<std::string> vars;
+static std::string vars[100];
 static std::string input_data;
 static size_t input_pos = 0;
 static std::string code;
 static size_t ip = 0;
 static bool running = true;
-
 
 static void reverse_stack()
 {
@@ -82,6 +80,12 @@ static void push_string(const std::string& s)
     }
 }
 
+static void push_bottom(char c)
+{
+    reverse_stack();
+    stack_push(st, c);
+    reverse_stack();
+}
 
 static void execute_one();
 
@@ -110,10 +114,8 @@ static void execute_one()
 
     switch (cmd)
     {
-        // + — положить символ или строку на верх
         case '+':
         {
-            skip_ws();
             if (ip < code.size() && code[ip] == '{')
             {
                 push_string(read_braced());
@@ -125,7 +127,6 @@ static void execute_one()
             break;
         }
 
-        // - — удалить нижний элемент
         case '-':
         {
             if (stack_empty(st)) break;
@@ -135,7 +136,6 @@ static void execute_one()
             break;
         }
 
-        // > — вывести весь стек и очистить его
         case '>':
         {
             skip_ws();
@@ -154,7 +154,6 @@ static void execute_one()
             break;
         }
 
-        // ~ — взять нижний в tilde и удалить его; ~| — очистить tilde
         case '~':
         {
             if (ip < code.size() && code[ip] == '|')
@@ -166,20 +165,17 @@ static void execute_one()
             {
                 reverse_stack();
                 tilde = std::string(1, stack_get(st));
-                stack_pop(st);
                 reverse_stack();
             }
             break;
         }
 
-        // < — перевернуть стек
         case '<':
         {
             reverse_stack();
             break;
         }
 
-        // : — склеить стек в строку (сверху вниз) и положить обратно
         case ':':
         {
             std::string s;
@@ -192,7 +188,6 @@ static void execute_one()
             break;
         }
 
-        // ! — безусловный переход
         case '!':
         {
             skip_ws();
@@ -200,7 +195,6 @@ static void execute_one()
             break;
         }
 
-        // ? — if tilde == value; ?! — if tilde != value
         case '?':
         {
             bool negate = false;
@@ -232,20 +226,10 @@ static void execute_one()
                 int depth = 0;
                 while (ip < code.size())
                 {
-                    if (code[ip] == '?') 
-                    { 
-                        depth++; 
-                        ip++; 
-                        continue; 
-                    }
-
+                    if (code[ip] == '?') { depth++; ip++; continue; }
                     if (code[ip] == '|')
                     {
-                        if (depth == 0) 
-                        { 
-                            ip++;
-                            break; 
-                        }
+                        if (depth == 0) { ip++; break; }
                         depth--;
                     }
                     ip++;
@@ -254,11 +238,9 @@ static void execute_one()
             break;
         }
 
-        // | — конец ветки, вне if игнорируется
         case '|':
             break;
 
-        // = — создать переменную; =(N) — заменить; =)N — удалить
         case '=':
         {
             if (ip < code.size() && code[ip] == '(')
@@ -266,7 +248,7 @@ static void execute_one()
                 ip++;
                 skip_ws();
                 int idx = read_number();
-                if (idx >= 0 && idx < static_cast<int>(vars.size()))
+                if (idx >= 0 && idx < 100)
                 {
                     vars[idx] = tilde;
                 }
@@ -276,31 +258,36 @@ static void execute_one()
                 ip++;
                 skip_ws();
                 int idx = read_number();
-                if (idx >= 0 && idx < static_cast<int>(vars.size()))
+                if (idx >= 0 && idx < 100)
                 {
                     vars[idx].clear();
                 }
             }
             else
             {
-                vars.push_back(tilde);
+                for (int i = 0; i < 100; i++)
+                {
+                    if (vars[i].empty())
+                    {
+                        vars[i] = tilde;
+                        break;
+                    }
+                }
             }
             break;
         }
 
-        // @N — вернуть значение переменной N
         case '@':
         {
             skip_ws();
             int idx = read_number();
-            if (idx >= 0 && idx < static_cast<int>(vars.size()))
+            if (idx >= 0 && idx < 100)
             {
                 push_string(vars[idx]);
             }
             break;
         }
 
-        // { — строка вне контекста
         case '{':
         {
             ip--;
@@ -308,13 +295,31 @@ static void execute_one()
             break;
         }
 
-        // & op — арифметика над двумя верхними
         case '&':
         {
             skip_ws();
             if (ip >= code.size()) break;
-            char op = code[ip++];
+
+            char op = 0;
+
+            if (code[ip] == '@')
+            {
+                ip++;
+                skip_ws();
+                int idx = read_number();
+                if (idx >= 0 && idx < 100 && !vars[idx].empty())
+                {
+                    op = vars[idx][0];
+                }
+            }
+            else
+            {
+                op = code[ip++];
+            }
+
+            if (op == 0) break;
             if (stack_empty(st)) break;
+
             char b = stack_get(st); stack_pop(st);
             if (stack_empty(st)) { stack_push(st, b); break; }
             char a = stack_get(st); stack_pop(st);
@@ -332,17 +337,27 @@ static void execute_one()
             break;
         }
 
-        // # — остановка
         case '#':
             running = false;
             break;
 
-        // _ — прочитать один символ input и положить на верх
         case '_':
         {
             if (input_pos < input_data.size())
             {
-                stack_push(st, input_data[input_pos++]);
+                std::string rest = input_data.substr(input_pos);
+                input_pos = input_data.size();
+
+                while (!rest.empty() &&
+                       (rest.back() == '\n' || rest.back() == '\r'))
+                {
+                    rest.pop_back();
+                }
+
+                for (char c : rest)
+                {
+                    push_bottom(c);
+                }
             }
             break;
         }
@@ -359,7 +374,6 @@ static void run()
         execute_one();
     }
 }
-
 
 static void print_stack()
 {
@@ -386,40 +400,51 @@ static void print_stack()
     stack_delete(tmp);
 }
 
-
 int main(int argc, char* argv[])
 {
     if (argc < 3)
     {
-        std::cerr << "USAGE: \"./script <SCRIPT_FILE> <INPUT_FILE>\"\n" << std::endl;
+        std::cerr << "USAGE: \"./script <SCRIPT_FILE> <INPUT_FILE>\"\n"
+                  << std::endl;
         return 1;
     }
 
-    std::ifstream script(argv[1]);
-    if (!script)
     {
-        std::cerr << "Cannot open script: " << argv[1] << "\n";
-        return 1;
-    }
-    char c;
-    while (script.get(c))
-    {
-        code += c;
+        std::ifstream script(argv[1]);
+        if (!script)
+        {
+            std::cerr << "Cannot open script: " << argv[1] << "\n";
+            return 1;
+        }
+        char c;
+        while (script.get(c))
+        {
+            code += c;
+        }
     }
 
-    std::ifstream input(argv[2]);
+    if (code.empty())
+    {
+        std::cerr << "Empty script: " << argv[1] << "\n";
+        return 1;
+    }
+
+    {
+        std::ifstream input(argv[2]);
         if (!input)
         {
             std::cerr << "Cannot open input: " << argv[2] << "\n";
             return 1;
         }
+        char c;
         while (input.get(c))
         {
-        input_data += c;
+            input_data += c;
         }
+    }
 
-
-    while (!input_data.empty() && (input_data.back() == '\n' || input_data.back() == '\r'))
+    while (!input_data.empty() &&
+           (input_data.back() == '\n' || input_data.back() == '\r'))
     {
         input_data.pop_back();
     }

@@ -12,7 +12,6 @@ target_link_libraries(script PRIVATE LibraryCPP)
 
 enable_testing()
 
-# --- Скрипт 1: Hello, World + склейка стека ---
 add_test(NAME script1_hello
     COMMAND script
         ${CMAKE_CURRENT_SOURCE_DIR}/script1.txt
@@ -21,7 +20,6 @@ add_test(NAME script1_hello
 set_property(TEST script1_hello PROPERTY
     PASS_REGULAR_EXPRESSION "Hello, World!")
 
-# --- Скрипт 2: чтение input + условие ---
 add_test(NAME script2_cond_A
     COMMAND script
         ${CMAKE_CURRENT_SOURCE_DIR}/script2.txt
@@ -30,7 +28,6 @@ add_test(NAME script2_cond_A
 set_property(TEST script2_cond_A PROPERTY
     PASS_REGULAR_EXPRESSION "GotA")
 
-# --- Скрипт 2 (негативный): input = B ---
 add_test(NAME script2_cond_notA
     COMMAND script
         ${CMAKE_CURRENT_SOURCE_DIR}/script2.txt
@@ -39,7 +36,6 @@ add_test(NAME script2_cond_notA
 set_property(TEST script2_cond_notA PROPERTY
     PASS_REGULAR_EXPRESSION "NotA")
 
-# --- Скрипт 3: переворот, удаление дна, переменные ---
 add_test(NAME script3_reverse_vars
     COMMAND script
         ${CMAKE_CURRENT_SOURCE_DIR}/script3.txt
@@ -48,7 +44,6 @@ add_test(NAME script3_reverse_vars
 set_property(TEST script3_reverse_vars PROPERTY
     PASS_REGULAR_EXPRESSION "AB")
 
-# --- Скрипт 4: все ключевые символы ---
 add_test(NAME script4_all_commands
     COMMAND script
         ${CMAKE_CURRENT_SOURCE_DIR}/script4.txt
@@ -56,3 +51,27 @@ add_test(NAME script4_all_commands
 )
 set_property(TEST script4_all_commands PROPERTY
     PASS_REGULAR_EXPRESSION "Start:")
+
+add_test(NAME script5_Hello_another
+    COMMAND script
+        ${CMAKE_CURRENT_SOURCE_DIR}/script5.txt
+        ${CMAKE_CURRENT_SOURCE_DIR}/input1.txt
+)
+set_property(TEST script5_Hello_another PROPERTY
+    PASS_REGULAR_EXPRESSION "Hello World")
+        
+add_test(NAME script6_Truth_machine_false
+    COMMAND script
+        ${CMAKE_CURRENT_SOURCE_DIR}/script6.txt
+        ${CMAKE_CURRENT_SOURCE_DIR}/input6b.txt
+)
+set_property(TEST script6_Truth_machine_false PROPERTY
+    PASS_REGULAR_EXPRESSION "")
+
+add_test(NAME script7_calculator
+    COMMAND script
+        ${CMAKE_CURRENT_SOURCE_DIR}/script7.txt
+        ${CMAKE_CURRENT_SOURCE_DIR}/input7.txt
+)
+set_property(TEST script7_calculator PROPERTY
+    PASS_REGULAR_EXPRESSION "8")

@@ -12,7 +12,6 @@ struct List
 {
     ListItem* head;
     ListItem* tail;
-    size_t size;
 };
 
 List *list_create()
@@ -20,7 +19,6 @@ List *list_create()
     List* lst = new List;
     lst->head = nullptr;
     lst->tail = nullptr;
-    lst->size = 0;
     return lst;
 }
 
@@ -45,26 +43,12 @@ void list_delete(List *list)
 
 ListItem *list_first(List *list)
 {
-    if (list->size > 0)
-    {
-        return list->head;
-    }
-    else
-    {
-        return nullptr;
-    }
+    return list->head;
 }
 
 ListItem *list_last(List *list)
 {
-    if (list->size > 0)
-    {
-        return list->tail;
-    }
-    else
-    {
-        return nullptr;
-    }
+    return list->tail;
 }
 
 Data list_item_data(const ListItem *item)
@@ -96,7 +80,6 @@ ListItem *list_insert(List *list, Data data)
     }
 
     list->head = item;
-    list->size++;
 
     return item;
 }
@@ -120,7 +103,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     }
 
     item->next = curl;
-    list->size++;
 
     return curl;
 }
@@ -146,7 +128,6 @@ ListItem *list_erase_first(List *list)
         list->tail = nullptr;
     }
 
-    list->size--;
     delete item;
     return next;
 }
@@ -180,7 +161,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
         list->tail = curl->prev;
     }
 
-    list->size--;
     delete curl;
     return next;
 }
