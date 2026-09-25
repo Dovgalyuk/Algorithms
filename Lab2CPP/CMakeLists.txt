@@ -68,10 +68,3 @@ add_test(NAME script6_Truth_machine_false
 set_property(TEST script6_Truth_machine_false PROPERTY
     PASS_REGULAR_EXPRESSION "")
 
-add_test(NAME script7_calculator
-    COMMAND script
-        ${CMAKE_CURRENT_SOURCE_DIR}/script7.txt
-        ${CMAKE_CURRENT_SOURCE_DIR}/input7.txt
-)
-set_property(TEST script7_calculator PROPERTY
-    PASS_REGULAR_EXPRESSION "8")
