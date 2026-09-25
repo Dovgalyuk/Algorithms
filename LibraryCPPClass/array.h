@@ -27,6 +27,8 @@ public:
 private:
     Data *data;
     size_t array_size;
+    
+    void copy(const Array &a);
 };
 
 #endif

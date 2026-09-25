@@ -13,12 +13,7 @@ Array::Array(size_t size)
 
 Array::Array(const Array &a)
 {
-    array_size = a.array_size;
-    data = new Data[array_size];
-
-    for (size_t i = 0; i < array_size; i++) {
-        data[i] = a.data[i];
-    }
+    copy(a);
 }
 
 Array &Array::operator=(const Array &a)
@@ -29,12 +24,7 @@ Array &Array::operator=(const Array &a)
 
     delete[] data;
 
-    array_size = a.array_size;
-    data = new Data[array_size];
-
-    for (size_t i = 0; i < array_size; i++) {
-        data[i] = a.data[i];
-    }
+    copy(a);
 
     return *this;
 }
@@ -74,4 +64,14 @@ Data &Array::operator[](size_t index)
 size_t Array::size() const
 {
     return array_size;
+}
+
+void Array::copy(const Array &a)
+{
+    array_size = a.array_size;
+    data = new Data[array_size];
+
+    for (size_t i = 0; i < array_size; i++) {
+        data[i] = a.data[i];
+    }
 }
