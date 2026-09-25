@@ -25,3 +25,4 @@ add_subdirectory(LibraryCPPTemplate)
 add_subdirectory(Lab1C)
 
 add_subdirectory(lab1cpp)
+add_subdirectory(lab2cpp)

@@ -1,57 +1,129 @@
-#ifndef VECTOR_TEMPLATE_H
-#define VECTOR_TEMPLATE_H
+﻿#pragma once
 
 #include <cstddef>
+#include <stdexcept>
+#include <utility>
 
-template <typename Data> class Vector
-{
+template <typename T>
+class Vector {
+private:
+    T* data_;
+    std::size_t size_;
+    std::size_t capacity_;
+
+    void reserve(std::size_t newCapacity)
+    {
+        if (newCapacity <= capacity_) {
+            return;
+        }
+
+        T* newData = new T[newCapacity];
+        try {
+            for (std::size_t i = 0; i < size_; ++i) {
+                newData[i] = data_[i];
+            }
+        } catch (...) {
+            delete[] newData;
+            throw;
+        }
+
+        delete[] data_;
+        data_ = newData;
+        capacity_ = newCapacity;
+    }
+
 public:
-    // Creates vector
-    Vector()
+    explicit Vector(std::size_t size = 0)
+        : data_(size == 0 ? nullptr : new T[size]),
+          size_(size), capacity_(size)
     {
     }
 
-    // copy constructor
-    Vector(const Vector &a)
+    Vector(const Vector& other)
+        : data_(other.capacity_ == 0 ? nullptr : new T[other.capacity_]),
+          size_(other.size_), capacity_(other.capacity_)
     {
+        try {
+            for (std::size_t i = 0; i < size_; ++i) {
+                data_[i] = other.data_[i];
+            }
+        } catch (...) {
+            delete[] data_;
+            throw;
+        }
     }
 
-    // assignment operator
-    Vector &operator=(const Vector &a)
+    Vector& operator=(const Vector& other)
     {
+        if (this != &other) {
+            Vector copy(other);
+            std::swap(data_, copy.data_);
+            std::swap(size_, copy.size_);
+            std::swap(capacity_, copy.capacity_);
+        }
         return *this;
     }
 
-    // Deletes vector structure and internal data
     ~Vector()
     {
+        delete[] data_;
     }
 
-    // Retrieves vector element with the specified index
-    Data get(size_t index) const
+    std::size_t size() const { return size_; }
+    bool empty() const { return size_ == 0; }
+
+    T& get(std::size_t index)
     {
-        return Data();
+        if (index >= size_) {
+            throw std::out_of_range("Vector index out of range");
+        }
+        return data_[index];
     }
 
-    // Sets vector element with the specified index
-    void set(size_t index, Data value)
+    const T& get(std::size_t index) const
     {
+        if (index >= size_) {
+            throw std::out_of_range("Vector index out of range");
+        }
+        return data_[index];
     }
 
-    // Retrieves current vector size
-    size_t size() const
+    void set(std::size_t index, const T& value)
     {
-        return 0;
+        get(index) = value;
     }
 
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
-    void resize(size_t size)
+    T& back()
     {
+        if (empty()) {
+            throw std::out_of_range("Vector is empty");
+        }
+        return data_[size_ - 1];
     }
 
-private:
-    // private data should be here
+    const T& back() const
+    {
+        if (empty()) {
+            throw std::out_of_range("Vector is empty");
+        }
+        return data_[size_ - 1];
+    }
+
+    void push_back(const T& value)
+    {
+        T copy(value);
+        if (size_ == capacity_) {
+            reserve(capacity_ == 0 ? 1 : capacity_ * 2);
+        }
+        data_[size_] = copy;
+        ++size_;
+    }
+
+    void pop_back()
+    {
+        if (empty()) {
+            throw std::out_of_range("Vector is empty");
+        }
+        --size_;
+    }
 };
-
-#endif
