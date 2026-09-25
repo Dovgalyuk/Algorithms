@@ -64,43 +64,39 @@ static Position bidirectionalBFS(const std::vector<std::vector<char>> &grid,
 
     qE.insert(encode(end.r, end.c));
     distE[end.r][end.c] = 0;
-    
+
     // S и E совпадают — путь длины 0, сразу возвращаем
     if (start == end) return start;
 
-    while (!qS.empty() && !qE.empty()) {
-        // шаг из старта
-        {
-            int v = qS.get(); qS.remove();
-            int r, c; decode(v, r, c);
-            for (const Position &nb : getNeighbors(r, c, H, grid)) {
-                if (grid[nb.r][nb.c] == '#') continue;
-                if (distS[nb.r][nb.c] != -1) continue;
-                distS[nb.r][nb.c] = distS[r][c] + 1;
-                qS.insert(encode(nb.r, nb.c));
-                // как только сосед уже помечен с другой стороны, волны встретились
-                if (distE[nb.r][nb.c] != -1) return nb;
-            }
+    // один шаг BFS из очереди q по массиву dist, проверяя пересечение с otherDist
+    auto bfsStep = [&](Queue &q, std::vector<std::vector<int>> &dist,
+                       const std::vector<std::vector<int>> &otherDist) -> Position {
+        int v = q.get(); q.remove();
+        int r, c; decode(v, r, c);
+        for (const Position &nb : getNeighbors(r, c, H, grid)) {
+            if (grid[nb.r][nb.c] == '#') continue;
+            if (dist[nb.r][nb.c] != -1) continue;
+            dist[nb.r][nb.c] = dist[r][c] + 1;
+            q.insert(encode(nb.r, nb.c));
+            // волны встретились
+            if (otherDist[nb.r][nb.c] != -1) return nb;
         }
+        return Position(-1, -1);
+    };
 
-        // шаг из финиша
-        {
-            int v = qE.get(); qE.remove();
-            int r, c; decode(v, r, c);
-            for (const Position &nb : getNeighbors(r, c, H, grid)) {
-                if (grid[nb.r][nb.c] == '#') continue;
-                if (distE[nb.r][nb.c] != -1) continue;
-                distE[nb.r][nb.c] = distE[r][c] + 1;
-                qE.insert(encode(nb.r, nb.c));
-                if (distS[nb.r][nb.c] != -1) return nb;
-            }
-        }
+    while (!qS.empty() && !qE.empty()) {
+        Position meet = bfsStep(qS, distS, distE);
+        if (meet.r != -1) return meet;
+
+        meet = bfsStep(qE, distE, distS);
+        if (meet.r != -1) return meet;
     }
 
     return Position(-1, -1);
 }
 
-// восстанавливаем путь как две половины: от meet до start по distS
+
+// восстанавливаем путь: от meet к start по distS и от meet к end по distE
 static std::vector<std::vector<bool>> reconstructPath(
         const std::vector<std::vector<char>> &grid,
         int H,
@@ -111,35 +107,28 @@ static std::vector<std::vector<bool>> reconstructPath(
     std::vector<std::vector<bool>> onPath(H);
     for (int r = 0; r < H; ++r) onPath[r].assign(grid[r].size(), false);
 
-    // первая половина: meet -> start
-    Position cur = meet;
-    while (!(cur == start)) {
-        onPath[cur.r][cur.c] = true;  // включая meet
-        bool moved = false;
-        for (const Position &nb : getNeighbors(cur.r, cur.c, H, grid)) {
-            if (distS[nb.r][nb.c] == distS[cur.r][cur.c] - 1) {
-                cur = nb;
-                moved = true;
-                break;
+    // обход от from к to по убыванию dist
+    auto traceBack = [&](Position from, Position to,
+                         const std::vector<std::vector<int>> &dist) {
+        Position cur = from;
+        while (!(cur == to)) {
+            onPath[cur.r][cur.c] = true;  // включая meet
+            bool moved = false;
+            for (const Position &nb : getNeighbors(cur.r, cur.c, H, grid)) {
+                if (dist[nb.r][nb.c] == dist[cur.r][cur.c] - 1) {
+                    cur = nb;
+                    moved = true;
+                    break;
+                }
             }
+            if (!moved) break;  // защита от зацикливания
         }
-        if (!moved) break;  // защита от зацикливания
-    }
+    };
 
+    // первая половина: meet -> start
+    traceBack(meet, start, distS);
     // вторая половина: meet -> end
-    cur = meet;
-    while (!(cur == end)) {
-        onPath[cur.r][cur.c] = true;  // включая meet
-        bool moved = false;
-        for (const Position &nb : getNeighbors(cur.r, cur.c, H, grid)) {
-            if (distE[nb.r][nb.c] == distE[cur.r][cur.c] - 1) {
-                cur = nb;
-                moved = true;
-                break;
-            }
-        }
-        if (!moved) break;
-    }
+    traceBack(meet, end, distE);
 
     return onPath;
 }
