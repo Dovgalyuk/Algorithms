@@ -23,3 +23,6 @@ add_output_test(AltSumTest3 AltSum altsum_input3.txt altsum_expected3.txt)
 add_output_test(MostFrequentTest1 MostFrequent freq_input1.txt freq_expected1.txt)
 add_output_test(MostFrequentTest2 MostFrequent freq_input2.txt freq_expected2.txt)
 add_output_test(MostFrequentTest3 MostFrequent freq_input3.txt freq_expected3.txt)
+
+add_subdirectory(Library)
+add_subdirectory(Lab1CPP)
