@@ -1,25 +1,28 @@
-cmake_minimum_required(VERSION 3.15)
-project(Algorithms)
+add_executable(AltSum alt_sum.cpp)
+target_link_libraries(AltSum PRIVATE Library)
 
-enable_testing()
-set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
-if (MSVC)
-    # needs at least cmake 3.15
-    add_compile_options(/W4 /WX)
-else()
-    add_compile_options(-Wall -Wextra -Werror -Wpedantic -Wno-gnu-empty-struct -Wno-unused-parameter -ftrapv)
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        add_compile_options(-fsanitize=address,undefined)
-        add_link_options(-fsanitize=address,undefined)
-    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        add_compile_options(-fsanitize=address,undefined,leak)
-        add_link_options(-fsanitize=address,undefined,leak)
-    endif()
-endif()
+add_executable(MostFrequent most_frequent.cpp)
+target_link_libraries(MostFrequent PRIVATE Library)
 
-add_subdirectory(LibraryC)
-add_subdirectory(LibraryCPP)
-add_subdirectory(LibraryCPPClass)
-add_subdirectory(LibraryCPPTemplate)
+set(COMPARE_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/compare_test.cmake)
 
-add_subdirectory(Lab1C)
+function(add_output_test test_name exe_target input_file expected_file)
+    add_test(NAME ${test_name}
+        COMMAND ${CMAKE_COMMAND}
+            -DTEST_EXE=$<TARGET_FILE:${exe_target}>
+            -DINPUT_FILE=${CMAKE_CURRENT_SOURCE_DIR}/tests/${input_file}
+            -DEXPECTED_FILE=${CMAKE_CURRENT_SOURCE_DIR}/tests/${expected_file}
+            -P ${COMPARE_SCRIPT}
+    )
+endfunction()
+
+add_output_test(AltSumTest1 AltSum altsum_input1.txt altsum_expected1.txt)
+add_output_test(AltSumTest2 AltSum altsum_input2.txt altsum_expected2.txt)
+add_output_test(AltSumTest3 AltSum altsum_input3.txt altsum_expected3.txt)
+
+add_output_test(MostFrequentTest1 MostFrequent freq_input1.txt freq_expected1.txt)
+add_output_test(MostFrequentTest2 MostFrequent freq_input2.txt freq_expected2.txt)
+add_output_test(MostFrequentTest3 MostFrequent freq_input3.txt freq_expected3.txt)
+
+add_subdirectory(Library)
+add_subdirectory(Lab1CPP)
