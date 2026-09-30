@@ -12,11 +12,14 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
+        Item* next() { return _next; }
         Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Data data() const { return _data; }
     private:
         // internal data here
+        friend class List;
+        Item *_next = nullptr;
+        Data _data;
     };
 
     // Creates new list
@@ -32,7 +35,7 @@ public:
     ~List();
 
     // Retrieves the first item from the list
-    Item *first();
+    Item *first() const;
 
     // Retrieves the last item of the list
     Item *last();
@@ -53,8 +56,13 @@ public:
     // Returns pointer to the item next to the deleted one.
     // Should be O(1)
     Item *erase_next(Item *item);
+
+    void swap_first_two();
+    void reverse();
 private:
     // private data should be here
+    Item* _head = nullptr;
+    size_t _size = 0;
 };
 
 #endif

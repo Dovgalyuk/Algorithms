@@ -1,28 +1,73 @@
-#include <cstddef>
 #include "list.h"
 
-List::List()
+List::List() : _head(nullptr), _size(0)
 {
 }
 
-List::List(const List &a)
+List::List(const List &a): _head(nullptr), _size(0)
 {
+    Item* tail = nullptr;
+    for (Item* cur = a._head; cur; cur = cur->_next)
+    {
+        Item* node = new Item;
+        node->_data = cur->_data;
+        node->_next = nullptr;
+        if (!_head) {
+            _head = node;
+        }
+        else {
+            tail->_next = node;
+        }
+        tail = node;
+        ++_size;
+    }
 }
 
 List &List::operator=(const List &a)
 {
+    if (this == &a) return *this;
+    Item* cur = _head;
+    while (cur) {
+        Item* next = cur->_next;
+        delete cur;
+        cur = next;
+    }
+    _head = nullptr;
+    _size = 0;
+    Item* tail = nullptr;
+    for (Item* src = a._head; src; src = src->_next)
+    {
+        Item* node = new Item;
+        node->_data = src->_data;
+        node->_next = nullptr;
+
+        if (!_head) _head = node;
+        else        tail->_next = node;
+
+        tail = node;
+        ++_size;
+    }
     return *this;
 }
 
 List::~List()
 {
+    Item* cur = _head;
+    while (cur) {
+        Item* next = cur->_next;
+        delete cur;
+        cur = next;
+    }
+    _head = nullptr;
+    _size = 0;
 }
 
-List::Item *List::first()
+List::Item *List::first() const
 {
-    return nullptr;
+    return _head;
 }
 
+//не использую, это для двусвязного списка
 List::Item *List::last()
 {
     return nullptr;
@@ -30,9 +75,15 @@ List::Item *List::last()
 
 List::Item *List::insert(Data data)
 {
-    return nullptr;
+    Item* node = new Item;
+    node->_data = data;
+    node->_next = _head;
+    _head = node;
+    ++_size;
+    return node;
 }
 
+//не использую, это для двусвязного списка
 List::Item *List::insert_after(Item *item, Data data)
 {
     return nullptr;
@@ -40,10 +91,39 @@ List::Item *List::insert_after(Item *item, Data data)
 
 List::Item *List::erase_first()
 {
-    return nullptr;
+    if (!_head) return nullptr;
+    Item* k = _head;
+    _head = _head->_next;
+    delete k;
+    --_size;
+    return _head;
 }
 
+//не использую, это для двусвязного списка
 List::Item *List::erase_next(Item *item)
 {
     return nullptr;
+}
+
+void List::swap_first_two()
+{
+    if (!_head || !_head->_next) return;
+    Item* a = _head;
+    Item* b = a->_next;
+    a->_next = b->_next;
+    b->_next = a;
+    _head = b;
+}
+
+void List::reverse()
+{
+    Item* prev = nullptr;
+    Item* cur = _head;
+    while (cur) {
+        Item* next = cur->_next;
+        cur->_next = prev;
+        prev = cur;
+        cur = next;
+    }
+    _head = prev;
 }

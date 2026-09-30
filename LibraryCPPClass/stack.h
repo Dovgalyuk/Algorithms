@@ -1,10 +1,7 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include <cstddef>
-
-// Change it to desired type
-typedef int Data;
+#include "list.h"
 
 class Stack
 {
@@ -35,8 +32,12 @@ public:
     // Returns true if the stack is empty
     bool empty() const;
 
+    void swap();
+    void reverse();
 private:
     // private data should be here
+    List list;
+
 };
 
 #endif
