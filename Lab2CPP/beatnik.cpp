@@ -1,11 +1,9 @@
 #include "beatnik.h"
 #include "stack.h"
 
-#include <cstddef>
 #include <string>
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
 #include <cctype>
 #include <iostream>
 #include <fstream>
@@ -13,6 +11,8 @@
 #include <vector>
 
 using namespace std;
+
+typedef vector<string> Slova;
 
 string read_file(const string& path) {
 	ifstream f(path, ios::binary);
@@ -25,8 +25,8 @@ string read_file(const string& path) {
 	return stroka.str();
 }
 
-vector<string> razbitie_stroki(const string& text) {
-	vector<string> slova;
+Slova razbitie_stroki(const string& text) {
+	Slova slova;
 	string vib;
 
 	for (char c : text) {
@@ -80,50 +80,6 @@ int beatnik_word_ochki(const char* word) {
 	return ochki;
 }
 
-bool beatnik_token(const char* text, char*** words_out, size_t* count_out) {
-	if (!words_out || !count_out) {
-		return false;
-	}
-	*words_out = nullptr;
-	*count_out = 0;
-
-	if (!text) {
-		return false;
-	}
-
-	vector<string> slova = razbitie_stroki(text);
-
-	if (slova.empty()) {
-		return true;
-	}
-
-	char** result = new char* [slova.size()];
-	if (!result) {
-		return false;
-	}
-
-	for (size_t i = 0; i < slova.size(); i++) {
-		const string& s = slova[i];
-		char* kop = new char[s.size() + 1];
-		memcpy(kop, s.c_str(), s.size() + 1);
-		result[i] = kop;
-	}
-
-	*words_out = result;
-	*count_out = slova.size();
-	return true;
-}
-
-void beatnik_osvobodit_pamyat(char** slova, size_t count) {
-	if (!slova) {
-		return;
-	}
-	for (size_t i = 0; i < count; i++) {
-		delete[] slova[i];
-	}
-	delete[] slova;
-}
-
 
 int beatnik_start(const char* script_file, const char* input_file) {
 	if (!script_file || !input_file) {
@@ -137,7 +93,7 @@ int beatnik_start(const char* script_file, const char* input_file) {
 		const string script_text = read_file(script_file);
 		const string input_text = read_file(input_file);
 
-		vector<string> slova = razbitie_stroki(script_text);
+		Slova slova = razbitie_stroki(script_text);
 		size_t kolvo_slov = slova.size();
 
 		stack = stack_create();
@@ -307,11 +263,3 @@ int beatnik_start(const char* script_file, const char* input_file) {
 		return 1;
 	}
 }
-
-
-
-
-
-
-
-

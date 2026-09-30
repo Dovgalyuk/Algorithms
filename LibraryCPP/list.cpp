@@ -10,13 +10,13 @@ struct ListItem
 struct List
 {
 	ListItem* head;
-	size_t size;
+	ListItem* tail;
 };
 
 List* list_create() {
 	List* list = new List;
 	list->head = NULL;
-	list->size = 0;
+	list->tail = NULL;
 	return list;
 }
 
@@ -42,14 +42,10 @@ ListItem* list_first(List* list) {
 }
 
 ListItem* list_last(List* list) {
-	if (list == NULL && list->head == NULL) {
+	if (list == NULL) {
 		return NULL;
 	}
-	ListItem* tekushciy = list->head;
-	while (tekushciy->next != NULL) {
-		tekushciy = tekushciy->next;
-	}
-	return tekushciy;
+	return list->tail;
 }
 
 
@@ -86,12 +82,19 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data) {
 	if (item == NULL) {
 		mesto->next = list->head;
 		list->head = mesto;
+
+		if (list->tail == NULL) {
+			list->tail = mesto;
+		}
 	}
 	else {
 		mesto->next = item->next;
 		item->next = mesto;
+
+		if (item == list->tail) {
+			list->tail = mesto;
+		}
 	}
-	list->size++;
 	return mesto;
 }
 
@@ -103,7 +106,11 @@ ListItem* list_erase_first(List* list) {
 	ListItem* old = list->head;
 	list->head = old->next;
 	delete old;
-	list->size--;
+
+	if (list->head == NULL) {
+		list->tail = NULL;
+	}
+
 	return list->head;
 }
 
@@ -123,6 +130,10 @@ ListItem* list_erase_next(List* list, ListItem* item) {
 
 	item->next = udalenie->next;
 	delete udalenie;
-	list->size--;
+
+	if (udalenie == list->tail) {
+		list->tail = item;
+	}
+
 	return item->next;
 }
