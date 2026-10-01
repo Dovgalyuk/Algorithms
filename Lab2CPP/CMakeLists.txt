@@ -29,6 +29,12 @@ set_property(TEST Beatnik_OutputA PROPERTY PASS_REGULAR_EXPRESSION "A")
 add_test(NAME Beatnik_MultiOutput COMMAND Beatnik ${CMAKE_CURRENT_SOURCE_DIR}/tests/multi_output.bt ${CMAKE_CURRENT_SOURCE_DIR}/tests/hello_aunts.in)
 set_property(TEST Beatnik_MultiOutput PROPERTY PASS_REGULAR_EXPRESSION " !")
 
+add_test(NAME Beatnik_Cycle1 COMMAND Beatnik ${CMAKE_CURRENT_SOURCE_DIR}/tests/cicle1.bt ${CMAKE_CURRENT_SOURCE_DIR}/tests/hello_aunts.in)
+set_property(TEST Beatnik_Cycle1 PROPERTY PASS_REGULAR_EXPRESSION "ABC")
+
+add_test(NAME Beatnik_Cycle2 COMMAND Beatnik ${CMAKE_CURRENT_SOURCE_DIR}/tests/cicle2.bt ${CMAKE_CURRENT_SOURCE_DIR}/tests/hello_aunts.in)
+set_property(TEST Beatnik_Cycle2 PROPERTY PASS_REGULAR_EXPRESSION "ACE")
+
 add_custom_target(test_all COMMAND ${CMAKE_CTEST_COMMAND} -C $<CONFIG> --ouput-on-failure
 DEPENDS Beatnik
 )
