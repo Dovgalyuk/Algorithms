@@ -9,7 +9,7 @@ using namespace std;
 
 class MinipigVM {
 public:
-    MinipigVM() : current(&stack_a), k(0), ip(0), printed_(false) {}
+    MinipigVM() : current(0), k(0), ip(0), printed_(false) {}
 
     void load(const string& prog, const string& input) {
         program = prog;
@@ -27,14 +27,13 @@ public:
     bool printed() const { return printed_; }
 
     void dump(ostream& out = cout) const {
-        dump_stack(stack_a, out);
-        dump_stack(stack_b, out);
+        dump_stack(stacks[0], out);
+        dump_stack(stacks[1], out);
     }
 
 private:
-    Stack stack_a;
-    Stack stack_b;
-    Stack* current;
+    Stack stacks[2];
+    int current;
     int k;
     string program;
     size_t ip;
@@ -42,7 +41,7 @@ private:
     bool printed_;
 
     void switch_stack() {
-        current = (current == &stack_a) ? &stack_b : &stack_a;
+        current ^= 1;
     }
 
     void goto_relative(int n) {
@@ -79,15 +78,15 @@ private:
         switch (op) {
 
         case '^': case 'u':
-            if (!current->empty()) { k = current->get(); current->pop(); }
+            if (!stacks[current].empty()) { k = stacks[current].get(); stacks[current].pop(); }
             ++ip; break;
 
         case 'v': case 'd':
-            current->push(k);
+            stacks[current].push(k);
             ++ip; break;
 
         case '/': case 's':
-            current->swap();
+            stacks[current].swap();
             ++ip; break;
 
         case ';': case 'S':
@@ -95,29 +94,29 @@ private:
             ++ip; break;
 
         case '1': case 'l':
-            current->push(1);
+            stacks[current].push(1);
             ++ip; break;
 
         case '-': case 'm': {
-            if (current->empty()) { ++ip; break; }
-            int a = current->get(); current->pop();
-            if (current->empty()) { current->push(a); ++ip; break; }
-            int b = current->get(); current->pop();
-            current->push(b - a);
+            if (stacks[current].empty()) { ++ip; break; }
+            int a = stacks[current].get(); stacks[current].pop();
+            if (stacks[current].empty()) { stacks[current].push(a); ++ip; break; }
+            int b = stacks[current].get(); stacks[current].pop();
+            stacks[current].push(b - a);
             ++ip; break;
         }
 
         case '[': case 'i': {
             int x = 0;
             if (!(input_stream >> x)) x = 0;
-            current->push(x);
+            stacks[current].push(x);
             ++ip; break;
         }
 
         case ']': case 'o':
-            if (!current->empty()) {
-                cout << current->get();
-                current->pop();
+            if (!stacks[current].empty()) {
+                cout << stacks[current].get();
+                stacks[current].pop();
                 printed_ = true;
             }
             ++ip; break;
@@ -125,28 +124,28 @@ private:
         case '{': case 'I': {
             char c = 0;
             if (!(input_stream >> c)) c = 0;
-            current->push(static_cast<int>(c));
+            stacks[current].push(static_cast<int>(c));
             ++ip; break;
         }
 
         case '}': case 'O':
-            if (!current->empty()) {
-                cout << static_cast<char>(current->get());
-                current->pop();
+            if (!stacks[current].empty()) {
+                cout << static_cast<char>(stacks[current].get());
+                stacks[current].pop();
                 printed_ = true;
             }
             ++ip; break;
 
         case '%': case 'r':
-            current->reverse();
+            stacks[current].reverse();
             ++ip; break;
 
         case '*': case 'f':
             ++ip; break;
 
         case '>': case 'g': {
-            if (current->empty()) { ++ip; break; }
-            int n = current->get(); current->pop();
+            if (stacks[current].empty()) { ++ip; break; }
+            int n = stacks[current].get(); stacks[current].pop();
             goto_relative(n);
             break;
         }
@@ -158,13 +157,12 @@ private:
 
     static void dump_stack(const Stack& s, ostream& out) {
         Stack copy = s;
-        Stack rev;
-        while (!copy.empty()) { rev.push(copy.get()); copy.pop(); }
+        copy.reverse();
         bool first = true;
-        while (!rev.empty()) {
+        while (!copy.empty()) {
             if (!first) out << " ";
-            out << rev.get();
-            rev.pop();
+            out << copy.get();
+            copy.pop();
             first = false;
         }
         out << "\n";

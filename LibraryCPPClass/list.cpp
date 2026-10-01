@@ -1,10 +1,10 @@
 #include "list.h"
 
-List::List() : _head(nullptr), _size(0)
+List::List() : _head(nullptr)
 {
 }
 
-List::List(const List &a): _head(nullptr), _size(0)
+void List::copy_list(const List& a)
 {
     Item* tail = nullptr;
     for (Item* cur = a._head; cur; cur = cur->_next)
@@ -19,8 +19,12 @@ List::List(const List &a): _head(nullptr), _size(0)
             tail->_next = node;
         }
         tail = node;
-        ++_size;
     }
+}
+
+List::List(const List &a): _head(nullptr)
+{
+    copy_list(a);
 }
 
 List &List::operator=(const List &a)
@@ -33,20 +37,7 @@ List &List::operator=(const List &a)
         cur = next;
     }
     _head = nullptr;
-    _size = 0;
-    Item* tail = nullptr;
-    for (Item* src = a._head; src; src = src->_next)
-    {
-        Item* node = new Item;
-        node->_data = src->_data;
-        node->_next = nullptr;
-
-        if (!_head) _head = node;
-        else        tail->_next = node;
-
-        tail = node;
-        ++_size;
-    }
+    copy_list(a);
     return *this;
 }
 
@@ -59,7 +50,6 @@ List::~List()
         cur = next;
     }
     _head = nullptr;
-    _size = 0;
 }
 
 List::Item *List::first() const
@@ -79,7 +69,6 @@ List::Item *List::insert(Data data)
     node->_data = data;
     node->_next = _head;
     _head = node;
-    ++_size;
     return node;
 }
 
@@ -95,7 +84,6 @@ List::Item *List::erase_first()
     Item* k = _head;
     _head = _head->_next;
     delete k;
-    --_size;
     return _head;
 }
 

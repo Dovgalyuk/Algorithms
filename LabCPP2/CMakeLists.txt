@@ -56,3 +56,52 @@ add_test(NAME TestMinipig_08_ManyInputs
                     ${CMAKE_CURRENT_SOURCE_DIR}/tests/test8i.txt)
 set_property(TEST TestMinipig_08_ManyInputs
     PROPERTY PASS_REGULAR_EXPRESSION "5 3 42 -1 100")
+
+add_test(NAME TestMinipig_09_Duplicate
+    COMMAND LabCPP2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test09s.txt)
+set_property(TEST TestMinipig_09_Duplicate
+    PROPERTY PASS_REGULAR_EXPRESSION "^11")
+
+add_test(NAME TestMinipig_10_Negate
+    COMMAND LabCPP2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test10s.txt)
+set_property(TEST TestMinipig_10_Negate
+    PROPERTY PASS_REGULAR_EXPRESSION "^-1")
+
+add_test(NAME TestMinipig_11_Add
+    COMMAND LabCPP2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test11s.txt)
+set_property(TEST TestMinipig_11_Add
+    PROPERTY PASS_REGULAR_EXPRESSION "^2")
+
+add_test(NAME TestMinipig_12_MultiplyByTwo
+    COMMAND LabCPP2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test12s.txt)
+set_property(TEST TestMinipig_12_MultiplyByTwo
+    PROPERTY PASS_REGULAR_EXPRESSION "^2")
+
+add_test(NAME TestMinipig_13_PrintNumberNewline
+    COMMAND LabCPP2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test13s.txt)
+set_property(TEST TestMinipig_13_PrintNumberNewline
+    PROPERTY PASS_REGULAR_EXPRESSION "^1[\r\n]")
+
+add_test(NAME TestMinipig_14_RotateForward
+    COMMAND LabCPP2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test14s.txt)
+set_property(TEST TestMinipig_14_RotateForward
+    PROPERTY PASS_REGULAR_EXPRESSION "^1")
+
+add_test(NAME TestMinipig_15_RotateBackward
+    COMMAND LabCPP2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test15s.txt)
+set_property(TEST TestMinipig_15_RotateBackward
+    PROPERTY PASS_REGULAR_EXPRESSION "^1")
+
+add_test(NAME TestMinipig_16_GotoForward
+    COMMAND LabCPP2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test16s.txt)
+set_property(TEST TestMinipig_16_GotoForward
+    PROPERTY PASS_REGULAR_EXPRESSION "^1")
+set_property(TEST TestMinipig_16_GotoForward
+    PROPERTY TIMEOUT 5)
+
+add_test(NAME TestMinipig_17_GotoZero
+    COMMAND LabCPP2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test17s.txt)
+set_property(TEST TestMinipig_17_GotoZero
+    PROPERTY PASS_REGULAR_EXPRESSION "^1")
+set_property(TEST TestMinipig_17_GotoZero
+    PROPERTY TIMEOUT 5)

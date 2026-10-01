@@ -62,7 +62,7 @@ public:
 private:
     // private data should be here
     Item* _head = nullptr;
-    size_t _size = 0;
+    void copy_list(const List& a);
 };
 
 #endif
