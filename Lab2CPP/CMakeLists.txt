@@ -44,22 +44,24 @@ set_tests_properties(TestLab2IntLimit PROPERTIES PASS_REGULAR_EXPRESSION "^21474
 add_test(NAME TestLab2NegativeDivision COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/negative_division.txt")
 set_tests_properties(TestLab2NegativeDivision PROPERTIES PASS_REGULAR_EXPRESSION "^-2[\r\n]*$")
 
-add_test(NAME TestLab2MissingNumber COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/missing_number.txt")
-add_test(NAME TestLab2OpenBracket COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/open_bracket.txt")
-add_test(NAME TestLab2CloseBracket COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/close_bracket.txt")
-add_test(NAME TestLab2DivisionByZero COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/division_zero.txt")
-add_test(NAME TestLab2UnknownSymbol COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/unknown_symbol.txt")
-add_test(NAME TestLab2AdjacentNumbers COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/adjacent_numbers.txt")
-add_test(NAME TestLab2EmptyBrackets COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/empty_brackets.txt")
-add_test(NAME TestLab2EmptyExpression COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/empty.txt")
-add_test(NAME TestLab2UnaryMinus COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/unary_minus.txt")
-add_test(NAME TestLab2NumberOverflow COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/number_overflow.txt")
-add_test(NAME TestLab2ResultOverflow COMMAND Lab2CPPExpression "${CMAKE_CURRENT_SOURCE_DIR}/tests/result_overflow.txt")
+function(add_error_test name file)
+    add_test(
+        NAME ${name}
+        COMMAND ${CMAKE_COMMAND}
+            "-DPROGRAM=$<TARGET_FILE:Lab2CPPExpression>"
+            "-DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/tests/${file}.txt"
+            -P "${CMAKE_CURRENT_SOURCE_DIR}/check_error.cmake"
+    )
+endfunction()
 
-set_tests_properties(
-    TestLab2MissingNumber TestLab2OpenBracket TestLab2CloseBracket
-    TestLab2DivisionByZero TestLab2UnknownSymbol TestLab2AdjacentNumbers
-    TestLab2EmptyBrackets TestLab2EmptyExpression TestLab2UnaryMinus
-    TestLab2NumberOverflow TestLab2ResultOverflow
-    PROPERTIES WILL_FAIL TRUE
-)
+add_error_test(TestLab2MissingNumber missing_number)
+add_error_test(TestLab2OpenBracket open_bracket)
+add_error_test(TestLab2CloseBracket close_bracket)
+add_error_test(TestLab2DivisionByZero division_zero)
+add_error_test(TestLab2UnknownSymbol unknown_symbol)
+add_error_test(TestLab2AdjacentNumbers adjacent_numbers)
+add_error_test(TestLab2EmptyBrackets empty_brackets)
+add_error_test(TestLab2EmptyExpression empty)
+add_error_test(TestLab2UnaryMinus unary_minus)
+add_error_test(TestLab2NumberOverflow number_overflow)
+add_error_test(TestLab2ResultOverflow result_overflow)

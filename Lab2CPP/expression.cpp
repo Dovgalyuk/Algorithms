@@ -15,20 +15,24 @@ int priority(int sign)
     return 0;
 }
 
+int take(Stack *stack)
+{
+    int value = stack_get(stack);
+    stack_pop(stack);
+    return value;
+}
+
 bool calculate(Stack *numbers, Stack *signs)
 {
     if (stack_empty(numbers) || stack_empty(signs))
         return false;
 
-    long long right = stack_get(numbers);
-    stack_pop(numbers);
+    long long right = take(numbers);
     if (stack_empty(numbers))
         return false;
 
-    long long left = stack_get(numbers);
-    stack_pop(numbers);
-    int sign = stack_get(signs);
-    stack_pop(signs);
+    long long left = take(numbers);
+    int sign = take(signs);
 
     long long result;
     if (sign == '+')
