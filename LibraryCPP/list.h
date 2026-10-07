@@ -29,7 +29,7 @@ Data list_item_data(const ListItem *item);
 ListItem *list_item_next(ListItem *item);
 
 // Returns previous element for the specified item.
-// Not applicable for the singly linked lists.
+// Not applicable for the singly linked lists: returns nullptr.
 ListItem *list_item_prev(ListItem *item);
 
 // Inserts new list item into the beginning
