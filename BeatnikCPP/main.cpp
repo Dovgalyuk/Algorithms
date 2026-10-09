@@ -8,15 +8,20 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 namespace
 {
-int word_score(const std::string &word)
+typedef vector<string> Words;
+typedef unique_ptr<Stack, decltype(&stack_delete)> StackHandle;
+
+int word_score(const string &word)
 {
     int score = 0;
     for (unsigned char ch : word)
     {
-        if (!std::isalpha(ch)) continue;
-        switch (std::toupper(ch))
+        if (!isalpha(ch)) continue;
+        switch (toupper(ch))
         {
         case 'D': case 'G': score += 2; break;
         case 'B': case 'C': case 'M': case 'P': score += 3; break;
@@ -30,19 +35,19 @@ int word_score(const std::string &word)
     return score;
 }
 
-std::vector<std::string> read_words(const std::string &path)
+Words read_words(const string &path)
 {
-    std::ifstream file(path.c_str());
-    if (!file) throw std::runtime_error("cannot open script file: " + path);
-    std::vector<std::string> words;
-    std::string word;
+    ifstream file(path.c_str());
+    if (!file) throw runtime_error("cannot open script file: " + path);
+    Words words;
+    string word;
     while (file >> word) words.push_back(word);
     return words;
 }
 
-void run(const std::vector<std::string> &words, std::istream &input, std::ostream &output)
+void run(const Words &words, istream &input, ostream &output)
 {
-    std::unique_ptr<Stack, decltype(&stack_delete)> stack(stack_create(), stack_delete);
+    StackHandle stack(stack_create(), stack_delete);
     long long pc = 0;
     while (pc >= 0 && static_cast<size_t>(pc) < words.size())
     {
@@ -50,7 +55,7 @@ void run(const std::vector<std::string> &words, std::istream &input, std::ostrea
         int parameter = 0;
         if (command == 5 || (command >= 13 && command <= 16))
         {
-            if (static_cast<size_t>(pc) >= words.size()) throw std::runtime_error("missing command parameter");
+            if (static_cast<size_t>(pc) >= words.size()) throw runtime_error("missing command parameter");
             parameter = word_score(words[static_cast<size_t>(pc++)]);
         }
 
@@ -65,7 +70,7 @@ void run(const std::vector<std::string> &words, std::istream &input, std::ostrea
         }
         case 8: {
             char ch;
-            if (!input.get(ch)) throw std::runtime_error("input exhausted");
+            if (!input.get(ch)) throw runtime_error("input exhausted");
             stack_push(stack.get(), static_cast<unsigned char>(ch));
             break;
         }
@@ -110,19 +115,19 @@ int main(int argc, char **argv)
 {
     if (argc != 3)
     {
-        std::cerr << "Usage: BeatnikCPP <script-file> <input-file>\n";
+        cout << "Usage: BeatnikCPP <script-file> <input-file>\n";
         return 1;
     }
     try
     {
-        const std::vector<std::string> words = read_words(argv[1]);
-        std::ifstream input(argv[2], std::ios::binary);
-        if (!input) throw std::runtime_error(std::string("cannot open input file: ") + argv[2]);
-        run(words, input, std::cout);
+        const Words words = read_words(argv[1]);
+        ifstream input(argv[2], ios::binary);
+        if (!input) throw runtime_error(string("cannot open input file: ") + argv[2]);
+        run(words, input, cout);
     }
-    catch (const std::exception &error)
+    catch (const exception &error)
     {
-        std::cerr << "Beatnik error: " << error.what() << '\n';
+        cout << "Beatnik error: " << error.what() << '\n';
         return 1;
     }
     return 0;
