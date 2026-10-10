@@ -6,7 +6,7 @@ int main(int argc, char** argv) {
     if (!input) return 1;
 
     Stack* stack = stack_create();
-    int ok = 1;
+    bool ok = true;
     int c;
 
     while ((c = fgetc(input)) != EOF) 
@@ -16,19 +16,19 @@ int main(int argc, char** argv) {
 
         else if (c == ')' || c == ']' || c == '}') 
         {
-            if (stack_empty(stack)) { ok = 0; break; }
+            if (stack_empty(stack)) { ok = false; break; }
 
             int top = stack_get(stack);
             stack_pop(stack);
 
-            if (c == ')' && top != '(') { ok = 0; break; }
-            if (c == ']' && top != '[') { ok = 0; break; }
-            if (c == '}' && top != '{') { ok = 0; break; }
+            if (c == ')' && top != '(') { ok = false; break; }
+            if (c == ']' && top != '[') { ok = false; break; }
+            if (c == '}' && top != '{') { ok = false; break; }
         }
     }
 
     if (!stack_empty(stack)) 
-    ok = 0;
+        ok = false;
 
     if (ok) 
         printf("YES\n");
