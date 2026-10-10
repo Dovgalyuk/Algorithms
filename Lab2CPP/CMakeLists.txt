@@ -19,8 +19,8 @@ function(add_minipig_test test_name script_file input_file expected_output)
     add_test(
             NAME ${test_name}
             COMMAND Lab2CPP
-            ${CMAKE_CURRENT_SOURCE_DIR}/Tests/${script_file}
-            ${CMAKE_CURRENT_SOURCE_DIR}/Tests/${input_file}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/${script_file}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/${input_file}
     )
     set_tests_properties(${test_name} PROPERTIES
             PASS_REGULAR_EXPRESSION "${expected_output}"
