@@ -3,6 +3,8 @@
 
 #include <cstddef>
 
+#include "list.h"
+
 // Change it to desired type
 typedef int Data;
 
@@ -13,10 +15,10 @@ public:
     Stack();
 
     // copy constructor
-    Stack(const Stack &a);
+    Stack(const Stack& a);
 
     // assignment operator
-    Stack &operator=(const Stack &a);
+    Stack& operator=(const Stack& a);
 
     // Deletes the stack
     ~Stack();
@@ -36,7 +38,9 @@ public:
     bool empty() const;
 
 private:
-    // private data should be here
+    // вершина стека - первый элемент списка:
+    // вставка и удаление в начало списка работают за O(1)
+    List list_;
 };
 
 #endif

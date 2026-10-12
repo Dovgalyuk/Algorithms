@@ -12,11 +12,19 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item *next() { return next_; }
+        Item *prev() { return prev_; }
+        Data data() const { return data_; }
     private:
-        // internal data here
+        Item(Data data, Item *prev, Item *next)
+            : data_(data), prev_(prev), next_(next) {}
+
+        Data data_;
+        Item *prev_;   // предыдущий элемент, nullptr у первого
+        Item *next_;   // следующий элемент, nullptr у последнего
+
+        // список создаёт и удаляет элементы, поэтому видит их поля
+        friend class List;
     };
 
     // Creates new list
@@ -33,6 +41,9 @@ public:
 
     // Retrieves the first item from the list
     Item *first();
+
+    // The same for a constant list
+    const Item *first() const;
 
     // Retrieves the last item of the list
     Item *last();
@@ -54,7 +65,14 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
-    // private data should be here
+    // удаляет все элементы, нужен деструктору и оператору присваивания
+    void clear();
+
+    // копирует элементы другого списка в текущий (пустой) список
+    void copy_from(const List &a);
+
+    Item *first_;
+    Item *last_;
 };
 
 #endif
