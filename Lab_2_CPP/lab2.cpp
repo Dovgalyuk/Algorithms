@@ -5,7 +5,9 @@
 #include <cstdint>
 #include "stack.h"
 
-bool is_passable(const std::vector<std::string> &grid, int nx, int ny, int move_dir)
+typedef std::vector<std::string> Grid;
+
+bool is_passable(const Grid &grid, int nx, int ny, int move_dir)
 {
     if (ny < 0 || ny >= static_cast<int>(grid.size()))
     {
@@ -55,7 +57,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    std::vector<std::string> grid;
+    Grid grid;
     std::string line;
     while (std::getline(script_file, line))
     {
