@@ -7,10 +7,7 @@
 // Change it to desired type
 typedef int Data;
 
-struct Stack
-{
-    Vector* vec;
-};
+struct Stack;
 
 // Creates empty stack
 Stack *stack_create();

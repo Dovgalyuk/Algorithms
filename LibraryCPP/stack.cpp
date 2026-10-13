@@ -4,6 +4,11 @@
 
 using namespace std;
 
+struct Stack
+{
+    Vector* vec;
+};
+
 Stack *stack_create()
 {
     Stack* stack = new Stack;
@@ -52,12 +57,12 @@ void printStack(Stack* stack) {
     if (stack_empty(stack)) {
         cout << endl;
         cout << "Пусто";
-    } else {
-        for (size_t i = 0; i < stack->vec->currLength; i++) {
-            cout << stack->vec->Data[i];
-            if (i != stack->vec->currLength - 1) {
-                cout << " ";
-            }
+    }
+    size_t size = vector_size(stack->vec);
+    for (size_t i = 0; i < size; i++) {
+        cout << vector_get(stack->vec, i);
+        if (i != size - 1) {
+            cout << " ";
         }
     }
     cout << endl;

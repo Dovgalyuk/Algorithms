@@ -7,113 +7,105 @@
 using namespace std;
 
 struct Interpreter {
-    Stack* stack1;
-    Stack* stack2;
-    Stack* workingStack;
-    Stack* altStack;
+    Vector* program;
+    Stack* stack[2];
+    int currentStack;
     int registerK;
-    const int* program;
     size_t ip;
-    size_t programLength;
 };
 
-Interpreter *interpreterCreate(const int* program, size_t length) {
+Interpreter *interpreterCreate(Vector* program) {
     Interpreter* interpreter = new Interpreter;
-    interpreter->stack1 = stack_create();
-    interpreter->stack2 = stack_create();
-
-    interpreter->workingStack = interpreter->stack1;
-    interpreter->altStack = interpreter->stack2;
-
+    interpreter->stack[0] = stack_create();
+    interpreter->stack[1] = stack_create();
+    interpreter->currentStack = 0;
     interpreter->registerK = 0;
     interpreter->program = program;
-    interpreter->programLength = length;
     interpreter->ip = 0;
     return interpreter;
 }
 
 void interpreterRun(Interpreter *machine) {
-    while (machine->ip < machine->programLength) {
+    while (machine->ip < vector_size(machine->program)) {
 
         bool skipIncrement = false;
 
-        int cmd = machine->program[machine->ip];
+        int cmd = vector_get(machine->program, machine->ip);
 
         if (cmd == ' ' || cmd == '\n' || cmd == '\t' || cmd == '\r') {
             machine->ip++;
             continue;
         }
+        Stack* ws = machine->stack[machine->currentStack];
         switch (cmd) {
             case 'u':
             case '^':
-                if (stack_empty(machine->workingStack)) {
+                if (stack_empty(ws)) {
                     return;
                 }
-                machine->registerK = stack_get(machine->workingStack);
-                stack_pop(machine->workingStack);
+                machine->registerK = stack_get(ws);
+                stack_pop(ws);
                 break;
             case 'd':
             case 'v':
-                stack_push(machine->workingStack, machine->registerK);
+                stack_push(ws, machine->registerK);
                 break;
             case 's':
             case '/': {
-                if (stack_empty(machine->workingStack)) {
+                if (stack_empty(ws)) {
                     return;
                 }
-                int a = stack_get(machine->workingStack);
-                stack_pop(machine->workingStack);
-                if (stack_empty(machine->workingStack)) {
-                    stack_push(machine->workingStack, a);
+                int a = stack_get(ws);
+                stack_pop(ws);
+                if (stack_empty(ws)) {
+                    stack_push(ws, a);
                     return;
                 }
-                int b = stack_get(machine->workingStack);
-                stack_pop(machine->workingStack);
-                stack_push(machine->workingStack, a);
-                stack_push(machine->workingStack, b);
+                int b = stack_get(ws);
+                stack_pop(ws);
+                stack_push(ws, a);
+                stack_push(ws, b);
                 break;
             }
             case 'S':
             case ';': {
-                Stack* temp = machine->workingStack;
-                machine->workingStack = machine->altStack;
-                machine->altStack = temp;
+                machine->currentStack = 1 - machine->currentStack;
                 break;
             }
             case 'l':
             case '1':
-                stack_push(machine->workingStack, 1);
+                stack_push(ws, 1);
                 break;
             case 'm':
             case '-': {
-                if (stack_empty(machine->workingStack)) {
+                if (stack_empty(ws)) {
                     return;
                 }
-                int a = stack_get(machine->workingStack);
-                stack_pop(machine->workingStack);
-                if (stack_empty(machine->workingStack)) {
-                    stack_push(machine->workingStack, a);
+                int a = stack_get(ws);
+                stack_pop(ws);
+                if (stack_empty(ws)) {
+                    stack_push(ws, a);
                     return;
                 }
-                int b = stack_get(machine->workingStack);
-                stack_pop(machine->workingStack);
-                stack_push(machine->workingStack, b - a);
+                int b = stack_get(ws);
+                stack_pop(ws);
+                stack_push(ws, b - a);
                 break;
             }
             case 'i':
             case '[': {
                 int num;
                 cin >> num;
-                stack_push(machine->workingStack, num);
+                stack_push(ws, num);
                 break;
             }
             case 'o':
             case ']': {
-                if (stack_empty(machine->workingStack)) {
+                if (stack_empty(ws)) {
                     return;
                 }
-                int num = stack_get(machine->workingStack);
-                stack_pop(machine->workingStack);
+                int num = stack_get(ws);
+                stack_pop(ws);
                 cout << num;
                 break;
             }
@@ -121,36 +113,29 @@ void interpreterRun(Interpreter *machine) {
             case '{': {
                 char ch;
                 cin >> ch;
-                stack_push(machine->workingStack, (int)ch);
+                stack_push(ws, (int)ch);
                 break;
             }
             case 'O':
             case '}': {
-                if (stack_empty(machine->workingStack)) {
+                if (stack_empty(ws)) {
                     return;
                 }
-                int code = stack_get(machine->workingStack);
-                stack_pop(machine->workingStack);
+                int code = stack_get(ws);
+                stack_pop(ws);
                 cout << (char)code;
                 break;
             }
             case 'r':
             case '%': {
                 Stack* tempStack = stack_create();
-                while (!stack_empty(machine->workingStack)) {
-                    int val = stack_get(machine->workingStack);
-                    stack_pop(machine->workingStack);
+                while (!stack_empty(ws)) {
+                    int val = stack_get(ws);
+                    stack_pop(ws);
                     stack_push(tempStack, val);
                 }
-                if (machine->workingStack == machine->stack1) {
-                    stack_delete(machine->stack1);
-                    machine->stack1 = tempStack;
-                    machine->workingStack = tempStack;
-                } else if (machine->workingStack == machine->stack2) {
-                    stack_delete(machine->stack2);
-                    machine->stack2 = tempStack;
-                    machine->workingStack = tempStack;
-                }
+                stack_delete(machine->stack[machine->currentStack]);
+                machine->stack[machine->currentStack] = tempStack;
                 break;
             }
             case 'f':
@@ -158,11 +143,11 @@ void interpreterRun(Interpreter *machine) {
                 break;
             case 'g':
             case '>': {
-                if (stack_empty(machine->workingStack)) {
+                if (stack_empty(ws)) {
                     return;
                 }
-                int n = stack_get(machine->workingStack);
-                stack_pop(machine->workingStack);
+                int n = stack_get(ws);
+                stack_pop(ws);
 
                 if (n == 0) {
                     break;
@@ -172,10 +157,10 @@ void interpreterRun(Interpreter *machine) {
                     int count = 0;
                     while (count < n) {
                         machine->ip++;
-                        if (machine->ip >= machine->programLength) {
+                        if (machine->ip >= vector_size(machine->program)) {
                             return;
                         }
-                        int nextCmd = machine->program[machine->ip];
+                        int nextCmd = vector_get(machine->program, machine->ip);
                         if (nextCmd == 'f' || nextCmd == '*') {
                             count++;
                         }
@@ -188,7 +173,7 @@ void interpreterRun(Interpreter *machine) {
                             return;
                         }
                         machine->ip--;
-                        int nextCmd = machine->program[machine->ip];
+                        int nextCmd = vector_get(machine->program, machine->ip);
                         if (nextCmd == 'f' || nextCmd == '*') {
                             count++;
                         }
@@ -208,8 +193,8 @@ void interpreterRun(Interpreter *machine) {
 
 void interpreterDelete(Interpreter *interpreter) {
     if (interpreter) {
-        stack_delete(interpreter->stack1);
-        stack_delete(interpreter->stack2);
+        stack_delete(interpreter->stack[0]);
+        stack_delete(interpreter->stack[1]);
         delete interpreter;
     }
 }
@@ -243,11 +228,11 @@ int main(int argc, char *argv[]) {
     }
     script_file.close();
 
-    Interpreter *machine = interpreterCreate(programCode->Data, programCode->currLength);
+    Interpreter *machine = interpreterCreate(programCode);
     interpreterRun(machine);
 
-    printStack(machine->stack1);
-    printStack(machine->stack2);
+    printStack(machine->stack[0]);
+    printStack(machine->stack[1]);
 
     interpreterDelete(machine);
     vector_delete(programCode);

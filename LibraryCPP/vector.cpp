@@ -1,5 +1,12 @@
 #include "vector.h"
 
+struct Vector
+{
+    int *Data;
+    size_t maxCapacity;
+    size_t currLength;
+};
+
 Vector *vector_create()
 {
     Vector* vector = new Vector;

@@ -5,13 +5,11 @@ project(Lab2CPP)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(Lab2CPP
-        MiniPig.cpp
-        ../LibraryCPP/vector.cpp
-        ../LibraryCPP/stack.cpp
-)
+add_executable(Lab2CPP MiniPig.cpp)
 
-target_include_directories(Lab2CPP PRIVATE ../LibraryCPP)
+target_include_directories(Lab2CPP PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP)
+
+target_link_libraries(Lab2CPP LibraryCPP)
 
 enable_testing()
 
