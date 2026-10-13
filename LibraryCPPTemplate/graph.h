@@ -33,7 +33,9 @@ public:
     private:
         void skip_missing_edges()
         {
-            while (neighbor_ < graph_->size() && !graph_->has_edge(vertex_, neighbor_))
+            while (neighbor_ < graph_->size()
+                   && !graph_->has_edge(vertex_, neighbor_)
+                   && !graph_->has_edge(neighbor_, vertex_))
                 ++neighbor_;
         }
 
@@ -53,7 +55,7 @@ public:
         if (count != 0 && count > static_cast<size_t>(-1) / count)
             throw std::length_error("Graph is too large");
 
-        Vector<Cell> new_matrix;
+        Matrix new_matrix;
         new_matrix.resize(count * count);
         size_t preserved = count < size_ ? count : size_;
         for (size_t i = 0; i < preserved; ++i)
@@ -61,7 +63,7 @@ public:
                 new_matrix.set(i * count + j, matrix_.get(i * size_ + j));
 
         vertices_.resize(count);
-        matrix_ = new_matrix;
+        matrix_.swap(new_matrix);
         size_ = count;
     }
 
@@ -91,7 +93,7 @@ public:
     void remove_vertex(size_t vertex)
     {
         check_vertex(vertex);
-        Vector<Cell> new_matrix;
+        Matrix new_matrix;
         new_matrix.resize((size_ - 1) * (size_ - 1));
 
         for (size_t i = 0, new_i = 0; i < size_; ++i)
@@ -111,7 +113,7 @@ public:
         for (size_t i = vertex; i + 1 < size_; ++i)
             vertices_.set(i, vertices_.get(i + 1));
         vertices_.resize(size_ - 1);
-        matrix_ = new_matrix;
+        matrix_.swap(new_matrix);
         --size_;
     }
 
@@ -119,9 +121,7 @@ public:
     {
         check_vertex(from);
         check_vertex(to);
-        Cell cell;
-        cell.exists = true;
-        cell.label = label;
+        Cell cell(label);
         matrix_.set(from * size_ + to, cell);
     }
 
@@ -136,7 +136,7 @@ public:
     {
         check_vertex(from);
         check_vertex(to);
-        return matrix_.get(from * size_ + to).exists;
+        return matrix_.get(from * size_ + to).label != nullptr;
     }
 
     EdgeLabel edge_label(size_t from, size_t to) const
@@ -144,9 +144,9 @@ public:
         check_vertex(from);
         check_vertex(to);
         Cell cell = matrix_.get(from * size_ + to);
-        if (!cell.exists)
+        if (cell.label == nullptr)
             throw std::logic_error("Edge does not exist");
-        return cell.label;
+        return *cell.label;
     }
 
     void set_edge_label(size_t from, size_t to, const EdgeLabel &label)
@@ -154,9 +154,9 @@ public:
         check_vertex(from);
         check_vertex(to);
         Cell cell = matrix_.get(from * size_ + to);
-        if (!cell.exists)
+        if (cell.label == nullptr)
             throw std::logic_error("Edge does not exist");
-        cell.label = label;
+        *cell.label = label;
         matrix_.set(from * size_ + to, cell);
     }
 
@@ -174,13 +174,13 @@ public:
 
     Vector<VertexLabel> vertex_labels() const { return vertices_; }
 
-    NeighborIterator neighbors_begin(size_t vertex) const
+    NeighborIterator begin(size_t vertex) const
     {
         check_vertex(vertex);
         return NeighborIterator(this, vertex, 0);
     }
 
-    NeighborIterator neighbors_end(size_t vertex) const
+    NeighborIterator end(size_t vertex) const
     {
         check_vertex(vertex);
         return NeighborIterator(this, vertex, size_);
@@ -226,10 +226,26 @@ public:
 private:
     struct Cell
     {
-        Cell() : exists(false), label() {}
-        bool exists;
-        EdgeLabel label;
+        Cell() : label(nullptr) {}
+        explicit Cell(const EdgeLabel &value) : label(new EdgeLabel(value)) {}
+        Cell(const Cell &other)
+            : label(other.label == nullptr ? nullptr : new EdgeLabel(*other.label)) {}
+        Cell &operator=(const Cell &other)
+        {
+            if (this != &other)
+            {
+                EdgeLabel *new_label = other.label == nullptr ? nullptr : new EdgeLabel(*other.label);
+                delete label;
+                label = new_label;
+            }
+            return *this;
+        }
+        ~Cell() { delete label; }
+
+        EdgeLabel *label;
     };
+
+    typedef Vector<Cell> Matrix;
 
     void check_vertex(size_t vertex) const
     {

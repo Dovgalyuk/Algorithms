@@ -26,8 +26,8 @@ int main()
         return 1;
 
     size_t neighbors = 0;
-    for (TestGraph::NeighborIterator it = graph.neighbors_begin(0);
-         it != graph.neighbors_end(0); ++it)
+    for (TestGraph::NeighborIterator it = graph.begin(0);
+         it != graph.end(0); ++it)
     {
         ++neighbors;
     }

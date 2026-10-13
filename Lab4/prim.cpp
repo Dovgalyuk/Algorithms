@@ -24,32 +24,35 @@ struct GreaterWeight
 
 typedef std::vector<EdgeCandidate> EdgeList;
 typedef std::priority_queue<EdgeCandidate, EdgeList, GreaterWeight> EdgeQueue;
+typedef std::vector<bool> VisitedVertices;
 
 static void add_edges_from(
     const WeightedGraph &graph,
     size_t from,
-    const std::vector<bool> &visited,
+    const VisitedVertices &visited,
     EdgeQueue &edges)
 {
-    for (size_t to = 0; to < graph.size(); ++to)
+    for (WeightedGraph::NeighborIterator it = graph.begin(from);
+         it != graph.end(from); ++it)
     {
+        size_t to = *it;
         if (visited[to])
             continue;
         if (graph.has_edge(from, to))
             edges.push({graph.edge_label(from, to), from, to});
-        else if (graph.has_edge(to, from))
+        else
             edges.push({graph.edge_label(to, from), from, to});
     }
 }
 
 static bool minimum_spanning_tree(
     const WeightedGraph &graph,
-    std::vector<EdgeCandidate> &tree)
+    EdgeList &tree)
 {
     if (graph.size() == 0)
         return false;
 
-    std::vector<bool> visited(graph.size(), false);
+    VisitedVertices visited(graph.size(), false);
     EdgeQueue edges;
     visited[0] = true;
     size_t visited_count = 1;
@@ -94,7 +97,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    std::vector<EdgeCandidate> tree;
+    EdgeList tree;
     if (!minimum_spanning_tree(graph, tree))
     {
         std::cout << "No spanning tree\n";

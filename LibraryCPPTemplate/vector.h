@@ -29,6 +29,21 @@ public:
         return *this;
     }
 
+    void swap(Vector &other)
+    {
+        Data *data = data_;
+        data_ = other.data_;
+        other.data_ = data;
+
+        size_t size = size_;
+        size_ = other.size_;
+        other.size_ = size;
+
+        size_t capacity = capacity_;
+        capacity_ = other.capacity_;
+        other.capacity_ = capacity;
+    }
+
     ~Vector()
     {
         delete[] data_;
