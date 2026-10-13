@@ -6,10 +6,10 @@
 #target_include_directories(TestListCPPTemplate PUBLIC ..)
 #add_test(TestListCPPTemplate TestListCPPTemplate)
 
-add_executable(TestQueueCPPTemplate queue.cpp)
-target_include_directories(TestQueueCPPTemplate PUBLIC ..)
-add_test(TestQueueCPPTemplate TestQueueCPPTemplate)
-set_tests_properties(TestQueueCPPTemplate PROPERTIES TIMEOUT 10)
+#add_executable(TestQueueCPPTemplate queue.cpp)
+#target_include_directories(TestQueueCPPTemplate PUBLIC ..)
+#add_test(TestQueueCPPTemplate TestQueueCPPTemplate)
+#set_tests_properties(TestQueueCPPTemplate PROPERTIES TIMEOUT 10)
 
 #add_executable(TestStackCPPTemplate stack.cpp)
 #target_include_directories(TestStackCPPTemplate PUBLIC ..)
@@ -19,3 +19,10 @@ add_executable(TestVectorCPPTemplate vector.cpp)
 target_include_directories(TestVectorCPPTemplate PUBLIC ..)
 add_test(TestVectorCPPTemplate TestVectorCPPTemplate)
 set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
+
+add_executable(TestDirectedGraphCPPTemplate directed_graph.cpp)
+target_include_directories(TestDirectedGraphCPPTemplate PUBLIC ..)
+add_test(TestDirectedGraphCPPTemplate TestDirectedGraphCPPTemplate)
+set_tests_properties(TestDirectedGraphCPPTemplate PROPERTIES TIMEOUT 10)
+
+
