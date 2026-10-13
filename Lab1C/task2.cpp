@@ -5,8 +5,7 @@
 #include <climits>
 #include "array.h"
 
-Array* array_create_and_read(std::ifstream& input)
-{
+Array* array_create_and_read(std::ifstream& input){
     int n = 0;
     if (input >> n) {
         Array* arr = array_create(n);
@@ -21,11 +20,9 @@ Array* array_create_and_read(std::ifstream& input)
     return nullptr;
 }
 
-void task2(Array* arr)
-{
+void task2(Array* arr){
     if (!arr) return;
     size_t n = array_size(arr);
-
     int min_diff = INT_MAX;
     bool found = false;
 
@@ -49,8 +46,7 @@ void task2(Array* arr)
     else std::cout << -1 << "\n";
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
     if (argc < 2) {
         return 1;
     }

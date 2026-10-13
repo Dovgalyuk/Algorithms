@@ -1,0 +1,5 @@
+3
+push 10
+push 20
+pop
+push 30
