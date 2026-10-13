@@ -10,7 +10,7 @@ using namespace std;
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(int argc, char* argv[]) //
 {
     const char* filename = "input.txt";
 
@@ -32,19 +32,19 @@ int main(int argc, char* argv[])
 
     Array* arr = array_create(n);
 
-    for (size_t i = 0; i < n; i++)
+    for (size_t i = 0; i < n; i++) // заполнение массива значениями из файла
     {
         Data value;
         input >> value;
 
-        array_set(arr, i, value);
+        array_set(arr, i, value); // установка значения в массив
     }
 
     input.close();
 
     size_t evenCount = 0;
 
-    for (size_t i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++) // четные элементы
     {
         if (array_get(arr, i) % 2 == 0)
         {
@@ -52,11 +52,11 @@ int main(int argc, char* argv[])
         }
     }
 
-    Array* indexes = array_create(evenCount);
+    Array* indexes = array_create(evenCount); // хранение индексов
 
     size_t j = 0;
 
-    for (size_t i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++) // заполнение массива индексов четных элементов
     {
         if (array_get(arr, i) % 2 == 0)
         {
@@ -67,14 +67,14 @@ int main(int argc, char* argv[])
 
     cout << "Первый массив:" << endl;
 
-    for (size_t i = 0; i < array_size(arr); i++)
+    for (size_t i = 0; i < array_size(arr); i++) // вывод элементов первого массива
     {
         cout << array_get(arr, i) << " ";
     }
 
     cout << endl;
 
-    cout << "Индексы четных элементов:" << endl;
+    cout << "Индексы четных элементов:" << endl; // вывод индексов четных элементов второго массива
 
     for (size_t i = 0; i < array_size(indexes); i++)
     {
