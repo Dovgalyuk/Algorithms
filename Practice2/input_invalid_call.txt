@@ -1,0 +1,1 @@
+invokestatic 100

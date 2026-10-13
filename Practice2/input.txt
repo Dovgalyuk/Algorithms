@@ -1,0 +1,6 @@
+# Store two values in local variables and finish with an empty operand stack.
+bipush 10
+istore_0
+bipush 5
+istore_1
+return

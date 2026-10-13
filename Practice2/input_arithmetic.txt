@@ -1,0 +1,5 @@
+bipush 4
+bipush 5
+iadd
+bipush 2
+imul

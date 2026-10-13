@@ -1,0 +1,6 @@
+bipush 4
+dup
+bipush 6
+swap
+pop
+ineg

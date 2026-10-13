@@ -1,0 +1,9 @@
+bipush 10
+istore_0
+bipush 5
+istore 1
+iload_0
+iload_1
+iadd
+istore_2
+iload_2
