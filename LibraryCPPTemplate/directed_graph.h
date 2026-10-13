@@ -368,7 +368,7 @@ public:
         {
             for (size_t k = 0; k < m; k++)
             {
-                size_t first = 0
+                size_t first = 0;
                 size_t second = 0;
                 Edge weight{};
 
@@ -383,7 +383,7 @@ public:
                     return input;
                 }
 
-                tmp.Graph[a][b] = Cell{true, weight};
+                tmp.Graph[first][second] = Cell{true, weight};
             }
         }
         else
@@ -499,7 +499,7 @@ private:
         Edge weight{};
 
         Cell() = default;
-        
+
         Cell(bool e, const Edge &w) : exist(e), weight(w) {}
     };
 
