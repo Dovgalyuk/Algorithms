@@ -16,6 +16,8 @@ struct Instruction
     int line_number = 0;
 };
 
+typedef vector<Instruction> Program;
+
 struct StackValue
 {
     int value;
@@ -72,20 +74,22 @@ static int from_bits(uint32_t value)
 
 static bool parse_int(const string &text, int &value)
 {
-    try
-    {
-        size_t used = 0;
-        long long parsed = stoll(text, &used);
-        if (used != text.size() || parsed < numeric_limits<int>::min() ||
-            parsed > numeric_limits<int>::max())
-            return false;
-        value = static_cast<int>(parsed);
-        return true;
-    }
-    catch (...)
-    {
+    istringstream input(text);
+    long long parsed;
+
+    if (!(input >> parsed))
         return false;
-    }
+
+    char extra;
+    if (input >> extra)
+        return false;
+
+    if (parsed < numeric_limits<int>::min() ||
+        parsed > numeric_limits<int>::max())
+        return false;
+
+    value = static_cast<int>(parsed);
+    return true;
 }
 
 static bool is_local_command(const string &command, const string &prefix, int &index)
@@ -122,7 +126,7 @@ static bool command_needs_argument(const string &command)
            command == "invokestatic";
 }
 
-static bool read_program(const string &file_name, vector<Instruction> &program)
+static bool read_program(const string &file_name, Program &program)
 {
     ifstream file(file_name);
     if (!file)
@@ -207,7 +211,7 @@ static bool fail_instruction(const Instruction &instruction, const string &messa
     return false;
 }
 
-static bool run_program(const vector<Instruction> &program, int vars[4], VmStack &stack)
+static bool run_program(const Program &program, int vars[4], VmStack &stack)
 {
     size_t pc = 0;
 
@@ -365,7 +369,7 @@ static bool run_program(const vector<Instruction> &program, int vars[4], VmStack
 int main(int argc, char *argv[])
 {
     const string file_name = argc > 1 ? argv[1] : "input.txt";
-    vector<Instruction> program;
+    Program program;
     if (!read_program(file_name, program))
         return 1;
 

@@ -1,4 +1,5 @@
 #include "list.h"
+#include <utility>
 
 List::Item::Item(Data value)
     : value(value), next_item(nullptr), prev_item(nullptr)
@@ -47,11 +48,10 @@ List &List::operator=(const List &a)
     if (this == &a)
         return *this;
 
-    while (first_item != nullptr)
-        erase_first();
+    List temp(a);
 
-    for (Item *item = a.first(); item != nullptr; item = item->next())
-        insert_after(last_item, item->data());
+    std::swap(first_item, temp.first_item);
+    std::swap(last_item, temp.last_item);
 
     return *this;
 }
