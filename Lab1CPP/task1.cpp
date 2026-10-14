@@ -60,28 +60,6 @@ void task1(const Array *arr)
         cout << first + 1 << " " << last + 1 << "\n";
 }
 
-// Задание 2
-// Сжать последовательность с помощью
-// алгоритма RLE. Вывести результат на экран.
-
-void task2(const Array *arr)
-{
-    size_t size = array_size(arr);
-    size_t i = 0;
-    while (i < size)
-    {
-        Data value = array_get(arr, i);
-        size_t count = 1;
-        while (i + count < size && array_get(arr, i + count) == value)
-            ++count;
-        if (i > 0)
-            cout << " ";
-        cout << value << "x" << count;
-        i += count;
-    }
-    cout << "\n";
-}
-
 int main(int argc, char **argv)
 {
     if (argc < 2)
@@ -103,18 +81,6 @@ int main(int argc, char **argv)
         return 1;
     }
     task1(arr);
-    array_delete(arr);
-
-
-
-    /* Create another array here */
-    arr = array_create_and_read(input);
-    if (arr == nullptr)
-    {
-        cerr << "Invalid input data\n";
-        return 1;
-    }
-    task2(arr);
     array_delete(arr);
     return 0;
 }
