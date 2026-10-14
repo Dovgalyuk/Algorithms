@@ -147,7 +147,10 @@ int main()
 
     size_t expected_neighbors[] = {1, 3};
     size_t count = 0;
-    for (size_t vertex : neighbors_graph.neighbors(0)){
+    for (auto iterator = neighbors_graph.begin(0); iterator != neighbors_graph.end(0); iterator++)
+    {
+        size_t vertex = *iterator;
+
         if (count >= 2 || vertex != expected_neighbors[count++])
         {
             std::cout << "Invalid iteration";
@@ -160,7 +163,7 @@ int main()
         return 1;
     }
 
-    Graph rectangle = Graph::make_rectangle(2, 3, 1);
+    Graph rectangle = Graph(2, 3, 1);
     if (rectangle.size_graph() != 6 || !rectangle.edge(0, 1) || !rectangle.edge(1, 0) || !rectangle.edge(0, 3) || !rectangle.edge(3, 0) || rectangle.edge(0, 2))
     {
         std::cout << "Invalid rectangle graph";

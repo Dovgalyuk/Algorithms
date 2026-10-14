@@ -63,9 +63,10 @@ bool AStar(const Directed_Graph<int, int> &graph, size_t start, size_t end, Vect
 
     for (size_t start_vertex = 0; start_vertex < graph_size; start_vertex++)
     {
-        for (size_t end_vertex : graph.neighbors(start_vertex))
+        for (auto iterator = graph.begin(start_vertex); iterator != graph.end(start_vertex); iterator++)
         {
-            long long current_weight = graph.get_edge(start_vertex, end_vertex);
+
+            long long current_weight = iterator.weight();
 
             if (current_weight < 0)
             {
@@ -130,20 +131,22 @@ bool AStar(const Directed_Graph<int, int> &graph, size_t start, size_t end, Vect
 
         closed_vertex[start_vertex] = true;
 
-        for (size_t end_vertex : graph.neighbors(start_vertex))
+        for (auto iterator = graph.begin(start_vertex); iterator != graph.end(start_vertex); iterator++)
         {
+            size_t end_vertex = *iterator;
+
             if (closed_vertex[end_vertex])
             {
                 continue;
             }
 
-            long long best_cost_vertex = vec_cost[start_vertex] + graph.get_edge(start_vertex, end_vertex);
+            long long best_cost_vertex = vec_cost[start_vertex] + iterator.weight();
 
             if (best_cost_vertex < vec_cost[end_vertex])
             {
                 vec_cost[end_vertex] = best_cost_vertex;
                 parent_vertex[end_vertex] = start_vertex;
-                
+
                 if (!open_vertex[end_vertex])
                 {
                     coming_vertex.push(end_vertex);
@@ -194,8 +197,10 @@ int main(int argc, char *argv[])
 
             for (size_t start_vertex = 0; start_vertex < graph.size_graph(); start_vertex++)
             {
-                for (size_t end_vertex : graph.neighbors(start_vertex))
+                for (auto iterator = graph.begin(start_vertex); iterator != graph.end(start_vertex); iterator++)
                 {
+                    size_t end_vertex = *iterator;
+
                     graph.set_edge_weight(start_vertex, end_vertex, graph.get_name_vertex(end_vertex));
                 }
             }
