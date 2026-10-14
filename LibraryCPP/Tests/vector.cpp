@@ -1,48 +1,29 @@
 #include "vector.h"
 
-struct Vector {
-    int* data;
-    size_t size;
-    size_t capacity;
-};
+int main() {
+    Vector* v = vector_create();
 
-Vector* vector_create() {
-    Vector* v = new Vector;
-    v->capacity = 4;
-    v->size = 0;
-    v->data = new int[v->capacity];
-    return v;
-}
+    vector_resize(v, 5);
+    if (vector_size(v) != 5) return 1;
 
-void vector_delete(Vector* v) {
-    delete[] v->data;
-    delete v;
-}
+    for (size_t i = 0; i < vector_size(v); ++i)
+        vector_set(v, i, (int)i * 2);
 
-int vector_get(const Vector* v, size_t index) {
-    if (index >= v->size) return 0;
-    return v->data[index];
-}
+    for (size_t i = 0; i < vector_size(v); ++i)
+        if (vector_get(v, i) != (int)i * 2) return 1;
 
-void vector_set(Vector* v, size_t index, int value) {
-    if (index < v->size)
-        v->data[index] = value;
-}
+    vector_resize(v, 100);
+    if (vector_size(v) != 100) return 1;
 
-size_t vector_size(const Vector* v) {
-    return v->size;
-}
+    for (size_t i = 0; i < 100; ++i)
+        vector_set(v, i, (int)i);
 
-void vector_resize(Vector* v, size_t new_size) {
-    if (new_size > v->capacity) {
-        size_t new_cap = v->capacity * 2;
-        while (new_cap < new_size) new_cap *= 2;
-        int* new_data = new int[new_cap];
-        for (size_t i = 0; i < v->size; ++i)
-            new_data[i] = v->data[i];
-        delete[] v->data;
-        v->data = new_data;
-        v->capacity = new_cap;
-    }
-    v->size = new_size;
+    for (size_t i = 0; i < 100; ++i)
+        if (vector_get(v, i) != (int)i) return 1;
+
+    vector_resize(v, 3);
+    if (vector_size(v) != 3) return 1;
+
+    vector_delete(v);
+    return 0;
 }
