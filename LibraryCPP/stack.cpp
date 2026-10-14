@@ -1,49 +1,44 @@
 #include "stack.h"
 #include "vector.h"
-#include <stdexcept>
 
 struct Stack
 {
-    Vector *vec;
+    Vector *vector;
 };
 
 Stack *stack_create()
 {
-    Stack *s = new Stack;
-    s->vec = vector_create();
-    return s;
+    Stack *stack = new Stack;
+    stack->vector = vector_create();
+    return stack;
 }
 
 void stack_delete(Stack *stack)
 {
-    vector_delete(stack->vec);
+    if (stack == nullptr)
+        return;
+    vector_delete(stack->vector);
     delete stack;
 }
 
 void stack_push(Stack *stack, Data data)
 {
-    size_t n = vector_size(stack->vec);
-    vector_resize(stack->vec, n + 1);
-    vector_set(stack->vec, n, data);
+    size_t size = vector_size(stack->vector);
+    vector_resize(stack->vector, size + 1);
+    vector_set(stack->vector, size, data);
 }
 
 Data stack_get(const Stack *stack)
 {
-    size_t n = vector_size(stack->vec);
-    if (n == 0)
-        throw std::runtime_error("stack_get: empty stack");
-    return vector_get(stack->vec, n - 1);
+    return vector_get(stack->vector, vector_size(stack->vector) - 1);
 }
 
 void stack_pop(Stack *stack)
 {
-    size_t n = vector_size(stack->vec);
-    if (n == 0)
-        throw std::runtime_error("stack_pop: empty stack");
-    vector_resize(stack->vec, n - 1);
+    vector_resize(stack->vector, vector_size(stack->vector) - 1);
 }
 
 bool stack_empty(const Stack *stack)
 {
-    return vector_size(stack->vec) == 0;
+    return vector_size(stack->vector) == 0;
 }
