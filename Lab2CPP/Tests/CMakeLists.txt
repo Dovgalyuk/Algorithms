@@ -1,0 +1,29 @@
+add_test(NAME Lab2_Test1 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input1.txt)
+set_tests_properties(Lab2_Test1 PROPERTIES PASS_REGULAR_EXPRESSION "BAD RET")
+
+add_test(NAME Lab2_Test2 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input2.txt)
+set_tests_properties(Lab2_Test2 PROPERTIES PASS_REGULAR_EXPRESSION "A = 1")
+
+add_test(NAME Lab2_Test3 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input3.txt)
+set_tests_properties(Lab2_Test3 PROPERTIES PASS_REGULAR_EXPRESSION "A = 30")
+
+add_test(NAME Lab2_Test4 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input4.txt)
+set_tests_properties(Lab2_Test4 PROPERTIES PASS_REGULAR_EXPRESSION "B = 7")
+
+add_test(NAME Lab2_Test5 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input5.txt)
+set_tests_properties(Lab2_Test5 PROPERTIES PASS_REGULAR_EXPRESSION "C = 42")
+
+add_test(NAME Lab2_Test6 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input6.txt)
+set_tests_properties(Lab2_Test6 PROPERTIES PASS_REGULAR_EXPRESSION "B = 15")
+
+add_test(NAME Lab2_Test7 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input7.txt)
+set_tests_properties(Lab2_Test7 PROPERTIES PASS_REGULAR_EXPRESSION "BAD POP")
+
+add_test(NAME Lab2_Test8 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input8.txt)
+set_tests_properties(Lab2_Test8 PROPERTIES PASS_REGULAR_EXPRESSION "BAD POP")
+
+add_test(NAME Lab2_Test9 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input9.txt)
+set_tests_properties(Lab2_Test9 PROPERTIES PASS_REGULAR_EXPRESSION "BAD RET")
+
+add_test(NAME Lab2_Test10 COMMAND Lab2CPP ${CMAKE_CURRENT_SOURCE_DIR}/input10.txt)
+set_tests_properties(Lab2_Test10 PROPERTIES PASS_REGULAR_EXPRESSION "D = 25")
