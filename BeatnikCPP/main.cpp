@@ -3,7 +3,6 @@
 #include <cctype>
 #include <fstream>
 #include <iostream>
-#include <memory>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -13,7 +12,6 @@ using namespace std;
 namespace
 {
 typedef vector<string> Words;
-typedef unique_ptr<Stack, decltype(&stack_delete)> StackHandle;
 
 int word_score(const string &word)
 {
@@ -47,7 +45,7 @@ Words read_words(const string &path)
 
 void run(const Words &words, istream &input, ostream &output)
 {
-    StackHandle stack(stack_create(), stack_delete);
+    Stack *stack = stack_create();
     long long pc = 0;
     while (pc >= 0 && static_cast<size_t>(pc) < words.size())
     {
@@ -61,41 +59,41 @@ void run(const Words &words, istream &input, ostream &output)
 
         switch (command)
         {
-        case 5: stack_push(stack.get(), parameter); break;
-        case 6: stack_pop(stack.get()); break;
+        case 5: stack_push(stack, parameter); break;
+        case 6: stack_pop(stack); break;
         case 7: {
-            const int right = stack_get(stack.get()); stack_pop(stack.get());
-            const int left = stack_get(stack.get()); stack_pop(stack.get()); stack_push(stack.get(), left + right);
+            const int right = stack_get(stack); stack_pop(stack);
+            const int left = stack_get(stack); stack_pop(stack); stack_push(stack, left + right);
             break;
         }
         case 8: {
             char ch;
             if (!input.get(ch)) throw runtime_error("input exhausted");
-            stack_push(stack.get(), static_cast<unsigned char>(ch));
+            stack_push(stack, static_cast<unsigned char>(ch));
             break;
         }
         case 9: {
-            const int value = stack_get(stack.get()); stack_pop(stack.get());
+            const int value = stack_get(stack); stack_pop(stack);
             output.put(static_cast<char>(static_cast<unsigned char>(value)));
             break;
         }
         case 10: {
-            const int first = stack_get(stack.get()); stack_pop(stack.get());
-            const int second = stack_get(stack.get()); stack_pop(stack.get()); stack_push(stack.get(), second - first);
+            const int first = stack_get(stack); stack_pop(stack);
+            const int second = stack_get(stack); stack_pop(stack); stack_push(stack, second - first);
             break;
         }
         case 11: {
-            const int first = stack_get(stack.get()); stack_pop(stack.get());
-            const int second = stack_get(stack.get()); stack_pop(stack.get());
-            stack_push(stack.get(), first); stack_push(stack.get(), second);
+            const int first = stack_get(stack); stack_pop(stack);
+            const int second = stack_get(stack); stack_pop(stack);
+            stack_push(stack, first); stack_push(stack, second);
             break;
         }
         case 12: {
-            const int value = stack_get(stack.get()); stack_push(stack.get(), value);
+            const int value = stack_get(stack); stack_push(stack, value);
             break;
         }
         case 13: case 14: case 15: case 16: {
-            const int value = stack_get(stack.get()); stack_pop(stack.get());
+            const int value = stack_get(stack); stack_pop(stack);
             const bool take = (command == 13 || command == 15) ? value == 0 : value != 0;
             if (take)
             {
@@ -104,10 +102,11 @@ void run(const Words &words, istream &input, ostream &output)
             }
             break;
         }
-        case 17: return;
+        case 17: stack_delete(stack); return;
         default: break;
         }
     }
+    stack_delete(stack);
 }
 }
 
