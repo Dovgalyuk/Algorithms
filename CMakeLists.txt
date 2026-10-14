@@ -24,3 +24,4 @@ add_subdirectory(LibraryCPPTemplate)
 
 add_subdirectory(Lab1C)
 add_subdirectory(labs1cpp)
+add_subdirectory(AnnoyingScript)
