@@ -14,4 +14,4 @@ Release/*
 build/*
 .vscode/*
 /build-array/
-/Testing/
+/Testing/AnnoyingScript/build/
