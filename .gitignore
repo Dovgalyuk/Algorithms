@@ -15,3 +15,5 @@ build/*
 .vscode/*
 /build-array/
 /Testing/AnnoyingScript/build/
+AnnoyingScript/build/
+Testing/
