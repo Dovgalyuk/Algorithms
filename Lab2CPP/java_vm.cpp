@@ -7,10 +7,6 @@
 
 using namespace std;
 
-bool is_return_addr(int val) {
-    return val < 0;
-}
-
 void error(const string& msg) {
     cerr << "Error: " << msg << endl;
     exit(1);
@@ -36,12 +32,22 @@ int main(int argc, char* argv[]) {
     }
     fin.close();
 
-    Stack* stack = stack_create();
+    Stack* data_stack = stack_create();
+    Stack* return_stack = stack_create();
+    
     int vars[4] = {0, 0, 0, 0};
     int pc = 0;
     int n = lines.size();
+    
+    int max_iterations = 100000;
+    int iterations = 0;
 
     while (pc < n) {
+        iterations++;
+        if (iterations > max_iterations) {
+            error("Infinite loop detected");
+        }
+
         string cmd = lines[pc];
         if (cmd.empty()) {
             pc++;
@@ -55,73 +61,67 @@ int main(int argc, char* argv[]) {
         if (op == "bipush") {
             int val;
             iss >> val;
-            stack_push(stack, val);
+            stack_push(data_stack, val);
         }
         else if (op == "pop") {
-            if (stack_empty(stack)) error("stack underflow on pop");
-            int val = stack_get(stack);
-            if (is_return_addr(val)) error("pop return address");
-            stack_pop(stack);
+            if (stack_empty(data_stack)) error("stack underflow on pop");
+            stack_pop(data_stack);
         }
         else if (op == "imul" || op == "iand" || op == "ior" || op == "ixor" || op == "iadd" || op == "isub") {
-            if (stack_empty(stack)) error("stack underflow on " + op);
-            int b = stack_get(stack);
-            if (is_return_addr(b)) error("arithmetic with return address");
-            stack_pop(stack);
+            if (stack_empty(data_stack)) error("stack underflow on " + op);
+            int b = stack_get(data_stack);
+            stack_pop(data_stack);
 
-            if (stack_empty(stack)) error("stack underflow on " + op);
-            int a = stack_get(stack);
-            if (is_return_addr(a)) error("arithmetic with return address");
-            stack_pop(stack);
+            if (stack_empty(data_stack)) error("stack underflow on " + op);
+            int a = stack_get(data_stack);
+            stack_pop(data_stack);
 
-            int res = 0;
-            if (op == "imul") res = a * b;
-            else if (op == "iand") res = a & b;
-            else if (op == "ior") res = a | b;
-            else if (op == "ixor") res = a ^ b;
-            else if (op == "iadd") res = a + b;
-            else if (op == "isub") res = a - b;
-            stack_push(stack, res);
+            int r = 0;
+            if (op == "imul") r = a * b;
+            else if (op == "iand") r = a & b;
+            else if (op == "ior")  r = a | b;
+            else if (op == "ixor") r = a ^ b;
+            else if (op == "iadd") r = a + b;
+            else if (op == "isub") r = a - b;
+            stack_push(data_stack, r);
         }
         else if (op == "iload_0" || op == "iload_1" || op == "iload_2" || op == "iload_3") {
             int idx = op[op.length() - 1] - '0';
-            stack_push(stack, vars[idx]);
+            stack_push(data_stack, vars[idx]);
         }
         else if (op == "istore_0" || op == "istore_1" || op == "istore_2" || op == "istore_3") {
-            int idx = op[op.length() - 1] - '0';
-            if (stack_empty(stack)) error("stack underflow on " + op);
-            int val = stack_get(stack);
-            if (is_return_addr(val)) error("store return address");
-            stack_pop(stack);
-            vars[idx] = val;
+            int i = op[op.size() - 1] - '0';
+            if (stack_empty(data_stack)) error("stack underflow on " + op);
+            int v = stack_get(data_stack);
+            stack_pop(data_stack);
+            vars[i] = v;
         }
         else if (op == "swap") {
-            if (stack_empty(stack)) error("stack underflow on swap");
-            int a = stack_get(stack);
-            if (is_return_addr(a)) error("swap return address");
-            stack_pop(stack);
-            if (stack_empty(stack)) error("stack underflow on swap");
-            int b = stack_get(stack);
-            if (is_return_addr(b)) error("swap return address");
-            stack_pop(stack);
-            stack_push(stack, a);
-            stack_push(stack, b);
+            if (stack_empty(data_stack)) error("stack underflow on swap");
+            int a = stack_get(data_stack);
+            stack_pop(data_stack);
+            if (stack_empty(data_stack)) error("stack underflow on swap");
+            int b = stack_get(data_stack);
+            stack_pop(data_stack);
+            stack_push(data_stack, a);
+            stack_push(data_stack, b);
         }
         else if (op == "invokestatic") {
             int addr;
             iss >> addr;
-            int ret_addr = pc + 1; // 0-based index of next line
-            stack_push(stack, -ret_addr);
+            int ret_addr = pc + 1; 
+            stack_push(return_stack, ret_addr); 
             cout << "call " << addr << endl;
-            pc = addr - 1; // 1-based to 0-based
+            pc = addr - 1; 
             continue;
         }
         else if (op == "return") {
-            if (stack_empty(stack)) error("stack underflow on return");
-            int val = stack_get(stack);
-            if (!is_return_addr(val)) error("return with ordinary number");
-            stack_pop(stack);
-            pc = -val;
+            if (stack_empty(return_stack)) {
+                break; 
+            }
+            int ret_addr = stack_get(return_stack);
+            stack_pop(return_stack);
+            pc = ret_addr; 
             continue;
         }
         else {
@@ -131,28 +131,29 @@ int main(int argc, char* argv[]) {
         pc++;
     }
 
-    // Print stack
+
     cout << "stack:" << endl;
     Stack* temp = stack_create();
-    while (!stack_empty(stack)) {
-        int val = stack_get(stack);
+    while (!stack_empty(data_stack)) {
+        int val = stack_get(data_stack);
         stack_push(temp, val);
-        stack_pop(stack);
+        stack_pop(data_stack);
     }
     while (!stack_empty(temp)) {
         int val = stack_get(temp);
         cout << val << endl;
-        stack_push(stack, val);
+        stack_push(data_stack, val);
         stack_pop(temp);
     }
     stack_delete(temp);
 
-    // Print vars
+
     cout << "vars:" << endl;
     for (int i = 0; i < 4; i++) {
         cout << vars[i] << endl;
     }
 
-    stack_delete(stack);
+    stack_delete(data_stack);
+    stack_delete(return_stack);
     return 0;
 }
