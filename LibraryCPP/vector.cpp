@@ -1,62 +1,55 @@
 #include "vector.h"
 
-struct Vector
-{
+struct Vector {
     int* data;
     size_t size;
     size_t capacity;
 };
 
-Vector *vector_create()
-{
-    Vector* vector = new Vector;
-    vector->capacity = 4;
-    vector->size = 0;
-    vector->data = new int[vector->capacity];
-
-    return new Vector;
+Vector* vector_create() {
+    Vector* v = new Vector;
+    v->capacity = 4;
+    v->size = 0;
+    v->data = new int[v->capacity];
+    return v;
 }
 
-void vector_delete(Vector *vector)
-{
-    delete[] vector->data;
-    delete vector;
+void vector_delete(Vector* v) {
+    delete[] v->data;
+    delete v;
 }
 
-Data vector_get(const Vector *vector, size_t index)
-{
-    if (index >= vector->size) 
+int vector_get(const Vector* v, size_t index) {
+    if (index >= v->size) 
         return 0;
-
-    return vector->data[index];
+    
+    return v->data[index];
 }
 
-void vector_set(Vector *vector, size_t index, Data value)
-{
-    if (index < vector->size)
-        vector->data[index] = value;
+void vector_set(Vector* v, size_t index, int value) {
+    if (index < v->size)
+        v->data[index] = value;
 }
 
-size_t vector_size(const Vector *vector)
-{
-    return vector->size;
+size_t vector_size(const Vector* v) {
+    return v->size;
 }
 
-void vector_resize(Vector *vector, size_t size)
+void vector_resize(Vector* v, size_t new_size) 
 {
-    if (size > vector->capacity) {
-        size_t new_cap = vector->capacity * 2;
-        while (new_cap < size) 
+    if (new_size > v->capacity) 
+    {
+        size_t new_cap = v->capacity * 2;
+        while (new_cap < new_size) 
             new_cap *= 2;
-
+        
         int* new_data = new int[new_cap];
-        for (size_t i = 0; i < vector->size; ++i)
-            new_data[i] = vector->data[i];
-
-        delete[] vector->data;
-        vector->data = new_data;
-        vector->capacity = new_cap;
+        for (size_t i = 0; i < v->size; ++i)
+            new_data[i] = v->data[i];
+        
+        delete[] v->data;
+        v->data = new_data;
+        v->capacity = new_cap;
     }
-
-    vector->size = size;
+    v->size = new_size;
 }
