@@ -23,16 +23,16 @@ int main()
         }
 
     graph.add_edge(0, 1, 10);
-    graph.add_edge(0, 2, 20);
-    graph.add_edge(1, 3, 30);
+    graph.add_edge(1, 0, 20);
+    graph.add_edge(1, 2, 30);
     graph.add_edge(2, 3, 40);
 
-    if (!graph.edge(0, 1) || !graph.edge(0, 2) || !graph.edge(1, 3) || !graph.edge(2, 3))
+    if (!graph.edge(0, 1) || !graph.edge(1, 0) || !graph.edge(1, 2) || !graph.edge(2, 3))
     {
         std::cout << "Invalid edge creation";
         return 1;
     }
-    if (graph(0, 1) != 10 || graph.get_edge(0, 2) != 20 || graph.get_edge(1, 3) != 30 || graph.get_edge(2, 3) != 40)
+    if (graph(0, 1) != 10 || graph.get_edge(1, 0) != 20 || graph.get_edge(1, 2) != 30 || graph.get_edge(2, 3) != 40)
     {
         std::cout << "Invalid edge weight";
         return 1;
@@ -46,8 +46,8 @@ int main()
         return 1;
     }
 
-    graph.remove_edge(0, 2);
-    if (graph.edge(0, 2))
+    graph.remove_edge(1, 0);
+    if (graph.edge(1, 0))
     {
         std::cout << "Invalid edge removal";
         return 1;
@@ -104,8 +104,8 @@ int main()
         return 1;
     }
 
-    graph.add_edge(4, 0, 50);
-    if (!graph.edge(4, 0) || graph.get_edge(4, 0) != 50)
+    graph.add_edge(4, 3, 50);
+    if (!graph.edge(4, 3) || graph.get_edge(4, 3) != 50)
     {
         std::cout << "Invalid add_edge";
         return 1;
@@ -141,13 +141,13 @@ int main()
 
     Graph neighbors_graph(4);
 
-    neighbors_graph.add_edge(0, 1, 10);
-    neighbors_graph.add_edge(0, 3, 30);
-    neighbors_graph.add_edge(1, 2, 20);
+    neighbors_graph.add_edge(1, 0, 10);
+    neighbors_graph.add_edge(1, 2, 30);
+    neighbors_graph.add_edge(2, 3, 20);
 
-    size_t expected_neighbors[] = {1, 3};
+    size_t expected_neighbors[] = {0, 2};
     size_t count = 0;
-    for (auto iterator = neighbors_graph.begin(0); iterator != neighbors_graph.end(0); iterator++)
+    for (auto iterator = neighbors_graph.begin(1); iterator != neighbors_graph.end(1); iterator++)
     {
         size_t vertex = *iterator;
 
