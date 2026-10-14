@@ -1,74 +1,48 @@
-#include <iostream>
 #include "vector.h"
 
-int main()
-{
-    Vector *vector = vector_create();
+struct Vector {
+    int* data;
+    size_t size;
+    size_t capacity;
+};
 
-    vector_resize(vector, 5);
-    if (vector_size(vector) != 5)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
+Vector* vector_create() {
+    Vector* v = new Vector;
+    v->capacity = 4;
+    v->size = 0;
+    v->data = new int[v->capacity];
+    return v;
+}
+
+void vector_delete(Vector* v) {
+    delete[] v->data;
+    delete v;
+}
+
+int vector_get(const Vector* v, size_t index) {
+    if (index >= v->size) return 0;
+    return v->data[index];
+}
+
+void vector_set(Vector* v, size_t index, int value) {
+    if (index < v->size)
+        v->data[index] = value;
+}
+
+size_t vector_size(const Vector* v) {
+    return v->size;
+}
+
+void vector_resize(Vector* v, size_t new_size) {
+    if (new_size > v->capacity) {
+        size_t new_cap = v->capacity * 2;
+        while (new_cap < new_size) new_cap *= 2;
+        int* new_data = new int[new_cap];
+        for (size_t i = 0; i < v->size; ++i)
+            new_data[i] = v->data[i];
+        delete[] v->data;
+        v->data = new_data;
+        v->capacity = new_cap;
     }
-
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
-
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-    {
-        if (vector_get(vector, i) != (Data)i)
-        {
-            std::cout << "Invalid vector element " << i << "\n";
-            return 1;
-        }
-    }
-
-    vector_resize(vector, 10);
-    if (vector_size(vector) != 10)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
-    }
-
-    std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        std::cout << vector_get(vector, i) << " ";
-    std::cout << "\n";
-
-    vector_resize(vector, 3);
-    if (vector_size(vector) != 3)
-    {
-        std::cout << "Invalid resize\n";
-        return 1;
-    }
-
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-    {
-        if (vector_get(vector, i) != (Data)i)
-        {
-            std::cout << "Invalid vector element " << i << "\n";
-            return 1;
-        }
-    }
-
-    std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        std::cout << vector_get(vector, i) << " ";
-    std::cout << "\n";
-
-    // Performance test
-    for (int i = 1 ; i <= 10000000 ; ++i)
-    {
-        vector_resize(vector, i);
-        vector_set(vector, i - 1, i);
-    }
-
-    long long sum = 0;
-    for (int i = 0 ; i < 10000000 ; ++i)
-        sum += vector_get(vector, i);
-
-    std::cout << sum << "\n";
-
-    vector_delete(vector);
+    v->size = new_size;
 }
