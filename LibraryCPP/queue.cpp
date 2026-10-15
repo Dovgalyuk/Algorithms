@@ -6,7 +6,6 @@ struct Queue
 {
 	Vector* data;
 	size_t head;
-	size_t tail;
 	size_t kolvo_el;
 };
 
@@ -14,7 +13,6 @@ Queue* queue_create() {
 	Queue* queue = new Queue;
 	queue->data = vector_create();
 	queue->head = 0;
-	queue->tail = 0;
 	queue->kolvo_el = 0;
 	return queue;
 }
@@ -48,11 +46,10 @@ void queue_insert(Queue* queue, Data data) {
 		queue->data = new_data;
 
 		queue->head = 0;
-		queue->tail = queue->kolvo_el;
 	}
-	vector_set(queue->data, queue->tail, data);
-
-	queue->tail = (queue->tail + 1) % vector_size(queue->data);
+	
+	size_t tail = (queue->head + queue->kolvo_el) % vector_size(queue->data);
+	vector_set(queue->data, tail, data);
 	queue->kolvo_el++;
 }
 

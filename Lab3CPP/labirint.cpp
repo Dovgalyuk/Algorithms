@@ -16,6 +16,7 @@ typedef vector<vector<bool>> Posetili;
 typedef vector<vector<bool>> Pyt;
 typedef pair<int, int> Kletka;
 typedef vector<Kletka> Sosedi;
+typedef vector<vector<Kletka>> IznKletki;
 
 
 
@@ -45,7 +46,7 @@ static Labirint chtenie_labirinta(const string& filename) {
 	return labirint;
 }
 
-static Sosedi get_sosednieKletki(const vector<vector<int>>& labirint, int r, int c) {
+static Sosedi get_sosednieKletki(const Labirint& labirint, int r, int c) {
 	Sosedi result;
 	int rows = (int)labirint.size();
 	int seredina = rows / 2;
@@ -77,7 +78,7 @@ static Sosedi get_sosednieKletki(const vector<vector<int>>& labirint, int r, int
 	return result;
 }
 
-static Pyt poisk_path(const vector<vector<int>>& labirint) {
+static Pyt poisk_path(const Labirint& labirint) {
 	int rows = (int)labirint.size();
 	int seredina = rows / 2;
 	
@@ -88,7 +89,7 @@ static Pyt poisk_path(const vector<vector<int>>& labirint) {
 	int finish_c = (int)labirint[seredina].size() - 1;
 
 	Posetili visit(rows);
-	vector<vector<pair<int, int>>> tochki(rows);
+	IznKletki tochki(rows);
 
 	for (int i = 0; i < rows; i++) {
 		visit[i].assign(labirint[i].size(), false);

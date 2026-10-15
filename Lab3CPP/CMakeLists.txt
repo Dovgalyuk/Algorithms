@@ -19,6 +19,11 @@ add_labirint_test(2)
 add_labirint_test(3)
 add_labirint_test(4)
 add_labirint_test(5)
+add_labirint_test(6)
+add_labirint_test(7)
+add_labirint_test(8)
+add_labirint_test(9)
+add_labirint_test(10)
 
 
 
