@@ -18,8 +18,10 @@ void queue_delete(Queue* q) {
 
 void queue_insert(Queue* q, Data data) {
     ListItem* last = list_last(q->list);
-    if (!last) list_insert(q->list, data);
-    else list_insert_after(q->list, last, data);
+    if (!last) 
+        list_insert(q->list, data);
+    else 
+        list_insert_after(q->list, last, data);
 }
 
 Data queue_get(const Queue* q) {
