@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     size_t y; 
     filetask1 >> n;
 
+    
 	if (n < 0) {y = 0;}
 	else {y = static_cast<size_t>(n);}
 

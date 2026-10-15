@@ -19,3 +19,4 @@ endif()
 
 add_subdirectory(LibraryCPP)
 add_subdirectory(LAB1C++)
+add_subdirectory(LAB2C++)
