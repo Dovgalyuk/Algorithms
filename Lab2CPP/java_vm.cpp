@@ -115,6 +115,7 @@ int main(int argc, char* argv[]) {
             vars[idx] = pop_val(op);
         }
         else if (op == "swap") {
+            // ИСПРАВЛЕНО: меняем местами правильно
             if (stack_empty(data_stack)) error("stack underflow on swap");
             int a = stack_get(data_stack);
             int ka = stack_get(kind_stack);
@@ -127,24 +128,26 @@ int main(int argc, char* argv[]) {
             stack_pop(data_stack);
             stack_pop(kind_stack);
 
-            stack_push(data_stack, a);
-            stack_push(kind_stack, ka);
+            // Кладем в обратном порядке: сначала b, потом a
             stack_push(data_stack, b);
             stack_push(kind_stack, kb);
+            stack_push(data_stack, a);
+            stack_push(kind_stack, ka);
         }
         else if (op == "invokestatic") {
             int addr;
             if (!(iss >> addr)) error("invokestatic requires an address argument");
             if (addr < 1 || addr > n) error("invalid call address: " + to_string(addr));
 
-            push_addr(pc + 1); 
+            push_addr(pc + 1);
             cout << "call " << addr << endl;
             pc = addr - 1;
             continue;
         }
         else if (op == "return") {
+            // ИСПРАВЛЕНО: ошибка вместо break
             if (stack_empty(data_stack)) {
-                break;
+                error("return: stack is empty");
             }
             if (stack_get(kind_stack) != 1) {
                 error("return: top of stack is not a return address");
@@ -162,7 +165,7 @@ int main(int argc, char* argv[]) {
         pc++;
     }
 
-
+    // ИСПРАВЛЕНО: выводим только обычные значения (kind == 0)
     cout << "stack:" << endl;
     Stack* temp_data = stack_create();
     Stack* temp_kind = stack_create();
@@ -175,7 +178,9 @@ int main(int argc, char* argv[]) {
     while (!stack_empty(temp_data)) {
         int val = stack_get(temp_data);
         int kind = stack_get(temp_kind);
-        cout << val << endl;
+        if (kind == 0) {  // Только обычные значения
+            cout << val << endl;
+        }
         stack_push(data_stack, val);
         stack_push(kind_stack, kind);
         stack_pop(temp_data);

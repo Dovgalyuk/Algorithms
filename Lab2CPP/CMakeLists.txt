@@ -36,3 +36,6 @@ set_tests_properties(test6 PROPERTIES PASS_REGULAR_EXPRESSION "stack:")
 
 add_test(NAME test7 COMMAND java_vm ${CMAKE_CURRENT_SOURCE_DIR}/Tests/test7.txt)
 set_tests_properties(test7 PROPERTIES PASS_REGULAR_EXPRESSION "vars:")
+
+add_test(NAME test8_error_return COMMAND java_vm ${CMAKE_CURRENT_SOURCE_DIR}/Tests/test8_error_return.txt)
+set_tests_properties(test8_error_return PROPERTIES WILL_FAIL TRUE)
