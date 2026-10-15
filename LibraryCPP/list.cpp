@@ -10,6 +10,7 @@ struct ListItem
 struct List
 {
     ListItem* head = nullptr;
+    ListItem* last = nullptr; 
 };
 
 List* list_create()
@@ -36,14 +37,7 @@ ListItem* list_first(List* list)
 
 ListItem* list_last(List* list)
 {
-    if (list->head == nullptr) return nullptr;
-
-    ListItem* current = list->head;
-    while (current->next != nullptr)
-    {
-        current = current->next;
-    }
-    return current;
+    return list->last;
 }
 
 Data list_item_data(const ListItem* item)
@@ -62,13 +56,18 @@ ListItem* list_item_prev(ListItem* item)
     return nullptr;
 }
 
-// Вставка в начало списка (работает за O(1))
+// Вставка в начало списка
 ListItem* list_insert(List* list, Data data)
 {
     ListItem* new_item = new ListItem;
     new_item->data = data;
     new_item->next = list->head;
     list->head = new_item;
+
+    if (list->last == nullptr)
+    {
+        list->last = new_item;
+    }
     return new_item;
 }
 
@@ -83,10 +82,15 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
     new_item->data = data;
     new_item->next = item->next;
     item->next = new_item;
+
+    if (item == list->last)
+    {
+        list->last = new_item;
+    }
     return new_item;
 }
 
-// Удаление первого элемента (работает за O(1))
+// Удаление первого элемента
 ListItem* list_erase_first(List* list)
 {
     if (list->head == nullptr) return nullptr;
@@ -94,6 +98,11 @@ ListItem* list_erase_first(List* list)
     ListItem* temp = list->head;
     list->head = list->head->next;
     delete temp;
+
+    if (list->head == nullptr)
+    {
+        list->last = nullptr;
+    }
     return list->head;
 }
 
@@ -111,6 +120,12 @@ ListItem* list_erase_next(List* list, ListItem* item)
 
     ListItem* temp = item->next;
     item->next = temp->next;
+
+    if (temp == list->last)
+    {
+        list->last = item;
+    }
+
     delete temp;
     return item->next;
 }
