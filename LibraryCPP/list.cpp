@@ -9,7 +9,7 @@ struct ListItem {
 };
 
 struct List {
-    ListItem* dummy;   // фиктивный элемент
+    ListItem* dummy;
 };
 
 List* list_create() {
