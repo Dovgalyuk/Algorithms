@@ -98,14 +98,16 @@ static vector<Cell> neighbors(const vector<vector<int>> &maze, Cell cell)
     vector<Cell> result;
     int row = cell.row;
     int col = cell.col;
+
     result.push_back({row, col - 1});
     result.push_back({row, col + 1});
-    size_t current_size = maze[row].size();
+
+    size_t current_size = maze[static_cast<size_t>(row)].size();
 
     // строка выше
     if (row > 0)
     {
-        size_t upper_size = maze[row - 1].size();
+        size_t upper_size = maze[static_cast<size_t>(row - 1)].size();
 
         if (upper_size < current_size)
         {
@@ -121,7 +123,7 @@ static vector<Cell> neighbors(const vector<vector<int>> &maze, Cell cell)
     // строка ниже
     if (row + 1 < static_cast<int>(maze.size()))
     {
-        size_t lower_size = maze[row + 1].size();
+        size_t lower_size = maze[static_cast<size_t>(row + 1)].size();
 
         if (lower_size < current_size)
         {
@@ -133,6 +135,7 @@ static vector<Cell> neighbors(const vector<vector<int>> &maze, Cell cell)
             result.push_back({row + 1, col + 1});
         }
     }
+
     return result;
 }
 
