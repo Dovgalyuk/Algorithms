@@ -1,11 +1,11 @@
-#ifndef QUEUE_H
+﻿#ifndef QUEUE_H
 #define QUEUE_H
 
 // Queue
 
 // Stores integer values inside
 // Change it to desired type
-typedef int Data;
+typedef size_t Data;
 
 struct Queue;
 

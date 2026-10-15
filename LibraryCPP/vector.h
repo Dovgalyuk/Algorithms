@@ -1,4 +1,4 @@
-#ifndef VECTOR_H
+﻿#ifndef VECTOR_H
 #define VECTOR_H
 
 #include <cstddef>
@@ -7,7 +7,7 @@
 
 // Stores integer values inside
 // Change it to desired type
-typedef int Data;
+typedef size_t Data;
 
 struct Vector;
 
