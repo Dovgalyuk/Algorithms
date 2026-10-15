@@ -15,7 +15,7 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
-        vector.set(i, i);
+        vector.set(i, static_cast<int>(i));
 
     vector = vector;
 
@@ -55,6 +55,18 @@ int main()
             return 1;
         }
     }
+
+    MyVector assigned;
+    assigned = vector;
+    vector.set(0, 100);
+
+    if (assigned.get(0) != 0)
+    {
+        std::cout << "Invalid assignment copy\n";
+        return 1;
+    }
+
+    vector.set(0, 0);
 
     std::cout << "Vector: ";
     for (size_t i = 0 ; i < vector.size() ; ++i)
