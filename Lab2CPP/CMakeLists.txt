@@ -8,11 +8,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP)
 
 # Собираем исполняемый файл, добавляя исходники vector и stack
-add_executable(java_vm
-    java_vm.cpp
-    ../LibraryCPP/vector.cpp
-    ../LibraryCPP/stack.cpp
-)
+add_executable(java_vm java_vm.cpp)
+
+target_link_libraries(java_vm PRIVATE LibraryCPP)
+target_include_directories(java_vm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../LibraryCPP)
+
 
 enable_testing()
 
