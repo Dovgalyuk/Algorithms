@@ -1,10 +1,9 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include <cstddef>
+#include "vector.h"
 
 // Change it to desired type
-typedef int Data;
 
 class Queue
 {
@@ -23,7 +22,7 @@ public:
 
     // Includes new element into the queue
     // Should be O(1) on average
-    void insert(Data data);
+    void insert(Data value);
 
     // Retrieves first element from the queue
     Data get() const;
@@ -37,6 +36,9 @@ public:
 
 private:
     // private data should be here
+    Vector data;
+    size_t head;
+    size_t count;
 };
 
 #endif
