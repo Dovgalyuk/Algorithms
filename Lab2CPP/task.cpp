@@ -1,8 +1,7 @@
-
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <stdexcept>
+#include <cstdlib>
 #include "stack.h"
 
 using namespace std;
@@ -18,14 +17,14 @@ int fail(Stack* stack, Stack* types, const string& message)
 int main(int argc, char* argv[])
 {
     if (argc < 2) {
-        cout << "Не указан входной файл\n";
+        cout << "NO FILE ARG\n";
         return 1;
     }
 
     ifstream input(argv[1]);
 
     if (!input.is_open()) {
-        cout << "Не удалось открыть файл\n";
+        cout << "FILE OPEN ERROR\n";
         return 1;
     }
 
@@ -63,17 +62,7 @@ int main(int argc, char* argv[])
                 value = D;
             }
             else {
-                try {
-                    size_t pos = 0;
-                    value = stoi(arg, &pos);
-
-                    if (pos != arg.size()) {
-                        return fail(stack, types, "BAD INPUT");
-                    }
-                }
-                catch (const exception&) {
-                    return fail(stack, types, "BAD INPUT");
-                }
+                value = atoi(arg.c_str());
             }
 
             stack_push(stack, value);
@@ -83,11 +72,6 @@ int main(int argc, char* argv[])
             string reg;
 
             if (!(input >> reg)) {
-                return fail(stack, types, "BAD INPUT");
-            }
-
-            if (reg != "A" && reg != "B" &&
-                reg != "C" && reg != "D") {
                 return fail(stack, types, "BAD INPUT");
             }
 
@@ -112,6 +96,9 @@ int main(int argc, char* argv[])
             }
             else if (reg == "D") {
                 D = value;
+            }
+            else {
+                return fail(stack, types, "BAD INPUT");
             }
 
             stack_pop(stack);
