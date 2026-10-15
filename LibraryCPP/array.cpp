@@ -1,4 +1,3 @@
-#include <cstddef>
 #include "array.h"
 
 struct Array {
@@ -14,14 +13,14 @@ Array* array_create(size_t size) {
 }
 
 void array_delete(Array* arr) {
-    if (arr) {
-        delete[] arr->data;
-        delete arr;
-    }
+    delete[] arr->data;
+    delete arr;
 }
 
 Data array_get(const Array* arr, size_t index) {
-    if (!arr || index >= arr->size) return 0;
+    if (!arr || index >= arr->size) 
+        return 0;
+    
     return arr->data[index];
 }
 
