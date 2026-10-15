@@ -24,29 +24,30 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue *queue, Data data)
 {
-    if (queue_empty(queue)) {
+    if (!queue) return;
+    ListItem* last = list_last(queue->list);
+    if (last == NULL) {
         list_insert(queue->list, data);
     } else {
-        list_insert_after(queue->list, list_last(queue->list), data);
+        list_insert_after(queue->list, last, data);
     }
 }
 
 Data queue_get(const Queue *queue)
 {
-    if (!queue_empty(queue)) {
-        return list_item_data(list_first(queue->list));
-    }
-    return (Data)0;
+    if (!queue || queue_empty(queue))
+        return 0;
+    return list_item_data(list_first(queue->list));
 }
 
 void queue_remove(Queue *queue)
 {
-    if (!queue_empty(queue)) {
-        list_erase_first(queue->list);
-    }
+    if (!queue || queue_empty(queue))
+        return;
+    list_erase_first(queue->list);
 }
 
 bool queue_empty(const Queue *queue)
 {
-    return list_first(queue->list) == NULL;
+    return !queue || list_first(queue->list) == NULL;
 }

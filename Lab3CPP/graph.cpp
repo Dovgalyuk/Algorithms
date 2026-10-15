@@ -7,6 +7,59 @@
 
 using namespace std;
 
+void initialize_array(int* arr, int size) {
+    for (int i = 1; i <= size; i++) {
+        arr[i] = 0;
+    }
+}
+
+bool expand_step(Queue* q, List** graph, int* parentSelf, int* parentOther, int& meetSelf, int& meetOther) {
+    if (queue_empty(q)) return false;
+
+    int u = queue_get(q);
+    queue_remove(q);
+
+    ListItem* neighbour = list_first(graph[u]);
+    while (neighbour != NULL) {
+        int v = list_item_data(neighbour);
+
+        if (parentOther[v] != 0) {
+            meetSelf = u;
+            meetOther = v;
+            return true;
+        } else if (parentSelf[v] == 0) {
+            parentSelf[v] = u;
+            queue_insert(q, v);
+        }
+
+        neighbour = list_item_next(neighbour);
+    }
+
+    return false;
+}
+
+int count_segment_length(int node, int root, int* parent) {
+    int length = 0;
+    int temp = node;
+    while (true) {
+        length++;
+        if (temp == root) break;
+        temp = parent[temp];
+    }
+    return length;
+}
+
+void write_segment(int* path, int startIdx, int node, int root, int* parent, int direction) {
+    int idx = startIdx;
+    int current = node;
+    while (current != root) {
+        path[idx] = current;
+        idx += direction;
+        current = parent[current];
+    }
+    path[idx] = root;
+}
+
 int* bidirectional_search(List** graph, int num_vertices, int start, int finish, int& path_length) {
     Queue* qForward = queue_create();
     Queue* qBackward = queue_create();
@@ -14,10 +67,8 @@ int* bidirectional_search(List** graph, int num_vertices, int start, int finish,
     int* parentForward = new int[num_vertices + 1];
     int* parentBackward = new int[num_vertices + 1];
 
-    for (int i = 1; i <= num_vertices; i++) {
-        parentForward[i] = 0;
-        parentBackward[i] = 0;
-    }
+    initialize_array(parentForward, num_vertices);
+    initialize_array(parentBackward, num_vertices);
 
     queue_insert(qForward, start);
     parentForward[start] = start;
@@ -30,94 +81,35 @@ int* bidirectional_search(List** graph, int num_vertices, int start, int finish,
     bool found = false;
 
     while (!queue_empty(qForward) && !queue_empty(qBackward) && !found) {
-        int u = queue_get(qForward);
-        queue_remove(qForward);
-
-        ListItem* neighbour = list_first(graph[u]);
-        while (neighbour != NULL && !found) {
-            int v = list_item_data(neighbour);
-
-            if (parentBackward[v] != 0) {
-                meetFwd = u;
-                meetBwd = v;
-                found = true;
-            } else if (parentForward[v] == 0) {
-                parentForward[v] = u;
-                queue_insert(qForward, v);
-            }
-
-            neighbour = list_item_next(neighbour);
+        if (expand_step(qForward, graph, parentForward, parentBackward, meetFwd, meetBwd)) {
+            found = true;
+            break;
         }
-        if (found) break;
-
-        u = queue_get(qBackward);
-        queue_remove(qBackward);
-
-        neighbour = list_first(graph[u]);
-        while (neighbour != NULL && !found) {
-            int v = list_item_data(neighbour);
-
-            if (parentForward[v] != 0) {
-                meetFwd = v;
-                meetBwd = u;
-                found = true;
-            } else if (parentBackward[v] == 0) {
-                parentBackward[v] = u;
-                queue_insert(qBackward, v);
-            }
-
-            neighbour = list_item_next(neighbour);
+        if (expand_step(qBackward, graph, parentBackward, parentForward, meetBwd, meetFwd)) {
+            found = true;
+            break;
         }
     }
+
     if (!found) {
         path_length = 0;
-
         queue_delete(qForward);
         queue_delete(qBackward);
         delete[] parentForward;
         delete[] parentBackward;
-
         return NULL;
     }
 
-    int len1 = 0;
-    int temp_node = meetFwd;
-    while (true) {
-        len1++;
-        if (temp_node == start) break;
-        temp_node = parentForward[temp_node];
-    }
-
-    int len2 = 0;
-    temp_node = meetBwd;
-    while (true) {
-        len2++;
-        if (temp_node == finish) break;
-        temp_node = parentBackward[temp_node];
-    }
-
+    int len1 = count_segment_length(meetFwd, start, parentForward);
+    int len2 = count_segment_length(meetBwd, finish, parentBackward);
     int totalLen = len1 + len2;
     path_length = totalLen;
 
     int* path = new int[totalLen];
 
-    int idx = len1 - 1;
-    int current = meetFwd;
-    while (current != start) {
-        path[idx] = current;
-        idx--;
-        current = parentForward[current];
-    }
-    path[idx] = start;
+    write_segment(path, len1 - 1, meetFwd, start, parentForward, -1);
 
-    idx = len1;
-    current = meetBwd;
-    while (current != finish) {
-        path[idx] = current;
-        idx++;
-        current = parentBackward[current];
-    }
-    path[idx] = finish;
+    write_segment(path, len1, meetBwd, finish, parentBackward, +1);
 
     queue_delete(qForward);
     queue_delete(qBackward);
@@ -126,6 +118,7 @@ int* bidirectional_search(List** graph, int num_vertices, int start, int finish,
 
     return path;
 }
+
 
 int main(int argc,char* argv[]) {
     if (argc < 2) {
