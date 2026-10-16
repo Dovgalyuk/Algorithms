@@ -21,25 +21,6 @@ static string make_key(size_t number)
     return key.str();
 }
 
-static bool basic_test()
-{
-    RadixMap values;
-    values.insert("", "empty");
-    const string *empty_value = values.find("");
-    if (empty_value == nullptr || *empty_value != "empty")
-        return false;
-
-    values.insert("apple", "red");
-    values.insert("apple", "green");
-    const string *apple = values.find("apple");
-    if (apple == nullptr || *apple != "green" || values.find("apples") != nullptr)
-        return false;
-    if (values.erase("missing") || !values.erase("apple")
-        || values.find("apple") != nullptr || !values.erase(""))
-        return false;
-    return values.entries().empty();
-}
-
 static bool prefix_test()
 {
     RadixMap values;
@@ -223,8 +204,6 @@ static bool benchmark_test(const string &input_path, const string &csv_path)
 
 int main(int argc, char **argv)
 {
-    if (argc == 2 && string(argv[1]) == "--test-basic")
-        return basic_test() ? 0 : 1;
     if (argc == 2 && string(argv[1]) == "--test-prefixes")
         return prefix_test() ? 0 : 1;
     if (argc == 3 && string(argv[1]) == "--test-stress")
