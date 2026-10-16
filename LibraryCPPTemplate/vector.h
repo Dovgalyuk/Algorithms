@@ -2,6 +2,7 @@
 #define VECTOR_TEMPLATE_H
 
 #include <cstddef>
+#include <utility>
 
 using namespace std;
 
@@ -34,17 +35,10 @@ public:
         if (this == &a) {
             return *this;
         }
-        Data* newData = nullptr;
-        if (a.currentSize > 0) {
-            newData = new Data[a.currentSize]{};
-            for (size_t i = 0; i < a.currentSize; i++) {
-                newData[i] = a.data[i];
-            }
-        }
-        delete[] data;
-        data = newData;
-        currentSize = a.currentSize;
-        capacity = currentSize;
+        Vector copy(a);
+        std::swap(data, copy.data);
+        std::swap(currentSize, copy.currentSize);
+        std::swap(capacity, copy.capacity);
         return *this;
     }
 

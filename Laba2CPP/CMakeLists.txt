@@ -7,7 +7,7 @@ add_test(
 )
 set_property(
     TEST TestLaba2Arithmetic
-    PROPERTY PASS_REGULAR_EXPRESSION "C = 15"
+    PROPERTY PASS_REGULAR_EXPRESSION "^A = 5[\r\n]+B = 20[\r\n]+C = 15[\r\n]+D = 0[\r\n]*$"
 )
 
 add_test(
@@ -16,7 +16,7 @@ add_test(
 )
 set_property(
     TEST TestLaba2Registers
-    PROPERTY PASS_REGULAR_EXPRESSION "D = 10"
+    PROPERTY PASS_REGULAR_EXPRESSION "^A = 10[\r\n]+B = 0[\r\n]+C = 0[\r\n]+D = 10[\r\n]*$"
 )
 
 add_test(
@@ -43,7 +43,7 @@ add_test(
 )
 set_property(
     TEST TestLaba2NestedCall
-    PROPERTY PASS_REGULAR_EXPRESSION "A = 7"
+    PROPERTY PASS_REGULAR_EXPRESSION "^A = 7[\r\n]+B = 0[\r\n]+C = 0[\r\n]+D = 0[\r\n]*$"
 )
 
 add_test(
@@ -52,7 +52,7 @@ add_test(
 )
 set_property(
     TEST TestLaba2Negative
-    PROPERTY PASS_REGULAR_EXPRESSION "A = -13"
+    PROPERTY PASS_REGULAR_EXPRESSION "^A = -13[\r\n]+B = 0[\r\n]+C = 0[\r\n]+D = 0[\r\n]*$"
 )
 
 add_test(
