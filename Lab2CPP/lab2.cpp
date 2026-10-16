@@ -5,6 +5,7 @@
 #include "stack.h"
 
 using namespace std;
+
 void merge_sort(Vector *a);
 void push_frame(Stack *stack, size_t l, size_t r, int state);
 void merge(Vector *a, Vector *tmp, size_t l, size_t m, size_t r);
@@ -12,8 +13,8 @@ void merge(Vector *a, Vector *tmp, size_t l, size_t m, size_t r);
 int main(int argc, char *argv[]) {
     ifstream fin;
     ofstream fout;
-    istream *in = &std::cin;
-    ostream *out = &std::cout;
+    istream *in = &cin;
+    ostream *out = &cout;
 
     if (argc >= 2) {
         fin.open(argv[1]);

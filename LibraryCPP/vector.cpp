@@ -47,20 +47,14 @@ void vector_resize(Vector *vector, size_t size)
             new_capacity *= 2;
 
         Data *new_data = new Data[new_capacity];
-
-        for (size_t i = 0; i < vector->size && i < new_capacity; ++i)
+        for (size_t i = 0; i < vector->size; ++i)
             new_data[i] = vector->data[i];
-
-        for (size_t i = vector->size; i < new_capacity; ++i)
-            new_data[i] = (Data)0;
 
         delete[] vector->data;
         vector->data = new_data;
         vector->capacity = new_capacity;
     }
-    else if (vector->capacity > size) {
-        for (size_t i = vector->size; i < size; ++i)
-            vector->data[i] = (Data)0;
-    }
+    for (size_t i = vector->size; i < size; ++i)
+        vector->data[i] = (Data)0;
     vector->size = size;
 }
