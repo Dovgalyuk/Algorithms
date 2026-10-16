@@ -147,13 +147,10 @@ ListItem *list_erase_next(List *list, ListItem *item)
 
     item->next = deleted->next;
 
-    if (list->tail == deleted)
-    {
+    if (list->tail == deleted){
         list->tail = item;
     }
-
-    ListItem *next = deleted->next;
     delete deleted;
 
-    return next;
+    return item->next;
 }
