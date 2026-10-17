@@ -110,7 +110,6 @@ void List::clear()
 void List::copy_from(const List& a)
 {
     // идём по чужому списку с начала и добавляем копии в конец своего
-    Item* tail = nullptr;
     for (const Item* item = a.first_; item != nullptr; item = item->next_)
-        tail = insert_after(tail, item->data_);
+        insert_after(last_, item->data_);
 }

@@ -9,6 +9,12 @@
 
 #include "stack.h"
 
+// Строка скрипта: символы одного ряда поля
+typedef std::vector<Data> CodeLine;
+
+// Поле скрипта: прямоугольная таблица символов по которой движется рыбка
+typedef std::vector<CodeLine> Code;
+
 // Любая ошибка в скрипте по описанию языка выдаёт одно и то же сообщение
 static const char* FISH_ERROR = "something smells fishy...";
 
@@ -36,7 +42,7 @@ static void move_all(Stack& from, Stack& to)
 class Fish
 {
 public:
-    Fish(const std::vector<std::vector<Data>>& code, std::istream& input)
+    Fish(const Code& code, std::istream& input)
         : code_(code), input_(input)
     {
     }
@@ -55,7 +61,7 @@ private:
     void execute_arithmetic(Data command);
     void execute_stack(Data command);
 
-    std::vector<std::vector<Data>> code_;
+    Code code_;
     std::istream& input_;
     Stack stack_;
 
@@ -82,7 +88,7 @@ Data Fish::cell(size_t x, size_t y) const
 void Fish::set_cell(size_t x, size_t y, Data value)
 {
     while (height() <= y)
-        code_.push_back(std::vector<Data>(width(), ' '));
+        code_.push_back(CodeLine(width(), ' '));
 
     if (width() <= x)
     {
@@ -358,9 +364,9 @@ void Fish::run()
 
 // Читает скрипт и дополняет все строки пробелами до одинаковой длины,
 // чтобы поле было прямоугольным
-static std::vector<std::vector<Data>> read_code(std::istream& input)
+static Code read_code(std::istream& input)
 {
-    std::vector<std::vector<Data>> code;
+    Code code;
     size_t width = 0;
     std::string line;
 
@@ -369,7 +375,7 @@ static std::vector<std::vector<Data>> read_code(std::istream& input)
         if (!line.empty() && line.back() == '\r') // перевод строки в стиле Windows
             line.pop_back();
 
-        std::vector<Data> row;
+        CodeLine row;
         for (size_t i = 0; i < line.size(); ++i)
             row.push_back(static_cast<unsigned char>(line[i]));
 
