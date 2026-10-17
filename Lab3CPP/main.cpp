@@ -21,41 +21,42 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    int n = 0;
-    int start = 0;
-    int finish = 0;
+    Data n = 0;
+    Data start = 0;
+    Data finish = 0;
     if (!(fin >> n >> start >> finish))
     {
         return 1;
     }
 
-    const size_t un = static_cast<size_t>(n);
     const Data UNVISITED = std::numeric_limits<Data>::max();
 
+    const size_t size_n = static_cast<size_t>(n);
+
     Vector* matrix = vector_create();
-    vector_resize(matrix, un * un);
-    for (int i = 0; i < n; ++i)
+    vector_resize(matrix, size_n * size_n);
+    for (Data i = 0; i < n; ++i)
     {
-        for (int j = 0; j < n; ++j)
+        for (Data j = 0; j < n; ++j)
         {
-            int v = 0;
+            Data v = 0;
             fin >> v;
             vector_set(matrix,
-                static_cast<size_t>(i) * un + static_cast<size_t>(j),
-                static_cast<Data>(v));
+                static_cast<size_t>(i) * size_n + static_cast<size_t>(j),
+                v);
         }
     }
     fin.close();
 
     Vector* dist = vector_create();
-    vector_resize(dist, un);
-    for (int i = 0; i < n; ++i)
+    vector_resize(dist, size_n);
+    for (Data i = 0; i < n; ++i)
     {
         vector_set(dist, static_cast<size_t>(i), UNVISITED);
     }
 
-    const Data s = static_cast<Data>(start - 1);
-    const Data f = static_cast<Data>(finish - 1);
+    const Data s = start - 1;
+    const Data f = finish - 1;
 
     Queue* q = queue_create();
 
@@ -72,9 +73,9 @@ int main(int argc, char* argv[])
             break;
         }
 
-        const size_t u_row = static_cast<size_t>(u) * un;
+        const size_t u_row = static_cast<size_t>(u) * size_n;
 
-        for (int v = 0; v < n; ++v)
+        for (Data v = 0; v < n; ++v)
         {
             const size_t v_idx = static_cast<size_t>(v);
 
@@ -83,7 +84,7 @@ int main(int argc, char* argv[])
             {
                 vector_set(dist, v_idx,
                     vector_get(dist, static_cast<size_t>(u)) + static_cast<Data>(1));
-                queue_insert(q, static_cast<Data>(v));
+                queue_insert(q, v);
             }
         }
     }
