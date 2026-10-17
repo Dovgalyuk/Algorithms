@@ -9,6 +9,10 @@
 #include "queue.h"
 
 using namespace std;
+typedef vector<int> MazeRow;
+typedef vector<MazeRow> Maze;
+typedef vector<bool> VisitedRow;
+typedef vector<VisitedRow> Visited;
 
 struct Cell
 {
@@ -16,7 +20,9 @@ struct Cell
     int col;
 };
 
-static vector<vector<int>> read_maze(istream &in)
+typedef vector<Cell> CellList;
+
+static Maze read_maze(istream &in)
 {
     vector<int> values;
     int value;
@@ -26,7 +32,7 @@ static vector<vector<int>> read_maze(istream &in)
     }
 
     size_t total = values.size();
-    vector<vector<int>> maze;
+    Maze maze;
     if (total == 0)
         return maze;
 
@@ -38,7 +44,7 @@ static vector<vector<int>> read_maze(istream &in)
     while (true)
     {
         if (used + static_cast<size_t>(width) > total)
-            break;
+            return maze;
 
         size_t after = used + static_cast<size_t>(width);
         size_t remaining = total - after;
@@ -55,7 +61,7 @@ static vector<vector<int>> read_maze(istream &in)
             break;
         }
         if (remaining < desc_sum)
-            break;
+            return maze;
 
         lengths.push_back(static_cast<size_t>(width));
         used += static_cast<size_t>(width);
@@ -77,7 +83,7 @@ static vector<vector<int>> read_maze(istream &in)
     size_t index = 0;
     for (size_t len : lengths)
     {
-        vector<int> row;
+        MazeRow row;
         for (size_t i = 0; i < len; ++i)
         {
             row.push_back(values[index++]);
@@ -87,15 +93,15 @@ static vector<vector<int>> read_maze(istream &in)
     return maze;
 }
 
-static bool inside(const vector<vector<int>> &maze, int row, int col)
+static bool inside(const Maze &maze, int row, int col)
 {
     return row >= 0 && row < static_cast<int>(maze.size()) &&
            col >= 0 && col < static_cast<int>(maze[row].size());
 }
 
-static vector<Cell> neighbors(const vector<vector<int>> &maze, Cell cell)
+static CellList neighbors(const Maze &maze, Cell cell)
 {
-    vector<Cell> result;
+    CellList result;
     int row = cell.row;
     int col = cell.col;
 
@@ -115,7 +121,6 @@ static vector<Cell> neighbors(const vector<vector<int>> &maze, Cell cell)
         }
         else if (upper_size > current_size)
         {
-            result.push_back({row - 1, col});
             result.push_back({row - 1, col + 1});
         }
     }
@@ -131,7 +136,6 @@ static vector<Cell> neighbors(const vector<vector<int>> &maze, Cell cell)
         }
         else if (lower_size > current_size)
         {
-            result.push_back({row + 1, col});
             result.push_back({row + 1, col + 1});
         }
     }
@@ -154,7 +158,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    vector<vector<int>> maze = read_maze(input);
+    Maze maze = read_maze(input);
 
     if (maze.empty())
     {
@@ -162,12 +166,12 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    vector<vector<bool>> reachable;
+    Visited reachable;
     reachable.reserve(maze.size());
 
     for (const auto &row : maze)
     {
-        reachable.push_back(vector<bool>(row.size(), false));
+        reachable.push_back(VisitedRow(row.size(), false));
     }
 
     int start_row = static_cast<int>(maze.size() / 2);
