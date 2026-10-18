@@ -6,6 +6,7 @@ add_executable(task task.cpp)
 # (в которой уже есть vector.cpp и stack.cpp)
 target_link_libraries(task LibraryCPP)
 
+
 # Подключаем заголовочные файлы из LibraryCPP, если они не подхватываются автоматически
 target_include_directories(task PRIVATE ${CMAKE_SOURCE_DIR}/LibraryCPP)
 
