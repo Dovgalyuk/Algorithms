@@ -6,7 +6,7 @@
 struct Array;
 
 Array* array_create(std::size_t size);
-void array_delete(Array** array);
+void array_delete(Array* array);
 
 std::size_t array_size(const Array* array);
 

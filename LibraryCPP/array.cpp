@@ -22,15 +22,13 @@ Array* array_create(std::size_t size)
     return array;
 }
 
-void array_delete(Array** array)
+void array_delete(Array* array)
 {
-    if (array == nullptr || *array == nullptr)
+    if (array == nullptr)
         return;
 
-    delete[] (*array)->data;
-    delete *array;
-
-    *array = nullptr;
+    delete[] array->data;
+    delete array;
 }
 
 std::size_t array_size(const Array* array)

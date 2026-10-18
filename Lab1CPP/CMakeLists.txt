@@ -136,20 +136,6 @@ set_tests_properties(Task2Test8_same_even PROPERTIES
 )
 
 # ============================================================
-# Тесты для array.cpp
-# ============================================================
-#add_executable(test_array
-#    test_array.cpp
-#    array.cpp
-#    array.h
-#)
-
-#add_test(
-#    NAME ArrayUnitTest
-#    COMMAND test_array
-#)
-
-# ============================================================
 # Автоматический запуск тестов после сборки
 # ============================================================
 add_custom_target(run_tests ALL

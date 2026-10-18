@@ -90,8 +90,8 @@ int main(int argc, char* argv[])
 
     std::cout << '\n';
 
-    array_delete(&crossed);
-    array_delete(&arr);
+    array_delete(crossed);
+    array_delete(arr);
 
     return 0;
 }
