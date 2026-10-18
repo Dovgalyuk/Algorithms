@@ -12,11 +12,18 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item(Data data, Item *prev = nullptr, Item *next = nullptr)
+            : item_data(data), prev_item(prev), next_item(next) {}
+
+        Item *next() { return next_item; }
+        Item *prev() { return prev_item; }
+        Data data() const { return item_data; }
+
+        friend class List;
     private:
-        // internal data here
+        Data item_data;
+        Item *prev_item = nullptr;
+        Item *next_item = nullptr;
     };
 
     // Creates new list
@@ -54,7 +61,8 @@ public:
     // Should be O(1)
     Item *erase_next(Item *item);
 private:
-    // private data should be here
+    Item *head = nullptr;
+    Item *tail = nullptr;
 };
 
 #endif
