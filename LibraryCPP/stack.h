@@ -3,9 +3,9 @@
 
 // Stack
 
-// Stores integer values inside
+// Stores double values inside
 // Change it to desired type
-typedef int Data;
+typedef double Data;
 
 struct Stack;
 

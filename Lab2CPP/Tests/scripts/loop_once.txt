@@ -1,0 +1,1 @@
+1 0 setr 2 mul peek repeat
