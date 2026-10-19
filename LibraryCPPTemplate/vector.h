@@ -2,7 +2,6 @@
 #define VECTOR_TEMPLATE_H
 
 #include <cstddef>
-#include <utility>
 
 using namespace std;
 
@@ -29,16 +28,17 @@ public:
         }
     }
 
-
     // assignment operator
     Vector& operator=(const Vector& a) {
         if (this == &a) {
             return *this;
         }
         Vector copy(a);
-        std::swap(data, copy.data);
-        std::swap(currentSize, copy.currentSize);
-        std::swap(capacity, copy.capacity);
+        delete[] data;
+        data = copy.data;
+        currentSize = copy.currentSize;
+        capacity = copy.capacity;
+        copy.data = nullptr;
         return *this;
     }
 
@@ -102,5 +102,4 @@ private:
     size_t currentSize;
     size_t capacity;
 };
-
 #endif
