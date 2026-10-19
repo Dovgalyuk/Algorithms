@@ -24,3 +24,18 @@
 # target_link_libraries(TestVectorCPP LibraryCPP)
 # add_test(TestVectorCPP TestVectorCPP)
 # set_tests_properties(TestVectorCPP PROPERTIES TIMEOUT 10)
+# В папке Tests мы просто добавляем тесты. 
+# enable_testing() уже вызван в корневом CMakeLists.txt
+
+# Тест 1: Простой путь (S и E рядом)
+add_test(NAME Path_Found_Test
+         COMMAND bash -c "$<TARGET_FILE:library_cpp_main> < ${CMAKE_CURRENT_SOURCE_DIR}/test1.in")
+
+# Тест 2: Нет пути (выводит "No path")
+add_test(NAME No_Path_Test
+         COMMAND bash -c "$<TARGET_FILE:library_cpp_main> < ${CMAKE_CURRENT_SOURCE_DIR}/test2.in")
+set_tests_properties(No_Path_Test PROPERTIES PASS_REGULAR_EXPRESSION "No path")
+
+# Тест 3: Пример из задания (cd / XYZ / ab)
+add_test(NAME Example_Test
+         COMMAND bash -c "$<TARGET_FILE:library_cpp_main> < ${CMAKE_CURRENT_SOURCE_DIR}/test3.in")

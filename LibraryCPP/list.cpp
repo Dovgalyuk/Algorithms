@@ -1,66 +1,34 @@
-#include <cstddef>
 #include "list.h"
 
-struct ListItem
-{
-};
-
-struct List
-{
-};
-
-List *list_create()
-{
-    return new List;
+List::List() {
+    dummy = new ListItem{0, nullptr};
+    dummy->next = dummy; // Кольцо
 }
 
-void list_delete(List *list)
-{
-    // TODO: free items
-    delete list;
+List::~List() {
+    ListItem* current = dummy->next;
+    while (current != dummy) {
+        ListItem* next = current->next;
+        delete current;
+        current = next;
+    }
+    delete dummy;
 }
 
-ListItem *list_first(List *list)
-{
-    return NULL;
+ListItem* List::first() const {
+    return (dummy->next == dummy) ? nullptr : dummy->next;
 }
 
-ListItem *list_last(List *list)
-{
-    return NULL;
+ListItem* List::insert_after(ListItem* item, int data) {
+    ListItem* new_item = new ListItem{data, item->next};
+    item->next = new_item;
+    return new_item;
 }
 
-Data list_item_data(const ListItem *item)
-{
-    return (Data)0;
-}
-
-ListItem *list_item_next(ListItem *item)
-{
-    return NULL;
-}
-
-ListItem *list_item_prev(ListItem *item)
-{
-    return NULL;
-}
-
-ListItem *list_insert(List *list, Data data)
-{
-    return NULL;
-}
-
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    return NULL;
-}
-
-ListItem *list_erase_first(List *list)
-{
-    return NULL;
-}
-
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    return NULL;
+void List::erase_after(ListItem* item) {
+    ListItem* to_erase = item->next;
+    if (to_erase != dummy) {
+        item->next = to_erase->next;
+        delete to_erase;
+    }
 }
