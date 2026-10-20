@@ -14,7 +14,6 @@ struct List
 {
     ListItem* head;
     ListItem* end;
-    int size;
 };
 
 List *list_create()
@@ -22,7 +21,6 @@ List *list_create()
     List* list = new List;
     list->head = nullptr;
     list->end = nullptr;
-    list->size = 0;
     return list;
 }
 
@@ -76,7 +74,6 @@ ListItem *list_insert(List *list, Data data)
     }
 
     list->head = current;
-    list->size++;
     return current;
 }
 
@@ -97,7 +94,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     else list->end = current;
 
     item->next = current;
-    list->size++;
     return current;
 }
 
@@ -115,7 +111,6 @@ ListItem *list_erase_first(List *list)
     }
     else list->end = nullptr;
     delete first;
-    list->size--;
     return list->head;
 }
 
@@ -132,6 +127,5 @@ ListItem *list_erase_next(List *list, ListItem *item)
     }
     else list->end = item;
     delete nextElement;
-    list->size--;
     return item->next;
 }
