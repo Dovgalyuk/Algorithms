@@ -1,0 +1,2 @@
+call
+ret garbage

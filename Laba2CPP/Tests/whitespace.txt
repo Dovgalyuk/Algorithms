@@ -1,0 +1,6 @@
+
+  push   +1   
+
+	pop	A	
+  call  
+  ret  

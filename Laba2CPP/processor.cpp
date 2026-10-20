@@ -41,6 +41,12 @@ bool getNumber(const string &text, int &number)
     return !input.fail() && input.eof();
 }
 
+bool hasExtraArguments(stringstream &input)
+{
+    string extra;
+    return static_cast<bool>(input >> extra);
+}
+
 bool takeNumber(Stack<StackCell> &stack, int &number)
 {
     if (stack.empty())
@@ -91,7 +97,11 @@ int main(int argc, char **argv)
         if (command == "push")
         {
             string argument;
-            lineInput >> argument;
+            if (!(lineInput >> argument) || hasExtraArguments(lineInput))
+            {
+                cout << "BAD PUSH\n";
+                return 0;
+            }
 
             int registerIndex = getRegisterIndex(argument);
             int number = 0;
@@ -111,7 +121,11 @@ int main(int argc, char **argv)
         else if (command == "pop")
         {
             string registerName;
-            lineInput >> registerName;
+            if (!(lineInput >> registerName) || hasExtraArguments(lineInput))
+            {
+                cout << "BAD POP\n";
+                return 0;
+            }
 
             int registerIndex = getRegisterIndex(registerName);
             int number = 0;
@@ -129,7 +143,8 @@ int main(int argc, char **argv)
             int right = 0;
             int left = 0;
 
-            if (!takeNumber(stack, right) || !takeNumber(stack, left))
+            if (hasExtraArguments(lineInput) ||
+                !takeNumber(stack, right) || !takeNumber(stack, left))
             {
                 cout << "BAD " << command << "\n";
                 return 0;
@@ -148,6 +163,12 @@ int main(int argc, char **argv)
         }
         else if (command == "call")
         {
+            if (hasExtraArguments(lineInput))
+            {
+                cout << "BAD CALL\n";
+                return 0;
+            }
+
             StackCell cell;
             cell.type = RETURN_ADDRESS;
             cell.value = lineNumber + 1;
@@ -155,7 +176,8 @@ int main(int argc, char **argv)
         }
         else if (command == "ret")
         {
-            if (stack.empty() || stack.get().type != RETURN_ADDRESS)
+            if (hasExtraArguments(lineInput) || stack.empty() ||
+                stack.get().type != RETURN_ADDRESS)
             {
                 cout << "BAD RET\n";
                 return 0;
