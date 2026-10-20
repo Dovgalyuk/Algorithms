@@ -55,3 +55,12 @@ add_test(NAME TestLab3CPP_6_check
          COMMAND ${CMAKE_COMMAND} -E compare_files
                  ${CMAKE_CURRENT_BINARY_DIR}/out6.txt
                  ${CMAKE_CURRENT_SOURCE_DIR}/tests/test6_expected.txt)
+
+add_test(NAME TestLab3CPP_7
+         COMMAND Lab3CPP
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test7.txt
+                 ${CMAKE_CURRENT_BINARY_DIR}/out7.txt)
+add_test(NAME TestLab3CPP_7_check
+         COMMAND ${CMAKE_COMMAND} -E compare_files
+                 ${CMAKE_CURRENT_BINARY_DIR}/out7.txt
+                 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test7_expected.txt)

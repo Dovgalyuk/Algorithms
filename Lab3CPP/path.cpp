@@ -136,6 +136,13 @@ int bidirectionalBFS(const Board& board, size_t startIdx, size_t endIdx, Vector&
 	return -1;
 }
 
+char encodeNumber(size_t n)
+{
+	if (n < 10) return (char)('0' + n);
+	if (n < 36) return (char)('a' + (n - 10));
+	return '?';
+}
+
 void markPath(Board& board, size_t startIdx, size_t endIdx, int meeting, const Vector& parentK, const Vector& parentE)
 {
 	Vector leftHalf;
@@ -181,8 +188,7 @@ void markPath(Board& board, size_t startIdx, size_t endIdx, int meeting, const V
 		size_t idx = (size_t)rightHalf.get(i);
 		int r = rowFromIndex(board, idx);
 		int c = colFromIndex(board, idx);
-		if (number <= 9)
-			board.set(r, c, (char)('0' + number));
+		board.set(r, c, encodeNumber(number));
 		++number;
 	}
 }
