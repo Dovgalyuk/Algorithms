@@ -16,19 +16,24 @@ bool isMatching(char open, char close)
     return false;
 }
 
-bool checkString(const string& s)
-{
+bool checkString(const string& s){
     Stack* stack = stack_create();
     bool ok = true;
 
     for (char c : s) {
-        if (isOpening(c)) {
+        if (c == '(') {
             stack_push(stack, (Data)c);
-        } else if (isClosing(c)) {
-            if (stack_empty(stack)) { ok = false; break; }
-            char top = (char)stack_get(stack);
-            if (!isMatching(top, c)) { ok = false; break; }
+        } else if (c == ')') {
+            if (stack_empty(stack) || (char)stack_get(stack) != '(') {
+                ok = false; break;
+            }
             stack_pop(stack);
+        } else if (c == '"' || c == '\'') {
+            if (!stack_empty(stack) && (char)stack_get(stack) == c) {
+                stack_pop(stack);    
+            } else {
+                stack_push(stack, (Data)c);  
+            }
         }
     }
 
