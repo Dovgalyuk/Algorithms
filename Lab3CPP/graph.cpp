@@ -13,28 +13,48 @@ void initialize_array(int* arr, int size) {
     }
 }
 
-bool expand_step(Queue* q, List** graph, int* parentSelf, int* parentOther, int& meetSelf, int& meetOther) {
-    if (queue_empty(q)) return false;
+void cleanup_resources(
+    Queue* qForward,
+    Queue* qBackward,
+    int* parentForward,
+    int* parentBackward
+) {
+    queue_delete(qForward);
+    queue_delete(qBackward);
+    delete[] parentForward;
+    delete[] parentBackward;
+}
 
-    int u = queue_get(q);
-    queue_remove(q);
+bool expand_level(Queue* q, List** graph, int* parentSelf, int* parentOther,
+                  int& meetSelf, int& meetOther, int num_vertices) {
+    int levelSize = queue_size(q);
+    for (int i = 0; i < levelSize; i++) {
+        int u = queue_get(q);
+        queue_remove(q);
 
-    ListItem* neighbour = list_first(graph[u]);
-    while (neighbour != NULL) {
-        int v = list_item_data(neighbour);
+        ListItem* end = list_end(graph[u]);
+        ListItem* neighbour = list_first(graph[u]);
 
-        if (parentOther[v] != 0) {
-            meetSelf = u;
-            meetOther = v;
-            return true;
-        } else if (parentSelf[v] == 0) {
-            parentSelf[v] = u;
-            queue_insert(q, v);
+        while (neighbour != NULL && neighbour != end) {
+            int v = list_item_data(neighbour);
+
+            if (v <= 0 || v > num_vertices) {
+                neighbour = list_item_next(neighbour);
+                continue;
+            }
+
+            if (parentOther[v] != 0) {
+                meetSelf = u;
+                meetOther = v;
+                return true;
+            } else if (parentSelf[v] == 0) {
+                parentSelf[v] = u;
+                queue_insert(q, v);
+            }
+
+            neighbour = list_item_next(neighbour);
         }
-
-        neighbour = list_item_next(neighbour);
     }
-
     return false;
 }
 
@@ -81,22 +101,18 @@ int* bidirectional_search(List** graph, int num_vertices, int start, int finish,
     bool found = false;
 
     while (!queue_empty(qForward) && !queue_empty(qBackward) && !found) {
-        if (expand_step(qForward, graph, parentForward, parentBackward, meetFwd, meetBwd)) {
+        if (expand_level(qForward, graph, parentForward, parentBackward, meetFwd, meetBwd, num_vertices)) {
             found = true;
             break;
         }
-        if (expand_step(qBackward, graph, parentBackward, parentForward, meetBwd, meetFwd)) {
+        if (expand_level(qBackward, graph, parentBackward, parentForward, meetBwd, meetFwd, num_vertices)) {
             found = true;
             break;
         }
     }
 
     if (!found) {
-        path_length = 0;
-        queue_delete(qForward);
-        queue_delete(qBackward);
-        delete[] parentForward;
-        delete[] parentBackward;
+        cleanup_resources(qForward, qBackward, parentForward, parentBackward);
         return NULL;
     }
 
@@ -111,10 +127,7 @@ int* bidirectional_search(List** graph, int num_vertices, int start, int finish,
 
     write_segment(path, len1, meetBwd, finish, parentBackward, +1);
 
-    queue_delete(qForward);
-    queue_delete(qBackward);
-    delete[] parentForward;
-    delete[] parentBackward;
+    cleanup_resources(qForward, qBackward, parentForward, parentBackward);
 
     return path;
 }

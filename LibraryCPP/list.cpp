@@ -6,7 +6,6 @@ struct ListItem
     Data data;
     ListItem *next;
     ListItem *prev;
-    List* list;
 };
 
 struct List
@@ -20,7 +19,6 @@ List *list_create()
     list->sentinel = new ListItem;
     list->sentinel->next = list->sentinel;
     list->sentinel->prev = list->sentinel;
-    list->sentinel->list = list;
     return list;
 }
 
@@ -65,8 +63,6 @@ ListItem *list_item_next(ListItem *item)
     if (!item) {
         return NULL;
     }
-    if (item->next == item->list->sentinel)
-        return NULL;
     return item->next;
 }
 
@@ -75,8 +71,6 @@ ListItem *list_item_prev(ListItem *item)
     if (!item) {
         return NULL;
     }
-    if (item->prev == item->list->sentinel)
-        return NULL;
     return item->prev;
 }
 
@@ -95,7 +89,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     newItem->data = data;
     newItem->next = item->next;
     newItem->prev = item;
-    newItem->list = list;
     item->next->prev = newItem;
     item->next = newItem;
 
@@ -120,4 +113,9 @@ ListItem *list_erase_next(List *list, ListItem *item)
     delete toDelete;
 
     return item->next == list->sentinel ? NULL : item->next;
+}
+
+ListItem* list_end(List* list)
+{
+    return list ? list->sentinel : nullptr;
 }

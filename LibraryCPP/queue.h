@@ -29,4 +29,6 @@ void queue_remove(Queue *queue);
 // Returns true if the queue is empty
 bool queue_empty(const Queue *queue);
 
+Data queue_size(const Queue* queue);
+
 #endif
