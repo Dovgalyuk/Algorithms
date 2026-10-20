@@ -36,49 +36,19 @@ static Maze read_maze(istream &in)
     if (total == 0)
         return maze;
 
-    vector<size_t> lengths;
-    size_t used = 0;
-    int width = 1;
-
-    // возрастающая часть до пика
-    while (true)
-    {
-        if (used + static_cast<size_t>(width) > total)
-            return maze;
-
-        size_t after = used + static_cast<size_t>(width);
-        size_t remaining = total - after;
-
-        // сумма убывающей части после этого пика: (width-2)+(width-4)+...+1
-        size_t desc_sum = 0;
-        for (int w = width - 2; w >= 1; w -= 2)
-            desc_sum += static_cast<size_t>(w);
-
-        if (remaining == desc_sum)
-        {
-            lengths.push_back(static_cast<size_t>(width));
-            used += static_cast<size_t>(width);
-            break;
-        }
-        if (remaining < desc_sum)
-            return maze;
-
-        lengths.push_back(static_cast<size_t>(width));
-        used += static_cast<size_t>(width);
-        width += 2;
-    }
-
-    // убывающая часть
-    for (int w = width - 2; w >= 1 && used < total; w -= 2)
-    {
-        if (used + static_cast<size_t>(w) > total)
-            break;
-        lengths.push_back(static_cast<size_t>(w));
-        used += static_cast<size_t>(w);
-    }
-
-    if (used != total)
+    // n — нечётная длина самой длинной строки.
+    size_t n = 1;
+    while ((n * n + 1) / 2 < total)
+        n += 2;
+    if ((n * n + 1) / 2 != total)
         return maze;
+
+    vector<size_t> lengths;
+    for (size_t w = 1; w <= n; w += 2)
+        lengths.push_back(w);
+
+    for (int w = static_cast<int>(n) - 2; w >= 1; w -= 2)
+        lengths.push_back(static_cast<size_t>(w));
 
     size_t index = 0;
     for (size_t len : lengths)
@@ -146,12 +116,12 @@ static CellList neighbors(const Maze &maze, Cell cell)
 int main(int argc, char *argv[])
 {
     setlocale(LC_ALL, "");
-    ifstream input(argv[1]);
     if (argc < 2)
     {
         cerr << "Использование: " << argv[0] << "\n";
         return 1;
     }
+    ifstream input(argv[1]);
     if (!input)
     {
         cerr << "Не удалось открыть входной файл\n";
@@ -162,7 +132,7 @@ int main(int argc, char *argv[])
 
     if (maze.empty())
     {
-        cerr << "Некорректный лабиринт\n";
+        cout << "Некорректный лабиринт\n";
         return 1;
     }
 
