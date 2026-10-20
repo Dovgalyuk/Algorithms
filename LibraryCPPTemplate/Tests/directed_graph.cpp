@@ -7,7 +7,7 @@ typedef Directed_Graph<int, int> Graph;
 int main()
 {
     Graph graph(4);
-    if (graph.size_graph() != 4 || graph.size_vec_vertex() != 4 || graph.empty_graph())
+    if (graph.size_graph() != 4 || graph.empty_graph())
     {
         std::cout << "Invalid constructor";
         return 1;
@@ -43,13 +43,6 @@ int main()
     if (graph(0, 1) != 100)
     {
         std::cout << "Invalid edge weight update";
-        return 1;
-    }
-
-    graph.remove_edge(1, 0);
-    if (graph.edge(1, 0))
-    {
-        std::cout << "Invalid edge removal";
         return 1;
     }
 

@@ -1,5 +1,5 @@
-#ifndef TEMPLATE_directionECTED_GRAPH
-#define TEMPLATE_directionECTED_GRAPH
+#ifndef TEMPLATE_DIRECTED_GRAPH
+#define TEMPLATE_DIRECTED_GRAPH
 
 #include "vector.h"
 #include <istream>
@@ -12,7 +12,7 @@ class Directed_Graph
 public:
     Directed_Graph() = default;
 
-    explicit Directed_Graph(size_t count_vertex) : size_Graph(count_vertex), vec_Vertex(count_vertex)
+    explicit Directed_Graph(size_t count_vertex)
     {
         if (count_vertex > 0)
         {
@@ -21,7 +21,7 @@ public:
         }
     }
 
-    Directed_Graph(size_t rows, size_t cols, const Edge &weight = Edge{}) : size_Graph(rows * cols), vec_Vertex(rows * cols), shape(Shape::Rectangle)
+    Directed_Graph(size_t rows, size_t cols, const Edge &weight = Edge{}) : shape(Shape::Rectangle)
     {
         if (rows * cols == 0)
         {
@@ -34,10 +34,10 @@ public:
             row.resize(cols);
         }
 
-        fill_edges(weight);
+        fill_weights(weight);
     }
 
-    Directed_Graph(const Directed_Graph &graph) : Graph(graph.Graph), size_Graph(graph.size_Graph), vec_Vertex(graph.vec_Vertex), shape(graph.shape)
+    Directed_Graph(const Directed_Graph &graph) : Graph(graph.Graph), shape(graph.shape)
     {
     }
 
@@ -52,18 +52,12 @@ public:
             Directed_Graph tmp(graph);
 
             Vector<Vector<Cell>> tmp_Graph = Graph;
-            size_t tmp_size = size_Graph;
-            Vector<Vertex> tmp_vec_vertex = vec_Vertex;
             Shape tmp_shape = shape;
 
             Graph = tmp.Graph;
-            size_Graph = tmp.size_Graph;
-            vec_Vertex = tmp.vec_Vertex;
             shape = tmp.shape;
 
             tmp.Graph = tmp_Graph;
-            tmp.size_Graph = tmp_size;
-            tmp.vec_Vertex = tmp_vec_vertex;
             tmp.shape = tmp_shape;
         }
         return *this;
@@ -77,18 +71,13 @@ public:
 
         triangle.shape = Shape::Triangle;
 
-        if (rows > 0)
+        triangle.Graph.resize(rows);
+        for (size_t row = 0; row < rows; row++)
         {
-            triangle.size_Graph = rows * rows;
-            triangle.vec_Vertex.resize(rows * rows);
-            triangle.Graph.resize(rows);
-            for (size_t row = 0; row < rows; row++)
-            {
-                triangle.Graph[row].resize(2 * row + 1);
-            }
+            triangle.Graph[row].resize(2 * row + 1);
         }
 
-        triangle.fill_edges(weight);
+        triangle.fill_weights(weight);
 
         return triangle;
     }
@@ -147,26 +136,14 @@ public:
             Graph.add(0, Vector<Cell>{});
         }
 
-        Vector<Cell> &row = Graph[0];
-
-        if (index_vertex > 0)
-        {
-            row[index_vertex - 1].neighbour[RIGHT] = false;
-        }
-        if (index_vertex < size_Graph)
-        {
-            row[index_vertex].neighbour[LEFT] = false;
-        }
-
-        row.add(index_vertex, Cell{});
-
-        vec_Vertex.add(index_vertex, name);
-        size_Graph++;
+        Cell new_cell;
+        new_cell.name = name;
+        Graph[0].add(index_vertex, new_cell);
     }
 
     void push_vertex(const Vertex &name = Vertex{})
     {
-        add_vertex(size_Graph, name);
+        add_vertex(size_graph(), name);
     }
 
     void insert_vertex(const Vertex &name = Vertex{})
@@ -180,34 +157,19 @@ public:
 
         line();
 
-        Vector<Cell> &row = Graph[0];
-        row.remove(index_vertex);
+        Graph[0].remove(index_vertex);
 
-        if (row.size() == 0)
+        if (Graph[0].size() == 0)
         {
             Graph.remove(0);
         }
-        else
-        {
-            if (index_vertex > 0)
-            {
-                row[index_vertex - 1].neighbour[RIGHT] = false;
-            }
-            if (index_vertex < row.size())
-            {
-                row[index_vertex].neighbour[LEFT] = false;
-            }
-        }
-
-        vec_Vertex.remove(index_vertex);
-        size_Graph--;
     }
 
     void remove_vertex_by_name(const Vertex &name)
     {
-        for (size_t i = 0; i < vec_Vertex.size(); i++)
+        for (size_t i = 0; i < size_graph(); i++)
         {
-            if (vec_Vertex[i] == name)
+            if (cell(i).name == name)
             {
                 remove_vertex(i);
                 return;
@@ -218,15 +180,11 @@ public:
 
     void pop_vertex()
     {
-        check_empty_graph();
-
-        remove_vertex(size_Graph - 1);
+        remove_vertex(size_graph() - 1);
     }
 
     void removeFirst_vertex()
     {
-        check_empty_graph();
-
         remove_vertex(0);
     }
 
@@ -234,16 +192,13 @@ public:
     {
         check_vertex(first_vertex, second_vertex);
 
-        size_t direction = find_direction(first_vertex, second_vertex);
-
-        if (direction == NONE)
+        if (!is_neighbor(first_vertex, second_vertex, false))
         {
             throw std::invalid_argument("vertices are not neighbors");
         }
 
-        Cell &from_vertex = cell(first_vertex);
-        from_vertex.neighbour[direction] = true;
-        from_vertex.weight[direction] = weight;
+        cell(second_vertex).weight = weight;
+        cell(first_vertex).direction &= ~direction_bit(first_vertex, second_vertex);
     }
 
     const Edge &operator()(size_t first_vertex, size_t second_vertex) const
@@ -257,41 +212,26 @@ public:
     {
         check_vertex(first_vertex, second_vertex);
 
-        size_t direction = find_direction(first_vertex, second_vertex);
-        const Cell &from_vertex = cell(first_vertex);
-
-        if (direction == NONE || !from_vertex.neighbour[direction])
+        if (!is_neighbor(first_vertex, second_vertex))
         {
             throw std::runtime_error("directed_graph edge not found");
         }
 
-        return from_vertex.weight[direction];
+        return cell(second_vertex).weight;
     }
 
     void set_edge_weight(size_t first_vertex, size_t second_vertex, const Edge &weight)
     {
-        check_vertex(first_vertex, second_vertex);
-
-        size_t direction = find_direction(first_vertex, second_vertex);
-        Cell &from_vertex = cell(first_vertex);
-
-        if (direction == NONE || !from_vertex.neighbour[direction])
-        {
-            throw std::runtime_error("directed_graph edge not found");
-        }
-
-        from_vertex.weight[direction] = weight;
+        add_edge(first_vertex, second_vertex, weight);
     }
 
     void remove_edge(size_t first_vertex, size_t second_vertex)
     {
         check_vertex(first_vertex, second_vertex);
 
-        size_t direction = find_direction(first_vertex, second_vertex);
-
-        if (direction != NONE)
+        if (is_neighbor(first_vertex, second_vertex, false))
         {
-            cell(first_vertex).neighbour[direction] = false;
+            cell(first_vertex).direction |= direction_bit(first_vertex, second_vertex);
         }
     }
 
@@ -299,35 +239,39 @@ public:
     {
         check_vertex(first_vertex, second_vertex);
 
-        size_t direction = find_direction(first_vertex, second_vertex);
-
-        return direction != NONE && cell(first_vertex).neighbour[direction];
+        return is_neighbor(first_vertex, second_vertex);
     }
 
-    const Vector<Vertex> &get_vec_vertex() const
+    Vector<Vertex> get_vec_vertex() const
     {
-        return vec_Vertex;
+        Vector<Vertex> result;
+
+        for (size_t i = 0; i < size_graph(); i++)
+        {
+            result.add(i, cell(i).name);
+        }
+        return result;
     }
 
     void set_vertex_name(size_t index, const Vertex &name)
     {
         check_index(index);
 
-        vec_Vertex[index] = name;
+        cell(index).name = name;
     }
 
     const Vertex &get_name_vertex(size_t index) const
     {
         check_index(index);
 
-        return vec_Vertex[index];
+        return cell(index).name;
     }
 
     size_t get_index_by_name(const Vertex &name) const
     {
-        for (size_t i = 0; i < vec_Vertex.size(); i++)
+        for (size_t i = 0; i < size_graph(); i++)
         {
-            if (vec_Vertex[i] == name)
+            if (cell(i).name == name)
             {
                 return i;
             }
@@ -336,26 +280,6 @@ public:
         vertex_not_found();
 
         return 0;
-    }
-
-    size_t size_graph() const
-    {
-        return size_Graph;
-    }
-
-    bool empty_graph() const
-    {
-        return size_Graph == 0;
-    }
-
-    size_t size_vec_vertex() const
-    {
-        return vec_Vertex.size();
-    }
-
-    bool empty_vec_vertex() const
-    {
-        return vec_Vertex.size() == 0;
     }
 
     friend std::istream &operator>>(std::istream &input, Directed_Graph &graph)
@@ -370,9 +294,28 @@ public:
         Directed_Graph line(n);
         for (size_t i = 0; i < n; i++)
         {
-            if (!(input >> line.vec_Vertex[i]))
+            if (!(input >> line.cell(i).name))
             {
                 return input;
+            }
+        }
+
+        Directed_Graph triangle;
+        bool triangle_b = n > 0;
+
+        if (triangle_b)
+        {
+            try
+            {
+                triangle = make_triangle_by_vertices(n, Edge{});
+                for (size_t i = 0; i < n; i++)
+                {
+                    triangle.cell(i).name = line.cell(i).name;
+                }
+            }
+            catch (const std::invalid_argument &)
+            {
+                triangle_b = false;
             }
         }
 
@@ -381,22 +324,9 @@ public:
         if (input >> m)
         {
             bool line_b = true;
-            bool triangle_b = n > 0;
-            Directed_Graph triangle;
 
-            if (triangle_b)
-            {
-                try
-                {
-                    triangle = make_triangle_by_vertices(n, Edge{});
-                    triangle.clear_edges();
-                    triangle.vec_Vertex = line.vec_Vertex;
-                }
-                catch (const std::invalid_argument &)
-                {
-                    triangle_b = false;
-                }
-            }
+            line.direction_all();
+            triangle.direction_all();
 
             for (size_t k = 0; k < m; k++)
             {
@@ -415,14 +345,8 @@ public:
                     return input;
                 }
 
-                if (line_b && line.find_direction(first, second) == NONE)
-                {
-                    line_b = false;
-                }
-                if (triangle_b && triangle.find_direction(first, second) == NONE)
-                {
-                    triangle_b = false;
-                }
+                line_b = line_b && line.is_neighbor(first, second, false);
+                triangle_b = triangle_b && triangle.is_neighbor(first, second, false);
 
                 if (!line_b && !triangle_b)
                 {
@@ -440,38 +364,38 @@ public:
                 }
             }
 
-            if (triangle_b)
-            {
-                graph = std::move(triangle);
-            }
-            else
-            {
-                graph = std::move(line);
-            }
+            graph = triangle_b ? std::move(triangle) : std::move(line);
 
             return input;
         }
 
-        if (input.eof())
+        if (input.eof() && triangle_b)
         {
-            try
-            {
-                Directed_Graph triangle = make_triangle_by_vertices(n, Edge{});
-                triangle.vec_Vertex = line.vec_Vertex;
+            input.clear();
+            graph = std::move(triangle);
 
-                input.clear();
-                graph = std::move(triangle);
-
-                return input;
-            }
-            catch (const std::invalid_argument &)
-            {
-            }
+            return input;
         }
 
         input.setstate(std::ios::failbit);
 
         return input;
+    }
+
+    size_t size_graph() const
+    {
+        size_t count = 0;
+
+        for (size_t row = 0; row < Graph.size(); row++)
+        {
+            count += Graph[row].size();
+        }
+        return count;
+    }
+
+    bool empty_graph() const
+    {
+        return Graph.size() == 0;
     }
 
     class Iterator
@@ -483,27 +407,23 @@ public:
         using pointer = const size_t *;
         using reference = size_t;
 
-        Iterator(const Directed_Graph *graph, size_t start, size_t end) : iter_graph(graph), vertex_start(start), vertex_end(end)
+        Iterator(const Directed_Graph *graph, size_t start, bool at_end) : iter_graph(graph), vertex_start(start), list(graph->neighbors(start)), pos(at_end ? list.size() : 0)
         {
-            skip();
         }
 
         const Edge &weight() const
         {
-            return iter_graph->cell(vertex_start).weight[vertex_end];
+            return iter_graph->cell(list[pos]).weight;
         }
 
         size_t operator*() const
         {
-            size_t to_vertex = 0;
-            iter_graph->neighbor(vertex_start, vertex_end, to_vertex);
-            return to_vertex;
+            return list[pos];
         }
 
         Iterator &operator++()
         {
-            vertex_end++;
-            skip();
+            pos++;
             return *this;
         }
 
@@ -516,7 +436,7 @@ public:
 
         bool operator==(const Iterator &other) const
         {
-            return iter_graph == other.iter_graph && vertex_start == other.vertex_start && vertex_end == other.vertex_end;
+            return iter_graph == other.iter_graph && vertex_start == other.vertex_start && pos == other.pos;
         }
 
         bool operator!=(const Iterator &other) const
@@ -525,49 +445,25 @@ public:
         }
 
     private:
-        void skip()
-        {
-            if (vertex_end >= NONE)
-            {
-                return;
-            }
-
-            const Cell &from_vertex = iter_graph->cell(vertex_start);
-            size_t to_vertex = 0;
-
-            while (vertex_end < NONE && !(from_vertex.neighbour[vertex_end] && iter_graph->neighbor(vertex_start, vertex_end, to_vertex)))
-            {
-                vertex_end++;
-            }
-        }
-
         const Directed_Graph *iter_graph;
         size_t vertex_start;
-        size_t vertex_end;
+        Vector<size_t> list;
+        size_t pos;
     };
 
     Iterator begin(size_t index_vertex) const
     {
         check_index(index_vertex);
-        return Iterator(this, index_vertex, 0);
+        return Iterator(this, index_vertex, false);
     }
 
     Iterator end(size_t index_vertex) const
     {
         check_index(index_vertex);
-        return Iterator(this, index_vertex, NONE);
+        return Iterator(this, index_vertex, true);
     }
 
 private:
-    enum Dir
-    {
-        LEFT,
-        RIGHT,
-        UP,
-        DOWN,
-        NONE
-    };
-
     enum class Shape
     {
         Line,
@@ -577,14 +473,12 @@ private:
 
     struct Cell
     {
-        Edge weight[NONE]{};
-        bool neighbour[NONE]{};
+        Vertex name{};
+        Edge weight{};
+        unsigned char direction = 0;
     };
 
     Vector<Vector<Cell>> Graph;
-    size_t size_Graph = 0;
-
-    Vector<Vertex> vec_Vertex;
 
     Shape shape = Shape::Line;
 
@@ -624,111 +518,113 @@ private:
         return Graph[row][col];
     }
 
-    bool neighbor(size_t vertex, size_t direction, size_t &to_vertex) const
+   Vector<size_t> neighbors(size_t vertex, bool only_open = true) const
     {
         size_t row = 0;
         size_t col = 0;
-
+ 
         location(vertex, row, col);
-
+ 
         size_t start = vertex - col;
-
-        switch (direction)
+        Vector<size_t> result;
+ 
+        if (col > 0)
         {
-        case LEFT:
-            if (col == 0)
-            {
-                return false;
-            }
-            to_vertex = vertex - 1;
-            return true;
-
-        case RIGHT:
-            if (col + 1 >= Graph[row].size())
-            {
-                return false;
-            }
-            to_vertex = vertex + 1;
-            return true;
-
-        case UP:
-            if (row == 0)
-            {
-                return false;
-            }
+            result.add(result.size(), vertex - 1);
+        }
+        if (col + 1 < Graph[row].size())
+        {
+            result.add(result.size(), vertex + 1);
+        }
+        if (row > 0)
+        {
             if (shape == Shape::Rectangle)
             {
-                to_vertex = start - Graph[row - 1].size() + col;
-                return true;
+                result.add(result.size(), start - Graph[row - 1].size() + col);
             }
-            if (shape == Shape::Triangle && col % 2 == 1)
+            else if (shape == Shape::Triangle && col % 2 == 1)
             {
-                to_vertex = start - Graph[row - 1].size() + col - 1;
-                return true;
+                result.add(result.size(), start - Graph[row - 1].size() + col - 1);
             }
-            return false;
-
-        default: 
-            if (row + 1 >= Graph.size())
-            {
-                return false;
-            }
+        }
+        if (row + 1 < Graph.size())
+        {
             if (shape == Shape::Rectangle)
             {
-                to_vertex = start + Graph[row].size() + col;
+                result.add(result.size(), start + Graph[row].size() + col);
+            }
+            else if (shape == Shape::Triangle && col % 2 == 0)
+            {
+                result.add(result.size(), start + Graph[row].size() + col + 1);
+            }
+        }
+        if (!only_open)
+        {
+            return result;
+        }
+ 
+        Vector<size_t> open;
+        for (size_t i = 0; i < result.size(); i++)
+        {
+            if (!(cell(vertex).direction & direction_bit(vertex, result[i])))
+            {
+                open.add(open.size(), result[i]);
+            }
+        }
+        return open;
+    }
+ 
+    unsigned char direction_bit(size_t from, size_t to) const
+    {
+        size_t row_from = 0;
+        size_t col_from = 0;
+        size_t row_to = 0;
+        size_t col_to = 0;
+ 
+        location(from, row_from, col_from);
+        location(to, row_to, col_to);
+ 
+        if (row_from == row_to)
+        {
+            return col_to < col_from ? 1 : 2;
+        }
+        return row_to < row_from ? 4 : 8;
+    }
+ 
+    void direction_all()
+    {
+        for (size_t v = 0; v < size_graph(); v++)
+        {
+            Vector<size_t> list = neighbors(v, false);
+ 
+            for (size_t i = 0; i < list.size(); i++)
+            {
+                remove_edge(v, list[i]);
+            }
+        }
+    }
+
+     bool is_neighbor(size_t first_vertex, size_t second_vertex, bool only_open = true) const
+    {
+        Vector<size_t> list = neighbors(first_vertex, only_open);
+
+        for (size_t i = 0; i < list.size(); i++)
+        {
+            if (list[i] == second_vertex)
+            {
                 return true;
             }
-            if (shape == Shape::Triangle && col % 2 == 0)
-            {
-                to_vertex = start + Graph[row].size() + col + 1;
-                return true;
-            }
-            return false;
         }
-    }
+        return false;
+    }   
 
-    size_t find_direction(size_t first_vertex, size_t to_vertex) const
+    void fill_weights(const Edge &weight)
     {
-        for (size_t direction = 0; direction < NONE; direction++)
+        for (size_t row = 0; row < Graph.size(); row++)
         {
-            size_t t = 0;
-
-            if (neighbor(first_vertex, direction, t) && t == to_vertex)
+            for (size_t col = 0; col < Graph[row].size(); col++)
             {
-                return direction;
-            }
-        }
-        return NONE;
-    }
-
-    void fill_edges(const Edge &weight)
-    {
-        for (size_t vertex = 0; vertex < size_Graph; vertex++)
-        {
-            Cell &from_vertex = cell(vertex);
-
-            for (size_t direction = 0; direction < NONE; direction++)
-            {
-                size_t to_vertex = 0;
-
-                if (neighbor(vertex, direction, to_vertex))
-                {
-                    from_vertex.neighbour[direction] = true;
-                    from_vertex.weight[direction] = weight;
-                }
-            }
-        }
-    }
-
-    void clear_edges()
-    {
-        for (size_t vertex = 0; vertex < size_Graph; vertex++)
-        {
-            Cell &from_vertex = cell(vertex);
-
-            for (size_t direction = 0; direction < NONE; direction++)
-            {
-                from_vertex.neighbour[direction] = false;
+                Graph[row][col].weight = weight;
             }
         }
     }
@@ -741,13 +637,16 @@ private:
         }
 
         Vector<Cell> row;
-        for (size_t i = 0; i < size_Graph; i++)
+        for (size_t r = 0; r < Graph.size(); r++)
         {
-            row.add(row.size(), Cell{});
+            for (size_t c = 0; c < Graph[r].size(); c++)
+            {
+                row.add(row.size(), Graph[r][c]);
+            }
         }
 
         Vector<Vector<Cell>> flat;
-        if (size_Graph > 0)
+        if (row.size() > 0)
         {
             flat.add(0, row);
         }
@@ -758,7 +657,7 @@ private:
 
     void add_check_index(size_t index) const
     {
-        if (index > size_Graph)
+        if (index > size_graph())
         {
             throw std::out_of_range("directed_graph subscript vertex of range");
         }
@@ -766,7 +665,7 @@ private:
 
     void check_index(size_t index) const
     {
-        if (index >= size_Graph)
+        if (index >= size_graph())
         {
             throw std::out_of_range("directed_graph subscript vertex of range");
         }
@@ -774,7 +673,7 @@ private:
 
     void check_empty_graph() const
     {
-        if (size_Graph == 0)
+        if (size_graph() == 0)
         {
             throw std::out_of_range("directed_graph subscript vertex of range");
         }
@@ -782,7 +681,7 @@ private:
 
     void check_vertex(size_t first_vertex, size_t second_vertex) const
     {
-        if (first_vertex >= size_Graph || second_vertex >= size_Graph)
+        if (first_vertex >= size_graph() || second_vertex >= size_graph())
         {
             throw std::out_of_range("directed_graph subscript vertex of range");
         }
