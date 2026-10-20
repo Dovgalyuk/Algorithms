@@ -36,17 +36,19 @@ int main(int argc, char **argv)
         array_set(arr, i, x);
     }
 
-    long long best_sum = 0;
+    long long current_sum = 0;
+    for (int i = 0 ; i < 5 ; ++i)
+        current_sum += array_get(arr, i);
+
+    long long best_sum = current_sum;
     int best_index = 0;
 
-    for (int i = 0 ; i <= n - 5 ; ++i)
+    for (int i = 1 ; i <= n - 5 ; ++i)
     {
-        long long current_sum = 0;
+        current_sum -= array_get(arr, i - 1);
+        current_sum += array_get(arr, i + 4);
 
-        for (int j = 0 ; j < 5 ; ++j)
-            current_sum += array_get(arr, i + j);
-
-        if (i == 0 || current_sum > best_sum)
+        if (current_sum > best_sum)
         {
             best_sum = current_sum;
             best_index = i;
