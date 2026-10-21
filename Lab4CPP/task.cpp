@@ -1,8 +1,82 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
+#include <string>
+#include <iomanip>
 #include "vector.h"
 #include "directed_graph.h"
+
+static void print_field(const Directed_Graph<int, int> &graph, const Vector<size_t> &path)
+{
+    const size_t count = graph.size_graph();
+ 
+    size_t rows = 0;
+    while (rows * rows < count)
+    {
+        rows++;
+    }
+ 
+    if (rows * rows != count)
+    {
+        return;
+    }
+ 
+    Vector<bool> on_path(count);
+    for (size_t i = 0; i < count; i++)
+    {
+        on_path[i] = false;
+    }
+    for (size_t i = 0; i < path.size(); i++)
+    {
+        on_path[path[i]] = true;
+    }
+ 
+    size_t width = 1;
+    for (size_t i = 0; i < count; i++)
+    {
+        width = std::max(width, std::to_string(graph.get_name_vertex(i)).size());
+    }
+ 
+    for (size_t row = 0; row < rows; row++)
+    {
+        std::cout << std::string((rows - 1 - row) * (width + 3), ' ');
+ 
+        for (size_t index = row * row; index < (row + 1) * (row + 1); index++)
+        {
+            std::cout << (on_path[index] ? "[" : " ") << std::setw(width) << graph.get_name_vertex(index) << (on_path[index] ? "] " : "  ");
+        }
+        std::cout << "\n";
+    }
+}
+
+static void print_steps(const Directed_Graph<int, int> &graph, const Vector<size_t> &path, long long total_cost)
+{
+    std::cout << "\nROUTE\n";
+    for (size_t i = 0; i < path.size(); i++)
+    {
+        std::cout << (i > 0 ? " -> " : "") << path[i];
+    }
+    std::cout << "\n";
+ 
+    if (path.size() > 1)
+    {
+        std::cout << "\nStep  Move        Cost  Total\n";
+ 
+        long long sum = 0;
+        for (size_t i = 0; i + 1 < path.size(); i++)
+        {
+            int weight = graph.get_edge(path[i], path[i + 1]);
+            sum += weight;
+ 
+            std::cout << std::left << std::setw(6) << i + 1
+                      << std::setw(12) << std::to_string(path[i]) + " -> " + std::to_string(path[i + 1])
+                      << std::setw(12) << weight << sum << "\n";
+        }
+    }
+ 
+    std::cout << "\nCOST: " << total_cost << "   MOVES: " << path.size() - 1 << "\n";
+}
 
 static void position_cell(size_t index_vertex, size_t &row, size_t &col)
 {
@@ -216,19 +290,15 @@ int main(int argc, char *argv[])
             std::cerr << e.what();
             return 1;
         }
-
-        std::cout << total_cost << "\n";
-
-        for (size_t i = 0; i < path.size(); i++)
-        {
-            std::cout << path[i] << " ";
-        }
     }
     else
     {
         return 1;
     }
 
+    print_field(graph, path);
+    print_steps(graph, path, total_cost);
+    
     input_file.close();
 
     return 0;
