@@ -6,83 +6,90 @@
 #include <cstddef>
 #include <istream>
 #include <string>
+
 template <typename EdgeLabel, typename VertexLabel>
 class Graph
 {
+    struct Vertex;
+
     struct Edge
     {
-        std::string to;
+        std::size_t to_id;
         EdgeLabel label;
-        Edge(const std::string &to, const EdgeLabel &value) : to(to), label(value) {}
+        Edge(std::size_t to_id, const EdgeLabel &value) : to_id(to_id), label(value) {}
     };
 
     struct Vertex
     {
+        std::size_t id;
         std::string name;
         VertexLabel label;
         List<Edge> edges;
-        Vertex(const std::string &vertexName, const VertexLabel &value) : name(vertexName), label(value) {}
+        Vertex(std::size_t vertex_id, const std::string &vertex_name, const VertexLabel &value) : id(vertex_id), name(vertex_name), label(value) {}
     };
 
     using VertexItem = typename List<Vertex>::Item;
     using EdgeItem = typename List<Edge>::Item;
-    List<Vertex> vertices_;
 
-    VertexItem *find_vertex(const std::string &name)
-    {
-        for (VertexItem *item = vertices_.first(); item; item = item->next())
-            if (item->data().name == name)
-                return item;
+    List<Vertex> vertices_;
+    std::size_t next_vertex_id_ = 0;
+
+    VertexItem *find_vertex(const std::string &name) {
+        for (VertexItem *item = vertices_.first(); item; item = item->next()){
+            if (item->data().name == name) return item;
+        }
         return nullptr;
     }
 
     const VertexItem *find_vertex(const std::string &name) const
     {
-        for (const VertexItem *item = vertices_.first(); item; item = item->next())
-            if (item->data().name == name)
-                return item;
+        for (const VertexItem *item = vertices_.first(); item; item = item->next()){
+            if (item->data().name == name) return item;
+        }
         return nullptr;
     }
 
-    static EdgeItem *find_edge(VertexItem *vertex, const std::string &to)
+    const VertexItem *find_vertex_by_id(std::size_t id) const
     {
-        if (!vertex)
-            return nullptr;
-        for (EdgeItem *item = vertex->data().edges.first(); item; item = item->next())
-            if (item->data().to == to)
-                return item;
+        for (const VertexItem *item = vertices_.first(); item; item = item->next()){
+            if (item->data().id == id) return item;
+        }
         return nullptr;
     }
 
-    static const EdgeItem *find_edge(const VertexItem *vertex, const std::string &to)
+    static EdgeItem *find_edge(VertexItem *vertex, std::size_t to_id)
     {
-        if (!vertex)
-            return nullptr;
-        for (const EdgeItem *item = vertex->data().edges.first(); item; item = item->next())
-            if (item->data().to == to)
-                return item;
+        if (!vertex) return nullptr;
+        for (EdgeItem *item = vertex->data().edges.first(); item; item = item->next()){
+            if (item->data().to_id == to_id) return item;
+        }
         return nullptr;
     }
 
-    void remove_to_edges(const std::string &name)
+    static const EdgeItem *find_edge(const VertexItem *vertex, std::size_t to_id)
+    {
+        if (!vertex) return nullptr;
+        for (const EdgeItem *item = vertex->data().edges.first(); item; item = item->next()){
+            if (item->data().to_id == to_id) return item;
+        }
+        return nullptr;
+    }
+
+    void remove_to_edges(std::size_t id)
     {
         for (VertexItem *vertex = vertices_.first(); vertex; vertex = vertex->next())
         {
             List<Edge> &edges = vertex->data().edges;
-            EdgeItem *prev = nullptr;
+            EdgeItem *previous = nullptr;
             EdgeItem *current = edges.first();
-            while (current)
-            {
-                if (current->data().to == name)
-                {
-                    if (prev)
-                        current = edges.erase_next(prev);
+            while (current) {
+                if (current->data().to_id == id) {
+                    if (previous) current = edges.erase_next(previous);
                     else
                         current = edges.erase_first();
                 }
-                else
-                {
-                    prev = current;
+                else {
+                    previous = current;
                     current = current->next();
                 }
             }
@@ -94,18 +101,25 @@ public:
     {
         friend class Graph;
         const EdgeItem *current_;
+        const VertexItem *vertices_;
 
-        explicit NeighborIterator(const EdgeItem *item) : current_(item) {}
+        NeighborIterator(const EdgeItem *edge, const VertexItem *vertices) : current_(edge), vertices_(vertices) {}
 
     public:
-        NeighborIterator() : current_(nullptr) {}
+        NeighborIterator() : current_(nullptr), vertices_(nullptr) {}
+
         bool hasNext() const { return current_ != nullptr; }
+
         std::string next()
         {
             if (!current_) return std::string();
-            std::string name = current_->data().to;
+
+            const std::size_t to_id = current_->data().to_id;
             current_ = current_->next();
-            return name;
+            for (const VertexItem *vertex = vertices_; vertex; vertex = vertex->next()){
+                if (vertex->data().id == to_id) return vertex->data().name;
+            }
+            return std::string();
         }
     };
 
@@ -117,7 +131,7 @@ public:
     {
         std::size_t count = 0;
         for (const VertexItem *item = vertices_.first(); item; item = item->next()){
-            ++count;
+            count++;
         }
         return count;
     }
@@ -126,86 +140,91 @@ public:
 
     bool add_vertex(const std::string &name, const VertexLabel &label = VertexLabel())
     {
-        if (has_vertex(name))
-            return false;
-        vertices_.insert_after(vertices_.last(), Vertex(name, label));
+        if (has_vertex(name)) return false;
+        vertices_.insert_after(vertices_.last(), Vertex(next_vertex_id_++, name, label));
         return true;
     }
 
     bool remove_vertex(const std::string &name)
     {
         VertexItem *target = find_vertex(name);
-        if (!target)
-            return false;
-        remove_to_edges(name);
+        if (!target) return false;
+        remove_to_edges(target->data().id);
 
-        VertexItem *prev = nullptr;
+        VertexItem *previous = nullptr;
         for (VertexItem *item = vertices_.first(); item; item = item->next())
         {
-            if (item == target)
-            {
-                if (prev) vertices_.erase_next(prev);
+            if (item == target) {
+                if (previous) vertices_.erase_next(previous);
                 else
                     vertices_.erase_first();
                 return true;
             }
-            prev = item;
+            previous = item;
         }
         return false;
     }
+
     void resize(std::size_t count)
     {
-        while (size() > count){
-            remove_vertex(vertices_.first()->data().name);
+        while (size() > count) {
+            const std::string last_vertex = vertices_.last()->data().name;
+            remove_vertex(last_vertex);
         }
+
         std::size_t index = 0;
-        while (size() < count) {
+        while (size() < count)
+        {
             const std::string name = "vertex_" + std::to_string(index++);
             if (!has_vertex(name)) add_vertex(name);
         }
     }
+
     void resize_grid(std::size_t rows, std::size_t columns)
     {
-        while (vertices_.first()) {
-            vertices_.erase_first();
-        }
-        for (std::size_t row = 0; row < rows; ++row) {
-            for (std::size_t column = 0; column < columns; ++column) {
+        resize(0);
+        for (std::size_t row = 0; row < rows; row++) {
+            for (std::size_t column = 0; column < columns; column++){
                 add_vertex(std::to_string(row) + "_" + std::to_string(column));
-        }
+            }
         }
     }
 
     bool add_edge(const std::string &from, const std::string &to, const EdgeLabel &label = EdgeLabel())
     {
         VertexItem *source = find_vertex(from);
-        if (!source || !has_vertex(to) || find_edge(source, to)) return false;
-        source->data().edges.insert_after(source->data().edges.last(), Edge(to, label));
+        const VertexItem *destination = find_vertex(to);
+        if (!source || !destination || find_edge(source, destination->data().id))
+            return false;
+        source->data().edges.insert_after(source->data().edges.last(), Edge(destination->data().id, label));
         return true;
     }
 
     bool remove_edge(const std::string &from, const std::string &to)
     {
         VertexItem *source = find_vertex(from);
-        EdgeItem *prev = nullptr;
-        if (!source)
-            return false;
-        for (EdgeItem *edge = source->data().edges.first(); edge; edge = edge->next())
-        {
-            if (edge->data().to == to) {
-                if (prev) source->data().edges.erase_next(prev);
+        const VertexItem *destination = find_vertex(to);
+        if (!source || !destination) return false;
+
+        EdgeItem *previous = nullptr;
+        for (EdgeItem *edge = source->data().edges.first(); edge; edge = edge->next()) {
+            if (edge->data().to_id == destination->data().id) {
+                if (previous) source->data().edges.erase_next(previous);
                 else
                     source->data().edges.erase_first();
                 return true;
             }
-            prev = edge;
+            previous = edge;
         }
         return false;
     }
 
     bool has_edge(const std::string &from, const std::string &to) const
     {
-        return find_edge(find_vertex(from), to) != nullptr;
+        const VertexItem *source = find_vertex(from);
+        const VertexItem *destination = find_vertex(to);
+        if (!source || !destination) return false;
+        return find_edge(source, destination->data().id) != nullptr;
     }
 
     bool set_vertex_label(const std::string &name, const VertexLabel &label)
@@ -226,7 +245,9 @@ public:
 
     bool set_edge_label(const std::string &from, const std::string &to, const EdgeLabel &label)
     {
-        EdgeItem *edge = find_edge(find_vertex(from), to);
+        const VertexItem *destination = find_vertex(to);
+        if (!destination) return false;
+        EdgeItem *edge = find_edge(find_vertex(from), destination->data().id);
         if (!edge) return false;
         edge->data().label = label;
         return true;
@@ -234,7 +255,9 @@ public:
 
     bool get_edge_label(const std::string &from, const std::string &to, EdgeLabel &label) const
     {
-        const EdgeItem *edge = find_edge(find_vertex(from), to);
+        const VertexItem *destination = find_vertex(to);
+        if (!destination) return false;
+        const EdgeItem *edge = find_edge(find_vertex(from), destination->data().id);
         if (!edge) return false;
         label = edge->data().label;
         return true;
@@ -255,25 +278,26 @@ public:
     {
         const VertexItem *vertex = find_vertex(name);
         if (!vertex) return NeighborIterator();
-        return NeighborIterator(vertex->data().edges.first());
+        return NeighborIterator(vertex->data().edges.first(), vertices_.first());
     }
+
     bool read(std::istream &input)
     {
         std::size_t vertex_count, edge_count;
         if (!(input >> vertex_count >> edge_count)) return false;
 
         Graph parsed;
-        for (std::size_t i = 0; i < vertex_count; i++)
-        {
+        for (std::size_t i = 0; i < vertex_count; i++) {
             std::string name;
             VertexLabel label{};
-            if (!(input >> name >> label) || !parsed.add_vertex(name, label)) return false;
+            if (!(input >> name >> label) || !parsed.add_vertex(name, label))
+                return false;
         }
-        for (std::size_t i = 0; i < edge_count; i++)
-        {
+        for (std::size_t i = 0; i < edge_count; i++) {
             std::string from, to;
             EdgeLabel label{};
-            if (!(input >> from >> to >> label) || !parsed.add_edge(from, to, label)) return false;
+            if (!(input >> from >> to >> label) || !parsed.add_edge(from, to, label))
+                return false;
         }
         *this = parsed;
         return true;
@@ -281,3 +305,4 @@ public:
 };
 
 #endif
+
