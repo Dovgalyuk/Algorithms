@@ -5,18 +5,9 @@
 
 using namespace std;
 
-bool isOpening(char c) { return c == '(' || c == '"' || c == '\''; }
-bool isClosing(char c) { return c == ')' || c == '"' || c == '\''; }
 
-bool isMatching(char open, char close)
+bool checkString(const string& s)
 {
-    if (open == '(' && close == ')') return true;
-    if (open == '"' && close == '"') return true;
-    if (open == '\'' && close == '\'') return true;
-    return false;
-}
-
-bool checkString(const string& s){
     Stack* stack = stack_create();
     bool ok = true;
 
@@ -29,11 +20,10 @@ bool checkString(const string& s){
             }
             stack_pop(stack);
         } else if (c == '"' || c == '\'') {
-            if (!stack_empty(stack) && (char)stack_get(stack) == c) {
-                stack_pop(stack);    
-            } else {
-                stack_push(stack, (Data)c);  
-            }
+            if (!stack_empty(stack) && (char)stack_get(stack) == c)
+                stack_pop(stack);              // закрывающая
+            else
+                stack_push(stack, (Data)c);    // открывающая
         }
     }
 
