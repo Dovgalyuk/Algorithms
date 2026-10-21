@@ -1,4 +1,4 @@
-#include "..\LibraryCPP\array.cpp"
+#include "array.h"
 #include <fstream>
 #include <iostream>
 
