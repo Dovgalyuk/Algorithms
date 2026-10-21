@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <stdexcept>
 // Change it to desired type
+using namespace std;
 typedef int Data;
 
 class Vector
@@ -36,6 +37,8 @@ public:
 
 private:
     // private data should be here
+    static Data* copy_data(const Vector& a);
+
     Data* data;
     size_t sz;
     size_t capacity;

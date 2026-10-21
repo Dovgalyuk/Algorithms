@@ -34,8 +34,7 @@ void Queue::insert(Data value)
             Vector tmp;
             tmp.resize(count);
             for (size_t i = 0; i < count; ++i) {
-                size_t src = head + i;
-                if (src >= old_size) src -= old_size;
+                size_t src = (head + i) % old_size;
                 tmp.set(i, data.get(src));
             }
             data.resize(new_size);
@@ -49,8 +48,7 @@ void Queue::insert(Data value)
         }
     }
 
-    size_t tail = head + count;
-    if (tail >= data.size()) tail -= data.size();
+    size_t tail = (head + count) % data.size();
     data.set(tail, value);
     ++count;
 }

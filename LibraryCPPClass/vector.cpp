@@ -1,23 +1,28 @@
 #include "vector.h"
+#include <utility>
 
 Vector::Vector() : data(nullptr), sz(0), capacity(0)
 {
 }
 
-Vector::Vector(const Vector &a) : data(nullptr), sz(a.sz), capacity(a.capacity)
+Data* Vector::copy_data(const Vector& a)
 {
-    if (capacity > 0) {
-        data = new Data[capacity];
-        for (size_t i = 0; i < sz; ++i)
-            data[i] = a.data[i];
-    }
+    if (a.capacity == 0)
+        return nullptr;
+    Data* new_data = new Data[a.capacity];
+    for (size_t i = 0; i < a.sz; ++i)
+        new_data[i] = a.data[i];
+    return new_data;
+}
+
+Vector::Vector(const Vector &a) : data(copy_data(a)), sz(a.sz), capacity(a.capacity)
+{
 }
 
 Vector &Vector::operator=(const Vector &a)
 {
     if (this != &a) {
-        Data* new_data = (a.capacity > 0) ? new Data[a.capacity] : nullptr;
-        for (size_t i = 0; i < a.sz; ++i) new_data[i] = a.data[i];
+        Data* new_data = copy_data(a);
         delete[] data;
         data = new_data;
         sz = a.sz;
