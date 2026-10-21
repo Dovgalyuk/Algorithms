@@ -26,3 +26,6 @@ add_subdirectory(LibraryCPPTemplate)
 
 # 1 лаба
 add_subdirectory(Lab1ArrayCPP)
+
+# 2 лаба
+add_subdirectory(Lab2ListStackCPP)
