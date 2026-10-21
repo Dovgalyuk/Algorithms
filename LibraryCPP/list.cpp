@@ -1,12 +1,16 @@
-#include <cstddef>
 #include "list.h"
 
 struct ListItem
 {
+    Data data;
+    ListItem *next;
+    ListItem *prev;
 };
 
 struct List
 {
+    ListItem *first = nullptr;
+    ListItem *last = nullptr;
 };
 
 List *list_create()
@@ -16,51 +20,68 @@ List *list_create()
 
 void list_delete(List *list)
 {
-    // TODO: free items
+    if (list == nullptr)
+        return;
+
+    while (list->first != nullptr)
+    {
+        list_erase_first(list);
+    }
+
     delete list;
 }
 
 ListItem *list_first(List *list)
 {
-    return NULL;
-}
-
-ListItem *list_last(List *list)
-{
-    return NULL;
+    return list->first;
 }
 
 Data list_item_data(const ListItem *item)
 {
-    return (Data)0;
-}
-
-ListItem *list_item_next(ListItem *item)
-{
-    return NULL;
-}
-
-ListItem *list_item_prev(ListItem *item)
-{
-    return NULL;
+    return item->data;
 }
 
 ListItem *list_insert(List *list, Data data)
 {
-    return NULL;
-}
+    ListItem *item = new ListItem;
 
-ListItem *list_insert_after(List *list, ListItem *item, Data data)
-{
-    return NULL;
+    item->data = data;
+    item->prev = nullptr;
+    item->next = list->first;
+
+    if (list->first != nullptr)
+    {
+        list->first->prev = item;
+    }
+    else
+    {
+        list->last = item;
+    }
+
+    list->first = item;
+
+    return item;
 }
 
 ListItem *list_erase_first(List *list)
 {
-    return NULL;
-}
+    if (list->first == nullptr)
+        return nullptr;
 
-ListItem *list_erase_next(List *list, ListItem *item)
-{
-    return NULL;
+    ListItem *item = list->first;
+
+    list->first = item->next;
+
+    if (list->first != nullptr)
+    {
+        list->first->prev = nullptr;
+    }
+    else
+    {
+        list->last = nullptr;
+    }
+
+    delete item;
+
+    return list->first;
 }
