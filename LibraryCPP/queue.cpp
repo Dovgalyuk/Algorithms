@@ -51,16 +51,3 @@ bool queue_empty(const Queue *queue)
 {
     return !queue || list_first(queue->list) == NULL;
 }
-
-Data queue_size(const Queue* queue)
-{
-    if (!queue) return 0;
-    Data count = 0;
-    ListItem* item = list_first(queue->list);
-    ListItem* end = list_end(queue->list);
-    while (item != NULL && item != end) {
-        count++;
-        item = list_item_next(item);
-    }
-    return count;
-}

@@ -25,35 +25,34 @@ void cleanup_resources(
     delete[] parentBackward;
 }
 
-bool expand_level(Queue* q, List** graph, int* parentSelf, int* parentOther,
+bool expand_step(Queue* q, List** graph, int* parentSelf, int* parentOther,
                   int& meetSelf, int& meetOther, int num_vertices) {
-    int levelSize = queue_size(q);
-    for (int i = 0; i < levelSize; i++) {
-        int u = queue_get(q);
-        queue_remove(q);
+    if (queue_empty(q)) {
+        return false;
+    }
+    int u = queue_get(q);
+    queue_remove(q);
 
-        ListItem* end = list_end(graph[u]);
-        ListItem* neighbour = list_first(graph[u]);
+    ListItem* end = list_end(graph[u]);
+    ListItem* neighbour = list_first(graph[u]);
 
-        while (neighbour != NULL && neighbour != end) {
-            int v = list_item_data(neighbour);
+    while (neighbour != NULL && neighbour != end) {
+        int v = list_item_data(neighbour);
 
-            if (v <= 0 || v > num_vertices) {
-                neighbour = list_item_next(neighbour);
-                continue;
-            }
-
-            if (parentOther[v] != 0) {
-                meetSelf = u;
-                meetOther = v;
-                return true;
-            } else if (parentSelf[v] == 0) {
-                parentSelf[v] = u;
-                queue_insert(q, v);
-            }
-
+        if (v <= 0 || v > num_vertices) {
             neighbour = list_item_next(neighbour);
+            continue;
         }
+
+        if (parentOther[v] != 0) {
+            meetSelf = u;
+            meetOther = v;
+            return true;
+        } else if (parentSelf[v] == 0) {
+            parentSelf[v] = u;
+            queue_insert(q, v);
+        }
+        neighbour = list_item_next(neighbour);
     }
     return false;
 }
@@ -101,11 +100,11 @@ int* bidirectional_search(List** graph, int num_vertices, int start, int finish,
     bool found = false;
 
     while (!queue_empty(qForward) && !queue_empty(qBackward) && !found) {
-        if (expand_level(qForward, graph, parentForward, parentBackward, meetFwd, meetBwd, num_vertices)) {
+        if (expand_step(qForward, graph, parentForward, parentBackward, meetFwd, meetBwd, num_vertices)) {
             found = true;
             break;
         }
-        if (expand_level(qBackward, graph, parentBackward, parentForward, meetBwd, meetFwd, num_vertices)) {
+        if (expand_step(qBackward, graph, parentBackward, parentForward, meetBwd, meetFwd, num_vertices)) {
             found = true;
             break;
         }
