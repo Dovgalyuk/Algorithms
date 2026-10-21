@@ -2,37 +2,44 @@
 
 Stack::Stack()
 {
+    list = new List();
 }
 
 Stack::Stack(const Stack &a)
 {
-    // implement or disable this function
+    list = new List(*a.list);
 }
 
 Stack &Stack::operator=(const Stack &a)
 {
-    // implement or disable this function
+    if (this != &a)
+    {
+        *list = *a.list;
+    }
     return *this;
 }
 
 Stack::~Stack()
 {
+    delete list;
 }
 
 void Stack::push(Data data)
 {
+    list->insert(data);
 }
 
 Data Stack::get() const
 {
-    return Data();
+    return list->first()->data();
 }
 
 void Stack::pop()
 {
+    list->erase_first();
 }
 
 bool Stack::empty() const
 {
-    return true;
+    return list->first() == nullptr;
 }
