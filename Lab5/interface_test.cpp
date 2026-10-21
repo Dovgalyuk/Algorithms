@@ -22,9 +22,6 @@ int main()
     expected.push_back(make_pair("", "empty"));
     expected.push_back(make_pair("apple", "red"));
     expected.push_back(make_pair("banana", "green"));
-    if (values.entries() != expected)
-        return 1;
-
     size_t position = 0;
     for (RadixMap::const_iterator it = values.begin(); it != values.end(); ++it, ++position)
         if (position >= expected.size() || *it != expected[position])
@@ -35,7 +32,7 @@ int main()
     if (values.erase("orange") || !values.erase("apple")
         || values.find("apple") != nullptr || values.find("banana") == nullptr
         || !values.erase("banana") || !values.erase("")
-        || !values.entries().empty())
+        || values.begin() != values.end())
         return 1;
 
     return 0;

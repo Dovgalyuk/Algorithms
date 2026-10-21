@@ -1,7 +1,6 @@
 #include <chrono>
 #include <cstdio>
 #include <fstream>
-#include <iomanip>
 #include <iostream>
 #include <map>
 #include <sstream>
@@ -16,9 +15,18 @@ typedef vector<Entry> Data;
 
 static string make_key(size_t number)
 {
-    ostringstream key;
-    key << "word" << setw(10) << setfill('0') << number;
-    return key.str();
+    const char alphabet[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    unsigned long long value = static_cast<unsigned long long>(number) + 0x9e3779b97f4a7c15ULL;
+    value = (value ^ (value >> 30)) * 0xbf58476d1ce4e5b9ULL;
+    value = (value ^ (value >> 27)) * 0x94d049bb133111ebULL;
+    value ^= value >> 31;
+    string key(11, '0');
+    for (size_t i = 0; i < key.size(); ++i)
+    {
+        key[i] = alphabet[value % 62];
+        value /= 62;
+    }
+    return key;
 }
 
 static bool prefix_test()
@@ -36,8 +44,6 @@ static bool prefix_test()
     expected.push_back(make_pair("carbon", "three"));
     expected.push_back(make_pair("cart", "two"));
     expected.push_back(make_pair("cat", "four"));
-    if (values.entries() != expected)
-        return false;
     size_t position = 0;
     for (RadixMap::const_iterator it = values.begin(); it != values.end(); ++it, ++position)
         if (position >= expected.size() || *it != expected[position])
@@ -53,7 +59,7 @@ static bool prefix_test()
         || values.find("cat") == nullptr || !values.erase("carbon")
         || !values.erase("cat"))
         return false;
-    return values.entries().empty();
+    return values.begin() == values.end();
 }
 
 static bool stress_test(size_t count)
@@ -80,7 +86,7 @@ static bool stress_test(size_t count)
     for (size_t i = 1; i < count; i += 2)
         if (!values.erase(make_key(i)))
             return false;
-    return values.entries().empty();
+    return values.begin() == values.end();
 }
 
 static bool generate(const string &path, size_t count)
@@ -99,6 +105,9 @@ static bool test_generator(const string &path, size_t count)
         return false;
 
     ifstream file(path.c_str());
+    const string alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    bool first_char_seen[62] = {};
+    size_t distinct_first_chars = 0;
     string key;
     string value;
     for (size_t i = 0; i < count; ++i)
@@ -106,12 +115,20 @@ static bool test_generator(const string &path, size_t count)
         if (!(file >> key >> value) || key != make_key(i)
             || value != "value" + to_string(i))
             return false;
+        size_t index = alphabet.find(key[0]);
+        if (index == string::npos)
+            return false;
+        if (!first_char_seen[index])
+        {
+            first_char_seen[index] = true;
+            ++distinct_first_chars;
+        }
     }
     if (file >> key >> value)
         return false;
     file.close();
     remove(path.c_str());
-    return true;
+    return count < 100 || distinct_first_chars > 10;
 }
 
 template <typename Container>
@@ -124,12 +141,38 @@ static double measure(Container &values, const Data &data)
     return chrono::duration<double, milli>(finish - start).count();
 }
 
-static double measure_radix(const Data &data)
+template <typename Container>
+static double measure_find(Container &values, const Data &data)
 {
-    RadixMap values;
+    chrono::steady_clock::time_point start = chrono::steady_clock::now();
+    for (Data::const_iterator it = data.begin(); it != data.end(); ++it)
+    {
+        typename Container::const_iterator found = values.find(it->first);
+        if (found == values.end() || found->second != it->second)
+            return -1;
+    }
+    chrono::steady_clock::time_point finish = chrono::steady_clock::now();
+    return chrono::duration<double, milli>(finish - start).count();
+}
+
+static double measure_radix(RadixMap &values, const Data &data)
+{
     chrono::steady_clock::time_point start = chrono::steady_clock::now();
     for (Data::const_iterator it = data.begin(); it != data.end(); ++it)
         values.insert(it->first, it->second);
+    chrono::steady_clock::time_point finish = chrono::steady_clock::now();
+    return chrono::duration<double, milli>(finish - start).count();
+}
+
+static double measure_radix_find(const RadixMap &values, const Data &data)
+{
+    chrono::steady_clock::time_point start = chrono::steady_clock::now();
+    for (Data::const_iterator it = data.begin(); it != data.end(); ++it)
+    {
+        const string *found = values.find(it->first);
+        if (found == nullptr || *found != it->second)
+            return -1;
+    }
     chrono::steady_clock::time_point finish = chrono::steady_clock::now();
     return chrono::duration<double, milli>(finish - start).count();
 }
@@ -149,19 +192,39 @@ static bool benchmark(const string &input_path, const string &csv_path)
     ofstream csv(csv_path.c_str());
     if (!csv)
         return false;
-    csv << "count,radix_ms,map_ms,unordered_map_ms\n";
+    csv << "count,radix_insert_ms,radix_find_ms,map_insert_ms,map_find_ms,unordered_map_insert_ms,unordered_map_find_ms\n";
     for (size_t i = 0; i < 4; ++i)
     {
         Data data(all_data.begin(), all_data.begin() + sizes[i]);
-        map<string, string> ordered;
-        unordered_map<string, string> hashed;
-        hashed.reserve(data.size());
-        double radix_time = measure_radix(data);
-        double map_time = measure(ordered, data);
-        double hash_time = measure(hashed, data);
-        csv << sizes[i] << ',' << radix_time << ',' << map_time << ',' << hash_time << '\n';
-        cout << sizes[i] << ": " << radix_time << " ms, " << map_time
-                  << " ms, " << hash_time << " ms\n";
+        double radix_insert;
+        double radix_find;
+        {
+            RadixMap radix;
+            radix_insert = measure_radix(radix, data);
+            radix_find = measure_radix_find(radix, data);
+        }
+        double map_insert;
+        double map_find;
+        {
+            map<string, string> ordered;
+            map_insert = measure(ordered, data);
+            map_find = measure_find(ordered, data);
+        }
+        double hash_insert;
+        double hash_find;
+        {
+            unordered_map<string, string> hashed;
+            hashed.reserve(data.size());
+            hash_insert = measure(hashed, data);
+            hash_find = measure_find(hashed, data);
+        }
+        if (radix_find < 0 || map_find < 0 || hash_find < 0)
+            return false;
+        csv << sizes[i] << ',' << radix_insert << ',' << radix_find << ','
+            << map_insert << ',' << map_find << ',' << hash_insert << ',' << hash_find << '\n';
+        cout << sizes[i] << ": insert " << radix_insert << ", " << map_insert
+             << ", " << hash_insert << " ms; find " << radix_find << ", "
+             << map_find << ", " << hash_find << " ms\n";
     }
     return csv.good();
 }
@@ -173,7 +236,8 @@ static bool benchmark_test(const string &input_path, const string &csv_path)
 
     ifstream csv(csv_path.c_str());
     string line;
-    if (!getline(csv, line) || line != "count,radix_ms,map_ms,unordered_map_ms")
+    if (!getline(csv, line)
+        || line != "count,radix_insert_ms,radix_find_ms,map_insert_ms,map_find_ms,unordered_map_insert_ms,unordered_map_find_ms")
         return false;
 
     const size_t expected[] = {1000, 10000, 100000, 1000000};
@@ -184,14 +248,18 @@ static bool benchmark_test(const string &input_path, const string &csv_path)
         stringstream row(line);
         size_t count;
         char comma;
-        double radix_time;
-        double map_time;
-        double hash_time;
-        if (!(row >> count >> comma) || comma != ','
-            || !(row >> radix_time >> comma) || comma != ','
-            || !(row >> map_time >> comma) || comma != ','
-            || !(row >> hash_time) || count != expected[i]
-            || radix_time <= 0 || map_time <= 0 || hash_time <= 0)
+        double times[6];
+        if (!(row >> count >> comma) || comma != ',' || count != expected[i])
+            return false;
+        for (size_t column = 0; column < 6; ++column)
+        {
+            if (!(row >> times[column]) || times[column] <= 0)
+                return false;
+            if (column < 5 && (!(row >> comma) || comma != ','))
+                return false;
+        }
+        row >> ws;
+        if (!row.eof())
             return false;
     }
     if (getline(csv, line))
@@ -216,6 +284,6 @@ int main(int argc, char **argv)
         return generate(argv[2], static_cast<size_t>(stoull(argv[3]))) ? 0 : 1;
     if (argc == 4 && string(argv[1]) == "--benchmark")
         return benchmark(argv[2], argv[3]) ? 0 : 1;
-    cerr << "Usage: Lab5 --test-basic | --test-prefixes | --test-stress count | --test-generator file count | --test-benchmark input csv | --generate file count | --benchmark input csv\n";
+    cerr << "Usage: Lab5 --test-prefixes | --test-stress count | --test-generator file count | --test-benchmark input csv | --generate file count | --benchmark input csv\n";
     return 1;
 }

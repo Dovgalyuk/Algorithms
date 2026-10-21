@@ -3,6 +3,8 @@
 
 #include <map>
 #include <memory>
+#include <iterator>
+#include <cstddef>
 #include <string>
 #include <utility>
 #include <vector>
@@ -32,7 +34,117 @@ class RadixMap
 
 public:
     typedef vector<pair<string, string>> Entries;
-    typedef Entries::const_iterator const_iterator;
+
+    class const_iterator
+    {
+        struct Frame
+        {
+            const Node *node;
+            Children::const_iterator child;
+            size_t key_size;
+
+            Frame(const Node *value, size_t size)
+                : node(value), child(value->children.begin()), key_size(size) {}
+        };
+
+    public:
+        typedef forward_iterator_tag iterator_category;
+        typedef pair<string, string> value_type;
+        typedef ptrdiff_t difference_type;
+        typedef const value_type *pointer;
+        typedef const value_type &reference;
+
+        const_iterator() : owner_(nullptr), finished_(true) {}
+
+        reference operator*() const
+        {
+            return current_;
+        }
+
+        pointer operator->() const
+        {
+            return &current_;
+        }
+
+        const_iterator &operator++()
+        {
+            if (!finished_)
+                next_value();
+            return *this;
+        }
+
+        const_iterator operator++(int)
+        {
+            const_iterator result = *this;
+            ++(*this);
+            return result;
+        }
+
+        bool operator==(const const_iterator &other) const
+        {
+            if (owner_ != other.owner_ || finished_ != other.finished_)
+                return false;
+            return finished_ || current_.first == other.current_.first;
+        }
+
+        bool operator!=(const const_iterator &other) const
+        {
+            return !(*this == other);
+        }
+
+    private:
+        friend class RadixMap;
+
+        const_iterator(const RadixMap *owner, const Node *root)
+            : owner_(owner), finished_(false)
+        {
+            stack_.push_back(Frame(root, 0));
+            if (root->has_value)
+                current_ = make_pair(key_, root->value);
+            else
+                next_value();
+        }
+
+        explicit const_iterator(const RadixMap *owner)
+            : owner_(owner), finished_(true) {}
+
+        void next_value()
+        {
+            while (!stack_.empty())
+            {
+                Frame &frame = stack_.back();
+                if (frame.child == frame.node->children.end())
+                {
+                    stack_.pop_back();
+                    if (stack_.empty())
+                    {
+                        finished_ = true;
+                        return;
+                    }
+                    key_.resize(stack_.back().key_size);
+                    continue;
+                }
+
+                Children::const_iterator child = frame.child++;
+                const Edge &edge = child->second;
+                key_ += edge.label;
+                const Node *node = edge.next.get();
+                stack_.push_back(Frame(node, key_.size()));
+                if (node->has_value)
+                {
+                    current_ = make_pair(key_, node->value);
+                    return;
+                }
+            }
+            finished_ = true;
+        }
+
+        const RadixMap *owner_;
+        vector<Frame> stack_;
+        string key_;
+        value_type current_;
+        bool finished_;
+    };
 
     void insert(const string &key, const string &value)
     {
@@ -64,22 +176,14 @@ public:
         return erase(root_, key);
     }
 
-    Entries entries() const
-    {
-        Entries result;
-        collect(root_, "", result);
-        return result;
-    }
-
     const_iterator begin() const
     {
-        cache_ = entries();
-        return cache_.begin();
+        return const_iterator(this, &root_);
     }
 
     const_iterator end() const
     {
-        return cache_.end();
+        return const_iterator(this);
     }
 
 private:
@@ -172,17 +276,7 @@ private:
         return true;
     }
 
-    static void collect(const Node &node, const string &prefix, Entries &result)
-    {
-        if (node.has_value)
-            result.push_back(make_pair(prefix, node.value));
-        for (Children::const_iterator it = node.children.begin();
-             it != node.children.end(); ++it)
-            collect(*it->second.next, prefix + it->second.label, result);
-    }
-
     Node root_;
-    mutable Entries cache_;
 };
 
 #endif
