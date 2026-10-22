@@ -73,19 +73,16 @@ ListItem *list_insert(List *list, Data data)
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
-    if (item == nullptr) {
-    return list_insert(list, data);
+    if (item == nullptr || (list->firstItem == nullptr && list->lastItem == nullptr)) {
+        return list_insert(list, data);
     }
-    else if(list->firstItem == nullptr && list->lastItem == nullptr){
-        ListItem* firstItem = new ListItem{nullptr, data};
-        list->firstItem = firstItem;
-        list->lastItem = firstItem;
-        return firstItem;
-    }else{
+    else{
         ListItem* itemNew = new ListItem{item->nextItem, data};
-        if (item == list->lastItem){
+
+        if (item == list->lastItem) {
             list->lastItem = itemNew;
         }
+
         item->nextItem = itemNew;
         return itemNew;
     }

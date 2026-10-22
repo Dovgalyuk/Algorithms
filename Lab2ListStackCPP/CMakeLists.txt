@@ -52,3 +52,63 @@ add_list_stack_test(
     input6.txt
     input6.expected.txt
 )
+
+add_list_stack_test(
+    ErrorDivisionByZero
+    input7.txt
+    input7.expected.txt
+)
+
+add_list_stack_test(
+    ErrorMissingOperand
+    input8.txt
+    input8.expected.txt
+)
+
+add_list_stack_test(
+    ErrorUnclosedBracket
+    input9.txt
+    input9.expected.txt
+)
+
+add_list_stack_test(
+    ErrorUnexpectedClosingBracket
+    input10.txt
+    input10.expected.txt
+)
+
+add_list_stack_test(
+    ErrorDoubleOperator
+    input11.txt
+    input11.expected.txt
+)
+
+add_list_stack_test(
+    ErrorUnknownOperator
+    input12.txt
+    input12.expected.txt
+)
+
+add_list_stack_test(
+    ErrorMissingOperatorBeforeBracket
+    input13.txt
+    input13.expected.txt
+)
+
+add_list_stack_test(
+    ErrorEmptyExpression
+    input14.txt
+    input14.expected.txt
+)
+
+add_list_stack_test(
+    ErrorEmptyBrackets
+    input15.txt
+    input15.expected.txt
+)
+
+add_list_stack_test(
+    ErrorAdjacentOperators
+    input16.txt
+    input16.expected.txt
+)
