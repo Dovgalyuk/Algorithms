@@ -1,54 +1,36 @@
-#include <iostream>
+#include <cassert>
+
 #include "list.h"
 
-int main()
-{
-    List *list = list_create();
+int main() {
+    List list;
 
-    if (!list)
-    {
-        std::cout << "List creation error\n";
-        return 1;
-    }
+    assert(list.first() == nullptr);
 
-    list_insert(list, 1);
-    list_insert(list, 2);
-    list_insert(list, 3);
+    ListItem* first = list.insert_after(list.dummy, 10);
+    assert(list.first() == first);
+    assert(first->data == 10);
+    assert(first->next == list.dummy);
 
-    if (list_item_data(list_first(list)) != 3)
-    {
-        std::cout << "list_insert error\n";
-        return 1;
-    }
+    ListItem* second = list.insert_after(first, 20);
+    ListItem* middle = list.insert_after(first, 15);
+    assert(list.first() == first);
+    assert(first->next == middle);
+    assert(middle->next == second);
+    assert(second->next == list.dummy);
 
-    if (list_item_data(list_last(list)) != 1)
-    {
-        std::cout << "list_insert error\n";
-        return 1;
-    }
+    list.erase_after(first);
+    assert(first->next == second);
+    assert(second->data == 20);
 
-    list_insert_after(list, list_first(list), 4);
+    list.erase_after(list.dummy);
+    assert(list.first() == second);
 
-    if (list_item_data(list_item_next(list_first(list))) != 4)
-    {
-        std::cout << "list_insert_after error\n";
-        return 1;
-    }
+    list.erase_after(list.dummy);
+    assert(list.first() == nullptr);
+    assert(list.dummy->next == list.dummy);
 
-    list_erase_first(list);
-
-    if (list_item_data(list_first(list)) != 4)
-    {
-        std::cout << "list_erase error\n";
-        return 1;
-    }
-
-    std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
-    {
-        std::cout << list_item_data(item) << " ";
-    }
-    std::cout << "\n";
-
-    list_delete(list);
+  
+    list.erase_after(list.dummy);
+    assert(list.first() == nullptr);
 }

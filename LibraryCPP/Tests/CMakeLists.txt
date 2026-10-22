@@ -1,41 +1,18 @@
-# add_executable(TestArrayCPP array.cpp)
-# target_include_directories(TestArrayCPP PUBLIC ..)
-# target_link_libraries(TestArrayCPP LibraryCPP)
-# add_test(TestArrayCPP TestArrayCPP)
+add_executable(TestListCPP list.cpp)
+target_link_libraries(TestListCPP PRIVATE LibraryCPP)
+add_test(NAME TestListCPP COMMAND TestListCPP)
 
-# add_executable(TestListCPP list.cpp)
-# target_include_directories(TestListCPP PUBLIC ..)
-# target_link_libraries(TestListCPP LibraryCPP)
-# add_test(TestListCPP TestListCPP)
+add_executable(TestQueueCPP queue.cpp)
+target_link_libraries(TestQueueCPP PRIVATE LibraryCPP)
+add_test(NAME TestQueueCPP COMMAND TestQueueCPP)
 
-# add_executable(TestQueueCPP queue.cpp)
-# target_include_directories(TestQueueCPP PUBLIC ..)
-# target_link_libraries(TestQueueCPP LibraryCPP)
-# add_test(TestQueueCPP TestQueueCPP)
-# set_tests_properties(TestQueueCPP PROPERTIES TIMEOUT 10)
-
-# add_executable(TestStackCPP stack.cpp)
-# target_include_directories(TestStackCPP PUBLIC ..)
-# target_link_libraries(TestStackCPP LibraryCPP)
-# add_test(TestStackCPP TestStackCPP)
-
-# add_executable(TestVectorCPP vector.cpp)
-# target_include_directories(TestVectorCPP PUBLIC ..)
-# target_link_libraries(TestVectorCPP LibraryCPP)
-# add_test(TestVectorCPP TestVectorCPP)
-# set_tests_properties(TestVectorCPP PROPERTIES TIMEOUT 10)
-# В папке Tests мы просто добавляем тесты. 
-# enable_testing() уже вызван в корневом CMakeLists.txt
-
-# Тест 1: Простой путь (S и E рядом)
-add_test(NAME Path_Found_Test
-         COMMAND bash -c "$<TARGET_FILE:library_cpp_main> < ${CMAKE_CURRENT_SOURCE_DIR}/test1.in")
-
-# Тест 2: Нет пути (выводит "No path")
-add_test(NAME No_Path_Test
-         COMMAND bash -c "$<TARGET_FILE:library_cpp_main> < ${CMAKE_CURRENT_SOURCE_DIR}/test2.in")
-set_tests_properties(No_Path_Test PROPERTIES PASS_REGULAR_EXPRESSION "No path")
-
-# Тест 3: Пример из задания (cd / XYZ / ab)
-add_test(NAME Example_Test
-         COMMAND bash -c "$<TARGET_FILE:library_cpp_main> < ${CMAKE_CURRENT_SOURCE_DIR}/test3.in")
+# Keep the maze examples runnable on Windows and Unix without shell redirection.
+foreach(case_name IN ITEMS test1 test2 test3)
+    add_test(
+        NAME Maze_${case_name}
+        COMMAND ${CMAKE_COMMAND}
+            "-DPROGRAM=$<TARGET_FILE:library_cpp_main>"
+            "-DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/${case_name}.in"
+            -P "${CMAKE_CURRENT_SOURCE_DIR}/RunMazeTest.cmake"
+    )
+endforeach()

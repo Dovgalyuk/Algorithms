@@ -1,21 +1,32 @@
-#include <iostream>
 #include <cassert>
-#include "../queue.h"
+
+#include "queue.h"
 
 int main() {
-    Queue q;
-    assert(q.empty() == true);
+    Queue queue;
 
-    q.insert(100);
-    q.insert(200);
-    assert(q.get() == 100);
+    assert(queue.empty());
 
-    q.remove();
-    assert(q.get() == 200);
+    queue.insert(10);
+    assert(!queue.empty());
+    assert(queue.get() == 10);
 
-    q.remove();
-    assert(q.empty() == true);
+    queue.insert(20);
+    queue.insert(30);
+    assert(queue.get() == 10);
 
-    std::cout << "LibraryCPP Queue internal test passed!\n";
-    return 0;
+    queue.remove();
+    assert(queue.get() == 20);
+
+    queue.remove();
+    assert(queue.get() == 30);
+
+ 
+    queue.remove();
+    assert(queue.empty());
+    queue.insert(40);
+    assert(queue.get() == 40);
+
+    queue.remove();
+    assert(queue.empty());
 }
