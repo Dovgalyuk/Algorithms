@@ -1,22 +1,18 @@
 #ifndef STACK_H
 #define STACK_H
 
-// Stack
+#include "list.h"
 
-// Stores integer values inside
-// Change it to desired type
-typedef int Data;
+// Stack
 
 struct Stack;
 
 // Creates empty stack
 Stack *stack_create();
 
-// Deletes the stack
+
 void stack_delete(Stack *stack);
 
-// Pushes data on top of the stack
-// Should be O(1) on average
 void stack_push(Stack *stack, Data data);
 
 // Retrieves the last element from the stack

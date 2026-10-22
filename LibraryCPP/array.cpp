@@ -1,34 +1,62 @@
 #include "array.h"
 
-struct Array
+class Array
 {
+private:
+    Data *data;
+    size_t size;
+
+public:
+    Array(size_t size) : size(size)
+    {
+        data = new Data[size];
+    }
+
+    ~Array()
+    {
+        delete[] data;
+    }
+
+    Data get(size_t index) const
+    {
+        return data[index];
+    }
+
+    void set(size_t index, Data value)
+    {
+        data[index] = value;
+    }
+
+    size_t getSize() const
+    {
+        return size;
+    }
 };
 
-// create array
 Array *array_create(size_t size)
 {
-    return new Array;
+    if (size == 0)
+        return nullptr;
+
+    return new Array(size);
 }
 
-// delete array, free memory
 void array_delete(Array *arr)
 {
     delete arr;
 }
 
-// returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    return (Data)0;
+    return arr->get(index);
 }
 
-// sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
+    arr->set(index, value);
 }
 
-// returns array size
 size_t array_size(const Array *arr)
 {
-    return 0;
+    return arr->getSize();
 }
