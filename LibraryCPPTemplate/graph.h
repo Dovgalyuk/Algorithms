@@ -28,6 +28,7 @@ class Graph
         Vertex(std::size_t vertex_id, const std::string &vertex_name, const VertexLabel &value) : id(vertex_id), name(vertex_name), label(value) {}
     };
 
+    using EdgeList = List<Edge>;
     using VertexItem = typename List<Vertex>::Item;
     using EdgeItem = typename List<Edge>::Item;
 
@@ -79,14 +80,12 @@ class Graph
     {
         for (VertexItem *vertex = vertices_.first(); vertex; vertex = vertex->next())
         {
-            List<Edge> &edges = vertex->data().edges;
+            EdgeList &edges = vertex->data().edges;
             EdgeItem *previous = nullptr;
             EdgeItem *current = edges.first();
             while (current) {
                 if (current->data().to_id == id) {
-                    if (previous) current = edges.erase_next(previous);
-                    else
-                        current = edges.erase_first();
+                    current = edges.erase_next(previous);
                 }
                 else {
                     previous = current;
@@ -202,20 +201,20 @@ public:
 
     bool remove_edge(const std::string &from, const std::string &to)
     {
+        if (!has_edge(from, to)) return false;
+
         VertexItem *source = find_vertex(from);
         const VertexItem *destination = find_vertex(to);
-        if (!source || !destination) return false;
-
         EdgeItem *previous = nullptr;
+
         for (EdgeItem *edge = source->data().edges.first(); edge; edge = edge->next()) {
             if (edge->data().to_id == destination->data().id) {
-                if (previous) source->data().edges.erase_next(previous);
-                else
-                    source->data().edges.erase_first();
+                source->data().edges.erase_next(previous);
                 return true;
             }
             previous = edge;
         }
+
         return false;
     }
 
