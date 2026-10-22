@@ -1,0 +1,5 @@
+4
+red green blue yellow
+2
+red green 1
+blue yellow 2
