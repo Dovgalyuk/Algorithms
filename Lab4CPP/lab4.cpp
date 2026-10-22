@@ -7,8 +7,10 @@
 
 using namespace std;
 
+typedef Graph<string, long long> FlowGraph;
+
 bool find_path(
-    const Graph<string, long long> &residual,
+    const FlowGraph &residual,
     size_t current,
     size_t sink,
     Vector<bool> &visited,
@@ -34,7 +36,7 @@ bool find_path(
 }
 
 long long max_flow(
-    const Graph<string, long long> &graph,
+    const FlowGraph &graph,
     size_t source,
     size_t sink){
     if (source >= graph.size() || sink >= graph.size()) {
@@ -43,7 +45,7 @@ long long max_flow(
     if (source == sink) {
         throw invalid_argument("source and sink are the same");
     }
-    Graph<string, long long> residual = graph;
+    FlowGraph residual = graph;
     for (size_t from = 0; from < graph.size(); from++) {
         for (auto it = graph.neighbors(from); it.valid(); it.next()) {
             size_t to = it.get();
@@ -98,7 +100,7 @@ int main(int argc, char **argv){
             cerr << "file failed to open\n";
             return 1;
         }
-        Graph<string, long long> graph;
+        FlowGraph graph;
         graph.read(input);
         string source;
         string sink;

@@ -5,10 +5,18 @@
 #include <limits>
 #include <memory>
 #include <utility>
+#include <stdexcept>
 
 template <typename Data> class Vector
 {
 public:
+    const Data &at(size_t index) const
+    {
+        if (index >= count) {
+            throw std::out_of_range("wrong vector index");
+        }
+        return data[index];
+    }
     // Creates vector
     Vector() : data(nullptr), count(0), capacity(0)
     {
@@ -29,13 +37,8 @@ public:
     Vector &operator=(const Vector &a)
     {
     if (this == &a) return *this;
-    std::unique_ptr<Data[]> new_data(new Data[a.count]());
-    for (size_t i = 0; i < a.count; i++)
-        new_data[i] = a.data[i];
-    delete[] data;
-    data = new_data.release();
-    count = a.count;
-    capacity = a.count;
+    Vector temp(a);
+    swap(temp);
     return *this;
     }
 
@@ -72,31 +75,28 @@ public:
         const size_t maxsize = std::numeric_limits<size_t>::max() / sizeof(Data);
         if (size > maxsize) return;
         if (size == count) return;
-        if (size > count) {
-            if (size <= capacity) {
-                for (size_t i = count; i < size; i++) data[i] = Data();
-            } else {
-                size_t newcap = capacity;
-                if (!newcap) newcap = 1;
-                while (newcap < size) {
-                    if (newcap > maxsize / 2) {
-                        newcap = size;
-                        break;
-                    }
-                    newcap *= 2;
+        if (size > capacity) {
+            size_t newcap = capacity;
+            if (!newcap) newcap = 1;
+            while (newcap < size) {
+                if (newcap > maxsize / 2) {
+                    newcap = size;
+                    break;
                 }
-                std::unique_ptr<Data[]> new_data(new Data[newcap]());
-                for (size_t i = 0; i < count; i++) new_data[i] = data[i];
-                delete[] data;
-                data = new_data.release();
-                capacity = newcap;
+                newcap *= 2;
             }
-        } else {
+            std::unique_ptr<Data[]> new_data(new Data[newcap]());
+            for (size_t i = 0; i < count; i++) new_data[i] = data[i];
+            delete[] data;
+            data = new_data.release();
+            capacity = newcap;
+        } else if (size < count) {
             // capacity оставляем, чтобы потом не выделять память заново
             for (size_t i = size; i < count; i++) data[i] = Data();
         }
         count = size;
     }
+
     void swap(Vector &other) noexcept
     {
         std::swap(data, other.data);

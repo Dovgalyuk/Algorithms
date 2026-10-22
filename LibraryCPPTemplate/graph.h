@@ -5,6 +5,7 @@
 #include <limits>
 #include <istream>
 #include <stdexcept>
+#include <memory>
 #include "vector.h"
 
 template <typename VertexLabel, typename EdgeLabel>
@@ -43,24 +44,21 @@ public:
         if (from >= size() || to >= size()) {
             throw std::out_of_range("wrong vertex index");
         }
-        return edges.get(from * size() + to).exists;
+        return edges.at(from * size() + to).label != nullptr;
     }
 
     void add_edge(size_t from, size_t to, const EdgeLabel &label){
         if (from >= size() || to >= size()) {
             throw std::out_of_range("wrong vertex index");
         }
-        Edge edge;
-        edge.exists = true;
-        edge.label = label;
-        edges.set(from * size() + to, edge);
+        edges.set(from * size() + to, Edge(label));
     }
 
     EdgeLabel get_edge(size_t from, size_t to) const{
         if (!has_edge(from, to)) {
             throw std::out_of_range("edge does not exist");
         }
-        return edges.get(from * size() + to).label;
+        return *edges.at(from * size() + to).label;
     }
 
     void set_edge(size_t from, size_t to, const EdgeLabel &label){
@@ -237,8 +235,25 @@ public:
     }
 private:
     struct Edge {
-        bool exists = false;
-        EdgeLabel label = EdgeLabel();
+        std::unique_ptr<EdgeLabel> label;
+
+        Edge() = default;
+
+        explicit Edge(const EdgeLabel &value): label(new EdgeLabel(value)){
+        }
+
+        Edge(const Edge &other){
+            if (other.label) {
+                label.reset(new EdgeLabel(*other.label));
+            }
+        }
+
+        Edge &operator=(const Edge &other){
+            if (this == &other) return *this;
+            Edge temp(other);
+            label.swap(temp.label);
+            return *this;
+        }
     };
     Vector<VertexLabel> vertices;
     Vector<Edge> edges;
