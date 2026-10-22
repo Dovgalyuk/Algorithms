@@ -21,7 +21,7 @@ int main() {
     queue.remove();
     assert(queue.get() == 30);
 
- 
+    // Removing the last item must reset the tail so the queue can be reused.
     queue.remove();
     assert(queue.empty());
     queue.insert(40);

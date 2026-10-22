@@ -30,7 +30,7 @@ int main() {
     assert(list.first() == nullptr);
     assert(list.dummy->next == list.dummy);
 
-  
+    // Erasing after the sentinel in an empty list must be harmless.
     list.erase_after(list.dummy);
     assert(list.first() == nullptr);
 }
