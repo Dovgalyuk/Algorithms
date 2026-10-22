@@ -12,11 +12,20 @@ public:
     struct Cell {
         VertexData vertexData;
         EdgeData edgeData;
-        bool edgeExists = true; // По умолчанию все соседи соединены
+        bool edgeExists = true;
     };
 
     class Iterator {
     public:
+        enum class Direction {
+            UpLeft = 0,
+            UpRight = 1,
+            Right = 2,
+            DownRight = 3,
+            DownLeft = 4,
+            Left = 5
+        };
+
         Iterator(const Graph* graph, size_t row, size_t col, int dir, int max_dir)
             : graph_(graph), row_(row), col_(col), dir_(dir), max_dir_(max_dir) {
             skipInvalid();
@@ -32,7 +41,7 @@ public:
 
         size_t operator*() const {
             int r, c;
-            getNeighborCoords(dir_, r, c);
+            getNeighborCoords((Direction)dir_, r, c);
             return graph_->toIndex(r, c);
         }
 
@@ -44,7 +53,7 @@ public:
         void skipInvalid() {
             while (dir_ < max_dir_) {
                 int r, c;
-                getNeighborCoords(dir_, r, c);
+                getNeighborCoords((Direction)dir_, r, c);
                 if (r >= 0 && r < (int)graph_->rows_ && c >= 0 && c < (int)graph_->cols_) {
                     if (graph_->grid_.get(graph_->toIndex(r, c)).edgeExists) {
                         break;
@@ -54,23 +63,25 @@ public:
             }
         }
 
-        void getNeighborCoords(int dir, int& out_row, int& out_col) const {
-            out_row = (int)row_; out_col = (int)col_;
-            if (row_ % 2 == 0) {
-                if (dir == 0) { out_row--; out_col--; }
-                else if (dir == 1) { out_row--; }
-                else if (dir == 2) { out_col++; }
-                else if (dir == 3) { out_row++; }
-                else if (dir == 4) { out_row++; out_col--; }
-                else if (dir == 5) { out_col--; }
+        void getNeighborCoords(Direction dir, int& out_row, int& out_col) const {
+            out_row = (int)row_;
+            out_col = (int)col_;
+
+            if (row_ % 2 == 0) { // чётная строка
+                if (dir == Direction::UpLeft) { out_row--; out_col--; }
+                else if (dir == Direction::UpRight) { out_row--; }
+                else if (dir == Direction::Right) { out_col++; }
+                else if (dir == Direction::DownRight) { out_row++; }
+                else if (dir == Direction::DownLeft) { out_row++; out_col--; }
+                else if (dir == Direction::Left) { out_col--; }
             }
-            else {
-                if (dir == 0) { out_row--; }
-                else if (dir == 1) { out_row--; out_col++; }
-                else if (dir == 2) { out_col++; }
-                else if (dir == 3) { out_row++; out_col++; }
-                else if (dir == 4) { out_row++; }
-                else if (dir == 5) { out_col--; }
+            else { // нечётная строка
+                if (dir == Direction::UpLeft) { out_row--; }
+                else if (dir == Direction::UpRight) { out_row--; out_col++; }
+                else if (dir == Direction::Right) { out_col++; }
+                else if (dir == Direction::DownRight) { out_row++; out_col++; }
+                else if (dir == Direction::DownLeft) { out_row++; }
+                else if (dir == Direction::Left) { out_col--; }
             }
         }
     };

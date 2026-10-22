@@ -4,7 +4,6 @@
 #include <climits>
 #include "graph.h"
 
-// Узел для кучи
 struct Node {
     int idx; // Индекс в графе (row * cols + col)
     int f;   // Стоимость f = g + h
@@ -91,8 +90,8 @@ int hexDistance(int r1, int c1, int r2, int c2) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 3) {
-        std::cerr << "Usage: " << argv[0] << " <input_file> <output_file>\n";
+    if (argc < 2) {
+        std::cerr << "Usage: " << argv[0] << " <input_file> [output_file]\n";
         return 1;
     }
 
@@ -119,6 +118,7 @@ int main(int argc, char* argv[]) {
     infile >> start_r >> start_c >> end_r >> end_c;
     infile.close();
 
+    // A*
     PriorityQueue open_list;
 
     Vector<int> g_score;
@@ -148,7 +148,6 @@ int main(int argc, char* argv[]) {
         int cr = current.idx / cols;
         int cc = current.idx % cols;
 
-        // Перебираем соседей с помощью нашего итератора
         for (auto it = graph.begin(cr, cc); it != graph.end(cr, cc); ++it) {
             int neighborIdx = (int)*it;
             int nr = neighborIdx / cols;
@@ -166,9 +165,15 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    std::ofstream outfile(argv[2]);
+    std::ostream* out = &std::cout;
+    std::ofstream outfile;
+    if (argc >= 3) {
+        outfile.open(argv[2]);
+        out = &outfile;
+    }
+
     if (!found) {
-        outfile << "NO PATH\n";
+        *out << "NO PATH\n";
         return 0;
     }
 
@@ -181,14 +186,74 @@ int main(int argc, char* argv[]) {
         curr = parent.get(curr);
     }
 
-    outfile << "Cost: " << g_score.get(end_idx) << "\n";
-    outfile << "Path: ";
-    for (int i = (int)path.size() - 1; i >= 0; --i) {
-        int idx = path.get(i);
-        outfile << "(" << idx / cols << "," << idx % cols << ")";
-        if (i > 0) outfile << " ";
+    // Разворачиваем путь
+    int path_len = path.size();
+    for (int i = 0; i < path_len / 2; ++i) {
+        int temp = path.get(i);
+        path.set(i, path.get(path_len - 1 - i));
+        path.set(path_len - 1 - i, temp);
     }
-    outfile << "\n";
+
+    // Подготовка поля
+    Vector<int> board;
+    board.resize(rows * cols);
+    for (size_t i = 0; i < rows * cols; ++i) board.set(i, -1);
+
+    for (int i = 0; i < path_len; ++i) {
+        board.set(path.get(i), i);
+    }
+
+    // Вывод сетки
+    *out << "=== Field ===\n";
+    for (size_t r = 0; r < rows; ++r) {
+        for (size_t c = 0; c < cols; ++c) {
+            int idx = r * cols + c;
+            int step = board.get(idx);
+
+            if (step != -1) {
+                *out << "{" << step << "}    ";
+            }
+            else {
+                *out << graph.getVertexData(r, c) << "    ";
+            }
+        }
+        *out << "\n";
+    }
+    *out << "\n";
+
+    // Маршрут
+    *out << "=== Route ===\n";
+    for (int i = 0; i < path_len; ++i) {
+        int idx = path.get(i);
+        *out << "(" << idx / cols << "," << idx % cols << ")";
+        if (i < path_len - 1) *out << " -> ";
+    }
+    *out << "\n\n";
+
+    // Таблица шагов
+    *out << "Step    Move                Cost    Total\n";
+    int total_cost = 0;
+    for (int i = 1; i < path_len; ++i) {
+        int prev_idx = path.get(i - 1);
+        int curr_idx = path.get(i);
+
+        int r = curr_idx / cols;
+        int c = curr_idx % cols;
+        int move_cost = graph.getVertexData(r, c);
+        total_cost += move_cost;
+
+        *out << i << "       "
+            << "(" << prev_idx / cols << "," << prev_idx % cols << ") -> "
+            << "(" << r << "," << c << ")       "
+            << move_cost << "       " << total_cost << "\n";
+    }
+    *out << "\n";
+
+    // Итог
+    *out << "Total Cost: " << g_score.get(end_idx) << "   Steps: " << (path_len - 1) << "\n";
+
+    // Выводим в консоль для тестов
+    std::cout << "Total Cost: " << g_score.get(end_idx) << "   Steps: " << (path_len - 1) << "\n";
 
     return 0;
 }
