@@ -1,58 +1,65 @@
 #ifndef STACK_TEMPLATE_H
 #define STACK_TEMPLATE_H
 
-template <typename Data> class Stack
+#include <stdexcept>
+
+#include "vector.h"
+
+template <typename Data>
+class Stack
 {
 public:
-    // Creates empty stack
-    Stack()
-    {
-    }
+    // Creates an empty stack
+    Stack() = default;
 
-    // copy constructor
-    Stack(const Stack &a)
-    {
-        // implement or disable this function
-    }
+    // Copies the internal vector
+    Stack(const Stack &a) = default;
 
-    // assignment operator
-    Stack &operator=(const Stack &a)
-    {
-        // implement or disable this function
-        return *this;
-    }
+    // Assigns the internal vector
+    Stack &operator=(const Stack &a) = default;
 
-    // Deletes the stack
-    ~Stack()
-    {
-    }
+    // The internal vector frees its memory
+    ~Stack() = default;
 
-    // Pushes data on top of the stack
-    // Should be O(1) on average
+    // Adds an element to the top
     void push(Data data)
     {
+        size_t index = values.size();
+
+        values.resize(index + 1);
+        values.set(index, data);
     }
 
-    // Retrieves the last element from the stack
+    // Returns the top element without removing it
     Data get() const
     {
-        return Data();
+        if (empty())
+        {
+            throw std::out_of_range("Stack is empty");
+        }
+
+        return values.get(values.size() - 1);
     }
 
-    // Removes the last element from the stack
-    // Should be O(1)
+    // Removes the top element
     void pop()
     {
+        if (empty())
+        {
+            throw std::out_of_range("Stack is empty");
+        }
+
+        values.resize(values.size() - 1);
     }
 
-    // Returns true if the stack is empty
+    // Checks whether the stack is empty
     bool empty() const
     {
-        return true;
+        return values.size() == 0;
     }
 
 private:
-    // private data should be here
+    Vector<Data> values;
 };
 
 #endif
