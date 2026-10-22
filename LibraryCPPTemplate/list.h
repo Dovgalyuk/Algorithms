@@ -1,82 +1,153 @@
 #ifndef LIST_TEMPLATE_H
 #define LIST_TEMPLATE_H
 
-template <typename Data> class List
+#include <utility>
+
+template <typename Data>
+class List
 {
 public:
     class Item
     {
-    public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        friend class List<Data>;
     private:
-        // internal data here
+        Data data_;
+        Item* next_;
+        Item* prev_;
+        bool is_dummy_;
+
+    public:
+        Item(const Data& data = Data(), Item* prev = nullptr, Item* next = nullptr, bool is_dummy = false)
+            : data_(data), next_(next), prev_(prev), is_dummy_(is_dummy)
+        {
+        }
+
+        Item *next()
+        {
+            if (next_ && next_->is_dummy_)
+                return nullptr;
+            return next_;
+        }
+
+        Item *prev()
+        {
+            if (prev_ && prev_->is_dummy_)
+                return nullptr;
+            return prev_;
+        }
+
+        const Item *next() const
+        {
+            if (next_ && next_->is_dummy_)
+                return nullptr;
+            return next_;
+        }
+
+        const Item *prev() const
+        {
+            if (prev_ && prev_->is_dummy_)
+                return nullptr;
+            return prev_;
+        }
+
+        Data data() const
+        {
+            return data_;
+        }
     };
 
-    // Creates new list
+private:
+    Item* dummy_;
+
+public:
     List()
     {
+        dummy_ = new Item(Data(), nullptr, nullptr, true);
+        dummy_->next_ = dummy_;
+        dummy_->prev_ = dummy_;
     }
 
-    // copy constructor
     List(const List &a)
     {
+        dummy_ = new Item(Data(), nullptr, nullptr, true);
+        dummy_->next_ = dummy_;
+        dummy_->prev_ = dummy_;
+
+        for (Item* curr = a.dummy_->next_; curr != a.dummy_; curr = curr->next_)
+        {
+            insert_after(last(), curr->data());
+        }
     }
 
-    // assignment operator
     List &operator=(const List &a)
     {
+        if (this != &a)
+        {
+            List copy(a);
+            std::swap(dummy_, copy.dummy_);
+        }
         return *this;
     }
 
-    // Destroys the list and frees the memory
     ~List()
     {
+        Item* curr = dummy_->next_;
+        while (curr != dummy_)
+        {
+            Item* next = curr->next_;
+            delete curr;
+            curr = next;
+        }
+        delete dummy_;
     }
 
-    // Retrieves the first item from the list
     Item *first()
     {
-        return nullptr;
+        if (dummy_->next_ == dummy_)
+            return nullptr;
+        return dummy_->next_;
     }
 
-    // Retrieves the last item of the list
     Item *last()
     {
-        return nullptr;
+        if (dummy_->prev_ == dummy_)
+            return nullptr;
+        return dummy_->prev_;
     }
 
-    // Inserts new list item into the beginning
     Item *insert(Data data)
     {
-        return nullptr;
+        return insert_after(nullptr, data);
     }
 
-    // Inserts new list item after the specified item
-    // Inserts first element if item is null
     Item *insert_after(Item *item, Data data)
     {
-        return nullptr;
+        Item* target = item ? item : dummy_;
+        Item* newItem = new Item(data, target, target->next_, false);
+        target->next_->prev_ = newItem;
+        target->next_ = newItem;
+        return newItem;
     }
 
-    // Deletes the first list item.
-    // Returns pointer to the item next to the deleted one.
     Item *erase_first()
     {
-        return nullptr;
+        return erase_next(nullptr);
     }
 
-    // Deletes the list item following the specified one.
-    // Deletes the first element when item is null.
-    // Returns pointer to the item next to the deleted one.
-    // Should be O(1)
     Item *erase_next(Item *item)
     {
-        return nullptr;
+        Item* target = item ? item : dummy_;
+        Item* toDelete = target->next_;
+        if (toDelete == dummy_)
+            return nullptr;
+
+        target->next_ = toDelete->next_;
+        toDelete->next_->prev_ = target;
+
+        Item* nextItem = (target->next_ == dummy_) ? nullptr : target->next_;
+        delete toDelete;
+        return nextItem;
     }
-private:
-    // private data should be here
 };
 
 #endif

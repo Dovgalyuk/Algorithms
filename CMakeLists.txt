@@ -21,3 +21,4 @@ add_subdirectory(Lab1C)
 
 add_subdirectory(lab1cpp)
 add_subdirectory(lab2cpp)
+add_subdirectory(lab3cpp)

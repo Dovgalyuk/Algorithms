@@ -1,58 +1,56 @@
 #ifndef QUEUE_TEMPLATE_H
 #define QUEUE_TEMPLATE_H
 
-template <typename Data> class Queue
+#include "list.h"
+
+template <typename Data>
+class Queue
 {
+private:
+    List<Data> list_;
+
 public:
-    // Create empty queue
     Queue()
     {
     }
 
-    // copy constructor
     Queue(const Queue &a)
+        : list_(a.list_)
     {
-        // implement or disable this function
     }
 
-    // assignment operator
     Queue &operator=(const Queue &a)
     {
-        // implement or disable this function
+        if (this != &a)
+        {
+            list_ = a.list_;
+        }
         return *this;
     }
 
-    // Deletes queue
     ~Queue()
     {
     }
 
-    // Includes new element into the queue
-    // Should be O(1) on average
     void insert(Data data)
     {
+        list_.insert_after(list_.last(), data);
     }
 
-    // Retrieves first element from the queue
     Data get() const
     {
-        return Data();
+        return const_cast<List<Data>&>(list_).first()->data();
     }
 
-    // Removes first element from the queue
-    // Should be O(1) on average
     void remove()
     {
+        list_.erase_first();
     }
 
-    // Returns true if the queue is empty
     bool empty() const
     {
-        return true;
+        return const_cast<List<Data>&>(list_).first() == nullptr;
     }
-
-private:
-    // private data should be here
 };
 
 #endif
