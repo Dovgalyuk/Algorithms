@@ -1,82 +1,240 @@
+
 #ifndef LIST_TEMPLATE_H
 #define LIST_TEMPLATE_H
 
-template <typename Data> class List
+#include <cstddef>
+#include <stdexcept>
+#include <utility>
+
+template <typename Data>
+class List
 {
 public:
     class Item
     {
-    public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        friend class List<Data>;
+
     private:
-        // internal data here
+        Data value;
+        Item* nextItem;
+        Item* prevItem;
+
+        Item(const Data& data)
+            : value(data),
+              nextItem(nullptr),
+              prevItem(nullptr)
+        {
+        }
+
+    public:
+        Item* next()
+        {
+            return nextItem;
+        }
+
+        Item* prev()
+        {
+            return prevItem;
+        }
+
+        Data data() const
+        {
+            return value;
+        }
     };
 
-    // Creates new list
-    List()
+private:
+    Item* head = nullptr;
+    Item* tail = nullptr;
+    std::size_t count = 0;
+
+    void swap(List& other) noexcept
     {
+        std::swap(head, other.head);
+        std::swap(tail, other.tail);
+        std::swap(count, other.count);
     }
 
-    // copy constructor
-    List(const List &a)
+public:
+    List() = default;
+
+    // Создание независимой копии списка
+    List(const List& other)
     {
+        try
+        {
+            for (Item* p = other.head;
+                 p != nullptr;
+                 p = p->nextItem)
+            {
+                insert_after(tail, p->value);
+            }
+        }
+        catch (...)
+        {
+            clear();
+            throw;
+        }
     }
 
-    // assignment operator
-    List &operator=(const List &a)
+    // Присваивание другого списка
+    List& operator=(const List& other)
     {
+        if (this != &other)
+        {
+            List copy(other);
+            swap(copy);
+        }
+
         return *this;
     }
 
-    // Destroys the list and frees the memory
+    // Освобождение памяти
     ~List()
     {
+        clear();
     }
 
-    // Retrieves the first item from the list
-    Item *first()
+    bool empty() const
     {
-        return nullptr;
+        return head == nullptr;
     }
 
-    // Retrieves the last item of the list
-    Item *last()
+    std::size_t size() const
     {
-        return nullptr;
+        return count;
     }
 
-    // Inserts new list item into the beginning
-    Item *insert(Data data)
+    // Первый элемент
+    Item* first()
     {
-        return nullptr;
+        return head;
     }
 
-    // Inserts new list item after the specified item
-    // Inserts first element if item is null
-    Item *insert_after(Item *item, Data data)
+    // Последний элемент
+    Item* last()
     {
-        return nullptr;
+        return tail;
     }
 
-    // Deletes the first list item.
-    // Returns pointer to the item next to the deleted one.
-    Item *erase_first()
+    // Добавление в начало
+    Item* insert(Data data)
     {
-        return nullptr;
+        Item* node = new Item(data);
+
+        node->nextItem = head;
+
+        if (head != nullptr)
+        {
+            head->prevItem = node;
+        }
+        else
+        {
+            tail = node;
+        }
+
+        head = node;
+        ++count;
+
+        return node;
     }
 
-    // Deletes the list item following the specified one.
-    // Deletes the first element when item is null.
-    // Returns pointer to the item next to the deleted one.
-    // Should be O(1)
-    Item *erase_next(Item *item)
+    // Добавление после указанного элемента
+    Item* insert_after(Item* item, Data data)
     {
-        return nullptr;
+        if (item == nullptr)
+        {
+            return insert(data);
+        }
+
+        Item* node = new Item(data);
+
+        node->prevItem = item;
+        node->nextItem = item->nextItem;
+
+        if (item->nextItem != nullptr)
+        {
+            item->nextItem->prevItem = node;
+        }
+        else
+        {
+            tail = node;
+        }
+
+        item->nextItem = node;
+        ++count;
+
+        return node;
     }
-private:
-    // private data should be here
+
+    // Удаление первого элемента
+    Item* erase_first()
+    {
+        if (head == nullptr)
+        {
+            return nullptr;
+        }
+
+        Item* old = head;
+        head = head->nextItem;
+
+        if (head != nullptr)
+        {
+            head->prevItem = nullptr;
+        }
+        else
+        {
+            tail = nullptr;
+        }
+
+        delete old;
+        --count;
+
+        return head;
+    }
+
+    // Удаление элемента после указанного
+    Item* erase_next(Item* item)
+    {
+        if (item == nullptr)
+        {
+            return erase_first();
+        }
+
+        Item* target = item->nextItem;
+
+        if (target == nullptr)
+        {
+            return nullptr;
+        }
+
+        Item* next = target->nextItem;
+
+        item->nextItem = next;
+
+        if (next != nullptr)
+        {
+            next->prevItem = item;
+        }
+        else
+        {
+            tail = item;
+        }
+
+        delete target;
+        --count;
+
+        return next;
+    }
+
+    // Очистка списка
+    void clear()
+    {
+        while (head != nullptr)
+        {
+            erase_first();
+        }
+    }
 };
 
 #endif

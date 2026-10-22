@@ -1,58 +1,117 @@
+
 #ifndef STACK_TEMPLATE_H
 #define STACK_TEMPLATE_H
 
-template <typename Data> class Stack
+#include <stdexcept>
+#include <utility>
+
+template <typename Data>
+class Stack
 {
+private:
+    struct Node
+    {
+        Data data;
+        Node* next;
+
+        Node(const Data& value, Node* nextNode = nullptr)
+            : data(value), next(nextNode)
+        {
+        }
+    };
+
+    Node* head = nullptr;
+
+    // Удаление всех элементов
+    void clear()
+    {
+        while (head != nullptr)
+        {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+
 public:
-    // Creates empty stack
-    Stack()
+    // Создание пустого стека
+    Stack() = default;
+
+    // Конструктор копирования
+    Stack(const Stack& other) : head(nullptr)
     {
+        Node** current = &head;
+
+        try
+        {
+            for (const Node* p = other.head;
+                 p != nullptr;
+                 p = p->next)
+            {
+                *current = new Node(p->data);
+                current = &((*current)->next);
+            }
+        }
+        catch (...)
+        {
+            clear();
+            throw;
+        }
     }
 
-    // copy constructor
-    Stack(const Stack &a)
+    // Оператор присваивания
+    Stack& operator=(const Stack& other)
     {
-        // implement or disable this function
-    }
+        if (this != &other)
+        {
+            Stack temp(other);
+            std::swap(head, temp.head);
+        }
 
-    // assignment operator
-    Stack &operator=(const Stack &a)
-    {
-        // implement or disable this function
         return *this;
     }
 
-    // Deletes the stack
+    // Деструктор
     ~Stack()
     {
+        clear();
     }
 
-    // Pushes data on top of the stack
-    // Should be O(1) on average
+    // Добавление элемента на вершину
     void push(Data data)
     {
+        head = new Node(data, head);
     }
 
-    // Retrieves the last element from the stack
+    // Получение верхнего элемента
     Data get() const
     {
-        return Data();
+        if (empty())
+        {
+            throw std::out_of_range("Stack is empty");
+        }
+
+        return head->data;
     }
 
-    // Removes the last element from the stack
-    // Should be O(1)
+    // Удаление верхнего элемента
     void pop()
     {
+        if (empty())
+        {
+            throw std::out_of_range("Stack is empty");
+        }
+
+        Node* temp = head;
+        head = head->next;
+        delete temp;
     }
 
-    // Returns true if the stack is empty
+    // Проверка пустоты
     bool empty() const
     {
-        return true;
+        return head == nullptr;
     }
-
-private:
-    // private data should be here
 };
 
 #endif

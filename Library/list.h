@@ -1,36 +1,35 @@
-#ifndef LIST_H
-#define LIST_H
 
-#include <stdexcept>
+#ifndef LIBRARY_STACK_H
+#define LIBRARY_STACK_H
+
 #include <cstddef>
+#include <stdexcept>
+#include <utility>
 
 template <typename Data>
-class List
+class Stack
 {
 private:
     struct Node
     {
-        Data value;
+        Data data;
         Node* next;
 
-        Node(const Data& value)
-        {
-            this->value = value;
-            next = nullptr;
-        }
+        Node(const Data& value, Node* nextNode = nullptr)
+            : data(value), next(nextNode) {}
     };
 
-    Node* head;
-    std::size_t count;
+    Node* head = nullptr;
+    Node* tail = nullptr;
+    std::size_t count = 0;
 
 public:
-    List()
-    {
-        head = nullptr;
-        count = 0;
-    }
+    Stack() = default;
 
-    ~List()
+    Stack(const Stack&) = delete;
+    Stack& operator=(const Stack&) = delete;
+
+    ~Stack()
     {
         clear();
     }
@@ -45,151 +44,139 @@ public:
         return count;
     }
 
-    // Добавить в начало
-    void pushFront(const Data& value)
+    // Добавление наверх
+    void push(Data data)
     {
-        Node* newNode = new Node(value);
+        Node* node = new Node(data, head);
+        head = node;
 
-        newNode->next = head;
-        head = newNode;
+        if (tail == nullptr)
+            tail = node;
 
-        count++;
+        ++count;
     }
 
-    // Добавить в конец
-    void pushBack(const Data& value)
+    // Получение верхнего элемента
+    Data get() const
     {
-        Node* newNode = new Node(value);
+        if (empty())
+            throw std::out_of_range("Stack is empty");
+
+        return head->data;
+    }
+
+    // Удаление верхнего элемента
+    void pop()
+    {
+        if (empty())
+            throw std::out_of_range("Stack is empty");
+
+        Node* old = head;
+        head = head->next;
+        delete old;
+
+        --count;
 
         if (head == nullptr)
-        {
-            head = newNode;
-        }
+            tail = nullptr;
+    }
+
+    // Получение нижнего элемента
+    Data& bottom()
+    {
+        if (empty())
+            throw std::out_of_range("Stack is empty");
+
+        return tail->data;
+    }
+
+    const Data& bottom() const
+    {
+        if (empty())
+            throw std::out_of_range("Stack is empty");
+
+        return tail->data;
+    }
+
+    // Добавление снизу
+    void pushBottom(const Data& data)
+    {
+        Node* node = new Node(data);
+
+        if (tail != nullptr)
+            tail->next = node;
         else
-        {
-            Node* current = head;
+            head = node;
 
-            while (current->next != nullptr)
-            {
-                current = current->next;
-            }
-
-            current->next = newNode;
-        }
-
-        count++;
+        tail = node;
+        ++count;
     }
 
-    // Получить первый элемент
-    Data& front()
+    // Удаление нижнего элемента
+    void popBottom()
     {
         if (empty())
-        {
-            throw std::runtime_error("Список пуст");
-        }
+            throw std::out_of_range("Stack is empty");
 
-        return head->value;
-    }
-
-    // Получить последний элемент
-    Data& back()
-    {
-        if (empty())
-        {
-            throw std::runtime_error("Список пуст");
-        }
-
-        Node* current = head;
-
-        while (current->next != nullptr)
-        {
-            current = current->next;
-        }
-
-        return current->value;
-    }
-
-    const Data& front() const
-    {
-        if (empty())
-        {
-            throw std::runtime_error("Список пуст");
-        }
-
-        return head->value;
-    }
-
-    const Data& back() const
-    {
-        if (empty())
-        {
-            throw std::runtime_error("Список пуст");
-        }
-
-        Node* current = head;
-
-        while (current->next != nullptr)
-        {
-            current = current->next;
-        }
-
-        return current->value;
-    }
-
-    // Удалить первый элемент
-    void popFront()
-    {
-        if (empty())
-        {
-            throw std::runtime_error("Список пуст");
-        }
-
-        Node* temp = head;
-        head = head->next;
-
-        delete temp;
-        count--;
-    }
-
-    // Удалить последний элемент
-    void popBack()
-    {
-        if (empty())
-        {
-            throw std::runtime_error("Список пуст");
-        }
-
-        if (head->next == nullptr)
+        if (head == tail)
         {
             delete head;
             head = nullptr;
+            tail = nullptr;
         }
         else
         {
             Node* current = head;
 
-            while (current->next->next != nullptr)
-            {
+            while (current->next != tail)
                 current = current->next;
-            }
 
-            delete current->next;
-            current->next = nullptr;
+            delete tail;
+            tail = current;
+            tail->next = nullptr;
         }
 
-        count--;
+        --count;
     }
 
-    // Перевернуть список
+    // Доступ по индексу от вершины
+    Data& at(std::size_t index)
+    {
+        if (index >= count)
+            throw std::out_of_range("Invalid index");
+
+        Node* current = head;
+
+        for (std::size_t i = 0; i < index; ++i)
+            current = current->next;
+
+        return current->data;
+    }
+
+    const Data& at(std::size_t index) const
+    {
+        if (index >= count)
+            throw std::out_of_range("Invalid index");
+
+        const Node* current = head;
+
+        for (std::size_t i = 0; i < index; ++i)
+            current = current->next;
+
+        return current->data;
+    }
+
+    // Переворот стека
     void reverse()
     {
         Node* previous = nullptr;
         Node* current = head;
 
+        tail = head;
+
         while (current != nullptr)
         {
             Node* next = current->next;
-
             current->next = previous;
             previous = current;
             current = next;
@@ -198,46 +185,11 @@ public:
         head = previous;
     }
 
+    // Очистка
     void clear()
     {
         while (!empty())
-        {
-            popFront();
-        }
-    }
-
-    Data& at(std::size_t index)
-    {
-        if (index >= count)
-        {
-            throw std::out_of_range("Индекс за пределами списка");
-        }
-
-        Node* current = head;
-
-        for (std::size_t i = 0; i < index; i++)
-        {
-            current = current->next;
-        }
-
-        return current->value;
-    }
-
-    const Data& at(std::size_t index) const
-    {
-        if (index >= count)
-        {
-            throw std::out_of_range("Индекс за пределами списка");
-        }
-
-        Node* current = head;
-
-        for (std::size_t i = 0; i < index; i++)
-        {
-            current = current->next;
-        }
-
-        return current->value;
+            pop();
     }
 };
 

@@ -1,89 +1,76 @@
-#ifndef STACK_H
-#define STACK_H
 
-#include "list.h"
+#ifndef STACK_TEMPLATE_H
+#define STACK_TEMPLATE_H
+
 #include <stdexcept>
-#include <cstddef>
+#include <utility>
 
 template <typename Data>
 class Stack
 {
 private:
-    List<Data> list;
+    struct Node
+    {
+        Data data;
+        Node* next;
+
+        Node(const Data& value, Node* nextNode)
+            : data(value), next(nextNode) {}
+    };
+
+    Node* head = nullptr;
 
 public:
-    bool empty() const
+    // Создание пустого стека
+    Stack() = default;
+
+    // Запрещаем копирование
+    Stack(const Stack&) = delete;
+    Stack& operator=(const Stack&) = delete;
+
+    // Удаление всех элементов
+    ~Stack()
     {
-        return list.empty();
+        while (!empty())
+        {
+            pop();
+        }
     }
 
-    std::size_t size() const
+    // Добавление элемента на вершину
+    void push(Data data)
     {
-        return list.size();
+        head = new Node(data, head);
     }
 
-    // Верх стека
-    void push(const Data& value)
+    // Получение верхнего элемента
+    Data get() const
     {
-        list.pushFront(value);
+        if (empty())
+        {
+            throw std::out_of_range("Stack is empty");
+        }
+
+        return head->data;
     }
 
-    Data& top()
-    {
-        return list.front();
-    }
-
-    const Data& top() const
-    {
-        return list.front();
-    }
-
+    // Удаление верхнего элемента
     void pop()
     {
-        list.popFront();
+        if (empty())
+        {
+            throw std::out_of_range("Stack is empty");
+        }
+
+        Node* temp = head;
+        head = head->next;
+        delete temp;
     }
 
-    // AnnoyingScript также работает
-    // с нижней частью стека
-
-    void pushBottom(const Data& value)
+    // Проверка пустоты
+    bool empty() const
     {
-        list.pushBack(value);
-    }
-
-    Data& bottom()
-    {
-        return list.back();
-    }
-
-    const Data& bottom() const
-    {
-        return list.back();
-    }
-
-    void popBottom()
-    {
-        list.popBack();
-    }
-
-    void reverse()
-    {
-        list.reverse();
-    }
-
-    void clear()
-    {
-        list.clear();
-    }
-
-    Data& at(std::size_t index)
-    {
-        return list.at(index);
-    }
-
-    const Data& at(std::size_t index) const
-    {
-        return list.at(index);
+        return head == nullptr;
     }
 };
 

@@ -6,8 +6,7 @@
 #include <ctime>
 #include <thread>
 #include <chrono>
-
-#include "../Library/stack.h"
+#include "../LibraryCPPTemplate/stack.h"
 
 using namespace std;
 
@@ -207,8 +206,125 @@ string calculate(
 }
 
 
+// Адаптер: использует только push(), get(), pop(), empty()
+// из LibraryCPPTemplate/stack.h или Library/stack.h.
+// Для операций с нижним элементом временно перекладывает элементы.
+class ScriptStack
+{
+private:
+    Stack<string> elements;
+    size_t count = 0;
+
+public:
+    bool empty() const { return elements.empty(); }
+    size_t size() const { return count; }
+
+    void push(const string& value)
+    {
+        elements.push(value);
+        ++count;
+    }
+
+    string get() const { return elements.get(); }
+
+    void pop()
+    {
+        elements.pop();
+        --count;
+    }
+
+    // Индекс 0 — вершина, как в исходном main.cpp.
+    string at(size_t index)
+    {
+        if (index >= count)
+            throw out_of_range("Invalid stack index");
+
+        Stack<string> buffer;
+        for (size_t i = 0; i < index; ++i)
+        {
+            buffer.push(elements.get());
+            elements.pop();
+        }
+
+        string value = elements.get();
+
+        while (!buffer.empty())
+        {
+            elements.push(buffer.get());
+            buffer.pop();
+        }
+        return value;
+    }
+
+    string bottom()
+    {
+        if (empty())
+            throw out_of_range("Stack is empty");
+        return at(count - 1);
+    }
+
+    void popBottom()
+    {
+        if (empty())
+            throw out_of_range("Stack is empty");
+
+        Stack<string> buffer;
+        // Оставляем нижний элемент в исходном стеке.
+        for (size_t i = 1; i < count; ++i)
+        {
+            buffer.push(elements.get());
+            elements.pop();
+        }
+        elements.pop(); // Удаляем нижний.
+        while (!buffer.empty())
+        {
+            elements.push(buffer.get());
+            buffer.pop();
+        }
+        --count;
+    }
+
+    void pushBottom(const string& value)
+    {
+        Stack<string> buffer;
+        while (!elements.empty())
+        {
+            buffer.push(elements.get());
+            elements.pop();
+        }
+        elements.push(value);
+        while (!buffer.empty())
+        {
+            elements.push(buffer.get());
+            buffer.pop();
+        }
+        ++count;
+    }
+
+    void reverse()
+    {
+        // Извлечённые значения идут от старой вершины к старому дну.
+        vector<string> values;
+        while (!elements.empty())
+        {
+            values.push_back(elements.get());
+            elements.pop();
+        }
+        // После добавления в этом же порядке вершина станет прежним дном.
+        for (const string& value : values)
+            elements.push(value);
+    }
+
+    void clear()
+    {
+        while (!elements.empty())
+            elements.pop();
+        count = 0;
+    }
+};
+
 // Печать состояния стека
-void printStack(const Stack<string>& stack)
+void printStack(ScriptStack& stack)
 {
     cout << "\nSTACK: [";
 
@@ -247,7 +363,7 @@ int main(int argc, char* argv[])
             return 1;
         }
 
-        Stack<string> stack;
+        ScriptStack stack;
 
         // Значение регистра ~
         string tilde;
