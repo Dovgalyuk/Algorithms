@@ -8,11 +8,9 @@ using namespace std;
 
 bool isPrime(int n)
 {
-  if (n < 2)
-  {
-    return false;
-  }
+  if (n < 2) return false;
 
+  // если n составное, у него обязательно есть делитель d, такой что 2 ≤ d ≤ ⎇n. Поэтому достаточно проверить делимость на все целые числа от 2 до ⎇n. Если ни одно из них не делит, то делителей вообще нет — число простое.
   int sqrt_n = sqrt(n);
 
   for (int i = 2; i <= sqrt_n; ++i)
@@ -39,10 +37,13 @@ void task1(const char *filename)
   int number;
   int size = 0;
 
-  while (in >> number)
+  if (in >> number)
   {
     size = number;
-    break;
+  }
+  else
+  {
+    cout << "Failed to read array size\n";
   }
 
   in.close();
@@ -51,6 +52,8 @@ void task1(const char *filename)
 
   int index = 0;
 
+  //перебираем числа и проверяем простое оно или нет пока индекс меньше размера массива, затем записываем простые числа в массив
+  
   for (int currentNumber = 2; index < size; ++currentNumber)
   {
     if (isPrime(currentNumber))

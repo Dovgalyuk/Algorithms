@@ -31,7 +31,7 @@ void task2(const char *filename)
 
   Array *arr = array_create(size);
   Array *array_counter = array_create(1001);
-  int array_counter_size = array_size(array_counter);
+  int array_counter_size = 1000;
 
   for (int i = 0; i < array_counter_size; ++i)
   {
@@ -42,6 +42,7 @@ void task2(const char *filename)
   {
     int value;
     
+    // если недостаточно данных для заполнения массива выводим ошибку
     if (!(in >> value))
     {
       cout << "There is not enough data in the file to populate the array\n";
@@ -58,6 +59,7 @@ void task2(const char *filename)
       return;
     }
 
+    // так как по заданию нужно: создать массив такой размерности и заполнить его числами из файла
     array_set(arr, i, value);
 
     int current_count = array_get(array_counter, value);
