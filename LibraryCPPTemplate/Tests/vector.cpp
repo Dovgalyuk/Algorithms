@@ -14,8 +14,10 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0 ; i < vector.size() ; ++i)
-        vector.set(i, i);
+    for (size_t i = 0; i < vector.size(); ++i)
+    {
+    vector.set(i, static_cast<int>(i));
+    }
 
     vector = vector;
 
