@@ -22,4 +22,5 @@ set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
 
 add_executable(TestGraphCPPTemplate graph_test.cpp)
 target_include_directories(TestGraphCPPTemplate PUBLIC ..)
+target_compile_options(TestGraphCPPTemplate PRIVATE -UNDEBUG)
 add_test(NAME TestGraphCPPTemplate COMMAND TestGraphCPPTemplate)
