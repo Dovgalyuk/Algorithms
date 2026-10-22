@@ -3,64 +3,121 @@
 
 struct ListItem
 {
+    Data data;
+    ListItem *next;
 };
 
 struct List
 {
+    ListItem *head;
+    ListItem *tail;
 };
 
 List *list_create()
 {
-    return new List;
+    List *list = new List;
+    list->head = nullptr;
+    list->tail = nullptr;
+    return list;
 }
 
 void list_delete(List *list)
 {
-    // TODO: free items
+    ListItem *item = list->head;
+
+    while (item)
+    {
+        ListItem *next = item->next;
+        delete item;
+        item = next;
+    }
+
     delete list;
 }
 
 ListItem *list_first(List *list)
 {
-    return NULL;
+    return list->head;
 }
 
 ListItem *list_last(List *list)
 {
-    return NULL;
+    return list->tail;
 }
 
 Data list_item_data(const ListItem *item)
 {
-    return (Data)0;
+    return item->data;
 }
 
 ListItem *list_item_next(ListItem *item)
 {
-    return NULL;
+    return item->next;
 }
 
 ListItem *list_item_prev(ListItem *item)
 {
-    return NULL;
+    return nullptr;
 }
 
 ListItem *list_insert(List *list, Data data)
 {
-    return NULL;
+    ListItem *item = new ListItem;
+    item->data = data;
+    item->next = list->head;
+    list->head = item;
+
+    if (!list->tail)
+        list->tail = item;
+
+    return item;
 }
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
 {
-    return NULL;
+    if (!item)
+        return list_insert(list, data);
+
+    ListItem *new_item = new ListItem;
+    new_item->data = data;
+    new_item->next = item->next;
+    item->next = new_item;
+
+    if (list->tail == item)
+        list->tail = new_item;
+
+    return new_item;
 }
 
 ListItem *list_erase_first(List *list)
 {
-    return NULL;
+    if (!list->head)
+        return nullptr;
+
+    ListItem *item = list->head;
+    list->head = item->next;
+
+    if (!list->head)
+        list->tail = nullptr;
+
+    delete item;
+    return list->head;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
-    return NULL;
+    if (!item)
+        return list_erase_first(list);
+
+    ListItem *deleted = item->next;
+    if (!deleted)
+        return nullptr;
+
+    item->next = deleted->next;
+
+    if (list->tail == deleted)
+        list->tail = item;
+
+    delete deleted;
+    return item->next;
 }
