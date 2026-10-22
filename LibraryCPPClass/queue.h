@@ -1,10 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include <cstddef>
-
-// Change it to desired type
-typedef int Data;
+#include "list.h"
 
 class Queue
 {
@@ -36,7 +33,7 @@ public:
     bool empty() const;
 
 private:
-    // private data should be here
+    List m_list;
 };
 
 #endif
