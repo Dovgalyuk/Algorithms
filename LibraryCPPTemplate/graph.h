@@ -154,9 +154,7 @@ public:
         for (VertexItem *item = vertices_.first(); item; item = item->next())
         {
             if (item == target) {
-                if (previous) vertices_.erase_next(previous);
-                else
-                    vertices_.erase_first();
+                vertices_.erase_next(previous);
                 return true;
             }
             previous = item;
@@ -201,21 +199,15 @@ public:
 
     bool remove_edge(const std::string &from, const std::string &to)
     {
-        if (!has_edge(from, to)) return false;
-
         VertexItem *source = find_vertex(from);
         const VertexItem *destination = find_vertex(to);
-        EdgeItem *previous = nullptr;
+        if (!source || !destination) return false;
 
-        for (EdgeItem *edge = source->data().edges.first(); edge; edge = edge->next()) {
-            if (edge->data().to_id == destination->data().id) {
-                source->data().edges.erase_next(previous);
-                return true;
-            }
-            previous = edge;
-        }
+        EdgeItem *edge = find_edge(source, destination->data().id);
+        if (!edge) return false;
 
-        return false;
+        source->data().edges.erase_next(edge->prev());
+        return true;
     }
 
     bool has_edge(const std::string &from, const std::string &to) const
@@ -304,4 +296,3 @@ public:
 };
 
 #endif
-
