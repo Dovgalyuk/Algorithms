@@ -59,7 +59,6 @@ void task(const std::string &expr)
             while (!stack_empty(stack))
             {
                 char current = (char)stack_get(stack);
-                if (current == '(') break;
                 if (priority(current) >= priority(c))
                 {
                     output += current;
