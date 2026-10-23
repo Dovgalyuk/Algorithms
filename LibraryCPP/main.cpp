@@ -1,149 +1,156 @@
+#include <algorithm>
+#include <fstream>
 #include <iostream>
-#include <vector>
+#include <limits>
 #include <string>
+#include <vector>
 #include "queue.h"
 
 using namespace std;
 
 struct Cell {
     char type;
-    int r, c, id;
+    int row, column;
 };
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
+int main(int argc, char* argv[]) {
+    ifstream file;
+    if (argc > 2) return 1;
+    if (argc == 2) {
+        file.open(argv[1]);
+        if (!file) {
+            cerr << "Cannot open input file\n";
+            return 1;
+        }
+    }
+    istream& input = argc == 2 ? file : cin;
 
     vector<string> lines;
     string line;
-    while (getline(cin, line)) {
-        if (!line.empty() && line.back() == '\r') line.pop_back();
+    while (getline(input, line)) {
+        const size_t end = line.find_last_not_of(" \t\r");
+        line.erase(end == string::npos ? 0 : end + 1);
+        const size_t start = line.find_first_not_of(" \t");
+        if (start != string::npos) line.erase(0, start);
         lines.push_back(line);
     }
-    if (lines.empty()) return 0;
+    while (!lines.empty() && lines.back().empty()) lines.pop_back();
 
-    int total = 0;
     vector<Cell> cells;
-    vector<vector<int>> row_ids(lines.size());
-
-    for (size_t r = 0; r < lines.size(); ++r) {
+    vector<vector<int>> ids(lines.size());
+    int start = -1, finish = -1, start_count = 0, finish_count = 0;
+    int max_width = 0;
+    bool valid = !lines.empty() && lines.size() <= static_cast<size_t>(numeric_limits<int>::max());
+    for (size_t r = 0; valid && r < lines.size(); ++r) {
+        if (lines[r].empty() || lines[r].size() > static_cast<size_t>(numeric_limits<int>::max() / 2)) {
+            valid = false;
+            break;
+        }
+        max_width = max(max_width, static_cast<int>(lines[r].size()));
         for (size_t c = 0; c < lines[r].size(); ++c) {
-            cells.push_back({lines[r][c], (int)r, (int)c, total});
-            row_ids[r].push_back(total);
-            total++;
+            const char type = lines[r][c];
+            if ((type != '.' && type != '#' && type != 'S' && type != 'E') ||
+                cells.size() >= static_cast<size_t>(numeric_limits<int>::max())) {
+                valid = false;
+                break;
+            }
+            const int id = static_cast<int>(cells.size());
+            if (type == 'S') { start = id; ++start_count; }
+            if (type == 'E') { finish = id; ++finish_count; }
+            ids[r].push_back(id);
+            cells.push_back({type, static_cast<int>(r), static_cast<int>(c)});
         }
     }
+    if (!valid || start_count != 1 || finish_count != 1) {
+        cout << "No path\n";
+        return 0;
+    }
 
-    vector<vector<int>> adj(total);
-    for (int i = 0; i < total; ++i) {
-        int r = cells[i].r, c = cells[i].c;
+    vector<int> offset(lines.size());
+    for (size_t r = 0; r < lines.size(); ++r) {
+        offset[r] = max_width - static_cast<int>(lines[r].size());
+        if (r > 0 && (offset[r] - offset[r - 1]) % 2 == 0) ++offset[r];
+    }
+
+    vector<vector<int>> adjacent(cells.size());
+    for (size_t i = 0; i < cells.size(); ++i) {
+        const int r = cells[i].row, c = cells[i].column;
         if (cells[i].type == '#') continue;
-
-        if (c > 0) adj[i].push_back(row_ids[r][c - 1]);
-        if (c + 1 < (int)row_ids[r].size()) adj[i].push_back(row_ids[r][c + 1]);
-
-        auto link = [&](int nr) {
-            if (nr < 0 || nr >= (int)lines.size()) return;
-            int diff = (int)row_ids[nr].size() - (int)row_ids[r].size();
-            if (diff > 0) {
-                adj[i].push_back(row_ids[nr][c]);
-                adj[i].push_back(row_ids[nr][c + 1]);
-            } else {
-                if (c > 0) adj[i].push_back(row_ids[nr][c - 1]);
-                if (c < (int)row_ids[nr].size()) adj[i].push_back(row_ids[nr][c]);
+        auto add = [&](int nr, int nc) {
+            if (nr >= 0 && nr < static_cast<int>(ids.size()) &&
+                nc >= 0 && nc < static_cast<int>(ids[nr].size())) {
+                const int next = ids[nr][nc];
+                if (cells[next].type != '#') adjacent[i].push_back(next);
             }
         };
-        link(r - 1);
-        link(r + 1);
-    }
-
-    int S = -1, E = -1;
-    for (int i = 0; i < total; ++i) {
-        if (cells[i].type == 'S') S = i;
-        if (cells[i].type == 'E') E = i;
-    }
-
-    if (S == -1 || E == -1) {
-        cout << "No path\n";
-        return 0;
-    }
-
-    Queue qF, qB;
-    vector<int> dF(total, -1), dB(total, -1), pF(total, -1), pB(total, -1);
-    
-    qF.insert(S); dF[S] = 0;
-    qB.insert(E); dB[E] = 0;
-    
-    int best_dist = 1e9;
-    int inter = -1;
-
-    while (!qF.empty() && !qB.empty()) {
-        if (!qF.empty()) {
-            int curr = qF.get(); qF.remove();
-            if (dB[curr] != -1 && dF[curr] + dB[curr] < best_dist) {
-                best_dist = dF[curr] + dB[curr];
-                inter = curr;
-            }
-            for (int n : adj[curr]) {
-                if (cells[n].type != '#' && dF[n] == -1) {
-                    dF[n] = dF[curr] + 1;
-                    pF[n] = curr;
-                    qF.insert(n);
-                }
-            }
-        }
-
-        if (!qB.empty()) {
-            int curr = qB.get(); qB.remove();
-            if (dF[curr] != -1 && dF[curr] + dB[curr] < best_dist) {
-                best_dist = dF[curr] + dB[curr];
-                inter = curr;
-            }
-            for (int n : adj[curr]) {
-                if (cells[n].type != '#' && dB[n] == -1) {
-                    dB[n] = dB[curr] + 1;
-                    pB[n] = curr;
-                    qB.insert(n);
-                }
-            }
+        add(r, c - 1);
+        add(r, c + 1);
+        for (int nr : {r - 1, r + 1}) {
+            if (nr < 0 || nr >= static_cast<int>(ids.size())) continue;
+            const int left = (2 * c + offset[r] - offset[nr] - 1) / 2;
+            add(nr, left);
+            add(nr, left + 1);
         }
     }
 
-    if (inter != -1) {
-        for (int c = inter; c != S; c = pF[c]) 
-            if (cells[c].type != 'E') cells[c].type = 'x';
-        for (int c = inter; c != E; c = pB[c]) 
-            if (cells[c].type != 'S') cells[c].type = 'x';
-    } else {
+    Queue forward, backward;
+    vector<int> distance_f(cells.size(), -1), distance_b(cells.size(), -1);
+    vector<int> previous_f(cells.size(), -1), previous_b(cells.size(), -1);
+    forward.insert(start);
+    backward.insert(finish);
+    distance_f[start] = distance_b[finish] = 0;
+    int meeting = -1;
+    long long best_distance = numeric_limits<long long>::max();
+
+    auto expand_layer = [&](Queue& queue, vector<int>& distance,
+                            const vector<int>& other, vector<int>& previous) {
+        const int level = distance[queue.get()];
+        auto consider = [&](int current) {
+            const long long total_distance = static_cast<long long>(distance[current]) + other[current];
+            if (other[current] != -1 && total_distance < best_distance) {
+                best_distance = total_distance;
+                meeting = current;
+            }
+        };
+        while (!queue.empty() && distance[queue.get()] == level) {
+            const int current = queue.get();
+            queue.remove();
+            consider(current);
+            for (int next : adjacent[current]) {
+                if (distance[next] != -1) continue;
+                distance[next] = distance[current] + 1;
+                previous[next] = current;
+                queue.insert(next);
+                consider(next);
+            }
+        }
+    };
+
+    while (!forward.empty() && !backward.empty() && meeting == -1) {
+        expand_layer(forward, distance_f, distance_b, previous_f);
+        expand_layer(backward, distance_b, distance_f, previous_b);
+    }
+    if (meeting == -1) {
         cout << "No path\n";
         return 0;
     }
+    for (int current = meeting; current != start; current = previous_f[current])
+        if (current != finish) cells[current].type = 'x';
+    for (int current = meeting; current != finish; current = previous_b[current])
+        if (current != start) cells[current].type = 'x';
 
-    // Отрисовка (гексагональная)
-    size_t max_len = 0;
-    for (const auto& l : lines) if (l.size() > max_len) max_len = l.size();
-
+    auto border = [&](size_t row, bool top) {
+        cout << string(2 * static_cast<size_t>(offset[row]) + 2, ' ');
+        for (size_t c = 0; c < lines[row].size(); ++c) cout << (top ? " / \\" : " \\ /");
+        cout << '\n';
+    };
+    border(0, true);
     for (size_t r = 0; r < lines.size(); ++r) {
-        size_t current_len = lines[r].size();
-        size_t leading_spaces = (max_len - current_len) + (r % 2);
-
-        for (size_t s = 0; s < leading_spaces; ++s) cout << " ";
-        for (size_t c = 0; c < current_len; ++c) cout << " / \\";
-        cout << "\n";
-
-        for (size_t s = 0; s < leading_spaces; ++s) cout << " ";
-        int cell_idx = 0;
-        for (size_t prev_r = 0; prev_r < r; ++prev_r) cell_idx += (int)lines[prev_r].size();
-
-        for (size_t c = 0; c < current_len; ++c) cout << " | " << cells[cell_idx + c].type;
-        cout << " |\n";
+        cout << string(2 * static_cast<size_t>(offset[r]) + 2, ' ');
+        for (int id : ids[r]) cout << "| " << cells[id].type << ' ';
+        cout << "|\n";
+        if (r + 1 < lines.size() && offset[r + 1] < offset[r]) border(r + 1, true);
+        else border(r, false);
     }
-
-    size_t last_len = lines.back().size();
-    size_t last_leading = (max_len - last_len) + ((lines.size() - 1) % 2);
-    for (size_t s = 0; s < last_leading; ++s) cout << " ";
-    for (size_t c = 0; c < last_len; ++c) cout << " \\ /";
-    cout << "\n";
-
     return 0;
 }

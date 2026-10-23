@@ -1,19 +1,20 @@
 #ifndef LIST_H
 #define LIST_H
 
-struct ListItem {
-    int data;
-    ListItem* next;
-};
+typedef int Data;
 
-struct List {
-    ListItem* dummy;
+struct List;
+struct ListItem;
 
-    List();
-    ~List();
-    ListItem* first() const;
-    ListItem* insert_after(ListItem* item, int data);
-    void erase_after(ListItem* item);
-};
+List* list_create();
+void list_delete(List* list);
+ListItem* list_first(List* list);
+ListItem* list_last(List* list);
+Data list_item_data(const ListItem* item);
+ListItem* list_item_next(ListItem* item);
+ListItem* list_insert(List* list, Data data);
+ListItem* list_insert_after(List* list, ListItem* item, Data data);
+ListItem* list_erase_first(List* list);
+ListItem* list_erase_next(List* list, ListItem* item);
 
 #endif

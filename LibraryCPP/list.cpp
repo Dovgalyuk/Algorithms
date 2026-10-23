@@ -1,34 +1,67 @@
 #include "list.h"
 
-List::List() {
-    dummy = new ListItem{0, nullptr};
-    dummy->next = dummy; // Кольцо
+struct ListItem {
+    Data data;
+    ListItem* next;
+    bool is_dummy;
+};
+
+struct List {
+    ListItem dummy;
+    ListItem* last;
+};
+
+List* list_create() {
+    List* list = new List;
+    list->dummy = {0, &list->dummy, true};
+    list->last = &list->dummy;
+    return list;
 }
 
-List::~List() {
-    ListItem* current = dummy->next;
-    while (current != dummy) {
-        ListItem* next = current->next;
-        delete current;
-        current = next;
-    }
-    delete dummy;
+void list_delete(List* list) {
+    if (!list) return;
+    while (list_first(list)) list_erase_first(list);
+    delete list;
 }
 
-ListItem* List::first() const {
-    return (dummy->next == dummy) ? nullptr : dummy->next;
+ListItem* list_first(List* list) {
+    return list->dummy.next == &list->dummy ? nullptr : list->dummy.next;
 }
 
-ListItem* List::insert_after(ListItem* item, int data) {
-    ListItem* new_item = new ListItem{data, item->next};
-    item->next = new_item;
-    return new_item;
+ListItem* list_last(List* list) {
+    return list->last == &list->dummy ? nullptr : list->last;
 }
 
-void List::erase_after(ListItem* item) {
-    ListItem* to_erase = item->next;
-    if (to_erase != dummy) {
-        item->next = to_erase->next;
-        delete to_erase;
-    }
+Data list_item_data(const ListItem* item) {
+    return item->data;
+}
+
+ListItem* list_item_next(ListItem* item) {
+    return !item || item->next->is_dummy ? nullptr : item->next;
+}
+
+ListItem* list_insert(List* list, Data data) {
+    return list_insert_after(list, nullptr, data);
+}
+
+ListItem* list_insert_after(List* list, ListItem* item, Data data) {
+    if (!item) item = &list->dummy;
+    ListItem* added = new ListItem{data, item->next, false};
+    item->next = added;
+    if (list->last == item) list->last = added;
+    return added;
+}
+
+ListItem* list_erase_first(List* list) {
+    return list_erase_next(list, nullptr);
+}
+
+ListItem* list_erase_next(List* list, ListItem* item) {
+    if (!item) item = &list->dummy;
+    ListItem* removed = item->next;
+    if (removed == &list->dummy) return nullptr;
+    item->next = removed->next;
+    if (list->last == removed) list->last = item;
+    delete removed;
+    return list_item_next(item);
 }

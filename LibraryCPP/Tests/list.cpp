@@ -1,44 +1,54 @@
-
-#include <cstdlib>
+#include <iostream>
 #include "list.h"
-using namespace std;
 
-#define CHECK(condition) \
-    do { \
-        if (!(condition)) { \
-            abort(); \
-        } \
-    } while (false)
+int main()
+{
+    List *list = list_create();
 
-int main() {
-    List list;
+    if (!list)
+    {
+        std::cout << "List creation error\n";
+        return 1;
+    }
 
-    CHECK(list.first() == nullptr);
+    list_insert(list, 1);
+    list_insert(list, 2);
+    list_insert(list, 3);
 
-    ListItem* first = list.insert_after(list.dummy, 10);
-    CHECK(list.first() == first);
-    CHECK(first->data == 10);
-    CHECK(first->next == list.dummy);
+    if (list_item_data(list_first(list)) != 3)
+    {
+        std::cout << "list_insert error\n";
+        return 1;
+    }
 
-    ListItem* second = list.insert_after(first, 20);
-    ListItem* middle = list.insert_after(first, 15);
+    if (list_item_data(list_last(list)) != 1)
+    {
+        std::cout << "list_insert error\n";
+        return 1;
+    }
 
-    CHECK(list.first() == first);
-    CHECK(first->next == middle);
-    CHECK(middle->next == second);
-    CHECK(second->next == list.dummy);
+    list_insert_after(list, list_first(list), 4);
 
-    list.erase_after(first);
-    CHECK(first->next == second);
-    CHECK(second->data == 20);
+    if (list_item_data(list_item_next(list_first(list))) != 4)
+    {
+        std::cout << "list_insert_after error\n";
+        return 1;
+    }
 
-    list.erase_after(list.dummy);
-    CHECK(list.first() == second);
+    list_erase_first(list);
 
-    list.erase_after(list.dummy);
-    CHECK(list.first() == nullptr);
-    CHECK(list.dummy->next == list.dummy);
+    if (list_item_data(list_first(list)) != 4)
+    {
+        std::cout << "list_erase error\n";
+        return 1;
+    }
 
-    list.erase_after(list.dummy);
-    CHECK(list.first() == nullptr);
+    std::cout << "List: ";
+    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
+    {
+        std::cout << list_item_data(item) << " ";
+    }
+    std::cout << "\n";
+
+    list_delete(list);
 }
