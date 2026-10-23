@@ -2,6 +2,8 @@
 #include <fstream>
 #include <cmath>
 #include <climits>
+#include <string>
+#include <iomanip>
 #include "graph.h"
 
 struct Node {
@@ -165,6 +167,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
+
     std::ostream* out = &std::cout;
     std::ofstream outfile;
     if (argc >= 3) {
@@ -187,73 +190,94 @@ int main(int argc, char* argv[]) {
     }
 
     // Разворачиваем путь
-    int path_len = path.size();
+    int path_len = (int)path.size();
     for (int i = 0; i < path_len / 2; ++i) {
         int temp = path.get(i);
         path.set(i, path.get(path_len - 1 - i));
         path.set(path_len - 1 - i, temp);
     }
 
-    // Подготовка поля
     Vector<int> board;
     board.resize(rows * cols);
-    for (size_t i = 0; i < rows * cols; ++i) board.set(i, -1);
-
+    for (size_t i = 0; i < rows * cols; ++i) {
+        board.set(i, -1);
+    }
     for (int i = 0; i < path_len; ++i) {
         board.set(path.get(i), i);
     }
 
-    // Вывод сетки
+    // Поле
     *out << "=== Field ===\n";
+
+    const int CELL_WIDTH = 6;
+
     for (size_t r = 0; r < rows; ++r) {
+        if (r % 2 != 0) {
+            *out << std::string(CELL_WIDTH / 2, ' ');
+        }
+
         for (size_t c = 0; c < cols; ++c) {
-            int idx = r * cols + c;
+            int idx = (int)(r * cols + c);
             int step = board.get(idx);
 
+            std::string cell;
             if (step != -1) {
-                *out << "{" << step << "}    ";
+                cell = "[" + std::to_string(step) + "]";
             }
             else {
-                *out << graph.getVertexData(r, c) << "    ";
+                cell = std::to_string(graph.getVertexData(r, c));
             }
+
+            int padding = CELL_WIDTH - (int)cell.size();
+            int left = padding / 2;
+            int right = padding - left;
+
+            *out << std::string(left, ' ') << cell << std::string(right, ' ');
         }
         *out << "\n";
     }
     *out << "\n";
 
-    // Маршрут
+    // Маршрут 
     *out << "=== Route ===\n";
     for (int i = 0; i < path_len; ++i) {
         int idx = path.get(i);
-        *out << "(" << idx / cols << "," << idx % cols << ")";
-        if (i < path_len - 1) *out << " -> ";
+        *out << "(" << idx / (int)cols << "," << idx % (int)cols << ")";
+        if (i < path_len - 1) {
+            *out << " -> ";
+        }
     }
     *out << "\n\n";
 
-    // Таблица шагов
-    *out << "Step    Move                Cost    Total\n";
+    // Таблица шагов 
+    *out << "Step   Move                  Cost   Total\n";
+    *out << "------------------------------------------\n";
+
     int total_cost = 0;
     for (int i = 1; i < path_len; ++i) {
         int prev_idx = path.get(i - 1);
         int curr_idx = path.get(i);
 
-        int r = curr_idx / cols;
-        int c = curr_idx % cols;
-        int move_cost = graph.getVertexData(r, c);
+        int pr = prev_idx / (int)cols;
+        int pc = prev_idx % (int)cols;
+        int cr = curr_idx / (int)cols;
+        int cc = curr_idx % (int)cols;
+
+        int move_cost = graph.getVertexData(cr, cc);
         total_cost += move_cost;
 
-        *out << i << "       "
-            << "(" << prev_idx / cols << "," << prev_idx % cols << ") -> "
-            << "(" << r << "," << c << ")       "
-            << move_cost << "       " << total_cost << "\n";
+        *out << std::left
+            << std::setw(7) << i
+            << "(" << pr << "," << pc << ") -> (" << cr << "," << cc << ")"
+            << std::setw(10) << " "
+            << std::setw(7) << move_cost
+            << total_cost << "\n";
     }
+
     *out << "\n";
+    *out << "Total Cost: " << g_score.get(end_idx)
+        << "   Steps: " << (path_len - 1) << "\n";
 
-    // Итог
-    *out << "Total Cost: " << g_score.get(end_idx) << "   Steps: " << (path_len - 1) << "\n";
-
-    // Выводим в консоль для тестов
-    std::cout << "Total Cost: " << g_score.get(end_idx) << "   Steps: " << (path_len - 1) << "\n";
-
-    return 0;
+    std::cout << "Total Cost: " << g_score.get(end_idx)
+        << "   Steps: " << (path_len - 1) << "\n";
 }
