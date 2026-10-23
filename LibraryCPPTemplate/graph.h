@@ -12,6 +12,8 @@ template <typename VertexLabel, typename EdgeLabel>
 class Graph
 {
 public:
+    typedef Vector<VertexLabel> VertexVector;
+
     explicit Graph(size_t count = 0)
     {
         if (count != 0 && count > std::numeric_limits<size_t>::max() / count) {
@@ -75,7 +77,7 @@ public:
         edges.set(from * size() + to, Edge());
     }
 
-    Vector<VertexLabel> get_vertices() const{
+    VertexVector get_vertices() const{
         return vertices;
     }
 
@@ -89,7 +91,7 @@ public:
         if (newsize > maxsize / newsize) {
             throw std::length_error("graph is too big");
         }
-        Vector<Edge> new_edges;
+        EdgeVector new_edges;
         new_edges.resize(newsize * newsize);
         if (new_edges.size() != newsize * newsize) {
             throw std::length_error("graph is too big");
@@ -100,7 +102,7 @@ public:
                 new_edges.set(from * newsize + to, edge);
             }
         }
-        Vector<VertexLabel> new_vertices = vertices;
+        VertexVector new_vertices = vertices;
         new_vertices.resize(newsize);
         if (new_vertices.size() != newsize) {
             throw std::length_error("graph is too big");
@@ -116,8 +118,8 @@ public:
             throw std::out_of_range("wrong vertex index");
         }
         size_t newsize = oldsize - 1;
-        Vector<VertexLabel> new_vertices;
-        Vector<Edge> new_edges;
+        VertexVector new_vertices;
+        EdgeVector new_edges;
         new_vertices.resize(newsize);
         new_edges.resize(newsize * newsize);
         if (new_vertices.size() != newsize || new_edges.size() != newsize * newsize) {
@@ -255,8 +257,10 @@ private:
             return *this;
         }
     };
-    Vector<VertexLabel> vertices;
-    Vector<Edge> edges;
+    typedef Vector<Edge> EdgeVector;
+
+    VertexVector vertices;
+    EdgeVector edges;
 };
 
 #endif

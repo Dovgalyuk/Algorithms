@@ -8,13 +8,15 @@
 using namespace std;
 
 typedef Graph<string, long long> FlowGraph;
+typedef Vector<bool> Visited;
+typedef Vector<size_t> Parents;
 
 bool find_path(
     const FlowGraph &residual,
     size_t current,
     size_t sink,
-    Vector<bool> &visited,
-    Vector<size_t> &parent)
+    Visited &visited,
+    Parents &parent)
 {
     visited.set(current, true);
 
@@ -59,8 +61,8 @@ long long max_flow(
     }
     long long flow = 0;
     while (true) {
-        Vector<bool> visited;
-        Vector<size_t> parent;
+        Visited visited;
+        Parents parent;
         visited.resize(graph.size());
         parent.resize(graph.size());
         if (!find_path(residual, source, sink, visited, parent))
