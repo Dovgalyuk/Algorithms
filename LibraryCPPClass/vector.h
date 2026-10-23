@@ -36,6 +36,11 @@ public:
 
 private:
     // private data should be here
+    Data* data_;
+    size_t size_;
+    size_t capacity_;
+
+    void ensureCapacity(size_t needed);
 };
 
 #endif
