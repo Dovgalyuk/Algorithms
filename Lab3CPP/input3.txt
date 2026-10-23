@@ -1,0 +1,10 @@
+8
+Tokyo Seoul
+Seoul Beijing
+Beijing Moscow
+Moscow Berlin
+Berlin Paris
+Tokyo Vladivostok
+Vladivostok Moscow
+Moscow Paris
+Tokyo Paris

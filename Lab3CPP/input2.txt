@@ -1,0 +1,7 @@
+5
+VelikyNovgorod Chudovo
+Chudovo SaintPetersburg
+VelikyNovgorod Pskov
+Pskov Riga
+Riga SaintPetersburg
+VelikyNovgorod SaintPetersburg

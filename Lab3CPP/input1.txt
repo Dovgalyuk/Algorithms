@@ -1,0 +1,9 @@
+7
+Moscow Samara
+Samara Omsk
+Omsk Novosibirsk
+Novosibirsk Irkutsk
+Irkutsk Vladivostok
+Moscow Kazan
+Kazan Vladivostok
+Moscow Vladivostok
