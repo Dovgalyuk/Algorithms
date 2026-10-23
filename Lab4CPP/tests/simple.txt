@@ -1,0 +1,6 @@
+3 3
+S A T
+S A 10
+A T 3
+S T 2
+S T
