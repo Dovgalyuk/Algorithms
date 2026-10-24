@@ -1,0 +1,3 @@
+5 5 cond 42 peek end
+8 9 cond 100 peek end
+7 peek
