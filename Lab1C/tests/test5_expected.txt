@@ -1,16 +1,5 @@
-PUSH 10
-PUSH 20
-POP A
-POP B
-ADD A, B
-PUSH A
-PUSH 30
-POP A
-POP B
-MUL A, B
-PUSH A
-PUSH 5
-POP A
-POP B
-SUB B, A
-PUSH B
+ / \ / \
+| S | # |
+ \ / \ / \
+  | # | E |
+   \ / \ /
