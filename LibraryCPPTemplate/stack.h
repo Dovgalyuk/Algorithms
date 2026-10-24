@@ -1,58 +1,40 @@
-#ifndef STACK_TEMPLATE_H
-#define STACK_TEMPLATE_H
+﻿#pragma once
 
-template <typename Data> class Stack
-{
-public:
-    // Creates empty stack
-    Stack()
-    {
-    }
+#include "vector.h"
+#include <cstddef>
+#include <stdexcept>
 
-    // copy constructor
-    Stack(const Stack &a)
-    {
-        // implement or disable this function
-    }
-
-    // assignment operator
-    Stack &operator=(const Stack &a)
-    {
-        // implement or disable this function
-        return *this;
-    }
-
-    // Deletes the stack
-    ~Stack()
-    {
-    }
-
-    // Pushes data on top of the stack
-    // Should be O(1) on average
-    void push(Data data)
-    {
-    }
-
-    // Retrieves the last element from the stack
-    Data get() const
-    {
-        return Data();
-    }
-
-    // Removes the last element from the stack
-    // Should be O(1)
-    void pop()
-    {
-    }
-
-    // Returns true if the stack is empty
-    bool empty() const
-    {
-        return true;
-    }
-
+template <typename T>
+class Stack {
 private:
-    // private data should be here
-};
+    Vector<T> data_;
 
-#endif
+public:
+    bool empty() const { return data_.empty(); }
+    std::size_t size() const { return data_.size(); }
+
+    void push(const T& value)
+    {
+        data_.push_back(value);
+    }
+
+    T pop()
+    {
+        if (empty()) {
+            throw std::out_of_range("Stack is empty");
+        }
+        T result = data_.back();
+        data_.pop_back();
+        return result;
+    }
+
+    T& top()
+    {
+        return data_.back();
+    }
+
+    const T& top() const
+    {
+        return data_.back();
+    }
+};
