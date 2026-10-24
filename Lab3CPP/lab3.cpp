@@ -12,8 +12,8 @@ char grid[MAXN][MAXN];
 int dist[MAXN][MAXN];
 int parent[MAXN][MAXN];
 
-const int dr[8] = {-1, -1,  0,  1, 1, 1, 0, -1};
-const int dc[8] = { 0,  1,  1,  1, 0,-1,-1, -1};
+const int dr[8] = {-1, -1,  0,  1,  1,  1,  0, -1};
+const int dc[8] = { 0,  1,  1,  0,  1, -1, -1, -1};
 
 void bfs(int sr, int sc) {
     Queue* q = queue_create();
