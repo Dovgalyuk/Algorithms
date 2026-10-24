@@ -4,7 +4,9 @@
 #include <limits>
 #include <vector>
 
-void merge(std::vector<int> &numbers, std::vector<int> &buffer, int left, int right)
+typedef std::vector<int> IntVector;
+
+void merge(IntVector &numbers, IntVector &buffer, int left, int right)
 {
     int middle = left + (right - left) / 2;
     int i = left;
@@ -24,10 +26,10 @@ void merge(std::vector<int> &numbers, std::vector<int> &buffer, int left, int ri
     }
 }
 
-void mergeSort(std::vector<int> &numbers)
+void mergeSort(IntVector &numbers)
 {
     if (numbers.size() < 2) return;
-    std::vector<int> buffer(numbers.size());
+    IntVector buffer(numbers.size());
     Stack tasks;
     tasks.push(0);
     tasks.push(static_cast<int>(numbers.size()) - 1);
@@ -66,7 +68,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    std::vector<int> numbers;
+    IntVector numbers;
     while (true)
     {
         input >> std::ws;
