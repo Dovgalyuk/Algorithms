@@ -1,11 +1,11 @@
-add_executable(TestListCPP list.cpp)
-add_executable(TestStackCPP stack.cpp)
+add_executable(TestVectorCPP vector.cpp)
+add_executable(TestQueueCPP queue.cpp)
 
-target_include_directories(TestListCPP PUBLIC ..)
-target_include_directories(TestStackCPP PUBLIC ..)
+target_include_directories(TestVectorCPP PUBLIC ..)
+target_include_directories(TestQueueCPP PUBLIC ..)
 
-target_link_libraries(TestListCPP LibraryCPP)
-target_link_libraries(TestStackCPP LibraryCPP)
+target_link_libraries(TestVectorCPP LibraryCPP)
+target_link_libraries(TestQueueCPP LibraryCPP)
 
-add_test(TestListCPP TestListCPP)
-add_test(TestStackCPP TestStackCPP)
+add_test(TestVectorCPP TestVectorCPP)
+add_test(TestQueueCPP TestQueueCPP)

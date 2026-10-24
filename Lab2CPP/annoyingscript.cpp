@@ -16,9 +16,6 @@ static size_t ip = 0;
 static bool running = true;
 static std::mt19937 gen(42);
 
-// ============================================================
-//  Вспомогательные функции
-// ============================================================
 
 static void skip_ws()
 {
@@ -226,15 +223,9 @@ static void execute_one()
                 stack_push(tmp, stack_get(st));
                 stack_pop(st);
             }
-            while (!stack_empty(tmp))
-            {
-                char c = stack_get(tmp);
-                std::cout << c;
-                stack_pop(tmp);
-            }
-            std::cout << "\n";
-            std::cout.flush();
-            stack_delete(tmp);
+            stack_delete(st);
+            st = tmp;
+            tmp = nullptr;
             break;
         }
         case ':':
