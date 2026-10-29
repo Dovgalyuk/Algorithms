@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
     Data min1;
     Data min2;
 
-    find_two_smallest(arr, min1, min2);
+    find_two_smallest(arr, min1, min2);   
 
     
 
