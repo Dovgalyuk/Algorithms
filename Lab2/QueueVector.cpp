@@ -1,63 +1,56 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include "vector.h"
+
 #include "stack.h"
 
-struct Particle {
-    int position;
-    char charge;
-};
-
-int main(int argc, char* argv[]){
-    std::ifstream input(argv[1]);
-
-    if (!input){
-       return 1;
-    }
- 
-
-    size_t n;
-    input >> n;
-
-    if (n < 2){
+int main(int argc, char* argv[])
+{
+    if (argc < 2)
+    {
+        std::cerr << "Error: input file is required\n";
         return 1;
     }
-    
-    std::vector<Particle> particles;
-    particles.reserve(n);
 
-    for(size_t i = 0; i < n; i++){
-        Particle particle;
+    std::ifstream file(argv[1]);
 
-        input >> particle.position >> particle.charge;
-        
+    if (!file.is_open())
+    {
+        std::cerr << "Error: cannot open file\n";
+        return 1;
+    }
 
-        particles.push_back(particle);
+    long long n;
 
+    if (!(file >> n) || n < 0)
+    {
+        std::cerr << "Error: invalid particle count\n";
+        return 1;
     }
 
     Stack* stack = stack_create();
 
-    try {
-        for (const Particle& particle : particles) {
-            if (particle.charge == '+') {
-                stack_push(stack, particle.position);
-            } else if (!stack_empty(stack)) {
-                long long positive_position = stack_get(stack);
-                stack_pop(stack);
 
-                std::cout << positive_position << ' '
-                          << particle.position << '\n';
-            }
+    for (long long i = 0; i < n; ++i)
+    {
+        Data coordinate;
+        char charge;
+        
+        file >> coordinate >> charge;
+
+        if (charge == '+')
+        {
+            stack_push(stack, coordinate);
         }
-    } catch (...) {
-        stack_delete(stack);
-        throw;
+        else if (!stack_empty(stack))
+        {
+            Data positive_coordinate = stack_get(stack);
+
+            stack_pop(stack);
+
+            std::cout << positive_coordinate << ' ' << coordinate << '\n';
+        }
     }
 
-
     stack_delete(stack);
-
     return 0;
 }
