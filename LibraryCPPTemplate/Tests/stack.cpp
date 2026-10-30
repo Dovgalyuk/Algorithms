@@ -1,63 +1,49 @@
 #include <iostream>
+#include <stdexcept>
 #include "stack.h"
-
-typedef Stack<int> MyStack;
 
 int main()
 {
-    MyStack stack;
-
-    stack.push(1);
-    stack.push(2);
-    stack.push(3);
-
-    stack = stack;
-
-    if (stack.get() != 3)
-    {
-        std::cout << "Invalid stack top after push\n";
+    Stack<int> stack;
+    if (!stack.empty() || stack.size() != 0)
         return 1;
-    }
 
-    std::cout << "Get: " << stack.get() << "\n";
+    stack.push(10);
+    stack.push(20);
+    stack.push(30);
+    if (stack.get() != 30 || stack.size() != 3)
+        return 1;
+
+    Stack<int> copy(stack);
     stack.pop();
+    if (stack.get() != 20 || copy.get() != 30)
+        return 1;
 
-    if (stack.get() != 2)
+    Stack<int> assigned;
+    assigned = copy;
+    copy.pop();
+    if (assigned.get() != 30 || copy.get() != 20)
+        return 1;
+
+    assigned = assigned;
+    if (assigned.size() != 3 || assigned.get() != 30)
+        return 1;
+
+    assigned.pop();
+    assigned.pop();
+    assigned.pop();
+    if (!assigned.empty())
+        return 1;
+
+    try
     {
-        std::cout << "Invalid stack top after pop\n";
+        assigned.pop();
         return 1;
     }
-
-    std::cout << "Get: " << stack.get() << "\n";
-    stack.pop();
-
-    if (stack.get() != 1)
+    catch (const std::out_of_range&)
     {
-        std::cout << "Invalid stack top after pop\n";
-        return 1;
     }
 
-    std::cout << "Get: " << stack.get() << "\n";
-    stack.push(4);
-    stack.push(5);
-
-    if (stack.get() != 5)
-    {
-        std::cout << "Invalid stack top after push\n";
-        return 1;
-    }
-
-    MyStack copy(stack);
-
-    while (!stack.empty())
-    {
-        if (stack.get() != copy.get())
-        {
-            std::cout << "Invalid stack copy\n";
-            return 1;
-        }
-        std::cout << "Get: " << stack.get() << "\n";
-        copy.pop();
-        stack.pop();
-    }
+    std::cout << "Stack tests passed\n";
+    return 0;
 }

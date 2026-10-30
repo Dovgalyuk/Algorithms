@@ -1,60 +1,39 @@
 #include <iostream>
 #include "list.h"
 
-typedef List<int> MyList;
-
 int main()
 {
-    MyList *list = new MyList;
-
-    if (!list)
-    {
-        std::cout << "List creation error\n";
+    List<int> list;
+    if (!list.empty() || list.size() != 0)
         return 1;
-    }
 
-    list->insert(1);
-    list->insert(2);
-    list->insert(3);
-
-    *list = *list;
-
-    if (list->first()->data() != 3)
-    {
-        std::cout << "list_insert error\n";
+    auto* one = list.insert(1);
+    list.insert(2);
+    list.insert(3);
+    if (list.size() != 3 || list.first()->data() != 3 || list.last()->data() != 1)
         return 1;
-    }
 
-    if (list->last()->data() != 1)
-    {
-        std::cout << "list_insert error\n";
+    list.insert_after(one, 4);
+    if (list.last()->data() != 4 || one->next()->data() != 4)
         return 1;
-    }
 
-    list->insert_after(list->first(), 4);
-
-    if (list->first()->next()->data() != 4)
-    {
-        std::cout << "list_insert_after error\n";
+    list.erase_next(one);
+    if (list.last()->data() != 1 || list.size() != 3)
         return 1;
-    }
 
-    list->erase_first();
-
-    if (list->first()->data() != 4)
-    {
-        std::cout << "list_erase error\n";
+    List<int> copy(list);
+    copy.erase_first();
+    if (copy.first()->data() != 2 || list.first()->data() != 3)
         return 1;
-    }
 
-    MyList copy(*list);
+    list = list;
+    if (list.size() != 3 || list.first()->data() != 3)
+        return 1;
 
-    std::cout << "List: ";
-    for (auto item = list->first() ; item ; item = item->next())
-    {
-        std::cout << item->data() << " ";
-    }
-    std::cout << "\n";
+    list.clear();
+    if (!list.empty() || list.first() != nullptr || list.last() != nullptr)
+        return 1;
 
-    delete list;
+    std::cout << "List tests passed\n";
+    return 0;
 }
