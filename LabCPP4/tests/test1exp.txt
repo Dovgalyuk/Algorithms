@@ -1,0 +1,2 @@
+Longest of shortest paths: 3
+Between: A and D

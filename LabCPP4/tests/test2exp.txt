@@ -1,0 +1,2 @@
+Longest of shortest paths: 5
+Between: X and Z

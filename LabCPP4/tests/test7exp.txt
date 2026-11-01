@@ -1,0 +1,2 @@
+Longest of shortest paths: 7
+Between: C and D

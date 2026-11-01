@@ -1,0 +1,9 @@
+3
+X Y Z
+6
+X Y 2
+Y X 2
+X Z 7
+Z X 7
+Y Z 3
+Z Y 3
