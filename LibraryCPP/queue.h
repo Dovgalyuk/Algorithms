@@ -20,9 +20,11 @@ void queue_delete(Queue *queue);
 void queue_insert(Queue *queue, Data data);
 
 // Retrieves first element from the queue
+// Throws std::out_of_range if the queue is empty
 Data queue_get(const Queue *queue);
 
 // Removes first element from the queue
+// Throws std::out_of_range if the queue is empty
 // Should be O(1) on average
 void queue_remove(Queue *queue);
 
