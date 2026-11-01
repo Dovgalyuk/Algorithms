@@ -1,6 +1,8 @@
 #ifndef QUEUE_TEMPLATE_H
 #define QUEUE_TEMPLATE_H
 
+#include "list.h"
+
 template <typename Data> class Queue
 {
 public:
@@ -12,13 +14,15 @@ public:
     // copy constructor
     Queue(const Queue &a)
     {
-        // implement or disable this function
+        data_= a.data_;
     }
 
     // assignment operator
     Queue &operator=(const Queue &a)
     {
-        // implement or disable this function
+        if (this != &a) {
+            data_ = a.data_;
+        }
         return *this;
     }
 
@@ -31,28 +35,30 @@ public:
     // Should be O(1) on average
     void insert(Data data)
     {
+        data_.insert_after(data_.last(),data);
     }
 
     // Retrieves first element from the queue
     Data get() const
     {
-        return Data();
+        return data_.first()->data();
     }
 
     // Removes first element from the queue
     // Should be O(1) on average
     void remove()
     {
+        data_.erase_first();
     }
 
     // Returns true if the queue is empty
     bool empty() const
     {
-        return true;
+        return data_.first()== nullptr;
     }
 
 private:
-    // private data should be here
+    List<Data> data_;
 };
 
 #endif
