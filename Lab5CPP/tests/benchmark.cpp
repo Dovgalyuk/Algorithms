@@ -5,6 +5,7 @@
 #include <map>
 #include <unordered_map>
 #include "../rb_tree.h"
+#include <vector>
 
 void writeCSVHeader(std::ofstream& out) {
     out << "N;RBTree_Time;Map_Time;UnorderedMap_Time\n";
