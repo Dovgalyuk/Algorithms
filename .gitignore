@@ -14,3 +14,6 @@ Release/*
 build/*
 .vscode/*
 out/
+data.txt
+results.csv
+plot.png
