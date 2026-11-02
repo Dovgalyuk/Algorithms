@@ -30,12 +30,12 @@ public:
     // Retrieves current vector size
     size_t size() const;
 
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
     void resize(size_t size);
 
 private:
-    // private data should be here
+    Data *data;
+    size_t length;
+    size_t capacity;
 };
 
 #endif

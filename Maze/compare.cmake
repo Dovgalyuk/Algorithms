@@ -1,0 +1,5 @@
+execute_process(COMMAND "${PROGRAM}" "${INPUT}" RESULT_VARIABLE result OUTPUT_VARIABLE actual)
+file(READ "${EXPECTED}" expected)
+if(NOT result EQUAL 0 OR NOT actual STREQUAL expected)
+    message(FATAL_ERROR "Output does not match expected result")
+endif()
