@@ -40,7 +40,9 @@ int main(int argc, char* argv[]) {
 
     in.clear();
     in.seekg(0, std::ios::beg);
-    int search_count = 0;
+
+    size_t search_count = 0;
+
     start = std::chrono::high_resolution_clock::now();
     while (in >> k >> v) {
         if (tree.find(k) != nullptr) {
