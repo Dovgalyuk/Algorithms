@@ -35,7 +35,9 @@ public:
     void resize(size_t size);
 
 private:
-    // private data should be here
+    Data *data_array = nullptr;
+    size_t current_size = 0;
+    size_t capacity = 0;
 };
 
 #endif
