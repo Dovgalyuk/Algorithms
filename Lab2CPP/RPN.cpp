@@ -9,6 +9,8 @@ static int priority(const string& op) {
 
 static bool SYA(Tokens& tokens)
 {
+    if (tokens.empty()) return false;
+
     Stack* stack = stack_create();
     Tokens aux;
 
