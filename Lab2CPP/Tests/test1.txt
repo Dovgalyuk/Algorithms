@@ -1,0 +1,12 @@
+push 10
+push 5
+add
+pop A
+push 20
+push 8
+sub
+pop B
+push 4
+push 6
+mul
+pop C

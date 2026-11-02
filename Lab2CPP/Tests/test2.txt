@@ -1,0 +1,6 @@
+push 100
+pop A
+push A
+pop B
+push B
+pop C
