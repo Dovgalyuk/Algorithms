@@ -3,71 +3,71 @@
 #include <string>
 #include "stack.h"
 
-bool check_sequence(const std::string& str) {
+bool is_matching(char open, char close) {
+    return (open == '(' && close == ')') ||
+           (open == '[' && close == ']') ||
+           (open == '{' && close == '}');
+}
+
+void task1(const std::string& str) {
     Stack* stack = stack_create();
-    bool valid = true;
+    bool has_brackets = false;
 
-    for (size_t i = 0; i < str.length(); ++i) {
-        unsigned char c = str[i];
+    for (char c : str) {
+        if (c == '(' || c == ')' || c == '[' || c == ']' ||
+            c == '{' || c == '}' || c == '"' || c == '\'') {
 
-        // 1. Обработка открывающих скобок
-        if (c == '(' || c == '[' || c == '{') {
-            stack_push(stack, (Data)c);
-        }
-        // 2. Обработка закрывающих скобок
-        else if (c == ')' || c == ']' || c == '}') {
-            if (stack_empty(stack)) {
-                valid = false; break;
+            has_brackets = true;
+
+            if (c == '(' || c == '[' || c == '{' || c == '"' || c == '\'') {
+                if ((c == '"' || c == '\'') && !stack_empty(stack) && (char)stack_get(stack) == c) {
+                    stack_pop(stack);
+                } else {
+                    stack_push(stack, c);
+                }
             }
-            char top = (char)stack_get(stack);
-            bool matches = (c == ')' && top == '(') ||
-                           (c == ']' && top == '[') ||
-                           (c == '}' && top == '{');
-            if (!matches) {
-                valid = false; break;
+            else if (c == ')' || c == ']' || c == '}') {
+                if (stack_empty(stack) || !is_matching((char)stack_get(stack), c)) {
+                    std::cout << "NO\n";
+                    stack_delete(stack);
+                    return;
+                }
+                stack_pop(stack);
             }
-            stack_pop(stack);
-        }
-        // 3. Обработка обычных ASCII-кавычек (", ')
-        else if (c == '"' || c == '\'') {
-            if (!stack_empty(stack) && (char)stack_get(stack) == c) {
-                stack_pop(stack); // Закрывающая
-            } else {
-                stack_push(stack, (Data)c); // Открывающая
             }
-        }
-        // 4. Обработка типографских кавычек (“”, ‘’)
-        else if (c == 0xE2) {
-            if (!stack_empty(stack) && (char)stack_get(stack) == 'Q') {
-                stack_pop(stack); // Закрывающая
-            } else {
-                stack_push(stack, (Data)'Q'); // Открывающая (маркер)
-            }
-            i += 2; // Пропускаем оставшиеся 2 байта UTF-8
-        }
     }
 
-    if (!stack_empty(stack)) {
-        valid = false;
+    if (!has_brackets) {
+        std::cout << "ERROR\n";
+    }
+    else if (!stack_empty(stack)) {
+        std::cout << "NO\n";
+    }
+    else {
+        std::cout << "YES\n";
     }
 
     stack_delete(stack);
-    return valid;
 }
 
 int main(int argc, char** argv) {
-    if (argc < 2) return 1;
+    if (argc < 2) {
+        std::cout << "ERROR\n";
+        return 1;
+    }
 
     std::ifstream input(argv[1]);
     if (!input.is_open()) {
-        std::cerr << "Error: cannot open file\n";
+        std::cout << "ERROR\n";
         return 1;
     }
 
     std::string line;
     if (std::getline(input, line)) {
-        bool res = check_sequence(line);
-        std::cout << (res ? "YES" : "NO") << "\n";
+        task1(line);
+    } else {
+        std::cout << "ERROR\n";
     }
+
     return 0;
 }
