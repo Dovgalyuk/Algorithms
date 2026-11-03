@@ -63,7 +63,7 @@ Data list_item_data(const ListItem *item)
 
 ListItem *list_item_next(ListItem *item)
 {
-    if (item == nullptr || item->next == nullptr || item->next->is_dummy) {
+    if (item == nullptr || item->next->is_dummy) {
         return nullptr;
     }
     return item->next;
