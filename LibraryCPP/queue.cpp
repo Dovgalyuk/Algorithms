@@ -1,4 +1,5 @@
 #include "queue.h"
+#include "list.h"
 
 struct Queue
 {
