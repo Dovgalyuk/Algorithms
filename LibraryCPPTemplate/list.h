@@ -69,7 +69,7 @@ public:
     // Inserts new list item into the beginning
     Item *insert(Data data)
     {
-        return insert_after(nullptr,data);
+        return insert_after(fict,data);
     }
 
     // Inserts new list item after the specified item
@@ -91,7 +91,7 @@ public:
     // Returns pointer to the item next to the deleted one.
     Item *erase_first()
     {
-        return erase_next(nullptr);
+        return erase_next(fict);
     }
 
     // Deletes the list item following the specified one.
@@ -116,9 +116,9 @@ private:
         while(fict->next_ != fict) erase_first();
     }
     void copy_from(const List &a) {
-        Item *last= nullptr;
+        Item *tail= nullptr;
         for (Item *curr = a.fict->next_;curr != a.fict; curr = curr->next_) {
-            last = insert_after(last, curr->data_);
+            tail = insert_after(tail, curr->data_);
         }
     }
     Item *to_internal(Item *external) const {

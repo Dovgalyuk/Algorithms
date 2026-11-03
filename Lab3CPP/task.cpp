@@ -6,12 +6,16 @@
 #include "queue.h"
 
 Vector<std::string> maze;
+int width =0;
 int len(int row) {
     return static_cast<int>(maze.get(row).size());
 }
 
-void printLine(std::ostream &out,int indent, const char *pattern, int count) {
-    out <<std::string(indent, ' ');
+int indent(int row) {
+    return 2+2*(width-len(row));
+}
+void printLine(std::ostream &out,int spaces, const char *pattern, int count) {
+    out <<std::string(spaces, ' ');
     for (int i=0; i<count;i++) out <<(i ? " " : "") << pattern;
     out << "\n";
 }
@@ -26,7 +30,7 @@ int main (int argc, char **argv) {
         maze.resize(maze.size() + 1);
         maze.set(maze.size() - 1, text);
     }
-    int height= maze.size(), width=0;
+    int height= maze.size();
     for (int i=0; i< height;i++) width = std::max(width, len(i));
 
     int start =-1, finish =-1;
@@ -50,14 +54,21 @@ int main (int argc, char **argv) {
         q.remove();
         int row = curr / width;
         int col= curr % width;
-        int shift = (row %2 ==0) ? 0 : -1;
-        int nbRow[6] = {row, row, row - 1, row -1, row +1, row +1};
-        int nbCol[6] = {col -1, col +1, col +shift, col+ shift +1, col + shift, col + shift + 1};
         for ( int i=0; i<6; i++) {
-            if (nbRow[i] < 0 || nbRow[i] >=height) continue;
-            if (nbCol[i] < 0 || nbCol[i] >= len(nbRow[i])) continue;
-            int nbId = nbRow[i]*width + nbCol[i];
-            if (prev.get(nbId) != -2 || maze.get(nbRow[i])[nbCol[i]] == '#') continue;
+            int nbRow = row + (i < 2 ? 0 : (i < 4 ? -1 : 1));
+            if (nbRow < 0 || nbRow >= height) continue;
+            int nbCol;
+            if (i < 2) {
+                nbCol = col + (i == 0 ? -1 : 1);
+            } 
+            else {
+                int twice = len(nbRow) - len(row) + 2 * col + (i % 2 == 0 ? -1 : 1);
+                if (twice % 2 != 0) continue;
+                nbCol = twice / 2;
+            }
+            if (nbCol < 0 || nbCol >= len(nbRow)) continue;
+            int nbId = nbRow * width + nbCol;
+            if (prev.get(nbId) != -2 || maze.get(nbRow)[nbCol] == '#') continue;
             prev.set(nbId, curr);
             q.insert(nbId);
         }
@@ -69,12 +80,16 @@ int main (int argc, char **argv) {
             maze.set(curr / width, s);
         }
     }
-    printLine(output, 5, "/ \\", len(0));
+    printLine(output, indent(0) + 1, "/ \\", len(0));
     for (int r =0; r< height; r++) {
-        output << std::string(r % 2==0 ? 4 : 2, ' ');
-        for (int c=0; c< len(r); c++) output << "| " << maze.get(r)[c] << " ";
+        output << std::string(indent(r), ' ');
+        for (int c = 0; c < len(r); c++) output << "| " << maze.get(r)[c] << " ";
         output << "|\n";
-        if (r + 1 < height) printLine(output, 3, r % 2 == 0 ? "/ \\" : "\\ /", std::max(len(r), len(r + 1)));
+        if (r + 1 < height) {
+            bool grows = len(r + 1) > len(r);
+            int longer = grows ? r + 1 : r;
+            printLine(output, indent(longer) + 1, grows ? "/ \\" : "\\ /", len(longer));
+        }
     }
-    printLine(output, height % 2 == 1 ? 5 : 3, "\\ /", len(height - 1));
+    printLine(output, indent(height - 1) + 1, "\\ /", len(height - 1));
 }
