@@ -27,13 +27,11 @@ public:
 private:
     Item* head = nullptr;
     Item* tail = nullptr;
-    std::size_t count = 0;
 
     void swap(List& other) noexcept
     {
         std::swap(head, other.head);
         std::swap(tail, other.tail);
-        std::swap(count, other.count);
     }
 
 public:
@@ -55,11 +53,10 @@ public:
     }
 
     List(List&& other) noexcept
-        : head(other.head), tail(other.tail), count(other.count)
+        : head(other.head), tail(other.tail)
     {
         other.head = nullptr;
         other.tail = nullptr;
-        other.count = 0;
     }
 
     List& operator=(const List& other)
@@ -79,10 +76,8 @@ public:
             clear();
             head = other.head;
             tail = other.tail;
-            count = other.count;
             other.head = nullptr;
             other.tail = nullptr;
-            other.count = 0;
         }
         return *this;
     }
@@ -90,7 +85,7 @@ public:
     ~List() { clear(); }
 
     bool empty() const { return head == nullptr; }
-    std::size_t size() const { return count; }
+    std::size_t size() const { std::size_t result = 0; for (const Item* item = head; item != nullptr; item = item->nextItem) ++result; return result; }
     Item* first() const { return head; }
     Item* last() const { return tail; }
 
@@ -102,7 +97,7 @@ public:
         head = node;
         if (tail == nullptr)
             tail = node;
-        ++count;
+
         return node;
     }
 
@@ -117,7 +112,7 @@ public:
         item->nextItem = node;
         if (tail == item)
             tail = node;
-        ++count;
+
         return node;
     }
 
@@ -132,7 +127,7 @@ public:
         if (head == nullptr)
             tail = nullptr;
         delete old;
-        --count;
+
         return head;
     }
 
@@ -150,7 +145,7 @@ public:
         if (tail == target)
             tail = item;
         delete target;
-        --count;
+
         return item->nextItem;
     }
 
