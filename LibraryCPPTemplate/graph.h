@@ -226,6 +226,20 @@ public:
         return NeighborIterator(this, indexOf(vertex), vertexLabels_.size());
     }
 
+    template <typename F>
+    void forEachEdge(F&& fn) const
+    {
+        const std::size_t n = vertexLabels_.size();
+        for (std::size_t i = 0; i < n; ++i) {
+            auto row = adj_.get(i);
+            for (std::size_t j = 0; j < row.size(); ++j) {
+                auto cell = row.get(j);
+                if (cell.has_value())
+                    fn(i, j, *cell);
+            }
+        }
+    }
+
 private:
     std::size_t indexOf(const VertexLabel& label) const
     {

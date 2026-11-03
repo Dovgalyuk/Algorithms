@@ -4,14 +4,13 @@
 #include <limits>
 #include <stdexcept>
 #include <string>
-#include <unordered_map>
+#include <cmath>
 #include <vector>
 
 #include "graph.h"
 
 using GraphType = Graph<std::string, double>;
 using Matrix = std::vector<std::vector<double>>;
-using IndexMap = std::unordered_map<std::string, std::size_t>;
 
 static GraphType readGraph(int argc, char** argv)
 {
@@ -28,15 +27,14 @@ static GraphType readGraph(int argc, char** argv)
     return g;
 }
 
-static IndexMap buildIndexMap(const GraphType& g)
+static void checkNoNegativeCycle(const Matrix& dist)
 {
-    IndexMap index;
-    for (std::size_t i = 0; i < g.vertexCount(); ++i)
-        index[g.getVertexLabel(i)] = i;
-    return index;
+    for (std::size_t i = 0; i < dist.size(); ++i)
+        if (std::isnan(dist[i][i]) || dist[i][i] < 0.0)
+            throw std::runtime_error("Graph contains a negative cycle");
 }
 
-static Matrix buildWeightMatrix(const GraphType& g, const IndexMap& index)
+static Matrix buildWeightMatrix(const GraphType& g) 
 {
     const std::size_t n = g.vertexCount();
     const double INF = std::numeric_limits<double>::infinity();
@@ -45,15 +43,10 @@ static Matrix buildWeightMatrix(const GraphType& g, const IndexMap& index)
     for (std::size_t i = 0; i < n; ++i)
         dist[i][i] = 0.0;
 
-    for (std::size_t i = 0; i < n; ++i) {
-        const std::string from = g.getVertexLabel(i);
-        for (auto it = g.neighborsBegin(from); it != g.neighborsEnd(from); ++it) {
-            std::string to = *it;
-            double w = g.getEdgeLabel(from, to);
-            std::size_t j = index.at(to);
+    g.forEachEdge([&](std::size_t i, std::size_t j, double w) {
+        if (w < dist[i][j])
             dist[i][j] = w;
-        }
-    }
+        });
     return dist;
 }
 
@@ -105,9 +98,9 @@ static int solve(const GraphType& g)
         return 0;
     }
 
-    IndexMap index = buildIndexMap(g);
-    Matrix dist = buildWeightMatrix(g, index);
+    Matrix dist = buildWeightMatrix(g);
     floydWarshall(dist);
+    checkNoNegativeCycle(dist);
     Result r = findLongestShortest(dist);
 
     if (!r.found) {
