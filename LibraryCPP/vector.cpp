@@ -60,5 +60,8 @@ void vector_resize(Vector *vector, size_t size)
         vector->capacity = new_capacity;
         vector->data = new_data;
     }
+    for (size_t i = vector->size; i < size; i++) {
+        vector->data[i] = Data{};
+    }
     vector->size = size;
 }
