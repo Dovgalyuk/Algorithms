@@ -38,7 +38,6 @@ public:
 
 private:
     Vector data;
-    size_t capacity;
     size_t first;
     size_t count;
 };

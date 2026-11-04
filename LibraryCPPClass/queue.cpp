@@ -1,24 +1,21 @@
 #include "queue.h"
 Queue::Queue()
-    : capacity(4), first(0), count(0)
+    : first(0), count(0)
 {
-    data.resize(capacity);
+    data.resize(4);
 }
 
 Queue::Queue(const Queue &a)
-    : capacity(a.capacity), first(0), count(a.count)
+    : data(a.data), first(a.first), count(a.count)
 {
-    data.resize(capacity);
-    for (size_t i = 0; i < count; i++) data.set(i, a.data.get((a.first + i) % a.capacity));
 }
 
 Queue &Queue::operator=(const Queue &a)
 {
     if (this == &a) return *this;
     data = a.data;
-    capacity = a.capacity;
+    first = a.first;
     count = a.count;
-    first = 0;
     return *this;
 }
 
@@ -28,15 +25,14 @@ Queue::~Queue()
 
 void Queue::insert(Data data)
 {
-    if (count == capacity) {
+    if (count == this->data.size()) {
         Vector values;
-        values.resize(capacity * 2);
-        for (size_t i = 0; i < count; i++) values.set(i, this->data.get((first + i) % capacity));
+        values.resize(this->data.size() * 2);
+        for (size_t i = 0; i < count; i++) values.set(i, this->data.get((first + i) % this->data.size()));
         this->data = values;
-        capacity *= 2;
         first = 0;
     }
-    this->data.set((first + count) % capacity, data);
+    this->data.set((first + count) % this->data.size(), data);
     count++;
 }
 
@@ -48,7 +44,7 @@ Data Queue::get() const
 void Queue::remove()
 {
     if (count > 0) {
-        first = (first + 1) % capacity;
+        first = (first + 1) % this->data.size();
         count--;
     }
 }

@@ -1,4 +1,5 @@
 #include "vector.h"
+#include <utility>
 
 Vector::Vector()
     : data(nullptr), length(0), capacity(0)
@@ -14,11 +15,10 @@ Vector::Vector(const Vector &a)
 Vector &Vector::operator=(const Vector &a)
 {
     if (this == &a) return *this;
-    Data *copy = new Data[a.length]{};
-    for (size_t i = 0; i < a.length; i++) copy[i] = a.data[i];
-    delete[] data;
-    data = copy;
-    length = capacity = a.length;
+    Vector copy(a);
+    std::swap(data, copy.data);
+    std::swap(length, copy.length);
+    std::swap(capacity, copy.capacity);
     return *this;
 }
 
