@@ -13,7 +13,7 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
+        vector_set(vector, (size_t)i, (Data)i);
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
