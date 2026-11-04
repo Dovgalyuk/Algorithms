@@ -17,6 +17,14 @@ public:
         }
         return data[index];
     }
+
+    Data &at(size_t index)
+    {
+        if (index >= count) {
+            throw std::out_of_range("wrong vector index");
+        }
+        return data[index];
+    }
     // Creates vector
     Vector() : data(nullptr), count(0), capacity(0)
     {
