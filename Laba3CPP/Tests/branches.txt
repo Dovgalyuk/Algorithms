@@ -1,0 +1,9 @@
+A
+A->B
+A->C
+B->D
+C->E
+D->A
+A->B
+E->D
+X->Y
