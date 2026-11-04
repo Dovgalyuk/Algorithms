@@ -1,49 +1,76 @@
-#include <cstddef>
 #include "list.h"
 
-List::List()
-{
+List::List() {
+    dummy = new Item;
+    dummy->data = 0;
+    dummy->next = dummy;
+    dummy->prev = dummy;
 }
 
-List::List(const List &a)
-{
+List::List(const List& other) {
+    dummy = new Item;
+    dummy->data = 0;
+    dummy->next = dummy;
+    dummy->prev = dummy;
+
+    Item* current = other.dummy->next;
+    while (current != other.dummy) {
+        insert(current->data);
+        current = current->next;
+    }
 }
 
-List &List::operator=(const List &a)
-{
+List& List::operator=(const List& other) {
+    if (this != &other) {
+        List clone(other);
+        Item* temp = this->dummy;
+        this->dummy = clone.dummy;
+        clone.dummy = temp;
+    }
     return *this;
 }
 
-List::~List()
-{
+List::~List() {
+    Item* current = dummy->next;
+    while (current != dummy) {
+        Item* nextItem = current->next;
+        delete current;
+        current = nextItem;
+    }
+    delete dummy;
 }
 
-List::Item *List::first()
-{
-    return nullptr;
+List::Item* List::first() const {
+    if (dummy->next == dummy) return nullptr;
+    return dummy->next;
 }
 
-List::Item *List::last()
-{
-    return nullptr;
+bool List::empty() const {
+    return dummy->next == dummy;
 }
 
-List::Item *List::insert(Data data)
-{
-    return nullptr;
+List::Item* List::insert(Data data) {
+    Item* newItem = new Item;
+    newItem->data = data;
+
+    newItem->prev = dummy->prev;
+    newItem->next = dummy;
+
+    dummy->prev->next = newItem;
+    dummy->prev = newItem;
+
+    return newItem;
 }
 
-List::Item *List::insert_after(Item *item, Data data)
-{
-    return nullptr;
-}
+List::Item* List::erase(Item* item) {
+    if (item == nullptr || item == dummy) return nullptr;
 
-List::Item *List::erase_first()
-{
-    return nullptr;
-}
+    Item* nextItem = item->next;
+    item->prev->next = item->next;
+    item->next->prev = item->prev;
 
-List::Item *List::erase_next(Item *item)
-{
-    return nullptr;
+    delete item;
+
+    if (nextItem == dummy) return nullptr;
+    return nextItem;
 }
