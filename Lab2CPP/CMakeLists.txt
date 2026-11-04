@@ -66,7 +66,7 @@ add_test(
 )
 
 set_tests_properties(ProcessorTest7 PROPERTIES
-    PASS_REGULAR_EXPRESSION "BAD CALL"
+    PASS_REGULAR_EXPRESSION "BAD OPERATION"
 )
 
 add_test(

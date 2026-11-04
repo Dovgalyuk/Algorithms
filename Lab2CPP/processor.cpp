@@ -25,31 +25,6 @@ int getRegisterIndex(const string& name)
     return -1;
 }
 
-// Находим ret, который соответствует текущему call.
-int findMatchingRet(const vector<Instruction>& program, int callIndex)
-{
-    int nestedCalls = 0;
-
-    for (int i = callIndex + 1; i < static_cast<int>(program.size()); i++)
-    {
-        if (program[i].command == "call")
-        {
-            nestedCalls++;
-        }
-        else if (program[i].command == "ret")
-        {
-            if (nestedCalls == 0)
-            {
-                return i;
-            }
-
-            nestedCalls--;
-        }
-    }
-
-    return -1;
-}
-
 int main(int argc, char* argv[])
 {
     if (argc < 2)
@@ -206,16 +181,7 @@ int main(int argc, char* argv[])
         }
         else if (instruction.command == "call")
         {
-            int returnAddress = findMatchingRet(program, ip);
-
-            if (returnAddress == -1)
-            {
-                cout << "BAD CALL" << endl;
-                cleanup();
-                return 1;
-            }
-
-            stack_push(values, returnAddress + 1);
+            stack_push(values, ip + 1);
             stack_push(types, 1);
 
             ip++;
@@ -230,12 +196,10 @@ int main(int argc, char* argv[])
                 return 1;
             }
 
-            // Возвращаемся к сохранённой инструкции.
-            ip = stack_get(values);
-
             stack_pop(values);
             stack_pop(types);
 
+            ip++;
             continue;
         }
         else
@@ -246,6 +210,13 @@ int main(int argc, char* argv[])
         }
 
         ip++;
+    }
+
+    if (!stack_empty(values) && stack_get(types) == 1)
+    {
+        cout << "BAD CALL" << endl;
+        cleanup();
+        return 1;
     }
 
     cout << "A = " << registers[0] << endl;
