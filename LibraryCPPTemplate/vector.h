@@ -193,6 +193,16 @@ public:
         return cap;
     }
 
+    bool empty() const
+    {
+        return len == 0;
+    }
+ 
+    Data &back()
+    {
+        return vec[len - 1];
+    }
+
     void resize(size_t new_size)
     {
         if (new_size < len)
