@@ -129,13 +129,6 @@ bool testBasicOperations()
 
 bool testLoadPattern(size_t testSize, int pattern, std::mt19937 &generator)
 {
-    static const char *patternNames[] = {
-        "ascending",
-        "descending",
-        "zigzag",
-        "random"
-    };
-
     std::vector<long long> order = makeOrder(testSize, pattern, generator);
     AvlTreeMap<CountingKey, int> map;
     unsigned long long worstInsert = 0;
