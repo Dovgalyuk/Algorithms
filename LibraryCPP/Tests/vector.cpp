@@ -1,55 +1,74 @@
 #include <iostream>
-#include "stack.h"
-
-using namespace std;
-
-// Печатает сообщение и завершает тест с ошибкой
-#define CHECK(cond, msg)                         \
-    if (!(cond))                                 \
-    {                                            \
-        cout << "FAILED: " << msg << "\n";  \
-        stack_delete(stack);                     \
-        return 1;                                \
-    }
+#include "vector.h"
 
 int main()
 {
-    Stack *stack = stack_create();
+    Vector *vector = vector_create();
 
-    CHECK(stack_empty(stack), "new stack is not empty");
-
-    stack_push(stack, 1);
-    CHECK(!stack_empty(stack), "stack is empty after push");
-    CHECK(stack_get(stack) == 1, "top after push(1)");
-    stack_push(stack, 2);
-    stack_push(stack, 3);
-    CHECK(stack_get(stack) == 3, "top after push(3)");
-
-    stack_pop(stack);
-    CHECK(stack_get(stack) == 2, "top after first pop");
-    stack_pop(stack);
-    CHECK(stack_get(stack) == 1, "top after second pop");
-    stack_pop(stack);
-    CHECK(stack_empty(stack), "stack is not empty after popping all");
-
-    stack_pop(stack);
-    CHECK(stack_empty(stack), "pop on empty stack");
-
-    stack_push(stack, -5);
-    CHECK(stack_get(stack) == -5, "push after empty");
-    stack_pop(stack);
-
-    const Data N = 1000000;
-    for (Data i = 0; i < N; ++i)
-        stack_push(stack, i);
-    for (Data i = N - 1; i >= 0; --i)
+    vector_resize(vector, 5);
+    if (vector_size(vector) != 5)
     {
-        CHECK(stack_get(stack) == i, "wrong order on many elements");
-        stack_pop(stack);
+        std::cout << "Invalid resize\n";
+        return 1;
     }
-    CHECK(stack_empty(stack), "stack is not empty after many pops");
 
-    stack_delete(stack);
-    cout << "stack: OK\n";
-    return 0;
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+        vector_set(vector, i, i);
+
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    {
+        if (vector_get(vector, i) != (Data)i)
+        {
+            std::cout << "Invalid vector element " << i << "\n";
+            return 1;
+        }
+    }
+
+    vector_resize(vector, 10);
+    if (vector_size(vector) != 10)
+    {
+        std::cout << "Invalid resize\n";
+        return 1;
+    }
+
+    std::cout << "Vector: ";
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+        std::cout << vector_get(vector, i) << " ";
+    std::cout << "\n";
+
+    vector_resize(vector, 3);
+    if (vector_size(vector) != 3)
+    {
+        std::cout << "Invalid resize\n";
+        return 1;
+    }
+
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    {
+        if (vector_get(vector, i) != (Data)i)
+        {
+            std::cout << "Invalid vector element " << i << "\n";
+            return 1;
+        }
+    }
+
+    std::cout << "Vector: ";
+    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+        std::cout << vector_get(vector, i) << " ";
+    std::cout << "\n";
+
+    // Performance test
+    for (int i = 1 ; i <= 10000000 ; ++i)
+    {
+        vector_resize(vector, i);
+        vector_set(vector, i - 1, i);
+    }
+
+    long long sum = 0;
+    for (int i = 0 ; i < 10000000 ; ++i)
+        sum += vector_get(vector, i);
+
+    std::cout << sum << "\n";
+
+    vector_delete(vector);
 }

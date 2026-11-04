@@ -24,3 +24,13 @@
   target_link_libraries(TestVectorCPP LibraryCPP)
   add_test(NAME TestVectorCPP COMMAND TestVectorCPP)
   set_tests_properties(TestVectorCPP PROPERTIES TIMEOUT 10)
+
+  add_executable(TestStackCPPExtra test_stack.cpp)
+   target_include_directories(TestStackCPPExtra PUBLIC ..)
+   target_link_libraries(TestStackCPPExtra LibraryCPP)
+   add_test(TestStackCPPExtra TestStackCPPExtra)
+
+   add_executable(TestVectorCPPExtra test_vector.cpp)
+   target_include_directories(TestVectorCPPExtra PUBLIC ..)
+   target_link_libraries(TestVectorCPPExtra LibraryCPP)
+   add_test(TestVectorCPPExtra TestVectorCPPExtra)

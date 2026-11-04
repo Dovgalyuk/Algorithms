@@ -2,9 +2,9 @@
 
 struct Vector
 {
-    Data *data; //буфер с эл
-    size_t size; //сколько эл исп
-    size_t capacity; //сколько эл помещ в буфер
+    Data *data; // буф с эл
+    size_t size; // ск эл исп
+    size_t capacity; //ск эл помещ в буф
 };
 
 Vector *vector_create()
@@ -18,8 +18,8 @@ Vector *vector_create()
 
 void vector_delete(Vector *vector)
 {
-    delete[] vector-> data;
-    delete vector; 
+    delete[] vector->data;
+    delete vector;
 }
 
 Data vector_get(const Vector *vector, size_t index)
@@ -39,19 +39,21 @@ size_t vector_size(const Vector *vector)
 
 void vector_resize(Vector *vector, size_t size)
 {
-    if(size > vector->capacity)
+    if (size > vector->capacity)
     {
         size_t new_capacity = vector->capacity ? vector->capacity : 1;
-        while(new_capacity < size)
+        while (new_capacity < size)
             new_capacity *= 2;
 
         Data *new_data = new Data[new_capacity];
-        for(size_t i = 0; i < vector->size; ++i)
+        for (size_t i = 0; i < vector->size; ++i)
             new_data[i] = vector->data[i];
 
         delete[] vector->data;
         vector->data = new_data;
         vector->capacity = new_capacity;
     }
+    for (size_t i = vector->size; i < size; ++i)
+        vector->data[i] = 0;
     vector->size = size;
 }
