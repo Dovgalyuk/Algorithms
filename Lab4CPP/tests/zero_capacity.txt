@@ -1,0 +1,6 @@
+3 3
+S A T
+S A 0
+A T 7
+S T 0
+S T

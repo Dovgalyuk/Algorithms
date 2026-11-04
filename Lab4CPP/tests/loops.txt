@@ -1,0 +1,8 @@
+3 5
+S A T
+S S 9
+S A 4
+A A 7
+A T 3
+T T 5
+S T

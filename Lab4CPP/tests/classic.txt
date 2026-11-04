@@ -1,0 +1,13 @@
+6 10
+Source A B C D Sink
+Source A 16
+Source B 13
+A B 10
+B A 4
+A C 12
+C B 9
+B D 14
+D C 7
+C Sink 20
+D Sink 4
+Source Sink

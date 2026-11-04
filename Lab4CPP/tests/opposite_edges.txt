@@ -1,0 +1,10 @@
+4 7
+S A B T
+S A 5
+A S 3
+S B 2
+A B 4
+B A 6
+A T 1
+B T 6
+S T
