@@ -92,7 +92,7 @@ void generateAssembler(Stack *rnpStack, std::ofstream& out) {
         stack_pop(rnpStack);
 
         if (c >= 0) {
-            out << "PUSH " << c << '\n';
+            out << "[PUSH] " << c << '\n';
         }else {
             out << "POP A" << '\n';
             out << "POP B" << '\n';
