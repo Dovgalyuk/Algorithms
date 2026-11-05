@@ -4,13 +4,13 @@
 int main()
 {
     List<int> list;
-    if (!list.empty() || list.size() != 0)
+    if (!list.empty())
         return 1;
 
     auto* one = list.insert(1);
     list.insert(2);
     list.insert(3);
-    if (list.size() != 3 || list.first()->data() != 3 || list.last()->data() != 1)
+    if (list.first()->data() != 3 || list.last()->data() != 1)
         return 1;
 
     list.insert_after(one, 4);
@@ -18,7 +18,7 @@ int main()
         return 1;
 
     list.erase_next(one);
-    if (list.last()->data() != 1 || list.size() != 3)
+    if (list.last()->data() != 1)
         return 1;
 
     List<int> copy(list);
@@ -27,7 +27,7 @@ int main()
         return 1;
 
     list = list;
-    if (list.size() != 3 || list.first()->data() != 3)
+    if (list.first()->data() != 3)
         return 1;
 
     list.clear();

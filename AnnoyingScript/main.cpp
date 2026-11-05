@@ -330,7 +330,7 @@ void printStack(ScriptStack& stack)
 
     for (size_t i = 0; i < stack.size(); i++)
     {
-        cout << stack.at(i);
+        cout << stack.at(stack.size() - 1 - i);
 
         if (i + 1 < stack.size())
         {

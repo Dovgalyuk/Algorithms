@@ -85,7 +85,6 @@ public:
     ~List() { clear(); }
 
     bool empty() const { return head == nullptr; }
-    std::size_t size() const { std::size_t result = 0; for (const Item* item = head; item != nullptr; item = item->nextItem) ++result; return result; }
     Item* first() const { return head; }
     Item* last() const { return tail; }
 
@@ -97,7 +96,6 @@ public:
         head = node;
         if (tail == nullptr)
             tail = node;
-
         return node;
     }
 
@@ -112,7 +110,6 @@ public:
         item->nextItem = node;
         if (tail == item)
             tail = node;
-
         return node;
     }
 
@@ -127,7 +124,6 @@ public:
         if (head == nullptr)
             tail = nullptr;
         delete old;
-
         return head;
     }
 
@@ -145,7 +141,6 @@ public:
         if (tail == target)
             tail = item;
         delete target;
-
         return item->nextItem;
     }
 

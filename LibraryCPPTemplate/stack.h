@@ -40,7 +40,6 @@ public:
     }
 
     bool empty() const { return elements.empty(); }
-    std::size_t size() const { return elements.size(); }
 };
 
 #endif
