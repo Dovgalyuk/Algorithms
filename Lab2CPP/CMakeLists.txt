@@ -140,3 +140,17 @@ add_test(
 set_tests_properties(ProcessorTest15 PROPERTIES
     PASS_REGULAR_EXPRESSION "BAD COMMAND"
 )
+
+add_test(NAME ProcessorTest16
+    COMMAND processor ${CMAKE_CURRENT_SOURCE_DIR}/Tests/test16.txt
+)
+set_tests_properties(ProcessorTest16 PROPERTIES
+    PASS_REGULAR_EXPRESSION "BAD CALL"
+)
+
+add_test(NAME ProcessorTest17
+    COMMAND processor ${CMAKE_CURRENT_SOURCE_DIR}/Tests/test17.txt
+)
+set_tests_properties(ProcessorTest17 PROPERTIES
+    PASS_REGULAR_EXPRESSION "BAD CALL"
+)
