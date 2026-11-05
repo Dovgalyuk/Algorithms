@@ -2,20 +2,22 @@
 
 List::List() {
     dummy = new Item;
-    dummy->data_ = 0;
-    dummy->next_ = dummy;
-    dummy->prev_ = dummy;
+    dummy->itemData = 0;
+    dummy->nextItem = dummy;
+    dummy->prevItem = dummy;
+    dummy->isDummy = true;
 }
 
 List::List(const List& a) {
     dummy = new Item;
-    dummy->data_ = 0;
-    dummy->next_ = dummy;
-    dummy->prev_ = dummy;
-    Item* current = a.dummy->next_;
+    dummy->itemData = 0;
+    dummy->nextItem = dummy;
+    dummy->prevItem = dummy;
+    dummy->isDummy = true;
+    Item* current = a.dummy->nextItem;
     while (current != a.dummy) {
-        insert_after(last(), current->data_);
-        current = current->next_;
+        insert_after(last(), current->itemData);
+        current = current->nextItem;
     }
 }
 
@@ -30,9 +32,9 @@ List& List::operator=(const List& a) {
 }
 
 List::~List() {
-    Item* current = dummy->next_;
+    Item* current = dummy->nextItem;
     while (current != dummy) {
-        Item* nextItem = current->next_;
+        Item* nextItem = current->nextItem;
         delete current;
         current = nextItem;
     }
@@ -40,42 +42,44 @@ List::~List() {
 }
 
 List::Item* List::first() const {
-    if (dummy->next_ == dummy) return nullptr;
-    return dummy->next_;
+    if (dummy->nextItem == dummy) return nullptr;
+    return dummy->nextItem;
 }
 
 List::Item* List::last() const {
-    if (dummy->prev_ == dummy) return nullptr;
-    return dummy->prev_;
+    if (dummy->prevItem == dummy) return nullptr;
+    return dummy->prevItem;
 }
 
 List::Item* List::insert(Data data) {
     Item* newItem = new Item;
-    newItem->data_ = data;
-    newItem->next_ = dummy->next_;
-    newItem->prev_ = dummy;
-    dummy->next_->prev_ = newItem;
-    dummy->next_ = newItem;
+    newItem->itemData = data;
+    newItem->isDummy = false;
+    newItem->nextItem = dummy->nextItem;
+    newItem->prevItem = dummy;
+    dummy->nextItem->prevItem = newItem;
+    dummy->nextItem = newItem;
     return newItem;
 }
 
 List::Item* List::insert_after(Item* item, Data data) {
     if (item == nullptr) return insert(data);
     Item* newItem = new Item;
-    newItem->data_ = data;
-    newItem->next_ = item->next_;
-    newItem->prev_ = item;
-    item->next_->prev_ = newItem;
-    item->next_ = newItem;
+    newItem->itemData = data;
+    newItem->isDummy = false;
+    newItem->nextItem = item->nextItem;
+    newItem->prevItem = item;
+    item->nextItem->prevItem = newItem;
+    item->nextItem = newItem;
     return newItem;
 }
 
 List::Item* List::erase_first() {
-    if (dummy->next_ == dummy) return nullptr;
-    Item* toDelete = dummy->next_;
-    Item* nextItem = toDelete->next_;
-    dummy->next_ = nextItem;
-    nextItem->prev_ = dummy;
+    if (dummy->nextItem == dummy) return nullptr;
+    Item* toDelete = dummy->nextItem;
+    Item* nextItem = toDelete->nextItem;
+    dummy->nextItem = nextItem;
+    nextItem->prevItem = dummy;
     delete toDelete;
     if (nextItem == dummy) return nullptr;
     return nextItem;
@@ -83,11 +87,11 @@ List::Item* List::erase_first() {
 
 List::Item* List::erase_next(Item* item) {
     if (item == nullptr) return erase_first();
-    Item* toDelete = item->next_;
+    Item* toDelete = item->nextItem;
     if (toDelete == dummy) return nullptr;
-    Item* nextItem = toDelete->next_;
-    item->next_ = nextItem;
-    nextItem->prev_ = item;
+    Item* nextItem = toDelete->nextItem;
+    item->nextItem = nextItem;
+    nextItem->prevItem = item;
     delete toDelete;
     if (nextItem == dummy) return nullptr;
     return nextItem;

@@ -7,13 +7,20 @@ class List {
 public:
     class Item {
     public:
-        Item* next() { return next_; }
-        Item* prev() { return prev_; }
-        Data data() const { return data_; }
+        Item* next() {
+            if (nextItem != nullptr && nextItem->isDummy) return nullptr;
+            return nextItem;
+        }
+        Item* prev() {
+            if (prevItem != nullptr && prevItem->isDummy) return nullptr;
+            return prevItem;
+        }
+        Data data() const { return itemData; }
     private:
-        Data data_;
-        Item* next_;
-        Item* prev_;
+        Data itemData;
+        Item* nextItem;
+        Item* prevItem;
+        bool isDummy;
         friend class List;
     };
 
