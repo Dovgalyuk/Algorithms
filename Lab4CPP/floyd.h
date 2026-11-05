@@ -6,9 +6,12 @@
 #include <string>
 #include <stdexcept>
 
+typedef Vector<Vector<long long>> rastMatrix;
+typedef Vector<Vector<size_t>> nextMatrix;
+
 struct Floyd {
-	Vector<Vector<long long>> rasstoyanie;
-	Vector<Vector<size_t>> next_versh;
+	rastMatrix rasstoyanie;
+	nextMatrix next_versh;
 };
 
 Floyd floyd_alg(const Graph<string, int>& graph);

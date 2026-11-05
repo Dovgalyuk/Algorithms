@@ -14,7 +14,19 @@ using namespace std;
 template <typename VershLabel, typename RebroLabel>
 
 class Graph {
+
+	typedef Vector<VershLabel> VershGr;
+
+	struct elMatrGr {
+		bool has_r = false;
+		RebroLabel weight{};
+	};
+
+	typedef Vector<elMatrGr>elRow;
+	typedef Vector<elRow> elMatrix;
+
 public:
+
 	Graph() : rows_gr(0), cols_gr(0) {}
 
 	explicit Graph(size_t kolvo_versh) : rows_gr(1), cols_gr(kolvo_versh) {
@@ -46,71 +58,57 @@ public:
 	}
 
 	void resize(size_t new_rows, size_t new_cols) {
-		
-		Vector<VershLabel> new_versh(new_rows * new_cols);
-		Vector<bool> new_r_en(new_rows * new_cols);
-		Vector<RebroLabel> new_r_w(new_rows * new_cols);
-		Vector<bool> new_l_en(new_rows * new_cols);
-		Vector<RebroLabel> new_l_w(new_rows * new_cols);
-		Vector<bool> new_d_en(new_rows * new_cols);
-		Vector<RebroLabel> new_d_w(new_rows * new_cols);
-		Vector<bool> new_u_en(new_rows * new_cols);
-		Vector<RebroLabel> new_u_w(new_rows * new_cols);
+
+		size_t new_n = new_rows * new_cols;
+
+		VershGr new_versh(new_n);
+		elMatrix new_sm(new_n);
+		for (size_t i = 0; i < new_n; i++) {
+			new_sm[i].resize(new_n);
+		}
 
 
 		size_t copy_rows = (new_rows < rows_gr) ? new_rows : rows_gr;
 		size_t copy_cols = (new_cols < cols_gr) ? new_cols : cols_gr;
 
-		for (size_t i = 0; i < copy_rows; i++) {
-			for (size_t j = 0; j < copy_cols; j++) {
-				size_t old_i = i * cols_gr + j;
-				size_t new_i = i * new_cols + j;
+		for (size_t r = 0; r < copy_rows; r++) {
+			for (size_t c = 0; c < copy_cols; c++) {
+				size_t old_i = r * cols_gr + c;
+				size_t new_i = r * new_cols + c;
 
 				new_versh.set(new_i, versh_labels.get(old_i));
-				
-				new_r_en.set(new_i, r_enabled.get(old_i));
-				new_r_w.set(new_i, r_weight.get(old_i));
-				
-				new_l_en.set(new_i, l_enabled.get(old_i));
-				new_l_w.set(new_i, l_weight.get(old_i));
 
-				new_d_en.set(new_i, d_enabled.get(old_i));
-				new_d_w.set(new_i, d_weight.get(old_i));
-
-				new_u_en.set(new_i, u_enabled.get(old_i));
-				new_u_w.set(new_i, u_weight.get(old_i));
+				for (size_t r2 = 0; r2 < copy_rows; r2++) {
+					for (size_t c2 = 0; c2 < copy_cols; c2++) {
+						size_t old_j = r2 * cols_gr + c2;
+						size_t new_j = r2 * new_cols + c2;
+						new_sm[new_i].set(new_j, smejnost[old_i][old_j]);
+					}
+				}
 			}
 		}
 
 		rows_gr = new_rows;
 		cols_gr = new_cols;
 		versh_labels = move(new_versh);
-
-		r_enabled = move(new_r_en);
-		r_weight = move(new_r_w);
-		l_enabled = move(new_l_en);
-		l_weight = move(new_l_w);
-		d_enabled = move(new_d_en);
-		d_weight = move(new_d_w);
-		u_enabled = move(new_u_en);
-		u_weight = move(new_u_w);
+		smejnost = move(new_sm);
 	}
 
 	void add_vershina(const VershLabel& label = VershLabel{}) {
-		if (rows_gr == 0) {
-			resize(1);
+		size_t old_size = size();
+		if (old_size == 0) {
+			resize(1, 1);
 		}
-		else if (cols_gr == 0) {
+		else if (rows_gr == 1) {
+			resize(1, cols_gr + 1);
+		}
+		else if (cols_gr == 1) {
 			resize(rows_gr + 1, 1);
 		}
 		else {
-			if (rows_gr == 1) {
-				resize(1, cols_gr + 1);
-			}
-			else {
-				resize(rows_gr + 1, cols_gr);
-			}
+			resize(rows_gr + 1, cols_gr);
 		}
+
 	}
 
 	void remove_vershina(size_t index) {
@@ -134,32 +132,8 @@ public:
 			throw invalid_argument("Вершины не являются соседними");
 		}
 
-		size_t r1 = from / cols_gr;
-		size_t c1 = from % cols_gr;
-
-		size_t r2 = to / cols_gr;
-		size_t c2 = to % cols_gr;
-
-		if (r1 == r2) {
-			if (c2 == c1 + 1) {
-				r_enabled.set(from, true);
-				r_weight.set(from, label);
-			}
-			else if (c2 == c1 - 1) {
-				l_enabled.set(from, true);
-				l_weight.set(from, label);
-			}
-		}
-		else if (c1 == c2) {
-			if (r2 == r1 + 1) {
-				d_enabled.set(from, true);
-				d_weight.set(from, label);
-			}
-			else if (r2 == r1 - 1) {
-				u_enabled.set(from, true);
-				u_weight.set(from, label);
-			}
-		}
+		smejnost[from][to].has_r = true;
+		smejnost[from][to].weight = label;
 	}
 
 	void remove_rebro(size_t from, size_t to) {
@@ -168,29 +142,7 @@ public:
 		if (!sosedi_pos(from, to)) {
 			return;
 		}
-
-		size_t r1 = from / cols_gr;
-		size_t c1 = from % cols_gr;
-
-		size_t r2 = to / cols_gr;
-		size_t c2 = to % cols_gr;
-
-		if (r1 == r2) {
-			if (c2 == c1 + 1) {
-				r_enabled.set(from, false);
-			}
-			else if (c2 == c1 - 1) {
-				l_enabled.set(from, false);
-			}
-		}
-		else if (c1 == c2) {
-			if (r2 == r1 + 1) {
-				d_enabled.set(from, false);
-			}
-			else if (r2 == r1 - 1) {
-				u_enabled.set(from, false);
-			}
-		}
+		smejnost[from][to].has_r = false;
 	}
 
 	bool has_rebro(size_t from, size_t to) const {
@@ -199,30 +151,7 @@ public:
 		if (!sosedi_pos(from, to)) {
 			return false;
 		}
-
-		size_t r1 = from / cols_gr;
-		size_t c1 = from % cols_gr;
-
-		size_t r2 = to / cols_gr;
-		size_t c2 = to % cols_gr;
-
-		if (r1 == r2) {
-			if (c2 == c1 + 1) {
-				return r_enabled.get(from);
-			}
-			if (c2 == c1 - 1) {
-				return l_enabled.get(from);
-			}
-		}
-		else if (c1 == c2) {
-			if (r2 == r1 + 1) {
-				return d_enabled.get(from);
-			}
-			if (r2 == r1 - 1) {
-				return u_enabled.get(from);
-			}
-		}
-		return false;
+		return smejnost[from][to].has_r;
 	}
 
 	void set_rebro_label(size_t from, size_t to, const RebroLabel& label) {
@@ -233,32 +162,10 @@ public:
 		check_vershina(from);
 		check_vershina(to);
 
-		if (!sosedi_pos(from, to)) {
+		if (!sosedi_pos(from, to) || !smejnost[from][to].has_r) {
 			return RebroLabel();
 		}
-		size_t r1 = from / cols_gr;
-		size_t c1 = from % cols_gr;
-
-		size_t r2 = to / cols_gr;
-		size_t c2 = to % cols_gr;
-
-		if (r1 == r2) {
-			if (c2 == c1 + 1) {
-				return r_weight.get(from);
-			}
-			if (c2 == c1 - 1) {
-				return l_weight.get(from);
-			}
-		}
-		else if (c1 == c2) {
-			if (r2 == r1 + 1) {
-				return d_weight.get(from);
-			}
-			if (r2 == r1 - 1) {
-				return u_weight.get(from);
-			}
-		}
-		return RebroLabel();
+		return smejnost[from][to].weight;
 	}
 
 	void set_vershina_label(size_t index, const VershLabel& label) {
@@ -271,7 +178,7 @@ public:
 		return versh_labels.get(index);
 	}
 
-	Vector<VershLabel> get_vse_versh_labels() const {
+	VershGr get_vse_versh_labels() const {
 		return versh_labels;
 	}
 
@@ -383,30 +290,16 @@ public:
 private:
 	size_t rows_gr;
 	size_t cols_gr;
-	Vector<VershLabel> versh_labels;
-	Vector<RebroLabel> r_weight;
-	Vector<RebroLabel> l_weight;
-	Vector<RebroLabel> d_weight;
-	Vector<RebroLabel> u_weight;
-
-	Vector<bool> r_enabled;
-	Vector<bool> l_enabled;
-	Vector<bool> d_enabled;
-	Vector<bool> u_enabled;
+	VershGr versh_labels;
+	elMatrix smejnost;
 
 	void init_storage() {
 		size_t total = rows_gr * cols_gr;
 		versh_labels.resize(total);
-		
-		r_enabled.resize(total);
-		r_weight.resize(total);
-		l_enabled.resize(total);
-		l_weight.resize(total);
-
-		d_enabled.resize(total);
-		d_weight.resize(total);
-		u_enabled.resize(total);
-		u_weight.resize(total);
+		smejnost.resize(total);
+		for (size_t i = 0; i < total; i++) {
+			smejnost[i].resize(total);
+		}
 	}
 	void check_vershina(size_t index) const {
 		if (index >= size()) {
@@ -416,12 +309,11 @@ private:
 	bool sosedi_pos(size_t a, size_t b) const {
 		size_t r1 = a / cols_gr;
 		size_t c1 = a % cols_gr;
-
 		size_t r2 = b / cols_gr;
 		size_t c2 = b % cols_gr;
 
-		int dr = (int)r2 - (int)r1;
-		int dc = (int)c2 - (int)c1;
+		int dr = static_cast<int>(r2) - static_cast<int>(r1);
+		int dc = static_cast<int>(c2) - static_cast<int>(c1);
 
 		return(dr == 0 && (dc == 1 || dc == -1)) || (dc == 0 && (dr == 1 || dr == -1));
 	}
