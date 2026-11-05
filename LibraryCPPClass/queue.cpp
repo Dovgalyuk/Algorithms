@@ -23,16 +23,16 @@ Queue::~Queue()
 {
 }
 
-void Queue::insert(Data data)
+void Queue::insert(Data value)
 {
-    if (count == this->data.size()) {
+    if (count == data.size()) {
         Vector values;
-        values.resize(this->data.size() * 2);
-        for (size_t i = 0; i < count; i++) values.set(i, this->data.get((first + i) % this->data.size()));
-        this->data = values;
+        values.resize(data.size() * 2);
+        for (size_t i = 0; i < count; i++) values.set(i, data.get((first + i) % data.size()));
+        data = values;
         first = 0;
     }
-    this->data.set((first + count) % this->data.size(), data);
+    data.set((first + count) % data.size(), value);
     count++;
 }
 
@@ -44,7 +44,7 @@ Data Queue::get() const
 void Queue::remove()
 {
     if (count > 0) {
-        first = (first + 1) % this->data.size();
+        first = (first + 1) % data.size();
         count--;
     }
 }
