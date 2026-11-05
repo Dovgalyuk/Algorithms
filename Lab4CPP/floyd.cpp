@@ -2,7 +2,7 @@
 
 static const long long INF = 1000000000000000LL;
 
-Floyd floyd_alg(const Graph<string, int>& graph) {
+Floyd floyd_alg(const cr_Graph& graph) {
 	size_t n = graph.size();
 	Floyd result;
 
