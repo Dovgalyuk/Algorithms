@@ -34,22 +34,6 @@ static void checkNoNegativeCycle(const Matrix& dist)
             throw std::runtime_error("Graph contains a negative cycle");
 }
 
-static Matrix buildWeightMatrix(const GraphType& g) 
-{
-    const std::size_t n = g.vertexCount();
-    const double INF = std::numeric_limits<double>::infinity();
-
-    Matrix dist(n, std::vector<double>(n, INF));
-    for (std::size_t i = 0; i < n; ++i)
-        dist[i][i] = 0.0;
-
-    g.forEachEdge([&](std::size_t i, std::size_t j, double w) {
-        if (w < dist[i][j])
-            dist[i][j] = w;
-        });
-    return dist;
-}
-
 static void floydWarshall(Matrix& dist)
 {
     const std::size_t n = dist.size();
@@ -98,7 +82,8 @@ static int solve(const GraphType& g)
         return 0;
     }
 
-    Matrix dist = buildWeightMatrix(g);
+    const double INF = std::numeric_limits<double>::infinity();
+    Matrix dist = g.toWeightMatrix(INF, 0.0);
     floydWarshall(dist);
     checkNoNegativeCycle(dist);
     Result r = findLongestShortest(dist);
