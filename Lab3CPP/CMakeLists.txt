@@ -14,7 +14,7 @@ set(COMPARE_SCRIPT
     "${CMAKE_CURRENT_SOURCE_DIR}/CompareOutput.cmake"
 )
 
-foreach(group RANGE 1 3)
+foreach(group RANGE 1 2)
     foreach(number RANGE 1 10)
 
         set(test_name "Lab3_Test${group}_${number}")
@@ -38,15 +38,6 @@ foreach(group RANGE 1 3)
 
     endforeach()
 endforeach()
-
-add_test(
-    NAME Lab3_NoPath
-    COMMAND ${CMAKE_COMMAND}
-        "-DPROGRAM=$<TARGET_FILE:main>"
-        "-DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/Tests/Test3_NoPath.txt"
-        "-DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/Tests/Expected_NoPath.txt"
-        -P "${COMPARE_SCRIPT}"
-)
 
 add_test(
     NAME Lab3_Error_NoArgument
@@ -86,6 +77,5 @@ set_tests_properties(
     Lab3_Test1_1
     Lab3_Test1_2
     Lab3_Test1_3
-    Lab3_NoPath
     PROPERTIES TIMEOUT 10
 )

@@ -1,6 +1,8 @@
 #include "queue.h"
 #include "vector.h"
 
+#include <stdexcept>
+
 struct Queue
 {
     Vector* storage;

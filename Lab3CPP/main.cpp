@@ -36,19 +36,38 @@ bool solve_bfs(Maze& m) {
 
         if (r == m.er && c == m.ec) { found = true; break; }
 
+        const int Lprev = (r > 0) ? (int)m.grid[r - 1].size() : 0;
+        const int Lcur = (int)m.grid[r].size();
+        const int Lnext = (r < k - 1) ? (int)m.grid[r + 1].size() : 0;
+
         pair<int, int> nb[6];
-        if (r % 2 == 0) {
-            nb[0] = { r - 1, c };   nb[1] = { r - 1, c + 1 };
-            nb[2] = { r,   c - 1 }; nb[3] = { r,   c + 1 };
-            nb[4] = { r + 1, c };   nb[5] = { r + 1, c + 1 };
+        int cnt = 0;
+
+        nb[cnt++] = { r, c - 1 };
+        nb[cnt++] = { r, c + 1 };
+
+        if (r > 0) {
+            if (Lprev < Lcur) {
+                nb[cnt++] = { r - 1, c - 1 };
+                nb[cnt++] = { r - 1, c };
+            }
+            else {
+                nb[cnt++] = { r - 1, c };
+                nb[cnt++] = { r - 1, c + 1 };
+            }
         }
-        else {
-            nb[0] = { r - 1, c - 1 }; nb[1] = { r - 1, c };
-            nb[2] = { r,   c - 1 }; nb[3] = { r,   c + 1 };
-            nb[4] = { r + 1, c - 1 }; nb[5] = { r + 1, c };
+        if (r < k - 1) {
+            if (Lnext > Lcur) {
+                nb[cnt++] = { r + 1, c };
+                nb[cnt++] = { r + 1, c + 1 };
+            }
+            else {
+                nb[cnt++] = { r + 1, c - 1 };
+                nb[cnt++] = { r + 1, c };
+            }
         }
 
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < cnt; ++i) {
             int nr = nb[i].first, nc = nb[i].second;
             if (nr < 0 || nr >= k) continue;
             if (nc < 0 || nc >= (int)m.grid[nr].size()) continue;
