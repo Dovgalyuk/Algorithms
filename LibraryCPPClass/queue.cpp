@@ -2,29 +2,27 @@
 
 Queue::Queue() {}
 
-Queue::Queue(const Queue& other) : list(other.list) {}
+Queue::Queue(const Queue& a) : list(a.list) {}
 
-Queue& Queue::operator=(const Queue& other) {
-    if (this != &other) {
-        list = other.list;
-    }
+Queue& Queue::operator=(const Queue& a) {
+    if (this != &a) list = a.list;
     return *this;
 }
 
 Queue::~Queue() {}
 
 void Queue::insert(Data data) {
-    list.insert(data);
+    list.insert_after(list.last(), data);
 }
 
 Data Queue::get() const {
-    return list.first()->data;
+    return list.first()->data();
 }
 
 void Queue::remove() {
-    list.erase(list.first());
+    list.erase_first();
 }
 
 bool Queue::empty() const {
-    return list.empty();
+    return list.first() == nullptr;
 }
