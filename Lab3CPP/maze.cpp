@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include "queue.h"
-#include "vector.h"
 
 using namespace std;
 
@@ -9,19 +8,15 @@ int main(int argc, char* argv[]) {
     const char* filename = (argc > 1) ? argv[1] : "input1.txt";
     ifstream fin(filename);
     if (!fin.is_open()) return 1;
-    int width = 0;
-    int height = 0;
-    int currW = 0;
+    int width = 0, height = 0, currW = 0;
     char c;
     while (fin.get(c)) {
-        if (c == '\n') {
-            if (currW > 0) {
-                if (width == 0) width = currW;
-                height++;
-                currW = 0;
-            }
+        if (c == '\n' && currW > 0) {
+            if (width == 0) width = currW;
+            height++;
+            currW = 0;
         }
-        else if (c != '\r') currW++;
+        if (c != '\n' && c != '\r') currW++;
     }
     if (currW > 0) {
         height++;
@@ -29,17 +24,14 @@ int main(int argc, char* argv[]) {
     }
     fin.clear();
     fin.seekg(0, ios::beg);
-    Vector maze;
-    maze.resize(width * height);
-    Vector visited;
-    visited.resize(width * height);
-    for (size_t i = 0; i < visited.size(); i++) visited.set(i, 0);
-    int startX = -1;
-    int startY = -1;
-    int idx = 0;
+    if (width == 0 || height == 0) return 1;
+    char* maze = new char[width * height];
+    bool* visited = new bool[width * height];
+    for (int i = 0; i < width * height; i++) visited[i] = false;
+    int startX = -1, startY = -1, idx = 0;
     while (fin.get(c)) {
         if (c != '\n' && c != '\r') {
-            maze.set(idx, c);
+            maze[idx] = c;
             if (c == 'X') {
                 startX = idx % width;
                 startY = idx / width;
@@ -47,10 +39,14 @@ int main(int argc, char* argv[]) {
             idx++;
         }
     }
-    if (startX == -1 || startY == -1) return 1;
+    if (startX == -1 || startY == -1) {
+        delete[] maze;
+        delete[] visited;
+        return 1;
+    }
     Queue q;
     q.insert(startY * width + startX);
-    visited.set(startY * width + startX, 1);
+    visited[startY * width + startX] = true;
     int dx[] = {0, 0, -1, 1};
     int dy[] = {-1, 1, 0, 0};
     while (!q.empty()) {
@@ -58,9 +54,11 @@ int main(int argc, char* argv[]) {
         q.remove();
         int x = curr % width;
         int y = curr / width;
-        char cell = (char)maze.get(y * width + x);
+        char cell = maze[y * width + x];
         if (cell >= '0' && cell <= '9') {
             cout << cell << '\n';
+            delete[] maze;
+            delete[] visited;
             return 0;
         }
         for (int i = 0; i < 4; i++) {
@@ -68,13 +66,15 @@ int main(int argc, char* argv[]) {
             int ny = y + dy[i];
             if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
                 int nIdx = ny * width + nx;
-                if (visited.get(nIdx) == 0 && (char)maze.get(nIdx) != '#') {
-                    visited.set(nIdx, 1);
+                if (!visited[nIdx] && maze[nIdx] != '#') {
+                    visited[nIdx] = true;
                     q.insert(nIdx);
                 }
             }
         }
     }
     cout << "No exit found\n";
+    delete[] maze;
+    delete[] visited;
     return 0;
 }
