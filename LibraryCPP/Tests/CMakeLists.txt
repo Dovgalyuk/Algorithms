@@ -1,3 +1,13 @@
+add_executable(TestBwa bwa.cpp)
+target_link_libraries(TestBwa LibraryCPP)
+add_test(NAME TestBwa COMMAND TestBwa)
+set_tests_properties(TestBwa PROPERTIES TIMEOUT 30)
+
+add_executable(TestBwaEthalon test_with_ethalon.cpp)
+target_link_libraries(TestBwaEthalon LibraryCPP)
+add_test(NAME TestBwaEthalon COMMAND TestBwaEthalon)
+set_tests_properties(TestBwaEthalon PROPERTIES TIMEOUT 60)
+
 # add_executable(TestArrayCPP array.cpp)
 # target_include_directories(TestArrayCPP PUBLIC ..)
 # target_link_libraries(TestArrayCPP LibraryCPP)
