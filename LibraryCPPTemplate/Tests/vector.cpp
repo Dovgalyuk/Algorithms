@@ -1,10 +1,59 @@
 #include <iostream>
+#include <stdexcept>
+#include <string>
 #include "vector.h"
+
+using namespace std;
 
 typedef Vector<int> MyVector;
 
+
+typedef Vector<string> StringVector;
+
+void check(bool condition, const char *message)
+{
+    if (!condition)
+        throw runtime_error(message);
+}
+
+void test_vector()
+{
+    StringVector values;
+    values.resize(3);
+    check(values[0].empty() && values[2].empty(), "Vector defaults");
+    values[0] = "one";
+    values[1] = "two";
+    values[2] = "three";
+    values.resize(1);
+    values.resize(3);
+    check(values[0] == "one" && values[1].empty() && values[2].empty(), "Vector regrow");
+    values.resize(100);
+    check(values[0] == "one" && values[99].empty(), "Vector expansion");
+    StringVector copy(values);
+    copy[0] = "changed";
+    check(values[0] == "one", "Vector independent copy");
+    copy = values;
+    copy = copy;
+    check(copy[0] == "one" && copy.size() == 100, "Vector assignment");
+    copy.resize(0);
+    copy.resize(1);
+    check(copy[0].empty(), "Vector reuse");
+    copy = StringVector();
+    check(copy.size() == 0, "Assign empty vector");
+}
+
 int main()
 {
+    try
+    {
+        test_vector();
+    }
+    catch (const exception &error)
+    {
+        cerr << error.what() << '\n';
+        return 1;
+    }
+
     MyVector vector;
 
     vector.resize(5);

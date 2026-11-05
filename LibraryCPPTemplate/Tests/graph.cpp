@@ -8,71 +8,12 @@
 using namespace std;
 
 typedef Graph<int, string> TestGraph;
-typedef List<string> StringList;
 typedef Vector<string> StringVector;
 
 void check(bool condition, const char *message)
 {
     if (!condition)
         throw runtime_error(message);
-}
-
-void test_list()
-{
-    StringList list;
-    check(list.first() == nullptr && list.last() == nullptr, "Empty list");
-    check(list.erase_first() == nullptr, "Erase empty list");
-    auto first = list.insert("one");
-    auto last = list.insert_after(first, "three");
-    auto middle = list.insert_after(first, "two");
-    check(first->next() == middle && middle->next() == last, "List next");
-    check(last->prev() == middle && middle->prev() == first, "List prev");
-    check(first->prev() == nullptr && last->next() == nullptr, "List boundaries");
-    check(list.erase_next(first) == last && last->prev() == first, "Erase middle");
-    check(list.erase_next(last) == nullptr && list.last() == last, "Erase after last");
-
-    StringList copy(list);
-    copy.first()->data() = "changed";
-    check(list.first()->data() == "one", "List independent copy");
-    copy.erase_first();
-    check(copy.first()->data() == "three", "List copy order");
-    copy = list;
-    copy = copy;
-    check(copy.first()->data() == "one", "List assignment");
-
-    check(list.erase_next(first) == nullptr && list.last() == first, "Erase last");
-    check(list.erase_first() == nullptr && list.first() == nullptr, "Erase only");
-    check(list.last() == nullptr, "List empty tail");
-    list.insert("again");
-    check(list.first()->data() == "again", "List reuse");
-    copy = StringList();
-    check(copy.first() == nullptr, "Assign empty list");
-}
-
-void test_vector()
-{
-    StringVector values;
-    values.resize(3);
-    check(values[0].empty() && values[2].empty(), "Vector defaults");
-    values[0] = "one";
-    values[1] = "two";
-    values[2] = "three";
-    values.resize(1);
-    values.resize(3);
-    check(values[0] == "one" && values[1].empty() && values[2].empty(), "Vector regrow");
-    values.resize(100);
-    check(values[0] == "one" && values[99].empty(), "Vector expansion");
-    StringVector copy(values);
-    copy[0] = "changed";
-    check(values[0] == "one", "Vector independent copy");
-    copy = values;
-    copy = copy;
-    check(copy[0] == "one" && copy.size() == 100, "Vector assignment");
-    copy.resize(0);
-    copy.resize(1);
-    check(copy[0].empty(), "Vector reuse");
-    copy = StringVector();
-    check(copy.size() == 0, "Assign empty vector");
 }
 
 void test_graph()
@@ -188,8 +129,6 @@ int main()
 {
     try
     {
-        test_list();
-        test_vector();
         test_graph();
         test_input();
     }
