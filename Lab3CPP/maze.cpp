@@ -6,7 +6,10 @@
 
 using namespace std;
 
-bool findStartAndFinishes(const vector<string> &maze, int width, int height, int &start, vector<int> &finishes) {
+typedef vector<string> Maze;
+typedef vector<int> Cells;
+
+bool findStartAndFinishes(const Maze &maze, int width, int height, int &start, Cells &finishes) {
     for (int row = 0; row < height; row++) {
         if (static_cast<int>(maze[row].size()) != width) {
             cerr << "Error: row " << row << " has a different length." << endl;
@@ -37,7 +40,7 @@ int main(int argc, char *argv[]) {
         return 2;
     }
 
-    vector<string> maze;
+    Maze maze;
     ifstream file(argv[1]);
     if (!file.is_open()) {
         cerr << "Error opening file: " << argv[1] << endl;
@@ -63,7 +66,7 @@ int main(int argc, char *argv[]) {
     int width = static_cast<int>(maze[0].size());
     int height = static_cast<int>(maze.size());
 
-    vector<int> finishes;
+    Cells finishes;
     int start = -1;
     if (!findStartAndFinishes(maze, width, height, start, finishes)) {
         return 1;
@@ -82,9 +85,9 @@ int main(int argc, char *argv[]) {
     const int dc[4] = {0, 0, -1, 1};
 
     int cells = width * height;
-    vector<int> dist(cells, -1);
-    vector<int> side(cells, 0); // 0 = не посещена, 1 = волна от старта, 2 = волна от финишей
-    vector<int> digit(cells, -1); // для волны 2: цифра, от которой она идёт
+    Cells dist(cells, -1);
+    Cells side(cells, 0); // 0 = не посещена, 1 = волна от старта, 2 = волна от финишей
+    Cells digit(cells, -1); // для волны 2: цифра, от которой она идёт
 
     Queue *fromStart = queue_create();
     Queue *fromFinish = queue_create();
