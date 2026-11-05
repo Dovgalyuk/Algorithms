@@ -1,0 +1,4 @@
+cat animal
+apple fruit
+dog animal
+cat mammal
