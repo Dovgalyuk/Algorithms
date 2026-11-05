@@ -3,12 +3,6 @@
 #include <string>
 #include "stack.h"
 
-bool is_matching(char open, char close) {
-    return (open == '(' && close == ')') ||
-           (open == '[' && close == ']') ||
-           (open == '{' && close == '}');
-}
-
 void task1(const std::string& str) {
     Stack* stack = stack_create();
     bool has_brackets = false;
@@ -27,11 +21,15 @@ void task1(const std::string& str) {
                 }
             }
             else if (c == ')' || c == ']' || c == '}') {
-                if (stack_empty(stack) || !is_matching((char)stack_get(stack), c)) {
+                if (stack_empty(stack) ||
+                    (c == ')' && (char)stack_get(stack) != '(') ||
+                    (c == ']' && (char)stack_get(stack) != '[') ||
+                    (c == '}' && (char)stack_get(stack) != '{')) {
+
                     std::cout << "NO\n";
                     stack_delete(stack);
                     return;
-                }
+                    }
                 stack_pop(stack);
             }
             }
