@@ -46,22 +46,29 @@ int main()
     }
 
     // Performance test
-    for (int i = 1 ; i <= 10000000 ; ++i)
+    const int elementCount = 1000000;
+    for (int i = 1 ; i <= elementCount ; ++i)
     {
         queue->insert(i);
     }
 
     MyQueue copy(*queue);
-    for (int i = 1 ; i <= 10000000 ; ++i)
+    for (int i = 1 ; i <= elementCount ; ++i)
     {
         if (copy.empty())
             return 1;
         if (copy.get() != i)
         {
-            std::cout << "Get error: " << i << " " << queue->get() << "\n";
+            std::cout << "Get error: " << i << " " << copy.get() << "\n";
             return 1;
         }
         copy.remove();
+    }
+
+    if (!copy.empty() || queue->empty() || queue->get() != 1)
+    {
+        std::cout << "Queue copy is not independent\n";
+        return 1;
     }
 
     delete queue;
