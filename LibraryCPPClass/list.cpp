@@ -39,12 +39,12 @@ List::~List() {
     delete dummy;
 }
 
-List::Item* List::first() {
+List::Item* List::first() const {
     if (dummy->next_ == dummy) return nullptr;
     return dummy->next_;
 }
 
-List::Item* List::last() {
+List::Item* List::last() const {
     if (dummy->prev_ == dummy) return nullptr;
     return dummy->prev_;
 }
