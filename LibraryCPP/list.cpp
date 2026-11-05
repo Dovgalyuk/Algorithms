@@ -35,7 +35,6 @@ void list_delete(List *list)
 
 ListItem *list_first(List *list)
 {
-
     return list->first;
 }
 
