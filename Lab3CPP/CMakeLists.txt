@@ -11,38 +11,21 @@ target_link_libraries(Lab3CPP PRIVATE LibraryCPP)
 
 enable_testing()
 
-add_test(
-        NAME maze_test1
-        COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_maze1.txt
-)
-set_tests_properties(maze_test1 PROPERTIES PASS_REGULAR_EXPRESSION "^ /[^x]*x[^x]*x[^x]*x[^x]*$")
+function(add_maze_test number)
+    add_test(
+            NAME maze_test${number}
+            COMMAND ${CMAKE_COMMAND}
+            -DPROGRAM=$<TARGET_FILE:Lab3CPP>
+            -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/tests/test_maze${number}.txt
+            -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/tests/test_maze${number}.out
+            -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/test_maze${number}.result
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/run_maze_test.cmake
+    )
+endfunction()
 
-add_test(
-        NAME maze_test2
-        COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_maze2.txt
-)
-set_tests_properties(maze_test2 PROPERTIES PASS_REGULAR_EXPRESSION "^NO PATH")
-
-add_test(
-        NAME maze_test3
-        COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_maze3.txt
-)
-set_tests_properties(maze_test3 PROPERTIES PASS_REGULAR_EXPRESSION "^ /[^x]*$")
-
-add_test(
-        NAME maze_test4
-        COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_maze4.txt
-)
-set_tests_properties(maze_test4 PROPERTIES PASS_REGULAR_EXPRESSION "^ /[^x]*x[^x]*$")
-
-add_test(
-        NAME maze_test5
-        COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_maze5.txt
-)
-set_tests_properties(maze_test5 PROPERTIES PASS_REGULAR_EXPRESSION "^ /[^x]*x[^x]*x[^x]*x[^x]*$")
-
-add_test(
-        NAME maze_test6
-        COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_maze6.txt
-)
-set_tests_properties(maze_test6 PROPERTIES PASS_REGULAR_EXPRESSION "^ /[^x]*x[^x]*x[^x]*x[^x]*x[^x]*$")
+add_maze_test(1)
+add_maze_test(2)
+add_maze_test(3)
+add_maze_test(4)
+add_maze_test(5)
+add_maze_test(6)
