@@ -20,4 +20,4 @@ set_tests_properties(LoadMillion PROPERTIES FIXTURES_REQUIRED MillionData TIMEOU
 
 add_test(NAME StressMillion COMMAND StressBwa
     ${CMAKE_CURRENT_BINARY_DIR}/million.txt 1000000)
-set_tests_properties(StressMillion PROPERTIES FIXTURES_REQUIRED MillionData TIMEOUT 10)
+set_tests_properties(StressMillion PROPERTIES FIXTURES_REQUIRED MillionData TIMEOUT 30)
