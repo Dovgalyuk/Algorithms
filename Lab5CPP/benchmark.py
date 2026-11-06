@@ -8,7 +8,7 @@ import subprocess
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Compare file loading into three containers")
+    parser = argparse.ArgumentParser(description="Compare insertion of preloaded pairs into three containers")
     parser.add_argument("--generator", type=Path, required=True)
     parser.add_argument("--program", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=Path("benchmark-results"))
@@ -39,8 +39,6 @@ def main():
         for size in sorted(set(args.sizes)):
             filename = data / f"input_{size}.txt"
             subprocess.run([str(generator), str(filename), str(size)], check=True, timeout=120)
-
-            # Warm up file caching. Generation and warm-up are not measured runs.
             subprocess.run([str(program), str(filename)], check=True,
                            stdout=subprocess.DEVNULL, timeout=300)
             times = {name: [] for name in names}

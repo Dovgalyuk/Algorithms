@@ -1,4 +1,5 @@
 #include "bwa.h"
+#include "vector.h"
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -9,6 +10,13 @@
 using namespace std;
 
 typedef chrono::steady_clock Clock;
+
+struct Entry {
+    string key;
+    string value;
+};
+
+typedef Vector<Entry> InputData;
 
 int main(int argc, char **argv){
     if (argc != 2 && argc != 3) {
@@ -26,6 +34,28 @@ int main(int argc, char **argv){
         first = argument[0] - '0';
     }
 
+    InputData data;
+    ifstream input(argv[1]);
+    if (!input) {
+        cerr << "file failed to open\n";
+        return 1;
+    }
+
+    Entry entry;
+    while (input >> entry.key) {
+        if (!(input >> entry.value)) {
+            cerr << "cant read value\n";
+            return 1;
+        }
+        data.resize(data.size() + 1);
+        data.at(data.size() - 1) = entry;
+    }
+    if (!input.eof() || input.bad()) {
+        cerr << "file read failed\n";
+        return 1;
+    }
+    input.close();
+
     cout << "container,pairs,size,seconds\n";
 
     for (int step = 0; step < 3; step++) {
@@ -39,39 +69,18 @@ int main(int argc, char **argv){
         if (type == 1) name = "map";
         if (type == 2) name = "unordered_map";
 
-        size_t pairs = 0;
         size_t size = 0;
-        string key;
-        string value;
-
         auto start = Clock::now();
 
-        ifstream input(argv[1]);
-        if (!input) {
-            cerr << "file failed to open\n";
-            return 1;
-        }
-
-        while (input >> key) {
-            if (!(input >> value)) {
-                cerr << "cant read value\n";
-                return 1;
-            }
-
+        for (size_t i = 0; i < data.size(); i++) {
+            const Entry &pair = data.at(i);
             if (type == 0) {
-                bwa.insert(key, value);
+                bwa.insert(pair.key, pair.value);
             } else if (type == 1) {
-                ordered[key] = value;
+                ordered[pair.key] = pair.value;
             } else {
-                hashed[key] = value;
+                hashed[pair.key] = pair.value;
             }
-
-            pairs++;
-        }
-
-        if (!input.eof() || input.bad()) {
-            cerr << "file read failed\n";
-            return 1;
         }
 
         auto finish = Clock::now();
@@ -82,7 +91,7 @@ int main(int argc, char **argv){
         if (type == 1) size = ordered.size();
         if (type == 2) size = hashed.size();
 
-        cout << name << ',' << pairs << ','
+        cout << name << ',' << data.size() << ','
              << size << ',' << seconds << '\n';
     }
 

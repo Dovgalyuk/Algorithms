@@ -21,7 +21,6 @@ function plot_results(csv_file, output_dir)
     labels = {'BWA', 'std::map', 'std::unordered_map'};
     colors = [0.15 0.40 0.75; 0.85 0.35 0.12; 0.15 0.60 0.35];
 
-    % Total file loading time: median and min/max of measured runs.
     fig = figure('visible', 'off', 'position', [100 100 1200 520]);
     graphics_toolkit(fig, 'gnuplot');
     for panel = 1:2
@@ -48,7 +47,7 @@ function plot_results(csv_file, output_dir)
             ylim([0 max(data{5}) * 1.15]);
         end
         xlabel('Number of unique pairs');
-        ylabel('File loading time, seconds');
+        ylabel('Insertion time, seconds');
         grid on;
         for i = 1:3
             text(0.04, 0.96 - (i-1)*0.06, labels{i}, 'units', 'normalized', ...
@@ -59,7 +58,6 @@ function plot_results(csv_file, output_dir)
     print(fig, fullfile(output_dir, 'loading_time.png'), '-dpng', '-r150');
     close(fig);
 
-    % Normalization helps compare growth across different input sizes.
     fig = figure('visible', 'off', 'position', [100 100 850 520]);
     graphics_toolkit(fig, 'gnuplot');
     hold on;
@@ -73,8 +71,8 @@ function plot_results(csv_file, output_dir)
     end
     set(gca, 'xscale', 'log', 'fontsize', 11);
     xlabel('Number of unique pairs');
-    ylabel('Loading time per pair, microseconds');
-    title('Median loading time / number of pairs');
+    ylabel('Insertion time per pair, microseconds');
+    title('Median insertion time / number of pairs');
     for i = 1:3
         text(0.04, 0.96 - (i-1)*0.06, labels{i}, 'units', 'normalized', ...
              'color', colors(i,:), 'fontsize', 12, 'interpreter', 'none');
