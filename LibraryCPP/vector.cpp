@@ -12,15 +12,14 @@ Vector *vector_create()
     return new Vector{nullptr, 0, 0};
 }
 
-void vector_delete(Vector **vector)
+void vector_delete(Vector *vector)
 {
     // TODO: free vector internals
-    if (vector == nullptr || *vector == nullptr) {
+    if (vector == nullptr) {
         return;
     }
-    delete[] (*vector)->data;
-    delete *vector;
-    *vector = nullptr; 
+    delete[] vector->data;
+    delete vector;
 }
 
 Data vector_get(const Vector *vector, size_t index)

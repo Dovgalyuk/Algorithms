@@ -13,7 +13,7 @@ struct Stack;
 Stack *stack_create();
 
 // Deletes the stack
-void stack_delete(Stack **stack);
+void stack_delete(Stack *stack);
 
 // Pushes data on top of the stack
 // Should be O(1) on average

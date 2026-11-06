@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
 
     parseExpr(expression, stack);
 
-    stack_delete(&stack);
+    stack_delete(stack);
     delete[] expression;
 
     return 0;

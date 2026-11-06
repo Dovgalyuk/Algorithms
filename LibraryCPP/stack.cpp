@@ -11,15 +11,14 @@ Stack *stack_create()
     return new Stack{vector_create()};
 }
 
-void stack_delete(Stack **stack)
+void stack_delete(Stack *stack)
 {
     // TODO: free stack elements
-    if (stack == nullptr || *stack == nullptr) {
+    if (stack == nullptr) {
         return;
     }
-    vector_delete(&(*stack)->data);
-    delete *stack;
-    *stack = nullptr;
+    vector_delete(stack->data);
+    delete stack;
 }
 
 void stack_push(Stack *stack, Data data)
