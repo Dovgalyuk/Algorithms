@@ -71,5 +71,33 @@ int main()
         return 1;
     }
 
+    for (int i = 1 ; i <= elementCount ; ++i)
+    {
+        queue->remove();
+    }
+
+    queue->insert(0);
+    for (int i = 1 ; i <= 1000000 ; ++i)
+    {
+        queue->insert(i);
+        queue->remove();
+    }
+
+    delete queue;
+
+    queue = new MyQueue();
+    queue->insert(0);
+    for (int i = 1 ; i <= 100000 ; ++i)
+    {
+        int cnt = 1 + i % 20;
+        for (int j = 0 ; j < cnt ; ++j) {
+            queue->insert(i);
+        }
+        for (int j = 0 ; j < cnt ; ++j) {
+            queue->remove();
+        }
+    }
+
+
     delete queue;
 }
