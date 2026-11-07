@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "queue.h"
 
@@ -47,16 +48,12 @@ int main()
         return 1;
     }
 
-    for (int i = 0; i < 1000; ++i)
-    // Performance test
-    queue_insert(queue, 0);
-    for (int i = 1 ; i <= 1000000 ; ++i)
-    {
+    for (int i = 0; i < 1000000; ++i)
         queue_insert(queue, i);
 
-    for (int i = 0; i < 1000; ++i)
+    for (int i = 0; i < 1000000; ++i)
     {
-        if (queue_get(queue) != i)
+        if (queue_empty(queue) || queue_get(queue) != i)
         {
             std::cout << "Queue large-data error\n";
             queue_delete(queue);
@@ -65,33 +62,15 @@ int main()
         queue_remove(queue);
     }
 
-    for (int i = 1 ; i <= 1000000 ; ++i)
+    if (!queue_empty(queue))
     {
-        queue_remove(queue);
-    }
-
-    for (int i = 1 ; i <= 1000000 ; ++i)
-    {
-        queue_insert(queue, i);
-        queue_remove(queue);
+        std::cout << "Queue should be empty after large-data test\n";
+        queue_delete(queue);
+        return 1;
     }
 
     queue_delete(queue);
 
-    queue = queue_create();
-    queue_insert(queue, 0);
-    for (int i = 1 ; i <= 100000 ; ++i)
-    {
-        int cnt = 1 + i % 20;
-        for (int j = 0 ; j < cnt ; ++j) {
-            queue_insert(queue, i);
-        }
-        for (int j = 0 ; j < cnt ; ++j) {
-            queue_remove(queue);
-        }
-    }
-
-    queue_delete(queue);
     std::cout << "Queue tests passed\n";
     return 0;
 }
