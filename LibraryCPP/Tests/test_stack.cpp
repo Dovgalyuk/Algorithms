@@ -1,67 +1,54 @@
 #include <iostream>
-#include "vector.h"
+#include "stack.h"
 
-// Печатает сообщение и завершает тест с ошибкой
+using namespace std;
+
 #define CHECK(cond, msg)                         \
     if (!(cond))                                 \
     {                                            \
-        std::cout << "FAILED: " << msg << "\n";  \
-        vector_delete(vector);                   \
+        cout << "FAILED: " << msg << "\n";  \
+        stack_delete(stack);                     \
         return 1;                                \
     }
 
 int main()
 {
-    Vector *vector = vector_create();
+    Stack *stack = stack_create();
 
-    // Новый вектор пустой
-    CHECK(vector_size(vector) == 0, "new vector is not empty");
+    CHECK(stack_empty(stack), "new stack is not empty");
 
-    // Увеличение размера, запись и чтение
-    vector_resize(vector, 5);
-    CHECK(vector_size(vector) == 5, "size after resize(5)");
-    for (size_t i = 0; i < 5; ++i)
-        vector_set(vector, i, (Data)(i * 10));
-    for (size_t i = 0; i < 5; ++i)
-        CHECK(vector_get(vector, i) == (Data)(i * 10), "get after set");
+    stack_push(stack, 1);
+    CHECK(!stack_empty(stack), "stack is empty after push");
+    CHECK(stack_get(stack) == 1, "top after push(1)");
+    stack_push(stack, 2);
+    stack_push(stack, 3);
+    CHECK(stack_get(stack) == 3, "top after push(3)");
 
-    // Перезапись элемента
-    vector_set(vector, 2, -7);
-    CHECK(vector_get(vector, 2) == -7, "overwrite element");
+    stack_pop(stack);
+    CHECK(stack_get(stack) == 2, "top after first pop");
+    stack_pop(stack);
+    CHECK(stack_get(stack) == 1, "top after second pop");
+    stack_pop(stack);
+    CHECK(stack_empty(stack), "stack is not empty after popping all");
 
-    // При увеличении старые элементы сохраняются
-    vector_resize(vector, 100);
-    CHECK(vector_size(vector) == 100, "size after resize(100)");
-    CHECK(vector_get(vector, 0) == 0 && vector_get(vector, 1) == 10
-        && vector_get(vector, 2) == -7 && vector_get(vector, 4) == 40,
-        "old elements lost after growing");
+    stack_pop(stack);
+    CHECK(stack_empty(stack), "pop on empty stack");
 
-    // При уменьшении начало вектора сохраняется
-    vector_resize(vector, 3);
-    CHECK(vector_size(vector) == 3, "size after resize(3)");
-    CHECK(vector_get(vector, 1) == 10 && vector_get(vector, 2) == -7,
-        "elements lost after shrinking");
+    stack_push(stack, -5);
+    CHECK(stack_get(stack) == -5, "push after empty");
+    stack_pop(stack);
 
-    // Уменьшение до нуля и повторное использование
-    vector_resize(vector, 0);
-    CHECK(vector_size(vector) == 0, "size after resize(0)");
-    vector_resize(vector, 1);
-    vector_set(vector, 0, 42);
-    CHECK(vector_get(vector, 0) == 42, "reuse after resize(0)");
-
-    // Много добавлений по одному элементу (проверка скорости O(1) в среднем)
-    const size_t N = 1000000;
-    vector_resize(vector, 0);
-    for (size_t i = 0; i < N; ++i)
+    const Data N = 1000000;
+    for (Data i = 0; i < N; ++i)
+        stack_push(stack, i);
+    for (Data i = N - 1; i >= 0; --i)
     {
-        vector_resize(vector, i + 1);
-        vector_set(vector, i, (Data)i);
+        CHECK(stack_get(stack) == i, "wrong order on many elements");
+        stack_pop(stack);
     }
-    CHECK(vector_size(vector) == N, "size after many appends");
-    for (size_t i = 0; i < N; ++i)
-        CHECK(vector_get(vector, i) == (Data)i, "value after many appends");
+    CHECK(stack_empty(stack), "stack is not empty after many pops");
 
-    vector_delete(vector);
-    std::cout << "vector: OK\n";
+    stack_delete(stack);
+    cout << "stack: OK\n";
     return 0;
 }
