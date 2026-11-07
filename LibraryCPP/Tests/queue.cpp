@@ -48,6 +48,10 @@ int main()
     }
 
     for (int i = 0; i < 1000; ++i)
+    // Performance test
+    queue_insert(queue, 0);
+    for (int i = 1 ; i <= 1000000 ; ++i)
+    {
         queue_insert(queue, i);
 
     for (int i = 0; i < 1000; ++i)
@@ -59,6 +63,32 @@ int main()
             return 1;
         }
         queue_remove(queue);
+    }
+
+    for (int i = 1 ; i <= 1000000 ; ++i)
+    {
+        queue_remove(queue);
+    }
+
+    for (int i = 1 ; i <= 1000000 ; ++i)
+    {
+        queue_insert(queue, i);
+        queue_remove(queue);
+    }
+
+    queue_delete(queue);
+
+    queue = queue_create();
+    queue_insert(queue, 0);
+    for (int i = 1 ; i <= 100000 ; ++i)
+    {
+        int cnt = 1 + i % 20;
+        for (int j = 0 ; j < cnt ; ++j) {
+            queue_insert(queue, i);
+        }
+        for (int j = 0 ; j < cnt ; ++j) {
+            queue_remove(queue);
+        }
     }
 
     queue_delete(queue);
