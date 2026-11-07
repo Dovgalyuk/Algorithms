@@ -3,49 +3,65 @@
 
 int main()
 {
-    Queue *queue = queue_create();
+    Queue* queue = queue_create();
 
-    queue_insert(queue, 1);
-    queue_insert(queue, 2);
-    queue_insert(queue, 3);
-
-    if (queue_get(queue) != 1)
+    if (queue == nullptr || !queue_empty(queue))
     {
-        std::cout << "Invalid first element of the queue\n";
+        std::cout << "Queue creation error\n";
+        queue_delete(queue);
         return 1;
     }
 
-    std::cout << "Get: " << queue_get(queue) << "\n";
-    queue_remove(queue);
+    for (int i = 0; i < 8; ++i)
+        queue_insert(queue, i);
 
-    if (queue_get(queue) != 2)
+    for (int i = 0; i < 5; ++i)
     {
-        std::cout << "Invalid second element of the queue\n";
-        return 1;
-    }
-
-    std::cout << "Get: " << queue_get(queue) << "\n";
-    queue_remove(queue);
-
-    if (queue_get(queue) != 3)
-    {
-        std::cout << "Invalid third element of the queue\n";
-        return 1;
-    }
-
-    std::cout << "Get: " << queue_get(queue) << "\n";
-    queue_insert(queue, 4);
-    while (!queue_empty(queue))
-    {
-        std::cout << "Get: " << queue_get(queue) << "\n";
+        if (queue_get(queue) != i)
+        {
+            std::cout << "Queue order error\n";
+            queue_delete(queue);
+            return 1;
+        }
         queue_remove(queue);
     }
 
-    // Performance test
-    for (int i = 1 ; i <= 10000000 ; ++i)
-    {
+    for (int i = 8; i < 14; ++i)
         queue_insert(queue, i);
+
+    for (int i = 5; i < 14; ++i)
+    {
+        if (queue_empty(queue) || queue_get(queue) != i)
+        {
+            std::cout << "Queue order or resize error\n";
+            queue_delete(queue);
+            return 1;
+        }
+        queue_remove(queue);
+    }
+
+    if (!queue_empty(queue))
+    {
+        std::cout << "Queue should be empty\n";
+        queue_delete(queue);
+        return 1;
+    }
+
+    for (int i = 0; i < 1000; ++i)
+        queue_insert(queue, i);
+
+    for (int i = 0; i < 1000; ++i)
+    {
+        if (queue_get(queue) != i)
+        {
+            std::cout << "Queue large-data error\n";
+            queue_delete(queue);
+            return 1;
+        }
+        queue_remove(queue);
     }
 
     queue_delete(queue);
+    std::cout << "Queue tests passed\n";
+    return 0;
 }
