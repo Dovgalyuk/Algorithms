@@ -1,32 +1,36 @@
 #include <stdexcept>
 #include "queue.h"
+#include "list.h"
 
-Queue::Queue() : list(list_create()) {}
+struct Queue {
+    List* list;
+    ListItem* last;
+};
 
-Queue::~Queue() {
-    list_delete(list);
+Queue* queue_create() {
+    return new Queue{list_create(), nullptr};
 }
 
-void Queue::insert(Data data) {
-    list_insert_after(list, list_last(list), data);
+void queue_delete(Queue* queue) {
+    if (!queue) return;
+    list_delete(queue->list);
+    delete queue;
 }
 
-Data Queue::get() const {
-    if (empty()) throw std::out_of_range("Queue is empty");
-    return list_item_data(list_first(list));
+void queue_insert(Queue* queue, Data data) {
+    queue->last = list_insert_after(queue->list, queue->last, data);
 }
 
-void Queue::remove() {
-    list_erase_first(list);
+Data queue_get(const Queue* queue) {
+    if (queue_empty(queue)) throw std::out_of_range("Queue is empty");
+    return list_item_data(list_first(queue->list));
 }
 
-bool Queue::empty() const {
-    return list_first(list) == nullptr;
+void queue_remove(Queue* queue) {
+    list_erase_first(queue->list);
+    if (queue_empty(queue)) queue->last = nullptr;
 }
 
-Queue* queue_create() { return new Queue; }
-void queue_delete(Queue* queue) { delete queue; }
-void queue_insert(Queue* queue, Data data) { queue->insert(data); }
-Data queue_get(const Queue* queue) { return queue->get(); }
-void queue_remove(Queue* queue) { queue->remove(); }
-bool queue_empty(const Queue* queue) { return queue->empty(); }
+bool queue_empty(const Queue* queue) {
+    return list_first(queue->list) == nullptr;
+}

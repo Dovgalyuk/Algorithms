@@ -1,29 +1,32 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "list.h"
+// Queue
 
-class Queue {
-private:
-    List* list;
+// Stores integer values inside
+// Change it to desired type
+typedef int Data;
 
-public:
-    Queue();
-    ~Queue();
-    Queue(const Queue&) = delete;
-    Queue& operator=(const Queue&) = delete;
+struct Queue;
 
-    void insert(Data data);
-    Data get() const;
-    void remove();
-    bool empty() const;
-};
+// Create empty queue
+Queue *queue_create();
 
-Queue* queue_create();
-void queue_delete(Queue* queue);
-void queue_insert(Queue* queue, Data data);
-Data queue_get(const Queue* queue);
-void queue_remove(Queue* queue);
-bool queue_empty(const Queue* queue);
+// Deletes queue
+void queue_delete(Queue *queue);
+
+// Includes new element into the queue
+// Should be O(1) on average
+void queue_insert(Queue *queue, Data data);
+
+// Retrieves first element from the queue
+Data queue_get(const Queue *queue);
+
+// Removes first element from the queue
+// Should be O(1) on average
+void queue_remove(Queue *queue);
+
+// Returns true if the queue is empty
+bool queue_empty(const Queue *queue);
 
 #endif
