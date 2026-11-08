@@ -12,20 +12,24 @@ Floyd floyd_alg(const cr_Graph& graph) {
 	for (size_t i = 0; i < n; i++) {
 		result.rasstoyanie[i].resize(n);
 		result.next_versh[i].resize(n);
-
 		for (size_t j = 0; j < n; j++) {
 			if (i == j) {
 				result.rasstoyanie[i][j] = 0;
 				result.next_versh[i][j] = i;
 			}
-			else if (graph.has_rebro(i, j)) {
-				result.rasstoyanie[i][j] = graph.get_rebro_label(i, j);
-				result.next_versh[i][j] = j;
-			}
 			else {
 				result.rasstoyanie[i][j] = INF;
 				result.next_versh[i][j] = n;
 			}
+
+		}
+	}
+
+	for (size_t i = 0; i < n; i++) {
+		for (auto it = graph.begin(i); it != graph.end(i); it++) {
+			size_t j = *it;
+			result.rasstoyanie[i][j] = graph.get_rebro_label(i, j);
+			result.next_versh[i][j] = j;
 		}
 	}
 

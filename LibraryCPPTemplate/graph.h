@@ -71,20 +71,25 @@ public:
 		size_t copy_rows = (new_rows < rows_gr) ? new_rows : rows_gr;
 		size_t copy_cols = (new_cols < cols_gr) ? new_cols : cols_gr;
 
-		for (size_t r = 0; r < copy_rows; r++) {
-			for (size_t c = 0; c < copy_cols; c++) {
-				size_t old_i = r * cols_gr + c;
-				size_t new_i = r * new_cols + c;
+		for (size_t old_i = 0; old_i < size(); old_i++) {
+			size_t r = old_i / cols_gr;
+			size_t c = old_i % cols_gr;
+			if (r >= copy_rows || c >= copy_cols) {
+				continue;
+			}
 
-				new_versh.set(new_i, versh_labels.get(old_i));
+			size_t new_i = r * new_cols + c;
+			new_versh.set(new_i, versh_labels.get(old_i));
 
-				for (size_t r2 = 0; r2 < copy_rows; r2++) {
-					for (size_t c2 = 0; c2 < copy_cols; c2++) {
-						size_t old_j = r2 * cols_gr + c2;
-						size_t new_j = r2 * new_cols + c2;
-						new_sm[new_i].set(new_j, smejnost[old_i][old_j]);
-					}
+			for (size_t old_j = 0; old_j < size(); old_j++) {
+				size_t rj = old_j / cols_gr;
+				size_t cj = old_j % cols_gr;
+
+				if (rj >= copy_rows || cj >= copy_cols) {
+					continue;
 				}
+				size_t new_j = rj * new_cols + cj;
+				new_sm[new_i].set(new_j, smejnost[old_i][old_j]);
 			}
 		}
 
