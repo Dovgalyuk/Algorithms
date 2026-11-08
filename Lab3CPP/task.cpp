@@ -34,7 +34,7 @@ int reader(Vector* vec, std::ifstream& input) {
     int index = 0;
 
     for (int i = 0; i < rows*rows; i++) {
-        vector_set(vec, i, -1);
+        vector_set(vec, i, EMPTY);
     }
 
     for (int i = 0; i < rows; i++) {
@@ -74,7 +74,7 @@ bool find_path(Vector* vec, int rows) {
     int directions[4] = {-rows, rows, -1, 1};
 
     queue_insert(queue, begin);
-    vector_set(visited, begin, 1);
+    vector_set(visited, begin, VISITED);
 
     while (!queue_empty(queue)) {
         int current = queue_get(queue);
@@ -99,11 +99,11 @@ bool find_path(Vector* vec, int rows) {
                 continue;
             }
 
-            if (vector_get(visited, next) == 1) {
+            if (vector_get(visited, next) == VISITED) {
                 continue;
             }
 
-            if (vector_get(vec, next) == -1) {
+            if (vector_get(vec, next) == EMPTY) {
                 continue;
             }
 
@@ -111,25 +111,25 @@ bool find_path(Vector* vec, int rows) {
             int nextValue = vector_get(vec, next);
 
             if (std::abs(currentValue - nextValue) == 1) {
-                vector_set(visited, next, 1);
+                vector_set(visited, next, VISITED);
                 vector_set(parent, next, current);
                 queue_insert(queue, next);
             }
         }
     }
 
-    bool found = vector_get(visited, end) == 1;
+    bool found = vector_get(visited, end) == VISITED;
 
     if (found) {
         int current = end;
 
         while (current != begin) {
             int prev = vector_get(parent, current);
-            vector_set(vec, current, -2);
+            vector_set(vec, current, PATH);
             current = prev;
         }
 
-        vector_set(vec, begin, -2);
+        vector_set(vec, begin, PATH);
     }
 
     queue_delete(queue);
@@ -156,7 +156,7 @@ void writer(Vector* vec, int rows, std::ofstream& output) {
 
             int value = vector_get(vec, i * rows + j);
 
-            if (value == -2) {
+            if (value == PATH) {
                 output << "#";
             } else {
                 output << value;
