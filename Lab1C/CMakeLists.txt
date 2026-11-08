@@ -26,3 +26,15 @@ set_property(TEST Test_Err_NoArgs PROPERTY PASS_REGULAR_EXPRESSION "^ERROR")
 
 add_test(NAME Test_Err_FileNotFound COMMAND Lab1C "non_existent_file.txt")
 set_property(TEST Test_Err_FileNotFound PROPERTY PASS_REGULAR_EXPRESSION "^ERROR")
+
+add_test(NAME Test_Atypical_EmptyQuotes COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input_atypical1.txt)
+set_property(TEST Test_Atypical_EmptyQuotes PROPERTY PASS_REGULAR_EXPRESSION "^YES")
+
+add_test(NAME Test_Atypical_MismatchQuotes COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input_atypical2.txt)
+set_property(TEST Test_Atypical_MismatchQuotes PROPERTY PASS_REGULAR_EXPRESSION "^NO")
+
+add_test(NAME Test_Atypical_QuoteInBrackets COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input_atypical4.txt)
+set_property(TEST Test_Atypical_QuoteInBrackets PROPERTY PASS_REGULAR_EXPRESSION "^YES")
+
+add_test(NAME Test_Atypical_BadQuoteInBrackets COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input_atypical5.txt)
+set_property(TEST Test_Atypical_BadQuoteInBrackets PROPERTY PASS_REGULAR_EXPRESSION "^NO")
