@@ -141,23 +141,7 @@ public:
 
     std::size_t vertexCount() const { return vertexLabels_.size(); }
 
-    std::vector<std::vector<EdgeLabel>>
-        toWeightMatrix(const EdgeLabel& absent, const EdgeLabel& diag) const
-    {
-        const std::size_t n = vertexLabels_.size();
-        std::vector<std::vector<EdgeLabel>> m(
-            n, std::vector<EdgeLabel>(n, absent));
-
-        for (std::size_t i = 0; i < n; ++i) {
-            m[i][i] = diag;
-            for (std::size_t j = 0; j < n; ++j) {
-                std::optional<EdgeLabel> cell = getCell(i, j);
-                if (cell.has_value())
-                    m[i][j] = *cell;
-            }
-        }
-        return m;
-    }
+    Vector<Vector<std::optional<EdgeLabel>>> adjacencyMatrix() const { return adj_; }
 
     void readFromStream(std::istream& is)
     {

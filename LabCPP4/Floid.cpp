@@ -4,13 +4,13 @@
 #include <limits>
 #include <stdexcept>
 #include <string>
-#include <cmath>
+#include <optional>
 #include <vector>
 
 #include "graph.h"
 
 using GraphType = Graph<std::string, double>;
-using Matrix = std::vector<std::vector<double>>;
+using Matrix = Vector<Vector<std::optional<double>>>;
 
 static GraphType readGraph(int argc, char** argv)
 {
@@ -30,7 +30,7 @@ static GraphType readGraph(int argc, char** argv)
 static void checkNoNegativeCycle(const Matrix& dist)
 {
     for (std::size_t i = 0; i < dist.size(); ++i)
-        if (std::isnan(dist[i][i]) || dist[i][i] < 0.0)
+        if (dist.get(i).get(i).has_value() && *dist.get(i).get(i) < 0.0)
             throw std::runtime_error("Graph contains a negative cycle");
 }
 
@@ -38,10 +38,25 @@ static void floydWarshall(Matrix& dist)
 {
     const std::size_t n = dist.size();
     for (std::size_t k = 0; k < n; ++k)
-        for (std::size_t i = 0; i < n; ++i)
-            for (std::size_t j = 0; j < n; ++j)
-                if (dist[i][k] + dist[k][j] < dist[i][j])
-                    dist[i][j] = dist[i][k] + dist[k][j];
+        for (std::size_t i = 0; i < n; ++i) {
+            const std::optional<double> dik = dist.get(i).get(k);
+            if (!dik.has_value())
+                continue;
+
+            for (std::size_t j = 0; j < n; ++j) {
+                const std::optional<double> dkj = dist.get(k).get(j);
+                if (!dkj.has_value())
+                    continue;
+
+                const double sum = *dik + *dkj;
+                const std::optional<double> dij = dist.get(i).get(j);
+                if (!dij.has_value() || sum < *dij) {
+                    Vector<std::optional<double>> row = dist.get(i);
+                    row.set(j, sum);
+                    dist.set(i, row);
+                }
+            }
+        }
 }
 
 struct Result
@@ -55,22 +70,22 @@ struct Result
 static Result findLongestShortest(const Matrix& dist)
 {
     const std::size_t n = dist.size();
-    const double INF = std::numeric_limits<double>::infinity();
     const double NEG_INF = -std::numeric_limits<double>::infinity();
 
     Result r{ false, NEG_INF, 0, 0 };
-    for (std::size_t i = 0; i < n; ++i) {
+    for (std::size_t i = 0; i < n; ++i)
         for (std::size_t j = 0; j < n; ++j) {
-            if (i == j) continue;
-            if (dist[i][j] == INF) continue;
-            if (dist[i][j] > r.length) {
+            if (i == j)
+                continue;
+            if (!dist.get(i).get(j).has_value())
+                continue;
+            if (*dist.get(i).get(j) > r.length) {
                 r.found = true;
-                r.length = dist[i][j];
+                r.length = *dist.get(i).get(j);
                 r.from = i;
                 r.to = j;
             }
         }
-    }
     return r;
 }
 
@@ -82,8 +97,12 @@ static int solve(const GraphType& g)
         return 0;
     }
 
-    const double INF = std::numeric_limits<double>::infinity();
-    Matrix dist = g.toWeightMatrix(INF, 0.0);
+    GraphType temp = g;
+    const std::vector<std::string> labels = temp.getAllVertexLabels();
+    for (const std::string& v : labels)
+        if (!temp.hasEdge(v, v))
+            temp.setEdgeLabel(v, v, 0.0);
+    Matrix dist = temp.adjacencyMatrix();
     floydWarshall(dist);
     checkNoNegativeCycle(dist);
     Result r = findLongestShortest(dist);
