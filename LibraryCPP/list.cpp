@@ -1,4 +1,3 @@
-#include <cstddef>
 #include "list.h"
 
 struct ListItem
