@@ -104,3 +104,18 @@ set_tests_properties(
     Annoying_String PROPERTIES
     PASS_REGULAR_EXPRESSION "STACK: \\[Hello Test\\]"
 )
+
+
+# Строка с "|" внутри пропускаемого условного блока не завершает условие.
+add_test(
+    NAME Annoying_Conditional_String
+    COMMAND annoying
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/script7.txt
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/input1.txt
+)
+
+set_tests_properties(
+    Annoying_Conditional_String
+    PROPERTIES
+    PASS_REGULAR_EXPRESSION "STACK: \\[X\\]"
+)

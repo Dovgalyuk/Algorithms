@@ -2,11 +2,12 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <cstdlib>
-#include <ctime>
-#include <thread>
-#include <chrono>
-#include "../LibraryCPPTemplate/stack.h"
+#include <cstdlib> // rand(), srand()
+#include <ctime> // time()
+#include <thread> // this_thread::sleep_for
+#include <chrono> // chrono::seconds
+#include <utility>
+#include "stack.h"
 
 using namespace std;
 
@@ -147,12 +148,24 @@ int readNumber(const string& script, size_t& position)
 void skipIf(const string& script, size_t& position)
 {
     int level = 1;
+    bool inString = false;
 
     while (position + 1 < script.size() && level > 0)
     {
         position++;
 
-        if (script[position] == '?')
+        if (inString)
+        {
+            if (script[position] == '}')
+                inString = false;
+            continue;
+        }
+
+        if (script[position] == '{')
+        {
+            inString = true;
+        }
+        else if (script[position] == '?')
         {
             level++;
         }
@@ -162,7 +175,6 @@ void skipIf(const string& script, size_t& position)
         }
     }
 }
-
 
 // Выполнение арифметической операции
 string calculate(
@@ -206,48 +218,54 @@ string calculate(
 }
 
 
-// Адаптер: использует только push(), get(), pop(), empty()
-// из LibraryCPPTemplate/stack.h или Library/stack.h.
-// Для операций с нижним элементом временно перекладывает элементы.
+// Адаптер для команд скрипта поверх шаблонного Stack.
+// Операции с нижним элементом выполняются через временный стек.
+template <typename Data>
 class ScriptStack
 {
 private:
-    Stack<string> elements;
-    size_t count = 0;
+    using StackType = Stack<Data>;
+    StackType elements;
 
 public:
     bool empty() const { return elements.empty(); }
-    size_t size() const { return count; }
 
-    void push(const string& value)
+    bool hasAtLeast(size_t required) const
     {
-        elements.push(value);
-        ++count;
+        StackType copy = elements;
+        while (required > 0 && !copy.empty())
+        {
+            copy.pop();
+            --required;
+        }
+        return required == 0;
     }
 
-    string get() const { return elements.get(); }
+    void push(const Data& value)
+    {
+        elements.push(value);
+    }
+
+    Data get() const { return elements.get(); }
 
     void pop()
     {
         elements.pop();
-        --count;
     }
 
-    // Индекс 0 — вершина, как в исходном main.cpp.
-    string at(size_t index)
+    Data bottom()
     {
-        if (index >= count)
-            throw out_of_range("Invalid stack index");
+        if (empty())
+            throw out_of_range("Stack is empty");
 
-        Stack<string> buffer;
-        for (size_t i = 0; i < index; ++i)
+        StackType buffer;
+        while (!elements.empty())
         {
             buffer.push(elements.get());
             elements.pop();
         }
 
-        string value = elements.get();
-
+        Data value = buffer.get();
         while (!buffer.empty())
         {
             elements.push(buffer.get());
@@ -256,37 +274,29 @@ public:
         return value;
     }
 
-    string bottom()
-    {
-        if (empty())
-            throw out_of_range("Stack is empty");
-        return at(count - 1);
-    }
-
     void popBottom()
     {
         if (empty())
             throw out_of_range("Stack is empty");
 
-        Stack<string> buffer;
-        // Оставляем нижний элемент в исходном стеке.
-        for (size_t i = 1; i < count; ++i)
+        StackType buffer;
+        while (!elements.empty())
         {
             buffer.push(elements.get());
             elements.pop();
         }
-        elements.pop(); // Удаляем нижний.
+
+        buffer.pop();
         while (!buffer.empty())
         {
             elements.push(buffer.get());
             buffer.pop();
         }
-        --count;
     }
 
-    void pushBottom(const string& value)
+    void pushBottom(const Data& value)
     {
-        Stack<string> buffer;
+        StackType buffer;
         while (!elements.empty())
         {
             buffer.push(elements.get());
@@ -298,48 +308,48 @@ public:
             elements.push(buffer.get());
             buffer.pop();
         }
-        ++count;
     }
 
     void reverse()
     {
-        // Извлечённые значения идут от старой вершины к старому дну.
-        vector<string> values;
+        StackType reversed;
         while (!elements.empty())
         {
-            values.push_back(elements.get());
+            reversed.push(elements.get());
             elements.pop();
         }
-        // После добавления в этом же порядке вершина станет прежним дном.
-        for (const string& value : values)
-            elements.push(value);
+        elements = std::move(reversed);
     }
 
     void clear()
     {
         while (!elements.empty())
             elements.pop();
-        count = 0;
     }
 };
 
 // Печать состояния стека
-void printStack(ScriptStack& stack)
+template <typename Data>
+void printStack(ScriptStack<Data>& stack)
 {
     cout << "\nSTACK: [";
 
-    for (size_t i = 0; i < stack.size(); i++)
+    ScriptStack<Data> copy = stack;
+    vector<Data> values;
+    while (!copy.empty())
     {
-        cout << stack.at(stack.size() - 1 - i);
+        values.push_back(copy.get());
+        copy.pop();
+    }
 
-        if (i + 1 < stack.size())
-        {
+    for (auto it = values.rbegin(); it != values.rend(); ++it)
+    {
+        if (it != values.rbegin())
             cout << ", ";
-        }
+        cout << *it;
     }
     cout << "]" << endl;
 }
-
 
 int main(int argc, char* argv[])
 {
@@ -363,7 +373,7 @@ int main(int argc, char* argv[])
             return 1;
         }
 
-        ScriptStack stack;
+        ScriptStack<string> stack;
 
         // Значение регистра ~
         string tilde;
@@ -474,11 +484,11 @@ int main(int argc, char* argv[])
             {
                 string text;
 
-                for (size_t j = 0;
-                     j < stack.size();
-                     j++)
+                ScriptStack<string> copy = stack;
+                while (!copy.empty())
                 {
-                    text += stack.at(j);
+                    text += copy.get();
+                    copy.pop();
                 }
 
                 stack.clear();
@@ -585,7 +595,7 @@ int main(int argc, char* argv[])
             // &
             else if (command == '&')
             {
-                if (stack.size() < 2)
+                if (!stack.hasAtLeast(2))
                 {
                     throw runtime_error(
                         "Недостаточно элементов для операции");
