@@ -22,3 +22,6 @@ set_property(TEST TestLab3_Corridor PROPERTY PASS_REGULAR_EXPRESSION "##########
 
 add_test(NAME TestLab3_Obstacles COMMAND Lab3 ${CMAKE_CURRENT_SOURCE_DIR}/input7.txt)
 set_property(TEST TestLab3_Obstacles PROPERTY PASS_REGULAR_EXPRESSION "#########[\r\n]+#0#\\.3\\.\\.4#[\r\n]+#1#\\.###\\.#[\r\n]+#\\.2\\.#\\.\\.\\.#[\r\n]+###\\.#\\.#\\.#[\r\n]+#\\.\\.\\.#\\.\\.5#[\r\n]+#########")
+
+add_test(NAME TestLab3_Letters COMMAND Lab3 ${CMAKE_CURRENT_SOURCE_DIR}/input8.txt)
+set_property(TEST TestLab3_Letters PROPERTY PASS_REGULAR_EXPRESSION "############[\r\n]+#0\\.\\.\\.\\.\\.\\.\\.\\.1#[\r\n]+##########\\.#[\r\n]+#3\\.\\.\\.\\.\\.\\.\\.\\.2#[\r\n]+#\\.##########[\r\n]+#4\\.\\.\\.\\.\\.\\.\\.\\.5#[\r\n]+##########\\.#[\r\n]+#7\\.\\.\\.\\.\\.\\.\\.\\.6#[\r\n]+#\\.##########[\r\n]+#8\\.\\.\\.\\.\\.\\.\\.\\.9#[\r\n]+##########\\.#[\r\n]+#B\\.\\.\\.\\.\\.\\.\\.\\.A#[\r\n]+#\\.##########[\r\n]+#C\\.\\.\\.\\.\\.\\.\\.\\.D#[\r\n]+############")
