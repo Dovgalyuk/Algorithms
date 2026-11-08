@@ -26,3 +26,5 @@ add_subdirectory(Lab1C)
 add_subdirectory(lab1tsk)
 
 add_subdirectory(Lab2CPP)
+
+add_subdirectory(Lab3CPP)
