@@ -106,7 +106,6 @@ void print_maze(const Maze &maze, ostream &out)
         top += "/ \\";
     }
 
-    top.pop_back();
     out << top << "\n";
 
     for (int row = 0; row < height; row++)
