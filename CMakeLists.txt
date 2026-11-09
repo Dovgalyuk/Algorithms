@@ -23,3 +23,4 @@ endif()
 add_subdirectory(LibraryCPPTemplate)
 
 add_subdirectory(Lab1CPP)
+add_subdirectory(Lab2CPP)
