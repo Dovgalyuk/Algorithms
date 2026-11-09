@@ -1,6 +1,6 @@
 add_executable(FishCPP fish.cpp Misc/helper.cpp fish_movement.cpp fish_arithmetic.cpp fish_comparison.cpp fish_stack_manipulation.cpp fish_io.cpp fish_reflection.cpp)
 
-target_include_directories(FishCPP PUBLIC ../../LibraryCPP)
+target_include_directories(FishCPP PUBLIC ../LibraryCPP)
 target_link_libraries(FishCPP LibraryCPP)
 
 add_test(NAME Test1FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script1.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
