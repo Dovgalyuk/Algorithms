@@ -2,7 +2,7 @@
 #define STACK_H
 
 typedef int Data;
-
+//меню стека
 struct Stack;
 
 Stack *stack_create();

@@ -6,12 +6,11 @@ Stack::Stack()
 
 Stack::Stack(const Stack &a)
 {
-    // implement or disable this function
+
 }
 
 Stack &Stack::operator=(const Stack &a)
 {
-    // implement or disable this function
     return *this;
 }
 

@@ -8,12 +8,12 @@
 using namespace std;
 
 void error(const string& msg) {
-    cerr << "Error: " << msg << endl;
+    cerr << "Ошибка: " << msg << endl;
     exit(1);
 }
 
-static Stack* data_stack;
-static Stack* kind_stack;
+static Stack* data_stack; // для хранения чисел и адресов
+static Stack* kind_stack; // для маркера 0 - число, 1 - адрес возврата
 
 static void push_val(int v) {
     stack_push(data_stack, v);
@@ -26,8 +26,10 @@ static void push_addr(int v) {
 }
 
 static int pop_val(const string& op) {
-    if (stack_empty(data_stack)) error("stack underflow on " + op);
-    if (stack_get(kind_stack) == 1) error(op + ": cannot use return address as a value");
+    if (stack_empty(data_stack))
+        error("переполнение стека (stack underflow) в команде " + op);
+    if (stack_get(kind_stack) == 1)
+        error(op + ": нельзя использовать адрес возврата как обычное значение");
     int v = stack_get(data_stack);
     stack_pop(data_stack);
     stack_pop(kind_stack);
@@ -36,20 +38,20 @@ static int pop_val(const string& op) {
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
+        cerr << "Использование: " << argv[0] << " <входной_файл>" << endl;
         return 1;
     }
 
     ifstream fin(argv[1]);
     if (!fin.is_open()) {
-        cerr << "Cannot open file: " << argv[1] << endl;
+        cerr << "Не удалось открыть файл: " << argv[1] << endl;
         return 1;
     }
 
     vector<string> lines;
     string line;
     while (getline(fin, line)) {
-        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (!line.empty() && line.back() == '\r') line.pop_back();//Проверка на случай, если файл был создан в Windows и содержат /r
         lines.push_back(line);
     }
     fin.close();
@@ -67,32 +69,34 @@ int main(int argc, char* argv[]) {
     while (pc < n) {
         iterations++;
         if (iterations > MAX_ITERATIONS) {
-            error("Infinite loop detected");
+            error("Обнаружен бесконечный цикл");
         }
 
         const string& cmd = lines[pc];
         if (cmd.empty()) {
             pc++;
-            continue;
+            continue;ф
         }
 
-        istringstream iss(cmd);
+        istringstream iss(cmd); //Позволяет работать со строкой как с потоком cin
         string op;
-        iss >> op;
+        iss >> op; //Разбивает строку до первого пробела и записывает в op
 
         if (op == "bipush") {
             int val;
-            if (!(iss >> val)) error("bipush requires an integer argument");
+            if (!(iss >> val))
+                error("команда bipush требует целое число");
             push_val(val);
         }
         else if (op == "pop") {
-            if (stack_empty(data_stack)) error("stack underflow on pop");
-            if (stack_get(kind_stack) == 1) error("cannot pop return address");
+            if (stack_empty(data_stack))
+                error("переполнение стека в команде pop");
+            if (stack_get(kind_stack) == 1)
+                error("нельзя удалять адрес возврата командой pop");
             stack_pop(data_stack);
             stack_pop(kind_stack);
         }
-        else if (op == "imul" || op == "iand" || op == "ior" || op == "ixor" ||
-                 op == "iadd" || op == "isub") {
+        else if (op == "imul" || op == "iand" || op == "ior" || op == "ixor" || op == "iadd" || op == "isub") {
             int b = pop_val(op);
             int a = pop_val(op);
 
@@ -115,20 +119,20 @@ int main(int argc, char* argv[]) {
             vars[idx] = pop_val(op);
         }
         else if (op == "swap") {
-            // ИСПРАВЛЕНО: меняем местами правильно
-            if (stack_empty(data_stack)) error("stack underflow on swap");
+            if (stack_empty(data_stack))
+                error("переполнение стека в команде swap");
             int a = stack_get(data_stack);
             int ka = stack_get(kind_stack);
             stack_pop(data_stack);
             stack_pop(kind_stack);
 
-            if (stack_empty(data_stack)) error("stack underflow on swap");
+            if (stack_empty(data_stack))
+                error("переполнение стека в команде swap");
             int b = stack_get(data_stack);
             int kb = stack_get(kind_stack);
             stack_pop(data_stack);
             stack_pop(kind_stack);
 
-            // Кладем в обратном порядке: сначала b, потом a
             stack_push(data_stack, b);
             stack_push(kind_stack, kb);
             stack_push(data_stack, a);
@@ -136,8 +140,10 @@ int main(int argc, char* argv[]) {
         }
         else if (op == "invokestatic") {
             int addr;
-            if (!(iss >> addr)) error("invokestatic requires an address argument");
-            if (addr < 1 || addr > n) error("invalid call address: " + to_string(addr));
+            if (!(iss >> addr))
+                error("команда invokestatic требует адрес");
+            if (addr < 1 || addr > n)
+                error("некорректный адрес вызова: " + to_string(addr));
 
             push_addr(pc + 1);
             cout << "call " << addr << endl;
@@ -145,40 +151,40 @@ int main(int argc, char* argv[]) {
             continue;
         }
         else if (op == "return") {
-            // ИСПРАВЛЕНО: ошибка вместо break
             if (stack_empty(data_stack)) {
-                error("return: stack is empty");
+                error("return: стек пуст");
             }
             if (stack_get(kind_stack) != 1) {
-                error("return: top of stack is not a return address");
+                error("return: на вершине стека не адрес возврата");
             }
             int ret_addr = stack_get(data_stack);
             stack_pop(data_stack);
             stack_pop(kind_stack);
             pc = ret_addr;
-            continue;
+            continue; //!!!!!!
         }
         else {
-            error("unknown command: " + op);
+            error("неизвестная команда: " + op);
         }
 
         pc++;
     }
 
-    // ИСПРАВЛЕНО: выводим только обычные значения (kind == 0)
     cout << "stack:" << endl;
     Stack* temp_data = stack_create();
     Stack* temp_kind = stack_create();
+
     while (!stack_empty(data_stack)) {
         stack_push(temp_data, stack_get(data_stack));
         stack_push(temp_kind, stack_get(kind_stack));
         stack_pop(data_stack);
         stack_pop(kind_stack);
     }
+
     while (!stack_empty(temp_data)) {
         int val = stack_get(temp_data);
         int kind = stack_get(temp_kind);
-        if (kind == 0) {  // Только обычные значения
+        if (kind == 0) {
             cout << val << endl;
         }
         stack_push(data_stack, val);
@@ -186,6 +192,7 @@ int main(int argc, char* argv[]) {
         stack_pop(temp_data);
         stack_pop(temp_kind);
     }
+
     stack_delete(temp_data);
     stack_delete(temp_kind);
 

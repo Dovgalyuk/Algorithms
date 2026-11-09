@@ -3,7 +3,7 @@
 #include <cstddef>
 
 typedef int Data;
-
+//Ручка кпп которая даёт управление коробкой передач, в которой лежит массив
 struct Vector;
 
 Vector *vector_create();

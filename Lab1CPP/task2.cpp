@@ -32,34 +32,44 @@ int main(int argc, char* argv[])
 
     Array* arr = array_create(n);
 
-    int count[1001] = {}; // массив для подсчета количества вхождений каждого элемента
+    int count[1001] = {};
 
-    for (size_t i = 0; i < n; i++) // заполнение массива значениями из файла
+
+
+
+    for (size_t i = 0; i < n; i++)
     {
         int value;
         input >> value;
 
-        array_set(arr, i, value); //подсчет количества вхождений каждого элемента
+        array_set(arr, i, value);
         count[value]++;
     }
 
-    input.close(); // закрытие файла
+
+    input.close();
+
+
+
 
     cout << "Элементы, встречающиеся только один раз:" << endl;
 
-    for (size_t i = 0; i < n; i++) //   вывод элементов, встречающихся только один раз
+
+
+
+    for (size_t i = 0; i < n; i++)
     {
         int value = array_get(arr, i);
 
         if (count[value] == 1)
-        {                                   //!!!!!!!
+        {
             cout << value << " ";
         }
     }
 
     cout << endl;
 
-    array_delete(arr); // удаление массива
+    array_delete(arr);
 
     return 0;
 }

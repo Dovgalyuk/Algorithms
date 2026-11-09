@@ -6,7 +6,7 @@ struct Vector
     size_t size;
     size_t capacity;
 };
-
+//Ручное управление массивом, типо как коробка механика на машине
 Vector *vector_create()
 {
     Vector *vector = new Vector;
@@ -21,7 +21,7 @@ void vector_delete(Vector *vector)
     if (vector == nullptr)
         return;
     delete[] vector->data;
-    delete vector; 
+    delete vector;
 }
 
 Data vector_get(const Vector *vector, size_t index)
