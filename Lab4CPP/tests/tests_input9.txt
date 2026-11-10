@@ -1,0 +1,10 @@
+6
+Moscow Kazan Samara Ufa Omsk Perm
+7
+Moscow Kazan 3
+Kazan Samara 4
+Samara Ufa 2
+Ufa Omsk 5
+Moscow Omsk 20
+Moscow Perm 8
+Perm Omsk 15
