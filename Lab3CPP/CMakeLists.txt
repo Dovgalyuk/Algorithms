@@ -1,4 +1,5 @@
-add_executable(Lab3CPP main.cpp task.cpp task.h)
+add_executable(Lab3CPP main.cpp task.cpp task.h
+        Tests/unit_tests.cpp)
 
 target_include_directories(Lab3CPP PUBLIC ../LibraryCPP)
 

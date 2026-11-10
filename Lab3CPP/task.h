@@ -9,6 +9,6 @@ enum State {
 
 int reader(Vector* vec, std::ifstream& file);
 bool find_path(Vector* vec, int rows);
-
+void writer(Vector* vec, int rows, std::ofstream& output);
 
 #endif
