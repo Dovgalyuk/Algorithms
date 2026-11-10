@@ -5,14 +5,14 @@
 #include <algorithm>
 
 std::string solve_hex_maze(const std::vector<std::string>& maze) {
-    int rows = maze.size();
+    int rows = static_cast<int>(maze.size());
     if (rows == 0) return "No path";
     int cols = 0;
-    for (const auto& row : maze) cols = std::max(cols, (int)row.size());
+    for (const auto& row : maze) cols = std::max(cols, static_cast<int>(row.size()));
 
     int sr = -1, sc = -1, fr = -1, fc = -1;
     for (int r = 0; r < rows; ++r) {
-        for (int c = 0; c < maze[r].size(); ++c) {
+        for (int c = 0; c < static_cast<int>(maze[r].size()); ++c) {
             if (maze[r][c] == 'S') { sr = r; sc = c; }
             if (maze[r][c] == 'E') { fr = r; fc = c; }
         }
@@ -42,7 +42,7 @@ std::string solve_hex_maze(const std::vector<std::string>& maze) {
         int* dc = (r % 2 == 0) ? dc_e : dc_o;
         for (int i = 0; i < 6; ++i) {
             int nr = r + dr[i], nc = c + dc[i];
-            if (nr >= 0 && nr < rows && nc >= 0 && nc < maze[nr].size() && maze[nr][nc] != '#' && !vis_s[nr][nc]) {
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < static_cast<int>(maze[nr].size()) && maze[nr][nc] != '#' && !vis_s[nr][nc]) {
                 vis_s[nr][nc] = 1;
                 pr_m[nr][nc] = r; pc_m[nr][nc] = c;
                 queue_insert(q_s, nr * cols + nc);
@@ -55,7 +55,7 @@ std::string solve_hex_maze(const std::vector<std::string>& maze) {
         dc = (r % 2 == 0) ? dc_e : dc_o;
         for (int i = 0; i < 6; ++i) {
             int nr = r + dr[i], nc = c + dc[i];
-            if (nr >= 0 && nr < rows && nc >= 0 && nc < maze[nr].size() && maze[nr][nc] != '#' && !vis_f[nr][nc]) {
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < static_cast<int>(maze[nr].size()) && maze[nr][nc] != '#' && !vis_f[nr][nc]) {
                 vis_f[nr][nc] = 1;
                 queue_insert(q_f, nr * cols + nc);
             }
@@ -79,17 +79,19 @@ std::string solve_hex_maze(const std::vector<std::string>& maze) {
 
     std::string res = "Path found\n";
     std::string roof = "     ";
-    for (int j = 0; j < solved[0].size(); ++j) roof += "/ \\ ";
+    for (int j = 0; j < static_cast<int>(solved[0].size()); ++j) roof += "/ \\ ";
     res += roof + "\n";
 
     for (int i = 0; i < rows; ++i) {
+        int row_size = static_cast<int>(solved[i].size());
         std::string row_str = (i % 2 == 0) ? "    |" : "  |";
-        for (int j = 0; j < solved[i].size(); ++j)
+        for (int j = 0; j < row_size; ++j)
             row_str += " " + std::string(1, solved[i][j]) + " |";
         res += row_str + "\n";
 
         if (i + 1 < rows) {
-            int segs = std::max(solved[i].size(), solved[i + 1].size());
+            int next_size = static_cast<int>(solved[i + 1].size());
+            int segs = std::max(row_size, next_size);
             std::string floor = "   ";
             std::string pat = (i % 2 == 0) ? "/ \\ " : "\\ / ";
             for (int j = 0; j < segs; ++j) floor += pat;
