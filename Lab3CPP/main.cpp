@@ -156,23 +156,30 @@ bool find_path(Maze& maze) {
     return true;
 }
 
-void print_border(const Maze& maze, size_t row, bool top) {
-    cout << string(2 * static_cast<size_t>(maze.offset[row]) + 2, ' ');
-    for (size_t c = 0; c < maze.lines[row].size(); ++c)
-        cout << (top ? " / \\" : " \\ /");
-    cout << '\n';
+void print_border(const Maze& maze, int upper, int lower) {
+    string border;
+    for (int row : {upper, lower}) {
+        if (row < 0) continue;
+        size_t left = 2 * static_cast<size_t>(maze.offset[row]) + 2;
+        size_t width = left + 4 * maze.lines[row].size();
+        if (border.size() < width) border.resize(width, ' ');
+        for (size_t c = 0; c < maze.lines[row].size(); ++c) {
+            border[left + 4 * c + 1] = row == upper ? '\\' : '/';
+            border[left + 4 * c + 3] = row == upper ? '/' : '\\';
+        }
+    }
+    border.erase(border.find_last_not_of(' ') + 1);
+    cout << border << '\n';
 }
 
 void print_maze(const Maze& maze) {
-    print_border(maze, 0, true);
+    print_border(maze, -1, 0);
     for (size_t r = 0; r < maze.lines.size(); ++r) {
         cout << string(2 * static_cast<size_t>(maze.offset[r]) + 2, ' ');
         for (int id : maze.ids[r]) cout << "| " << maze.cells[id].type << ' ';
         cout << "|\n";
-        if (r + 1 < maze.lines.size() && maze.offset[r + 1] < maze.offset[r])
-            print_border(maze, r + 1, true);
-        else
-            print_border(maze, r, false);
+        int next = r + 1 < maze.lines.size() ? static_cast<int>(r + 1) : -1;
+        print_border(maze, static_cast<int>(r), next);
     }
 }
 

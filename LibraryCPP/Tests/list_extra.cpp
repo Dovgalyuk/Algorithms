@@ -45,7 +45,20 @@ int main() {
     CHECK(list_erase_first(list) == nullptr);
     CHECK(list_erase_first(list) == nullptr);
 
-    for (int i = 0; i < 10000; ++i) list_insert_after(list, list_last(list), i);
+    first = list_append(list, 10);
+    middle = list_insert_after(list, first, 20);
+    last = list_append(list, 30);
+    CHECK(list_first(list) == first);
+    CHECK(list_item_data(first) == 10);
+    CHECK(list_item_next(first) == middle);
+    CHECK(list_item_next(middle) == last);
+    CHECK(list_last(list) == last);
+    CHECK(list_item_next(last) == nullptr);
+    CHECK(list_erase_next(list, middle) == nullptr);
+    CHECK(list_erase_first(list) == middle);
+    CHECK(list_erase_first(list) == nullptr);
+    CHECK(list_first(list) == nullptr);
+    for (int i = 0; i < 10000; ++i) list_append(list, i);
     int expected = 0;
     for (ListItem* item = list_first(list); item; item = list_item_next(item))
         CHECK(list_item_data(item) == expected++);

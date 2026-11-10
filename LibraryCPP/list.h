@@ -14,6 +14,8 @@ Data list_item_data(const ListItem* item);
 ListItem* list_item_next(ListItem* item);
 ListItem* list_insert(List* list, Data data);
 ListItem* list_insert_after(List* list, ListItem* item, Data data);
+// Добавляет элемент в конец за O(1), перенося фиктивный элемент.
+ListItem* list_append(List* list, Data data);
 ListItem* list_erase_first(List* list);
 ListItem* list_erase_next(List* list, ListItem* item);
 

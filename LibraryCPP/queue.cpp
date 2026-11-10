@@ -4,11 +4,10 @@
 
 struct Queue {
     List* list;
-    ListItem* last;
 };
 
 Queue* queue_create() {
-    return new Queue{list_create(), nullptr};
+    return new Queue{list_create()};
 }
 
 void queue_delete(Queue* queue) {
@@ -18,7 +17,7 @@ void queue_delete(Queue* queue) {
 }
 
 void queue_insert(Queue* queue, Data data) {
-    queue->last = list_insert_after(queue->list, queue->last, data);
+    list_append(queue->list, data);
 }
 
 Data queue_get(const Queue* queue) {
@@ -28,7 +27,6 @@ Data queue_get(const Queue* queue) {
 
 void queue_remove(Queue* queue) {
     list_erase_first(queue->list);
-    if (queue_empty(queue)) queue->last = nullptr;
 }
 
 bool queue_empty(const Queue* queue) {
