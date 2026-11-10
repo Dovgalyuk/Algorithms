@@ -1,17 +1,38 @@
+# Visual Studio
 *.opensdf
 *.sdf
 *.suo
 *.user
 *.filters
 *.obj
-*.exe
 ipch/*
 */Debug/*
 */Release/*
 Debug/*
 Release/*
 .vs/*
-build/*
-.vscode/*
-.DS_Store
+
+# VS Code
+.vscode/
+
+# CLion
 .idea/
+
+# CMake
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Compiled files
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+
+# macOS
+.DS_Store

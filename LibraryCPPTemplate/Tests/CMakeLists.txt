@@ -21,7 +21,7 @@ add_test(TestGraphCPPTemplate TestGraphCPPTemplate)
 
  add_executable(TestVectorCPPTemplate vector.cpp)
  target_include_directories(TestVectorCPPTemplate PUBLIC ..)
- target_compile_options(TestVectorCPPTemplate PRIVATE -Wno-error=self-assign-overloaded)
+ #target_compile_options(TestVectorCPPTemplate PRIVATE -Wno-error=self-assign-overloaded)
  add_test(TestVectorCPPTemplate TestVectorCPPTemplate)
  set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
 

@@ -17,7 +17,8 @@ int main()
     for (size_t i = 0 ; i < vector.size() ; ++i)
         vector.set(i, i);
 
-    vector = vector;
+    MyVector &same = vector;
+    vector = same;
 
     for (size_t i = 0 ; i < vector.size() ; ++i)
     {
