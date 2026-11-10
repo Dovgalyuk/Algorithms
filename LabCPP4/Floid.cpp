@@ -4,13 +4,10 @@
 #include <limits>
 #include <stdexcept>
 #include <string>
-#include <optional>
-#include <vector>
 
 #include "graph.h"
 
 using GraphType = Graph<std::string, double>;
-using Matrix = Vector<Vector<std::optional<double>>>;
 
 static GraphType readGraph(int argc, char** argv)
 {
@@ -27,36 +24,48 @@ static GraphType readGraph(int argc, char** argv)
     return g;
 }
 
-static void checkNoNegativeCycle(const Matrix& dist)
+static void floydWarshall(GraphType& g)
 {
-    for (std::size_t i = 0; i < dist.size(); ++i)
-        if (dist.get(i).get(i).has_value() && *dist.get(i).get(i) < 0.0)
-            throw std::runtime_error("Graph contains a negative cycle");
-}
+    const std::size_t n = g.vertexCount();
 
-static void floydWarshall(Matrix& dist)
-{
-    const std::size_t n = dist.size();
-    for (std::size_t k = 0; k < n; ++k)
+    for (std::size_t k = 0; k < n; ++k) {
+        const std::string vk = g.getVertexLabel(k);
+
         for (std::size_t i = 0; i < n; ++i) {
-            const std::optional<double> dik = dist.get(i).get(k);
-            if (!dik.has_value())
+            if (i == k)
                 continue;
+            const std::string vi = g.getVertexLabel(i);
+            if (!g.hasEdge(vi, vk))
+                continue;
+            const double dik = g.getEdgeLabel(vi, vk);
 
             for (std::size_t j = 0; j < n; ++j) {
-                const std::optional<double> dkj = dist.get(k).get(j);
-                if (!dkj.has_value())
+                if (j == k)
                     continue;
+                const std::string vj = g.getVertexLabel(j);
+                if (!g.hasEdge(vk, vj))
+                    continue;
+                const double dkj = g.getEdgeLabel(vk, vj);
 
-                const double sum = *dik + *dkj;
-                const std::optional<double> dij = dist.get(i).get(j);
-                if (!dij.has_value() || sum < *dij) {
-                    Vector<std::optional<double>> row = dist.get(i);
-                    row.set(j, sum);
-                    dist.set(i, row);
+                const double sum = dik + dkj;
+
+                if (i == j) {
+                    if (sum < 0.0)
+                        g.setEdgeLabel(vi, vj, sum);
+                    continue;
                 }
+
+                if (!g.hasEdge(vi, vj) || sum < g.getEdgeLabel(vi, vj))
+                    g.setEdgeLabel(vi, vj, sum);
             }
         }
+    }
+
+    for (std::size_t i = 0; i < n; ++i) {
+        const std::string vi = g.getVertexLabel(i);
+        if (g.hasEdge(vi, vi) && g.getEdgeLabel(vi, vi) < 0.0)
+            throw std::runtime_error("Graph contains a negative cycle");
+    }
 }
 
 struct Result
@@ -67,29 +76,34 @@ struct Result
     std::size_t to;
 };
 
-static Result findLongestShortest(const Matrix& dist)
+static Result findLongestShortest(const GraphType& g)
 {
-    const std::size_t n = dist.size();
+    const std::size_t n = g.vertexCount();
     const double NEG_INF = -std::numeric_limits<double>::infinity();
 
     Result r{ false, NEG_INF, 0, 0 };
-    for (std::size_t i = 0; i < n; ++i)
+    for (std::size_t i = 0; i < n; ++i) {
+        const std::string vi = g.getVertexLabel(i);
         for (std::size_t j = 0; j < n; ++j) {
             if (i == j)
                 continue;
-            if (!dist.get(i).get(j).has_value())
+            const std::string vj = g.getVertexLabel(j);
+            if (!g.hasEdge(vi, vj))
                 continue;
-            if (*dist.get(i).get(j) > r.length) {
+
+            const double current = g.getEdgeLabel(vi, vj);
+            if (current > r.length) {
                 r.found = true;
-                r.length = *dist.get(i).get(j);
+                r.length = current;
                 r.from = i;
                 r.to = j;
             }
         }
+    }
     return r;
 }
 
-static int solve(const GraphType& g)
+static int solve(GraphType g)
 {
     const std::size_t n = g.vertexCount();
     if (n == 0) {
@@ -97,15 +111,8 @@ static int solve(const GraphType& g)
         return 0;
     }
 
-    GraphType temp = g;
-    const std::vector<std::string> labels = temp.getAllVertexLabels();
-    for (const std::string& v : labels)
-        if (!temp.hasEdge(v, v))
-            temp.setEdgeLabel(v, v, 0.0);
-    Matrix dist = temp.adjacencyMatrix();
-    floydWarshall(dist);
-    checkNoNegativeCycle(dist);
-    Result r = findLongestShortest(dist);
+    floydWarshall(g);
+    const Result r = findLongestShortest(g);
 
     if (!r.found) {
         std::cout << "No paths between distinct vertices\n";
