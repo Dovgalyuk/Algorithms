@@ -2,14 +2,17 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <cstdlib> // rand(), srand()
-#include <ctime> // time()
+#include <cstdlib> 
+#include <ctime> 
 #include <thread> // this_thread::sleep_for
-#include <chrono> // chrono::seconds
+#include <chrono> // chrono::seconds в AnnoyingScript инструкция  ;  Ждет указанное количество секунд
 #include <utility>
 #include "stack.h"
 
 using namespace std;
+
+typedef string ScriptString;
+typedef vector<ScriptString> ScriptVariables;
 
 
 // Читаем файл полностью
@@ -35,10 +38,10 @@ string readFile(const string& fileName)
 
 
 // Получить значение после команды
-string readValue(
-    const string& script,
+ScriptString readValue(
+    const ScriptString& script,
     size_t& position,
-    const vector<string>& variables)
+    const ScriptVariables& variables)
 {
     if (position >= script.size())
     {
@@ -50,7 +53,7 @@ string readValue(
     {
         position++;
 
-        string value;
+        ScriptString value;
 
         while (position < script.size() &&
                script[position] != '}')
@@ -67,7 +70,7 @@ string readValue(
     {
         position++;
 
-        string number;
+        ScriptString number;
 
         while (position < script.size() &&
                script[position] >= '0' &&
@@ -96,7 +99,7 @@ string readValue(
     }
 
     // Обычный одиночный символ
-    return string(1, script[position]);
+    return ScriptString(1, script[position]);
 }
 
 
@@ -379,7 +382,7 @@ int main(int argc, char* argv[])
         string tilde;
 
         // Переменные AnnoyingScript
-        vector<string> variables;
+        ScriptVariables variables;
 
         srand(static_cast<unsigned int>(time(nullptr)));
 
