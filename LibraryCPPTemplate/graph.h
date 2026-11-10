@@ -232,12 +232,16 @@ public:
 			return !(*this == other);
 		}
 
+		RebroLabel label() const {
+			return graph_gr->get_rebro_label(vershina_gr, neighbor);
+		}
+
 	private:
 
 		const Graph* graph_gr;
 		size_t vershina_gr;
 		int dir_gr;
-		size_t neighbor;
+		size_t neighbor{};
 
 		void find_next() {
 			while (dir_gr < 4) {

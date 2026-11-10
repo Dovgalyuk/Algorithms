@@ -2,7 +2,7 @@
 
 static const long long INF = 1000000000000000LL;
 
-Floyd floyd_alg(const cr_Graph& graph) {
+Floyd floyd_alg(const GraphStrInt& graph) {
 	size_t n = graph.size();
 	Floyd result;
 
@@ -28,7 +28,7 @@ Floyd floyd_alg(const cr_Graph& graph) {
 	for (size_t i = 0; i < n; i++) {
 		for (auto it = graph.begin(i); it != graph.end(i); it++) {
 			size_t j = *it;
-			result.rasstoyanie[i][j] = graph.get_rebro_label(i, j);
+			result.rasstoyanie[i][j] = it.label();
 			result.next_versh[i][j] = j;
 		}
 	}
