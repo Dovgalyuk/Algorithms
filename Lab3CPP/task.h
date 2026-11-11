@@ -1,6 +1,9 @@
 #ifndef ALGORITHMS_TASK_H
 #define ALGORITHMS_TASK_H
 
+#include <fstream>
+#include "vector.h"
+
 enum State {
     PATH = -2,
     EMPTY = -1,

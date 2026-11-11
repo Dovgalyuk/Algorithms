@@ -41,7 +41,7 @@ void queue_insert(Queue *queue, Data data)
 
 Data queue_get(const Queue *queue)
 {
-    if (!queue) return -1;
+    if (!queue_empty(queue)) return -1;
     return list_item_data(list_first(queue->list));
 }
 
