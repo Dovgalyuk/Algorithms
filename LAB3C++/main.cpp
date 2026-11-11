@@ -34,18 +34,6 @@ bool expand_layer(
         int vertex = queue_get(queue);
         queue_remove(queue);
 
-        if (distance_other[vertex] != -1)
-        {
-            int total_distance =
-                distance_current[vertex] + distance_other[vertex];
-
-            if (total_distance < best_distance)
-            {
-                best_distance = total_distance;
-                best_vertex = vertex;
-            }
-        }
-
         for (int neighbor : graph[vertex])
         {
             if (distance_current[neighbor] == -1)
