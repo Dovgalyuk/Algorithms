@@ -47,6 +47,16 @@ int main()
         return 1;
     }
 
+    MyStack assigned;
+    assigned = stack;
+    assigned.pop();
+
+    if (assigned.get() != 4 || stack.get() != 5)
+    {
+        std::cout << "Invalid stack assignment\n";
+        return 1;
+    }
+
     MyStack copy(stack);
 
     while (!stack.empty())

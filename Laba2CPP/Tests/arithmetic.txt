@@ -1,0 +1,14 @@
+push 2
+push 3
+add
+pop A
+push A
+push 4
+mul
+pop B
+push B
+push 5
+sub
+pop C
+call
+ret
