@@ -11,8 +11,6 @@
 char *readExpression(FILE *input);
 bool checkEnd(const char *element);
 
-const char *parseExpr(const char *p, Stack *stack);
-const char *parseTerm(const char *p, Stack *stack);
-const char *parseFactor(const char *p, Stack *stack);
+void parseExpression(const char *p, Stack *stack);
 
 #endif
