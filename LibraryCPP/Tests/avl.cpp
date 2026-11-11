@@ -225,6 +225,43 @@ void test_ordered(AVLTree *tree, bool reverse)
     check_tree(tree, expected);
 }
 
+void test_million(AVLTree *tree)
+{
+    const int count = 1000000;
+
+    for (int i = 0; i < count; ++i)
+        check(avl_insert(tree, make_value(i)), "Million insertion failed");
+
+    check(avl_size(tree) == static_cast<size_t>(count), "Invalid million size");
+    check(avl_check(tree), "Invalid million AVL tree");
+
+    for (int i = 0; i < count; ++i)
+        check(avl_find(tree, make_value(i)), "Million search failed");
+    check(!avl_find(tree, make_value(count)), "Missing million value found");
+
+    AVLIterator iterator = avl_begin(tree);
+    for (int i = 0; i < count; ++i)
+    {
+        check(avl_iterator_valid(iterator), "Million iterator ended too early");
+        check(avl_iterator_get(iterator) == make_value(i), "Invalid million iterator value");
+        avl_iterator_next(iterator);
+    }
+    check(!avl_iterator_valid(iterator), "Million iterator contains extra values");
+
+    for (int i = 0; i < count; ++i)
+    {
+        check(avl_erase(tree, make_value(i)), "Million removal failed");
+        if (i + 1 == count / 2)
+        {
+            check(avl_size(tree) == static_cast<size_t>(count / 2), "Invalid remaining size");
+            check(avl_check(tree), "Invalid AVL tree during million removal");
+        }
+    }
+    check_tree(tree, {});
+    check(!avl_find(tree, make_value(0)), "Removed million value found");
+    cout << "AVL test passed for " << count << " values\n";
+}
+
 int main()
 {
     AVLTree *tree = nullptr;
@@ -238,6 +275,7 @@ int main()
         test_random(tree);
         test_ordered(tree, false);
         test_ordered(tree, true);
+        test_million(tree);
         for (int i = 0; i < 1000; ++i)
             check(avl_insert(tree, make_value(i)), "Final insertion failed");
         avl_delete(tree);
