@@ -39,21 +39,13 @@ static void floydWarshall(GraphType& g)
                 continue;
             const double dik = g.getEdgeLabel(vi, vk);
 
-            for (std::size_t j = 0; j < n; ++j) {
-                if (j == k)
-                    continue;
-                const std::string vj = g.getVertexLabel(j);
-                if (!g.hasEdge(vk, vj))
+            for (auto it = g.neighborsBegin(vk); it != g.neighborsEnd(vk); ++it) {
+                const std::string vj = *it;
+                if (vj == vk) 
                     continue;
                 const double dkj = g.getEdgeLabel(vk, vj);
 
                 const double sum = dik + dkj;
-
-                if (i == j) {
-                    if (sum < 0.0)
-                        g.setEdgeLabel(vi, vj, sum);
-                    continue;
-                }
 
                 if (!g.hasEdge(vi, vj) || sum < g.getEdgeLabel(vi, vj))
                     g.setEdgeLabel(vi, vj, sum);
@@ -72,8 +64,8 @@ struct Result
 {
     bool found;
     double length;
-    std::size_t from;
-    std::size_t to;
+    std::string from;
+    std::string to;
 };
 
 static Result findLongestShortest(const GraphType& g)
@@ -81,22 +73,20 @@ static Result findLongestShortest(const GraphType& g)
     const std::size_t n = g.vertexCount();
     const double NEG_INF = -std::numeric_limits<double>::infinity();
 
-    Result r{ false, NEG_INF, 0, 0 };
+    Result r{ false, NEG_INF, "", ""};
     for (std::size_t i = 0; i < n; ++i) {
         const std::string vi = g.getVertexLabel(i);
-        for (std::size_t j = 0; j < n; ++j) {
-            if (i == j)
-                continue;
-            const std::string vj = g.getVertexLabel(j);
-            if (!g.hasEdge(vi, vj))
+        for (auto it = g.neighborsBegin(vi); it != g.neighborsEnd(vi); ++it) {
+            const std::string vj = *it;
+            if (vj == vi)
                 continue;
 
             const double current = g.getEdgeLabel(vi, vj);
             if (current > r.length) {
                 r.found = true;
                 r.length = current;
-                r.from = i;
-                r.to = j;
+                r.from = vi;
+                r.to = vj;
             }
         }
     }
@@ -120,8 +110,8 @@ static int solve(GraphType g)
     }
 
     std::cout << "Longest of shortest paths: " << r.length << "\n"
-        << "Between: " << g.getVertexLabel(r.from)
-        << " and " << g.getVertexLabel(r.to) << "\n";
+        << "Between: " << r.from
+        << " and " << r.to << "\n";
     return 0;
 }
 
