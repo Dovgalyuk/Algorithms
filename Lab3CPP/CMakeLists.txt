@@ -2,7 +2,7 @@ add_executable(Lab3CPP main.cpp)
 
 target_link_libraries(Lab3CPP LibraryCPP)
 
-foreach(test_number RANGE 1 7)
+foreach(test_number RANGE 1 15)
     add_test(
         NAME TestLab3CPP_${test_number}
         COMMAND ${CMAKE_COMMAND}
