@@ -1,58 +1,45 @@
 #ifndef STACK_TEMPLATE_H
 #define STACK_TEMPLATE_H
 
-template <typename Data> class Stack
+#include "list.h"
+#include <cstddef>
+#include <stdexcept>
+
+// Стек LIFO, реализованный на основе односвязного List.
+template <typename Data>
+class Stack
 {
+private:
+    List<Data> elements;
+
 public:
-    // Creates empty stack
-    Stack()
-    {
-    }
+    Stack() = default;
+    Stack(const Stack&) = default;
+    Stack(Stack&&) noexcept = default;
+    Stack& operator=(const Stack&) = default;
+    Stack& operator=(Stack&&) noexcept = default;
+    ~Stack() = default;
 
-    // copy constructor
-    Stack(const Stack &a)
-    {
-        // implement or disable this function
-    }
+    // Кладёт значение на вершину за O(1).
+    void push(Data value) { elements.insert(value); }
 
-    // assignment operator
-    Stack &operator=(const Stack &a)
-    {
-        // implement or disable this function
-        return *this;
-    }
-
-    // Deletes the stack
-    ~Stack()
-    {
-    }
-
-    // Pushes data on top of the stack
-    // Should be O(1) on average
-    void push(Data data)
-    {
-    }
-
-    // Retrieves the last element from the stack
+    // Возвращает значение на вершине без удаления.
     Data get() const
     {
-        return Data();
+        if (empty())
+            throw std::out_of_range("Stack is empty");
+        return elements.first()->data();
     }
 
-    // Removes the last element from the stack
-    // Should be O(1)
+    // Удаляет вершину за O(1).
     void pop()
     {
+        if (empty())
+            throw std::out_of_range("Stack is empty");
+        elements.erase_first();
     }
 
-    // Returns true if the stack is empty
-    bool empty() const
-    {
-        return true;
-    }
-
-private:
-    // private data should be here
+    bool empty() const { return elements.empty(); }
 };
 
 #endif
