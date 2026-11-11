@@ -1,12 +1,15 @@
 #include "Himbeere.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <vector>
 
 void process_stream(std::istream& in) {
     std::vector<std::string> maze;
     std::string line;
     while (std::getline(in, line)) {
+        while (!line.empty() && (line.back() == '\r' || line.back() == ' '))
+            line.pop_back();
         if (!line.empty()) {
             maze.push_back(line);
         }
