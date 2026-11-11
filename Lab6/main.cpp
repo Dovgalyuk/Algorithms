@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
     try
     {
         if (argc > 2)
-            throw invalid_argument(u8"Использование: Lab6Dynamic [входной_файл]");
+            throw invalid_argument(u8"Использование: Lab6 [входной_файл]");
 
         Dimensions dimensions;
         if (argc == 2)
@@ -26,7 +26,11 @@ int main(int argc, char* argv[])
             dimensions = readDimensions(cin);
         }
 
+#ifdef LAB6_USE_DYNAMIC
         Result result = solveDynamic(dimensions);
+#else
+        Result result = solveBruteForce(dimensions);
+#endif
         cout << result.cost << '\n' << parenthesize(dimensions, result) << '\n';
         if (!cout)
             throw runtime_error(u8"Ошибка записи результата.");

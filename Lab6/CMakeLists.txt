@@ -6,11 +6,12 @@ add_library(Lab6Core STATIC matrix_chain.cpp)
 target_compile_features(Lab6Core PUBLIC cxx_std_11)
 target_include_directories(Lab6Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable(Lab6BruteForce brute_force.cpp)
+add_executable(Lab6BruteForce main.cpp)
 target_link_libraries(Lab6BruteForce PRIVATE Lab6Core)
 
-add_executable(Lab6Dynamic dynamic.cpp)
+add_executable(Lab6Dynamic main.cpp)
 target_link_libraries(Lab6Dynamic PRIVATE Lab6Core)
+target_compile_definitions(Lab6Dynamic PRIVATE LAB6_USE_DYNAMIC)
 
 add_executable(Lab6Benchmark benchmark.cpp)
 target_link_libraries(Lab6Benchmark PRIVATE Lab6Core)

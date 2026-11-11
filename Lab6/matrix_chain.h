@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-using Dimensions = std::vector<long long>;
+typedef std::vector<long long> Dimensions;
 
 struct Result
 {
