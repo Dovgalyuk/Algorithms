@@ -6,8 +6,10 @@
 using namespace std;
 
 typedef Graph<string, int> MyGraph;
+typedef vector<vector<long long> > Matrix;
+typedef vector<vector<size_t> > IndexMatrix;
 const long long INF = 1000000000000000000LL;
-bool hasNegativeCycle(const vector<vector<long long> > &dist)
+bool hasNegativeCycle(const Matrix &dist)
 {
     for (size_t i = 0; i < dist.size(); i++)
     {
@@ -41,8 +43,8 @@ int main(int argc, char **argv)
     }
 
     size_t n = g.vertexCount();
-    vector<vector<long long> > dist(n, vector<long long>(n, INF));
-    vector<vector<size_t> > nextStep(n, vector<size_t>(n, n));
+    Matrix dist(n, vector<long long>(n, INF));
+    IndexMatrix nextStep(n, vector<size_t>(n, n));
     for (size_t i = 0; i < n; i++)
     {
         dist[i][i] = 0;
