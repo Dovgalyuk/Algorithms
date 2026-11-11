@@ -29,3 +29,6 @@ add_subdirectory(Lab1ArrayCPP)
 
 # 2 лаба
 add_subdirectory(Lab2ListStackCPP)
+
+# 3 лаба
+add_subdirectory(Lab3VectorQueue)
