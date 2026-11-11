@@ -1,4 +1,8 @@
-add_library(Lab6Core STATIC matrix_chain.cpp cli.cpp)
+if(MSVC)
+    add_compile_options(/utf-8)
+endif()
+
+add_library(Lab6Core STATIC matrix_chain.cpp)
 target_compile_features(Lab6Core PUBLIC cxx_std_11)
 target_include_directories(Lab6Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -13,12 +17,6 @@ target_link_libraries(Lab6Benchmark PRIVATE Lab6Core)
 
 add_executable(Lab6Tests tests/test_matrix_chain.cpp)
 target_link_libraries(Lab6Tests PRIVATE Lab6Core)
-
-if(MSVC)
-    target_compile_options(Lab6Core PRIVATE /utf-8)
-    target_compile_options(Lab6Tests PRIVATE /utf-8)
-    target_compile_options(Lab6Benchmark PRIVATE /utf-8)
-endif()
 
 add_test(NAME Lab6Algorithms COMMAND Lab6Tests)
 set_tests_properties(Lab6Algorithms PROPERTIES TIMEOUT 60)

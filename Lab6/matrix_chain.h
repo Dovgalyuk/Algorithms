@@ -18,6 +18,5 @@ Dimensions readDimensions(std::istream& input);
 Result solveBruteForce(const Dimensions& dimensions);
 Result solveDynamic(const Dimensions& dimensions);
 std::string parenthesize(const Dimensions& dimensions, const Result& result);
-int runProgram(int argc, char* argv[], bool dynamic);
 
 #endif

@@ -1,10 +1,12 @@
 #include "matrix_chain.h"
 
-#include <limits>
+#include <climits>
 #include <sstream>
 #include <stdexcept>
 
 using namespace std;
+
+const long long NOT_COMPUTED = -2;
 
 Dimensions readDimensions(istream& input)
 {
@@ -53,7 +55,7 @@ static void validate(const Dimensions& dimensions)
 static long long combine(long long left, long long right,
                          long long rows, long long middle, long long columns)
 {
-    const long long maximum = numeric_limits<long long>::max();
+    const long long maximum = LLONG_MAX;
     if (left < 0 || right < 0 || rows > maximum / middle)
         return -1;
     long long product = rows * middle;
@@ -94,42 +96,48 @@ Result solveBruteForce(const Dimensions& dimensions)
 {
     validate(dimensions);
     size_t n = dimensions.size() - 1;
-    Result result{0, vector<vector<size_t>>(n, vector<size_t>(n))};
+    Result result;
+    result.split.resize(n, vector<size_t>(n));
     result.cost = bruteForce(dimensions, 0, n - 1, result.split);
     if (result.cost < 0)
         throw overflow_error(u8"Минимальная стоимость не помещается в long long.");
     return result;
 }
 
+static long long dynamicProgramming(const Dimensions& dimensions, size_t left, size_t right,
+                                    vector<vector<size_t>>& split,
+                                    vector<vector<long long>>& saved)
+{
+    if (left == right)
+        return 0;
+    if (saved[left][right] != NOT_COMPUTED)
+        return saved[left][right];
+
+    long long best = -1;
+    for (size_t k = left; k < right; ++k)
+    {
+        long long first = dynamicProgramming(dimensions, left, k, split, saved);
+        long long second = dynamicProgramming(dimensions, k + 1, right, split, saved);
+        long long cost = combine(first, second, dimensions[left],
+                                 dimensions[k + 1], dimensions[right + 1]);
+        if (cost >= 0 && (best < 0 || cost < best))
+        {
+            best = cost;
+            split[left][right] = k;
+        }
+    }
+    saved[left][right] = best;
+    return best;
+}
+
 Result solveDynamic(const Dimensions& dimensions)
 {
     validate(dimensions);
     size_t n = dimensions.size() - 1;
-    Result result{0, vector<vector<size_t>>(n, vector<size_t>(n))};
-    vector<vector<long long>> cost(n, vector<long long>(n, -1));
-    for (size_t i = 0; i < n; ++i)
-        cost[i][i] = 0;
-
-    for (size_t length = 2; length <= n; ++length)
-    {
-        for (size_t left = 0; left <= n - length; ++left)
-        {
-            size_t right = left + length - 1;
-            for (size_t k = left; k < right; ++k)
-            {
-                long long candidate = combine(cost[left][k], cost[k + 1][right],
-                                               dimensions[left], dimensions[k + 1],
-                                               dimensions[right + 1]);
-                if (candidate >= 0 && (cost[left][right] < 0 || candidate < cost[left][right]))
-                {
-                    cost[left][right] = candidate;
-                    result.split[left][right] = k;
-                }
-            }
-        }
-    }
-
-    result.cost = cost[0][n - 1];
+    Result result;
+    result.split.resize(n, vector<size_t>(n));
+    vector<vector<long long>> saved(n, vector<long long>(n, NOT_COMPUTED));
+    result.cost = dynamicProgramming(dimensions, 0, n - 1, result.split, saved);
     if (result.cost < 0)
         throw overflow_error(u8"Минимальная стоимость не помещается в long long.");
     return result;

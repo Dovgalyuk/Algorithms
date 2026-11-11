@@ -7,66 +7,46 @@
 #include <iostream>
 #include <random>
 #include <stdexcept>
-#include <vector>
 
 using namespace std;
 
-typedef Result (*Solver)(const Dimensions&);
-
-struct Measurement
+double measureBatch(const Dimensions& dimensions, bool useDP,
+                    size_t runs, long long expected)
 {
-    double milliseconds;
-    size_t runs;
-};
-
-static double measureBatch(Solver solver, const Dimensions& dimensions,
-                           size_t runs, long long expected)
-{
-    vector<long long> costs(runs);
-    const auto start = chrono::steady_clock::now();
-    for (size_t run = 0; run < runs; ++run)
+    auto start = chrono::steady_clock::now();
+    for (size_t i = 0; i < runs; ++i)
     {
-        const Result result = solver(dimensions);
-        costs[run] = result.cost;
+        Result result;
+        if (useDP)
+            result = solveDynamic(dimensions);
+        else
+            result = solveBruteForce(dimensions);
+        if (result.cost != expected)
+            throw runtime_error(u8"Результаты алгоритмов не совпали.");
     }
-    const auto finish = chrono::steady_clock::now();
-
-    for (size_t run = 0; run < runs; ++run)
-    {
-        if (costs[run] != expected)
-        {
-            throw runtime_error("Algorithms returned different costs");
-        }
-    }
+    auto finish = chrono::steady_clock::now();
     return chrono::duration<double, milli>(finish - start).count();
 }
 
-static Measurement measure(Solver solver, const Dimensions& dimensions,
-                           long long expected)
+double measure(const Dimensions& dimensions, bool useDP,
+               size_t& runs, long long expected)
 {
-    const size_t maxRuns = 1048576;
-    size_t runs = 1;
-    while (measureBatch(solver, dimensions, runs, expected) < 20.0
-           && runs < maxRuns)
-    {
+    runs = 1;
+    while (measureBatch(dimensions, useDP, runs, expected) < 20.0 && runs < 1048576)
         runs *= 2;
-    }
 
-    vector<double> times;
-    for (int sample = 0; sample < 5; ++sample)
-    {
-        times.push_back(measureBatch(solver, dimensions, runs, expected)
-                        / static_cast<double>(runs));
-    }
-    sort(times.begin(), times.end());
-    return {times[2], runs};
+    double times[5];
+    for (int i = 0; i < 5; ++i)
+        times[i] = measureBatch(dimensions, useDP, runs, expected) / static_cast<double>(runs);
+    sort(times, times + 5);
+    return times[2];
 }
 
 int main(int argc, char* argv[])
 {
     if (argc != 2)
     {
-        cerr << "Usage: Lab6Benchmark output.csv\n";
+        cerr << u8"Использование: Lab6Benchmark выходной.csv\n";
         return 1;
     }
 
@@ -74,62 +54,43 @@ int main(int argc, char* argv[])
     {
         ofstream output(argv[1]);
         if (!output)
-        {
-            throw runtime_error("Cannot open output file");
-        }
+            throw runtime_error(u8"Не удалось открыть выходной файл.");
 
-        const size_t sizes[] = {2, 4, 6, 8, 10, 12, 14, 16, 18,
-                                20, 40, 80, 160, 320, 640};
         mt19937 generator(42);
         Dimensions allDimensions(641);
-        for (size_t i = 0; i < allDimensions.size(); ++i)
-        {
-            allDimensions[i] = 10 + generator() % 91;
-        }
+        for (long long& dimension : allDimensions)
+            dimension = 10 + generator() % 91;
 
+        const size_t sizes[] = {2, 4, 6, 8, 10, 12, 14, 16, 18,
+                               20, 40, 80, 160, 320, 640};
         output << "n,brute_ms,dp_ms,brute_runs,dp_runs\n";
         output << fixed << setprecision(9);
         for (size_t n : sizes)
         {
-            const Dimensions dimensions(allDimensions.begin(),
-                                        allDimensions.begin() + n + 1);
-            const long long expected = solveDynamic(dimensions).cost;
-            Measurement brute = {0.0, 0};
+            Dimensions dimensions(allDimensions.begin(), allDimensions.begin() + n + 1);
+            long long expected = solveDynamic(dimensions).cost;
+            size_t bruteRuns = 0, dpRuns = 0;
+            double bruteTime = 0;
             if (n <= 18)
-            {
-                brute = measure(solveBruteForce, dimensions, expected);
-            }
-            const Measurement dynamic = measure(solveDynamic, dimensions,
-                                                expected);
+                bruteTime = measure(dimensions, false, bruteRuns, expected);
+            double dpTime = measure(dimensions, true, dpRuns, expected);
 
             output << n << ',';
-            if (brute.runs != 0)
-            {
-                output << brute.milliseconds;
-            }
-            output << ',' << dynamic.milliseconds << ',';
-            if (brute.runs != 0)
-            {
-                output << brute.runs;
-            }
-            output << ',' << dynamic.runs << '\n';
+            if (bruteRuns != 0)
+                output << bruteTime;
+            output << ',' << dpTime << ',';
+            if (bruteRuns != 0)
+                output << bruteRuns;
+            output << ',' << dpRuns << '\n';
             output.flush();
             if (!output)
-            {
-                throw runtime_error("Cannot write output file");
-            }
-
-            cout << "n = " << n << ": ";
-            if (brute.runs != 0)
-            {
-                cout << "brute = " << brute.milliseconds << " ms, ";
-            }
-            cout << "DP = " << dynamic.milliseconds << " ms" << endl;
+                throw runtime_error(u8"Ошибка записи результатов.");
+            cout << "n = " << n << endl;
         }
     }
     catch (const exception& error)
     {
-        cerr << "Error: " << error.what() << '\n';
+        cerr << u8"Ошибка: " << error.what() << '\n';
         return 1;
     }
     return 0;

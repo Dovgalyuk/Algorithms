@@ -249,6 +249,9 @@ static void testErrors()
         expectException<overflow_error>([&dimensions]() { solveDynamic(dimensions); },
                                         "Dynamic did not detect overflow");
     }
+    const Dimensions largeOverflow(101, 3000000);
+    expectException<overflow_error>([&largeOverflow]() { solveDynamic(largeOverflow); },
+                                    "Dynamic did not cache overflowing subproblems");
 }
 
 static void testRandomChains()
