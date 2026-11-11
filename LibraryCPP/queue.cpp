@@ -1,34 +1,45 @@
 #include "queue.h"
+#include "list.h"
 
 struct Queue
 {
+    List* list;
 };
 
 Queue *queue_create()
 {
-    return new Queue;
+    Queue* queue = new Queue;
+    queue->list = list_create();
+
+    return queue;
 }
 
 void queue_delete(Queue *queue)
 {
-    // TODO: free queue items
+    list_delete(queue->list);
     delete queue;
 }
 
 void queue_insert(Queue *queue, Data data)
 {
+    ListItem* last = list_last(queue->list);
+
+    list_insert_after(queue->list, last, data);
 }
 
 Data queue_get(const Queue *queue)
 {
-    return (Data)0;
+    ListItem* first = list_first(queue->list);
+
+    return list_item_data(first);
 }
 
 void queue_remove(Queue *queue)
 {
+    list_erase_first(queue->list);
 }
 
 bool queue_empty(const Queue *queue)
 {
-    return true;
+    return list_first(queue->list) == nullptr;
 }
