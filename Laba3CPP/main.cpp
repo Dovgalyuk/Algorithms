@@ -1,17 +1,23 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-
 #include "queue.h"
 #include "vector.h"
-
 using namespace std;
+
+typedef size_t SubstanceId;
+typedef Vector<string> SubstanceNames;
+typedef Vector<size_t> Indices;
+typedef Vector<bool> Flags;
+const size_t noReaction = string::npos;
 
 struct Reaction
 {
-    string from;
-    string to;
+    SubstanceId to;
+    size_t next;
 };
+
+typedef Vector<Reaction> Reactions;
 
 template <typename Data>
 void append(Vector<Data> &items, Data value)
@@ -21,14 +27,73 @@ void append(Vector<Data> &items, Data value)
     items.set(index, value);
 }
 
-bool contains(const Vector<string> &substances, const string &name)
+SubstanceId substanceId(const string &name, SubstanceNames &names,
+                        Indices &firstReaction, Indices &lastReaction)
 {
-    for (size_t i = 0; i < substances.size(); ++i)
+    for (SubstanceId id = 0; id < names.size(); ++id)
     {
-        if (substances.get(i) == name)
-            return true;
+        if (names.get(id) == name)
+            return id;
     }
-    return false;
+
+    SubstanceId id = names.size();
+    append(names, name);
+    append(firstReaction, noReaction);
+    append(lastReaction, noReaction);
+    return id;
+}
+
+void addReaction(SubstanceId from, SubstanceId to, Reactions &reactions,
+                 Indices &firstReaction, Indices &lastReaction)
+{
+    size_t index = reactions.size();
+    Reaction reaction = {to, noReaction};
+    append(reactions, reaction);
+
+    size_t previous = lastReaction.get(from);
+    if (previous == noReaction)
+        firstReaction.set(from, index);
+    else
+    {
+        Reaction previousReaction = reactions.get(previous);
+        previousReaction.next = index;
+        reactions.set(previous, previousReaction);
+    }
+    lastReaction.set(from, index);
+}
+
+void printObtained(SubstanceId initial, const SubstanceNames &names,
+                   const Indices &firstReaction, const Reactions &reactions)
+{
+    Queue<SubstanceId> queue;
+    Flags visited;
+    Flags obtained;
+    visited.resize(names.size());
+    obtained.resize(names.size());
+    queue.insert(initial);
+    visited.set(initial, true);
+
+    while (!queue.empty())
+    {
+        SubstanceId current = queue.get();
+        queue.remove();
+
+        for (size_t i = firstReaction.get(current); i != noReaction; i = reactions.get(i).next)
+        {
+            SubstanceId product = reactions.get(i).to;
+            if (!obtained.get(product))
+            {
+                cout << names.get(product) << '\n';
+                obtained.set(product, true);
+            }
+
+            if (!visited.get(product))
+            {
+                visited.set(product, true);
+                queue.insert(product);
+            }
+        }
+    }
 }
 
 string trim(const string &text)
@@ -70,7 +135,11 @@ int main(int argc, char **argv)
     }
     start = trim(start);
 
-    Vector<Reaction> reactions;
+    SubstanceNames names;
+    Indices firstReaction;
+    Indices lastReaction;
+    Reactions reactions;
+    SubstanceId initial = substanceId(start, names, firstReaction, lastReaction);
     string line;
     while (getline(*input, line))
     {
@@ -92,39 +161,10 @@ int main(int argc, char **argv)
             cerr << "Invalid reaction: " << line << '\n';
             return 1;
         }
-        Reaction reaction = {from, to};
-        append(reactions, reaction);
+        SubstanceId fromId = substanceId(from, names, firstReaction, lastReaction);
+        SubstanceId toId = substanceId(to, names, firstReaction, lastReaction);
+        addReaction(fromId, toId, reactions, firstReaction, lastReaction);
     }
 
-    Queue<string> queue;
-    Vector<string> visited;
-    Vector<string> obtained;
-    queue.insert(start);
-    append(visited, start);
-
-    while (!queue.empty())
-    {
-        string current = queue.get();
-        queue.remove();
-
-        for (size_t i = 0; i < reactions.size(); ++i)
-        {
-            Reaction reaction = reactions.get(i);
-            if (reaction.from != current)
-                continue;
-
-            if (!contains(obtained, reaction.to))
-            {
-                cout << reaction.to << '\n';
-                append(obtained, reaction.to);
-            }
-
-            if (!contains(visited, reaction.to))
-            {
-                append(visited, reaction.to);
-                queue.insert(reaction.to);
-            }
-        }
-    }
-    return 0;
+    printObtained(initial, names, firstReaction, reactions);
 }
