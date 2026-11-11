@@ -1,12 +1,38 @@
-add_executable(Laba3 main.cpp)
-target_include_directories(Laba3 PUBLIC ../LibraryCPP)
-target_link_libraries(Laba3 LibraryCPP)
+cmake_minimum_required(VERSION 3.12)
+project(Lab3CPP CXX)
 
-add_test(NAME TestLaba3 COMMAND Laba3 ${CMAKE_CURRENT_SOURCE_DIR}/Test/input1.txt)
-set_property(TEST TestLaba3 PROPERTY PASS_REGULAR_EXPRESSION "3 2 # 2 3 2 3")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_test(NAME TestLaba3_2 COMMAND Laba3 ${CMAKE_CURRENT_SOURCE_DIR}/Test/input2.txt)
-set_property(TEST TestLaba3_2 PROPERTY PASS_REGULAR_EXPRESSION "9 8 5 2 1")
+add_executable(Lab3CPP main.cpp)
+target_include_directories(Lab3CPP PUBLIC ../LibraryCPP)
+target_link_libraries(Lab3CPP LibraryCPP)
 
-add_test(NAME TestLaba3_3 COMMAND Laba3 ${CMAKE_CURRENT_SOURCE_DIR}/Test/input3.txt)
-set_property(TEST TestLaba3_3 PROPERTY PASS_REGULAR_EXPRESSION "3 2 # # 3 2 3")
+enable_testing()
+
+add_test(
+    NAME Lab3_Test1
+    COMMAND ${CMAKE_COMMAND}
+        -DEXEC=$<TARGET_FILE:Lab3CPP>
+        -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/Test/input1.txt
+        -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/Test/output1.txt
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/RunTest.cmake"
+)
+
+add_test(
+    NAME Lab3_Test2
+    COMMAND ${CMAKE_COMMAND}
+        -DEXEC=$<TARGET_FILE:Lab3CPP>
+        -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/Test/input2.txt
+        -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/Test/output2.txt
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/RunTest.cmake"
+)
+
+add_test(
+    NAME Lab3_Test3
+    COMMAND ${CMAKE_COMMAND}
+        -DEXEC=$<TARGET_FILE:Lab3CPP>
+        -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/Test/input3.txt
+        -DEXPECTED=${CMAKE_CURRENT_SOURCE_DIR}/Test/output3.txt
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/RunTest.cmake"
+)

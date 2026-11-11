@@ -27,14 +27,7 @@ void queue_insert(Queue *queue, Data data)
 {
     if (!queue) return;
 
-    if (queue->last == nullptr)
-    {
-        queue->last = list_insert(queue->list, data);
-    }
-    else
-    {
-        queue->last = list_insert_after(queue->list, queue->last, data);
-    }
+    queue->last = list_insert_after(queue->list, queue->last, data);
 }
 
 Data queue_get(const Queue *queue)
