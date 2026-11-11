@@ -35,7 +35,9 @@ int main(int argc, char* argv[]) {
 		return 0;
 	}
 
-	Floyd result = floyd_alg(graph);
+	rastMatrix dist;
+	nextMatrix next_versh;
+	floyd_alg(graph, dist, next_versh);
 
 	cout << "Матрица кратчайших расстояний: " << endl << endl;
 
@@ -57,11 +59,11 @@ int main(int argc, char* argv[]) {
 	for (size_t i = 0; i < n; i++) {
 		cout << setw(col_width) << graph.get_vershina_label(i);
 		for (size_t j = 0; j < n; j++) {
-			if (result.rasstoyanie[i][j] >= 1000000000000000LL) {
+			if (dist[i][j] >= 1000000000000000LL) {
 				cout << setw(col_width) << "INF";
 			}
 			else {
-				cout << setw(col_width) << result.rasstoyanie[i][j];
+				cout << setw(col_width) << dist[i][j];
 			}
 		}
 		cout << endl;
@@ -76,18 +78,18 @@ int main(int argc, char* argv[]) {
 			}
 			cout << graph.get_vershina_label(i) << " -> " << graph.get_vershina_label(j) << ": ";
 
-			if (result.rasstoyanie[i][j] >= 1000000000000000LL) {
+			if (dist[i][j] >= 1000000000000000LL) {
 				cout << "no path" << endl;
 			}
 			else {
-				Vector<size_t> path = vosstanovka_path(result, i, j);
+				Vector<size_t> path = vosstanovka_path(next_versh, i, j);
 				for (size_t k = 0; k < path.size(); k++) {
 					if (k > 0) {
 						cout << " -> ";
 					}
 					cout << graph.get_vershina_label(path[k]);
 				}
-				cout << " (cost: " << result.rasstoyanie[i][j] << ")" << endl;
+				cout << " (cost: " << dist[i][j] << ")" << endl;
 			}
 		}
 	}
