@@ -1,7 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include <cstddef>
+#include "vector.h"
 
 // Change it to desired type
 typedef int Data;
@@ -36,7 +36,9 @@ public:
     bool empty() const;
 
 private:
-    // private data should be here
+    Vector buffer_;
+    size_t head_;
+    size_t count_;
 };
 
 #endif

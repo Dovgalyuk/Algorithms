@@ -2,8 +2,6 @@
 #define LIST_H
 
 #include <cstddef>
-
-// Change it to desired type
 typedef int Data;
 
 class List
@@ -12,49 +10,31 @@ public:
     class Item
     {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Item *next() { return next_; }
+        Item *prev() { return prev_; }
+        Data data() const { return data_; }
     private:
-        // internal data here
+        friend class List;
+        Data data_;
+        Item *next_;
+        Item *prev_;
     };
 
-    // Creates new list
     List();
-
-    // copy constructor
     List(const List &a);
-
-    // assignment operator
     List &operator=(const List &a);
-
-    // Destroys the list and frees the memory
     ~List();
-
-    // Retrieves the first item from the list
     Item *first();
-
-    // Retrieves the last item of the list
+    const Item *first() const;
     Item *last();
-
-    // Inserts new list item into the beginning
     Item *insert(Data data);
-
-    // Inserts new list item after the specified item
-    // Inserts first element if item is null
+    // A null item means insert at the beginning.
     Item *insert_after(Item *item, Data data);
-
-    // Deletes the first list item.
-    // Returns pointer to the item next to the deleted one.
     Item *erase_first();
-
-    // Deletes the list item following the specified one.
-    // Deletes the first element when item is null.
-    // Returns pointer to the item next to the deleted one.
-    // Should be O(1)
+    // A null item means erase the first element. Returns the next item.
     Item *erase_next(Item *item);
 private:
-    // private data should be here
+    Item *first_;
+    Item *last_;
 };
-
 #endif

@@ -1,0 +1,11 @@
+execute_process(COMMAND "${PROGRAM}" "${INPUT}"
+    RESULT_VARIABLE result OUTPUT_VARIABLE actual ERROR_VARIABLE error)
+if(NOT "${result}" STREQUAL "${STATUS}")
+    message(FATAL_ERROR "Expected exit ${STATUS}, got ${result}: ${error}")
+endif()
+if(STATUS EQUAL 0)
+    string(REPLACE "\r\n" "\n" actual "${actual}")
+    if(NOT "${actual}" STREQUAL "${EXPECTED}\n")
+        message(FATAL_ERROR "Expected [${EXPECTED}], got [${actual}]")
+    endif()
+endif()
