@@ -1,0 +1,2 @@
+Shortest paths from Solo:
+Solo: 0

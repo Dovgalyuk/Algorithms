@@ -1,0 +1,4 @@
+Shortest paths from X:
+X: 0
+Y: 10
+Z: INF
