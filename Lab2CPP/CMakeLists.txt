@@ -1,0 +1,133 @@
+add_executable(FishCPP fish.cpp Misc/helper.cpp fish_movement.cpp fish_arithmetic.cpp fish_comparison.cpp fish_stack_manipulation.cpp fish_io.cpp fish_reflection.cpp)
+
+target_include_directories(FishCPP PUBLIC ../LibraryCPP)
+target_link_libraries(FishCPP LibraryCPP)
+
+add_test(NAME Test1FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script1.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test1FishCPP PROPERTY PASS_REGULAR_EXPRESSION "Hello, world!")
+
+add_test(NAME Test2FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script2.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test2FishCPP PROPERTY PASS_REGULAR_EXPRESSION "Hello, world!")
+
+add_test(NAME Test3FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script3.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test3FishCPP PROPERTY PASS_REGULAR_EXPRESSION "Hello, world!")
+
+add_test(NAME Test4FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script4.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test4FishCPP PROPERTY PASS_REGULAR_EXPRESSION "Hello, world!")
+
+add_test(NAME Test5FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script5.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input5.txt)
+set_property(TEST Test5FishCPP PROPERTY PASS_REGULAR_EXPRESSION "Hello, world!")
+
+add_test(NAME Test6FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script6.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input6.txt)
+set_property(TEST Test6FishCPP PROPERTY PASS_REGULAR_EXPRESSION "Hello, world!")
+
+add_test(NAME Test7FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script7.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test7FishCPP PROPERTY PASS_REGULAR_EXPRESSION "FizzBuzz")
+
+add_test(NAME Test8FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script8.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test8FishCPP PROPERTY PASS_REGULAR_EXPRESSION "\"r00gol\\?!;40\\.")
+
+add_test(NAME Test9FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script9.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test9FishCPP PROPERTY PASS_REGULAR_EXPRESSION "15")
+
+add_test(NAME Test10FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script10.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test10FishCPP PROPERTY PASS_REGULAR_EXPRESSION "1")
+
+add_test(NAME Test11FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script11.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test11FishCPP PROPERTY PASS_REGULAR_EXPRESSION "")
+
+add_test(NAME Test12FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script12.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test12FishCPP PROPERTY PASS_REGULAR_EXPRESSION "5")
+
+add_test(NAME Test13FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script13.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test13FishCPP PROPERTY PASS_REGULAR_EXPRESSION "3")
+
+add_test(NAME Test14FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script14.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test14FishCPP PROPERTY PASS_REGULAR_EXPRESSION "6")
+
+add_test(NAME Test15FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script15.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input15.txt)
+set_property(TEST Test15FishCPP PROPERTY PASS_REGULAR_EXPRESSION "2")
+
+add_test(NAME Test16FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script16.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test16FishCPP PROPERTY PASS_REGULAR_EXPRESSION "3")
+
+add_test(NAME Test17FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script17.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input17.txt)
+set_property(TEST Test17FishCPP PROPERTY PASS_REGULAR_EXPRESSION "1")
+
+add_test(NAME Test18FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script18.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test18FishCPP PROPERTY PASS_REGULAR_EXPRESSION "0")
+
+add_test(NAME Test19FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script19.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test17FishCPP PROPERTY PASS_REGULAR_EXPRESSION "1")
+
+add_test(NAME Test20FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script20.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test20FishCPP PROPERTY PASS_REGULAR_EXPRESSION "1")
+
+add_test(NAME Test21FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script21.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test21FishCPP PROPERTY PASS_REGULAR_EXPRESSION "1")
+
+add_test(NAME Test22FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script22.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test22FishCPP PROPERTY PASS_REGULAR_EXPRESSION "333")
+
+add_test(NAME Test23FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script23.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test23FishCPP PROPERTY PASS_REGULAR_EXPRESSION "21")
+
+add_test(NAME Test24FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script24.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test24FishCPP PROPERTY PASS_REGULAR_EXPRESSION "12")
+
+add_test(NAME Test25FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script25.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test25FishCPP PROPERTY PASS_REGULAR_EXPRESSION "213")
+
+add_test(NAME Test26FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script26.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test26FishCPP PROPERTY PASS_REGULAR_EXPRESSION "213")
+
+add_test(NAME Test27FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script27.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test27FishCPP PROPERTY PASS_REGULAR_EXPRESSION "132")
+
+add_test(NAME Test28FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script28.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test28FishCPP PROPERTY PASS_REGULAR_EXPRESSION "123")
+
+add_test(NAME Test29FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script29.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test29FishCPP PROPERTY PASS_REGULAR_EXPRESSION "3")
+
+add_test(NAME Test30FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script30.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test30FishCPP PROPERTY PASS_REGULAR_EXPRESSION "ba")
+
+add_test(NAME Test31FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script31.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test31FishCPP PROPERTY PASS_REGULAR_EXPRESSION "ba")
+
+add_test(NAME Test32FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script32.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test32FishCPP PROPERTY PASS_REGULAR_EXPRESSION "1")
+
+add_test(NAME Test33FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script33.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test33FishCPP PROPERTY PASS_REGULAR_EXPRESSION "3")
+
+add_test(NAME Test34FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script34.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test34FishCPP PROPERTY PASS_REGULAR_EXPRESSION "A")
+
+add_test(NAME Test35FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script35.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test35FishCPP PROPERTY PASS_REGULAR_EXPRESSION "10")
+
+add_test(NAME Test36FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script36.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input36.txt)
+set_property(TEST Test36FishCPP PROPERTY PASS_REGULAR_EXPRESSION "65")
+
+add_test(NAME Test37FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script37.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test37FishCPP PROPERTY PASS_REGULAR_EXPRESSION "3")
+
+add_test(NAME Test38FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script38.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test38FishCPP PROPERTY PASS_REGULAR_EXPRESSION "48")
+
+add_test(NAME Test40FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script40.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test40FishCPP PROPERTY PASS_REGULAR_EXPRESSION "2")
+
+add_test(NAME Test41FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script41.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test41FishCPP PROPERTY PASS_REGULAR_EXPRESSION "1")
+
+add_test(NAME Test42FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script42.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test42FishCPP PROPERTY PASS_REGULAR_EXPRESSION "1")
+
+add_test(NAME Test43FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script43.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test43FishCPP PROPERTY PASS_REGULAR_EXPRESSION "1")
+
+add_test(NAME Test44FishCPP COMMAND FishCPP ${CMAKE_CURRENT_SOURCE_DIR}/Tests/script44.fish ${CMAKE_CURRENT_SOURCE_DIR}/Tests/input.txt)
+set_property(TEST Test44FishCPP PROPERTY PASS_REGULAR_EXPRESSION "")
