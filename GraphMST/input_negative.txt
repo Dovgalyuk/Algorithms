@@ -1,0 +1,8 @@
+3 4
+A red
+B blue
+C green
+A B -2
+B C 1
+A C 4
+A A -10
