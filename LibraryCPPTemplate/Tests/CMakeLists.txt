@@ -15,7 +15,16 @@
 # target_include_directories(TestStackCPPTemplate PUBLIC ..)
 # add_test(TestStackCPPTemplate TestStackCPPTemplate)
 
-# add_executable(TestVectorCPPTemplate vector.cpp)
-# target_include_directories(TestVectorCPPTemplate PUBLIC ..)
-# add_test(TestVectorCPPTemplate TestVectorCPPTemplate)
-# set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
+add_executable(TestVectorCPPTemplate vector.cpp)
+target_include_directories(TestVectorCPPTemplate PUBLIC ..)
+add_test(TestVectorCPPTemplate TestVectorCPPTemplate)
+set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
+if(MSVC)
+    target_compile_options(TestVectorCPPTemplate PRIVATE /wd4267)
+endif()
+
+
+add_executable(TestGraphCPP test_graph.cpp)
+target_link_libraries(TestGraphCPP PRIVATE LibraryCPPTemplate)
+add_test(NAME TestGraphCPPTemplate COMMAND TestGraphCPP)
+set_tests_properties(TestGraphCPPTemplate PROPERTIES TIMEOUT 10)

@@ -1,0 +1,20 @@
+add_executable(Floyd main.cpp floyd.cpp)
+target_link_libraries(Floyd PRIVATE LibraryCPPTemplate)
+
+enable_testing()
+
+macro(add_floyd_test TEST_NUM EXPECTED_REGEX)
+	add_test(NAME Floyd_Test${TEST_NUM} COMMAND Floyd ${CMAKE_CURRENT_SOURCE_DIR}/tests/input_${TEST_NUM}.txt)
+	set_property(TEST Floyd_Test${TEST_NUM} PROPERTY PASS_REGULAR_EXPRESSION "${EXPECTED_REGEX}")
+endmacro()
+
+add_floyd_test(1  "A -> B -> D")
+add_floyd_test(2  "A -> B -> C.*cost: 5")
+add_floyd_test(3  "A -> C: no path")
+add_floyd_test(4  "A -> B -> D.*cost: 3")
+add_floyd_test(5  "A -> B.*cost: 999")
+add_floyd_test(6  "A -> D.*cost: 3")
+add_floyd_test(7  "A -> B -> C -> D.*cost: 3")
+add_floyd_test(8  "A -> D -> E.*cost: 4")
+add_floyd_test(9  "A -> B -> C.*cost: -3")
+add_floyd_test(10 "A -> B -> D -> C.*cost: 3")
