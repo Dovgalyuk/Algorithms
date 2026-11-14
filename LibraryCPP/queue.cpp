@@ -28,20 +28,24 @@ void queue_insert(Queue *queue, Data data)
     if (queue->count == cap)
     {
         size_t newCap = (cap == 0) ? 1 : cap * 2;
-        if (queue->head != 0 && cap != 0)
+        if (queue->head != 0 and cap != 0)
         {
+            Vector *tmp = vector_create();
+            vector_resize(tmp, queue->count);
             for (size_t i = 0; i < queue->count; ++i)
             {
                 size_t idx = (queue->head + i) % cap;
-                Data v = vector_get(queue->buf, idx);
-                vector_set(queue->buf, i, v);
+                vector_set(tmp, i, vector_get(queue->buf, idx));
             }
+            for (size_t i = 0; i < queue->count; ++i)
+                vector_set(queue->buf, i, vector_get(tmp, i));
+
+            vector_delete(tmp);
             queue->head = 0;
         }
 
         vector_resize(queue->buf, newCap);
     }
-
     cap = vector_size(queue->buf);
     size_t tail = (queue->head + queue->count) % cap;
     vector_set(queue->buf, tail, data);
