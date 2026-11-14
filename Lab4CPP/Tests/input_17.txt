@@ -1,0 +1,7 @@
+3 3
+Moscow 0
+Tver 0
+Novgorod 0
+Moscow Tver 170
+Tver Novgorod 190
+Moscow Novgorod 500

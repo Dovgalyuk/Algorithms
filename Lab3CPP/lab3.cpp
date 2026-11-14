@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
         if (!line.empty() && line.back() == '\r') {line.pop_back();}
         if (line.empty()) continue;
 
-        if (w == 0) w = line.size();
+        if (w == 0) w = line.size(); // Первая строка задает ширину лабиринта
         if (line.size() != w) {
             cerr<<"Oshibka"<<endl;
             vector_delete(v);
@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
     while (!queue_empty(q) && (int)vector_get(p, fin) == -1) {
         int cur = (int)queue_get(q);
         queue_remove(q);
-        int r = cur / width, c = cur % width;
+        int r = cur / width, c = cur % width; // строка и столбец текущей клетки
         for (int i = 0; i < 6; i++) {
             int nr = r + dr[i];
             int nc = c + dc[i];

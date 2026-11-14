@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-
 #include "vector.h"
 #include "stack.h"
 
@@ -58,7 +57,7 @@ int main(int argc, char *argv[]) {
 void push_frame(Stack *stack, size_t l, size_t r, int state) {
     stack_push(stack, (Data)l);
     stack_push(stack, (Data)r);
-    stack_push(stack, (Data)state);
+    stack_push(stack, (Data)state); // 0 - разделить, 1 склеить
 }
 
 void merge_sort(Vector *a) {
