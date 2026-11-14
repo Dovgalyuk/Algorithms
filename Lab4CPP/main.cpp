@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	Graph<string, int> graph;
+	GraphStrInt graph;
 	try {
 		if (!(input >> graph)) {
 			throw runtime_error("Неправильный формат графа");
@@ -35,9 +35,14 @@ int main(int argc, char* argv[]) {
 		return 0;
 	}
 
-	rastMatrix dist;
-	nextMatrix next_versh;
-	floyd_alg(graph, dist, next_versh);
+	
+	try {
+		floyd_alg(graph);
+	}
+	catch (const exception& e) {
+		cerr << "Ошибка алгоритма: " << e.what() << endl;
+		return 1;
+	}
 
 	cout << "Матрица кратчайших расстояний: " << endl << endl;
 
@@ -59,11 +64,11 @@ int main(int argc, char* argv[]) {
 	for (size_t i = 0; i < n; i++) {
 		cout << setw(col_width) << graph.get_vershina_label(i);
 		for (size_t j = 0; j < n; j++) {
-			if (dist[i][j] >= 1000000000000000LL) {
+			if (!graph.has_rebro(i, j)) {
 				cout << setw(col_width) << "INF";
 			}
 			else {
-				cout << setw(col_width) << dist[i][j];
+				cout << setw(col_width) << graph.get_rebro_label(i, j);
 			}
 		}
 		cout << endl;
@@ -78,18 +83,18 @@ int main(int argc, char* argv[]) {
 			}
 			cout << graph.get_vershina_label(i) << " -> " << graph.get_vershina_label(j) << ": ";
 
-			if (dist[i][j] >= 1000000000000000LL) {
+			if (!graph.has_rebro(i,j))	 {
 				cout << "no path" << endl;
 			}
 			else {
-				Vector<size_t> path = vosstanovka_path(next_versh, i, j);
+				Vector<size_t> path = vosstanovka_path(graph, i, j);
 				for (size_t k = 0; k < path.size(); k++) {
 					if (k > 0) {
 						cout << " -> ";
 					}
 					cout << graph.get_vershina_label(path[k]);
 				}
-				cout << " (cost: " << dist[i][j] << ")" << endl;
+				cout << " (cost: " << graph.get_rebro_label(i,j) << ")" << endl;
 			}
 		}
 	}

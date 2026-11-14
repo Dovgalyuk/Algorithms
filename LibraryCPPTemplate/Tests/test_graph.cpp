@@ -5,6 +5,7 @@
 using namespace std;
 
 int main() {
+    setlocale(LC_ALL, "ru");
     cout << "Начало тестирования графа" << endl;
 
     Graph<string, int> g(3, 3);
@@ -63,23 +64,25 @@ int main() {
     }
     cout << "Тест 3: Пройден" << endl;
 
-    size_t expected_neighbors[] = { 3, 5, 1, 7 };
+    bool seen[9] = { false };
     int kolvo = 0;
     for (auto i = g.begin(4); i != g.end(4); i++) {
-        if (kolvo >= 4) { 
-            cout << "ОШИБКА: итератор вернул слишком много соседей" << endl; 
-            return 1; 
+        if (*i >= 9) {
+            cout << "ОШИБКА: итератор вернул индекс за пределами" << endl;
+            return 1;
         }
-        if (*i != expected_neighbors[kolvo]) { 
-            cout << "ОШИБКА: неожиданный сосед из итератора" << endl; 
-            return 1; 
-        }
+        seen[*i] = true;
         kolvo++;
     }
-    if (kolvo != 4) { 
-        cout << "ОШИБКА: должно быть найдено 4 соседа" << endl; 
-        return 1; 
+    if (kolvo != 4) {
+        cout << "ОШИБКА: должно быть найдено 4 соседа" << endl;
+        return 1;
     }
+    if (!seen[1] || !seen[3] || !seen[5] || !seen[7]) {
+        cout << "ОШИБКА: не все ожидаемые соседи найдены" << endl;
+        return 1;
+    }
+
     cout << "Тест 4: Пройден" << endl;
 
     g.remove_rebro(4, 1);

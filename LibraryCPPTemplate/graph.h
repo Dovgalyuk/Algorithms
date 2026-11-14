@@ -153,21 +153,21 @@ public:
 	bool has_rebro(size_t from, size_t to) const {
 		check_vershina(from);
 		check_vershina(to);
-		if (!sosedi_pos(from, to)) {
-			return false;
-		}
 		return smejnost[from][to].has_r;
 	}
 
 	void set_rebro_label(size_t from, size_t to, const RebroLabel& label) {
-		add_rebro(from, to, label);
+		check_vershina(from);
+		check_vershina(to);
+		smejnost[from][to].has_r = true;
+		smejnost[from][to].weight = label;
 	}
 
 	RebroLabel get_rebro_label(size_t from, size_t to) const {
 		check_vershina(from);
 		check_vershina(to);
 
-		if (!sosedi_pos(from, to) || !smejnost[from][to].has_r) {
+		if (!smejnost[from][to].has_r) {
 			return RebroLabel();
 		}
 		return smejnost[from][to].weight;
@@ -204,16 +204,16 @@ public:
 		using pointer = const size_t*;
 		using reference = size_t;
 
-		NeighborIterator(const Graph* graph, size_t vershina, int direction) : graph_gr(graph), vershina_gr(vershina), dir_gr(direction) {
+		NeighborIterator(const Graph* graph, size_t vershina, size_t start) : graph_gr(graph), vershina_gr(vershina), pos_gr(start) {
 			find_next();
 		}
 
 		size_t operator*() const {
-			return neighbor;
+			return pos_gr;
 		}
 
 		NeighborIterator& operator++() {
-			dir_gr++;
+			pos_gr++;
 			find_next();
 			return *this;
 		}
@@ -225,7 +225,7 @@ public:
 		}
 
 		bool operator==(const NeighborIterator& other) const {
-			return graph_gr == other.graph_gr && vershina_gr == other.vershina_gr && dir_gr == other.dir_gr;
+			return graph_gr == other.graph_gr && vershina_gr == other.vershina_gr && pos_gr == other.pos_gr;
 		}
 
 		bool operator!=(const NeighborIterator& other) const {
@@ -233,24 +233,20 @@ public:
 		}
 
 		RebroLabel label() const {
-			return graph_gr->get_rebro_label(vershina_gr, neighbor);
+			return graph_gr->smejnost[vershina_gr][pos_gr].weight;
 		}
 
 	private:
 
 		const Graph* graph_gr;
 		size_t vershina_gr;
-		int dir_gr;
+		size_t pos_gr;
 		size_t neighbor{};
 
 		void find_next() {
-			while (dir_gr < 4) {
-				if (graph_gr->try_get_neighbor(vershina_gr, dir_gr, neighbor)) {
-					if (graph_gr->has_rebro(vershina_gr, neighbor)) {
-						return;
-					}
-				}
-				dir_gr++;
+			size_t n = graph_gr->size();
+			while (pos_gr < n && !graph_gr->smejnost[vershina_gr][pos_gr].has_r) {
+				pos_gr++;
 			}
 		}
 	};
@@ -262,7 +258,7 @@ public:
 
 	NeighborIterator end(size_t vershina) const {
 		check_vershina(vershina);
-		return NeighborIterator(this, vershina, 4);
+		return NeighborIterator(this, vershina, size());
 	}
 
 	friend istream& operator>>(istream& in, Graph& g) {
@@ -327,38 +323,6 @@ private:
 		return(dr == 0 && (dc == 1 || dc == -1)) || (dc == 0 && (dr == 1 || dr == -1));
 	}
 
-	bool try_get_neighbor(size_t vershina, int dir, size_t& neighbor) const {
-		size_t r = vershina / cols_gr;
-		size_t c = vershina % cols_gr;
-
-		switch (dir) {
-		case 0:
-			if (c == 0) {
-				return false;
-			}
-			neighbor = vershina - 1;
-			return true;
-		case 1:
-			if (c + 1 >= cols_gr) {
-				return false;
-			}
-			neighbor = vershina + 1;
-			return true;
-		case 2:
-			if (r == 0) {
-				return false;
-			}
-			neighbor = vershina - cols_gr;
-			return true;
-		case 3:
-			if (r + 1 >= rows_gr) {
-				return false;
-			}
-			neighbor = vershina + cols_gr;
-			return true;
-		}
-		return false;
-	}
 };
 
 
