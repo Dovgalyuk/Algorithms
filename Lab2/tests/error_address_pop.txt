@@ -1,0 +1,4 @@
+invokestatic 2
+bipush 0
+pop
+return

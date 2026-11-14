@@ -1,10 +1,7 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include <cstddef>
-
-// Change it to desired type
-typedef int Data;
+#include "list.h"
 
 class Stack
 {
@@ -13,10 +10,10 @@ public:
     Stack();
 
     // copy constructor
-    Stack(const Stack &a);
+    Stack(const Stack& a);
 
     // assignment operator
-    Stack &operator=(const Stack &a);
+    Stack& operator=(const Stack& a);
 
     // Deletes the stack
     ~Stack();
@@ -36,7 +33,7 @@ public:
     bool empty() const;
 
 private:
-    // private data should be here
+    List list;
 };
 
 #endif

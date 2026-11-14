@@ -1,0 +1,4 @@
+bipush 42
+istore_2
+iload_2
+istore_0
