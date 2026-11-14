@@ -27,9 +27,9 @@ int main(int argc, char* argv[])
         }
 
 #ifdef LAB6_USE_DYNAMIC
-        Result result = solveDynamic(dimensions);
+        Result result = dynamic_programming::solve(dimensions);
 #else
-        Result result = solveBruteForce(dimensions);
+        Result result = brute_force::solve(dimensions);
 #endif
         cout << result.cost << '\n' << parenthesize(dimensions, result) << '\n';
         if (!cout)

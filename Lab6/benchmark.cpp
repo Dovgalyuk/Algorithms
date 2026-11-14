@@ -18,9 +18,9 @@ double measureBatch(const Dimensions& dimensions, bool useDP,
     {
         Result result;
         if (useDP)
-            result = solveDynamic(dimensions);
+            result = dynamic_programming::solve(dimensions);
         else
-            result = solveBruteForce(dimensions);
+            result = brute_force::solve(dimensions);
         if (result.cost != expected)
             throw runtime_error(u8"Результаты алгоритмов не совпали.");
     }
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
         for (size_t n : sizes)
         {
             Dimensions dimensions(allDimensions.begin(), allDimensions.begin() + n + 1);
-            long long expected = solveDynamic(dimensions).cost;
+            long long expected = dynamic_programming::solve(dimensions).cost;
             size_t bruteRuns = 0, dpRuns = 0;
             double bruteTime = 0;
             if (n <= 18)
