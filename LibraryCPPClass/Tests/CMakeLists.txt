@@ -1,7 +1,7 @@
-# add_executable(TestArrayCPPClass array.cpp)
-# target_include_directories(TestArrayCPPClass PUBLIC ..)
-# target_link_libraries(TestArrayCPPClass LibraryCPPClass)
-# add_test(TestArrayCPPClass TestArrayCPPClass)
+add_executable(TestArrayCPPClass array.cpp)
+target_include_directories(TestArrayCPPClass PUBLIC ..)
+target_link_libraries(TestArrayCPPClass LibraryCPPClass)
+add_test(TestArrayCPPClass TestArrayCPPClass)
 
 # add_executable(TestListCPPClass list.cpp)
 # target_include_directories(TestListCPPClass PUBLIC ..)
