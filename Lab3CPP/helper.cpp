@@ -1,4 +1,5 @@
 #include "helper.h"
+#include <iomanip>
 #include <string>
 
 constexpr int N = 8;
@@ -40,13 +41,23 @@ bool reader(std::istream& input, Vector* arr, int* start, int* end) {
 }
 
 void writer(std::ostream& output, Vector* arr) {
-    for (int i = 0; i < N; i++) {
+    int max_step = 0;
 
+    for (int i = 0; i < N * N; i++) {
+        int cell = vector_get(arr, i);
+
+        if (cell < 0 && -cell > max_step) max_step = -cell;
+    }
+
+    int width = max_step >= 10 ? 2 : 1;
+
+    for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             int cell = vector_get(arr, i * N + j);
 
-            if (cell <= 0 ) output << -cell;
-            else output << static_cast<char>(cell);
+            if (cell <= 0) output << std::setw(width) << -cell;
+
+            else output << std::setw(width) << static_cast<char>(cell);
         }
         output << '\n';
     }
