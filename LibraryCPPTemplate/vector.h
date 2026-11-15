@@ -4,17 +4,13 @@
 #include <cstddef>
 #include <limits>
 #include <stdexcept>
+#include <utility>
 
-// A simple dynamically sized array.
 template <typename Data> class Vector
 {
 public:
-    // Creates vector
-    Vector() : elements(nullptr), length(0), capacity(0)
-    {
-    }
+    Vector() : elements(nullptr), length(0), capacity(0) {}
 
-    // copy constructor
     Vector(const Vector &a)
         : elements(a.length ? new Data[a.length]{} : nullptr),
           length(a.length), capacity(a.length)
@@ -23,7 +19,6 @@ public:
             elements[i] = a.elements[i];
     }
 
-    // assignment operator
     Vector &operator=(const Vector &a)
     {
         if (this != &a) {
@@ -44,13 +39,8 @@ public:
         return *this;
     }
 
-    // Deletes vector structure and internal data
-    ~Vector()
-    {
-        delete[] elements;
-    }
+    ~Vector() { delete[] elements; }
 
-    // Retrieves vector element with the specified index
     Data get(size_t index) const
     {
         if (index >= length)
@@ -58,7 +48,6 @@ public:
         return elements[index];
     }
 
-    // Sets vector element with the specified index
     void set(size_t index, Data value)
     {
         if (index >= length)
@@ -66,14 +55,17 @@ public:
         elements[index] = value;
     }
 
-    // Retrieves current vector size
-    size_t size() const
+    size_t size() const { return length; }
+
+    // Constant-time ownership exchange; no elements are copied.
+    void swap(Vector &other) noexcept
     {
-        return length;
+        using std::swap;
+        swap(elements, other.elements);
+        swap(length, other.length);
+        swap(capacity, other.capacity);
     }
 
-    // Changes the vector size (may increase or decrease)
-    // Amortized O(1) for increasing the size by one.
     void resize(size_t size)
     {
         if (size > capacity) {
@@ -100,7 +92,6 @@ public:
             capacity = newCapacity;
         }
 
-        // Newly added elements have default values, including after shrinking.
         for (size_t i = length; i < size; i++)
             elements[i] = Data();
         length = size;
