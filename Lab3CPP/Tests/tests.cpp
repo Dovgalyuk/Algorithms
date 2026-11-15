@@ -280,14 +280,14 @@ void test_knight(std::string &program) {
             FAILED_TESTS++;
         } else {
             std::string exp =
-                "0#######\n"
-                "########\n"
-                "#1######\n"
-                "####3###\n"
-                "##2#8###\n"
-                "#129##4#6\n"
-                "10####7##\n"
-                "13#11###5#\n";
+                " 0 # # # # # # #\n"
+                " # # # # # # # #\n"
+                " # 1 # # # # # #\n"
+                " # # # # 3 # # #\n"
+                " # # 2 # 8 # # #\n"
+                " #12 9 # # 4 # 6\n"
+                "10 # # # # 7 # #\n"
+                "13 #11 # # # 5 #\n";
 
             std::string actual = read_out();
             std::string name = "Knight: long path";
