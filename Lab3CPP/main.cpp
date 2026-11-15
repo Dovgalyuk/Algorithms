@@ -4,15 +4,31 @@
 
 using namespace std;
 
-void task(ifstream &fin, ofstream &fout)
+void print(ostream &out, int n, int count, int *component)
+{
+    out << count << endl;
+    for (int i = 1; i <= count; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            if (component[j] == i)
+            {
+                out << j + 1 << " ";
+            }
+        }
+        out << endl;
+    }
+}
+
+void task(ifstream &input, ofstream &output)
 {
     int n;
-    fin >> n;
+    input >> n;
 
     int *matrix = new int[n * n];
     for (int i = 0; i < n * n; ++i)
     {
-        fin >> matrix[i];
+        input >> matrix[i];
     }
 
     int *component = new int[n];
@@ -33,6 +49,7 @@ void task(ifstream &fin, ofstream &fout)
         ++count;
         component[i] = count;
         queue_insert(queue, i);
+
         while (!queue_empty(queue))
         {
             int v = queue_get(queue);
@@ -48,18 +65,8 @@ void task(ifstream &fin, ofstream &fout)
         }
     }
 
-    fout << count << endl;
-    for (int i = 1; i <= count; ++i)
-    {
-        for (int j = 0; j < n; ++j)
-        {
-            if (component[j] == i)
-            {
-                fout << j + 1 << " ";
-            }
-        }
-        fout << endl;
-    }
+    print(cout, n, count, component);
+    print(output, n, count, component);
 
     queue_delete(queue);
     delete[] component;
@@ -68,10 +75,10 @@ void task(ifstream &fin, ofstream &fout)
 
 int main(int argc, char **argv)
 {
-    ifstream fin(argv[1]);
-    ofstream fout(argv[2]);
+    ifstream input(argv[1]);
+    ofstream output(argv[2]);
 
-    task(fin, fout);
+    task(input, output);
 
     return 0;
 }
