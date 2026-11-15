@@ -4,11 +4,8 @@
 struct Queue
 {
     List* list;
-    ListItem* tail;
-
     Queue() {
         list = list_create();
-        tail = nullptr;
     }
 
     ~Queue() {
@@ -28,13 +25,13 @@ void queue_delete(Queue *queue)
 
 void queue_insert(Queue *queue, Data data)
 {
-    if (!queue){
+    if (queue == nullptr){
         return;
     }
 
-    queue->tail = list_insert_after(
+    list_insert_after(
         queue->list,
-        queue->tail,
+        list_last(queue->list),
         data
     );
 }
@@ -42,28 +39,22 @@ void queue_insert(Queue *queue, Data data)
 Data queue_get(const Queue *queue)
 {
     if (queue_empty(queue)) return -1;
+
     return list_item_data(list_first(queue->list));
 }
 
 void queue_remove(Queue *queue)
 {
-    if (queue == nullptr || queue_empty(queue)) return;
-    list_erase_first(queue->list);
+    if (queue_empty(queue)) return;
 
-    if (queue_empty(queue)) {
-        queue->tail = nullptr;
-    }
+    list_erase_first(queue->list);
 }
 
 bool queue_empty(const Queue *queue)
 {
-    if (!queue){
+    if (queue == nullptr){
         return true;
     }
     
-    if (list_first(queue->list) == nullptr){
-        return true;
-    } else {
-        return false;
-    }
+    return list_first(queue->list) == nullptr;
 }
