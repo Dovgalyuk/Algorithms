@@ -6,10 +6,6 @@
 
 namespace {
 
-    const int DR[6] = { -1, -1, 0, 0, 1, 1 };
-    const int DC_E[6] = { 0,  1, -1, 1, 0, 1 };
-    const int DC_O[6] = { -1,  0, -1, 1, -1, 0 };
-
     std::string render(const std::vector<std::string>& m)
     {
         int rows = static_cast<int>(m.size());
@@ -20,8 +16,9 @@ namespace {
         std::vector<std::string> canvas(2 * rows + 1, std::string(width, ' '));
 
         for (int i = 0; i < rows; ++i) {
+            size_t offset = 2 + 2 * (cols - m[i].size());
             for (size_t j = 0; j < m[i].size(); ++j) {
-                size_t x = (i % 2 == 0 ? 4 : 2) + 4 * j;
+                size_t x = offset + 4 * j;
                 canvas[2 * i][x + 1] = '/';
                 canvas[2 * i][x + 3] = '\\';
                 canvas[2 * i + 1][x] = '|';
@@ -58,6 +55,7 @@ std::string solve_hex_maze(const std::vector<std::string>& maze)
     if (s == -1 || f == -1) return "No path";
 
     const int N = rows * cols;
+    const int mid = rows / 2;
 
     std::vector<int> dist[2] = { std::vector<int>(N, -1), std::vector<int>(N, -1) };
     std::vector<int> par[2] = { std::vector<int>(N, -1), std::vector<int>(N, -1) };
@@ -77,9 +75,19 @@ std::string solve_hex_maze(const std::vector<std::string>& maze)
             int cur = queue_get(q[side]);
             queue_remove(q[side]);
             int r = cur / cols, c = cur % cols;
-            const int* dc = (r % 2 == 0) ? DC_E : DC_O;
+
+            int nr_arr[6] = { r - 1, r - 1, r, r, r + 1, r + 1 };
+            int nc_arr[6] = {
+                (r <= mid) ? c - 1 : c,
+                (r <= mid) ? c : c + 1,
+                c - 1,
+                c + 1,
+                (r < mid) ? c : c - 1,
+                (r < mid) ? c + 1 : c
+            };
+
             for (int i = 0; i < 6; ++i) {
-                int nr = r + DR[i], nc = c + dc[i];
+                int nr = nr_arr[i], nc = nc_arr[i];
                 if (nr < 0 || nr >= rows || nc < 0 || nc >= static_cast<int>(maze[nr].size())) continue;
                 if (maze[nr][nc] == '#') continue;
                 int nxt = nr * cols + nc;

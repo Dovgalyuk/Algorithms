@@ -31,7 +31,7 @@ function(add_nopath_test TEST_NAME INPUT_FILE)
     )
 endfunction()
 
-foreach(N RANGE 1 10)
+foreach(N RANGE 1 15)
     add_path_test(Test${N}
         "${CMAKE_CURRENT_SOURCE_DIR}/Tests/test${N}.txt"
         "${CMAKE_CURRENT_SOURCE_DIR}/Tests/test${N}.out")
