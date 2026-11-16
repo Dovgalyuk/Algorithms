@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include <cstddef>
+#include "vector.h"
 
 // Change it to desired type
 typedef int Data;
@@ -34,9 +35,12 @@ public:
 
     // Returns true if the queue is empty
     bool empty() const;
+    size_t size() const;
 
 private:
-    // private data should be here
+    Vector data;
+    size_t head = 0;
+    size_t count = 0;
 };
 
 #endif
