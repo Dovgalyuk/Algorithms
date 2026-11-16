@@ -33,6 +33,18 @@ bool checkVector()
 }
 int main()
 {
+    Vector first;
+    first.resize(2);
+    first.set(0, 17);
+    Vector second;
+    first.swap(second);
+    if (first.size() != 0 || second.size() != 2 || second.get(0) != 17) return 1;
+    second.swap(second);
+    if (second.size() != 2 || second.get(0) != 17) return 1;
+    first.resize(3);
+    second.swap(first);
+    if (first.size() != 2 || first.get(0) != 17 || second.size() != 3) return 1;
+
     if (!checkVector()) return 1;
     Vector vector;
 

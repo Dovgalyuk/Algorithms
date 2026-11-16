@@ -20,7 +20,7 @@ void Queue::insert(Data data)
         // Restore FIFO order when expanding a wrapped buffer.
         for (size_t i = 0; i < count_; i++)
             grown.set(i, buffer_.get((head_ + i) % capacity));
-        buffer_ = grown;
+        buffer_.swap(grown);
         head_ = 0;
     }
     buffer_.set((head_ + count_) % buffer_.size(), data);

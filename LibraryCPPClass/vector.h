@@ -34,6 +34,9 @@ public:
     // Should be O(1) on average
     void resize(size_t size);
 
+    // Exchanges buffers without copying elements.
+    void swap(Vector &a) noexcept;
+
 private:
     Data *data_;
     size_t size_;

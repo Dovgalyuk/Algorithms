@@ -16,9 +16,9 @@ Vector &Vector::operator=(const Vector &a)
     if (this != &a)
     {
         Vector copy(a);
-        std::swap(data_, copy.data_);
-        std::swap(size_, copy.size_);
-        std::swap(capacity_, copy.capacity_);
+        swap(copy);
+
+
     }
     return *this;
 }
@@ -60,4 +60,11 @@ void Vector::resize(size_t size)
     }
     for (size_t i = size_; i < size; i++) data_[i] = 0;
     size_ = size;
+}
+
+void Vector::swap(Vector &a) noexcept
+{
+    std::swap(data_, a.data_);
+    std::swap(size_, a.size_);
+    std::swap(capacity_, a.capacity_);
 }

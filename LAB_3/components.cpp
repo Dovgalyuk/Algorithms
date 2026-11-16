@@ -27,7 +27,6 @@ int findComponents(const Matrix &graph, Vector &component)
             {
                 if (graph[vertex][next] != 0 && component.get(next) == 0)
                 {
-                    // Mark on insertion so a vertex enters the queue only once.
                     component.set(next, count);
                     queue.insert(next);
                 }
