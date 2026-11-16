@@ -4,7 +4,6 @@
 #include <cstddef>
 
 // Vector (dynamic array)
-
 // Stores integer values inside
 // Change it to desired type
 typedef int Data;

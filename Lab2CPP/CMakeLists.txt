@@ -1,0 +1,27 @@
+add_executable(task task.cpp)
+
+# Линкуем с уже существующей библиотекой LibraryCPP 
+# (в которой уже есть vector.cpp и stack.cpp)
+target_link_libraries(task LibraryCPP)
+
+
+# Подключаем заголовочные файлы из LibraryCPP, если они не подхватываются автоматически
+target_include_directories(task PRIVATE ${CMAKE_SOURCE_DIR}/LibraryCPP)
+
+# Включение тестирования
+enable_testing()
+
+# Тест 1: Пример из задания
+add_test(NAME test1_example
+    COMMAND task ${CMAKE_SOURCE_DIR}/Lab2CPP/Tests/script1.txt ${CMAKE_SOURCE_DIR}/Lab2CPP/Tests/input1.txt
+)
+
+# Тест 2: Операция вычитания
+add_test(NAME test2_subtraction
+    COMMAND task ${CMAKE_SOURCE_DIR}/Lab2CPP/Tests/script2.txt ${CMAKE_SOURCE_DIR}/Lab2CPP/Tests/input2.txt
+)
+
+# Тест 3: Переключение между стеками
+add_test(NAME test3_stack_switch
+    COMMAND task ${CMAKE_SOURCE_DIR}/Lab2CPP/Tests/script3.txt ${CMAKE_SOURCE_DIR}/Lab2CPP/Tests/input3.txt
+)
