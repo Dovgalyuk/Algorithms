@@ -41,7 +41,7 @@ Dimensions readDimensions(istream& input)
     return dimensions;
 }
 
-void matrix_chain_detail::validate(const Dimensions& dimensions)
+void validateDimensions(const Dimensions& dimensions)
 {
     if (dimensions.size() < 2)
         throw invalid_argument(u8"Нужна хотя бы одна матрица.");
@@ -50,8 +50,8 @@ void matrix_chain_detail::validate(const Dimensions& dimensions)
             throw invalid_argument(u8"Размерности матриц должны быть положительными.");
 }
 
-long long matrix_chain_detail::combine(long long left, long long right,
-                                       long long rows, long long middle, long long columns)
+long long combineCosts(long long left, long long right,
+                       long long rows, long long middle, long long columns)
 {
     const long long maximum = LLONG_MAX;
     if (left < 0 || right < 0 || rows > maximum / middle)

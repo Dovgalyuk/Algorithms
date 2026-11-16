@@ -15,20 +15,10 @@ struct Result
 };
 
 Dimensions readDimensions(std::istream& input);
-namespace brute_force
-{
 Result solve(const Dimensions& dimensions);
-}
-namespace dynamic_programming
-{
-Result solve(const Dimensions& dimensions);
-}
-namespace matrix_chain_detail
-{
-void validate(const Dimensions& dimensions);
-long long combine(long long left, long long right,
-                  long long rows, long long middle, long long columns);
-}
+void validateDimensions(const Dimensions& dimensions);
+long long combineCosts(long long left, long long right,
+                       long long rows, long long middle, long long columns);
 std::string parenthesize(const Dimensions& dimensions, const Result& result);
 
 #endif

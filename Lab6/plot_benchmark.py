@@ -8,26 +8,60 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
+def read_results(path):
+    with path.open(encoding="utf-8", newline="") as source:
+        rows = list(csv.DictReader(source))
+    results = {int(row["n"]): row for row in rows}
+    if len(results) != len(rows):
+        raise ValueError(f"Повторяется размер матриц в {path}")
+    return results
+
+
 def main():
     parser = argparse.ArgumentParser(description="Графики лабораторной работы 6")
-    parser.add_argument("csv", type=Path, help="CSV, полученный Lab6Benchmark")
+    parser.add_argument("brute_csv", type=Path, help="Результаты полного перебора")
+    parser.add_argument("dp_csv", type=Path, help="Результаты динамического программирования")
+    parser.add_argument("--output", type=Path, help="Итоговый CSV")
     parser.add_argument("--preview", type=Path, help="Отдельный PNG для просмотра")
     args = parser.parse_args()
 
-    with args.csv.open(encoding="utf-8", newline="") as source:
-        rows = list(csv.DictReader(source))
+    try:
+        brute = read_results(args.brute_csv)
+        dp = read_results(args.dp_csv)
+        if not brute or not dp:
+            raise ValueError("CSV не содержит измерений")
+        for n, row in brute.items():
+            if n not in dp or int(row["cost"]) != int(dp[n]["cost"]):
+                raise ValueError(f"Алгоритмы получили разные результаты для n={n}")
+        if any(float(row["time_ms"]) <= 0 for row in list(brute.values()) + list(dp.values())):
+            raise ValueError("Время измерения должно быть положительным")
+    except (KeyError, TypeError, ValueError) as error:
+        parser.error(str(error))
 
-    if not rows:
-        parser.error("CSV не содержит измерений")
+    destination = args.output or args.dp_csv.with_name("benchmark.csv")
+    rows = []
+    for n, dp_row in sorted(dp.items()):
+        brute_row = brute.get(n)
+        rows.append({
+            "n": n,
+            "brute_ms": brute_row["time_ms"] if brute_row else "",
+            "dp_ms": dp_row["time_ms"],
+            "brute_runs": brute_row["runs"] if brute_row else "",
+            "dp_runs": dp_row["runs"],
+        })
+
+    with destination.open("w", encoding="utf-8", newline="") as output:
+        writer = csv.DictWriter(
+            output, fieldnames=["n", "brute_ms", "dp_ms", "brute_runs", "dp_runs"]
+        )
+        writer.writeheader()
+        writer.writerows(rows)
 
     n_dp = [int(row["n"]) for row in rows]
     t_dp = [float(row["dp_ms"]) for row in rows]
     brute_rows = [row for row in rows if row["brute_ms"]]
     n_brute = [int(row["n"]) for row in brute_rows]
     t_brute = [float(row["brute_ms"]) for row in brute_rows]
-
-    if not brute_rows or any(t <= 0 for t in t_dp + t_brute):
-        parser.error("Нужны положительные времена обоих алгоритмов")
 
     plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10, "svg.fonttype": "none"})
     fig, axes = plt.subplots(1, 3, figsize=(17, 6))
@@ -75,12 +109,13 @@ def main():
         "Память обеих программ: Θ(n²), включая таблицу для восстановления скобок.",
         ha="center", va="center", fontsize=10,
     )
-    destination = args.csv.with_suffix(".svg")
-    fig.savefig(destination, facecolor="white", metadata={"Date": None})
-    content = destination.read_text(encoding="utf-8")
-    destination.write_text("\n".join(line.rstrip() for line in content.splitlines()) + "\n",
-                           encoding="utf-8")
+    chart = destination.with_suffix(".svg")
+    fig.savefig(chart, facecolor="white", metadata={"Date": None})
+    content = chart.read_text(encoding="utf-8")
+    chart.write_text("\n".join(line.rstrip() for line in content.splitlines()) + "\n",
+                     encoding="utf-8")
     print(destination)
+    print(chart)
     if args.preview:
         fig.savefig(args.preview, dpi=180, facecolor="white")
         print(args.preview)

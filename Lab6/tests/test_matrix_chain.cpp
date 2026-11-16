@@ -150,10 +150,9 @@ static void checkResult(const Dimensions& dimensions, const Result& result,
     require(parser.evaluate() == expected, "Parentheses do not match minimum cost");
 }
 
-static void checkBoth(const Dimensions& dimensions, long long expected)
+static void checkSolution(const Dimensions& dimensions, long long expected)
 {
-    checkResult(dimensions, brute_force::solve(dimensions), expected);
-    checkResult(dimensions, dynamic_programming::solve(dimensions), expected);
+    checkResult(dimensions, solve(dimensions), expected);
 }
 
 template<class Exception, class Function>
@@ -204,26 +203,24 @@ static void testInput()
 static void testKnownAnswers()
 {
     const Dimensions sample = {10, 30, 5, 60};
-    checkBoth(sample, 4500);
-    require(parenthesize(sample, brute_force::solve(sample)) == "(10x30*30x5)*5x60",
-            "Brute force sample format differs");
-    require(parenthesize(sample, dynamic_programming::solve(sample)) == "(10x30*30x5)*5x60",
-            "Dynamic sample format differs");
-    checkBoth({7, 9}, 0);
-    require(parenthesize({7, 9}, dynamic_programming::solve({7, 9})) == "7x9", "Single matrix format");
-    checkBoth({10, 20, 30}, 6000);
-    require(parenthesize({10, 20, 30}, dynamic_programming::solve({10, 20, 30})) == "10x20*20x30",
+    checkSolution(sample, 4500);
+    require(parenthesize(sample, solve(sample)) == "(10x30*30x5)*5x60",
+            "Sample format differs");
+    checkSolution({7, 9}, 0);
+    require(parenthesize({7, 9}, solve({7, 9})) == "7x9", "Single matrix format");
+    checkSolution({10, 20, 30}, 6000);
+    require(parenthesize({10, 20, 30}, solve({10, 20, 30})) == "10x20*20x30",
             "Two matrix format");
-    checkBoth({30, 35, 15, 5, 10, 20, 25}, 15125);
-    checkBoth({5, 10, 3, 12, 5, 50, 6}, 2010);
-    checkBoth({2, 2, 2, 2, 2}, 24);
-    checkBoth({1, 1, 1, 1, 1, 1, 1, 1}, 6);
-    checkBoth({100000, 100000, 100000}, 1000000000000000LL);
-    checkBoth({10000000, 10000000, 1, 10000000}, 200000000000000LL);
-    checkBoth({10000000, 1, 10000000, 10000000}, 200000000000000LL);
-    checkBoth({numeric_limits<long long>::max(), 1}, 0);
-    checkBoth({numeric_limits<long long>::max(), 1, 1}, numeric_limits<long long>::max());
-    checkBoth({1, numeric_limits<long long>::max(), 1}, numeric_limits<long long>::max());
+    checkSolution({30, 35, 15, 5, 10, 20, 25}, 15125);
+    checkSolution({5, 10, 3, 12, 5, 50, 6}, 2010);
+    checkSolution({2, 2, 2, 2, 2}, 24);
+    checkSolution({1, 1, 1, 1, 1, 1, 1, 1}, 6);
+    checkSolution({100000, 100000, 100000}, 1000000000000000LL);
+    checkSolution({10000000, 10000000, 1, 10000000}, 200000000000000LL);
+    checkSolution({10000000, 1, 10000000, 10000000}, 200000000000000LL);
+    checkSolution({numeric_limits<long long>::max(), 1}, 0);
+    checkSolution({numeric_limits<long long>::max(), 1, 1}, numeric_limits<long long>::max());
+    checkSolution({1, numeric_limits<long long>::max(), 1}, numeric_limits<long long>::max());
 }
 
 static void testErrors()
@@ -231,10 +228,8 @@ static void testErrors()
     const vector<Dimensions> invalid = {{}, {10}, {0, 5}, {5, -1}, {5, 0, 5}};
     for (const Dimensions& dimensions : invalid)
     {
-        expectException<invalid_argument>([&dimensions]() { brute_force::solve(dimensions); },
-                                          "Brute force accepted invalid dimensions");
-        expectException<invalid_argument>([&dimensions]() { dynamic_programming::solve(dimensions); },
-                                          "Dynamic accepted invalid dimensions");
+        expectException<invalid_argument>([&dimensions]() { solve(dimensions); },
+                                          "Invalid dimensions were accepted");
     }
     const vector<Dimensions> overflow = {
         {numeric_limits<long long>::max(), 2, 1},
@@ -244,14 +239,14 @@ static void testErrors()
     };
     for (const Dimensions& dimensions : overflow)
     {
-        expectException<overflow_error>([&dimensions]() { brute_force::solve(dimensions); },
-                                        "Brute force did not detect overflow");
-        expectException<overflow_error>([&dimensions]() { dynamic_programming::solve(dimensions); },
-                                        "Dynamic did not detect overflow");
+        expectException<overflow_error>([&dimensions]() { solve(dimensions); },
+                                        "Overflow was not detected");
     }
+#ifndef LAB6_BRUTE_FORCE_TEST
     const Dimensions largeOverflow(101, 3000000);
-    expectException<overflow_error>([&largeOverflow]() { dynamic_programming::solve(largeOverflow); },
-                                    "Dynamic did not cache overflowing subproblems");
+    expectException<overflow_error>([&largeOverflow]() { solve(largeOverflow); },
+                                    "Overflowing subproblems were not cached");
+#endif
 }
 
 static void testRandomChains()
@@ -267,11 +262,13 @@ static void testRandomChains()
                 dimension = value(generator);
             const vector<long long> allCosts = enumerateCosts(dimensions, 0, count - 1);
             const long long minimum = *min_element(allCosts.begin(), allCosts.end());
-            checkBoth(dimensions, minimum);
+            checkSolution(dimensions, minimum);
         }
     }
+#ifndef LAB6_BRUTE_FORCE_TEST
     const Dimensions large(401, 1);
-    checkResult(large, dynamic_programming::solve(large), 399);
+    checkResult(large, solve(large), 399);
+#endif
 }
 
 int main()

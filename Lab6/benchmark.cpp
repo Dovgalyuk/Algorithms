@@ -10,34 +10,25 @@
 
 using namespace std;
 
-double measureBatch(const Dimensions& dimensions, bool useDP,
-                    size_t runs, long long expected)
+double measureBatch(const Dimensions& dimensions, size_t runs, long long expected)
 {
     auto start = chrono::steady_clock::now();
     for (size_t i = 0; i < runs; ++i)
-    {
-        Result result;
-        if (useDP)
-            result = dynamic_programming::solve(dimensions);
-        else
-            result = brute_force::solve(dimensions);
-        if (result.cost != expected)
-            throw runtime_error(u8"Результаты алгоритмов не совпали.");
-    }
+        if (solve(dimensions).cost != expected)
+            throw runtime_error(u8"Стоимость решения изменилась.");
     auto finish = chrono::steady_clock::now();
     return chrono::duration<double, milli>(finish - start).count();
 }
 
-double measure(const Dimensions& dimensions, bool useDP,
-               size_t& runs, long long expected)
+double measure(const Dimensions& dimensions, size_t& runs, long long expected)
 {
     runs = 1;
-    while (measureBatch(dimensions, useDP, runs, expected) < 20.0 && runs < 1048576)
+    while (measureBatch(dimensions, runs, expected) < 20.0 && runs < 1048576)
         runs *= 2;
 
     double times[5];
     for (int i = 0; i < 5; ++i)
-        times[i] = measureBatch(dimensions, useDP, runs, expected) / static_cast<double>(runs);
+        times[i] = measureBatch(dimensions, runs, expected) / static_cast<double>(runs);
     sort(times, times + 5);
     return times[2];
 }
@@ -61,27 +52,21 @@ int main(int argc, char* argv[])
         for (long long& dimension : allDimensions)
             dimension = 10 + generator() % 91;
 
+#ifdef LAB6_BENCHMARK_BRUTE_FORCE
+        const size_t sizes[] = {2, 4, 6, 8, 10, 12, 14, 16, 18};
+#else
         const size_t sizes[] = {2, 4, 6, 8, 10, 12, 14, 16, 18,
                                20, 40, 80, 160, 320, 640};
-        output << "n,brute_ms,dp_ms,brute_runs,dp_runs\n";
+#endif
+        output << "n,cost,time_ms,runs\n";
         output << fixed << setprecision(9);
         for (size_t n : sizes)
         {
             Dimensions dimensions(allDimensions.begin(), allDimensions.begin() + n + 1);
-            long long expected = dynamic_programming::solve(dimensions).cost;
-            size_t bruteRuns = 0, dpRuns = 0;
-            double bruteTime = 0;
-            if (n <= 18)
-                bruteTime = measure(dimensions, false, bruteRuns, expected);
-            double dpTime = measure(dimensions, true, dpRuns, expected);
-
-            output << n << ',';
-            if (bruteRuns != 0)
-                output << bruteTime;
-            output << ',' << dpTime << ',';
-            if (bruteRuns != 0)
-                output << bruteRuns;
-            output << ',' << dpRuns << '\n';
+            const long long expected = solve(dimensions).cost;
+            size_t runs = 0;
+            const double time = measure(dimensions, runs, expected);
+            output << n << ',' << expected << ',' << time << ',' << runs << '\n';
             output.flush();
             if (!output)
                 throw runtime_error(u8"Ошибка записи результатов.");

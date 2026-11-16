@@ -11,16 +11,25 @@ target_link_libraries(Lab6BruteForce PRIVATE Lab6Core)
 
 add_executable(Lab6Dynamic main.cpp dynamic.cpp)
 target_link_libraries(Lab6Dynamic PRIVATE Lab6Core)
-target_compile_definitions(Lab6Dynamic PRIVATE LAB6_USE_DYNAMIC)
 
-add_executable(Lab6Benchmark benchmark.cpp brute_force.cpp dynamic.cpp)
-target_link_libraries(Lab6Benchmark PRIVATE Lab6Core)
+add_executable(Lab6BenchmarkBruteForce benchmark.cpp brute_force.cpp)
+target_link_libraries(Lab6BenchmarkBruteForce PRIVATE Lab6Core)
+target_compile_definitions(Lab6BenchmarkBruteForce PRIVATE LAB6_BENCHMARK_BRUTE_FORCE)
 
-add_executable(Lab6Tests tests/test_matrix_chain.cpp brute_force.cpp dynamic.cpp)
-target_link_libraries(Lab6Tests PRIVATE Lab6Core)
+add_executable(Lab6BenchmarkDynamic benchmark.cpp dynamic.cpp)
+target_link_libraries(Lab6BenchmarkDynamic PRIVATE Lab6Core)
 
-add_test(NAME Lab6Algorithms COMMAND Lab6Tests)
-set_tests_properties(Lab6Algorithms PROPERTIES TIMEOUT 60)
+add_executable(Lab6BruteForceTests tests/test_matrix_chain.cpp brute_force.cpp)
+target_link_libraries(Lab6BruteForceTests PRIVATE Lab6Core)
+target_compile_definitions(Lab6BruteForceTests PRIVATE LAB6_BRUTE_FORCE_TEST)
+
+add_executable(Lab6DynamicTests tests/test_matrix_chain.cpp dynamic.cpp)
+target_link_libraries(Lab6DynamicTests PRIVATE Lab6Core)
+
+add_test(NAME Lab6BruteForceAlgorithms COMMAND Lab6BruteForceTests)
+add_test(NAME Lab6DynamicAlgorithms COMMAND Lab6DynamicTests)
+set_tests_properties(Lab6BruteForceAlgorithms Lab6DynamicAlgorithms
+    PROPERTIES TIMEOUT 60)
 
 foreach(program Lab6BruteForce Lab6Dynamic)
     foreach(test sample single pair classic right large avoid_overflow)

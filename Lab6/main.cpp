@@ -26,11 +26,7 @@ int main(int argc, char* argv[])
             dimensions = readDimensions(cin);
         }
 
-#ifdef LAB6_USE_DYNAMIC
-        Result result = dynamic_programming::solve(dimensions);
-#else
-        Result result = brute_force::solve(dimensions);
-#endif
+        Result result = solve(dimensions);
         cout << result.cost << '\n' << parenthesize(dimensions, result) << '\n';
         if (!cout)
             throw runtime_error(u8"Ошибка записи результата.");
