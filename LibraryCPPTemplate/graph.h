@@ -5,7 +5,6 @@
 #include <istream>
 #include <string>
 #include <utility>
-#include <vector>
 #include "list.h"
 #include "vector.h"
 
@@ -13,7 +12,14 @@
 template <typename EdgeData, typename VertexData> class Graph
 {
     struct Edge { size_t to; EdgeData mark; Edge(size_t v, EdgeData m) : to(v), mark(m) {} };
-    struct Vertex { std::string name; VertexData mark; List<Edge> edges; Vertex(std::string n, VertexData m) : name(n), mark(m) {} };
+    struct Vertex
+    {
+        Vertex() : name(), mark(), edges() {}
+        Vertex(std::string n, VertexData m) : name(n), mark(m), edges() {}
+        std::string name;
+        VertexData mark;
+        List<Edge> edges;
+    };
 public:
     class Iterator
     {
@@ -41,21 +47,26 @@ public:
     size_t size() const { return vertices.size(); }
     void resize(size_t count)
     {
-        while (vertices.size() > count) remove_vertex(vertices.back().name);
+        while (vertices.size() > count) remove_vertex(vertices[vertices.size() - 1].name);
         while (vertices.size() < count) add_vertex("v" + std::to_string(vertices.size()), VertexData());
     }
     bool add_vertex(const std::string &name, const VertexData &mark = VertexData())
     {
         if (vertex_index(name) != invalid()) return false;
-        vertices.emplace_back(name, mark);
+        size_t index = vertices.size();
+        vertices.resize(index + 1);
+        vertices[index] = Vertex(name, mark);
         return true;
     }
     bool remove_vertex(const std::string &name)
     {
         size_t id = vertex_index(name);
         if (id == invalid()) return false;
-        vertices.erase(vertices.begin() + id);
-        for (auto &v : vertices) {
+        for (size_t i = id; i + 1 < vertices.size(); i++)
+            vertices[i] = vertices[i + 1];
+        vertices.resize(vertices.size() - 1);
+        for (size_t vertex = 0; vertex < vertices.size(); vertex++) {
+            auto &v = vertices[vertex];
             auto i = v.edges.first();
             while (i) {
                 if (i->data().to == id) i = v.edges.erase_next(i->prev());
@@ -120,7 +131,7 @@ public:
     }
 private:
     static size_t invalid() { return static_cast<size_t>(-1); }
-    std::vector<Vertex> vertices;
+    Vector<Vertex> vertices;
 };
 
 #endif

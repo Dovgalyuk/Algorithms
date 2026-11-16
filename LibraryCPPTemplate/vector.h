@@ -27,6 +27,9 @@ public:
         return data[index];
     }
 
+    Data &operator[](size_t index) { return data[index]; }
+    const Data &operator[](size_t index) const { return data[index]; }
+
     // Sets vector element with the specified index
     void set(size_t index, Data value) { data[index] = value; }
 
