@@ -1,36 +1,55 @@
 #include <stdlib.h>
 #include "array.h"
 
-typedef struct Array {
-    // remove this
-    Data d;
-} Array;
+struct Array {
+    size_t size;
+    Data *items;
+    FFree *release;
+};
 
-// create array
 Array *array_create(size_t size, FFree f)
 {
-    return malloc(sizeof(Array));
+    Array *arr = malloc(sizeof(*arr));
+    if (!arr)
+        return NULL;
+
+    arr->items = calloc(size, sizeof(Data));
+    if (size && !arr->items) {
+        free(arr);
+        return NULL;
+    }
+    arr->size = size;
+    arr->release = f;
+    return arr;
 }
 
-// delete array, free memory
 void array_delete(Array *arr)
 {
+    if (!arr)
+        return;
+    if (arr->release) {
+        for (size_t i = 0; i < arr->size; ++i) {
+            if (arr->items[i])
+                arr->release((void *)arr->items[i]);
+        }
+    }
+    free(arr->items);
     free(arr);
 }
 
-// returns specified array element
 Data array_get(const Array *arr, size_t index)
 {
-    return (Data)0;
+    return arr->items[index];
 }
 
-// sets the specified array element to the value
 void array_set(Array *arr, size_t index, Data value)
 {
+    if (arr->release && arr->items[index] && arr->items[index] != value)
+        arr->release((void *)arr->items[index]);
+    arr->items[index] = value;
 }
 
-// returns array size
 size_t array_size(const Array *arr)
 {
-    return 0;
+    return arr->size;
 }
