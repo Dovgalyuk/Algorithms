@@ -119,7 +119,7 @@ ListItem* list_insert_after(List* list, ListItem* item, Data data)
 
 ListItem* list_erase_first(List* list)
 {
-    return list_erase_next(list, nullptr);
+    return list_erase_next(list, list->fictive);
 }
 
 ListItem* list_erase_next(List* list, ListItem* item)
