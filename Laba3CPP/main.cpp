@@ -67,11 +67,8 @@ void printObtained(SubstanceId initial, const SubstanceNames &names,
 {
     Queue<SubstanceId> queue;
     Flags visited;
-    Flags obtained;
     visited.resize(names.size());
-    obtained.resize(names.size());
     queue.insert(initial);
-    visited.set(initial, true);
 
     while (!queue.empty())
     {
@@ -81,14 +78,9 @@ void printObtained(SubstanceId initial, const SubstanceNames &names,
         for (size_t i = firstReaction.get(current); i != noReaction; i = reactions.get(i).next)
         {
             SubstanceId product = reactions.get(i).to;
-            if (!obtained.get(product))
-            {
-                cout << names.get(product) << '\n';
-                obtained.set(product, true);
-            }
-
             if (!visited.get(product))
             {
+                cout << names.get(product) << '\n';
                 visited.set(product, true);
                 queue.insert(product);
             }
