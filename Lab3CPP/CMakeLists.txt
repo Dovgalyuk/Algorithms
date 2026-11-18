@@ -1,3 +1,4 @@
+
 add_executable(Maze maze.cpp)
 
 target_link_libraries(Maze PRIVATE LibraryCPP)
@@ -5,16 +6,23 @@ target_link_libraries(Maze PRIVATE LibraryCPP)
 function(add_maze_test name input_file expected)
     add_test(
         NAME ${name}
-        COMMAND powershell -NoProfile -Command
-            "$actual = & '$<TARGET_FILE:Maze>' '${CMAKE_CURRENT_SOURCE_DIR}/Tests/${input_file}'; if ($LASTEXITCODE -ne 0) { exit 1 }; if (($actual -join ' ').Trim() -ne '${expected}') { Write-Error 'Expected ${expected}, got: ' + ($actual -join ' '); exit 1 }"
+        COMMAND ${CMAKE_COMMAND}
+            "-DPROGRAM=$<TARGET_FILE:Maze>"
+            "-DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/Tests/${input_file}"
+            "-DEXPECTED=${expected}"
+            "-DEXPECT_EXIT_CODE=0"
+            -P "${CMAKE_CURRENT_SOURCE_DIR}/Tests/RunMazeTest.cmake"
     )
 endfunction()
 
 function(add_maze_error_test name input_file)
     add_test(
         NAME ${name}
-        COMMAND powershell -NoProfile -Command
-            "$null = & '$<TARGET_FILE:Maze>' '${CMAKE_CURRENT_SOURCE_DIR}/Tests/${input_file}' 2>&1; $code = $LASTEXITCODE; if ($code -ne 1) { Write-Error ('Expected exit code 1, got ' + $code); exit 1 }"
+        COMMAND ${CMAKE_COMMAND}
+            "-DPROGRAM=$<TARGET_FILE:Maze>"
+            "-DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/Tests/${input_file}"
+            "-DEXPECT_EXIT_CODE=1"
+            -P "${CMAKE_CURRENT_SOURCE_DIR}/Tests/RunMazeTest.cmake"
     )
 endfunction()
 
@@ -32,6 +40,7 @@ add_maze_test(long_corridor maze11.txt 8)
 add_maze_test(dead_end maze12.txt 4)
 add_maze_test(turns maze14.txt 2)
 add_maze_test(open_area maze15.txt 9)
+
 add_maze_error_test(ErrorNoStart error1.txt)
 add_maze_error_test(ErrorMultipleStarts error2.txt)
 add_maze_error_test(ErrorInvalidCharacter error3.txt)
