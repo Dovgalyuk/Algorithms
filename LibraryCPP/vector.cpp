@@ -1,4 +1,6 @@
 #include "vector.h"
+#include <algorithm>
+#include <limits>
 #include <stdexcept>
 
 struct Vector
@@ -61,7 +63,10 @@ void vector_resize(Vector *vector, size_t size)
 
     if (size > vector->capacity)
     {
-        Data *newData = new Data[size];
+        size_t newCapacity = size;
+        if (vector->capacity <= std::numeric_limits<size_t>::max() / 2)
+            newCapacity = std::max(size, vector->capacity * 2);
+        Data *newData = new Data[newCapacity];
     
         for (size_t i = 0; i < vector->size; i++)
         {
@@ -70,7 +75,7 @@ void vector_resize(Vector *vector, size_t size)
         
         delete[] vector->data;
         vector->data = newData;
-        vector->capacity = size;
+        vector->capacity = newCapacity;
     }
     
     for (size_t i = vector->size; i < size; i++)
