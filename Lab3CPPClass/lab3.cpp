@@ -40,7 +40,7 @@ int Solve(ifstream &file) {
         return 0;
     }
 
-    int max_color = 1;
+    int color = 1;
 
     while (!queue.empty()) {
         int current = queue.get();
@@ -48,11 +48,7 @@ int Solve(ifstream &file) {
 
         int cr = current / m + 1;
         int cc = current % m + 1;
-        int current_color = board.get((size_t)current);
-
-        if (current_color > max_color) {
-            max_color = current_color;
-        }
+        color = board.get((size_t)current);
 
         int dr[4] = {-1, 1, 0, 0};
         int dc[4] = {0, 0, -1, 1};
@@ -67,13 +63,13 @@ int Solve(ifstream &file) {
 
             size_t next_index = (size_t)((nr - 1) * m + (nc - 1));
             if (board.get(next_index) == 0) {
-                board.set(next_index, current_color + 1);
+                board.set(next_index, color + 1);
                 queue.insert((int)next_index);
             }
         }
     }
 
-    return max_color;
+    return color;
 }
 
 int main(int argc, char* argv[]) {
