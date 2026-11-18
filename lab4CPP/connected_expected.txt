@@ -1,5 +1,5 @@
 Shortest paths from A:
-A: 0
-B: 1
-C: 3
-D: 4
+A: A
+B: A -> B
+C: A -> B -> C
+D: A -> B -> C -> D

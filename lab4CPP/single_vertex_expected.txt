@@ -1,2 +1,2 @@
 Shortest paths from Solo:
-Solo: 0
+Solo: Solo
