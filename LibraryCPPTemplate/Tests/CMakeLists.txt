@@ -23,3 +23,8 @@ set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
 add_executable(TestGraphCPPTemplate graph_test.cpp)
 target_include_directories(TestGraphCPPTemplate PUBLIC ..)
 add_test(NAME TestGraphCPPTemplate COMMAND TestGraphCPPTemplate)
+
+add_executable(TestAssociativeArrayCPPTemplate associative_array.cpp)
+target_include_directories(TestAssociativeArrayCPPTemplate PUBLIC ..)
+add_test(TestAssociativeArrayCPPTemplate TestAssociativeArrayCPPTemplate)
+#set_tests_properties(TestAssociativeArrayCPPTemplate PROPERTIES TIMEOUT 60)

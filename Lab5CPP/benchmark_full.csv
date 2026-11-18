@@ -1,0 +1,17 @@
+file,pattern,records,splay_ms,map_ms,unordered_map_ms
+Lab5CPP/data/bench_asc.txt,asc,1000,0.469481,0.659196,0.386113
+Lab5CPP/data/bench_asc.txt,asc,10000,3.53957,6.95484,2.93675
+Lab5CPP/data/bench_asc.txt,asc,100000,35.666,77.6875,38.0154
+Lab5CPP/data/bench_asc.txt,asc,1000000,357.739,852.157,613.293
+Lab5CPP/data/bench_desc.txt,desc,1000,0.276082,0.49744,0.315046
+Lab5CPP/data/bench_desc.txt,desc,10000,2.49051,5.85457,3.25878
+Lab5CPP/data/bench_desc.txt,desc,100000,24.8577,67.7615,58.1925
+Lab5CPP/data/bench_desc.txt,desc,1000000,437.706,849.175,785.981
+Lab5CPP/data/bench_zigzag.txt,zigzag,1000,0.373164,0.548327,0.381561
+Lab5CPP/data/bench_zigzag.txt,zigzag,10000,3.51129,6.29026,4.27389
+Lab5CPP/data/bench_zigzag.txt,zigzag,100000,35.92,72.4821,71.6653
+Lab5CPP/data/bench_zigzag.txt,zigzag,1000000,382.117,811.778,851.625
+Lab5CPP/data/bench_random.txt,random,1000,0.864045,0.501247,0.402633
+Lab5CPP/data/bench_random.txt,random,10000,11.2931,5.92407,4.08902
+Lab5CPP/data/bench_random.txt,random,100000,178.714,86.9515,75.7981
+Lab5CPP/data/bench_random.txt,random,1000000,3302.97,1645.83,857.495
