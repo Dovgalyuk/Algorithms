@@ -35,7 +35,9 @@ public:
     void resize(size_t size);
 
 private:
-    // private data should be here
+    Data* data_; // блок памяти с элементами
+    size_t size_; // сколько элементов используется
+    size_t capacity_; // сколько элементов помещается в выделенную память
 };
 
 #endif

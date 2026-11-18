@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include <cstddef>
+#include "vector.h"
 
 // Change it to desired type
 typedef int Data;
@@ -36,7 +37,14 @@ public:
     bool empty() const;
 
 private:
-    // private data should be here
+    // увеличивает буфер в два раза, когда в нём не осталось места
+    void grow();
+
+    // кольцевой буфер: после последней ячейки идёт снова нулевая.
+    // Размер вектора - это вместимость очереди.
+    Vector buffer_;
+    size_t head_; // индекс первого элемента очереди
+    size_t count_; // сколько элементов сейчас в очереди
 };
 
 #endif
