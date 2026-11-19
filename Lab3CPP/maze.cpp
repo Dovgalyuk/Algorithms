@@ -10,11 +10,14 @@
 
 using namespace std;
 
+typedef vector<string> Maze;
+typedef vector<vector<int>> Matrix;
+
 int expand(Queue *queue,
-           const vector<string> &maze,
-           vector<vector<int>> &distance,
-           const vector<vector<int>> &other_distance,
-           vector<vector<int>> &exit_number,
+           const Maze &maze,
+           Matrix &distance,
+           const Matrix &other_distance,
+           Matrix &exit_number,
            int width, int height, int level,
            bool exit_side, int &best_distance)
 {
@@ -35,18 +38,6 @@ int expand(Queue *queue,
             break;
 
         queue_remove(queue);
-
-        if (other_distance[y][x] != -1)
-        {
-            int total_distance =
-                distance[y][x] + other_distance[y][x];
-
-            if (total_distance < best_distance)
-            {
-                best_distance = total_distance;
-                result = exit_number[y][x];
-            }
-        }
 
         for (int i = 0; i < 4; i++)
         {
@@ -109,7 +100,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    vector<string> maze;
+    Maze maze;
     string line;
 
     while (getline(input_file, line))
@@ -191,13 +182,13 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    vector<vector<int>> start_distance(
+    Matrix start_distance(
         height, vector<int>(width, -1));
 
-    vector<vector<int>> exit_distance(
+    Matrix exit_distance(
         height, vector<int>(width, -1));
 
-    vector<vector<int>> exit_number(
+    Matrix exit_number(
         height, vector<int>(width, -1));
 
     Queue *start_queue = queue_create();
