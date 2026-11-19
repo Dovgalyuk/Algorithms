@@ -11,7 +11,6 @@ using GraphType = Graph<std::string, int>;
 using SizeType = std::size_t;
 using NeighborIt = GraphType::NeighborIterator;
 
-// Структура для хранения остаточной сети
 struct Edge {
     int to, rev;
     int capacity;
@@ -36,7 +35,6 @@ public:
         int total_flow = 0;
 
         while (true) {
-            // BFS для поиска пути от истока к стоку
             std::vector<int> parent(n, -1);
             std::vector<int> parent_edge(n, -1);
             std::queue<int> q;
@@ -56,10 +54,8 @@ public:
                 }
             }
 
-            // Если пути нет — выходим
             if (parent[t] == -1) break;
 
-            // Находим минимальную пропускную способность вдоль пути
             int pushed = INT_MAX;
             int v = t;
             while (v != s) {
@@ -69,7 +65,6 @@ public:
                 v = p;
             }
 
-            // Обновляем остаточную сеть
             v = t;
             while (v != s) {
                 int p = parent[v];
@@ -128,7 +123,6 @@ int main(int argc, char** argv) {
     int n = (int)g.vertex_count();
     FordFulkerson ff(n);
 
-    // Переносим рёбра из графа в остаточную сеть
     for (SizeType u = 0; u < g.vertex_count(); ++u) {
         for (NeighborIt it = g.begin(u); it != g.end(u); ++it) {
             auto p = *it;
