@@ -1,3 +1,4 @@
+#undef NDEBUG
 #include <cassert>
 #include <iostream>
 #include <string>
@@ -36,9 +37,11 @@ static void testLoad(size_t count) {
         map.insert(std::to_string(i), std::to_string(i));
     }
     assert(map.size() == count);
-    for (size_t i = 0; i < count; i += 100) {
+
+    for (size_t i = 0; i < count; ++i) {
         assert(map.find(std::to_string(i)) != nullptr);
     }
+
     map.clear();
     assert(map.empty());
     std::cout << "Load test passed for size: " << count << "\n";
