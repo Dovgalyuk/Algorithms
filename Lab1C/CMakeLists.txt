@@ -25,3 +25,4 @@ set_property(TEST TestChain PROPERTY PASS_REGULAR_EXPRESSION "0 1 2 3 4 5")
 
 add_test(NAME TestCycle COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/input5.txt output5.txt)
 set_property(TEST TestCycle PROPERTY PASS_REGULAR_EXPRESSION "0 1 1 2")
+
