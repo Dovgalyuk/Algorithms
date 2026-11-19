@@ -1,0 +1,4 @@
+push 15
+pop A
+push A
+pop B

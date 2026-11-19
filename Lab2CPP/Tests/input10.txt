@@ -1,0 +1,6 @@
+push 10
+push 5
+add
+push 10
+add
+pop D
