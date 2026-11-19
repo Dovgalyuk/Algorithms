@@ -91,7 +91,11 @@ ListItem *list_item_prev(ListItem *item)
 
 ListItem *list_insert(List *list, Data data)
 {
-    return list_insert_after(list, NULL, data);
+    if (!list)
+    {
+        return NULL;
+    }
+    return list_insert_after(list, list->dummy, data);
 }
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)
