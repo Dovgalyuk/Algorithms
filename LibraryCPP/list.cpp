@@ -69,9 +69,9 @@ ListItem* list_item_prev(ListItem*)
     return nullptr;
 }
 
-ListItem *list_insert(List *list, Data data)
+ListItem* list_insert(List* list, Data data)
 {
-    return list_insert_after(list, NULL, data);
+    return list_insert_after(list, list->head, data);
 }
 
 ListItem *list_insert_after(List *list, ListItem *item, Data data)

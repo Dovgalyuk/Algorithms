@@ -15,10 +15,12 @@ set(EXPECTED_RESULTS
     2
     "NOT FOUND"
     5
+    5
+    7
 )
 
 # Регистрация тестов Maze01 - Maze10
-foreach(i RANGE 1 10)
+foreach(i RANGE 1 12)
     math(EXPR index "${i} - 1")
     list(GET EXPECTED_RESULTS ${index} expected)
 
