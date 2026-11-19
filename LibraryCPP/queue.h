@@ -19,10 +19,9 @@ void queue_delete(Queue *queue);
 // Should be O(1) on average
 void queue_insert(Queue *queue, Data data);
 
-// Retrieves first element from the queue (queue must not be empty)
+
 Data queue_get(const Queue *queue);
 
-// Removes first element from the queue; does nothing if empty
 // Should be O(1) on average
 void queue_remove(Queue *queue);
 
