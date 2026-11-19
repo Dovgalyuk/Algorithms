@@ -19,6 +19,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	GraphStrInt graph;
+	Vector<size_t> next_versh;
 	try {
 		if (!(input >> graph)) {
 			throw runtime_error("Неправильный формат графа");
@@ -37,7 +38,7 @@ int main(int argc, char* argv[]) {
 
 	
 	try {
-		floyd_alg(graph);
+		floyd_alg(graph, next_versh);
 	}
 	catch (const exception& e) {
 		cerr << "Ошибка алгоритма: " << e.what() << endl;
@@ -87,7 +88,7 @@ int main(int argc, char* argv[]) {
 				cout << "no path" << endl;
 			}
 			else {
-				Vector<size_t> path = vosstanovka_path(graph, i, j);
+				Vector<size_t> path = vosstanovka_path(next_versh, n, i, j);
 				for (size_t k = 0; k < path.size(); k++) {
 					if (k > 0) {
 						cout << " -> ";

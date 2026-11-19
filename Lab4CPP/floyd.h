@@ -8,9 +8,9 @@
 
 typedef Graph<string, int> GraphStrInt;
 
-void floyd_alg(GraphStrInt& graph);
+void floyd_alg(GraphStrInt& graph, Vector<size_t>& next_versh);
 
-Vector<size_t> vosstanovka_path(const GraphStrInt& graph, size_t from, size_t to);
+Vector<size_t> vosstanovka_path(const Vector<size_t>& next_versh, size_t n, size_t from, size_t to);
 
 
 #endif

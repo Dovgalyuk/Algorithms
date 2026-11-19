@@ -2,11 +2,22 @@
 #include <stdexcept>
 
 
-void floyd_alg(GraphStrInt& graph) {
+void floyd_alg(GraphStrInt& graph, Vector<size_t>& next_versh) {
 	size_t n = graph.size();
+
+	next_versh.resize(n * n);
 
 	for (size_t i = 0; i < n; i++) {
 		graph.set_rebro_label(i, i, 0);
+		for (size_t j = 0; j < n; j++) {
+			next_versh[i * n + j] = (i == j) ? i : n;
+		}
+	}
+
+	for (size_t i = 0; i < n; i++) {
+		for (auto it = graph.begin(i); it != graph.end(i); it++) {
+			next_versh[i * n + *it] = *it;
+		}
 	}
 
 	for (size_t k = 0; k < n; k++) {
@@ -24,11 +35,11 @@ void floyd_alg(GraphStrInt& graph) {
 				if (j == k) {
 					continue;
 				}
-				long long dist_kj = it.label();
-				long long sum = static_cast<long long>(dist_ik) + dist_kj;
+				long long sum = static_cast<long long>(dist_ik) + it.label();
 
 				if (!graph.has_rebro(i, j) || sum < graph.get_rebro_label(i, j)) {
 					graph.set_rebro_label(i, j, static_cast<int>(sum));
+					next_versh[i * n + j] = next_versh[i * n + k];
 				}
 			}
 		}
@@ -41,69 +52,18 @@ void floyd_alg(GraphStrInt& graph) {
 	}
 }
 
-Vector<size_t> vosstanovka_path(const GraphStrInt& graph, size_t from, size_t to) {
-	
-	struct otr
-	{
-		size_t u;
-		size_t v;
-	};
-
+Vector<size_t> vosstanovka_path(const Vector<size_t>& next_versh, size_t n, size_t from, size_t to) {
 	Vector<size_t> path;
-	
-	if (from == to) {
-		path.add(from);
+	if (next_versh[from * n + to] >= n) {
 		return path;
 	}
+	size_t vibr = from;
+	path.add(vibr);
 
-	if (!graph.has_rebro(from, to)) {
-		return path;
+	while (vibr != to) {
+		vibr = next_versh[vibr * n + to];
+		path.add(vibr);
 	}
 
-
-	size_t n = graph.size();
-
-	Vector<otr> st;
-	st.add({ from,to });
-
-	while (st.size() > 0) {
-		otr vibr = st[st.size() - 1];
-		st.resize(st.size() - 1);
-
-		size_t u = vibr.u;
-		size_t v = vibr.v;
-
-		if (u == v) {
-			if (path.size() == 0 || path[path.size() - 1] != u) {
-				path.add(u);
-			}
-			continue;
-		}
-
-		size_t found_pr = n;
-
-		for (size_t pr = 0; pr < n; pr++) {
-			if (pr == u || pr == v) {
-				continue;
-			}
-
-			if (graph.has_rebro(u, pr) && graph.has_rebro(pr, v)) {
-				if (graph.get_rebro_label(u, pr) + graph.get_rebro_label(pr, v) == graph.get_rebro_label(u, v)) {
-					found_pr = pr;
-					break;
-				}
-			}
-		}
-		if (found_pr == n) {
-			if (path.size() == 0 || path[path.size() - 1] != u) {
-				path.add(u);
-			}
-			path.add(v);
-		}
-		else {
-			st.add({ found_pr, v });
-			st.add({ u, found_pr });
-		}
-	}
 	return path;
 }
