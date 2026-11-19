@@ -74,3 +74,26 @@ set_property(
     PROPERTY PASS_REGULAR_EXPRESSION
     "^${expected_no_path}(\r?\n)?$"
 )
+
+# Путь длиннее девяти ходов: шаг 10 обозначается буквой a
+add_test(
+    NAME test_long_path
+    COMMAND Lab3CPP "${CMAKE_CURRENT_SOURCE_DIR}/input4.txt"
+)
+string(JOIN "\n" expected_long_path
+    "0##.##.."
+    "##.###.#"
+    "#1.####."
+    "##.##.#."
+    "##25..##"
+    "###.3##8"
+    "##4#69##"
+    "##.###7a"
+)
+string(REPLACE "." "[.]" expected_long_path "${expected_long_path}")
+string(REPLACE "\n" "\r?\n" expected_long_path "${expected_long_path}")
+set_property(
+    TEST test_long_path
+    PROPERTY PASS_REGULAR_EXPRESSION
+    "^${expected_long_path}(\r?\n)?$"
+)
