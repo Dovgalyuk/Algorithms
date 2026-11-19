@@ -13,7 +13,7 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
+        vector_set(vector, i, static_cast<Data>(i));
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
@@ -25,6 +25,9 @@ int main()
     }
 
     vector_resize(vector, 10);
+    for (size_t i = 5; i < 10; ++i)
+        if (vector_get(vector, i) != 0)
+            return 1;
     if (vector_size(vector) != 10)
     {
         std::cout << "Invalid resize\n";
@@ -56,6 +59,12 @@ int main()
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
         std::cout << vector_get(vector, i) << " ";
     std::cout << "\n";
+
+    vector_resize(vector, 0);
+    vector_resize(vector, 10);
+    for (size_t i = 0; i < 10; ++i)
+        if (vector_get(vector, i) != 0)
+            return 1;
 
     // Performance test
     for (int i = 1 ; i <= 10000000 ; ++i)

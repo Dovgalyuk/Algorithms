@@ -94,7 +94,7 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
     if (item->next != NULL)
     {
-        item->next->prev = new_item;
+        item->next->prev = new_item; // перекидываем указатель у элемента, который будет стоять после вставленного нами
     }
     else
     {

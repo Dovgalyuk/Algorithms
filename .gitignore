@@ -12,4 +12,5 @@ Debug/*
 Release/*
 .vs/*
 build/*
+/build-lab3/
 .vscode/*

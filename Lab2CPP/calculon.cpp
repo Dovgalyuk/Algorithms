@@ -93,7 +93,7 @@ int main(int argc, char **argv)
         {
             std::cout << stack_get(stack) << " ";
         }
-        else if (c == "cond")
+        else if (c == "cond") //аналог условного перехода
         {
             Data a = stack_get(stack);
             stack_pop(stack);
@@ -112,14 +112,14 @@ int main(int argc, char **argv)
         else if (c == "end")
         {
         }
-        else if (c == "setr")
+        else if (c == "setr") //set repeat - установка цикла
         {
             Data value = stack_get(stack);
             stack_pop(stack);
             loop_var = value;
             loop_start = (int)i + 1;
         }
-        else if (c == "repeat")
+        else if (c == "repeat") //завершение цикла
         {
             if (loop_var > 0 && loop_start >= 0)
             {
