@@ -12,7 +12,6 @@ struct ListItem
 struct List
 {
     ListItem* head;
-    size_t size;
 };
 
 List *list_create()
@@ -22,7 +21,6 @@ List *list_create()
     list->head->next = list->head;
     list->head->prev = list->head;
     list->head->is_head = true;
-    list->size = 0;
     return list;
 }
 
@@ -90,7 +88,6 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     item->next->prev = new_item;
     item->next = new_item;
 
-    list->size++;
     return new_item;
 }
 
@@ -111,7 +108,6 @@ ListItem *list_erase_next(List *list, ListItem *item)
 
     ListItem* next_item = item->next;
     delete to_delete;
-    list->size--;
 
     return next_item->is_head ? NULL : next_item;
 }
