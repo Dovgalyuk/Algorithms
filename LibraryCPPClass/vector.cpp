@@ -25,9 +25,9 @@ Vector& Vector::operator=(const Vector& a) {
 
 Vector::~Vector() { delete[] data_; }
 
-Data Vector::get(size_t index) const { return data_[index]; }
+const Data& Vector::get(size_t index) const { return data_[index]; }
 
-void Vector::set(size_t index, Data value) { data_[index] = value; }
+void Vector::set(size_t index, const Data& value) { data_[index] = value; }
 
 size_t Vector::size() const { return size_; }
 
@@ -38,7 +38,7 @@ void Vector::resize(size_t new_size) {
         Data* new_data = new Data[capacity_];
 
         for (size_t i = 0; i < size_; ++i) {
-            new_data[i] = data_[i];
+            new_data[i] = std::move(data_[i]);
         }
 
         delete[] data_;
@@ -46,7 +46,7 @@ void Vector::resize(size_t new_size) {
     }
     if (new_size > size_) {
         for (size_t i = size_; i < new_size; ++i)
-            data_[i] = 0;
+            data_[i] = Data();
     }
 
     size_ = new_size;

@@ -1,6 +1,5 @@
 add_executable(AnnoyingScriptInterpreter main.cpp)
-target_include_directories(AnnoyingScriptInterpreter PUBLIC ../LibraryCPPClass)
-target_link_libraries(AnnoyingScriptInterpreter LibraryCPPClass)
+target_link_libraries(AnnoyingScriptInterpreter LibraryCPPClassString)
 
 function(add_annoying_test test_name script_file input_file expected_output)
     add_test(

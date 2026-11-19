@@ -5,8 +5,6 @@
 
 #include "vector.h"
 
-typedef int Data;
-
 class Stack {
    public:
     Stack() = default;
@@ -14,8 +12,8 @@ class Stack {
     Stack& operator=(const Stack& a) = default;
     ~Stack() = default;
 
-    void push(Data data);
-    Data get() const;
+    void push(const Data& data);
+    const Data& get() const;
     void pop();
     bool empty() const;
 

@@ -3,7 +3,12 @@
 
 #include <cstddef>
 
+#ifdef USE_STRING_DATA
+#include <string>
+typedef std::string Data;
+#else
 typedef int Data;
+#endif
 
 class Vector {
    public:
@@ -12,8 +17,8 @@ class Vector {
     Vector& operator=(const Vector& a);
     ~Vector();
 
-    Data get(size_t index) const;
-    void set(size_t index, Data value);
+    const Data& get(size_t index) const;
+    void set(size_t index, const Data& value);
     size_t size() const;
     void resize(size_t new_size);
 
