@@ -1,60 +1,48 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include <cstddef>
-
-// Change it to desired type
 typedef int Data;
 
-class List
-{
-public:
-    class Item
-    {
-    public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
-    private:
-        // internal data here
+class List {
+   public:
+    class Item {
+       public:
+        Item* next();
+        const Item* next() const;
+        Item* prev();
+        const Item* prev() const;
+        Data data() const;
+
+       private:
+        friend class List;
+
+        Item();
+        Item(Data data, Item* prev, Item* next);
+
+        Data data_;
+        Item* next_;
+        Item* prev_;
+        bool is_dummy_;
     };
 
-    // Creates new list
     List();
-
-    // copy constructor
-    List(const List &a);
-
-    // assignment operator
-    List &operator=(const List &a);
-
-    // Destroys the list and frees the memory
+    List(const List& a);
+    List& operator=(const List& a);
     ~List();
 
-    // Retrieves the first item from the list
-    Item *first();
+    Item* first();
+    const Item* first() const;
+    Item* last();
+    const Item* last() const;
 
-    // Retrieves the last item of the list
-    Item *last();
+    Item* insert(Data data);
+    Item* insert_after(Item* item, Data data);
 
-    // Inserts new list item into the beginning
-    Item *insert(Data data);
+    Item* erase_first();
+    Item* erase_next(Item* item);
 
-    // Inserts new list item after the specified item
-    // Inserts first element if item is null
-    Item *insert_after(Item *item, Data data);
-
-    // Deletes the first list item.
-    // Returns pointer to the item next to the deleted one.
-    Item *erase_first();
-
-    // Deletes the list item following the specified one.
-    // Deletes the first element when item is null.
-    // Returns pointer to the item next to the deleted one.
-    // Should be O(1)
-    Item *erase_next(Item *item);
-private:
-    // private data should be here
+   private:
+    Item* dummy_;
 };
 
 #endif
