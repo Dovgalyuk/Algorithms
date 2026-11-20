@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 #include <cctype>
 #include <string>
 #include <stdexcept>
@@ -181,6 +182,10 @@ int main(int argc, char* argv[]){
             vector_set(maze, position, -1);
         }
 
+        const int cellWidth = static_cast<int>(
+            to_string(vector_get(distance, finish)).size()
+        );
+
         vector_delete(path);
 
         for (int row = 0; row < height; ++row)
@@ -191,11 +196,11 @@ int main(int argc, char* argv[]){
 
                 if (vector_get(maze, index) == -1)
                 {
-                    cout << vector_get(distance, index);
+                    cout << setw(cellWidth) << vector_get(distance, index);
                 }
                 else
                 {
-                    cout << static_cast<char>(
+                    cout << setw(cellWidth) << static_cast<char>(
                         vector_get(maze, index)
                     );
                 }

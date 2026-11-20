@@ -52,3 +52,9 @@ add_vector_queue_test(
     input6.txt
     input6.expected.txt
 )
+
+add_vector_queue_test(
+    MazeDoubleDigitSteps
+    input7.txt
+    input7.expected.txt
+)
