@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	GraphStrInt graph;
-	Vector<size_t> next_versh;
+	
 	try {
 		if (!(input >> graph)) {
 			throw runtime_error("Неправильный формат графа");
@@ -36,6 +36,7 @@ int main(int argc, char* argv[]) {
 		return 0;
 	}
 
+	NextGraphVersh next_versh(1, n);
 	
 	try {
 		floyd_alg(graph, next_versh);
@@ -84,11 +85,11 @@ int main(int argc, char* argv[]) {
 			}
 			cout << graph.get_vershina_label(i) << " -> " << graph.get_vershina_label(j) << ": ";
 
-			if (!graph.has_rebro(i,j))	 {
+			if (!graph.has_rebro(i,j)){
 				cout << "no path" << endl;
 			}
 			else {
-				Vector<size_t> path = vosstanovka_path(next_versh, n, i, j);
+				Vector<size_t> path = vosstanovka_path(next_versh, i, j);
 				for (size_t k = 0; k < path.size(); k++) {
 					if (k > 0) {
 						cout << " -> ";

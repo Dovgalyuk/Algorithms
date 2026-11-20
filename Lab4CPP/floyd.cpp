@@ -2,21 +2,18 @@
 #include <stdexcept>
 
 
-void floyd_alg(GraphStrInt& graph, Vector<size_t>& next_versh) {
+void floyd_alg(GraphStrInt& graph,NextGraphVersh& next_versh) {
 	size_t n = graph.size();
 
-	next_versh.resize(n * n);
 
 	for (size_t i = 0; i < n; i++) {
 		graph.set_rebro_label(i, i, 0);
-		for (size_t j = 0; j < n; j++) {
-			next_versh[i * n + j] = (i == j) ? i : n;
-		}
+		next_versh.set_rebro_label(i, i, i);
 	}
 
 	for (size_t i = 0; i < n; i++) {
 		for (auto it = graph.begin(i); it != graph.end(i); it++) {
-			next_versh[i * n + *it] = *it;
+			next_versh.set_rebro_label(i, *it, *it);
 		}
 	}
 
@@ -39,7 +36,7 @@ void floyd_alg(GraphStrInt& graph, Vector<size_t>& next_versh) {
 
 				if (!graph.has_rebro(i, j) || sum < graph.get_rebro_label(i, j)) {
 					graph.set_rebro_label(i, j, static_cast<int>(sum));
-					next_versh[i * n + j] = next_versh[i * n + k];
+					next_versh.set_rebro_label(i, j, next_versh.get_rebro_label(i, k));
 				}
 			}
 		}
@@ -52,16 +49,16 @@ void floyd_alg(GraphStrInt& graph, Vector<size_t>& next_versh) {
 	}
 }
 
-Vector<size_t> vosstanovka_path(const Vector<size_t>& next_versh, size_t n, size_t from, size_t to) {
+Vector<size_t> vosstanovka_path(const NextGraphVersh& next_versh, size_t from, size_t to) {
 	Vector<size_t> path;
-	if (next_versh[from * n + to] >= n) {
+	if (!next_versh.has_rebro(from,to)) {
 		return path;
 	}
 	size_t vibr = from;
 	path.add(vibr);
 
 	while (vibr != to) {
-		vibr = next_versh[vibr * n + to];
+		vibr = next_versh.get_rebro_label(vibr,to);
 		path.add(vibr);
 	}
 
