@@ -1,11 +1,13 @@
 #ifndef STACK_H
 #define STACK_H
+#include <string>
 
+using namespace std;
 // Stack
 
 // Stores integer values inside
 // Change it to desired type
-typedef int Data;
+typedef string Data;
 
 struct Stack;
 
