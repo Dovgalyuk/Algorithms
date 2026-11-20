@@ -6,52 +6,60 @@
 
 using namespace std;
 
-namespace
+constexpr int INF = 1000000000;
+constexpr int END = -1;
+constexpr int DR[4] = { -1, 1, 0, 0 };
+constexpr int DC[4] = { 0, 0, -1, 1 };
+
+static bool is_digit(int ch) { return ch >= '0' && ch <= '9'; }
+
+static void relax(Queue* q, const Vector* grid, Vector* self_dist, const Vector* other_dist,
+                  Vector* near_d, bool from_x, int start_idx, int rows, int cols,
+                  int& best_dist, char& best_digit)
 {
-    constexpr int INF = 1000000000;
-    constexpr int END = -1;
-    constexpr int DR[4] = { -1, 1, 0, 0 };
-    constexpr int DC[4] = { 0, 0, -1, 1 };
-
-    bool is_digit(int ch) { return ch >= '0' && ch <= '9'; }
-
-    void relax(Queue* q, const Vector* grid, Vector* self_dist, const Vector* other_dist, Vector* near_d, bool from_x, int rows, int cols, int& best_dist, char& best_digit)
+    if (from_x && start_idx != -1 && queue_empty(q))
     {
-        while (!queue_empty(q))
+        vector_set(self_dist, static_cast<size_t>(start_idx), 0);
+        queue_insert(q, start_idx);
+    }
+
+    while (!queue_empty(q))
+    {
+        int cur = queue_get(q);
+        queue_remove(q);
+        if (cur == END)
         {
-            int cur = queue_get(q);
-            queue_remove(q);
-            if (cur == END) return;
+            if (!queue_empty(q)) queue_insert(q, END);
+            return;
+        }
 
-            size_t cur_i = static_cast<size_t>(cur);
-            int nd = vector_get(self_dist, cur_i) + 1;
-            int digit = vector_get(near_d, cur_i);
-            int r = cur / cols, c = cur % cols;
+        size_t cur_i = static_cast<size_t>(cur);
+        int nd = vector_get(self_dist, cur_i) + 1;
+        int digit = vector_get(near_d, cur_i);
+        int r = cur / cols, c = cur % cols;
 
-            for (int k = 0; k < 4; ++k)
+        for (int k = 0; k < 4; ++k)
+        {
+            int nr = r + DR[k], nc = c + DC[k];
+            if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue;
+
+            size_t nxt_i = static_cast<size_t>(nr * cols + nc);
+            int ch = vector_get(grid, nxt_i);
+            if (ch == '#' || vector_get(self_dist, nxt_i) <= nd) continue;
+            if (!from_x && is_digit(ch)) continue;
+
+            vector_set(self_dist, nxt_i, nd);
+            if (!from_x) vector_set(near_d, nxt_i, digit);
+
+            int d_digit = from_x ? vector_get(near_d, nxt_i) : digit;
+            int od = vector_get(other_dist, nxt_i);
+            if (od < INF && d_digit != 0 && nd + od < best_dist)
             {
-                int nr = r + DR[k], nc = c + DC[k];
-                if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue;
-
-                size_t nxt_i = static_cast<size_t>(nr * cols + nc);
-                int ch = vector_get(grid, nxt_i);
-                if (ch == '#' || vector_get(self_dist, nxt_i) <= nd) continue;
-                if (!from_x && is_digit(ch)) continue;
-
-                vector_set(self_dist, nxt_i, nd);
-                if (!from_x) vector_set(near_d, nxt_i, digit);
-
-                int d_digit = from_x ? vector_get(near_d, nxt_i) : digit;
-                int od = vector_get(other_dist, nxt_i);
-                if (od < INF && d_digit != 0 && nd + od < best_dist)
-                {
-                    best_dist = nd + od;
-                    best_digit = static_cast<char>(d_digit);
-                }
-
-                if (from_x ? (ch == '.' || ch == 'X') : true)
-                    queue_insert(q, nr * cols + nc);
+                best_dist = nd + od;
+                best_digit = static_cast<char>(d_digit);
             }
+
+            if (from_x ? (ch == '.' || ch == 'X') : true) queue_insert(q, nr * cols + nc);
         }
     }
 }
@@ -108,27 +116,20 @@ int main(int argc, char* argv[])
 
     if (start != -1)
     {
-        vector_set(dist_x, static_cast<size_t>(start), 0);
-        queue_insert(qx, start);
-        queue_insert(qx, END);
-        queue_insert(qd, END);
+        if (!queue_empty(qd)) queue_insert(qd, END);
 
         int best_dist = INF, step = 0;
         char best_digit = 0;
 
-        while (!queue_empty(qx) || !queue_empty(qd))
+        while (!queue_empty(qx) || !queue_empty(qd) || step == 0)
         {
             if (best_digit != 0 && step >= best_dist) break;
-            if (!queue_empty(qx))
+            if (!queue_empty(qx) || step == 0)
             {
-                relax(qx, grid, dist_x, dist_d, near_d, true, rows, cols, best_dist, best_digit);
-                if (!queue_empty(qx)) queue_insert(qx, END);
+                relax(qx, grid, dist_x, dist_d, near_d, true, start, rows, cols, best_dist, best_digit);
+                if (!queue_empty(qx) && queue_get(qx) != END) queue_insert(qx, END);
             }
-            if (!queue_empty(qd))
-            {
-                relax(qd, grid, dist_d, dist_x, near_d, false, rows, cols, best_dist, best_digit);
-                if (!queue_empty(qd)) queue_insert(qd, END);
-            }
+            if (!queue_empty(qd)) relax(qd, grid, dist_d, dist_x, near_d, false, -1, rows, cols, best_dist, best_digit);
             ++step;
         }
         if (best_digit != 0) cout << best_digit << '\n';

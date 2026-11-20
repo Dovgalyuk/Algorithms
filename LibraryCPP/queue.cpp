@@ -5,7 +5,6 @@ struct Queue
 {
     Vector* vector;
     size_t head;
-    size_t tail;
     size_t count;
 };
 
@@ -14,7 +13,6 @@ Queue *queue_create()
     Queue* queue = new Queue;
     queue->vector = vector_create();
     queue->head = 0;
-    queue->tail = 0;
     queue->count = 0;
     return queue;
 }
@@ -47,12 +45,11 @@ void queue_insert(Queue *queue, Data data)
         vector_delete(queue->vector);
         queue->vector = new_vec;
         queue->head = 0;
-        queue->tail = queue->count;
         cap = new_cap;
     }
 
-    vector_set(queue->vector, queue->tail, data);
-    queue->tail = (queue->tail + 1) % cap;
+    size_t tail = (queue->head + queue->count) % cap;
+    vector_set(queue->vector, tail, data);
     queue->count++;
 }
 
