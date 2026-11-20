@@ -1,0 +1,5 @@
+bipush 6
+bipush 3
+isub
+bipush 4
+imul

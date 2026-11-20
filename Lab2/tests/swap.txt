@@ -1,0 +1,3 @@
+bipush 10
+bipush 20
+swap
