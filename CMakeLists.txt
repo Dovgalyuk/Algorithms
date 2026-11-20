@@ -21,3 +21,4 @@ add_compile_options(-Wno-self-assign-overloaded) # temp
 add_subdirectory(LibraryCPPClass)
 add_subdirectory(Lab1CPPClass)
 add_subdirectory(Lab2CPPClass)
+add_subdirectory(Lab3CPPClass)
