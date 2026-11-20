@@ -175,15 +175,10 @@ int main(int argc, char* argv[]){
             current = vector_get(parent, current);
         }
 
-        int step = 0;
-
         for (int i = static_cast<int>(vector_size(path)) - 1; i >= 0; --i)
         {
             int position = vector_get(path, i);
-
-            vector_set(maze, position, '0' + step);
-
-            ++step;
+            vector_set(maze, position, -1);
         }
 
         vector_delete(path);
@@ -194,9 +189,16 @@ int main(int argc, char* argv[]){
             {
                 int index = row * width + col;
 
-                cout << static_cast<char>(
-                    vector_get(maze, index)
-                );
+                if (vector_get(maze, index) == -1)
+                {
+                    cout << vector_get(distance, index);
+                }
+                else
+                {
+                    cout << static_cast<char>(
+                        vector_get(maze, index)
+                    );
+                }
             }
 
             cout << '\n';

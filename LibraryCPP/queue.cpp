@@ -2,9 +2,8 @@
 #include "vector.h"
 
 struct Queue
-{ 
+{
     size_t front;
-    size_t tail;
     size_t size; // сколько эл. в очереди =/= сколько элементов в векторе
 
     Vector* vector;
@@ -12,7 +11,7 @@ struct Queue
 
 Queue *queue_create()
 {
-    Queue* queue = new Queue{0, 0, 0, vector_create()};
+    Queue* queue = new Queue{0, 0, vector_create()};
 
     vector_resize(queue->vector, 2);
 
@@ -39,7 +38,7 @@ void queue_insert(Queue *queue, Data data)
         for(size_t i = 0; i < queue->size; i++)
         {
             vector_set(vectorNew, i, vector_get(queue->vector, oldFront));
-            
+
             oldFront = (oldFront + 1) % oldBuffer;
         }
 
@@ -47,12 +46,10 @@ void queue_insert(Queue *queue, Data data)
         queue->vector = vectorNew;
 
         queue->front = 0;
-        queue->tail = queue->size;
     }
 
-    vector_set(queue->vector, queue->tail, data);
-
-    queue->tail = (queue->tail + 1) % vector_size(queue->vector);
+    size_t tail = (queue->front + queue->size) % vector_size(queue->vector);
+    vector_set(queue->vector, tail, data);
 
     queue->size++;
 }
