@@ -3,39 +3,29 @@
 
 #include <cstddef>
 
-// Change it to desired type
+#ifdef USE_STRING_DATA
+#include <string>
+typedef std::string Data;
+#else
 typedef int Data;
+#endif
 
-class Vector
-{
-public:
-    // Creates vector
+class Vector {
+   public:
     Vector();
-
-    // copy constructor
-    Vector(const Vector &a);
-
-    // assignment operator
-    Vector &operator=(const Vector &a);
-
-    // Deletes vector structure and internal data
+    Vector(const Vector& a);
+    Vector& operator=(const Vector& a);
     ~Vector();
 
-    // Retrieves vector element with the specified index
-    Data get(size_t index) const;
-
-    // Sets vector element with the specified index
-    void set(size_t index, Data value);
-
-    // Retrieves current vector size
+    const Data& get(size_t index) const;
+    void set(size_t index, const Data& value);
     size_t size() const;
+    void resize(size_t new_size);
 
-    // Changes the vector size (may increase or decrease)
-    // Should be O(1) on average
-    void resize(size_t size);
-
-private:
-    // private data should be here
+   private:
+    Data* data_;
+    size_t size_;
+    size_t capacity_;
 };
 
 #endif

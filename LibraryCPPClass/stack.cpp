@@ -1,38 +1,12 @@
 #include "stack.h"
 
-Stack::Stack()
-{
+void Stack::push(const Data& data) {
+    v_.resize(v_.size() + 1);
+    v_.set(v_.size() - 1, data);
 }
 
-Stack::Stack(const Stack &a)
-{
-    // implement or disable this function
-}
+const Data& Stack::get() const { return v_.get(v_.size() - 1); }
 
-Stack &Stack::operator=(const Stack &a)
-{
-    // implement or disable this function
-    return *this;
-}
+void Stack::pop() { v_.resize(v_.size() - 1); }
 
-Stack::~Stack()
-{
-}
-
-void Stack::push(Data data)
-{
-}
-
-Data Stack::get() const
-{
-    return Data();
-}
-
-void Stack::pop()
-{
-}
-
-bool Stack::empty() const
-{
-    return true;
-}
+bool Stack::empty() const { return v_.size() == 0; }

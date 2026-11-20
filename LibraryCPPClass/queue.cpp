@@ -1,38 +1,21 @@
 #include "queue.h"
 
-Queue::Queue()
-{
+void Queue::insert(Data data) {
+    list_.insert_after(list_.last(), data);
 }
 
-Queue::Queue(const Queue &a)
-{
-    // implement or disable this function
+Data Queue::get() const {
+    const List::Item* front = list_.first();
+    if (front == nullptr) {
+        return Data();
+    }
+    return front->data();
 }
 
-Queue &Queue::operator=(const Queue &a)
-{
-    // implement or disable this function
-    return *this;
+void Queue::remove() {
+    list_.erase_first();
 }
 
-Queue::~Queue()
-{
-}
-
-void Queue::insert(Data data)
-{
-}
-
-Data Queue::get() const
-{
-    return Data();
-}
-
-void Queue::remove()
-{
-}
-
-bool Queue::empty() const
-{
-    return true;
+bool Queue::empty() const {
+    return list_.first() == nullptr;
 }
