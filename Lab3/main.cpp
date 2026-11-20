@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -6,8 +7,11 @@
 
 using namespace std;
 
-int searchLayer(Queue& queue, vector<int>& parent, const vector<int>& other,
-                const vector<string>& maze) {
+typedef vector<int> ParentMap;
+typedef vector<string> Maze;
+
+int searchLayer(Queue& queue, ParentMap& parent, const ParentMap& other,
+                const Maze& maze) {
     int rows = maze.size();
     int cols = maze[0].size();
     size_t layerSize = queue.size();
@@ -37,7 +41,7 @@ int searchLayer(Queue& queue, vector<int>& parent, const vector<int>& other,
 }
 
 int main() {
-    vector<string> maze;
+    Maze maze;
     string row;
     while (cin >> row)
         maze.push_back(row);
@@ -56,7 +60,7 @@ int main() {
     if (start == -1 || finish == -1)
         return 1;
 
-    vector<int> fromStart(cells, -1), fromFinish(cells, -1);
+    ParentMap fromStart(cells, -1), fromFinish(cells, -1);
     Queue forward, backward;
     forward.insert(start);
     backward.insert(finish);
@@ -85,8 +89,10 @@ int main() {
     vector<string> labels(cells);
     for (int i = 0; i < static_cast<int>(path.size()); i++)
         labels[path[i]] = to_string(i);
+    int width = to_string(path.size() - 1).size();
     for (int i = 0; i < cells; i++) {
-        if (i % cols != 0 && path.size() > 10) cout << ' ';
+        if (i % cols != 0 && width > 1) cout << ' ';
+        cout << setw(width);
         if (labels[i].empty()) cout << maze[i / cols][i % cols];
         else cout << labels[i];
         if (i % cols == cols - 1) cout << '\n';
