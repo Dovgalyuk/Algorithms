@@ -2,37 +2,43 @@
 
 Queue::Queue()
 {
+    data.resize(2);
 }
 
-Queue::Queue(const Queue &a)
-{
-    // implement or disable this function
-}
+Queue::Queue(const Queue &a) = default;
+Queue &Queue::operator=(const Queue &a) = default;
+Queue::~Queue() = default;
 
-Queue &Queue::operator=(const Queue &a)
+void Queue::insert(Data value)
 {
-    // implement or disable this function
-    return *this;
-}
-
-Queue::~Queue()
-{
-}
-
-void Queue::insert(Data data)
-{
+    if (count == data.size()) {
+        data.resize(count * 2);
+        for (size_t i = 0; i < head; ++i)
+            data.set(count + i, data.get(i));
+    }
+    data.set((head + count) % data.size(), value);
+    ++count;
 }
 
 Data Queue::get() const
 {
-    return Data();
+    return data.get(head);
 }
 
 void Queue::remove()
 {
+    if (!empty()) {
+        head = (head + 1) % data.size();
+        --count;
+    }
 }
 
 bool Queue::empty() const
 {
-    return true;
+    return count == 0;
+}
+
+size_t Queue::size() const
+{
+    return count;
 }
