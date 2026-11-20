@@ -1,0 +1,3 @@
+bipush 10
+istore_0
+iload_0
