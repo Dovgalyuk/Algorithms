@@ -1,7 +1,11 @@
 #include "vector.h"
 
+// Вектор — динамический массив с авторасширением
 struct Vector
 {
+    Data *data = nullptr;
+    size_t size = 0;
+    size_t capacity = 0;
 };
 
 Vector *vector_create()
@@ -11,24 +15,47 @@ Vector *vector_create()
 
 void vector_delete(Vector *vector)
 {
-    // TODO: free vector internals
-    delete vector; 
+    if (vector)
+    {
+        delete[] vector->data;
+        delete vector;
+    }
 }
 
 Data vector_get(const Vector *vector, size_t index)
 {
-    return (Data)0;
+    return vector->data[index];
 }
 
 void vector_set(Vector *vector, size_t index, Data value)
 {
+    vector->data[index] = value;
 }
 
 size_t vector_size(const Vector *vector)
 {
-    return 0;
+    return vector->size;
 }
 
-void vector_resize(Vector *vector, size_t size)
+void vector_resize(Vector *vector, size_t new_size)
 {
+    if (new_size <= vector->capacity)
+    {
+        vector->size = new_size;
+        return;
+    }
+
+    // При нехватке памяти увеличиваем вместимость в 2 раза
+    size_t new_capacity = (vector->capacity == 0) ? 1 : vector->capacity * 2;
+    while (new_capacity < new_size)
+        new_capacity *= 2;
+
+    Data *new_data = new Data[new_capacity];
+    for (size_t i = 0; i < vector->size; ++i)
+        new_data[i] = vector->data[i];
+
+    delete[] vector->data;
+    vector->data = new_data;
+    vector->capacity = new_capacity;
+    vector->size = new_size;
 }
