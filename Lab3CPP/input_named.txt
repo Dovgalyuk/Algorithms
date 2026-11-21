@@ -1,0 +1,7 @@
+Moscow Kazan
+Kazan Omsk
+Moscow Omsk
+Omsk Novosibirsk
+Novosibirsk Krasnoyarsk
+Moscow Kazan
+Moscow Krasnoyarsk
