@@ -1,11 +1,12 @@
 #ifndef STACK_H
 #define STACK_H
+#include <cstddef>
 
 // Stack
 
 // Stores integer values inside
 // Change it to desired type
-typedef int Data;
+typedef long long Data;
 
 struct Stack;
 
@@ -24,9 +25,15 @@ Data stack_get(const Stack *stack);
 
 // Removes the last element from the stack
 // Should be O(1)
-void stack_pop(Stack *stack);
+Data stack_pop(Stack *stack);
 
 // Returns true if the stack is empty
 bool stack_empty(const Stack *stack);
+
+// получение количества элементов в стеке
+size_t stack_size(const Stack *stack);
+
+// разворот элементов стека
+void stack_reverse(Stack *stack);
 
 #endif
