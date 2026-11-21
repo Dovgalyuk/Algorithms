@@ -1,0 +1,8 @@
+bipush 10
+invokestatic 4
+istore_0
+bipush 5
+bipush 100
+istore_1
+bipush 7
+return

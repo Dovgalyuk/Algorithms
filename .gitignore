@@ -13,3 +13,9 @@ Release/*
 .vs/*
 build/*
 .vscode/*
+
+.DS_Store
+*.log
+Testing/
+Temporary/
+CTestCostData.txt

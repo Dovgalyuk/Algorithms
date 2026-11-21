@@ -9,23 +9,23 @@ typedef int Data;
 class Stack
 {
 public:
-    // Creates empty stack
+    
     Stack();
 
-    // copy constructor
+    //копирование конструктора
     Stack(const Stack &a);
 
-    // assignment operator
+    // оператор присваивания
     Stack &operator=(const Stack &a);
 
-    // Deletes the stack
+    //удаление стека
     ~Stack();
 
-    // Pushes data on top of the stack
+    // пуш элемента в стек
     // Should be O(1) on average
     void push(Data data);
 
-    // Retrieves the last element from the stack
+    //последнего элемента из стека
     Data get() const;
 
     // Removes the last element from the stack
