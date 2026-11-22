@@ -84,6 +84,9 @@ ListItem *list_item_prev(ListItem *item)
 
 ListItem *list_insert(List *list, Data data)
 {
+    if (list == nullptr)
+        return nullptr;
+
     return list_insert_after(list, list->fictional, data);
 }
 
@@ -111,7 +114,10 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
 ListItem *list_erase_first(List *list)
 {
-    return list_erase_next(list, nullptr);
+    if (list == nullptr)
+        return nullptr;
+
+    return list_erase_next(list, list->fictional);
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
