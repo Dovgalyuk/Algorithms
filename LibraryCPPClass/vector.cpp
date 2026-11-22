@@ -10,31 +10,15 @@ Vector::Vector()
 
 Vector::Vector(const Vector& a)
 {
-    length = a.length;
-    capacity = a.capacity;
+    data = nullptr;
+    length = 0;
+    capacity = 0;
 
-    if (capacity > 0)
-    {
-        data = new Data[capacity];
-
-        for (size_t i = 0; i < length; i++)
-        {
-            data[i] = a.data[i];
-        }
-    }
-    else
-    {
-        data = nullptr;
-    }
+    copyFrom(a);
 }
 
-Vector& Vector::operator=(const Vector& a)
+void Vector::copyFrom(const Vector& a)
 {
-    if (this == &a)
-    {
-        return *this;
-    }
-
     Data* new_data = nullptr;
 
     if (a.capacity > 0)
@@ -52,6 +36,14 @@ Vector& Vector::operator=(const Vector& a)
     data = new_data;
     length = a.length;
     capacity = a.capacity;
+}
+
+Vector& Vector::operator=(const Vector& a)
+{
+    if (this != &a)
+    {
+        copyFrom(a);
+    }
 
     return *this;
 }

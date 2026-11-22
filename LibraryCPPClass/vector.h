@@ -12,11 +12,11 @@ public:
     // Creates vector
     Vector();
 
-    // copy constructor
-    Vector(const Vector &a);
+    // Copy constructor
+    Vector(const Vector& a);
 
-    // assignment operator
-    Vector &operator=(const Vector &a);
+    // Assignment operator
+    Vector& operator=(const Vector& a);
 
     // Deletes vector structure and internal data
     ~Vector();
@@ -35,7 +35,8 @@ public:
     void resize(size_t size);
 
 private:
-    // private data should be here
+    void copyFrom(const Vector& a);
+
     Data* data;
     size_t length;
     size_t capacity;
