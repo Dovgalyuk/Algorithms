@@ -33,7 +33,7 @@ void list_delete(List* list) {
     delete list;
 }
 
-ListItem* list_first(List* list) {
+ListItem* list_first(const List* list) {
     if (!list || list->dummy->next == list->dummy) return nullptr;
     return list->dummy->next;
 }
