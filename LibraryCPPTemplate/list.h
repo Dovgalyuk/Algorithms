@@ -1,82 +1,138 @@
-#ifndef LIST_TEMPLATE_H
-#define LIST_TEMPLATE_H
+#ifndef LIBRARY_CPP_TEMPLATE_LIST_H
+#define LIBRARY_CPP_TEMPLATE_LIST_H
 
-template <typename Data> class List
-{
-public:
-    class Item
-    {
-    public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
-    private:
-        // internal data here
+#include <cstddef>
+
+namespace graph {
+
+template <typename T>
+class List {
+    struct Node {
+        T value;
+        Node* prev;
+        Node* next;
+        Node(const T& v) : value(v), prev(nullptr), next(nullptr) {}
     };
 
-    // Creates new list
-    List()
-    {
+public:
+    class iterator {
+        friend class List;
+    public:
+        iterator() : node_(nullptr) {}
+        explicit iterator(Node* n) : node_(n) {}
+        T& operator*() const { return node_->value; }
+        T* operator->() const { return &node_->value; }
+        iterator& operator++() { node_ = node_->next; return *this; }
+        iterator operator+(std::size_t n) const {
+            Node* cur = node_;
+            while (n-- && cur) cur = cur->next;
+            return iterator(cur);
+        }
+        bool operator!=(const iterator& o) const { return node_ != o.node_; }
+        bool operator==(const iterator& o) const { return node_ == o.node_; }
+    private:
+        Node* node_;
+    };
+
+    class const_iterator {
+        friend class List;
+    public:
+        const_iterator() : node_(nullptr) {}
+        explicit const_iterator(const Node* n) : node_(n) {}
+        const T& operator*() const { return node_->value; }
+        const T* operator->() const { return &node_->value; }
+        const_iterator& operator++() { node_ = node_->next; return *this; }
+        const_iterator operator+(std::size_t n) const {
+            const Node* cur = node_;
+            while (n-- && cur) cur = cur->next;
+            return const_iterator(cur);
+        }
+        bool operator!=(const const_iterator& o) const { return node_ != o.node_; }
+        bool operator==(const const_iterator& o) const { return node_ == o.node_; }
+    private:
+        const Node* node_;
+    };
+
+    List() : head_(nullptr), tail_(nullptr), size_(0) {}
+
+    List(const List& other) : head_(nullptr), tail_(nullptr), size_(0) {
+        for (const_iterator it = other.begin(); it != other.end(); ++it) {
+            push_back(*it);
+        }
     }
 
-    // copy constructor
-    List(const List &a)
-    {
-    }
-
-    // assignment operator
-    List &operator=(const List &a)
-    {
+    List& operator=(const List& other) {
+        if (this != &other) {
+            clear();
+            for (const_iterator it = other.begin(); it != other.end(); ++it) {
+                push_back(*it);
+            }
+        }
         return *this;
     }
 
-    // Destroys the list and frees the memory
-    ~List()
-    {
+    ~List() { clear(); }
+
+    void clear() {
+        Node* cur = head_;
+        while (cur) {
+            Node* n = cur->next;
+            delete cur;
+            cur = n;
+        }
+        head_ = tail_ = nullptr;
+        size_ = 0;
     }
 
-    // Retrieves the first item from the list
-    Item *first()
-    {
-        return nullptr;
+    std::size_t size() const { return size_; }
+    bool empty() const { return size_ == 0; }
+
+    void push_back(const T& v) {
+        Node* n = new Node(v);
+        if (!tail_) {
+            head_ = tail_ = n;
+        } else {
+            tail_->next = n;
+            n->prev = tail_;
+            tail_ = n;
+        }
+        ++size_;
     }
 
-    // Retrieves the last item of the list
-    Item *last()
-    {
-        return nullptr;
+    T& valueAt(std::size_t i) {
+        Node* cur = head_;
+        while (i--) cur = cur->next;
+        return cur->value;
     }
 
-    // Inserts new list item into the beginning
-    Item *insert(Data data)
-    {
-        return nullptr;
+    const T& valueAt(std::size_t i) const {
+        const Node* cur = head_;
+        while (i--) cur = cur->next;
+        return cur->value;
     }
 
-    // Inserts new list item after the specified item
-    // Inserts first element if item is null
-    Item *insert_after(Item *item, Data data)
-    {
-        return nullptr;
+    iterator erase(iterator pos) {
+        Node* n = pos.node_;
+        if (!n) return end();
+        Node* nxt = n->next;
+        if (n->prev) n->prev->next = n->next; else head_ = n->next;
+        if (n->next) n->next->prev = n->prev; else tail_ = n->prev;
+        delete n;
+        --size_;
+        return iterator(nxt);
     }
 
-    // Deletes the first list item.
-    // Returns pointer to the item next to the deleted one.
-    Item *erase_first()
-    {
-        return nullptr;
-    }
+    iterator begin() { return iterator(head_); }
+    iterator end() { return iterator(nullptr); }
+    const_iterator begin() const { return const_iterator(head_); }
+    const_iterator end() const { return const_iterator(nullptr); }
 
-    // Deletes the list item following the specified one.
-    // Deletes the first element when item is null.
-    // Returns pointer to the item next to the deleted one.
-    // Should be O(1)
-    Item *erase_next(Item *item)
-    {
-        return nullptr;
-    }
 private:
-    // private data should be here
+    Node* head_;
+    Node* tail_;
+    std::size_t size_;
 };
+
+}
 
 #endif

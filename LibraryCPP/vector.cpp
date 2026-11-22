@@ -46,7 +46,7 @@ void vector_resize(Vector *vector, size_t size)
             new_data[i] = vector->data[i];
 
         delete[] vector->data;
-        vector->data     = new_data;
+        vector->data = new_data;
         vector->capacity = new_cap;
     }
     vector->size = size;

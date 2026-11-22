@@ -7,8 +7,8 @@ const int MAX_NAME  = 64;
 const int MAX_VERTS = 1024;
 
 static char names[MAX_VERTS][MAX_NAME];
-static int  name_count = 0;
-static int  adj[MAX_VERTS][MAX_VERTS] = {};
+static int name_count = 0;
+static int adj[MAX_VERTS][MAX_VERTS] = {};
 
 static int name_get_or_add(const char *s)
 {

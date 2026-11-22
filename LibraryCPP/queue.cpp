@@ -39,8 +39,8 @@ void queue_insert(Queue *queue, Data data)
         }
         vector_delete(queue->vector);
         queue->vector = nv;
-        queue->head   = 0;
-        cap           = new_cap;
+        queue->head = 0;
+        cap = new_cap;
     }
 
     size_t tail = (queue->head + queue->count) % cap;
