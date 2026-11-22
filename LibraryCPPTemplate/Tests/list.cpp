@@ -114,6 +114,7 @@ static void testEraseEnd() {
     List<int>::iterator it = l.erase(l.end());
     assert(it == l.end());
     assert(l.size() == 1);
+    (void)it;
     std::cout << "[OK] testEraseEnd\n";
 }
 
@@ -161,6 +162,7 @@ static void testArrow() {
     List<std::string>::iterator it = l.begin();
     assert(it->size() == 5);
     assert(*it == "hello");
+    (void)it;
     std::cout << "[OK] testArrow\n";
 }
 
