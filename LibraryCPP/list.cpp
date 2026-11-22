@@ -38,7 +38,7 @@ ListItem* list_first(const List* list) {
     return list->dummy->next;
 }
 
-ListItem* list_last(List* list) {
+ListItem* list_last(const List* list) {
     if (!list || list->dummy->prev == list->dummy) return nullptr;
     return list->dummy->prev;
 }
