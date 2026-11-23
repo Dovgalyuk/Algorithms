@@ -29,5 +29,6 @@ size_t vector_size(const Vector *vector);
 // Changes the vector size (may increase or decrease)
 // Should be O(1) on average
 void vector_resize(Vector *vector, size_t size);
+size_t vector_capacity(const Vector *vector);
 
 #endif
