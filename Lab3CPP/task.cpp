@@ -25,6 +25,10 @@ int main(int argc, char* argv[])
     string line;
 
     while (getline(input, line)) {
+        if (!line.empty() && line.back() == '\r') {
+            line.pop_back();
+        }
+
         if (line.empty()) {
             if (!layer.empty()) {
                 maze.push_back(layer);
@@ -100,7 +104,6 @@ int main(int argc, char* argv[])
     int dz[6] = { 0, 0, 0, 0, 1, -1 };
 
     while (!queue_empty(q)) {
-
         int current = queue_get(q);
         queue_remove(q);
 
@@ -139,5 +142,4 @@ int main(int argc, char* argv[])
     cout << "NOT FOUND\n";
     queue_delete(q);
 
-    return 0;
 }

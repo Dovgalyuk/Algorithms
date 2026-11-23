@@ -28,13 +28,11 @@ void queue_insert(Queue *queue, Data data)
 Data queue_get(const Queue *queue)
 {
     return list_item_data(list_first(queue->list));
-
 }
 
-void queue_remove(Queue *queue)
+void queue_remove(Queue* queue)
 {
-    list_erase_next(queue->list, nullptr);
-
+    list_erase_first(queue->list);
 }
 
 bool queue_empty(const Queue *queue)

@@ -88,10 +88,9 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
     return node;
 }
 
-ListItem *list_erase_first(List *list)
+ListItem* list_erase_first(List* list)
 {
-    return list_erase_next(list, NULL);
-
+    return list_erase_next(list, list->head);
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
