@@ -72,7 +72,6 @@ int main(int argc, char** argv) {
     }
     f.close();
 
-    cols = 0;
     while (grid[0][cols]) cols++;
 
     int sr = 0, sc = 0, er = 0, ec = 0;
