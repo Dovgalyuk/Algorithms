@@ -1,0 +1,13 @@
+6
+S A B C D T
+10
+S A 17
+S B 13
+S C 9
+A C 11
+A D 14
+B C 8
+B D 19
+C T 23
+D T 21
+D C 5
