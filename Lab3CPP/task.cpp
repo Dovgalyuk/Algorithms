@@ -124,11 +124,7 @@ int main(int argc, char* argv[])
         while (!queue_empty(qx) || !queue_empty(qd) || step == 0)
         {
             if (best_digit != 0 && step >= best_dist) break;
-            if (!queue_empty(qx) || step == 0)
-            {
-                relax(qx, grid, dist_x, dist_d, near_d, true, start, rows, cols, best_dist, best_digit);
-                if (!queue_empty(qx) && queue_get(qx) != END) queue_insert(qx, END);
-            }
+            if (!queue_empty(qx) || step == 0) relax(qx, grid, dist_x, dist_d, near_d, true, start, rows, cols, best_dist, best_digit);
             if (!queue_empty(qd)) relax(qd, grid, dist_d, dist_x, near_d, false, -1, rows, cols, best_dist, best_digit);
             ++step;
         }
