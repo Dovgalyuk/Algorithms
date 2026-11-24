@@ -14,8 +14,11 @@ struct Cell
     int c;
 };
 
+// Тип для представления ромбического лабиринта (двумерный вектор чисел)
+typedef std::vector<std::vector<int>> Maze;
+
 // Функция 1: Чтение ромбического лабиринта из файла
-bool read_maze(const std::string &filename, std::vector<std::vector<int>> &maze)
+bool read_maze(const std::string &filename, Maze &maze)
 {
     std::ifstream file(filename);
     if (!file.is_open())
@@ -39,7 +42,7 @@ bool read_maze(const std::string &filename, std::vector<std::vector<int>> &maze)
 }
 
 // Функция 2: Поиск соседних клеток (слева, справа, сверху, снизу)
-std::vector<Cell> get_neighbors(const std::vector<std::vector<int>> &maze, int r, int c)
+std::vector<Cell> get_neighbors(const Maze &maze, int r, int c)
 {
     std::vector<Cell> neighbors;
     int rows = (int)maze.size();
@@ -79,7 +82,7 @@ std::vector<Cell> get_neighbors(const std::vector<std::vector<int>> &maze, int r
 }
 
 // Функция 3: Поиск в ширину (BFS) с использованием очереди Queue
-std::vector<std::vector<bool>> find_reachable(const std::vector<std::vector<int>> &maze)
+std::vector<std::vector<bool>> find_reachable(const Maze &maze)
 {
     int rows = (int)maze.size();
     int center = rows / 2;
@@ -121,7 +124,7 @@ std::vector<std::vector<bool>> find_reachable(const std::vector<std::vector<int>
 }
 
 // Функция 4: Вывод лабиринта (посещенные — числами, недостижимые — '#')
-void print_maze(std::ostream &out, const std::vector<std::vector<int>> &maze, const std::vector<std::vector<bool>> &visited)
+void print_maze(std::ostream &out, const Maze &maze, const std::vector<std::vector<bool>> &visited)
 {
     int rows = (int)maze.size();
     int center = rows / 2;
@@ -151,7 +154,7 @@ int main(int argc, char **argv)
     }
 
     // 1. Читаем лабиринт
-    std::vector<std::vector<int>> maze;
+    Maze maze;
     if (!read_maze(argv[1], maze) || maze.empty())
         return 1;
 

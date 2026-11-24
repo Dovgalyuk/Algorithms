@@ -4,7 +4,6 @@ target_link_libraries(Lab3CPP LibraryCPP)
 
 # Тест 1: Пример из задания (ромб 7 строк)
 add_test(NAME Lab3Test1 COMMAND Lab3CPP ${CMAKE_CURRENT_SOURCE_DIR}/Test/input1.txt output1.txt)
-set_property(TEST Lab3Test1 PROPERTY PASS_REGULAR_EXPRESSION "      3\n    # 2 5\n  # # 1 4 1\n3 2 # 2 3 2 3\n  1 2 3 4 1\n    3 4 5\n      5")
 add_test(NAME Lab3Test1_check COMMAND ${CMAKE_COMMAND} -E compare_files output1.txt ${CMAKE_CURRENT_SOURCE_DIR}/Test/output1.txt)
 
 # Тест 2: Лабиринт 5 строк с изолированными углами
