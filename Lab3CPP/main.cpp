@@ -6,9 +6,12 @@
 
 #include "queue.h"
 
+typedef std::vector<std::string> CityNames;
+typedef std::vector<std::vector<int>> AdjacencyList;
+
 int get_city_id(
-    std::vector<std::string>& city_names,
-    std::vector<std::vector<int>>& roads,
+    CityNames& city_names,
+    AdjacencyList& roads,
     const std::string& name)
 {
     for (size_t i = 0; i < city_names.size(); ++i)
@@ -37,8 +40,8 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    std::vector<std::string> first_cities;
-    std::vector<std::string> second_cities;
+    CityNames first_cities;
+    CityNames second_cities;
     std::string first;
     std::string second;
 
@@ -65,8 +68,8 @@ int main(int argc, char* argv[])
     first_cities.pop_back();
     second_cities.pop_back();
 
-    std::vector<std::string> city_names;
-    std::vector<std::vector<int>> roads;
+    CityNames city_names;
+    AdjacencyList roads;
 
     for (size_t i = 0; i < first_cities.size(); ++i)
     {
