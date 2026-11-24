@@ -1,12 +1,14 @@
 #ifndef QUEUE_H
 #define QUEUE_H
-
+#include <cstddef>
 // Queue
 
 // Stores integer values inside
 // Change it to desired type
 typedef int Data;
-
+struct Position {
+    size_t x, y, z; // тесты пришлось менять все...
+};
 struct Queue;
 
 // Create empty queue
@@ -17,10 +19,10 @@ void queue_delete(Queue *queue);
 
 // Includes new element into the queue
 // Should be O(1) on average
-void queue_insert(Queue *queue, Data data);
+void queue_insert(Queue *queue, Position position);
 
 // Retrieves first element from the queue
-Data queue_get(const Queue *queue);
+Position queue_get(const Queue *queue);
 
 // Removes first element from the queue
 // Should be O(1) on average

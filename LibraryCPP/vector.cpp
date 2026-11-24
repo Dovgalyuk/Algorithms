@@ -68,3 +68,7 @@ void vector_resize(Vector* vector, size_t size)
 
     vector->size = size;
 }
+
+size_t vector_capacity(const Vector* vector) {
+    return vector->capacity;
+}

@@ -39,3 +39,15 @@ add_test(
     COMMAND Labirint ${CMAKE_CURRENT_SOURCE_DIR}/seventh.txt
 )
 set_tests_properties(LabirintTest7 PROPERTIES PASS_REGULAR_EXPRESSION "5")
+
+add_test(
+    NAME LabirintTest8
+    COMMAND Labirint ${CMAKE_CURRENT_SOURCE_DIR}/eight.txt
+)
+set_tests_properties(LabirintTest8 PROPERTIES PASS_REGULAR_EXPRESSION "7")
+
+add_test(
+    NAME LabirintTest9
+    COMMAND Labirint ${CMAKE_CURRENT_SOURCE_DIR}/nine.txt
+)
+set_tests_properties(LabirintTest9 PROPERTIES PASS_REGULAR_EXPRESSION "9") # накинул 2 теста с 3 слоями

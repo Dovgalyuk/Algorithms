@@ -4,37 +4,17 @@
 #include <string>
 #include <stdexcept>
 
-#include "vector.h"
 #include "queue.h"
-#include "labirint.hpp"
-
+// убрал hpp. по привычке его создал тогда, такто да, бесполезный
 using namespace std;
-
-struct Position { int x, y, z; };
 
 vector<vector<vector<char>>> graph;
 
 int dx[6] = {1, -1, 0, 0, 0, 0};
 int dy[6] = {0, 0, 1, -1, 0, 0};
 int dz[6] = {0, 0, 0, 0, 1, -1};
-
-int encode(int x, int y, int z) {
-    int index = x;
-    for (int i = 0; i < z; i++) for (const auto& row : graph[i]) index += row.size();
-    for (int i = 0; i < y; i++) index += graph[z][i].size();
-    return index;
-}
-
-Position decode(int index) {
-    for (int z = 0; z < (int)graph.size(); z++) {
-        for (int y = 0; y < (int)graph[z].size(); y++) {
-            int size = graph[z][y].size();
-            if (index < size) return {index, y, z};
-            index -= size;
-        }
-    }
-    throw runtime_error("Invalid index");
-}
+// убрал код энкод, стал все делать напрямую.
+using Distance = vector<vector<vector<int>>>;
 
 void read_labirint(const string& filename) {
     graph.clear();
@@ -48,145 +28,166 @@ void read_labirint(const string& filename) {
         if (line.empty()) {
             if (!layer.empty()) {
                 graph.push_back({});
-                for (const string& row : layer) graph.back().push_back(vector<char>(row.begin(), row.end()));
+                for (const string& row : layer)
+                    graph.back().push_back(vector<char>(row.begin(), row.end()));
                 layer.clear();
             }
-        } else layer.push_back(line);
+        } else {
+            layer.push_back(line);
+        }
     }
 
     if (!layer.empty()) {
         graph.push_back({});
-        for (const string& row : layer) graph.back().push_back(vector<char>(row.begin(), row.end()));
+        for (const string& row : layer)
+            graph.back().push_back(vector<char>(row.begin(), row.end()));
     }
 
     if (graph.empty()) throw runtime_error("Empty labyrinth");
 }
 
-int count_cells() {
-    int total = 0;
-    for (const auto& layer : graph) for (const auto& row : layer) total += row.size();
-    return total;
+Distance create_distance() {
+    Distance distance;
+    for (const auto& layer : graph) {
+        distance.push_back({});
+        for (const auto& row : layer)
+            distance.back().push_back(vector<int>(row.size(), -1));
+    }
+    return distance;
 }
 
 Position find_start() {
-    for (int z = 0; z < (int)graph.size(); z++)
-        for (int y = 0; y < (int)graph[z].size(); y++)
-            for (int x = 0; x < (int)graph[z][y].size(); x++)
+    for (size_t z = 0; z < graph.size(); z++)
+        for (size_t y = 0; y < graph[z].size(); y++)
+            for (size_t x = 0; x < graph[z][y].size(); x++)
                 if (graph[z][y][x] == 'X') return {x, y, z};
 
     throw runtime_error("Start not found");
 }
 
 bool can_move(int x, int y, int z) {
-    if (z < 0 || z >= (int)graph.size()) return false;
-    if (y < 0 || y >= (int)graph[z].size()) return false;
-    if (x < 0 || x >= (int)graph[z][y].size()) return false;
+    if (z < 0 || z >= static_cast<int>(graph.size())) return false;
+    if (y < 0 || y >= static_cast<int>(graph[z].size())) return false;
+    if (x < 0 || x >= static_cast<int>(graph[z][y].size())) return false;
     return graph[z][y][x] != '#';
 }
 
-void add_exits(Queue* queue, Vector* distance) {
-    for (int z = 0; z < (int)graph.size(); z++)
-        for (int y = 0; y < (int)graph[z].size(); y++)
-            for (int x = 0; x < (int)graph[z][y].size(); x++)
+void add_exits(Queue* queue, Distance& distance) {
+    for (size_t z = 0; z < graph.size(); z++)
+        for (size_t y = 0; y < graph[z].size(); y++)
+            for (size_t x = 0; x < graph[z][y].size(); x++)
                 if (graph[z][y][x] >= '0' && graph[z][y][x] <= '9') {
-                    int index = encode(x, y, z);
-                    queue_insert(queue, index);
-                    vector_set(distance, index, 0);
+                    Position pos = {x, y, z};
+                    queue_insert(queue, pos);
+                    distance[z][y][x] = 0;
                 }
 }
 
-int expand_layer(Queue* queue, Vector* distance, Vector* parent, Vector* otherDistance, int depth) {
-    int meeting = -1;
+bool expand_layer(Queue* queue, Distance& distance, const Distance& otherDistance, int depth, Position& meeting) {
+    bool found = false;
     int bestDistance = -1;
 
     while (!queue_empty(queue)) {
-        int current = queue_get(queue);
-        if (vector_get(distance, current) != depth) break;
+        Position current = queue_get(queue);
+        if (distance[current.z][current.y][current.x] != depth) break;
         queue_remove(queue);
 
-        Position pos = decode(current);
-
         for (int d = 0; d < 6; d++) {
-            int nx = pos.x + dx[d], ny = pos.y + dy[d], nz = pos.z + dz[d];
+            int nx = static_cast<int>(current.x) + dx[d];
+            int ny = static_cast<int>(current.y) + dy[d];
+            int nz = static_cast<int>(current.z) + dz[d];
+
             if (!can_move(nx, ny, nz)) continue;
 
-            int next = encode(nx, ny, nz);
-            if (vector_get(distance, next) != -1) continue;
+            size_t x = nx, y = ny, z = nz;
+            if (distance[z][y][x] != -1) continue;
 
-            vector_set(distance, next, depth + 1);
-            if (parent != nullptr) vector_set(parent, next, current);
+            distance[z][y][x] = depth + 1;
 
-            int other = vector_get(otherDistance, next);
+            int other = otherDistance[z][y][x];
             if (other != -1) {
                 int pathLength = depth + 1 + other;
                 if (bestDistance == -1 || pathLength < bestDistance) {
                     bestDistance = pathLength;
-                    meeting = next;
+                    meeting = {x, y, z};
+                    found = true;
                 }
             }
 
-            queue_insert(queue, next);
+            queue_insert(queue, {x, y, z});
         }
     }
 
-    return meeting;
+    return found;
 }
 
-void print_exit(int meeting, Vector* parentExit) {
-    int current = meeting;
-    while (vector_get(parentExit, current) != -1) current = vector_get(parentExit, current);
-    Position pos = decode(current);
-    cout << graph[pos.z][pos.y][pos.x] << endl;
+void print_exit(Position meeting, const Distance& distanceExit) {
+    Position current = meeting;
+
+    while (distanceExit[current.z][current.y][current.x] > 0) {
+        bool found = false;
+
+        for (int d = 0; d < 6; d++) {
+            int nx = static_cast<int>(current.x) + dx[d];
+            int ny = static_cast<int>(current.y) + dy[d];
+            int nz = static_cast<int>(current.z) + dz[d];
+
+            if (!can_move(nx, ny, nz)) continue;
+
+            if (distanceExit[nz][ny][nx] == distanceExit[current.z][current.y][current.x] - 1) {
+                current = {static_cast<size_t>(nx), static_cast<size_t>(ny), static_cast<size_t>(nz)};
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) throw runtime_error("Path not found");
+    }
+
+    cout << graph[current.z][current.y][current.x] << endl;
 }
 
 void solve_labirint(const string& filename) {
     read_labirint(filename);
+
     Position start = find_start();
-    int total = count_cells();
 
     Queue* queueStart = queue_create();
     Queue* queueExit = queue_create();
 
-    Vector* distanceStart = vector_create();
-    Vector* distanceExit = vector_create();
-    Vector* parentExit = vector_create();
+    Distance distanceStart = create_distance();
+    Distance distanceExit = create_distance();
 
-    vector_resize(distanceStart, total);
-    vector_resize(distanceExit, total);
-    vector_resize(parentExit, total);
-
-    for (int i = 0; i < total; i++) {
-        vector_set(distanceStart, i, -1);
-        vector_set(distanceExit, i, -1);
-        vector_set(parentExit, i, -1);
-    }
-
-    int startIndex = encode(start.x, start.y, start.z);
-    queue_insert(queueStart, startIndex);
-    vector_set(distanceStart, startIndex, 0);
+    queue_insert(queueStart, start);
+    distanceStart[start.z][start.y][start.x] = 0;
 
     add_exits(queueExit, distanceExit);
 
-    int meeting = -1, depthStart = 0, depthExit = 0;
+    Position meeting = {0, 0, 0};
+    int depthStart = 0, depthExit = 0;
+    bool found = false;
 
-    while (!queue_empty(queueStart) && !queue_empty(queueExit) && meeting == -1) {
-        meeting = expand_layer(queueStart, distanceStart, nullptr, distanceExit, depthStart++);
-        if (meeting != -1) break;
-        meeting = expand_layer(queueExit, distanceExit, parentExit, distanceStart, depthExit++);
+    while (!queue_empty(queueStart) && !queue_empty(queueExit) && !found) {
+        found = expand_layer(queueStart, distanceStart, distanceExit, depthStart++, meeting);
+        if (found) break;
+
+        found = expand_layer(queueExit, distanceExit, distanceStart, depthExit++, meeting);
     }
 
-    if (meeting == -1) cout << "No" << endl;
-    else print_exit(meeting, parentExit);
+    if (found) print_exit(meeting, distanceExit);
+    else cout << "No" << endl;
 
     queue_delete(queueStart);
     queue_delete(queueExit);
-    vector_delete(distanceStart);
-    vector_delete(distanceExit);
-    vector_delete(parentExit);
 }
 
 int main(int argc, char* argv[]) {
     if (argc != 2) return 1;
-    solve_labirint(argv[1]);
+    try {
+        solve_labirint(argv[1]);
+    } catch (const exception& error) {
+        cerr << error.what() << endl;
+        return 1;
+    }
     return 0;
 }
