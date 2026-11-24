@@ -1,4 +1,3 @@
-#include <cassert>
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -7,11 +6,18 @@
 
 using graph::List;
 
+static void check(bool cond, const char* expr, const char* file, int line) {
+    if (!cond) {
+        std::cerr << "CHECK failed: " << expr << " at " << file << ":" << line << "\n";
+        std::exit(1);
+    }
+}
+
 static void testEmpty() {
     List<int> l;
-    assert(l.size() == 0);
-    assert(l.empty());
-    assert(l.begin() == l.end());
+    check(l.size() == 0, "l.size() == 0", __FILE__, __LINE__);
+    check(l.empty(), "l.empty()", __FILE__, __LINE__);
+    check(l.begin() == l.end(), "l.begin() == l.end()", __FILE__, __LINE__);
     std::cout << "[OK] testEmpty\n";
 }
 
@@ -20,15 +26,15 @@ static void testPushBack() {
     l.push_back(1);
     l.push_back(2);
     l.push_back(3);
-    assert(l.size() == 3);
-    assert(!l.empty());
+    check(l.size() == 3, "l.size() == 3", __FILE__, __LINE__);
+    check(!l.empty(), "!l.empty()", __FILE__, __LINE__);
     int expected[] = {1, 2, 3};
     int i = 0;
     for (List<int>::iterator it = l.begin(); it != l.end(); ++it) {
-        assert(*it == expected[i]);
+        check(*it == expected[i], "*it == expected[i]", __FILE__, __LINE__);
         ++i;
     }
-    assert(i == 3);
+    check(i == 3, "i == 3", __FILE__, __LINE__);
     std::cout << "[OK] testPushBack\n";
 }
 
@@ -43,8 +49,8 @@ static void testIterate() {
         sum += *it;
         ++count;
     }
-    assert(count == 3);
-    assert(sum == 60);
+    check(count == 3, "count == 3", __FILE__, __LINE__);
+    check(sum == 60, "sum == 60", __FILE__, __LINE__);
     std::cout << "[OK] testIterate\n";
 }
 
@@ -57,7 +63,7 @@ static void testConstIterate() {
     for (List<int>::const_iterator it = cl.begin(); it != cl.end(); ++it) {
         sum += *it;
     }
-    assert(sum == 11);
+    check(sum == 11, "sum == 11", __FILE__, __LINE__);
     std::cout << "[OK] testConstIterate\n";
 }
 
@@ -67,16 +73,16 @@ static void testCopyCtor() {
     a.push_back(2);
     a.push_back(3);
     List<int> b(a);
-    assert(b.size() == 3);
+    check(b.size() == 3, "b.size() == 3", __FILE__, __LINE__);
     int expected[] = {1, 2, 3};
     int i = 0;
     for (List<int>::iterator it = b.begin(); it != b.end(); ++it) {
-        assert(*it == expected[i]);
+        check(*it == expected[i], "*it == expected[i]", __FILE__, __LINE__);
         ++i;
     }
     b.push_back(4);
-    assert(a.size() == 3);
-    assert(b.size() == 4);
+    check(a.size() == 3, "a.size() == 3", __FILE__, __LINE__);
+    check(b.size() == 4, "b.size() == 4", __FILE__, __LINE__);
     std::cout << "[OK] testCopyCtor\n";
 }
 
@@ -89,11 +95,11 @@ static void testAssign() {
     b.push_back(8);
     b.push_back(7);
     b = a;
-    assert(b.size() == 2);
+    check(b.size() == 2, "b.size() == 2", __FILE__, __LINE__);
     int expected[] = {1, 2};
     int i = 0;
     for (List<int>::iterator it = b.begin(); it != b.end(); ++it) {
-        assert(*it == expected[i]);
+        check(*it == expected[i], "*it == expected[i]", __FILE__, __LINE__);
         ++i;
     }
     std::cout << "[OK] testAssign\n";
@@ -108,20 +114,20 @@ static void testErase() {
     List<int>::iterator it = l.begin();
     ++it;
     it = l.erase(it);
-    assert(l.size() == 3);
-    assert(*it == 3);
+    check(l.size() == 3, "l.size() == 3", __FILE__, __LINE__);
+    check(*it == 3, "*it == 3", __FILE__, __LINE__);
     int expected[] = {1, 3, 4};
     int i = 0;
     for (List<int>::iterator jt = l.begin(); jt != l.end(); ++jt) {
-        assert(*jt == expected[i]);
+        check(*jt == expected[i], "*jt == expected[i]", __FILE__, __LINE__);
         ++i;
     }
     l.erase(l.begin());
-    assert(l.size() == 2);
+    check(l.size() == 2, "l.size() == 2", __FILE__, __LINE__);
     int expected2[] = {3, 4};
     i = 0;
     for (List<int>::iterator jt = l.begin(); jt != l.end(); ++jt) {
-        assert(*jt == expected2[i]);
+        check(*jt == expected2[i], "*jt == expected2[i]", __FILE__, __LINE__);
         ++i;
     }
     std::cout << "[OK] testErase\n";
@@ -131,9 +137,8 @@ static void testEraseEnd() {
     List<int> l;
     l.push_back(1);
     List<int>::iterator it = l.erase(l.end());
-    assert(it == l.end());
-    assert(l.size() == 1);
-    (void)it;
+    check(it == l.end(), "it == l.end()", __FILE__, __LINE__);
+    check(l.size() == 1, "l.size() == 1", __FILE__, __LINE__);
     std::cout << "[OK] testEraseEnd\n";
 }
 
@@ -143,12 +148,12 @@ static void testClear() {
     l.push_back(2);
     l.push_back(3);
     l.clear();
-    assert(l.size() == 0);
-    assert(l.empty());
-    assert(l.begin() == l.end());
+    check(l.size() == 0, "l.size() == 0", __FILE__, __LINE__);
+    check(l.empty(), "l.empty()", __FILE__, __LINE__);
+    check(l.begin() == l.end(), "l.begin() == l.end()", __FILE__, __LINE__);
     l.push_back(42);
-    assert(l.size() == 1);
-    assert(*l.begin() == 42);
+    check(l.size() == 1, "l.size() == 1", __FILE__, __LINE__);
+    check(*l.begin() == 42, "*l.begin() == 42", __FILE__, __LINE__);
     std::cout << "[OK] testClear\n";
 }
 
@@ -157,11 +162,11 @@ static void testStrings() {
     l.push_back("alpha");
     l.push_back("beta");
     l.push_back("gamma");
-    assert(l.size() == 3);
+    check(l.size() == 3, "l.size() == 3", __FILE__, __LINE__);
     const char* expected[] = {"alpha", "beta", "gamma"};
     int i = 0;
     for (List<std::string>::iterator it = l.begin(); it != l.end(); ++it) {
-        assert(*it == expected[i]);
+        check(*it == expected[i], "*it == expected[i]", __FILE__, __LINE__);
         ++i;
     }
     std::cout << "[OK] testStrings\n";
@@ -171,9 +176,8 @@ static void testArrow() {
     List<std::string> l;
     l.push_back("hello");
     List<std::string>::iterator it = l.begin();
-    assert(it->size() == 5);
-    assert(*it == "hello");
-    (void)it;
+    check(it->size() == 5, "it->size() == 5", __FILE__, __LINE__);
+    check(*it == "hello", "*it == hello", __FILE__, __LINE__);
     std::cout << "[OK] testArrow\n";
 }
 
@@ -187,7 +191,7 @@ static void testMutableThroughIterator() {
     int expected[] = {10, 20};
     int i = 0;
     for (List<int>::iterator it = l.begin(); it != l.end(); ++it) {
-        assert(*it == expected[i]);
+        check(*it == expected[i], "*it == expected[i]", __FILE__, __LINE__);
         ++i;
     }
     std::cout << "[OK] testMutableThroughIterator\n";
