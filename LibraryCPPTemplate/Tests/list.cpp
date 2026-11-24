@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 
@@ -21,9 +22,13 @@ static void testPushBack() {
     l.push_back(3);
     assert(l.size() == 3);
     assert(!l.empty());
-    assert(l.valueAt(0) == 1);
-    assert(l.valueAt(1) == 2);
-    assert(l.valueAt(2) == 3);
+    int expected[] = {1, 2, 3};
+    int i = 0;
+    for (List<int>::iterator it = l.begin(); it != l.end(); ++it) {
+        assert(*it == expected[i]);
+        ++i;
+    }
+    assert(i == 3);
     std::cout << "[OK] testPushBack\n";
 }
 
@@ -63,9 +68,12 @@ static void testCopyCtor() {
     a.push_back(3);
     List<int> b(a);
     assert(b.size() == 3);
-    assert(b.valueAt(0) == 1);
-    assert(b.valueAt(1) == 2);
-    assert(b.valueAt(2) == 3);
+    int expected[] = {1, 2, 3};
+    int i = 0;
+    for (List<int>::iterator it = b.begin(); it != b.end(); ++it) {
+        assert(*it == expected[i]);
+        ++i;
+    }
     b.push_back(4);
     assert(a.size() == 3);
     assert(b.size() == 4);
@@ -82,8 +90,12 @@ static void testAssign() {
     b.push_back(7);
     b = a;
     assert(b.size() == 2);
-    assert(b.valueAt(0) == 1);
-    assert(b.valueAt(1) == 2);
+    int expected[] = {1, 2};
+    int i = 0;
+    for (List<int>::iterator it = b.begin(); it != b.end(); ++it) {
+        assert(*it == expected[i]);
+        ++i;
+    }
     std::cout << "[OK] testAssign\n";
 }
 
@@ -97,14 +109,21 @@ static void testErase() {
     ++it;
     it = l.erase(it);
     assert(l.size() == 3);
-    assert(l.valueAt(0) == 1);
-    assert(l.valueAt(1) == 3);
-    assert(l.valueAt(2) == 4);
     assert(*it == 3);
+    int expected[] = {1, 3, 4};
+    int i = 0;
+    for (List<int>::iterator jt = l.begin(); jt != l.end(); ++jt) {
+        assert(*jt == expected[i]);
+        ++i;
+    }
     l.erase(l.begin());
     assert(l.size() == 2);
-    assert(l.valueAt(0) == 3);
-    assert(l.valueAt(1) == 4);
+    int expected2[] = {3, 4};
+    i = 0;
+    for (List<int>::iterator jt = l.begin(); jt != l.end(); ++jt) {
+        assert(*jt == expected2[i]);
+        ++i;
+    }
     std::cout << "[OK] testErase\n";
 }
 
@@ -129,19 +148,8 @@ static void testClear() {
     assert(l.begin() == l.end());
     l.push_back(42);
     assert(l.size() == 1);
-    assert(l.valueAt(0) == 42);
+    assert(*l.begin() == 42);
     std::cout << "[OK] testClear\n";
-}
-
-static void testValueAtMutable() {
-    List<int> l;
-    l.push_back(1);
-    l.push_back(2);
-    l.valueAt(0) = 100;
-    l.valueAt(1) = 200;
-    assert(l.valueAt(0) == 100);
-    assert(l.valueAt(1) == 200);
-    std::cout << "[OK] testValueAtMutable\n";
 }
 
 static void testStrings() {
@@ -150,9 +158,12 @@ static void testStrings() {
     l.push_back("beta");
     l.push_back("gamma");
     assert(l.size() == 3);
-    assert(l.valueAt(0) == "alpha");
-    assert(l.valueAt(1) == "beta");
-    assert(l.valueAt(2) == "gamma");
+    const char* expected[] = {"alpha", "beta", "gamma"};
+    int i = 0;
+    for (List<std::string>::iterator it = l.begin(); it != l.end(); ++it) {
+        assert(*it == expected[i]);
+        ++i;
+    }
     std::cout << "[OK] testStrings\n";
 }
 
@@ -166,6 +177,22 @@ static void testArrow() {
     std::cout << "[OK] testArrow\n";
 }
 
+static void testMutableThroughIterator() {
+    List<int> l;
+    l.push_back(1);
+    l.push_back(2);
+    for (List<int>::iterator it = l.begin(); it != l.end(); ++it) {
+        *it *= 10;
+    }
+    int expected[] = {10, 20};
+    int i = 0;
+    for (List<int>::iterator it = l.begin(); it != l.end(); ++it) {
+        assert(*it == expected[i]);
+        ++i;
+    }
+    std::cout << "[OK] testMutableThroughIterator\n";
+}
+
 int main() {
     testEmpty();
     testPushBack();
@@ -176,9 +203,9 @@ int main() {
     testErase();
     testEraseEnd();
     testClear();
-    testValueAtMutable();
     testStrings();
     testArrow();
+    testMutableThroughIterator();
     std::cout << "All list tests passed.\n";
     return 0;
 }

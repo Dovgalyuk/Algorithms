@@ -23,11 +23,6 @@ public:
         T& operator*() const { return node_->value; }
         T* operator->() const { return &node_->value; }
         iterator& operator++() { node_ = node_->next; return *this; }
-        iterator operator+(std::size_t n) const {
-            Node* cur = node_;
-            while (n-- && cur) cur = cur->next;
-            return iterator(cur);
-        }
         bool operator!=(const iterator& o) const { return node_ != o.node_; }
         bool operator==(const iterator& o) const { return node_ == o.node_; }
     private:
@@ -42,11 +37,6 @@ public:
         const T& operator*() const { return node_->value; }
         const T* operator->() const { return &node_->value; }
         const_iterator& operator++() { node_ = node_->next; return *this; }
-        const_iterator operator+(std::size_t n) const {
-            const Node* cur = node_;
-            while (n-- && cur) cur = cur->next;
-            return const_iterator(cur);
-        }
         bool operator!=(const const_iterator& o) const { return node_ != o.node_; }
         bool operator==(const const_iterator& o) const { return node_ == o.node_; }
     private:
@@ -97,18 +87,6 @@ public:
             tail_ = n;
         }
         ++size_;
-    }
-
-    T& valueAt(std::size_t i) {
-        Node* cur = head_;
-        while (i--) cur = cur->next;
-        return cur->value;
-    }
-
-    const T& valueAt(std::size_t i) const {
-        const Node* cur = head_;
-        while (i--) cur = cur->next;
-        return cur->value;
     }
 
     iterator erase(iterator pos) {
