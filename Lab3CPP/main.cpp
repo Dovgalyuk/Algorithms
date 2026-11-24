@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "queue.h"
+#include <iomanip>
 
 int main()
 {
@@ -83,16 +84,18 @@ int main()
         }
     }
 
-    for (int row = 0; row < 8; ++row)
-    {
-        for (int col = 0; col < 8; ++col)
-        {
-            int cell = row * 8 + col;
-            if (steps[cell] >= 0)
-                std::cout << steps[cell];
-            else
-                std::cout << board[row][col];
-        }
-        std::cout << '\n';
-    }
+  for (int row = 0; row < 8; ++row)
+	{
+		for (int col = 0; col < 8; ++col)
+		{
+			int cell = row * 8 + col;
+
+			if (steps[cell] >= 0)
+				std::cout << std::setw(3) << steps[cell];
+			else
+				std::cout << std::setw(3) << board[row][col];
+		}
+
+		std::cout << '\n';
+	}
 }
