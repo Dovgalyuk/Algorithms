@@ -37,3 +37,13 @@ add_test(NAME Lab3CPPTest4
 set_tests_properties(Lab3CPPTest4 PROPERTIES
     PASS_REGULAR_EXPRESSION "Invalid maze"
 )
+
+
+add_executable(TestVectorCPP test_vector.cpp)
+target_link_libraries(TestVectorCPP PRIVATE Lab3Containers)
+add_test(NAME TestVectorCPP COMMAND TestVectorCPP)
+
+
+add_executable(TestQueueCPP test_queue.cpp)
+target_link_libraries(TestQueueCPP PRIVATE Lab3Containers)
+add_test(NAME TestQueueCPP COMMAND TestQueueCPP)
