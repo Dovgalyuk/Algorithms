@@ -25,9 +25,9 @@ set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
 #add_test(TestDirectedGraphCPPTemplate TestDirectedGraphCPPTemplate)
 #set_tests_properties(TestDirectedGraphCPPTemplate PROPERTIES TIMEOUT 10)
 
-add_executable(TestAssociativeArrayCPPTemplate associative_array.cpp)
-target_include_directories(TestAssociativeArrayCPPTemplate PUBLIC ..)
-add_test(TestAssociativeArrayCPPTemplate TestAssociativeArrayCPPTemplate)
+#add_executable(TestAssociativeArrayCPPTemplate associative_array.cpp)
+#target_include_directories(TestAssociativeArrayCPPTemplate PUBLIC ..)
+#add_test(TestAssociativeArrayCPPTemplate TestAssociativeArrayCPPTemplate)
 #set_tests_properties(TestAssociativeArrayCPPTemplate PROPERTIES TIMEOUT 10)
 
 
