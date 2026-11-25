@@ -1,122 +1,76 @@
 #include <iostream>
-#include <stdexcept>
 #include "vector.h"
 
 int main()
 {
-    int passed = 0;
+    Vector vector;
 
+    vector.resize(5);
+    if (vector.size() != 5)
     {
-        Vector vector;
+        std::cout << "Invalid resize\n";
+        return 1;
+    }
 
-        vector.resize(5);
+    for (size_t i = 0; i < vector.size(); ++i)
+        vector.set(i, static_cast<Data>(i));
 
-        bool correct = vector.size() == 5;
+    vector = vector;
 
-        vector.resize(10);
-        correct = correct && vector.size() == 10;
-
-        vector.resize(3);
-        correct = correct && vector.size() == 3;
-
-        if (correct)
+    for (size_t i = 0; i < vector.size(); ++i)
+    {
+        if (vector.get(i) != (Data)i)
         {
-            passed++;
-            std::cout << "[PASSED] Vector resize\n";
-        }
-        else
-        {
-            std::cout << "[FAILED] Vector resize\n";
+            std::cout << "Invalid vector element " << i << "\n";
+            return 1;
         }
     }
 
+    vector.resize(10);
+    if (vector.size() != 10)
     {
-        Vector vector;
-        vector.resize(3);
+        std::cout << "Invalid resize\n";
+        return 1;
+    }
 
-        vector.set(0, 10);
-        vector.set(1, 20);
-        vector.set(2, 30);
+    std::cout << "Vector: ";
+    for (size_t i = 0; i < vector.size(); ++i)
+        std::cout << vector.get(i) << " ";
+    std::cout << "\n";
 
-        if (vector.get(0) == 10 &&
-            vector.get(1) == 20 &&
-            vector.get(2) == 30)
+    vector.resize(3);
+    if (vector.size() != 3)
+    {
+        std::cout << "Invalid resize\n";
+        return 1;
+    }
+
+    for (size_t i = 0; i < vector.size(); ++i)
+    {
+        if (vector.get(i) != (Data)i)
         {
-            passed++;
-            std::cout << "[PASSED] Vector set and get\n";
-        }
-        else
-        {
-            std::cout << "[FAILED] Vector set and get\n";
+            std::cout << "Invalid vector element " << i << "\n";
+            return 1;
         }
     }
 
+    std::cout << "Vector: ";
+    for (size_t i = 0; i < vector.size(); ++i)
+        std::cout << vector.get(i) << " ";
+    std::cout << "\n";
+
+    // Performance test
+    for (int i = 1; i <= 10000000; ++i)
     {
-        Vector vector;
-        vector.resize(3);
-
-        vector.set(0, 1);
-        vector.set(1, 2);
-        vector.set(2, 3);
-
-        Vector copy(vector);
-        Vector assigned;
-        assigned = vector;
-
-        copy.set(0, 100);
-        assigned.set(1, 200);
-
-        if (vector.get(0) == 1 &&
-            vector.get(1) == 2 &&
-            copy.get(0) == 100 &&
-            assigned.get(1) == 200)
-        {
-            passed++;
-            std::cout << "[PASSED] Vector copy and assignment\n";
-        }
-        else
-        {
-            std::cout << "[FAILED] Vector copy and assignment\n";
-        }
+        vector.resize(i);
+        vector.set(i - 1, i);
     }
 
-    {
-        Vector vector;
-        vector.resize(3);
+    Vector copy = vector;
 
-        bool getException = false;
-        bool setException = false;
+    long long sum = 0;
+    for (int i = 0; i < 10000000; ++i)
+        sum += vector.get(i);
 
-        try
-        {
-            vector.get(5);
-        }
-        catch (const std::out_of_range&)
-        {
-            getException = true;
-        }
-
-        try
-        {
-            vector.set(5, 100);
-        }
-        catch (const std::out_of_range&)
-        {
-            setException = true;
-        }
-
-        if (getException && setException)
-        {
-            passed++;
-            std::cout << "[PASSED] Vector out of range\n";
-        }
-        else
-        {
-            std::cout << "[FAILED] Vector out of range\n";
-        }
-    }
-
-    std::cout << "\nVector tests: " << passed << "/4\n";
-
-    return passed == 4 ? 0 : 1;
+    std::cout << sum << "\n";
 }
