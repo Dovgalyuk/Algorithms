@@ -3,12 +3,14 @@
 #include <cstdio>
 #include <stdexcept>
 
+static int failures = 0;
+
 static void check(bool condition, const char* name)
 {
 	if (!condition)
 	{
 		std::fprintf(stderr, "FAILED: %s\n", name);
-		return 1;
+		failures++;
 	}
 }
 
@@ -107,6 +109,12 @@ int main()
 		substringException = true;
 	}
 	check(substringException, "invalid substring position");
+
+	if (failures != 0)
+	{
+		std::fprintf(stderr, "%d string test(s) failed\n", failures);
+		return 1;
+	}
 
 	return 0;
 }

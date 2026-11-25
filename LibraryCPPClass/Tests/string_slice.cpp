@@ -3,13 +3,14 @@
 #include <cstdio>
 #include <stdexcept>
 
+static int failures = 0;
 
 static void check(bool condition, const char* name)
 {
 	if (!condition)
 	{
 		std::fprintf(stderr, "FAILED: %s\n", name);
-		return 1;
+		failures++;
 	}
 }
 
@@ -84,6 +85,12 @@ int main()
 		positionException = true;
 	}
 	check(positionException, "invalid slice position");
+
+	if (failures != 0)
+	{
+		std::fprintf(stderr, "%d string slice test(s) failed\n", failures);
+		return 1;
+	}
 
 	return 0;
 }
