@@ -93,7 +93,7 @@ public:
     // Returns pointer to the item next to the deleted one.
     Item *erase_first()
     {
-        return erase_next(nullptr);
+        return erase_next(&dummy_);
     }
 
     // Deletes the list item following the specified one.
@@ -127,7 +127,7 @@ private:
     void clear()
     {
         while (dummy_.next_ != &dummy_)
-            erase_next(nullptr);
+            erase_next(&dummy_);
     }
 
     void copy_from(const List &a)
