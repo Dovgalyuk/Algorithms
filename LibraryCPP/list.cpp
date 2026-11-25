@@ -106,27 +106,48 @@ ListItem *list_insert_after(List *list, ListItem *item, Data data)
 
 ListItem *list_erase_first(List *list)
 {
-    return list_erase_next(list, NULL);
+    ListItem *prev = list->head;
+    ListItem *del = prev->next;
+    
+    if (del == list->head) // список пуст
+        return NULL;
+        
+    prev->next = del->next;
+    
+    // если удалили последний, то последним стал prev (т.е. фиктивный head)
+    if (del == list->last)
+        list->last = prev;
+        
+    delete del;
+    
+    if (prev->next == list->head)
+        return NULL;
+        
+    return prev->next;
 }
 
 ListItem *list_erase_next(List *list, ListItem *item)
 {
     // если item == NULL, удаляем первый элемент
-    ListItem *prev = item;
-    if (prev == NULL)
-        prev = list->head;
+    if (item == NULL)
+        return list_erase_first(list);
 
+    ListItem *prev = item;
     ListItem *del = prev->next;
+    
     if (del == list->head) // после item ничего нет
         return NULL;
-
+        
     prev->next = del->next;
+    
     // если удалили последний, то последним стал prev
     if (del == list->last)
         list->last = prev;
+        
     delete del;
-
+    
     if (prev->next == list->head)
         return NULL;
+        
     return prev->next;
 }
