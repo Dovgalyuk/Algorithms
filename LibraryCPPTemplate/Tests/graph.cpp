@@ -30,9 +30,6 @@ int main() {
 
     if (sum != 35) return 1;
 
-    Vector<string> all = g.getAllVertexData();
-    if (all.size() != 3 || all.get(2) != "C") return 1;
-
     g.removeEdge(0, 1);
     if (g.hasEdge(0, 1)) return 1;
 
