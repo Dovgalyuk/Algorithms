@@ -1,9 +1,94 @@
+#include <stdexcept>
 #include <iostream>
 #include "queue.h"
 
+bool checkQueue()
+{
+    Queue queue;
+
+    if (!queue.empty()) return false;
+
+    try
+    {
+        queue.get();
+        return false;
+    }
+    catch (const std::exception&)
+    {
+    }
+
+    try
+    {
+        queue.remove();
+        return false;
+    }
+    catch (const std::exception&)
+    {
+    }
+
+    for (int i = 0; i < 4; i++)
+        queue.insert(i);
+
+    queue.remove();
+    queue.remove();
+
+    queue.insert(4);
+    queue.insert(5);
+
+    Queue wrapped(queue);
+
+    queue.insert(6); 
+
+    Queue assigned;
+    assigned.insert(-1);
+    assigned = queue;
+
+    queue = queue;
+
+    for (int i = 2; i <= 6; i++)
+    {
+        if (queue.get() != i || assigned.get() != i)
+            return false;
+
+        queue.remove();
+        assigned.remove();
+    }
+
+    for (int i = 2; i <= 5; i++)
+    {
+        if (wrapped.get() != i)
+            return false;
+
+        wrapped.remove();
+    }
+
+    if (!queue.empty() || !assigned.empty() || !wrapped.empty())
+        return false;
+
+    for (int i = 0; i < 1000; i++)
+    {
+        queue.insert(i);
+
+        if (queue.get() != i)
+            return false;
+
+        queue.remove();
+    }
+
+    assigned = queue;
+
+    return assigned.empty();
+}
+
 int main()
 {
-    Queue *queue = new Queue();
+    if (!checkQueue())
+    {
+        std::cout << "Queue checks failed\n";
+        return 1;
+    }
+
+    Queue* queue = new Queue();
 
     queue->insert(1);
     queue->insert(2);
@@ -37,6 +122,7 @@ int main()
 
     std::cout << "Get: " << queue->get() << "\n";
     queue->insert(4);
+
     while (!queue->empty())
     {
         std::cout << "Get: " << queue->get() << "\n";
@@ -45,17 +131,18 @@ int main()
 
     // Performance test
     queue->insert(0);
-    for (int i = 1 ; i <= 1000000 ; ++i)
+
+    for (int i = 1; i <= 1000000; ++i)
     {
         queue->insert(i);
     }
 
-    for (int i = 1 ; i <= 1000000 ; ++i)
+    for (int i = 1; i <= 1000000; ++i)
     {
         queue->remove();
     }
 
-    for (int i = 1 ; i <= 1000000 ; ++i)
+    for (int i = 1; i <= 1000000; ++i)
     {
         queue->insert(i);
         queue->remove();
@@ -65,16 +152,19 @@ int main()
 
     queue = new Queue();
     queue->insert(0);
-    for (int i = 1 ; i <= 100000 ; ++i)
+
+    for (int i = 1; i <= 100000; ++i)
     {
         int cnt = 1 + i % 20;
-        for (int j = 0 ; j < cnt ; ++j) {
+
+        for (int j = 0; j < cnt; ++j)
             queue->insert(i);
-        }
-        for (int j = 0 ; j < cnt ; ++j) {
+
+        for (int j = 0; j < cnt; ++j)
             queue->remove();
-        }
     }
 
     delete queue;
+
+    return 0;
 }
