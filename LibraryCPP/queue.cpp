@@ -37,7 +37,7 @@ void queue_insert(Queue *queue, Data data)
     size_t cap = vector_size(queue->buff);
     if (queue->count == cap)
     {
-        size_t new_cap = cap == 0 ? 4 : cap * 2;
+        size_t new_cap = cap * 2;
         Vector *new_buff = vector_create();
         vector_resize(new_buff, new_cap);
         for (size_t i = 0; i < queue->count; ++i)

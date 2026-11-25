@@ -4,6 +4,34 @@
 
 using namespace std;
 
+void bfs_step(int n, const int *matrix, Queue *q, int *dist_current, const int *dist_other, int &min_dist, bool forward)
+{
+    int u = queue_get(q);
+    queue_remove(q);
+
+    for (int v = 0; v < n; ++v)
+    {
+        bool has_edge = forward ? (matrix[u * n + v] != 0) : (matrix[v * n + u] != 0);
+        if (has_edge)
+        {
+            if (dist_current[v] == -1)
+            {
+                dist_current[v] = dist_current[u] + 1;
+                queue_insert(q, v);
+            }
+
+            if (dist_other[v] != -1)
+            {
+                int total = dist_current[u] + 1 + dist_other[v];
+                if (min_dist == -1 || total < min_dist)
+                {
+                    min_dist = total;
+                }
+            }
+        }
+    }
+}
+
 int find_shortest_path(int n, int start, int target, const int *matrix)
 {
     if (start == target)
@@ -42,55 +70,8 @@ int find_shortest_path(int n, int start, int target, const int *matrix)
             }
         }
 
-//прямой поиск шаг из очереди q_fwd
-        int u = queue_get(q_fwd);
-        queue_remove(q_fwd);
-
-        for (int v = 0; v < n; ++v)
-        {
-            if (matrix[u * n + v] != 0)
-            {
-                if (dist_fwd[v] == -1)
-                {
-                    dist_fwd[v] = dist_fwd[u] + 1;
-                    queue_insert(q_fwd, v);
-                }
-
-                if (dist_bwd[v] != -1)
-                {
-                    int total = dist_fwd[u] + 1 + dist_bwd[v];
-                    if (min_dist == -1 || total < min_dist)
-                    {
-                        min_dist = total;
-                    }
-                }
-            }
-        }
-
-//обратный поиск шаг из очереди q_bwd
-        int w = queue_get(q_bwd);
-        queue_remove(q_bwd);
-
-        for (int v = 0; v < n; ++v)
-        {
-            if (matrix[v * n + w] != 0)
-            {
-                if (dist_bwd[v] == -1)
-                {
-                    dist_bwd[v] = dist_bwd[w] + 1;
-                    queue_insert(q_bwd, v);
-                }
-
-                if (dist_fwd[v] != -1)
-                {
-                    int total = dist_fwd[v] + 1 + dist_bwd[w];
-                    if (min_dist == -1 || total < min_dist)
-                    {
-                        min_dist = total;
-                    }
-                }
-            }
-        }
+        bfs_step(n, matrix, q_fwd, dist_fwd, dist_bwd, min_dist, true);
+        bfs_step(n, matrix, q_bwd, dist_bwd, dist_fwd, min_dist, false);
     }
 
     delete[] dist_fwd;
