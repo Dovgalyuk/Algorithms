@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <cstddef>
 #include <cstdio>
 #include <iterator>
@@ -100,9 +101,7 @@ static void boyerMooreSearch(const StringSlice& text, const StringSlice& pattern
 			const std::size_t mismatchPosition = j - 1;
 			const unsigned char mismatchedCharacter = static_cast<unsigned char>(text[alignment + mismatchPosition]);
 			const std::size_t previousOccurrence = lastOccurrence[mismatchedCharacter];
-			const std::size_t badCharacterShift = previousOccurrence == String::npos || previousOccurrence >= mismatchPosition
-				? 1
-				: mismatchPosition - previousOccurrence;
+			const std::size_t badCharacterShift = previousOccurrence == String::npos || previousOccurrence >= mismatchPosition? 1: mismatchPosition - previousOccurrence;
 			const std::size_t goodSuffixShift = shift[j] == 0 ? 1 : shift[j];
 			const std::size_t movement = badCharacterShift > goodSuffixShift ? badCharacterShift : goodSuffixShift;
 			alignment += movement;
@@ -184,7 +183,7 @@ int main(int argc, char** argv)
 
 	std::FILE* input = nullptr;
 
-	if (fopen_s(&input, argv[1], "rb") != 0) {
+	if (fopen(&input, argv[1], "rb") != 0) {
 		input = nullptr;
 	}
 
