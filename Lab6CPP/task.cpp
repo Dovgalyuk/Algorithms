@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <iterator>
 #include <stdexcept>
+#include <fstream>
 
 #include "string_slice.h"
 #include "vector.h"
@@ -110,24 +111,28 @@ static void boyerMooreSearch(const StringSlice& text, const StringSlice& pattern
 
 }
 
-static bool readLine(std::FILE* file, String& line)
+static bool readLine(std::ifstream& file, String& line)
 {
 	line.clear();
 	bool readAny = false;
-	int value = 0;
-	while ((value = std::fgetc(file)) != EOF)
+	char value = 0;
+
+	while (file.get(value))
 	{
 		readAny = true;
 		if (value == '\n')
 			break;
-		line += static_cast<char>(value);
+		line += value;
 	}
-	if (!readAny && value == EOF) {
+
+	if (!readAny && file.eof()) {
 		return false;
 	}
+
 	if (!line.empty() && line[line.size() - 1] == '\r') {
 		line.resize(line.size() - 1);
 	}
+
 	return true;
 }
 
@@ -181,13 +186,9 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	std::FILE* input = nullptr;
+	std::ifstream input(argv[1], std::ios::binary);
 
-	if (fopen(&input, argv[1], "rb") != 0) {
-		input = nullptr;
-	}
-
-	if (input == nullptr)
+	if (!input.is_open())
 	{
 		std::fprintf(stderr, "Cannot open input file: %s\n", argv[1]);
 		return 1;
@@ -198,7 +199,6 @@ int main(int argc, char** argv)
 	if (!readLine(input, countLine) || !parseUnsigned(countLine, testCount))
 	{
 		std::fprintf(stderr, "Invalid test count\n");
-		std::fclose(input);
 		return 1;
 	}
 
@@ -209,7 +209,6 @@ int main(int argc, char** argv)
 		if (!readLine(input, textLine) || !readLine(input, patternLine))
 		{
 			std::fprintf(stderr, "Incomplete test case %zu\n", testIndex + 1);
-			std::fclose(input);
 			return 1;
 		}
 
@@ -222,6 +221,5 @@ int main(int argc, char** argv)
 		printPositions(matches);
 	}
 
-	std::fclose(input);
 	return 0;
 }
