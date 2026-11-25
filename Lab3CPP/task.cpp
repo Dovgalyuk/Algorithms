@@ -14,24 +14,17 @@ constexpr int DC[4] = { 0, 0, -1, 1 };
 static bool is_digit(int ch) { return ch >= '0' && ch <= '9'; }
 
 static void relax(Queue* q, const Vector* grid, Vector* self_dist, const Vector* other_dist,
-                  Vector* near_d, bool from_x, int start_idx, int rows, int cols,
-                  int& best_dist, char& best_digit)
+    Vector* near_d, bool from_x, int rows, int cols,
+    int& best_dist, char& best_digit)
 {
-    if (from_x && start_idx != -1 && queue_empty(q))
-    {
-        vector_set(self_dist, static_cast<size_t>(start_idx), 0);
-        queue_insert(q, start_idx);
-    }
+    if (queue_empty(q)) return;
+    queue_insert(q, END);
 
     while (!queue_empty(q))
     {
         int cur = queue_get(q);
         queue_remove(q);
-        if (cur == END)
-        {
-            if (!queue_empty(q)) queue_insert(q, END);
-            return;
-        }
+        if (cur == END) return;
 
         size_t cur_i = static_cast<size_t>(cur);
         int nd = vector_get(self_dist, cur_i) + 1;
@@ -116,16 +109,17 @@ int main(int argc, char* argv[])
 
     if (start != -1)
     {
-        if (!queue_empty(qd)) queue_insert(qd, END);
+        vector_set(dist_x, static_cast<size_t>(start), 0);
+        queue_insert(qx, start);
 
         int best_dist = INF, step = 0;
         char best_digit = 0;
 
-        while (!queue_empty(qx) || !queue_empty(qd) || step == 0)
+        while (!queue_empty(qx) || !queue_empty(qd))
         {
             if (best_digit != 0 && step >= best_dist) break;
-            if (!queue_empty(qx) || step == 0) relax(qx, grid, dist_x, dist_d, near_d, true, start, rows, cols, best_dist, best_digit);
-            if (!queue_empty(qd)) relax(qd, grid, dist_d, dist_x, near_d, false, -1, rows, cols, best_dist, best_digit);
+            if (!queue_empty(qx)) relax(qx, grid, dist_x, dist_d, near_d, true, rows, cols, best_dist, best_digit);
+            if (!queue_empty(qd)) relax(qd, grid, dist_d, dist_x, near_d, false, rows, cols, best_dist, best_digit);
             ++step;
         }
         if (best_digit != 0) cout << best_digit << '\n';
