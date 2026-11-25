@@ -144,10 +144,6 @@ public:
         return VertexData();
     }
 
-    Vector<VertexData> getAllVertexData() const {
-        return vertices;
-    }
-
     size_t findVertex(const VertexData& data) const {
         for (size_t i = 0; i < vertices.size(); i++) {
             if (vertices.get(i) == data) return i;
