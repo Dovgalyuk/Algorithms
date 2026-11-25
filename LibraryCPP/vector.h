@@ -2,6 +2,8 @@
 #define VECTOR_H
 
 #include <cstddef>
+#include <stdexcept>
+#include <algorithm>
 
 // Vector (dynamic array)
 

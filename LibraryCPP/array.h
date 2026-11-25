@@ -2,6 +2,7 @@
 #define ARRAY_H
 
 #include <cstddef>
+#include <stdexcept>
 
 // Non-resizeable array
 
