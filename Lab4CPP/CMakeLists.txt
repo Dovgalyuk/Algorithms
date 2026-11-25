@@ -19,6 +19,10 @@ foreach(t ${TEST_INPUTS})
     get_filename_component(name ${t} NAME_WE)
     add_test(
         NAME Lab4CPP_${name}
-        COMMAND bash -c "$<TARGET_FILE:Lab4CPP> < ${CMAKE_CURRENT_SOURCE_DIR}/${t}"
+        COMMAND ${CMAKE_COMMAND}
+            -DPROG=$<TARGET_FILE:Lab4CPP>
+            -DINFILE=${CMAKE_CURRENT_SOURCE_DIR}/${t}
+            -DEXPFILE=${CMAKE_CURRENT_SOURCE_DIR}/${name}.out
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/run_test.cmake
     )
 endforeach()

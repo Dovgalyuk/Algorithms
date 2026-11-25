@@ -82,23 +82,11 @@ static void testReadFromStream() {
     std::cout << "[OK] testReadFromStream\n";
 }
 
-static void testVertexLabelsVector() {
-    Graph<std::string, int> g;
-    g.addVertex("X");
-    g.addVertex("Y");
-    auto labels = g.vertexLabels();
-    check(labels.size() == 2, "labels.size() == 2", __FILE__, __LINE__);
-    check(labels[0] == "X", "labels[0] == X", __FILE__, __LINE__);
-    check(labels[1] == "Y", "labels[1] == Y", __FILE__, __LINE__);
-    std::cout << "[OK] testVertexLabelsVector\n";
-}
-
 int main() {
     testAddVerticesEdges();
     testRemoveEdgeVertex();
     testNeighborIterator();
     testReadFromStream();
-    testVertexLabelsVector();
     std::cout << "All graph tests passed.\n";
     return 0;
 }

@@ -43,9 +43,9 @@ public:
         const Node* node_;
     };
 
-    List() : head_(nullptr), tail_(nullptr), size_(0) {}
+    List() : head_(nullptr), tail_(nullptr) {}
 
-    List(const List& other) : head_(nullptr), tail_(nullptr), size_(0) {
+    List(const List& other) : head_(nullptr), tail_(nullptr) {
         for (const_iterator it = other.begin(); it != other.end(); ++it) {
             push_back(*it);
         }
@@ -71,11 +71,9 @@ public:
             cur = n;
         }
         head_ = tail_ = nullptr;
-        size_ = 0;
     }
 
-    std::size_t size() const { return size_; }
-    bool empty() const { return size_ == 0; }
+    bool empty() const { return head_ == nullptr; }
 
     void push_back(const T& v) {
         Node* n = new Node(v);
@@ -86,7 +84,6 @@ public:
             n->prev = tail_;
             tail_ = n;
         }
-        ++size_;
     }
 
     iterator erase(iterator pos) {
@@ -96,7 +93,6 @@ public:
         if (n->prev) n->prev->next = n->next; else head_ = n->next;
         if (n->next) n->next->prev = n->prev; else tail_ = n->prev;
         delete n;
-        --size_;
         return iterator(nxt);
     }
 
@@ -108,7 +104,6 @@ public:
 private:
     Node* head_;
     Node* tail_;
-    std::size_t size_;
 };
 
 }

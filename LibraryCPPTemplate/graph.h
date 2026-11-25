@@ -171,10 +171,6 @@ public:
         return labels_[v];
     }
 
-    std::vector<VLabel> vertexLabels() const {
-        return labels_;
-    }
-
     Neighbors neighbors(std::size_t v) const {
         checkVertex(v);
         return Neighbors(this, v);
