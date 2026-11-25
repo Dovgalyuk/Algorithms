@@ -1,12 +1,12 @@
 #ifndef QUEUE_H
 #define QUEUE_H
-
+#include <cstddef>
 // Queue
 
 // Stores integer values inside
 // Change it to desired type
 typedef int Data;
-
+// убрал позишн, все с датой работает
 struct Queue;
 
 // Create empty queue

@@ -3,7 +3,7 @@
 
 int main()
 {
-    List *list = list_create();
+    List* list = list_create();
 
     if (!list)
     {
@@ -11,25 +11,25 @@ int main()
         return 1;
     }
 
-    list_insert(list, 1);
-    list_insert(list, 2);
-    list_insert(list, 3);
+    list_insert(list, {1, false});
+    list_insert(list, {2, false});
+    list_insert(list, {3, false});
 
-    if (list_item_data(list_first(list)) != 3)
+    if (list_item_data(list_first(list)).value != 3)
     {
         std::cout << "list_insert error\n";
         return 1;
     }
 
-    if (list_item_data(list_last(list)) != 1)
+    if (list_item_data(list_last(list)).value != 1)
     {
         std::cout << "list_insert error\n";
         return 1;
     }
 
-    list_insert_after(list, list_first(list), 4);
+    list_insert_after(list, list_first(list), {4, false});
 
-    if (list_item_data(list_item_next(list_first(list))) != 4)
+    if (list_item_data(list_item_next(list_first(list))).value != 4)
     {
         std::cout << "list_insert_after error\n";
         return 1;
@@ -37,16 +37,16 @@ int main()
 
     list_erase_first(list);
 
-    if (list_item_data(list_first(list)) != 4)
+    if (list_item_data(list_first(list)).value != 4)
     {
         std::cout << "list_erase error\n";
         return 1;
     }
 
     std::cout << "List: ";
-    for (ListItem *item = list_first(list) ; item ; item = list_item_next(item))
+    for (ListItem* item = list_first(list); item; item = list_item_next(item))
     {
-        std::cout << list_item_data(item) << " ";
+        std::cout << list_item_data(item).value << " ";
     }
     std::cout << "\n";
 

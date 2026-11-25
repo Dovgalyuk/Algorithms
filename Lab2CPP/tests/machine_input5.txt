@@ -1,0 +1,3 @@
+bipush 1
+bipush 2
+swap

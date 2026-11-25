@@ -1,0 +1,3 @@
+bipush 2
+bipush 3
+imul
