@@ -1,0 +1,8 @@
+5 6
+vertex_start_001 node-a Node-a mid_point_999 very_long_destination_vertex_name
+vertex_start_001 node-a 7
+node-a Node-a 2
+Node-a mid_point_999 8
+node-a mid_point_999 3
+mid_point_999 very_long_destination_vertex_name 5
+vertex_start_001 very_long_destination_vertex_name 20

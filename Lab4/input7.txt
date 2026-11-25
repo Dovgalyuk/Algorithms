@@ -1,0 +1,7 @@
+3 5
+X Y Z
+X X 1
+Y Y 0
+X Y 10
+Y X 4
+Y Z 6
