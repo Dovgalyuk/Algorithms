@@ -6,9 +6,7 @@
 // Stores integer values inside
 // Change it to desired type
 typedef int Data;
-struct Position {
-    size_t x, y, z; // тесты пришлось менять все...
-};
+// убрал позишн, все с датой работает
 struct Queue;
 
 // Create empty queue
@@ -19,10 +17,10 @@ void queue_delete(Queue *queue);
 
 // Includes new element into the queue
 // Should be O(1) on average
-void queue_insert(Queue *queue, Position position);
+void queue_insert(Queue *queue, Data data);
 
 // Retrieves first element from the queue
-Position queue_get(const Queue *queue);
+Data queue_get(const Queue *queue);
 
 // Removes first element from the queue
 // Should be O(1) on average
