@@ -43,7 +43,7 @@ int dfs(Graph<int, FlowEdge> &graph, const string &u, const string &sink,
 
 int ford_fulkerson(Graph<int, FlowEdge> &graph, const string &source, const string &sink)
 {
-    if (!graph.has_vertex(source) || !graph.has_vertex(sink))
+    if (!graph.has_vertex(source) || !graph.has_vertex(sink) || source == sink)
         return 0;
 
     int max_flow = 0;
