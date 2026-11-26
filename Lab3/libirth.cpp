@@ -45,7 +45,7 @@ bool read_maze(std::istream &input, Maze &maze)
         return false;
 
     maze.width = static_cast<int>(height);
-    // Углы квадрата лежат за пределами шестиугольника и считаются стенами.
+    
     maze.cells.assign(maze.width * maze.width, '#');
     for (int row = 0; row < maze.width; ++row)
     {
@@ -104,6 +104,7 @@ int expand_layer(const Maze &maze, Search &search, const Search &other)
     constexpr int offsets[][2] = {{0, -1}, {0, 1}, {-1, 0}, {-1, 1}, {1, -1}, {1, 0}};
     Queue *frontier = search.frontier;
     int next_layer_size = 0;
+
     for (int i = 0; i < search.layer_size; ++i)
     {
         const int cell = queue_get(frontier);
@@ -156,7 +157,6 @@ bool find_shortest_path(Maze &maze)
 
     while (!queue_empty(from_start.frontier) && !queue_empty(from_finish.frontier))
     {
-        // Один слой от S.
         meeting = expand_layer(maze, from_start, from_finish);
         if (meeting != unvisited)
             break;
@@ -164,7 +164,6 @@ bool find_shortest_path(Maze &maze)
         if (queue_empty(from_start.frontier))
             return false;
 
-        // Один слой от E.
         meeting = expand_layer(maze, from_finish, from_start);
         if (meeting != unvisited)
             break;
