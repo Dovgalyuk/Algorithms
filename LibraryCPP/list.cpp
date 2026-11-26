@@ -9,7 +9,7 @@ struct ListItem {
 };
 
 struct List {
-    ListItem* dummy;   // фиктивный элемент
+    ListItem* dummy;
 };
 
 List* list_create() {
@@ -33,12 +33,12 @@ void list_delete(List* list) {
     delete list;
 }
 
-ListItem* list_first(List* list) {
+ListItem* list_first(const List* list) {
     if (!list || list->dummy->next == list->dummy) return nullptr;
     return list->dummy->next;
 }
 
-ListItem* list_last(List* list) {
+ListItem* list_last(const List* list) {
     if (!list || list->dummy->prev == list->dummy) return nullptr;
     return list->dummy->prev;
 }
