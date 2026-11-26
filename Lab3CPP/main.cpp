@@ -17,6 +17,9 @@ struct Cell
 // Тип для представления ромбического лабиринта (двумерный вектор чисел)
 typedef std::vector<std::vector<int>> Maze;
 
+// Тип для таблицы посещенных клеток (двумерный вектор флагов)
+typedef std::vector<std::vector<bool>> Visited;
+
 // Функция 1: Чтение ромбического лабиринта из файла
 bool read_maze(const std::string &filename, Maze &maze)
 {
@@ -82,13 +85,13 @@ std::vector<Cell> get_neighbors(const Maze &maze, int r, int c)
 }
 
 // Функция 3: Поиск в ширину (BFS) с использованием очереди Queue
-std::vector<std::vector<bool>> find_reachable(const Maze &maze)
+Visited find_reachable(const Maze &maze)
 {
     int rows = (int)maze.size();
     int center = rows / 2;
 
     // Создаём таблицу флагов посещения (изначально все false)
-    std::vector<std::vector<bool>> visited(rows);
+    Visited visited(rows);
     for (int i = 0; i < rows; ++i)
         visited[i].assign(maze[i].size(), false);
 
@@ -124,7 +127,7 @@ std::vector<std::vector<bool>> find_reachable(const Maze &maze)
 }
 
 // Функция 4: Вывод лабиринта (посещенные — числами, недостижимые — '#')
-void print_maze(std::ostream &out, const Maze &maze, const std::vector<std::vector<bool>> &visited)
+void print_maze(std::ostream &out, const Maze &maze, const Visited &visited)
 {
     int rows = (int)maze.size();
     int center = rows / 2;
@@ -159,7 +162,7 @@ int main(int argc, char **argv)
         return 1;
 
     // 2. Находим достижимые клетки с помощью BFS
-    std::vector<std::vector<bool>> visited = find_reachable(maze);
+    Visited visited = find_reachable(maze);
 
     // 3. Выводим результат в консоль
     print_maze(std::cout, maze, visited);
