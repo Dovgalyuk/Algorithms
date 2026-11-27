@@ -1,0 +1,5 @@
+push 50
+push 20
+sub
+pop A
+sub

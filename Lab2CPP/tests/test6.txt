@@ -1,0 +1,16 @@
+push 10
+pop A
+push 20
+pop B
+push 30
+pop C
+push 40
+pop D
+push A
+push B
+add
+push C
+add
+push D
+add
+pop A

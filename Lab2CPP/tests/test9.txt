@@ -1,0 +1,16 @@
+push 100
+push 200
+push 300
+push 400
+pop D
+pop C
+pop B
+pop A
+push A
+push B
+sub
+push C
+push D
+sub
+add
+pop A

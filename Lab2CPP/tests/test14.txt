@@ -1,0 +1,5 @@
+push 10
+call
+push 5
+pop A
+pop B

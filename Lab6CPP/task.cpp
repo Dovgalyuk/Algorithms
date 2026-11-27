@@ -1,0 +1,206 @@
+#include <cstddef>
+#include <cstdio>
+#include <iterator>
+#include <stdexcept>
+#include <fstream>
+#include <limits>
+
+#include "string_slice.h"
+#include "vector.h"
+
+static void preprocessStrongSuffix(const StringSlice& pattern, std::size_t* shift, std::size_t* borderPosition)
+{
+	const std::size_t length = pattern.size();
+	std::size_t i = length;
+	std::size_t j = length + 1;
+	borderPosition[i] = j;
+
+	while (i > 0)
+	{
+		while (j <= length && pattern[i - 1] != pattern[j - 1])
+		{
+			if (shift[j] == 0) {
+				shift[j] = j - i;
+			}
+			j = borderPosition[j];
+		}
+		i--;
+		j--;
+		borderPosition[i] = j;
+	}
+}
+
+static void preprocessCaseTwo(std::size_t length, std::size_t* shift, const std::size_t* borderPosition)
+{
+	std::size_t j = borderPosition[0];
+	for (std::size_t i = 0; i <= length; i++)
+	{
+		if (shift[i] == 0) {
+			shift[i] = j;
+		}
+		if (i == j) {
+			j = borderPosition[j];
+		}
+	}
+}
+
+static void boyerMooreSearch(const StringSlice& text, const StringSlice& pattern, Vector<std::size_t>& matches)
+{
+	const std::size_t textLength = text.size();
+	const std::size_t patternLength = pattern.size();
+
+	if (patternLength == 0)
+	{
+		if (textLength == String::npos) {
+			throw std::length_error("Text is too large");
+		}
+		matches.reserve(textLength + 1);
+		for (std::size_t i = 0; i <= textLength; i++) {
+			matches.push(i);
+		}
+		return;
+	}
+
+	if (patternLength > textLength) {
+		return;
+	}
+	matches.reserve(textLength - patternLength + 1);
+
+	if (patternLength == String::npos) {
+		throw std::length_error("Pattern is too large");
+	}
+	const std::size_t tableLength = patternLength + 1;
+	Vector<std::size_t> shift(tableLength);
+	Vector<std::size_t> borderPosition(tableLength);
+
+	preprocessStrongSuffix(pattern, &shift[0], &borderPosition[0]);
+	preprocessCaseTwo(patternLength, &shift[0], &borderPosition[0]);
+
+	std::size_t lastOccurrence[256];
+	for (std::size_t i = 0; i < 256; i++) {
+		lastOccurrence[i] = String::npos;
+	}
+	for (std::size_t i = 0; i < patternLength; i++) {
+		lastOccurrence[static_cast<unsigned char>(pattern[i])] = i;
+	}
+
+	std::size_t alignment = 0;
+	while (alignment <= textLength - patternLength)
+	{
+		std::size_t j = patternLength;
+		while (j > 0 && pattern[j - 1] == text[alignment + j - 1]) {
+			j--;
+		}
+		if (j == 0)
+		{
+			matches.push(alignment);
+			const std::size_t movement = shift[0] == 0 ? 1 : shift[0];
+			alignment += movement;
+		}
+		else
+		{
+			const std::size_t mismatchPosition = j - 1;
+			const unsigned char mismatchedCharacter = static_cast<unsigned char>(text[alignment + mismatchPosition]);
+			const std::size_t previousOccurrence = lastOccurrence[mismatchedCharacter];
+			const std::size_t badCharacterShift = previousOccurrence == String::npos || previousOccurrence >= mismatchPosition? 1: mismatchPosition - previousOccurrence;
+			const std::size_t goodSuffixShift = shift[j] == 0 ? 1 : shift[j];
+			const std::size_t movement = badCharacterShift > goodSuffixShift ? badCharacterShift : goodSuffixShift;
+			alignment += movement;
+		}
+	}
+
+}
+
+static bool readLine(std::ifstream& file, String& line)
+{
+	line.clear();
+	bool readAny = false;
+	char value = 0;
+
+	while (file.get(value))
+	{
+		readAny = true;
+		if (value == '\n')
+			break;
+		line += value;
+	}
+
+	if (!readAny && file.eof()) {
+		return false;
+	}
+
+	if (!line.empty() && line[line.size() - 1] == '\r') {
+		line.resize(line.size() - 1);
+	}
+
+	return true;
+}
+
+static void printPositions(const Vector<std::size_t>& positions)
+{
+	if (positions.size() == 0)
+	{
+		std::printf("-\n");
+		return;
+	}
+
+	for (std::size_t i = 0; i < positions.size(); i++)
+	{
+		if (i != 0) {
+			std::printf(" ");
+		}
+		std::printf("%zu", positions[i]);
+	}
+	std::printf("\n");
+}
+
+int main(int argc, char** argv)
+{
+	if (argc != 2)
+	{
+		std::fprintf(stderr, "Usage: Lab6CPPTask <input_file>\n");
+		return 1;
+	}
+
+	std::ifstream input(argv[1], std::ios::binary);
+
+	if (!input.is_open())
+	{
+		std::fprintf(stderr, "Cannot open input file: %s\n", argv[1]);
+		return 1;
+	}
+
+	long long tempCount = 0;
+
+	if (!(input >> tempCount) || tempCount < 0)
+	{
+		std::fprintf(stderr, "Invalid test count\n");
+		return 1;
+	}
+
+	std::size_t testCount = static_cast<std::size_t>(tempCount);
+
+	input.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	for (std::size_t testIndex = 0; testIndex < testCount; testIndex++)
+	{
+		String textLine;
+		String patternLine;
+
+		if (!readLine(input, textLine) || !readLine(input, patternLine))
+		{
+			std::fprintf(stderr, "Incomplete test case %zu\n", testIndex + 1);
+			return 1;
+		}
+
+		const String text(textLine);
+		const String pattern(patternLine);
+		const StringSlice textView(text);
+		const StringSlice patternView(pattern);
+		Vector<std::size_t> matches;
+		boyerMooreSearch(textView, patternView, matches);
+		printPositions(matches);
+	}
+
+	return 0;
+}

@@ -1,0 +1,12 @@
+push 1
+pop A
+push 2
+pop B
+push 3
+pop C
+push 4
+pop D
+push A
+push B
+pop A
+pop B

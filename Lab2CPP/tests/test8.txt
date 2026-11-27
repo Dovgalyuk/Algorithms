@@ -1,0 +1,12 @@
+push 4
+pop A
+push A
+push A
+mul
+push 2
+push A
+mul
+add
+push 1
+add
+pop B

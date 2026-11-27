@@ -1,0 +1,18 @@
+push 10
+pop A
+push 20
+pop B
+call
+push A
+push B
+add
+pop C
+ret
+call
+push C
+push 2
+mul
+pop D
+ret
+push D
+pop A

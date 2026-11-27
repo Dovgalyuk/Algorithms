@@ -1,0 +1,6 @@
+push 7
+pop A
+push A
+call
+push 3
+mul
