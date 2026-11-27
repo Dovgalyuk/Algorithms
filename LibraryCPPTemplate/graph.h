@@ -114,22 +114,16 @@ public:
         return vertices[vertexIndex(name)].label;
     }
 
-    Vector<VertexLabel> vertexLabels() const
+    size_t vertexCount() const
     {
-        Vector<VertexLabel> labels;
-        labels.resize(vertices.size());
-        for (size_t i = 0; i < vertices.size(); ++i)
-            labels[i] = vertices[i].label;
-        return labels;
+        return vertices.size();
     }
 
-    Vector<std::string> vertexNames() const
+    const std::string &vertexName(size_t index) const
     {
-        Vector<std::string> names;
-        names.resize(vertices.size());
-        for (size_t i = 0; i < vertices.size(); ++i)
-            names[i] = vertices[i].name;
-        return names;
+        if (index >= vertices.size())
+            throw std::out_of_range("Неверный индекс вершины");
+        return vertices[index].name;
     }
 
     // Перебор исходящих соседей

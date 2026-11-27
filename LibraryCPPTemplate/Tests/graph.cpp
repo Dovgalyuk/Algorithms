@@ -14,7 +14,7 @@ void check(bool condition, const char* message)
 int main()
 {
     Graph<int, std::string> graph(2);
-    check(graph.vertexNames().get(1) == "1", "Initial names");
+    check(graph.vertexName(1) == "1", "Initial names");
 
     graph.addVertex("C", "third");
     graph.addEdge("0", "1", 0);
@@ -31,10 +31,8 @@ int main()
     graph.setVertexLabel("0", "first");
     graph.setEdgeLabel("0", "C", 7);
     graph.removeVertex("1");
-    check(graph.vertexNames().get(1) == "C", "Vertex removal");
-    const auto labels = graph.vertexLabels();
-    check(labels.size() == 2 && labels.get(0) == "first" && labels.get(1) == "third",
-          "Vertex labels in order");
+    check(graph.vertexName(1) == "C", "Vertex removal");
+    check(graph.vertexCount() == 2 && graph.vertexLabel("0") == "first", "Size and label");
     check(graph.vertexLabel("C") == "third", "Single vertex label");
     check(graph.edgeLabel("0", "C") == 7, "Edge preserved during vertex removal");
     graph.removeEdge("0", "C");
@@ -55,7 +53,7 @@ int main()
     Graph<std::string, bool> second;
     second.addVertex("X", true);
     second.addEdge("X", "X", "loop");
-    check(second.edgeLabel("X", "X") == "loop" && second.vertexLabels().get(0),
+    check(second.edgeLabel("X", "X") == "loop" && second.vertexLabel("X"),
           "Independent label types");
     std::cout << "Graph tests passed\n";
 }

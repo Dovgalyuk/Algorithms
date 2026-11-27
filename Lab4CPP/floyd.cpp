@@ -6,8 +6,7 @@
 
 void printShortestPaths(const Graph<int, int>& graph)
 {
-    const auto names = graph.vertexNames();
-    const auto count = names.size();
+    const auto count = graph.vertexCount();
     constexpr auto infinity = std::numeric_limits<long long>::max();
     constexpr auto minimum = std::numeric_limits<long long>::min();
 
@@ -23,9 +22,9 @@ void printShortestPaths(const Graph<int, int>& graph)
         for (size_t j = 0; j < count; ++j)
         {
             dist[i][j] = i == j ? 0 : infinity;
-            if (graph.hasEdge(names[i], names[j]))
+            if (graph.hasEdge(graph.vertexName(i), graph.vertexName(j)))
             {
-                int weight = graph.edgeLabel(names[i], names[j]);
+                int weight = graph.edgeLabel(graph.vertexName(i), graph.vertexName(j));
                 if (weight < dist[i][j])
                 {
                     dist[i][j] = weight;
@@ -59,7 +58,7 @@ void printShortestPaths(const Graph<int, int>& graph)
     for (size_t i = 0; i < count; ++i)
         for (size_t j = 0; j < count; ++j)
         {
-            std::cout << names[i] << " -> " << names[j] << ": ";
+            std::cout << graph.vertexName(i) << " -> " << graph.vertexName(j) << ": ";
             if (dist[i][j] == infinity)
             {
                 std::cout << "нет пути\n";
@@ -79,11 +78,11 @@ void printShortestPaths(const Graph<int, int>& graph)
                 continue;
             }
 
-            std::cout << dist[i][j] << ", " << names[i];
+            std::cout << dist[i][j] << ", " << graph.vertexName(i);
             for (auto current = i; current != j;)
             {
                 current = next[current][j];
-                std::cout << " -> " << names[current];
+                std::cout << " -> " << graph.vertexName(current);
             }
             std::cout << '\n';
         }
