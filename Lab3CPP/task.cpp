@@ -17,7 +17,6 @@ static void relax(Queue* q, const Vector* grid, Vector* self_dist, const Vector*
     Vector* near_d, bool from_x, int rows, int cols,
     int& best_dist, char& best_digit)
 {
-    if (queue_empty(q)) return;
     queue_insert(q, END);
 
     while (!queue_empty(q))
@@ -39,20 +38,19 @@ static void relax(Queue* q, const Vector* grid, Vector* self_dist, const Vector*
             size_t nxt_i = static_cast<size_t>(nr * cols + nc);
             int ch = vector_get(grid, nxt_i);
             if (ch == '#' || vector_get(self_dist, nxt_i) <= nd) continue;
-            if (!from_x && is_digit(ch)) continue;
 
             vector_set(self_dist, nxt_i, nd);
             if (!from_x) vector_set(near_d, nxt_i, digit);
 
             int d_digit = from_x ? vector_get(near_d, nxt_i) : digit;
             int od = vector_get(other_dist, nxt_i);
-            if (od < INF && d_digit != 0 && nd + od < best_dist)
+            if (od < INF && nd + od < best_dist)
             {
                 best_dist = nd + od;
                 best_digit = static_cast<char>(d_digit);
             }
 
-            if (from_x ? (ch == '.' || ch == 'X') : true) queue_insert(q, nr * cols + nc);
+            if (!from_x || ch == '.') queue_insert(q, nr * cols + nc);
         }
     }
 }
@@ -112,17 +110,15 @@ int main(int argc, char* argv[])
         vector_set(dist_x, static_cast<size_t>(start), 0);
         queue_insert(qx, start);
 
-        int best_dist = INF, step = 0;
+        int best_dist = INF;
         char best_digit = 0;
 
-        while (!queue_empty(qx) || !queue_empty(qd))
+        while (!queue_empty(qx) && !queue_empty(qd))
         {
-            if (best_digit != 0 && step >= best_dist) break;
             relax(qx, grid, dist_x, dist_d, near_d, true, rows, cols, best_dist, best_digit);
             relax(qd, grid, dist_d, dist_x, near_d, false, rows, cols, best_dist, best_digit);
-            ++step;
         }
-        if (best_digit != 0) cout << best_digit << '\n';
+        if (best_dist != INF) cout << best_digit << '\n';
     }
 
     queue_delete(qx);
