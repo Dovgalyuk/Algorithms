@@ -1,0 +1,6 @@
+Los_Santos San_Fierro
+San_Fierro Las_Venturas
+Las_Venturas Vice_City
+Los_Santos Liberty_City
+Liberty_City Vice_City
+Los_Santos Vice_City

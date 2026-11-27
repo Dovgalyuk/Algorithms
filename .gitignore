@@ -13,3 +13,4 @@ Release/*
 .vs/*
 build/*
 .vscode/*
+/out/build/x64-Debug
