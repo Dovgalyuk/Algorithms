@@ -1,82 +1,63 @@
-#ifndef LIST_TEMPLATE_H
-#define LIST_TEMPLATE_H
+#ifndef LIST_H
+#define LIST_H
 
-template <typename Data> class List
-{
+#include <cstddef>
+
+template <typename T>
+struct Node {
+    T data;
+    Node* next;
+    Node* prev;
+};
+
+template <typename T>
+class List {
 public:
-    class Item
-    {
+    class Iterator {
     public:
-        Item *next() { return nullptr; }
-        Item *prev() { return nullptr; }
-        Data data() const { return Data(); }
+        Iterator(Node<T>* n) : current(n) {}
+
+        Node<T>* operator->() { return current; }
+
+        Iterator& operator++() {
+            current = current->next;
+            return *this;
+        }
+
+        bool operator!=(const Iterator& other) const {
+            return current != other.current;
+        }
     private:
-        // internal data here
+        Node<T>* current;
     };
 
-    // Creates new list
-    List()
-    {
+    List() {
+        dummy = new Node<T>();
+        dummy->next = dummy;
+        dummy->prev = dummy;
     }
 
-    // copy constructor
-    List(const List &a)
-    {
+    ~List() {
+        Node<T>* cur = dummy->next;
+        while (cur != dummy) {
+            Node<T>* next = cur->next;
+            delete cur;
+            cur = next;
+        }
+        delete dummy;
     }
 
-    // assignment operator
-    List &operator=(const List &a)
-    {
-        return *this;
+    void push_back(const T& val) {
+        Node<T>* n = new Node<T>{ val, dummy, dummy->prev };
+        dummy->prev->next = n;
+        dummy->prev = n;
     }
 
-    // Destroys the list and frees the memory
-    ~List()
-    {
-    }
+    Iterator begin() { return Iterator(dummy->next); }
+    Iterator end() { return Iterator(dummy); }
 
-    // Retrieves the first item from the list
-    Item *first()
-    {
-        return nullptr;
-    }
-
-    // Retrieves the last item of the list
-    Item *last()
-    {
-        return nullptr;
-    }
-
-    // Inserts new list item into the beginning
-    Item *insert(Data data)
-    {
-        return nullptr;
-    }
-
-    // Inserts new list item after the specified item
-    // Inserts first element if item is null
-    Item *insert_after(Item *item, Data data)
-    {
-        return nullptr;
-    }
-
-    // Deletes the first list item.
-    // Returns pointer to the item next to the deleted one.
-    Item *erase_first()
-    {
-        return nullptr;
-    }
-
-    // Deletes the list item following the specified one.
-    // Deletes the first element when item is null.
-    // Returns pointer to the item next to the deleted one.
-    // Should be O(1)
-    Item *erase_next(Item *item)
-    {
-        return nullptr;
-    }
 private:
-    // private data should be here
+    Node<T>* dummy;
 };
 
 #endif
