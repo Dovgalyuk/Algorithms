@@ -118,8 +118,8 @@ int main(int argc, char* argv[])
         while (!queue_empty(qx) || !queue_empty(qd))
         {
             if (best_digit != 0 && step >= best_dist) break;
-            if (!queue_empty(qx)) relax(qx, grid, dist_x, dist_d, near_d, true, rows, cols, best_dist, best_digit);
-            if (!queue_empty(qd)) relax(qd, grid, dist_d, dist_x, near_d, false, rows, cols, best_dist, best_digit);
+            relax(qx, grid, dist_x, dist_d, near_d, true, rows, cols, best_dist, best_digit);
+            relax(qd, grid, dist_d, dist_x, near_d, false, rows, cols, best_dist, best_digit);
             ++step;
         }
         if (best_digit != 0) cout << best_digit << '\n';
