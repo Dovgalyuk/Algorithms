@@ -5,7 +5,7 @@ target_link_libraries(KnightPath LibraryCPP)
 set(TEST_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/run_test.cmake)
 set(TEST_DATA ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
-set(SUCCESS_CASES knight_1 knight_direct knight_detour knight_two_paths)
+set(SUCCESS_CASES knight_1 knight_direct knight_detour knight_two_paths knight_long_path)
 set(FAILURE_CASES knight_blocked_start knight_disconnected knight_missing_exit knight_invalid_row)
 
 foreach(CASE IN LISTS SUCCESS_CASES FAILURE_CASES)

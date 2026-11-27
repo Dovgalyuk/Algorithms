@@ -165,6 +165,11 @@ int main(int argc, char **argv)
         position = knight_previous[row][column];
     }
 
+    string output[BOARD_SIZE][BOARD_SIZE];
+    for (int row = 0; row < BOARD_SIZE; row++)
+        for (int column = 0; column < BOARD_SIZE; column++)
+            output[row][column] = board[row][column];
+
     int path_number = 0;
 
     for (int i = path_length - 1; i >= 0; i--)
@@ -172,7 +177,7 @@ int main(int argc, char **argv)
         position = path[i];
         int row = position / BOARD_SIZE;
         int column = position % BOARD_SIZE;
-        board[row][column] = static_cast<char>('0' + path_number);
+        output[row][column] = to_string(path_number);
         path_number++;
     }
 
@@ -183,13 +188,21 @@ int main(int argc, char **argv)
     {
         int row = position / BOARD_SIZE;
         int column = position % BOARD_SIZE;
-        board[row][column] = static_cast<char>('0' + path_number);
+        output[row][column] = to_string(path_number);
         path_number++;
         position = exit_previous[row][column];
     }
 
     for (int row = 0; row < BOARD_SIZE; row++)
-        cout << board[row] << '\n';
+    {
+        for (int column = 0; column < BOARD_SIZE; column++)
+        {
+            if (path_number > 10 && column > 0)
+                cout << ' ';
+            cout << output[row][column];
+        }
+        cout << '\n';
+    }
 
     return 0;
 }
