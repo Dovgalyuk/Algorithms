@@ -92,8 +92,8 @@ int main(int argc, char* argv[])
     std::vector<int> dist(total, -1);
     std::vector<unsigned long long> ways(total, 0);
 
-    const int dr[8] = {-2, -2, -1, -1, 1, 1, 2, 2};
-    const int dc[8] = {-1, 1, -2, 2, -2, 2, -1, 1};
+    const int dr[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
+    const int dc[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
     Queue* queue = queue_create();
 
@@ -114,25 +114,26 @@ int main(int argc, char* argv[])
             int nr = r + dr[k];
             int nc = c + dc[k];
 
-            if (nr < 0 || nc < 0 ||
-                nr >= static_cast<int>(rows) ||
-                nc >= static_cast<int>(cols))
-                continue;
-
-            if (maze[nr][nc] == '#')
-                continue;
-
-            int next = nr * static_cast<int>(cols) + nc;
-
-            if (dist[next] == -1)
+            while (nr >= 0 && nc >= 0 &&
+                   nr < static_cast<int>(rows) &&
+                   nc < static_cast<int>(cols) &&
+                   maze[nr][nc] != '#')
             {
-                dist[next] = dist[current] + 1;
-                ways[next] = ways[current];
-                queue_insert(queue, next);
-            }
-            else if (dist[next] == dist[current] + 1)
-            {
-                ways[next] += ways[current];
+                int next = nr * static_cast<int>(cols) + nc;
+
+                if (dist[next] == -1)
+                {
+                    dist[next] = dist[current] + 1;
+                    ways[next] = ways[current];
+                    queue_insert(queue, next);
+                }
+                else if (dist[next] == dist[current] + 1)
+                {
+                    ways[next] += ways[current];
+                }
+
+                nr += dr[k];
+                nc += dc[k];
             }
         }
     }
@@ -142,4 +143,3 @@ int main(int argc, char* argv[])
     std::cout << ways[finish] << '\n';
     return 0;
 }
-
