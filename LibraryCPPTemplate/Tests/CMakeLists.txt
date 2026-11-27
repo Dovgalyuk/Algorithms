@@ -19,3 +19,14 @@
 # target_include_directories(TestVectorCPPTemplate PUBLIC ..)
 # add_test(TestVectorCPPTemplate TestVectorCPPTemplate)
 # set_tests_properties(TestVectorCPPTemplate PROPERTIES TIMEOUT 10)
+
+add_executable(TestGraphCPPTemplate graph.cpp)
+target_link_libraries(TestGraphCPPTemplate PRIVATE LibraryCPPTemplate)
+add_test(NAME TestGraphCPPTemplate COMMAND TestGraphCPPTemplate)
+
+add_executable(TestVectorCPPTemplate vector.cpp)
+target_link_libraries(TestVectorCPPTemplate PRIVATE LibraryCPPTemplate)
+add_test(NAME TestVectorCPPTemplate COMMAND TestVectorCPPTemplate)
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    target_compile_options(TestVectorCPPTemplate PRIVATE -Wno-self-assign-overloaded)
+endif()

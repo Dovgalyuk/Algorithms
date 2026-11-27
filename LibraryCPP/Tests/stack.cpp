@@ -5,6 +5,21 @@ int main()
 {
     Stack *stack = stack_create();
 
+    if (!stack_empty(stack))
+    {
+        std::cout << "New stack is not empty\n";
+        stack_delete(stack);
+        return 1;
+    }
+
+    stack_pop(stack);
+    if (!stack_empty(stack))
+    {
+        std::cout << "Empty stack pop error\n";
+        stack_delete(stack);
+        return 1;
+    }
+
     stack_push(stack, 1);
     stack_push(stack, 2);
     stack_push(stack, 3);
@@ -51,6 +66,13 @@ int main()
     {
         std::cout << "Get: " << stack_get(stack) << "\n";
         stack_pop(stack);
+    }
+
+    if (!stack_empty(stack))
+    {
+        std::cout << "Stack is not empty after pops\n";
+        stack_delete(stack);
+        return 1;
     }
 
     stack_delete(stack);
