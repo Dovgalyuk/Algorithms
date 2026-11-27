@@ -15,9 +15,13 @@ struct FlowEdge
     int flow = 0;
 };
 
-int dfs(Graph<int, FlowEdge> &graph, const string &u, const string &sink,
-        int pushed, unordered_map<string, string> &parent,
-        unordered_set<string> &visited)
+typedef Graph<int, FlowEdge> FlowGraph;
+typedef unordered_map<string, string> ParentMap;
+typedef unordered_set<string> VisitedSet;
+
+int dfs(FlowGraph &graph, const string &u, const string &sink,
+        int pushed, ParentMap &parent,
+        VisitedSet &visited)
 {
     if (u == sink)
         return pushed;
@@ -41,14 +45,14 @@ int dfs(Graph<int, FlowEdge> &graph, const string &u, const string &sink,
     return 0;
 }
 
-int ford_fulkerson(Graph<int, FlowEdge> &graph, const string &source, const string &sink)
+int ford_fulkerson(FlowGraph &graph, const string &source, const string &sink)
 {
     if (!graph.has_vertex(source) || !graph.has_vertex(sink) || source == sink)
         return 0;
 
     int max_flow = 0;
-    unordered_map<string, string> parent;
-    unordered_set<string> visited;
+    ParentMap parent;
+    VisitedSet visited;
     int bottleneck;
 
     do
@@ -92,7 +96,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    Graph<int, FlowEdge> graph;
+    FlowGraph graph;
     graph.add_vertex(source);
     graph.add_vertex(sink);
 
