@@ -10,27 +10,22 @@ void printShortestPaths(const Graph<int, int>& graph)
     constexpr auto infinity = std::numeric_limits<long long>::max();
     constexpr auto minimum = std::numeric_limits<long long>::min();
 
-    Vector<Vector<long long>> dist;
+    Graph<long long, int> dist(count);
     Vector<Vector<size_t>> next;
-    dist.resize(count);
     next.resize(count);
 
     for (size_t i = 0; i < count; ++i)
     {
-        dist[i].resize(count);
         next[i].resize(count);
         for (size_t j = 0; j < count; ++j)
         {
-            dist[i][j] = i == j ? 0 : infinity;
-            if (graph.hasEdge(graph.vertexName(i), graph.vertexName(j)))
+            long long distance = i == j ? 0 : infinity;
+            if (graph.hasEdge(i, j) && graph.edgeLabel(i, j) < distance)
             {
-                int weight = graph.edgeLabel(graph.vertexName(i), graph.vertexName(j));
-                if (weight < dist[i][j])
-                {
-                    dist[i][j] = weight;
-                    next[i][j] = j;
-                }
+                distance = graph.edgeLabel(i, j);
+                next[i][j] = j;
             }
+            dist.addEdge(i, j, distance);
         }
     }
 
@@ -39,8 +34,8 @@ void printShortestPaths(const Graph<int, int>& graph)
         for (size_t i = 0; i < count; ++i)
             for (size_t j = 0; j < count; ++j)
             {
-                const auto left = dist[i][k];
-                const auto right = dist[k][j];
+                const auto left = dist.edgeLabel(i, k);
+                const auto right = dist.edgeLabel(k, j);
                 if (left == infinity || right == infinity)
                     continue;
                 if (right > 0 && left >= infinity - right)
@@ -48,9 +43,9 @@ void printShortestPaths(const Graph<int, int>& graph)
 
                 const auto candidate = right < 0 && left < minimum - right
                     ? minimum : left + right;
-                if (candidate < dist[i][j])
+                if (candidate < dist.edgeLabel(i, j))
                 {
-                    dist[i][j] = candidate;
+                    dist.setEdgeLabel(i, j, candidate);
                     next[i][j] = next[i][k];
                 }
             }
@@ -59,7 +54,7 @@ void printShortestPaths(const Graph<int, int>& graph)
         for (size_t j = 0; j < count; ++j)
         {
             std::cout << graph.vertexName(i) << " -> " << graph.vertexName(j) << ": ";
-            if (dist[i][j] == infinity)
+            if (dist.edgeLabel(i, j) == infinity)
             {
                 std::cout << "нет пути\n";
                 continue;
@@ -67,7 +62,7 @@ void printShortestPaths(const Graph<int, int>& graph)
 
             bool negativeCycle = false;
             for (size_t k = 0; k < count; ++k)
-                if (dist[k][k] < 0 && dist[i][k] != infinity && dist[k][j] != infinity)
+                if (dist.edgeLabel(k, k) < 0 && dist.edgeLabel(i, k) != infinity && dist.edgeLabel(k, j) != infinity)
                 {
                     negativeCycle = true;
                     break;
@@ -78,7 +73,7 @@ void printShortestPaths(const Graph<int, int>& graph)
                 continue;
             }
 
-            std::cout << dist[i][j] << ", " << graph.vertexName(i);
+            std::cout << dist.edgeLabel(i, j) << ", " << graph.vertexName(i);
             for (auto current = i; current != j;)
             {
                 current = next[current][j];

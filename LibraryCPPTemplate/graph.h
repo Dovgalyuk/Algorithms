@@ -71,7 +71,12 @@ public:
 
     void addEdge(const std::string &from, const std::string &to, const EdgeLabel &label)
     {
-        Edge &edge = edges[vertexIndex(from)][vertexIndex(to)];
+        addEdge(vertexIndex(from), vertexIndex(to), label);
+    }
+
+    void addEdge(size_t from, size_t to, const EdgeLabel &label)
+    {
+        Edge &edge = edgeAt(from, to);
         if (edge.exists)
             throw std::invalid_argument("Ребро уже существует");
         edge.label = label;
@@ -85,12 +90,22 @@ public:
 
     bool hasEdge(const std::string &from, const std::string &to) const
     {
-        return edges[vertexIndex(from)][vertexIndex(to)].exists;
+        return hasEdge(vertexIndex(from), vertexIndex(to));
+    }
+
+    bool hasEdge(size_t from, size_t to) const
+    {
+        return edgeAt(from, to).exists;
     }
 
     void setEdgeLabel(const std::string &from, const std::string &to, const EdgeLabel &label)
     {
-        Edge &edge = edges[vertexIndex(from)][vertexIndex(to)];
+        setEdgeLabel(vertexIndex(from), vertexIndex(to), label);
+    }
+
+    void setEdgeLabel(size_t from, size_t to, const EdgeLabel &label)
+    {
+        Edge &edge = edgeAt(from, to);
         if (!edge.exists)
             throw std::out_of_range("Ребро не существует");
         edge.label = label;
@@ -98,7 +113,12 @@ public:
 
     EdgeLabel edgeLabel(const std::string &from, const std::string &to) const
     {
-        const Edge &edge = edges[vertexIndex(from)][vertexIndex(to)];
+        return edgeLabel(vertexIndex(from), vertexIndex(to));
+    }
+
+    EdgeLabel edgeLabel(size_t from, size_t to) const
+    {
+        const Edge &edge = edgeAt(from, to);
         if (!edge.exists)
             throw std::out_of_range("Ребро не существует");
         return edge.label;
@@ -230,6 +250,20 @@ public:
 private:
     Vector<Vertex> vertices;
     Vector<Vector<Edge>> edges;
+
+    const Edge &edgeAt(size_t from, size_t to) const
+    {
+        if (from >= vertexCount() || to >= vertexCount())
+            throw std::out_of_range("Неверный индекс вершины");
+        return edges[from][to];
+    }
+
+    Edge &edgeAt(size_t from, size_t to)
+    {
+        if (from >= vertexCount() || to >= vertexCount())
+            throw std::out_of_range("Неверный индекс вершины");
+        return edges[from][to];
+    }
 
     size_t findVertex(const std::string &name) const
     {
