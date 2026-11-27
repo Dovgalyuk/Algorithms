@@ -98,7 +98,7 @@ public:
     // Returns pointer to the item next to the deleted one.
     Item* erase_first()
     {
-        return erase_next(nullptr);
+        return erase_next(&m_sentinel);
     }
 
     // Deletes the list item following the specified one.

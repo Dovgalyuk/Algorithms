@@ -3,12 +3,14 @@
 #include <string>
 
 #include "array.h"
+#include "list.h"
 #include "vector.h"
 #include "queue.h"
 #include "stack.h"
 
 typedef Vector<std::string> StringVector;
 typedef Array<int> IntArray;
+typedef List<int> CityList;
 typedef Queue<int> CityQueue;
 typedef Stack<int> CityStack;
 
@@ -66,7 +68,7 @@ bool read_roads(std::ifstream& input, StringVector& cities, RoadVector& roads, R
     return input.eof() && !input.bad();
 }
 
-int search_layer(const RoadVector& roads, CityQueue& queue, size_t& layer_size, IntArray& parents, const IntArray& other_parents)
+int search_layer(CityList* neighbors, CityQueue& queue, size_t& layer_size, IntArray& parents, const IntArray& other_parents)
 {
     size_t next_layer_size = 0;
 
@@ -75,21 +77,11 @@ int search_layer(const RoadVector& roads, CityQueue& queue, size_t& layer_size, 
         int city = queue.get();
         queue.remove();
 
-        for (size_t j = 0; j < roads.size(); ++j)
+        for (auto item = neighbors[city].first(); item != nullptr; item = item->next())
         {
-            Road road = roads.get(j);
-            int neighbor = -1;
+            int neighbor = item->data();
 
-            if (road.first == city)
-            {
-                neighbor = road.second;
-            }
-            else if (road.second == city)
-            {
-                neighbor = road.first;
-            }
-
-            if (neighbor == -1 || parents.get(neighbor) != -1)
+            if (parents.get(neighbor) != -1)
             {
                 continue;
             }
@@ -110,7 +102,7 @@ int search_layer(const RoadVector& roads, CityQueue& queue, size_t& layer_size, 
     return -1;
 }
 
-int find_meeting(const RoadVector& roads, int start, int end, IntArray& from_start, IntArray& from_end)
+int find_meeting(CityList* neighbors, int start, int end, IntArray& from_start, IntArray& from_end)
 {
     for (size_t i = 0; i < from_start.size(); ++i)
     {
@@ -136,13 +128,13 @@ int find_meeting(const RoadVector& roads, int start, int end, IntArray& from_sta
 
     while (!start_queue.empty() && !end_queue.empty())
     {
-        int meeting = search_layer(roads, start_queue, start_layer, from_start, from_end);
+        int meeting = search_layer(neighbors, start_queue, start_layer, from_start, from_end);
         if (meeting != -1)
         {
             return meeting;
         }
 
-        meeting = search_layer(roads, end_queue, end_layer, from_end, from_start);
+        meeting = search_layer(neighbors, end_queue, end_layer, from_end, from_start);
         if (meeting != -1)
         {
             return meeting;
@@ -202,7 +194,16 @@ int main(int argc, char** argv)
     IntArray from_start(cities.size());
     IntArray from_end(cities.size());
 
-    int meeting = find_meeting(roads, request.first, request.second, from_start, from_end);
+    CityList* neighbors = new CityList[cities.size()];
+    for (size_t i = 0; i < roads.size(); ++i)
+    {
+        Road road = roads.get(i);
+        neighbors[road.first].insert_after(neighbors[road.first].last(), road.second);
+        neighbors[road.second].insert_after(neighbors[road.second].last(), road.first);
+    }
+
+    int meeting = find_meeting(neighbors, request.first, request.second, from_start, from_end);
+    delete[] neighbors;
 
     std::ofstream output(argv[2]);
     if (!output)
