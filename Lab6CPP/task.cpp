@@ -3,6 +3,7 @@
 #include <iterator>
 #include <stdexcept>
 #include <fstream>
+#include <limits>
 
 #include "string_slice.h"
 #include "vector.h"
@@ -135,30 +136,6 @@ static bool readLine(std::ifstream& file, String& line)
 	return true;
 }
 
-static bool parseUnsigned(const String& line, std::size_t& value)
-{
-	value = 0;
-	std::size_t i = 0;
-	while (i < line.size() && (line[i] == ' ' || line[i] == '\t')) {
-		i++;
-	}
-	if (i == line.size()) {
-		return false;
-	}
-	for (; i < line.size(); i++)
-	{
-		if (line[i] < '0' || line[i] > '9') {
-			return false;
-		}
-		const std::size_t digit = static_cast<std::size_t>(line[i] - '0');
-		if (value > (String::npos - digit) / 10) {
-			return false;
-		}
-		value = value * 10 + digit;
-	}
-	return true;
-}
-
 static void printPositions(const Vector<std::size_t>& positions)
 {
 	if (positions.size() == 0)
@@ -193,18 +170,23 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	String countLine;
-	std::size_t testCount = 0;
-	if (!readLine(input, countLine) || !parseUnsigned(countLine, testCount))
+	long long tempCount = 0;
+
+	if (!(input >> tempCount) || tempCount < 0)
 	{
 		std::fprintf(stderr, "Invalid test count\n");
 		return 1;
 	}
 
+	std::size_t testCount = static_cast<std::size_t>(tempCount);
+
+	input.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
 	for (std::size_t testIndex = 0; testIndex < testCount; testIndex++)
 	{
 		String textLine;
 		String patternLine;
+
 		if (!readLine(input, textLine) || !readLine(input, patternLine))
 		{
 			std::fprintf(stderr, "Incomplete test case %zu\n", testIndex + 1);

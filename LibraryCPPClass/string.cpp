@@ -344,40 +344,37 @@ bool operator>=(const String& left, const String& right) noexcept
 	return left.compare(right) >= 0;
 }
 
-namespace
+int compareStringToCString(const String& left, const char* right) noexcept
 {
-	int compareStringToCString(const String& left, const char* right) noexcept
-	{
-		if (right == nullptr) {
-			right = "";
-		}
-
-		std::size_t rightSize = 0;
-		while (right[rightSize] != '\0') {
-			rightSize++;
-		}
-
-		const std::size_t commonSize = left.size() < rightSize ? left.size() : rightSize;
-		const char* leftData = left.data();
-
-		for (std::size_t i = 0; i < commonSize; i++)
-		{
-			const unsigned char leftChar = static_cast<unsigned char>(leftData[i]);
-			const unsigned char rightChar = static_cast<unsigned char>(right[i]);
-			if (leftChar < rightChar)
-				return -1;
-			if (leftChar > rightChar)
-				return 1;
-		}
-
-		if (left.size() < rightSize) {
-			return -1;
-		}
-		if (left.size() > rightSize) {
-			return 1;
-		}
-		return 0;
+	if (right == nullptr) {
+		right = "";
 	}
+
+	std::size_t rightSize = 0;
+	while (right[rightSize] != '\0') {
+		rightSize++;
+	}
+
+	const std::size_t commonSize = left.size() < rightSize ? left.size() : rightSize;
+	const char* leftData = left.data();
+
+	for (std::size_t i = 0; i < commonSize; i++)
+	{
+		const unsigned char leftChar = static_cast<unsigned char>(leftData[i]);
+		const unsigned char rightChar = static_cast<unsigned char>(right[i]);
+		if (leftChar < rightChar)
+			return -1;
+		if (leftChar > rightChar)
+			return 1;
+	}
+
+	if (left.size() < rightSize) {
+		return -1;
+	}
+	if (left.size() > rightSize) {
+		return 1;
+	}
+	return 0;
 }
 
 bool operator==(const String& left, const char* right) noexcept
