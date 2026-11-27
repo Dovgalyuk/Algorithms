@@ -1,0 +1,11 @@
+S T
+9
+S A 10
+A B 10
+B T 10
+S C 10
+C D 10
+D B 10
+A E 10
+E F 10
+F T 10

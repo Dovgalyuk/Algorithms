@@ -1,0 +1,6 @@
+Moscow Berlin
+4
+Moscow Paris 10
+Moscow London 8
+Paris Berlin 9
+London Berlin 7

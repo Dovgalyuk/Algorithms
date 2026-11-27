@@ -1,0 +1,7 @@
+S T
+5
+S A 10
+A B 5
+B A 5
+A T 8
+B T 3
