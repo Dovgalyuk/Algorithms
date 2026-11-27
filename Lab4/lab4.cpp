@@ -10,6 +10,19 @@ struct WeightedEdge
     size_t u;
     size_t v;
     int weight;
+
+    bool operator<(const WeightedEdge &other) const
+    {
+        if (weight != other.weight)
+        {
+            return weight < other.weight;
+        }
+        if (u != other.u)
+        {
+            return u < other.u;
+        }
+        return v < other.v;
+    }
 };
 
 struct DSU
@@ -92,17 +105,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    std::sort(edges.begin(), edges.end(), [](const WeightedEdge &a, const WeightedEdge &b) {
-        if (a.weight != b.weight)
-        {
-            return a.weight < b.weight;
-        }
-        if (a.u != b.u)
-        {
-            return a.u < b.u;
-        }
-        return a.v < b.v;
-    });
+    std::sort(edges.begin(), edges.end());
 
     DSU dsu(n);
     std::vector<WeightedEdge> mst;
