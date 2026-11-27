@@ -1,0 +1,3 @@
+Sum of all elements: 0
+Number of elements greater than sum: 1
+Their indices: 0
