@@ -1,7 +1,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include "Vector.h"
+#include "vector.h"
 #include <string>
 #include <iostream>
 #include <sstream>

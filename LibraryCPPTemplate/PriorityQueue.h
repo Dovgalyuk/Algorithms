@@ -1,7 +1,7 @@
 #ifndef PRIORITY_QUEUE_H
 #define PRIORITY_QUEUE_H
 
-#include "Vector.h"
+#include "vector.h"
 #include <utility>
 
 template <typename T>
